@@ -1,5 +1,5 @@
 # Maths Notes
-LaTeX sources for the maths courses at Cambridge.
+LaTeX sources for the maths courses at Cambridge. To view the compiled PDFs, click [here](https://thirdsgames.co.uk/maths.html).
 
 ## Building
 Using the LaTeX Workshop extension for Visual Studio Code is probably the easiest way to get set up building this project.
