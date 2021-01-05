@@ -13,15 +13,13 @@ jobs:
 
       - name: Compile LaTeX
         uses: xu-cheng/latex-action@v2
-        # We use a custom working directory to make latexmk
-        # pull dependencies from the right folders.
-        working-directory: ia
+        args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode -cd
         with:
           root_file: |
-            de.tex
-            groups.tex
-            ns.tex
-            vm.tex
+            ia/de.tex
+            ia/groups.tex
+            ia/ns.tex
+            ia/vm.tex
 
       - name: Upload PDFs
         uses: burnett01/rsync-deployments@4.1
