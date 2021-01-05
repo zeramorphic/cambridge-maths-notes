@@ -1,0 +1,31 @@
+name: Compile LaTeX
+
+on: push
+
+jobs:
+  compile-latex:
+    name: Compile LaTeX
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Compile LaTeX
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: |
+            ia/de.tex
+            ia/groups.tex
+            ia/ns.tex
+            ia/vm.tex
+
+      - name: Upload PDFs
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete --include="*/" --include="*.pdf" --exclude="*"
+          path: "*.pdf"
+          remote_path: ${{ secrets.DEPLOY_PATH }}
+          remote_host: thirdsgames.co.uk
+          remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_key: ${{ secrets.DEPLOY_KEY }}
