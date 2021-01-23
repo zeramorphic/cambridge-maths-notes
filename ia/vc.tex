@@ -11,6 +11,124 @@
 \tableofcontents
 \newpage
 
-\section{Lecture 1}
+\section{Differential Geometry of Curves}
+\subsection{Notation}
+Throughout this course, a column vector e.g.
+\[ \begin{pmatrix}
+        a \\ b \\ c
+    \end{pmatrix} \]
+it should be interpreted as the vector
+\[ \bm x = a \bm e_x + b \bm e_y + x \bm e_z \]
+where $\{ \bm e_x, \bm e_y, \bm e_z \}$ are the basis vectors aligned with the fixed Cartesian $x, y, z$ axes in $\mathbb R^3$. We will be dealing with various kinds of basis vectors through the course, so it is useful to define now that column vectors written as above always represent the standard basis.
+
+\subsection{Parametrised Curves and Smoothness}
+A parametrised curve $C$ in $R^3$ is the image of a continuous map $\bm x \colon [a, b] \to \mathbb R^3$, in which $t \mapsto \bm x(t)$. In Cartesian coordinates,
+\[ \bm x(t) = \begin{pmatrix}
+        x_1(t) \\ x_2(t) \\ x_3(t)
+    \end{pmatrix} = \begin{pmatrix}
+        x(t) \\ y(t) \\ z(t)
+    \end{pmatrix} \]
+The resultant curve has a direction, from $\bm x(a)$ to $\bm x(b)$.
+\begin{definition}
+    We say that $C$ is a differentiable curve if each of the components $\{x_i(t)\}$ are differentiable functions. $C$ is regular if it is differentiable and $\abs{\bm x'(t)} \neq 0$. If $C$ is differentiable and regular, we say that $C$ is smooth.
+\end{definition}
+\begin{note}
+    We need this regularity condition because it is quite easy to create `bad curves' with cusps and spikes using only differentiable functions, for example
+    \[ \bm x(t) = (t^2, t^3) \]
+    The components are clearly differentiable, but $\bm x(t)$ has a cusp at $t = 0$. At this point, $\abs{\bm x'(0)} = 0$.
+\end{note}
+\begin{definition}
+    Recall that $x_i(t)$ is called `differentiable' at $t$ if
+    \[ x_i(t+h) = x_i(t) + x_i'(t)h + o(h) \]
+    where $o(h)$ represents a function that obeys
+    \[ \lim_{h \to 0} \frac{o(h)}{h} = 0 \]
+    In terms of vectors,
+    \[ \bm x(t+h) = \bm x(t) + \bm x'(t)h + o(h) \]
+    where here $o(h)$ is a vector for which
+    \[ \lim_{h \to 0} \frac{\abs{o(h)}}{h} = 0 \]
+\end{definition}
+
+\subsection{Arc Length}
+We can approximate the length of a curve $C$ by splitting it into small straight lines and summing the lengths of such lines. We will introduce a partition $P$ of $[a, b]$ with $t_0 = a, t_N = b$ and
+\[ t_0 < t_1 < t_2 < \dots < t_N \]
+Let us now set $\Delta t_i = t_{i+1} - t_i$ and $\Delta t = \max_i \Delta t_i$. The length of the curve relative to $P$ is defined as
+\[ \ell(C, P) = \sum_{i=0}^{N-1} \abs{\bm x(t_{i+1}) - \bm x(t_i)} \]
+As $\Delta t$ gets smaller, we would expect $\ell(C, P)$ to give a better approximation to the true length of $C$, which we will call $\ell(C)$. Therefore we can define the length of $C$ by
+\[ \ell(C) = \lim_{\Delta t \to 0} \sum_{i=0}^{N-1}\abs{\bm x(t_{i+1}) - \bm x(t_i)} = \lim_{\Delta t \to 0} \ell(C, P) \]
+If this limit doesn't exist, we say that the curve is \textit{non-rectifiable}. Suppose $C$ is differentiable. Then
+\begin{align*}
+    \bm x(t_{i+1}) & = \bm x(t_i + t_{i+1} - t_i)                          \\
+                   & = \bm x(t_i + \Delta t_i)                             \\
+                   & = \bm x(t_i) + \bm x'(t_i) \Delta t_i + o(\Delta t_i)
+\end{align*}
+It follows then that
+\[ \abs{\bm x(t_{i+1}) - \bm x(t_i)} = \abs{\bm x'(t_i)}\Delta t_i + o(\Delta t_i) \]
+So if $C$ is differentiable,
+\[
+    \ell(C, P) = \lim_{\Delta t \to 0} \sum_{i=0}^{N-1} \left( \abs{\bm x'(t_i)}\Delta t_i + o(\Delta t_i)  \right)
+\]
+Recall that this $o(\Delta t_i)$ term represents a function for which $o(\Delta t_i) / \Delta t_i \to 0$. So for any $\varepsilon > 0$, if $\Delta t = \max_i \Delta t_i$ is sufficiently small, we have $\abs{o(\Delta t_i)} < \frac{\varepsilon}{b-a}\Delta t_i$, for $i = 0, \dots, N-1$. So by the Triangle Inequality, choosing $\Delta t$ sufficiently small,
+\[
+    \abs{\ell(C, P) - \sum_{i=0}^{N-1} \abs{\bm x'(t_i)}\Delta t_i} = \abs{\sum_{i=0}^{N-1} o(\Delta t_i)} < \frac{\varepsilon}{b-a}\underbrace{\sum_{i=0}^{N-1} \Delta t_i}_{b-a} = \varepsilon
+\]
+So the left hand side tends to zero as $\Delta t \to 0$. We then get
+\begin{align*}
+    \ell(C) & = \lim_{\Delta t \to 0} \ell(C, P)                                     \\
+            & = \lim_{\Delta t \to 0} \sum_{i=0}^{N - 1} \abs{\bm x'(t_i)}\Delta t_i \\
+            & = \int_a^b \abs{\bm x'(t)} \,\dd t
+\end{align*}
+according to Analysis I, and the definition of the Riemann Integral. So in summary, if $C \colon [a, b] \ni t \mapsto \bm x(t)$, then
+\begin{align*}
+    \ell(C) & = \int_a^b \abs{\bm x'(t)} \,\dd t \\
+            & = \int_C \dd s
+\end{align*}
+where $\dd s$ is the `arc length element', i.e. $\dd s = \abs{\bm x'(t)} \,\dd t$. Similarly, we define
+\[ \int_C f(\bm x) \,\dd s = \int_a^b f(\bm x(t)) \,\abs{\bm x'(t)} \,\dd t \]
+If $C$ is made up of $M$ smooth curves $C_1, \dots, C_M$, we say that $C$ is `piecewise smooth'. We write $C = C_1 + \dots + C_M$ and define
+\[ \int_C f(\bm x) \,\dd s = \sum_{i=1}^M \int_{C_i}f(\bm x) \,\dd s \]
+Now note (informally) that
+\[ \dd s = \abs{\bm x'(t)}\,\dd t = \sqrt{\left( \frac{\dd x}{\dd t} \right)^2 + \left( \frac{\dd y}{\dd t} \right)^2 + \left( \frac{\dd z}{\dd t} \right)^2} \,\dd t \]
+i.e. (now very informally)
+\[ \dd s^2 = \dd x^2 + \dd y^2 + \dd z^2 \]
+which is Pythagoras' Theorem.
+
+\subsection{Example of Arc Length}
+Let $C$ be the circle of radius $r>0$ in $\mathbb R^3$
+\[ \bm x(t) = \begin{pmatrix}
+        r\cos t \\ r\sin t \\ 0
+    \end{pmatrix};\quad t \in [0, 2\pi] \]
+So
+\[ \bm x'(t) = \begin{pmatrix}
+        -r\sin t \\ r\cos t \\ 0
+    \end{pmatrix} \]
+Therefore
+\[ \int_C \dd s = \int_0^{2\pi} \abs{\bm x'(t)} \,\dd t = \int_0^{2\pi} \sqrt{r^2 \sin^2 t + r^2 \cos^2 t} \,\dd t = \int_0^{2\pi} r \,\dd t = 2\pi r \]
+Also, for example,
+\[ \int_C x^2 y \,\dd s = \int_0^{2\pi} (r \cos t)^2 (r \sin t) \sqrt{r^2 \sin^2 t + r^2 \cos^2 t} \,\dd t = \int_0^{2\pi} r^3 \cos^2 t \sin t \,\dd t = 0 \]
+
+\subsection{Choice of Parametrisation of Curves}
+Does $\ell(C)$ depend on the choice of parametrisation of $\bm x(t)$? For example,
+\[ \bm x(t) = \begin{pmatrix}
+        r\cos t \\ r \sin t \\ 0
+    \end{pmatrix};\quad t \in [0, 2\pi] \]
+and
+\[ \widetilde{\bm x}(t) = \begin{pmatrix}
+        r\cos 2t \\ r \sin 2t \\ 0
+    \end{pmatrix};\quad t \in [0, \pi] \]
+both give rise to a circle, but have different forms. Suppose that $C$ has two different parametrisations,
+\[ \bm x = \bm x_1(t);\quad a \leq t \leq b \]
+\[ \bm x = \bm x_2(\tau);\quad \alpha \leq \tau \leq \beta \]
+There must be some relationship $\bm x_2(\tau) = \bm x_1(t(\tau))$ for some function $t(\tau)$, since they represent the same curve. We can assume $\frac{\dd t}{\dd \tau} \neq 0$, so the map between $t$ and $\tau$ is invertible and differentiable (see IB Analysis and Topology). Note that
+\begin{align*}
+    \bm x_2'(\tau) & = \frac{\dd}{\dd \tau}\bm x_2(\tau)       \\
+                   & = \frac{\dd}{\dd \tau}\bm x_1(t(\tau))    \\
+    \intertext{By the Chain Rule,}
+                   & = \frac{\dd t}{\dd \tau}\bm x_1'(t(\tau))
+\end{align*}
+And now from the above definitions,
+\[ \int_C f(\bm x) \,\dd s = \int_a^b f(\bm x_1(t)) \, \abs{\bm x_1'(t)} \,\dd t \]
+Making the substitution $t = t(\tau)$, and assuming $\frac{\dd t}{\dd \tau} > 0$, the lattern integral becomes
+\[ \int_\alpha^\beta f(\bm x_2(\tau)) \, \underbrace{\abs{\bm x_1'(t(\tau))} \,\frac{\dd t}{\dd \tau}\dd \tau}_{\abs{\bm x_2'(\tau)}\,\dd \tau} = \int_\alpha^\beta f(\bm x_2(\tau)) \, \abs{\bm x_2'(\tau)} \,\dd \tau \]
+which is precisely the same as $\int_C f(\bm x) \,\dd s$ using the $\bm x_2(\tau)$ parametrisation. When $\frac{\dd t}{\dd \tau} < 0$, you get the same result. So the definition of $\int_C f(\bm x) \, \dd s$ does \textit{not} depend on the choice of parametrisation of $C$.
 
 \end{document}
