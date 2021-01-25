@@ -131,4 +131,75 @@ Making the substitution $t = t(\tau)$, and assuming $\frac{\dd t}{\dd \tau} > 0$
 \[ \int_\alpha^\beta f(\bm x_2(\tau)) \, \underbrace{\abs{\bm x_1'(t(\tau))} \,\frac{\dd t}{\dd \tau}\dd \tau}_{\abs{\bm x_2'(\tau)}\,\dd \tau} = \int_\alpha^\beta f(\bm x_2(\tau)) \, \abs{\bm x_2'(\tau)} \,\dd \tau \]
 which is precisely the same as $\int_C f(\bm x) \,\dd s$ using the $\bm x_2(\tau)$ parametrisation. When $\frac{\dd t}{\dd \tau} < 0$, you get the same result. So the definition of $\int_C f(\bm x) \, \dd s$ does \textit{not} depend on the choice of parametrisation of $C$.
 
+\section{Curvature and Torsion}
+\subsection{Parametrisation According to Arc Length}
+We know that for any curve $C$ there exist multiple unique parametrisations. We will define the arc-length function for a curve $[a, b] \ni t \mapsto \bm x(t)$ by
+\[ s(t) = \int_a^t \abs{\bm x'(\tau)} \,\dd \tau \]
+So $s(a) = 0, s(b) = \ell(C)$. Using the Fundamental Theorem of Calculus, we have
+\[ s'(t) = \abs{\bm x'(t)} \geq 0 \]
+For regular curves, we have that
+\[ s'(t) > 0 \]
+So we can invert the relationship between $s$ and $t$; i.e. we can find $t$ as a function of $s$. Hence, we can parametrise curves with respect to arc length. If we write
+\[ \bm r(s) = \bm x(t(s)) \]
+where $0 \leq s \leq \ell(C)$, then by the chain rule we have
+\[ \frac{\dd t}{\dd s} = \frac{1}{\frac{\dd s}{\dd t}} = \frac{1}{\abs{\bm x'(t(s))}} \]
+So
+\[ \bm r'(s) = \frac{\dd}{\dd s} \bm x(t(s)) = \frac{\dd t}{\dd s} \bm x'(t(s)) = \frac{\bm x'(t(s))}{\abs{\bm x'(t(s))}} \]
+In other words, $\bm r'(s)$ is a unit vector tangential to the curve. This (consistently) gives
+\[ \ell(C) = \int_0^{\ell(C)} \abs{\bm r'(s)} \,\dd s = \int_0^{\ell(C)} \dd s \]
+as previously found above.
+
+\subsection{Curvature}
+Throughout this section, we will be talking about a generic regular curve $C$, parametrised with respect to arc length, where a position vector on $C$ is given by $\bm r(s)$. We will define the tangent vector
+\[ \bm t(s) = \bm r'(s) \]
+We already know that $\abs{\bm t(s)} = 1$. Therefore the only part of $\bm t$ that changes with respect to $s$ is its direction. So $\bm t'(s) = \bm r''(s)$ only measures the change in the direction of the tangent as we move along the curve. So intuitively, if $\abs{\bm r''(s)}$ is large then the curve is rapidly changing direction. If $\abs{\bm r''(s)}$ is small, the curve is approximately flat; there is little change in direction. Using this intuition, we will define curvature as
+\[ \kappa(s) = \abs{\bm r''(s)} = \abs{\bm t'(s)} \]
+In other words $\kappa$ is the magnitude of the acceleration a particle experiences while moving along the curve at unit speed.
+
+\subsection{Torsion}
+Since $\bm t = \bm r'(s)$ is a unit vector, differentiating $\bm t \cdot \bm t = 1$ gives $\bm t \cdot \bm t' = 0$. We will define the principal normal $\bm n$ by the formula
+\[ \bm t' = \kappa \bm n \]
+Note that $\bm n$ is everywhere normal to the curve $C$, since it is always perpendicular to the tangent vector $\bm t$, since $\bm t \cdot \bm n = 0$. We can extend the vectors $\{ \bm t, \bm n \}$ into an orthonormal basis by computing the cross product:
+\[ \bm b = \bm t \times \bm n \]
+We call $\bm b$ the binormal. It is a unit vector, since it is the cross product of two orthogonal unit vectors in $\mathbb R^3$. We also have that $\bm b \cdot \bm b' = 0$; also since $\bm t \cdot \bm b = 0$ and $\bm n \cdot \bm b = 0$, we must have
+\[ 0 = (\bm t \cdot \bm b)' = \bm t' \cdot \bm b + \bm t \cdot \bm b' = \kappa \bm n \cdot b + \bm t \cdot \bm b' = \bm t \cdot \bm b' \]
+So $\bm b'$ is orthogonal to both $\bm t$ and $\bm b$, i.e. it is parallel to $\bm n$. We will define the torsion $\tau$ of a curve by
+\[ \bm b' = -\tau \bm n \]
+A physical interpretation of torsion is a kind of `corkscrew' rotation in three dimensions.
+
+\begin{proposition}[Fundamental Theorem of Differential Geometry of Curves]
+    The curvature $\kappa(s)$ and torsion $\tau(s)$ uniquely define a curve in $\mathbb R^3$, up to translation and orientation.
+\end{proposition}
+\begin{proof}
+    Since $\bm n = \bm b \times \bm t$, we have $\bm t' = \kappa(\bm b \times \bm t)$ and $\bm b' = -\tau(\bm b \times \bm t)$. This gives six equations (written in component form) for six unknowns. Given $\kappa(s)$ and $\tau(s)$, and given $\bm t(0)$ and $\bm b(0)$, we can construct the functions $\bm t(s), \bm b(s), \bm n(s) = \bm b(s) \times \bm t(s)$.
+\end{proof}
+
+\subsection{Radius of Curvature}
+A generic curve $s \mapsto \bm r(s)$ can be Taylor expanded around $s=0$. Writing $\bm t = \bm t(0), \bm n = \bm n(0)$ and so on, we have
+\begin{align*}
+    \bm r(s) & = \bm r + s\bm r' + \frac{1}{2}s^2 \bm r'' + o(s^2)    \\
+             & = \bm r + s\bm t + \frac{1}{2}s^2 \kappa\bm n + o(s^2)
+\end{align*}
+What circle that touches the curve at $s=0$ would be the best approximation for the curve at this point? Since the circle touches the curve, we know the position vectors (of the curve and the circle) match, and their first derivatives match. So we want to unify the second derivatives. The equation of such a circle of radius $R$ is
+\[ \bm x(\theta) = \bm r + R(1 - \cos \theta)\bm n + R(\sin \theta) \bm t \]
+Expanding this for small $\theta$ gives
+\[ \bm x(\theta) = \bm r + R\theta\bm t + \frac{1}{2} R\theta^2\bm n + o(\theta^2) \]
+But the arc length on a circle is simply $R\theta$. So in terms of arc length,
+\[ \bm x(\theta) = \bm r + s\bm t + \frac{1}{2} s^2 \frac{1}{R}\bm n + o(s^2) \]
+Hence by comparing coefficients,
+\[ R = \frac{1}{\kappa} \]
+We name this $R(s)$ the radius of curvature.
+
+\subsection{Gaussian Curvature (non-examinable)}
+This subsection is non-examinable. How can we find the curvature of a surface? At any point $\bm r$ on a surface, we have a normal vector $\bm n$. We can construct a plane containing this normal; such a plane will then intersect the surface near $\bm r$. This intersection is a curve $C$, which has a curvature $\kappa$. The choice of plane is arbitrary, however. To unify all of these different possible results for $\kappa$, we can compute the Gaussian curvature $\kappa_G$ by
+\[ \kappa_G = \kappa_{\text{min}} \kappa_{\text{max}} \]
+\begin{itemize}
+    \item The Gaussian curvature of a flat plane is zero, since the minimum and maximum curvatures are both zero.
+    \item On any point on a sphere of radius $R$, the Gaussian curvature is $\frac{1}{R^2}$, since any plane containing the normal produces a great circle of radius $R$, i.e. of curvature $\frac{1}{\kappa}$.
+\end{itemize}
+
+\begin{theorem}[Gauss's Remarkable Theorem]
+    The Gaussian curvature of a surface $S$ is invariant under local isometries; i.e. if you bend the surface without stretching it.
+\end{theorem}
+
 \end{document}
