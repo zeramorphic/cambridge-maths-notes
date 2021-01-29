@@ -326,4 +326,124 @@ Note that
         \cos \phi \sin \theta \\ \sin \phi \sin \theta \\ \cos \theta
     \end{pmatrix} = r \bm e_r \]
 
+\section{Gradient Operator}
+\subsection{Definition}
+For $f \colon \mathbb R^3 \to \mathbb R$, we define the gradient of $f$, written $\nabla f$, by
+\begin{equation}
+    f(\bm x + \bm h) = f(\bm x) + \nabla f(\bm x) \cdot \bm h + o(\bm h)
+    \tag{$\ast$}
+\end{equation}
+as $\abs{\bm h} \to 0$. The directional derivative of $f$ in the direction $\bm v$, denoted by $D_{\bm v} f$ or $\frac{\partial f}{\partial \bm v}$, is defined by
+\[ D_{\bm v} f(\bm x) = \lim_{t \to 0} \frac{f(\bm x + t\bm v) - f(\bm x)}{t} \]
+Alternatively,
+\begin{equation}
+    f(\bm x + t\bm v) = f(\bm x) + t D_{\bm v}f(\bm x) + o(t)
+    \tag{$\dagger$}
+\end{equation}
+as $t \to 0$. Setting $\bm h = t\bm v$ in $(\ast)$, we have
+\[ f(\bm x + t\bm v) = f(\bm x) + t \nabla f(\bm x) \cdot \bm v + o(t) \]
+This gives another way to interpret the gradient of $f$. Comparing this result to $(\dagger)$, we see that
+\[ D_{\bm v} f = \bm v \cdot \nabla f \]
+By the Cauchy-Schwarz inequality, the dot product is maximised when the two vectors are parallel. Hence, the directional derivative is maximised when $\bm v$ points in the direction of $\nabla f$. So $\nabla f$ points in the direction of greatest increase of $f$. Similarly, $-\nabla f$ points in the direction of greatest decrease of $f$. For example, suppose $f(x) = \frac{1}{2}\abs{\bm x}^2$. Then
+\[ f(\bm x + \bm h) = \frac{1}{2}(\bm x + \bm h)\cdot (\bm x + \bm h) = \frac{1}{2}\abs{\bm x}^2 + \frac{1}{2}(2\bm x \cdot \bm h) + \frac{1}{2}\abs{\bm h}^2 = f(\bm x) + \bm x \cdot \bm h + o(\bm h) \]
+Hence $\nabla f(\bm x) = \bm x$.
+
+\subsection{Gradient on Curves}
+Suppose we have a curve $t \mapsto \bm x(t)$. How does some function $f$ change when moving along the curve? We will write $F(t) = f(\bm x(t)), \delta \bm x = \bm x(t + \delta t) - \bm x(t)$.
+\begin{align*}
+    F(t + \delta t) & = f(\bm x(t + \delta t))                                                \\
+                    & = f(\bm x(t) + \delta \bm x)                                            \\
+                    & = f(\bm x(t)) + \nabla f(\bm x(t)) \cdot \delta \bm x + o(\delta \bm x) \\
+    \intertext{Since $\delta \bm x = \bm x'(t) \,\delta t + o(\delta t)$, we have}
+    F(t + \delta t) & = F(t) + \bm x'(t) \cdot \nabla f(\bm x(t)) \,\delta t + o(\delta t)
+\end{align*}
+In other words,
+\[ \frac{\dd F}{\dd t} = \frac{\dd}{\dd t}f(\bm x(t)) = \frac{\dd \bm x}{\dd t} \cdot \nabla f(\bm x(t)) \]
+
+\subsection{Gradient on Surfaces}
+Suppose we have a surface $S$ in $\mathbb R^3$ defined implicitly by
+\[ S = \{ \bm x \in \mathbb R^3 : f(\bm x) = 0 \} \]
+If $t \mapsto \bm x(t)$ is any curve in $S$, then $f(\bm x(t)) = 0$ everywhere. So
+\[ 0 = \frac{\dd}{\dd t}f(\bm x(t)) = \nabla f(\bm x(t)) \cdot \frac{\dd \bm x}{\dd t} \]
+So $\nabla f(\bm x(t))$, the gradient, is orthogonal to $\frac{\dd \bm x}{\dd t}$, the tangent vector of any chosen curve in $S$. So $\nabla f(\bm x(t))$ is normal to the surface.
+
+\subsection{Coordinate-Independent Representation}
+If we are working in an orthogonal curvilinear coordinate system $(u, v, w)$, it is not immediately clear how to compute $\nabla f$, since we need to represent this arbitrary perturbation $\bm h$ using $(u, v, w)$. In Cartesian coordinates it is simple; to represent the change $\bm x \mapsto \bm x + \bm h$ we simply add the components of $\bm x$ and $\bm h$.
+\begin{align*}
+    f(\bm x + \bm h) & = f((x + h_1, y + h_2, z + h_3))                                                                                                  \\
+                     & = f(\bm x) + \frac{\partial f}{\partial x} h_1 + \frac{\partial f}{\partial y} h_2 + \frac{\partial f}{\partial z} h_3 + o(\bm h) \\
+                     & = f(\bm x) + \begin{pmatrix}
+        \partial f / \partial x \\ \partial f / \partial y \\ \partial f / \partial z
+    \end{pmatrix} \cdot h + o(\bm h)                                                                        \\
+\end{align*}
+So we have
+\[ \implies \nabla f = \begin{pmatrix}
+        \partial f / \partial x \\ \partial f / \partial y \\ \partial f / \partial z
+    \end{pmatrix} \]
+Or, using suffix notation,
+\[ \nabla f = \bm e_i \frac{\partial f}{\partial x_i};\quad [\nabla f]_i = \frac{\partial f}{\partial x_i} \]
+We see that this $\nabla$ is a kind of vector differential operator. In Cartesian coordinates,
+\[ \nabla = \bm e_x \frac{\partial}{\partial x} + \bm e_y \frac{\partial}{\partial y} + \bm e_z \frac{\partial}{\partial z} \equiv \bm e_i \frac{\partial}{\partial x_i} \]
+From our previous example,
+\[ f(\bm x) = \frac{1}{2}(x^2 + y^2 + z^2) = \frac{1}{2}\abs{\bm x}^2 \]
+\begin{align*}
+    [\nabla f]_i & = \frac{\partial}{\partial x_i}\left[ \frac{1}{2} x_j x_j \right] \\
+                 & = \frac{1}{2} \left[ \delta_{ij} x_j + x_j \delta_{ij} \right]    \\
+                 & = x_i                                                             \\
+    \nabla f     & = \bm e_i x_i
+\end{align*}
+Let us return back to computing the gradient in the general case. Recall that in Cartesian coordinates, the line element is simple:
+\[ \dd \bm x = \dd x_i \bm e_i \]
+And also, if we have a function on $\mathbb R^3$ such as $f(x, y, z)$, it has the differential
+\[ \dd f = \frac{\partial f}{\partial x_i}\dd x_i \]
+Then,
+\begin{align*}
+    \nabla f \cdot \dd \bm x & = \left( \bm e_i \frac{\partial f}{\partial x_i} \right) \cdot \left( \bm e_j \dd x_j \right) \\
+                             & = \frac{\partial f}{\partial x_i} \left( \bm e_i \cdot \bm e_j \right) \dd x_j                \\
+                             & = \frac{\partial f}{\partial x_i} \delta_{ij} \dd x_j                                         \\
+                             & = \frac{\partial f}{\partial x_i} \dd x_i                                                     \\
+                             & = \dd f
+\end{align*}
+In other words, in \textit{any} set of coordinates,
+\[ \nabla f \cdot \dd \bm x = \dd f \]
+
+\subsection{Computing the Gradient Vector}
+\begin{proposition}
+    If $(u, v, w)$ are orthogonal curvilinear coordinates, and $f$ is a function of the position vector $(u, v, w)$, then
+    \[ \nabla f = \frac{1}{h_u}\frac{\partial f}{\partial u}\bm e_u + \frac{1}{h_v}\frac{\partial f}{\partial v}\bm e_v + \frac{1}{h_w}\frac{\partial f}{\partial w}\bm e_w \]
+\end{proposition}
+\begin{proof}
+    If $f = f(u, v, w)$ and $\bm x = \bm x(u, v, w)$, then
+    \[ \dd f = \frac{\partial f}{\partial u}\dd u + \frac{\partial f}{\partial v}\dd v + \frac{\partial f}{\partial w}\dd w \]
+    \[ \dd x = h_u \dd u \bm e_u + h_v \dd v \bm e_v + h_w \dd w \bm e_w \]
+    Using the above result, we have
+    \[ \nabla f \cdot \dd \bm x = \dd f \]
+    \[ \left( (\nabla f)_u \bm e_u + (\nabla f)_v \bm e_v + (\nabla f)_w \bm e_w \right) \cdot \left( h_u \dd u \bm e_u + h_v \dd v \bm e_v + h_w \dd w \bm e_w \right) = \frac{\partial f}{\partial u}\dd u + \frac{\partial f}{\partial v}\dd v + \frac{\partial f}{\partial w}\dd w \]
+    \[  (\nabla f)_u h_u \dd u + (\nabla f)_v h_v \dd v + (\nabla f)_w h_w \dd w = \frac{\partial f}{\partial u}\dd u + \frac{\partial f}{\partial v}\dd v + \frac{\partial f}{\partial w}\dd w \]
+    Since $u, v, w$ are independent coordinates, $\dd u, \dd v, \dd w$ are linearly independent. So we can simply compare coefficients, getting
+    \[ \nabla f = \frac{1}{h_u}\frac{\partial f}{\partial u}\bm e_u + \frac{1}{h_v}\frac{\partial f}{\partial v}\bm e_v + \frac{1}{h_w}\frac{\partial f}{\partial w}\bm e_w \]
+    as required.
+\end{proof}
+\noindent In cylindrical polar coordinates, we have
+\[ \nabla f = \frac{\partial f}{\partial \rho} \bm e_\rho + \frac{1}{\rho} \frac{\partial f}{\partial \phi} \bm e_\phi + \frac{\partial f}{\partial z} \bm e_z \]
+In spherical polar coordinates, we have
+\[ \nabla f = \frac{\partial f}{\partial r} \bm e_r + \frac{1}{r} \frac{\partial f}{\partial \theta} \bm e_\theta + \frac{1}{r\sin\theta} \frac{\partial f}{\partial \phi} \bm e_\phi \]
+Then using the familiar example $f(\bm x) = \frac{1}{2}\abs{\bm x}^2$, we have
+\[
+    f = \begin{cases}
+        \frac{1}{2}(x^2 + y^2 + z^2) & \text{in Cartesian coordinates}         \\
+        \frac{1}{2}(\rho^2 + z^2)    & \text{in cylindrical polar coordinates} \\
+        \frac{1}{2}r^2               & \text{in spherical polar coordinates}   \\
+    \end{cases}
+\]
+Then we can check the value of $\nabla f$ in these different coordinate systems.
+\begin{align*}
+    \nabla f & = \begin{cases}
+        x \bm e_x + y \bm e_y + z \bm e_z & \text{in Cartesian coordinates}         \\
+        \rho \bm e_\rho + z \bm e_z       & \text{in cylindrical polar coordinates} \\
+        r \bm e_r                         & \text{in spherical polar coordinates}   \\
+    \end{cases} \\
+             & = \bm x
+\end{align*}
+
 \end{document}
