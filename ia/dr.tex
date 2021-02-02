@@ -260,4 +260,67 @@ If the force is conservative, then the energy $E = T + V(\bm r)$ is conserved.
 Note that this is dependent only on the end points of the curve; it is irrelevant of the path taken. Hence, if $C$ is closed, then no net work is done by the force. Note that in general, $F(\bm r)$ is not conservative, so in general there is no $V(\bm r)$ such that $\bm F = -\nabla V$. In fact, $\bm F(\bm r)$ is conservative if
 \[ \nabla \times \bm F(\bm r) = \bm 0 \]
 
+\section{Gravitational and Electromagnetic Forces}
+\subsection{Gravity}
+The gravitational force experienced by a mass $m$ at position vector $\bm r$ relative to a mass $M$ is given by
+\[ \bm F = \frac{- G M m}{\abs{\bm r}^3} \cdot \bm r = \frac{- G M m}{\abs{\bm r}^2} \cdot \hat{\bm r} \]
+This is a conservative force:
+\[ \bm F(\bm r) = -\nabla V(\bm r);\quad V(\bm r) = \frac{-GMm}{r} \]
+To remove the factor of $m$, we define the `gravitational potential' $\Phi_g$ to be
+\[ \Phi_g(\bm r) = \frac{-GM}{r} \]
+We further define the gravitational field
+\[ \bm g(\bm r) = -\nabla \Phi_g(\bm r) = \frac{-GM}{r^2}\hat{\bm r} \]
+Note that this is dependent only on $M$, and not $m$. These quantities are related to $\bm F$ and $V$ by scale factors of $m$.
+\[ V(\bm r) = m \Phi_g(\bm r);\quad \bm F(\bm r) = m\bm g \]
+We can generalise these expressions to define the gravitational potential associated with many point masses $M_i$ for $i = 1, \dots, n$. Then,
+\[ \Phi_g(\bm r) = -\sum_{i=1}^n \frac{GM_i}{\abs{\bm r - \bm r_i}} \]
+\[ \bm g(\bm r) = -\sum_{i=1}^n \frac{GM_i}{\abs{\bm r - \bm r_i}^3}(\bm r - \bm r_i) \]
+We can extend this to a continuous mass distribution by generalising the summation into an integral. In particular, for a uniform spherical distribution of mass centred at the origin, we have that outside the sphere
+\[ \Phi_G(\bm r) = \frac{-GM}{r} \]
+which is equivalent to the formula for a point mass at the origin. So we can represent any spherical distribution of mass as a particle, provided we never consider behaviour inside the sphere.
+
+\subsection{Gravitational and Inertial Mass}
+Note that in the equations for gravitational force, mass plays two roles.
+\begin{itemize}
+    \item Inertial mass: In Newton's second law, $m \ddot{\bm r} = \bm F$ shows that the mass encapsulates the resistance to motion
+    \item Gravitational mass: In the law of gravitation, $F = \frac{-GMm}{r^2}\hat{\bm r}$, showing the scale factor by which the mass affects the force.
+\end{itemize}
+It turns out that these `masses' are not exactly the same; they differ by a factor of around \num{1e-12}. In this course, we will consider these masses to be identical since the factor is very small.
+
+\subsection{One-Dimensional Approximation to Gravity}
+Let us consider a one-dimensional approximation. Consider a mass $m$ at some height $z$ above the surface of a planet of mass $M$ and radius $R$, where $z \ll R$. Using the binomial expansion, the potential is approximated by
+\[ V(R + z) = \frac{-GMm}{R + z} \approx \frac{-GMm}{R} + \frac{GMmz}{R^2} - \dots \]
+The first term in the expansion is a constant, and the second term is $mgz$ where $g$ is a constant. So when $z \ll R$,
+\[ V(R + z) \approx mgz;\quad g = \frac{GM}{R^2} \approx \SI{9.8}{\metre\per\second\squared} \]
+
+\subsection{Escape Velocity}
+Consider a particle leaving the surface of a planet of mass $M$ and radius $R$, starting with velocity $v$. Can this particle escape the gravitational attraction of the planet, and fly off to infinity? By conservation of energy,
+\[ E = T + V = \frac{1}{2}mv^2 - \frac{GMm}{r} \]
+If $E < 0$, the particle does not have sufficient energy to leave the `potential well' $V$. If $E > 0$, the particle can escape to infinity. The critical velocity $v_0$ at which the particle can escape with lowest energy (the escape velocity) is therefore computed by setting $E = 0$ at $r=R$, i.e.
+\[ \frac{1}{2}v_0^2 = \frac{GM}{R} \implies v_0 = \sqrt{\frac{2GM}{R}} \]
+Note that light has a finite velocity, $c$. Therefore it must be possible that a mass is large enough that even the speed of light is insufficient for a particle to escape from a given radius. This describes a black hole. Of course, at this point we would need to invoke Einstein's theory of relativity in order to properly describe the behaviour of such an object.
+
+\subsection{Electromagnetism}
+We know that the force $\bm F$ acting on a particle with charge $q$ is
+\[ \bm F = q\bm E + q\dot{\bm r} \times \bm B \]
+where $\bm E, \bm B$ are functions of $\bm r$ and $t$. This is known as the Lorentz force law. Let us first consider time-independent fields $\bm E(\bm r), \bm B(\bm r)$ as a simplification. In this case, we can write
+\[ \bm E = -\nabla \Phi_e(\bm r) \]
+where $\Phi_e$ is the electrostatic potential. The force $q\bm E$ is therefore conservative. We now prove that for time independent $\bm E(\bm r)$ and $\bm B(\bm r)$, $\bm F$ is conservative.
+\begin{proof}
+    \begin{align*}
+        E                   & = \frac{1}{2}m \abs{\dot{\bm r}}^2 + q\Phi_e(\bm r)                          \\
+        \frac{\dd E}{\dd t} & = m \dot{\bm r} \cdot \ddot{\bm r} + q\dot{\bm r} \cdot \nabla \Phi_e(\bm r) \\
+                            & = \dot{\bm r} \cdot (m \ddot{\bm r} + q\nabla \Phi_e)                        \\
+                            & = \dot{\bm r} \cdot (q \bm E + q \dot{\bm r} \times \bm B + q \nabla \Phi_e) \\
+                            & = \dot{\bm r} \cdot (q \dot{\bm r} \times \bm B)                             \\
+                            & = 0
+    \end{align*}
+    since this is a triple product where two of the vectors are parallel. Since $\bm B$ acts perpendicular to the velocity, it does not do work on the particle.
+\end{proof}
+\noindent Analogously to point masses, we may consider point charges. A particle with charge $Q$ located at the origin generates an electrostatic potential and electric field
+\[ \Phi_e(\bm r) = \frac{Q}{4\pi\varepsilon_0 r};\quad \bm E(\bm r) = -\nabla \Phi_e = \frac{Q}{4\pi\varepsilon_0 r^2}\hat{\bm r} \]
+where $\varepsilon_0 = \SI{8.85e-12}{\per\metre\cubed\per\kilogram\second\squared\coulomb\squared}$ is the electric constant. So the force on a particle of charge $q$ located at $\bm r$ is given by
+\[ \bm F = -q\nabla \Phi_e = \frac{Qq}{4\pi\varepsilon_0 r^2}\hat{\bm r} \]
+This is called the Coulomb force. A negative sign is an attractive force; a positive sign is a repulsive force. This can be seen by considering a perturbation from the origin.
+
 \end{document}
