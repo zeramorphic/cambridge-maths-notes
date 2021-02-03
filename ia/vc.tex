@@ -556,4 +556,93 @@ which is the change in kinetic energy. If $\bm F = -\nabla V$, i.e. $\bm F$ is c
 \[ \int_C \bm F \cdot \dd \bm x = -\int_C \nabla V \cdot \dd \bm x = V(\bm x(a)) - V(\bm x(b)) \]
 So the change in kinetic energy is equal to the change in potential energy; energy is conserved.
 
+\section{Integration in $\mathbb R^2$}
+\subsection{Definition of Integral in $\mathbb R^2$}
+We can integrate over a bounded region $D \subset \mathbb R^2$. To do this, we can cover $D$ with small, disjoint sets $A_{ij}$ each with area $\delta A_{ij}$. Each of these sets $A_{ij}$ are contained in a disc of radius $\varepsilon > 0$. Let $(x_i, y_j)$ be points contained in each $A_{ij}$. We now define
+\[ \int_D f(\bm x) \,\dd A = \lim_{\varepsilon \to 0} \sum_{i, j} f(x_i, y_j) \,\delta A_{ij} \]
+The integral exists if it is independent of the choice of partitions $A_{ij}$ and the points $(x_i, y_j)$. The obvious choice of partitioning $D$ is to use rectangles where the area of each rectangle is $\delta A_{ij} = \delta x_i \delta y_j$. We can create horizontal `strips' of height $\delta y$ which we can integrate over. The possible $x$ coordinates for this strip are $x_y = \{ x \colon (x, y) \in D \}$. We can take the limit as $\delta x \to 0$, giving
+\[ \delta y \int_{x_y} f(x, y) \,\dd x \]
+Summing over each such strip, taking the limit as $\delta y \to 0$, we have
+\[ \int_D f(x, y) \,\dd A = \int_Y \left( \int_{x_y} f(x, y) \,\dd x \right) \,\dd y \]
+where $Y$ is the set of all possible $y$ coordinates, i.e. $Y = \{ y \colon \exists x, (x, y) \in D \}$. We can equivalently sum over all vertical strips, and get
+\[ \int_D f(x, y) \,\dd A = \int_X \left( \int_{y_x} f(x, y) \,\dd y \right) \,\dd x \]
+More concisely, we can write the following (Fubini's Theorem):
+\[ \dd A = \dd x \, \dd y = \dd y \, \dd x \]
+Let us consider an example; let $D$ be the triangle with vertices $(0, 0), (1, 0), (0, 1)$. If $f(x, y) = xy^2$, then by integrating over horizontal strips, we have
+\begin{align*}
+    \int_D f(x, y) \,\dd A & = \int_0^1 \left( \int_0^{1-y} xy^2 \,\dd x \right) \,\dd y \\
+                           & = \int_0^1 \left[ \frac{1}{2}x^2y^2 \right]_0^{1-y} \,\dd y \\
+                           & = \int_0^1 \frac{1}{2}(1-y)^2y^2 \,\dd y                    \\
+                           & = \frac{1}{60}
+\end{align*}
+Instead, integrating over vertical strips, we have
+\begin{align*}
+    \int_D f(x, y) \,\dd A & = \int_0^1 \left( \int_0^{1-x} xy^2 \,\dd y \right) \,\dd x \\
+                           & = \int_0^1 \left[ \frac{1}{3} xy^3 \right]_0^{1-x} \,\dd x  \\
+                           & = \int_0^1 \frac{1}{3} x(1-x)^3 \,\dd x                     \\
+                           & = \frac{1}{60}
+\end{align*}
+Note that if $f(x, y) = g(x) \cdot h(y)$, and $D$ is a rectangle $\{ (x, y) \colon a \leq x \leq b, c \leq y \leq d \}$, then
+\[ \int_A f(x, y) \,\dd A = \left( \int_a^b g(x) \,\dd x \right)\left( \int_c^d h(y) \,\dd y \right) \]
+
+\subsection{Change of Variables in $\mathbb R^2$}
+It can be useful to introduce a change of variables in order to compute the one-dimensional integral. For example, if $x$ is represented as a function of $u$,
+\[ \int_a^b f(x) \,\dd x = \int_{x^{-1}(a)}^{x^{-1}(b)} f(x(u)) \frac{\dd x}{\dd u}\dd u \]
+Note that if $\frac{\dd x}{\dd u} > 0$, then the right hand side integral is taken over a limit from a smaller value to a larger one, but if $\frac{\dd x}{\dd u} < 0$, then the integral is the `wrong way round'. If $I = [a,b]$ and $I' = x^{-1} I$, we have
+\[ \int_I f(x) \,\dd x = \int_{I'} f(x(u)) \abs{\frac{\dd x}{\dd u}} \,\dd u \]
+where the absolute value is used since $I'$ is defined as going from the lower limit to the upper limit. There is a similar formula in 2D.
+\begin{proposition}
+    Let $\bm x(u, v) = (x(u, v), y(u, v))$ be a smooth, invertible transformation with a smooth inverse that maps the region $D'$ in the $(u, v)$ plane to the region $D$ in the $(x, y)$ plane. (This map must be a bijection; every point must have a unique inverse.) Then
+    \[ \iint_D f(x, y) \,\dd x \,\dd y = \iint_{D'} f(x(u, v), y(u, v)) \abs{\frac{\partial (x, y)}{\partial (u, v)}}\,\dd u \,\dd v \]
+    where
+    \[ \frac{\partial (x, y)}{\partial (u, v)} = J = \det \begin{pmatrix}
+            \partial x / \partial u & \partial x / \partial v \\
+            \partial y / \partial u & \partial y / \partial v
+        \end{pmatrix} = \det \left( \frac{\partial \bm x}{\partial u} \,\middle|\, \frac{\partial \bm x}{\partial v} \right) \]
+    is the Jacobian determinant. More concisely,
+    \[ \dd x \, \dd y = \abs{J} \, \dd u \, \dd v \]
+    It doesn't matter if the Jacobian vanishes at a single point, since the area of a single point is zero and hence will have no contribution to the result.
+\end{proposition}
+\begin{proof}
+    We can form a partition of $D$ by using the image of a rectangular partition of $D'$. Let the rectangular partition be characterised by a horizontal step $\delta x$ and a vertical step of $\delta y$. Then each small rectangle in $D'$ is mapped to some small (not necessarily rectangular) region in $D'$, with vertices
+    \[ \bm x(u_i, v_j), \bm x(u_{i+1}, v_j), \bm x(u_{i+1}, v_{j+1}), \bm x(u_i, v_{j+1}) \]
+    To first order, the area of this region is the area of the parallelogram with the same vertices. Two of the sides of the parallelogram are
+    \[ \bm x(u_{i+1}, v_j) - \bm x(u_i, v_j) \approx \frac{\partial \bm x}{\partial u}(u_i, v_j) \delta u \]
+    \[ \bm x(u_i, v_{j+1}) - \bm x(u_i, v_j) \approx \frac{\partial \bm x}{\partial v}(u_i, v_j) \delta v \]
+    So the area of the parallelogram is approximately
+    \begin{align*}
+        \abs{\frac{\partial \bm x}{\partial u}(u_i, v_j) \delta u \cdot \frac{\partial \bm x}{\partial v}(u_i, v_j) \delta v} & = \abs{\det \left( \frac{\partial \bm x}{\partial u}(u_i, v_j) \,\middle|\, \frac{\partial \bm x}{\partial v}(u_i, v_j) \right)} \\
+                                                                                                                              & = \abs{J(u_i, v_j)} \,\delta u \,\delta v                                                                                        \\
+                                                                                                                              & = \delta A_{ij}
+    \end{align*}
+    Hence,
+    \begin{align*}
+        \int_D f \, \dd A & = \lim_{\varepsilon \to 0} \sum_{ij} f(x_i, y_j)\,\delta A_{ij}                                           \\
+                          & = \lim_{\varepsilon \to 0} \sum_{ij} f(x(u_i, v_j), y(u_i, v_j)) \,\abs{J(u_i, v_j)} \,\delta u\,\delta v \\
+                          & = \iint_{D'} f(x(u, v), y(u, v)) \,\abs{J(u_i, v_j)} \,\dd u \,\dd v
+    \end{align*}
+\end{proof}
+\noindent As an example, let us consider polar coordinates $(\rho, \phi)$, where
+\[ x(\rho, \phi) = \rho \cos \phi;\quad y(\rho, \phi) = \rho \sin \phi \]
+Hence,
+\[ \abs{J} = \abs{\det \begin{pmatrix}
+            \cos \phi & -\rho \sin \phi \\
+            \sin \phi & \rho \cos \phi
+        \end{pmatrix}} = \abs{\rho} = \rho \]
+If $D = \{ (x, y) \colon x > 0,\, y > 0,\, x^2 + y^2 < r^2 \}$, which is a quarter-circle of radius $r$ in the first quadrant, then $D' = \{ (\rho, \phi) \colon 0 < \rho < r,\, 0 < \phi < \frac{\pi}{2} \}$. This is notably a rectangle in polar coordinates.
+\[ \iint_D f(x, y)\,\dd x \,\dd y = \iint_{D'} f(\rho \cos \phi, \rho \sin \phi) \,\rho \,\dd \rho \,\dd \phi \]
+So, for example, if we let $r \to \infty$, then
+\[ \int_{x=0}^\infty \int_{y=0}^\infty f(x, y) \,\dd y\,\dd x = \int_{\phi = 0}^{\frac{\pi}{2}} \int_{\rho = 0}^\infty f(\rho cos \phi, \rho \sin \phi) \,\rho\,\dd \rho\,\dd \phi \]
+Consider
+\[ I = \int_0^\infty e^{-x^2} \,\dd x \]
+Then,
+\begin{align*}
+    I^2        & = \int_0^\infty e^{-x^2} \,\dd x \cdot \int_0^\infty e^{-y^2} \,\dd y                              \\
+               & = \int_{x=0}^\infty \int_{y=0}^\infty e^{-x^2-y^2} \,\dd y\,\dd x                                  \\
+               & = \int_{\phi = 0}^{\frac{\pi}{2}} \int_{\rho = 0}^\infty e^{-\rho^2} \,\rho\,\dd \rho\,\dd \phi    \\
+               & = \frac{\pi}{2} \int_0^\infty \frac{\dd}{\dd \rho} \left( -\frac{1}{2}e^{-\rho^2} \right) \dd \rho \\
+               & = \frac{\pi}{4}                                                                                    \\
+    \implies I & = \frac{\sqrt{\pi}}{2}
+\end{align*}
+
 \end{document}
