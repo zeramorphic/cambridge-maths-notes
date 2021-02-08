@@ -446,7 +446,7 @@ Then we can check the value of $\nabla f$ in these different coordinate systems.
              & = \bm x
 \end{align*}
 
-\section{Integration over Lines, Surfaces and Volumes}
+\section{Integration over Lines}
 \subsection{Line Integrals}
 For a vector field $\bm F(\bm x)$ and a piecewise smooth parametrised curve $C$ defined by $[a, b] \ni t \mapsto \bm x(t)$, we define the line integral of $F$ along $C$
 \[ \int_C \bm F \cdot \dd \bm x = \int_a^b \bm F(\bm x(t)) \cdot \underbrace{\frac{\dd \bm x}{\dd t}}_{\mathclap{\text{tangent vector}}} \dd t \]
@@ -704,5 +704,87 @@ This is clearly a much cleaner computation. Now, consider the a ball of radius $
                  & = 2 \pi \int_b^a 2\rho\sqrt{a^2 - \rho^2}\,\dd \rho                                                                      \\
                  & = \frac{4}{3}\pi (a^2 - b^2)^{\frac{3}{2}}
 \end{align*}
+
+\section{Integration over Surfaces}
+\subsection{Two-Dimensional Surfaces}
+A two-dimensional surface in $\mathbb R^3$ can be defined implicitly using a function $f \colon \mathbb R^3 \to \mathbb R$, with
+\[ S = \{ \bm x \in \mathbb R^3 \colon f(\bm x) = 0 \} \]
+The normal to $S$ at $\bm x$ is parallel to $\nabla f(\bm x)$. We call the surface regular if $\nabla f(\bm x) \neq \bm 0$ everywhere on the surface. For example, consider
+\[ S = \{ (x, y, z) \colon x^2 + y^2 + z^2 - 1 = 0 \} \]
+Then
+\[ \nabla f(\bm x) = \begin{pmatrix}
+        2x \\ 2y \\ 2z
+    \end{pmatrix} = 2\bm x \]
+which is clearly normal to $S$ at $\bm x$. Some surfaces have a boundary, for instance a hemisphere.
+\[ S = \{ (x, y, z) \colon x^2 + y^2 + z^2 - 1 = 0,\,z \geq 0 \} \]
+We label the boundary $\partial S$, so
+\[ \partial S = \{ (x, y, z) \colon x^2 + y^2 = 1,\,z = 0 \} \]
+In this course, a surface will either have no boundary or its boundary will be made of piecewise smooth curves. If $S$ has no boundary, we say that $S$ is a closed surface. It is often useful to parametrise a surface using some coordinates $(u, v)$.
+\[ S = \{ \bm x = \bm x(u, v) \colon (u, v) \in D \} \]
+where $D$ is some region in the $u$-$v$ plane. For a hemisphere, we can use spherical polar coordinates:
+\[ S = \left\{ \bm x = \bm x(\theta, \phi) = \begin{pmatrix}
+        \sin\theta \cos\phi \\ \sin\theta \sin\phi \\ \cos\theta
+    \end{pmatrix} \colon 0 \leq \theta \leq \frac{\pi}{2},\, 0 \leq \phi \leq 2\pi \right\} \]
+We call a parametrisation of $S$ regular if
+\[ \frac{\partial \bm x}{\partial u} \times \frac{\partial x}{\partial v} \neq \bm 0 \]
+everywhere on the surface. Note that $\frac{\partial \bm x}{\partial u}$ is the tangent in one direction, and $\frac{\partial \bm x}{\partial v}$ is the tangent in another direction, so their cross product should be normal to the surface.
+\[ \nhat = \frac{\frac{\partial \bm x}{\partial u} \times \frac{\partial x}{\partial v}}{\abs{\frac{\partial \bm x}{\partial u} \times \frac{\partial x}{\partial v}}} \]
+This normal will vary smoothly with respect to $u$ and $v$, if we are moving across a smooth part of the curve. Choosing a consistent normal over $S$ gives a way to give an orientation to the boundary $\partial S$. We make the convention that normal vectors near you should be on your left as you traverse $\partial S$.
+
+\subsection{Areas and Integrals over Surfaces}
+Consider a parametrised surface
+\[ S = \{ \bm x = \bm x(u, v) \colon (u, v) \in D \} \]
+The integral over $S$ cannot be of the form
+\[ \iint_D \dd u\,\dd v \]
+since a patch of area $\delta u \,\delta v$ in $D$ will not in general correspond to a patch of area $\delta u \,\delta v$ in $S$. Note that the small change $u \mapsto u + \delta u$ produces a change
+\[ \bm x(u + \delta u, v) - \bm x(u, v) \approx \frac{\partial \bm x}{\partial u} \delta u \]
+Similarly, changing $v$, we have
+\[ \bm x(u, v + \delta v) - \bm x(u, v) \approx \frac{\partial \bm x}{\partial v} \delta v \]
+So the patch of area $\delta u\,\delta v$ in $D$ corresponds (to first order) to a parallelogram of area
+\[ \abs{\frac{\partial \bm x}{\partial u} \times \frac{\partial \bm x}{\partial v}} \,\delta u\,\delta v \]
+This leads us to define the scalar area element and the vector area element as follows:
+\begin{align*}
+    \dd S     & = \abs{\frac{\partial \bm x}{\partial u} \times \frac{\partial \bm x}{\partial v}}\,\dd u\,\dd v           \\
+    \dd \bm S & = \frac{\partial \bm x}{\partial u} \times \frac{\partial \bm x}{\partial v}\,\dd u\,\dd v = \nhat \,\dd S
+\end{align*}
+So for instance the area of $S$ is given by
+\[ \int_S \dd S = \iint_D \abs{\frac{\partial \bm x}{\partial u} \times \frac{\partial \bm x}{\partial v}}\,\dd u\,\dd v \]
+As an example, consider the hemisphere of radius $R$.
+\[ S = \left\{ \bm x = \bm x(\theta, \phi) = \begin{pmatrix}
+        R\sin\theta \cos\phi \\ R\sin\theta \sin\phi \\ R\cos\theta
+    \end{pmatrix} = R \bm e_r \colon 0 \leq \theta \leq \frac{\pi}{2},\, 0 \leq \phi \leq 2\pi \right\} \]
+So
+\begin{align*}
+    \frac{\partial \bm x}{\partial \theta} & = \begin{pmatrix}
+        R\cos\theta \cos\phi \\ R\cos\theta \sin\phi \\ -R\sin\theta
+    \end{pmatrix} = R\bm e_\theta         \\
+    \frac{\partial \bm x}{\partial \phi}   & = \begin{pmatrix}
+        -R\sin\theta \sin\phi \\ R\sin\theta \cos\phi \\ 0
+    \end{pmatrix} = R\sin\theta\bm e_\phi \\
+\end{align*}
+Hence
+\[ \dd S = R^2 \sin\theta\, \abs{\bm e_\theta \times \bm e_\phi} \,\dd \theta\,\dd \phi = R^2 \sin \theta \,\dd \theta \,\dd \phi \]
+So the surface area of the hemisphere is
+\[ \int_{\theta = 0}^{\frac{\pi}{2}} \dd \theta \int_{\phi = 0}^{2 \pi} \dd \phi \, R^2 \sin \theta = 2 \pi R^2 \]
+Here is another example. Suppose the velocity of a fluid is $\bm u(\bm x)$. Given a surface $S$, we might like to calculate how much fluid passes through it per unit time. On a small patch $\delta S$ on $S$, the fluid passing through the small patch would be $(u \cdot \delta \bm S)\,\delta t$ in time $\delta t$, where $\delta \bm S$ is the normal direction to the area $\delta S$. Over the whole surface, the smount that passes over $S$ in $\delta t$ is
+\[ \delta t \int_S \bm u \cdot \dd \bm S \]
+This kind of integral is called a `flux integral'.
+
+\subsection{Choice of Parametrisation of Surfaces}
+Let $\bm x = \bm x(u, v)$ and $\bm x = \widetilde {\bm x} (\widetilde u, \widetilde v)$ be two different parametrisations of $S$ with $(u, v) \in D$ and $(\widetilde u, \widetilde v) \in \widetilde D'$. Since every coordinate in $S$ has a pre-image in both $D$ and $D'$, there must be a relationship
+\[ \bm x(u, v) = \widetilde {\bm x} (\widetilde u(u, v), \widetilde v(u, v)) \]
+By the chain rule,
+\begin{align*}
+    \frac{\partial \bm x}{\partial u} \times \frac{\partial \bm x}{\partial v} & = \left( \frac{\partial \widetilde {\bm x}}{\partial \widetilde u}\frac{\partial \widetilde u}{\partial u} + \frac{\partial \widetilde {\bm x}}{\partial \widetilde v}\frac{\partial \widetilde v}{\partial u} \right) \times \left( \frac{\partial \widetilde {\bm x}}{\partial \widetilde u}\frac{\partial \widetilde u}{\partial v} + \frac{\partial \widetilde {\bm x}}{\partial \widetilde v}\frac{\partial \widetilde v}{\partial v} \right) \\
+                                                                               & = \left( \frac{\partial \widetilde u}{\partial u}\frac{\partial \widetilde v}{\partial v} - \frac{\partial \widetilde u}{\partial v}\frac{\partial \widetilde v}{\partial u} \right) \left( \frac{\partial \widetilde {\bm x}}{\partial \widetilde u}\times\frac{\partial \widetilde {\bm x}}{\partial \widetilde v} \right)                                                                                                                       \\
+                                                                               & = \frac{\partial (\widetilde u, \widetilde v)}{\partial (u, v)} \left( \frac{\partial \widetilde {\bm x}}{\partial \widetilde u}\times\frac{\partial \widetilde {\bm x}}{\partial \widetilde v} \right)
+\end{align*}
+Hence,
+\begin{align*}
+    \int_S f \,\dd S & = \iint_{\widetilde D} f(\widetilde {\bm x}(\widetilde u, \widetilde v)) \,\abs{\frac{\partial \widetilde {\bm x}}{\partial \widetilde u}\times\frac{\partial \widetilde {\bm x}}{\partial \widetilde v}}\,\dd \widetilde u\,\dd \widetilde v \\
+                     & = \iint_D f(\bm x(u, v)) \,\abs{\frac{\partial \widetilde {\bm x}}{\partial \widetilde u}\times\frac{\partial \widetilde {\bm x}}{\partial \widetilde v}}\,\abs{\frac{\partial (\widetilde u, \widetilde v)}{\partial (u, v)}}\,\dd u\,\dd v  \\
+                     & = \iint_D f(\bm x(u, v)) \,\abs{\frac{\partial \bm x}{\partial u}\times\frac{\partial \bm x}{\partial v}}\,\dd u\,\dd v                                                                                                                       \\
+\end{align*}
+So the result of the integral over the surface is independent of the choice of parametrisation.
 
 \end{document}

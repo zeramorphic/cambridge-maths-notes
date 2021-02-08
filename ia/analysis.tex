@@ -459,4 +459,46 @@ Then $f$ is certainly continuous on the interval $[0, 1+y]$, since
 \[ 0 = f(0) < y < (1+y)^N = f(1 + y) \]
 By the intermediate value theorem, there exists a point $c \in (0, 1+y)$ such that $f(c) = c^N = y$. So $c$ is a positive $N$th root of $y$. We can also prove the uniqueness of such a point. Suppose $d^N = y$ with $d>0$ and $d \neq c$. Without loss of generality, suppose $d < c$. Then $d^N < c^N$ so $d^N \neq y$, which is a contradiction.
 
+\section{Bounds and Inverses}
+\subsection{Bounds of a Continuous Function}
+\begin{theorem}
+    Let $f \colon [a, b] \to \mathbb R$ be continuous. Then the function is bounded, i.e. there exists $k \in \mathbb R$ such that $\abs{f(x)} \leq k$ for every point $x \in [a, b]$.
+\end{theorem}
+\begin{proof}
+    Suppose that such a function $f$ is not bounded. Then in particular, given any integer $n \geq 1$, there exists $x_n \in [a, b]$ such that $\abs{f(x_n)} > n$. By the Bolzano-Weierstrass theorem, the sequence $x_n$, which is bounded by $a \leq x_n \leq b$, has a convergent subsequence $x_{n_j} \to x$, such that $x \in [a, b]$. Then by continuity of $f$, $f(x_{n_j}) \to f(x)$. But $\abs{f(x_{n_j})} > n_j \to \infty$. This is a contradiction.
+\end{proof}
+\noindent We can actually improve this statement.
+\begin{theorem}
+    Suppose $f \colon [a, b] \to \mathbb R$ is a continuous function. Then there exist $x_1, x_2 \in [a, b]$ such that
+    \[ f(x_1) \leq f(x) \leq f(x_2) \]
+    for all $x \in [a, b]$. In other words, a continuous function on a closed bounded interval is bounded and attains its bounds.
+\end{theorem}
+\begin{proof}
+    Let $A = \{ f(x) \colon x \in [a, b] \}$ be the image of $[a, b]$ under $f$. By the above theorem, $A$ is bounded. It is also non-empty, hence it has a supremum $M = \sup A$ (and analogously an infimum $\inf A$, whose proof is almost identical). Then by the definition of the supremum, given an integer $n \geq 1$ there exists $x_n \in [a, b]$ such that $M - \frac{1}{n} < f(x_n) \leq M$. By the Bolzano-Weierstrass theorem, there exists a convergent subsequence $x_{n_j} \to x \in [a, b]$. Since $f(x_{n_j}) \to M$, then by continuity, $f(x) = M$.
+\end{proof}
+\noindent Here is an alternative proof of the same theorem.
+\begin{proof}
+    As before, let $A$ be the image of $f$, and $M$ be the supremum of $A$. Suppose there is no $x_2 \in [a, b]$ such that $f(x_2) = M$. Then let $g(x) = \frac{1}{M - f(x)}$ for $x \in [a, b]$. Since there exists no $x$ such that $M = f(x)$, $g(x)$ is continuous since we are never dividing by zero. So $g$ is bounded. So by the previous theorem, there is some $k > 0$ such that $g(x) \leq k$ for all $x \in [a, b]$. This means that $f(x) \leq M - \frac{1}{k}$ on $[a, b]$ for this $k$, but this cannot happen since $M$ is the supremum.
+\end{proof}
+\noindent Note that these theorems are certainly false if the interval is not closed: consider the counterexample $(0, 1]$ and the function $x \mapsto x^{-1}$.
+
+\subsection{Inverse Functions}
+\begin{definition}
+    $f$ is increasing for $x \in [a, b]$ if $f(x_1) \leq f(x_2)$ for all $x_1 \leq x_2 \in [a, b]$. If $f(x_1) < f(x_2)$ then the function is strictly increasing. A function may be called decreasing or strictly decreasing analogously.
+\end{definition}
+\begin{definition}
+    A function $f$ is called monotone if it is either increasing or decreasing.
+\end{definition}
+\begin{theorem}
+    Let $f \colon [a, b] \to \mathbb R$ be continuous and strictly increasing for $x \in [a, b]$. Let $c = f(a)$, $d = f(b)$. Then $f \colon [a, b] \to [c, d]$ is bijective, and the inverse $g := f^{-1} \colon [c, d] \to [a, b]$ is continuous and strictly increasing.
+\end{theorem}
+\noindent A similar theorem holds for strictly decreasing functions.
+\begin{proof}
+    Let $c < k < d$. From the intermediate value theorem, there exists $h$ such that $f(h) = k$. This $h$ must be unique since the function is strictly increasing. Then we can define $g(k) = h$, giving us an inverse $g \colon [c, d] \to [a, b]$ for $f$.
+
+    First, note that $g$ is strictly increasing. Indeed, for $y_1 < y_2$ then $y_1 = f(x_1)$, $y_2 = f(x_2)$. This means that if $x_2 \geq x_1$, then since $f$ is increasing $y_2 \leq y_1$ which is a contradiction.
+
+    Now, note that $g$ is continuous. Indeed, given $\varepsilon > 0$, we can let $k_1 = f(h - \varepsilon)$ and $k_2 = f(h + \varepsilon)$. If $f$ is strictly increasing, then $k_1 < k < k_2$. Then $h - \varepsilon < g(y) < h + \varepsilon$. So let $\delta = \min(k_2 - k, k - k_1)$ where $k \in (c, d)$, establishing continuity as claimed.
+\end{proof}
+
 \end{document}
