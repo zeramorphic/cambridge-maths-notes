@@ -18,24 +18,24 @@ Throughout this course, a column vector e.g.
         a \\ b \\ c
     \end{pmatrix} \]
 it should be interpreted as the vector
-\[ \bm x = a \bm e_x + b \bm e_y + x \bm e_z \]
-where $\{ \bm e_x, \bm e_y, \bm e_z \}$ are the basis vectors aligned with the fixed Cartesian $x, y, z$ axes in $\mathbb R^3$. We will be dealing with various kinds of basis vectors through the course, so it is useful to define now that column vectors written as above always represent the standard basis.
+\[ \vb x = a \vb e_x + b \vb e_y + x \vb e_z \]
+where $\{ \vb e_x, \vb e_y, \vb e_z \}$ are the basis vectors aligned with the fixed Cartesian $x, y, z$ axes in $\mathbb R^3$. We will be dealing with various kinds of basis vectors through the course, so it is useful to define now that column vectors written as above always represent the standard basis.
 
 \subsection{Parametrised Curves and Smoothness}
-A parametrised curve $C$ in $R^3$ is the image of a continuous map $\bm x \colon [a, b] \to \mathbb R^3$, in which $t \mapsto \bm x(t)$. In Cartesian coordinates,
-\[ \bm x(t) = \begin{pmatrix}
+A parametrised curve $C$ in $R^3$ is the image of a continuous map $\vb x \colon [a, b] \to \mathbb R^3$, in which $t \mapsto \vb x(t)$. In Cartesian coordinates,
+\[ \vb x(t) = \begin{pmatrix}
         x_1(t) \\ x_2(t) \\ x_3(t)
     \end{pmatrix} = \begin{pmatrix}
         x(t) \\ y(t) \\ z(t)
     \end{pmatrix} \]
-The resultant curve has a direction, from $\bm x(a)$ to $\bm x(b)$.
+The resultant curve has a direction, from $\vb x(a)$ to $\vb x(b)$.
 \begin{definition}
-    We say that $C$ is a differentiable curve if each of the components $\{x_i(t)\}$ are differentiable functions. $C$ is regular if it is differentiable and $\abs{\bm x'(t)} \neq 0$. If $C$ is differentiable and regular, we say that $C$ is smooth.
+    We say that $C$ is a differentiable curve if each of the components $\{x_i(t)\}$ are differentiable functions. $C$ is regular if it is differentiable and $\abs{\vb x'(t)} \neq 0$. If $C$ is differentiable and regular, we say that $C$ is smooth.
 \end{definition}
 \begin{note}
     We need this regularity condition because it is quite easy to create `bad curves' with cusps and spikes using only differentiable functions, for example
-    \[ \bm x(t) = (t^2, t^3) \]
-    The components are clearly differentiable, but $\bm x(t)$ has a cusp at $t = 0$. At this point, $\abs{\bm x'(0)} = 0$.
+    \[ \vb x(t) = (t^2, t^3) \]
+    The components are clearly differentiable, but $\vb x(t)$ has a cusp at $t = 0$. At this point, $\abs{\vb x'(0)} = 0$.
 \end{note}
 \begin{definition}
     Recall that $x_i(t)$ is called `differentiable' at $t$ if
@@ -43,7 +43,7 @@ The resultant curve has a direction, from $\bm x(a)$ to $\bm x(b)$.
     where $o(h)$ represents a function that obeys
     \[ \lim_{h \to 0} \frac{o(h)}{h} = 0 \]
     In terms of vectors,
-    \[ \bm x(t+h) = \bm x(t) + \bm x'(t)h + o(h) \]
+    \[ \vb x(t+h) = \vb x(t) + \vb x'(t)h + o(h) \]
     where here $o(h)$ is a vector for which
     \[ \lim_{h \to 0} \frac{\abs{o(h)}}{h} = 0 \]
 \end{definition}
@@ -52,146 +52,146 @@ The resultant curve has a direction, from $\bm x(a)$ to $\bm x(b)$.
 We can approximate the length of a curve $C$ by splitting it into small straight lines and summing the lengths of such lines. We will introduce a partition $P$ of $[a, b]$ with $t_0 = a, t_N = b$ and
 \[ t_0 < t_1 < t_2 < \dots < t_N \]
 Let us now set $\Delta t_i = t_{i+1} - t_i$ and $\Delta t = \max_i \Delta t_i$. The length of the curve relative to $P$ is defined as
-\[ \ell(C, P) = \sum_{i=0}^{N-1} \abs{\bm x(t_{i+1}) - \bm x(t_i)} \]
+\[ \ell(C, P) = \sum_{i=0}^{N-1} \abs{\vb x(t_{i+1}) - \vb x(t_i)} \]
 As $\Delta t$ gets smaller, we would expect $\ell(C, P)$ to give a better approximation to the true length of $C$, which we will call $\ell(C)$. Therefore we can define the length of $C$ by
-\[ \ell(C) = \lim_{\Delta t \to 0} \sum_{i=0}^{N-1}\abs{\bm x(t_{i+1}) - \bm x(t_i)} = \lim_{\Delta t \to 0} \ell(C, P) \]
+\[ \ell(C) = \lim_{\Delta t \to 0} \sum_{i=0}^{N-1}\abs{\vb x(t_{i+1}) - \vb x(t_i)} = \lim_{\Delta t \to 0} \ell(C, P) \]
 If this limit doesn't exist, we say that the curve is \textit{non-rectifiable}. Suppose $C$ is differentiable. Then
 \begin{align*}
-    \bm x(t_{i+1}) & = \bm x(t_i + t_{i+1} - t_i)                          \\
-                   & = \bm x(t_i + \Delta t_i)                             \\
-                   & = \bm x(t_i) + \bm x'(t_i) \Delta t_i + o(\Delta t_i)
+    \vb x(t_{i+1}) & = \vb x(t_i + t_{i+1} - t_i)                          \\
+                   & = \vb x(t_i + \Delta t_i)                             \\
+                   & = \vb x(t_i) + \vb x'(t_i) \Delta t_i + o(\Delta t_i)
 \end{align*}
 It follows then that
-\[ \abs{\bm x(t_{i+1}) - \bm x(t_i)} = \abs{\bm x'(t_i)}\Delta t_i + o(\Delta t_i) \]
+\[ \abs{\vb x(t_{i+1}) - \vb x(t_i)} = \abs{\vb x'(t_i)}\Delta t_i + o(\Delta t_i) \]
 So if $C$ is differentiable,
 \[
-    \ell(C, P) = \lim_{\Delta t \to 0} \sum_{i=0}^{N-1} \left( \abs{\bm x'(t_i)}\Delta t_i + o(\Delta t_i)  \right)
+    \ell(C, P) = \lim_{\Delta t \to 0} \sum_{i=0}^{N-1} \left( \abs{\vb x'(t_i)}\Delta t_i + o(\Delta t_i)  \right)
 \]
 Recall that this $o(\Delta t_i)$ term represents a function for which $o(\Delta t_i) / \Delta t_i \to 0$. So for any $\varepsilon > 0$, if $\Delta t = \max_i \Delta t_i$ is sufficiently small, we have $\abs{o(\Delta t_i)} < \frac{\varepsilon}{b-a}\Delta t_i$, for $i = 0, \dots, N-1$. So by the Triangle Inequality, choosing $\Delta t$ sufficiently small,
 \[
-    \abs{\ell(C, P) - \sum_{i=0}^{N-1} \abs{\bm x'(t_i)}\Delta t_i} = \abs{\sum_{i=0}^{N-1} o(\Delta t_i)} < \frac{\varepsilon}{b-a}\underbrace{\sum_{i=0}^{N-1} \Delta t_i}_{b-a} = \varepsilon
+    \abs{\ell(C, P) - \sum_{i=0}^{N-1} \abs{\vb x'(t_i)}\Delta t_i} = \abs{\sum_{i=0}^{N-1} o(\Delta t_i)} < \frac{\varepsilon}{b-a}\underbrace{\sum_{i=0}^{N-1} \Delta t_i}_{b-a} = \varepsilon
 \]
 So the left hand side tends to zero as $\Delta t \to 0$. We then get
 \begin{align*}
     \ell(C) & = \lim_{\Delta t \to 0} \ell(C, P)                                     \\
-            & = \lim_{\Delta t \to 0} \sum_{i=0}^{N - 1} \abs{\bm x'(t_i)}\Delta t_i \\
-            & = \int_a^b \abs{\bm x'(t)} \,\dd t
+            & = \lim_{\Delta t \to 0} \sum_{i=0}^{N - 1} \abs{\vb x'(t_i)}\Delta t_i \\
+            & = \int_a^b \abs{\vb x'(t)} \dd{t}
 \end{align*}
-according to Analysis I, and the definition of the Riemann Integral. So in summary, if $C \colon [a, b] \ni t \mapsto \bm x(t)$, then
+according to Analysis I, and the definition of the Riemann Integral. So in summary, if $C \colon [a, b] \ni t \mapsto \vb x(t)$, then
 \begin{align*}
-    \ell(C) & = \int_a^b \abs{\bm x'(t)} \,\dd t \\
-            & = \int_C \dd s
+    \ell(C) & = \int_a^b \abs{\vb x'(t)} \dd{t} \\
+            & = \int_C \dd{s}
 \end{align*}
-where $\dd s$ is the `arc length element', i.e. $\dd s = \abs{\bm x'(t)} \,\dd t$. Similarly, we define
-\[ \int_C f(\bm x) \,\dd s = \int_a^b f(\bm x(t)) \,\abs{\bm x'(t)} \,\dd t \]
+where $\dd{s}$ is the `arc length element', i.e. $\dd{s} = \abs{\vb x'(t)} \dd{t}$. Similarly, we define
+\[ \int_C f(\vb x) \dd{s} = \int_a^b f(\vb x(t)) \,\abs{\vb x'(t)} \dd{t} \]
 If $C$ is made up of $M$ smooth curves $C_1, \dots, C_M$, we say that $C$ is `piecewise smooth'. We write $C = C_1 + \dots + C_M$ and define
-\[ \int_C f(\bm x) \,\dd s = \sum_{i=1}^M \int_{C_i}f(\bm x) \,\dd s \]
+\[ \int_C f(\vb x) \dd{s} = \sum_{i=1}^M \int_{C_i}f(\vb x) \dd{s} \]
 Now note (informally) that
-\[ \dd s = \abs{\bm x'(t)}\,\dd t = \sqrt{\left( \frac{\dd x}{\dd t} \right)^2 + \left( \frac{\dd y}{\dd t} \right)^2 + \left( \frac{\dd z}{\dd t} \right)^2} \,\dd t \]
+\[ \dd{s} = \abs{\vb x'(t)}\dd{t} = \sqrt{\left( \frac{\dd{x}}{\dd{t}} \right)^2 + \left( \frac{\dd{y}}{\dd{t}} \right)^2 + \left( \frac{\dd{z}}{\dd{t}} \right)^2} \dd{t} \]
 i.e. (now very informally)
-\[ \dd s^2 = \dd x^2 + \dd y^2 + \dd z^2 \]
+\[ \dd{s}^2 = \dd{x}^2 + \dd{y}^2 + \dd{z}^2 \]
 which is Pythagoras' Theorem.
 
 \subsection{Example of Arc Length}
 Let $C$ be the circle of radius $r>0$ in $\mathbb R^3$
-\[ \bm x(t) = \begin{pmatrix}
+\[ \vb x(t) = \begin{pmatrix}
         r\cos t \\ r\sin t \\ 0
     \end{pmatrix};\quad t \in [0, 2\pi] \]
 So
-\[ \bm x'(t) = \begin{pmatrix}
+\[ \vb x'(t) = \begin{pmatrix}
         -r\sin t \\ r\cos t \\ 0
     \end{pmatrix} \]
 Therefore
-\[ \int_C \dd s = \int_0^{2\pi} \abs{\bm x'(t)} \,\dd t = \int_0^{2\pi} \sqrt{r^2 \sin^2 t + r^2 \cos^2 t} \,\dd t = \int_0^{2\pi} r \,\dd t = 2\pi r \]
+\[ \int_C \dd{s} = \int_0^{2\pi} \abs{\vb x'(t)} \dd{t} = \int_0^{2\pi} \sqrt{r^2 \sin^2 t + r^2 \cos^2 t} \dd{t} = \int_0^{2\pi} r \dd{t} = 2\pi r \]
 Also, for example,
-\[ \int_C x^2 y \,\dd s = \int_0^{2\pi} (r \cos t)^2 (r \sin t) \sqrt{r^2 \sin^2 t + r^2 \cos^2 t} \,\dd t = \int_0^{2\pi} r^3 \cos^2 t \sin t \,\dd t = 0 \]
+\[ \int_C x^2 y \dd{s} = \int_0^{2\pi} (r \cos t)^2 (r \sin t) \sqrt{r^2 \sin^2 t + r^2 \cos^2 t} \dd{t} = \int_0^{2\pi} r^3 \cos^2 t \sin t \dd{t} = 0 \]
 
 \subsection{Choice of Parametrisation of Curves}
-Does $\ell(C)$ depend on the choice of parametrisation of $\bm x(t)$? For example,
-\[ \bm x(t) = \begin{pmatrix}
+Does $\ell(C)$ depend on the choice of parametrisation of $\vb x(t)$? For example,
+\[ \vb x(t) = \begin{pmatrix}
         r\cos t \\ r \sin t \\ 0
     \end{pmatrix};\quad t \in [0, 2\pi] \]
 and
-\[ \widetilde{\bm x}(t) = \begin{pmatrix}
+\[ \widetilde{\vb x}(t) = \begin{pmatrix}
         r\cos 2t \\ r \sin 2t \\ 0
     \end{pmatrix};\quad t \in [0, \pi] \]
 both give rise to a circle, but have different forms. Suppose that $C$ has two different parametrisations,
-\[ \bm x = \bm x_1(t);\quad a \leq t \leq b \]
-\[ \bm x = \bm x_2(\tau);\quad \alpha \leq \tau \leq \beta \]
-There must be some relationship $\bm x_2(\tau) = \bm x_1(t(\tau))$ for some function $t(\tau)$, since they represent the same curve. We can assume $\frac{\dd t}{\dd \tau} \neq 0$, so the map between $t$ and $\tau$ is invertible and differentiable (see IB Analysis and Topology). Note that
+\[ \vb x = \vb x_1(t);\quad a \leq t \leq b \]
+\[ \vb x = \vb x_2(\tau);\quad \alpha \leq \tau \leq \beta \]
+There must be some relationship $\vb x_2(\tau) = \vb x_1(t(\tau))$ for some function $t(\tau)$, since they represent the same curve. We can assume $\frac{\dd{t}}{\dd \tau} \neq 0$, so the map between $t$ and $\tau$ is invertible and differentiable (see IB Analysis and Topology). Note that
 \begin{align*}
-    \bm x_2'(\tau) & = \frac{\dd}{\dd \tau}\bm x_2(\tau)       \\
-                   & = \frac{\dd}{\dd \tau}\bm x_1(t(\tau))    \\
+    \vb x_2'(\tau) & = \frac{\dd}{\dd \tau}\vb x_2(\tau)        \\
+                   & = \frac{\dd}{\dd \tau}\vb x_1(t(\tau))     \\
     \intertext{By the Chain Rule,}
-                   & = \frac{\dd t}{\dd \tau}\bm x_1'(t(\tau))
+                   & = \frac{\dd{t}}{\dd \tau}\vb x_1'(t(\tau))
 \end{align*}
 And now from the above definitions,
-\[ \int_C f(\bm x) \,\dd s = \int_a^b f(\bm x_1(t)) \, \abs{\bm x_1'(t)} \,\dd t \]
-Making the substitution $t = t(\tau)$, and assuming $\frac{\dd t}{\dd \tau} > 0$, the lattern integral becomes
-\[ \int_\alpha^\beta f(\bm x_2(\tau)) \, \underbrace{\abs{\bm x_1'(t(\tau))} \,\frac{\dd t}{\dd \tau}\dd \tau}_{\abs{\bm x_2'(\tau)}\,\dd \tau} = \int_\alpha^\beta f(\bm x_2(\tau)) \, \abs{\bm x_2'(\tau)} \,\dd \tau \]
-which is precisely the same as $\int_C f(\bm x) \,\dd s$ using the $\bm x_2(\tau)$ parametrisation. When $\frac{\dd t}{\dd \tau} < 0$, you get the same result. So the definition of $\int_C f(\bm x) \, \dd s$ does \textit{not} depend on the choice of parametrisation of $C$.
+\[ \int_C f(\vb x) \dd{s} = \int_a^b f(\vb x_1(t)) \, \abs{\vb x_1'(t)} \dd{t} \]
+Making the substitution $t = t(\tau)$, and assuming $\frac{\dd{t}}{\dd \tau} > 0$, the lattern integral becomes
+\[ \int_\alpha^\beta f(\vb x_2(\tau)) \, \underbrace{\abs{\vb x_1'(t(\tau))} \,\frac{\dd{t}}{\dd \tau}\dd \tau}_{\abs{\vb x_2'(\tau)}\,\dd \tau} = \int_\alpha^\beta f(\vb x_2(\tau)) \, \abs{\vb x_2'(\tau)} \,\dd \tau \]
+which is precisely the same as $\int_C f(\vb x) \dd{s}$ using the $\vb x_2(\tau)$ parametrisation. When $\frac{\dd{t}}{\dd \tau} < 0$, you get the same result. So the definition of $\int_C f(\vb x) \, \dd{s}$ does \textit{not} depend on the choice of parametrisation of $C$.
 
 \section{Curvature and Torsion}
 \subsection{Parametrisation According to Arc Length}
-We know that for any curve $C$ there exist multiple unique parametrisations. We will define the arc-length function for a curve $[a, b] \ni t \mapsto \bm x(t)$ by
-\[ s(t) = \int_a^t \abs{\bm x'(\tau)} \,\dd \tau \]
+We know that for any curve $C$ there exist multiple unique parametrisations. We will define the arc-length function for a curve $[a, b] \ni t \mapsto \vb x(t)$ by
+\[ s(t) = \int_a^t \abs{\vb x'(\tau)} \,\dd \tau \]
 So $s(a) = 0, s(b) = \ell(C)$. Using the Fundamental Theorem of Calculus, we have
-\[ s'(t) = \abs{\bm x'(t)} \geq 0 \]
+\[ s'(t) = \abs{\vb x'(t)} \geq 0 \]
 For regular curves, we have that
 \[ s'(t) > 0 \]
 So we can invert the relationship between $s$ and $t$; i.e. we can find $t$ as a function of $s$. Hence, we can parametrise curves with respect to arc length. If we write
-\[ \bm r(s) = \bm x(t(s)) \]
+\[ \vb r(s) = \vb x(t(s)) \]
 where $0 \leq s \leq \ell(C)$, then by the chain rule we have
-\[ \frac{\dd t}{\dd s} = \frac{1}{\frac{\dd s}{\dd t}} = \frac{1}{\abs{\bm x'(t(s))}} \]
+\[ \frac{\dd{t}}{\dd{s}} = \frac{1}{\frac{\dd{s}}{\dd{t}}} = \frac{1}{\abs{\vb x'(t(s))}} \]
 So
-\[ \bm r'(s) = \frac{\dd}{\dd s} \bm x(t(s)) = \frac{\dd t}{\dd s} \bm x'(t(s)) = \frac{\bm x'(t(s))}{\abs{\bm x'(t(s))}} \]
-In other words, $\bm r'(s)$ is a unit vector tangential to the curve. This (consistently) gives
-\[ \ell(C) = \int_0^{\ell(C)} \abs{\bm r'(s)} \,\dd s = \int_0^{\ell(C)} \dd s \]
+\[ \vb r'(s) = \frac{\dd}{\dd{s}} \vb x(t(s)) = \frac{\dd{t}}{\dd{s}} \vb x'(t(s)) = \frac{\vb x'(t(s))}{\abs{\vb x'(t(s))}} \]
+In other words, $\vb r'(s)$ is a unit vector tangential to the curve. This (consistently) gives
+\[ \ell(C) = \int_0^{\ell(C)} \abs{\vb r'(s)} \dd{s} = \int_0^{\ell(C)} \dd{s} \]
 as previously found above.
 
 \subsection{Curvature}
-Throughout this section, we will be talking about a generic regular curve $C$, parametrised with respect to arc length, where a position vector on $C$ is given by $\bm r(s)$. We will define the tangent vector
-\[ \bm t(s) = \bm r'(s) \]
-We already know that $\abs{\bm t(s)} = 1$. Therefore the only part of $\bm t$ that changes with respect to $s$ is its direction. So $\bm t'(s) = \bm r''(s)$ only measures the change in the direction of the tangent as we move along the curve. So intuitively, if $\abs{\bm r''(s)}$ is large then the curve is rapidly changing direction. If $\abs{\bm r''(s)}$ is small, the curve is approximately flat; there is little change in direction. Using this intuition, we will define curvature as
-\[ \kappa(s) = \abs{\bm r''(s)} = \abs{\bm t'(s)} \]
+Throughout this section, we will be talking about a generic regular curve $C$, parametrised with respect to arc length, where a position vector on $C$ is given by $\vb r(s)$. We will define the tangent vector
+\[ \vb t(s) = \vb r'(s) \]
+We already know that $\abs{\vb t(s)} = 1$. Therefore the only part of $\vb t$ that changes with respect to $s$ is its direction. So $\vb t'(s) = \vb r''(s)$ only measures the change in the direction of the tangent as we move along the curve. So intuitively, if $\abs{\vb r''(s)}$ is large then the curve is rapidly changing direction. If $\abs{\vb r''(s)}$ is small, the curve is approximately flat; there is little change in direction. Using this intuition, we will define curvature as
+\[ \kappa(s) = \abs{\vb r''(s)} = \abs{\vb t'(s)} \]
 In other words $\kappa$ is the magnitude of the acceleration a particle experiences while moving along the curve at unit speed.
 
 \subsection{Torsion}
-Since $\bm t = \bm r'(s)$ is a unit vector, differentiating $\bm t \cdot \bm t = 1$ gives $\bm t \cdot \bm t' = 0$. We will define the principal normal $\bm n$ by the formula
-\[ \bm t' = \kappa \bm n \]
-Note that $\bm n$ is everywhere normal to the curve $C$, since it is always perpendicular to the tangent vector $\bm t$, since $\bm t \cdot \bm n = 0$. We can extend the vectors $\{ \bm t, \bm n \}$ into an orthonormal basis by computing the cross product:
-\[ \bm b = \bm t \times \bm n \]
-We call $\bm b$ the binormal. It is a unit vector, since it is the cross product of two orthogonal unit vectors in $\mathbb R^3$. We also have that $\bm b \cdot \bm b' = 0$; also since $\bm t \cdot \bm b = 0$ and $\bm n \cdot \bm b = 0$, we must have
-\[ 0 = (\bm t \cdot \bm b)' = \bm t' \cdot \bm b + \bm t \cdot \bm b' = \kappa \bm n \cdot b + \bm t \cdot \bm b' = \bm t \cdot \bm b' \]
-So $\bm b'$ is orthogonal to both $\bm t$ and $\bm b$, i.e. it is parallel to $\bm n$. We will define the torsion $\tau$ of a curve by
-\[ \bm b' = -\tau \bm n \]
+Since $\vb t = \vb r'(s)$ is a unit vector, differentiating $\vb t \cdot \vb t = 1$ gives $\vb t \cdot \vb t' = 0$. We will define the principal normal $\vb n$ by the formula
+\[ \vb t' = \kappa \vb n \]
+Note that $\vb n$ is everywhere normal to the curve $C$, since it is always perpendicular to the tangent vector $\vb t$, since $\vb t \cdot \vb n = 0$. We can extend the vectors $\{ \vb t, \vb n \}$ into an orthonormal basis by computing the cross product:
+\[ \vb b = \vb t \times \vb n \]
+We call $\vb b$ the binormal. It is a unit vector, since it is the cross product of two orthogonal unit vectors in $\mathbb R^3$. We also have that $\vb b \cdot \vb b' = 0$; also since $\vb t \cdot \vb b = 0$ and $\vb n \cdot \vb b = 0$, we must have
+\[ 0 = (\vb t \cdot \vb b)' = \vb t' \cdot \vb b + \vb t \cdot \vb b' = \kappa \vb n \cdot b + \vb t \cdot \vb b' = \vb t \cdot \vb b' \]
+So $\vb b'$ is orthogonal to both $\vb t$ and $\vb b$, i.e. it is parallel to $\vb n$. We will define the torsion $\tau$ of a curve by
+\[ \vb b' = -\tau \vb n \]
 A physical interpretation of torsion is a kind of `corkscrew' rotation in three dimensions.
 
 \begin{proposition}[Fundamental Theorem of Differential Geometry of Curves]
     The curvature $\kappa(s)$ and torsion $\tau(s)$ uniquely define a curve in $\mathbb R^3$, up to translation and orientation.
 \end{proposition}
 \begin{proof}
-    Since $\bm n = \bm b \times \bm t$, we have $\bm t' = \kappa(\bm b \times \bm t)$ and $\bm b' = -\tau(\bm b \times \bm t)$. This gives six equations (written in component form) for six unknowns. Given $\kappa(s)$ and $\tau(s)$, and given $\bm t(0)$ and $\bm b(0)$, we can construct the functions $\bm t(s), \bm b(s), \bm n(s) = \bm b(s) \times \bm t(s)$.
+    Since $\vb n = \vb b \times \vb t$, we have $\vb t' = \kappa(\vb b \times \vb t)$ and $\vb b' = -\tau(\vb b \times \vb t)$. This gives six equations (written in component form) for six unknowns. Given $\kappa(s)$ and $\tau(s)$, and given $\vb t(0)$ and $\vb b(0)$, we can construct the functions $\vb t(s), \vb b(s), \vb n(s) = \vb b(s) \times \vb t(s)$.
 \end{proof}
 
 \subsection{Radius of Curvature}
-A generic curve $s \mapsto \bm r(s)$ can be Taylor expanded around $s=0$. Writing $\bm t = \bm t(0), \bm n = \bm n(0)$ and so on, we have
+A generic curve $s \mapsto \vb r(s)$ can be Taylor expanded around $s=0$. Writing $\vb t = \vb t(0), \vb n = \vb n(0)$ and so on, we have
 \begin{align*}
-    \bm r(s) & = \bm r + s\bm r' + \frac{1}{2}s^2 \bm r'' + o(s^2)    \\
-             & = \bm r + s\bm t + \frac{1}{2}s^2 \kappa\bm n + o(s^2)
+    \vb r(s) & = \vb r + s\vb r' + \frac{1}{2}s^2 \vb r'' + o(s^2)    \\
+             & = \vb r + s\vb t + \frac{1}{2}s^2 \kappa\vb n + o(s^2)
 \end{align*}
 What circle that touches the curve at $s=0$ would be the best approximation for the curve at this point? Since the circle touches the curve, we know the position vectors (of the curve and the circle) match, and their first derivatives match. So we want to unify the second derivatives. The equation of such a circle of radius $R$ is
-\[ \bm x(\theta) = \bm r + R(1 - \cos \theta)\bm n + R(\sin \theta) \bm t \]
+\[ \vb x(\theta) = \vb r + R(1 - \cos \theta)\vb n + R(\sin \theta) \vb t \]
 Expanding this for small $\theta$ gives
-\[ \bm x(\theta) = \bm r + R\theta\bm t + \frac{1}{2} R\theta^2\bm n + o(\theta^2) \]
+\[ \vb x(\theta) = \vb r + R\theta\vb t + \frac{1}{2} R\theta^2\vb n + o(\theta^2) \]
 But the arc length on a circle is simply $R\theta$. So in terms of arc length,
-\[ \bm x(\theta) = \bm r + s\bm t + \frac{1}{2} s^2 \frac{1}{R}\bm n + o(s^2) \]
+\[ \vb x(\theta) = \vb r + s\vb t + \frac{1}{2} s^2 \frac{1}{R}\vb n + o(s^2) \]
 Hence by comparing coefficients,
 \[ R = \frac{1}{\kappa} \]
 We name this $R(s)$ the radius of curvature.
 
 \subsection{Gaussian Curvature (non-examinable)}
-This subsection is non-examinable. How can we find the curvature of a surface? At any point $\bm r$ on a surface, we have a normal vector $\bm n$. We can construct a plane containing this normal; such a plane will then intersect the surface near $\bm r$. This intersection is a curve $C$, which has a curvature $\kappa$. The choice of plane is arbitrary, however. To unify all of these different possible results for $\kappa$, we can compute the Gaussian curvature $\kappa_G$ by
+This subsection is non-examinable. How can we find the curvature of a surface? At any point $\vb r$ on a surface, we have a normal vector $\vb n$. We can construct a plane containing this normal; such a plane will then intersect the surface near $\vb r$. This intersection is a curve $C$, which has a curvature $\kappa$. The choice of plane is arbitrary, however. To unify all of these different possible results for $\kappa$, we can compute the Gaussian curvature $\kappa_G$ by
 \[ \kappa_G = \kappa_{\text{min}} \kappa_{\text{max}} \]
 \begin{itemize}
     \item The Gaussian curvature of a flat plane is zero, since the minimum and maximum curvatures are both zero.
@@ -204,30 +204,30 @@ This subsection is non-examinable. How can we find the curvature of a surface? A
 
 \section{Coordinates, Differentials and Gradients}
 \subsection{Differentials and First Order Changes}
-Recall that for a function $f(u_1, \dots, u_n)$, we define the differential of $f$, written $\dd f$, by
-\[ \dd f = \frac{\partial f}{\partial u_i} \dd u_i \]
-noting that the summation convention applies. The $\dd u_i$ are called differential forms, which can be thought of as linearly independent objects (if the coordinates $u_1, \dots, u_n$ are independent), i.e. $\alpha_i \dd u_i = 0 \implies \alpha_i = 0$ for all $i$. Similarly, if we have a vector $\bm x(u_1, \dots, u_n)$, we define
-\[ \dd \bm x = \frac{\partial \bm x}{\partial u_i} \dd u_i \]
+Recall that for a function $f(u_1, \dots, u_n)$, we define the differential of $f$, written $\dd{f}$, by
+\[ \dd{f} = \frac{\partial f}{\partial u_i} \dd{u}_i \]
+noting that the summation convention applies. The $\dd{u}_i$ are called differential forms, which can be thought of as linearly independent objects (if the coordinates $u_1, \dots, u_n$ are independent), i.e. $\alpha_i \dd{u}_i = 0 \implies \alpha_i = 0$ for all $i$. Similarly, if we have a vector $\vb x(u_1, \dots, u_n)$, we define
+\[ \dd \vb x = \frac{\partial \vb x}{\partial u_i} \dd{u}_i \]
 As an example, let $f(u, v, w) = u^2 + w \sin(v)$. Then
-\[ \dd f = 2u \,\dd u + w \cos(v) \,\dd v + \sin(v) \,\dd w \]
+\[ \dd{f} = 2u \dd{u} + w \cos(v) \dd{v} + \sin(v) \dd{w} \]
 Similarly, given
-\[ \bm x(u, v, w) = \begin{pmatrix}
+\[ \vb x(u, v, w) = \begin{pmatrix}
         u^2 - v^2 \\ w \\ e^v
     \end{pmatrix} \]
 we can compute
-\[ \dd \bm x = \begin{pmatrix}
+\[ \dd \vb x = \begin{pmatrix}
         2u \\ 0 \\ 0
-    \end{pmatrix} \dd u + \begin{pmatrix}
+    \end{pmatrix} \dd{u} + \begin{pmatrix}
         -2v \\ 0 \\ e^v
-    \end{pmatrix} \dd v + \begin{pmatrix}
+    \end{pmatrix} \dd{v} + \begin{pmatrix}
         0 \\ 1 \\ 0
-    \end{pmatrix} \dd w \]
+    \end{pmatrix} \dd{w} \]
 Differentials encode information about how a function (or vector field) changes when we change the coordinates by a small amount. By calculus,
-\[ f(u + \delta u_1, \dots, u_n + \delta u_n) - f(u_1, \dots, u_n) = \frac{\partial f}{\partial u_i} \delta u_i + o(\delta \bm u) \]
+\[ f(u + \delta u_1, \dots, u_n + \delta u_n) - f(u_1, \dots, u_n) = \frac{\partial f}{\partial u_i} \delta u_i + o(\delta \vb u) \]
 So if $\delta f$ denotes the change in $f(u_1, \dots, u_n)$ under this small change in coordinates, we have, to first order,
 \[ \delta f \approx \frac{\partial f}{\partial u_i}\delta u_i \]
 The analogous result holds for vector vields:
-\[ \delta \bm x \approx \frac{\partial \bm x}{\partial u_i}\delta u_i \]
+\[ \delta \vb x \approx \frac{\partial \vb x}{\partial u_i}\delta u_i \]
 
 \subsection{Coordinates and Line Elements in $\mathbb R^2$}
 We can create multiple different consistent coordinate systems by defining a relationship between them. For example, polar coordinates $(r, \theta)$ and Cartesian coordinates $(x, y)$ can be related by
@@ -237,198 +237,198 @@ Even though this relationship is not bijective (there are multiple polar coordin
 A general set of coordinates $(u, v)$ on $\mathbb R^2$ can be specified by their relationship to the standard Cartesian coordinates $(x, y)$. We must specify smooth, invertible functions $x(u, v)$, $y(u, v)$. We would also like to have a small change in one coordinate system to be equivalent to a small change in the other coordinate system (i.e. the inverse is also smooth). The same principle applies in $\mathbb R^3$ for three coordinates, for example.
 
 Consider the standard Cartesian coordinates in $\mathbb R^2$.
-\[ \bm x(x, y) = \begin{pmatrix}
+\[ \vb x(x, y) = \begin{pmatrix}
         x \\ y
-    \end{pmatrix} = x \bm e_x + y \bm e_y \]
-Note that $\{\bm e_x, \bm e_y\}$ are orthonormal, and point in the same direction regardless of the value of $\bm x$: $\bm e_x$ points in the direction of changing $x$ with $y$ held constant, for example. Equivalently,
-\[ \bm e_x = \frac{\frac{\partial}{\partial x} \bm x(x, y)}{\abs{\frac{\partial}{\partial x} \bm x(x, y)}};\quad \bm e_y = \frac{\frac{\partial}{\partial y} \bm x(x, y)}{\abs{\frac{\partial}{\partial y} \bm x(x, y)}} \]
+    \end{pmatrix} = x \vb e_x + y \vb e_y \]
+Note that $\{\vb e_x, \vb e_y\}$ are orthonormal, and point in the same direction regardless of the value of $\vb x$: $\vb e_x$ points in the direction of changing $x$ with $y$ held constant, for example. Equivalently,
+\[ \vb e_x = \frac{\frac{\partial}{\partial x} \vb x(x, y)}{\abs{\frac{\partial}{\partial x} \vb x(x, y)}};\quad \vb e_y = \frac{\frac{\partial}{\partial y} \vb x(x, y)}{\abs{\frac{\partial}{\partial y} \vb x(x, y)}} \]
 Note that
-\[ \dd \bm x = \frac{\partial \bm x}{\partial x}\dd x + \frac{\partial \bm x}{\partial y} \dd y = \dd x \,\bm e_x + \dd y \,\bm e_y \]
-In other words, when applying the change in coordinate $x \mapsto x + \delta x$, the vector changes (to first order) to $\bm x \mapsto \bm x + \delta x \bm e_x$. In fact, in the case of Cartesian coordinates, this change is precisely correct for any size of $\delta$, since the coordinate basis vectors are the same everywhere. We call $\dd \bm x$ the line element; it tells us how small changes in coordinates produce changes in position vectors.
+\[ \dd \vb x = \frac{\partial \vb x}{\partial x}\dd{x} + \frac{\partial \vb x}{\partial y} \dd{y} = \dd{x} \,\vb e_x + \dd{y} \,\vb e_y \]
+In other words, when applying the change in coordinate $x \mapsto x + \delta x$, the vector changes (to first order) to $\vb x \mapsto \vb x + \delta x \vb e_x$. In fact, in the case of Cartesian coordinates, this change is precisely correct for any size of $\delta$, since the coordinate basis vectors are the same everywhere. We call $\dd \vb x$ the line element; it tells us how small changes in coordinates produce changes in position vectors.
 
 Now, let us consider polar coordinates in two-dimensional space. We can use the same idea as before, giving
-\[ \bm e_r = \frac{\frac{\partial}{\partial r} \bm x(r, \theta)}{\abs{\frac{\partial}{\partial r} \bm x(r, \theta)}} = \begin{pmatrix}
+\[ \vb e_r = \frac{\frac{\partial}{\partial r} \vb x(r, \theta)}{\abs{\frac{\partial}{\partial r} \vb x(r, \theta)}} = \begin{pmatrix}
         \cos\theta \\ \sin\theta
-    \end{pmatrix};\quad \bm e_\theta = \frac{\frac{\partial}{\partial \theta} \bm x(r, \theta)}{\abs{\frac{\partial}{\partial \theta} \bm x(r, \theta)}} = \begin{pmatrix}
+    \end{pmatrix};\quad \vb e_\theta = \frac{\frac{\partial}{\partial \theta} \vb x(r, \theta)}{\abs{\frac{\partial}{\partial \theta} \vb x(r, \theta)}} = \begin{pmatrix}
         -\sin\theta \\ \cos\theta
     \end{pmatrix} \]
 Therefore, we have
-\[ \bm x(r, \theta) = \begin{pmatrix}
+\[ \vb x(r, \theta) = \begin{pmatrix}
         r \cos\theta \\ r \sin\theta
-    \end{pmatrix} = r\bm e_r \]
-Note that $\{\bm e_r, \bm e_\theta\}$ are also orthonormal at each $(r, \theta)$, but their exact values are not the same everywhere. Since the basis vectors are orthogonal, we can call $r$ and $\theta$ orthogonal curvilinear coordinates. Also, we can compute the line element $\dd \bm x$ as
-\[ \dd \bm x = \frac{\partial \bm x}{\partial r} \dd r + \frac{\partial \bm x}{\partial \theta} \dd \theta = \begin{pmatrix}
+    \end{pmatrix} = r\vb e_r \]
+Note that $\{\vb e_r, \vb e_\theta\}$ are also orthonormal at each $(r, \theta)$, but their exact values are not the same everywhere. Since the basis vectors are orthogonal, we can call $r$ and $\theta$ orthogonal curvilinear coordinates. Also, we can compute the line element $\dd \vb x$ as
+\[ \dd \vb x = \frac{\partial \vb x}{\partial r} \dd{r} + \frac{\partial \vb x}{\partial \theta} \dd \theta = \begin{pmatrix}
         \cos \theta \\ \sin \theta
-    \end{pmatrix} \dd r + \begin{pmatrix}
+    \end{pmatrix} \dd{r} + \begin{pmatrix}
         -r \sin \theta \\ r \cos \theta
-    \end{pmatrix} \dd \theta = \dd r \, \bm e_r + r\, \dd \theta \, \bm e_\theta \]
-We see that a change in $\theta$ produces (up to first order) a change $\bm x \mapsto \bm x + r \,\delta \theta \,\bm e_\theta$, a change proportional to $r$. So a small change in $\theta$ could cause quite a large change in Cartesian coordinates.
+    \end{pmatrix} \dd \theta = \dd{r} \, \vb e_r + r\, \dd \theta \, \vb e_\theta \]
+We see that a change in $\theta$ produces (up to first order) a change $\vb x \mapsto \vb x + r \,\delta \theta \,\vb e_\theta$, a change proportional to $r$. So a small change in $\theta$ could cause quite a large change in Cartesian coordinates.
 
 \subsection{Orthogonal Curvilinear Coordinates}
 We say that $(u, v, w)$ are a set of orthogonal curvilinear coordinates if the vectors
-\[ \bm e_u = \frac{\frac{\partial \bm x}{\partial u}}{\abs{\frac{\partial \bm x}{\partial u}}};\quad \bm e_v = \frac{\frac{\partial \bm x}{\partial v}}{\abs{\frac{\partial \bm x}{\partial v}}};\quad \bm e_w = \frac{\frac{\partial \bm x}{\partial w}}{\abs{\frac{\partial \bm x}{\partial w}}} \]
+\[ \vb e_u = \frac{\frac{\partial \vb x}{\partial u}}{\abs{\frac{\partial \vb x}{\partial u}}};\quad \vb e_v = \frac{\frac{\partial \vb x}{\partial v}}{\abs{\frac{\partial \vb x}{\partial v}}};\quad \vb e_w = \frac{\frac{\partial \vb x}{\partial w}}{\abs{\frac{\partial \vb x}{\partial w}}} \]
 form a right-handed, orthonormal basis for each $(u, v, w)$; but not necessarily the same basis over the entire vector field. It is standard to write
-\[ h_u = \abs{\frac{\partial \bm x}{\partial u}};\quad h_v = \abs{\frac{\partial \bm x}{\partial v}};\quad h_w = \abs{\frac{\partial \bm x}{\partial w}} \]
+\[ h_u = \abs{\frac{\partial \vb x}{\partial u}};\quad h_v = \abs{\frac{\partial \vb x}{\partial v}};\quad h_w = \abs{\frac{\partial \vb x}{\partial w}} \]
 We call $h_u, h_v, h_w$ the scale factors.  Note that the line element is
 \begin{align*}
-    \dd \bm x & = \frac{\partial \bm x}{\partial u}\dd u + \frac{\partial \bm x}{\partial v}\dd v + \frac{\partial \bm x}{\partial w} \dd w \\
-              & = h_u \bm e_u \dd u + h_v \bm e_v \dd v + h_w \bm e_w \dd w
+    \dd \vb x & = \frac{\partial \vb x}{\partial u}\dd{u} + \frac{\partial \vb x}{\partial v}\dd{v} + \frac{\partial \vb x}{\partial w} \dd{w} \\
+              & = h_u \vb e_u \dd{u} + h_v \vb e_v \dd{v} + h_w \vb e_w \dd{w}
 \end{align*}
-So the scale factors show how first-order changes in the coordinates are scaled into changes in $\bm x$.
+So the scale factors show how first-order changes in the coordinates are scaled into changes in $\vb x$.
 
 \subsection{Cylindrical Polar Coordinates}
 We define $(\rho, \phi, z)$ by
-\[ \bm x(\rho, \phi, z) = \begin{pmatrix}
+\[ \vb x(\rho, \phi, z) = \begin{pmatrix}
         \rho \cos \phi \\
         \rho \sin \phi \\
         z
     \end{pmatrix} \]
 where $0 \leq \rho; 0 \leq \phi < 2 \pi; z \in \mathbb R$. So we can find
-\[ \bm e_\rho = \begin{pmatrix}
+\[ \vb e_\rho = \begin{pmatrix}
         \cos \phi \\ \sin \phi \\ 0
-    \end{pmatrix};\quad \bm e_\phi = \begin{pmatrix}
+    \end{pmatrix};\quad \vb e_\phi = \begin{pmatrix}
         -\sin \phi \\ \cos \phi \\ 0
-    \end{pmatrix};\quad \bm e_z = \begin{pmatrix}
+    \end{pmatrix};\quad \vb e_z = \begin{pmatrix}
         0 \\ 0 \\ 1
     \end{pmatrix} \]
 The scale factors are
 \[ h_\rho = 1;\quad h_\phi = \rho;\quad h_z = 1 \]
 The line element is
-\[ \dd \bm x = \dd \rho \, \bm e_\rho + \rho \, \dd \phi \, \bm e_\phi + \dd z \, \bm e_z \]
+\[ \dd \vb x = \dd \rho \, \vb e_\rho + \rho \, \dd \phi \, \vb e_\phi + \dd{z} \, \vb e_z \]
 Note that
-\[ \bm x = \rho \begin{pmatrix}
+\[ \vb x = \rho \begin{pmatrix}
         \cos \phi \\ \sin \phi \\ 0
     \end{pmatrix} + z \begin{pmatrix}
         0 \\ 0 \\ 1
-    \end{pmatrix} = \rho \bm e_\rho + z \bm e_z \]
+    \end{pmatrix} = \rho \vb e_\rho + z \vb e_z \]
 
 \subsection{Spherical Polar Coordinates}
 We define $(r, \theta, \phi)$ by
-\[ \bm x(r, \theta, \phi) = \begin{pmatrix}
+\[ \vb x(r, \theta, \phi) = \begin{pmatrix}
         r \cos \phi \sin \theta \\
         r \sin \phi \sin \theta \\
         r \cos \theta
     \end{pmatrix} \]
 where $0 \leq r; 0 \leq \theta < 2 \pi; 0 \leq \phi < 2 \pi$. So we can find
-\[ \bm e_r = \begin{pmatrix}
+\[ \vb e_r = \begin{pmatrix}
         \cos \phi \sin \theta \\ \sin \phi \sin \theta \\ \cos \theta
-    \end{pmatrix};\quad \bm e_\theta = \begin{pmatrix}
+    \end{pmatrix};\quad \vb e_\theta = \begin{pmatrix}
         \cos \phi \cos \theta \\ \sin \phi \cos \theta \\ -\sin \theta
-    \end{pmatrix};\quad \bm e_\phi = \begin{pmatrix}
+    \end{pmatrix};\quad \vb e_\phi = \begin{pmatrix}
         -\sin \phi \\ \cos \phi \\ 0
     \end{pmatrix} \]
 The scale factors are
 \[ h_r = 1;\quad h_\theta = r;\quad h_\phi = r \sin \theta \]
 The line element is
-\[ \dd \bm x = \dd r \, \bm e_r + r \, \dd \theta \, \bm e_\theta + r \sin \theta \, \dd \phi \, \bm e_\phi \]
+\[ \dd \vb x = \dd{r} \, \vb e_r + r \, \dd \theta \, \vb e_\theta + r \sin \theta \, \dd \phi \, \vb e_\phi \]
 Note that
-\[ \bm x = r \begin{pmatrix}
+\[ \vb x = r \begin{pmatrix}
         \cos \phi \sin \theta \\ \sin \phi \sin \theta \\ \cos \theta
-    \end{pmatrix} = r \bm e_r \]
+    \end{pmatrix} = r \vb e_r \]
 
 \section{Gradient Operator}
 \subsection{Definition}
-For $f \colon \mathbb R^3 \to \mathbb R$, we define the gradient of $f$, written $\nabla f$, by
+For $f \colon \mathbb R^3 \to \mathbb R$, we define the gradient of $f$, written $\grad f$, by
 \begin{equation}
-    f(\bm x + \bm h) = f(\bm x) + \nabla f(\bm x) \cdot \bm h + o(\bm h)
+    f(\vb x + \vb h) = f(\vb x) + \grad f(\vb x) \cdot \vb h + o(\vb h)
     \tag{$\ast$}
 \end{equation}
-as $\abs{\bm h} \to 0$. The directional derivative of $f$ in the direction $\bm v$, denoted by $D_{\bm v} f$ or $\frac{\partial f}{\partial \bm v}$, is defined by
-\[ D_{\bm v} f(\bm x) = \lim_{t \to 0} \frac{f(\bm x + t\bm v) - f(\bm x)}{t} \]
+as $\abs{\vb h} \to 0$. The directional derivative of $f$ in the direction $\vb v$, denoted by $D_{\vb v} f$ or $\frac{\partial f}{\partial \vb v}$, is defined by
+\[ D_{\vb v} f(\vb x) = \lim_{t \to 0} \frac{f(\vb x + t\vb v) - f(\vb x)}{t} \]
 Alternatively,
 \begin{equation}
-    f(\bm x + t\bm v) = f(\bm x) + t D_{\bm v}f(\bm x) + o(t)
+    f(\vb x + t\vb v) = f(\vb x) + t D_{\vb v}f(\vb x) + o(t)
     \tag{$\dagger$}
 \end{equation}
-as $t \to 0$. Setting $\bm h = t\bm v$ in $(\ast)$, we have
-\[ f(\bm x + t\bm v) = f(\bm x) + t \nabla f(\bm x) \cdot \bm v + o(t) \]
+as $t \to 0$. Setting $\vb h = t\vb v$ in $(\ast)$, we have
+\[ f(\vb x + t\vb v) = f(\vb x) + t \grad f(\vb x) \cdot \vb v + o(t) \]
 This gives another way to interpret the gradient of $f$. Comparing this result to $(\dagger)$, we see that
-\[ D_{\bm v} f = \bm v \cdot \nabla f \]
-By the Cauchy-Schwarz inequality, the dot product is maximised when the two vectors are parallel. Hence, the directional derivative is maximised when $\bm v$ points in the direction of $\nabla f$. So $\nabla f$ points in the direction of greatest increase of $f$. Similarly, $-\nabla f$ points in the direction of greatest decrease of $f$. For example, suppose $f(x) = \frac{1}{2}\abs{\bm x}^2$. Then
-\[ f(\bm x + \bm h) = \frac{1}{2}(\bm x + \bm h)\cdot (\bm x + \bm h) = \frac{1}{2}\abs{\bm x}^2 + \frac{1}{2}(2\bm x \cdot \bm h) + \frac{1}{2}\abs{\bm h}^2 = f(\bm x) + \bm x \cdot \bm h + o(\bm h) \]
-Hence $\nabla f(\bm x) = \bm x$.
+\[ D_{\vb v} f = \vb v \cdot \grad f \]
+By the Cauchy-Schwarz inequality, the dot product is maximised when the two vectors are parallel. Hence, the directional derivative is maximised when $\vb v$ points in the direction of $\grad f$. So $\grad f$ points in the direction of greatest increase of $f$. Similarly, $-\grad f$ points in the direction of greatest decrease of $f$. For example, suppose $f(x) = \frac{1}{2}\abs{\vb x}^2$. Then
+\[ f(\vb x + \vb h) = \frac{1}{2}(\vb x + \vb h)\cdot (\vb x + \vb h) = \frac{1}{2}\abs{\vb x}^2 + \frac{1}{2}(2\vb x \cdot \vb h) + \frac{1}{2}\abs{\vb h}^2 = f(\vb x) + \vb x \cdot \vb h + o(\vb h) \]
+Hence $\grad f(\vb x) = \vb x$.
 
 \subsection{Gradient on Curves}
-Suppose we have a curve $t \mapsto \bm x(t)$. How does some function $f$ change when moving along the curve? We will write $F(t) = f(\bm x(t)), \delta \bm x = \bm x(t + \delta t) - \bm x(t)$.
+Suppose we have a curve $t \mapsto \vb x(t)$. How does some function $f$ change when moving along the curve? We will write $F(t) = f(\vb x(t)), \delta \vb x = \vb x(t + \delta t) - \vb x(t)$.
 \begin{align*}
-    F(t + \delta t) & = f(\bm x(t + \delta t))                                                \\
-                    & = f(\bm x(t) + \delta \bm x)                                            \\
-                    & = f(\bm x(t)) + \nabla f(\bm x(t)) \cdot \delta \bm x + o(\delta \bm x) \\
-    \intertext{Since $\delta \bm x = \bm x'(t) \,\delta t + o(\delta t)$, we have}
-    F(t + \delta t) & = F(t) + \bm x'(t) \cdot \nabla f(\bm x(t)) \,\delta t + o(\delta t)
+    F(t + \delta t) & = f(\vb x(t + \delta t))                                               \\
+                    & = f(\vb x(t) + \delta \vb x)                                           \\
+                    & = f(\vb x(t)) + \grad f(\vb x(t)) \cdot \delta \vb x + o(\delta \vb x) \\
+    \intertext{Since $\delta \vb x = \vb x'(t) \,\delta t + o(\delta t)$, we have}
+    F(t + \delta t) & = F(t) + \vb x'(t) \cdot \grad f(\vb x(t)) \,\delta t + o(\delta t)
 \end{align*}
 In other words,
-\[ \frac{\dd F}{\dd t} = \frac{\dd}{\dd t}f(\bm x(t)) = \frac{\dd \bm x}{\dd t} \cdot \nabla f(\bm x(t)) \]
+\[ \frac{\dd{F}}{\dd{t}} = \frac{\dd}{\dd{t}}f(\vb x(t)) = \frac{\dd \vb x}{\dd{t}} \cdot \grad f(\vb x(t)) \]
 
 \subsection{Gradient on Surfaces}
 Suppose we have a surface $S$ in $\mathbb R^3$ defined implicitly by
-\[ S = \{ \bm x \in \mathbb R^3 : f(\bm x) = 0 \} \]
-If $t \mapsto \bm x(t)$ is any curve in $S$, then $f(\bm x(t)) = 0$ everywhere. So
-\[ 0 = \frac{\dd}{\dd t}f(\bm x(t)) = \nabla f(\bm x(t)) \cdot \frac{\dd \bm x}{\dd t} \]
-So $\nabla f(\bm x(t))$, the gradient, is orthogonal to $\frac{\dd \bm x}{\dd t}$, the tangent vector of any chosen curve in $S$. So $\nabla f(\bm x(t))$ is normal to the surface.
+\[ S = \{ \vb x \in \mathbb R^3 : f(\vb x) = 0 \} \]
+If $t \mapsto \vb x(t)$ is any curve in $S$, then $f(\vb x(t)) = 0$ everywhere. So
+\[ 0 = \frac{\dd}{\dd{t}}f(\vb x(t)) = \grad f(\vb x(t)) \cdot \frac{\dd \vb x}{\dd{t}} \]
+So $\grad f(\vb x(t))$, the gradient, is orthogonal to $\frac{\dd \vb x}{\dd{t}}$, the tangent vector of any chosen curve in $S$. So $\grad f(\vb x(t))$ is normal to the surface.
 
 \subsection{Coordinate-Independent Representation}
-If we are working in an orthogonal curvilinear coordinate system $(u, v, w)$, it is not immediately clear how to compute $\nabla f$, since we need to represent this arbitrary perturbation $\bm h$ using $(u, v, w)$. In Cartesian coordinates it is simple; to represent the change $\bm x \mapsto \bm x + \bm h$ we simply add the components of $\bm x$ and $\bm h$.
+If we are working in an orthogonal curvilinear coordinate system $(u, v, w)$, it is not immediately clear how to compute $\grad f$, since we need to represent this arbitrary perturbation $\vb h$ using $(u, v, w)$. In Cartesian coordinates it is simple; to represent the change $\vb x \mapsto \vb x + \vb h$ we simply add the components of $\vb x$ and $\vb h$.
 \begin{align*}
-    f(\bm x + \bm h) & = f((x + h_1, y + h_2, z + h_3))                                                                                                  \\
-                     & = f(\bm x) + \frac{\partial f}{\partial x} h_1 + \frac{\partial f}{\partial y} h_2 + \frac{\partial f}{\partial z} h_3 + o(\bm h) \\
-                     & = f(\bm x) + \begin{pmatrix}
+    f(\vb x + \vb h) & = f((x + h_1, y + h_2, z + h_3))                                                                                                  \\
+                     & = f(\vb x) + \frac{\partial f}{\partial x} h_1 + \frac{\partial f}{\partial y} h_2 + \frac{\partial f}{\partial z} h_3 + o(\vb h) \\
+                     & = f(\vb x) + \begin{pmatrix}
         \partial f / \partial x \\ \partial f / \partial y \\ \partial f / \partial z
-    \end{pmatrix} \cdot h + o(\bm h)                                                                        \\
+    \end{pmatrix} \cdot h + o(\vb h)                                                                        \\
 \end{align*}
 So we have
-\[ \implies \nabla f = \begin{pmatrix}
+\[ \implies \grad f = \begin{pmatrix}
         \partial f / \partial x \\ \partial f / \partial y \\ \partial f / \partial z
     \end{pmatrix} \]
 Or, using suffix notation,
-\[ \nabla f = \bm e_i \frac{\partial f}{\partial x_i};\quad [\nabla f]_i = \frac{\partial f}{\partial x_i} \]
-We see that this $\nabla$ is a kind of vector differential operator. In Cartesian coordinates,
-\[ \nabla = \bm e_x \frac{\partial}{\partial x} + \bm e_y \frac{\partial}{\partial y} + \bm e_z \frac{\partial}{\partial z} \equiv \bm e_i \frac{\partial}{\partial x_i} \]
+\[ \grad f = \vb e_i \frac{\partial f}{\partial x_i};\quad [\grad f]_i = \frac{\partial f}{\partial x_i} \]
+We see that this $\grad$ is a kind of vector differential operator. In Cartesian coordinates,
+\[ \grad = \vb e_x \frac{\partial}{\partial x} + \vb e_y \frac{\partial}{\partial y} + \vb e_z \frac{\partial}{\partial z} \equiv \vb e_i \frac{\partial}{\partial x_i} \]
 From our previous example,
-\[ f(\bm x) = \frac{1}{2}(x^2 + y^2 + z^2) = \frac{1}{2}\abs{\bm x}^2 \]
+\[ f(\vb x) = \frac{1}{2}(x^2 + y^2 + z^2) = \frac{1}{2}\abs{\vb x}^2 \]
 \begin{align*}
-    [\nabla f]_i & = \frac{\partial}{\partial x_i}\left[ \frac{1}{2} x_j x_j \right] \\
-                 & = \frac{1}{2} \left[ \delta_{ij} x_j + x_j \delta_{ij} \right]    \\
-                 & = x_i                                                             \\
-    \nabla f     & = \bm e_i x_i
+    [\grad f]_i & = \frac{\partial}{\partial x_i}\left[ \frac{1}{2} x_j x_j \right] \\
+                & = \frac{1}{2} \left[ \delta_{ij} x_j + x_j \delta_{ij} \right]    \\
+                & = x_i                                                             \\
+    \grad f     & = \vb e_i x_i
 \end{align*}
 Let us return back to computing the gradient in the general case. Recall that in Cartesian coordinates, the line element is simple:
-\[ \dd \bm x = \dd x_i \bm e_i \]
+\[ \dd \vb x = \dd{x}_i \vb e_i \]
 And also, if we have a function on $\mathbb R^3$ such as $f(x, y, z)$, it has the differential
-\[ \dd f = \frac{\partial f}{\partial x_i}\dd x_i \]
+\[ \dd{f} = \frac{\partial f}{\partial x_i}\dd{x}_i \]
 Then,
 \begin{align*}
-    \nabla f \cdot \dd \bm x & = \left( \bm e_i \frac{\partial f}{\partial x_i} \right) \cdot \left( \bm e_j \dd x_j \right) \\
-                             & = \frac{\partial f}{\partial x_i} \left( \bm e_i \cdot \bm e_j \right) \dd x_j                \\
-                             & = \frac{\partial f}{\partial x_i} \delta_{ij} \dd x_j                                         \\
-                             & = \frac{\partial f}{\partial x_i} \dd x_i                                                     \\
-                             & = \dd f
+    \grad f \cdot \dd \vb x & = \left( \vb e_i \frac{\partial f}{\partial x_i} \right) \cdot \left( \vb e_j \dd{x}_j \right) \\
+                            & = \frac{\partial f}{\partial x_i} \left( \vb e_i \cdot \vb e_j \right) \dd{x}_j                \\
+                            & = \frac{\partial f}{\partial x_i} \delta_{ij} \dd{x}_j                                         \\
+                            & = \frac{\partial f}{\partial x_i} \dd{x}_i                                                     \\
+                            & = \dd{f}
 \end{align*}
 In other words, in \textit{any} set of coordinates,
-\[ \nabla f \cdot \dd \bm x = \dd f \]
+\[ \grad f \cdot \dd \vb x = \dd{f} \]
 
 \subsection{Computing the Gradient Vector}
 \begin{proposition}
     If $(u, v, w)$ are orthogonal curvilinear coordinates, and $f$ is a function of the position vector $(u, v, w)$, then
-    \[ \nabla f = \frac{1}{h_u}\frac{\partial f}{\partial u}\bm e_u + \frac{1}{h_v}\frac{\partial f}{\partial v}\bm e_v + \frac{1}{h_w}\frac{\partial f}{\partial w}\bm e_w \]
+    \[ \grad f = \frac{1}{h_u}\frac{\partial f}{\partial u}\vb e_u + \frac{1}{h_v}\frac{\partial f}{\partial v}\vb e_v + \frac{1}{h_w}\frac{\partial f}{\partial w}\vb e_w \]
 \end{proposition}
 \begin{proof}
-    If $f = f(u, v, w)$ and $\bm x = \bm x(u, v, w)$, then
-    \[ \dd f = \frac{\partial f}{\partial u}\dd u + \frac{\partial f}{\partial v}\dd v + \frac{\partial f}{\partial w}\dd w \]
-    \[ \dd x = h_u \dd u \bm e_u + h_v \dd v \bm e_v + h_w \dd w \bm e_w \]
+    If $f = f(u, v, w)$ and $\vb x = \vb x(u, v, w)$, then
+    \[ \dd{f} = \frac{\partial f}{\partial u}\dd{u} + \frac{\partial f}{\partial v}\dd{v} + \frac{\partial f}{\partial w}\dd{w} \]
+    \[ \dd{x} = h_u \dd{u} \vb e_u + h_v \dd{v} \vb e_v + h_w \dd{w} \vb e_w \]
     Using the above result, we have
-    \[ \nabla f \cdot \dd \bm x = \dd f \]
-    \[ \left( (\nabla f)_u \bm e_u + (\nabla f)_v \bm e_v + (\nabla f)_w \bm e_w \right) \cdot \left( h_u \dd u \bm e_u + h_v \dd v \bm e_v + h_w \dd w \bm e_w \right) = \frac{\partial f}{\partial u}\dd u + \frac{\partial f}{\partial v}\dd v + \frac{\partial f}{\partial w}\dd w \]
-    \[  (\nabla f)_u h_u \dd u + (\nabla f)_v h_v \dd v + (\nabla f)_w h_w \dd w = \frac{\partial f}{\partial u}\dd u + \frac{\partial f}{\partial v}\dd v + \frac{\partial f}{\partial w}\dd w \]
-    Since $u, v, w$ are independent coordinates, $\dd u, \dd v, \dd w$ are linearly independent. So we can simply compare coefficients, getting
-    \[ \nabla f = \frac{1}{h_u}\frac{\partial f}{\partial u}\bm e_u + \frac{1}{h_v}\frac{\partial f}{\partial v}\bm e_v + \frac{1}{h_w}\frac{\partial f}{\partial w}\bm e_w \]
+    \[ \grad f \cdot \dd \vb x = \dd{f} \]
+    \[ \left( (\grad f)_u \vb e_u + (\grad f)_v \vb e_v + (\grad f)_w \vb e_w \right) \cdot \left( h_u \dd{u} \vb e_u + h_v \dd{v} \vb e_v + h_w \dd{w} \vb e_w \right) = \frac{\partial f}{\partial u}\dd{u} + \frac{\partial f}{\partial v}\dd{v} + \frac{\partial f}{\partial w}\dd{w} \]
+    \[  (\grad f)_u h_u \dd{u} + (\grad f)_v h_v \dd{v} + (\grad f)_w h_w \dd{w} = \frac{\partial f}{\partial u}\dd{u} + \frac{\partial f}{\partial v}\dd{v} + \frac{\partial f}{\partial w}\dd{w} \]
+    Since $u, v, w$ are independent coordinates, $\dd{u}, \dd{v}, \dd{w}$ are linearly independent. So we can simply compare coefficients, getting
+    \[ \grad f = \frac{1}{h_u}\frac{\partial f}{\partial u}\vb e_u + \frac{1}{h_v}\frac{\partial f}{\partial v}\vb e_v + \frac{1}{h_w}\frac{\partial f}{\partial w}\vb e_w \]
     as required.
 \end{proof}
 \noindent In cylindrical polar coordinates, we have
-\[ \nabla f = \frac{\partial f}{\partial \rho} \bm e_\rho + \frac{1}{\rho} \frac{\partial f}{\partial \phi} \bm e_\phi + \frac{\partial f}{\partial z} \bm e_z \]
+\[ \grad f = \frac{\partial f}{\partial \rho} \vb e_\rho + \frac{1}{\rho} \frac{\partial f}{\partial \phi} \vb e_\phi + \frac{\partial f}{\partial z} \vb e_z \]
 In spherical polar coordinates, we have
-\[ \nabla f = \frac{\partial f}{\partial r} \bm e_r + \frac{1}{r} \frac{\partial f}{\partial \theta} \bm e_\theta + \frac{1}{r\sin\theta} \frac{\partial f}{\partial \phi} \bm e_\phi \]
-Then using the familiar example $f(\bm x) = \frac{1}{2}\abs{\bm x}^2$, we have
+\[ \grad f = \frac{\partial f}{\partial r} \vb e_r + \frac{1}{r} \frac{\partial f}{\partial \theta} \vb e_\theta + \frac{1}{r\sin\theta} \frac{\partial f}{\partial \phi} \vb e_\phi \]
+Then using the familiar example $f(\vb x) = \frac{1}{2}\abs{\vb x}^2$, we have
 \[
     f = \begin{cases}
         \frac{1}{2}(x^2 + y^2 + z^2) & \text{in Cartesian coordinates}         \\
@@ -436,22 +436,22 @@ Then using the familiar example $f(\bm x) = \frac{1}{2}\abs{\bm x}^2$, we have
         \frac{1}{2}r^2               & \text{in spherical polar coordinates}   \\
     \end{cases}
 \]
-Then we can check the value of $\nabla f$ in these different coordinate systems.
+Then we can check the value of $\grad f$ in these different coordinate systems.
 \begin{align*}
-    \nabla f & = \begin{cases}
-        x \bm e_x + y \bm e_y + z \bm e_z & \text{in Cartesian coordinates}         \\
-        \rho \bm e_\rho + z \bm e_z       & \text{in cylindrical polar coordinates} \\
-        r \bm e_r                         & \text{in spherical polar coordinates}   \\
+    \grad f & = \begin{cases}
+        x \vb e_x + y \vb e_y + z \vb e_z & \text{in Cartesian coordinates}         \\
+        \rho \vb e_\rho + z \vb e_z       & \text{in cylindrical polar coordinates} \\
+        r \vb e_r                         & \text{in spherical polar coordinates}   \\
     \end{cases} \\
-             & = \bm x
+            & = \vb x
 \end{align*}
 
 \section{Integration over Lines}
 \subsection{Line Integrals}
-For a vector field $\bm F(\bm x)$ and a piecewise smooth parametrised curve $C$ defined by $[a, b] \ni t \mapsto \bm x(t)$, we define the line integral of $F$ along $C$
-\[ \int_C \bm F \cdot \dd \bm x = \int_a^b \bm F(\bm x(t)) \cdot \underbrace{\frac{\dd \bm x}{\dd t}}_{\mathclap{\text{tangent vector}}} \dd t \]
+For a vector field $\vb F(\vb x)$ and a piecewise smooth parametrised curve $C$ defined by $[a, b] \ni t \mapsto \vb x(t)$, we define the line integral of $F$ along $C$
+\[ \int_C \vb F \cdot \dd \vb x = \int_a^b \vb F(\vb x(t)) \cdot \underbrace{\frac{\dd \vb x}{\dd{t}}}_{\mathclap{\text{tangent vector}}} \dd{t} \]
 Note that this tangent vector is not necessarily normalised, and note further that the curve direction matters. If we want to integrate in the other direction, it is common to write $\int_{-C}$ instead. We can think of this line integral as the work done by a particle moving along $C$ in the presence of a force $F$. As an example, consider the vector field given by
-\[ \bm F = \begin{pmatrix}
+\[ \vb F = \begin{pmatrix}
         x^2 y \\ yz \\ 2xz
     \end{pmatrix} \]
 Consider two curves connecting the origin to the position vector $\begin{pmatrix}
@@ -462,43 +462,43 @@ Consider two curves connecting the origin to the position vector $\begin{pmatrix
     \end{pmatrix};\quad C_2 \colon [0, 1] \ni t \mapsto \begin{pmatrix}
         t \\ t \\ t^2
     \end{pmatrix} \]
-\[ \int_{C_1}\bm F \cdot \dd \bm x = \int_0^1 \begin{pmatrix}
+\[ \int_{C_1}\vb F \cdot \dd \vb x = \int_0^1 \begin{pmatrix}
         t^3 \\ t^2 \\ 2t^2
     \end{pmatrix} \cdot \begin{pmatrix}
         1 \\ 1 \\ 1
-    \end{pmatrix} \dd t = \frac{5}{4} \]
-\[ \int_{C_2}\bm F \cdot \dd \bm x = \int_0^1 \begin{pmatrix}
+    \end{pmatrix} \dd{t} = \frac{5}{4} \]
+\[ \int_{C_2}\vb F \cdot \dd \vb x = \int_0^1 \begin{pmatrix}
         t^3 \\ t^3 \\ 2t^3
     \end{pmatrix} \cdot \begin{pmatrix}
         1 \\ 1 \\ 2t
-    \end{pmatrix} \dd t = \frac{13}{10} \]
+    \end{pmatrix} \dd{t} = \frac{13}{10} \]
 In general, the result of the line integral depends on the path taken between the two points. In the force analogy, there might be a path between $A$ and $B$ that is very easy to traverse, and another path that is very difficult (i.e. uses a lot of energy).
 
-Now, consider a particle at $\bm x$ experiencing a force $\bm F$, represented in cylindrical polar coordinates as
-\[ \bm F(\bm x) = z\rho \bm e_{\phi} \]
+Now, consider a particle at $\vb x$ experiencing a force $\vb F$, represented in cylindrical polar coordinates as
+\[ \vb F(\vb x) = z\rho \vb e_{\phi} \]
 Consider the path $C$ given by
 \[ C \colon [0, 2\pi] \ni t \mapsto \begin{pmatrix}
         a \cos t \\ a \sin t \\ t
     \end{pmatrix} \]
-What is the work done by the particle travelling along $C$? Using the definition of the line element $\dd \bm x$ in cylindrical polar coordinates, we can compute that $\bm F \dd \bm x = z \rho^2 \dd \phi$. Note that in cylindrical polar coordinates, the path can be represented simply as $(\rho, \phi, z) = (a, t, t)$. Hence,
-\[ (\dd \rho, \dd \phi, \dd z) = (0, \dd t, \dd t) \]
-Therefore, $\bm F \dd \bm x = z \rho^2 \dd t$. We can now compute the integral:
-\[ \int_C \bm F \cdot \dd \bm x = a^2 \int_0^{2\pi} t\,\dd t = 2\pi^2a^2 \]
+What is the work done by the particle travelling along $C$? Using the definition of the line element $\dd \vb x$ in cylindrical polar coordinates, we can compute that $\vb F \dd \vb x = z \rho^2 \dd \phi$. Note that in cylindrical polar coordinates, the path can be represented simply as $(\rho, \phi, z) = (a, t, t)$. Hence,
+\[ (\dd \rho, \dd \phi, \dd{z}) = (0, \dd{t}, \dd{t}) \]
+Therefore, $\vb F \dd \vb x = z \rho^2 \dd{t}$. We can now compute the integral:
+\[ \int_C \vb F \cdot \dd \vb x = a^2 \int_0^{2\pi} t\dd{t} = 2\pi^2a^2 \]
 
 \subsection{Closed Curves}
-A curve $[a, b] \ni t \mapsto \bm x(t)$ might be such that $\bm x(a) = \bm x(b)$. This is called a closed curve. The line integral around a closed loop is written
-\[ \oint_C \bm F \cdot \dd \bm x \]
-Sometimes, this is called the `circulation' of $\bm F$ about $C$. Consider the first example from this lecture, with curves $C_1$ and $C_2$. Let $C = C_1 - C_2$. Then
-\[ \oint_C \bm F \cdot \dd \bm x = \int_{C_1} \bm F \cdot \dd \bm x - \int_{C_2} \bm F \cdot \dd \bm x = \frac{-2}{15} \]
+A curve $[a, b] \ni t \mapsto \vb x(t)$ might be such that $\vb x(a) = \vb x(b)$. This is called a closed curve. The line integral around a closed loop is written
+\[ \oint_C \vb F \cdot \dd \vb x \]
+Sometimes, this is called the `circulation' of $\vb F$ about $C$. Consider the first example from this lecture, with curves $C_1$ and $C_2$. Let $C = C_1 - C_2$. Then
+\[ \oint_C \vb F \cdot \dd \vb x = \int_{C_1} \vb F \cdot \dd \vb x - \int_{C_2} \vb F \cdot \dd \vb x = \frac{-2}{15} \]
 
 \subsection{Conservative Forces and Exact Differentials}
-We have seen how to interpret things like $\bm F \cdot \dd \bm x$ when inside an integral. This is an example of a differential form; in orthogonal curvilinear coordinates $(u, v, w)$ we have
-\[ \bm F \cdot \dd \bm x = a \, \dd u + b \, \dd v + c \, \dd w \]
-for some $a, b, c$ dependent on $u, v, w$. We say that $\bm F \cdot \dd \bm x$ is exact if
-\[ \bm F \cdot \dd \bm x = \dd f \]
-for some scalar function $f$. Recall that $\dd f = \nabla f \cdot \dd \bm x$. So equivalently, $\bm F \cdot \dd \bm x$ is exact if and only if
-\[ \bm F = \nabla f \]
-Such a vector field is called conservative. $\bm F \cdot \dd \bm x$ is exact if and only if $\bm F$ is conservative. Using the properties that $\dd (\alpha f + \beta g) = \alpha \, \dd f + \beta \, \dd g$, $\dd (fg) = g \, \dd f + f \, \dd g$ and so on, it is usually easy to see if a differential form is exact.
+We have seen how to interpret things like $\vb F \cdot \dd \vb x$ when inside an integral. This is an example of a differential form; in orthogonal curvilinear coordinates $(u, v, w)$ we have
+\[ \vb F \cdot \dd \vb x = a \, \dd{u} + b \, \dd{v} + c \, \dd{w} \]
+for some $a, b, c$ dependent on $u, v, w$. We say that $\vb F \cdot \dd \vb x$ is exact if
+\[ \vb F \cdot \dd \vb x = \dd{f} \]
+for some scalar function $f$. Recall that $\dd{f} = \grad f \cdot \dd \vb x$. So equivalently, $\vb F \cdot \dd \vb x$ is exact if and only if
+\[ \vb F = \grad f \]
+Such a vector field is called conservative. $\vb F \cdot \dd \vb x$ is exact if and only if $\vb F$ is conservative. Using the properties that $\dd (\alpha f + \beta g) = \alpha \, \dd{f} + \beta \, \dd{g}$, $\dd (fg) = g \, \dd{f} + f \, \dd{g}$ and so on, it is usually easy to see if a differential form is exact.
 
 \begin{proposition}
     If $\theta$ is an exact differential form, then
@@ -506,120 +506,120 @@ Such a vector field is called conservative. $\bm F \cdot \dd \bm x$ is exact if 
     for any closed curve $C$.
 \end{proposition}
 \begin{proof}
-    If $\theta$ is exact, then $\theta = \nabla f \cdot \dd \bm x$ for some scalar function $f$. Given a curve $C \colon [a, b] \ni t \mapsto \bm x(t)$,
+    If $\theta$ is exact, then $\theta = \grad f \cdot \dd \vb x$ for some scalar function $f$. Given a curve $C \colon [a, b] \ni t \mapsto \vb x(t)$,
     \begin{align*}
-        \oint_C \theta & = \oint_C \nabla f \cdot \dd \bm x                                \\
-                       & = \int_a^b \nabla f(\bm x(t)) \cdot \frac{\dd \bm x}{\dd t} \dd t \\
+        \oint_C \theta & = \oint_C \grad f \cdot \dd \vb x                                  \\
+                       & = \int_a^b \grad f(\vb x(t)) \cdot \frac{\dd \vb x}{\dd{t}} \dd{t} \\
         \intertext{By the previous lecture,}
-                       & = \int_a^b \frac{\dd}{\dd t} \left[ f(\bm x(t)) \right] \dd t     \\
-                       & = f(\bm x(a)) - f(\bm x(b))                                       \\
+                       & = \int_a^b \frac{\dd}{\dd{t}} \left[ f(\vb x(t)) \right] \dd{t}    \\
+                       & = f(\vb x(a)) - f(\vb x(b))                                        \\
                        & = 0
     \end{align*}
-    since $\bm x(a) = \bm x(b)$.
+    since $\vb x(a) = \vb x(b)$.
 \end{proof}
 \noindent Note, for example in cylindrical polar coordinates, that $f(\rho, \phi, z) = \phi$ is not a function on $\mathbb R^3$, since there are many possible values of $\phi$ for any given position vector. These are called multi-valued functions; for example the contour integral of this function over a circle where $\phi \in [0, 2\pi]$ is not well-defined, since $f(\rho, 0, z) \neq f(\rho, 2 \pi, z)$.
 
-Note that if $\bm F$ is conservative, then the circulation of $\bm F$ around any closed curve $C$ vanishes. This means that the line integral between $A$ and $B$ is not dependent on the path chosen between the two points; simply choose the most convenient curve for the problem.
+Note that if $\vb F$ is conservative, then the circulation of $\vb F$ around any closed curve $C$ vanishes. This means that the line integral between $A$ and $B$ is not dependent on the path chosen between the two points; simply choose the most convenient curve for the problem.
 
 Let $(u, v, w) = (u_1, u_2, u_3)$ be a set of orthogonal curvilinear coordinates. Let
-\[ \bm F \cdot \dd \bm x = \theta = \underbrace{A(u, v, w) \, \dd u}_{\theta_1} + \underbrace{B(u, v, w) \, \dd v}_{\theta_2} + \underbrace{C(u, v, w) \, \dd w}_{\theta_3} = \theta_i \,\dd u_i \]
+\[ \vb F \cdot \dd \vb x = \theta = \underbrace{A(u, v, w) \, \dd{u}}_{\theta_1} + \underbrace{B(u, v, w) \, \dd{v}}_{\theta_2} + \underbrace{C(u, v, w) \, \dd{w}}_{\theta_3} = \theta_i \dd{u}_i \]
 A necessary condition for $\theta$ to be exact is
 \begin{equation}
     \frac{\partial \theta_i}{\partial u_j} = \frac{\partial \theta_j}{\partial u_i}
     \tag{$\dagger$}
 \end{equation}
-Indeed, if $\theta$ is exact, then $\theta = \dd f$, so
-\[ \theta = \frac{\partial f}{\partial u_i} \, \dd u_i \iff \theta_i = \frac{\partial f}{\partial u_i} \]
+Indeed, if $\theta$ is exact, then $\theta = \dd{f}$, so
+\[ \theta = \frac{\partial f}{\partial u_i} \, \dd{u}_i \iff \theta_i = \frac{\partial f}{\partial u_i} \]
 and therefore,
 \[ \frac{\partial \theta_i}{\partial u_j} = \frac{\partial^2 f}{\partial u_j \partial u_i} = \frac{\partial \theta_j}{\partial u_i} \]
-A differential form $\theta = \theta_i \, \dd u_i$ that obeys $(\dagger)$ is called a \textit{closed} differential form. Certainly any exact differential form is closed. A differential form is exact if it is closed \textit{and} the domain $\Omega \subset \mathbb R^3$ on which $\theta$ is defined is simply connected, i.e. all closed loops in $\Omega$ can be continuously `shrunk' to any point inside $\Omega$ without leaving it. This is notable, since one direction of implication is related to calculus, but the other direction is related to topology.
+A differential form $\theta = \theta_i \, \dd{u}_i$ that obeys $(\dagger)$ is called a \textit{closed} differential form. Certainly any exact differential form is closed. A differential form is exact if it is closed \textit{and} the domain $\Omega \subset \mathbb R^3$ on which $\theta$ is defined is simply connected, i.e. all closed loops in $\Omega$ can be continuously `shrunk' to any point inside $\Omega$ without leaving it. This is notable, since one direction of implication is related to calculus, but the other direction is related to topology.
 
 Now, let us consider an example. Let
-\[ \theta = y \,\dd x - x \,\dd y \]
+\[ \theta = y \dd{x} - x \dd{y} \]
 Is this differential form exact? First, we will check if it is closed.
 \[ \frac{\partial}{\partial y} y = 1;\quad \frac{\partial}{\partial x} (-x) = -1 \]
 It is not closed, so it is not exact. As another example, let us compute the line integral
-\[ \int_C 3x^2y\,\dd x + x^3\,\dd y \]
+\[ \int_C 3x^2y\dd{x} + x^3\dd{y} \]
 where
 \[ C \colon [\alpha_1, \alpha_{100}] \ni t \mapsto \begin{pmatrix}
         \cos \left( \Im \left( \zeta \left( \frac{1}{2} + it \right) \right) \right) \\
         \sin \left( \Re \left( \zeta \left( \frac{1}{2} + it \right) \right) \right) \\
         0
     \end{pmatrix} \]
-where $\alpha_1$ and $\alpha_{100}$ are the 1st and 100th zeroes of $\zeta \left( \frac{1}{2} + it \right)$. The loop is closed and exact; $\dd(x^3 y) = 3x^2 y \,\dd x + x^3 \, \dd y$. So the result is zero. As a final example, consider a particle travelling along a curve $C \colon [a, b] \ni t \mapsto \bm x(t)$. Then the work done is
+where $\alpha_1$ and $\alpha_{100}$ are the 1st and 100th zeroes of $\zeta \left( \frac{1}{2} + it \right)$. The loop is closed and exact; $\dd(x^3 y) = 3x^2 y \dd{x} + x^3 \, \dd{y}$. So the result is zero. As a final example, consider a particle travelling along a curve $C \colon [a, b] \ni t \mapsto \vb x(t)$. Then the work done is
 \begin{align*}
-    W & = \int_C \bm F \cdot \dd \bm x                   \\
-      & = m \int_a^b \ddot{\bm x} + \dot{\bm x} \, \dd t \\
-      & = \frac{1}{2}m \eval{\abs{\dot{\bm x}}^2}_a^b
+    W & = \int_C \vb F \cdot \dd \vb x                    \\
+      & = m \int_a^b \ddot{\vb x} + \dot{\vb x} \, \dd{t} \\
+      & = \frac{1}{2}m \eval{\abs{\dot{\vb x}}^2}_a^b
 \end{align*}
-which is the change in kinetic energy. If $\bm F = -\nabla V$, i.e. $\bm F$ is conservative,
-\[ \int_C \bm F \cdot \dd \bm x = -\int_C \nabla V \cdot \dd \bm x = V(\bm x(a)) - V(\bm x(b)) \]
+which is the change in kinetic energy. If $\vb F = -\grad V$, i.e. $\vb F$ is conservative,
+\[ \int_C \vb F \cdot \dd \vb x = -\int_C \grad V \cdot \dd \vb x = V(\vb x(a)) - V(\vb x(b)) \]
 So the change in kinetic energy is equal to the change in potential energy; energy is conserved.
 
 \section{Integration in $\mathbb R^2$}
 \subsection{Definition of Integral in $\mathbb R^2$}
 We can integrate over a bounded region $D \subset \mathbb R^2$. To do this, we can cover $D$ with small, disjoint sets $A_{ij}$ each with area $\delta A_{ij}$. Each of these sets $A_{ij}$ are contained in a disc of radius $\varepsilon > 0$. Let $(x_i, y_j)$ be points contained in each $A_{ij}$. We now define
-\[ \int_D f(\bm x) \,\dd A = \lim_{\varepsilon \to 0} \sum_{i, j} f(x_i, y_j) \,\delta A_{ij} \]
+\[ \int_D f(\vb x) \dd{A} = \lim_{\varepsilon \to 0} \sum_{i, j} f(x_i, y_j) \,\delta A_{ij} \]
 The integral exists if it is independent of the choice of partitions $A_{ij}$ and the points $(x_i, y_j)$. The obvious choice of partitioning $D$ is to use rectangles where the area of each rectangle is $\delta A_{ij} = \delta x_i \delta y_j$. We can create horizontal `strips' of height $\delta y$ which we can integrate over. The possible $x$ coordinates for this strip are $x_y = \{ x \colon (x, y) \in D \}$. We can take the limit as $\delta x \to 0$, giving
-\[ \delta y \int_{x_y} f(x, y) \,\dd x \]
+\[ \delta y \int_{x_y} f(x, y) \dd{x} \]
 Summing over each such strip, taking the limit as $\delta y \to 0$, we have
-\[ \int_D f(x, y) \,\dd A = \int_Y \left( \int_{x_y} f(x, y) \,\dd x \right) \,\dd y \]
+\[ \int_D f(x, y) \dd{A} = \int_Y \left( \int_{x_y} f(x, y) \dd{x} \right) \dd{y} \]
 where $Y$ is the set of all possible $y$ coordinates, i.e. $Y = \{ y \colon \exists x, (x, y) \in D \}$. We can equivalently sum over all vertical strips, and get
-\[ \int_D f(x, y) \,\dd A = \int_X \left( \int_{y_x} f(x, y) \,\dd y \right) \,\dd x \]
+\[ \int_D f(x, y) \dd{A} = \int_X \left( \int_{y_x} f(x, y) \dd{y} \right) \dd{x} \]
 More concisely, we can write the following (Fubini's Theorem):
-\[ \dd A = \dd x \, \dd y = \dd y \, \dd x \]
+\[ \dd{A} = \dd{x} \, \dd{y} = \dd{y} \, \dd{x} \]
 Let us consider an example; let $D$ be the triangle with vertices $(0, 0), (1, 0), (0, 1)$. If $f(x, y) = xy^2$, then by integrating over horizontal strips, we have
 \begin{align*}
-    \int_D f(x, y) \,\dd A & = \int_0^1 \left( \int_0^{1-y} xy^2 \,\dd x \right) \,\dd y \\
-                           & = \int_0^1 \left[ \frac{1}{2}x^2y^2 \right]_0^{1-y} \,\dd y \\
-                           & = \int_0^1 \frac{1}{2}(1-y)^2y^2 \,\dd y                    \\
-                           & = \frac{1}{60}
+    \int_D f(x, y) \dd{A} & = \int_0^1 \left( \int_0^{1-y} xy^2 \dd{x} \right) \dd{y}  \\
+                          & = \int_0^1 \left[ \frac{1}{2}x^2y^2 \right]_0^{1-y} \dd{y} \\
+                          & = \int_0^1 \frac{1}{2}(1-y)^2y^2 \dd{y}                    \\
+                          & = \frac{1}{60}
 \end{align*}
 Instead, integrating over vertical strips, we have
 \begin{align*}
-    \int_D f(x, y) \,\dd A & = \int_0^1 \left( \int_0^{1-x} xy^2 \,\dd y \right) \,\dd x \\
-                           & = \int_0^1 \left[ \frac{1}{3} xy^3 \right]_0^{1-x} \,\dd x  \\
-                           & = \int_0^1 \frac{1}{3} x(1-x)^3 \,\dd x                     \\
-                           & = \frac{1}{60}
+    \int_D f(x, y) \dd{A} & = \int_0^1 \left( \int_0^{1-x} xy^2 \dd{y} \right) \dd{x} \\
+                          & = \int_0^1 \left[ \frac{1}{3} xy^3 \right]_0^{1-x} \dd{x} \\
+                          & = \int_0^1 \frac{1}{3} x(1-x)^3 \dd{x}                    \\
+                          & = \frac{1}{60}
 \end{align*}
 Note that if $f(x, y) = g(x) \cdot h(y)$, and $D$ is a rectangle $\{ (x, y) \colon a \leq x \leq b, c \leq y \leq d \}$, then
-\[ \int_A f(x, y) \,\dd A = \left( \int_a^b g(x) \,\dd x \right)\left( \int_c^d h(y) \,\dd y \right) \]
+\[ \int_A f(x, y) \dd{A} = \left( \int_a^b g(x) \dd{x} \right)\left( \int_c^d h(y) \dd{y} \right) \]
 
 \subsection{Change of Variables in $\mathbb R^2$}
 It can be useful to introduce a change of variables in order to compute the one-dimensional integral. For example, if $x$ is represented as a function of $u$,
-\[ \int_a^b f(x) \,\dd x = \int_{x^{-1}(a)}^{x^{-1}(b)} f(x(u)) \frac{\dd x}{\dd u}\dd u \]
-Note that if $\frac{\dd x}{\dd u} > 0$, then the right hand side integral is taken over a limit from a smaller value to a larger one, but if $\frac{\dd x}{\dd u} < 0$, then the integral is the `wrong way round'. If $I = [a,b]$ and $I' = x^{-1} I$, we have
-\[ \int_I f(x) \,\dd x = \int_{I'} f(x(u)) \abs{\frac{\dd x}{\dd u}} \,\dd u \]
+\[ \int_a^b f(x) \dd{x} = \int_{x^{-1}(a)}^{x^{-1}(b)} f(x(u)) \frac{\dd{x}}{\dd{u}}\dd{u} \]
+Note that if $\frac{\dd{x}}{\dd{u}} > 0$, then the right hand side integral is taken over a limit from a smaller value to a larger one, but if $\frac{\dd{x}}{\dd{u}} < 0$, then the integral is the `wrong way round'. If $I = [a,b]$ and $I' = x^{-1} I$, we have
+\[ \int_I f(x) \dd{x} = \int_{I'} f(x(u)) \abs{\frac{\dd{x}}{\dd{u}}} \dd{u} \]
 where the absolute value is used since $I'$ is defined as going from the lower limit to the upper limit. There is a similar formula in 2D.
 \begin{proposition}
-    Let $\bm x(u, v) = (x(u, v), y(u, v))$ be a smooth, invertible transformation with a smooth inverse that maps the region $D'$ in the $(u, v)$ plane to the region $D$ in the $(x, y)$ plane. (This map must be a bijection; every point must have a unique inverse.) Then
-    \[ \iint_D f(x, y) \,\dd x \,\dd y = \iint_{D'} f(x(u, v), y(u, v)) \abs{\frac{\partial (x, y)}{\partial (u, v)}}\,\dd u \,\dd v \]
+    Let $\vb x(u, v) = (x(u, v), y(u, v))$ be a smooth, invertible transformation with a smooth inverse that maps the region $D'$ in the $(u, v)$ plane to the region $D$ in the $(x, y)$ plane. (This map must be a bijection; every point must have a unique inverse.) Then
+    \[ \iint_D f(x, y) \dd{x} \dd{y} = \iint_{D'} f(x(u, v), y(u, v)) \abs{\frac{\partial (x, y)}{\partial (u, v)}}\dd{u} \dd{v} \]
     where
     \[ \frac{\partial (x, y)}{\partial (u, v)} = J = \det \begin{pmatrix}
             \partial x / \partial u & \partial x / \partial v \\
             \partial y / \partial u & \partial y / \partial v
-        \end{pmatrix} = \det \left( \frac{\partial \bm x}{\partial u} \,\middle|\, \frac{\partial \bm x}{\partial v} \right) \]
+        \end{pmatrix} = \det \left( \frac{\partial \vb x}{\partial u} \,\middle|\, \frac{\partial \vb x}{\partial v} \right) \]
     is the Jacobian determinant. More concisely,
-    \[ \dd x \, \dd y = \abs{J} \, \dd u \, \dd v \]
+    \[ \dd{x} \, \dd{y} = \abs{J} \, \dd{u} \, \dd{v} \]
     It doesn't matter if the Jacobian vanishes at a single point, since the area of a single point is zero and hence will have no contribution to the result. The Jacobian being zero means that something non-smooth is happening at this point, so it is important to consider why this point is special.
 \end{proposition}
 \begin{proof}
     We can form a partition of $D$ by using the image of a rectangular partition of $D'$. Let the rectangular partition be characterised by a horizontal step $\delta x$ and a vertical step of $\delta y$. Then each small rectangle in $D'$ is mapped to some small (not necessarily rectangular) region in $D'$, with vertices
-    \[ \bm x(u_i, v_j), \bm x(u_{i+1}, v_j), \bm x(u_{i+1}, v_{j+1}), \bm x(u_i, v_{j+1}) \]
+    \[ \vb x(u_i, v_j), \vb x(u_{i+1}, v_j), \vb x(u_{i+1}, v_{j+1}), \vb x(u_i, v_{j+1}) \]
     To first order, the area of this region is the area of the parallelogram with the same vertices. Two of the sides of the parallelogram are
-    \[ \bm x(u_{i+1}, v_j) - \bm x(u_i, v_j) \approx \frac{\partial \bm x}{\partial u}(u_i, v_j) \delta u \]
-    \[ \bm x(u_i, v_{j+1}) - \bm x(u_i, v_j) \approx \frac{\partial \bm x}{\partial v}(u_i, v_j) \delta v \]
+    \[ \vb x(u_{i+1}, v_j) - \vb x(u_i, v_j) \approx \frac{\partial \vb x}{\partial u}(u_i, v_j) \delta u \]
+    \[ \vb x(u_i, v_{j+1}) - \vb x(u_i, v_j) \approx \frac{\partial \vb x}{\partial v}(u_i, v_j) \delta v \]
     So the area of the parallelogram is approximately
     \begin{align*}
-        \abs{\frac{\partial \bm x}{\partial u}(u_i, v_j) \delta u \cdot \frac{\partial \bm x}{\partial v}(u_i, v_j) \delta v} & = \abs{\det \left( \frac{\partial \bm x}{\partial u}(u_i, v_j) \,\middle|\, \frac{\partial \bm x}{\partial v}(u_i, v_j) \right)} \\
+        \abs{\frac{\partial \vb x}{\partial u}(u_i, v_j) \delta u \cdot \frac{\partial \vb x}{\partial v}(u_i, v_j) \delta v} & = \abs{\det \left( \frac{\partial \vb x}{\partial u}(u_i, v_j) \,\middle|\, \frac{\partial \vb x}{\partial v}(u_i, v_j) \right)} \\
                                                                                                                               & = \abs{J(u_i, v_j)} \,\delta u \,\delta v                                                                                        \\
                                                                                                                               & = \delta A_{ij}
     \end{align*}
     Hence,
     \begin{align*}
-        \int_D f \, \dd A & = \lim_{\varepsilon \to 0} \sum_{ij} f(x_i, y_j)\,\delta A_{ij}                                           \\
-                          & = \lim_{\varepsilon \to 0} \sum_{ij} f(x(u_i, v_j), y(u_i, v_j)) \,\abs{J(u_i, v_j)} \,\delta u\,\delta v \\
-                          & = \iint_{D'} f(x(u, v), y(u, v)) \,\abs{J(u_i, v_j)} \,\dd u \,\dd v
+        \int_D f \, \dd{A} & = \lim_{\varepsilon \to 0} \sum_{ij} f(x_i, y_j)\,\delta A_{ij}                                           \\
+                           & = \lim_{\varepsilon \to 0} \sum_{ij} f(x(u_i, v_j), y(u_i, v_j)) \,\abs{J(u_i, v_j)} \,\delta u\,\delta v \\
+                           & = \iint_{D'} f(x(u, v), y(u, v)) \,\abs{J(u_i, v_j)} \dd{u} \dd{v}
     \end{align*}
 \end{proof}
 \noindent As an example, let us consider polar coordinates $(\rho, \phi)$, where
@@ -630,15 +630,15 @@ Hence,
             \sin \phi & \rho \cos \phi
         \end{pmatrix}} = \abs{\rho} = \rho \]
 If $D = \{ (x, y) \colon x > 0,\, y > 0,\, x^2 + y^2 < r^2 \}$, which is a quarter-circle of radius $r$ in the first quadrant, then $D' = \{ (\rho, \phi) \colon 0 < \rho < r,\, 0 < \phi < \frac{\pi}{2} \}$. This is notably a rectangle in polar coordinates.
-\[ \iint_D f(x, y)\,\dd x \,\dd y = \iint_{D'} f(\rho \cos \phi, \rho \sin \phi) \,\rho \,\dd \rho \,\dd \phi \]
+\[ \iint_D f(x, y)\dd{x} \dd{y} = \iint_{D'} f(\rho \cos \phi, \rho \sin \phi) \,\rho \,\dd \rho \,\dd \phi \]
 So, for example, if we let $r \to \infty$, then
-\[ \int_{x=0}^\infty \int_{y=0}^\infty f(x, y) \,\dd y\,\dd x = \int_{\phi = 0}^{\frac{\pi}{2}} \int_{\rho = 0}^\infty f(\rho \cos \phi, \rho \sin \phi) \,\rho\,\dd \rho\,\dd \phi \]
+\[ \int_{x=0}^\infty \int_{y=0}^\infty f(x, y) \dd{y}\dd{x} = \int_{\phi = 0}^{\frac{\pi}{2}} \int_{\rho = 0}^\infty f(\rho \cos \phi, \rho \sin \phi) \,\rho\,\dd \rho\,\dd \phi \]
 Consider
-\[ I = \int_0^\infty e^{-x^2} \,\dd x \]
+\[ I = \int_0^\infty e^{-x^2} \dd{x} \]
 Then,
 \begin{align*}
-    I^2        & = \int_0^\infty e^{-x^2} \,\dd x \cdot \int_0^\infty e^{-y^2} \,\dd y                              \\
-               & = \int_{x=0}^\infty \int_{y=0}^\infty e^{-x^2-y^2} \,\dd y\,\dd x                                  \\
+    I^2        & = \int_0^\infty e^{-x^2} \dd{x} \cdot \int_0^\infty e^{-y^2} \dd{y}                                \\
+               & = \int_{x=0}^\infty \int_{y=0}^\infty e^{-x^2-y^2} \dd{y}\dd{x}                                    \\
                & = \int_{\phi = 0}^{\frac{\pi}{2}} \int_{\rho = 0}^\infty e^{-\rho^2} \,\rho\,\dd \rho\,\dd \phi    \\
                & = \frac{\pi}{2} \int_0^\infty \frac{\dd}{\dd \rho} \left( -\frac{1}{2}e^{-\rho^2} \right) \dd \rho \\
                & = \frac{\pi}{4}                                                                                    \\
@@ -648,143 +648,250 @@ Then,
 \section{Integration in $\mathbb R^3$}
 \subsection{Example and Change of Variables}
 To integrate over regions $V$ in $\mathbb R^3$, we can use similar ideas to those discussed in the previous lecture.
-\[ \int_V f(\bm x) \,\dd V = \lim_{\varepsilon \to 0} \sum_{i,j,k} f(x_i, y_j, z_k) \,\delta V_{ijk} \]
+\[ \int_V f(\vb x) \dd{V} = \lim_{\varepsilon \to 0} \sum_{i,j,k} f(x_i, y_j, z_k) \,\delta V_{ijk} \]
 where the $\delta V_{ijk}$ partition $V$, and each contain the point $(x_i, y_j, z_k)$. In this case, the volume element satisfies
-\[ \dd V = \dd x\,\dd y\,\dd z \]
+\[ \dd{V} = \dd{x}\dd{y}\dd{z} \]
 The integrals may be computed in any order. As an example, consider the simplex defined by
 \[ V = \{ x > 0,\, y > 0,\, z > 0,\, x+y+z < 1 \} \]
 We can compute the volume using the integral
 \begin{align*}
-    I & = \int_{z=0}^1 \int_{y=0}^{1-z} \int_{x=0}^{1-y-z} 1 \,\dd x\,\dd y\,\dd z                                                     \\
-      & = \int_{z=0}^1 \int_{y=0}^{1-z} (1-y-z)\,\dd y\,\dd z                                                                          \\
-      & = \int_{z=0}^1 \left((1-z) - \frac{1}{2}(1-z)^2 - (1-z)z\right) \,\dd z                                                        \\
+    I & = \int_{z=0}^1 \int_{y=0}^{1-z} \int_{x=0}^{1-y-z} 1 \dd{x}\dd{y}\dd{z}                                                        \\
+      & = \int_{z=0}^1 \int_{y=0}^{1-z} (1-y-z)\dd{y}\dd{z}                                                                            \\
+      & = \int_{z=0}^1 \left((1-z) - \frac{1}{2}(1-z)^2 - (1-z)z\right) \dd{z}                                                         \\
       & = \left[ z - \frac{1}{2}z^2 - \frac{1}{2}z + \frac{1}{2}z^2 - \frac{1}{6}z^3 - \frac{1}{2}z^2 + \frac{1}{3}z^3 \right]_{z=0}^1 \\
       & = \frac{1}{6}
 \end{align*}
 We can compute things like the centre of mass, assuming it has constant density $\rho = 1$. Then
-\[ \bm X = \frac{1}{m} \int_V \rho \bm x \,\dd V = \frac{1}{4}\begin{pmatrix}
+\[ \vb X = \frac{1}{m} \int_V \rho \vb x \dd{V} = \frac{1}{4}\begin{pmatrix}
         1 \\1\\1
     \end{pmatrix} \]
 \begin{proposition}
     Let $x(u, v, w), y(u, v, w), z(u, v, w)$ be a continuously differentiable bijection with a continuously differentiable inverse, that maps the volume $V'$ to $V$. The integral
-    \[ \iiint_V f(x, y, z)\,\dd x\,\dd y\,\dd z = \iiint_{V'} f(x(u, v, w), y(u, v, w), z(u, v, w))\,\abs{J}\,\dd u\,\dd v\,\dd w \]
+    \[ \iiint_V f(x, y, z)\dd{x}\dd{y}\dd{z} = \iiint_{V'} f(x(u, v, w), y(u, v, w), z(u, v, w))\,\abs{J}\dd{u}\dd{v}\dd{w} \]
     where
-    \[ J = \det\left( \frac{\partial \bm x}{\partial u} \,\middle|\, \frac{\partial \bm x}{\partial v} \,\middle|\, \frac{\partial \bm x}{\partial w} \right) \]
+    \[ J = \det\left( \frac{\partial \vb x}{\partial u} \,\middle|\, \frac{\partial \vb x}{\partial v} \,\middle|\, \frac{\partial \vb x}{\partial w} \right) \]
     More concisely,
-    \[ \dd x\,\dd y\,\dd z = \abs{J}\,\dd u\,\dd v\,\dd w \]
+    \[ \dd{x}\dd{y}\dd{z} = \abs{J}\dd{u}\dd{v}\dd{w} \]
 \end{proposition}
 \noindent The Jacobian comes from the fact that the volume of a parallepiped generated by the vectors
-\[ \frac{\partial \bm x}{\partial u} \delta u,\,\frac{\partial \bm x}{\partial v} \delta v,\,\frac{\partial \bm x}{\partial w} \delta w \]
+\[ \frac{\partial \vb x}{\partial u} \delta u,\,\frac{\partial \vb x}{\partial v} \delta v,\,\frac{\partial \vb x}{\partial w} \delta w \]
 is precisely the determinant of the Jacobian matrix multiplied by $\delta u\,\delta v\,\delta w$. The rest of this proof follows from the two-dimensional case. As an example, let us consider cylindrical polar coordinates $(u, v, w) = (\rho, \phi, z)$.
-\[ \dd V = \rho \, \dd \rho \, \dd \phi \, \dd z;\quad \abs{J} = \rho \]
+\[ \dd{V} = \rho \, \dd \rho \, \dd \phi \, \dd{z};\quad \abs{J} = \rho \]
 In spherical polar coordinates $(u, v, w) = (r, \theta, \phi)$,
-\[ \dd V = r^2 \sin\theta \,\dd r \,\dd \theta \,\dd \phi;\quad \abs{J} = r^2\sin\theta \]
+\[ \dd{V} = r^2 \sin\theta \dd{r} \,\dd \theta \,\dd \phi;\quad \abs{J} = r^2\sin\theta \]
 
 \subsection{Calculating Volumes}
 We can use the volume element to calculate, for example, the volume of a ball of radius $R$. To begin, let us use Cartesian coordinates.
 \begin{align*}
-    \int_V \dd V & = \int_{z=-R}^R \dd z \int_{y = -\sqrt{R^2 - z^2}}^{\sqrt{R^2 - z^2}} \dd y \int_{x = -\sqrt{R^2 - z^2 - y^2}}^{\sqrt{R^2 - z^2 - y^2}} \dd x                               \\
-                 & = \int_{z=-R}^R \dd z \int_{y = -\sqrt{R^2 - z^2}}^{\sqrt{R^2 - z^2}} \dd y \left[ 2\sqrt{R^2 - z^2 - y^2} \right]                                                          \\
-                 & = \int_{z=-R}^R \dd z \left[ y\sqrt{R^2 - z^2 - y^2} + (R^2 - z^2) \arctan \left( \frac{y}{\sqrt{R^2 - z^2 - y^2}} \right)_{y=-\sqrt{R^2 - z^2}}^{\sqrt{R^2 - z^2}} \right] \\
-                 & = \int_{z=-R}^R \dd z \left[ \pi (R^2 - z^2) \right]                                                                                                                        \\
-                 & = \frac{4}{3}\pi R^3
+    \int_V \dd{V} & = \int_{z=-R}^R \dd{z} \int_{y = -\sqrt{R^2 - z^2}}^{\sqrt{R^2 - z^2}} \dd{y} \int_{x = -\sqrt{R^2 - z^2 - y^2}}^{\sqrt{R^2 - z^2 - y^2}} \dd{x}                             \\
+                  & = \int_{z=-R}^R \dd{z} \int_{y = -\sqrt{R^2 - z^2}}^{\sqrt{R^2 - z^2}} \dd{y} \left[ 2\sqrt{R^2 - z^2 - y^2} \right]                                                         \\
+                  & = \int_{z=-R}^R \dd{z} \left[ y\sqrt{R^2 - z^2 - y^2} + (R^2 - z^2) \arctan \left( \frac{y}{\sqrt{R^2 - z^2 - y^2}} \right)_{y=-\sqrt{R^2 - z^2}}^{\sqrt{R^2 - z^2}} \right] \\
+                  & = \int_{z=-R}^R \dd{z} \left[ \pi (R^2 - z^2) \right]                                                                                                                        \\
+                  & = \frac{4}{3}\pi R^3
 \end{align*}
 We can alternatively use spherical polar coordinates.
 \begin{align*}
-    \int_V \dd V & = \int_{r=0}^R \dd r \int_{\theta=0}^\pi \dd \theta \int_{\phi=0}^{2\pi} \dd \phi \cdot r^2 \sin\theta          \\
-                 & = \int_{r=0}^R r^2\,\dd r \int_{\theta=0}^\pi \sin\theta\, \dd \theta \int_{\phi=0}^{2\pi} \dd \phi             \\
-                 & = \int_{r=0}^R r^2\,\dd r \cdot \int_{\theta=0}^\pi \sin\theta\, \dd \theta \cdot \int_{\phi=0}^{2\pi} \dd \phi \\
-                 & = \frac{1}{3}R^3 \cdot 2 \cdot 2 \pi                                                                            \\
-                 & = \frac{4}{3}\pi R^3
+    \int_V \dd{V} & = \int_{r=0}^R \dd{r} \int_{\theta=0}^\pi \dd \theta \int_{\phi=0}^{2\pi} \dd \phi \cdot r^2 \sin\theta        \\
+                  & = \int_{r=0}^R r^2\dd{r} \int_{\theta=0}^\pi \sin\theta\, \dd \theta \int_{\phi=0}^{2\pi} \dd \phi             \\
+                  & = \int_{r=0}^R r^2\dd{r} \cdot \int_{\theta=0}^\pi \sin\theta\, \dd \theta \cdot \int_{\phi=0}^{2\pi} \dd \phi \\
+                  & = \frac{1}{3}R^3 \cdot 2 \cdot 2 \pi                                                                           \\
+                  & = \frac{4}{3}\pi R^3
 \end{align*}
 This is clearly a much cleaner computation. Now, consider the a ball of radius $a$ with cylinder of radius $b<a$ removed from the centre aligned with the $z$ axis. To calculate this volume, the symmetry of the problem suggests we might want to use cylindrical polar coordinates.
 \[ V = \{ (\rho, \phi, z) \colon 0 < \rho^2 + z^2 < a^2,\, b < \rho < a \} \]
 \begin{align*}
-    \int_V \dd V & = \int_{\rho=b}^a \rho\,\dd \rho \int_{\phi=0}^{2\pi} \dd \phi \int_{z=-\sqrt{a^2 - \rho^2}}^{\sqrt{a^2 - \rho^2}} \dd z \\
-                 & = 2 \pi \int_b^a 2\rho\sqrt{a^2 - \rho^2}\,\dd \rho                                                                      \\
-                 & = \frac{4}{3}\pi (a^2 - b^2)^{\frac{3}{2}}
+    \int_V \dd{V} & = \int_{\rho=b}^a \rho\,\dd \rho \int_{\phi=0}^{2\pi} \dd \phi \int_{z=-\sqrt{a^2 - \rho^2}}^{\sqrt{a^2 - \rho^2}} \dd{z} \\
+                  & = 2 \pi \int_b^a 2\rho\sqrt{a^2 - \rho^2}\,\dd \rho                                                                       \\
+                  & = \frac{4}{3}\pi (a^2 - b^2)^{\frac{3}{2}}
 \end{align*}
 
 \section{Integration over Surfaces}
 \subsection{Two-Dimensional Surfaces}
 A two-dimensional surface in $\mathbb R^3$ can be defined implicitly using a function $f \colon \mathbb R^3 \to \mathbb R$, with
-\[ S = \{ \bm x \in \mathbb R^3 \colon f(\bm x) = 0 \} \]
-The normal to $S$ at $\bm x$ is parallel to $\nabla f(\bm x)$. We call the surface regular if $\nabla f(\bm x) \neq \bm 0$ everywhere on the surface. For example, consider
+\[ S = \{ \vb x \in \mathbb R^3 \colon f(\vb x) = 0 \} \]
+The normal to $S$ at $\vb x$ is parallel to $\grad f(\vb x)$. We call the surface regular if $\grad f(\vb x) \neq \vb 0$ everywhere on the surface. For example, consider
 \[ S = \{ (x, y, z) \colon x^2 + y^2 + z^2 - 1 = 0 \} \]
 Then
-\[ \nabla f(\bm x) = \begin{pmatrix}
+\[ \grad f(\vb x) = \begin{pmatrix}
         2x \\ 2y \\ 2z
-    \end{pmatrix} = 2\bm x \]
-which is clearly normal to $S$ at $\bm x$. Some surfaces have a boundary, for instance a hemisphere.
+    \end{pmatrix} = 2\vb x \]
+which is clearly normal to $S$ at $\vb x$. Some surfaces have a boundary, for instance a hemisphere.
 \[ S = \{ (x, y, z) \colon x^2 + y^2 + z^2 - 1 = 0,\,z \geq 0 \} \]
 We label the boundary $\partial S$, so
 \[ \partial S = \{ (x, y, z) \colon x^2 + y^2 = 1,\,z = 0 \} \]
 In this course, a surface will either have no boundary or its boundary will be made of piecewise smooth curves. If $S$ has no boundary, we say that $S$ is a closed surface. It is often useful to parametrise a surface using some coordinates $(u, v)$.
-\[ S = \{ \bm x = \bm x(u, v) \colon (u, v) \in D \} \]
+\[ S = \{ \vb x = \vb x(u, v) \colon (u, v) \in D \} \]
 where $D$ is some region in the $u$-$v$ plane. For a hemisphere, we can use spherical polar coordinates:
-\[ S = \left\{ \bm x = \bm x(\theta, \phi) = \begin{pmatrix}
+\[ S = \left\{ \vb x = \vb x(\theta, \phi) = \begin{pmatrix}
         \sin\theta \cos\phi \\ \sin\theta \sin\phi \\ \cos\theta
     \end{pmatrix} \colon 0 \leq \theta \leq \frac{\pi}{2},\, 0 \leq \phi \leq 2\pi \right\} \]
 We call a parametrisation of $S$ regular if
-\[ \frac{\partial \bm x}{\partial u} \times \frac{\partial x}{\partial v} \neq \bm 0 \]
-everywhere on the surface. Note that $\frac{\partial \bm x}{\partial u}$ is the tangent in one direction, and $\frac{\partial \bm x}{\partial v}$ is the tangent in another direction, so their cross product should be normal to the surface.
-\[ \nhat = \frac{\frac{\partial \bm x}{\partial u} \times \frac{\partial x}{\partial v}}{\abs{\frac{\partial \bm x}{\partial u} \times \frac{\partial x}{\partial v}}} \]
+\[ \frac{\partial \vb x}{\partial u} \times \frac{\partial x}{\partial v} \neq \vb 0 \]
+everywhere on the surface. Note that $\frac{\partial \vb x}{\partial u}$ is the tangent in one direction, and $\frac{\partial \vb x}{\partial v}$ is the tangent in another direction, so their cross product should be normal to the surface.
+\[ \nhat = \frac{\frac{\partial \vb x}{\partial u} \times \frac{\partial x}{\partial v}}{\abs{\frac{\partial \vb x}{\partial u} \times \frac{\partial x}{\partial v}}} \]
 This normal will vary smoothly with respect to $u$ and $v$, if we are moving across a smooth part of the curve. Choosing a consistent normal over $S$ gives a way to give an orientation to the boundary $\partial S$. We make the convention that normal vectors near you should be on your left as you traverse $\partial S$.
 
 \subsection{Areas and Integrals over Surfaces}
 Consider a parametrised surface
-\[ S = \{ \bm x = \bm x(u, v) \colon (u, v) \in D \} \]
+\[ S = \{ \vb x = \vb x(u, v) \colon (u, v) \in D \} \]
 The integral over $S$ cannot be of the form
-\[ \iint_D \dd u\,\dd v \]
+\[ \iint_D \dd{u}\dd{v} \]
 since a patch of area $\delta u \,\delta v$ in $D$ will not in general correspond to a patch of area $\delta u \,\delta v$ in $S$. Note that the small change $u \mapsto u + \delta u$ produces a change
-\[ \bm x(u + \delta u, v) - \bm x(u, v) \approx \frac{\partial \bm x}{\partial u} \delta u \]
+\[ \vb x(u + \delta u, v) - \vb x(u, v) \approx \frac{\partial \vb x}{\partial u} \delta u \]
 Similarly, changing $v$, we have
-\[ \bm x(u, v + \delta v) - \bm x(u, v) \approx \frac{\partial \bm x}{\partial v} \delta v \]
+\[ \vb x(u, v + \delta v) - \vb x(u, v) \approx \frac{\partial \vb x}{\partial v} \delta v \]
 So the patch of area $\delta u\,\delta v$ in $D$ corresponds (to first order) to a parallelogram of area
-\[ \abs{\frac{\partial \bm x}{\partial u} \times \frac{\partial \bm x}{\partial v}} \,\delta u\,\delta v \]
+\[ \abs{\frac{\partial \vb x}{\partial u} \times \frac{\partial \vb x}{\partial v}} \,\delta u\,\delta v \]
 This leads us to define the scalar area element and the vector area element as follows:
 \begin{align*}
-    \dd S     & = \abs{\frac{\partial \bm x}{\partial u} \times \frac{\partial \bm x}{\partial v}}\,\dd u\,\dd v           \\
-    \dd \bm S & = \frac{\partial \bm x}{\partial u} \times \frac{\partial \bm x}{\partial v}\,\dd u\,\dd v = \nhat \,\dd S
+    \dd{S}    & = \abs{\frac{\partial \vb x}{\partial u} \times \frac{\partial \vb x}{\partial v}}\dd{u}\dd{v}          \\
+    \dd \vb S & = \frac{\partial \vb x}{\partial u} \times \frac{\partial \vb x}{\partial v}\dd{u}\dd{v} = \nhat \dd{S}
 \end{align*}
 So for instance the area of $S$ is given by
-\[ \int_S \dd S = \iint_D \abs{\frac{\partial \bm x}{\partial u} \times \frac{\partial \bm x}{\partial v}}\,\dd u\,\dd v \]
+\[ \int_S \dd{S} = \iint_D \abs{\frac{\partial \vb x}{\partial u} \times \frac{\partial \vb x}{\partial v}}\dd{u}\dd{v} \]
 As an example, consider the hemisphere of radius $R$.
-\[ S = \left\{ \bm x = \bm x(\theta, \phi) = \begin{pmatrix}
+\[ S = \left\{ \vb x = \vb x(\theta, \phi) = \begin{pmatrix}
         R\sin\theta \cos\phi \\ R\sin\theta \sin\phi \\ R\cos\theta
-    \end{pmatrix} = R \bm e_r \colon 0 \leq \theta \leq \frac{\pi}{2},\, 0 \leq \phi \leq 2\pi \right\} \]
+    \end{pmatrix} = R \vb e_r \colon 0 \leq \theta \leq \frac{\pi}{2},\, 0 \leq \phi \leq 2\pi \right\} \]
 So
 \begin{align*}
-    \frac{\partial \bm x}{\partial \theta} & = \begin{pmatrix}
+    \frac{\partial \vb x}{\partial \theta} & = \begin{pmatrix}
         R\cos\theta \cos\phi \\ R\cos\theta \sin\phi \\ -R\sin\theta
-    \end{pmatrix} = R\bm e_\theta         \\
-    \frac{\partial \bm x}{\partial \phi}   & = \begin{pmatrix}
+    \end{pmatrix} = R\vb e_\theta         \\
+    \frac{\partial \vb x}{\partial \phi}   & = \begin{pmatrix}
         -R\sin\theta \sin\phi \\ R\sin\theta \cos\phi \\ 0
-    \end{pmatrix} = R\sin\theta\bm e_\phi \\
+    \end{pmatrix} = R\sin\theta\vb e_\phi \\
 \end{align*}
 Hence
-\[ \dd S = R^2 \sin\theta\, \abs{\bm e_\theta \times \bm e_\phi} \,\dd \theta\,\dd \phi = R^2 \sin \theta \,\dd \theta \,\dd \phi \]
+\[ \dd{S} = R^2 \sin\theta\, \abs{\vb e_\theta \times \vb e_\phi} \,\dd \theta\,\dd \phi = R^2 \sin \theta \,\dd \theta \,\dd \phi \]
 So the surface area of the hemisphere is
 \[ \int_{\theta = 0}^{\frac{\pi}{2}} \dd \theta \int_{\phi = 0}^{2 \pi} \dd \phi \, R^2 \sin \theta = 2 \pi R^2 \]
-Here is another example. Suppose the velocity of a fluid is $\bm u(\bm x)$. Given a surface $S$, we might like to calculate how much fluid passes through it per unit time. On a small patch $\delta S$ on $S$, the fluid passing through the small patch would be $(u \cdot \delta \bm S)\,\delta t$ in time $\delta t$, where $\delta \bm S$ is the normal direction to the area $\delta S$. Over the whole surface, the smount that passes over $S$ in $\delta t$ is
-\[ \delta t \int_S \bm u \cdot \dd \bm S \]
+Here is another example. Suppose the velocity of a fluid is $\vb u(\vb x)$. Given a surface $S$, we might like to calculate how much fluid passes through it per unit time. On a small patch $\delta S$ on $S$, the fluid passing through the small patch would be $(u \cdot \delta \vb S)\,\delta t$ in time $\delta t$, where $\delta \vb S$ is the normal direction to the area $\delta S$. Over the whole surface, the smount that passes over $S$ in $\delta t$ is
+\[ \delta t \int_S \vb u \cdot \dd \vb S \]
 This kind of integral is called a `flux integral'.
 
 \subsection{Choice of Parametrisation of Surfaces}
-Let $\bm x = \bm x(u, v)$ and $\bm x = \widetilde {\bm x} (\widetilde u, \widetilde v)$ be two different parametrisations of $S$ with $(u, v) \in D$ and $(\widetilde u, \widetilde v) \in \widetilde D'$. Since every coordinate in $S$ has a pre-image in both $D$ and $D'$, there must be a relationship
-\[ \bm x(u, v) = \widetilde {\bm x} (\widetilde u(u, v), \widetilde v(u, v)) \]
+Let $\vb x = \vb x(u, v)$ and $\vb x = \widetilde {\vb x} (\widetilde u, \widetilde v)$ be two different parametrisations of $S$ with $(u, v) \in D$ and $(\widetilde u, \widetilde v) \in \widetilde D'$. Since every coordinate in $S$ has a pre-image in both $D$ and $D'$, there must be a relationship
+\[ \vb x(u, v) = \widetilde {\vb x} (\widetilde u(u, v), \widetilde v(u, v)) \]
 By the chain rule,
 \begin{align*}
-    \frac{\partial \bm x}{\partial u} \times \frac{\partial \bm x}{\partial v} & = \left( \frac{\partial \widetilde {\bm x}}{\partial \widetilde u}\frac{\partial \widetilde u}{\partial u} + \frac{\partial \widetilde {\bm x}}{\partial \widetilde v}\frac{\partial \widetilde v}{\partial u} \right) \times \left( \frac{\partial \widetilde {\bm x}}{\partial \widetilde u}\frac{\partial \widetilde u}{\partial v} + \frac{\partial \widetilde {\bm x}}{\partial \widetilde v}\frac{\partial \widetilde v}{\partial v} \right) \\
-                                                                               & = \left( \frac{\partial \widetilde u}{\partial u}\frac{\partial \widetilde v}{\partial v} - \frac{\partial \widetilde u}{\partial v}\frac{\partial \widetilde v}{\partial u} \right) \left( \frac{\partial \widetilde {\bm x}}{\partial \widetilde u}\times\frac{\partial \widetilde {\bm x}}{\partial \widetilde v} \right)                                                                                                                       \\
-                                                                               & = \frac{\partial (\widetilde u, \widetilde v)}{\partial (u, v)} \left( \frac{\partial \widetilde {\bm x}}{\partial \widetilde u}\times\frac{\partial \widetilde {\bm x}}{\partial \widetilde v} \right)
+    \frac{\partial \vb x}{\partial u} \times \frac{\partial \vb x}{\partial v} & = \left( \frac{\partial \widetilde {\vb x}}{\partial \widetilde u}\frac{\partial \widetilde u}{\partial u} + \frac{\partial \widetilde {\vb x}}{\partial \widetilde v}\frac{\partial \widetilde v}{\partial u} \right) \times \left( \frac{\partial \widetilde {\vb x}}{\partial \widetilde u}\frac{\partial \widetilde u}{\partial v} + \frac{\partial \widetilde {\vb x}}{\partial \widetilde v}\frac{\partial \widetilde v}{\partial v} \right) \\
+                                                                               & = \left( \frac{\partial \widetilde u}{\partial u}\frac{\partial \widetilde v}{\partial v} - \frac{\partial \widetilde u}{\partial v}\frac{\partial \widetilde v}{\partial u} \right) \left( \frac{\partial \widetilde {\vb x}}{\partial \widetilde u}\times\frac{\partial \widetilde {\vb x}}{\partial \widetilde v} \right)                                                                                                                       \\
+                                                                               & = \frac{\partial (\widetilde u, \widetilde v)}{\partial (u, v)} \left( \frac{\partial \widetilde {\vb x}}{\partial \widetilde u}\times\frac{\partial \widetilde {\vb x}}{\partial \widetilde v} \right)
 \end{align*}
 Hence,
 \begin{align*}
-    \int_S f \,\dd S & = \iint_{\widetilde D} f(\widetilde {\bm x}(\widetilde u, \widetilde v)) \,\abs{\frac{\partial \widetilde {\bm x}}{\partial \widetilde u}\times\frac{\partial \widetilde {\bm x}}{\partial \widetilde v}}\,\dd \widetilde u\,\dd \widetilde v \\
-                     & = \iint_D f(\bm x(u, v)) \,\abs{\frac{\partial \widetilde {\bm x}}{\partial \widetilde u}\times\frac{\partial \widetilde {\bm x}}{\partial \widetilde v}}\,\abs{\frac{\partial (\widetilde u, \widetilde v)}{\partial (u, v)}}\,\dd u\,\dd v  \\
-                     & = \iint_D f(\bm x(u, v)) \,\abs{\frac{\partial \bm x}{\partial u}\times\frac{\partial \bm x}{\partial v}}\,\dd u\,\dd v                                                                                                                       \\
+    \int_S f \dd{S} & = \iint_{\widetilde D} f(\widetilde {\vb x}(\widetilde u, \widetilde v)) \,\abs{\frac{\partial \widetilde {\vb x}}{\partial \widetilde u}\times\frac{\partial \widetilde {\vb x}}{\partial \widetilde v}}\,\dd \widetilde u\,\dd \widetilde v \\
+                    & = \iint_D f(\vb x(u, v)) \,\abs{\frac{\partial \widetilde {\vb x}}{\partial \widetilde u}\times\frac{\partial \widetilde {\vb x}}{\partial \widetilde v}}\,\abs{\frac{\partial (\widetilde u, \widetilde v)}{\partial (u, v)}}\dd{u}\dd{v}    \\
+                    & = \iint_D f(\vb x(u, v)) \,\abs{\frac{\partial \vb x}{\partial u}\times\frac{\partial \vb x}{\partial v}}\dd{u}\dd{v}                                                                                                                         \\
 \end{align*}
 So the result of the integral over the surface is independent of the choice of parametrisation.
+
+\section{Divergence, Curl and Laplacians}
+\subsection{Definitions}
+Recall the gradient operator $\grad$, which is defined in Cartesian coordinates as
+\[ \grad = \vb e_i \frac{\partial}{\partial x_i} \]
+For a vector field $\vb F \colon \mathbb R^3 \to \mathbb R^3$, we define the divergence of $\vb F$ by
+\[ \div{\vb F} \]
+In Cartesian coordinates,
+\[ \div{\vb F} = \left( \vb e_i \frac{\partial}{\partial x_i} \right) \cdot (F_j \vb e_j) = \pdv{F_i}{x_i} \]
+Note that the divergence of a vector field is a scalar field. We define the curl of $\vb{F}$ to be
+\[ \curl{\vb F} \]
+In Cartesian coordinates,
+\[ \curl{\vb F} = \left( \vb e_j \pdv{x_j} \right) \times (F_k \vb e_k) = e_j \times \left[ \pdv{x_j}(F_k \vb e_k) \right] = (\vb e_j \times \vb e_k) \pdv{F_k}{x_j} = \varepsilon_{ijk} \pdv{F_k}{x_j}\vb e_i \]
+Hence (just in Cartesian coordinates):
+\[ \left[ \curl{\vb F} \right]_i = \varepsilon_{ijk} \pdv{F_k}{x_j} \]
+The curl of a vector field is another vector field. In terms of a `formal' determinant, we can write
+\[ \curl{\vb F} = \det \begin{pmatrix}
+        \vb e_1    & \vb e_2    & \vb e_3    \\
+        \pdv*{x_1} & \pdv*{x_2} & \pdv*{x_2} \\
+        F_1        & F_2        & F_3
+    \end{pmatrix} \]
+We cannot trivially generalise the curl operator to spaces that do not have three spatial dimensions. Finally, we define the Laplacian of a scalar field $f \colon \mathbb R^3 \to \mathbb R$ as
+\[ \laplacian{f} := \div{\grad{f}} \]
+In Cartesian coordinates, $[\grad{f}]_i = \pdv*{f}{x_i}$, so
+\[ \laplacian{f} = \pdv{f}{x_i}{x_i} \]
+
+\subsection{Example and Explanation of Divergence and Curl}
+Consider
+\[ \vb F(\vb x) = \vb x \]
+Using Cartesian coordinates,
+\[ \div{\vb F} = \pdv{x_i}x_i = \delta_{ii} = 3 \]
+\[ [\curl{\vb F}]_i = \varepsilon_{ijk} \pdv{x_j} x_k = \varepsilon_{ijk} \delta_{kj} = \varepsilon_{ijj} = 0 \]
+A positive divergence at a point indicates that the vector field is generally pointing away from that point. If thought of as a fluid, the point acts as a `source' of fluid. A negative divergence indicates that the vector field is pointing towards that point, so it acts like a `sink'. If a vector field has zero divergence, it can be thought of as representing the velocity of an incompressible fluid. The curl measures the local rotation of the vector field (or the related `fluid') in a given direction. If the vector field was going anticlockwise in the $\vb e_1$-$\vb e_2$ plane, then the component of the curl in the $\vb e_3$ direction would be positive. If there is no local rotation, then the component is zero.
+
+\subsection{Identities}
+\begin{proposition}
+    For $f, g$ scalar fields, $\vb F, \vb G$ vector fields, the following identities hold.
+    \begin{itemize}
+        \item $\grad(fg) = (\grad f)g + (\grad g)f$
+        \item $\div(f \vb F) = (\grad f)\cdot \vb F + (\div F)f$
+        \item $\curl(f \vb F) = (\grad f)\times \vb F + (\curl F)f$
+        \item $\grad(\vb F \cdot \vb G) = \vb F \times (\curl{\vb G}) + \vb G \times (\curl{\vb F}) + (\vb F \cdot \grad)\vb G + (\vb G \cdot \grad)\vb F$
+        \item $\curl(\vb F \times \vb G) = \vb F(\div{\vb G}) - \vb G(\div{\vb F}) + (\vb G \cdot \grad)\vb F - (\vb F \cdot \grad)\vb G$
+        \item $\div(\vb F \times \vb G) = (\curl{\vb F}) \cdot \vb G - \vb F \cdot (\curl{\vb G})$
+    \end{itemize}
+\end{proposition}
+\noindent Note, for example, that we can compute the dot product between vector fields and operators:
+\[ \left[ (\vb F \cdot \grad) \vb G \right]_i = \left( F_j \pdv{x_j} \right) G_i = F_j \pdv{G_i}{x_j} \]
+Specifically, $\vb F \cdot \grad$ is a vector, and $\div{\vb F}$ is a differential operator; they are not the same thing.
+\begin{proof}
+    We will only prove the fifth one for now, as all the proofs are similar. The identities hold in any coordinate system, so we will choose the Cartesian coordinate system since the basis vectors are the same everywhere.
+    \begin{align*}
+        [\curl(\vb F \times \vb G)]_i & = \varepsilon_{ijk} \pdv{x_j} (\vb F \times \vb G)_k                                                            \\
+                                      & = \varepsilon_{ijk} \pdv{x_j} \varepsilon_{klm} F_l G_m                                                         \\
+                                      & = \varepsilon_{ijk} \varepsilon_{klm} \pdv{x_j} F_l G_m                                                         \\
+                                      & = \varepsilon_{ijk} \varepsilon_{klm} \left( F_l \pdv{G_m}{x_j} + G_l \pdv{F_l}{x_j}  \right)                   \\
+                                      & = (\delta_{il}\delta_{jm} - \delta_{im}\delta_{jl}) \left( F_l \pdv{G_m}{x_j} + G_l \pdv{F_l}{x_j} \right)      \\
+                                      & = F_i \pdv{G_j}{x_j} - F_j \pdv{G_i}{x_j} + G_j \pdv{F_i}{x_j} - G_i \pdv{F_j}{x_j}                             \\
+                                      & = [\vb F(\div{\vb G})]_i - [(\vb F \cdot \grad)\vb G]_i + [(\vb G \cdot \grad)\vb F]_i - [(\div{\vb F})\vb G]_i
+    \end{align*}
+\end{proof}
+
+\subsection{Definitions in Orthogonal Curvilinear Coordinate Systems}
+For a general set of orthogonal curvilinear coordinates, divergence is defined by
+\[ \div{\vb F} = \left( \vb e_u \frac{1}{h_u} \pdv{u} + \vb e_v \frac{1}{h_v} \pdv{v} + \vb e_w \frac{1}{h_w} \pdv{w} \right) \cdot \left( F_u \vb e_u + F_v \vb e_v + F_w \vb e_w \right) \]
+We would get terms like
+\begin{align*}
+    \left( \vb e_u \frac{1}{h_u} \pdv{u} \right) \cdot (F_v \vb e_v) & = \frac{1}{h_u} \vb e_u \cdot \left[ \pdv{u}(F_v \vb e_v) \right]                       \\
+                                                                     & = \frac{1}{h_u} \vb e_u \cdot \left[ \pdv{F_v}{u}\vb e_v + \pdv{\vb e_v}{u} F_v \right] \\
+                                                                     & = \frac{F_v}{h_u} \left( \vb e_u \cdot \pdv{\vb e_v}{u} \right)
+\end{align*}
+We can combine all such terms and then derive that
+\[ \div{F} = \frac{1}{h_u h_v h_w} \left[ \pdv{u} (h_v h_w F_u) + \pdv{v} (h_u h_w F_v) + \pdv{w} (h_u h_v F_w) \right] \]
+\[ \curl{F} = \frac{1}{h_u h_v h_w} \begin{vmatrix}
+        h_u \vb e_u & h_v \vb e_v & h_w \vb e_w \\
+        \pdv*{u}    & \pdv*{v}    & \pdv*{w}    \\
+        h_u F_u     & h_v F_v     & h_w F_w
+    \end{vmatrix} \]
+\[ \laplacian{f} = \frac{1}{h_u h_v h_w} \left[ \pdv{u} \left( \frac{h_v h_w}{h_u} \pdv{f}{u} \right) + \pdv{v} \left( \frac{h_u h_w}{h_v} \pdv{f}{v} \right) + \pdv{w} \left( \frac{h_u h_v}{h_w} \pdv{f}{w} \right) \right] \]
+For cylindrical polar coordinates $(\rho, \phi, z)$, we have $(h_\rho, h_\phi, h_z) = (1, \rho, 1)$ and hence
+\[ \div{\vb F} = \frac{1}{\rho} \pdv{\rho} (\rho F_\rho) + \frac{1}{\rho} \pdv{F_\phi}{\phi} + \pdv{F_z}{z} \]
+\[ \curl{\vb F} = \frac{1}{\rho} \begin{vmatrix}
+        \vb e_\rho  & \rho \vb e_\phi & \vb e_z  \\
+        \pdv*{\rho} & \pdv*{\phi}     & \pdv*{z} \\
+        F_\rho      & \rho F_\phi     & F_z
+    \end{vmatrix} \]
+\[ \laplacian{f} = \frac{1}{\rho} \pdv{\rho} \left( \rho \pdv{f}{\rho} \right) + \frac{1}{\rho^2} \pdv[2]{f}{\phi} + \pdv[2]{f}{z} \]
+For spherical polar coordinates $(r, \theta, \phi)$, we have $(h_r, h_\theta, h_\phi) = (1, r, r\sin\theta)$ and hence
+\[ \div{\vb F} = \frac{1}{r^2} \pdv{r}(r^2 F_r) + \frac{1}{r\sin\theta} \pdv{\theta}(\sin \theta\, F_\theta) + \frac{1}{r\sin\theta} \pdv{F_\phi}{\phi} \]
+\[ \curl{\vb F} = \frac{1}{r^2\sin^2\theta} \begin{vmatrix}
+        \vb e_r  & r \vb e_\theta & r\sin\theta\, \vb e_\phi \\
+        \pdv*{r} & \pdv*{\theta}  & \pdv*{\phi}              \\
+        F_r      & r F_\theta     & r\sin\theta\, F_\phi
+    \end{vmatrix} \]
+\[ \laplacian{f} = \frac{1}{r^2} \pdv{r} \left( r^2 \pdv{f}{r} \right) + \frac{1}{r^2 \sin\theta} \pdv{\theta} \left( \sin \theta \pdv{f}{\theta} \right) + \frac{1}{r^2\sin^2 \theta} \pdv[2]{f}{\phi} \]
+
+\subsection{Laplacian of a Vector Field}
+The Laplacian of a vector field might be expected to be something like $\div(\grad {\vb F})$. However, we have not defined the gradient of a vector field. In Cartesian coordinates, it would make sense that
+\begin{equation}
+    \laplacian{\vb F} = \laplacian(F_i \vb e_i) = (\laplacian{F_i})\vb e_i
+    \tag{$\dagger$}
+\end{equation}
+If this is the case, we can show then that, in Cartesian coordinates,
+\[ \laplacian{\vb F} = \grad(\div{\vb F}) - \curl(\curl{\vb F}) \]
+In other words, in Cartesian coordinates,
+\[ [\laplacian{\vb F}]_i = \pdv{F_i}{x_j}{x_j} = \laplacian(F_i) \]
+Since the right hand side of $(\dagger)$ is well-defined in any orthogonal curvilinear coordinate system, we will use it as a definition.
 
 \end{document}
