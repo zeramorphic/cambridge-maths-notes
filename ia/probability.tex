@@ -674,7 +674,7 @@ As a second example, if $X \sim \text{Poi}(\lambda)$, we have $\expect{X} = \lam
 Hence,
 \[ \Var{X} = \lambda^2 + \lambda - \lambda^2 = \lambda \]
 
-\section{???}
+\section{Covariance and Inequalities}
 \subsection{Covariance}
 \begin{definition}
     Let $X$ and $Y$ be random variables. Their covariance is defined
@@ -765,7 +765,7 @@ The following useful inequality, and the others derived from it, hold in the dis
 \end{theorem}
 \begin{proof}
     It suffices to prove this statement for $X$ and $Y$ which have finite second moments, i.e. $\expect{X^2}$ and $\expect{X^2}$ are finite. Clearly if they are infinite, then the upper bound is infinite which is trivially true. We need to show that $\expect{\abs{XY}}$ is finite. Here we can apply the additional assumption that $X$ and $Y$ are non-negative, since we are taking the absolute value:
-    \[ XY \leq \frac{1}{2}(X^2 + Y^2) \implies \expect{XY} \leq \frac{1}{2}\left( \expect{X^2} + \expect{Y^2}  \right) \]
+    \[ XY \leq \frac{1}{2}\left(X^2 + Y^2\right) \implies \expect{XY} \leq \frac{1}{2}\left( \expect{X^2} + \expect{Y^2}  \right) \]
     Now, we can assume $\expect{X^2} > 0$ and $\expect{Y^2} > 0$. If this were not the case, the result is trivial since if at least one of them were equal to zero, the corresponding random variable would be identically zero. Let $t \in \mathbb R$ and consider
     \[ 0 \leq (X - tY)^2 = X^2 - 2tXY + t^2Y^2 \]
     Hence
@@ -775,6 +775,93 @@ The following useful inequality, and the others derived from it, hold in the dis
     Hence,
     \[ \expect{XY}^2 \leq \expect{X^2}\cdot \expect{Y^2} \]
     and the result follows.
+\end{proof}
+
+\section{More Inequalities and Conditional Expectation}
+\subsection{Equality in Cauchy-Schwarz}
+In what cases do we get equality in the Cauchy-Schwarz inequality? Recall that the inequality states
+\[ \expect{\abs{XY}} \leq \sqrt{\expect{X^2}\cdot\expect{Y^2}} \]
+Recall that in the proof, we considered the random variable $(X - tY)^2$ where $X$ and $Y$ were non-negative, and had finite second moments. The expectation of this random variable was called $f(t)$, and we found that $f(t)$ was minimised when $t = \frac{\expect{XY}}{\expect{Y^2}}$. We have equality exactly when $f(t) = 0$ for this value of $t$. But $(X - tY)^2$ is a non-negative random variable, with expectation zero, so it must be zero with probability 1. So we have equality if and only if $X$ is exactly $tY$.
+
+\subsection{Jensen's Inequality}
+\begin{definition}
+    A function $f\colon \mathbb R \to \mathbb R$ is called convex if $\forall x, y \in \mathbb R$ and for all $t \in [0, 1]$,
+    \[ f(tx + (1-t)y) \leq tf(x) + (1-t)f(y) \]
+    This can be visualised as linearly interpolating the values of the function at two points, $x$ and $y$. The linear interpolation of those points is always greater than the function applied to the linear interpolation of the input points.
+\end{definition}
+\begin{theorem}
+    Let $X$ be a random variable, and let $f$ be a convex function. Then
+    \[ \expect{f(X)} \geq f(\expect{X}) \]
+\end{theorem}
+\noindent We can remember the direction of this inequality by considering the variance: $\Var{X} = \expect{(X - \expect{X})^2}$ which is non-negative. Further, $\Var{X} = \expect{X^2} - \expect{X}^2$ hence $\expect{X^2} \geq \expect{X}^2$. Squaring is an example of a convex function, so Jensen's inequality holds in this case. We will first prove a basic lemma about convex functions.
+\begin{lemma}
+    Let $f \colon \mathbb R \to \mathbb R$ be a convex function. Then $f$ is the supremum of all the lines lying below it. More formally, $\forall m \in \mathbb R$, $\exists a, b \in \mathbb R$ such that $f(m) = am + b$ and $f(x) \geq ax + b$ for all $x$.
+\end{lemma}
+\begin{proof}
+    Let $m \in \mathbb R$. Let $x < m < y$. Then we can express $m$ as $tx + (1-t)y$ for some $t$ in the interval $[0, 1]$. By convexity,
+    \[ f(m) \leq tf(x) + (1-t)f(y) \]
+    And hence,
+    \begin{align*}
+        tf(m) + (1-t)f(m)         & \leq tf(x) + (1-t)f(y)       \\
+        t(f(m) - f(x))            & \leq (1-t)(f(y) - f(m))      \\
+        \frac{f(m) - f(x)}{m - x} & \leq \frac{f(y) - f(m)}{y-m}
+    \end{align*}
+    So the slope of the line joining $m$ to a point on its left is smaller than the slope of the line joining $m$ to a point on its right. So we can produce a value $a \in \mathbb R$ given by
+    \[ a = \sum_{x < m} \frac{f(m) - f(x)}{m - x} \]
+    such that
+    \[ \frac{f(m) - f(x)}{m - x} \leq a \leq \frac{f(y) - f(m)}{y - m} \]
+    for all $x < m < y$. We can rearrange this to give
+    \[ f(x) \geq a(x-m) + f(m) = ax + (f(m) - am) \]
+    for all $x$.
+\end{proof}
+\noindent We may now prove Jensen's inequality.
+\begin{proof}
+    Set $m = \expect{X}$. Then from the lemma above, there exists $a, b \in \mathbb R$ such that
+    \begin{equation}
+        f(m) = am + b \implies f(\expect{X}) = a\expect{X} + b \tag{$\ast$}
+    \end{equation}
+    and for all $x$, we have
+    \[ f(x) \geq ax + b \]
+    We can now apply this inequality to $X$ to get
+    \[ f(X) \geq aX + b \]
+    Taking the expectation, by $(\ast)$ we get
+    \[ \expect{f(X)} \geq a\expect{X} + b = f(\expect{X}) \]
+    as required.
+\end{proof}
+\noindent Like the Cauchy-Schwarz inequality, we would like to consider the cases of equality. Let $X$ be a random variable, and $f$ be a convex function such that if $m = \expect{X}$, then $\exists a, b \in \mathbb R$ such that
+\[ f(m) = am + b;\quad \forall x \neq m,\, f(x) > ax + b \]
+We know that $f(X) \geq aX + b$, since $f$ is convex. Then $f(X) - (aX+b) \geq 0$ is a non-negative random variable. Taking expectations,
+\[ \expect{f(X) - (aX+b)} \geq 0 \]
+But $\expect{aX + b} = am + b = f(m) = f(\expect{X})$. We assumed that $\expect{f(X)} = f(\expect{X})$, hence $\expect{aX+b} = \expect{f(X)}$ and $\expect{f(X) - (aX+b)} = 0$. But since $f(X) \geq aX+b$, this forces $f(X) = aX+b$ everywhere. By our assumption, for all $x \neq m$, $f(x) > ax+b$. This forces $X=m$ with probability 1.
+
+\subsection{Arithmetic Mean and Geometric Mean Inequality}
+Let $f$ be a convex function. Suppose $x_1, \dots, x_n \in \mathbb R$. Then, from Jensen's inequality,
+\[ \frac{1}{n} \sum_{k=1}^n f(x_k) \geq f\left( \frac{1}{n} \sum_{k=1}^n x_k \right) \]
+Indeed, we can define a random variable $X$ to take values $x_1, \dots, x_n$ all with equal probability. Then, $\expect{f(X)}$ gives the left hand side, and $f(\expect{X})$ gives the right hand side. Now, let $f(x) = -\log x$. This is a convex function as required. Hence
+\begin{align*}
+    -\frac{1}{n} \sum_{k=1}^n \log x_k             & \geq -\log\left( \frac{1}{n} \sum_{k=1}^n x_k \right) \\
+    \left( \prod_{k=1}^n x_k \right)^{\frac{1}{n}} & \leq \frac{1}{n} \sum_{k=1}^n x_k
+\end{align*}
+Hence the geometric mean is less than or equal to the arithmetic mean.
+
+\subsection{Conditional Expectation and Law of Total Expectation}
+Recall that if $B \in \mathcal F$ with $\prob{B} \geq 0$, we defined
+\[ \prob{A \mid B} = \frac{\prob{A \cap B}}{\prob{B}} \]
+Now, let $X$ be a random variable, and let $B$ be an event as above with non-zero probability. We can then define
+\[ \expect{X \mid B} = \frac{\expect{X \cdot 1(B)}}{\prob{B}} \]
+The numerator is notably zero when $1(B) = 0$, so in essence we are excluding the case where $X$ is not $B$.
+\begin{theorem}[Law of Total Expectation]
+    Suppose $X \geq 0$. Let $(\Omega_n)$ be a partition of $\Omega$ into disjoint events, so $\Omega = \bigcup_n \Omega_n$. Then
+    \[ \expect{X} = \sum_n \expect{X \mid \Omega_n} \cdot \prob{\Omega_n} \]
+\end{theorem}
+\begin{proof}
+    We can write $X = X \cdot 1(\Omega)$, where
+    \[ 1(\Omega) = \sum_n 1(\Omega_n) \]
+    Taking expectations, we get
+    \[ \expect{X} = \expect{ \sum_{n} X \cdot 1(\Omega_n) } \]
+    By countable additivity of expectation, we have
+    \[ \expect{X} = \sum_{n} \expect{ X \cdot 1(\Omega_n) } = \sum_n \expect{X \mid \Omega_n} \cdot \prob{\Omega_n} \]
+    as required.
 \end{proof}
 
 \end{document}
