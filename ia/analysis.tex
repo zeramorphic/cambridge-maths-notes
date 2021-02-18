@@ -670,11 +670,128 @@ First, let $g(x) = x^{1/q}$ for some positive integer $q$. We can find that $f(x
 \subsection{Mean Value Theorem Applied to Limits}
 Suppose $f, g \colon [a,b] \to \mathbb R$ are continuous, and differentiable on $(a, b)$. Suppose further that $g(a) \neq g(b)$. The mean value theorem can be applied to both functions, and will give two points $s, t \in (a, b)$ such that
 \[ \frac{f(b) - f(a)}{g(b) - g(a)} = \frac{(b-a)f'(s)}{(b-a)g'(t)} = \frac{f'(s)}{g'(t)} \]
-This gives us a way to simplify a limit of the form of the left hand side (as $b \to a$) by instead considering the right hand side. It turns out that we can take $s=t$ in this case.
-\begin{theorem}[Cauchy's Mean Value Theorem]
+This gives us a way to simplify a limit of the form of the left hand side (as $b \to a$) by instead considering the right hand side. We can apply Cauchy's mean value theorem, seen in the next lecture.
+
+\section{Extensions of the Mean Value Theorem}
+\subsection{Cauchy's Mean Value Theorem}
+\begin{theorem}
     If $f, g \colon [a,b] \to \mathbb R$ are continuous, and differentiable on $(a, b)$, there exists $t \in (a,b)$ such that
-    \[ (f(b) - g(a))g'(t) = f'(t)(g(b) - g(a)) \]
+    \[ (f(b) - f(a))g'(t) = f'(t)(g(b) - g(a)) \]
 \end{theorem}
-We can recover the normal mean value theorem from Cauchy's generalisation by taking $g(x) = x$.
+\noindent We can recover the normal mean value theorem from Cauchy's generalisation by taking $g(x) = x$.
+\begin{proof}
+    Let
+    \[ \phi(x) = \begin{vmatrix}
+            1    & 1    & 1    \\
+            f(a) & f(x) & f(b) \\
+            g(a) & g(x) & g(b)
+        \end{vmatrix} \]
+    Certainly $\phi(x)$ is continuous on $[a,b]$ and differentiable on $(a, b)$, by using previous results. Also, $\phi(a) = \phi(b) = 0$ by observing the linear dependence of the columns. By Rolle's theorem, there exists $t \in (a, b)$ such that $\phi'(t) = 0$. We can expand $\phi'(t)$ and this will show the required result.
+    \[ \phi'(x) = f'(x)g(b) - g'(x)f(b) + f(a)g'(x) - g(a)f'(x) = f'(x) [g(b) - g(a)] + g'(x) [f(a) - f(b)] \]
+\end{proof}
+
+\subsection{Example of L'H\^opital's Rule}
+The derivation of L'H\^opital's rule is on an example sheet, so in this subsection we will consider only a special case of it, using Cauchy's mean value theorem.
+\[ \ell = \lim_{x \to 0} \frac{e^x - 1}{\sin x} \]
+We can write
+\[ \ell = \lim_{x \to 0} \frac{e^x - e^0}{\sin x - \sin 0} = \frac{e^t}{\cos t} \]
+for some $t \in (0, x)$. So as $x \to 0$, $t \to 0$ and hence
+\[ \frac{e^t}{\cos t} \to 1 \]
+
+\subsection{Taylor's Theorem}
+\begin{theorem}[Taylor's Theorem with Lagrange's Remainder]
+    Suppose $f$ and its derivatives up to order $n-1$ are continuous in $[a, a+h]$, and $f^{(n)}$ exists for $x \in (a, a+h)$. Then
+    \[ f(a+h) = f(a) + hf'(a) + \frac{h^2}{2!} f''(a) + \dots + \frac{h^{n-1}}{(n-1)!}f^{(n-1)}(a) + \frac{h^n}{n!}f^{(n)}(a + \theta h) \]
+    where $\theta \in (0, 1)$.
+\end{theorem}
+\noindent Note that for $n=1$, this is exactly the mean value theorem, so this can be seen as an $n$th order extension of the mean value theorem. We commonly write $R_n$ for the final error term $\frac{h^n}{n!}f^{(n)}(a + \theta h)$. This is known as Lagrange's form of the remainder.
+\begin{proof}
+    For $0 \leq t \leq h$, we define
+    \[ \phi(t) = f(a+t) - f(a) - tf'(a) - \dots - \frac{t^{n-1}}{(n-1)!}f^{(n-1)}(a) - \frac{t^n}{n!}B \]
+    where we choose $B$ suitably such that $\phi(h) = 0$. (Recall that in the proof of the mean value theorem, we used $f(x) - kx$ and picked $k$ suitably such that this allowed the use of Rolle's theorem. This is entirely analogous, but generalised to the $n$th derivative). Note that
+    \[ \phi(0) = \phi'(0) = \dots = \phi^{(n-1)}(0) = 0 \]
+    We can use Rolle's theorem inductively $n$ times. Since $\phi(0) = \phi(h) = 0$, there is a point $0 < h_1 < h$ such that $\phi'(h_1) = 0$. Since $\phi'(0) = \phi'(h_1) = 0$, there is a point $0 < h_2 < h_1$ such that $\phi''(h_2) = 0$. This continues until we find a point $0 < h_n < h$ such that $\phi^{(n)}(h_n) = 0$. Hence $h_n = \theta h$ for some $0 < \theta < 1$. Now, $\phi^{(n)}(t) = f^{(n)}(a + t) - B$. We can see now that $B = f^{(n)}(a + \theta h)$, which gives the required result.
+\end{proof}
+\noindent We can prove an alternative version of Taylor's theorem with a different error term.
+\begin{theorem}[Taylor's Theorem with Cauchy's Remainder]
+    Suppose (equivalently to before) $f$ and its derivatives up to order $n-1$ are continuous in $[a, a+h]$, and $f^{(n)}$ exists for $x \in (a, a+h)$. Then
+    \[ f(a+h) = f(a) + hf'(a) + \frac{h^2}{2!} f''(a) + \dots + \frac{h^{n-1}}{(n-1)!}f^{(n-1)}(a) + R_n \]
+    where
+    \[ R_n = \frac{(1 - \theta)^{n-1}h^nf^{(n)}(a + \theta h)}{(n-1)!} \]
+    for $\theta \in (0, 1)$.
+\end{theorem}
+\begin{proof}
+    For simplicity, in this proof we let $a = 0$, although the same argument applies when $a \neq 0$. Let us define
+    \[ F(t) = f(h) - f(t) - (h-t)f'(t) - \dots - \frac{(h-t)^{n-1}f^{(n-1)}(t)}{(n-1)!} \]
+    for $t \in [0, h]$. Then
+    \begin{align*}
+        F'(t) & = -f'(t) + f'(t) - (h-t)f''(t) + (h-t)f''(t) - \frac{1}{2} (h-t)^2f'''(t) + \frac{1}{2} (h-t)^2f'''(t) \\
+              & - \dots - \frac{(h-t)^{n-1}}{(n-1)!}f^{(n)}(t)                                                         \\
+              & = - \frac{(h-t)^{n-1}}{(n-1)!}f^{(n)}(t)
+    \end{align*}
+    Let
+    \[ \phi(t) = F(t) - \left[ \frac{h-t}{h} \right]^p F(0) \]
+    where $p \in \mathbb N$ and $1 \leq p \leq n$. Then
+    \[ \phi(0) = \phi(h) = 0 \]
+    By Rolle's theorem, there exists $\theta \in (0, 1)$ such that
+    \[ \phi'(\theta h) = 0 \]
+    We can compute $\phi'$ to find
+    \[ \phi'(\theta h) = F'(\theta h) + \frac{p(1-\theta)^{p-1}}{h} F(0) = 0 \]
+    Substituting everything back into $F$ gives
+    \[ 0 = \frac{-h^{n-1}(1-\theta)^{n-1}}{(n-1)!}f^{(n)}(\theta h) + \frac{p(1-\theta)^{p-1}}{h}\left[ f(h) - f(0) - h'(0) - \dots - \frac{h^{n-1}}{(n-1)!}f^{(n-1)}(0) \right] \]
+    Hence
+    \[ f(h) = f(0) + hf'(0) + \frac{h^2}{2!} f''(0) + \dots + \frac{h^{n-1}}{(n-1)!}f^{(n-1)}(0) + \underbrace{\frac{h^n(1 - \theta)^{n-1}f^{(n)}(\theta h)}{(n-1)!\cdot p(1-\theta)^{p-1}}}_{R_n} \]
+    By letting $p = n$, we get Lagrange's remainder. If $p=1$, we get Cauchy's remainder.
+\end{proof}
+
+\section{Applications of Remainders in Taylor's Theorem}
+\subsection{Bounding Error Terms}
+Recall that Lagrange's remainder is
+\[ R_n = \frac{h^n}{n!}f^{(n)}(a + \theta h) \]
+and Cauchy's remainder is
+\[ R_n = \frac{(1 - \theta)^{n-1}h^nf^{(n)}(a + \theta h)}{(n-1)!} \]
+and that we can write
+\[ f(h) = P_{n-1}(h) + R_n \]
+where $P_{n-1}$ is the Taylor polynomial to $(n-1)$th order. To get a Taylor series for a function $f$, we need to prove that the $R_n$ tend to zero as $n \to \infty$. In general, this requires estimates for the $R_n$ and it could take a lot of effort to prove whether this limit is zero or not. Note also that the theorems deducing the remainder terms work equally well in an interval $[a+h, a]$ where $h < 0$.
+
+\subsection{Binomial Series}
+\begin{proposition}
+    Let
+    \[ f(x) = (1 + x)^r \]
+    for some $r \in \mathbb Q$. If $\abs{x} < 1$, then
+    \[ f(x) = 1 + \binom{r}{1}x + \dots + \binom{r}{n}x^n + \dots \]
+    where
+    \[ \binom{r}{n} = \frac{r(r-1)\cdots(r-n+1)}{n!} \]
+\end{proposition}
+\begin{proof}
+    Clearly,
+    \[ f^{(n)}(x) = r(r-1)\cdots(r-n+1)(1+x)^{r-n} \]
+    These coefficients correspond exactly with that of the Taylor polynomial. If $r \in \mathbb N$, then $f^{(r+1)}(x) \equiv 0$, so clearly the $R_n$ are zero as $n \to \infty$. In general, using Lagrange's form of the remainder,
+    \[ R_n = \frac{x^n}{n!} f^{(n)}(\theta x) = \binom{r}{n} \frac{x^n}{(1 + \theta x)^{n-r}} \]
+    Note that in principle, $\theta$ depends both on $x$ and $n$. For $0 < x < 1$, $(1 + \theta x)^{n - r} > 1$ for $n > r$. Now observe that the series given by
+    \[ \sum \binom{r}{n} x^n \]
+    is absolutely convergent for $\abs{x} < 1$. Indeed, we can apply the ratio test and find that
+    \[ \abs{\frac{a_{n+1}}{a_n}} = \abs{\frac{(r-n)x}{n+1}} \]
+    which tends to $\abs{x}$ as $n \to \infty$. In particular therefore, the terms $\binom{r}{n}x^n$ tend to zero for $\abs{x} < 1$. Hence for $n > r$ and $0 < x < 1$, we have
+    \[ \abs{R_n} \leq \abs{\binom{r}{n}x^n} \to 0 \]
+    So the claim is proven in the range $0 \leq x < 1$. If $x < 0$, then the step when we compare $(1 + \theta x)^{n-r}$ with 1 breaks down. Let us instead use the Cauchy form of the remainder to bypass this step.
+    \[ R_n = \frac{(1 - \theta)^{n-1}x^nf^{(n)}(\theta x)}{(n-1)!} = \frac{(1-\theta)^{n-1} r(r-1)\cdots(r-n+1)(1+\theta x)^{r-n} x^n}{(n-1)!} \]
+    By regrouping terms, we get
+    \[ R_n = \frac{r(r-1)\cdots(r-n+1)}{(n-1)!} \cdot \frac{(1-\theta)^{n-1}}{(1 + \theta x)^{n-r}} x^n = r\binom{r-1}{n-1}x^n (1+\theta x)^{r-1} \left( \underbrace{\frac{1-\theta}{1 + \theta x}}_{<1} \right)^{n-1} \]
+    Hence
+    \[ \abs{R_n} \leq \abs{r \binom{r-1}{n-1}x^n} (1+\theta x)^{r-1} \]
+    This will then tend to zero, after a bit more effort; we can bound the $(1 + \theta x)^{r-1}$ term by the maximum of $1$ and $(1 + x)^{r-1}$, which is independent of $n$, and then the result will follow.
+\end{proof}
+
+\subsection{Complex Differentiation}
+The complex derivative and the real derivative have the same core properties, for instance linearity, the product rule and the chain rule. However, the complex derivative is significantly more restrictive than the real derivative, since we can approach a point in any number of directions. If we can find a function that is complex differentiable with this restriction, we actually get a whole array of features for free. As an example of this restriction, consider the function $f(z) = \overline{z}$. This function is actually nowhere differentiable. If it were differentiable, then any sequence tending to $z$ would yield the same limit when substituted into the definition of the derivative. Consider first the sequence
+\[ z_n = z + \frac{1}{n} \to z \]
+Then
+\[ \frac{f(z_n) - f(z)}{z_n - z} = \frac{\overline{z} + \frac{1}{n} - \overline{z}}{z + \frac{1}{n} - z} = 1 \]
+Now consider the sequence
+\[ z_n = z + \frac{i}{n} \to z \]
+Then
+\[ \frac{f(z_n) - f(z)}{z_n - z} = \frac{\overline{z} - \frac{i}{n} - \overline{z}}{z + \frac{i}{n} - z} = -1 \]
+Hence $f(z)$ is nowhere differentiable. On the other hand, the real function $f(x, y) = (x, -y)$ is clearly real differentiable, since it is linear; but in the complex world the function $z \mapsto \overline{z}$ is not linear.
 
 \end{document}
