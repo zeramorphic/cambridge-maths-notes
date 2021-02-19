@@ -1088,4 +1088,112 @@ We have conservation of charge;
 \end{align*}
 as $\vb J$ decreases rapidly to zero as $\abs{\vb x} \to \infty$. So $(\dagger)$ gives conservation of charge.
 
+\section{Proofs of Integral Theorems}
+\subsection{Divergence Theorem}
+\begin{proof}
+    Suppose first that
+    \[ \vb F = F_z(x,y,z) \vb e_z \]
+    The divergence theorem states that
+    \begin{equation}
+        \int_V \underbrace{\pdv{F_z}{z}}_{\div{\vb F}} \dd{V} = \int_{\partial V} F_z \vb e_z \cdot \dd{\vb S}
+        \tag{$\dagger$}
+    \end{equation}
+    We would like to show that these two are really the same. First, let us simplify the problem to a convex volume $V$, such that we can split the boundary into two halves, one with normals in the positive $z$ direction ($S_+$) and one with normals in the negative $z$ direction ($S_-$). Then $\partial V = S_+ \cup S_-$. Project the volume into the $x$-$y$ plane, and call this region $A$. This planar region is then the shape of the `cut' between the $S_+$ and $S_-$ halves. We can write
+    \[ S_\pm = \left\{ \vb x(x, y) = \begin{pmatrix}
+            x \\ y \\ g_\pm (x, y)
+        \end{pmatrix} : (x, y) \in A \right\} \]
+    We can then say
+    \begin{align*}
+        \int_V \pdv{F_z}{z} \dd{V} & = \iint_{A} \left[ \int_{z = g_- (x, y)}^{g_+ (x, y)} \pdv{F_z}{z} \dd{z} \right] \dd{x} \dd{y} \\
+                                   & = \iint_A \left[ F_z(x, y, g_+ (x, y)) - F_z(x, y, g_- (x, y)) \right] \dd{x}\dd{y}
+    \end{align*}
+    To calculate right hand side of $(\dagger)$, we need $\dd{\vb S}$:
+    \begin{align*}
+        \dd{\vb S} & = \pdv{\vb x}{x} \times \pdv{\vb x}{y} \dd{x}\dd{y} \\
+                   & = \begin{pmatrix}
+            -\pdv*{g_\pm}{x} \\
+            -\pdv*{g_\pm}{y} \\
+            1                \\
+        \end{pmatrix} \dd{x}\dd{y}
+    \end{align*}
+    Since we want the normal to point `out' of $V$, on $S_\pm$ we have
+    \[ \eval{\dd{\vb S}}_{S_\pm} = \pm \begin{pmatrix}
+            -\pdv*{g_\pm}{x} \\
+            -\pdv*{g_\pm}{y} \\
+            1                \\
+        \end{pmatrix} \dd{x}\dd{y} \]
+        Therefore,
+        \begin{align*}
+            \int_{\partial V} \vb F \cdot \dd{\vb S} &= \left[ \int_{S_+} + \int_{S_-} \right] F_z \vb e_z \cdot \dd{\vb S} \\
+            &= \iint_A F_z(x, y, g_+(x, y)) \dd{x}\dd{y} - \iint_A F_z(x, y, g_-(x, y)) \dd{x}\dd{y}
+        \end{align*}
+        which matches the expression we found for the left hand side of $(\dagger)$ above. In the same way, we can show that
+        \begin{align*}
+            \int_V \pdv{F_x}{x} \dd{V} &= \int_{\partial V} F_x \vb e_x \cdot \dd{\vb S} \\
+            \int_V \pdv{F_y}{y} \dd{V} &= \int_{\partial V} F_y \vb e_y \cdot \dd{\vb S} \\
+        \end{align*}
+        and because the integrals are linear, we can compute their sum to find
+        \[ \int_V \div{\vb F} \dd{V} = \int_{\partial V} \vb F \cdot \dd{\vb S} \]
+        which is exactly the divergence theorem.
+\end{proof}
+
+\subsection{Green's Theorem}
+We can use the two-dimensional divergence theorem to prove Green's theorem.
+\begin{proof}
+    Let
+    \[ \vb F = \begin{pmatrix}
+        Q(x, y) \\ -P(x, y)
+    \end{pmatrix} \]
+    Then
+    \[ \iint_A \left( \pdv{Q}{x} - \pdv{P}{y} \right) \dd{x}\dd{y} = \int_A \div{\vb F} \dd{A} = \oint_{\partial A} \vb F \cdot \vb n \dd{s} \]
+    If $\partial A$ is parametrised with respect to arc length, which means that the unit tangent vector is
+    \[ \vb t = \begin{pmatrix}
+        x'(s) \\ y'(s)
+    \end{pmatrix} \]
+    then the normal vector is
+    \[ \vb n = \begin{pmatrix}
+        y'(s) \\ -x'(s)
+    \end{pmatrix} \]
+    Therefore,
+    \[ \oint_{\partial A} \vb F \cdot \vb n \dd{s} = \oint_{\partial A} \begin{pmatrix}
+        Q \\ -P
+    \end{pmatrix} \cdot \begin{pmatrix}
+        y'(s) \\ -x'(s)
+    \end{pmatrix} \dd{s} = \oint_{\partial A} P \dv{x}{s} \dd{s} + Q \dv{y}{s} \dd{s} = \oint_{\partial A} P \dd{x} + Q \dd{y} \]
+\end{proof}
+
+\subsection{Stokes' Theorem}
+We can now use Green's theorem to derive Stokes' theorem.
+\begin{proof}
+    Consider a regular surface
+    \[ S = \left\{ \vb x = \vb x(u, v) \colon (u, v) \in A \right\} \]
+    Then the boundary is
+    \[ \partial S = \left\{ \vb x = \vb x(u, v) \colon (u, v) \in \partial A \right\} \]
+    Green's theorem gives
+    \begin{equation}
+        \oint_{\partial A} P \dd{u} + Q \dd{v} = \iint_A \left( \pdv{Q}{u} - \pdv{P}{v} \right) \dd{u}\dd{v}
+        \tag{$\dagger$}
+    \end{equation}
+    We will now set
+    \[ P(u, v) = \vb F(\vb x(u, v)) \cdot \pdv{\vb x}{u};\quad Q(u, v) = \vb F(\vb x(u, v)) \cdot \pdv{\vb x}{v} \]
+    Then
+    \[ P \dd{u} + Q \dd{v} = \vb F(\vb x(u, v)) \cdot \left( \pdv{\vb x}{u} \dd{u} + \pdv{\vb v} \dd{v} \right) = \vb F(\vb x(u, v)) \cdot \dd{\vb x(u, v)} \]
+    And so we can compute the left hand side of $(\dagger)$:
+    \[ \oint_{\partial A} P \dd{u} + Q \dd{v} = \oint_{\partial S} \vb F \cdot \dd{\vb x} \]
+    For the right hand side, we must first compute some derivatives.
+    \[ Q = F_i(\vb x(u, v))\pdv{x_i}{v} \implies \pdv{Q}{u} = \pdv{x_j}{u}\pdv{F_i}{x_j}\pdv{x_i}{v} + F_i \pdv{x_i}{u}{v} \]
+    \[ P = F_i(\vb x(u, v))\pdv{x_i}{u} \implies \pdv{Q}{v} = \pdv{x_j}{v}\pdv{F_i}{x_j}\pdv{x_i}{u} + F_i \pdv{x_i}{v}{u} \]
+    Hence
+    \begin{align*}
+        \pdv{Q}{u} - \pdv{P}{v} &= \left( \pdv{x_i}{v}\pdv{x_j}{u} - \pdv{x_i}{u}\pdv{x_j}{v} \right) \pdv{F_i}{x_j} \\
+        &= \left( \delta_{ip} \delta_{jq} - \delta_{iq} \delta_{jp} \right) \pdv{F_i}{x_j}\pdv{x_p}{v}\pdv{x_q}{u} \\
+        &= \varepsilon_{ijk} \varepsilon_{pqk} \pdv{F_i}{x_j}\pdv{x_p}{v}\pdv{x_q}{u} \\
+        &= \left[ -\curl{\vb F} \right]_k \left( -\pdv{\vb x}{u} \times \pdv{\vb x}{v} \right)_k \\
+        &= \left( \curl{\vb F} \right) \cdot \left( \pdv{\vb x}{u} \times \pdv{\vb x}{v} \right) \\
+    \end{align*}
+    Therefore,
+    \[ \iint_{A} \left( \pdv{Q}{u} - \pdv{P}{v} \right) \dd{u}\dd{v} = \iint_{A} \left( \curl{\vb F} \right) \cdot \left( \pdv{\vb x}{u} \times \pdv{\vb x}{v} \right) = \iint_{S} (\curl{\vb F}) \dd{\vb S} \]
+    which gives Stokes' theorem as required.
+\end{proof}
+
 \end{document}
