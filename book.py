@@ -17,6 +17,13 @@ with open("book/book.tex", "w") as o:
 \tableofcontents
 \newpage
 
+\chapter*{Introduction}
+This book contains notes for the maths courses at Cambridge University. Please note that while efforts have been made to ensure completeness and correctness, no guarantees can be made; this is simply a reasonably complete way of collating information about the courses.
+
+This book can be downloaded in PDF form for free at \url{https://thirdsgames.co.uk/gh/maths-compiled/book/book.pdf}, and the source code (for the book itself and for the individual courses) can be accessed at \url{https://github.com/thirdsgames/cambridge-maths-notes}.
+
+You are given the right to download the PDF of the book (or its component parts) for private use. You are permitted to download and modify the source code of the repository (the book and the course notes it contains), but may not distribute these modifications (including object files such as PDFs generated from these modifications) to others. However, you are permitted to make public forks of the repository in order to create pull requests, but this does not grant you permission to distribute object files created from these forked repositories.
+
 """)
     files = [
         ("ia/ns", "Numbers and Sets"),
