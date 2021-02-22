@@ -1087,24 +1087,24 @@ So the probability generating function factorises into its independent parts. In
 \subsection{Common Probability Generating Functions}
 Suppose that $X \sim \mathrm{Bin}(n, p)$. Then
 \begin{align*}
-    p(z) &= \expect{z^X} \\
-    &= \sum_{r=0}^n z^r \binom{n}{r} p^r (1-p)^{n-r} \\
-    &= \sum_{r=0}^n \binom{n}{r} (pz)^r (1-p)^{n-r} \\
-    &= (pz + 1 - p)^{n}
+    p(z) & = \expect{z^X}                                  \\
+         & = \sum_{r=0}^n z^r \binom{n}{r} p^r (1-p)^{n-r} \\
+         & = \sum_{r=0}^n \binom{n}{r} (pz)^r (1-p)^{n-r}  \\
+         & = (pz + 1 - p)^{n}
 \end{align*}
 Now, let $X \sim \mathrm{Bin}(n, p)$, $Y \sim \mathrm{Bin}(m, p)$ be independent random variables. Then the probability generating function of $X+Y$ is
 \[ (pz + 1 - p)^{n} \cdot (pz + 1 - p)^{m} = (pz + 1 - p)^{n+m} \]
 which is the probability generating function of a binomial distribution where the number of trials is $n+m$. Now, suppose that $X \sim \mathrm{Geo}(p)$. Then
 \begin{align*}
-    p(z) &= \expect{z^X} \\
-    &= \sum_{r=0}^n z^r (1-p)^r p \\
-    &= \frac{p}{1-z(1-p)} \\
+    p(z) & = \expect{z^X}               \\
+         & = \sum_{r=0}^n z^r (1-p)^r p \\
+         & = \frac{p}{1-z(1-p)}         \\
 \end{align*}
 Now, suppose that $X \sim \mathrm{Poi}(\lambda)$. Then
 \begin{align*}
-    p(z) &= \expect{z^X} \\
-    &= \sum_{r=0}^n z^r e^{-\lambda} \frac{\lambda^r}{r!} \\
-    &= e^{\lambda(z-1)} \\
+    p(z) & = \expect{z^X}                                       \\
+         & = \sum_{r=0}^n z^r e^{-\lambda} \frac{\lambda^r}{r!} \\
+         & = e^{\lambda(z-1)}                                   \\
 \end{align*}
 
 \subsection{Random Sums of Random Variables}
@@ -1114,39 +1114,120 @@ Then
 \[ S_N = X_1 + \dots + X_N \]
 is a random variable dependent on $N$. For all $\omega \in \Omega$,
 \begin{align*}
-    S_N(\omega) &= X_1(\omega) + \dots + X_{N(\omega)}(\omega) \\
-    &= \sum_{i=1}^{N(\omega)} X_i(\omega)
+    S_N(\omega) & = X_1(\omega) + \dots + X_{N(\omega)}(\omega) \\
+                & = \sum_{i=1}^{N(\omega)} X_i(\omega)
 \end{align*}
 Now, let $q$ be the probability generating function of $N$, and $p$ be the probability generating function of $X_1$ (or equivalently, any $X_i$). Then let
 \begin{align*}
-    r(z) &= \expect{z^{S_N}} \\
-    &= \sum_{n} \expect{z^{X_1 + \dots + X_N} \cdot 1(N = n)} \\
-    &= \sum_{n} \expect{z^{X_1 + \dots + X_n} \cdot 1(N = n)} \\
-    &= \sum_{n} \expect{z^{X_1 + \dots + X_n}} \expect{1(N = n)} \\
-    &= \sum_{n} \expect{z^{X_1 + \dots + X_n}} \prob{N = n} \\
-    &= \sum_{n} \expect{z^{X_1}}^n \prob{N = n} \\
-    &= \sum_{n} p(z)^n \prob{N = n} \\
-    &= q(p(z))
+    r(z) & = \expect{z^{S_N}}                                          \\
+         & = \sum_{n} \expect{z^{X_1 + \dots + X_N} \cdot 1(N = n)}    \\
+         & = \sum_{n} \expect{z^{X_1 + \dots + X_n} \cdot 1(N = n)}    \\
+         & = \sum_{n} \expect{z^{X_1 + \dots + X_n}} \expect{1(N = n)} \\
+         & = \sum_{n} \expect{z^{X_1 + \dots + X_n}} \prob{N = n}      \\
+         & = \sum_{n} \expect{z^{X_1}}^n \prob{N = n}                  \\
+         & = \sum_{n} p(z)^n \prob{N = n}                              \\
+         & = q(p(z))
 \end{align*}
 Here is an alternative proof using conditional expectation.
 \begin{align*}
-    r(z) &= \expect{z^{S_N}} \\
-    &= \expect{\expect{z^{S_N} \mid N}} \\
+    r(z) & = \expect{z^{S_N}}                 \\
+         & = \expect{\expect{z^{S_N} \mid N}} \\
 \end{align*}
 We can see that
 \begin{align*}
-    \expect{z^{S_N} \mid N = n} &= \expect{z^{S_n} \mid N = n} \\
-    &= \expect{z^{X_1}}^n \\
-    &= p(z)^n
+    \expect{z^{S_N} \mid N = n} & = \expect{z^{S_n} \mid N = n} \\
+                                & = \expect{z^{X_1}}^n          \\
+                                & = p(z)^n
 \end{align*}
 Therefore,
 \begin{align*}
-    r(z) &= \expect{p(z)^N} \\
-    &= q(p(z))
+    r(z) & = \expect{p(z)^N} \\
+         & = q(p(z))
 \end{align*}
 Using this expression for $r$, we can find that
-\[ \expect{S^N} = r'(1^-) = q'(p(1^-)) \cdot p'(1^-) = q'(1^-) \cdot p'(1^-) = \expect{N} \expect{X_1} \]
+\[ \expect{S_N} = r'(1^-) = q'(p(1^-)) \cdot p'(1^-) = q'(1^-) \cdot p'(1^-) = \expect{N} \expect{X_1} \]
 Similarly,
 \[ \Var{S_N} = \expect{N} \Var{X_1} + \Var{N} \left( \expect{X_1} \right)^2 \]
+
+\section{Branching Processes}
+\subsection{Introduction}
+Let $(X_n \colon n \geq 0)$ be a random process, where $X_n$ is the number of individuals in generation $n$, and $X_0 = 1$. The individual in generation 0 produces a random number of offspring with distribution
+\[ g_k = \prob{X_1 = k} \]
+Then every individual in generation 1 produces an independent number of offspring with the same distribution. This is called a branching process. We can write a recursive formula for $X_n$. First, let $(Y_{k, n} \colon k \geq 1, n \geq 0)$ be an independent and identically distributed sequence with distribution $(g_k)_k$. So $Y_{k, n}$ is the number of offspring of the $k$th individual in generation $n$.
+\[ X_{n+1} = \begin{cases}
+        Y_{1,n} + \cdots + Y_{X_n,n} & \text{when } X_n \geq 1 \\
+        0                            & \text{otherwise}
+    \end{cases} \]
+
+\subsection{Expectation of Generation Size}
+\begin{theorem}
+    \[ \expect{X_n} = \expect{X_1}^n \]
+\end{theorem}
+\begin{proof}
+    Inductively,
+    \begin{align*}
+        \expect{X_{n+1}}                     & = \expect{\expect{X_{n+1} \mid X_n}}                 \\
+        \expect{X_{n+1} \mid X_n = m}        & = \expect{Y_{1,n} + \cdots + Y_{X_n,n} \mid X_n = m} \\
+                                             & = \expect{Y_{1,n} + \cdots + Y_{m,n} \mid X_n = m}   \\
+                                             & = m \expect{Y_{1,n}}                                 \\
+                                             & = m \expect{X_1}                                     \\
+        \therefore \expect{X_{n+1} \mid X_n} & = X_n \cdot \expect{X_1}                             \\
+        \therefore \expect{X_{n+1}}          & = \expect{X_n \cdot \expect{X_1}}                    \\
+                                             & = \expect{X_n} \cdot \expect{X_1}
+    \end{align*}
+\end{proof}
+
+\subsection{Probability Generating Functions}
+\begin{theorem}
+    Let $G(z) = \expect{z^{X_1}}$ be the probability generating function of $X_1$, and $G_n(z) = \expect{z^{X_n}}$ be the probability generating function of $X_n$. Then
+    \[ G_{n+1}(z) = G(G_n(z)) = G(G(\cdots G(z)\cdots)) = G_n(G(z)) \]
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+        G_{n+1}(z)                                            & = \expect{z^{X_{n+1}}}                                 \\
+                                                              & = \expect{\expect{z^{X_{n+1}} \mid X_n}}               \\
+        \expect{z^{X_{n+1}} \mid X_n = m}                     & = \expect{z^{Y_{1, n} + \dots + Y_{m,n}} \mid X_n = m} \\
+                                                              & = \expect{z^{X_1}}^m                                   \\
+                                                              & = G(z)^m                                               \\
+        \therefore \expect{\expect{z^{X_{n+1}} \mid X_n = m}} & = \expect{G(z)^m}                                      \\
+                                                              & = G_n(G(z))
+    \end{align*}
+\end{proof}
+
+\subsection{Probability of Extinction}
+We define the extinction probability $q$ as the probability that $X_n = 0$ for some $n \geq 1$, and $q_n = \prob{X_n = 0}$. It is clear that $X_n = 0$ implies that $X_{n+1} = 0$. So the sequence of events $(A_n) = (\{ X_n = 0 \})$ is an increasing sequence of events. So by the continuity of the probability measure, $\prob{A_n}$ converges to $\prob{\bigcup A_n}$ as $n \to \infty$. Note that the event $\bigcup A_n$ is the event that there will be extinction. Therefore, $q_n \to q$ as $n \to \infty$.
+\begin{claim}
+    $q_{n+1} = G(q_n)$ and $q = G(q)$.
+\end{claim}
+\begin{proof}
+    Using the above theorem on $Q$,
+    \begin{align*}
+        q_{n+1} &= \prob{X_{n+1} = 0} \\
+        &= G_{n+1}(0) \\
+        &= G(G_n(0)) \\
+        &= G(q_n)
+    \end{align*}
+    Since $G$ is continuous, taking the limit as $n \to \infty$ and using that $q_n \to q$ gives $G(q) = q$.
+\end{proof}
+\noindent We can form another proof for the first part of the above claim.
+\begin{proof}
+    Instead of conditioning on the previous generation, let us condition on the first generation, i.e. $X_1 = m$. Note that after the first generation, we will have $m$ independent subtrees on the family tree. Each tree is identically distributed to the entire tree as a whole. Hence,
+    \[ X_{n+1} = X_n^{(1)} + \dots + X_n^{(m)} \]
+    where the $X_i^{(j)}$ are independent and identically distributed random processes each with the same offspring distribution. By the law of total probability,
+    \begin{align*}
+        q_{n+1} &= \prob{X_{n+1} = 0} \\
+        &= \sum_m \prob{X_{n+1} = 0 \mid X_1 = m} \cdot \prob{X_1 = m} \\
+        &= \sum_m \prob{X_n^{(1)} = 0, \dots, X_n^{(m)} = 0} \cdot \prob{X_1 = m} \\
+        &= \sum_m \prob{X_n^{(1)} = 0}^m \cdot \prob{X_1 = m} \\
+        &= \sum_m q_n^m \cdot \prob{X_1 = m} \\
+        &= G(q_n)
+    \end{align*}
+\end{proof}
+\begin{theorem}
+    Assume $\prob{X_1 = 1} < 1$. Then, the extinction probability $q$ is the minimal non-negative solution to $G(t) = t$. Further, $q < 1$ if and only if $\expect{X_1} > 1$.
+\end{theorem}
+\begin{proof}
+    First, we will prove the minimality of $q$. Let $t$ be the smallest non-negative solution to $G(t) = t$. We will prove inductively that $q_n \leq t$ for all $n$, and then by taking limits we have that $q \leq t$. Since $q$ is a solution, this will imply that $q=t$. Now, as a base case, $q_0 = 0 = \prob{X_0 = 0} \leq t$. Inductively let us suppose that $q_n \leq t$. We know that $q_{n+1} = G(q_n)$. $G$ is an increasing function on $[0, 1]$, and since $q_n \leq t$ we have $q_{n+1} = G(q_n) \leq G(t) = t$.
+\end{proof}
 
 \end{document}

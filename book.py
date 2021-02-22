@@ -1,10 +1,45 @@
 import os
 
+# The index is a list of keywords, sorted by keyword length.
+index = {}
+with open("keywords.txt", "r") as i:
+    for line in i:
+        alternatives = line.split("|")
+        word = alternatives[0].strip()
+        for alt in alternatives:
+            alt = alt.strip()
+            if len(alt) not in index:
+                index[len(alt)] = {}
+            index_entry = index[len(alt)]
+            index_entry[alt.lower()] = word
+
+
+def gen_index(line: str) -> str:
+    # Loop through each character in the line. If that character is the start of a keyword, and preceded by whitespace, add in the keyword index entry.
+    i = 0
+    while i < len(line):
+        if i == 0 or line[i-1] in " \t[](){}`":
+            # This is preceded by whitespace.
+            # Loop through all possible keyword lengths.
+            for length in index:
+                substring = line[i:i+length]
+                index_entry = index[length].get(substring.lower())
+                if index_entry is not None:
+                    # Append the substring with the index entry string.
+                    to_insert = '\\index{' + index_entry + '}'
+                    line = line[:i+length] + to_insert + line[i+length:]
+                    i += length + len(to_insert)
+        i += 1
+    return line
+
+
 os.makedirs("book", exist_ok=True)
 with open("book/book.tex", "w") as o:
     o.write(r"""\documentclass{book}
 
+\usepackage{imakeidx}
 \input{../util.tex}
+\makeindex
 
 \addto\captionsUKenglish{\renewcommand{\chaptername}{Course}}
 
@@ -36,6 +71,7 @@ You are given the right to download the PDF of the book (or its component parts)
         ("ia/vc", "Vector Calculus")
     ]
     for (fname, title) in files:
+        print("Processing " + title)
         o.write(f"\\chapter{{{title}}}")
         with open(fname + ".tex", "r") as i:
             # Trim out the \begin{document} and stuff from the file.
@@ -44,6 +80,8 @@ You are given the right to download the PDF of the book (or its component parts)
                 to_delete = [r"\begin{document}", r"\end{document}",
                              r"\documentclass", r"\title", r"\author", r"\maketitle", r"\tableofcontents", r"\newpage", r"\input{../util.tex}"]
                 if not any([line.startswith(s) for s in to_delete]):
-                    o.write(line)
+                    o.write(gen_index(line))
+    o.write(r"\newpage\printindex")
+    o.write("\n")
     o.write(r"\end{document}")
     o.write("\n")
