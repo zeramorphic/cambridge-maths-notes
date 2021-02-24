@@ -1224,10 +1224,71 @@ We define the extinction probability $q$ as the probability that $X_n = 0$ for s
     \end{align*}
 \end{proof}
 \begin{theorem}
-    Assume $\prob{X_1 = 1} < 1$. Then, the extinction probability $q$ is the minimal non-negative solution to $G(t) = t$. Further, $q < 1$ if and only if $\expect{X_1} > 1$.
+    The extinction probability $q$ is the minimal non-negative solution to $G(t) = t$. Further, supposing that $\prob{X_1 = 1} < 1$, we have that $q < 1$ if and only if $\expect{X_1} > 1$.
 \end{theorem}
 \begin{proof}
     First, we will prove the minimality of $q$. Let $t$ be the smallest non-negative solution to $G(t) = t$. We will prove inductively that $q_n \leq t$ for all $n$, and then by taking limits we have that $q \leq t$. Since $q$ is a solution, this will imply that $q=t$. Now, as a base case, $q_0 = 0 = \prob{X_0 = 0} \leq t$. Inductively let us suppose that $q_n \leq t$. We know that $q_{n+1} = G(q_n)$. $G$ is an increasing function on $[0, 1]$, and since $q_n \leq t$ we have $q_{n+1} = G(q_n) \leq G(t) = t$.
+
+    Now, we can take $\prob{X_1 = 1} < 1$. Let us use the notation $g_r = \prob{X_1 = r}$ for simplicity. Consider the function $H(z) = G(z) - z$. Let us assume further that $g_0 + g_1 < 1$, since otherwise we cannot possibly ever increase the amount of individuals in future generations, as $\expect{X_1} = \prob{X_1 = 1} < 1$. In this case, $G(z) = g_0 + g_1 z = 1 - \expect{X_1} + \expect{X_1} \cdot z$, and solving $G(z) = z$ we would get only $z=1$ since $\expect{X_1} < 1$. Now,
+    \[ H''(z) = \sum_{r=2}^\infty r(r-1)g_r z^{r-2} > 0\quad \forall z \in (0, 1) \]
+    This implies that $H'(z)$ is a strictly increasing function in $(0, 1)$. Hence, $H(z)$ has at most one root different from 1 in $(0, 1)$, which follows from Rolle's theorem; indeed, if it had two roots different from 1, then $H'$ would be zero once in $(z_1, z_2)$ and once in $(z_2, 1)$, which contradicts the fact that $H'$ is strictly increasing.
+
+    Let us first consider the case where $H$ has no other root apart from 1. In this case, $H(1) = 0$ and $H(0) = g_0 \geq 0 \implies H(z) \geq 0$ for all $z \in [0, 1]$. We can find that
+    \[ H'(1^-) = \lim_{z \to 1^-} \frac{H(z) - H(1)}{z-1} = \frac{H(z)}{z-1} < 0 \]
+    since the numerator is positive, and the denominator is negative. We know that $H'(1^-) = G'(1^-) - 1$, and $H'(1^-) \leq 0 \implies G'(1^-) \leq 1$, and $G'(1^-) = \expect{X_1}$. So when $q=1$, then $\expect{X_1} \leq 1$.
+
+    In the other case, $H$ has one other root $r<1$ as well as 1. We have that $H(r) = 0$ and $H(1) = 0$. By Rolle's theorem, there exists $z \in (r, 1)$ such that $H'(z) = 0$. Further, $H'(x) = G'(x) - 1$ therefore $G'(z) = 1$. Now,
+    \[ G'(x) = \sum_{r = 1}^\infty rg_r x^{r-1} \implies H''(x) = G''(x) = \sum_{r = 2}^\infty r(r-1)g_rx^{r-2} \]
+    Under the assumption that $g_0 + g_1 < 1$, we have that $G''(x) > 0$ for all $x \in (0, 1)$, hence $G'$ is strictly increasing for all $x \in (0, 1)$. Therefore, $G'(1^-) > G'(z) = 1$ giving $\expect{X_1} > 1$. So if $q < 1$, then $\expect{X_1} > 1$.
 \end{proof}
+
+\section{Continuous Random Variables}
+\subsection{Probability Distribution Function}
+Let $(\Omega, \mathcal F, \mathbb P)$ be a probability space. Then, as defined before, $X \colon \Omega \to \mathbb R$ is a random variable if
+\[ \forall x \in \mathbb R, \{ X \leq x \} = \{ \omega \colon X(\omega) \leq x \} \in \mathcal F \]
+We define the probability distribution function $F \colon \mathbb R \to [0, 1]$ as
+\[ F(x) = \prob{X \leq x} \]
+\begin{theorem}
+    The following properties hold.
+\begin{enumerate}[(i)]
+    \item If $x \leq y$, then $F(x) \leq F(y)$.
+    \item For all $a < b$, $\prob{a < x \leq b} = F(b) - F(a)$.
+    \item $F$ is a right continuous function, and left limits always exist. In other words,
+    \[ F(x^+) = \lim_{y \to x^+} F(y) = F(x);\quad F(x^-) = \lim_{y \to x^-} F(y) \leq F(x) \]
+    \item For all $x \in\mathbb R$, $F(x^-) = \prob{X < x}$.
+    \item We have $\lim_{x \to \infty} F(x) = 1$ and $\lim_{x \to -\infty} F(x) = 0$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}[(i)]
+        \item The first statement is immediate from the definition of the probability measure.
+        \item We can deduce
+        \begin{align*}
+            \prob{a < X \leq b} &= \prob{\{ a < X \} \cap \{ X \leq b \}} \\
+            &= \prob{X \leq b} - \prob{\{X \leq b\} \cap \{X \leq a\}} \\
+            &= \prob{X \leq b} - \prob{X \leq a} \\
+            &= F(b) - F(a)
+        \end{align*}
+        \item For right continuity, we want to prove $\lim_{n \to \infty} F(x + \frac{1}{n}) = F(x)$. We will define $A_n = \{ x < X \leq x + \frac{1}{n} \}$. Then the $A_n$ are decreasing events, and the intersection of all $A_n$ is the empty set $\varnothing$. Hence, by continuity of the probability measure, $\prob{A_n} \to 0$ as $n \to \infty$. But $\prob{A_n} = \prob{x < X \leq x + \frac{1}{n}} = F(x + \frac{1}{n}) - F(x)$, hence $F(x + \frac{1}{n}) \to F(x)$ as required. Now, we want to show that left limits always exist. This is clear since $F$ is an increasing function, and is always bounded above by 1.
+        \item We know $F(x^-) = \lim_{n \to \infty}F(x - \frac{1}{n})$. Consider $B_n = \{ X \leq x - \frac{1}{n} \}$. Then the $B_n$ is an increasing sequence of events, and their union is $\{ X < x \}$. Hence $\prob{B_n}$ converges to $\prob{X < x}$, so $F(x^-) = \prob{X < x}$.
+        \item This is evident from the properties of the probability measure.
+    \end{enumerate}
+\end{proof}
+
+\subsection{Defining a Continuous Random Variable}
+For a discrete random variable, $F$ is a step function, which of course is right continuous with left limits.
+\begin{definition}
+    A random variable $X$ is called \textit{continuous} if $F$ is a continuous function. In this case, clearly left limits and right limits give the same value, and $\prob{X = x} = 0$ for all $x \in\mathbb R$.
+\end{definition}
+\noindent In this course, we will consider only \textit{absolutely} continuous random variables. A continuous random variable is absolutely continuous if $F$ is differentiable. We will make the convention that $F'(x) = f(x)$, where $f(x)$ is called the probability density function of $X$. The following immediate properties hold.
+\begin{enumerate}[(i)]
+    \item $f \geq 0$
+    \item $\int_{-\infty}^{+\infty} f(x) \dd{x} = 1$
+    \item $F(x) = \int_{-\infty}^x f(t) \dd{t}$
+    \item For $S \subseteq \mathbb R$, $\prob{X \in S} = \int_S f(x) \dd{x}$
+\end{enumerate}
+Here is an intuitive explanation of the probability density function. Suppose $\Delta x$ is a small quantity. Then
+\[ \prob{x < X \leq x + \Delta x} = \int_x^{x + \Delta x} f(y) \dd{y} \approx f(x) \cdot \Delta x \]
+So we can think of $f(x)$ as the continuous analogy to $\prob{X = x}$.
 
 \end{document}
