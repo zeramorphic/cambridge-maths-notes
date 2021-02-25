@@ -1,5 +1,11 @@
 import os
 
+# If you enable this flag, connectives like "hence" and "therefore" will be swapped around randomly.
+# Sometimes, archaic connectives will be used, such as "thence" and "whence".
+# You can change the proportion of each connective by changing the multiplicity of each connective in the list.
+# Please note that there is no real reason to enable this, other than just for fun.
+muddle_connectives = False
+
 # The index is a list of keywords, sorted by keyword length.
 index = {}
 with open("keywords.txt", "r") as i:
@@ -30,6 +36,19 @@ def gen_index(line: str) -> str:
                     line = line[:i+length] + to_insert + line[i+length:]
                     i += length + len(to_insert)
         i += 1
+
+    if muddle_connectives:
+        import random
+        import re
+
+        connectives = ["hence", "therefore", "whence", "thence"]
+        random.shuffle(connectives)
+        for i in range(1, len(connectives)):
+            # Just for fun, convert some connectives into random other connectives.
+            line = re.sub(
+                "\\b" + connectives[i] + "\\b", connectives[i-1], line)
+            line = re.sub("\\b" + connectives[i][0].upper() + connectives[i]
+                          [1:] + "\\b", connectives[i-1][0].upper() + connectives[i-1][1:], line)
     return line
 
 
