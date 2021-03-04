@@ -58,6 +58,13 @@ with open("book/book.tex", "w") as o:
 
 \usepackage{imakeidx}
 \input{../util.tex}
+
+\tikzifexternalizing{%
+\renewcommand\index[2][]{}%
+\renewcommand\printindex{}%
+\renewcommand\makeindex[1][]{}%
+}{}
+
 \makeindex
 
 \addto\captionsUKenglish{\renewcommand{\chaptername}{Course}}
