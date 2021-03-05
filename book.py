@@ -1,4 +1,5 @@
 import os
+import files
 
 # If you enable this flag, connectives like "hence" and "therefore" will be swapped around randomly.
 # Sometimes, archaic connectives will be used, such as "thence" and "whence".
@@ -86,17 +87,7 @@ This book can be downloaded in PDF form for free at \url{https://thirdsgames.co.
 You are given the right to download the PDF of the book (or its component parts) for private use. You are permitted to download and modify the source code of the repository (the book and the course notes it contains), but may not distribute these modifications (including object files such as PDFs generated from these modifications) to others. However, you are permitted to make public forks of the repository in order to create pull requests, but this does not grant you permission to distribute object files created from these forked repositories. It must be clear when visiting it that such a repository is a fork of \url{https://github.com/thirdsgames/cambridge-maths-notes}, and must include a link to the original repository. (Forks created on GitHub satisfy this requirement, as the title contains the words `forked from' and then a link to the original repository.)
 
 """)
-    files = [
-        ("ia/ns", "Numbers and Sets"),
-        ("ia/groups", "Groups"),
-        ("ia/de", "Differential Equations"),
-        ("ia/vm", "Vectors and Matrices"),
-        ("ia/analysis", "Analysis I"),
-        ("ia/probability", "Probability"),
-        ("ia/dr", "Dynamics and Relativity"),
-        ("ia/vc", "Vector Calculus")
-    ]
-    for (fname, title) in files:
+    for (fname, title) in files.files:
         print("Processing " + title)
         o.write(f"\\chapter{{{title}}}")
         with open(fname + ".tex", "r") as i:
