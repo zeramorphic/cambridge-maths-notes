@@ -8,7 +8,7 @@ for (fname, title) in files.files:
     while True:
         i += 1
         print(f"Iteration {i}: ", end="", flush=True)
-        output = os.popen(f"sudo ./optpdf.sh {fname}.pdf").read()
+        output = os.popen(f"sudo sh ./optpdf.sh {fname}.pdf").read()
         if "Saving" not in output:
             print("Done\n")
             break
