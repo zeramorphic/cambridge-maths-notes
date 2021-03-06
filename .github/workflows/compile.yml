@@ -11,10 +11,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
         with:
           python-version: '3.9'
           architecture: 'x64'
+      
+      - name: Set up GhostScript optimiser
+        run: sudo apt-get install ghostscript
 
       - name: Combine into book
         run: python book.py
@@ -38,6 +42,9 @@ jobs:
             ia/vc.tex
             ia/analysis.tex
             book/book.tex
+
+      - name: Optimise PDFs
+        run: python optpdf.py
 
       - name: Upload PDFs
         uses: burnett01/rsync-deployments@4.1
