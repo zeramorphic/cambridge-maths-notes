@@ -1902,11 +1902,106 @@ The density function of $X$ is
 Now, let $X = (X_1, \dots, X_n)^\transpose$ with values in $\mathbb R^n$. Then we define that $X$ is a Gaussian vector (also called Gaussian) if
 \[ \forall u = \begin{pmatrix}
 		u_1 \\ \vdots \\ u_n
-	\end{pmatrix} \in \mathbb R^n,\, uX = \sum_{i=1}^n u_i X_i = \mu + \sigma Z \]
+	\end{pmatrix} \in \mathbb R^n,\, u^\transpose X = \sum_{i=1}^n u_i X_i = \mu + \sigma Z \]
 so any linear combination of the $X_i$ is Gaussian. This does not require that the $X_i$ are independent, just that their sum is always Gaussian.
 
 Let $X$ be Gaussian in $\mathbb R^n$. Suppose that $A$ is an $m \times n$ matrix, and $b \in \mathbb R^m$. Then $AX + b$ is also Gaussian. Indeed, let $u \in \mathbb R^m$, and let $v = A^\transpose u$. Then
-\[ u(AX + b) = uAX + ub = v = vX + ub \]
-Since $X$ is Gaussian, $vX$ is also Gaussian. An additive constant preserves this property, so the entire expression is Gaussian.
+\[ u^\transpose(AX + b) = u^\transpose AX + u^\transpose b = v^\transpose X + u^\transpose b \]
+Since $X$ is Gaussian, $v^\transpose X$ is also Gaussian. An additive constant preserves this property, so the entire expression is Gaussian.
+
+\section{Properties of Gaussian Vectors}
+\subsection{Expectation and Variance}
+We define the mean of a Gaussian vector $X$ as
+\[ \mu = \expect{X} = \begin{pmatrix}
+	\expect{X_1} \\ \vdots \\ \expect{X_n}
+\end{pmatrix};\quad \mu_i = \expect{X_i} \]
+We further define
+\begin{align*}
+	V &= \Var{X} = \expect{(X - \mu) (X - \mu)^\transpose} \\
+	&= \begin{pmatrix}
+		\expect{(X_1 - \mu_1)^2} & \expect{(X_1 - \mu_1)(X_2 - \mu_2)} & \cdots & \expect{(X_1 - \mu_1)(X_n - \mu_n)} \\
+		\expect{(X_2 - \mu_2)(X_1 - \mu_1)} & \expect{(X_2 - \mu_2)^2} & \cdots & \expect{(X_2 - \mu_2)(X_n - \mu_n)} \\
+		\vdots & \vdots & \ddots & \vdots \\
+		\expect{(X_n - \mu_n)(X_1 - \mu_1)} & \expect{(X_n - \mu_1)(X_n - \mu_2)} & \cdots & \expect{(X_n - \mu_n)^2}
+	\end{pmatrix}
+\end{align*}
+Hence the components of $V$ are
+\[ V_{ij} = \Cov{X_i, X_j} \]
+In particular, $V$ is a symmetric matrix, and
+\[ \expect{u^\transpose X} = \expect{\sum_{i=1}^n u_i X_i} = \sum_{i=1}^n u_i \mu_i = u^\transpose \mu \]
+and
+\[ \var{u^\transpose X} = \Var{\sum_{i=1}^n u_i X_i} = \sum_{i,j = 1}^n u_i \Cov{X_i, X_j} u_j = u^\transpose V u \]
+Hence $u^\transpose X \sim \mathrm{N}(u^\transpose \mu, u^\transpose V u)$. Further, $V$ is a non-negative definite matrix. Indeed, let $u \in \mathbb R^n$. Then $\Var{u^\transpose X} = u^\transpose V u$. Since $\Var{u^\transpose X} \geq 0$, we have $u^\transpose V u \geq 0$.
+
+\subsection{Moment Generating Function}
+We define the moment generating function of $X$ by
+\[ m(\lambda) = \expect{e^{\lambda^\transpose X}} \]
+where $\lambda \in \mathbb R^n$. Then, we know that $\lambda^\transpose X \sim \mathrm{N}(\lambda^\transpose \mu, \lambda^\transpose V \lambda)$. Hence $m(\lambda)$ is the moment generating function of a normal random variable with the above mean and variance, applied to the parameter $\theta = 1$.
+\[ m(\lambda) = \exp(\lambda^\transpose \mu + \frac{\lambda^\transpose V\lambda}{2}) \]
+Since the moment generating function uniquely characterises the distribution, it is clear that a Gaussian vector is uniquely characterised by its mean vector $\mu$ and variance matrix $V$. In this case, we write $X \sim \mathrm{N}(\mu, V)$.
+
+\subsection{Constructing Gaussian Vectors}
+Given a $\mu$ and a $V$ matrix, we might like to create a Gaussian vector that has this mean and variance. Let $Z_1, \dots, Z_n$ be a list of independent and identically distributed standard normal random variables. Let $Z = (Z_1, \dots, Z_n)^\transpose$. Then $Z$ is a Gaussian vector.
+\begin{proof}
+	For any vector $u \in \mathbb R^n$, we have
+	\[ u^\transpose Z = \sum_{i=1}^n u_i Z_i \]
+	Because the $Z_i$ are independent, it is easy to take the moment generating function to get
+	\[ \expect{\exp(\lambda \sum_{i=1}^n u_i z_i)} = \expect{\prod_{i=1}^n \exp(\lambda u_i Z_i)} = \prod_{i=1}^n \expect{\exp(\lambda u_i Z_i)} = \prod_{i=1}^n \exp(\frac{(\lambda u_i)^2}{2}) = \exp(\frac{\lambda^2 \abs{u}^2}{2}) \]
+	So $u^\transpose Z \sim \mathrm{N}(0, \abs{u}^2)$, which is normal as required.
+\end{proof}
+\noindent Now, $\expect{Z} = 0$, and $\Var{Z} = I$, the identity matrix. We then write $Z \sim \mathrm{N}(0, I)$. Now, let $\mu \in \mathbb R^n$, and $V$ be a non-negative definite matrix. We want to construct a Gaussian vector $X$ such that its mean is $\mu$ and its expectation is $V$, by using $Z$. In the one-dimensional case, this is easy, since $\mu$ is a single value, and $V$ contains only one element, $\sigma^2$. In this case therefore, $Z \sim \mathrm{N}(0, 1)$ so $\mu + \sigma Z \sim \mathrm{N}(\mu, \sigma^2)$. In the general case, since $V$ is non-negative definite, we can write
+\[ V = U^\transpose DU \]
+where $U^{-1} = U^\transpose$, and $D$ is a diagonal matrix with diagonal entries $\lambda_i \geq 0$. We define the square root of the matrix $V$ to be
+\[ \sigma = U^\transpose \sqrt{D} U \]
+where $\sqrt{D}$ is the diagonal matrix with diagonal entries $\sqrt{\lambda_i}$. Then clearly,
+\[ \sigma^2 = U^\transpose \sqrt{D} U U^\transpose \sqrt{D} U = U^\transpose \sqrt{D} \sqrt{D} U = U^\transpose DU = V \]
+Now, let $X = \mu + \sigma Z$. We now want to show that $X \sim \mathrm{N}(\mu, V)$.
+\begin{proof}
+	$X$ is certainly Gaussian, since it is generated by a linear multiple of the Gaussian vector $Z$, with an added constant. By linearity,
+	\[ \expect{X} = \mu \]
+	and
+	\begin{align*}
+		\Var{X} &= \expect{(X - \mu)(X - \mu)^\transpose} \\
+		&= \expect{(\sigma Z)(\sigma Z)^\transpose} \\
+		&= \expect{\sigma Z Z^\transpose \sigma^\transpose} \\
+		&= \sigma \expect{Z Z^\transpose} \sigma^\transpose \\
+		&= \sigma \sigma^\transpose \\
+		&= \sigma \sigma \\
+		&= V
+	\end{align*}
+\end{proof}
+
+\subsection{Density}
+We can calculate the density of such a Gaussian vector $X \sim \mathrm{N}(\mu, V)$. First, consider the case where $V$ is positive definite. Recall that in the one-dimensional case,
+\[ f_X(x) = f_Z(z) \abs{J};\quad x = \mu + \sigma z \]
+In general, since $V$ is positive definite, $\sigma$ is invertible. So $x = \mu + \sigma z$ gives $z = \sigma^{-1}(x-\mu)$. Hence,
+\begin{align*}
+	f_X(x) &= f_Z(z) \abs{J} \\
+	&= \prod_{i=1}^n \frac{\exp(-\frac{z_i^2}{2})}{\sqrt{2\pi}} \abs{\det \sigma^{-1}} \\
+	&= \frac{1}{(2\pi)^{n/2}}\exp(-\frac{\abs{z}^2}{2}) \cdot \frac{1}{\sqrt{\det V}} \\
+	&= \frac{1}{\sqrt{(2\pi)^n \det V}}\exp(-\frac{z^\transpose z}{2})
+\end{align*}
+Now,
+\begin{align*}
+	z^\transpose z &= (\sigma^{-1} (x-\mu))^\transpose (\sigma^{-1} (x-\mu)) \\
+	&= (x-\mu)^\transpose (\sigma^{-1})^\transpose \sigma^{-1} (x-\mu) \\
+	&= (x-\mu)^\transpose \sigma^{-2} (x-\mu) \\
+	&= (x-\mu)^\transpose V^{-1} (x-\mu)
+\end{align*}
+Hence,
+\[ f_X(x) = \frac{1}{\sqrt{(2\pi)^n \det V}}\exp(-\frac{(x-\mu)^\transpose V^{-1} (x-\mu)}{2}) \]
+In the case where $V$ is just non-negative definite (so it could have some zero eigenvalues), we can make an orthogonal change of basis, and assume that
+\[ V = \begin{pmatrix}
+	U & 0 \\
+	0 & 0
+\end{pmatrix};\quad \mu = \begin{pmatrix}
+	\lambda \\ \nu
+\end{pmatrix} \]
+where $U$ is an $m \times m$ positive definite matrix, where $m < n$, and where $\lambda \in \mathbb R^m$, $\nu \in \mathbb R^{n-m}$. For $U$, we can then apply the result above. We can write
+\[ X = \begin{pmatrix}
+	Y \\ \nu
+\end{pmatrix} \]
+where $Y$ has density
+\[ f_Y(y) = \frac{1}{\sqrt{(2\pi)^n \det U}}\exp(-\frac{(y-\lambda)^\transpose U^{-1} (y-\lambda)}{2}) \]
 
 \end{document}
