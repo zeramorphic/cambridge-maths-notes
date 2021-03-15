@@ -1,0 +1,90 @@
+\subsection{Introduction and the Equations}
+We will denote the magnetic field by $\vb B(\vb x, t)$, and the electric field by $\vb E(\vb x, t)$. These fields will depend on the current density $\vb J(\vb x, t)$, the electric current per unit area, and the charge density $\rho(\vb x, t)$, the electric charge per unit volume.
+\begin{align}
+	\div{\vb E}                                      & = \frac{\rho}{\varepsilon_0} \tag{1} \\
+	\div{\vb B}                                      & = 0                          \tag{2} \\
+	\curl{\vb E} + \pdv{\vb B}{t}                    & = 0                          \tag{3} \\
+	\curl{\vb B} - \mu_0\varepsilon_0 \pdv{\vb E}{t} & = \mu_0 \vb J \tag{4}
+\end{align}
+The constants $\varepsilon_0$ and $\mu_0$ denote the permittivity and permeability of free space, which obey
+\[ \frac{1}{\mu_0 \varepsilon_0} = c^2 \]
+where $c$ is the speed of light, \SI{299792458}{\metre\per\second}. Note that if we take the divergence of equation (4), we find
+\begin{align*}
+	\mu_0 \varepsilon_0 \pdv{t}\left( \div{\vb E} \right) + \mu_0 \div{\vb J}              & = 0 \\
+	(1) \implies \mu_0 \varepsilon_0 \pdv{t}\frac{\rho}{\varepsilon_0} + \mu_0 \div{\vb J} & = 0 \\
+	\pdv{\rho}{t} + \div{\vb J}                                                            & = 0 \\
+\end{align*}
+which is a conservation law for charge.
+
+\subsection{Integral Formulations of Maxwell's Equations}
+Integrating $(1)$ over some volume $V$, and applying the divergence theorem, gives
+\begin{align*}
+	\div{\vb E}                          & = \frac{\rho}{\varepsilon_0}                 \\
+	\int_V \div{\vb E} \dd{V}            & = \frac{1}{\varepsilon_0} \int_V \rho \dd{V} \\
+	\int_{\partial V} \vb E \cdot \dd{S} & = \frac{Q}{\varepsilon_0}                    \\
+\end{align*}
+where $Q$ is the total charge in $V$. This is known as Gauss' law. For magnetic fields, we can integrate $(2)$:
+\[ \int_{V} \div{\vb B} \dd{V} = \int_{\partial V} \vb B \cdot \dd{S} = 0 \]
+Hence there is no net magnetic flux over any closed surface $\partial V$. This implies that we cannot have a magnetic field with only a north pole or only a south pole. Integrating $(3)$ over a surface, and applying Stokes' theorem, gives
+\begin{align*}
+	\curl{\vb E} + \pdv{\vb B}{t}                                                      & = 0                                     \\
+	\int_S \qty(\curl{\vb E} + \pdv{\vb B}{t}) \cdot \dd{\vb S}                        & = 0                                     \\
+	\oint_{\partial S} \vb E \cdot \dd{\vb x} + \int_S \pdv{\vb B}{t} \cdot \dd{\vb S} & = 0                                     \\
+	\oint_{\partial S} \vb E \cdot \dd{\vb x}                                          & = -\dv{t} \int_S \vb B \cdot \dd{\vb S}
+\end{align*}
+So a change in the magnetic flux through a surface $S$ induces a circulation in $\vb E$ about the boundary. Integrating $(4)$ over a surface, again using Stokes' theorem, we have
+\begin{align*}
+	\int_S \qty(\curl{\vb B} - \mu_0\varepsilon_0 \pdv{\vb E}{t}) \cdot \dd{\vb S} & = \int_S \mu_0 \vb J \cdot \dd{\vb S}                                                             \\
+	\oint_{\partial S} \vb B \cdot \dd{\vb x}                                      & = \int_S \mu_0 \vb J \cdot \dd{\vb S} + \int_S \mu_0\varepsilon_0 \pdv{\vb E}{t} \cdot \dd{\vb S} \\
+	\oint_{\partial S} \vb B \cdot \dd{\vb x}                                      & = \mu_0 \int_S \vb J \cdot \dd{\vb S} + \mu_0\varepsilon_0 \dv{t} \int_S \vb E \cdot \dd{\vb S}   \\
+\end{align*}
+So if an electric current flows through a wire, this generates a circulation of the magnetic field around the wire.
+
+\subsection{Electromagnetic Waves}
+In empty space, $\rho = 0$ and $\vb J = \vb 0$. Maxwell's equations show that
+\begin{align}
+	\div{\vb E}                                       & = 0 \tag{1} \\
+	\div{\vb B}                                       & = 0 \tag{2} \\
+	\curl{\vb E} + \pdv{\vb B}{t}                     & = 0 \tag{3} \\
+	\curl{\vb B} - \mu_0 \varepsilon_0 \pdv{\vb E}{t} & = 0 \tag{4}
+\end{align}
+Recall that the Laplacian of a vector field $\vb F$ is
+\[ \laplacian \vb F = \grad(\div{\vb F}) - \curl(\curl{\vb F}) \]
+We can deduce that
+\begin{align*}
+	\laplacian \vb E & = \grad(\div{\vb E}) - \curl(\curl{\vb E})  \\
+	                 & = \grad(0) - \curl(-\pdv{\vb B}{t})         \\
+	                 & = \curl(\pdv{\vb B}{t})                     \\
+	                 & = \dv{t} \curl{\vb B}                       \\
+	                 & = \dv{t} \mu_0 \varepsilon_0 \pdv{\vb E}{t} \\
+	                 & = \frac{1}{c^2} \pdv[2]{\vb E}{t}
+\end{align*}
+\[ \therefore \laplacian \vb E - \frac{1}{c^2} \pdv[2]{\vb E}{t} = \vb 0 \]
+which is the wave equation for waves travelling at speed $c$. Hence, in a vacuum, the electric field propagates at speed $c$. Similarly, for the magnetic field,
+\begin{align*}
+	\laplacian \vb B & = \grad(\div{\vb B}) - \curl(\curl{\vb B})             \\
+	                 & = \grad(0) - \curl(\mu_0 \varepsilon_0 \pdv{\vb E}{t}) \\
+	                 & = -\mu_0\varepsilon_0 \dv{t} \curl{\vb E}              \\
+	                 & = \mu_0\varepsilon_0 \dv{t} \pdv{\vb B}{t}             \\
+	                 & = \frac{1}{c^2} \pdv[2]{\vb B}{t}
+\end{align*}
+\[ \therefore \laplacian \vb B - \frac{1}{c^2} \pdv[2]{\vb B}{t} = \vb 0 \]
+Hence the magnetic field also propagates at speed $c$. So in general, we can say that electromagnetic waves always travel at speed $c$ in a vacuum.
+
+\subsection{Electrostatics and Magnetostatics}
+Suppose that all fields and source terms are independent of $t$. Then Maxwell's equations decouple into
+\begin{align}
+	\div{\vb E}  & = \frac{\rho}{\varepsilon_0} \tag{1} \\
+	\div{\vb B}  & = 0                          \tag{2} \\
+	\curl{\vb E} & = 0                          \tag{3} \\
+	\curl{\vb B} & = \mu_0 \vb J \tag{4}
+\end{align}
+which gives one system of equations for $\vb E$, and one for $\vb B$. When considering the whole of $\mathbb R^3$, which is 2-connected, then equations (2) and (3) imply
+\[ \vb E = -\grad \phi;\quad \vb B = \curl \vb A \]
+where $\phi$ is the electric potential, and $\vb A$ is the magnetic potential. Substituting into the other two equations, we have
+\begin{align*}
+	(1) \implies -\div{\grad \phi} & = \frac{\rho}{\varepsilon_0} \\
+	-\laplacian \phi               & = \frac{\rho}{\varepsilon_0}
+\end{align*}
+and
+\[ (4) \implies \curl(\curl{\vb A}) = \mu_0 \vb J \]

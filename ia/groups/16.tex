@@ -1,0 +1,100 @@
+\subsection{Left Multiplication Actions}
+\begin{lemma}
+	Let $G$ be a group. $G$ acts on itself by left multiplication. This action is faithful and transitive.
+\end{lemma}
+\begin{proof}
+	\begin{itemize}
+		\item For any $g, x \in G$, $gx \in G$
+		\item $e(x) = e \cdot x = x$
+		\item $(g_1 g_2) x = g_1 (g_2 x)$
+	\end{itemize}
+	So it really is an action. It is faithful because $g(x) = gx = x$ implies $g = e$. It is transitive, because given any $x, y \in G$, the action $g = yx^{-1}$ gives $g(x) = y$.
+\end{proof}
+\begin{definition}
+	This left-multiplication action of a group on itself is known as the left regular action.
+\end{definition}
+
+\subsection{Cayley's Theorem}
+\begin{theorem}
+	Every group is isomorphic to a subgroup of a symmetric group.
+\end{theorem}
+\begin{proof}
+	Let $G \acts G$ by the left regular action. This gives a homomorphism $\rho\colon G \to \Sym(G)$, with $\ker \rho = \{ e \}$ since the action is faithful. So, by the First Isomorphism Theorem, $\frac{G}{\ker \rho} = G \cong \Im \rho \leq \Sym(G)$.
+\end{proof}
+
+\begin{proposition}
+	Let $H \leq G$. Then $G$ acts on the set of left cosets of $H$ in $G$ by left multiplication, and this action is transitive. (This is called the `left coset action').
+\end{proposition}
+\begin{proof}
+	We check the conditions for actions.
+	\begin{itemize}
+		\item $g(g_1H) = gg_1H$, so $g(g_1H)$ is a left coset.
+		\item $e(g_1G) = eg_1H = g_1H$
+		\item $(gg')(g_1H) = gg'g_1H = g(g'(g_1H))$
+	\end{itemize}
+	So this is an action. Given two cosets $g_1H$ and $g_2H$, the element $(g_1g_2^{-1})$ acts on $g_2H$ to give $g_1H$, so it is transitive.
+\end{proof}
+Note:
+\begin{itemize}
+	\item This is the left regular action if $H = \{ e \}$.
+	\item This induces actions of $G$ on its quotient groups $\frac{G}{N}$.
+\end{itemize}
+
+\subsection{Conjugation Actions}
+\begin{definition}
+	Given $g, h \in G$, the element $hgh^{-1}$ is the conjugate of $g$ by $h$.
+\end{definition}
+We should think of conjugate elements as doing the same thing but from different `points of view' --- we change perspective by doing $h^{-1}$, then do the action $g$, then reset the perspective back to normal using $h$.
+
+Here is an example using $D_{10}$, where the vertices of the regular pentagon are $v_1 \dots v_5$ clockwise. Consider the conjugates $s$ and $rsr^{-1}$, where $s$ is a reflection through $v_1$ and the centre, and $r$ is a rotation by $\frac{2\pi}{5}$ clockwise. So $rsr^{-1}$ ends up being just a reflection through $v_2$ and the centre. So the result of conjugating the reflection by a rotation is still a reflection, just from a different point of view.
+
+Another example is in matrix groups such as $GL_n(\mathbb R)$ where a conjugate matrix represents the same transformation but with respect to a different basis. This will be covered in more detail later.
+
+As a general principle, conjugate elements can be expected to have similar properties. We will now prove some of these such properties.
+\begin{proposition}
+	A group $G$ acts on itself by conjugation.
+\end{proposition}
+\begin{proof}
+	\begin{itemize}
+		\item $g(x) = gxg^{-1} \in G$ for any $g, x \in G$
+		\item $e(x) = exe^{-1} = x$ for any $x \in G$
+		\item $g(h(x)) = ghxh^{-1}g^{-1} = (gh)(x)$
+	\end{itemize}
+\end{proof}
+\begin{definition}
+	The kernel, orbits and stabilisers have special names:
+	\begin{itemize}
+		\item The kernel of the conjugation action of $G$ on itself is the centre $Z(G)$:
+		      \[ Z(G) := \{ g \in G : \forall h \in G,\, ghg^{-1} = h \iff gh=hg \} \]
+		      In less formal terms, $Z(G)$ is the set of `elements that commute with everything'.
+		\item An orbit of this action is called a conjugacy class:
+		      \[ \ccl(h) := \{ ghg^{-1}: g \in G \} \]
+		      Sometimes this is written $\ccl_G(h)$ to clarify which group we're working on.
+		\item Stabilisers are called centralisers:
+		      \[ C_G(h) := \{ g \in G : ghg^{-1} = h \iff gh = hg \} \]
+		      This is the set of `elements that commute with $h$'.
+	\end{itemize}
+\end{definition}
+Exercise: $Z(G) = \bigcap_{h \in G} C_G(h)$.
+
+\begin{definition}
+	If $H \leq G, g \in G$, then the conjugate of $H$ by $g$ is:
+	\[ gHg^{-1} = \{ ghg^{-1} : h \in H \} \]
+\end{definition}
+\begin{proposition}
+	Let $H \leq G, g \in G$. Then $gHg^{-1}$ is also a subgroup of $G$.
+\end{proposition}
+\begin{proof}
+	We check the group axioms.
+	\begin{itemize}
+		\item (closure) If $gh_1g^{-1}, gh_2g^{-1} \in gHg^{-1}$, then
+		      \[ (gh_1g^{-1})(gh_2g^{-1}) = gh_1(g^{-1}g)h_2g^{-1} = g(h_1h_2)g^{-1} \in gHg^{-1} \]
+		\item (identity) $geg^{-1} = e \in gHg^{-1}$
+		\item (inverses) Given $ghg^{-1} \in gHg^{-1}$, the inverse is $gh^{-1}g^{-1}$, which of course is an element of $gHg^{-1}$.
+	\end{itemize}
+\end{proof}
+Note that $gHg^{-1}$ is isomorphic to $H$ (proof as exercise).
+\begin{proposition}
+	A group $G$ acts by conjugation on the set of its subgroups. The singleton orbits are the normal subgroups.
+\end{proposition}
+Proof as exercise. (Recall that $N \trianglelefteq G \iff \forall g \in G,\, gNg^{-1} = N$, which is the same as being stable under conjugation)

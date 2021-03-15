@@ -1,0 +1,64 @@
+\subsection{Definitions}
+A subspace of a real vector space $V$ is a subset $U \subseteq V$ that is a vector space. Equivalently, if all pairs of vectors $v, w \in U$ satisfy $\lambda v + \mu w \in U$. then $U$ is a subspace of $V$. Note that the span generated from a set of vectors is a subspace, as it is characterised by this equivalent definition. Also, note that the origin must be part of any subspace, because multiplying a vector by zero must yield the origin.
+
+\subsection{Linear Dependence}
+In some real vector space $V$, let $\vb v_1, \vb v_2 \cdots \vb v_r$ be vectors in $V$. Now consider the linear relation
+\[ \lambda_1 \vb v_1 + \lambda_2 \vb v_2 + \cdots + \lambda_r \vb v_r = 0 \]
+Then we call the set of vectors a linearly independent set if the only solution is where all $\lambda$ values are zero. Otherwise, it is a linearly dependent set.
+
+\subsection{Inner Product Spaces}
+An inner product is an extra structure that we can have on a real vector space $V$, which is often denoted by angle brackets or parentheses. It can also be characterised by axioms (specifically the ones in Section 6.2). Features like the norm of a vector, and theorems like the Cauchy-Schwarz inequality, follow from these axioms.
+
+For example, let us consider the vector space
+\[ V = \{ f: [0, 1] \to \mathbb R: f \text{ smooth}; f(0) = f(1) = 0 \} \]
+We can define the inner product to be
+\[ f \cdot g = \langle f, g \rangle = \int_0^1 f(x)g(x)\dd{x} \]
+Then by the Cauchy-Schwarz inequality, we have
+\begin{align*}
+	\abs{\langle f, g \rangle}               & \leq \norm{f} \cdot \norm{g}                                    \\
+	\therefore \abs{\int_0^1 f(x)g(x)\dd{x}} & \leq \sqrt{\int_0^1 f(x)^2 \dd{x}}\sqrt{\int_0^1 g(x)^2 \dd{x}}
+\end{align*}
+
+\begin{lemma}
+	In any real inner product space $V$, if $\vb v_1 \cdots v_r \neq \vb 0$ are orthogonal, they are linearly independent.
+\end{lemma}
+\begin{proof}
+	If $\sum_i \alpha_i \vb v_i = 0$, then
+	\begin{align*}
+		\left\langle \vb v_j, \sum_i \alpha_i \vb v_i \right\rangle     & = 0 \\
+		\intertext{And because each vector that is not $\vb v_j$ is orthogonal to it, those terms cancel, leaving}
+		\therefore \left\langle \vb v_j, \alpha_j \vb v_j \right\rangle & = 0 \\
+		\alpha_j \left\langle \vb v_j, \vb v_j \right\rangle            & = 0 \\
+		\alpha_j = 0
+	\end{align*}
+	So they are linearly independent.
+\end{proof}
+
+\subsection{Bases and Dimensions}
+In a vector space $V$, a basis is a set $\mathcal B = \{ \vb e_1 \cdots \vb e_n \}$ such that
+\begin{itemize}
+	\item $\mathcal B$ spans $V$; and
+	\item $\mathcal B$ is linearly independent, which implies that the coefficients on these basis vectors are unique for any vector in $V$, since it is impossible to write one vector in terms of the others
+\end{itemize}
+
+\begin{theorem}
+	If $\{\vb e_1 \cdots \vb e_n \}$ and $\{ \vb f_1 \cdots \vb f_m \}$ are bases for a real vector space $V$, then $n=m$, which we call the dimension of $V$.
+\end{theorem}
+\begin{proof}
+	This proof is non-examinable (without prompts). We can write each basis vector in terms of the others, since they all span the same vector space. Thus:
+	\[ \vb f_a = \sum_i A_{ai} \vb e_i;\quad \vb e_i = \sum_a B_{ia} \vb f_a \]
+	Note that indices $i,j$ span from 1 to $n$, while $a,b$ span from 1 to $m$. We can substitute one expression into the other, forming:
+	\begin{align*}
+		\vb f_a & = \sum_i A_{ai} \left( \sum_b B_{ib}\vb f_b \right)  \\
+		\vb f_a & = \sum_b \left( \sum_i A_{ai} B_{ib} \right) \vb f_b
+	\end{align*}
+	Note that we have now written $\vb f_a$ as a linear combination of $\vb f_b$ for all valid $b$. But since they are linearly independent, the coefficient of $\vb f_b$ must be zero if $a \neq b$, and one of $a = b$. Therefore, we have
+	\[ \delta_{ab} = \sum_i A_{ai} B_{ib} \]
+	We can make a similar statement about $\vb e_i$:
+	\[ \delta_{ij} = \sum_a B_{ia} A_{aj} = \sum_a A_{aj} B_{ia} \]
+	Now, assigning $a=b$ and $i=j$, summing over both, and substituting into our two previous expressions for $\delta$, we have:
+	\begin{alignat}{2}
+		\sum_{ia} A_{ai} B_{ia} & = \sum_a \delta_{aa} &  & = \sum_i \delta_{ii} \\
+		                        & = m                  &  & = n
+	\end{alignat}
+\end{proof}

@@ -1,0 +1,62 @@
+Throughout this section on tensors, we deal exclusively with Cartesian coordinate systems. This lecture stands as an intuitive introduction to tensors, without any definitions or proofs.
+\subsection{Vectors and Changes of Basis}
+Consider a right-handed orthonormal basis $\{ \vb e_i \}$ for $\mathbb R^3$, with respect to some fixed Cartesian coordinate axes. We can write a vector using this basis as
+\[ \vb x = x_i \vb e_i \]
+Note that the vector $\vb x$ and the components $x_i$ are not the same; the components only give the vector when in combination with the given basis vectors $\{ \vb e_i \}$. If we instead use $\{ \vb e'_i \}$, then the same position vector $\vb x$ would be written as a linear combination $x'_i \vb e'_i$. Hence,
+\begin{equation}
+	x_j \vb e_j = x'_j \vb e'_j
+	\tag{$\ast$}
+\end{equation}
+Since the $\{ \vb e_j \}$ and $\{ \vb e'_j \}$ are orthonormal,
+\[ \vb e_i \cdot \vb e_j = \delta_{ij};\quad \vb e'_i \cdot \vb e'_j = \delta_{ij} \]
+From $(\ast)$,
+\[ x_i' = \delta_{ij} x_j' = (\vb e_i' \cdot \vb e_j') x_j' = \vb e_i' \cdot (\vb e_j' x_j') = \vb e_i' \cdot (\vb e_j x_j) = (\vb e_i' \cdot \vb e_j) x_j \]
+So let
+\[ R_{ij} = \vb e_i' \cdot \vb e_j \]
+Then
+\[ x_i' = R_{ij} x_j \]
+Alternatively,
+\[ x_i = \delta_{ij} x_j = (\vb e_i \cdot \vb e_j) x_j = \vb e_i \cdot (\vb e_j x_j) = \vb e_i \cdot (\vb e_j' x_j') = (\vb e_i \cdot \vb e_j') x_j' \]
+And therefore, we get
+\[ x_i = R_{ji} x_j' = R_{ki} x_k' \implies x_j = R_{kj} x_k' \]
+Combining the two results, we have
+\[ x_i' R_{ij} x_j = R_{ij} R_{kj} x_k' \]
+Therefore,
+\[ (\delta_{ik} - R_{ij}R_{kj}) x_k' = 0 \]
+Since this is true for all vectors $\vb x$, we get
+\[ R_{ij}R_{kj} = \delta_{ik} \]
+So if $R$ is a matrix with entries $R_{ij}$, then
+\[ R R^\transpose = I \]
+So the $R_{ij}$ are the components of an orthogonal matrix. Further, since
+\[ x_j \vb e_j = x_i' \vb e_i' = R_{ij} x_j \vb e_i' \]
+holds for all $x_j$, we also have
+\[ \vb e_j = R_{ij} \vb e_i' \]
+and since both $\{ \vb e_i \}$ and $\{ \vb e_i' \}$ are right handed, we have
+\[ 1 = \vb e_1 \cdot (\vb e_2 \times \vb e_3) = R_{i1} R_{j2} R_{k3} \vb e_i' \cdot (\vb e_j' \times \vb e_k') = R_{i1} R_{j2} R_{k3} \varepsilon_{ijk} = \det R \]
+Hence $R$ is orthogonal, and has determinant 1. Hence $R$ is a rotation matrix. If we transform from a right-handed orthonormal set of basis vectors $\{ \vb e_i \}$ to another basis $\{ \vb e_i' \}$, then the components of a vector $\vb v$ transform according to $v_i' = R_{ij} v_j$. We call objects whose components transform in this way `rank 1 tensors', or more commonly, `vectors'. The basis vectors themselves transform according to $\vb e_j' = R_{ij} \vb e_i$.
+
+\subsection{Scalars and Scalar Products}
+Consider the dot product between two vectors, $\sigma = \vb a \cdot \vb b$. This should ideally be independent of the set of basis vectors chosen to describe $\vb a$ and $\vb b$. So with a basis $\{ \vb e_i \}$, we have
+\[ \sigma = a_i b_j \delta_{ij} = a_i b_i \]
+If instead we use a different set of basis vectors $\{ \vb e_j \}$, we define
+\[ \sigma' = a_i' b_i' \]
+We can use $a_i' = R_{ip} a_p$ and $b_i' = R_{iq} b_q$ to give
+\[ \sigma' = R_{ip} R_{iq} a_p b_q = \delta_{pq} a_p b_q = a_i b_i = \sigma \]
+Since the sets of basis vectors are related by $R$, $\sigma$ is unchanged under changes of coordinates. We call objects which are invariant under transformations like this `rank 0 tensors', or `scalars'.
+
+\subsection{Linear Maps}
+Let $\vb n \in \mathbb R^3$ be a fixed unit vector, and we define a linear map
+\[ T \colon \vb x \to \vb y = T(\vb x) = \vb x - (\vb x \cdot \vb n) \vb n \]
+This $T$ is the orthogonal projection into the plane normal to $\vb n$. Using a set of basis vectors $\{ \vb e_i \}$, we get
+\[ y_i \vb e_i = T(x_j \vb e_j) = x_j T(\vb e_j) = x_j (\vb e_j - n_i n_j \vb e_i) = (\delta_{ij} - n_i n_j) x_j \vb e_i \]
+Hence,
+\[ y_i = (\delta_{ij} - n_i n_j) x_j \]
+So we will set
+\[ T_{ij} = \delta_{ij} - n_i n_j \implies y_i = T_{ij} x_j \]
+We call the $T_{ij}$ the \textit{components} of the linear map $T$ with respect to the basis vectors $\vb e_i$. Consider a different set of basis vectors $\{ \vb e_i' \}$.
+\[ y_i' = (\delta_{ij} - n_i' n_j') x_j';\quad T_{ij}' = \delta_{ij} - n_i' n_j' \]
+Using $n_i' = R_{ij} n_j$, noting that $R$ is orthogonal, we have
+\[ T_{ij}' = \delta_{ij} - R_{ip} n_j R_{jq} n_q = R_{ip} R_{jq} (\delta_{pq} - n_p n_q) = R_{ip} R_{jq} T_{pq} \]
+So the components of a linear map transform according to two multiplications:
+\[ T_{ij}' = R_{ip} R_{jq} T_{pq} \]
+We call such objects `rank 2 tensors'.

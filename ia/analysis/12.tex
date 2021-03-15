@@ -1,0 +1,70 @@
+\subsection{Cauchy's Mean Value Theorem}
+\begin{theorem}
+	If $f, g \colon [a,b] \to \mathbb R$ are continuous, and differentiable on $(a, b)$, there exists $t \in (a,b)$ such that
+	\[ (f(b) - f(a))g'(t) = f'(t)(g(b) - g(a)) \]
+\end{theorem}
+\noindent We can recover the normal mean value theorem from Cauchy's generalisation by taking $g(x) = x$.
+\begin{proof}
+	Let
+	\[ \phi(x) = \begin{vmatrix}
+			1    & 1    & 1    \\
+			f(a) & f(x) & f(b) \\
+			g(a) & g(x) & g(b)
+		\end{vmatrix} \]
+	Certainly $\phi(x)$ is continuous on $[a,b]$ and differentiable on $(a, b)$, by using previous results. Also, $\phi(a) = \phi(b) = 0$ by observing the linear dependence of the columns. By Rolle's theorem, there exists $t \in (a, b)$ such that $\phi'(t) = 0$. We can expand $\phi'(t)$ and this will show the required result.
+	\[ \phi'(x) = f'(x)g(b) - g'(x)f(b) + f(a)g'(x) - g(a)f'(x) = f'(x) [g(b) - g(a)] + g'(x) [f(a) - f(b)] \]
+\end{proof}
+
+\subsection{Example of L'H\^opital's Rule}
+The derivation of L'H\^opital's rule is on an example sheet, so in this subsection we will consider only a special case of it, using Cauchy's mean value theorem.
+\[ \ell = \lim_{x \to 0} \frac{e^x - 1}{\sin x} \]
+We can write
+\[ \ell = \lim_{x \to 0} \frac{e^x - e^0}{\sin x - \sin 0} = \frac{e^t}{\cos t} \]
+for some $t \in (0, x)$. So as $x \to 0$, $t \to 0$ and hence
+\[ \frac{e^t}{\cos t} \to 1 \]
+
+\subsection{Taylor's Theorem}
+\begin{theorem}[Taylor's Theorem with Lagrange's Remainder]
+	Suppose $f$ and its derivatives up to order $n-1$ are continuous in $[a, a+h]$, and $f^{(n)}$ exists for $x \in (a, a+h)$. Then
+	\[ f(a+h) = f(a) + hf'(a) + \frac{h^2}{2!} f''(a) + \dots + \frac{h^{n-1}}{(n-1)!}f^{(n-1)}(a) + \frac{h^n}{n!}f^{(n)}(a + \theta h) \]
+	where $\theta \in (0, 1)$.
+\end{theorem}
+\noindent Note that for $n=1$, this is exactly the mean value theorem, so this can be seen as an $n$th order extension of the mean value theorem. We commonly write $R_n$ for the final error term $\frac{h^n}{n!}f^{(n)}(a + \theta h)$. This is known as Lagrange's form of the remainder.
+\begin{proof}
+	For $0 \leq t \leq h$, we define
+	\[ \phi(t) = f(a+t) - f(a) - tf'(a) - \dots - \frac{t^{n-1}}{(n-1)!}f^{(n-1)}(a) - \frac{t^n}{n!}B \]
+	where we choose $B$ suitably such that $\phi(h) = 0$. (Recall that in the proof of the mean value theorem, we used $f(x) - kx$ and picked $k$ suitably such that this allowed the use of Rolle's theorem. This is entirely analogous, but generalised to the $n$th derivative). Note that
+	\[ \phi(0) = \phi'(0) = \dots = \phi^{(n-1)}(0) = 0 \]
+	We can use Rolle's theorem inductively $n$ times. Since $\phi(0) = \phi(h) = 0$, there is a point $0 < h_1 < h$ such that $\phi'(h_1) = 0$. Since $\phi'(0) = \phi'(h_1) = 0$, there is a point $0 < h_2 < h_1$ such that $\phi''(h_2) = 0$. This continues until we find a point $0 < h_n < h$ such that $\phi^{(n)}(h_n) = 0$. Hence $h_n = \theta h$ for some $0 < \theta < 1$. Now, $\phi^{(n)}(t) = f^{(n)}(a + t) - B$. We can see now that $B = f^{(n)}(a + \theta h)$, which gives the required result.
+\end{proof}
+\noindent We can prove an alternative version of Taylor's theorem with a different error term.
+\begin{theorem}[Taylor's Theorem with Cauchy's Remainder]
+	Suppose (equivalently to before) $f$ and its derivatives up to order $n-1$ are continuous in $[a, a+h]$, and $f^{(n)}$ exists for $x \in (a, a+h)$. Then
+	\[ f(a+h) = f(a) + hf'(a) + \frac{h^2}{2!} f''(a) + \dots + \frac{h^{n-1}}{(n-1)!}f^{(n-1)}(a) + R_n \]
+	where
+	\[ R_n = \frac{(1 - \theta)^{n-1}h^nf^{(n)}(a + \theta h)}{(n-1)!} \]
+	for $\theta \in (0, 1)$.
+\end{theorem}
+\begin{proof}
+	For simplicity, in this proof we let $a = 0$, although the same argument applies when $a \neq 0$. Let us define
+	\[ F(t) = f(h) - f(t) - (h-t)f'(t) - \dots - \frac{(h-t)^{n-1}f^{(n-1)}(t)}{(n-1)!} \]
+	for $t \in [0, h]$. Then
+	\begin{align*}
+		F'(t) & = -f'(t) + f'(t) - (h-t)f''(t) + (h-t)f''(t) - \frac{1}{2} (h-t)^2f'''(t) + \frac{1}{2} (h-t)^2f'''(t) \\
+		      & - \dots - \frac{(h-t)^{n-1}}{(n-1)!}f^{(n)}(t)                                                         \\
+		      & = - \frac{(h-t)^{n-1}}{(n-1)!}f^{(n)}(t)
+	\end{align*}
+	Let
+	\[ \phi(t) = F(t) - \left[ \frac{h-t}{h} \right]^p F(0) \]
+	where $p \in \mathbb N$ and $1 \leq p \leq n$. Then
+	\[ \phi(0) = \phi(h) = 0 \]
+	By Rolle's theorem, there exists $\theta \in (0, 1)$ such that
+	\[ \phi'(\theta h) = 0 \]
+	We can compute $\phi'$ to find
+	\[ \phi'(\theta h) = F'(\theta h) + \frac{p(1-\theta)^{p-1}}{h} F(0) = 0 \]
+	Substituting everything back into $F$ gives
+	\[ 0 = \frac{-h^{n-1}(1-\theta)^{n-1}}{(n-1)!}f^{(n)}(\theta h) + \frac{p(1-\theta)^{p-1}}{h}\left[ f(h) - f(0) - h'(0) - \dots - \frac{h^{n-1}}{(n-1)!}f^{(n-1)}(0) \right] \]
+	Hence
+	\[ f(h) = f(0) + hf'(0) + \frac{h^2}{2!} f''(0) + \dots + \frac{h^{n-1}}{(n-1)!}f^{(n-1)}(0) + \underbrace{\frac{h^n(1 - \theta)^{n-1}f^{(n)}(\theta h)}{(n-1)!\cdot p(1-\theta)^{p-1}}}_{R_n} \]
+	By letting $p = n$, we get Lagrange's remainder. If $p=1$, we get Cauchy's remainder.
+\end{proof}

@@ -1,0 +1,99 @@
+
+The Numbers and Sets course aims to formalise the basics of pure maths and create a more `grown-up' way of looking at numbers and proofs.
+
+\begin{enumerate}
+	\item Elementary Number Theory. This is an easier chapter.
+	\item The Reals. Formally defines $\mathbb{R}$; the hardest chapter of the course. Has more subtle definitions than the rest of the course.
+	\item Sets and Functions. Mostly just a chapter to define some terminology, not many exciting theorems. Quite short.
+	\item Countability. A short, enjoyable chapter.
+\end{enumerate}
+
+\subsection{Proofs}
+\begin{definition}[Proof]
+	A proof is a logical argument that establishes a conclusion.
+\end{definition}
+
+Clearly there are some things missing from this definition; we have not yet defined a `logical argument' or a `conclusion'; however we have to start somewhere, and assuming understanding of logic is a good place to start. There is a 3rd year course called `Logic and Set Theory' that rigorously defines this.
+
+\subsection{Why Prove Things?}
+There are two main reasons to want to prove things.
+\begin{enumerate}
+	\item To be sure that they are true; and
+	\item to understand why they are true.
+\end{enumerate}
+
+For the first point, it is easy to make a contrived example that shows why we need to prove statements even though they appear to be true for small $n$, for example: `all positive integers $n$ are not equal to 100 trillion'. Understanding the reasoning behind why a statement is true is also very important; an example of this is at the end of this lecture.
+
+\subsection{Examples of Proofs (and Non-Proofs)}
+\begin{claim}
+	For any positive integer $n$, $n^3-n$ is a multiple of 3.
+\end{claim}
+\begin{proof}
+	Given some positive integer $n$, we have
+
+	\[ n^3 - n = (n-1)n(n+1) \]
+
+	One of $n-1,\,n,\,n+1$ must be a multiple of 3 as they are 3 consecutive integers.
+
+	Therefore, $(n-1)n(n+1)$ must be a multiple of 3.
+\end{proof}
+
+There are a couple of things to note about this proof.
+\begin{itemize}
+	\item The phrase `given a positive integer' is important; we need to know where this variable $n$ came from.
+	\item We used the fact that three consecutive numbers contain a multiple of 3 here, but this was not proven. We must prove this fact elsewhere, or we cannot use it in this course!
+	\item It is important to write proofs legibly and linearly down the page; don't just write a long line of symbols.
+\end{itemize}
+
+\begin{claim}
+	For any positive integer $n$, if $n^2$ is even then $n$ is even.
+\end{claim}
+\begin{proof}
+	Given a positive integer $n$ that is even, we have $n=2k$ for some integer $k$.
+
+	Thus $n^2 = (2k)^2 = 4k^2 = 2(2k^2)$,
+
+	so $n^2$ is even.
+\end{proof}
+\begin{note}
+	This is a false proof. We proved that $B \implies A$, but we want $A \implies B$. Our result wasn't false, but it didn't show what we set out to prove. The words `for some integer $k$' are important: we must specify which set $k$ belongs to. Our proof would be incorrect if we did not state this, as it would be unclear that $2(2k^2)$ is an even number.
+\end{note}
+
+\begin{claim}
+	For any positive integer $n$, if $n^2$ is a multiple of 9 then $n$ is a multiple of 9.
+\end{claim}
+\begin{proof}
+	Given a positive integer $n$ that is a multiple of 9, we have $n=9k$ for some integer $k$.
+
+	Therefore, $n^2 = (9k)^2 = 81k^2 = 9(9k^2)$,
+
+	so $n^2$ is a multiple of 9.
+\end{proof}
+\begin{note}
+	Not only does this fall for the same trap as the previous proof, but the original claim is false (e.g. $n=6$)! It's entirely irrelevant that the claim is true for some positive integers, because even one counterexample disproves the claim.
+\end{note}
+
+Let's return now to the previous incorrect example: `if $n^2$ even then $n$ even for all positive integers $n$'.
+
+\begin{proof}
+	Suppose that $n$ is odd.
+
+	We have $n = 2k+1$ for some integer $k$.
+
+	Therefore, $n^2 = (2k+1)^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1$
+
+	$n^2$ is odd \contradiction
+
+	Therefore $n$ is even.
+\end{proof}
+\begin{itemize}
+	\item We prove things to show \textit{why} something is true. We can see why this claim was true here --- it's really a statement about the properties of odd numbers, not the properties of even numbers.
+	\item We started by saying that we need something tangible to work with: just stating that `$n^2$ is even' is really hard to work with because square roots just get messy and don't yield any result. So we had to choose a clever first step.
+	\item The symbol \contradiction{} shows that we have a contradiction.
+\end{itemize}
+
+This was a kind of proof by contradiction. Essentially, $A \implies B$ is the same as saying $\neg B \implies \neg A$. This is because:
+\begin{itemize}
+	\item $A \implies B$ means that there is no case such that $A$ is false and $B$ is true.
+	\item $\neg B \implies \neg A$ means that there is no case such that $\neg B$ is false and $\neg A$ is true. In other words, there is no case such that $B$ is true and $A$ is false. This is equivalent to the case with $A \implies B$.
+\end{itemize}

@@ -1,0 +1,44 @@
+\subsection{Infinite Primes}
+\begin{proposition}
+	There are infinitely many primes.
+\end{proposition}
+\begin{proof}
+	Assume there exists a largest prime. Then, the list of primes is $p_1, p_2 \cdots p_k$. Let $n=p_1 p_2 \cdots p_k + 1$. Then $n$ has no prime factor. This is a contradiction immediately because we know that every number greater than two has a factorisation, but this doesn't.
+\end{proof}
+
+We want to prove that prime factorisation is unique (up to the ordering). We need that $p \mid ab \implies p \mid a \lor p \mid b$. However, this is hard to answer --- $p$ is defined in terms of what divides it, not what it divides. This is the reverse of its definition, so we need to prove it in a more round-about way.
+
+\subsection{Highest Common Factors}
+For $a, b \in \mathbb N$, a number $c \in \mathbb N$ is defined to be the highest common factor if:
+\begin{itemize}
+	\item $c \mid a$ and $c \mid b$, and
+	\item For all other factors $d$ ($d \mid a$ and $d \mid b$), we have that $d \mid c$.
+\end{itemize}
+The second point implies that it is the \textit{highest} common factor, but it is actually slightly stronger. Note that, for example, if a pair's common factors were 1, 2, 3, 4, 6 then the numbers would not have a highest common factor, because 4 does not divide 6.
+
+\subsection{Division Algorithm}
+The Division Algorithm allows us to write any number $n \in \mathbb N$ as a multiple $q\in\mathbb N$ of $k\in \mathbb N$ with some remainder $r\in\mathbb N$ such that $0 \leq r < k$; this can be shortened to $n = qk + r$. We begin by writing 1 in this form: $1 = 0k + 1$. Inductively, $n$ can be written as:
+\[ n = (n-1) + 1 = q_0 k + r_0 + 1 \]
+where $q_0$ and $r_0$ are the results of $q$ and $r$ for $n-1$. Note that we have two cases:
+\begin{itemize}
+	\item If $r_0 + 1 < k$: the result is simply $n = q_0k + (r_0+1)$
+	\item Else ($r_0 + 1 = k$): the result is $n = (q_0 + 1)k + 0$
+\end{itemize}
+
+\subsection{Euclid's Algorithm}
+We can find the highest common factor of two natural numbers $a$ and $b$ (without loss of generality, we assume that $a \leq b$).
+\begin{itemize}
+	\item Write $a$ as some multiple $q_1$ of $b$, with remainder $r_1$.
+	\item Write $b$ as some multiple $q_2$ of $r_1$, with remainder $r_2$.
+	\item Write $r_1$ as some multiple $q_3$ of $r_2$, with remainder $r_3$.
+	\item Continue until $r_{n+1}=0$. Then, $r_n$ is the highest common factor of $a$ and $b$. We know that the algorithm terminates because $r_k < r_{k-1}$ so it will terminate in at most $b$ steps.
+\end{itemize}
+We now prove that the algorithm works.
+\begin{proof}
+	We need to prove that it is a common factor and then that it divides all other common factors.
+	\begin{itemize}
+		\item On the last line of the algorithm, we have $r_{n-1} = q_{n+1} r_n + 0$, so we know that $r_n \mid r_{n-1}$. On the second last line, we have $r_{n-2} = q_n r_{n-1} + r_n$, but $r_n$ divides $r_{n-1}$, so $r_n$ must divide $r_{n-2}$. We can continue this logic up to the start of the algorithm, where we can see that $r_n \mid a$ and $r_n \mid b$. So $r_n$ is a common factor of $a$ and $b$.
+		\item Given some other common factor $d \neq r_n$, we can look at the first line of the algorithm to see that $d \mid r_1$. Using this, we can use the next line to see that $d \mid r_2$. Continuing to the last line, we have $d \mid r_n$.
+	\end{itemize}
+	So $r_n$ is the highest common factor of $a$ and $b$. Therefore, the highest common factor exists and is unique for any natural numbers $a$ and $b$.
+\end{proof}

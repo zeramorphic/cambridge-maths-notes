@@ -1,0 +1,71 @@
+\subsection{Geometric Series}
+Let $a_n = x^{n-1}$, where $n \geq 1$. Then
+\[ s_n = \sum_{j=1}^n a_j = 1 + x + x^2 + \dots + x^{n-1} \]
+Then
+\[ s_n = \begin{cases}
+		\frac{1 - x^n}{1 - x} & \text{if } x \neq 1 \\
+		n                     & \text{if } x = 1
+	\end{cases} \]
+This can be shown by observing that
+\[ x s_n = x + x^2 + \dots + x^n = s_n - 1 + x^n \implies s_n(1-x) = 1-x^n \]
+If $\abs{x} < 1$, then $x^n \to 0$ as $x \to \infty$. So $s_n \to \frac{1}{1-x}$. If $x > 1$, then $x^n \to \infty$ and so $s_n \to \infty$. If $x < -1$, $s_n$ oscillates. For completeness, if $x=-1$, $s_n$ oscillates between 0 and 1.
+
+Note that the statement $s_n \to \infty$ means that given $a \in \mathbb R$, $\exists N$ such that $s_n > a$ for all $n \geq N$, and a similar statement holds for negative infinity (swapping the inequality). If $s_n$ does not converge or tend to $\pm \infty$, we say that $s_n$ oscillates.
+
+Thus the geometric series converges if and only if $\abs{x} < 1$. Note that to prove that $x^n \to 0$ if $\abs{x} < 1$, we can consider the caase $0 < x < 1$ and write $1/x = 1 + \delta$ for some positive $\delta$. Then $x^n = \frac{1}{(1 + \delta)^n} \leq \frac{1}{1 + \delta n}$ from the binomial expansion, and this tends to zero as required.
+
+\begin{lemma}
+	If $\sum_{j=1}^\infty a_j$ converges, then $\lim_{j \to \infty} a_j = 0$.
+\end{lemma}
+\begin{proof}
+	Given $s_n = \sum_{j=1}^n a_j$, we have $a_n = s_n - s_{n-1}$. If $s_n \to a$, then $a_n \to 0$ since $s_{n-1}$ also tends to $a$.
+\end{proof}
+\begin{remark}
+	The converse is not true. For example, the harmonic series diverges, but the terms approach zero. Consider
+	\begin{align*}
+		s_{2n} & = s_n + \frac{1}{n+1} + \frac{1}{n+2} + \dots + \frac{1}{2n} \\
+		       & > s_n + \frac{1}{2n} + \frac{1}{2n} + \dots + \frac{1}{2n}   \\
+		       & = s_n + \frac{1}{2}
+	\end{align*}
+	So as $n \to \infty$, if the sequence is convergent then the sequences $s_n$ and $s_{2n}$ tend to the same limit, but they clearly do not.
+\end{remark}
+
+\subsection{Comparison Test}
+In this section, we will let $a_n \in \mathbb R, a_n \geq 0$. In other words, all series contain only non-negative real terms.
+\begin{theorem}
+	Suppose $0 \leq b_n \leq a_n$ for all $n$. If $\sum_{j=1}^\infty a_j$ converges, then $\sum_{j=1}^\infty b_j$ converges.
+\end{theorem}
+\begin{proof}
+	Let $s_N$ be the $N$th partial sum over the $a_n$, and let $d_N$ be the $N$th partial sum over the $d_N$. Since $b_n \leq a_n, d_N \leq s_N$. But $s_N \to s$, so $d_N \leq s_N \leq s$. So $d_N$ is an increasing sequence that is bounded above by $s$, so it converges.
+\end{proof}
+\noindent For example, let us analyse the behaviour of the sum of the sequence $\frac{1}{n^2}$. Note that
+\[ \frac{1}{n^2} < \frac{1}{n(n-1)} = \frac{1}{n-1} - \frac{1}{n} \]
+for $n \geq 2$. By the comparison test, it is sufficient to show that the series on the right hand side converges, in order to show that the original series converges.
+\[ \sum_{j=2}^N a_j = 1 - \frac{1}{N} \to 1 \]
+as required. So the original series tends to some value less than or equal to 2.
+
+\subsection{Root Test or Cauchy's Test}
+\begin{theorem}
+	Suppose we have a sequence of non-negative terms $a_n$. Suppose that $a_n^{1/n} \to a$ as $n \to \infty$. Then if $a < 1$, the series $\sum a_n$ converges. If $a > 1$, the series $\sum a_n$ diverges.
+\end{theorem}
+\begin{remark}
+	Nothing can be said if $a=1$. There is an example later of this fact.
+\end{remark}
+\begin{proof}
+	If $a < 1$, let us choose an $r$ such that $a < r < 1$. By the definition of the limit, $\exists N$ such that $\forall n \geq N$, $a_n^{1/n} < r$. This implies that $a_n < r^n$. The geometric series $\sum r^n$ converges. By comparison, the series $a_n$ converges.
+
+	If $a > 1$, for all $n \geq N$, $a_n^{1/n} > 1$ which implies $a_n > 1$, thus $\sum a_n$ diverges, since $a_n$ does not tend to zero.
+\end{proof}
+
+\subsection{Ratio Test or d'Alembert's Test}
+\begin{theorem}
+	Suppose $a_n > 0$, and $\frac{a_{n+1}}{a_n} \to \ell$. If $\ell < 1$, then the series $\sum a_n$ converges. If $\ell > 1$, then the series $\sum a_n$ diverges.
+\end{theorem}
+\begin{remark}
+	Like before, no conclusion can be drawn if $\ell = 1$.
+\end{remark}
+\begin{proof}
+	Suppose $\ell < 1$. We can choose $\ell < r < 1$, $\exists N$ such that $\forall n \geq N$, $\frac{a_{n+1}}{a_n} < r$. Therefore $a_n < r^{n-N} a_N$. Hence, $a_n < k r^n$ where $k$ is independent of $n$. Applying the comparison test, the series $\sum a_n$ must converge.
+
+	If $\ell > 1$, we can choose $\ell > r > 1$. Then $\exists N$ such that $\forall n \geq N$, $\frac{a_{n+1}}{a_n} > r$. As before, $a_n > r^{n-N} a_N$. But the $r^{n-N}$ diverges, so the original series diverges.
+\end{proof}

@@ -1,0 +1,92 @@
+\subsection{The M\"obius Group}
+M\"obius groups are an analogous concept to permutation groups, but on the infinite set of the complex numbers. A M\"obius transformation $f$ is defined as follows:
+\[ f: \hat{\mathbb C} \to \hat{\mathbb C};\quad f(z) = \frac{az + b}{cz + d};\quad a, b, c, d \in \mathbb C;\quad ad-bc \neq 0 \]
+The reason for the restriction that $ad-bc\neq 0$ is that $ad=bc$ implies that $f$ is a constant value for all $z$. Note that $\hat{\mathbb C}$ is known as the `extended complex plane', defined as the complex plane together with a point at infinity, denoted $\infty$. There are some special points related to M\"obius transformations:
+\begin{itemize}
+	\item $f(\frac{-d}{c})$ is defined to be $\infty$. This is because the denominator of the fraction would be zero.
+	\item $f(\infty)$ is defined to be $\frac{a}{c}$ if $c \neq 0$. This is because as the length of $z$ increases to infinity, the constant terms $b$ and $d$ vanish. However, if $c = 0$, then the numerator explodes to infinity as the denominator remains constant, so $f(\infty) = \infty$ in this case.
+\end{itemize}
+
+\begin{lemma}
+	M\"obius transformations are bijections from $\hat{\mathbb C} \to \hat{\mathbb C}$.
+\end{lemma}
+\begin{proof}
+	We can prove this by evaluating $f(f^{-1}(z))$ and $f^{-1}(f(z))$ at all $z$, taking into account all the special points. The entire proof is not written here, but it suffices to substitute every special point and a generic $z$ into both of these expressions, and show that they equal $z$ in all cases.
+\end{proof}
+
+\begin{theorem}
+	The set $\mathcal M$ of M\"obius maps forms a group under composition of functions.
+\end{theorem}
+\begin{proof}
+	We must check each of the group axioms, and we begin with closure. Let $f_1(z) = \frac{a_1 z + b_1}{c_1 z + d_1}; f_2(z) = \frac{a_2 z + b_2}{c_2 z + d_2}$. To compose these functions, we first ignore the special points and then check them individually later.
+	\begin{align*}
+		(f_2 \circ f_1)(z) & = f_2(f_1(z))                                                                                                               \\
+		                   & = \frac{a_2 \left( \frac{a_1 z + b_1}{c_1 z + d_1} \right) + b_2}{c_2 \left( \frac{a_1 z + b_1}{c_1 z + d_1} \right) + d_2} \\
+		                   & = \frac{(a_1 a_2 + b_2 c_1)z + (a_2 b_1 + b_2 d_1)}{(c_2 a_1 + d_2 c_1)z + (c_2 b_1 + d_1 d_2)}                             \\
+		                   & =: \frac{az + b}{cz + d}
+	\end{align*}
+	Note that $ad-bc = (a_1 a_2 + b_2 c_1)(c_2 b_1 + d_1 d_2) - (a_2 b_1 + b_2 d_1)(c_2 a_1 + d_2 c_1) = (a_1 d_1 - b_1 c_1)(a_2 d_2 - b_2 c_2)$ which is the product of two nonzero numbers, which is therefore nonzero. Now we will check all the special points.
+	\begin{align*}
+		(f_2 \circ f_1)(\infty)                                         & = f_2\left(\frac{a_1}{c_1}\right)                                                           \\
+		                                                                & = \frac{a_2 \left( \frac{a_1}{c_1} \right) + b_2}{c_2 \left( \frac{a_1}{c_1} \right) + d_2} \\
+		                                                                & = \frac{a_1 a_2 + b_2 c_1}{c_2 a_1 + d_2 c_1}                                               \\
+		                                                                & = \frac{a}{c}                                                                               \\
+		(f_2 \circ f_1)(\infty)                                         & = f_2(\infty) = \frac{a_2}{c_2}                                                             \\
+		(f_2 \circ f_1)\left(f^{-1}\left(\frac{-d_2}{c_2}\right)\right) & = f_2\left( \frac{-d_2}{c_2} \right)                                                        \\
+		                                                                & = \infty
+	\end{align*}
+	Note that each of these results matches up with our intuitive understanding of infinity in the limit, for instance $(f_2 \circ f_1)(\infty) = \frac{a}{c}$, where na\"ively we might assume $(f_2 \circ f_1)(\infty) = \frac{a \cdot \infty + b}{c \cdot \infty + d} = \frac{a}{c}$.
+
+	Now we may prove the other group axioms hold for $\mathcal M$. Clearly there is an identity element $f(z) = \frac{1z + 0}{0z + 1}$. We know that there are always inverses because $f$ is a bijection. Finally, we know that all M\"obius maps obey the associative law because function composition is always associative. So $\mathcal M$ is a group.
+\end{proof}
+
+\subsection{Properties of the M\"obius Group}
+When we are working with M\"obius groups, we use the following conventions:
+\[ \frac{1}{\infty} = 0;\quad \frac{1}{0} = \infty;\quad \frac{a\cdot\infty}{c\cdot\infty} = \frac{a}{c} \]
+
+Firstly, $\mathcal M$ is not abelian. For example, let $f_1(z) = z + 1; f_2(z) = 2z$. Then $(f_2 \circ f_1)(z) = 2z + 2$ and $(f_1 \circ f_2)(z) = 2z + 1$.
+
+\begin{proposition}
+	Every M\"obius transformation can be written as a composition of maps of the following forms:
+	\begin{enumerate}[(i)]
+		\item $f(z) = az$ where $a\neq 0$. This is a dilation or rotation.
+		\item $f(z) = z + b$. This is a translation by $b$.
+		\item $f(z) = \frac{1}{z}$. This is an inversion.
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	Let $f(z) = \frac{az + b}{cz + d}$. Then if $c \neq 0$, $f(z)$ is given by
+	\[ z \xrightarrow{\text{(ii)}} z + \frac{d}{c} \xrightarrow{\text{(iii)}} \frac{1}{z + \frac{d}{c}} \xrightarrow{\text{(i)}} \frac{(-ad+bc)c^{-2}}{z + \frac{d}{c}} \xrightarrow{\text{(ii)}} \frac{a}{c} + \frac{(-ad+bc)c^{-2}}{z + \frac{d}{c}} = \frac{az + b}{cz + d} \]
+	If $c = 0$, $f(z)$ is given by
+	\[ z \xrightarrow{\text{(i)}} \frac{a}{d}z \xrightarrow{\text{(ii)}} \frac{a}{d}z + \frac{b}{d} = \frac{az + b}{d} \]
+\end{proof}
+Note therefore that the set $\mathcal S$ of all dilations, rotations, translations and inversions generates $\mathcal M$, or in symbolic form, $\genset {\mathcal S} = \mathcal M$.
+
+\subsection{Cosets}
+Let $H$ be a subgroup of some group $G$, and let $g \in G$. Then a set of the form $gH := \{ gh : h \in H \}$ is called a left coset of $H$ in $G$. Also, a set of the form $Hg := \{ hg : h \in H \}$ is called a right coset of $H$ in $G$. Mostly we use left cosets, but right cosets can be seen in more specific scenarios. Note that the order of group $H$ is the same as the order of the cosets $gH$ and $Hg$; we can think of $gH$ and $Hg$ as translated copies of $H$. Note further that $gH$ and $Hg$ are not necessarily groups; in fact in general they are not groups. We now consider some example cosets.
+\begin{enumerate}
+	\setcounter{enumi}{-1}
+	\item Let $H = \{ e \} \leq G$. Then $gH = \{ g \}$.
+	\item Let $H = 2\mathbb Z$ and let $G = \mathbb Z$. Then (where the cosets are written additively):
+	      \begin{itemize}
+		      \item $0 + 2\mathbb Z = 2\mathbb Z$ which is the set of even integers.
+		      \item $1 + 2\mathbb Z = \{ 1 + k: k \in 2\mathbb Z \}$ which is the set of odd integers.
+		      \item $2 + 2\mathbb Z = 2\mathbb Z$. There are only two distinct cosets of $H$ in $G$ here; every odd integer will create the set of odd integers, and every even integer will create the set of even integers.
+	      \end{itemize}
+	\item Let $H = \{ e, (1\ 2) \}$, and let $G = S_3$. Then, each (left) coset of $H$ in $G$ is given by
+	      \begin{itemize}
+		      \item $eH = \{ e, (1\ 2) \} = H$
+		      \item $(1\ 2)H = \{ (1\ 2), e \} = H$
+		      \item $(1\ 3)H = \{ (1\ 3), (1\ 2\ 3) \}$
+		      \item $(1\ 2\ 3)H = \{ (1\ 2\ 3), (1\ 3) \}$
+		      \item $(2\ 3)H = \{ (2\ 3), (1\ 3\ 2) \}$
+		      \item $(1\ 3\ 2)H = \{ (1\ 3\ 2), (2\ 3) \}$
+	      \end{itemize}
+	      Note that:
+	      \begin{itemize}
+		      \item $eH = H$
+		      \item $\forall h \in H, hH = H$ as $H$ is a group and therefore closed under multiplication with $h$
+		      \item $\abs{gH} = \abs{H}$
+		      \item $\bigcup_{g\in G} gH = G$, and in this example in particular, each pair of cosets is equal and disjoint to any other pair
+	      \end{itemize}
+\end{enumerate}

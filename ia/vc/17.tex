@@ -1,0 +1,57 @@
+\subsection{Superposition Principle}
+Consider a linear operator $L$. If we have solutions $L \psi_n = F_n$ for $n = 1, 2, \dots$, then we have $L\qty(\sum_n \psi_n) = \sum_n F_n$ by linearity. In other words, we can superimpose solutions. We can often break up a forcing term into several smaller, simpler components, and if $L$ is a linear differential operator we can solve for these components separately. For example, we can consider the electric potential due to a pair of point charges $Q_a$ at $\vb x = \vb a$, and $Q_b$ at $\vb x = \vb b$. The charge density would be
+\[ \rho(\vb x) = Q_a \delta(\vb x - \vb a) + Q_b \delta(\vb x - \vb b) \]
+For one point charge, we know that the electric potential obeys
+\[ -\laplacian{\phi} = \frac{Q_a}{\varepsilon_0} \delta(\vb x - \vb a) \]
+Hence,
+\[ \phi(\vb x) = \frac{Q_a}{4\pi \varepsilon_0} \frac{1}{\abs{\vb x - \vb a}} \]
+Then by the superposition principle, for two particles,
+\[ \phi(\vb x) = \frac{Q_a}{4\pi \varepsilon_0} \frac{1}{\abs{\vb x - \vb a}} + \frac{Q_b}{4\pi \varepsilon_0} \frac{1}{\abs{\vb x - \vb b}} \]
+Now, consider the electric potential outside a ball of radius $\abs{\vb x} < R$ of uniform charge density $\rho_0$. Suppose that the ball has several balls removed from its interior. These `subtracted' balls have the form
+\[ \abs{\vb x - \vb a_i} < R_i;\quad i = 1, \dots, N \]
+We further require that the balls lay inside the main ball, and do not intersect:
+\[ \abs{\vb a_i} + R_i < R;\quad \abs{\vb a_i - \vb a_j} > R_i + R_j \]
+We can use the superposition principle to represent each hole as a ball of uniform charge density $-\rho_0$. So the effective potential in $\abs{\vb x} > R$ (outside the vall) from each hole is
+\[ \phi(x) = -\frac{Q_i}{4\pi\varepsilon_0} \frac{1}{\abs{\vb x - \vb a_i}};\quad Q_i = \frac{4}{3}\pi R_i^3 \rho_0 \]
+Hence, the total potential from the ball and its holes is
+\[ \phi(x) = \frac{Q}{4\pi\varepsilon_0} \frac{1}{\abs{\vb x}} - \sum_i\frac{Q_i}{4\pi\varepsilon_0} \frac{1}{\abs{\vb x - \vb a_i}} \]
+
+\subsection{Integral Solutions}
+We know that the electric potential due to a point charge at $\vb a$ is proportional to the inverse of the distance to the particle. We can think of a generic distribution of charge density as an infinite collection of superimposed particles, which leads us to consider an integral form for a superposition.
+\[ \int_{\mathbb R^3} \frac{F(\vb y)}{\abs{\vb x - \vb y}} \dd{V(\vb y)} \]
+where $F$ is the forcing term.
+\begin{proposition}
+	Suppose $F \to 0$ `rapidly' as $\abs{\vb x} \to \infty$. The unique solution to the Dirichlet problem
+	\[ \begin{cases}
+			\laplacian{\phi} = F & \vb x \in \mathbb R^3   \\
+			\abs{\phi} \to 0     & \abs{\vb{x}} \to \infty
+		\end{cases} \]
+	is given by
+	\[ \phi(\vb x) = -\frac{1}{4\pi}\int_{\mathbb R^3} \frac{F(\vb y)}{\abs{\vb x - \vb y}} \dd{V(\vb y)} \]
+\end{proposition}
+\noindent This result is another way of saying that
+\[ \laplacian(\frac{-1}{4\pi\abs{\vb x}}) = \delta(\vb x) \]
+since by differentiating with respect to $x$ under the integral sign,
+\begin{align*}
+	\laplacian(\frac{-1}{4\pi} \int_{\mathbb R^3} \frac{F(\vb y)}{\abs{\vb x - \vb y}} \dd{V(\vb y)}) & = \frac{-1}{4\pi} \int_{\mathbb R^3} F(\vb y) \laplacian(\frac{1}{\abs{\vb x - \vb y}}) \dd{V(\vb y)} \\
+	                                                                                                  & = \int_{\mathbb R^3} F(\vb y) \delta(\vb x - \vb y) \dd{V(\vb y)}                                     \\
+	                                                                                                  & = F(\vb x)
+\end{align*}
+\noindent so it is sufficient to prove that this Laplacian identity holds. A full proof will not be given here, but here is some intuition to guide the idea. Note that for $r \neq 0$,
+\begin{align*}
+	\laplacian(\frac{1}{r}) & = \pdv{}{x_i}{x_i} \qty(\frac{1}{r})              \\
+	                        & = \pdv{x_i} \qty(\frac{-x_i}{r^3})                \\
+	                        & = \frac{-\delta_{ii}}{r^3} + \frac{3x_i x_i}{r^5} \\
+	                        & = \frac{-3}{r^3} + \frac{3r^2}{r^5}               \\
+	                        & = 0
+\end{align*}
+So certainly $\laplacian(-\frac{1}{4\pi\abs{\vb x}}) = \delta(\vb x)$ for $\vb x \neq 0$. Assuming that the divergence theorem holds for delta functions, for any ball $\abs{\vb x} < R$ we would also have
+\begin{align*}
+	\int_{\abs{\vb x} < R} \laplacian(\frac{1}{\abs{\vb x}}) \dd{V} & = \int_{\abs{\vb x} = R} \grad(\frac{1}{\abs{\vb x}}) \cdot \dd{\vb S}                                                          \\
+	                                                                & = \int_{\theta = 0}^{\pi} \dd{\theta} \int_{\phi = 0}^{2 \pi} \dd{\phi} \qty(\frac{-\vb e_r}{R^2}) \cdot \vb e_r R^2 \sin\theta \\
+	                                                                & = \int_{\theta = 0}^{\pi} \dd{\theta} \int_{\phi = 0}^{2 \pi} \dd{\phi} \qty(\frac{-1}{R^2}) R^2 \sin\theta                     \\
+	                                                                & = -4\pi
+\end{align*}
+So for any $R > 0$,
+\[ \int_{\abs{\vb x} < R} \laplacian(\frac{-1}{4\pi\abs{\vb x}}) \dd{V} = 1 = \int_{\abs{\vb x} < R} \delta(\vb x) \dd{V} \]
+So we might conclude that this Laplacian operator really does give the Dirac delta function.

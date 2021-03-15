@@ -1,0 +1,81 @@
+\subsection{Gradient Vector}
+Consider a function $f(x, y)$, and some small displacement $\dd \vb s$. We want to find the rate of change of $f$ in this direction. Recall that the multivariate chain rule tells us that a change in $f$, given a change in $x$ and $y$, is given by
+\begin{align*}
+	\dd{f} & = \frac{\partial f}{\partial x} \dd{x} + \frac{\partial f}{\partial y}\dd{y}                         \\
+	       & = (\dd{x}, \dd{y}) \cdot \left( \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y} \right) \\
+	       & = \dd \vb s \cdot \grad f
+\end{align*}
+where $\dd \vb s = (\dd{x}, \dd{y})$; $\grad f = \left( \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y} \right)$. We call $\grad f$ the `gradient vector', in this case in Cartesian coordinates. If we let $\dd \vb s = \dd{s} \hat{\vb s}$ where $\abs{\hat{\vb s}} = 1$, then we can write
+\[ \dd{f} = \dd{s} (\hat{\vb s}\cdot \grad f) \]
+
+\subsection{Directional Derivative}
+We define the directional derivative by
+\[ \frac{\dd{f}}{\dd{s}} = \hat{\vb s} \cdot \grad f \]
+This is the rate of change of $f$ in the direction given by $\hat{\vb s}$.
+
+\subsection{Properties of the Gradient Vector}
+\begin{enumerate}
+	\item The magnitude of the gradient vector $\grad f$ is the maximum rate of change of $f(x, y)$.
+	      \[ \abs{\grad f} = \max\limits_{\forall \theta} \left( \frac{\dd{f}}{\dd{s}} \right) \]
+	\item The direction of $\grad f$ is the direction in which $f$ increases most rapidly.
+	      \[ \abs{\frac{\dd{f}}{\dd{s}}} = \abs{\grad f}\cos\theta \]
+	      where $\theta$ is the angle between $\grad f$ and $\hat{\vb s}$, which follows from the definition of the directional derivative.
+	\item If $\dd \vb s$ (and $\hat{\vb s}$) are parallel to contours of $f$, then
+	      \[ \frac{\dd{f}}{\dd{s}} = \hat{\vb s} \cdot \grad f = 0 \]
+	      Hence the gradient vector is perpendicular to contours of $f$, and $\abs{\grad f}$ is the slope in the `uphill' direction.
+\end{enumerate}
+
+\subsection{Stationary Points}
+In general, there is always at least one direction in which the directional derivative is zero, since we can just choose a direction perpendicular to the gradient vector, or equivalently parallel to contours of $f$. At stationary points, $\frac{\dd{f}}{\dd{s}} = 0$ for all directions, so $\grad f = \vb 0$. Stationary points may have multiple types:
+\begin{itemize}
+	\item Minimum points, where the function is a minimum point in both directions;
+	\item Maximum points, where the function is a maximum point in both directions; and
+	\item Saddle points, where the function is a minimum point in one direction but a maximum point in another direction.
+\end{itemize}
+Note:
+\begin{itemize}
+	\item Near minima and maxima, the contours of $f$ are elliptical.
+	\item Near a saddle, the contours of $f$ are hyperbolic.
+	\item Contours of $f$ can only cross at saddle points.
+\end{itemize}
+
+\subsection{Taylor Series for Multivariate Functions}
+Let us expand a function $f(x, y)$ around a point $\vb s_0$, and evaluate it at some point $\vb s_0 + \delta \vb s$, where $\delta \vb s = \delta s \hat{\vb s}$. The Taylor series expansion in the direction of $\hat{\vb s}$ is
+\[ f(s_0 + \delta s) = f(s_0) + \delta s \eval{\frac{\dd{f}}{\dd{s}} }_{s_0} + \frac{1}{2} (\delta s)^2\eval{\frac{\dd^2 f}{\dd{s}^2}}_{s_0} + \dots \]
+Further, by the definition of the directional derivative,
+\[ \frac{\dd}{\dd{s}} = \hat{\vb s}\cdot \grad \]
+Hence
+\[ \delta s \frac{\dd}{\dd{s}} = \delta \vb s \cdot \grad \]
+Now we can rewrite this Taylor series as follows:
+\[ f(s_0 + \delta_s) = f(s_0) + (\delta s)(\hat{\vb s} \cdot \grad) \eval{f}_{s_0} + \frac{1}{2}(\delta s)^2(\hat{\vb s} \cdot \grad)(\hat{\vb s} \cdot \grad)\eval{f}_{s_0} + \dots \]
+\[ f(s_0 + \delta_s) = f(s_0) + \underbrace{(\delta \vb s \cdot \grad) \eval{f}_{s_0}}_{(1)} + \underbrace{\frac{1}{2}(\delta \vb s \cdot \grad)(\delta \vb s \cdot \grad)\eval{f}_{s_0}}_{(2)} + \dots \]
+Expressing this in Cartesian coordinates:
+\[ \vb s_0 = (x_0, y_0);\quad \delta \vb s = (\delta x, \delta y);\quad x=x_0+\delta x;\quad y=y_0+\delta_y \]
+Therefore,
+\[ (1) = \delta x \frac{\partial f}{\partial x}(x_0, y_0) + \delta y \frac{\partial f}{\partial y}(x_0, y_0) \]
+\begin{align*}
+	(2) & = \eval{\frac{1}{2}\left( \delta x \frac{\partial}{\partial x} + \delta y + \frac{\partial}{\partial y} \right)\left( \delta x \frac{\partial}{\partial x} + \delta y + \frac{\partial}{\partial y} \right)f}_{x_0, y_0} \\
+	    & = \eval{\frac{1}{2}\left( \delta x^2 f_{xx} + \delta x \delta y f_{yx} + \delta y \delta x f_{xy} + \delta y^2 f_{yy} \right)}_{x_0, y_0}                                                                                \\
+	    & = \frac{1}{2}\begin{pmatrix}
+		\delta x & \delta y
+	\end{pmatrix} \eval{\begin{pmatrix}
+			f_{xx} & f_{xy} \\
+			f_{yx} & f_{yy}
+		\end{pmatrix}}_{x_0, y_0} \begin{pmatrix}
+		\delta x \\ \delta y
+	\end{pmatrix}
+\end{align*}
+
+The matrix
+\[ H = \begin{pmatrix}
+		f_{xx} & f_{xy} \\
+		f_{yx} & f_{yy}
+	\end{pmatrix} = \grad(\grad f) \]
+as used in the second derivative above, is called the Hessian matrix.
+
+Putting this together, in 2D Cartesian Coordinates, we have
+\begin{align*}
+	f(x, y) & = f(x_0, y_0) + (x-x_0)\eval{f_x}_{x_0, y_0} + (y-y_0)\eval{f_y}_{x_0, y_0} \\&+ \frac{1}{2}\left[ (x-x_0)^2\eval{f_{xx}}_{x_0, y_0} + (y-y_0)^2\eval{f_{yy}}_{x_0, y_0} + 2(x-x_0)(y-y_0)\eval{f_{xy}}_{x_0, y_0} \right] + \dots
+\end{align*}
+And in the general coordinate-independent form:
+\[ f(\vb x) = f(\vb x_0) + \delta \vb x \cdot \grad f(\vb x_0) + \frac{1}{2}\delta \vb x \cdot \eval{[\grad (\grad f)]}_{x_0} \cdot \delta \vb x^\transpose + \dots \]

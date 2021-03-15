@@ -1,0 +1,118 @@
+\subsection{Definition}
+\begin{theorem}
+	\begin{enumerate}
+		\item If $x_0$ is an ordinary point, then there are two linearly independent solutions of the form
+		      \[ y = \sum_{n=0}^\infty a_n(x-x_0)^n \]
+		      This series is convergent in some region around $x_0$.
+		\item If $x_0$ is a regular singular point, then there is at least one solution of the form
+		      \[ y = \sum_{n=0}^\infty a_n(x-x_0)^{n + \sigma} \]
+		      where $\sigma$ is real and $a_0 \neq 0$.
+	\end{enumerate}
+\end{theorem}
+
+\subsection{Application at Ordinary Points}
+Here is an example of case 1.
+\begin{equation}\label{fuch1}
+	(1-x^2)y'' - 2xy' + 2y = 0
+\end{equation}
+We will try to find series solutions about $x_0=0$, an ordinary point. We will therefore try solutions of the form
+\begin{align*}
+	y   & = \sum_{n=0}^\infty a_nx^n           \\
+	y'  & = \sum_{n=1}^\infty na_nx^{n-1}      \\
+	y'' & = \sum_{n=2}^\infty n(n-1)a_nx^{n-2}
+\end{align*}
+Now, to make all powers of $x$ at least $n$, we will multiply \eqref{fuch1} by $x^2$ for convenience.
+
+\[ (1-x^2)x^2y'' - 2x^3y' + 2x^2y = 0 \]
+\[ (1-x^2)x^2\sum_{n=2}^\infty n(n-1)a_n(x-x_0)^{n-2} - 2x^3\sum_{n=1}^\infty na_n(x-x_0)^{n-1} + 2x^2\sum_{n=0}^\infty a_n(x-x_0)^n = 0 \]
+\[ (1-x^2)\sum_{n=2}^\infty n(n-1)a_nx^n - 2x^2\sum_{n=1}^\infty na_nx^n + 2x^2\sum_{n=0}^\infty a_nx^n = 0 \]
+\[ \sum_{n=2}^\infty a_n[n(n-1)(1-x^2)]x^n - 2\sum_{n=1}^\infty a_n(nx^2)x^n + 2\sum_{n=0}^\infty a_n(x^2)x^n = 0 \]
+
+Now, for $n \geq 2$, equating the $x^n$ coefficients we have
+\[ a_n[n(n-1)] - a_{n-2}[(n-2)(n-3)] - 2a_{n-2}(n-2) + 2a_{n-2} = 0 \]
+This is a discrete equation. Rewritten in a more standard form, we have
+\[ n(n-1)a_n = (n^2 - 3n)a_{n-2} \]
+or
+\begin{equation}\label{fuch1recurrence}
+	a_n = \frac{n-3}{n-1}a_{n-2}
+\end{equation}
+This is known as the recurrence relation. The values of $a_0$ and $a_1$ are the unknown constants to be found via initial or boundary conditions. Note that $a_3 = 0$ from \eqref{fuch1recurrence}. Therefore, any odd power of $x$ of higher order than $x^1$ is zero. For even $n$, we have
+\begin{align*}
+	a_n            & = \frac{n-3}{n-1}a_{n-2}                                         \\
+	a_n            & = \frac{n-3}{n-1}\frac{n-5}{n-3}a_{n-4} = \frac{n-5}{n-1}a_{n-4} \\
+	a_n            & = \frac{n-5}{n-1}\frac{n-7}{n-5}a_{n-6} = \frac{n-7}{n-1}a_{n-6} \\
+	\therefore a_n & = \frac{-1}{n-1}a_0
+\end{align*}
+Therefore
+\[ y = a_1 x + a_0\left[ 1 - x^2 - \frac{x^4}{3} - \frac{x^6}{5} - \frac{x^8}{7} - \dots \right] \]
+Note that
+\[ \ln(1 \pm x) = \pm x - \frac{x^2}{2} \pm \frac{x^3}{3} - \dots \]
+Therefore
+\[ \ln(\frac{1+x}{1-x}) = \ln(1+x) - \ln(1-x) = 2x + 2\frac{x^3}{3} + 2\frac{x^5}{5} + \dots \]
+Hence,
+\[ y = a_1x + a_0\left[ 1-\frac{x}{2}\ln\left( \frac{1+x}{1-x} \right) \right] \]
+Note the behaviour of this function near the singular points of the original differential equation.
+
+\subsection{Application at Regular Singular Points}
+Consider the following differential equation:
+\begin{equation}\label{fuch2}
+	4xy'' + 2(1-x^2)y' - xy = 0
+\end{equation}
+We want to find series solutions about $x=0$. In this case, $\frac{q}{p}$ is undefined at $x=0$, so it is a singular point, but it is regular. We will try solutions of the form
+\begin{align*}
+	y   & = \sum_{n=0}^\infty a_nx^{n + \sigma}                         \\
+	y'  & = \sum_{n=0}^\infty (n+\sigma)a_nx^{n + \sigma-1}             \\
+	y'' & = \sum_{n=0}^\infty (n+\sigma)(n+\sigma-1)a_nx^{n + \sigma-2} \\
+\end{align*}
+where $a_0 \neq 0$. For convenience we will multiply \eqref{fuch2} by $x$:
+\[ 4x^2y'' + 2(1-x^2)xy' - x^2y = 0 \]
+\[ 4x^2\sum_{n=0}^\infty (n+\sigma)(n+\sigma-1)a_nx^{n + \sigma-2} + 2(1-x^2)x\sum_{n=0}^\infty (n+\sigma)a_nx^{n + \sigma-1} - x^2\sum_{n=0}^\infty a_nx^{n + \sigma} \]
+Hence,
+\begin{equation}\label{fuch2expanded}
+	\sum_{n=0}^\infty a_nx^{n + \sigma}\left[4(n+\sigma)(n+\sigma-1) + 2\left(1-x^2\right)(n+\sigma) - x^2\right] = 0
+\end{equation}
+We will equate coefficients of $x^{n+\sigma}$ for $n\geq 2$, since here all terms will make some contribution to the coefficient.
+\[ a_n\left[4(n+\sigma)(n+\sigma-1) + 2(n+\sigma)\right] + a_{n-2}\left[-2(n-2+\sigma) - 1\right] = 0 \]
+Therefore,
+\begin{equation}\label{fuch2recurrence}
+	2(n+\sigma)(2n+2\sigma-1)a_n = (2n+2\sigma-3)a_{n-2}
+\end{equation}
+This is the recurrence relation, which we can use to compute the $a_n$. A general technique to find $\sigma$ is to equate the coefficients of the lowest power of $x$ in \eqref{fuch2expanded}. By setting $n=0$, we can equate coefficients of $x^\sigma$, giving
+\[ a_0(4\sigma(\sigma - 1)) + a_02\sigma = 0 \]
+But since $a_0 \neq 0$ in Fuch's Theorem, we have
+\[ 4\sigma(\sigma - 1) + 2\sigma = 0 \]
+So either $\sigma = 0$ or $\sigma = \frac{1}{2}$. We must consider these two cases individually.
+\begin{itemize}
+	\item ($\sigma = 0$) Equate coefficients of the lowest powers of $x$ in \eqref{fuch2expanded}.
+	      \begin{itemize}
+		      \item ($n=0$) The coefficient of $x^0$ gives
+		            \[ a_0[4(0)(-1)] + a_0[2(0)] = 0 \]
+		            which is true for all $a_0$. So $a_0$ is an arbitrary constant.
+		      \item ($n=1$) The coefficient of $x^1$ gives
+		            \[ a_1[4(1)(0)] + a_1[2(1)] = 0 \]
+		            so $a_1 = 0$.
+	      \end{itemize}
+	      From the recurrence relation \eqref{fuch2recurrence} which is valid for $n \geq 2$, plugging in $\sigma = 0$ gives
+	      \begin{equation}\label{fuch2recurrencezero}
+		      2n(2n - 1)a_n = (2n - 3)a_{n-2}
+	      \end{equation}
+	      Since $a_1 = 0$, clearly all $a_k = 0$ for odd $k$. Therefore, using the recurrence relation \eqref{fuch2recurrencezero} we have
+	      \[ y = a_0 \left( 1 + \frac{x^2}{4 \cdot 3} + \frac{5x^4}{8\cdot 7 \cdot 4 \cdot 3} + \dots \right) \]
+
+	\item ($\sigma = \frac{1}{2}$) This time we will start with the recurrence relation \eqref{fuch2recurrence} with $\sigma = \frac{1}{2}$, relabelling $a$ to $b$ to avoid confusion.
+	      \begin{equation}\label{fuch2recurrencehalf}
+		      (2n+1)(2n)b_n = (2n-2)b_{n-2}
+	      \end{equation}
+	      Now let us analyse the coefficients of the lowest powers of $x$, substituting into \eqref{fuch2expanded}.
+	      \begin{itemize}
+		      \item ($n=0$) The coefficient of $x^{\frac{1}{2}}$ gives
+		            \[ b_0\left[4\left(\frac{1}{2}\right)\left(\frac{-1}{2}\right)\right] + b_0\left[2\left(\frac{1}{2}\right)\right] = 0 \]
+		            which is true for all $b_0$. So $b_0$ is an arbitrary constant.
+		      \item ($n=1$) The coefficient of $x^{\frac{3}{2}}$ gives
+		            \[ b_1\left[4\left(\frac{3}{2}\right)\left(\frac{1}{2}\right)\right] + b_1\left[2\left(\frac{3}{2}\right)\right] = 0 \]
+		            so $b_1 = 0$.
+	      \end{itemize}
+	      As before, all $b_k = 0$ where $k$ is odd. Therefore, using the recurrence relation \eqref{fuch2recurrencehalf}, we have
+	      \[ y = b_0x^{\frac{1}{2}} \left[ 1 + \frac{x^2}{2 \cdot 5} + \frac{3x^4}{2 \cdot 5 \cdot 4 \cdot 9} + \dots \right] \]
+\end{itemize}
+So we have found two linearly independent solutions to the differential equation, given by boundary conditions $a_0$ and $b_0$. Note that Fuch's Theorem only specifies that there will be at least one, but we have found two in this case.

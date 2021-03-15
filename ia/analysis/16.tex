@@ -1,0 +1,69 @@
+\subsection{Exponential and Logarithmic Functions}
+Last lecture, we covered the power series form of the exponential function $e \colon \mathbb C \to \mathbb C$. Note that if we input a real number, the output is also real. Hence, $e \colon \mathbb R \to \mathbb R$. This restricted definition of the function has the following properties.
+\begin{theorem}
+	\begin{enumerate}[(i)]
+		\item $e \colon \mathbb R \to \mathbb R$ is everywhere differentiable, and $e'(x) = e(x)$.
+		\item $e(x+y) = e(x)e(y)$.
+		\item $e(x) > 0$.
+		\item $e$ is strictly increasing.
+		\item $e(x) \to \infty$ as $x \to \infty$, and $e(x) \to 0$ as $x \to -\infty$.
+		\item $e \colon \mathbb R \to (0, \infty)$ is a bijection.
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	The first two properties follow from the last lecture.
+	\begin{enumerate}[(i)]
+		\setcounter{enumi}{2}
+		\item Clearly, $e(x) > 0$ for all $x \geq 0$ by considering the power series, which contains only positive terms for $x>0$, and also $e(0) = 1$. Also, $e(0) = e(x - x) = e(x)e(-x)$, hence for all negative $x$, $e(x) > 0$.
+		\item Since $e'(x) = e(x)$, $e'(x) = e(x) > 0$ everywhere.
+		\item By considering partial sums, if $x>0$ we have $e(x) > 1+x$, so if $x \to \infty$, $e(x) \to \infty$. When $x \to -\infty$, $e(x) = \frac{1}{e(x)} \to 0$.
+		\item Injectivity follows from being strictly increasing. For surjectivity, we need to show that given any $y \in (0, \infty)$ there exists some $x$ such that $e(x) = y$. Due to property (v) above, we can certainly find real numbers $a$ and $b$ such that $e(a) < y < e(b)$. By the intermediate value theorem, there exists $x \in \mathbb R$ such that $e(x) = y$.
+	\end{enumerate}
+\end{proof}
+\begin{remark}
+	We have essentially proven that $e \colon (\mathbb R, +) \to ((0, \infty), \times)$ is a group isomorphism. This is exactly the same as showing that it is a bijection. Since $e$ is a function, there exists an inverse function $\ell \colon ((0, \infty), \times) \to (\mathbb R, +)$.
+\end{remark}
+\begin{theorem}
+	\begin{enumerate}[(i)]
+		\item $\ell \colon (0, \infty) \to \mathbb R$ is a bijection, and $\ell(e(x)) = x$ for all $x \in \mathbb R$, and $e(\ell(x)) = x$ for all $x \in (0, \infty)$.
+		\item $\ell$ is differentiable and its derivative is $\ell'(t) = \frac{1}{t}$.
+		\item $\ell(xy) = \ell(x) + \ell(y)$.
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	\begin{enumerate}[(i)]
+		\item This first propety is obvious from the definition.
+		\item By the inverse function theorem, $\ell$ is differentiable everywhere and $\ell'(t) = \frac{1}{t}$ as required.
+		\item From IA Groups, if $e$ is an isomorphism, so is its inverse.
+	\end{enumerate}
+\end{proof}
+
+\subsection{Real Numbered Exponents}
+We will now define for $\alpha \in \mathbb R$ and $x > 0$ the function
+\[ r_\alpha(x) = e(\alpha \ell(x)) \]
+This can be taken as the definition of $x$ raised to the power $\alpha$.
+\begin{theorem}
+	Suppose $x, y > 0$ and $\alpha, \beta \in \mathbb R$. Then
+	\begin{enumerate}[(i)]
+		\item $r_\alpha(xy) = r_\alpha(x)r_\alpha(y)$
+		\item $r_{\alpha + \beta}(x) = r_\alpha(x) r_\beta(x)$
+		\item $r_\alpha(r_\beta(x)) = r_{\alpha\beta}(x)$
+		\item $r_1(x) = x$, and $r_0(x) = 1$
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	\begin{enumerate}[(i)]
+		\item $r_\alpha(xy) = e(\alpha \ell(xy)) = e(\alpha \ell(x) + \alpha \ell(y)) = e(\alpha \ell(x))e(\alpha\ell(y)) = r_\alpha(x)r_\alpha(y)$
+		\item $r_{\alpha + \beta}(x) = e((\alpha + \beta) \ell(x)) = e(\alpha\ell(x) + \beta\ell(x)) = e(\alpha\ell(x))e(\beta\ell(x)) = r_\alpha(x) r_\beta(x)$
+		\item $r_\alpha(r_\beta(x)) = e(\alpha \ell[e(\beta \ell(x))]) = e(\alpha \beta \ell(x)) = r_{\alpha\beta}(x)$
+		\item $r_1(x) = e(\ell(x)) = x$, and $r_0(x) = e(0 \ell(x)) = e(0) = 1$
+	\end{enumerate}
+\end{proof}
+\noindent Suppose we want to compute $r_n(x)$, where $n \in\mathbb Z$. Then $r_n(x) = r_{1 + \dots + 1}(x) = x \cdots x$, so we have aggreement between $r_n(x)$ and our previous definition of $x^n$. Similarly, since $r_1(x) r_{-1}(x) = 1$, we have $r_{-1}(x) = \frac{1}{x}$. Further, $r_{\frac{1}{q}}(x) = x^\frac{1}{q}$. Therefore, $r_{\frac{p}{q}}(x) = x^{\frac{p}{q}}$. So this definition is simply a more general definition for exponentiation by a real number.
+
+From now, we will let $\exp(x) \equiv e(x)$, $\log(x) \equiv \ell(x)$, and $x^\alpha \equiv r_\alpha(x)$. In fact, $\exp(x) = e^x$ for a suitable number $e$, since $e(x) = e(x \log(e)) = r_x(e) = e^x$ where $e := e(1) = \sum_0^\infty \frac{1}{n!}$.
+
+Finally, we can compute the derivative of $x^\alpha$ using the chain rule.
+\[ (x^\alpha)' = \left( e^{\alpha \log x} \right)' = e^{\alpha \log x} \alpha \frac{1}{x} = \alpha x^\alpha x^{-1} = \alpha x^{\alpha - 1} \]
+as expected. Further, if $f(x) = a^x$, we can find
+\[ f'(x) = \left( e^{x \log a} \right)' = e^{x \log a} \log a = a^x \log a \]

@@ -1,0 +1,61 @@
+\subsection{Differentiating Polynomial Terms}
+As an example of the differentiability properties we saw last lecture, we can find the derivative of $f(x) = x^n$ for $n \in \mathbb Z$, $n > 0$. If $n=1$, clearly $f'(x) = 1$. We can show inductively that $f'(x) = nx^{n-1}$. Indeed,
+\begin{align*}
+	(x^n)' & = x \cdot (x^{n-1})' + (x)' \cdot x^{n-1} \\
+	       & = (n-1)x^{n-1} + x^{n-1}                  \\
+	       & = nx^{n-1}
+\end{align*}
+We can now take $f(x) = x^{-n}$. Using the reciprocal law,
+\begin{align*}
+	f'(x) & = \frac{-(x^n)'}{(x^n)^2}  \\
+	      & = \frac{-nx^{n-1}}{x^{2n}} \\
+	      & = -nx^{-n-1}
+\end{align*}
+
+\subsection{Chain Rule}
+\begin{theorem}
+	Let $f \colon U \to \mathbb C$ be such that $f(x) \in V$ for all $x \in U$. If $f$ is differentiable at $a \in U$, and $g \colon V \to \mathbb C$ is differentiable at $f(a) \in V$, then $g \circ f$ is differentiable at $a$ with
+	\[ gf'(a) = f'(a)g'(f(a)) \]
+\end{theorem}
+\begin{proof}
+	We know that we can write
+	\[ f(x) = f(a) + (x-a)f'(a) + \varepsilon_f(x)(x-a) \]
+	where $\lim_{x \to a} \varepsilon_f(x) = 0$. Further,
+	\[ g(y) = g(b) + (y-b)g'(b) + \varepsilon_g(y)(y-b) \]
+	where $\lim_{y \to b} \varepsilon_g(y) = 0$, and $b = f(a)$. We will set $\varepsilon_f(a) = 0$ and $\varepsilon_g(b) = 0$, so they are continuous at $x=a$ and $y=b$, so that everything is well-defined when we begin to compose the functions. Now, $y=f(x)$, so
+	\begin{align*}
+		g(f(x)) & =  g(b) + (f(x) - b)g'(b) + \varepsilon_g(f(x))(f(x) - b)                                                                                                       \\
+		        & = g(f(a)) + \left[ (x-a)f'(a) + \varepsilon_f(x)(x-a) \right]\left[ g'(b) + \varepsilon_g(f(x)) \right]                                                         \\
+		        & = g(f(a)) + (x-a)f'(a)g'(b) + (x-a)\underbrace{\left[ \varepsilon_f(x) g'(b) + \varepsilon_g(f(x)) \left( f'(a) + \varepsilon_f(x) \right) \right]}_{\sigma(x)} \\
+	\end{align*}
+	Now, we just need to show that $\lim_{x \to a} \sigma(x) = 0$ in order to prove the theorem. Clearly
+	\[ \sigma(x) = \underbrace{\varepsilon_f(x)}_{\to 0} g'(b) + \underbrace{\varepsilon_g(f(x))}_{\to 0} \left( f'(a) + \varepsilon_f(x) \right) \]
+	Hence $\sigma(x) \to 0$ as required.
+\end{proof}
+
+\subsection{Rolle's Theorem}
+\begin{theorem}
+	Let $f \colon [a,b] \to \mathbb R$ be a continuous function on $[a,b]$ and differentiable on $(a, b)$. If $f(a) = f(b)$, then there exists $c \in (a,b)$ such that $f'(c) = 0$.
+\end{theorem}
+\begin{proof}
+	Let $M$ be the maximum point and $m$ be the minimum point of the function. Recall that in Lecture 8 we proved that any function achieves its bounds. Let $k = f(a)$. If $M=m=k$, then $f$ must be a constant, and clearly $f'(c) = 0$ for every value $c \in (a, b)$. Otherwise, either $M > k$ or $m < k$. Suppose $M > k$ (the proof is very similar if $m < k$). Then there exists some value $c \in (a, b)$ such that $f(c) = M$. We would like to show that $f'(c) = 0$, so let us suppose that $f'(c) \neq 0$. If $f'(c) > 0$, then there are values $d > c$ where $f(d) > f(c)$. Indeed,
+	\[ f(h+c) - f(c) = h\left[ f'(c) + \varepsilon(h) \right] \]
+	For a small, positive $h$, this value is positive. This contradicts the fact that $M$ is the maximum. Similarly, if $f'(c) < 0$ there are values $d < c$ with $f(d) > f(c)$. Hence $f'(c) = 0$.
+\end{proof}
+
+\subsection{Mean Value Theorem}
+We can make a small change to Rolle's theorem and obtain the mean value theorem.
+\begin{theorem}
+	Let $f \colon [a,b] \to \mathbb R$ be a continuous function on $[a,b]$ and differentiable on $(a, b)$. Then there exists $c \in (a, b)$ such that
+	\[ f(b) - f(a) = f'(c)(b-a) \]
+\end{theorem}
+\begin{proof}
+	Let $\phi$ be a function defined by $\phi(x) = f(x) - kx$, choosing a $k$ such that $\phi(a) = \phi(b)$. We can find that
+	\[ f(b) - bk = f(a) - ak \implies k = \frac{f(b) - f(a)}{b - a} \]
+	By Rolle's theorem, there exists $c \in (a,b)$ such that $\phi'(c) = 0$. Now, note that $f'(x) = \phi'(x) + k$, hence there exists $c$ such that $f'(c) = k$.
+\end{proof}
+\begin{remark}
+	We will often rewrite the mean value theorem as follows.
+	\[ f(a + h) = f(a) + hf'(a + \theta h) \]
+	where $\theta \in (0, 1)$. Note, however, that $\theta$ is a function of $h$, so if we begin to shrink $h$ then $\theta$ may change.
+\end{remark}

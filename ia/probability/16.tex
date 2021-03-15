@@ -1,0 +1,119 @@
+\subsection{Expectation}
+Consider a continuous random variable $X \colon \Omega \to \mathbb R$, with probability distribution function $F(x)$ and probability density function $f(x) = F'(x)$. We define the expectation of such a \textit{non-negative} random variable as
+\[ \expect{X} = \int_0^\infty x f(x) \dd{x} \]
+In this case, the expectation is either non-negative and finite, or positive infinity. Now, let $X$ be a general continuous random variable, that is not necessarily non-negative. Suppose $g \geq 0$. Then,
+\[ \expect{g(X)} = \int_{-\infty}^\infty g(x) f(x) \dd{x} \]
+We can define $X_+ = \max(X, 0)$ and $X_- = \min(-X, 0)$. If at least one of $\expect{X_+}$ or $\expect{X_-}$ is finite, then clearly
+\[ \expect{X} := \expect{X_+} - \expect{X_-} = \int_{-\infty}^\infty xf(x) \dd{x} \]
+It is easy to verify that the expectation is a linear function, due to the linearity property of the integral.
+
+\subsection{Computing the Expectation}
+\begin{claim}
+	Let $X \geq 0$. Then
+	\[ \expect{X} = \int_0^\infty \prob{X \geq x} \dd{x} \]
+\end{claim}
+\begin{proof}
+	Using the definition of the expectation,
+	\begin{align*}
+		\expect{X} & = \int_0^\infty xf(x) \dd{x}                                           \\
+		           & = \int_0^\infty \left( \int_0^x \dd{y} \right) f(x) \dd{x}             \\
+		           & = \int_0^x \dd{y} \int_y^\infty f(x) \dd{x}                            \\
+		           & = \int_0^\infty \dd{y} \left( 1 - \int_{-\infty}^y f(x) \dd{x} \right) \\
+		           & = \int_0^\infty \dd{y} \prob{X \geq y}
+	\end{align*}
+\end{proof}
+\noindent Here is an alternative proof.
+\begin{proof}
+	For every $\omega \in \Omega$, we can write
+	\[ X(\omega) = \int_0^\infty 1(X(\omega) \geq x) \dd{x} \]
+	Taking expectations, we get
+	\[ \expect{X} = \expect{\int_0^\infty 1(X(\omega) \geq x) \dd{x}} \]
+	We will interchange the integral and the expectation, although this step is not justified or rigorous.
+	\begin{align*}
+		\expect{X} & = \int_0^\infty \expect{1(X(\omega) \geq x)} \dd{x} \\
+		           & = \int_0^\infty \prob{X \geq x} \dd{x}
+	\end{align*}
+\end{proof}
+
+\subsection{Variance}
+We define the variance of a continuous random variable as
+\[ \Var{X} = \expect{(X - \expect{X})^2} = \expect{X^2} - \expect{X}^2 \]
+
+\subsection{Uniform Distribution}
+Consider the uniform distribution defined by $a, b \in\mathbb R$.
+\[ f(x) = \begin{cases}
+		\frac{1}{b-a} & x \in [a, b]     \\
+		0             & \text{otherwise}
+	\end{cases} \]
+We write $X \sim U[a, b]$. For some $x \in [a,b]$, we can write
+\[ \prob{X \leq x} = \int_a^x f(y) \dd{y} = \frac{x-a}{b-a} \]
+Hence, for $x \in [a,b]$,
+\[ F(x) = \begin{cases}
+		1               & x > b       \\
+		\frac{x-a}{b-a} & x \in [a,b] \\
+		0               & x < a
+	\end{cases} \]
+Then,
+\[ \expect{X} = \int_a^b \frac{x}{b-a} \dd{x} = \frac{a+b}{2} \]
+
+\subsection{Exponential Distribution}
+The exponential distribution is defined by $f(x) = \lambda e^{-\lambda x}$ for $\lambda > 0$, $x > 0$. We write $X \sim \mathrm{Exp}(\lambda)$.
+\[ F(x) = \prob{X \geq x} = \int_0^\infty \lambda e^{-\lambda y} \dd{y} = 1 - e^{-\lambda x} \]
+Further,
+\[ \expect{X} = \int_0^\infty \lambda x^{-\lambda x} \dd{x} = \frac{1}{\lambda} \]
+We can view the exponential distribution as a limit of geometric distributions. Suppose that $T \sim \mathrm{Exp}(\lambda)$, and let $T_n = \floor{nT}$ for all $n \in \mathbb N$. We have
+\[ \prob{T_n \geq k} = \prob{T \geq \frac{k}{n}} = e^{-\lambda k / n} = \left( e^{-\lambda/n} \right)^k \]
+Hence $T_n$ is a geometric distribution with parameter $p_n = e^{-\lambda/n}$. As $n \to \infty$, $p_n \sim \frac{\lambda}{n}$, and $\frac{T_n}{n} \sim T$. Hence the exponential distribution is the limit of a scaled version of the geometric distribution. A key property of the exponential distribution is that it has no memory. If $T \sim \mathrm{Exp}(\lambda)$, $\prob{T > t + s \mid T > s} = \prob{T > t}$. In fact, the distribution is uniquely characterised by this property.
+\begin{proposition}
+	Let $T$ be a positive continuous random variable not identically zero or infinity. Then $T$ has the memoryless property $\prob{T > t + s \mid T > s} = \prob{T > t}$ if and only if $T \sim \mathrm{Exp}(\lambda)$ for some $\lambda > 0$.
+\end{proposition}
+\begin{proof}
+	Clearly if $T \sim \mathrm{Exp}(\lambda)$, then $\prob{T > t + s \mid T > s} = e^{-\lambda t} = \prob{T > t}$ as required. Now, given that $T$ has this memoryless property, for all $s$ and $t$, we have $\prob{T > t + s} = \prob{T > t} \prob{T > s}$. Let $g(t) = \prob{T > t}$; we would like to show that $g(t) = e^{-\lambda t}$. Then $g$ satisfies $g(t+s) = g(t)g(s)$. Then for all $m \in \mathbb N$, $g(mt) = (g(t))^m$. Setting $t=1$, $g(m) = g(1)^m$. Now, $g(m/n)^n = g(mn/n) = g(m)$ hence $g(m/n) = g(1)^{m/n}$. So for all rational numbers $q \in \mathbb Q$, $g(q) = g(1)^q$.
+
+	Now, $g(1) = \prob{T > 1} \in (0, 1)$. Indeed, $g(1) \neq 0$ since in this case, for any rational number $q$ we would have $g(q) = 0$ contradicting the assumption that $T$ was not identically zero, and $g(1) \neq \infty$ because in this case $T$ would be identically infinity. Now, let $\lambda = -\log\prob{T > 1} > 0$. We have now proven that $g(t) = e^{-\lambda t}$ for all $t\in\mathbb Q$.
+
+	Let $t \in \mathbb R_+$. Then for all $\varepsilon > 0$, there exist $r, s \in \mathbb Q$ such that $r \leq t \leq s$ and $\abs{r - s} \leq \varepsilon$. In this case, $e^{-\lambda s} = \prob{T > s} \leq \prob{T > t} \leq \prob{T > r} = e^{-\lambda r}$. Sending $\varepsilon \to 0$ finishes the proof, showing that $g(t) = e^{-\lambda t}$ for all positive reals.
+\end{proof}
+
+\subsection{Functions of Continuous Random Variables}
+\begin{theorem}
+	Suppose that $X$ is a continuous random variable with density $f$. Let $g$ be a monotonic continuous function (either strictly increasing or strictly decreasing), such that $g^{-1}$ is differentiable. Then $g(X)$ is a continuous random variable with density $fg^{-1}(x) \abs{\dv{x} g^{-1}(x)}$.
+\end{theorem}
+\begin{proof}
+	Suppose that $g$ is strictly increasing. We have
+	\[ \prob{g(X) \leq x} = \prob{X \leq g^{-1}(x)} = F(g^{-1}(x)) \]
+	Hence,
+	\[ \dv{x} \prob{g(X) \leq x} = F'(g^{-1}(x)) \cdot \dv{x} g^{-1}(x) = f(g^{-1}(x)) \dv{x}g^{-1}(x) \]
+	Note that since $g$ is strictly increasing, so is $g^{-1}$. Now, suppose the $g$ is strictly decreasing. Since the random variable is continuous,
+	\[ \prob{g(X) \leq x} = \prob{X \geq g^{-1}(x)} = 1 - F(g^{-1}(x)) \]
+	Hence,
+	\[ \dv{x} \prob{g(X) \leq x} = -F'(g^{-1}(x)) \cdot \dv{x} g^{-1}(x) = f(g^{-1}(x)) \abs{\dv{x}g^{-1}(x)} \]
+	Likewise, in this case, $g$ is strictly decreasing.
+\end{proof}
+
+\subsection{Normal Distribution}
+The normal distribution is characterised by $\mu \in \mathbb R$ and $\sigma > 0$. We define
+\[ f(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\qty{-\frac{(x-\mu)^2}{2\sigma^2}} \]
+$f(x)$ is indeed a probability density function:
+\[ I = \int_{-\infty}^\infty f(x) \dd{x} = \int_{-\infty}^\infty \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\qty{-\frac{(x-\mu)^2}{2\sigma^2}} \dd{x} \]
+Applying the substitution $x \mapsto \frac{x-\mu}{\sigma}$, we have
+\[ I = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^\infty \exp\qty{-\frac{x^2}{2}} \dd{x} \]
+We can evaluate this integral by considering $I^2$.
+\[ I^2 = \frac{2}{\pi} \int_0^\infty \int_0^\infty e^{\frac{-(u^2 - v^2)}{2}} \dd{u}\dd{v} \]
+Using polar coordinates $u = r\cos\theta$ and $v = r\sin\theta$, we have
+\[ I^2 = \frac{2}{\pi} \int_0^\infty \dd{r} \int_0^{\frac{\pi}{2}} \dd{\theta} re^{-\frac{r^2}{2}} = 1 \implies I = \pm 1 \]
+But clearly $I > 0$, so $I=1$. Hence $f$ really is a probability density function. Now, if $X \sim \mathrm{N}(\mu, \sigma^2)$,
+\begin{align*}
+	\expect{X} & = \int_{-\infty}^{\infty} \frac{x}{\sqrt{2\pi\sigma^2}} \exp\qty{-\frac{(x-\mu)^2}{2\sigma^2}} \dd{x}                                                                                                                                                                                                                      \\
+	           & = \underbrace{\int_{-\infty}^{\infty} \frac{x - \mu}{\sqrt{2\pi\sigma^2}} \exp\qty{-\frac{(x-\mu)^2}{2\sigma^2}} \dd{x}}_{\text{odd function around } \mu \text{ hence } 0} + \mu\underbrace{\int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi\sigma^2}} \exp\qty{-\frac{(x-\mu)^2}{2\sigma^2}} \dd{x}}_{I = 1 \text{ by above}} \\
+	           & = \mu                                                                                                                                                                                                                                                                                                                      \\
+\end{align*}
+We can also compute the variance, using the substitution $u = \frac{x - \mu}{\sigma}$, giving
+\begin{align*}
+	\Var{X} & = \int_{-\infty}^{\infty} \frac{(x - \mu)^2}{\sqrt{2\pi\sigma^2}} \exp\qty{-\frac{(x-\mu)^2}{2\sigma^2}} \dd{x} \\
+	        & = \sigma^2 \int_{-\infty}^{\infty} \frac{u^2}{\sqrt{2\pi}} \exp\qty{-\frac{u^2}{2}} \dd{u}                      \\
+	        & = \sigma^2
+\end{align*}
+In particular, when $\mu = 0$ and $\sigma^2 = 1$, we call the distribution $\mathrm{N}(\mu, \sigma^2) = \mathrm{N}(0, 1)$ the standard normal distribution. We define
+\[ \Phi(x) = \int_{-\infty}^x \frac{1}{\sqrt{2\pi}} e^{-\frac{u^2}{2}} \dd{u};\quad \phi(x) = \Phi'(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}} \]
+Hence $\Phi(x) = \prob{X \leq x}$ if $X$ has the standard normal distribution. Since $\phi(x) = \phi(-x)$, we have $\Phi(x) + \Phi(-x) = 1$, hence $\prob{X \leq x} = 1 - \prob{X \leq -x}$.

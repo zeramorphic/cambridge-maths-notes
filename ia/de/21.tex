@@ -1,0 +1,120 @@
+\subsection{Classifying Stationary Points}
+Since $\grad f = \vb 0$ defines a stationary point, the Taylor series expansion around a stationary point $\vb x = \vb x_s$ is
+\[ f(\vb x) \approx f(\vb x_s) + \frac{1}{2}\delta \vb x \cdot \eval{H}_{\vb x_s} \cdot \delta \vb x^\transpose \]
+So the nature of the stationary point depends on the Hessian matrix $H$. Consider a function in $n$-dimensional space
+\[ f = f(x_1, x_2, \dots, x_n) \]
+Then the $n$-dimensional Hessian matrix is given by
+\[ H = \begin{pmatrix}
+		f_{x_1x_1} & f_{x_1x_2} & \cdots & f_{x_1x_n} \\
+		f_{x_2x_1} & f_{x_2x_2} & \cdots & f_{x_2x_n} \\
+		\vdots     & \vdots     & \ddots & \vdots     \\
+		f_{x_nx_1} & f_{x_nx_2} & \cdots & f_{x_nx_n}
+	\end{pmatrix} \]
+If all of these derivatives are defined, $f_{x_1x_2} = f_{x_2x_1}$ etc, so $H = H^\transpose$, i.e. $H$ is symmetric, and therefore it can be diagonalised with respect to its principal axes.
+\[ \delta \vb x \cdot H \cdot \delta \vb x^\transpose = \begin{pmatrix}
+		\delta x_1 & \delta x_2 & \cdots & \delta x_n
+	\end{pmatrix} \begin{pmatrix}
+		\lambda_1 & 0         & \cdots & 0         \\
+		0         & \lambda_2 & \cdots & 0         \\
+		\vdots    & \vdots    & \ddots & \vdots    \\
+		0         & 0         & \cdots & \lambda_n
+	\end{pmatrix} \begin{pmatrix}
+		\delta x_1 \\ \delta x_2 \\ \cdots \\ \delta x_n
+	\end{pmatrix} \]
+where the $\lambda_i$ are eigenvalues of $H$ and the $\delta x_i$ is the displacement along the principal axis (eigenvector) $i$. Therefore
+\[ \delta \vb x \cdot H \cdot \delta \vb x^\transpose = \lambda_1 \delta x_1^2 + \lambda_2 \delta x_2^2 + \dots + \lambda_n \delta x_n^2 \]
+\begin{enumerate}
+	\item At a minimum point, $\delta \vb x \cdot H \cdot \delta \vb x^\transpose > 0$ for any $\delta \vb x$ (moving in any direction, we go `downhill'). So all the $\lambda_i > 0$. So $H$ is positive definite.
+	\item At a maximum point, $\delta \vb x \cdot H \cdot \delta \vb x^\transpose < 0$ for any $\delta \vb x$. So all the $\lambda_i < 0$. $H$ is negative definite.
+	\item At a saddle point, $H$ is indefinite.
+\end{enumerate}
+
+\subsection{Signature of Hessian}
+\begin{definition}
+	The signature of $H$ is the pattern of the signs of its subdeterminants.
+\end{definition}
+For a function $f(x_1, x_2, \dots, x_n)$, we want the signs of
+\[ \underbrace{\abs{f_{x_1x_1}}}_{\abs{H_1}}, \underbrace{\begin{vmatrix}
+			f_{x_1x_1} & f_{x_1x_2} \\
+			f_{x_2x_1} & f_{x_2x_2}
+		\end{vmatrix}}_{\abs{H_2}},\dots, \underbrace{\begin{vmatrix}
+			f_{x_1x_1} & f_{x_1x_2} & \cdots & f_{x_1x_n} \\
+			f_{x_2x_1} & f_{x_2x_2} & \cdots & f_{x_2x_n} \\
+			\vdots     & \vdots     & \ddots & \vdots     \\
+			f_{x_nx_1} & f_{x_nx_2} & \cdots & f_{x_nx_n}
+		\end{vmatrix}}_{\abs{H_1}} \]
+We know from Vectors and Matrices that if a symmetric matrix $H$ is positive (or negative) definite, then $H_1, H_2, \dots, H_{n-1}$ are positive (or negative) definite. This is known as Sylvester's Criterion. In other words, a minimum (or maximum) point in $n$-dimensional space is also a minimum (or maximum) in any subspace containing this point. Now let us list the signs of subdeterminants to see the types of signatures.
+\begin{enumerate}
+	\item At a minimum point ($\lambda_i > 0$), the signature is $+, +, +, +, \dots$
+	\item At a maximum point ($\lambda_i > 0$), the signature is $-, +, -, +, \dots$
+\end{enumerate}
+If $\abs{H} = 0$, we need higher order terms in the Taylor series.
+
+\subsection{Contours Near Stationary Points}
+Consider a coordinate system aligned with the principal axes of the Hessian $H$ in two-dimensional space, so
+\[ H = \begin{pmatrix}
+		\lambda_1 & 0 \\ 0 & \lambda_2
+	\end{pmatrix} \]
+Let $\delta \vb x = (\vb x - \vb x_s) = (\xi, \eta)$ where $\vb x_s$ is the stationary point we're considering. In a small region near $\vb x_s$, the contours of $f$ satisfy
+\[ f = \text{constant (since $f$ is a contour)} \approx f(\vb x_s) = \frac{1}{2}\delta \vb x \cdot H \cdot \delta \vb x^\transpose \]
+\begin{equation}\label{contourhessian}
+	\therefore \lambda_1 \xi^2 + \lambda_2 \eta^2 \approx \text{constant}
+\end{equation}
+Near a minimum or maximum point, $\lambda_1$ and $\lambda_2$ have the same sign. \eqref{contourhessian} implies that the contours of $f$ are elliptical. Near a saddle point, $\lambda_1$ and $\lambda_2$ have opposite sign so \eqref{contourhessian} shows that the contours of $f$ are hyperbolic. As an example, let us consider
+\[ f(x,y) = 4x^3 - 12xy + y^2 + 10y + 6 \]
+Let us first identify the stationary points.
+\[ f_x = f_y = 0 \]
+After solving this, we get
+\[ (x,y) = (1, 1), (5, 25) \]
+To get the Hessian matrix:
+\begin{align*}
+	f_{xx}          & = 24x \\
+	f_{xy} = f_{yx} & = -12 \\
+	f_{yy}          & = 2
+\end{align*}
+Now considering the stationary points separately:
+\begin{itemize}
+	\item $(1, 1)$:
+	      \[ H = \begin{pmatrix}
+			      24 & -12 \\ -12 & 2
+		      \end{pmatrix} \implies \abs{H_1} = 24;\quad \abs{H} = 48-144 \]
+	      The signature is $+, -$, so this is a saddle point.
+	\item $(5, 25)$:
+	      \[ H = \begin{pmatrix}
+			      120 & -12 \\ -12 & 2
+		      \end{pmatrix} \implies \abs{H_1} = 120;\quad \abs{H} = 240-144 \]
+	      The signature is $+, +$, so this is a minimum point.
+\end{itemize}
+
+\subsection{Systems of Linear ODEs}
+Consider two functions $y_1(t), y_2(t)$ which satisfy
+\begin{align*}
+	\dot y_1 & = ay_1 + by_2 + f_1(t) \\
+	\dot y_2 & = cy_1 + dy_2 + f_2(t)
+\end{align*}
+This is a set of coupled differential equations which we must solve simultaneously. In vector form,
+\[ \dot{\vb Y} = M\vb Y + \vb F \]
+where
+\[ \vb Y = \begin{pmatrix}
+		y_1 \\ y_2
+	\end{pmatrix};\quad M = \begin{pmatrix}
+		a & b \\ c & d
+	\end{pmatrix};\quad \vb F = \begin{pmatrix}
+		f_1 \\ f_2
+	\end{pmatrix} \]
+Any $n$th order differential equation can be written as a system of $n$ first order ODEs. For example, the standard form for a second order linear ODE is
+\[ \ddot y + a\dot y + by = f \]
+Let $y_1 = y, y_2 = \dot y$. Then
+\[ \vb Y = \begin{pmatrix}
+		y \\ \dot y
+	\end{pmatrix} \]
+Hence our two equations are
+\[ \dot y_1 = y_2 \]
+\[ \dot y_2 + ay_2 + by_1 = f \implies \dot y_2 = -ay_2 - by_1 + f \]
+And in vector form,
+\[ \dot{\vb Y} = \begin{pmatrix}
+		0  & 1  \\
+		-b & -a
+	\end{pmatrix} \vb Y + \begin{pmatrix}
+		0 \\ f
+	\end{pmatrix} \]

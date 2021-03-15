@@ -1,0 +1,77 @@
+\subsection{Lotka-Volterra Equations}
+This is a worked example of a coupled set of differential equations, which model a predator--prey system. Let the quantity of prey be represented by $x$, and the quantity of the predator be $y$. Then
+\begin{align*}
+	\dot x & = \alpha x - \beta xy = f(x, y) \\
+	\dot y & = \delta xy - \gamma y = g(x,y)
+\end{align*}
+where $\alpha, \beta, \gamma, \delta$ are positive real constants. We will start by analysing the fixed points, where $\dot x = \dot y = 0$.
+\[ \dot x = 0 \implies x=0 \text{ or } y = \frac{\alpha}{\beta} \]
+\[ \dot y = 0 \implies y=0 \text{ or } x = \frac{\gamma}{\delta} \]
+Therefore,
+\[ (x_0, y_0) = (0, 0), \left( \frac{\gamma}{\delta}, \frac{\alpha}{\beta} \right) \]
+Using matrix methods,
+\[ M = \begin{pmatrix}
+		f_x & f_y \\
+		g_x & g_y
+	\end{pmatrix} = \begin{pmatrix}
+		\alpha - \beta y & -\beta x          \\
+		\delta y         & \delta x - \gamma
+	\end{pmatrix} \]
+Now we can analyse the stability of these fixed points by perturbation analysis.
+\begin{itemize}
+	\item At the fixed point $(0, 0)$, we have
+	      \[ \begin{pmatrix}
+			      \dot \xi \\
+			      \dot \eta
+		      \end{pmatrix} = \begin{pmatrix}
+			      \alpha & 0 \\ 0 & -\gamma
+		      \end{pmatrix} \begin{pmatrix}
+			      \xi \\ \eta
+		      \end{pmatrix} \]
+	      We can read off the eigenvalues to be $\alpha$ and $-\gamma$. This is a saddle node, since one direction will increase ($x$) and one will decrease ($y$).
+	\item At the fixed point $\left( \frac{\gamma}{\delta}, \frac{\alpha}{\beta} \right)$, we have
+	      \[ \begin{pmatrix}
+			      \dot \xi \\
+			      \dot \eta
+		      \end{pmatrix} = \begin{pmatrix}
+			      0 & -\beta\frac{\gamma}{\delta} \\ \delta\frac{\alpha}{\beta} & 0
+		      \end{pmatrix} \begin{pmatrix}
+			      \xi \\ \eta
+		      \end{pmatrix} \]
+	      The characteristic equation is $\chi_M(\lambda) = \lambda^2 + \alpha\lambda = 0$, so $\lambda = \pm \sqrt{-\alpha\gamma}$. Since $\alpha\gamma > 0$, it is more convenient to write $\lambda = \pm i\sqrt{\alpha\gamma}$. Since the real part is zero, this gives a centre node. To work out the direction of rotation, let us consider the $x$ direction,
+	      \[ \dot \xi = -\beta\frac{\gamma}{\delta}\eta \]
+	      If $\eta > 0$, then $\dot \xi < 0$, so we have anticlockwise rotation.
+\end{itemize}
+Now we can sketch a graph taking into account both of these fixed points, visually interpolating the values between them.
+% TODO do this graph
+
+\subsection{First Order Wave Equation and Method of Characteristics}
+We will define a partial differential equation to be a differential equation with multiple independent variables. Here, we will consider three examples, starting with the first order wave equation. Consider a function $y(x, t)$ where
+\begin{equation}\label{wave1}
+	\frac{\partial y}{\partial t} - c\frac{\partial y}{\partial x} = 0
+\end{equation}
+where $c$ is a constant. We will solve this equation with the method of characteristics.
+%TODO random-looking graph
+Imagine moving a `probe' along a path $x(t)$. Then $y$ is a function $y(x(t), t)$, where now the only independent variable is $t$. Using the multivariate chain rule,
+\[ \frac{\dd{y}}{\dd{t}} = \frac{\partial y}{\partial t} + \frac{\partial y}{\partial x}\frac{\dd{x}}{\dd{t}} \]
+Comparing this with \eqref{wave1}, we note that if $\frac{\dd{x}}{\dd{t}} = -c$, then $\frac{\dd{y}}{\dd{t}} = 0$. So we have found a path along which the `probe' is at a constant height, i.e. along $x(t) = x_0 - ct$, $y$ is a constant. We can update our graph now showing the `characteristics' we have just shown to exist.
+%TODO graph
+If $y(x, t = 0) = f(x)$, then $y = f(x_0)$ along the characteristics. Hence, our general solution is
+\[ y = f(x+ct) \]
+Let us consider some examples of wave equations $f$.
+\begin{enumerate}
+	\item (unforced wave equation) Let $y(x,0) = x^2 - 3$ in \eqref{wave1}. Then
+	      \[ y(x, t) = (x+ct)^2 - 3 \]
+	\item (forced wave equation) Let
+	      \[ \frac{\partial y}{\partial t} + 5\frac{\partial y}{\partial x} = e^{-t} \]
+	      and
+	      \[ y(x, 0) = e^{-x^2} \]
+	      Then along paths with $\frac{\dd{x}}{\dd{t}} = 5$ or $x=x_0 + 5t$,
+	      \[ \frac{\dd{y}}{\dd{t}} = e^{-t} \]
+	      So by integration,
+	      \[ y = A-e^{-t} \]
+	      along these paths. Applying our initial condition at $t=0$, our `probe' is at $x_0$ and $y(x, 0) = A - 1 = e^{-x_0^2}$. Hence, $A = 1 + e^{-x_0^2}$. So
+	      \[ y = 1 + e^{-x_0^2} - e^{-t} \]
+	      along the path given by $x_0$. Substituting back for a general $x$, we can create a formula for the general solution of $y$ (not necessarily on a given path):
+	      \[ y = 1 + e^{-(x-5t)^2} - e^{-t} \]
+\end{enumerate}

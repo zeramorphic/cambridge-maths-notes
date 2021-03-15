@@ -1,0 +1,82 @@
+\subsection{Normal Subgroups with Conjugation}
+\begin{proposition}
+	Normal subgroups are those subgroups that are unions of conjugacy classes. Recall that $\ccl(h) = \{ ghg^{-1} : g \in G \}$.
+\end{proposition}
+\begin{proof}
+	Let $M \trianglelefteq G$. Then if $h \in N$, then $ghg^{-1} \in N$ for all $g \in G$ because $N$ is a normal subgroup. So $\ccl(h) \subseteq N$. So $N$ is a union of conjugacy classes of its elements;
+	\[ N = \bigcup_{h \in N} \ccl(h) \]
+	Conversely, if $H$ is a subgroup that is a union of conjugacy classes, then $\forall g \in G, \forall h \in H$, we have $ghg^{-1} \in H$. So $H \trianglelefteq G$.
+\end{proof}
+As an example, consider $A_3 = \{ e, (1\ 2\ 3), (1\ 3\ 2) \} \trianglelefteq S_3$. Now, $A_3 = \{ e \} \sqcup \{ (1\ 2\ 3), (1\ 3\ 2) \}$. Note that $(1\ 2\ 3), (1\ 3\ 2)$ are conjugates in $S_3$ but they are not conjugates in $A_3$.
+
+\subsection{Conjugation in Symmetric Groups}
+\begin{lemma}
+	Given a $k$-cycle $(a_1\dots a_k)$ and $\sigma \in S_n$, we have
+	\[ \sigma (a_1\dots a_k) \sigma^{-1} = (\sigma(a_1)\dots \sigma(a_k)) \]
+\end{lemma}
+\begin{proof}
+	Let us apply the left hand side transformation to $\sigma(a_i)$.
+	\[ \sigma (a_1\dots a_k) \sigma^{-1} \sigma(a_i) = \sigma (a_1\dots a_k) (a_i) = \sigma(a_{i+1\mod k}) \]
+	Now let us consider the effect of the transformation on $\sigma(b)$ for $b \neq a_i$.
+	\[ \sigma (a_1\dots a_k) \sigma^{-1} \sigma(b) = \sigma (a_1\dots a_k) (b) = \sigma(b) \]
+	So these are unchanged. Therefore, the left hand side is equal to the right hand side.
+\end{proof}
+
+\begin{proposition}
+	Two elements of $S_n$ are conjugate (in $S_n$, i.e. via a conjugation by some element in $S_n$) if and only if they have the same cycle type.
+\end{proposition}
+\begin{proof}
+	Two elements that are conjugate will have the same cycle type: given $\sigma \in S_n$, we can write $\sigma$ as a product of disjoint cycles, say $\sigma = \sigma_1\dots\sigma_m$. Then if $\rho \in S_n$, $\rho \sigma \rho^{-1} = \rho \sigma_1 \rho^{-1} \rho \sigma_2 \rho^{-1} \dots \rho \sigma_m \rho^{-1}$ which is a product of the conjugates of the cycles. By the above lemma, the conjugate of a $k$-cycle is a $k$-cycle, and because $\rho$ is bijective the $\rho \sigma_i \rho^{-1}$ are all disjoint, so we retain the cycle type of $\sigma$ under conjugation in $S_n$.
+
+	Conversely, if $\sigma$ and $\tau$ have the same cycle type, then we can write
+	\[ \sigma = (a_1\dots a_{k_1})(a_{k_1+1}\dots a_{k_2})\dots \]
+	\[ \tau = (b_1\dots b_{k_1})(b_{k_1+1}\dots b_{k_2})\dots \]
+	in disjoint cycle notation, including singletons. Then all of $\{ 1, \dots, n \}$ appear in both $\sigma$ and $\tau$. Then, setting $\rho$ to be defined by $\rho(a_i) = b_i$, which is indeed a permutation, we obtain $\rho\sigma\rho^{-1}=\tau$.
+\end{proof}
+Let us consider the conjugacy classes of $S_4$. We can compute the size of $C_{S_4}$ using the orbit-stabiliser theorem; the conjugacy class is the orbit of a particular point under conjugation.\medskip
+
+\noindent\begin{tabular}{c|c|c|c|c}
+	cycle type & example element & size of ccl & size of $C_{S_4}$ & sign \\ \hline
+	$1,1,1,1$  & $e$             & 1           & 24                & $+1$ \\
+	$2,1,1$    & $(1\ 2)$        & 6           & 4                 & $-1$ \\
+	$2,2$      & $(1\ 2)(3\ 4)$  & 3           & 8                 & $+1$ \\
+	$3,1$      & $(1\ 2\ 3)$     & 8           & 3                 & $+1$ \\
+	$4$        & $(1\ 2\ 3\ 4)$  & 6           & 4                 & $-1$ \\
+\end{tabular}
+
+From this, we can compute all normal subgroups of $S_4$, since normal subgroups:
+\begin{itemize}
+	\item must contain $e$
+	\item must be a union of conjugacy classes
+	\item must have an order that divides $\abs{S_4} = 24$
+\end{itemize}
+To check all possibilities, we will look through all divisors of $24$, and check whether we can form a union of conjugacy classes.
+\begin{itemize}
+	\item (1) $\{ e \}$
+	\item (2) impossible, no conjugacy classes have orders which add to 2
+	\item (3) impossible
+	\item (4) $3+1=4$ so we have
+	      \[ \{ e, (1\ 2)(3\ 4), (1\ 3)(2\ 4), (1\ 4)(2\ 3) \} \cong C_2 \times C_2 \]
+	      This subgroup is often referred to as $V_4$, the Klein four group.
+	\item (6) impossilbe
+	\item (8) impossible
+	\item (12) $1+3+8=12$ so we have
+	      \[ \{ e, (1\ 2)(3\ 4), (1\ 3)(2\ 4), (1\ 4)(2\ 3), (1\ 2\ 3), (1\ 3\ 2), (1\ 2\ 4), (1\ 4\ 2), (1\ 3\ 4), (1\ 4\ 3), (2\ 3\ 4), (2\ 4\ 3) \} = A_4 \]
+	\item (24) $S_4 \trianglelefteq S_4$.
+\end{itemize}
+So all possible quotients of $S_4$ are:
+\begin{itemize}
+	\item $\frac{S_4}{\{ e \}} \cong S_4$
+	\item $\frac{S_4}{V_4} = \{ V_4, (1\ 2)V_4, (1\ 3)V_4, (2\ 3)V_4, (1\ 2\ 3)V_4, (1\ 3\ 2)V_4 \} \cong S_3$
+	\item $\frac{S_4}{A_4} \cong C_2$
+	\item $\frac{S_4}{S_4} \cong \{ e \}$
+\end{itemize}
+Exercise: repeat with $S_5$.
+
+\subsection{Conjugation in Alternating Groups}
+Note that
+\begin{align*}
+	\ccl_{S_n}(\sigma) & = \{ \tau \sigma \tau^{-1} : \tau \in S_n \} \\
+	\ccl_{A_n}(\sigma) & = \{ \tau \sigma \tau^{-1} : \tau \in A_n \}
+\end{align*}
+So clearly $\ccl_{A_n}(\sigma) \subseteq \ccl_{S_n}(\sigma)$ since $A_n \subseteq S_n$. But elements that are conjugate in $S_n$ may not be conjugate in $A_n$, for example $(1\ 2\ 3)$ and $(1\ 3\ 2)$ in $S_3$ and $A_3$.

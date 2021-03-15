@@ -1,0 +1,68 @@
+\subsection{Definition}
+\begin{proposition}
+	If $\vb F(\vb x)$ is a continuously differentiable vector field, and $S$ is an orientable, piecewise regular surface with a piecewise smooth boundary $\partial S$, then
+	\[ \int_S (\curl{\vb F}) \cdot \dd \vb S = \oint_{\partial S} \vb F\cdot \dd{\vb x} \]
+\end{proposition}
+\noindent This can be thought of as a generalisation to the fundamental theorem of calculus. From the fundamental theorem, we know that the integral of a differentiated function over an interval $I$ is just the original function evaluated at the boundary $\partial I$. Likewise, Stokes' theorem states that the integral of the curl of a function (just another differential operator) over a surface $S$ is just the original function evaluated at the boundary of the surface $\partial S$. In the one-dimensional fundamental theorem of calculus, we say that the function `evaluated over the boundary' is simply the function applied to the final point, minus the function applied to the initial point; we are in some sense considering every point on the boundary $\partial I$. But in the case of $\partial S$ being a curve, we must integrate around the curve boundary, since without an integral we can't consider infinitely many boundary points.
+
+Note that for a surface to be `orientable', it simply means that it has two sides, an inside and an outside. There must be a consistent choice of normal at each point. For example, a sphere is orientable, but a M\"obius strip is not orientable.
+
+\subsection{First Example}
+Let $S$ be a cap of a sphere:
+\[ S = \left\{ \vb x(\theta, \phi) = \begin{pmatrix}
+		\sin\theta\cos\phi \\ \sin\theta\sin\phi \\ \cos\theta
+	\end{pmatrix} \equiv \vb e_r; 0 \leq \theta \leq \alpha; 0 \leq \phi < 2 \pi \right\} \]
+Now, let
+\[ \vb F(\vb x) = \begin{pmatrix}
+		-x^2y \\ 0 \\ 0
+	\end{pmatrix} \implies \curl{\vb F} = \begin{pmatrix}
+		0 \\ 0 \\ x^2
+	\end{pmatrix} \]
+On $S$,
+\[ \dd {\vb S} = \dv{\vb x}{\theta} \times \dv{\vb x}{\phi} \dd{\theta}\dd{\phi} = \vb e_r \sin\theta \dd{\theta}\dd{\phi} \]
+Note that since
+\[ x^2 \vb e_z \cdot \vb e_r = (\sin\theta\cos\phi)^2 \cos\theta \]
+on $S$, we can compute
+\[ \int_S (\curl{\vb F}) \cdot \dd{\vb S} = \int_{\phi = 0}^{2 \pi} \left( \int_{\theta = 0}^\alpha (\sin\theta\cos\phi)^2 \cos\theta \sin\theta \dd{\theta} \right) \dd{\phi} = \frac{\pi}{4}\sin^4 \alpha \]
+We can instead compute the integral over the boundary. By Stokes' theorem, the results should match. $\partial S$ is described by
+\[ [0, 2\pi] \ni t \mapsto \begin{pmatrix}
+		\sin\alpha\cos t \\ \sin\alpha\sin t \\ \cos\alpha
+	\end{pmatrix} \]
+Then
+\[ \dd{\vb x} = \dv{\vb x}{t} \dd{t} = \sin \alpha\begin{pmatrix}
+		-\sin t \\ \cos t \\ 0
+	\end{pmatrix} \dd{t} \]
+We can show that
+\[ \oint_{\partial S} \vb F \cdot \dd{\vb S} = \sin^4 \alpha \int_0^{2\pi} \left( -\cos^2 t \sin t \right)\left( -\sin t \right) \dd{t} = \frac{\pi}{4}\sin^4 \alpha \]
+
+\subsection{Stokes' Theorem on Closed Surfaces}
+If $S$ is an orientable, closed surface, and $\vb F$ is continuously differentiable, then
+\[ \int_S (\curl{\vb F}) \cdot \dd{\vb S} = 0 \]
+This is clear since $\partial S = \varnothing$.
+
+\subsection{Zero Circulation and Irrotationality}
+\begin{proposition}
+	If $\vb F$ is continuously differentiable, and for every loop $C$ we have that
+	\[ \oint_C \vb F \cdot \dd{\vb x} = 0 \]
+	then $\curl{\vb F} = \vb 0$. In other words, $\vb F$ is irrotational if and only if $\vb F$ has zero circulation around all closed loops.
+\end{proposition}
+\noindent Note that the backward implication is trivial. If $\vb F$ has zero circulation around all loops, we can define that loop to be the boundary of some surface, and so the integral of the curl vanishes.
+\begin{proposition}
+	Suppose that the result is false; there exists a unit vector $\vu{k}$ such that $\vu{k} \cdot \left( \curl{\vb F(\vb x_0)} \right) = \varepsilon > 0$ for some $\vb x_0$. By continuity, for a sufficiently small $\delta > 0$,
+	\[ \vu{k} \cdot \left( \curl{\vb F(\vb x_0)} \right) > \frac{1}{2}\varepsilon;\quad \text{for }\abs{\vb x - \vb x_0} < \delta \]
+	Now, we can take a loop in this ball $\{ \vb x \colon \abs{\vb x - \vb x_0} < \delta \}$ that lies entirely in a plane with normal $\vu{k}$. Let this small loop's enclosed surface be $S$, with boundary $\partial S$. Then
+	\[ 0 = \oint_{\partial S} \vb F \cdot \dd{\vb x} = \int_S \curl{\vb F} \cdot \vu k \dd{S} > \frac{1}{2}\varepsilon \int \dd{S} > 0 \]
+	which is a contradiction.
+\end{proposition}
+
+\subsection{Intuition for Curl as Infinitesimal Circulation}
+Let $S_\varepsilon$ denote a region contained inside a disk of radius $\varepsilon > 0$, centred at $\vb x_0$ with normal $\vu{k}$.
+\begin{align*}
+	\int_{S_\varepsilon} \curl{\vb F} \cdot \dd{\vb S} & = \int_{S_\varepsilon} \left( \curl{\vb F(\vb x)} - \curl{\vb F(\vb x_0)} \right) \cdot \dd{\vb S} + \int_{S_\varepsilon} \curl{\vb F(\vb x_0)} \cdot \vu k \dd{S}                                                                                        \\
+	                                                   & = \underbrace{\int_{S_\varepsilon} \left( \curl{\vb F(\vb x)} - \curl{\vb F(\vb x_0)} \right) \cdot \dd{\vb S}}_{o(\text{area}(S_\varepsilon))} + \curl{\vb F(\vb x_0)} \cdot \vu k \underbrace{\int_{S_\varepsilon} \dd{S}}_{\text{area}(S_\varepsilon)} \\
+\end{align*}
+As $\varepsilon$ shrinks, the first integral tends to zero faster than the second term. Hence,
+\[ \int_{S_\varepsilon} \curl{\vb F} \cdot \dd{\vb S} =  \curl{\vb F(\vb x_0)} \cdot \vu k \cdot \text{area}(S_\varepsilon) + o(\text{area}(S_\varepsilon)) \]
+We can then see, by Stokes' theorem, that
+\[ \curl{\vb F(\vb x_0)} \cdot \vu k = \lim_{\varepsilon \to 0} \frac{1}{\text{area}(S_\varepsilon)} \oint_{\partial S_\varepsilon} \vb F \cdot \dd{\vb x} \]
+So the curl of $\vb F$ at $\vb x_0$ in the direction $\vu k$ is the infinitesimal circulation around $\vb x_0$, per unit area.

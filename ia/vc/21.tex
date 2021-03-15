@@ -1,0 +1,67 @@
+\subsection{Symmetric and Antisymmetric Tensors}
+We say that $T_{ij\dots k}$ is symmetric in $(i, j)$ if
+\[ T_{ij\dots k} = T_{ji\dots k} \]
+This really is a well-defined property of the \textit{tensor}, not its coordinates. In a different coordinate frame,
+\[ T_{ij\dots k}' = R_{ip}R_{jq}\dots R_{kr} T_{pq\dots r} = R_{ip}R_{jq}\dots R_{kr} T_{qp\dots r} = T_{ji\dots k}' \]
+Similarly, we say that $A_{ij\dots k}$ is antisymmetric in $(i, j)$ if
+\[ A_{ij\dots k} = -A_{ji\dots k} \]
+which similarly is invariant of the choice of basis. We say that a tensor is \textit{totally} (anti)symmetric if it is (anti)symmetric in all pairs of indices. For example, the $\delta_{ij}$ rank 2 tensor and $a_ia_ja_k$ rank 3 tensor (where $\vb a$ is a vector) are totally symmetric tensors. The Levi-Civita alternating tensor $\varepsilon$ is totally antisymmetric.
+
+In fact, in three dimensions, $\varepsilon$ is the only totally antisymmetric tensor (up to scaling), and there are no non-zero higher-rank antisymmetric tensors. Indeed, if $T_{ij\dots k}$ is totally antisymmetric and has rank $n$, then $T_{ij\dots k} = 0$ if any two indices are the same. But if we have more than three indices, by the pigeonhole principle we must have two matching indices (provided we are working in three dimensions). If $n=3$, then there are only $3! = 6$ choices of components that give a non-zero value of $T_{ijk}$, and by antisymmetry, $T_{123} = T_{231} = T_{312} = \lambda$ and by antisymmetry $T_{213} = T_{132} = T_{321} = -\lambda$ which defines the $\varepsilon$ symbol.
+
+\subsection{Introduction to Tensor Calculus}
+A vector field assigns a vector $\vb v$ to every position $\vb x \in \mathbb R^3$. A scalar field assigns a scalar $\phi$ to every position. We generalise this notion to a \textit{tensor field} of rank $n$, written $T_{ij\dots k}(\vb x)$, which assigns a rank $n$ tensor to every point $\vb x$. Recall that
+\[ x_i' = R_{ij}x_j \iff x_j = R_{ij}x_i' \]
+Differentiating both sides with respect to $x_k'$, we get
+\[ \pdv{x_j}{x_k'} = R_{ij} \pdv{x_i'}{x_k'} = R_{ij} \delta_{ik} = R_{kj} \]
+By the chain rule, we then have
+\[ \pdv{x_i'} = \pdv{x_j}{x_i'} \pdv{x_j} = R_{ij} \pdv{x_j} \]
+Informally, we can say that $\pdv{x_i'}$ transforms like a rank 1 tensor.
+\begin{proposition}
+	If $T_{i\dots j}$ is a tensor field of rank $n$, then
+	\[ \underbrace{\pdv{x_p} \cdots \pdv{x_q}}_{m \text{ terms}} T_{i\dots j}(\vb x) \]
+	is a tensor field of rank $n+m$.
+\end{proposition}
+\begin{proof}
+	We check the transformation under a change of basis. Let the above expression be $A_{p\dots q i \dots j}$. Then
+	\begin{align*}
+		A_{p\dots q i\dots j}' & = \pdv{x_p'} \cdots \pdv{x_q'} T_{i\dots j}'(\vb x)                            \\
+		                       & = R_{pa}\pdv{x_a} \cdots R_{qb}\pdv{x_b} R_{ic}\dots R_{jd}T_{c\dots d}(\vb x) \\
+		                       & = R_{pa}\dots R_{qb}R_{ic}\dots R_{jd} A_{a\dots bc\dots d}
+	\end{align*}
+\end{proof}
+\noindent Note that this only works in Cartesian coordinates, since the $R$ matrices are constant here. In a general coordinate system, this is not the case, and we cannot move the change of basis matrices outside the derivatives in this case.
+
+\subsection{Differential Operators Producing Tensor Fields}
+If $\phi$ is a scalar field, then
+\[ [\grad\phi]_i = \pdv{\phi}{x_i} \]
+Hence $\grad\phi$ is a rank 1 tensor field, which is a vector field. If $\vb v$ is a vector field,
+\[ \div \vb v = \pdv{v_i}{x_i} \]
+which is a rank 0 tensor field since it is a contraction of $\pdv{\vb v_i}{x_j}$. Alternatively, from first principles,
+\[ \pdv{v_i'}{x_i'} = R_{ip}\pdv{x_p}R_{iq}v_q = R_{ip}R_{iq}\pdv{v_q}{x_p} = \delta_{pq}\pdv{v_q}{x_p} = \pdv{v_i}{x_i} \]
+hence the divergence of a vector field really is a scalar field.
+\[ [\curl \vb v]_i = \varepsilon_{ijk} \pdv{v_k}{x_j} \]
+From first principles we can show that
+\begin{align*}
+	\varepsilon_{ijk}' \pdv{v_k'}{x_j'} & = R_{ia}R_{jb}R_{kc}\varepsilon_{abc} R_{jp}\pdv{x_p} R_{kq}v_q       \\
+	                                    & = R_{ia} \varepsilon_{abc} R_{jb} R_{jp} R_{kc} R_{kq} \pdv{v_q}{x_p} \\
+	                                    & = R_{ia} \varepsilon_{abc} \delta_{bp} \delta_{cq} \pdv{v_q}{x_p}     \\
+	                                    & = R_{ia} \varepsilon_{abc} \pdv{v_c}{x_b}
+\end{align*}
+which is the transformation law for a rank 1 tensor, so the curl of a vector field is a vector field.
+
+\subsection{Divergence Theorem with Tensor Fields}
+\begin{proposition}
+	For a tensor field $R_{ij\dots k \dots \ell}(\vb x)$, we have
+	\[ \int_V \pdv{x_k} T_{ij\dots k \dots \ell} \dd{V} = \int_{\partial V} T_{ij\dots k \dots \ell} n_k \dd{S} \]
+\end{proposition}
+\begin{proof}
+	Consider the vector field
+	\[ v_k = a_i b_j \dots c_\ell T_{ij\dots k \dots \ell} \]
+	where the $a_i, b_j, \dots, c_\ell$ are the components of some constant vectors. Applying the divergence theorem to this vector field, we have
+	\begin{align*}
+		\int_V \pdv{v_k}{x_k} \dd{V}                                         & = \int_{\partial V} v_k n_k \dd{S}                                          \\
+		a_i b_j \dots c_\ell \int_V \pdv{x_k} T_{ij\dots k\dots \ell} \dd{V} & = a_i b_j \dots c_\ell \int_{\partial V} T_{ij\dots k\dots \ell} n_k \dd{S}
+	\end{align*}
+	Since this is true for any choice of vectors $a_i, b_i, \dots, c_i$, the result follows.
+\end{proof}

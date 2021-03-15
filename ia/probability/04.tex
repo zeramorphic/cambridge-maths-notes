@@ -1,0 +1,98 @@
+\subsection{Counting Derangements}
+A derangement is a permutation which has no fixed point, i.e. $\forall i, \sigma(i) \neq i$. We will let $\Omega$ be the set of permutations of $\{1, \dots, n\}$, i.e. $S_n$. Let $A$ be the set of derangements in $\Omega$. Let us pick a permutation $\sigma$ at random from $\Omega$. What is the probability that it is a derangement? We define $A_i = \{ f \in \Omega \colon f(i) = i \}$, then $A = \stcomp{A_1} \cap \dots \stcomp{A_n} = \stcomp{\left( \bigcup_{i=1}^n A_i  \right)}$, so $\prob{A} = 1 - \prob{\bigcup_{i=1}^n A_i}$. By the inclusion-exclusion formula,
+\begin{align*}
+	\prob{\bigcup_{i=1}^n A_i} & = \sum_{k=1}^n (-1)^{k+1} \sum_{1 \leq i_1 < i_2 < \dots < i_k \leq n} \prob{A_{i_1} \cap \dots \cap A_{i_k}} \\
+	                           & = \sum_{k=1}^n (-1)^{k+1} \sum_{1 \leq i_1 < i_2 < \dots < i_k \leq n} \frac{(n-k)!}{\abs{\Omega}}            \\
+	                           & = \sum_{k=1}^n (-1)^{k+1} \sum_{1 \leq i_1 < i_2 < \dots < i_k \leq n} \frac{(n-k)!}{n!}                      \\
+	                           & = \sum_{k=1}^n (-1)^{k+1} \binom{n}{k} \frac{(n-k)!}{n!}                                                      \\
+	                           & = \sum_{k=1}^n (-1)^{k+1} \frac{n!}{k!(n-k)!} \cdot \frac{(n-k)!}{n!}                                         \\
+	                           & = \sum_{k=1}^n (-1)^{k+1} \frac{1}{k!}                                                                        \\
+\end{align*}
+So
+\[ \prob{A} = 1 - \prob{\bigcup_{i=1}^n A_i} = 1 - \sum_{k=1}^n \frac{(-1)^{k+1}}{k!} = \sum_{k=0}^n \frac{(-1)^k}{k!} \]
+As $n \to \infty$, this value tends to $e^{-1} \approx 0.3678$.
+
+\subsection{Independence of Events}
+\begin{definition}
+	Let $(\Omega, \mathcal F, \mathbb P)$ be a probability space. Let $A, B \in \mathcal F$. $A$ and $B$ are called independent if
+	\[ \prob{A \cap B} = \prob{A} \cdot \prob{B} \]
+	We write $A \perp B$, or $A \perp\!\!\!\perp B$. A countable collection of events $(A_n)$ is said to be independent if for all distinct $i_1, \dots, i_k$, we have
+	\[ \prob{A_{i_1} \cap \dots \cap A_{i_k}} = \prod_{j=1}^k \prob{A_{i_j}} \]
+\end{definition}
+\begin{remark}
+	To show that a collection of events is independent, it is insufficient to show that events are pairwise independent. For example, consider tossing a fair coin twice, so $\Omega = \{ (0, 0), (0, 1), (1, 0), (1, 1) \}$. $\prob{\{\omega\}} = \frac{1}{4}$. Consider the events $A, B, C$ where
+	\[ A = \{ (0, 0), (0, 1) \};\quad B = \{ (0, 0), (1, 0) \};\quad C = \{ (1, 0), (0, 1) \} \]
+	\[ \prob{A} = \prob{B} = \prob{C} = \frac{1}{2} \]
+	\begin{align*}
+		\prob{A \cap B} = \prob{\{ (0, 0) \}} & = \frac{1}{4} = \prob{A} \cdot \prob{B} \\
+		\prob{A \cap C} = \prob{\{ (0, 1) \}} & = \frac{1}{4} = \prob{A} \cdot \prob{C} \\
+		\prob{B \cap C} = \prob{\{ (1, 0) \}} & = \frac{1}{4} = \prob{B} \cdot \prob{C}
+	\end{align*}
+	\[ \prob{A \cap B \cap C} = \prob{\varnothing} = 0 \]
+\end{remark}
+\begin{claim}
+	If $A \perp B$, then $A \perp \stcomp{B}$.
+\end{claim}
+\begin{proof}
+	\begin{align*}
+		\prob{A \cap \stcomp{B}} & = \prob{A} - \prob{A \cap B}           \\
+		                         & = \prob{A} - \prob{A} \cdot \prob{B}   \\
+		                         & = \prob{A} \left( 1 - \prob{B} \right) \\
+		                         & = \prob{A} \prob{\stcomp{B}}
+	\end{align*}
+	as required.
+\end{proof}
+
+\subsection{Conditional Probability}
+\begin{definition}
+	Let $(\Omega, \mathcal F, \mathbb P)$ be a probability space. Let $B \in \mathcal F$ with $\prob{B} > 0$. We define the conditional probability of $A$ given $B$, written $\prob{A \mid B}$ as
+	\[ \prob{A \mid B} = \frac{\prob{A \cap B}}{\prob{B}} \]
+\end{definition}
+\noindent Note that if $A$ and $B$ are independent, then
+\[ \prob{A \mid B} = \frac{\prob{A \cap B}}{\prob{B}} = \frac{\prob{A} \cdot \prob{B}}{\prob{B}} = \prob{A} \]
+\begin{claim}
+	Suppose that $(A_n)$ is a disjoint sequence in $\mathcal F$. Then
+	\[ \prob{\bigcup A_n \mathrel{\Big|} B} = \sum_{n} \prob{A_n \mid B} \]
+	This is the countable additivity property for conditional probability.
+\end{claim}
+\begin{proof}
+	\begin{align*}
+		\prob{\bigcup A_n \mathrel{\Big|} B} & = \frac{\prob{(\bigcup A_n) \cap B}}{\prob{B}} \\
+		                                     & = \frac{\prob{\bigcup (A_n \cap B)}}{\prob{B}} \\
+		\intertext{By countable additivity, since that $(A_n \cap B)$ are disjoint,}
+		                                     & = \sum_n \frac{\prob{A_n \cap B}}{\prob{B}}    \\
+		                                     & = \sum_n \prob{A_n \mid B}
+	\end{align*}
+\end{proof}
+\noindent We can think of $\prob{\dots \mid B}$ as a new probability measure for the same $\Omega$.
+
+\subsection{Law of Total Probability}
+\begin{claim}
+	Suppose $(B_n)$ is a disjoint collection of events in $\mathcal F$, such that $\bigcup B = \Omega$, and for all $n$, we have $\prob{B_n} > 0$. If $A \in \mathcal F$ then
+	\[ \prob{A} = \sum_n \prob{A \mid B_n} \cdot \prob{B_n} \]
+\end{claim}
+\begin{proof}
+	\begin{align*}
+		\prob{A} & = \prob{A \cap \Omega}                   \\
+		         & = \prob{A \cap \left(\bigcup B_n\right)} \\
+		         & = \prob{\bigcup(A \cap B_n)}             \\
+		\intertext{By countable additivity,}
+		         & = \sum_n \prob{A \cap B_n}               \\
+		         & = \sum_n \prob{A \mid B_n} \prob{B_n}
+	\end{align*}
+\end{proof}
+
+\subsection{Bayes' Formula}
+\begin{claim}
+	Suppose $(B_n)$ is a disjoint sequence of events with $\bigcup B_n = \Omega$ and $\prob{B_n} > 0$ for all $n$. Then
+	\[ \prob{B_n \mid A} = \frac{\prob{A \mid B_n} \prob{B_n}}{\sum_k \prob{A \mid B_k} \prob{B_k}} \]
+\end{claim}
+\begin{proof}
+	\begin{align*}
+		\prob{B_n \mid A} & = \frac{\prob{B_n \cap A}}{\prob{A}}                                       \\
+		                  & = \frac{\prob{A \mid B_n} \prob{B_n}}{\prob{A}}                            \\
+		\intertext{By the Law of Total Probability,}
+		                  & = \frac{\prob{A \mid B_n} \prob{B_n}}{\sum_k \prob{A \mid B_k} \prob{B_k}}
+	\end{align*}
+\end{proof}
+\noindent Note that on the right hand side, the numerator appears somewhere in the denominator. This formula is the basis of Bayesian statistics. It allows us to reverse the direction of a conditional probability --- knowing the probabilities of the events $(B_n)$, and given a model of $\prob{A \mid B_n}$, we can calculuate the posterior probabilities of $B_n$ given that $A$ occurs.

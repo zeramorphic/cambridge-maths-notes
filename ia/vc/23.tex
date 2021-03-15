@@ -1,0 +1,101 @@
+\subsection{Definition}
+\begin{definition}
+	A tensor is isotropic if it is invariant under changes with respect to the choice of Cartesian coordinate axes.
+	\[ T_{ij\dots k}' = R_{ip} R_{jq} \dots R_{kr} T_{pq\dots r} = T_{ij\dots k} \]
+	for any choice of rotation $R$.
+\end{definition}
+\noindent Note that by definition, every scalar is isotropic. The Kronecker and Levi-Civita tensors are also isotropic, as we saw above.
+
+\subsection{Classifying Isotropic Tensors in $\mathbb R^3$}
+\begin{proposition}
+	The isotropic tensors on $\mathbb R^3$, ordered by rank, are exactly (up to the multiplication of a multiplicative scalar)
+	\begin{enumerate}[{Rank} 1:]
+		\setcounter{enumi}{-1}
+		\item all tensors
+		\item no non-zero tensors
+		\item the Kronecker $\delta$
+		\item the Levi-Civita $\varepsilon$
+		\item $\alpha \delta_{ij} \delta_{k\ell} + \beta \delta_{ik} \delta_{j\ell} + \gamma \delta_{i\ell} \delta_{jk}$ where $\alpha$, $\beta$, $\gamma$ are scalars
+	\end{enumerate}
+	and for ranks higher than 4, they are a linear combination of products of $\delta$ and $\varepsilon$ terms, for instance $\delta_{ij}\varepsilon_{k\ell m}$.
+\end{proposition}
+\begin{proof}
+	This is a non-rigorous sketch proof.
+	\begin{enumerate}[{Rank} 1:]
+		\setcounter{enumi}{-1}
+		\item By definition, such tensors do not transform components under a change of basis.
+		\item Let $v_i$ be the components of an isotropic vector of rank 1. Then, for any $R$, we must have
+		      \[ v_i = R_{ij} v_j \]
+		      Let $R$ be a rotation by $\pi$ about the $z$ axis, so
+		      \[ R = \begin{pmatrix}
+				      -1 & 0  & 0 \\
+				      0  & -1 & 0 \\
+				      0  & 0  & 1
+			      \end{pmatrix} \]
+		      Hence,
+		      \[ v_1 = -v_1;\quad v_2 = -v_2;\quad v_3 = v_3 \]
+		      Hence, $v_1 = 0, v_2 = 0$. Alternatively, let
+		      \[ R = \begin{pmatrix}
+				      1 & 0  & 0  \\
+				      0 & -1 & 0  \\
+				      0 & 0  & -1
+			      \end{pmatrix} \]
+		      Then clearly $v_3 = -v_3 = 0$. Hence the only tensor with this property is the zero tensor.
+		\item If $T_{ij}$ are the components of an isotropic tensor of rank 2, then for all choices of $R$, we have
+		      \[ T_{ij} = R_{ip} R_{jq} T_{pq} \]
+		      Let $R$ be a rotation by $\frac{\pi}{2}$ about each axis, so for example in the $z$ direction,
+		      \[ R = \begin{pmatrix}
+				      0  & 1 & 0 \\
+				      -1 & 0 & 0 \\
+				      0  & 0 & 1
+			      \end{pmatrix} \]
+		      So $T_{13} = R_{1p} R_{3q} T_{pq} = R_{12} R_{33} T_{23} = T_{23}$. Analogously we find, $T_{23} = -T_{13}$. Hence, $T_{13} = T_{23} = 0$. Further, $T_{11} = R_{1p} R_{1q} T_{pq} = R_{12} R_{12} T_{22} = T_{22}$. So by symmetry,
+		      \[ T_{11} = T_{22} = T_{33};\quad T_{13} = T_{23} = T_{12} = T_{31} = T_{32} = T_{21} = 0 \]
+		      which is exactly the $\delta$ tensor, up to a scale factor.
+		\item For rank 3 tensors, we can use the same idea, but with more indices.
+	\end{enumerate}
+\end{proof}
+
+\subsection{Integrals with Isotropic Tensors}
+Consider an integral of the form
+\[ T_{ij\dots k} = \int_{\abs{\vb x} < R} f(r) x_i x_j \dots x_k \dd{V} \]
+where $x_k x_k = r^2$, and $\dd{V(x)} = \dd{x_1} \dd{x_2} \dd{x_3}$. Note that $f(r)$ and $\{ \vb x \colon \abs{\vb x} < R \}$ are invariant under rotation. Since $\abs{J}$ under a rotation is 1, we have
+\begin{align*}
+	T_{ij\dots k}' & = \int_{\abs{\vb x} < R} f(r) x_i' x_j' \dots x_k' \dd{x_1'} \dd{x_2'} \dd{x_3'}                \\
+	               & = \int_{\abs{\vb x} < R} f(r) R_{ip} x_p R_{jq} x_q \dots R_{kr} x_r \dd{x_1} \dd{x_2} \dd{x_3}
+\end{align*}
+We will now make the substitution
+\[ y_i = R_{ij} x_j;\quad \dd{V} = \dd{y_1} \dd{y_2} \dd{y_3} \]
+Hence,
+\begin{align*}
+	T_{ij\dots k}' & = \int_{\abs{\vb x} < R} f(r) y_i y_j \dots y_k \dd{V(\vb y)} \\
+	               & = \int_{\abs{\vb x} < R} f(r) x_i x_j \dots x_k \dd{V(\vb x)} \\
+	               & = T_{ij\dots k}
+\end{align*}
+Hence such an integral always yields an isotropic tensor. If we take $R \to \infty$, this corresponds to an integral over $\mathbb R^3$. As an example, consider
+\[ T_{ij} = \int_{\mathbb R^3} e^{-r^5}x_i x_j \dd{V} \]
+Then $T_{ij}$ is isotropic, hence $T_{ij} = \alpha \delta_{ij}$. Contracting on $(i, j)$ to find $\alpha$, we get
+\begin{align*}
+	\alpha \delta_{ii} & = 3\alpha                                      \\
+	                   & = \int_{\mathbb R^3} e^{-r^5} r^2 \dd{V}       \\
+	                   & = 4\pi \int_{0}^\infty e^{-r^5} r^2 r^2 \dd{r} \\
+	                   & = 4\pi \int_{0}^\infty e^{-r^5} r^4 \dd{r}     \\
+	                   & = \frac{4}{5}\pi
+\end{align*}
+Hence,
+\[ T_{ij} = \frac{4}{15}\pi\delta_{ij} \]
+As another example, consider the inertia tensor $I_{ij}$ of a ball of radius $R$, uniform density $\rho_0$, and mass $M = \frac{4\pi}{3}R^3 \rho_0$. Recall that
+\[ I_{ij} = \int_{\abs{\vb x} < R} \rho_0 (x_k x_k \delta_{ij} - x_i x_j) \dd{V} \]
+Both terms give an isotropic result, so the sum $I_{ij}$ is isotropic. Contracting on $(i, j)$, we have
+\begin{align*}
+	\alpha \delta_{ii} & = 3\alpha                                                                  \\
+	                   & = \int_{\abs{\vb x} < R} \rho_0 (r^2 \delta_{ii} - x_i x_i) \dd{V}         \\
+	                   & = \int_{\abs{\vb x} < R} \rho_0 (3r^2 - r^2) \dd{V}                        \\
+	                   & = \int_{\abs{\vb x} < R} \rho_0 2r^2 \dd{V}                                \\
+	                   & = 4\pi \int_0^R \rho_0 2r^4 \dd{r}                                         \\
+	                   & = \frac{4\pi}{3}\rho_0 R^3 \qty(\frac{3}{R^3} \cdot 2 \cdot \frac{R^5}{5}) \\
+	                   & = \frac{6MR^2}{5}
+\end{align*}
+Hence,
+\[ I_{ij} = \frac{2MR^2}{5}\delta_{ij} \]
+

@@ -1,0 +1,56 @@
+\subsection{Basic Relationships}
+\begin{proposition}
+	For a scalar field $f$ and a vector field $\vb F$,
+	\[ \curl{\grad{f}} = \vb 0 \]
+	and
+	\[ \div{\curl{\vb F}} = 0 \]
+	In other words, curl $\circ$ grad gives zero, and div $\circ$ curl gives zero.
+\end{proposition}
+\begin{proof}
+	We will use Cartesian coordinates for simplicity.
+	\begin{align*}
+		[\curl{\grad{f}}]_i & = \varepsilon_{ijk} \pdv{x_j} \left( \pdv{f}{x_k} \right) \\
+		                    & = \varepsilon_{ijk} \pdv{f}{x_j}{x_k}
+	\end{align*}
+	$\varepsilon_{ijk}$ is antisymmetric in $j$ and $k$, but $\pdv{f}{x_j}{x_k}$ is symmetric in $j$ and $k$. Hence the result is zero. Further,
+	\begin{align*}
+		\div{\curl{\vb F}} & = \pdv{x_i} \varepsilon_{ijk} \pdv{x_j} F_k \\
+		                   & = \varepsilon_{ijk} \pdv{F_k}{x_i}{x_j}
+	\end{align*}
+	Once again the $\varepsilon$ term is antisymmetric and the partial derivative is symmetric, so the result follows.
+\end{proof}
+
+\subsection{Irrotational and Solenoidal Forces}
+As a short aside, `simply connected' means that any loop in a space can be `shrunk' to any point within that space. It can also be referred to as `1-connected' since the loop is a one-dimensional manifold. For example, $\mathbb R^3$ is 1-connected, but $\mathbb R^3$ with the $z$-axis removed is not 1-connected; a loop around this axis cannot be shrunk to a point away from the axis.
+
+We can write that a space is `2-connected' if it is 1-connected and any 2-manifold (surface) can be shrunk to any point within the space. Certainly $\mathbb R^3$ is 2-connected, but for example $\mathbb R^3$ without the origin is not 2-connected. The space is certainly 1-connected, but it is not 2-connected because a surface around the origin cannot be shrunk to a point away from the origin.
+
+Recall that $\vb F$ is conservative if we can write $\vb F = \grad f$. We say that $\vb F$ is irrotational if $\curl{\vb F} = \vb 0$. Hence, any conservative function is irrotational. The converse is true if the domain of $\vb F$ is 1-connected. We say that $\vb F$ is solenoidal if $\div{\vb F} = 0$. If there exists a vector potential $\vb A$ for $\vb F$, i.e. $\vb F = \curl{\vb A}$, then $\vb F$ is solenoidal. The converse is true if the domain of $\vb F$ is 2-connected.
+
+\subsection{Green's Theorem}
+We begin now a section on various integral theorems.
+\begin{proposition}
+	If $P = P(x, y)$ and $Q = Q(x, y)$ are continuously differentiable on a planar domain $A \cup \partial A$ ($A$ and its boundary), and $\partial A$ is piecewise smooth, then
+	\[ \oint_{\partial A} P \dd{x} + Q \dd{y} = \iint_{A} \left( \pdv{Q}{x} - \pdv{P}{y} \right) \dd{x}\dd{y} \]
+	where the orientation of $\partial A$ is such that $A$ lies to the left while traversing $\partial A$.
+\end{proposition}
+\noindent Note that it is easy to arrive at this result for a rectangle. In this case,
+\begin{align*}
+	\iint_{A} \left( \pdv{Q}{x} - \pdv{P}{y} \right) \dd{x}\dd{y} & = \int_c^d \dd{y} \int_a^b \dd{x} \pdv{Q}{x} - \int_a^b \dd{x} \int_x^d \dd{y} \pdv{P}{y} \\
+	                                                              & = \int_c^d [Q(b, y) - Q(a, y)] \dd{y} + \int_a^b [P(x, c) - P(x, d)] \dd{x}               \\
+	                                                              & = \oint_{\partial A} P \dd{x} + Q \dd{y}
+\end{align*}
+It then intuitively follows that we can approximate a surface with a set of small rectangles, and then the theorem should hold. As an example, let
+\[ P = -\frac{1}{2}y;\quad Q = \frac{1}{2}x\]
+Then the area of some region is given by
+\begin{align*}
+	\iint_A \dd{x}\dd{y} & = \iint_A \left( \frac{1}{2} + \frac{1}{2} \right) \dd{x}\dd{y} \\
+	                     & = \iint_A \left( \pdv{Q}{x} - \pdv{P}{y} \right) \dd{x}\dd{y}   \\
+	                     & = \frac{1}{2}\oint_{\partial A} x\dd{y} - y\dd{x}
+\end{align*}
+So letting $A$ be the ellipse $\frac{x^2}{a^2} + \frac{y^2}{b^2} \leq 1$, we can parametrise $\partial A$ by
+\[ [0, 2 \pi] \ni t \mapsto \begin{pmatrix}
+		a \cos t \\ b \sin t
+	\end{pmatrix} \]
+Hence the area is
+\[ \frac{1}{2}\int_0^{2\pi} \left( ab\cos^2 t + ab\sin^2 t \right) \dd{t} = \pi ab \]

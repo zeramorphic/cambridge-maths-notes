@@ -1,0 +1,64 @@
+\subsection{Cyclic Groups}
+\begin{theorem}
+	Any cyclic group $G$ is isomorphic to $C_n$ (for some $n \in \mathbb N$) or $\mathbb Z$.
+\end{theorem}
+\begin{proof}
+	Let $G = \genset b$. Then suppose that there exists some natural number $n$ such that $b^n = e$. We take the smallest such $n$, and define $\varphi: C_n \to G$ by $\varphi(a^k) = b^k$ where the elements of $C_n$ are $e, a, a^2$ and so on.
+
+	We now show that $\varphi$ is a homomorphism. For any two elements $a^j, a^k \in C_n$, we have two cases. If $j + k < n$, then $\varphi(a^j \cdot a^k) = \varphi(a^{j+k}) = b^{j+k} = b^j \cdot b^k = \varphi(a^j) \cdot \varphi(a^k)$ as required. Otherwise, $j + k \geq n$, then $\varphi(a^j \cdot a^k) = \varphi(a^{j+k-n}) = b^{j+k}(b^n)^{-1} = b^{j+k}\cdot e = b^{j+k} = b^j \cdot b^k = \varphi(a^j) \cdot \varphi(a^k)$ as required.
+
+	Note that $\varphi$ is bijective:
+	\begin{itemize}
+		\item $b^n = e \in G$ implies that all elements of $G$ can be written $b^k$ where $0 \leq k < n$, so $\varphi$ is surjective; and
+		\item Let $a^k$ be an element in the kernel of $\varphi$ where $0 \leq k < n$. Then $\varphi(a^k) = e \implies b^k = e$. But $k$ must be zero, because any other value would contradict the fact that we chose $n$ to be the smallest number with this property. So the kernel is trivial.
+	\end{itemize}
+	So $\varphi$ is an isomorphism, and $G \cong C_n$.
+
+	If alternatively there exists no $n$ such that $b^n = e$, then we construct $\varphi: \mathbb Z \to G$ by $\varphi(k) = b^k$. Then $\varphi(k + m) = b^{k+m} = b^k \cdot b^m = \varphi(k) \cdot \varphi(m)$, so $\varphi$ is a homomorphism. Clearly $\varphi$ is surjective because all elements of $G$ can be constructed with powers of $b$. Now, suppose $m \in \ker \varphi$ where $m$ is non-zero. Then $\varphi(m) = b^m = e$ and $\varphi(-m) = b^{-m} = e$. So one of $m$ and $-m$ is positive, contradicting the fact that there is no such $n>0$ where $b^n = e$. So the kernel is trivial, so $\varphi$ is an isomorphism, so $G \cong \mathbb Z$.
+\end{proof}
+
+\begin{definition}
+	The order of an element $g\in G$ is the smallest $n \in \mathbb N$ such that $g^n = e$. We say that $\ord g = n$. If there is no such $n$, then $\ord g = \infty$.
+\end{definition}
+Note that given some $g \in G$, the subgroup $\genset g$ is a cyclic group isomorphic to $C_n$ if $\ord g = n$, and isomorphic to $\mathbb Z$ if $\ord g = \infty$. So $\ord g = \abs{\genset g}$.
+\begin{proposition}
+	Cyclic groups are abelian.
+\end{proposition}
+The proof is trivial.
+
+\subsection{Dihedral Groups}
+\begin{definition}
+	The dihedral group $D_{2n}$ is the group of symmetries of a regular $n$-gon. The group operation is composition of transformations. For example, $D_6$ is the group of symmetries of a regular triangle.
+\end{definition}
+The elements of a general $D_{2n}$ fall into two categories:
+\begin{itemize}
+	\item (rotations) We can rotate the shape around its centre through $\frac{2\pi k}{n}$. There are $n$ such rotations, including the identity element $e$.
+	\item (reflections) We can reflect the shape across axes through each vertex and the shape's centre. If $n$ is odd, then there are $n$ such symmetries. If $n$ is even, there are $n/2$ such symmetries, but there are a further $n/2$ symmetries through the midpoints of edges and the centre of the shape, leaving a total of $n$.
+\end{itemize}
+Therefore there are (at least) $2n$ elements in $D_{2n}$. Are these all the elements? To answer this, let us name vertices $v_1, v_2 \cdots v_n$, and let us consider some element $g$ of $D_{2n}$. There are two characteristics of a rigid symmetry:
+\begin{itemize}
+	\item Vertices are mapped to other vertices. So $v_1 \mapsto v_k$ for some $1 \leq k \leq n$.
+	\item Edges are mapped to other edges. So $v_2 \mapsto v_{k+1}$ or $v_{k-1}$ (modulo $n$). Note that once we define $v_1$ and $v_2$, then the location of $v_3$ is predetermined. Inductively, the entire polygon is pre-determined.
+\end{itemize}
+There are $n$ choices for the location of $v_1$. There are two choices for the location of $v_2$. So there are only $2n$ elements in $D_{2n}$. So we have all the elements already. It is also trivial to prove that $D_{2n}$ is a group, simply by verifying the axioms, noting the function composition is always associative.
+
+Note that we can generate $D_{2n}$ using just one rotation and one reflection. Let $r$ be the rotation by $\frac{2\pi}{n}$, and let $s$ be the reflection through $v_1$ (such that $v_1 \mapsto v_1$). Now,
+\begin{itemize}
+	\item $r^k$ gives all possible rotations;
+	\item $r^i s r^{-i}$ gives a reflection through $v_{i+1}$ and the centre;
+	\item $r^{i+1} s r^{-i}$ gives a reflection through the edge joining $v_{i}$ and $v_{i+1}$.
+\end{itemize}
+These are all three cases, so $D_{2n} = \genset{r, s}$.
+
+\subsection{Permutation Groups}
+\begin{definition}
+	Given a set $X$, a permutation of the set is a bijective function $\sigma: X \to X$. The set of all permutations of $X$ is denoted $\Sym X$.
+\end{definition}
+\begin{theorem}
+	$\Sym X$ is a group with respect to composition.
+\end{theorem}
+This is provable by checking the group axioms, noting that all bijective functions are invertible, and that function compositions are always associative.
+\begin{definition}
+	If $\abs{X} = n$ then $S_n$ is the isomorphism class of $\Sym X$.
+\end{definition}
+Note that $\abs{S_n}$ is $n!$ because the first element has $n$ choices for where to be mapped, the second element has $n-1$ choices, etc.

@@ -1,0 +1,120 @@
+\subsection{Moment Generating Functions}
+Consider a continuous random variable $X$ with density $f$. Then the moment generating function of $X$ is defined as
+\[ m(\theta) = \expect{e^{\theta X}} = \int_{-\infty}^\infty e^{\theta x} f(x) \dd{x} \]
+whenever this integral is finite. Note that $m(0) = 1$.
+\begin{theorem}
+	The moment generating function uniquely determines the distribution of a continuous random variable, provided that it is defined on some open interval $(a, b)$ of values of $\theta$.
+\end{theorem}
+\noindent No proof will be given.
+\begin{theorem}
+	Suppose the moment generating function is defined on an open interval of values of $\theta$. Then
+	\[ \eval{\dv[r]{\theta}m(\theta)}_{\theta = 0} = \expect{X^r} \]
+\end{theorem}
+\begin{theorem}
+	Suppose $X_1, \dots, X_n$ are independent random variables. Then
+	\[ m(\theta) = \expect{e^{\theta(X_1 + \dots + X_n)}} = \prod_{i=1}^n \expect{e^{\theta X_i}} \]
+\end{theorem}
+\begin{proof}
+	Since the $X_i$ are independent, we can move the product outside of the expectation.
+\end{proof}
+
+\subsection{Gamma Distribution}
+Let $X$ be a random variable with density
+\[ f(x) = e^{-\lambda x}\frac{\lambda^n x^{n-1}}{(n-1)!} \]
+where $\lambda > 0$, $n \in \mathbb N$, $x \geq 0$. We can say that $X \sim \Gamma(n, \lambda)$. First, we check that $f$ is indeed a density.
+\begin{align*}
+	I_n & = \int_0^\infty f(x) \dd{x}                                                     \\
+	    & = \int_0^\infty \lambda e^{-\lambda x} \frac{\lambda^n x^{n-1}}{(n-1)!} \dd{x}  \\
+	    & = \int_0^\infty \frac{e^{-\lambda x} \lambda^{n-1} (n-1) x^{n-2}}{(n-1)!}\dd{x} \\
+	    & = \int_0^\infty \frac{e^{-\lambda x} \lambda^{n-1} x^{n-2}}{(n-2)!}\dd{x}       \\
+	    & = I_{n-1} = \dots = I_1
+\end{align*}
+Note that for $n=1$, $f(x) = \lambda e^{-\lambda x}$ which is the density of the exponential distribution. Therefore, $I_n = 1$ as required, so $f$ really is a density. Now,
+\[ m(\theta) = \int_0^\infty \frac{e^{\theta x} e^{-\lambda x} \lambda^n x^{n-1}}{(n-1)!} \dd{x} \]
+If $\lambda > \theta$, then we have a finite integral. If $\lambda \leq \theta$, then the exponential term $e^{\theta x}$ will dominate and we will have an infinite integral. So, let $\lambda > \theta$.
+\begin{align*}
+	m(\theta) & = \int_0^\infty \frac{e^{\theta x} e^{-\lambda x} \lambda^n x^{n-1}}{(n-1)!} \dd{x}                                                            \\
+	          & = \left( \frac{\lambda}{\lambda - \theta} \right)^n \int_0^\infty \frac{e^{-(\lambda - \theta) x} (\lambda - \theta)^n x^{n-1}}{(n-1)!} \dd{x}
+\end{align*}
+The integral on the right hand side is the probability distribution function of a random variable $Y \sim \Gamma(n, \lambda - \theta)$, which gives 1 since the integral is taken over the entire domain. Hence,
+\[ m(\theta) = \left( \frac{\lambda}{\lambda - \theta} \right)^n \]
+Now, let $X \sim \Gamma(n, \lambda)$ and $Y \sim \Gamma(m, \lambda)$ be independent continuous random variables. Then
+\[ m(\theta) = \expect{e^{\theta(X + Y)}} = \expect{e^{\theta X}} \expect{e^{\theta Y}} = \qty(\frac{\lambda}{\lambda - \theta})^{n+m} \]
+So by the uniqueness property we saw earlier, we get that $X+Y \sim \Gamma(n+m, \lambda)$. In particular, this implies that if $X_1, \dots, X_n$ are independent and identically distributed with the distribution $\mathrm{Exp}(\lambda) = \Gamma(1, \lambda)$, then
+\[ X_1 + \dots + X_n \sim \Gamma(n, \lambda) \]
+We could alternatively consider $\Gamma(\alpha, \lambda)$ for $\alpha > 0$ by replacing $(n-1)!$ with
+\[ \Gamma(\alpha) = \int_0^\infty e^{-x} x^{\alpha - 1} \dd{x} \]
+which agrees with this factorial function for integer values of $\alpha$.
+
+\subsection{Moment Generating Function of the Normal Distribution}
+Recall that
+\[ f(x) = \frac{1}{\sqrt{2\pi \sigma^2}} \exp(-\frac{(x-\mu)^2}{2\sigma^2}) \]
+Now,
+\[ m(\theta) = \int_0^\infty e^{\theta x} \frac{1}{\sqrt{2\pi \sigma^2}} \exp(-\frac{(x-\mu)^2}{2\sigma^2}) \dd{x} = \int_0^\infty \frac{1}{\sqrt{2\pi \sigma^2}} \exp(\theta x-\frac{(x-\mu)^2}{2\sigma^2}) \dd{x} \]
+Note that
+\[ \theta x - \frac{(x-\mu)^2}{2\sigma^2} = \theta \mu + \frac{\theta^2 \sigma^2}{2} - \frac{\left( x - (\mu + \theta\sigma^2) \right)^2}{2\sigma^2} \]
+Hence,
+\begin{align*}
+	m(\theta) & = \int_0^\infty \frac{1}{\sqrt{2\pi \sigma^2}} \exp(\theta \mu + \frac{\theta^2 \sigma^2}{2} - \frac{\left( x - (\mu + \theta\sigma^2) \right)^2}{2\sigma^2}) \dd{x}       \\
+	          & = \exp(\theta \mu + \frac{\theta^2 \sigma^2}{2}) \int_0^\infty \frac{1}{\sqrt{2\pi \sigma^2}} \exp(- \frac{\left( x - (\mu + \theta\sigma^2) \right)^2}{2\sigma^2}) \dd{x}
+\end{align*}
+Note that the integral on the right hand side has the form of the probability distribution function of a variable $Y \sim \mathrm{N}(\mu + \theta \sigma^2, \sigma^2)$, hence it integrates to 1.
+\[ m(\theta) = \exp(\theta \mu + \frac{\theta^2 \sigma^2}{2}) \]
+Recall that if $X \sim \mathrm{N}(\mu, \sigma^2)$, then $aX + b \sim \mathrm{N}(a\mu + b, a^2\sigma^2)$. We can then deduce that
+\[ \expect{e^{\theta(aX + b)}} = \exp(\theta(a \mu + b) + \frac{\theta^2 a^2\sigma^2}{2}) \]
+Now, suppose that $X \sim \mathrm{N}(\mu, \sigma^2)$ and $Y \sim \mathrm{N}(\nu, \tau^2)$ are independent. Then
+\[ \expect{e^{\theta(X + Y)}} = \expect{e^{\theta X}} \expect{e^{\theta Y}} = \exp(\theta \mu + \frac{\theta^2 \sigma^2}{2}) \exp(\theta \nu + \frac{\theta^2 \tau^2}{2}) = \exp(\theta(\mu + \nu) + \frac{\theta^2 (\sigma^2 + \tau^2)}{2}) \]
+Hence $X + Y \sim \mathrm{N}(\mu + \nu, \sigma^2 + \tau^2)$.
+
+\subsection{Cauchy Distribution}
+Suppose that a continuous random variable $X$ has density
+\[ f(x) = \frac{1}{\pi(1 + x^2)} \]
+where $x \in \mathbb R$. Now,
+\[ m(\theta) = \expect{e^{\theta X}} = \int_{-\infty}^\infty \frac{e^{\theta x}}{\pi(1 + x^2)} = \begin{cases}
+		\infty & \theta \neq 0 \\
+		1      & \theta = 0
+	\end{cases} \]
+Suppose $X \sim f$. Then $X, 2X, 3X, \dots$ have the same moment generating function, but they do not have the same distribution. This is because $m(\theta)$ is not finite on an open interval.
+
+\subsection{Multivariate Moment Generating Functions}
+Let $X = (X_1, \dots, X_n)$ be a random variable with values in $\mathbb R^n$. Then the moment generating function of $X$ is defined as
+\[ m(\theta) = \expect{e^{\theta^T X}} = \expect{e^{\theta_1 X_1 + \dots + \theta_n X_n}};\quad \theta = \begin{pmatrix}
+		\theta_1 \\ \vdots \\ \theta_n
+	\end{pmatrix} \]
+\begin{theorem}
+	If the moment generating function is finite for a range of values of $\theta$, it uniquely determines the distribution of $X$. Also,
+	\[ \eval{\pdv[r]{m}{\theta_i}}_{\theta = 0} = \expect{X_i^r} \]
+	and
+	\[ \eval{\frac{\partial^{r+s}m}{\partial \theta_i^r \partial \theta_j^s}}_{\theta = 0} = \expect{X_i^r X_j^s} \]
+	Further,
+	\[ m(\theta) = \prod_{i = 1}^n \expect{e^{\theta_i X_i}} \]
+	if and only if $X_1, \dots, X_n$ are independent.
+\end{theorem}
+\noindent No proof is provided.
+
+\subsection{Convergence in Distribution}
+\begin{definition}
+	Let $(X_n \colon n \in \mathbb N)$ be a sequence of random variables and let $X$ be another random variable. We say that $X_n$ converges to $X$ in distribution, written $X_n \convdist X$, if
+	\[ F_{X_n}(x) \to F_X(x) \]
+	for all $x \in \mathbb R$ that are continuity points of $F_X$.
+\end{definition}
+\begin{theorem}[Continuity property for moment generating functions]
+	Let $X$ be a continuous random variable with $m(\theta) < \infty$ for some $\theta \neq 0$. Suppose that $m_n(\theta) \to m(\theta)$ for all $\theta \in \mathbb R$, where $m_n(\theta) = \expect{e^{\theta X_n}}$, and $m(\theta) = \expect{e^{\theta X}}$. Then $X_n \convdist X$.
+\end{theorem}
+
+\subsection{Weak Law of Large Numbers}
+\begin{theorem}
+	Let $(X_n \colon n \in \mathbb N)$ be a sequence of independent and identically distributed random variables, with $\mu = \expect{X_1} < \infty$. Let $S_n = X_1 + \dots + X_n$. Then for all $\varepsilon > 0$,
+	\[ \prob{\abs{\frac{S_n}{n} - \mu} > \varepsilon} \to 0 \]
+	as $n \to \infty$.
+\end{theorem}
+\noindent We will give a proof assuming that the variance of $X_1$ is finite.
+\begin{proof}
+	By Chebyshev's inequality,
+	\begin{align*}
+		\prob{\abs{\frac{S_n}{n} - \mu} > \varepsilon} & = \prob{\abs{S_n - n\mu} > \varepsilon n} \\
+		                                               & \leq \frac{\Var{S_n}}{\varepsilon^2 n^2}  \\
+		                                               & = \frac{n\sigma^2}{\varepsilon^2 n^2}     \\
+		                                               & \to 0
+	\end{align*}
+\end{proof}

@@ -1,0 +1,66 @@
+\subsection{Geometry of Trigonometric Functions}
+Recall that given any two vectors $\vb x$ and $\vb y$ in $\mathbb R^2$, we can define the dot (scalar) product by
+\[ \vb x \cdot \vb y = (x_1, x_2) \cdot (y_1, y_2) = x_1y_1 + x_2y_2 \]
+By the Cauchy-Schwarz inequality, we have
+\[ \abs{\vb x \cdot \vb y} \leq \norm{\vb x} \norm{\vb y} \]
+where we define the Euclidean norm in the normal way. Thus, for $\vb x \neq 0$, $\vb y \neq 0$, we have
+\[ -1 \leq \frac{\vb x \cdot \vb y}{\norm{\vb x} \norm{\vb y}} \leq 1 \]
+We now define the angle between two vectors $\vb x$ and $\vb y$ as exactly the unique number $\theta \in [0, \pi]$ such that
+\[ \cos\theta = \frac{\vb x \cdot \vb y}{\norm{\vb x} \norm{\vb y}} \]
+
+\subsection{Hyperbolic Functions}
+We define the functions $\cosh$ and $\sinh$ as follows.
+\[ \cosh z = \frac{1}{2}\qty(e^z + e^{-z}) \]
+\[ \sinh z = \frac{1}{2}\qty(e^z - e^{-z}) \]
+Hence
+\[ \cosh z = \cos(iz);\quad \sinh z = -i\sin(iz) \]
+We can then show that
+\[ \dv{z} \cosh z = \sinh z;\quad \dv{z} \sinh z = \cosh z \]
+and further,
+\[ \cosh^2 z - \sinh^2 z \equiv 1 \]
+
+\subsection{Defining the Riemann Integral}
+\begin{definition}
+	A \textit{dissection} or \textit{partition} $\mathcal D$ of $[a, b]$ is a finite subset of $[a, b]$ containing the end points $a$ and $b$. We write
+	\[ \mathcal D = \{ x_0, x_1, \dots, x_n \} \]
+	with $a = x_0 < x_1 < \dots < x_{n-1} < x_n = b$.
+\end{definition}
+\begin{definition}
+	We define the \textit{upper sum} of a bounded function $f$ associated with a partition $\mathcal D$ by
+	\[ S(f, \mathcal D) = \sum_{j=1}^n (x_j - x_{j-1}) \sup_{x \in [x_{j-1}, x_j]} f(x) \]
+	The \textit{lower sum} is defined similarly,
+	\[ s(f, \mathcal D) = \sum_{j=1}^n (x_j - x_{j-1}) \inf_{x \in [x_{j-1}, x_j]} f(x) \]
+\end{definition}
+\noindent Clearly then $S \geq s$ for all $\mathcal D$.
+\begin{lemma}
+	If $\mathcal D$ and $\mathcal D'$ are dissections with $\mathcal D' \supseteq \mathcal D$ ($\mathcal D'$ is a refinement of $\mathcal D$), then
+	\[ S(f, \mathcal D) \underset{(\mathrm{i})}{\geq} S(f, \mathcal D') \underset{(\mathrm{ii})}{\geq} s(f, \mathcal D') \underset{(\mathrm{iii})}{\geq} s(f, \mathcal D) \]
+\end{lemma}
+\begin{proof}
+	Inequality (ii) is obvious, we have already shown this to be true. Now, suppose $\mathcal D'$ contains a single extra point $y$ compared to $\mathcal D$, where $y \in (x_{r-1}, x_r)$. Clearly,
+	\[ \sup_{x \in [x_{r-1}, y]} f(x), \sup_{x \in [y, x_r]} f(x) \leq \sup_{x \in [x_{r-1}, x_r]} \]
+	Then
+	\[ (x_r - x_{r-1}) \sup_{x \in [x_{r-1}, x_r]} f(x) \geq (y-x_{r-1}) \sup_{x \in [r_{r-1}, y]} f(x) + (x_r - y) \sup_{x \in [y, r]} f(x) \]
+	Hence,
+	\[ S(f, \mathcal D) \geq S(f, \mathcal D') \]
+	The same proof holds for inequality (iii), and inductively we can show that this works for any amount of extra points.
+\end{proof}
+\begin{lemma}
+	If $\mathcal D_1, \mathcal D_2$ are arbitrary dissections, then
+	\[ S(f, \mathcal D_1) \geq S(f, \mathcal D_1 \cup \mathcal D_2) \geq s(f, \mathcal D_1 \cup \mathcal D_2) \geq s(f, \mathcal D_2) \]
+	In particular, $S(f, \mathcal D_1) \geq s(f, \mathcal D_2)$.
+\end{lemma}
+\begin{proof}
+	Let $\mathcal D' = \mathcal D_1 \cup \mathcal D_2$, which is a refinement of both $\mathcal D_1$ and $\mathcal D_2$, and apply the previous lemma.
+\end{proof}
+\begin{definition}
+	The \textit{upper integral} of $f$ is
+	\[ I^\star(f) = \inf_{\mathcal D} S(f, \mathcal D) \]
+	Note that such an integral always exists, since the upper sums are always bounded below by an arbitrary lower sum. Hence the infimum does indeed exist and is finite. Similarly,
+	\[ I_\star(f) = \sup_{\mathcal D} s(f, \mathcal D) \]
+\end{definition}
+\noindent Then by the lemmas above, $I^\star(f) \geq I_\star(f)$, since $S(f, \mathcal D_2) \geq s(f, \mathcal D_1)$ for arbitrary dissections $\mathcal D_1$ and $\mathcal D_2$.
+\begin{definition}
+	A bounded function $f \colon [a, b] \to \mathbb R$ is (Riemann) integrable if $I^\star(f) = I_\star(f)$. If this equality holds, we write
+	\[ \int_a^b f(x) \dd{x} = I^\star(f) = I_\star(f) = \int_a^b f \]
+\end{definition}

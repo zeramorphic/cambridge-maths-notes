@@ -1,0 +1,60 @@
+\subsection{Definitions}
+We define multidimensional real space as follows:
+\[ \mathbb R^n = \{ \vb x = (x_1, x_2, \cdots, x_n) : x_i \in \mathbb R \} \]
+We can define addition and scalar multiplication by mapping these operations over each term in the tuple. Therefore, we have a notion of linear combinations of vectors and hence a concept of parallel vectors. We can say, like before in $\mathbb R^3$, that $\vb x \parallel \vb y$ if and only if $\vb x = \lambda \vb y$ or $\vb y = \lambda \vb x$.
+
+\subsection{Inner Product}
+We define an operator analogous to the scalar product in $\mathbb R^3$. The inner product is defined as $x \cdot y = x_i y_i$. Directly from this definition, we can deduce some properties:
+\begin{itemize}
+	\item (symmetric) $\vb x \cdot \vb y = \vb y \cdot \vb x$
+	\item (bilinear) $(\lambda \vb x + \lambda'\vb x')\cdot \vb y = \lambda \vb x\cdot \vb y + \lambda' \vb x' \cdot \vb y$
+	\item (positive definite) $\vb x \cdot \vb x \geq 0$, and the equality holds if and only if $\vb x = \vb 0$.
+\end{itemize}
+
+\subsection{Norm}
+We can define the norm of a vector (similar to the concept of length in three-dimension space), denoted $\abs {\vb x}$, by $\abs{\vb x}^2 = \vb x \cdot \vb x$. We can now define orthogonality as follows: $\vb x \perp \vb y \iff \vb x \cdot \vb y = 0$.
+
+\subsection{Basis Vectors}
+We define the standard basis vectors $\vb e_1, \vb e_2, \cdots \vb e_n$ by setting each element of the tuple $\vb e_i$ to zero apart from the $i$th element, which is set to one. Also, we redefine the Kronecker $\delta$ to be valid in higher-dimensional space. Note that under this definition, the standard basis vectors are orthonormal because $\vb e_i \cdot \vb e_j = \delta_{ij}$.
+
+\subsection{Cauchy-Schwarz Inequality}
+\begin{proposition}
+	For vectors $\vb x, \vb y$ in $\mathbb R^n$, $\abs{\vb x \cdot \vb y} \leq \abs{\vb x} \abs{\vb y}$, where the equality is true if and only if $\vb x \parallel \vb y$.
+\end{proposition}
+\begin{proof}
+	If $\vb y = \vb 0$, then the result is immediate. So suppose that $\vb y \neq 0$, then for some $\lambda \in \mathbb R$, we have
+	\begin{align*}
+		\abs{\vb x - \lambda \vb y}^2 & =
+		(\vb x - \lambda \vb y) \cdot (\vb x - \lambda \vb y)                                                          \\
+		                              & = \abs{\vb x}^2 - 2 \lambda \vb x \cdot \vb y + \lambda^2 \abs{\vb y}^2 \geq 0
+	\end{align*}
+	As this is a positive real quadratic in $\lambda$ that is always greater than zero, it has at most one real root. Therefore the discriminant is less than or equal to zero.
+	\[ (-2 \vb x \cdot \vb y)^2 - 4 \abs{\vb x}^2\abs{\vb y}^2 \leq 0
+		\implies \abs{\vb x \cdot \vb y} \leq \abs{\vb x}\abs{\vb y} \]
+	where the equality only holds if $\vb x$ and $\vb y$ are parallel (i.e. when $\vb x - \lambda \vb y$ equals zero for some $\lambda$).
+\end{proof}
+
+\subsection{Triangle Inequality}
+Following from the Cauchy-Schwarz inequality,
+\begin{align*}
+	\abs{\vb x + \vb y}^2
+	 & = \abs{\vb x}^2 + 2(\vb x \cdot \vb y) + \abs{\vb y}^2        \\
+	 & \leq \abs{\vb x}^2 + 2 \abs{\vb x}\abs{\vb y} + \abs{\vb y}^2 \\
+	 & = \left(\abs{\vb x} + \abs{\vb y}\right)^2
+\end{align*}
+where the equality holds under the same conditions as above.
+
+\subsection{Levi-Civita $\varepsilon$ in $\mathbb R^n$}
+Note that the Levi-Civita $\varepsilon$ has three indices in $\mathbb R^3$. We can extend this $\varepsilon$ to higher and lower dimensions by increasing or reducing the amount of indices. It does not make logical sense to use the same $\varepsilon$ without changing the amount of indices to define, for example, a vector product in four-dimensional space, since we would have unused indices. The expression $(\vb x \times \vb y)_k = \varepsilon_{ijk} \vb a_i \vb b_j$ works because there is one free index, $k$, on the right hand side, so we can use this to calculate the values of each element of the result.
+
+We can, however, use this $\varepsilon$ to extend the notion of a scalar triple product to other dimensions, for example two-dimensional space, with $[\vb a, \vb b] := \varepsilon_{ij} \vb a_i \vb b_j$. This is the signed area of the parallelogram spanning $\vb a$ and $\vb b$.
+
+\subsection{Vector Spaces}
+Vector spaces are not studied axiomatically in this course, but the axioms are given here for completeness. A real (as in, $\mathbb R$) vector space $V$ is a set of objects with two operators $+: V \times V \to V$ and $\cdot: \mathbb R \times V \to V$ such that
+\begin{itemize}
+	\item $(V, +)$ is an abelian group
+	\item $\lambda(v + w) = \lambda v + \lambda w$
+	\item $(\lambda + \mu)v = \lambda v + \mu v$
+	\item $\lambda(\mu v) = (\lambda \mu) v$
+	\item $1v = v$ (to exclude trivial cases for example $\lambda v = 0$ for all $v$)
+\end{itemize}

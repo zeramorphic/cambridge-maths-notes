@@ -1,0 +1,160 @@
+\subsection{Conjugation Action of $GL_n(\mathbb F)$}
+Recall from Vectors and Matrices: if $\alpha\colon \mathbb F^n \to \mathbb F^n$ is a linear map, we can represent $\alpha$ as a matrix $A$ with respect to a basis $\{ \vb e_1, \dots, \vb e_n \}$. If we choose a different basis $\{ \vb f_1, \dots, \vb f_n \}$ then $\alpha$ can also be written as a matrix with respect to this new basis, by the matrix $P^{-1}AP$ where $P$ is the change of basis matrix, defined by
+\[ \vb f_j = P_{ij}\vb e_i \]
+This is an example of conjugation.
+\begin{proposition}
+	$GL_n(\mathbb F)$ acts on $M_{n \times n}(\mathbb F)$ by conjugation. The orbit of a matrix $A \in M_{n \times n}(\mathbb F)$ is the set of matrices representing the same linear map as $A$ with respect to different bases.
+\end{proposition}
+\begin{proof}
+	This is an action:
+	\begin{itemize}
+		\item $P(A) = PAP^{-1} \in M_{n \times n}(\mathbb F)$ for any chosen matrix $A \in M_{n \times n}(\mathbb F)$, $P \in GL_n(\mathbb F)$
+		\item $I(A) = IAI^{-1} = A$
+		\item $Q(P(A)) = QPAP^{-1}Q^{-1} = (QP)A(QP)^{-1} = (QP)(A)$
+	\end{itemize}
+	As shown in the discussion above, $A$ and $B$ are in the same orbit if and only if $A = PBP^{-1} \iff B = P^{-1}AP$, which is equivalent to this conjugation action.
+\end{proof}
+
+\subsection{Orbits of Conjugation Action: Jordan Normal Form}
+Recall from Vectors and Matrices that any matrix in $M_{2 \times 2}(\mathbb C)$ is conjugate to a matrix in Jordan Normal Form, i.e. to one of the following types of matrix:
+\[ \begin{pmatrix}
+		\lambda_1 & 0 \\ 0 & \lambda_2
+	\end{pmatrix};\quad \begin{pmatrix}
+		\lambda & 0 \\ 0 & \lambda
+	\end{pmatrix};\quad \begin{pmatrix}
+		\lambda & 1 \\ 0 & \lambda
+	\end{pmatrix} \]
+In the first case, the values $\lambda_1, \lambda_2$ are uniquely determined by the matrix we are trying to conjugate (specifically its eigenvalues). But of course, the order of the eigenvalues is not determined uniquely. Other than this, no two matrices on this list of possible Jordan Normal Forms are conjugate.
+\begin{itemize}
+	\item $\begin{pmatrix}
+			      \lambda_1 & 0 \\ 0 & \lambda_2
+		      \end{pmatrix}$ is characterised by having two distinct eigenvalues, a property independent of the chosen basis, so it cannot be conjugate to the others.
+	\item $\begin{pmatrix}
+			      \lambda & 0 \\ 0 & \lambda
+		      \end{pmatrix}$ is only conjugate to itself since it is $\lambda I$.
+	\item $\begin{pmatrix}
+			      \lambda & 1 \\ 0 & \lambda
+		      \end{pmatrix}$ is characterised by having a repeated eigenvalue $\lambda$, but only a one dimensional eigenspace (independent of the basis we choose).
+\end{itemize}
+This gives a complete description of the orbits of $GL_n(\mathbb C) \acts M_{n \times n}(\mathbb C)$.
+
+\subsection{Stabilisers of Conjugation Action}
+Clearly we have
+\[ P \in \Stab(A) \iff PAP^{-1} = A \iff PA = AP \]
+So if two matrices commute, they stabilise each other. Let us consider the three cases as above.
+\begin{itemize}
+	\item For $A = \begin{pmatrix}
+			      \lambda_1 & 0 \\ 0 & \lambda_2
+		      \end{pmatrix}$:
+	      \begin{align*}
+		      \begin{pmatrix}
+			      a & b \\ c & d
+		      \end{pmatrix}\begin{pmatrix}
+			      \lambda_1 & 0 \\ 0 & \lambda_2
+		      \end{pmatrix} & = \begin{pmatrix}
+			      \lambda_1 a & \lambda_2 b \\
+			      \lambda_1 c & \lambda_2 d
+		      \end{pmatrix} \\
+		      \begin{pmatrix}
+			      \lambda_1 & 0 \\ 0 & \lambda_2
+		      \end{pmatrix}\begin{pmatrix}
+			      a & b \\ c & d
+		      \end{pmatrix} & = \begin{pmatrix}
+			      \lambda_1 a & \lambda_1 b \\
+			      \lambda_2 c & \lambda_2 d
+		      \end{pmatrix}
+	      \end{align*}
+	      So this matrix is in the stabiliser if and only if $b = c = 0$.
+	      \[ \Stab\begin{pmatrix}
+			      \lambda_1 & 0 \\ 0 & \lambda_2
+		      \end{pmatrix} = \left\{ \begin{pmatrix}
+			      a & 0 \\ 0 & d
+		      \end{pmatrix} \in GL_2(\mathbb C) \right\} \]
+	\item For $A = \begin{pmatrix}
+			      \lambda & 0 \\ 0 & \lambda
+		      \end{pmatrix}$, clearly its stabiliser is $GL_2(\mathbb C)$ since $A = \lambda I$, and so it commutes with any matrix.
+	\item For $A = \begin{pmatrix}
+			      \lambda & 1 \\ 0 & \lambda
+		      \end{pmatrix}$, the stabiliser is
+	      \[ \Stab \begin{pmatrix}
+			      \lambda & 1 \\ 0 & \lambda
+		      \end{pmatrix} = \left\{ \begin{pmatrix}
+			      a & b \\ 0 & a
+		      \end{pmatrix} \in GL_2(\mathbb C) \right\} \]
+	      (Proof as exercise)
+\end{itemize}
+
+\subsection{Geometry of Orthogonal Groups}
+We will look more closely at the orthogonal group and special orthogonal group, and then focus on symmetries of $\mathbb R^2$ and $\mathbb R^3$. Let us consider the standard inner product in $\mathbb R^n$:
+\[ \vb x \cdot \vb y = x_iy_i = \vb x^\transpose \vb y \]
+If we consider the columns $\vb p_1, \dots, \vb p_n$ of an orthogonal matrix $P \in O_n$, we have
+\[ (P^\transpose P)_{ij} = \vb p_i^\transpose \vb p_j = \vb p_i \cdot \vb p_j \]
+So since $P \in O_n \iff P^\transpose P = I$, we have
+\[ \vb p_i \cdot \vb p_j = \delta_{ij} \]
+\begin{proposition}
+	$P \in O_n$ if and only if the columns of $P$ form an orthonormal basis.
+\end{proposition}
+This has been proven by the above discussion. Thinking of $P \in O_n$ as a change of basis matrix, we get the following result.
+\begin{proposition}
+	Consider $O_n \acts M_{n \times n}(\mathbb R)$ by conjugation. Two matrices are in the same orbit if and only if they represent the same linear map with respect to two orthonormal bases.
+\end{proposition}
+\begin{proposition}
+	$P \in O_n$ if and only if $P \vb x \cdot P \vb y = \vb x \cdot \vb y$, i.e. the matrix preserves the inner product.
+\end{proposition}
+\begin{proof}
+	In the forward direction:
+	\[ (P\vb x) \cdot (P \vb y) = (P \vb x)^\transpose (P \vb y) = \vb x^\transpose P^\transpose P \vb y = \vb x^\transpose \vb y = \vb x \cdot \vb y \]
+	In the backward direction: if $P\vb x \cdot P\vb y = \vb x \cdot \vb y$ for all $\vb x, \vb y \in \mathbb R^n$, then taking the standard basis vectors $\vb e_i, \vb e_j$ we have
+	\[ P\vb e_i \cdot P\vb e_j = \vb e_i \cdot \vb e_j = \delta_{ij} \]
+	So the vectors $P\vb e_1, \dots, P\vb e_n$ are orthonormal. These are the columns of $P$, so $P \in O_n$.
+\end{proof}
+\begin{corollary}
+	For $P \in O_n$, $\vb x, \vb y \in \mathbb R^n$, we have
+	\begin{enumerate}[(i)]
+		\item $\abs{P\vb x} = \abs{\vb x}$ ($P$ preserves length)
+		\item $P\vb x \angle P\vb y = \vb x \angle \vb y$ ($P$ preserves angles between vectors)
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(i)]
+			\item Follows from the fact that the inner product is preserved, by taking the inner product of a vector with itself under the transformation.
+			\item Angles are also defined using the inner product,
+			      \[ \cos (\vb x \angle \vb y) = \frac{\vb x \cdot \vb y}{\abs{\vb x}\abs{\vb y}} \]
+			      Since the inner product and the lengths are preserved, the cosine of the angle is therefore preserved. Since $\cos\colon [0, \pi] \to [-1, 1]$ is injective, $\vb x \angle \vb y = P\vb x \angle P\vb y$.
+		\end{enumerate}
+	\end{proof}
+\end{corollary}
+
+\subsection{Reflections in $O_n$}
+We will consider what the elements of these groups look like when acting upon $\mathbb R^n$.
+\begin{definition}
+	If $\vb a \in \mathbb R^n$ with $\abs{\vb a} = 1$, then the reflection in the plane normal to $\vb a$ is the linear map
+	\[ R_{\vb a} \colon \mathbb R^n \to \mathbb R^n;\quad \vb x \mapsto \vb x - 2 (\vb x \cdot \vb a) \vb a \]
+\end{definition}
+\begin{lemma}
+	$R_{\vb a}$ lies in $O_n$.
+\end{lemma}
+\begin{proof}
+	Let $\vb x, \vb y \in \mathbb R^n$.
+	\begin{align*}
+		R_{\vb a}(\vb x) \cdot R_{\vb a}(\vb y) & = (\vb x - 2 (\vb x \cdot \vb a) \vb a) \cdot (\vb y - 2 (\vb y \cdot \vb a) \vb a)                                                                      \\
+		                                        & = \vb x \cdot \vb y - 2(\vb x \cdot \vb a)(\vb a \cdot \vb y) - 2(\vb y\cdot \vb a)(\vb x \cdot a) + 4(x\cdot a)(y \cdot a)\underbrace{(a \cdot a)}_{=1} \\
+		                                        & = \vb x \cdot \vb y
+	\end{align*}
+	So it preserves the inner product, so it is an orthogonal matrix.
+\end{proof}
+As we might expect, conjugates of reflections by orthogonal matrices are also reflections.
+\begin{lemma}
+	Given $P \in O_n$, $PR_{\vb a}P^{-1} = R_{P\vb a}$.
+\end{lemma}
+\begin{proof}
+	We have
+	\begin{align*}
+		PR_{\vb a}P^{-1}(\vb x) & = P(P^{-1}(\vb x) - 2 (P^{-1}(\vb x) \cdot \vb a) \vb a) \\
+		                        & = \vb x - 2(P^{-1}(\vb x)\cdot\vb a)(P\vb a)             \\
+		                        & = \vb x - 2(P^\transpose (\vb x)\cdot\vb a)(P\vb a)      \\
+		                        & = \vb x - 2(\vb x^\transpose P \vb a)(P\vb a)            \\
+		                        & = \vb x - 2(\vb x \cdot P\vb a)(P\vb a)
+	\end{align*}
+	which by inspection is the reflection of $\vb x$ by the plane with normal $P\vb a$.
+\end{proof}
+We know that no reflection matrix can be in $SO_n$, since this requires the determinant to be $+1$, which is the product of the eigenvalues. The $n-1$ eigenvectors with eigenvalue $+1$ are $n-1$ linearly independent vectors spanning the plane, and the single eigenvector with eigenvalue $-1$ is the normal to the plane. So the determinant is $-1$.

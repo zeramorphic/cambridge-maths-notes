@@ -1,0 +1,172 @@
+\subsection{Reduction of Order}
+Consider a homogeneous second-order linear ODE with non-constant coefficients. The general form of such an equation is
+\begin{equation}\label{hom_2_lin_ode_const}
+	y'' + p(x) y' + q(x) y = 0
+\end{equation}
+Our objective is to use one solution to this equation (here denoted $y_1$) to find the other solution $y_2$. The general idea is to look for a solution of the form
+\begin{equation}\label{y2_y1_reduction}
+	y_2(x) = v(x)y_1(x)
+\end{equation}
+First, note that
+\begin{align*}
+	y_2'  & = v'y_1 + vy_1'             \\
+	y_2'' & = v''y_1 + 2v'y_1' + vy_1''
+\end{align*}
+If $y_2$ is a solution to \eqref{hom_2_lin_ode_const}, then
+\[ y_2'' + p(x) y_2' + q(x) y_2 = 0 \]
+We can use \eqref{y2_y1_reduction} and collect terms, to get
+\[ v\cdot\underbrace{(y_1'' + py_1' + qy_1)}_{\mathclap{\text{0 since $y_1$ is a solution to \eqref{hom_2_lin_ode_const}}}} + v'\cdot(2y_1' + py_1) + v''\cdot y_1 = 0 \]
+Hence
+\[ v'\cdot (2y_1' + py_1) + v'' \cdot y_1 = 0 \]
+This is a first order differential equation for $v'(x)$. Let $u=v'$. Then
+\[ u'y_1 + u (2y_1' + py_1) = 0 \]
+This is a separable first order ODE for $u(x)$. So we can solve for $u(x)$ and deduce $v(x)$ by integration.
+
+\subsection{Solution Space}
+An $n$th order linear ODE written
+\[ p(x)y^{(n)} + q(x) y^{(n-1)} + \cdots + r(x)y = f(x) \]
+can be used to write $y^{(n)}(x)$ in terms of lower derivatives of $y$. For example, the oscillations of a mass on a spring in a damped system can be modelled as
+\[ m\ddot y = -k y - L\dot y \]
+Therefore the state of the system can be described by an $n$-dimensional solution vector
+\begin{equation}
+	\vb Y(x) \equiv \begin{pmatrix}
+		y(x) \\ y'(x) \\ \vdots \\ y^{(n-1)}(x)
+	\end{pmatrix}
+\end{equation}
+For example, an undamped oscillator modelled by $y'' + 4y = 0$ has solutions
+\[ y_1 = \cos 2x;\quad y_2 = \sin 2x \]
+and has derivatives
+\[ y_1' = -2\sin 2x;\quad y_2' = 2\cos 2x \]
+and therefore two solution vectors are
+\[
+	\vb Y_1(x) = \begin{pmatrix}
+		y_1 \\ y_1'
+	\end{pmatrix} = \begin{pmatrix}
+		\cos 2x \\ -2 \sin 2x
+	\end{pmatrix}
+\]
+and
+\[
+	\vb Y_2(x) = \begin{pmatrix}
+		y_2 \\ y_2'
+	\end{pmatrix} = \begin{pmatrix}
+		\sin 2x \\ 2 \cos 2x
+	\end{pmatrix}
+\]
+
+\begin{wrapfigure}{l}{0.3\textwidth}
+	\begin{tikzpicture}
+		\begin{axis}[
+				%axis lines = left,
+				xlabel = $y$,
+				ylabel = $\dot y$,
+				width=5cm,
+				height=5cm,
+				xmin=-2.4,
+				xmax=2.4,
+				ymin=-2.4,
+				ymax=2.4,
+				xticklabel=\empty,
+				yticklabel=\empty
+			]
+
+			\addplot [
+				domain=-1:1,
+				samples=200,
+				color=red,
+			]
+			{2*sqrt(1-x^2)};
+			\addplot [
+				domain=-1:1,
+				samples=200,
+				color=red,
+			]
+			{-2*sqrt(1-x^2)};
+
+			\draw[red] (axis cs: 1,0.05) -- (axis cs: 1,-0.05);
+		\end{axis}
+	\end{tikzpicture}
+\end{wrapfigure}
+
+We can plot the paths of these two solutions using a two-dimensional phase portrait. In this case, both solutions follow an elliptical path. Since $\vb Y_1$ and $\vb Y_2$ are linearly independent for all $x$, any point in solution space $(y, y')$ can be written as a linear combination of these solutions.
+
+Solutions $y_1, y_2, \cdots, y_n$ are linearly independent for any ODE if their solution vectors $\vb Y_1, \vb Y_2, \cdots, \vb Y_n$ are linearly independent. A set of $n$ linearly independent solution vectors forms a basis for the solution space of an $n$th order ODE.
+
+\subsection{Initial Conditions}
+Consider initial conditions for a second order homogeneous ODE.
+\[ y(0) = a,\quad y'(0) = b \]
+If the general solution is
+\[ y(x) = Ay_1(x) + By_2(x) \]
+then we have the following linear system of equations
+\begin{align*}
+	Ay_1(0) + By_2(0)   & = a \\
+	Ay_1'(0) + By_2'(0) & = b
+\end{align*}
+which is a system of two equations for two unknowns. Or alternatively,
+\[
+	\underbrace{\begin{pmatrix}
+			y_1(0)  & y_2(0)  \\
+			y_1'(0) & y_2'(0)
+		\end{pmatrix}}_{\equiv M}
+	\begin{pmatrix}
+		A \\ B
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		a \\b
+	\end{pmatrix}
+\]
+Unique solutions for $A$ and $B$ exist if $\det M \neq 0$.
+
+\subsection{Wronskian}
+The fundamental matrix is a matrix formed by placing solution vector $\vb Y_i$ in the $i$th column. The Wronskian, denoted $W(x)$, is the determinant of the fundamental matrix.
+\[
+	W(x) \equiv \begin{vmatrix}
+		\vdots  & \vdots  &        & \vdots  \\
+		\vb Y_1 & \vb Y_2 & \cdots & \vb Y_n \\
+		\vdots  & \vdots  &        & \vdots
+	\end{vmatrix} = \begin{vmatrix}
+		y_1         & y_2         & \cdots & y_n         \\
+		y_1'        & y_2'        & \cdots & y_n'        \\
+		\vdots      & \vdots      & \ddots & \vdots      \\
+		y_1^{(n-1)} & y_2^{(n-1)} & \cdots & y_n^{(n-1)}
+	\end{vmatrix}
+\]
+For a second order ODE:
+\begin{equation}\label{wronskian2}
+	W(x) = \begin{vmatrix}
+		y_1 & y_2 \\ y_1' & y_2'
+	\end{vmatrix}
+	= y_1y_2' - y_2y_1'
+\end{equation}
+The solution vectors are linearly independent if $W(x) \neq 0$. This is a convenient test for the linear independence of two solution vectors. In our example above, we had
+\[
+	W(x) = \begin{vmatrix}
+		\cos 2x   & \sin 2x  \\
+		-2\sin 2x & 2\cos 2x
+	\end{vmatrix}
+	= 2\cos^2 2x + 2\sin^2 2x = 2 \neq 0
+\]
+So the solution vectors are linearly independent for all $x$.
+
+\subsection{Reverse Implication of Wronskian}
+If $\vb Y_1$ and $\vb Y_2$ are linearly dependent, then $W(x) = 0$. Suppose that a third solution $y(x)$ is a linear combination of $y_1(x)$ and $y_2(x)$. Then the solution vector $\vb Y, \vb Y_1, \vb Y_2$ are a linearly dependent set. Hence
+\[
+	\begin{vmatrix}
+		y   & y_1   & y_2   \\
+		y'  & y_1'  & y_2'  \\
+		y'' & y_1'' & y_2''
+	\end{vmatrix}
+	= 0
+\]
+For $y_1 = \cos 2x$ and $y_2 = \sin 2x$, we can deduce the original differential equation that produced these solutions by solving for $y$.
+\begin{align*}
+	\begin{vmatrix}
+		y   & \cos 2x   & \sin 2x    \\
+		y'  & -2\sin 2x & 2 \cos 2x  \\
+		y'' & -4\cos 2x & -4 \sin 2x
+	\end{vmatrix}          & = 0 \\
+	\implies y(8\sin^2 2x + 8\cos^2 2x) &     \\ - y'(-4 \cos 2x \sin 2x + 4 \cos 2x \sin 2x) &\\ + y''(2\cos^2 2x + 2\sin^2 2x) &= 0 \\
+	\implies y'' + 4y                   & = 0
+\end{align*}
+Note that if $W(x) = 0$, this does not necessarily imply linear dependence.

@@ -1,0 +1,68 @@
+\subsection{Definition of Integration}
+We use a Riemann sum to approximate the area under a sufficiently well-behaved function $f(x)$ on the real numbers.
+\begin{equation}\label{riemannsum}
+	\sum_{n=0}^{N-1} f(x_n) \Delta x
+\end{equation}
+where $\Delta x = (b-a)/N$, and $x_n = a + n\Delta x$. How close is \eqref{riemannsum} to the area under $f(x)$ for large $N$? Consider a specific rectangle in the Riemann sum by fixing $n$. The area under the curve in the $n$th rectangle and the area of the rectangle itself differ by a value we denote here as $\epsilon$. By computing $\epsilon$'s order of magnitude, we can show how much the total error deviates by.
+
+\begin{theorem}[Mean Value Theorem]
+	For a continuous function $f(x)$,
+	\begin{equation}\label{meanvaluetheorem}
+		\int_{x_n}^{x_{n+1}} f(x) \dd{x} = f(x_c) \cdot (x_{n+1} - x_n)
+	\end{equation}
+	for some $x_c\in (x_n, n_{n+1})$.
+\end{theorem}
+\noindent We use the Taylor Series of $f(x)$ at $x_n$ to compute a value for $x_c$.
+\[ f(x_c) = f(x_n) + O(x_c - x_n) \]
+as $x_c - x_n \to 0$. Since $x_n < x_c < x_{n+1}$, which implies $\abs{x_{n+1} - x_n} > \abs{x_c - x_n}$, we can make the statement that
+\[ f(x_c) = f(x_n) + O(x_{n+1} - x_n) \]
+as $x_{n+1} - x_n \to 0$. Thus, by \eqref{meanvaluetheorem}
+\[ \int_{x_n}^{x_{n+1}} f(x) \dd{x} = \left[ f(x_n) + O(x_{n+1} - x_n) \right] (x_{n+1} - x_n) \]
+By defining $\Delta x = x_{n+1} - x_n$, we have
+\begin{equation}
+	\int_{x_n}^{x_{n+1}} f(x) \dd{x} = \Delta x f(x_n) + O(\Delta x ^ 2)
+\end{equation}
+By rearranging, we can compute $\epsilon$:
+\[ \epsilon = \abs{\int_{x_n}^{x_{n+1}} f(x) \dd{x} - \Delta x f(x_n)} = O(\Delta x ^ 2) \]
+Therefore it follows that
+\[ \int_{a}^{b} f(x) \dd{x} = \lim_{\Delta x \to 0} \left[ \left( \sum_{n=0}^{N-1} f(x_n) \Delta x \right) + O(N\Delta x^2) \right] \]
+Note that $O(N\Delta x^2) = O((\frac{b-a}{N})^2 \cdot N) = O(1/N)$, so
+\[ \int_{a}^{b} f(x) \dd{x} = \lim_{N \to \infty} \left[ \left( \sum_{n=0}^{N-1} f(x_n) \Delta x \right) + O(1/N) \right] \]
+Which gives our final result of
+\begin{equation}\label{definiteintegral}
+	\int_{a}^{b} f(x) \dd{x} = \lim_{N \to \infty} \sum_{n=0}^{N-1} f(x_n) \Delta x`
+\end{equation}
+
+\subsection{Fundamental Theorem of Calculus}
+Let $F(x) = \int_{a}^{x} f(t) \dd{t}$. From the definition of the derivative, we have
+\begin{align*}
+	\frac{\dd{F}}{\dd{x}} & = \lim_{h \to 0} \frac{1}{h} \left[ F(x+h) - F(x) \right]                                         \\
+	                      & = \lim_{h \to 0} \frac{1}{h} \left[ \int_{a}^{x+h} f(t) \dd{t} - \int_{a}^{x} f(t) \dd{t} \right] \\
+	                      & = \lim_{h \to 0} \frac{1}{h} \int_{x}^{x+h} f(t) \dd{t}                                           \\
+	\intertext{Using \eqref{definiteintegral}:}
+	                      & = \lim_{h \to 0} \frac{1}{h} \left[ hf(x) + O(h^2) \right]                                        \\
+	                      & = \lim_{h \to 0} \left[ f(x) + O(h) \right]                                                       \\
+	                      & = f(x)
+\end{align*}
+Therefore:
+\begin{equation}\label{ftc}
+	\frac{\ddempty}{\dd{x}} \left[ \int_{a}^{x} f(t) \dd{t} \right] = f(x)
+\end{equation}
+
+\subsection{Integration Techniques}
+Three particularly important methods of integration are:
+\begin{itemize}
+	\item $u$-substitution,
+	\item trigonometric substitutions, and
+	\item integration by parts.
+\end{itemize}
+Of particular note is the trigonometric substitution method, since it can be difficult to work out exactly which substitution will yield the result. A table is provided below.
+
+\medskip\noindent\begin{tabular}{c c c}
+	Identity                            & Term in Integrand & Substitution      \\\hline
+	$\cos^2 \theta + \sin^2 \theta = 1$ & $\sqrt{1 - x^2}$  & $x = \sin \theta$ \\
+	$1 + \tan^2 \theta = \sec^2 \theta$ & $1 + x^2$         & $x = \tan \theta$ \\
+	$\cosh^2 u - \sinh^2 u = 1$         & $\sqrt{x^2 - 1}$  & $x = \cosh u$     \\
+	$\cosh^2 u - \sinh^2 u = 1$         & $\sqrt{x^2 + 1}$  & $x = \sinh u$     \\
+	$1 - \tanh^2 u = \sech^2 u$         & $1 - x^2$         & $x = \tanh u$
+\end{tabular}

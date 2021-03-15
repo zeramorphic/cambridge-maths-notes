@@ -1,0 +1,118 @@
+\subsection{Definition}
+For $f \colon \mathbb R^3 \to \mathbb R$, we define the gradient of $f$, written $\grad f$, by
+\begin{equation}
+	f(\vb x + \vb h) = f(\vb x) + \grad f(\vb x) \cdot \vb h + o(\vb h)
+	\tag{$\ast$}
+\end{equation}
+as $\abs{\vb h} \to 0$. The directional derivative of $f$ in the direction $\vb v$, denoted by $D_{\vb v} f$ or $\frac{\partial f}{\partial \vb v}$, is defined by
+\[ D_{\vb v} f(\vb x) = \lim_{t \to 0} \frac{f(\vb x + t\vb v) - f(\vb x)}{t} \]
+Alternatively,
+\begin{equation}
+	f(\vb x + t\vb v) = f(\vb x) + t D_{\vb v}f(\vb x) + o(t)
+	\tag{$\dagger$}
+\end{equation}
+as $t \to 0$. Setting $\vb h = t\vb v$ in $(\ast)$, we have
+\[ f(\vb x + t\vb v) = f(\vb x) + t \grad f(\vb x) \cdot \vb v + o(t) \]
+This gives another way to interpret the gradient of $f$. Comparing this result to $(\dagger)$, we see that
+\[ D_{\vb v} f = \vb v \cdot \grad f \]
+By the Cauchy-Schwarz inequality, the dot product is maximised when the two vectors are parallel. Hence, the directional derivative is maximised when $\vb v$ points in the direction of $\grad f$. So $\grad f$ points in the direction of greatest increase of $f$. Similarly, $-\grad f$ points in the direction of greatest decrease of $f$. For example, suppose $f(x) = \frac{1}{2}\abs{\vb x}^2$. Then
+\[ f(\vb x + \vb h) = \frac{1}{2}(\vb x + \vb h)\cdot (\vb x + \vb h) = \frac{1}{2}\abs{\vb x}^2 + \frac{1}{2}(2\vb x \cdot \vb h) + \frac{1}{2}\abs{\vb h}^2 = f(\vb x) + \vb x \cdot \vb h + o(\vb h) \]
+Hence $\grad f(\vb x) = \vb x$.
+
+\subsection{Gradient on Curves}
+Suppose we have a curve $t \mapsto \vb x(t)$. How does some function $f$ change when moving along the curve? We will write $F(t) = f(\vb x(t)), \delta \vb x = \vb x(t + \delta t) - \vb x(t)$.
+\begin{align*}
+	F(t + \delta t) & = f(\vb x(t + \delta t))                                               \\
+	                & = f(\vb x(t) + \delta \vb x)                                           \\
+	                & = f(\vb x(t)) + \grad f(\vb x(t)) \cdot \delta \vb x + o(\delta \vb x) \\
+	\intertext{Since $\delta \vb x = \vb x'(t) \,\delta t + o(\delta t)$, we have}
+	F(t + \delta t) & = F(t) + \vb x'(t) \cdot \grad f(\vb x(t)) \,\delta t + o(\delta t)
+\end{align*}
+In other words,
+\[ \frac{\dd{F}}{\dd{t}} = \frac{\dd}{\dd{t}}f(\vb x(t)) = \frac{\dd \vb x}{\dd{t}} \cdot \grad f(\vb x(t)) \]
+
+\subsection{Gradient on Surfaces}
+Suppose we have a surface $S$ in $\mathbb R^3$ defined implicitly by
+\[ S = \{ \vb x \in \mathbb R^3 : f(\vb x) = 0 \} \]
+If $t \mapsto \vb x(t)$ is any curve in $S$, then $f(\vb x(t)) = 0$ everywhere. So
+\[ 0 = \frac{\dd}{\dd{t}}f(\vb x(t)) = \grad f(\vb x(t)) \cdot \frac{\dd \vb x}{\dd{t}} \]
+So $\grad f(\vb x(t))$, the gradient, is orthogonal to $\frac{\dd \vb x}{\dd{t}}$, the tangent vector of any chosen curve in $S$. So $\grad f(\vb x(t))$ is normal to the surface.
+
+\subsection{Coordinate-Independent Representation}
+If we are working in an orthogonal curvilinear coordinate system $(u, v, w)$, it is not immediately clear how to compute $\grad f$, since we need to represent this arbitrary perturbation $\vb h$ using $(u, v, w)$. In Cartesian coordinates it is simple; to represent the change $\vb x \mapsto \vb x + \vb h$ we simply add the components of $\vb x$ and $\vb h$.
+\begin{align*}
+	f(\vb x + \vb h) & = f((x + h_1, y + h_2, z + h_3))                                                                                                  \\
+	                 & = f(\vb x) + \frac{\partial f}{\partial x} h_1 + \frac{\partial f}{\partial y} h_2 + \frac{\partial f}{\partial z} h_3 + o(\vb h) \\
+	                 & = f(\vb x) + \begin{pmatrix}
+		\partial f / \partial x \\ \partial f / \partial y \\ \partial f / \partial z
+	\end{pmatrix} \cdot h + o(\vb h)                                                                        \\
+\end{align*}
+So we have
+\[ \implies \grad f = \begin{pmatrix}
+		\partial f / \partial x \\ \partial f / \partial y \\ \partial f / \partial z
+	\end{pmatrix} \]
+Or, using suffix notation,
+\[ \grad f = \vb e_i \frac{\partial f}{\partial x_i};\quad [\grad f]_i = \frac{\partial f}{\partial x_i} \]
+We see that this $\grad$ is a kind of vector differential operator. In Cartesian coordinates,
+\[ \grad = \vb e_x \frac{\partial}{\partial x} + \vb e_y \frac{\partial}{\partial y} + \vb e_z \frac{\partial}{\partial z} \equiv \vb e_i \frac{\partial}{\partial x_i} \]
+From our previous example,
+\[ f(\vb x) = \frac{1}{2}(x^2 + y^2 + z^2) = \frac{1}{2}\abs{\vb x}^2 \]
+\begin{align*}
+	[\grad f]_i & = \frac{\partial}{\partial x_i}\left[ \frac{1}{2} x_j x_j \right] \\
+	            & = \frac{1}{2} \left[ \delta_{ij} x_j + x_j \delta_{ij} \right]    \\
+	            & = x_i                                                             \\
+	\grad f     & = \vb e_i x_i
+\end{align*}
+Let us return back to computing the gradient in the general case. Recall that in Cartesian coordinates, the line element is simple:
+\[ \dd \vb x = \dd{x}_i \vb e_i \]
+And also, if we have a function on $\mathbb R^3$ such as $f(x, y, z)$, it has the differential
+\[ \dd{f} = \frac{\partial f}{\partial x_i}\dd{x}_i \]
+Then,
+\begin{align*}
+	\grad f \cdot \dd \vb x & = \left( \vb e_i \frac{\partial f}{\partial x_i} \right) \cdot \left( \vb e_j \dd{x}_j \right) \\
+	                        & = \frac{\partial f}{\partial x_i} \left( \vb e_i \cdot \vb e_j \right) \dd{x}_j                \\
+	                        & = \frac{\partial f}{\partial x_i} \delta_{ij} \dd{x}_j                                         \\
+	                        & = \frac{\partial f}{\partial x_i} \dd{x}_i                                                     \\
+	                        & = \dd{f}
+\end{align*}
+In other words, in \textit{any} set of coordinates,
+\[ \grad f \cdot \dd \vb x = \dd{f} \]
+
+\subsection{Computing the Gradient Vector}
+\begin{proposition}
+	If $(u, v, w)$ are orthogonal curvilinear coordinates, and $f$ is a function of the position vector $(u, v, w)$, then
+	\[ \grad f = \frac{1}{h_u}\frac{\partial f}{\partial u}\vb e_u + \frac{1}{h_v}\frac{\partial f}{\partial v}\vb e_v + \frac{1}{h_w}\frac{\partial f}{\partial w}\vb e_w \]
+\end{proposition}
+\begin{proof}
+	If $f = f(u, v, w)$ and $\vb x = \vb x(u, v, w)$, then
+	\[ \dd{f} = \frac{\partial f}{\partial u}\dd{u} + \frac{\partial f}{\partial v}\dd{v} + \frac{\partial f}{\partial w}\dd{w} \]
+	\[ \dd{x} = h_u \dd{u} \vb e_u + h_v \dd{v} \vb e_v + h_w \dd{w} \vb e_w \]
+	Using the above result, we have
+	\[ \grad f \cdot \dd \vb x = \dd{f} \]
+	\[ \left( (\grad f)_u \vb e_u + (\grad f)_v \vb e_v + (\grad f)_w \vb e_w \right) \cdot \left( h_u \dd{u} \vb e_u + h_v \dd{v} \vb e_v + h_w \dd{w} \vb e_w \right) = \frac{\partial f}{\partial u}\dd{u} + \frac{\partial f}{\partial v}\dd{v} + \frac{\partial f}{\partial w}\dd{w} \]
+	\[  (\grad f)_u h_u \dd{u} + (\grad f)_v h_v \dd{v} + (\grad f)_w h_w \dd{w} = \frac{\partial f}{\partial u}\dd{u} + \frac{\partial f}{\partial v}\dd{v} + \frac{\partial f}{\partial w}\dd{w} \]
+	Since $u, v, w$ are independent coordinates, $\dd{u}, \dd{v}, \dd{w}$ are linearly independent. So we can simply compare coefficients, getting
+	\[ \grad f = \frac{1}{h_u}\frac{\partial f}{\partial u}\vb e_u + \frac{1}{h_v}\frac{\partial f}{\partial v}\vb e_v + \frac{1}{h_w}\frac{\partial f}{\partial w}\vb e_w \]
+	as required.
+\end{proof}
+\noindent In cylindrical polar coordinates, we have
+\[ \grad f = \frac{\partial f}{\partial \rho} \vb e_\rho + \frac{1}{\rho} \frac{\partial f}{\partial \phi} \vb e_\phi + \frac{\partial f}{\partial z} \vb e_z \]
+In spherical polar coordinates, we have
+\[ \grad f = \frac{\partial f}{\partial r} \vb e_r + \frac{1}{r} \frac{\partial f}{\partial \theta} \vb e_\theta + \frac{1}{r\sin\theta} \frac{\partial f}{\partial \phi} \vb e_\phi \]
+Then using the familiar example $f(\vb x) = \frac{1}{2}\abs{\vb x}^2$, we have
+\[
+	f = \begin{cases}
+		\frac{1}{2}(x^2 + y^2 + z^2) & \text{in Cartesian coordinates}         \\
+		\frac{1}{2}(\rho^2 + z^2)    & \text{in cylindrical polar coordinates} \\
+		\frac{1}{2}r^2               & \text{in spherical polar coordinates}   \\
+	\end{cases}
+\]
+Then we can check the value of $\grad f$ in these different coordinate systems.
+\begin{align*}
+	\grad f & = \begin{cases}
+		x \vb e_x + y \vb e_y + z \vb e_z & \text{in Cartesian coordinates}         \\
+		\rho \vb e_\rho + z \vb e_z       & \text{in cylindrical polar coordinates} \\
+		r \vb e_r                         & \text{in spherical polar coordinates}   \\
+	\end{cases} \\
+	        & = \vb x
+\end{align*}

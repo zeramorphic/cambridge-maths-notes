@@ -1,0 +1,81 @@
+\subsection{Quadrics in General}
+A quadric in $\mathbb R^n$ is a hypersurface defined by an equation of the form
+\[ Q(\vb x) = \vb x^\transpose A \vb x + \vb b^\transpose \vb x + c = 0 \]
+for some nonzero, symmetric, real $n \times n$ matrix $A$, $b \in \mathbb R^n$, $c \in \mathbb R$. In components,
+\[ Q(\vb x) = A_{ij}x_ix_j + b_ix_i + c = 0 \]
+We will clasify solutions for $\vb x$ up to geometrical equivalence, so we will not distinguish between solutions here which are related by isometries in $\mathbb R^n$ (distance-preserving maps, i.e. translations and orthogonal transformations about the origin).
+
+Note that $A$ is invertible if and only if it has no zero eigenvalues. In this case, we can complete the sequare in the equation $Q(\vb x) = 0$ by setting $\vb y = \vb x + \frac{1}{2}A^{-1} \vb b$. This is essentially a translation isometry, moving the origin to $\frac{1}{2}A^{-1} \vb b$.
+\begin{align*}
+	\vb y^\transpose A \vb y & = (\vb x + \frac{1}{2}A^{-1}\vb b)^\transpose A (\vb x + \frac{1}{2}A^{-1}\vb b)                         \\
+	                         & = (\vb x^\transpose + \frac{1}{2}\vb b^\transpose(A^{-1})^\transpose) A (\vb x + \frac{1}{2}A^{-1}\vb b) \\
+	                         & = \vb x^\transpose A \vb x + \vb b^\transpose \vb x + \frac{1}{4}\vb b^\transpose A^{-1}\vb b
+\end{align*}
+since $(A^\transpose)^{-1} = (A^{-1})^\transpose$. Then,
+\[ Q(\vb x) = 0 \iff \mathcal F(\vb y) = k \]
+with
+\[ \mathcal F(\vb y) = \vb y^\transpose A \vb y \]
+which is a quadratic form with respect to a new origin $\vb y = \vb 0$, and where $k = \frac{1}{4}\vb b^\transpose A^{-1}\vb b - c$. Now we can diagonalise $\mathcal F$ as in the above section, in particular, orthonormal eigenvectors give the principal axes, and the eigenvalues of $A$ and the value of $k$ determine the geometrical nature of the solution of the quadric. In $\mathbb R^3$, the geometrical possibilities are (as we saw before):
+\begin{enumerate}[(i)]
+	\item eigenvalues positive, $k$ positive gives an ellipsoid;
+	\item eigenvalues different signs, $k$ nonzero gives a hyperboloid
+\end{enumerate}
+If $A$ has one or more zero eigenvalues, then the analysis we have just provided changes, since we can no longer construct such a $\vb y$ vector, since $A^{-1}$ does not exist. The simplest standard form of $Q$ may have both linear and quadratic terms.
+
+\subsection{Conics as Quadrics}
+Quadrics in $\mathbb R^2$ are curves called conics. Let us first consider the case where $\det A \neq 0$. By completing the square and diagonalising $A$, we get a standard form
+\[ \lambda_1 {x'_1}^2 + \lambda_2 {x'_2}^2 = k \]
+The variables $x'_i$ correspond to the principal axes and the new origin. We have the following cases.
+\begin{itemize}
+	\item ($\lambda_1, \lambda_2 > 0$) This is an ellipse for $k>0$, and a point for $k=0$. There are no solutions for $k<0$.
+	\item ($\lambda_1 > 0, \lambda_2 < 0$) This gives a hyperbola for $k>0$, and a hyperbola in the other axis if $k<0$. If $k=0$, this is a pair of lines. For instance, ${x'_1}^2 - {x'_2}^2 = 0 \implies (x'_1 - x'_2)(x'_1 + x'_2) = 0$.
+\end{itemize}
+If $\det A = 0$, then there is exactly one zero eigenvalue since $A \neq 0$. Then:
+\begin{itemize}
+	\item ($\lambda_1 > 0, \lambda_2 = 0$) We will diagonalise $A$ in the original expression for the quadric. This gives
+	      \[ \lambda_1 {x'_1}^2 + b'_1 x'_1 + b'_2 x'_2 + c = 0 \]
+	      This is a new equation in the coordinate system defined by $A$'s principal axes. Completing the square here in the $x'_1$ term, we have
+	      \[ \lambda_1 {x''_1}^2 + b'_2x'_2 + c' = 0 \]
+	      where $x''_1 = x'_1 + \frac{1}{2\lambda_1}b'_1$, and $c' = c - \frac{{b'_1}^2}{4\lambda_1^2}$. If $b'_2 = 0$, then $x_2$ can take any value; and we get a pair of lines if $c'<0$, a single line if $c'=0$, and no solutions if $c'>0$. Otherwise, $b'_2 \neq 0$, and the equation becomes
+	      \[ \lambda_1 {x''_1}^2 + b'_2x''_2 = 0 \]
+	      where $x_2'' = x'_2 + \frac{1}{b_2'}c'$, and clearly this equation is a parabola.
+\end{itemize}
+All changes of coordinates correspond to translations (shifts of the origin) or orthogonal transformations, both of which preserve distance and angles.
+
+\subsection{Standard Forms for Conics}
+The general forms of conics can be written in terms of lengths $a, b$ (the semi-major and semi-minor axes), or equivalently a length scale $\ell$ and a dimensionless eccentricity constant $e$.
+\begin{itemize}
+	\item First, let us consider Cartesian coordinates. The formulas are:
+
+	      \medskip\noindent\begin{tabular}{c|c|c|c}
+		      conic     & formula                                 & eccentricity                       & foci       \\\hline
+		      ellipse   & $\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$ & $b^2=a^2(1-e^2)$, and $e<1$        & $x=\pm ae$ \\
+		      parabola  & $y^2 = 4ax$                             & one quadratic term vanishes, $e=1$ & $x = +a$   \\
+		      hyperbola & $\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1$ & $b^2=a^2(e^2-1)$, and $e<1$        & $x=\pm ae$
+	      \end{tabular}
+
+	\item Polar coordinates are a convenient alternative to Cartesian coordinates. In this coordinate system, we set the origin to be at a focus. Then, the formulas are
+	      \[ r = \frac{\ell}{1 + e\cos \theta} \]
+	      \begin{itemize}
+		      \item For the ellipse, $e<1$ and $\ell = a(1-e^2)$;
+		      \item For the parabola, $e=1$ and $\ell = 2a$; and
+		      \item For the hyperbola, $e>1$ and $\ell = a(e^2 - 1)$. There is only one branch for the hyperbola given by this polar form.
+	      \end{itemize}
+\end{itemize}
+
+%TODO draw graphs for all of these curves in both coordinate systems
+
+\subsection{Conics as Sections of a Cone}
+The equation for a cone in $\mathbb R^3$ given by an apex $\vb c$, an axis $\nhat$, and an angle $\alpha < \frac{\pi}{2}$, is
+\[ (\vb x - \vb c)\cdot\nhat = \abs{\vb x - \vb c}\cos \alpha \]
+Less formally, the angle of $\vb x$ away from $\nhat$ must be $\alpha$. By squaring this equation, we can essentially define two cones which stretch out infinitely far and meet at the centre point $\vb c$.
+\[ \left( (\vb x - \vb c)\cdot\nhat \right)^2 = \abs{\vb x - \vb c}^2\cos^2 \alpha \]
+Let us choose a set of coordinate axes so that our equations end up slightly easier. Let $\vb c = c\vb e_3, \nhat = \cos\beta \vb e_1 - \sin\beta \vb e_3$. Then essentially the cone starts at $(0, 0, c)$ and points `downwards' in the $\vb e_1$--$\vb e_3$ plane. Then the conic section is the intersection of this cone with the $\vb e_1$--$\vb e_2$ plane, i.e. $x_3 = 0$.
+\[ (x_1\cos\beta - c\sin\beta)^2 = (x_1^2 + x_2^2 + c^2)\cos^2\alpha \]
+\[ \iff (\cos^2\alpha - \cos^2\beta)x_1^2 + (\cos^2\alpha)x_2^2 + 2x_1c\sin\beta\cos\beta = \text{const.} \]
+Now we can compare the signs of the $x_1^2$ and $x_2^2$ terms. Clearly the $x_2^2$ term is always positive, so we consider the sign of the $x_1^2$ term.
+\begin{itemize}
+	\item If $\cos^2 \alpha > \cos^2\beta$ (i.e. $\alpha < \beta$), then we have an ellipse.
+	\item If $\cos^2 \alpha = \cos^2\beta$ (i.e. $\alpha = \beta$), then we have a parabola.
+	\item If $\cos^2 \alpha < \cos^2\beta$ (i.e. $\alpha > \beta$), then we have a hyperbola.
+\end{itemize}

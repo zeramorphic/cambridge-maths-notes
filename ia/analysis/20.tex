@@ -1,0 +1,71 @@
+\subsection{Complicated Integrable Functions}
+In principle, many functions that are not continuous or monotonic can be integrated using the Riemann integral. For example, the function $f\colon [0, 1] \to \mathbb R$ defined by
+\[ f(x) = \begin{cases}
+		\frac{1}{q} & x = \frac{p}{q} \in (0, 1] \text{ in its lowest form } \\
+		0           & \text{otherwise}
+	\end{cases} \]
+is Riemann integrable. We know that $s(f, \mathcal D) = 0$ for all $\mathcal D$, since any interval will contain irrational numbers. We will show that given $\varepsilon > 0$, there exists $\mathcal D$ such that $S(f, \mathcal D) < \varepsilon$. If this is true, then this function $f$ really is Riemann integrable, with $\int f = 0$. We will choose $N \in \mathbb N$ such that $\frac{1}{N} < \frac{\varepsilon}{2}$. Then
+\[ S = \qty{ x \in [0, 1] \colon f(x) \geq \frac{1}{N} } = \qty{ \frac{p}{q} \colon 1 \leq q \leq N, 1 \leq p \leq q } \]
+This set $S$ is a finite set, hence
+\[ S = \qty{ 0, t_1, \dots, t_R };\quad 0 < t_1 < \dots < t_R = 1 \]
+Consider a dissection $\mathcal D$ such that
+\begin{enumerate}[(1)]
+	\item Each $t_k$ is in some interval $[x_{j-1}, x_j]$, and
+	\item For all $k$, the unique interval containing $t_k$ has length at most $\frac{\varepsilon}{2R}$.
+\end{enumerate}
+Such a dissection can certainly be constructed. Then, in any interval that does not contain a $t_k$, $f$ in this interval is less than $\frac{1}{N}$. In any interval that does contain a $t_k$, $f \geq \frac{1}{N}$ but $f < 1$ everywhere. Since there are $R$ such intervals, each of which with length $\frac{\varepsilon}{2R}$, we have
+\[ S(f, \mathcal D) \leq \frac{1}{N} + \frac{\varepsilon}{2} < \varepsilon \]
+
+\subsection{Basic Properties}
+Consider functions $f$ and $g$ which are bounded and integrable on $[a, b]$.
+\begin{enumerate}[(1)]
+	\item If $f \leq g$ on $[a, b]$, then $\int f \leq \int g$.
+	\item $f + g$ is integrable on $[a, b]$, and $\int (f + g) = \int f + \int g$.
+	\item For any constant $k$, $kf$ is integrable, and $\int kf = k\int f$.
+	\item $\abs{f}$ is integrable, and $\abs{\int f} \leq \int \abs{f}$.
+	\item $fg$ is integrable.
+\end{enumerate}
+\begin{proof}
+	We will see proofs for some of these properties.
+	\begin{enumerate}[(1)]
+		\item If $f \leq g$, then
+		      \[ \int f = I^\star(f) \leq S(f, \mathcal D) \leq S(g, \mathcal D) \]
+		      Hence,
+		      \[ \int f = I^\star(f) \leq I^\star(g) = \int g \]
+		\item We have
+		      \[ \sup_{[x_{j-1}, x_j]} (f + g) \leq \sup_{[x_{j-1}, x_j]} f + \sup_{[x_{j-1}, x_j]} g \]
+		      Therefore,
+		      \[ S(f + g, \mathcal D) \leq S(f, \mathcal D) + S(g, \mathcal D) \]
+		      Now, consider two dissections $\mathcal D_1, \mathcal D_2$. Now,
+		      \[ I^\star(f + g) \leq S(f + g, \mathcal D_1 \cup \mathcal D_2) \leq S(f, \mathcal D_1 \cup \mathcal D_2) + S(g, \mathcal D_1 \cup \mathcal D_2) \leq S(f, \mathcal D_1) + S(g, \mathcal D_2) \]
+		      We can then fix $\mathcal D_1$ and take the infimum over $\mathcal D_2$ to get
+		      \[ I^\star(f + g) \leq S(f, \mathcal D_1) + I^\star(g) \]
+		      Taking the infimum over $\mathcal D_1$ gives
+		      \[ I^\star(f + g) \leq I^\star(f) + I^\star(g) = \int f + \int g \]
+		      A completely similar argument will show that
+		      \[ I_\star(f + g) \geq \int f + \int g \]
+		      Combining this, $f+g$ must be integrable, since $I^\star(f + g) \geq I_\star(f + g)$. This integral is then exactly $\int f + \int g$.
+		      \setcounter{enumi}{3}
+		\item Consider first $f_+(x) = \max(f(x), 0)$. We want to show that $f_+$ is integrable. We can check that
+		      \[ \sup_{[x_{j-1}, x_j]}f_+ - \inf_{[x_{j-1}, x_j]}f_+ \leq \sup_{[x_{j-1}, x_j]}f - \sup_{[x_{j-1}, x_j]}f \]
+		      We know that given $\varepsilon > 0$, there exists $\mathcal D$ such that
+		      \[ S(f, \mathcal D) - s(f, \mathcal D) < \varepsilon \]
+		      Hence,
+		      \[ S(f_+, \mathcal D) - s(f_+, \mathcal D) \leq S(f, \mathcal D) - s(f, \mathcal D) < \varepsilon \]
+		      Therefore $f_+$ is integrable. But $\abs{f} = 2f_+ - f$, hence $\abs{f}$ is integrable by properties (2) and (3). Since $-\abs{f} \leq f \leq \abs{f}$, we can use monotonicity from (1) to find that
+		      \[ \abs{\int f} \leq \int \abs{f} \]
+		      as claimed.
+		\item Let $f$ be integrable and positive. Then we can check that
+		      \[ \sup_{[x_{j-1}, x_j]} f^2 = \qty(\underbrace{\sup_{[x_{j-1}, x_j]} f}_{M_j})^2;\quad \inf_{[x_{j-1}, x_j]} f^2 = \qty(\underbrace{\inf_{[x_{j-1}, x_j]}}_{m_j})^2 \]
+		      Then,
+		      \begin{align*}
+			      S(f^2, \mathcal D) - s(f^2, \mathcal D) & = \sum_{j=1}^n (x_j - x_{j-1})(M_j^2 - m_j^2)        \\
+			                                              & = \sum_{j=1}^n (x_j - x_{j-1})(M_j - m_j)(M_j + m_j)
+		      \end{align*}
+		      The function $f$ is bounded by some constant $k$, therefore the bracket $(M_j + m_j)$ is bounded by $2k$, which gives
+		      \[ S(f^2, \mathcal D) - s(f^2, \mathcal D) \leq 2k\qty(S(f, \mathcal D) - s(f, \mathcal D)) \]
+		      So $f^2$ is integrable. Now, considering any $f$, $\abs{f} \geq 0$ is a non-negative integrable function. Since $f^2 = \abs{f^2}$, we deduce that $f^2$ is integrable for any integrable $f$. Finally, for $fg$, note that
+		      \[ 4fg = (f + g)^2 - (f - g)^2 \]
+		      The right hand side is integrable, so the left hand side is integrable.
+	\end{enumerate}
+\end{proof}

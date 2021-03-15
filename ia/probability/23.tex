@@ -1,0 +1,64 @@
+\subsection{Diagonal Variance}
+Note that if a Gaussian vector $X = (X_1, \dots, X_n)$ is comprised of independent normal random variables, then $V$ is a diagonal matrix. Indeed, since the $X_i$ are independent then $\Cov{X_i, X_j} = 0$ for all $i \neq j$, so $V$ is diagonal.
+\begin{lemma}
+	If $V$ is diagonal, then the $X_i$ are independent.
+\end{lemma}
+\noindent Note that zero covariance does not in general imply independence, as we saw earlier in the course, but in this specific case with Gaussian variables, this is true.
+\begin{proof}
+	Since $V$ is diagonal with diagonal entries $\lambda_i$, we have
+	\[ (x-\mu)^\transpose V^{-1} (x-\mu) = \sum_{i=1}^n \frac{(x_i - \mu_i)^2}{\lambda_i} \]
+	Hence,
+	\[ f_X(x) = \frac{1}{\sqrt{(2\pi)^n \det V}} \exp(-\sum_{i=1}^n \frac{(x_i - \mu_i)^2}{2\lambda_i}) \]
+	So $f_X$ factorises into a product. Hence the $X_i$ are independent.
+\end{proof}
+\noindent We can construct an alternative proof using moment generating functions.
+\begin{proof}
+	\begin{align*}
+		m(\theta) & = \expect{e^{\theta^\transpose X}}                                                 \\
+		          & = \exp(\theta^\transpose \mu + \frac{\theta^\transpose V \theta}{2})               \\
+		          & = \exp(\sum_{i=1}^n \theta_i \mu_i + \frac{1}{2}\sum_{i=1}^n \theta_i^2 \lambda_i)
+	\end{align*}
+	Hence $m(\theta)$ factorises into the moment generating functions of Gaussian random variables in $\mathbb R$.
+\end{proof}
+\noindent In summary, for Gaussian vectors, we have $(X_1, \dots, X_n)$ independent if and only if $V$ is diagonal.
+
+\subsection{Bivariate Gaussian Vectors}
+A bivariate Gaussian is a Gaussian vector of two variables ($n=2$). Let $X = (X_1, X_2)$. Let $\mu_k = \expect{X_k}$ and $\sigma_k^2 = \Var{X_k}$. We further define the \textit{correlation}
+\[ \rho = \Corr{X_1, X_2} = \frac{\Cov{X_1, X_2}}{\sqrt{\Var{X_1}\Var{X_2}}} \]
+Note that due to the Cauchy-Schwarz inequality, we have $\rho \in [-1, 1]$. We can write the variance matrix as
+\[ V = \begin{pmatrix}
+		\sigma_1^2             & \rho \sigma_1 \sigma_2 \\
+		\rho \sigma_1 \sigma_2 & \sigma_2^2
+	\end{pmatrix} \]
+This matrix $V$ is non-negative definite. Indeed, let $u = \begin{pmatrix} u_1 \\ u_2 \end{pmatrix}$, then
+\begin{align*}
+	u^\transpose V u & = (1-\rho)(\sigma_1^2 u_1^2 + \sigma_2^2 u_2^2) + \rho(\sigma_1 u_1 + \sigma_2 u_2)^2 \\
+	                 & = (1+\rho)(\sigma_1^2 u_1^2 + \sigma_2^2 u_2^2) - \rho(\sigma_1 u_1 - \sigma_2 u_2)^2
+\end{align*}
+Since $\rho \in [-1, 1]$, this is non-negative for all choices of $\rho$.
+
+\subsection{Density of Bivariate Gaussian}
+When $\rho = 0$ and $\sigma_1, \sigma_2 > 0$, we have
+\[ f_{X_1, X_2}(x_1, x_2) = \prod_{i=1}^2 \frac{1}{\sqrt{2\pi \sigma_k^2}} \exp(-\frac{(x_k - \mu_k)^2}{2\sigma_k^2}) \]
+So $X_1$ and $X_2$ are independent in this case.
+
+\subsection{Conditional Expectation}
+Let $(X_1, X_2)$ be a bivariate Gaussian vector. Then let $a \in \mathbb R$, and consider $X_2 - aX_1$. We have
+\[ \Cov{X_2 - aX_1, X_1} = \Cov{X_2, X_1} - a\Cov{X_1, X_1} = \Cov{X_2, X_1} - a \Var{X_1} = \rho \sigma_1 \sigma_2 - a\sigma_1^2 \]
+Now, let $a = \frac{\rho \sigma_2}{\sigma_1}$, so $\Cov{X_2 - aX_1, X_1} = 0$. Since $Y = X_2 - aX_1$ is Gaussian, $(X_1, Y)$ is a Gaussian vector, and so $Y$ and $X_1$ are independent. Now, we can find
+\begin{align*}
+	\expect{X_2 \mid X_1} & = \expect{Y + aX_1 \mid X_1}          \\
+	                      & = \expect{Y} + a\expect{X_1 \mid X_1} \\
+	                      & = \expect{X_2 - aX_1} + aX_1
+\end{align*}
+In particular, since $X_2 = (X_2 - aX_1) + aX_1$, we can say that given $X_1$,
+\[ X_2 \sim \mathrm{N}(\mu_2 - a\mu_1 + aX_1, \Var{X_2 - aX_1}) \]
+and
+\[ \Var{X_2 - aX_1} = \Var{X_2} + a^2 \Var{X_1} - 2a \Cov{X_1, X_2} \]
+
+\subsection{Multivariate Central Limit Theorem}
+This subsection is non-examinable, but included for completeness. Let $X$ be a random vector in $\mathbb R^k$ with $\mu = \expect{X}$ and covariance matrix $\Sigma$. Let $X_1, X_2, \dots$ be independent and identically distributed with the same distribution as $X$. Then
+\[ S_n = \frac{1}{\sqrt{n}} \sum_{i=1}^n X_i - \expect{X_i} \convdist \mathrm{N}(\mu, \Sigma) \]
+Convergence in distribution here means that for all reasonable $B \subseteq \mathbb R^k$, we have
+\[ \prob{S_n \in B} \to \prob{\mathrm{N}(\mu, \Sigma) \in B} \]
+

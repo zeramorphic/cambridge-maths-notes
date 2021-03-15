@@ -1,0 +1,31 @@
+\subsection{Remarks}
+If $S$ has a greatest element, then this element is the supremum of the set: $\sup S \in S$. But if $S$ does not have a greatest element, then $\sup S \notin S$. Also, we do not need any kind of `greatest lower bound' axiom --- if $S$ is a non-empty, bounded below set of reals, then the set $\{ -x: x \in S \}$ is non-empty and bounded above, and so has a least upper bound, so $S$ has a greatest lower bound equivalent to its additive inverse. This is commonly called the `infimum', or $\inf S$.
+
+\subsection{Elements of the Reals}
+\begin{theorem}
+	$\exists x \in \mathbb R$ with $x^2 = 2$.
+\end{theorem}
+\begin{proof}
+	Let $S$ be the set of all real numbers such that $x^2 < 2$. Of course, it is non-empty (try $x=0$) and bounded above (try $x=2$). So let $c = \sup S$; we want to show that $c^2 = 2$. We prove this by eliminating all alternatives; clearly either $c^2 < 2$, $c^2 = 2$ or $c^2 > 2$.
+	\begin{itemize}
+		\item ($c^2 < 2$) We want to prove that $(c+t)^2 < 2$ for some small $t$. For $0<t<1$, we have $(c+t)^2 = c^2 + 2ct + t^2 \leq c^2 + 5t$, since $c$ is at most 2, and $t^2$ is at most $t$. So this value is less than 2 for some suitably small $t$, contradicting the least upper bound --- we have just shown that $(c+t) \in S$.
+		\item ($c^2 > 2$) We want to prove that $(c-t)^2 > 2$ for some small $t$. For $0<t<1$, we have $(c-t)^2 = c^2 - 2ct + t^2 \geq c^2 - 4t$, since $c$ is at most 2, and $t^2$ is at least zero. So this value is greater than 2 for some suitably small $t$, contradicting the least upper bound --- we have just created a lower upper bound.
+	\end{itemize}
+	So $c^2 = 2$.
+\end{proof}
+This same kind of proof works for a lot of real values, for example $\sqrt[n]{x}$ for $n \in \mathbb N$, $x\in \mathbb R, x < 0$. Reals that are not rational are called irrational. This is a negative statement however, so it is better in proofs to suppose that something is rational, and then show a contradiction.
+
+Also, the rationals are `dense'; for any $a, b \in \mathbb R$, there is another rational between them. We may assume without loss of generality that they are both non-negative and that $a<b$. Then pick some $n \in \mathbb N$ with $\frac{1}{n} < b-a$. Among the list $\frac{0}{n}, \frac{1}{n}, \frac{2}{n}, \cdots$, there is a final one that is less than or equal to $a$, which we will denote $\frac{q}{n}$ (otherwise $a$ is an upper bound to this list, contradicting the axiom of Archimedes). So $a < \frac{q + 1}{n} < b$ as required.
+
+The irrationals are also dense; for any reals $a$ and $b$ with the same conditions above, these exists some irrational $c$ with $a<c<b$. We know that there exists a rational $c$ with $a\sqrt{2} < c < b\sqrt{2}$, so $a < \frac{c}{\sqrt{2}} < b$.
+
+\subsection{Sequences and Limits}
+How can we ascribe meaning to expressions like this?
+\[ 1 + \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \cdots \]
+Certainly, we have a concept of addition, and we can keep adding as many terms as we like, but there is no implicit definition of an infinite sum from the aforementioned axioms.
+
+A definition that makes sense would involve partial sums $x_n$ of this infinite series. However, we could not just say that the partial sums get progressively closer to a value, because then trivially something like $\frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \frac{4}{5}, \cdots$ tends to 107, even though they're clearly getting closer.
+
+A more accurate definition would be to state that we can get arbitrarily close (within some given $\varepsilon$) to a `limit value' $c$ by taking some amount of terms $n$ of this series: $c - \varepsilon < x_n < c + \varepsilon$. But this is still wrong: the sequence $\frac{1}{2}, 10, \frac{2}{3}, 10, \frac{3}{4}, 10, \frac{4}{5}, 10, \cdots$ could then tend to 1 even though every other term is 10.
+
+The best definition would state that the sequence of partial sums would \textit{stay} within $\varepsilon$ of $c$ for all $x_k$ where $k \geq n$ for some $n \in \mathbb N$. In less formal words, for any $\varepsilon > 0$, $x_n$ will eventually stay within $\varepsilon$ of $c$. Equivalently, $\forall \varepsilon > 0, \exists N \in \mathbb N$ such that $\forall n > N$ we have $\abs{x_n - c} < \varepsilon$.

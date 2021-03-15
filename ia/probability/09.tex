@@ -1,0 +1,101 @@
+\subsection{Covariance}
+\begin{definition}
+	Let $X$ and $Y$ be random variables. Their covariance is defined
+	\[ \Cov{X,Y} = \expect{(X - \expect{X})(Y - \expect{Y})} \]
+	It is a measure of how dependent $X$ and $Y$ are.
+\end{definition}
+\noindent Immediately we can deduce the following properties.
+\begin{itemize}
+	\item $\Cov{X,Y} = \Cov{Y,X}$
+	\item $\Cov{X,X} = \Var{X}$
+	\item $\Cov{X,Y} = \expect{XY} - \expect{X}\cdot\expect{Y}$. Indeed, $(X - \expect{X})(Y - \expect{Y}) = XY - X\expect{Y} - Y\expect{X} + \expect{X}\expect{Y}$ and the result follows.
+	\item Let $c \in \mathbb R$. Then $\Cov{cX,Y} = c\Cov{X,Y}$, and $\Cov{c + X,Y} = \Cov{X,Y}$.
+	\item $\Var{X + Y} = \Var{X} + \Var{Y} + 2\Cov{X,Y}$. Indeed, we have
+
+	      $\Var{X + Y} = \expect{(X - \expect{X} + Y - \expect{Y})^2}$ which gives
+
+	      $\expect{(X - \expect{X})^2} + \expect{(Y - \expect{Y})^2} + 2\expect{(X - \expect{X})(Y - \expect{Y})}$ as required.
+	\item For all $c \in \mathbb R$, $\Cov{c, X} = 0$
+	\item If $X$, $Y$, $Z$ are random variables, then $\Cov{X + Y,Z} = \Cov{X,Z} + \Cov{Y,Z}$. More generally, for $c_1, \dots, c_n, d_1, \dots, d_m$ real numbers, and for $X_1, \dots, X_n, Y_1, \dots, Y_m$ random variables, we have
+	      \[ \Cov{\sum_{i=1}^n c_i X_i,\sum_{j=1}^m d_j Y_j} = \sum_{i=1}^n \sum_{j=1}^m c_i d_j \Cov{X_i,Y_j} \]
+	      In particular, if we apply this to $X_i = Y_i$, and $c_i = d_i = 1$, then we have
+	      \[ \Var{\sum_{i=1}^n X_i} = \sum_{i=1}^n \Var{X_i} + \sum_{i \neq j} \Cov{X_i,X_j} \]
+\end{itemize}
+
+\subsection{Expectation of Functions of a Random Variable}
+Recall that $X$ and $Y$ are independent if for all $x$ and $y$,
+\[ \prob{X = x, Y = y} = \prob{X = x} \cdot \prob{Y = y} \]
+We would like to prove that given positive functions $f, g \colon \mathbb R \to \mathbb R_+$, if $X$ and $Y$ are independent we have
+\[ \expect{f(X)g(Y)} = \expect{f(X)} \cdot \expect{g(Y)} \]
+\begin{proof}
+	\begin{align*}
+		\expect{f(X)g(Y)} & = \sum_{(x, y)} f(x) g(y) \prob{X = x, Y = y}                 \\
+		                  & = \sum_{(x, y)} f(x) g(y) \prob{X = x} \prob{Y = y}           \\
+		                  & = \sum_{x} f(x) \prob{X = x} \cdot \sum_{y} g(y) \prob{Y = y} \\
+		                  & = \expect{f(X)} \cdot \expect{g(Y)}
+	\end{align*}
+\end{proof}
+\noindent The same result holds for general functions, provided the required expectations exist.
+
+\subsection{Covariance of Independent Variables}
+Suppose $X$ and $Y$ are independent. Then
+\[ \Cov{X,Y} = 0 \]
+This is because
+\begin{align*}
+	\Cov{X,Y} & = \expect{(X - \expect{X})(Y - \expect{Y})}             \\
+	          & = \expect{X - \expect{X}} \cdot \expect{Y - \expect{Y}} \\
+	          & = 0 \cdot 0                                             \\
+	          & = 0
+\end{align*}
+\noindent In particular, we can deduce that
+\[ \Var{X + Y} = \Var{X} + \Var{Y} \]
+Note, however, that the covariance being equal to zero does not imply independence. For instance, let $X_1, X_2, X_3$ be independent Bernoulli random variables with parameter $\frac{1}{2}$. Let us now define $Y_1 = 2X_1 - 1$, $Y_2 = 2X_2 - 1$, and $Z_1 = X_3 Y_1$, $Z_2 = X_3 Y_2$. Now, we have
+\[ \expect{Y_1} = \expect{Y_2} = \expect{Z_1} = \expect{Z_2} = 0 \]
+We can find that
+\[ \Cov{Z_1, Z_2} = \expect{Z_1 \cdot Z_2} = \expect{X_3^2 Y_1 Y_2} = \expect{X_3^2} \cdot 0 \cdot 0 = 0 \]
+However, $Z_1$ and $Z_2$ are in fact not independent. Since $Y_1, Y_2$ are never zero,
+\[ \prob{Z_1 = 0, Z_2 = 0} = \prob{X_3 = 0} = \frac{1}{2} \]
+But also
+\[ \prob{Z_1 = 0} = \prob{Z_2 = 0} = \prob{X_3 = 0} = \frac{1}{2} \implies \prob{Z_1 = 0} \cdot \prob{Z_2 = 0} = 0 \]
+So the events are not independent.
+
+\subsection{Markov's Inequality}
+The following useful inequality, and the others derived from it, hold in the discrete and the continuous case.
+\begin{theorem}
+	Let $X \geq 0$ be a non-negative random variable. Then for all $a > 0$,
+	\[ \prob{X \geq a} \leq \frac{\expect{X}}{a} \]
+\end{theorem}
+\begin{proof}
+	Observe that $X \geq a \cdot 1(X \geq a)$. This can be seen to be true simply by checking both cases, $X < a$ and $X \geq a$. Taking expectations, we get
+	\[ \expect{X} \geq \expect{a \cdot 1(X \geq a)} = \expect{a \cdot \prob{X \geq a}} = a \cdot \prob{X \geq a} \]
+	and the result follows.
+\end{proof}
+
+\subsection{Chebyshev's Inequality}
+\begin{theorem}
+	Let $X$ be a random variable with finite expectation. Then for all $a > 0$,
+	\[ \prob{\abs{X - \expect{X}} \geq a} \leq \frac{\Var{X}}{a^2} \]
+\end{theorem}
+\begin{proof}
+	Note that $\prob{\abs{X - \expect{X}} \geq a} = \prob{\abs{X - \expect{X}}^2 \geq a^2}$. Then we can apply Markov's inequality to this non-negative random variable to get
+	\[ \prob{\abs{X - \expect{X}}^2 \geq a^2} \leq \frac{\expect{(X - \expect{X})^2}}{a^2} = \frac{\Var{X}}{a^2} \]
+\end{proof}
+
+\subsection{Cauchy-Schwarz Inequality}
+\begin{theorem}
+	If $X$ and $Y$ are random variables, then
+	\[ \expect{\abs{XY}} \leq \sqrt{\expect{X^2}\cdot\expect{Y^2}} \]
+\end{theorem}
+\begin{proof}
+	It suffices to prove this statement for $X$ and $Y$ which have finite second moments, i.e. $\expect{X^2}$ and $\expect{X^2}$ are finite. Clearly if they are infinite, then the upper bound is infinite which is trivially true. We need to show that $\expect{\abs{XY}}$ is finite. Here we can apply the additional assumption that $X$ and $Y$ are non-negative, since we are taking the absolute value:
+	\[ XY \leq \frac{1}{2}\left(X^2 + Y^2\right) \implies \expect{XY} \leq \frac{1}{2}\left( \expect{X^2} + \expect{Y^2}  \right) \]
+	Now, we can assume $\expect{X^2} > 0$ and $\expect{Y^2} > 0$. If this were not the case, the result is trivial since if at least one of them were equal to zero, the corresponding random variable would be identically zero. Let $t \in \mathbb R$ and consider
+	\[ 0 \leq (X - tY)^2 = X^2 - 2tXY + t^2Y^2 \]
+	Hence
+	\[ \expect{X^2} - 2t\expect{XY} + t^2\expect{Y^2} \geq 0 \]
+	We can view this left hand side as a function $f(t)$. The minimum value of this function is achieved at $t_\ast = \frac{\expect{XY}}{\expect{Y^2}}$. Then
+	\[ f(t_\ast) \geq 0 \implies \expect{X^2} - \frac{2\expect{XY}}{\expect{Y^2}} + \frac{\expect{XY}^2}{\expect{Y^2}} \geq 0 \]
+	Hence,
+	\[ \expect{XY}^2 \leq \expect{X^2}\cdot \expect{Y^2} \]
+	and the result follows.
+\end{proof}

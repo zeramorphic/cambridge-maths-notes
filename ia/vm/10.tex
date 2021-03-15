@@ -1,0 +1,152 @@
+\subsection{Definitions}
+Consider a linear map $T: \mathbb R^n \to \mathbb R^m$, with standard bases $\{ \vb e_i \} \in \mathbb R^n$, $\{ \vb f_a \}, \in \mathbb R^m$, and with $T(\vb x) = \vb x'$.
+Let further
+
+\[ \vb x = \sum_i x_i \vb e_i = \begin{pmatrix}
+		x_1 \\ x_2 \\ \vdots \\ x_n
+	\end{pmatrix};\quad x' = \sum_a x_a' \vb f_a = \begin{pmatrix}
+		x_1' \\ x_2' \\ \vdots \\ x_m'
+	\end{pmatrix} \]
+
+Linearity implies that $T$ is fixed by specifying
+\[ T(\vb e_i) = \vb e_i' = \vb C_i \in \mathbb R^m \]
+We take these $\vb C$ as columns of an $m \times n$ array or matrix $M$, with rows denoted as $\vb R_a \in \mathbb R^n$.
+
+\[ \begin{pmatrix}
+		\uparrow   &        & \uparrow   \\
+		\vb C_1    & \cdots & \vb C_n    \\
+		\downarrow &        & \downarrow
+	\end{pmatrix} = M = \begin{pmatrix}
+		\leftarrow & \vb R_1 & \rightarrow \\
+		           & \vdots  &             \\
+		\leftarrow & \vb R_m & \rightarrow
+	\end{pmatrix} \]
+
+$M$ has entries $M_{ai} \in \mathbb R$, where $a$ labels rows and $i$ labels columns, so
+\[ (\vb C_i)_a = M_{ai} = (\vb R_a)_i \]
+The action of $T$ is then given by the matrix $M$ multiplying the vector $\vb x$ in the following way:
+\[ \vb x' = M \vb x \]
+defined by
+\[ x_a' = M_{ai}x_i \]
+or explicitly:
+\[
+	\begin{pmatrix}
+		x_1' \\ x_2' \\ \vdots \\ x_m'
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		M_{11} & M_{12} & \cdots & M_{1n} \\
+		M_{21} & M_{22} & \cdots & M_{2n} \\
+		\vdots & \vdots & \ddots & \vdots \\
+		M_{m1} & M_{m2} & \cdots & M_{mn}
+	\end{pmatrix}
+	\begin{pmatrix}
+		x_1 \\ x_2 \\ \vdots \\ x_n
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		M_{11} x_1 + M_{12} x_2 + \cdots + M_{1n} x_n \\
+		M_{21} x_1 + M_{22} x_2 + \cdots + M_{2n} x_n \\
+		\vdots                                        \\
+		M_{m1} x_1 + M_{m2} x_2 + \cdots + M_{mn} x_n
+	\end{pmatrix}
+\]
+To check that the matrix multiplication above gives the action of $T$, we can plug in a generic value $\vb x$, and we get
+\[ \vb x' = T\left(\sum_i x_i \vb e_i\right) = \sum_i x_i T(\vb e_i) = \sum_i x_i \vb C_i \]
+and by taking component $a$ of the vector, we have
+\[ x_a' = \sum_i x_i (\vb C_i)_a = \sum_i x_i M_{ai} \]
+as required. Note also that
+\[ x_a' = M_{ai}x_i = (\vb R_a)_i x_i = \vb R_a \cdot \vb x \]
+We can now regard the properties of $T$ as properties of $M$ (suitably interpreted). For example:
+\begin{itemize}
+	\item $\Im(T) = \Im(M) = \vecspan \{ \vb C_1, \cdots, \vb C_n \}$. In words, the image of a matrix is the span of its columns.
+	\item $\ker(T) = \ker(M) = \{ \vb x: \forall a, \vb R_a \cdot \vb x = 0 \}$. In some sense, the kernel of $M$ is the subspace perpendicular to all of its rows.
+\end{itemize}
+
+\subsection{Examples}
+\begin{enumerate}[(i)]
+	\item The zero map $\mathbb R^n \to \mathbb R^m$ corresponds to the zero matrix
+	      \[ M = 0 \text{ with } M_{ai} = 0 \]
+	\item The identity map $\mathbb R^n \to \mathbb R^n$ corresponds to the identity (or unit) matrix
+	      \[ M = I \text{ with } I_{ij} = \delta_{ij} \]
+	\item The map $\mathbb R^3 \to \mathbb R^3$ given by $\vb x' = T(\vb x) = M\vb x$ with
+	      \[ M = \begin{pmatrix}
+			      3  & 1 & 5  \\
+			      -1 & 0 & -2 \\
+			      2  & 1 & 3
+		      \end{pmatrix} \]
+	      gives
+	      \[
+		      \begin{pmatrix}
+			      x_1' \\ x_2' \\ x_3'
+		      \end{pmatrix}
+		      =
+		      \begin{pmatrix}
+			      3x_1 + x_2 + 5x_3 \\
+			      -x_1 - 2x_3       \\
+			      2x_1 + x_2 + 3x_3
+		      \end{pmatrix}
+	      \]
+	      In this case, we may read off the column vectors $\vb C_a$ from the matrix. Note that since they form a linearly dependent set, we have
+	      \[ \Im(T) = \Im(M) = \vecspan \{ \vb C_1, \vb C_2, \vb C_3 \} = \vecspan \{ \vb C_1, \vb C_2 \} \]
+	      Here, $\vb R_2 \times \vb R_3 = \begin{pmatrix}
+			      2 & -1 & -1
+		      \end{pmatrix} = \vb u$ is actually perpendicular to all rows as they form a linearly dependent set. So
+	      \[ \ker(T) = \ker(M) = \{ \lambda \vb u \} \]
+	\item A rotation through $\theta$ in $\mathbb R^2$ is given by (building from the images of the basis vectors):
+	      \[ \begin{pmatrix}
+			      \cos \theta & -\sin \theta \\
+			      \sin \theta & \cos \theta
+		      \end{pmatrix} \]
+	\item A dilation $\vb x' = M \vb x$ with scale factors $\alpha, \beta, \gamma$ along axes in $\mathbb R^3$ is given by
+	      \[ \begin{pmatrix}
+			      \alpha & 0     & 0      \\
+			      0      & \beta & 0      \\
+			      0      & 0     & \gamma
+		      \end{pmatrix} \]
+	\item A reflection in a plane perpendicular to a unit vector $\nhat$ is given by a matrix $H$ that must have the property that
+	      \begin{align*}
+		      \vb x' & = H \vb x = \vb x - 2(\vb x - \nhat) \nhat \\
+		      x_i'   & = x_i - 2x_jn_jn_i = H_{ij}x_j             \\
+		      \intertext{And by comparing coefficients of $x_j$, and using $\delta$ to rewrite $x_i$ using the $j$ index, we have}
+		      H_{ij} & = \delta_ij - 2n_in_j
+	      \end{align*}
+	      For example, with $\nhat = \frac{1}{\sqrt 3}\begin{pmatrix}
+			      1 & 1 & 1
+		      \end{pmatrix}$, then $n_in_j = \frac{1}{3}$ for all $i, j$, so
+	      \[ H = \frac{1}{3}\begin{pmatrix}
+			      1  & -2 & -2 \\
+			      -2 & 1  & -2 \\
+			      -2 & -2 & 1
+		      \end{pmatrix} \]
+	\item A shear is defined by a matrix $S$ such that
+	      \[ \vb x' = S\vb x = \vb x + \lambda(\vb b \cdot \vb x)\vb a \]
+	      where $\vb a$, $\vb b$ are unit vectors with $\vb a \perp \vb b$, and where $\lambda$ is a real scale factor. Therefore:
+	      \begin{align*}
+		      x_i'              & = x_i + \lambda b_j x_j a_i = S_{ij}x_j \\
+		      \therefore S_{ij} & = \delta_{ij} + \lambda a_i b_j
+	      \end{align*}
+	      For example in $\mathbb R^2$ with $\vb a = \begin{pmatrix}
+			      1 \\ 0
+		      \end{pmatrix}$ and $\vb b = \begin{pmatrix}
+			      0 \\ 1
+		      \end{pmatrix}$, we have
+	      \[ S = \begin{pmatrix}
+			      1 & \lambda \\ 0 & 1
+		      \end{pmatrix} \]
+	\item A rotation matrix $R$ in $\mathbb R^3$ with axis $\nhat$ and angle $\theta$ must satisfy
+	      \begin{align*}
+		      \vb x'            & = R\vb x = (\cos \theta)\vb x + (1 - \cos \theta)(\nhat \cdot \vb x)\nhat + (\sin \theta)(\nhat \times \vb x) \\
+		      x_i'              & = (\cos \theta)x_i + (1 - \cos \theta)n_j x_j n_i - (\sin \theta) \varepsilon_{ijk}x_j n_k = R_{ij} x_j       \\
+		      \therefore R_{ij} & = \delta_{ij}(\cos \theta) - (1 - \cos \theta)n_in_j - (\sin \theta)\varepsilon_{ijk} n_k
+	      \end{align*}
+\end{enumerate}
+
+\subsection{Matrix of a General Linear Map}
+Consider a linear map $T: V \to W$ between general real or complex vector spaces of dimension $n, m$ respectively. We will choose bases $\{ \vb e_i \}$ for $V$ and $\{ \vb f_a \}$ for $W$. The matrix representing the linear map $T$ with respect to these bases is an $m \times n$ array with entries $M_{ai} \in \mathbb R$ or $\mathbb C$ as appropriate, defined by
+\[ T(\vb e_i) = \sum_a \vb f_a M_{ai} \]
+Then
+\[ \vb x' = T(\vb x) \iff x_a' = \sum_i M_{ai}x_i = M_{ai}x_i \]
+where
+\[ \vb x = \sum_i x_i \vb e_i;\quad \vb x' = \sum_a x_a \vb f_a \]
+Note therefore that (in real vector spaces) given choices of bases $\{ \vb e_i \}$ and $\{ \vb f_a \}$, $V$ is identified with $\mathbb R_n$ in the sense that any vector has $n$ real components, and that $W$ is identified with $R_m$ analogously, and that therefore $T$ is identified with an $m\times n$ real matrix $M$. Note further that entries in column $i$ of $M$ are components of $T(\vb e_i)$ with respect to basis $\{ \vb f_a \}$.

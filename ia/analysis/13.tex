@@ -1,0 +1,48 @@
+\subsection{Bounding Error Terms}
+Recall that Lagrange's remainder is
+\[ R_n = \frac{h^n}{n!}f^{(n)}(a + \theta h) \]
+and Cauchy's remainder is
+\[ R_n = \frac{(1 - \theta)^{n-1}h^nf^{(n)}(a + \theta h)}{(n-1)!} \]
+and that we can write
+\[ f(h) = P_{n-1}(h) + R_n \]
+where $P_{n-1}$ is the Taylor polynomial to $(n-1)$th order. To get a Taylor series for a function $f$, we need to prove that the $R_n$ tend to zero as $n \to \infty$. In general, this requires estimates for the $R_n$ and it could take a lot of effort to prove whether this limit is zero or not. Note also that the theorems deducing the remainder terms work equally well in an interval $[a+h, a]$ where $h < 0$.
+
+\subsection{Binomial Series}
+\begin{proposition}
+	Let
+	\[ f(x) = (1 + x)^r \]
+	for some $r \in \mathbb Q$. If $\abs{x} < 1$, then
+	\[ f(x) = 1 + \binom{r}{1}x + \dots + \binom{r}{n}x^n + \dots \]
+	where
+	\[ \binom{r}{n} = \frac{r(r-1)\cdots(r-n+1)}{n!} \]
+\end{proposition}
+\begin{proof}
+	Clearly,
+	\[ f^{(n)}(x) = r(r-1)\cdots(r-n+1)(1+x)^{r-n} \]
+	These coefficients correspond exactly with that of the Taylor polynomial. If $r \in \mathbb N$, then $f^{(r+1)}(x) \equiv 0$, so clearly the $R_n$ are zero as $n \to \infty$. In general, using Lagrange's form of the remainder,
+	\[ R_n = \frac{x^n}{n!} f^{(n)}(\theta x) = \binom{r}{n} \frac{x^n}{(1 + \theta x)^{n-r}} \]
+	Note that in principle, $\theta$ depends both on $x$ and $n$. For $0 < x < 1$, $(1 + \theta x)^{n - r} > 1$ for $n > r$. Now observe that the series given by
+	\[ \sum \binom{r}{n} x^n \]
+	is absolutely convergent for $\abs{x} < 1$. Indeed, we can apply the ratio test and find that
+	\[ \abs{\frac{a_{n+1}}{a_n}} = \abs{\frac{(r-n)x}{n+1}} \]
+	which tends to $\abs{x}$ as $n \to \infty$. In particular therefore, the terms $\binom{r}{n}x^n$ tend to zero for $\abs{x} < 1$. Hence for $n > r$ and $0 < x < 1$, we have
+	\[ \abs{R_n} \leq \abs{\binom{r}{n}x^n} \to 0 \]
+	So the claim is proven in the range $0 \leq x < 1$. If $x < 0$, then the step when we compare $(1 + \theta x)^{n-r}$ with 1 breaks down. Let us instead use the Cauchy form of the remainder to bypass this step.
+	\[ R_n = \frac{(1 - \theta)^{n-1}x^nf^{(n)}(\theta x)}{(n-1)!} = \frac{(1-\theta)^{n-1} r(r-1)\cdots(r-n+1)(1+\theta x)^{r-n} x^n}{(n-1)!} \]
+	By regrouping terms, we get
+	\[ R_n = \frac{r(r-1)\cdots(r-n+1)}{(n-1)!} \cdot \frac{(1-\theta)^{n-1}}{(1 + \theta x)^{n-r}} x^n = r\binom{r-1}{n-1}x^n (1+\theta x)^{r-1} \left( \underbrace{\frac{1-\theta}{1 + \theta x}}_{<1} \right)^{n-1} \]
+	Hence
+	\[ \abs{R_n} \leq \abs{r \binom{r-1}{n-1}x^n} (1+\theta x)^{r-1} \]
+	This will then tend to zero, after a bit more effort; we can bound the $(1 + \theta x)^{r-1}$ term by the maximum of $1$ and $(1 + x)^{r-1}$, which is independent of $n$, and then the result will follow.
+\end{proof}
+
+\subsection{Complex Differentiation}
+The complex derivative and the real derivative have the same core properties, for instance linearity, the product rule and the chain rule. However, the complex derivative is significantly more restrictive than the real derivative, since we can approach a point in any number of directions. If we can find a function that is complex differentiable with this restriction, we actually get a whole array of features for free. As an example of this restriction, consider the function $f(z) = \overline{z}$. This function is actually nowhere differentiable. If it were differentiable, then any sequence tending to $z$ would yield the same limit when substituted into the definition of the derivative. Consider first the sequence
+\[ z_n = z + \frac{1}{n} \to z \]
+Then
+\[ \frac{f(z_n) - f(z)}{z_n - z} = \frac{\overline{z} + \frac{1}{n} - \overline{z}}{z + \frac{1}{n} - z} = 1 \]
+Now consider the sequence
+\[ z_n = z + \frac{i}{n} \to z \]
+Then
+\[ \frac{f(z_n) - f(z)}{z_n - z} = \frac{\overline{z} - \frac{i}{n} - \overline{z}}{z + \frac{i}{n} - z} = -1 \]
+Hence $f(z)$ is nowhere differentiable. On the other hand, the real function $f(x, y) = (x, -y)$ is clearly real differentiable, since it is linear; but in the complex world the function $z \mapsto \overline{z}$ is not linear.
