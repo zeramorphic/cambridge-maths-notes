@@ -40,7 +40,7 @@ func build() {
 	var wg sync.WaitGroup
 
 	bar := progressbar.Default(int64(len(FilesWithBook)))
-	for _, file := range FilesWithBook {
+	for _, file := range Files {
 		wg.Add(1)
 		file := file
 		go func() {
@@ -48,6 +48,18 @@ func build() {
 
 			// Compile the file.
 			cmd := exec.Command("latexmk", "--shell-escape", "-pdf", "-cd", "-output-directory=build", "-file-line-error", "-halt-on-error", "-interaction=nonstopmode", file.FilePath+"/main.tex")
+			cmd.Start()
+			cmd.Wait()
+			bar.Add(1)
+		}()
+	}
+	{
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+
+			// Compile the file.
+			cmd := exec.Command("latexmk", "--shell-escape", "-pdf", "-cd", "-output-directory=build", "-file-line-error", "-halt-on-error", "-interaction=nonstopmode", "book.tex")
 			cmd.Start()
 			cmd.Wait()
 			bar.Add(1)
