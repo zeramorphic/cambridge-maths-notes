@@ -4,6 +4,7 @@ import files
 
 all_files = files.files
 all_files.append(("util", "utilities"))
+all_files.append(("book", "book"))
 for (fname, title) in files.files:
     print("Processing " + title)
     shutil.copyfile(fname + ".tex", "latexindent.tex")
