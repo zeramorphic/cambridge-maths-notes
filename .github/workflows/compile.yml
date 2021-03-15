@@ -22,6 +22,11 @@ jobs:
       - name: Get Go dependencies
         run: go get ./...
 
+      - name: Set up TikZ folders
+        run: |
+          mkdir     ia/analysis/tikz ia/de/tikz ia/dr/tikz ia/groups/tikz ia/ns/tikz ia/probability/tikz ia/vc/tikz ia/vm/tikz book/tikz
+          chmod 777 ia/analysis/tikz ia/de/tikz ia/dr/tikz ia/groups/tikz ia/ns/tikz ia/probability/tikz ia/vc/tikz ia/vm/tikz book/tikz
+
       - name: Compile LaTeX
         uses: xu-cheng/latex-action@v2
         with:
@@ -38,7 +43,7 @@ jobs:
             book.tex
 
       - name: Optimise PDFs
-        run: python3 optpdf.py
+        run: go run . optimise
 
       - name: Upload PDFs
         uses: burnett01/rsync-deployments@4.1

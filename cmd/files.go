@@ -19,7 +19,7 @@ var Files []TexFile = []TexFile{
 var FilesWithBook []TexFile
 
 func init() {
-	FilesWithBook = make([]TexFile, len(Files)+1)
+	FilesWithBook = make([]TexFile, len(Files))
 	copy(FilesWithBook, Files)
 	FilesWithBook = append(FilesWithBook, TexFile{FilePath: "book", Name: "Book"})
 }
