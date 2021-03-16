@@ -16,7 +16,8 @@ var buildCmd = &cobra.Command{
 	Short: "Builds all LaTeX sources in parallel.",
 	Long:  "Builds all LaTeX sources in parallel.",
 	Run: func(cmd *cobra.Command, args []string) {
-		build()
+		compileBook, _ := cmd.Flags().GetBool("book")
+		build(compileBook)
 	},
 }
 
@@ -31,14 +32,18 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// buildCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	buildCmd.Flags().BoolP("book", "b", false, "Compile the book as well as the individual courses")
 }
 
-func build() {
+func build(compileBook bool) {
 	fmt.Println("Building...")
 	var wg sync.WaitGroup
 
-	bar := progressbar.Default(int64(len(FilesWithBook)))
+	size := int64(len(Files))
+	if compileBook {
+		size++
+	}
+	bar := progressbar.Default(size)
 	for _, file := range Files {
 		wg.Add(1)
 		file := file
@@ -52,7 +57,7 @@ func build() {
 			bar.Add(1)
 		}()
 	}
-	{
+	if compileBook {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
