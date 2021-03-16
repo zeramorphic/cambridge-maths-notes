@@ -15,10 +15,12 @@ so that latexmk has the correct privileges to write to the folders.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		for _, file := range Files {
 			os.Mkdir(file.FilePath+"/build", 0777)
+			os.Mkdir(file.FilePath+"/build/tikz", 0777)
 			os.Mkdir(file.FilePath+"/tikz", 0777)
 		}
 
 		os.Mkdir("build", 0777)
+		os.Mkdir("build/tikz", 0777)
 		os.Mkdir("tikz", 0777)
 	},
 }

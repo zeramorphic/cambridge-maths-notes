@@ -16,7 +16,6 @@ var buildCmd = &cobra.Command{
 	Short: "Builds all LaTeX sources in parallel.",
 	Long:  "Builds all LaTeX sources in parallel.",
 	Run: func(cmd *cobra.Command, args []string) {
-		//fmt.Println("build called")
 		build()
 	},
 }
