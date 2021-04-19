@@ -40,6 +40,7 @@ func build(compileBook bool) {
 	var wg sync.WaitGroup
 
 	size := int64(len(Files))
+	errorChan := make(chan string, size)
 	if compileBook {
 		size++
 	}
@@ -52,8 +53,11 @@ func build(compileBook bool) {
 
 			// Compile the file.
 			cmd := exec.Command("latexmk", "--shell-escape", "-pdf", "-cd", "-output-directory=build", "-file-line-error", "-halt-on-error", "-interaction=nonstopmode", file.FilePath+"/main.tex")
-			cmd.Start()
-			cmd.Wait()
+			out, err := cmd.CombinedOutput()
+			if err != nil {
+				errorChan <- string(out)
+				bar.Set(bar.GetMax())
+			}
 			bar.Add(1)
 		}()
 	}
@@ -71,5 +75,16 @@ func build(compileBook bool) {
 	}
 
 	wg.Wait()
-	color.HiGreen("Done!")
+	close(errorChan)
+
+	hasError := false
+	for v := range errorChan {
+		hasError = true
+		color.HiRed("Error raised while compiling:")
+		fmt.Println(v)
+	}
+
+	if !hasError {
+		color.HiGreen("Done!")
+	}
 }
