@@ -1,47 +1,47 @@
 \subsection{Sampling Error via Central Limit Theorem}
-Suppose individuals independently vote `yes' (with probability $p$) or `no' (with probability $1-p$). We can sample the population to find an approximation for $p$. Pick $N$ individuals at random, and let $\hat{p}_N = \frac{S_N}{N}$, where $S_n$ is the number of individuals who voted `yes'. We would like to find the minimum $N$ such that $\abs{\hat{p}_N - p} \leq 4\%$ with probability at least $99\%$. We have
+Suppose individuals independently vote `yes' (with probability \(p\)) or `no' (with probability \(1-p\)). We can sample the population to find an approximation for \(p\). Pick \(N\) individuals at random, and let \(\hat{p}_N = \frac{S_N}{N}\), where \(S_n\) is the number of individuals who voted `yes'. We would like to find the minimum \(N\) such that \(\abs{\hat{p}_N - p} \leq 4\%\) with probability at least \(99\%\). We have
 \[ S_N \sim \mathrm{Bin}(N, p) \approx Np + \sqrt{Np(1-p)}Z;\quad Z \sim \mathrm{N}(0, 1) \]
 Hence,
 \[ \frac{S_N}{N} \approx p + \sqrt{\frac{p(1-p)}{N}}Z \implies \abs{\hat{p}_N - p} \approx \sqrt{\frac{p(1-p)}{N}}\abs{Z} \]
-We then want to find $N$ such that
+We then want to find \(N\) such that
 \[ \prob{\sqrt{\frac{p(1-p)}{N}}\abs{Z} \leq 0.04} \geq 0.99 \]
-We can compute this from the tables of the standard normal distribution. If $z = 2.58$, then $\prob{\abs{Z} \geq 2.58} = 0.01$, hence we need an $N$ such that
+We can compute this from the tables of the standard normal distribution. If \(z = 2.58\), then \(\prob{\abs{Z} \geq 2.58} = 0.01\), hence we need an \(N\) such that
 \[ 0.04 \sqrt{\frac{N}{p(1-p)}} \geq 2.58 \]
-In the worst case scenario, $p = \frac{1}{2}$ would give the largest $N$. So we need $N \geq 1040$ to get a good result for all $p$.
+In the worst case scenario, \(p = \frac{1}{2}\) would give the largest \(N\). So we need \(N \geq 1040\) to get a good result for all \(p\).
 
 \subsection{Buffon's Needle}
-Consider a set of parallel lines on a plane, all a distance $L$ apart. Imagine dropping a needle of length $\ell \leq L$ onto this plane at random. What is the probability that it intersects at least one line?
+Consider a set of parallel lines on a plane, all a distance \(L\) apart. Imagine dropping a needle of length \(\ell \leq L\) onto this plane at random. What is the probability that it intersects at least one line?
 
-We will interpret a random drop to be represented by independent values $x$ and $\theta$, where $x$ is the perpendicular distance from the lower end of the needle to the nearest line above it, and $\theta$ is the angle between the horizontal and the needle, where a value of $\theta = 0$ means that the needle is horizontal, and higher values of $\theta$ mean that the needle has been rotated $\theta$ radians anticlockwise. We assume that $\Theta \sim \mathrm{U}[0, \pi]$, and $X \sim \mathrm{U}[0, L]$, and that they are independent. The needle intersects a line if and only if $\ell\sin\theta \geq x$. We have
+We will interpret a random drop to be represented by independent values \(x\) and \(\theta\), where \(x\) is the perpendicular distance from the lower end of the needle to the nearest line above it, and \(\theta\) is the angle between the horizontal and the needle, where a value of \(\theta = 0\) means that the needle is horizontal, and higher values of \(\theta\) mean that the needle has been rotated \(\theta\) radians anticlockwise. We assume that \(\Theta \sim \mathrm{U}[0, \pi]\), and \(X \sim \mathrm{U}[0, L]\), and that they are independent. The needle intersects a line if and only if \(\ell\sin\theta \geq x\). We have
 \begin{align*}
 	\prob{\text{intersection}} & = \prob{X \leq \ell\sin\Theta}                                                  \\
 	                           & = \int_0^L \int_0^\pi \frac{1}{\pi L} 1(x \leq \ell\sin\theta)\dd{x}\dd{\theta} \\
 	                           & = \frac{2\ell}{\pi L}
 \end{align*}
-Let this probability be denoted by $p$. So we can compute an approximation to $\pi$ by finding
+Let this probability be denoted by \(p\). So we can compute an approximation to \(\pi\) by finding
 \[ \pi = \frac{2\ell}{pL} \]
-We can use the sampling error calculation above to find the amount of needles required to get a good approximation to $\pi$ (within $0.1\%$) with probability ast least $99\%$, so we want
+We can use the sampling error calculation above to find the amount of needles required to get a good approximation to \(\pi\) (within \(0.1\%\)) with probability ast least \(99\%\), so we want
 \[ \prob{\abs{\hat{\pi}_n - \pi} \leq 0.001} \geq 0.99 \]
-Let $S_n$ be the number of needles intersecting a line. Then $S_n \sim \mathrm{Bin}(n, p)$. So by the central limit theorem,
+Let \(S_n\) be the number of needles intersecting a line. Then \(S_n \sim \mathrm{Bin}(n, p)\). So by the central limit theorem,
 \[ S_n \approx np + \sqrt{np(1-p)} Z \implies \hat{p}_n = \frac{S_n}{n} = p + \sqrt{\frac{p(1-p)}{n}}Z \]
 Hence,
 \[ \hat{p}_n - p \approx \sqrt{\frac{p(1-p)}{n}}Z \]
-Now, let $f(x) = 2\ell/xL$. Then $f(p) = \pi$, $f'(p) = -\frac{\pi}{p}$, and $\hat{\pi}_n = f(\hat{p}_n)$. We can then use a Taylor expansion to find
+Now, let \(f(x) = 2\ell/xL\). Then \(f(p) = \pi\), \(f'(p) = -\frac{\pi}{p}\), and \(\hat{\pi}_n = f(\hat{p}_n)\). We can then use a Taylor expansion to find
 \[ \hat{\pi}_n = f(\hat{p}_n) \approx f(p) + (\hat{p}_n - p)f'(p) \implies \hat{\pi}_n \approx \pi - (\hat{p}_n - p) \frac{\pi}{p} \]
 Hence,
 \[ \hat{\pi}_n - \pi \approx - \frac{\pi}{p} \sqrt{\frac{p(1-p)}{n}} = -\pi \sqrt{\frac{1-p}{pn}}Z \]
 We want
 \[ \prob{\pi \sqrt{\frac{1-p}{pn}}\abs{Z} \leq 0.001} \geq 0.99 \]
-So using tables, we find in the worst case scenario that $n \approx \num{3.75e7}$. So this approximation becomes good very slowly.
+So using tables, we find in the worst case scenario that \(n \approx \num{3.75e7}\). So this approximation becomes good very slowly.
 
 \subsection{Bertrand's Paradox}
-Consider a circle of radius $r$, and draw a random chord on the circle. What is the probability that its length $C$ is less than $r$? There are two interpretations of the words `random chord', that give different results. This is Bertrand's paradox.
+Consider a circle of radius \(r\), and draw a random chord on the circle. What is the probability that its length \(C\) is less than \(r\)? There are two interpretations of the words `random chord', that give different results. This is Bertrand's paradox.
 \begin{enumerate}[(i)]
-	\item First, let us interpret `random chord' as follows. Let $X \sim \mathrm{U}[0, r]$, and then we draw a chord perpendicular to a radius, such that it intersects the radius at a distance of $X$ from the origin. Then we have formed a triangle between this intersection point, one end of the chord, and the circle's centre. By Pythagoras' theorem, the length of the chord is then twice the height of this triangle, so $C = 2\sqrt{r^2 - X^2}$. Hence,
+	\item First, let us interpret `random chord' as follows. Let \(X \sim \mathrm{U}[0, r]\), and then we draw a chord perpendicular to a radius, such that it intersects the radius at a distance of \(X\) from the origin. Then we have formed a triangle between this intersection point, one end of the chord, and the circle's centre. By Pythagoras' theorem, the length of the chord is then twice the height of this triangle, so \(C = 2\sqrt{r^2 - X^2}\). Hence,
 	      \[ \prob{C \leq r} = \prob{2\sqrt{r^2 - X^2} \leq r} = \prob{4(r^2 - X^2) \leq r^2} = \prob{X \geq \frac{\sqrt{3}}{2}r} = 1 - \frac{sqrt 3}{2} \approx 0.134 \]
-	\item Instead, let us fix one end point of the chord $A$, and let $\Theta \sim \mathrm{U}[0, 2\pi]$. Let the other end point $B$ be such that the angle between the radii $OA$ and $OB$ is $\Theta$. Then if $\Theta \in [0, \pi]$, the length of the chord can be found by splitting this triangle in two by dropping a perpendicular from the centre, giving
+	\item Instead, let us fix one end point of the chord \(A\), and let \(\Theta \sim \mathrm{U}[0, 2\pi]\). Let the other end point \(B\) be such that the angle between the radii \(OA\) and \(OB\) is \(\Theta\). Then if \(\Theta \in [0, \pi]\), the length of the chord can be found by splitting this triangle in two by dropping a perpendicular from the centre, giving
 	      \[ C = 2r\sin\frac{\Theta}{2} \]
-	      If $\Theta \in [\pi, 2\pi]$, then
+	      If \(\Theta \in [\pi, 2\pi]\), then
 	      \[ C = 2r\sin\frac{2\pi - \Theta}{2} = 2r\sin\frac{\Theta}{2} \]
 	      as before.
 	      Now,
@@ -50,16 +50,16 @@ Consider a circle of radius $r$, and draw a random chord on the circle. What is 
 Clearly, the two probabilities do not match.
 
 \subsection{Multidimensional Gaussian Random Variables}
-Recall that a random variable $X$ with values in $\mathbb R$ is called Gaussian (or normal) if
+Recall that a random variable \(X\) with values in \(\mathbb R\) is called Gaussian (or normal) if
 \[ X = \mu + \sigma Z;\quad \mu \in \mathbb R, \sigma \geq 0, Z \sim \mathrm{N}(0, 1) \]
-The density function of $X$ is
+The density function of \(X\) is
 \[ f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp(-\frac{(x-\mu)^2}{2\sigma^2}) \]
-Now, let $X = (X_1, \dots, X_n)^\transpose$ with values in $\mathbb R^n$. Then we define that $X$ is a Gaussian vector (also called Gaussian) if
+Now, let \(X = (X_1, \dots, X_n)^\transpose\) with values in \(\mathbb R^n\). Then we define that \(X\) is a Gaussian vector (also called Gaussian) if
 \[ \forall u = \begin{pmatrix}
 		u_1 \\ \vdots \\ u_n
 	\end{pmatrix} \in \mathbb R^n,\, u^\transpose X = \sum_{i=1}^n u_i X_i = \mu + \sigma Z \]
-so any linear combination of the $X_i$ is Gaussian. This does not require that the $X_i$ are independent, just that their sum is always Gaussian.
+so any linear combination of the \(X_i\) is Gaussian. This does not require that the \(X_i\) are independent, just that their sum is always Gaussian.
 
-Let $X$ be Gaussian in $\mathbb R^n$. Suppose that $A$ is an $m \times n$ matrix, and $b \in \mathbb R^m$. Then $AX + b$ is also Gaussian. Indeed, let $u \in \mathbb R^m$, and let $v = A^\transpose u$. Then
+Let \(X\) be Gaussian in \(\mathbb R^n\). Suppose that \(A\) is an \(m \times n\) matrix, and \(b \in \mathbb R^m\). Then \(AX + b\) is also Gaussian. Indeed, let \(u \in \mathbb R^m\), and let \(v = A^\transpose u\). Then
 \[ u^\transpose(AX + b) = u^\transpose AX + u^\transpose b = v^\transpose X + u^\transpose b \]
-Since $X$ is Gaussian, $v^\transpose X$ is also Gaussian. An additive constant preserves this property, so the entire expression is Gaussian.
+Since \(X\) is Gaussian, \(v^\transpose X\) is also Gaussian. An additive constant preserves this property, so the entire expression is Gaussian.

@@ -88,8 +88,12 @@ func format() {
 					cmd := exec.Command("latexindent", "-s", input, "-o", output)
 					cmd.Start()
 					cmd.Wait()
-					os.Remove(input)
-					os.Rename(output, input)
+					if _, err := os.Stat(output); err == nil {
+						os.Remove(input)
+						os.Rename(output, input)
+					} else {
+						color.HiRed("Latexindent failed on file", file)
+					}
 					bar.Add(1)
 
 				default:

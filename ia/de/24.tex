@@ -9,57 +9,57 @@ The two operators commute, hence we have either
 \[ \left( \frac{\partial}{\partial t} - c\frac{\partial}{\partial x} \right) y = 0;\quad\text{or}\quad \left( \frac{\partial}{\partial t} + c\frac{\partial}{\partial x} \right) y = 0 \]
 These are both instances of the first order wave equation \eqref{wave1}.
 \[ y = f(x+ct);\quad y=g(x-ct) \]
-Since \eqref{waveeqn} is linear in $y$, our general solution is the sum of these two solutions.
+Since \eqref{waveeqn} is linear in \(y\), our general solution is the sum of these two solutions.
 \[ y = f(x+ct) + g(x-ct) \]
 As an example, let us solve
 \[ y_{tt} - c^2 y_{xx} = 0 \]
 subject to
 \[ y = \frac{1}{1+x^2}; \quad y_t = 0\quad \text{at }t=0 \]
-and further, $y \to 0$ as $x \to \pm \infty$. Our solution is of the form
+and further, \(y \to 0\) as \(x \to \pm \infty\). Our solution is of the form
 \[ y = f(x+ct) + g(x-ct) \]
-We will use the initial conditions to find $f, g$.
+We will use the initial conditions to find \(f, g\).
 \[ f(x) + g(x) = \frac{1}{1+x^2} \]
 \[ cf'(x) - cg'(x) = 0 \]
-The second equation shows that $f'=g'$, or $f=g+A$.
+The second equation shows that \(f'=g'\), or \(f=g+A\).
 \[ 2g(x) + A = \frac{1}{1+x^2} \]
 \begin{align*}
 	g(x) & = \frac{1}{2}\left( \frac{1}{1+x^2} \right) - \frac{A}{2} \\
 	f(x) & = \frac{1}{2}\left( \frac{1}{1+x^2} \right) + \frac{A}{2}
 \end{align*}
-Even though we have a constant of integration $A$ here, since $y=f+g$ the constant vanishes in the general solution. So the constant does not affect the solution and it really is arbitrary. So without loss of generality here we can let $A = 0$. So our solution is
+Even though we have a constant of integration \(A\) here, since \(y=f+g\) the constant vanishes in the general solution. So the constant does not affect the solution and it really is arbitrary. So without loss of generality here we can let \(A = 0\). So our solution is
 \[ y(x, t) = \frac{1}{2}\left[ \underbrace{\frac{1}{1+(x+ct)^2}}_{\text{moves left}} + \underbrace{\frac{1}{1+(x-ct)^2}}_{\text{moves right}} \right] \]
 
 \subsection{Derivation of Diffusion Equation}
-We will consider random walks to derive the diffusion equation. Imagine a particle located at position $x$ at time $t$. After some change in time $\Delta t$, the particle may move to the left or to the right, i.e. $x+\Delta x$ ot $x-\Delta x$. Let $c(x, t)$ be the number of particles at $x, t$. After a discrete time interval $\Delta t$, let
+We will consider random walks to derive the diffusion equation. Imagine a particle located at position \(x\) at time \(t\). After some change in time \(\Delta t\), the particle may move to the left or to the right, i.e. \(x+\Delta x\) ot \(x-\Delta x\). Let \(c(x, t)\) be the number of particles at \(x, t\). After a discrete time interval \(\Delta t\), let
 \begin{itemize}
-	\item The probability of moving right one step is $p$;
-	\item The probability of moving left one step is $p$; and
-	\item The probability of staying at x is $1-2p$.
+	\item The probability of moving right one step is \(p\);
+	\item The probability of moving left one step is \(p\); and
+	\item The probability of staying at x is \(1-2p\).
 \end{itemize}
 Considering a large amount of particles,
 \begin{equation}\label{diffusion1}
 	c(x, t+\Delta t) = (1-2p)c(x, t) + p\left( c(x+\Delta x, t) + c(x-\Delta x, t) \right)
 \end{equation}
-We will now expand these terms as Taylor series through time and space, for small $\Delta x$ and $\Delta t$. We'll put three terms in the expansion in space since the linear term will cancel when we combine the $+$ and $-$ terms.
+We will now expand these terms as Taylor series through time and space, for small \(\Delta x\) and \(\Delta t\). We'll put three terms in the expansion in space since the linear term will cancel when we combine the \(+\) and \(-\) terms.
 \[ c(x, t+\Delta t) = c(x, t) + \Delta t \frac{\partial c}{\partial t}(x, t) + O(\Delta t^2) \]
 \[ c(x\pm\Delta x, t) = c(x, t) \pm \Delta x \frac{\partial c}{\partial x}(x, t) + \frac{\Delta x^2}{2}\frac{\partial^2 c}{\partial x^2}(x, t) + O(\Delta x^3) \]
 Now, substituting into \eqref{diffusion1}, we have
 \[ c + \Delta t \frac{\partial c}{\partial t} + O(\Delta t^2) = (1-2p)c + p\left( 2c + \Delta x^2\frac{\partial^2 c}{\partial x^2} + O(\Delta x^3) \right) \]
 \[ \frac{\partial c}{\partial t} + O(\Delta t) = p\frac{\Delta x^2}{\Delta t}\frac{\partial^2 c}{\partial x^2} + O\left(\frac{\Delta x^3}{\Delta t}\right) \]
-We will take the limit as $\Delta x, \Delta t \to 0$ such that $\frac{\Delta x^2}{\Delta t}$ is constant. This will make some things easier. Note that $\frac{\Delta x^3}{\Delta t} = \frac{\Delta x^2}{\Delta t} \cdot \Delta x \to 0$.
+We will take the limit as \(\Delta x, \Delta t \to 0\) such that \(\frac{\Delta x^2}{\Delta t}\) is constant. This will make some things easier. Note that \(\frac{\Delta x^3}{\Delta t} = \frac{\Delta x^2}{\Delta t} \cdot \Delta x \to 0\).
 \[ \frac{\partial x}{\partial t} = \kappa\frac{\partial^2 c}{\partial x^2};\quad k \equiv \lim_{\Delta x,\Delta t \to 0}p\frac{\Delta x^2}{\Delta t} \]
-This is the diffusion equation. Here, $\kappa$ is the diffusion coefficient.
+This is the diffusion equation. Here, \(\kappa\) is the diffusion coefficient.
 
 \subsection{Solving the Diffusion Equation}
 For example, consider
 \[ \frac{\partial y}{\partial t} = \kappa \frac{\partial^2 y}{\partial x^2} \]
 subject to the initial condition
 \[ y(x, 0) = \delta(x) \]
-where $\delta(x)$ is the Dirac delta function, and where $y \to 0$ as $x \to \pm \infty$. We will convert this PDE into an ODE by constructing a similarity variable
+where \(\delta(x)\) is the Dirac delta function, and where \(y \to 0\) as \(x \to \pm \infty\). We will convert this PDE into an ODE by constructing a similarity variable
 \[ \eta \equiv \frac{x^2}{4\kappa t} \]
-This form of similarity variable can be motivated by observing units on both sides of the PDE, since $\kappa$ must have units $x^2/t$ to conserve dimensions. We will seek solutions of the form
+This form of similarity variable can be motivated by observing units on both sides of the PDE, since \(\kappa\) must have units \(x^2/t\) to conserve dimensions. We will seek solutions of the form
 \[ y=t^{-\alpha}f(\eta) \]
-where $\alpha, f$ are to be determined. We will now compute some derivatives:
+where \(\alpha, f\) are to be determined. We will now compute some derivatives:
 \begin{align*}
 	y_t    & = -\alpha t^{-\alpha-1}f + t^{-\alpha} f_\eta \eta_t               \\
 	y_x    & = t^{-\alpha}f_\eta \eta_x                                         \\
@@ -69,7 +69,7 @@ Plugging these into the diffusion equation gives
 \begin{equation}\label{diffusion2}
 	\frac{-\alpha}{t}f + f'\eta_t = \kappa f''(\eta_{x})^2 + \kappa f' \eta_{xx}
 \end{equation}
-where $f'=f_\eta, f''=f_{\eta\eta}$.
+where \(f'=f_\eta, f''=f_{\eta\eta}\).
 \[ \eta_t = \frac{-x^2}{4\kappa t^2} = \frac{-\eta}{t} \]
 \[ \eta_x = \frac{2x}{4\kappa t} \implies (\eta_x)^2 = \frac{4x^2}{16\kappa^2t^2} = \frac{\eta}{\kappa t} \]
 \[ \eta_{xx} = \frac{2}{4\kappa t} \]
@@ -78,13 +78,13 @@ Plugging these results into \eqref{diffusion2} gives
 \begin{equation}\label{diffusion3}
 	\eta \frac{\dd}{\dd \eta}(f + f') + \frac{1}{2}(f' + 2\alpha f) = 0
 \end{equation}
-This is an ODE for $f(\eta)$. We have not yet defined what $\alpha$ is, and it is currently arbitrary, so we can let it be $\frac{1}{2}$ so that it cancels some terms.
+This is an ODE for \(f(\eta)\). We have not yet defined what \(\alpha\) is, and it is currently arbitrary, so we can let it be \(\frac{1}{2}\) so that it cancels some terms.
 \[ \eqref{diffusion3} \implies \eta \frac{\dd{F}}{\dd \eta} + \frac{F}{2} = 0;\quad F := f+f' \]
-One solution is that $F = 0$ for all $\eta$. This is nontrivial because then $f + f' = 0$. So $f = Ae^{-\eta}$. Then
+One solution is that \(F = 0\) for all \(\eta\). This is nontrivial because then \(f + f' = 0\). So \(f = Ae^{-\eta}\). Then
 \[ y = At^{-\frac{1}{2}}e^{-\frac{x^2}{4\kappa t}} \]
-We can use the delta function initial condition to find $A$.
+We can use the delta function initial condition to find \(A\).
 \[ \delta(x) = \lim_{\varepsilon \to 0} \left[ \frac{1}{\varepsilon\sqrt \pi} e^{-\frac{x^2}{\varepsilon^2}} \right] \]
-So if we let $\varepsilon^2 = 4\kappa t$, then as $t \to 0$, we get $y(x) = \delta(x)$. So
+So if we let \(\varepsilon^2 = 4\kappa t\), then as \(t \to 0\), we get \(y(x) = \delta(x)\). So
 \[ \frac{1}{\varepsilon\sqrt \pi} = \frac{1}{\sqrt{4 \pi \kappa}} t^{-\frac{1}{2}} \]
 Hence,
 \[ A = \frac{1}{\sqrt{4 \pi \kappa}} \]

@@ -1,29 +1,29 @@
 \subsection{Joint Distribution}
 \begin{definition}
-	Let $X_1, \dots, X_n$ be discrete random variables. Their joint distribution is defined as
+	Let \(X_1, \dots, X_n\) be discrete random variables. Their joint distribution is defined as
 	\[ \prob{X_1 = x_1, \dots, X_n = x_n} \]
-	for all $x_i \in \Omega_i$.
+	for all \(x_i \in \Omega_i\).
 \end{definition}
 \noindent Now, we have
 \[ \prob{X_1 = x_1} = \prob{\{ X_1 = x_1\} \cap \bigcup_{i=2}^n \bigcup_{x_i} \{ X_i = x_i \} } = \sum_{x_2, \dots, x_n} \prob{X_1 = x_1, X_2 = x_2, \dots, X_n = x_n} \]
 In general,
 \[ \prob{X_i = x_i} = \sum_{x_1, x_2, \dots, x_{i-1}, x_{i+1}, \dots, x_n} \prob{X_1 = x_1, X_2 = x_2, \dots, X_n = x_n} \]
-We call $(\prob{X_i = x_i})_i$ the marginal distribution of $X_i$. Let $X, Y$ be random variables. The conditional distribution of $X$ given $Y = y$ where $y \in \Omega_y$ is defined to be
+We call \((\prob{X_i = x_i})_i\) the marginal distribution of \(X_i\). Let \(X, Y\) be random variables. The conditional distribution of \(X\) given \(Y = y\) where \(y \in \Omega_y\) is defined to be
 \[ \prob{X = x \mid Y = y} = \frac{\prob{X = x, Y = y}}{\prob{Y = y}} \]
 We can find
 \[ \prob{X = x} = \sum_y \prob{X = x, Y = y} = \sum_y \prob{X = x \mid Y = y} \prob{Y = y} \]
 which is the law of total probability.
 
 \subsection{Convolution}
-Let $X$ and $Y$ be independent, discrete random variables. We would like to find $\prob{X + Y = z}$. Clearly this is
+Let \(X\) and \(Y\) be independent, discrete random variables. We would like to find \(\prob{X + Y = z}\). Clearly this is
 \begin{align*}
 	\prob{X + Y = z} & = \sum_y \prob{X + Y = z, Y = y}           \\
 	                 & = \sum_y \prob{X = z-y, Y = y}             \\
 	                 & = \sum_y \prob{X = z-y} \cdot \prob{Y = y} \\
 \end{align*}
-This last sum is called the convolution of the distributions of $X$ and $Y$. Similarly,
+This last sum is called the convolution of the distributions of \(X\) and \(Y\). Similarly,
 \[ \prob{X + Y = z} = \sum_x \prob{X = x} \cdot \prob{Y = z-x} \]
-As an example, let $X \sim \mathrm{Poi}(\lambda)$ and $Y \sim \mathrm{Poi}(\mu)$ be independent. Then
+As an example, let \(X \sim \mathrm{Poi}(\lambda)\) and \(Y \sim \mathrm{Poi}(\mu)\) be independent. Then
 \begin{align*}
 	\prob{X + Y = n} & = \sum_{r = 0}^n \prob{X = r} \prob{Y = n - r}                                              \\
 	                 & = \sum_{r = 0}^n e^{-\lambda} \frac{\lambda^r}{r!} \cdot e^{-\mu} \frac{\mu^{n-r}}{(n-r)!}  \\
@@ -32,12 +32,12 @@ As an example, let $X \sim \mathrm{Poi}(\lambda)$ and $Y \sim \mathrm{Poi}(\mu)$
 	                 & = \frac{e^{-(\lambda+\mu)}}{n!} \sum_{r = 0}^n \binom{n}{r} \lambda^r\mu^{n-r}              \\
 	                 & = \frac{e^{-(\lambda+\mu)}}{n!} (\lambda + \mu)^n                                           \\
 \end{align*}
-which is the probability mass function of a Poisson random variable with parameter $\lambda + \mu$. In other words, $X + Y \sim \mathrm{Poi}(\lambda + \mu)$.
+which is the probability mass function of a Poisson random variable with parameter \(\lambda + \mu\). In other words, \(X + Y \sim \mathrm{Poi}(\lambda + \mu)\).
 
 \subsection{Conditional Expectation}
-Let $X$ and $Y$ be discrete random variables. Then the conditional expectation of $X$ given that $Y = y$ is
+Let \(X\) and \(Y\) be discrete random variables. Then the conditional expectation of \(X\) given that \(Y = y\) is
 \[ \expect{X \mid Y = y} = \frac{\expect{X \cdot 1(Y = y)}}{\prob{Y = y}} = \frac{1}{\prob{Y = y}} \sum_x x \cdot \prob{X = x, Y = y} = \sum_x x \cdot \prob{X = x \mid Y = y} \]
-Observe that for every $y \in \Omega_y$, this expectation is purely a function of $y$. Let $g(y) = \expect{X \mid Y = y}$. Now, we define the conditional expectation of $X$ given $Y$ as $\expect{X \mid Y} = g(Y)$. Note that $\expect{X \mid Y}$ is a random variable, dependent only on $Y$. We have
+Observe that for every \(y \in \Omega_y\), this expectation is purely a function of \(y\). Let \(g(y) = \expect{X \mid Y = y}\). Now, we define the conditional expectation of \(X\) given \(Y\) as \(\expect{X \mid Y} = g(Y)\). Note that \(\expect{X \mid Y}\) is a random variable, dependent only on \(Y\). We have
 \begin{align*}
 	\expect{X \mid Y} & = g(Y) \cdot 1                                \\
 	                  & = g(Y) \sum_y 1(Y = y)                        \\
@@ -45,12 +45,12 @@ Observe that for every $y \in \Omega_y$, this expectation is purely a function o
 	                  & = \sum_y g(y) \cdot 1(Y = y)                  \\
 	                  & = \sum_y \expect{X \mid Y = y} \cdot 1(Y = y)
 \end{align*}
-This is perhaps a clearer way to see that it depends only on $Y$. As an example, let us consider tossing a $p$-biased coin $n$ times independently. We write $X_i$ for the indicator function that the $i$th toss was a head. Let $Y_n = X_1 + \dots + X_n$. What is $\expect{X_1 \mid Y_n}$? Let $g(y) = \expect{X_1 \mid Y_n = y}$. Then $\expect{X_1 \mid Y_n} = g(Y_n)$. We therefore need to find $g$. Let $y \in \{ 0, \dots, n \}$, then
+This is perhaps a clearer way to see that it depends only on \(Y\). As an example, let us consider tossing a \(p\)-biased coin \(n\) times independently. We write \(X_i\) for the indicator function that the \(i\)th toss was a head. Let \(Y_n = X_1 + \dots + X_n\). What is \(\expect{X_1 \mid Y_n}\)? Let \(g(y) = \expect{X_1 \mid Y_n = y}\). Then \(\expect{X_1 \mid Y_n} = g(Y_n)\). We therefore need to find \(g\). Let \(y \in \{ 0, \dots, n \}\), then
 \begin{align*}
 	g(y) & = \expect{X_1 \mid Y_n = y}   \\
 	     & = \prob{X_1 = 1 \mid Y_n = y} \\
 \end{align*}
-Clearly if $y = 0$, then $\prob{X_1 = 1 \mid Y_n = 0} = 0$. Now, suppose $y \neq 0$. We have
+Clearly if \(y = 0\), then \(\prob{X_1 = 1 \mid Y_n = 0} = 0\). Now, suppose \(y \neq 0\). We have
 \begin{align*}
 	\prob{X_1 = 1 \mid Y_n = y} & = \frac{\prob{X_1 = 1, Y_n = y}}{\prob{Y_n = y}}                             \\
 	                            & = \frac{\prob{X_1 = 1, X_2 + \dots + X_n = y-1}}{\prob{Y_n = y}}             \\
@@ -64,14 +64,14 @@ Hence
 \[ g(y) = \frac{y}{n} \]
 We can then find that
 \[ \expect{X_1 \mid Y_n} = g(Y_n) = \frac{Y_n}{n} \]
-which is indeed a random variable dependent only on $Y_n$.
+which is indeed a random variable dependent only on \(Y_n\).
 
 \subsection{Properties of Conditional Expectation}
 The following properties hold.
 \begin{itemize}
-	\item For all $c \in \mathbb R$, $\expect{cX \mid Y} = c\expect{X \mid Y}$, and $\expect{c \mid Y} = c$.
-	\item Let $X_1, \dots, X_n$ be random variables. Then $\expect{\sum_{i=1}^n X_i \mid Y} = \sum_{i=1}^n \expect{X_i \mid Y}$.
-	\item $\expect{\expect{X \mid Y}} = \expect{X}$.
+	\item For all \(c \in \mathbb R\), \(\expect{cX \mid Y} = c\expect{X \mid Y}\), and \(\expect{c \mid Y} = c\).
+	\item Let \(X_1, \dots, X_n\) be random variables. Then \(\expect{\sum_{i=1}^n X_i \mid Y} = \sum_{i=1}^n \expect{X_i \mid Y}\).
+	\item \(\expect{\expect{X \mid Y}} = \expect{X}\).
 \end{itemize}
 The last property is not obvious from the definition, so it warrants its own proof. We can see by the standard properties of the expectation that
 \begin{align*}
@@ -86,7 +86,7 @@ The last property is not obvious from the definition, so it warrants its own pro
 \end{align*}
 Alternatively, we could expand the inner expectation as a sum:
 \[ \sum_y \expect{X \mid Y = y} \cdot \prob{Y = y} = \sum_x \sum_y x \cdot \prob{X = x \mid Y = y} \cdot \prob{Y = y} \]
-and the result follows as required. The final property relates conditional probability to independence. Let $X$ and $Y$ be independent. Then $\expect{X \mid Y} = \expect{X}$. Indeed,
+and the result follows as required. The final property relates conditional probability to independence. Let \(X\) and \(Y\) be independent. Then \(\expect{X \mid Y} = \expect{X}\). Indeed,
 \begin{align*}
 	\expect{X \mid Y} & = \sum_y 1(Y = y) \expect{X \mid Y = y} \\
 	                  & = \sum_y 1(Y = y) \expect{X}            \\

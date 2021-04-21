@@ -1,28 +1,28 @@
 \subsection{Sampling from Uniform Distribution}
-It is easy for a computer to generate a random number in the interval $[0, 1)$. We can use this as a source of randomness to simulate a random variable with an arbitrary density. Let $U \sim \mathrm{U}[0, 1]$, then let $X = -\log U$. Then
+It is easy for a computer to generate a random number in the interval \([0, 1)\). We can use this as a source of randomness to simulate a random variable with an arbitrary density. Let \(U \sim \mathrm{U}[0, 1]\), then let \(X = -\log U\). Then
 \[ \prob{X \leq x} = \prob{\log U \leq x} = \prob{U \geq e^{-x}} = 1-e^{-x} \]
-So $X$ is exponentially distributed with parameter 1. More generally, we have the following.
+So \(X\) is exponentially distributed with parameter 1. More generally, we have the following.
 \begin{theorem}
-	Let $X$ be a continuous random variable with distribution function $F$. Then, if $U \sim \mathrm{U}[0, 1]$, then $F^{-1}(U) \sim F$.
+	Let \(X\) be a continuous random variable with distribution function \(F\). Then, if \(U \sim \mathrm{U}[0, 1]\), then \(F^{-1}(U) \sim F\).
 \end{theorem}
 \begin{proof}
-	Set $Y = F^{-1}(U)$. Then
+	Set \(Y = F^{-1}(U)\). Then
 	\begin{align*}
 		\prob{Y \leq x} & = \prob{F^{-1}(U) \leq x} \\
 		                & = \prob{U \leq F(x)}      \\
 		                & = F(x)
 	\end{align*}
 \end{proof}
-\noindent One way of thinking of this function $F^{-1}$ function is that it takes an input probability $p$, and outputs the $x$ value such that $\prob{X \leq x} = p$. Then, if $U$ is uniformly distributed, we are essentially sampling a random $p$.
+\noindent One way of thinking of this function \(F^{-1}\) function is that it takes an input probability \(p\), and outputs the \(x\) value such that \(\prob{X \leq x} = p\). Then, if \(U\) is uniformly distributed, we are essentially sampling a random \(p\).
 
 \subsection{Rejection Sampling}
-In certain cases, finding such an $F^{-1}$ function is difficult, if not impossible, especially where this function has jumps or has a higher dimension. Here is an alternative sampling method. Suppose $A \subset [0, 1]^d$. We then define
+In certain cases, finding such an \(F^{-1}\) function is difficult, if not impossible, especially where this function has jumps or has a higher dimension. Here is an alternative sampling method. Suppose \(A \subset [0, 1]^d\). We then define
 \[ f(x) = \frac{1(x \in A)}{\abs{A}} \]
-where $\abs{A}$ is the size or volume of this set $A$. Let $X$ have density function $f$. How can we simulate $X$? Let $(U_n)$ be an independent and identically distributed sequence of $d$-dimensional uniform random variables, i.e.
+where \(\abs{A}\) is the size or volume of this set \(A\). Let \(X\) have density function \(f\). How can we simulate \(X\)? Let \((U_n)\) be an independent and identically distributed sequence of \(d\)-dimensional uniform random variables, i.e.
 \[ U_n = (U_{k, n} \colon k \in \{ 1, \dots, d \});\quad (U_{k, n}) \sim \mathrm{U}[0, 1] \text{ i.i.d.} \]
 Now, let
 \[ N = \min\qty{n \geq 1 \colon U_n \in A} \]
-So we keep generating random numbers until a $U_n$ lies in $A$, and reject all other possibilities. We now show that $U_N \sim f$. In particular, we want to show that for all $B \subseteq [0, 1]^d$,
+So we keep generating random numbers until a \(U_n\) lies in \(A\), and reject all other possibilities. We now show that \(U_N \sim f\). In particular, we want to show that for all \(B \subseteq [0, 1]^d\),
 \[ \prob{U_n \in B} = \int_B f(x) \dd{x} \]
 We have
 \begin{align*}
@@ -34,9 +34,9 @@ We have
 	                 & = \int_A \frac{1(x \in B)}{\abs{A}} \dd{x}                                                     \\
 	                 & = \int_B f(x) \dd{x}
 \end{align*}
-Now suppose that $f$ is a density on $[0, 1]^{d-1}$ which is bounded by $\lambda > 0$. We can use rejection sampling to sample a random variable $X$ with this density. Consider the set
+Now suppose that \(f\) is a density on \([0, 1]^{d-1}\) which is bounded by \(\lambda > 0\). We can use rejection sampling to sample a random variable \(X\) with this density. Consider the set
 \[ A = \qty{(x_1, \dots, x_d) \in [0, 1]^d \colon x_d \leq \frac{f(x_1, \dots, x_{d-1})}{\lambda}} \]
-From the above, we can generate a uniform random variable $Y = (X_1, \dots, X_d)$ on $A$. Let $X = (X_1, \dots, X_{d-1})$, then we will show that $X \sim f$. In particular, we want to show that for all $B \subseteq [0, 1]^{d-1}$,
+From the above, we can generate a uniform random variable \(Y = (X_1, \dots, X_d)\) on \(A\). Let \(X = (X_1, \dots, X_{d-1})\), then we will show that \(X \sim f\). In particular, we want to show that for all \(B \subseteq [0, 1]^{d-1}\),
 \[ \prob{X \in B} = \int_B f(x) \dd{x} \]
 We find that
 \begin{align*}

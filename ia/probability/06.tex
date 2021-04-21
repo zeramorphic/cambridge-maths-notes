@@ -1,38 +1,38 @@
 \subsection{Discrete Distributions}
-In a discrete probability distribution on a probability space $(\Omega, \mathcal F, \mathbb P)$, $\Omega$ is either finite or countable, i.e. $\Omega = \{ \omega_1, \omega_2, \dots \}$, and as stated before, $\mathcal F$ is the power set of $\Omega$. If we know $\prob{\{\omega_i\}}$, then this completely determines $\mathbb P$. Indeed, let $A \subseteq \Omega$, then
+In a discrete probability distribution on a probability space \((\Omega, \mathcal F, \mathbb P)\), \(\Omega\) is either finite or countable, i.e. \(\Omega = \{ \omega_1, \omega_2, \dots \}\), and as stated before, \(\mathcal F\) is the power set of \(\Omega\). If we know \(\prob{\{\omega_i\}}\), then this completely determines \(\mathbb P\). Indeed, let \(A \subseteq \Omega\), then
 \[ \prob{A} = \prob{\bigcup_{i \colon \omega_i \in A} \{ \omega_i \}} = \sum_{i \colon \omega_i \in A}\prob{\{\omega_i\}} \]
-by countable additivity. We will see later that this is not true if $\Omega$ is uncountable. We write $p_i = \prob{\{\omega_i\}}$, and we then call this a discrete probability distribution. It has the following key properties:
+by countable additivity. We will see later that this is not true if \(\Omega\) is uncountable. We write \(p_i = \prob{\{\omega_i\}}\), and we then call this a discrete probability distribution. It has the following key properties:
 \begin{itemize}
-	\item $p_i \geq 0$
-	\item $\sum_i p_i = 1$
+	\item \(p_i \geq 0\)
+	\item \(\sum_i p_i = 1\)
 \end{itemize}
 
 \subsection{Bernoulli Distribution}
-We model the outcome of a test with two outcomes (e.g. the toss of a coin) with the Bernoulli distribution. Let $\Omega = \{ 0, 1 \}$. We will denote $p = p_1$, then clearly $p_0 = 1 - p$.
+We model the outcome of a test with two outcomes (e.g. the toss of a coin) with the Bernoulli distribution. Let \(\Omega = \{ 0, 1 \}\). We will denote \(p = p_1\), then clearly \(p_0 = 1 - p\).
 
 \subsection{Binomial Distribution}
-The binomial distribution $B$ has parameters $N \in \mathbb Z^+, p \in [0, 1]$. This distribution models a sequence of $N$ independent Bernoulli distributions of parameter $p$. We then count the amount of `successes', i.e. trials in which the result was 1. $\Omega = \{ 0, 1, \dots, N \}$.
+The binomial distribution \(B\) has parameters \(N \in \mathbb Z^+, p \in [0, 1]\). This distribution models a sequence of \(N\) independent Bernoulli distributions of parameter \(p\). We then count the amount of `successes', i.e. trials in which the result was 1. \(\Omega = \{ 0, 1, \dots, N \}\).
 \[ \prob{\{ k \}} = p_k = \binom{N}{k}p^k(1-p)^{N-k} \]
 
 \subsection{Multinomial Distribution}
-The multinomial distribution is a generalisation of the binomial distribution. $M$ has parameters $N \in \mathbb Z^+$ and $p_1, p_2, \dots \in [0, 1]$ where $\sum_{i=1}^k p_i = 1$. This models a sequence of $N$ independent trials in which a number from 1 to $N$ is selected, where the probability of selecting $i$ is $p_i$. $\Omega = \{ (n_1, \dots, n_k) \in \mathbb N^k \colon \sum_{i=1}^k n_i = N \}$, in other words, ordered partitions of $N$. Therefore
+The multinomial distribution is a generalisation of the binomial distribution. \(M\) has parameters \(N \in \mathbb Z^+\) and \(p_1, p_2, \dots \in [0, 1]\) where \(\sum_{i=1}^k p_i = 1\). This models a sequence of \(N\) independent trials in which a number from 1 to \(N\) is selected, where the probability of selecting \(i\) is \(p_i\). \(\Omega = \{ (n_1, \dots, n_k) \in \mathbb N^k \colon \sum_{i=1}^k n_i = N \}\), in other words, ordered partitions of \(N\). Therefore
 \[ \prob{n_1 \text{ outcomes had value 1}, \dots, n_k \text{ outcomes had value }k} = \prob{(n_1, \dots, n_k)} = \binom{N}{n_1,\dots,n_k}p_1^{n_1}\dots p_k^{n_k} \]
 
 \subsection{Geometric Distribution}
-Consider a Bernoulli distribution of parameter $p$. The geometric distribution models running this trial many times independently until the first `success' (i.e. the first result of value 1). Then $\Omega = \{ 1, 2, \dots \} = \mathbb Z^+$. Then
+Consider a Bernoulli distribution of parameter \(p\). The geometric distribution models running this trial many times independently until the first `success' (i.e. the first result of value 1). Then \(\Omega = \{ 1, 2, \dots \} = \mathbb Z^+\). Then
 \[ p_k = (1-p)^{k-1}p \]
-We can compute the infinite geometric series $\sum p_k$ which gives 1. We could alternatively model the distribution using $\Omega' = \{ 0, 1, \dots \} = \mathbb N$ which records the amount of failures before the first success. Then
+We can compute the infinite geometric series \(\sum p_k\) which gives 1. We could alternatively model the distribution using \(\Omega' = \{ 0, 1, \dots \} = \mathbb N\) which records the amount of failures before the first success. Then
 \[ p_k' = (1-p)^k p \]
 Again, the sum converges to 1.
 
 \subsection{Poisson Distribution}
-This is used to model the number of occurences of an event in a given interval of time. $\Omega = \{ 0, 1, 2, \dots \} = \mathbb N$. This distribution has one parameter $\lambda \in \mathbb R$. We have
+This is used to model the number of occurences of an event in a given interval of time. \(\Omega = \{ 0, 1, 2, \dots \} = \mathbb N\). This distribution has one parameter \(\lambda \in \mathbb R\). We have
 \[ p_k = e^{-\lambda} \frac{\lambda^k}{k!} \]
 Then
 \[ \sum_{k=0}^\infty p_k = e^{-\lambda}  \sum_{k=0}^\infty \frac{\lambda^k}{k!} = e^{-\lambda} \cdot e^{\lambda} = 1 \]
-Suppose customers arrive into a shop during the time interval $[0, 1]$. We will subdivide $[0, 1]$ into $N$ intervals $\left[ \frac{i-1}{N}, \frac{i}{N} \right]$. In each interval, a single customer arrives with probability $p$, independent of other time intervals. In this example,
+Suppose customers arrive into a shop during the time interval \([0, 1]\). We will subdivide \([0, 1]\) into \(N\) intervals \(\left[ \frac{i-1}{N}, \frac{i}{N} \right]\). In each interval, a single customer arrives with probability \(p\), independent of other time intervals. In this example,
 \[ \prob{k \text{ customers arrive}} = \binom{N}{k} p^k (1-p)^{N-k} \]
-Let $p = \frac{\lambda}{N}$ for $\lambda > 0$. We will show that as $N \to \infty$, this binomial distribution converges to the Poisson distribution.
+Let \(p = \frac{\lambda}{N}\) for \(\lambda > 0\). We will show that as \(N \to \infty\), this binomial distribution converges to the Poisson distribution.
 \begin{align*}
 	\binom{N}{k} p^k (1-p)^{N-k} & = \frac{N!}{k!(N-k)!} \left( \frac{\lambda}{n} \right)^k \cdot \left( 1 - \frac{\lambda}{n} \right)^{N-k} \\
 	                             & = \frac{\lambda_k}{k!} \cdot \frac{N!}{N^k(N-k)!} \cdot \left( 1 - \frac{\lambda}{N} \right)^{N-k}        \\
@@ -42,23 +42,23 @@ which matches the Poisson distribution.
 
 \subsection{Random Variables}
 \begin{definition}
-	Consider the probability space $(\Omega, \mathcal F, \mathbb P)$. A random variable $X$ is a function $X \colon \Omega \to \mathbb R$ satisfying
+	Consider the probability space \((\Omega, \mathcal F, \mathbb P)\). A random variable \(X\) is a function \(X \colon \Omega \to \mathbb R\) satisfying
 	\[ \{ \omega \in \Omega \colon X(\omega) \leq x \} \in \mathcal F \]
-	for any given $x$.
+	for any given \(x\).
 \end{definition}
-\noindent Suppose $A \subseteq \mathbb R$. Then typically we write
+\noindent Suppose \(A \subseteq \mathbb R\). Then typically we write
 \[ \{ X \in A \} = \{ \omega \colon X(\omega) \in A \} \]
-as shorthand. Given $A \in \mathcal F$, we define the indicator of $A$ to be
+as shorthand. Given \(A \in \mathcal F\), we define the indicator of \(A\) to be
 \[ 1_A(\omega) = 1(\omega \in A) = \begin{cases}
 		1 & \text{if } \omega \in A \\
 		0 & \text{otherwise}
 	\end{cases} \]
-Because $A \in \mathbb F$, $1_A$ is a random variable. Suppose $X$ is a random variable. We define probability distribution function of $X$ to be
+Because \(A \in \mathbb F\), \(1_A\) is a random variable. Suppose \(X\) is a random variable. We define probability distribution function of \(X\) to be
 \[ F_X \colon \mathbb R \to [0, 1];\quad F_X(x) = \prob{X \leq x} \]
 \begin{definition}
-	$(X_1, \dots, X_n)$ is called a random variable in $\mathbb R^n$ if $(X_1, \dots, X_n) \colon \Omega \to \mathbb R^n$, and for all $x_1, \dots, x_n \in \mathbb R$ we have
+	\((X_1, \dots, X_n)\) is called a random variable in \(\mathbb R^n\) if \((X_1, \dots, X_n) \colon \Omega \to \mathbb R^n\), and for all \(x_1, \dots, x_n \in \mathbb R\) we have
 	\[ \{ X_1 \leq x_1, \dots, X_n \leq x_n \} = \{ \omega \colon X_1(\omega) \leq x_1, \dots, X_n(\omega) \leq x_n \} \in \mathcal F \]
 \end{definition}
-\noindent This definition is equivalent to saying that $X_1, \dots, X_n$ are all random variables in $\mathbb R$. Indeed,
+\noindent This definition is equivalent to saying that \(X_1, \dots, X_n\) are all random variables in \(\mathbb R\). Indeed,
 \[ \{ X_1 \leq x_1, \dots, X_n \leq x_n \} = \{ X_1 \leq x_1 \} \cap \dots \cap \{ X_n \leq x_n \} \]
-which, since $\mathcal F$ is a $\sigma$-algebra, is an element of $\mathcal F$.
+which, since \(\mathcal F\) is a \(\sigma\)-algebra, is an element of \(\mathcal F\).

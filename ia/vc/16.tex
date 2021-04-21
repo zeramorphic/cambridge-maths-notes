@@ -1,20 +1,20 @@
 \subsection{Spherical Symmetry}
-Suppose the source term (the $F$ on the right hand side of Poisson's equation) is spherically symmetric, so $F$ is a function of $r = \abs{\vb x}$. Assuming we are trying to solve the equation for $\Omega = \mathbb R^3$, we can rewrite the problem as
+Suppose the source term (the \(F\) on the right hand side of Poisson's equation) is spherically symmetric, so \(F\) is a function of \(r = \abs{\vb x}\). Assuming we are trying to solve the equation for \(\Omega = \mathbb R^3\), we can rewrite the problem as
 \begin{equation}
 	\div{\grad{\phi}} = F
-	\tag{$\ast$}
+	\tag{\(\ast\)}
 \end{equation}
-Since the right hand side only depends on $r$, the same is true of the left hand side. So we might guess a $\phi$ of the form $\phi(r)$. In which case, we can compute
+Since the right hand side only depends on \(r\), the same is true of the left hand side. So we might guess a \(\phi\) of the form \(\phi(r)\). In which case, we can compute
 \[ \grad{\phi} = \phi'(r) \vb e_r \]
-Using Gauss' flux method, we will integrate $(\ast)$ over some spherical region $\abs{\vb x} < R$, and use the divergence theorem.
+Using Gauss' flux method, we will integrate \((\ast)\) over some spherical region \(\abs{\vb x} < R\), and use the divergence theorem.
 \[ \int_{\abs{\vb x} < R} \div{\grad{\phi}}\dd{V} = \int_{\abs{\vb x} = R} \grad{\phi} \cdot \dd{\vb S} = \int_{\abs{\vb x} < R} F(r) \dd{V} \]
-Thinking of the source term $F$ as some kind of density, for instance charge density or mass density, the right hand side can be thought of as the total amount of charge or mass inside the ball. We will call this term $Q(R)$.
+Thinking of the source term \(F\) as some kind of density, for instance charge density or mass density, the right hand side can be thought of as the total amount of charge or mass inside the ball. We will call this term \(Q(R)\).
 \[ \int_{\abs{\vb x} = R} \grad{\phi} \cdot \dd{\vb S} = Q(R) \]
-Recall that on a sphere of radius $R$, $\dd{\vb S} = \vb e_r R^2 \sin\theta \dd{\theta}\dd{\phi}$. Therefore, on the boundary $\abs{\vb x} = R$,
+Recall that on a sphere of radius \(R\), \(\dd{\vb S} = \vb e_r R^2 \sin\theta \dd{\theta}\dd{\phi}\). Therefore, on the boundary \(\abs{\vb x} = R\),
 \[ \grad{\phi} \cdot \dd{\vb S} = \phi'(r) \vb e_r \cdot \vb e_r R^2 \sin\theta \dd{\theta}\dd{\phi} = \phi'(r) R^2 \sin\theta \dd{\theta}\dd{\phi} = \phi'(r) \dd{S} \]
 Hence,
 \[ Q(R) = \int_{\abs{\vb x} = R} \phi'(r) \dd{S} \]
-But $\phi'(r)$ is a constant on the surface we are integrating over. Therefore,
+But \(\phi'(r)\) is a constant on the surface we are integrating over. Therefore,
 \[ Q(R) = \phi'(R) \int_{\abs{\vb x} = R} \dd{S} = 4\pi R^2 \phi'(R) \]
 In summary,
 \[ \phi'(R) = \frac{Q(R)}{4\pi R^2} \implies \grad{\phi} = \frac{Q(R)}{4\pi R^2} \vb e_r \]
@@ -22,9 +22,9 @@ In summary,
 \subsection{Example in Electrostatics}
 Recall the first of Maxwell's equations:
 \[ \div{\vb E} = \frac{\rho}{\varepsilon_0} \]
-Since we are dealing with electrostatics, the curl of $\vb E$ is zero. Hence $\vb E = -\grad{\phi}$, so
+Since we are dealing with electrostatics, the curl of \(\vb E\) is zero. Hence \(\vb E = -\grad{\phi}\), so
 \[ \laplacian{\phi} = -\frac{\rho}{\varepsilon_0} \]
-Consider a charge density $\rho$ of the form
+Consider a charge density \(\rho\) of the form
 \[ \rho(r) = \begin{cases}
 		\rho_0, & 0 \leq r \leq a \\
 		0,      & r > a
@@ -33,25 +33,25 @@ By the previous result,
 \[ \phi'(r) = \frac{1}{4 \pi \varepsilon_0} \frac{Q(r)}{r^2} \]
 where
 \[ Q(r) = \int_{\abs{\vb x} \leq R} \rho(r) \dd{V} \]
-Note, if $R > a$ then $Q(R) = Q(a)$, which we will denote $Q$ for the total charge. Hence, we have the following solution:
+Note, if \(R > a\) then \(Q(R) = Q(a)\), which we will denote \(Q\) for the total charge. Hence, we have the following solution:
 \[ \vb E(\vb x) = \begin{cases}
 		\frac{1}{4 \pi \varepsilon_0} \frac{Q(r)}{r^2}\vb e_r, & r \leq a \\
 		\frac{1}{4 \pi \varepsilon_0} \frac{Q}{r^2}\vb e_r,    & r > a
 	\end{cases} \]
-If we take $a \to 0$, but keeping $Q$ fixed, this represents a point charge. Then
+If we take \(a \to 0\), but keeping \(Q\) fixed, this represents a point charge. Then
 \[ \vb E(\vb x) = \frac{1}{4 \pi \varepsilon_0} \frac{Q}{r^2}\vb e_r \]
-In this case, the charge density $\rho$ is
+In this case, the charge density \(\rho\) is
 \[ \rho(\vb x) = Q\delta(\vb x) \]
-where $\delta$ is the Dirac delta function.
+where \(\delta\) is the Dirac delta function.
 
 \subsection{Cylindrical Symmetry}
-Suppose instead that the source term $F$ is cylindrically symmetric, so $F$ is a function of $\rho$, the distance from the $z$ axis. Similarly as before, we can guess that $\phi$ is a function only of $\rho$. We can integrate $\div{\grad{\phi}} = F(\rho)$ over a cylinder $V$ of radius $R$ and height $a$.
+Suppose instead that the source term \(F\) is cylindrically symmetric, so \(F\) is a function of \(\rho\), the distance from the \(z\) axis. Similarly as before, we can guess that \(\phi\) is a function only of \(\rho\). We can integrate \(\div{\grad{\phi}} = F(\rho)\) over a cylinder \(V\) of radius \(R\) and height \(a\).
 \[ \grad{\phi} = \phi'(\rho) \vb e_\rho \]
 Hence,
 \[ \int_{V} \div{\grad{\phi}} \dd{V} = \int_{V} F(\rho) \dd{V} \]
 The left hand side becomes
 \[ \int_{\partial V} \grad\phi \cdot \dd{\vb S} \]
-On the top circle, the normal $\vb n$ would be in the $\vb e_z$ direction, and on the bottom circle, $\vb n$ would be in the $-\vb e_z$ direction. On the curved surface, $\vb n$ would be in the $\vb e_\rho$ direction. Note that since $\grad\phi$ only has a component in the $\vb e_\rho$ direction, on both the top and bottom circles will provide no contribution to the final result for this boundary integral. $\dd{\vb S} = R \dd{\phi} \dd{z} \vb e_\rho$, hence
+On the top circle, the normal \(\vb n\) would be in the \(\vb e_z\) direction, and on the bottom circle, \(\vb n\) would be in the \(-\vb e_z\) direction. On the curved surface, \(\vb n\) would be in the \(\vb e_\rho\) direction. Note that since \(\grad\phi\) only has a component in the \(\vb e_\rho\) direction, on both the top and bottom circles will provide no contribution to the final result for this boundary integral. \(\dd{\vb S} = R \dd{\phi} \dd{z} \vb e_\rho\), hence
 \[
 	\int_{\partial V} \grad\phi \cdot \dd{\vb S}
 	= \int_{\phi = 0}^{2 \pi} \int_{z = z_0}^{z_0 + a} \phi'(R) R \dd{\phi} \dd{z}
@@ -60,18 +60,18 @@ On the top circle, the normal $\vb n$ would be in the $\vb e_z$ direction, and o
 \]
 Substituting into the above equation gives
 \[ \phi'(R) = \frac{1}{2\pi a R} \int_{V} F(\rho) \dd{V} \]
-Note that the integral $\int_{V} F(\rho) \dd{V}$ is given by
+Note that the integral \(\int_{V} F(\rho) \dd{V}\) is given by
 \[ \int_{V} F(\rho) \dd{V} = \int_{\phi = 0}^{2 \pi} \dd{\phi} \int_{z = z_0}^{z_0 + a} \dd{z} \int_{\rho = 0}^R \dd{\rho} F(\rho) \rho = 2 \pi a \int_0^R F(\rho) \rho \dd{\rho} \]
 In conclusion,
 \[ \phi'(\rho) = \frac{1}{\rho} \int_0^\rho sF(s) \dd{s} \]
 
 \subsection{Example of an Infinitesimally Thick Wire}
-Consider a line of charge density $\lambda$ per unit length along the wire. We could proceed analogously to the last example before, by considering a cylinder with positive radius $a$, using Gauss' flux method, and then letting $a \to 0$. However, we will use a different method. Let $F(\rho)$ be the desired charge density. So if we integrate $F(\rho)$ over any cylinder $C$ of length 1, we should retrieve the value $\lambda$.
+Consider a line of charge density \(\lambda\) per unit length along the wire. We could proceed analogously to the last example before, by considering a cylinder with positive radius \(a\), using Gauss' flux method, and then letting \(a \to 0\). However, we will use a different method. Let \(F(\rho)\) be the desired charge density. So if we integrate \(F(\rho)\) over any cylinder \(C\) of length 1, we should retrieve the value \(\lambda\).
 \begin{align*}
 	\lambda = \int_{C} F(\rho) \dd{V} & = \int_{z = z_0}^{z_0 + 1} \dd{z} \int_{\phi = 0}^{2 \pi} \dd{\phi} \int_{\rho = 0}^R \dd{\rho} \rho F(\rho) \\
 	                                  & = 2 \pi \int_{0}^R \dd{\rho} \rho F(\rho)
 \end{align*}
-By inspection, $F$ must have the form of a delta function, so $F(\rho) = \lambda \delta(\rho) \frac{1}{2 \pi \rho}$. Hence the corresponding electric potential $\phi$ is given by
+By inspection, \(F\) must have the form of a delta function, so \(F(\rho) = \lambda \delta(\rho) \frac{1}{2 \pi \rho}\). Hence the corresponding electric potential \(\phi\) is given by
 \[ \phi'(\rho) = -\frac{1}{\varepsilon_0 \rho} \int_0^\rho \lambda \delta(s) \frac{1}{2 \pi} \dd{s} = \frac{-\lambda}{2\pi\varepsilon_0 \rho} \]
 Hence,
 \[ E(\vb x) = \frac{1}{2 \pi \varepsilon_0} \frac{\vb e_\rho}{\rho} \]

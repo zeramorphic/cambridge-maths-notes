@@ -1,9 +1,9 @@
 A discrete equation (for our purposes) is an equation involving a function that is evaluated at a discrete set of points.
 
 \subsection{Numerical Integration}
-We can consider a discrete representation of $y(x)$; let $x_1 \mapsto y_1, x_2 \mapsto y_2$ etc. We can approximate the derivative with
+We can consider a discrete representation of \(y(x)\); let \(x_1 \mapsto y_1, x_2 \mapsto y_2\) etc. We can approximate the derivative with
 \[ \eval{\frac{\dd{y}}{\dd{x}}}_{x_n} \approxeq \frac{y_{n+1} - y_n}{h} \]
-This is called the `Forward Euler' approximation of the derivative. It isn't the best, but it is asymptotically equal. We can solve the differential equation $5y' - 3y = 0$ as follows:
+This is called the `Forward Euler' approximation of the derivative. It isn't the best, but it is asymptotically equal. We can solve the differential equation \(5y' - 3y = 0\) as follows:
 \[ 5 \frac{y_{n+1} - y_n}{h} - 3y_n = 0 \]
 This is known as a difference equation. We can transform this into a recurrence relation as follows:
 \[ y_{n+1} = \left( 1 + \frac{3}{5}h \right) y_n \]
@@ -13,29 +13,29 @@ We can apply this iteratively, to get
 	        & = \left( 1 + \frac{3}{5}h \right)^2 y_{n-1} \\
 	        & = \left( 1 + \frac{3}{5}h \right)^n y_{0}
 \end{align*}
-So in the limit, this approaches the desired solution. Note that due to the approximation we used for the derivative, for finite $n$ the solution we get will be less than the actual answer.
+So in the limit, this approaches the desired solution. Note that due to the approximation we used for the derivative, for finite \(n\) the solution we get will be less than the actual answer.
 
 \subsection{Series Solutions}
 Series solutions are a powerful tool for solving ordinary differential equations. We can express the solution in terms of an infinite power series, i.e. we let
 \[ y(x) = \sum_{n=0}^\infty a_nx^n \]
-Let us try this on our original differential equation, $5y' - 3y = 0$. We have:
+Let us try this on our original differential equation, \(5y' - 3y = 0\). We have:
 \begin{align*}
 	y(x)  & = \sum_{n=0}^\infty a_nx^n     & y'(x)  & = \sum_{n=0}^\infty na_nx^{n-1} \\
-	\intertext{Multiplying by $x$ to eliminate the power of $n-1$, we have}
+	\intertext{Multiplying by \(x\) to eliminate the power of \(n-1\), we have}
 	xy(x) & = \sum_{n=0}^\infty a_nx^{n+1} & xy'(x) & = \sum_{n=0}^\infty na_nx^n     \\
-	\intertext{Matching the limits of the sums and powers of $x$:}
+	\intertext{Matching the limits of the sums and powers of \(x\):}
 	xy(x) & = \sum_{n=1}^\infty a_{n-1}x^n & xy'(x) & = \sum_{n=1}^\infty na_nx^n     \\
 \end{align*}
 We can now combine this into one equation.
 \[ 5y' - 3y = 0 \implies 5\sum_{n=1}^\infty na_nx^n - 3\sum_{n=1}^\infty a_{n-1}x^n = 0 \implies \sum_{n=1}^\infty \left[ 5nax^n - 3a_{n-1}x^n \right] = 0 \]
-Note that this holds for all $x$, so we can remove the sum and the $x^n$ term, and solve generically for $a_n$.
+Note that this holds for all \(x\), so we can remove the sum and the \(x^n\) term, and solve generically for \(a_n\).
 \begin{align*}
 	5na_n - 3a_{n-1} & = 0                                                   \\
 	\implies a_n     & = \frac{3}{5n} a_{n-1}                                \\
 	                 & = \left(\frac{3}{5}\right)^2 \frac{1}{n(n-1)} a_{n-2} \\
 	                 & = \left(\frac{3}{5}\right)^n \frac{1}{n!} a_{0}       \\
 \end{align*}
-We now have an explicit equation for $y$ as a power series.
+We now have an explicit equation for \(y\) as a power series.
 
 \subsection{Nonlinear First Order ODEs}
 Let us consider the equation
@@ -44,18 +44,18 @@ If it can be written in the form
 \[ q(y) \dd{y} = p(x) \dd{x} \]
 then by integrating both sides we can find a solution. This is known as a separable equation.
 
-Alternatively, if $Q(x, y)\dd{y} + P(x, y)\dd{x}$ is an exact differential of some multivariate function $f(x, y)$, then we call this an exact equation. Specifically, due to the multivariate chain rule, we can get
+Alternatively, if \(Q(x, y)\dd{y} + P(x, y)\dd{x}\) is an exact differential of some multivariate function \(f(x, y)\), then we call this an exact equation. Specifically, due to the multivariate chain rule, we can get
 \[ \dd{f} = \frac{\partial f}{\partial x} \dd{x} + \frac{\partial f}{\partial y} \dd{y} \]
-So we want $P(x, y) = \frac{\partial f}{\partial x}$ and $Q(x, y) = \frac{\partial f}{\partial y}$. We can exploit cross derivatives to check whether this is truly is an exact equation without having to integrate both $P$ and $Q$.
+So we want \(P(x, y) = \frac{\partial f}{\partial x}\) and \(Q(x, y) = \frac{\partial f}{\partial y}\). We can exploit cross derivatives to check whether this is truly is an exact equation without having to integrate both \(P\) and \(Q\).
 \begin{align*}
 	\frac{\partial^2 f}{\partial y \partial x} & = \frac{\partial^2 f}{\partial x \partial y} \\
 	\frac{\partial P}{\partial y}              & = \frac{\partial Q}{\partial x}              \\
 \end{align*}
-This is the key condition to check for an exact equation. More specifically, if $\frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x}$ throughout a simply connected domain $\mathcal D$, then $P \dd{x} + Q \dd{y}$ is an exact differential of a single valued function $f(x, y)$ in $\mathcal D$. A simply connected domain is essentially a domain without holes.
+This is the key condition to check for an exact equation. More specifically, if \(\frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x}\) throughout a simply connected domain \(\mathcal D\), then \(P \dd{x} + Q \dd{y}\) is an exact differential of a single valued function \(f(x, y)\) in \(\mathcal D\). A simply connected domain is essentially a domain without holes.
 
-We can find $f$ by integrating $P$ and $Q$, since they are the partial derivatives of $f$. As an example, let us solve
+We can find \(f\) by integrating \(P\) and \(Q\), since they are the partial derivatives of \(f\). As an example, let us solve
 \[ 6y(y-x)\frac{\dd{y}}{\dd{x}} + (2x - 3y^2) = 0 \]
-So here, $P = 2x - 3y^2$ and $Q = 6y(y-x)$. We can check that indeed
+So here, \(P = 2x - 3y^2\) and \(Q = 6y(y-x)\). We can check that indeed
 \begin{align*}
 	\frac{\partial P}{\partial y} & = -6y & \frac{\partial Q}{\partial x} & = -6y
 \end{align*}
@@ -64,13 +64,13 @@ So we have an exact equation as required. Now, we have
 	\eval{\frac{\partial f}{\partial x}}_y & = P = 2x - 3y^2      \\
 	\implies f                             & = x^2 - 3xy^2 + h(y)
 \end{align*}
-where $h$ is a constant with respect to $x$, so it must be some function of $y$. We can differentiate our new definition for $f$ with respect to $y$, and substitute back into what we know for $Q$.
+where \(h\) is a constant with respect to \(x\), so it must be some function of \(y\). We can differentiate our new definition for \(f\) with respect to \(y\), and substitute back into what we know for \(Q\).
 \begin{align*}
 	\eval{\frac{\partial f}{\partial y}}_x & = -6xy + \frac{\dd{h}}{\dd{y}} \\
-	\intertext{But also, from the definition of $Q$,}
+	\intertext{But also, from the definition of \(Q\),}
 	\eval{\frac{\partial f}{\partial y}}_x & = Q = 6y(y-x)                  \\
 \end{align*}
-So by comparing the two things which we know are equal, we get $\frac{\dd{h}}{\dd{y}} = 6y^2$ so $h = 2y^3 + c$. We plug this back into our value for $f$, leaving
+So by comparing the two things which we know are equal, we get \(\frac{\dd{h}}{\dd{y}} = 6y^2\) so \(h = 2y^3 + c\). We plug this back into our value for \(f\), leaving
 \[ f = x^2 - 3xy^2 + 2y^3 + c \]
 So our general solution is
 \[ x^2 - 3xy^2 + 2y^3 = d \]

@@ -16,62 +16,62 @@ Consider running Euclid's algorithm on the numbers 87 and 52.
 \end{align*}
 Each two lines of this equation represents one line on Euclid's algorithm. We end up with a linear combination of the two input numbers. We can prove that this linear combination exists in the general case.
 \begin{theorem}
-	Let $a, b \in \mathbb N$. Then there exist some $x, y \in \mathbb Z$ such that $xa + yb = \HCF(a, b)$.
+	Let \(a, b \in \mathbb N\). Then there exist some \(x, y \in \mathbb Z\) such that \(xa + yb = \HCF(a, b)\).
 \end{theorem}
 \begin{proof}
-	Run Euclid's algorithm on $a$ and $b$, and let the output be $r_n$. Then we have $r_n = x r_{n-1} + y r_{n-2}$ for some $x, y \in \mathbb Z$. So, $r_n$ can be written as a linear combination of $r_{n-1}$ and $r_{n-2}$. Also, from the previous line we know that $r_{n-1} = x r_{n-2} + y r_{n-3}$ for some other $x$ and $y$. So we can rewrite $r_{n}$ as a linear combination of $r_{n-2}$ and $r_{n-3}$. Inductively, we can rewrite $r_n$ as a linear combination of $a$ and $b$ by moving up the lines of the algorithm.
+	Run Euclid's algorithm on \(a\) and \(b\), and let the output be \(r_n\). Then we have \(r_n = x r_{n-1} + y r_{n-2}\) for some \(x, y \in \mathbb Z\). So, \(r_n\) can be written as a linear combination of \(r_{n-1}\) and \(r_{n-2}\). Also, from the previous line we know that \(r_{n-1} = x r_{n-2} + y r_{n-3}\) for some other \(x\) and \(y\). So we can rewrite \(r_{n}\) as a linear combination of \(r_{n-2}\) and \(r_{n-3}\). Inductively, we can rewrite \(r_n\) as a linear combination of \(a\) and \(b\) by moving up the lines of the algorithm.
 \end{proof}
 We can also make an alternate proof without using Euclid's algorithm. Note that this algorithm does not show how to generate this linear combination, it just shows that one exists.
 \begin{proof}[Alternate Proof]
-	Let $h$ be the least positive linear combination of $a$ and $b$. We want to prove that $h = \HCF (a, b)$.
+	Let \(h\) be the least positive linear combination of \(a\) and \(b\). We want to prove that \(h = \HCF (a, b)\).
 	\begin{itemize}
-		\item Assume that there exists some common factor $d$ of $a$ and $b$, so that $d\mid a$ and $d\mid b$. Then for some $x$ and $y$, $d \mid (xa + yb)$. So $d \mid h$.
-		\item Suppose $h$ does not divide $a$. Then $a = qh + r$ where $q$ is the quotient and $r$ is the remainder ($r \neq 0$). Then $r = a - qh = a - q(xa + yb)$ for some integers $x$ and $y$. So $r$ is a linear combination of $a$ and $b$. But this is a contradiction because we said that $h$ was the smallest one. So $h$ divides $a$.
+		\item Assume that there exists some common factor \(d\) of \(a\) and \(b\), so that \(d\mid a\) and \(d\mid b\). Then for some \(x\) and \(y\), \(d \mid (xa + yb)\). So \(d \mid h\).
+		\item Suppose \(h\) does not divide \(a\). Then \(a = qh + r\) where \(q\) is the quotient and \(r\) is the remainder (\(r \neq 0\)). Then \(r = a - qh = a - q(xa + yb)\) for some integers \(x\) and \(y\). So \(r\) is a linear combination of \(a\) and \(b\). But this is a contradiction because we said that \(h\) was the smallest one. So \(h\) divides \(a\).
 	\end{itemize}
-	Therefore $h$ is the highest common factor.
+	Therefore \(h\) is the highest common factor.
 \end{proof}
 
 \subsection{Linear Diophantine Equations}
-Suppose $a$, $b$ and $c$ are natural numbers. When can we solve $ax + by = c$ for $x, y \in \mathbb Z$? Well, by looking at the previous theorem, we might guess that $c$ must be some multiple of the highest common factor of $a$ and $b$. This can be proven in the general case.
+Suppose \(a\), \(b\) and \(c\) are natural numbers. When can we solve \(ax + by = c\) for \(x, y \in \mathbb Z\)? Well, by looking at the previous theorem, we might guess that \(c\) must be some multiple of the highest common factor of \(a\) and \(b\). This can be proven in the general case.
 \begin{corollary}[Bezout's Theorem]
-	Let $a, b, c \in \mathbb N$. Then $ax + by = c$ where $x, y \in \mathbb Z$ has a solution if and only if $\HCF(a, b) \mid c$.
+	Let \(a, b, c \in \mathbb N\). Then \(ax + by = c\) where \(x, y \in \mathbb Z\) has a solution if and only if \(\HCF(a, b) \mid c\).
 \end{corollary}
 \begin{proof}
-	Let $h = \HCF(a, b)$. We must prove this bi-implication in both directions.
+	Let \(h = \HCF(a, b)\). We must prove this bi-implication in both directions.
 	\begin{itemize}
-		\item First, let us assume that $ax+by=c$ has a solution for some integers $x$ and $y$. Since $h \mid a$ and $h \mid b$ then $h \mid (ax+by)$ so $h \mid c$.
-		\item Conversely, we know that $h = ax + by$ for some $x$ and $y$ by the above theorem. We can multiply both sides by the integer $c/h$ (this is an integer because $h \mid c$). Then we have an expression for $c$ as a linear combination of $a$ and $b$ as required.
+		\item First, let us assume that \(ax+by=c\) has a solution for some integers \(x\) and \(y\). Since \(h \mid a\) and \(h \mid b\) then \(h \mid (ax+by)\) so \(h \mid c\).
+		\item Conversely, we know that \(h = ax + by\) for some \(x\) and \(y\) by the above theorem. We can multiply both sides by the integer \(c/h\) (this is an integer because \(h \mid c\)). Then we have an expression for \(c\) as a linear combination of \(a\) and \(b\) as required.
 	\end{itemize}
 \end{proof}
 
 \subsection{Unique Prime Factorisation}
 \begin{lemma}
-	Let $p$ be a prime, let $a, b \in \mathbb N$. Then $p \mid ab$ implies $p \mid a$ or $p \mid b$.
+	Let \(p\) be a prime, let \(a, b \in \mathbb N\). Then \(p \mid ab\) implies \(p \mid a\) or \(p \mid b\).
 \end{lemma}
 \begin{proof}
-	Let $p \mid ab$. Then we have two cases, either $p$ divides $a$ or it does not divide $a$. If it does, our statement is trivially true. Otherwise, we want to prove that $p$ divides $b$.
+	Let \(p \mid ab\). Then we have two cases, either \(p\) divides \(a\) or it does not divide \(a\). If it does, our statement is trivially true. Otherwise, we want to prove that \(p\) divides \(b\).
 
-	Now $\HCF(p, a)=1$ as $p$ is a prime, and it does not divide $a$. So 1 can be written as some linear combination of $p$ and $a$: $px + ay = 1$ for some $x, y \in \mathbb Z$.
+	Now \(\HCF(p, a)=1\) as \(p\) is a prime, and it does not divide \(a\). So 1 can be written as some linear combination of \(p\) and \(a\): \(px + ay = 1\) for some \(x, y \in \mathbb Z\).
 
-	Now we can multiply both sides by $b$, giving $pbx + aby = b$. Since $p$ divides $ab$, $p$ must divide the left hand side. So $p$ divides $b$.
+	Now we can multiply both sides by \(b\), giving \(pbx + aby = b\). Since \(p\) divides \(ab\), \(p\) must divide the left hand side. So \(p\) divides \(b\).
 \end{proof}
-Note that we started with a kind of `negative' statement: `$p$ does not divide $a$'; this told us that we cannot do something (namely, factorise it). We turned it into a `positive' statement: `$px + ay = 1$'; this allows us to rearrange to find out information about these variables. Converting `negative' statements to `positive' statements is a useful tool in making proofs.
+Note that we started with a kind of `negative' statement: `\(p\) does not divide \(a\)'; this told us that we cannot do something (namely, factorise it). We turned it into a `positive' statement: `\(px + ay = 1\)'; this allows us to rearrange to find out information about these variables. Converting `negative' statements to `positive' statements is a useful tool in making proofs.
 
 \begin{theorem}[Fundamental Theorem of Arithmetic]
-	Every $n \in \mathbb N$ is uniquely expressible as a product of primes.
+	Every \(n \in \mathbb N\) is uniquely expressible as a product of primes.
 \end{theorem}
 \begin{proof}
-	Note that we have already proven that a prime factorisation is possible in Section 3.4; we just need to prove uniqueness of a factorisation (at least, down to its order). We will use induction on some integer $n$ that we wish to factorise. Clearly the theorem is true for $n=1$ (assuming empty products are valid) and $n=2$.
+	Note that we have already proven that a prime factorisation is possible in Section 3.4; we just need to prove uniqueness of a factorisation (at least, down to its order). We will use induction on some integer \(n\) that we wish to factorise. Clearly the theorem is true for \(n=1\) (assuming empty products are valid) and \(n=2\).
 
-	So given that $n > 2$ we suppose that there exist two possible factorisations:
+	So given that \(n > 2\) we suppose that there exist two possible factorisations:
 	\[ n = p_1 p_2 \cdots p_k = q_1 q_2 \cdots q_l \]
-	We want to prove that $k=l$ and that (after reordering) $p_i = q_i$ for all valid $i$.
+	We want to prove that \(k=l\) and that (after reordering) \(p_i = q_i\) for all valid \(i\).
 
-	We know that $p_1 \mid n$, so $p_1 \mid (q_1 \cdots q_l)$. So there must exist some $i$ where $p_1 \mid q_i$. But since $q_i$ is prime, $p_1 = q_i$. Let us reorder the list such that $q_i$ is moved to the front, so that $p_1 = q_1$.
+	We know that \(p_1 \mid n\), so \(p_1 \mid (q_1 \cdots q_l)\). So there must exist some \(i\) where \(p_1 \mid q_i\). But since \(q_i\) is prime, \(p_1 = q_i\). Let us reorder the list such that \(q_i\) is moved to the front, so that \(p_1 = q_1\).
 	\[ n = p_1 p_2 \cdots p_k = p_1 q_2 \cdots q_l \]
-	Now, we divide the entire equation by $p_1$ to give
+	Now, we divide the entire equation by \(p_1\) to give
 	\[ \frac{n}{p_1} = p_2 \cdots p_k = q_2 \cdots q_l \]
-	The integer $\frac{n}{p_1}$ is smaller than $n$, so we can use induction to assume that its factorisation is unique. Therefore
+	The integer \(\frac{n}{p_1}\) is smaller than \(n\), so we can use induction to assume that its factorisation is unique. Therefore
 	\[ [p_2, p_3 \cdots p_k] = [q_2, q_3 \cdots q_l] \]
-	So the prime factorisation of $n$ is unique.
+	So the prime factorisation of \(n\) is unique.
 \end{proof}

@@ -1,37 +1,37 @@
 \subsection{Taylor Series}
-Suppose that we want to approximate a function $f(x)$ using a polynomial of order $n$.
+Suppose that we want to approximate a function \(f(x)\) using a polynomial of order \(n\).
 \[ f(x) \approx \underbrace{a_0 + a_1x + a_2x^2 + \cdots + a_nx^n}_{\mathclap{\equiv p_n(x)}} \]
-By assuming that the equality holds, we may set $x=0$ to get the value of $a_0$. By differentiating the left and right hand sides $k$ times, we can evaluate both sides at $x=0$ to get the value of $a_k$. Therefore, term $a_k$ is equivalent to $f^{(k)}(0)/k!$
+By assuming that the equality holds, we may set \(x=0\) to get the value of \(a_0\). By differentiating the left and right hand sides \(k\) times, we can evaluate both sides at \(x=0\) to get the value of \(a_k\). Therefore, term \(a_k\) is equivalent to \(f^{(k)}(0)/k!\)
 \[ f(x) \approx p_n(x) = f(0) + xf'(0) + \frac{x^2}{2}f''(0) + \cdots + \frac{x^n}{n!}f^{(n)}(0) \]
-Alternatively, repeating the process at $x_0$, we get the formula for the Taylor Polynomial of degree $n$ of $f(x)$:
+Alternatively, repeating the process at \(x_0\), we get the formula for the Taylor Polynomial of degree \(n\) of \(f(x)\):
 \[ f(x) \approx p_n(x) = f(x_0) + (x-x_0)f'(x_0) + \frac{(x-x_0)^2}{2}f''(x_0) + \cdots + \frac{(x-x_0)^n}{n!}f^{(n)}(x_0) \]
 We can write
 \begin{equation}\label{taylorerror}
 	f(x) = p_n(x) + E_n
 \end{equation}
-where $E_n$ is the error at term $n$. Recall that $f(x+h) = f(x) + hf'(x) + o(h)$ as $h \to 0$. We can generalise this, provided that the first $n$ derivatives of $f(x)$ exist.
+where \(E_n\) is the error at term \(n\). Recall that \(f(x+h) = f(x) + hf'(x) + o(h)\) as \(h \to 0\). We can generalise this, provided that the first \(n\) derivatives of \(f(x)\) exist.
 \begin{equation}\label{xplush}
 	f(x+h) = f(x) + hf'(x) + \frac{h^2}{2}f''(x) + \cdots + \frac{h^n}{n!}f^{(n)}(x) + o(h^n)
 \end{equation}
 Comparing Equations \eqref{taylorerror} and \eqref{xplush}, we see that:
 \[ E_n = o(h^n) \]
 \begin{theorem}[Taylor's Theorem]
-	$E_n = O(h^{n+1})$ as $h \to 0$ provided that $f^{(n+1)}(x)$ exists.
+	\(E_n = O(h^{n+1})\) as \(h \to 0\) provided that \(f^{(n+1)}(x)\) exists.
 \end{theorem}
-Note that the big $O$ notation in Taylor's Theorem is a stronger statement than the little $o$ notation above. For example, $h^{n+a}=o(h^n)$ as $h \to 0\ \forall a \in (0, 1)$ since $\lim_{h\to 0} \frac{h^n+a}{h^n} = \lim_{h\to 0} h^a = 0$. However, $h^{n+a} \neq O(h^{n+1})$ as $h \to 0$ for $a \in (0, 1)$ because we can't bound $h^{n+a}$ using $h^{n+1}$ everywhere in the vicinity of $0$.
+Note that the big \(O\) notation in Taylor's Theorem is a stronger statement than the little \(o\) notation above. For example, \(h^{n+a}=o(h^n)\) as \(h \to 0\ \forall a \in (0, 1)\) since \(\lim_{h\to 0} \frac{h^n+a}{h^n} = \lim_{h\to 0} h^a = 0\). However, \(h^{n+a} \neq O(h^{n+1})\) as \(h \to 0\) for \(a \in (0, 1)\) because we can't bound \(h^{n+a}\) using \(h^{n+1}\) everywhere in the vicinity of \(0\).
 
 \subsection{L'H\^opital's Rule}
-Let $f(x)$ and $g(x)$ be differentiable functions at $x=x_0$, and that $\lim_{x\to x_0} f(x) = f(x_0) = 0$ and similarly for $g(x)$. L'H\^opital's Rule states that
+Let \(f(x)\) and \(g(x)\) be differentiable functions at \(x=x_0\), and that \(\lim_{x\to x_0} f(x) = f(x_0) = 0\) and similarly for \(g(x)\). L'H\^opital's Rule states that
 \[ \lim_{x\to x_0} \frac{f(x)}{g(x)} = \lim_{x\to x_0} \frac{f'(x)}{g'(x)} \text{ if } g'(x_0) \neq 0 \]
 \begin{proof}
-	As $x \to x_0$:
+	As \(x \to x_0\):
 	\begin{align*}
 		f(x)              & = f(x_0) + (x-x_0) f'(x_0) + o(x-x_0)                                       \\
 		g(x)              & = g(x_0) + (x-x_0) g'(x_0) + o(x-x_0)                                       \\
-		\intertext{But we know that $f(x_0)=g(x_0)=0$ therefore}
+		\intertext{But we know that \(f(x_0)=g(x_0)=0\) therefore}
 		\frac{f(x)}{g(x)} & = \frac{f'(x_0) + \frac{o(x-x_0)}{x-x_0}}{g'(x_0) + \frac{o(x-x_0)}{x-x_0}} \\
-		\intertext{By the definition of little $o$, $o(h)/h$ tends to zero, so}
+		\intertext{By the definition of little \(o\), \(o(h)/h\) tends to zero, so}
 		\frac{f(x)}{g(x)} & = \frac{f'(x)}{g'(x)}
 	\end{align*}
 \end{proof}
-Note that L'H\^opital's rule can be applied recursively, using higher-order derivatives. For example, consider $f(x) = 3\sin x - \sin 3x$; $g(x) = 2x - \sin 2x$. The limit approaches 3 as $x \to 0$.
+Note that L'H\^opital's rule can be applied recursively, using higher-order derivatives. For example, consider \(f(x) = 3\sin x - \sin 3x\); \(g(x) = 2x - \sin 2x\). The limit approaches 3 as \(x \to 0\).

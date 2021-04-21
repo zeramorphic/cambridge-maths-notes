@@ -1,68 +1,68 @@
 \subsection{More Properties of Conditional Expectation}
 \begin{proposition}
-	Suppose $Y$ and $Z$ are independent random variables. Then
+	Suppose \(Y\) and \(Z\) are independent random variables. Then
 	\[ \expect{\expect{X \mid Y} \mid Z} = \expect{X} \]
 \end{proposition}
 \begin{proof}
-	Let $\expect{X \mid Y} = g(Y)$ be a random variable that is a function only of $Y$. Since $Y$ and $Z$ are independent, $f(Y)$ is also independent of $Z$ for any function $f$. Then $\expect{g(Y) \mid Z} = \expect{g(Y)} = \expect{X}$.
+	Let \(\expect{X \mid Y} = g(Y)\) be a random variable that is a function only of \(Y\). Since \(Y\) and \(Z\) are independent, \(f(Y)\) is also independent of \(Z\) for any function \(f\). Then \(\expect{g(Y) \mid Z} = \expect{g(Y)} = \expect{X}\).
 \end{proof}
 \begin{proposition}
-	Suppose $h \colon \mathbb R \to \mathbb R$ is a function. Then
+	Suppose \(h \colon \mathbb R \to \mathbb R\) is a function. Then
 	\[ \expect{h(Y) \cdot X \mid Y} = h(Y) \cdot \expect{X \mid Y} \]
-	We can `take out what is known', since we know what $Y$ is.
+	We can `take out what is known', since we know what \(Y\) is.
 \end{proposition}
 \begin{proof}
-	Note that $\expect{h(Y) \cdot X \mid Y = y} = \expect{h(y) \cdot X \mid Y = y} = h(y) \expect{X \mid Y = y}$. Then $\expect{h(Y) \cdot X \mid Y} = h(y) \cdot \expect{X \mid Y}$ as required.
+	Note that \(\expect{h(Y) \cdot X \mid Y = y} = \expect{h(y) \cdot X \mid Y = y} = h(y) \expect{X \mid Y = y}\). Then \(\expect{h(Y) \cdot X \mid Y} = h(y) \cdot \expect{X \mid Y}\) as required.
 \end{proof}
 \begin{corollary}
-	$\expect{\expect{X \mid Y} \mid Y} = \expect{X \mid Y}$, and $\expect{X \mid X} = X$.
+	\(\expect{\expect{X \mid Y} \mid Y} = \expect{X \mid Y}\), and \(\expect{X \mid X} = X\).
 \end{corollary}
-\noindent Let $X_i = 1(i\text{th toss is a head})$, and $Y_n = X_1 + \dots + X_n$. We found before that $\expect{X_1 \mid Y_n} = \frac{Y_n}{n}$. By symmetry, for all $i$ we have $\expect{X_i \mid Y_n} = \expect{X_1 \mid Y_n}$. Hence
+\noindent Let \(X_i = 1(i\text{th toss is a head})\), and \(Y_n = X_1 + \dots + X_n\). We found before that \(\expect{X_1 \mid Y_n} = \frac{Y_n}{n}\). By symmetry, for all \(i\) we have \(\expect{X_i \mid Y_n} = \expect{X_1 \mid Y_n}\). Hence
 \[ \expect{Y_n \mid Y_n} = \expect{\sum_{i=1}^n X_i \mid Y_n} = \sum_{i=1}^n \expect{X_i \mid Y_n} = n \cdot \expect{X_1 \mid Y_n} \]
 which yields the same result.
 
 \subsection{Random Walks}
-A random process, also known as a stochastic process, is a sequence of random variables $X_n$ for $n \in \mathbb N$. A random walk is a random process that can be expressed as
+A random process, also known as a stochastic process, is a sequence of random variables \(X_n\) for \(n \in \mathbb N\). A random walk is a random process that can be expressed as
 \[ X_n = x + Y_1 + \dots + Y_n \]
-where the $Y_i$ are independent and identically distributed, and $x$ is a deterministic number. We will focus on the simple random walk on $\mathbb Z$, which is defined by taking
+where the \(Y_i\) are independent and identically distributed, and \(x\) is a deterministic number. We will focus on the simple random walk on \(\mathbb Z\), which is defined by taking
 \[ \prob{Y_i = 1} = p;\quad \prob{Y_i = -1} = 1-p = q \]
-This can be thought of as a specific case of a Markov chain; it has the property that the path to $X_i$ does not matter, all that matters is the value that we are at, at any point in time.
+This can be thought of as a specific case of a Markov chain; it has the property that the path to \(X_i\) does not matter, all that matters is the value that we are at, at any point in time.
 
 \subsection{Gambler's Ruin Estimate}
-What is the probability that $X_n$ reaches some value $a$ before it falls to 0? We will write $\mathbb P_x$ for the probability measure $\mathbb P$ with the condition that $X_0 = x$, i.e.
+What is the probability that \(X_n\) reaches some value \(a\) before it falls to 0? We will write \(\mathbb P_x\) for the probability measure \(\mathbb P\) with the condition that \(X_0 = x\), i.e.
 \[ \psub{x}{A} = \prob{A \mid X_0 = x} \]
-We define $h(x) = \psub{x}{(X_n) \text{ hits $a$ before hitting 0}}$. We can define a recurrence relation. By the law of total probability, we have, for $0 < x < a$,
+We define \(h(x) = \psub{x}{(X_n) \text{ hits \(a\) before hitting 0}}\). We can define a recurrence relation. By the law of total probability, we have, for \(0 < x < a\),
 \begin{align*}
-	h(x) & = \psubx{(X_n) \text{ hits $a$ before hitting 0} \mid Y_1 = 1} \cdot \psubx{Y_1 = 1}   \\
-	     & + \psubx{(X_n) \text{ hits $a$ before hitting 0} \mid Y_1 = -1} \cdot \psubx{Y_1 = -1} \\
+	h(x) & = \psubx{(X_n) \text{ hits \(a\) before hitting 0} \mid Y_1 = 1} \cdot \psubx{Y_1 = 1}   \\
+	     & + \psubx{(X_n) \text{ hits \(a\) before hitting 0} \mid Y_1 = -1} \cdot \psubx{Y_1 = -1} \\
 	     & = p \cdot h(x+1) + q \cdot h(x-1)
 \end{align*}
 Note that
 \[ h(0) = 0;\quad h(a) = 1 \]
-There are two cases; $p=q = \frac{1}{2}$ and $p \neq q$. If $p=q=\frac{1}{2}$, then
+There are two cases; \(p=q = \frac{1}{2}\) and \(p \neq q\). If \(p=q=\frac{1}{2}\), then
 \[ h(x) - h(x+1) = h(x-1) - h(x) \]
 We can then solve this to find
 \[ h(x) = \frac{x}{a} \]
-If $p \neq q$, then
+If \(p \neq q\), then
 \[ h(x) = ph(x+1) + qh(x-1) \]
-We can try a solution of the form $\lambda^x$. Substituting gives
+We can try a solution of the form \(\lambda^x\). Substituting gives
 \[ p\lambda^2 - \lambda + q = 0 \implies \lambda = 1, \frac{q}{p} \]
 The general solution can be found by using the boundary conditions.
 \[ h(x) = A + B \left( \frac{q}{p} \right)^x \implies h(x) = \frac{\left( \frac{q}{p} \right)^x - 1}{\left( \frac{q}{p} \right)^a - 1} \]
 This is known as the `gambler's ruin' estimate, since it determines whether a gambler will reach a target before going bankrupt.
 
 \subsection{Expected Time to Absorption}
-Let us define $T$ to be the first time that $x = 0$ or $x = a$. Then $T = \min \{ n \geq 0 \colon X_n \in \{ 0, a \} \}$. We want to find $\esubx{T} = \tau_x$. We can apply a condition on the first step, and use the law of total expectation to give
+Let us define \(T\) to be the first time that \(x = 0\) or \(x = a\). Then \(T = \min \{ n \geq 0 \colon X_n \in \{ 0, a \} \}\). We want to find \(\esubx{T} = \tau_x\). We can apply a condition on the first step, and use the law of total expectation to give
 \[ \tau_x = p \esubx{T \mid Y_1 = 1} + q \esubx{T \mid Y_1 = -1} \]
 Hence
 \[ \tau_x = p (\tau_{x + 1} + 1) + q (\tau_{x - 1} + 1) \]
-We can deduce that, for $0 < x < a$,
+We can deduce that, for \(0 < x < a\),
 \[ \tau_x = 1 + p \tau_{x+1} + q \tau_{x-1} \]
-and $\tau_0 = \tau_a = 0$. If $p = q = \frac{1}{2}$, then we can try a solution of the form $Ax^2$.
+and \(\tau_0 = \tau_a = 0\). If \(p = q = \frac{1}{2}\), then we can try a solution of the form \(Ax^2\).
 \[ Ax^2 = 1 + \frac{1}{2}A(x+1)^2 + \frac{1}{2}A(x-1)^2 \]
 This gives a general solution of the form
 \[ A = -1 \implies \tau_x = -x^2 + Bx + C \implies \tau_x = x(a-x) \]
-If $p \neq q$, then we will try a solution of the form $Cx$, giving
+If \(p \neq q\), then we will try a solution of the form \(Cx\), giving
 \[ C = \frac{1}{q-p} \]
 The general solution has the form
 \[ \tau_x = \frac{x}{q-p} + A + B\left( \frac{q}{p} \right)^x \implies \tau_x = \frac{x}{q-p} - \frac{q}{q-p} \cdot \frac{\left( \frac{q}{p} \right)^x - 1}{\left( \frac{q}{p} \right)^a - 1}  \]
