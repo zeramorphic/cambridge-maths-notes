@@ -1,63 +1,113 @@
 \subsection{Examples of Ratio and Root Tests}
-Consider \(\sum_1^\infty \frac{n}{2^n}\). We have
-\[ \frac{a_{n+1}}{a_n} = \frac{(n+1)/2^{n+1}}{n/2^n} \to \frac{1}{2} \]
-So we have convergence, by the ratio test. Now, consider \(\sum_1^\infty \frac{1}{n}\) and \(\sum_1^\infty \frac{1}{n^2}\). In both cases, the ratio test gives limit 1. So the ratio test is inconclusive if the limit is 1. Since \(n^{1/n} \to 1\), the root test is also inconclusive when the limit is 1. To check this limit, we can write
-\[ n^{1/n} = 1 + \delta_n;\quad \delta_n > 0 \]
-\[ n = (1 + \delta_n)^n > \frac{n(n-1)}{2}\delta_n^2 \]
+Consider \(\sum_1^\infty \frac{n}{2^n}\).
+We have
+\[
+	\frac{a_{n+1}}{a_n} = \frac{(n+1)/2^{n+1}}{n/2^n} \to \frac{1}{2}
+\]
+So we have convergence, by the ratio test.
+Now, consider \(\sum_1^\infty \frac{1}{n}\) and \(\sum_1^\infty \frac{1}{n^2}\).
+In both cases, the ratio test gives limit 1.
+So the ratio test is inconclusive if the limit is 1.
+Since \(n^{1/n} \to 1\), the root test is also inconclusive when the limit is 1.
+To check this limit, we can write
+\[
+	n^{1/n} = 1 + \delta_n;\quad \delta_n > 0
+\]
+\[
+	n = (1 + \delta_n)^n > \frac{n(n-1)}{2}\delta_n^2
+\]
 using the binomial expansion.
-\[ \implies \delta_n^2 < \frac{2}{n-1} \implies \delta_n \to 0 \]
+\[
+	\implies \delta_n^2 < \frac{2}{n-1} \implies \delta_n \to 0
+\]
 The root test is a good candidate for series that contain powers of \(n\), for example
-\[ \sum_1^\infty \left[ \frac{n+1}{3n+5} \right]^n \]
+\[
+	\sum_1^\infty \left[ \frac{n+1}{3n+5} \right]^n
+\]
 In this instance, for example, we have convergence.
 
 \subsection{Cauchy's Condensation Test}
 \begin{theorem}
-	Let \(a_n\) be a decreasing sequence of positive terms. Then \(\sum_1^\infty a_n\) converges if and only if \(\sum_1^\infty 2^n a_{2^n}\) converges.
+	Let \(a_n\) be a decreasing sequence of positive terms.
+	Then \(\sum_1^\infty a_n\) converges if and only if \(\sum_1^\infty 2^n a_{2^n}\) converges.
 \end{theorem}
 \begin{proof}
 	First, note that if \(a_n\) is decreasing, then
-	\[ a_{2^k} \underset{(\ast)}{\leq} a_{2^{k-1} + i} \underset{(\dagger)}{\leq} a_{2^{k-1}};\quad 1 \leq i \leq 2^{k-1};\quad k \geq 1 \]
-	Now let us assume that \(\sum a_n\) converges to \(A \in \mathbb R\). Then, by \((\ast)\),
+	\[
+		a_{2^k} \underset{(\ast)}{\leq} a_{2^{k-1} + i} \underset{(\dagger)}{\leq} a_{2^{k-1}};\quad 1 \leq i \leq 2^{k-1};\quad k \geq 1
+	\]
+	Now let us assume that \(\sum a_n\) converges to \(A \in \mathbb R\).
+	Then, by \((\ast)\),
 	\begin{align*}
 		2^{n-1} a_{2^n} & = a_{2^n} + a_{2^n} + \dots + a_{2^n}                \\
 		                & \leq a_{2^{n-1}+1} + a_{2^{n-1}+2} + \dots + a_{2^n} \\
 		                & = \sum_{m=2^{n-1}+1}^{2^n}a_m
 	\end{align*}
 	Thus,
-	\[ \sum_{n=1}^N 2^{n-1}a_{2^n} \leq \sum_{n=1}^N \sum_{m=2^{n-1}+1}^{2^n} a_m = \sum_{n=2}^{2^N} a_m \]
+	\[
+		\sum_{n=1}^N 2^{n-1}a_{2^n} \leq \sum_{n=1}^N \sum_{m=2^{n-1}+1}^{2^n} a_m = \sum_{n=2}^{2^N} a_m
+	\]
 	Therefore,
-	\[ \sum_{n=1}^N 2^n a_{2^n} \leq 2 \sum_{n=2}^{2^N} a_m \leq 2(A-a_1) \]
-	Thus \(\sum_{n=1}^N 2^n a_{2^n}\) converges, since it is increasing and bounded above. For the converse, we will assume that \(\sum 2^n a_{2^n}\) converges to \(B\). Using \((\dagger)\),
+	\[
+		\sum_{n=1}^N 2^n a_{2^n} \leq 2 \sum_{n=2}^{2^N} a_m \leq 2(A-a_1)
+	\]
+	Thus \(\sum_{n=1}^N 2^n a_{2^n}\) converges, since it is increasing and bounded above.
+	For the converse, we will assume that \(\sum 2^n a_{2^n}\) converges to \(B\).
+	Using \((\dagger)\),
 	\begin{align*}
 		\sum_{m=2^{n-1}}^{2^n} a_m & = a_{2^n} + a_{2^n} + \dots + a_{2^n}                \\
 		                           & \leq a_{2^{n-1}} + a_{2^{n-1}} + \dots + a_{2^{n-1}} \\
 		                           & = 2^{n-1}a_{2^{n-1}}
 	\end{align*}
 	So we have
-	\[ \sum_{m=2}^{2^N} a_m = \sum_{n=1}^N \sum_{m=2^{n-1}+1}^{2^n} a_m \leq \sum_{n=1}^N 2^{n-1} a_{2^{n-1}} \leq \frac{1}{2} B \]
+	\[
+		\sum_{m=2}^{2^N} a_m = \sum_{n=1}^N \sum_{m=2^{n-1}+1}^{2^n} a_m \leq \sum_{n=1}^N 2^{n-1} a_{2^{n-1}} \leq \frac{1}{2} B
+	\]
 	Therefore, \(\sum_{m=1}^N a_m\) is a bounded, increasing sequence and hence converges.
 \end{proof}
-\noindent Let us consider an example of this test. Consider the series definition of the Riemann zeta function
-\[ \zeta(k) = \sum_{n=1}^\infty \frac{1}{n^k} \]
+\noindent Let us consider an example of this test.
+Consider the series definition of the Riemann zeta function
+\[
+	\zeta(k) = \sum_{n=1}^\infty \frac{1}{n^k}
+\]
 For what \(k \in \mathbb R, k>0\) does this series converge? This is equivalent to asking if the following series converges.
-\[ \sum_{n=1}^\infty 2^n \left[ \frac{1}{2^n} \right]^k = \sum_{n=1}^\infty \left( 2^{1-k} \right)^n \]
+\[
+	\sum_{n=1}^\infty 2^n \left[ \frac{1}{2^n} \right]^k = \sum_{n=1}^\infty \left( 2^{1-k} \right)^n
+\]
 Hence it converges if and only if \(2^{1-k} < 1 \iff k > 1\).
 
 \subsection{Alternating Series}
 An alternating series is a series where the sign on each term switches between positive and negative.
 \begin{theorem}[Alternating Series Test]
 	If \(a_n\) decreases and tends to zero as \(u \to \infty\), then the alternating series
-	\[ \sum_1^\infty (-1)^{n+1} a_n \]
+	\[
+		\sum_1^\infty (-1)^{n+1} a_n
+	\]
 	converges.
 \end{theorem}
 \begin{proof}
 	Let us consider the partial sum
-	\[ s_n = a_1 - a_2 + a_3 - a_4 + \dots + (-1)^{n+1}a_n \]
+	\[
+		s_n = a_1 - a_2 + a_3 - a_4 + \dots + (-1)^{n+1}a_n
+	\]
 	In particular,
-	\[ s_{2n} = (a_1 - a_2) + (a_3 - a_4) + \dots + (a_{2n-1} - a_{2n}) \]
-	Since the sequence is decreasing, each parenthesised block is positive. Then \(s_{2n} \geq s_{2n-2}\). We can also write the partial sum as
-	\[ s_{2n} = a_1 - (a_2 - a_3) - (a_4 - a_5) - \dots - (a_{2n-2} - a_{2n-1}) - a_{2n} \]
-	Each parenthesised block here is negative. So \(s_{2n} \leq a_1\). So \(s_{2n}\) is increasing and bounded above, so it must converge. Now, note that
-	\[ s_{2n+1} = s_{2n} + a_{2n+1} \to s_{2n} \]
-	since \(a_{2n+1} \to 0\). So \(s_{2n+1}\) also converges, in fact to the same limit. Hence \(s_n\) converges to this same limit.
+	\[
+		s_{2n} = (a_1 - a_2) + (a_3 - a_4) + \dots + (a_{2n-1} - a_{2n})
+	\]
+	Since the sequence is decreasing, each parenthesised block is positive.
+	Then \(s_{2n} \geq s_{2n-2}\).
+	We can also write the partial sum as
+	\[
+		s_{2n} = a_1 - (a_2 - a_3) - (a_4 - a_5) - \dots - (a_{2n-2} - a_{2n-1}) - a_{2n}
+	\]
+	Each parenthesised block here is negative.
+	So \(s_{2n} \leq a_1\).
+	So \(s_{2n}\) is increasing and bounded above, so it must converge.
+	Now, note that
+	\[
+		s_{2n+1} = s_{2n} + a_{2n+1} \to s_{2n}
+	\]
+	since \(a_{2n+1} \to 0\).
+	So \(s_{2n+1}\) also converges, in fact to the same limit.
+	Hence \(s_n\) converges to this same limit.
 \end{proof}

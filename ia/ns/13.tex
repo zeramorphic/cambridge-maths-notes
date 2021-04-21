@@ -5,40 +5,56 @@ A sequence \(x_1, x_2, \cdots\) is called `increasing' if \(x_{n+1} \geq x_n\) f
 \end{theorem}
 This is a very important theorem that we will refer back to time and time again.
 \begin{note}
-	If we were in \(\mathbb Q\), this would not necessarily hold. For example, \(1, 1.4, 1.41, 1.414, 1.4142, \cdots\) (the decimal expansion of \(\sqrt{2}\)). They don't converge to a limit in \(\mathbb Q\). So our proof will have to be more rigorous than just `they have to tend to somewhere below the upper bound'; we must use a property that \(\mathbb R\) has that \(\mathbb Q\) does not have, i.e.\ the least upper bound axiom.
+	If we were in \(\mathbb Q\), this would not necessarily hold.
+	For example, \(1, 1.4, 1.41, 1.414, 1.4142, \cdots\) (the decimal expansion of \(\sqrt{2}\)).
+	They don't converge to a limit in \(\mathbb Q\).
+	So our proof will have to be more rigorous than just `they have to tend to somewhere below the upper bound'; we must use a property that \(\mathbb R\) has that \(\mathbb Q\) does not have, i.e.\ the least upper bound axiom.
 \end{note}
 \begin{proof}
-	Let \(c = \sup \{ x_1, x_2, \cdots \}\). We want to prove that \(x_n \to c\). Given some \(\varepsilon > 0\), there exists some \(n\) such that \(x_n > c - \varepsilon\) (else, \(c - \varepsilon\) would be a smaller upper bound \contradiction). As the sequence is increasing, all \(x_k\) where \(k > n\) are at least \(x_n\). So \(\abs{x_k - c} < \varepsilon\) as required.
+	Let \(c = \sup \{ x_1, x_2, \cdots \}\).
+	We want to prove that \(x_n \to c\).
+	Given some \(\varepsilon > 0\), there exists some \(n\) such that \(x_n > c - \varepsilon\) (else, \(c - \varepsilon\) would be a smaller upper bound \contradiction).
+	As the sequence is increasing, all \(x_k\) where \(k > n\) are at least \(x_n\).
+	So \(\abs{x_k - c} < \varepsilon\) as required.
 \end{proof}
-Of course, a decreasing sequence works in an identical way; if it is bounded below then it converges. More compactly, a bounded monotone sequence is convergent (where monotone means either increasing or decreasing).
+Of course, a decreasing sequence works in an identical way; if it is bounded below then it converges.
+More compactly, a bounded monotone sequence is convergent (where monotone means either increasing or decreasing).
 
 \subsection{Examples of Series Convergence}
 \begin{proposition}
 	The harmonic series
-	\[ \sum_{n=1}^\infty \frac 1 n \]
+	\[
+		\sum_{n=1}^\infty \frac 1 n
+	\]
 	diverges; the solution to the Basel problem
-	\[ \sum_{n=1}^\infty \frac 1 {n^2} \]
+	\[
+		\sum_{n=1}^\infty \frac 1 {n^2}
+	\]
 	converges.
 \end{proposition}
 There is no closed form for the \(n\)th term of either of these sequences, which is one reason that series are often more challenging to work with than regular sequences.
 \begin{proof}
-	Since the harmonic series is difficult to deal with, we will copmare it to a sequence that we understand easier. Therefore, we show that the first sequence diverges using a comparison test with powers of 2, one of the simplest series.
+	Since the harmonic series is difficult to deal with, we will copmare it to a sequence that we understand easier.
+	Therefore, we show that the first sequence diverges using a comparison test with powers of 2, one of the simplest series.
 	\begin{align*}
 		       & 1 + \frac 1 2 + \frac 1 3 + \frac 1 4 + \frac 1 5 + \frac 1 6 + \frac 1 7 + \frac 1 8 + \frac 1 9 + \cdots                                                      \\
 		\geq\  & 1 + \frac 1 2 + \underbrace{\frac 1 4 + \frac 1 4}_{\frac 1 2} + \underbrace{\frac 1 8 + \frac 1 8 + \frac 1 8 + \frac 1 8}_{\frac 1 2} + \frac 1 {16} + \cdots
 	\end{align*}
-	By inspection, we can see that the harmonic series is larger than the sum of an infinite amount of \(\frac 1 2\), so surely it must diverge. More rigorously:
+	By inspection, we can see that the harmonic series is larger than the sum of an infinite amount of \(\frac 1 2\), so surely it must diverge.
+	More rigorously:
 	\begin{align*}
 		\frac 1 3 + \frac 1 4                                              & \geq \frac 1 2                         \\
 		\frac 1 5 + \frac 1 6 + \frac 1 7 + \frac 1 8                      & \geq \frac 1 2                         \\
 		\frac{1}{2^n + 1} + \frac{1}{2^n + 2} + \cdots + \frac{1}{2^{n+1}} & \geq \frac{2^n}{2^{n+1}} = \frac{1}{2}
 	\end{align*}
-	So the partial sums of the series are unbounded, so the series diverges. For the sum of reciprocals of squares, we want to do a similar thing because again the only simple sequence we have to work with is the powers of 2.
+	So the partial sums of the series are unbounded, so the series diverges.
+	For the sum of reciprocals of squares, we want to do a similar thing because again the only simple sequence we have to work with is the powers of 2.
 	\begin{align*}
 		       & 1 + \frac 1 {2^2} + \frac 1 {3^2} + \frac 1 {4^2} + \frac 1 {5^2} + \frac 1 {6^2} + \frac 1 {7^2} + \frac 1 {8^2} + \frac 1 {9^2} + \cdots                                                           \\
 		\leq\  & 1 + \underbrace{\frac 1 {2^2} + \frac 1 {2^2}}_{\frac 2 {2^2}} + \underbrace{\frac 1 {4^2} + \frac 1 {4^2} + \frac 1 {4^2} + \frac 1 {4^2}}_{\frac 4 {4^2}} + \frac 1 {8^2} + \frac 1 {8^2} + \cdots
 	\end{align*}
-	The bottom sequence simplifies to just the sequence \(1 + \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \cdots \to 2\), and the upper sequence is bounded above by the lower sequence. More rigorously:
+	The bottom sequence simplifies to just the sequence \(1 + \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \cdots \to 2\), and the upper sequence is bounded above by the lower sequence.
+	More rigorously:
 	\begin{align*}
 		\frac{1}{2^2} + \frac{1}{3^2}                                                & \leq \frac{2}{2^2} = \frac{1}{2}         \\
 		\frac{1}{4^2} + \frac{1}{5^2} + \frac{1}{6^2} + \frac{1}{7^2}                & \leq \frac{4}{4^2} = \frac{1}{4}         \\
@@ -46,11 +62,23 @@ There is no closed form for the \(n\)th term of either of these sequences, which
 	\end{align*}
 	So the partial sums are bounded, and hence the series converges by the above theorem.
 \end{proof}
-In fact, \(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\). This is proved in the Linear Analysis course in Part II.
+In fact, \(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\).
+This is proved in the Linear Analysis course in Part II.
 
 \subsection{Decimal Expansions}
-What should \(0.a_1a_2a_3\cdots\) mean (where each \(a\) is a digit from 0 to 9)? It should be the limit of \(0.a_1\), \(0.a_1a_2\), \(0.a_1a_2a_3\) and so on. We will define it by
-\[ 0.a_1a_2a_3\cdots := \sum_{n=1}^\infty \frac{a_n}{10} \]
-This clearly converges as the partial sums are increasing and bounded above by 1, so infinite decimal expansions are valid. Conversely, given some \(x \in \mathbb R\) with \(0 < x < 1\), we can certainly write it as a (potentially infinite) decimal. We will start by choosing the greatest \(a_1\) from 0 to 9 such that \(\frac{a_1}{10} \leq x\). Thus \(0 < x - \frac{a_1}{10} < \frac{1}{10}\). Now, we can pick the greatest \(a_2\) in the set such that \(\frac{a_1}{10} + \frac{a_2}{100} \leq x\). Therefore, \(0 \leq x - \frac{a_1}{10} - \frac{a_2}{100} < \frac{1}{100}\). Continue inductively, and then we obtain a decimal expansion \(0.a_1a_2a_3\cdots\) such that \(0 \leq x - \sum_{n=1}^k \frac{a_n}{10^n} < \frac{1}{10^k}\) for any given \(k\). By the definition of convergence, the sequence given for \(a\) tends to \(x\) as required.
+What should \(0.a_1a_2a_3\cdots\) mean (where each \(a\) is a digit from 0 to 9)? It should be the limit of \(0.a_1\), \(0.a_1a_2\), \(0.a_1a_2a_3\) and so on.
+We will define it by
+\[
+	0.a_1a_2a_3\cdots := \sum_{n=1}^\infty \frac{a_n}{10}
+\]
+This clearly converges as the partial sums are increasing and bounded above by 1, so infinite decimal expansions are valid.
+Conversely, given some \(x \in \mathbb R\) with \(0 < x < 1\), we can certainly write it as a (potentially infinite) decimal.
+We will start by choosing the greatest \(a_1\) from 0 to 9 such that \(\frac{a_1}{10} \leq x\).
+Thus \(0 < x - \frac{a_1}{10} < \frac{1}{10}\).
+Now, we can pick the greatest \(a_2\) in the set such that \(\frac{a_1}{10} + \frac{a_2}{100} \leq x\).
+Therefore, \(0 \leq x - \frac{a_1}{10} - \frac{a_2}{100} < \frac{1}{100}\).
+Continue inductively, and then we obtain a decimal expansion \(0.a_1a_2a_3\cdots\) such that \(0 \leq x - \sum_{n=1}^k \frac{a_n}{10^n} < \frac{1}{10^k}\) for any given \(k\).
+By the definition of convergence, the sequence given for \(a\) tends to \(x\) as required.
 
-Note, if \(0.a_1a_2\cdots\) and \(0.b_1b_2\cdots\) are different decimal expansions of the same number, then there exists some \(N \in \mathbb N\) such that \(a_n = b_n\) for all \(n < N\) and \(a_N = b_N - 1\) and \(a_n = 9, b_n = 0\) for all \(n > N\) (or vice versa). For example, \(0.99999\dots\) is equivalent to \(1.00000\dots\)
+Note, if \(0.a_1a_2\cdots\) and \(0.b_1b_2\cdots\) are different decimal expansions of the same number, then there exists some \(N \in \mathbb N\) such that \(a_n = b_n\) for all \(n < N\) and \(a_N = b_N - 1\) and \(a_n = 9, b_n = 0\) for all \(n > N\) (or vice versa).
+For example, \(0.99999\dots\) is equivalent to \(1.00000\dots\)

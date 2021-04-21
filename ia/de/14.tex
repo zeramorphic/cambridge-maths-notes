@@ -18,41 +18,59 @@ In general:
 
 \subsection{Variation of Parameters}
 This is a method for finding the particular integral \(y_p\) given complementary functions \(y_1\), \(y_2\), which are assumed to be linearly independent, with solution vectors
-\[ \vb Y_1 = \begin{pmatrix}
+\[
+	\vb Y_1 = \begin{pmatrix}
 		y_1 \\ y_1'
 	\end{pmatrix};\quad \vb Y_2 = \begin{pmatrix}
 		y_2 \\ y_2'
-	\end{pmatrix} \]
+	\end{pmatrix}
+\]
 Suppose that the solution vector for \(y_p\) satisfies
 \begin{equation}\label{varparam1}
 	\vb Y_p = \begin{pmatrix}
 		y_p \\ y_p'
 	\end{pmatrix} = u(x)\vb Y_1 + v(x)\vb Y_2
 \end{equation}
-This is not a linear combination of \(\vb Y_1\) and \(\vb Y_2\), but we can treat it as a linear combination at a fixed \(x\) point (just as a way to visualise it). We want to find equations for \(u(x)\) and \(v(x)\). By comparing components of the vectors on the left and right, we have
+This is not a linear combination of \(\vb Y_1\) and \(\vb Y_2\), but we can treat it as a linear combination at a fixed \(x\) point (just as a way to visualise it).
+We want to find equations for \(u(x)\) and \(v(x)\).
+By comparing components of the vectors on the left and right, we have
 \begin{align*}
 	y_p  & = uy_1 + vy_2 \tag{a}   \\
 	y_p' & = uy_1' + vy_2' \tag{b} \\
 \end{align*}
 So therefore,
-\[ \frac{\dd}{\dd{x}}(\mathrm a) \implies y_p' = u'y_1 + uy_1' + v'y_2 + vy_2' \tag{c} \]
-\[ (\mathrm c) - (\mathrm b) \implies u'y_1 + v'y_2 = 0 \tag{d} \]
+\[
+	\frac{\dd}{\dd{x}}(\mathrm a) \implies y_p' = u'y_1 + uy_1' + v'y_2 + vy_2' \tag{c}
+\]
+\[
+	(\mathrm c) - (\mathrm b) \implies u'y_1 + v'y_2 = 0 \tag{d}
+\]
 Now:
-\[ \frac{\dd}{\dd{x}}(\mathrm b) \implies y_p'' = uy_1'' + u'y_1' + v'y_2' + vy_2'' \tag{e} \]
+\[
+	\frac{\dd}{\dd{x}}(\mathrm b) \implies y_p'' = uy_1'' + u'y_1' + v'y_2' + vy_2'' \tag{e}
+\]
 If \(y_p'' + p(x)y_p' + q(x)y_p = f(x)\), then
-\[ (\mathrm e) + p(\mathrm b) + q(\mathrm a) = f(x) \]
+\[
+	(\mathrm e) + p(\mathrm b) + q(\mathrm a) = f(x)
+\]
 But also, \(y_1\) and \(y_2\) satisfy the differential equation
-\[ y_c'' + py_c' + qy_c = 0\quad y_c \in \{ y_1, y_2 \} \]
+\[
+	y_c'' + py_c' + qy_c = 0\quad y_c \in \{ y_1, y_2 \}
+\]
 After we substitute in and cancel a lot of terms, we have
-\[ u'y_1' + v'y_2' = f(x) \tag{f} \]
+\[
+	u'y_1' + v'y_2' = f(x) \tag{f}
+\]
 Combining (d) and (f), we can deduce \(u\) and \(v\).
-\[ \underbrace{\begin{pmatrix}
+\[
+	\underbrace{\begin{pmatrix}
 			y_1 & y_2 \\ y_1' & y_2'
 		\end{pmatrix}}_{\mathclap{\text{fundamental matrix}}} \begin{pmatrix}
 		u' \\ v'
 	\end{pmatrix} = \begin{pmatrix}
 		0 \\ f
-	\end{pmatrix} \]
+	\end{pmatrix}
+\]
 So as long as \(y_1\) and \(y_2\) are linearly independent, i.e.\ the Wronskian is non-zero, we can write an equation for \(u'\) and \(v'\).
 \[
 	\begin{pmatrix}
@@ -69,30 +87,54 @@ or explicitly,
 	v' & = \frac{y_1 f}{W}
 \end{align*}
 and therefore
-\[ y_p = y_2 \int^x \frac{y_1(t) f(t)}{W(t)}\dd{t} - y_1 \int^x \frac{y_2(t) f(t)}{W(t)}\dd{t} \]
+\[
+	y_p = y_2 \int^x \frac{y_1(t) f(t)}{W(t)}\dd{t} - y_1 \int^x \frac{y_2(t) f(t)}{W(t)}\dd{t}
+\]
 
 \subsection{Forced Oscillating Systems: Transients and Damping}
-Many physical systems have a restoring force and damping (e.g. friction). For example, the suspension of a car could be modelled with \(y(t)\), where \(y\) is the height of the wheel, given by
-\[ M\ddot y = F(t) - \underbrace{ky}_{\text{spring}} - \underbrace{L\dot y}_{\text{damper}} \]
+Many physical systems have a restoring force and damping (e.g.
+friction).
+For example, the suspension of a car could be modelled with \(y(t)\), where \(y\) is the height of the wheel, given by
+\[
+	M\ddot y = F(t) - \underbrace{ky}_{\text{spring}} - \underbrace{L\dot y}_{\text{damper}}
+\]
 In standard form, we have
-\[ \ddot y + \frac{L}{M} \dot y + \frac{k}{m} y = \frac{F(t)}{M} \]
-Let \(\tau = \sqrt{\frac{k}{M}} t\). Then we can rewrite this equation using a single parameter:
-\[ y'' + 2Ky' + y = f(\tau) \]
+\[
+	\ddot y + \frac{L}{M} \dot y + \frac{k}{m} y = \frac{F(t)}{M}
+\]
+Let \(\tau = \sqrt{\frac{k}{M}} t\).
+Then we can rewrite this equation using a single parameter:
+\[
+	y'' + 2Ky' + y = f(\tau)
+\]
 where \(y' = \frac{\dd{y}}{\dd \tau}\), \(K = \frac{L}{2\sqrt{km}}\), \(f = \frac{F}{k}\).
 Our unforced system is described here by one parameter \(K\).
 
 In the case of the unforced response (also known as the free or natural response), we have \(f=0\), so
-\[ y'' + 2Ky' + y = 0 \]
+\[
+	y'' + 2Ky' + y = 0
+\]
 Solving by the characteristic equation, we see
-\[ \lambda = -K \pm \sqrt{K^2 - 1} \]
+\[
+	\lambda = -K \pm \sqrt{K^2 - 1}
+\]
 There are a number of cases here.
 \begin{enumerate}
-	\item (\(K < 1\)) This produces a decaying oscillation, known as `underdamped'. \(\lambda_1, \lambda_2\) are both complex, and therefore
-	      \[ y = e^{-K\tau}\left[A\sin(\sqrt{1-K^2}\tau) + B\cos(\sqrt{1-K^2}\tau)\right] \]
-	      The period is \(\frac{2\pi}{\sqrt{1-K^2}}\). As \(K\) tends to 1, the period tends to \(\infty\).
-	\item (\(K = 1\)) This is the degenerate case, \(\lambda_1 = \lambda_2 = -K\). We can use detuning to deduce
-	      \[ y = e^{-K\tau} (A + B\tau) \]
+	\item (\(K < 1\)) This produces a decaying oscillation, known as `underdamped'.
+	      \(\lambda_1, \lambda_2\) are both complex, and therefore
+	      \[
+		      y = e^{-K\tau}\left[A\sin(\sqrt{1-K^2}\tau) + B\cos(\sqrt{1-K^2}\tau)\right]
+	      \]
+	      The period is \(\frac{2\pi}{\sqrt{1-K^2}}\).
+	      As \(K\) tends to 1, the period tends to \(\infty\).
+	\item (\(K = 1\)) This is the degenerate case, \(\lambda_1 = \lambda_2 = -K\).
+	      We can use detuning to deduce
+	      \[
+		      y = e^{-K\tau} (A + B\tau)
+	      \]
 	\item (\(K > 1\)) Here, we have two negative real roots \(\lambda_1, \lambda_2\); this situation is known as `overdamped'.
-	      \[ y = Ae^{\lambda_1 \tau} + Be^{\lambda_2 \tau} \]
+	      \[
+		      y = Ae^{\lambda_1 \tau} + Be^{\lambda_2 \tau}
+	      \]
 \end{enumerate}
 Note that the unforced response decays in all cases.

@@ -1,36 +1,57 @@
 \subsection{Definition}
 A rigid body is an extended object of finite size that can be considered as a multi-particle system such that the distance between any two particles in the body remains constant, i.e.
-\[ \abs{\vb r_i - \vb r_j} = \text{constant} \]
-The possible motion of a rigid body is therefore constrained to some combination of the two basic isometries of Euclidean space, rotations and translations. We exclude reflections from this, since this would alter the `ordering' of the points in some sense.
+\[
+	\abs{\vb r_i - \vb r_j} = \text{constant}
+\]
+The possible motion of a rigid body is therefore constrained to some combination of the two basic isometries of Euclidean space, rotations and translations.
+We exclude reflections from this, since this would alter the `ordering' of the points in some sense.
 
 \subsection{Recap of Angular Velocity}
-Consider a particle rotating about an axis through the origin with angular velocity \(\vb \omega\). Let \(r_\perp\) be the perpendicular distance from \(\vb r\) to the axis of rotation. Then
-\[ \rdot = \vb\omega \times \vb r;\quad \abs{\rdot} = \omega r_\perp \]
+Consider a particle rotating about an axis through the origin with angular velocity \(\vb \omega\).
+Let \(r_\perp\) be the perpendicular distance from \(\vb r\) to the axis of rotation.
+Then
+\[
+	\rdot = \vb\omega \times \vb r;\quad \abs{\rdot} = \omega r_\perp
+\]
 If the particle has mass \(m\), then the kinetic energy \(T\) is given by
-\[ T = \frac{1}{2}m\rdot^2 = \frac{1}{2}m (\vb\omega \times \vb r) \cdot (\vb\omega \times \vb r) = \frac{1}{2}m\omega^2 r_\perp^2 \]
-Note that if \(\vb\omega = \omega \vb n\), then \(r_\perp = \abs{\vb n \times \vb r}\). We will define the moment of inertia \(I\) to be
-\[ I = mr_\perp^2 \implies T = \frac{1}{2}I\omega^2 \]
+\[
+	T = \frac{1}{2}m\rdot^2 = \frac{1}{2}m (\vb\omega \times \vb r) \cdot (\vb\omega \times \vb r) = \frac{1}{2}m\omega^2 r_\perp^2
+\]
+Note that if \(\vb\omega = \omega \vb n\), then \(r_\perp = \abs{\vb n \times \vb r}\).
+We will define the moment of inertia \(I\) to be
+\[
+	I = mr_\perp^2 \implies T = \frac{1}{2}I\omega^2
+\]
 
 \subsection{Moment of Inertia for a Rigid body}
-Consider a rigid body to be made up of \(N\) particles, rotating about an axis through the origin, with angular velocity \(\vb \omega\). For each particle in the body,
-\[ \rdot_i = \vb \omega \times \vb r_i \]
+Consider a rigid body to be made up of \(N\) particles, rotating about an axis through the origin, with angular velocity \(\vb \omega\).
+For each particle in the body,
+\[
+	\rdot_i = \vb \omega \times \vb r_i
+\]
 Note that
 \begin{align*}
 	\dv{t} \abs{\vb r_i - \vb r_j}^2 & = 2(\vb r_i - \vb r_j) \cdot (\rdot_i - \rdot_j)                 \\
 	                                 & = 2(\vb r_i - \vb r_j) \cdot (\omega \times (\vb r_i - \vb r_j)) \\
 	                                 & = 0
 \end{align*}
-which is consistent with the expected properties of the rigid body. Consider the kinetic energy of the entire body, which is the sum of the energies of the component particles.
+which is consistent with the expected properties of the rigid body.
+Consider the kinetic energy of the entire body, which is the sum of the energies of the component particles.
 \begin{align*}
 	T & = \sum_{i=1}^N \frac{1}{2}m_i \vb r_i^2                              \\
 	  & = \sum_{i=1}^N \frac{1}{2}m_i \abs{\vb\omega \times \vb r_i}^2       \\
 	  & = \frac{1}{2} \omega^2 \sum_{i=1}^N m_i \abs{\vb n \times \vb r_i}^2 \\
 	  & = \frac{1}{2}I\omega^2
 \end{align*}
-where \(I = \sum_{i=1}^N m_i \abs{\vb n \times \vb r_i}^2\) is the moment of inertia of the body for a rotation of axis \(\vb n\) through the origin. Now, we can consider the angular momentum.
-\[ \vb L = \sum_{i=1}^N m_i \vb r_i \times (\vb \omega \times \vb r_i) \]
+where \(I = \sum_{i=1}^N m_i \abs{\vb n \times \vb r_i}^2\) is the moment of inertia of the body for a rotation of axis \(\vb n\) through the origin.
+Now, we can consider the angular momentum.
+\[
+	\vb L = \sum_{i=1}^N m_i \vb r_i \times (\vb \omega \times \vb r_i)
+\]
 In the case that \(\vb\omega = \omega \vb n\), we have
-\[ \vb L = \omega \sum_{i=1}^N m_i \vb r_i \times (\vb n \times \vb r_i) \]
+\[
+	\vb L = \omega \sum_{i=1}^N m_i \vb r_i \times (\vb n \times \vb r_i)
+\]
 Now, we will consider just the component of \(\vb L\) that is parallel to the rotation axis.
 \begin{align*}
 	\vb L \cdot \vb n & = \omega \sum_{i=1}^N m_i \vb n \cdot (\vb r_i \times (\vb n \times \vb r_i)) \\
@@ -38,38 +59,86 @@ Now, we will consider just the component of \(\vb L\) that is parallel to the ro
 	                  & = \omega\sum_{i=1}^N m_i {\dot r}_{i\perp}^2                                  \\
 	                  & = I\omega
 \end{align*}
-Therefore the component of the angular momentum in the direction of the rotation axis is \(I\omega\). However, it is not the case that \(\vb L\) \textit{only} has a component in the direction of the rotation axis; indeed it is possible that it may have more components in other directions. We can derive that
+Therefore the component of the angular momentum in the direction of the rotation axis is \(I\omega\).
+However, it is not the case that \(\vb L\) \textit{only} has a component in the direction of the rotation axis; indeed it is possible that it may have more components in other directions.
+We can derive that
 \begin{align*}
 	\vb L & = \omega \sum_{i=1}^N m_i \vb r_i \times (\vb n \times \vb r_i)                            \\
 	      & = \omega \sum_{i=1}^N m_i (\abs{\vb r_i}^2 \vb\omega - (\vb r_i \cdot \vb \omega) \vb r_i)
 \end{align*}
-which is a linear function of the vector \(\vb\omega\). For instance, in terms of suffix notation (which is not examinable),
-\[ \vb L_\alpha = I_{\alpha\beta} \omega_\beta \]
-for some symmetric tensor \(I\) (symmetric since \(I_{\alpha\beta} = I_{\beta\alpha}\)). In fact, we can deduce
-\[ I_{\alpha\beta} = \sum_{i=1}^N m_i \left\{ \abs{\vb r_i}^2 \delta_{\alpha\beta} - (\vb r_i)_\alpha (\vb r_i)_\beta \right\} \]
-In general therefore, there are three principal axes; three linearly independent directions \(\vb \omega\) such that \(I \cdot \vb w\) is parallel to \(\vb w\). If a body is rotated about one of these principal axes, the angular momentum \(\vb L\) will be parallel to \(\vb\omega\). This holds for any shape of body, since it is simply a property of matrices. To recap, if we choose to rotate in a direction such that \(\vb L\) is parallel to \(\vb \omega\), then
-\[ \vb L = I(\vb n) \vb \omega \]
-where \(I(\vb n)\) is the moment of inertia about this axis \(\vb n\). Note that since we often consider bodies which are symmetric about a particular axis, rotating about this axis guarantees this above property. Further note the similarities between the equations for angular and linear velocities and energies:
-\[ T = \frac{1}{2}I\omega^2, \vb L = I\vb\omega;\quad T = \frac{1}{2}mv^2, \vb p = m\vb v \]
+which is a linear function of the vector \(\vb\omega\).
+For instance, in terms of suffix notation (which is not examinable),
+\[
+	\vb L_\alpha = I_{\alpha\beta} \omega_\beta
+\]
+for some symmetric tensor \(I\) (symmetric since \(I_{\alpha\beta} = I_{\beta\alpha}\)).
+In fact, we can deduce
+\[
+	I_{\alpha\beta} = \sum_{i=1}^N m_i \left\{ \abs{\vb r_i}^2 \delta_{\alpha\beta} - (\vb r_i)_\alpha (\vb r_i)_\beta \right\}
+\]
+In general therefore, there are three principal axes; three linearly independent directions \(\vb \omega\) such that \(I \cdot \vb w\) is parallel to \(\vb w\).
+If a body is rotated about one of these principal axes, the angular momentum \(\vb L\) will be parallel to \(\vb\omega\).
+This holds for any shape of body, since it is simply a property of matrices.
+To recap, if we choose to rotate in a direction such that \(\vb L\) is parallel to \(\vb \omega\), then
+\[
+	\vb L = I(\vb n) \vb \omega
+\]
+where \(I(\vb n)\) is the moment of inertia about this axis \(\vb n\).
+Note that since we often consider bodies which are symmetric about a particular axis, rotating about this axis guarantees this above property.
+Further note the similarities between the equations for angular and linear velocities and energies:
+\[
+	T = \frac{1}{2}I\omega^2, \vb L = I\vb\omega;\quad T = \frac{1}{2}mv^2, \vb p = m\vb v
+\]
 
 \subsection{Calculating Moments of Inertia}
-For a solid body, instead of considering finite sums of particles we instead consider integrals. Consider a body occupying a volume \(V\), with mass density \(\rho(\vb r)\). Then we can compute the total mass \(m\) by
-\[ M = \int_V \rho \dd{V} \]
+For a solid body, instead of considering finite sums of particles we instead consider integrals.
+Consider a body occupying a volume \(V\), with mass density \(\rho(\vb r)\).
+Then we can compute the total mass \(m\) by
+\[
+	M = \int_V \rho \dd{V}
+\]
 The centre of mass is given by
-\[ \vb R = \frac{1}{M} \int_V \rho \vb r \dd{V} \]
+\[
+	\vb R = \frac{1}{M} \int_V \rho \vb r \dd{V}
+\]
 The moment of inertia about an axis \(\vb n\) is
-\[ I = \int_V \rho \abs{\vb r_\perp}^2 \dd{V} = \int_V \rho \abs{\vb n \times \vb r}^2 \dd{V} \]
-We can alternatively formulate these volume integrals as surface or line integrals in order to compute these quantities for mass distributed on a sheet or along a curve. We can explicitly calculate these values for simple shapes.
+\[
+	I = \int_V \rho \abs{\vb r_\perp}^2 \dd{V} = \int_V \rho \abs{\vb n \times \vb r}^2 \dd{V}
+\]
+We can alternatively formulate these volume integrals as surface or line integrals in order to compute these quantities for mass distributed on a sheet or along a curve.
+We can explicitly calculate these values for simple shapes.
 \begin{enumerate}
-	\item Consider a uniform thin ring of total mass \(M\) and radius \(a\). Let \(\rho\) be the mass per unit length, which is therefore \(M/2\pi a\). The moment of inertia about an axis through the centre of the ring and perpendicular to the plane of the ring is given by
-	      \[ I = \int_0^{2\pi} \frac{M}{2\pi a} a^2 a \dd{\theta} = a^2 M \]
+	\item Consider a uniform thin ring of total mass \(M\) and radius \(a\).
+	      Let \(\rho\) be the mass per unit length, which is therefore \(M/2\pi a\).
+	      The moment of inertia about an axis through the centre of the ring and perpendicular to the plane of the ring is given by
+	      \[
+		      I = \int_0^{2\pi} \frac{M}{2\pi a} a^2 a \dd{\theta} = a^2 M
+	      \]
 	      This is easy to compute since every point in the body has \(r_\perp = a\).
-	\item Consider a uniform thin rod of total mass \(M\) and length \(\ell\). The axis of rotation is at one end of the rod, and the rod is rotating about an axis perpendicular to its length. Here, \(\rho = M/\ell\).
-	      \[ I = \int_0^\ell \frac{M}{\ell} x^2 \dd{x} = \frac{1}{3}M\ell^2 \]
-	\item Consider a uniform thin disc of mass \(M\), radius \(a\) with the axis of rotation through the centre of the disc, perpendicular to the plane of the disc. We will use an area integral, and let \(\rho = \frac{M}{\pi a^2}\) be the mass per unit area. In plane polar coordinates,
-	      \[ I = \int_{r=0}^a \dd{r} \int_{\theta = 0}^{2 \pi} \dd{\theta} \frac{M}{\pi a^2} r^2 r = \frac{1}{2}Ma^2 \]
-	\item Consider the same disc, but with the axis of rotation through the centre, in the plane of the disc. Again in plane polar coordinates, we can let \(\theta\) be the angle between the axis of rotation and the line through the point and the centre of mass. Therefore \(r_\perp = r\sin\theta\). Hence,
-	      \[ I = \int_{r=0}^a \dd{r} \int_{\theta = 0}^{2 \pi} \dd{\theta} \frac{M}{\pi a^2} r^2 \sin^2\theta r = \frac{1}{4}Ma^2 \]
-	\item Consider a uniform sphere with mass \(M\) and radius \(a\), with axis of rotation through the centre of the sphere. Then \(\rho\), the density per unit volume, is \(\frac{3M}{4\pi a^3}\). In spherical polar coordinates, we can let the \(\theta = 0\) axis be the axis of rotation. Then
-	      \[ I = \int_{r=0}^a \dd{r} \int_{\theta = 0}^{\pi} \dd{\theta} \int_{\phi = 0}^{2 \pi} \dd{\phi} \frac{3M}{4\pi a^3} r^2 \sin^2 \theta r^2\sin\theta = \frac{2}{5}Ma^2 \]
+	\item Consider a uniform thin rod of total mass \(M\) and length \(\ell\).
+	      The axis of rotation is at one end of the rod, and the rod is rotating about an axis perpendicular to its length.
+	      Here, \(\rho = M/\ell\).
+	      \[
+		      I = \int_0^\ell \frac{M}{\ell} x^2 \dd{x} = \frac{1}{3}M\ell^2
+	      \]
+	\item Consider a uniform thin disc of mass \(M\), radius \(a\) with the axis of rotation through the centre of the disc, perpendicular to the plane of the disc.
+	      We will use an area integral, and let \(\rho = \frac{M}{\pi a^2}\) be the mass per unit area.
+	      In plane polar coordinates,
+	      \[
+		      I = \int_{r=0}^a \dd{r} \int_{\theta = 0}^{2 \pi} \dd{\theta} \frac{M}{\pi a^2} r^2 r = \frac{1}{2}Ma^2
+	      \]
+	\item Consider the same disc, but with the axis of rotation through the centre, in the plane of the disc.
+	      Again in plane polar coordinates, we can let \(\theta\) be the angle between the axis of rotation and the line through the point and the centre of mass.
+	      Therefore \(r_\perp = r\sin\theta\).
+	      Hence,
+	      \[
+		      I = \int_{r=0}^a \dd{r} \int_{\theta = 0}^{2 \pi} \dd{\theta} \frac{M}{\pi a^2} r^2 \sin^2\theta r = \frac{1}{4}Ma^2
+	      \]
+	\item Consider a uniform sphere with mass \(M\) and radius \(a\), with axis of rotation through the centre of the sphere.
+	      Then \(\rho\), the density per unit volume, is \(\frac{3M}{4\pi a^3}\).
+	      In spherical polar coordinates, we can let the \(\theta = 0\) axis be the axis of rotation.
+	      Then
+	      \[
+		      I = \int_{r=0}^a \dd{r} \int_{\theta = 0}^{\pi} \dd{\theta} \int_{\phi = 0}^{2 \pi} \dd{\phi} \frac{3M}{4\pi a^3} r^2 \sin^2 \theta r^2\sin\theta = \frac{2}{5}Ma^2
+	      \]
 \end{enumerate}

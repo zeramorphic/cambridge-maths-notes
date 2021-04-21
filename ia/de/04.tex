@@ -9,19 +9,28 @@ For example, if \(f(x,y) = x^2 + y^3 + e^{xy^2}\), we have
 	\eval{\frac{\partial^2 f}{\partial x^2}}_{y} & = 2 + y^4 e^{xy^2}
 \end{align*}
 We can also define `cross-derivatives' by differentiating successively with respect to different variables, for example
-\[ \eval{\frac{\partial}{\partial y} \left( \eval{\frac{\partial f}{\partial x}}_{y} \right)}_{x} = 2ye^{xy^2} + 2xy^3e^{xy^2} \]
+\[
+	\eval{\frac{\partial}{\partial y} \left( \eval{\frac{\partial f}{\partial x}}_{y} \right)}_{x} = 2ye^{xy^2} + 2xy^3e^{xy^2}
+\]
 The order of computation of cross-derivatives is irrelevant, provided that the required derivatives all exist.
 \begin{equation}
 	\frac{\partial^2 f}{\partial x \partial y} = \frac{\partial}{\partial x}\frac{\partial f}{\partial y} = \frac{\partial}{\partial y}\frac{\partial f}{\partial x} = \frac{\partial^2 f}{\partial y \partial x}
 \end{equation}
-We use a subscript shorthand to denote partial differentiation. Where the point of evaluation of the derivative is not stated, it is implied to be fixed. For example:
-\[ \eval{\frac{\partial f}{\partial x}}_{y} = \frac{\partial f}{\partial x} = f_x \]
+We use a subscript shorthand to denote partial differentiation.
+Where the point of evaluation of the derivative is not stated, it is implied to be fixed.
+For example:
+\[
+	\eval{\frac{\partial f}{\partial x}}_{y} = \frac{\partial f}{\partial x} = f_x
+\]
 However, with a function \(f(x, y, z)\):
-\[ \eval{\frac{\partial f}{\partial x}}_{yz} \neq \eval{\frac{\partial f}{\partial x}}_{y} \]
+\[
+	\eval{\frac{\partial f}{\partial x}}_{yz} \neq \eval{\frac{\partial f}{\partial x}}_{y}
+\]
 because \(z\) is not fixed.
 
 \subsection{Multivariate Chain Rule}
-In this section, all use of \(o\) notation is defined to be where all required \(\delta\) values approach 0. We define the differential of a two-valued function \(f(x, y)\) to be
+In this section, all use of \(o\) notation is defined to be where all required \(\delta\) values approach 0.
+We define the differential of a two-valued function \(f(x, y)\) to be
 \begin{equation}\label{differential}
 	\delta f = f(x + \delta x, y + \delta y) - f(x, y)
 \end{equation}
@@ -30,7 +39,9 @@ We can evaluate this differential by rewriting \eqref{differential} as
 	\delta f =\  & f(x + \delta x, y + \delta y) - f(x + \delta x, y)\ + \\
 	             & f(x + \delta x, y) - f(x, y)
 \end{align*}
-We can move from \((x, y)\) to \((x + \delta x, y + \delta y)\) along the path \((x, y) \to (x + \delta x, y) \to (x + \delta x, y + \delta y)\). If we move in this way, then we only need to worry about derivatives in the directions of our axes. From here on in the derivation, the first line will always represent the path segment in the \(y\) direction, and the second line will represent the path segment in the \(x\) direction.
+We can move from \((x, y)\) to \((x + \delta x, y + \delta y)\) along the path \((x, y) \to (x + \delta x, y) \to (x + \delta x, y + \delta y)\).
+If we move in this way, then we only need to worry about derivatives in the directions of our axes.
+From here on in the derivation, the first line will always represent the path segment in the \(y\) direction, and the second line will represent the path segment in the \(x\) direction.
 
 Now that we've separated the differential into these two axes, we can use Taylor series, treating each line as a single-valued function, to expand each of these path segments along the matching axis.
 \begin{align*}
@@ -52,7 +63,8 @@ Expanding out this bracket leaves
 	\delta f =\  & \delta y\frac{\partial f}{\partial y}(x, y) + \delta x\delta y\frac{\partial^2 f}{\partial y^2}(x, y) + o(\delta x \delta y) + o(\delta y)\ + \\
 	             & \delta x \frac{\partial f}{\partial x}(x, y) + o(\delta x)
 \end{align*}
-We will now change the meanings of each line. Now, we will group terms by factors.
+We will now change the meanings of each line.
+Now, we will group terms by factors.
 \begin{align*}
 	\delta f =\  & \delta x \frac{\partial f}{\partial x}(x, y) + o(\delta x)\ +                  \\
 	             & \delta y\frac{\partial f}{\partial y}(x, y) + o(\delta y)\ +                   \\
@@ -69,7 +81,8 @@ Finally, we can eliminate the \(\delta x \delta y\) term because it is vanishing
 	\delta f = \delta x \frac{\partial f}{\partial x}(x, y) +
 	\delta y\frac{\partial f}{\partial y}(x, y)
 \end{equation}
-This is the differential form of the multivariate chain rule. We can take the result of this equation in the limit to create the infinitesimal form:
+This is the differential form of the multivariate chain rule.
+We can take the result of this equation in the limit to create the infinitesimal form:
 \begin{equation}\label{mvcr}
 	\dd{f} = \dd{x} \frac{\partial f}{\partial x}(x, y) +
 	\dd{y}\frac{\partial f}{\partial y}(x, y)
@@ -77,11 +90,14 @@ This is the differential form of the multivariate chain rule. We can take the re
 
 \subsection{Integral form of Multivariate Chain Rule}
 By integrating \eqref{mvcr}, we get
-\[ \int \dd{f} = \int \frac{\partial f}{\partial x}\ \dd{x} + \int \frac{\partial f}{\partial y}\ \dd{y} \]
+\[
+	\int \dd{f} = \int \frac{\partial f}{\partial x}\ \dd{x} + \int \frac{\partial f}{\partial y}\ \dd{y}
+\]
 In definite integral form, we can write
 \begin{align*}
 	f(x_2 - x_1, y_2 - y_1) & = \int_{x_1}^{x_2} \frac{\partial f}{\partial x}(x, y_1)\ \dd{x} + \int_{y_1}^{y_2} \frac{\partial f}{\partial y}(x_2, y)\ \dd{y}    \\
 	                        & = \int_{y_1}^{y_2} \frac{\partial f}{\partial y}(x_1, y)\ \dd{y} + \int_{x_1}^{x_2} \frac{\partial f}{\partial x}(x, y_2)\ \dd{x}    \\
 	                        & \neq \int_{x_1}^{x_2} \frac{\partial f}{\partial x}(x, y_1)\ \dd{x} + \int_{y_1}^{y_2} \frac{\partial f}{\partial y}(x_1, y)\ \dd{y}
 \end{align*}
-Note that the first two examples of a right hand side go along the paths \((x_1, y_1) \to (x_2, y_1) \to (x_2, y_2)\) and \((x_1, y_1) \to (x_1, y_2) \to (x_2, y_2)\) by performing the integrals. However, the last example does not follow a path from \((x_1, y_1)\) to \((x_2, y_2)\), so it is invalid.
+Note that the first two examples of a right hand side go along the paths \((x_1, y_1) \to (x_2, y_1) \to (x_2, y_2)\) and \((x_1, y_1) \to (x_1, y_2) \to (x_2, y_2)\) by performing the integrals.
+However, the last example does not follow a path from \((x_1, y_1)\) to \((x_2, y_2)\), so it is invalid.

@@ -1,112 +1,199 @@
 \subsection{Types of Convergence}
 \begin{definition}
 	A sequence \((X_n)\) converges to \(X\) \textit{in probability}, written \(X_n \convprob X\) as \(n \to \infty\) if for all \(\varepsilon > 0\),
-	\[ \prob{\abs{X_n - X} > \varepsilon} \to 0;\quad n \to \infty \]
+	\[
+		\prob{\abs{X_n - X} > \varepsilon} \to 0;\quad n \to \infty
+	\]
 \end{definition}
 \begin{definition}
 	A sequence \((X_n)\) converges to \(X\) \textit{almost surely} (with probability 1), if
-	\[ \prob{\lim_{n \to \infty} X_n = X } = 1 \]
+	\[
+		\prob{\lim_{n \to \infty} X_n = X } = 1
+	\]
 \end{definition}
-\noindent This second definition is a stronger form of convergence. If a sequence \((X_n)\) converges to zero almost surely, then \(X_n \convprob 0\) as \(n \to \infty\).
+\noindent This second definition is a stronger form of convergence.
+If a sequence \((X_n)\) converges to zero almost surely, then \(X_n \convprob 0\) as \(n \to \infty\).
 \begin{proof}
 	We want to show that given any \(\varepsilon > 0\), \(\prob{\abs{X_n} > \varepsilon} \to 0\) as \(n \to \infty\), or equivalently, \(\prob{\abs{X_n} \leq \varepsilon} \to 1\).
-	\[ \prob{\abs{X_n} \leq \varepsilon} \geq \prob{\underbrace{\bigcap_{m = n}^\infty  \qty{\abs{X_m} \leq \varepsilon}}_{A_n}} \]
+	\[
+		\prob{\abs{X_n} \leq \varepsilon} \geq \prob{\underbrace{\bigcap_{m = n}^\infty  \qty{\abs{X_m} \leq \varepsilon}}_{A_n}}
+	\]
 	Note that \(A_n\) is an increasing sequence of events, and
-	\[ \bigcup_n A_n = \qty{\abs{X_m} \leq \varepsilon \text{ for all } m \text{ sufficiently large}} \]
+	\[
+		\bigcup_n A_n = \qty{\abs{X_m} \leq \varepsilon \text{ for all } m \text{ sufficiently large}}
+	\]
 	Hence, as \(n \to \infty\),
-	\[ \prob{A_n} \to \prob{\bigcup A_n} \]
+	\[
+		\prob{A_n} \to \prob{\bigcup A_n}
+	\]
 	Therefore,
-	\[ \lim_{n \to \infty} \prob{\abs{X_n} \leq \varepsilon} \geq \lim_{n \to \infty} \prob{A_n} = \prob{\bigcup A_n} \geq \prob{\lim_{n \to \infty} X_n = 0} \]
+	\[
+		\lim_{n \to \infty} \prob{\abs{X_n} \leq \varepsilon} \geq \lim_{n \to \infty} \prob{A_n} = \prob{\bigcup A_n} \geq \prob{\lim_{n \to \infty} X_n = 0}
+	\]
 	Since \(X_n\) converges to zero almost surely, this event on the right hand side has probability 1, so in particular the limit on the left has probability 1, as required.
 \end{proof}
 
 \subsection{Strong Law of Large Numbers}
 \begin{theorem}
-	Let \((X_n)_{n \in \mathbb N}\) be an independent and identically distributed sequence of random variables, with \(\mu = \expect{X_1}\) finite. Let \(S_n = X_1 + \dots + X_n\). Then
-	\[ \frac{S_n}{n} \to \mu \text{ as } n \to \infty \text{ almost surely} \]
+	Let \((X_n)_{n \in \mathbb N}\) be an independent and identically distributed sequence of random variables, with \(\mu = \expect{X_1}\) finite.
+	Let \(S_n = X_1 + \dots + X_n\).
+	Then
+	\[
+		\frac{S_n}{n} \to \mu \text{ as } n \to \infty \text{ almost surely}
+	\]
 	In other words,
-	\[ \prob{\lim_{n \to \infty}\frac{S_n}{n}\to \mu} = 1 \]
+	\[
+		\prob{\lim_{n \to \infty}\frac{S_n}{n}\to \mu} = 1
+	\]
 \end{theorem}
-\noindent The following proof, made under the assumption of a finite fourth moment, is non-examinable. A proof can be formulated without this assumption, but it is more complicated.
+\noindent The following proof, made under the assumption of a finite fourth moment, is non-examinable.
+A proof can be formulated without this assumption, but it is more complicated.
 \begin{proof}
-	Let \(Y_i = X_i - \mu\). Then \(\expect{Y_i} = 0\), and \(\expect{Y_i^4} \leq 2^4(\expect{X_i^4} + \mu^4) < \infty\). It then suffices to show that
-	\[ \frac{S_n}{n} \to 0 \text{ a.s.} \]
-	where \(S_n = \sum_1^n X_i\) and \(\expect{X_i} = 0\), \(\expect{X_i^4} < \infty\). First,
-	\[ S_n^4 = \left( \sum_{i=1}^n X_i \right)^4 = \sum_{i=1}^n X_i^4 + \binom{4}{2}\sum_{i=1}^n X_i^2 X_j^2 + R \]
-	where \(R\) is a sum of terms of the form \(X_i^2 X_j X_k\) or \(X_i^3 X_j\) or \(X_i X_j X_k X_\ell\) for \(i, j, k, l\) distinct. Once we take expectations, each term in \(R\) will have no contribution to the result, since they all contain an \(\expect{X_i} = 0\) term.
+	Let \(Y_i = X_i - \mu\).
+	Then \(\expect{Y_i} = 0\), and \(\expect{Y_i^4} \leq 2^4(\expect{X_i^4} + \mu^4) < \infty\).
+	It then suffices to show that
+	\[
+		\frac{S_n}{n} \to 0 \text{ a.s.}
+	\]
+	where \(S_n = \sum_1^n X_i\) and \(\expect{X_i} = 0\), \(\expect{X_i^4} < \infty\).
+	First,
+	\[
+		S_n^4 = \left( \sum_{i=1}^n X_i \right)^4 = \sum_{i=1}^n X_i^4 + \binom{4}{2}\sum_{i=1}^n X_i^2 X_j^2 + R
+	\]
+	where \(R\) is a sum of terms of the form \(X_i^2 X_j X_k\) or \(X_i^3 X_j\) or \(X_i X_j X_k X_\ell\) for \(i, j, k, l\) distinct.
+	Once we take expectations, each term in \(R\) will have no contribution to the result, since they all contain an \(\expect{X_i} = 0\) term.
 	\begin{align*}
 		\expect{S_n^4} & = n\expect{X_i^4} + \binom{4}{2}\frac{n(n-1)}{2}\expect{X_i^2 X_j^2} + \expect{R} \\
 		               & = n\expect{X_1^4} + 3n(n-1)\expect{X_1^2}\expect{X_1^2}                           \\
 		               & \leq n\expect{X_1^4} + 3n(n-1)\expect{X_1^4}                                      \\
 		               & = 3n^2\expect{X_1^4}
 	\end{align*}
-	by Jensen's inequality. Now,
-	\[ \expect{\sum_{n=1}^\infty \qty(\frac{S_n}{n})^4} \leq \sum_{n=1}^\infty \frac{3}{n^2}\expect{X_1^4} < \infty \]
+	by Jensen's inequality.
+	Now,
+	\[
+		\expect{\sum_{n=1}^\infty \qty(\frac{S_n}{n})^4} \leq \sum_{n=1}^\infty \frac{3}{n^2}\expect{X_1^4} < \infty
+	\]
 	Hence,
-	\[ \sum_{n=1}^\infty \qty(\frac{S_n}{n})^4 < \infty \text{ with probability 1} \]
+	\[
+		\sum_{n=1}^\infty \qty(\frac{S_n}{n})^4 < \infty \text{ with probability 1}
+	\]
 	Then since the sum of infinitely many positive terms is finite, the terms must converge to zero.
-	\[ \lim_{n\to\infty}\frac{S_n}{n} \to 0 \text{ a.s.} \]
+	\[
+		\lim_{n\to\infty}\frac{S_n}{n} \to 0 \text{ a.s.}
+	\]
 \end{proof}
 
 \subsection{Central Limit Theorem}
 Suppose, like before, that we have a sequence of independent and identically distributed random variables \(X_n\), and suppose further that \(\expect{X_1} = \mu\), and \(\Var{X_1} = \sigma^2 < \infty\).
-\[ \Var{\frac{S_n}{n} - \mu} = \frac{\sigma^2}{n} \]
+\[
+	\Var{\frac{S_n}{n} - \mu} = \frac{\sigma^2}{n}
+\]
 We can normalise this new random variable \(\frac{S_n}{n} - \mu\) by dividing by its standard deviation.
-\[ \frac{\frac{S_n}{n} - \mu}{\sqrt{\Var{\frac{S_n}{n} - \mu}}} = \frac{\frac{S_n}{n} - \mu}{\frac{\sigma}{\sqrt{n}}} = \frac{Sn - n\mu}{\sigma \sqrt{n}} \]
+\[
+	\frac{\frac{S_n}{n} - \mu}{\sqrt{\Var{\frac{S_n}{n} - \mu}}} = \frac{\frac{S_n}{n} - \mu}{\frac{\sigma}{\sqrt{n}}} = \frac{Sn - n\mu}{\sigma \sqrt{n}}
+\]
 \begin{theorem}
 	For all \(x \in \mathbb R\),
-	\[ \prob{\frac{S_n - n\mu}{\sigma \sqrt{n}} \leq x} \to \Phi(x) = \int_{-\infty}^x \frac{e^{-\frac{y^2}{2}}}{\sqrt{2\pi}} \dd{y} \]
+	\[
+		\prob{\frac{S_n - n\mu}{\sigma \sqrt{n}} \leq x} \to \Phi(x) = \int_{-\infty}^x \frac{e^{-\frac{y^2}{2}}}{\sqrt{2\pi}} \dd{y}
+	\]
 	In other words,
-	\[ \frac{S_n - n\mu}{\sigma \sqrt{n}} \convdist Z \]
+	\[
+		\frac{S_n - n\mu}{\sigma \sqrt{n}} \convdist Z
+	\]
 	where \(Z\) is the standard normal distribution.
 \end{theorem}
 \noindent Less formally, we might say that the central limit theorem shows that, for a large \(n\),
-\[ S_n \approx n\mu + \sigma\sqrt{n}Z \sim N(n\mu, n\sigma^2) \]
+\[
+	S_n \approx n\mu + \sigma\sqrt{n}Z \sim N(n\mu, n\sigma^2)
+\]
 \begin{proof}
-	Consider \(Y_i = \frac{X_i - \mu}{\sigma}\). Then the \(Y_i\) have zero expectation and unit variance. It then suffices to prove the central limit theorem when the \(X_i\) have zero expectation and unit variance. We assume further that there exists \(\delta > 0\) such that
-	\[ \expect{e^{\delta X_1}} < \infty;\quad \expect{e^{-\delta X_1}} < \infty \]
+	Consider \(Y_i = \frac{X_i - \mu}{\sigma}\).
+	Then the \(Y_i\) have zero expectation and unit variance.
+	It then suffices to prove the central limit theorem when the \(X_i\) have zero expectation and unit variance.
+	We assume further that there exists \(\delta > 0\) such that
+	\[
+		\expect{e^{\delta X_1}} < \infty;\quad \expect{e^{-\delta X_1}} < \infty
+	\]
 	We will show that
-	\[ \frac{S_n}{n} \convdist \mathrm{N}(0, 1) \]
+	\[
+		\frac{S_n}{n} \convdist \mathrm{N}(0, 1)
+	\]
 	By the continuity property of moment generating functions, it is sufficient to show that for all \(\theta \in \mathbb R\),
-	\[ \lim_{n \to \infty}\expect{e^{\frac{\theta S_n}{n}}} = \expect{e^{\theta Z}} = e^{\frac{\theta^2}{2}} \]
-	Let \(m(\theta) = \expect{e^{\theta X_1}}\). Then
-	\[ \expect{e^{\frac{\theta S_n}{n}}} = \expect{e^{\frac{\theta}{\sqrt{n}} X_1}}^n = \qty(m\qty(\frac{\theta}{\sqrt{n}}))^n \]
+	\[
+		\lim_{n \to \infty}\expect{e^{\frac{\theta S_n}{n}}} = \expect{e^{\theta Z}} = e^{\frac{\theta^2}{2}}
+	\]
+	Let \(m(\theta) = \expect{e^{\theta X_1}}\).
+	Then
+	\[
+		\expect{e^{\frac{\theta S_n}{n}}} = \expect{e^{\frac{\theta}{\sqrt{n}} X_1}}^n = \qty(m\qty(\frac{\theta}{\sqrt{n}}))^n
+	\]
 	We now need to show that
-	\[ \lim_{n \to \infty}\qty(m\qty(\frac{\theta}{\sqrt{n}}))^n = e^{\frac{\theta^2}{2}} \]
-	Now, let \(\abs{\theta} < \frac{\delta}{2}\). In this case,
+	\[
+		\lim_{n \to \infty}\qty(m\qty(\frac{\theta}{\sqrt{n}}))^n = e^{\frac{\theta^2}{2}}
+	\]
+	Now, let \(\abs{\theta} < \frac{\delta}{2}\).
+	In this case,
 	\begin{align*}
 		m(\theta) & = \expect{e^{\theta X_1}}                                                                                                    \\
 		          & = \expect{1 + \theta X_1 + \frac{\theta^2}{2} X_1^2 + \sum_{k=3}^\infty \frac{\theta^k}{k!}X_1^k}                            \\
 		          & = \expect{1} + \expect{\theta X_1} + \expect{\frac{\theta^2}{2} X_1^2} + \expect{\sum_{k=3}^\infty \frac{\theta^k}{k!}X_1^k} \\
 		          & = 1 + \frac{\theta^2}{2} + \expect{\sum_{k=3}^\infty \frac{\theta^k}{k!}X_1^k}
 	\end{align*}
-	Now, it suffices to prove that \(\abs{\expect{\sum_{k=3}^\infty \frac{\theta^k}{k!}X_1^k}} = o(\theta^2)\) as \(\theta \to 0\). Indeed, if we have this bound, then \(m\qty(\frac{\theta}{\sqrt{n}}) = 1 + \frac{\theta^2}{2n} + o\qty(\frac{\theta^2}{n})\), and hence \(\lim_{n \to \infty}\qty(m\qty(\frac{\theta}{\sqrt{n}}))^n = e^{\frac{\theta^2}{2}}\). To find this bound, we know that
+	Now, it suffices to prove that \(\abs{\expect{\sum_{k=3}^\infty \frac{\theta^k}{k!}X_1^k}} = o(\theta^2)\) as \(\theta \to 0\).
+	Indeed, if we have this bound, then \(m\qty(\frac{\theta}{\sqrt{n}}) = 1 + \frac{\theta^2}{2n} + o\qty(\frac{\theta^2}{n})\), and hence \(\lim_{n \to \infty}\qty(m\qty(\frac{\theta}{\sqrt{n}}))^n = e^{\frac{\theta^2}{2}}\).
+	To find this bound, we know that
 	\begin{align*}
 		\abs{\expect{\sum_{k=3}^\infty \frac{\theta^k}{k!}X_1^k}} & \leq \expect{\sum_{k=3}^\infty \frac{\abs{\theta}^k \abs{X_1}^k}{k!}}             \\
 		                                                          & = \expect{\abs{\theta X_1}^3 \sum_{k=0}^\infty \frac{\abs{\theta X_1}^k}{(k+3)!}} \\
 		                                                          & \leq \expect{\abs{\theta X_1}^3 \sum_{k=0}^\infty \frac{\abs{\theta X_1}^k}{k!}}
 	\end{align*}
 	Since \(\abs{\theta} \leq \frac{\delta}{2}\),
-	\[ \expect{\abs{\theta X_1}^3 \sum_{k=0}^\infty \frac{\abs{\theta X_1}^k}{k!}} \leq \expect{\abs{\theta X_1}^3 e^{\frac{\delta}{2}\abs{X_1}}} \]
+	\[
+		\expect{\abs{\theta X_1}^3 \sum_{k=0}^\infty \frac{\abs{\theta X_1}^k}{k!}} \leq \expect{\abs{\theta X_1}^3 e^{\frac{\delta}{2}\abs{X_1}}}
+	\]
 	Now,
-	\[ \abs{\theta X_1}^3 e^{\frac{\delta}{2}\abs{X_1}} = \abs{\theta}^3 \frac{\qty(\frac{\delta}{2}\abs{X_1})^3}{3!} \cdot \frac{3!}{\qty(\frac{\delta}{2})^3} \cdot e^{\frac{\delta}{2}\abs{X_1}} \]
+	\[
+		\abs{\theta X_1}^3 e^{\frac{\delta}{2}\abs{X_1}} = \abs{\theta}^3 \frac{\qty(\frac{\delta}{2}\abs{X_1})^3}{3!} \cdot \frac{3!}{\qty(\frac{\delta}{2})^3} \cdot e^{\frac{\delta}{2}\abs{X_1}}
+	\]
 	Note that
-	\[ \frac{\qty(\frac{\delta}{2}\abs{X_1})^3}{3!} \leq \sum_{k=0}^\infty \frac{\qty(\frac{\delta}{2}\abs{X_1})^k}{k!} = e^{\frac{\delta}{2}\abs{X_1}} \]
+	\[
+		\frac{\qty(\frac{\delta}{2}\abs{X_1})^3}{3!} \leq \sum_{k=0}^\infty \frac{\qty(\frac{\delta}{2}\abs{X_1})^k}{k!} = e^{\frac{\delta}{2}\abs{X_1}}
+	\]
 	Hence,
-	\[ \abs{\theta X_1}^3 e^{\frac{\delta}{2}\abs{X_1}} \leq \abs{\theta}^3 e^{\frac{\delta}{2}\abs{X_1}} \cdot \frac{3!}{\qty(\frac{\delta}{2})^3} \cdot e^{\frac{\delta}{2}\abs{X_1}} = \frac{3!\abs{\theta}^3}{\qty(\frac{\delta}{2})^3}e^{\delta\abs{X_1}} = 3!\qty(\frac{2\abs{\theta}}{\delta})^3 e^{\delta \abs{X_1}} \]
+	\[
+		\abs{\theta X_1}^3 e^{\frac{\delta}{2}\abs{X_1}} \leq \abs{\theta}^3 e^{\frac{\delta}{2}\abs{X_1}} \cdot \frac{3!}{\qty(\frac{\delta}{2})^3} \cdot e^{\frac{\delta}{2}\abs{X_1}} = \frac{3!\abs{\theta}^3}{\qty(\frac{\delta}{2})^3}e^{\delta\abs{X_1}} = 3!\qty(\frac{2\abs{\theta}}{\delta})^3 e^{\delta \abs{X_1}}
+	\]
 	Therefore,
-	\[ e^{\delta \abs{X_1}} \leq e^{\delta X_1} + e^{-\delta X_1} \]
+	\[
+		e^{\delta \abs{X_1}} \leq e^{\delta X_1} + e^{-\delta X_1}
+	\]
 	So finally,
-	\[ \expect{\abs{\theta X_1}^3 \sum_{k=0}^\infty \frac{\abs{\theta X_1}^k}{k!}} \leq 3!\qty(\frac{2\abs{\theta}}{\delta})^3 \expect{e^{\delta X_1} + e^{-\delta X_1}} = o(\abs{\theta}^2) \]
+	\[
+		\expect{\abs{\theta X_1}^3 \sum_{k=0}^\infty \frac{\abs{\theta X_1}^k}{k!}} \leq 3!\qty(\frac{2\abs{\theta}}{\delta})^3 \expect{e^{\delta X_1} + e^{-\delta X_1}} = o(\abs{\theta}^2)
+	\]
 	as \(\theta \to 0\).
 \end{proof}
 
 \subsection{Applications of Central Limit Theorem}
-We can use the central limit theorem to approximate the binomial distribution using the normal distribution. Suppose that \(S_n \sim \mathrm{Bin}(n, p)\). Then \(S_n = \sum_{i=1}^n X_i\), where the \(X_i\) have the Bernoulli distribution with parameter \(p\). We know that \(\expect{S_n} = np\), and \(\Var{S_n} = np(1-p)\). Therefore, in particular,
-\[ S_n \approx \mathrm{N}(np, np(1-p)) \]
-for \(n\) large. Note that we showed before that
-\[ \mathrm{Bin}\qty(n, \frac{\lambda}{n}) \to \mathrm{Po}(\lambda) \]
-Note that with this approximation to the binomial, we let the parameter \(p\) depend on \(n\). Since this is the case, we can no longer apply the central limit theorem, and we get a Poisson distributed approximation.
+We can use the central limit theorem to approximate the binomial distribution using the normal distribution.
+Suppose that \(S_n \sim \mathrm{Bin}(n, p)\).
+Then \(S_n = \sum_{i=1}^n X_i\), where the \(X_i\) have the Bernoulli distribution with parameter \(p\).
+We know that \(\expect{S_n} = np\), and \(\Var{S_n} = np(1-p)\).
+Therefore, in particular,
+\[
+	S_n \approx \mathrm{N}(np, np(1-p))
+\]
+for \(n\) large.
+Note that we showed before that
+\[
+	\mathrm{Bin}\qty(n, \frac{\lambda}{n}) \to \mathrm{Po}(\lambda)
+\]
+Note that with this approximation to the binomial, we let the parameter \(p\) depend on \(n\).
+Since this is the case, we can no longer apply the central limit theorem, and we get a Poisson distributed approximation.
 
-We can, however, use the central limit theorem to find a normal approximation for a Poisson random variable \(S_n \sim \mathrm{Po}(n)\), since \(S_n\) can be written as \(\sum_{i=1}^n X_i\) where the \(X_i \sim \mathrm{Po}(1)\). Then
-\[ S_n \approx \mathrm{N}(n, n) \]
+We can, however, use the central limit theorem to find a normal approximation for a Poisson random variable \(S_n \sim \mathrm{Po}(n)\), since \(S_n\) can be written as \(\sum_{i=1}^n X_i\) where the \(X_i \sim \mathrm{Po}(1)\).
+Then
+\[
+	S_n \approx \mathrm{N}(n, n)
+\]

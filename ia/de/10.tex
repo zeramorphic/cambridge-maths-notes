@@ -63,11 +63,21 @@
 	\end{tikzpicture}
 \end{wrapfigure}
 
-Another way to analyse solutions to a differential equation is using a geometrical representation of the solution, called a phase portrait. For example,
-\[ \mathrm{NaOH} + \mathrm{HCl} \to \mathrm{H_2O} + \mathrm{NaCl} \]
-where the amount of molecules of sodium hydroxide is given by \(a(t)\), the amount of molecules of hydrochloric acid is given by \(b(t)\), the amount of molecules of water is given by \(c(t)\), and the amount of molecules of sodium chloride is given by \(d(t)\). We can model this using the equation \(\frac{\dd{c}}{\dd{t}} = \lambda a b\). As atoms are conserved, we have \(a = a_0 - c\) and \(b = b_0 = c\). Then:
-\[ \frac{\dd{c}}{\dd{t}} = \lambda (a_0 - c)(b_0 - c) \]
-This is an autonomous nonlinear first order ordinary differential equation. We can create a phase portrait by mapping out \(\frac{\dd{c}}{\dd{t}}\) as a function of \(c\), as shown in the first diagram here, which is known as a 2D phase portrait. The second diagram, known as a 1D phase portrait, shows similar information but helps us see the behaviour of fixed points --- essentially the arrows point in the direction of motion of \(c\); if \(\dot c\) is positive then the arrows point to the right, if \(\dot c\) is negative they point to the left.
+Another way to analyse solutions to a differential equation is using a geometrical representation of the solution, called a phase portrait.
+For example,
+\[
+	\mathrm{NaOH} + \mathrm{HCl} \to \mathrm{H_2O} + \mathrm{NaCl}
+\]
+where the amount of molecules of sodium hydroxide is given by \(a(t)\), the amount of molecules of hydrochloric acid is given by \(b(t)\), the amount of molecules of water is given by \(c(t)\), and the amount of molecules of sodium chloride is given by \(d(t)\).
+We can model this using the equation \(\frac{\dd{c}}{\dd{t}} = \lambda a b\).
+As atoms are conserved, we have \(a = a_0 - c\) and \(b = b_0 = c\).
+Then:
+\[
+	\frac{\dd{c}}{\dd{t}} = \lambda (a_0 - c)(b_0 - c)
+\]
+This is an autonomous nonlinear first order ordinary differential equation.
+We can create a phase portrait by mapping out \(\frac{\dd{c}}{\dd{t}}\) as a function of \(c\), as shown in the first diagram here, which is known as a 2D phase portrait.
+The second diagram, known as a 1D phase portrait, shows similar information but helps us see the behaviour of fixed points --- essentially the arrows point in the direction of motion of \(c\); if \(\dot c\) is positive then the arrows point to the right, if \(\dot c\) is negative they point to the left.
 \newpage
 \begin{wrapfigure}{r}{0.5\textwidth}
 	\begin{tikzpicture}
@@ -132,31 +142,71 @@ This is an autonomous nonlinear first order ordinary differential equation. We c
 	\end{tikzpicture}
 \end{wrapfigure}
 
-Another example is a population model. Let \(y(t)\) denote the population. Let \(\alpha y\) denote the birth rate, and \(\beta y\) be the death rate. Then, we can model this using a linear model by:
-\[ \frac{\dd{y}}{\dd{t}} = \alpha y - \beta y \quad \therefore y = y_0 e^{(\alpha - \beta) t} \]
-If \(\alpha > \beta\) then we have exponential growth; if \(\alpha < \beta\) then we have exponential decay. This is an unrealistic model, so we can use a nonlinear model to increase accuracy.
-\[ \frac{\dd{y}}{\dd{t}} = (\alpha - \beta)y - \gamma y^2 \]
-When \(y\) is sufficiently large, the \(\gamma\) term becomes more relevant; here, the \(\gamma y^2\) term models the increased death rate at high populations. Equivalently, we can write
-\[ \dot y = ry\left(1 - \frac{y}{\lambda}\right) \]
+Another example is a population model.
+Let \(y(t)\) denote the population.
+Let \(\alpha y\) denote the birth rate, and \(\beta y\) be the death rate.
+Then, we can model this using a linear model by:
+\[
+	\frac{\dd{y}}{\dd{t}} = \alpha y - \beta y \quad \therefore y = y_0 e^{(\alpha - \beta) t}
+\]
+If \(\alpha > \beta\) then we have exponential growth; if \(\alpha < \beta\) then we have exponential decay.
+This is an unrealistic model, so we can use a nonlinear model to increase accuracy.
+\[
+	\frac{\dd{y}}{\dd{t}} = (\alpha - \beta)y - \gamma y^2
+\]
+When \(y\) is sufficiently large, the \(\gamma\) term becomes more relevant; here, the \(\gamma y^2\) term models the increased death rate at high populations.
+Equivalently, we can write
+\[
+	\dot y = ry\left(1 - \frac{y}{\lambda}\right)
+\]
 
 \subsection{Fixed Points in Discrete Equations}
 Consider a first order discrete (or difference) equation of the form
-\[ x_{n+1} = f(x_n) \]
-We define the fixed points of the equation to be any value of \(x_n\) where \(x_{n+1} = x_n\) or equivalently \(f(x_n) = x_n\). We can analyse fixed points' stability just like we can with differential equations, by using perturbation analysis. Let \(x_f\) denote a fixed point, and then we will perturb this by a small quantity \(\varepsilon\).
-\[ f(x_f + \varepsilon) = \underbrace{f(x_f)}_{\mathclap{=x_f}} + \varepsilon \eval{\frac{\dd{f}}{\dd{x}}}_{x_f} + O(\varepsilon^2) \]
+\[
+	x_{n+1} = f(x_n)
+\]
+We define the fixed points of the equation to be any value of \(x_n\) where \(x_{n+1} = x_n\) or equivalently \(f(x_n) = x_n\).
+We can analyse fixed points' stability just like we can with differential equations, by using perturbation analysis.
+Let \(x_f\) denote a fixed point, and then we will perturb this by a small quantity \(\varepsilon\).
+\[
+	f(x_f + \varepsilon) = \underbrace{f(x_f)}_{\mathclap{=x_f}} + \varepsilon \eval{\frac{\dd{f}}{\dd{x}}}_{x_f} + O(\varepsilon^2)
+\]
 If we let \(x_n = x_f + \varepsilon\), then
-\[ x_{n+1} \approx f(x_n) = f(x_f + \varepsilon) = x_f + \varepsilon \eval{\frac{\dd{f}}{\dd{x}}}_{x_f} \]
-\(x_f\) is stable if \(\abs{\eval{\frac{\dd{f}}{\dd{x}}}_{x_f}} < 1\), and unstable if this value is greater than 1. This is because if the value is less than 1, \(x_{n+1}\) is closer to \(x_f\) than \(x_n\) was.
+\[
+	x_{n+1} \approx f(x_n) = f(x_f + \varepsilon) = x_f + \varepsilon \eval{\frac{\dd{f}}{\dd{x}}}_{x_f}
+\]
+\(x_f\) is stable if \(\abs{\eval{\frac{\dd{f}}{\dd{x}}}_{x_f}} < 1\), and unstable if this value is greater than 1.
+This is because if the value is less than 1, \(x_{n+1}\) is closer to \(x_f\) than \(x_n\) was.
 
 \subsection{Logistic Map}
-This is an extended example of analysis of discrete equations. Let \(x_n\) be the population at generation \(n\). Then, we use the model
-\[ \frac{x_{n+1} - x_n}{\Delta t} = \lambda x_n - \gamma x_n^2 \]
-We could contrast this with a nonlinear ordinary differential equation; the left hand side of this equation is analogous to \(\frac{\dd{x}}{\dd{t}}\). Alternatively, grouping all \(x_n\) terms on the right hand side, we have
-\[ x_{n+1} = (\lambda \Delta t + 1)x_n - \gamma \Delta t x_n^2 \]
+This is an extended example of analysis of discrete equations.
+Let \(x_n\) be the population at generation \(n\).
+Then, we use the model
+\[
+	\frac{x_{n+1} - x_n}{\Delta t} = \lambda x_n - \gamma x_n^2
+\]
+We could contrast this with a nonlinear ordinary differential equation; the left hand side of this equation is analogous to \(\frac{\dd{x}}{\dd{t}}\).
+Alternatively, grouping all \(x_n\) terms on the right hand side, we have
+\[
+	x_{n+1} = (\lambda \Delta t + 1)x_n - \gamma \Delta t x_n^2
+\]
 We will actually use a slightly simplified model for this, by unifying the \(\gamma\) and \(\lambda\) terms as follows:
-\[ x_{n+1} = r x_n (1 - x_n) = f(x_n) \]
-This is known as the `logistic map'. We will analyse the fixed points of this equation by solving \(f(x_n) = x_n\). We have two solutions, \(x_n = 0\) and \(x_n = 1 - \frac{1}{r}\). We can analyse their stability using perturbation analysis as before. By letting \(f(x) = rx(1-x)\), thus removing the \(n\) index, we have
-\[ \frac{\dd{f}}{\dd{x}} = r(1-2x) \]
-At \(x_n = 0\), \(\frac{\dd{f}}{\dd{x}} = r\). When \(0 < r < 1\), the point is stable because the next point produced by the perturbation analysis is closer to the fixed point. If \(r > 1\) then the point is unstable.
+\[
+	x_{n+1} = r x_n (1 - x_n) = f(x_n)
+\]
+This is known as the `logistic map'.
+We will analyse the fixed points of this equation by solving \(f(x_n) = x_n\).
+We have two solutions, \(x_n = 0\) and \(x_n = 1 - \frac{1}{r}\).
+We can analyse their stability using perturbation analysis as before.
+By letting \(f(x) = rx(1-x)\), thus removing the \(n\) index, we have
+\[
+	\frac{\dd{f}}{\dd{x}} = r(1-2x)
+\]
+At \(x_n = 0\), \(\frac{\dd{f}}{\dd{x}} = r\).
+When \(0 < r < 1\), the point is stable because the next point produced by the perturbation analysis is closer to the fixed point.
+If \(r > 1\) then the point is unstable.
 
-At \(x_n = 1 - \frac{1}{r}\), \(\frac{\dd{f}}{\dd{x}} = 2 - r\). For \(0 < r < 1\), the value of \(x_n\) is greater than 1, so it is unphysical so we discard it. For \(r < 1 < 3\), the point is stable. When \(r > 3\), the point is unstable.
+At \(x_n = 1 - \frac{1}{r}\), \(\frac{\dd{f}}{\dd{x}} = 2 - r\).
+For \(0 < r < 1\), the value of \(x_n\) is greater than 1, so it is unphysical so we discard it.
+For \(r < 1 < 3\), the point is stable.
+When \(r > 3\), the point is unstable.

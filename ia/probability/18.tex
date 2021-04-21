@@ -1,6 +1,10 @@
 \subsection{Conditional Density}
-We will now define the conditional density of a continuous random variable, given the value of another continuous random variable. Let \(X\) and \(Y\) be continuous random variables with joint density \(f_{X, Y}\) and marginal densities \(f_X\) and \(f_Y\). Then we define the conditional density of \(X\) given that \(Y = y\) is defined as
-\[ f_{X \mid Y}(x \mid y) = \frac{f_{X, Y}(x, y)}{f_Y(y)} \]
+We will now define the conditional density of a continuous random variable, given the value of another continuous random variable.
+Let \(X\) and \(Y\) be continuous random variables with joint density \(f_{X, Y}\) and marginal densities \(f_X\) and \(f_Y\).
+Then we define the conditional density of \(X\) given that \(Y = y\) is defined as
+\[
+	f_{X \mid Y}(x \mid y) = \frac{f_{X, Y}(x, y)}{f_Y(y)}
+\]
 Then we can find the law of total probability in the continuous case.
 \begin{align*}
 	f_X(x) & = \int_{-\infty}^\infty f_{XY}(x, y) \dd{y}                 \\
@@ -8,22 +12,38 @@ Then we can find the law of total probability in the continuous case.
 \end{align*}
 
 \subsection{Conditional Expectation}
-We want to define \(\expect{X \mid Y}\) to be some function \(g(Y)\) for some function \(g\). We will define
-\[ g(y) = \int_{-\infty}^\infty xf_{X \mid Y}(x \mid y) \dd{x} \]
-which is the analogous expression to \(\expect{X \mid Y = y}\) from the discrete case. Then we just set \(\expect{X \mid Y} = g(Y)\) to be the conditional expectation.
+We want to define \(\expect{X \mid Y}\) to be some function \(g(Y)\) for some function \(g\).
+We will define
+\[
+	g(y) = \int_{-\infty}^\infty xf_{X \mid Y}(x \mid y) \dd{x}
+\]
+which is the analogous expression to \(\expect{X \mid Y = y}\) from the discrete case.
+Then we just set \(\expect{X \mid Y} = g(Y)\) to be the conditional expectation.
 
 \subsection{Transformations of Multidimensional Random Variables}
 \begin{theorem}
-	Let \(X\) be a continuous random variable with values in \(D \subseteq \mathbb R^d\), with density \(f_X\). Now, let \(g\) be a bijection \(D\) to \(g(D)\) which has a continuous derivative, and \(\det g'(x) \neq 0\) for all \(x \in D\). Then the random variable \(Y = g(X)\) has density
-	\[ f_Y(y) = f_X(x) \cdot \abs{J} \text{ where } x = g^{-1}(y) \]
+	Let \(X\) be a continuous random variable with values in \(D \subseteq \mathbb R^d\), with density \(f_X\).
+	Now, let \(g\) be a bijection \(D\) to \(g(D)\) which has a continuous derivative, and \(\det g'(x) \neq 0\) for all \(x \in D\).
+	Then the random variable \(Y = g(X)\) has density
+	\[
+		f_Y(y) = f_X(x) \cdot \abs{J} \text{ where } x = g^{-1}(y)
+	\]
 	where \(J\) is the Jacobian
-	\[ J = \det \left( \left( \pdv{x_i}{y_j} \right)_{i, j = 1}^d \right) \]
+	\[
+		J = \det \left( \left( \pdv{x_i}{y_j} \right)_{i, j = 1}^d \right)
+	\]
 \end{theorem}
-\noindent No proof will be given for this theorem. As an example, let \(X\) and \(Y\) be independent continuous random variables with the standard normal distribution. The point \((X, Y)\) in \(\mathbb R^2\) has polar coordinates \((R, \Theta)\). What are the densities of \(R\) and \(\Theta\)? We have \(X = R\cos\Theta\) and \(Y = R\sin\Theta\). The Jacobian is
-\[ J = \det\begin{pmatrix}
+\noindent No proof will be given for this theorem.
+As an example, let \(X\) and \(Y\) be independent continuous random variables with the standard normal distribution.
+The point \((X, Y)\) in \(\mathbb R^2\) has polar coordinates \((R, \Theta)\).
+What are the densities of \(R\) and \(\Theta\)? We have \(X = R\cos\Theta\) and \(Y = R\sin\Theta\).
+The Jacobian is
+\[
+	J = \det\begin{pmatrix}
 		\cos\theta & -r\sin\theta \\
 		\sin\theta & r\cos\theta
-	\end{pmatrix} = r \]
+	\end{pmatrix} = r
+\]
 Hence,
 \begin{align*}
 	f_{R, \Theta}(r, \theta) & = f_{X, Y}(r\cos\theta, r\sin\theta) \abs{J}                                                                            \\
@@ -32,14 +52,21 @@ Hence,
 	                         & = \frac{1}{\sqrt{2\pi}}e^{-\frac{r^2\cos^2\theta}{2}} \cdot \frac{1}{\sqrt{2\pi}}e^{-\frac{r^2\sin^2\theta}{2}} \cdot r \\
 	                         & = \frac{1}{2\pi}e^{-\frac{r^2}{2}} \cdot r
 \end{align*}
-for all \(r > 0\) and \(\theta \in [0, 2\pi]\). Note that the joint density factorises into marginal densities:
-\[ f_{R, \Theta}(r, \theta) = \underbrace{\frac{1}{2\pi}}_{f_\Theta} \underbrace{re^{-\frac{r^2}{2}}}_{f_R} \]
+for all \(r > 0\) and \(\theta \in [0, 2\pi]\).
+Note that the joint density factorises into marginal densities:
+\[
+	f_{R, \Theta}(r, \theta) = \underbrace{\frac{1}{2\pi}}_{f_\Theta} \underbrace{re^{-\frac{r^2}{2}}}_{f_R}
+\]
 so the random variables \(R\) and \(\Theta\) are independent, where \(\Theta \sim U[0, 2\pi]\) and \(R\) has density \(re^{\frac{-r^2}{2}}\) on \((0, \infty)\).
 
 \subsection{Ordered Statistics of a Random Sample}
-Let \(X_1, \dots, X_n\) be independent and identically distributed random variables with distribution function \(F\) and density function \(f\).  We can put them in increasing order:
-\[ X_{(1)} \leq X_{(2)} \leq \dots \leq X_{(n)} \]
-and let \(Y_i = X_{(i)}\). The \((Y_i)\) are the order statistics.
+Let \(X_1, \dots, X_n\) be independent and identically distributed random variables with distribution function \(F\) and density function \(f\).
+We can put them in increasing order:
+\[
+	X_{(1)} \leq X_{(2)} \leq \dots \leq X_{(n)}
+\]
+and let \(Y_i = X_{(i)}\).
+The \((Y_i)\) are the order statistics.
 \begin{align*}
 	\prob{Y_1 \leq x} & = \prob{\min(X_1, \dots, X_n) \leq x}    \\
 	                  & = 1 - \prob{\min(X_1, \dots, X_n) > x}   \\
@@ -56,21 +83,36 @@ We can compute an analogous result for the maximum.
 	\prob{Y_n \leq x} & = (F(x))^n           \\
 	f_{Y_n}(x)        & = n(F(x))^{n-1} f(x)
 \end{align*}
-What are the densities of the other random variables? First, let \(x_1 < x_2 < \dots < x_n\). Then, we can first find the joint distribution \(\prob{Y_1 \leq x_1, \dots, Y_n \leq x_n}\). Note that this is simply the sum over all possible permutations of the \((X_i)\) of \(\prob{X_1 \leq x_1, \dots, X_n \leq x_n}\). But since the variables are independent and identically distributed, these probabilities are the same. Hence,
+What are the densities of the other random variables? First, let \(x_1 < x_2 < \dots < x_n\).
+Then, we can first find the joint distribution \(\prob{Y_1 \leq x_1, \dots, Y_n \leq x_n}\).
+Note that this is simply the sum over all possible permutations of the \((X_i)\) of \(\prob{X_1 \leq x_1, \dots, X_n \leq x_n}\).
+But since the variables are independent and identically distributed, these probabilities are the same.
+Hence,
 \begin{align*}
 	\prob{Y_1 \leq x_1, \dots, Y_n \leq x_n}        & = n! \cdot \prob{X_1 \leq x_1, \dots, X_n \leq x_n, X_1 < \dots < X_n}                                               \\
 	                                                & = n! \int_{-\infty}^{x_1} \int_{u_1}^{x_2} \cdots \int_{u_{n-1}}^{x_n} f(u_1) \cdots f(u_n) \dd{u_1} \cdots \dd{u_n} \\
 	\therefore f_{Y_1, \dots, Y_n}(x_1, \dots, x_n) & = n! f(x_1) \cdots f(x_n)
 \end{align*}
-when \(x_1 < x_2 < \dots < x_n\), and the joint density is zero otherwise. Note that this joint density does not factorise as a product of densities, since we must always consider the indicator function that \(x_1 < x_2 < \dots < x_n\).
+when \(x_1 < x_2 < \dots < x_n\), and the joint density is zero otherwise.
+Note that this joint density does not factorise as a product of densities, since we must always consider the indicator function that \(x_1 < x_2 < \dots < x_n\).
 
 \subsection{Ordered Statistics on Exponential Distribution}
-Let \(X \sim \mathrm{Exp}(\lambda)\), \(Y \sim \mathrm{Exp}(\mu)\) be independent continuous random variables. Let \(Z = \min(X, Y)\).
-\[ \prob{Z \geq z} = \prob{X \geq z, Y \geq z} = \prob{X \geq z} \prob{Y \geq z} = e^{-\lambda z} \cdot e^{-\mu z} = e^{-(\lambda + \mu)z} \]
-Hence \(Z\) has the exponential distribution with parameter \(\lambda+\mu\). More generally, if \(X_1, \dots, X_n\) are independent continuous random variables with \(X_i \sim \mathrm{Exp}(\lambda_i)\), then \(Z = \min(X_1, \dots, X_n)\) has distribution \(\mathrm{Exp}\left( \sum_{i=1}^n \lambda_i \right)\). Now, let \(X_1, \dots, X_n\) be independent identically distributed random variables with distribution \(\mathrm{Exp}(\lambda)\), and let \(Y_i\) be their order statistics. Then
-\[ Z_1 = Y_1;\quad Z_2 = Y_2 - Y_1;\quad Z_i = Y_i - Y_{i-1} \]
-So the \(Z_i\) are the `durations between consecutive results' from the \(X_i\). What is the density of these \(Z_i\)? First, note that
-\[ Z = \begin{pmatrix}
+Let \(X \sim \mathrm{Exp}(\lambda)\), \(Y \sim \mathrm{Exp}(\mu)\) be independent continuous random variables.
+Let \(Z = \min(X, Y)\).
+\[
+	\prob{Z \geq z} = \prob{X \geq z, Y \geq z} = \prob{X \geq z} \prob{Y \geq z} = e^{-\lambda z} \cdot e^{-\mu z} = e^{-(\lambda + \mu)z}
+\]
+Hence \(Z\) has the exponential distribution with parameter \(\lambda+\mu\).
+More generally, if \(X_1, \dots, X_n\) are independent continuous random variables with \(X_i \sim \mathrm{Exp}(\lambda_i)\), then \(Z = \min(X_1, \dots, X_n)\) has distribution \(\mathrm{Exp}\left( \sum_{i=1}^n \lambda_i \right)\).
+Now, let \(X_1, \dots, X_n\) be independent identically distributed random variables with distribution \(\mathrm{Exp}(\lambda)\), and let \(Y_i\) be their order statistics.
+Then
+\[
+	Z_1 = Y_1;\quad Z_2 = Y_2 - Y_1;\quad Z_i = Y_i - Y_{i-1}
+\]
+So the \(Z_i\) are the `durations between consecutive results' from the \(X_i\).
+What is the density of these \(Z_i\)? First, note that
+\[
+	Z = \begin{pmatrix}
 		Z_1 \\ \vdots \\ Z_n
 	\end{pmatrix} = A \begin{pmatrix}
 		Y_1 \\ \vdots \\ Y_n
@@ -80,9 +122,12 @@ So the \(Z_i\) are the `durations between consecutive results' from the \(X_i\).
 		0      & -1     & 1      & \cdots & 0      \\
 		\vdots & \vdots & \vdots & \ddots & \vdots \\
 		0      & 0      & 0      & \cdots & 1
-	\end{pmatrix} \]
+	\end{pmatrix}
+\]
 Note that \(\det A = 1\), and \(Z = AY\), and note further that
-\[ y_j = \sum_{i=1}^j z_i \]
+\[
+	y_j = \sum_{i=1}^j z_i
+\]
 Now,
 \begin{align*}
 	f_{(Z_1, \dots, Z_n)}(z_1, \dots, z_n) & = f_{(Y_1, \dots, Y_n)}(y_1, \dots, y_n) \underbrace{\abs{A}}_{=1} \\

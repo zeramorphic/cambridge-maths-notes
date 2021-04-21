@@ -1,15 +1,23 @@
 \subsection{Probability Distribution Function}
-Let \((\Omega, \mathcal F, \mathbb P)\) be a probability space. Then, as defined before, \(X \colon \Omega \to \mathbb R\) is a random variable if
-\[ \forall x \in \mathbb R, \{ X \leq x \} = \{ \omega \colon X(\omega) \leq x \} \in \mathcal F \]
+Let \((\Omega, \mathcal F, \mathbb P)\) be a probability space.
+Then, as defined before, \(X \colon \Omega \to \mathbb R\) is a random variable if
+\[
+	\forall x \in \mathbb R, \{ X \leq x \} = \{ \omega \colon X(\omega) \leq x \} \in \mathcal F
+\]
 We define the probability distribution function \(F \colon \mathbb R \to [0, 1]\) as
-\[ F(x) = \prob{X \leq x} \]
+\[
+	F(x) = \prob{X \leq x}
+\]
 \begin{theorem}
 	The following properties hold.
 	\begin{enumerate}[(i)]
 		\item If \(x \leq y\), then \(F(x) \leq F(y)\).
 		\item For all \(a < b\), \(\prob{a < x \leq b} = F(b) - F(a)\).
-		\item \(F\) is a right continuous function, and left limits always exist. In other words,
-		      \[ F(x^+) = \lim_{y \to x^+} F(y) = F(x);\quad F(x^-) = \lim_{y \to x^-} F(y) \leq F(x) \]
+		\item \(F\) is a right continuous function, and left limits always exist.
+		      In other words,
+		      \[
+			      F(x^+) = \lim_{y \to x^+} F(y) = F(x);\quad F(x^-) = \lim_{y \to x^-} F(y) \leq F(x)
+		      \]
 		\item For all \(x \in\mathbb R\), \(F(x^-) = \prob{X < x}\).
 		\item We have \(\lim_{x \to \infty} F(x) = 1\) and \(\lim_{x \to -\infty} F(x) = 0\).
 	\end{enumerate}
@@ -24,8 +32,17 @@ We define the probability distribution function \(F \colon \mathbb R \to [0, 1]\
 			                          & = \prob{X \leq b} - \prob{X \leq a}                       \\
 			                          & = F(b) - F(a)
 		      \end{align*}
-		\item For right continuity, we want to prove \(\lim_{n \to \infty} F(x + \frac{1}{n}) = F(x)\). We will define \(A_n = \{ x < X \leq x + \frac{1}{n} \}\). Then the \(A_n\) are decreasing events, and the intersection of all \(A_n\) is the empty set \(\varnothing\). Hence, by continuity of the probability measure, \(\prob{A_n} \to 0\) as \(n \to \infty\). But \(\prob{A_n} = \prob{x < X \leq x + \frac{1}{n}} = F(x + \frac{1}{n}) - F(x)\), hence \(F(x + \frac{1}{n}) \to F(x)\) as required. Now, we want to show that left limits always exist. This is clear since \(F\) is an increasing function, and is always bounded above by 1.
-		\item We know \(F(x^-) = \lim_{n \to \infty}F(x - \frac{1}{n})\). Consider \(B_n = \{ X \leq x - \frac{1}{n} \}\). Then the \(B_n\) is an increasing sequence of events, and their union is \(\{ X < x \}\). Hence \(\prob{B_n}\) converges to \(\prob{X < x}\), so \(F(x^-) = \prob{X < x}\).
+		\item For right continuity, we want to prove \(\lim_{n \to \infty} F(x + \frac{1}{n}) = F(x)\).
+		      We will define \(A_n = \{ x < X \leq x + \frac{1}{n} \}\).
+		      Then the \(A_n\) are decreasing events, and the intersection of all \(A_n\) is the empty set \(\varnothing\).
+		      Hence, by continuity of the probability measure, \(\prob{A_n} \to 0\) as \(n \to \infty\).
+		      But \(\prob{A_n} = \prob{x < X \leq x + \frac{1}{n}} = F(x + \frac{1}{n}) - F(x)\), hence \(F(x + \frac{1}{n}) \to F(x)\) as required.
+		      Now, we want to show that left limits always exist.
+		      This is clear since \(F\) is an increasing function, and is always bounded above by 1.
+		\item We know \(F(x^-) = \lim_{n \to \infty}F(x - \frac{1}{n})\).
+		      Consider \(B_n = \{ X \leq x - \frac{1}{n} \}\).
+		      Then the \(B_n\) is an increasing sequence of events, and their union is \(\{ X < x \}\).
+		      Hence \(\prob{B_n}\) converges to \(\prob{X < x}\), so \(F(x^-) = \prob{X < x}\).
 		\item This is evident from the properties of the probability measure.
 	\end{enumerate}
 \end{proof}
@@ -33,15 +50,23 @@ We define the probability distribution function \(F \colon \mathbb R \to [0, 1]\
 \subsection{Defining a Continuous Random Variable}
 For a discrete random variable, \(F\) is a step function, which of course is right continuous with left limits.
 \begin{definition}
-	A random variable \(X\) is called \textit{continuous} if \(F\) is a continuous function. In this case, clearly left limits and right limits give the same value, and \(\prob{X = x} = 0\) for all \(x \in\mathbb R\).
+	A random variable \(X\) is called \textit{continuous} if \(F\) is a continuous function.
+	In this case, clearly left limits and right limits give the same value, and \(\prob{X = x} = 0\) for all \(x \in\mathbb R\).
 \end{definition}
-\noindent In this course, we will consider only \textit{absolutely} continuous random variables. A continuous random variable is absolutely continuous if \(F\) is differentiable. We will make the convention that \(F'(x) = f(x)\), where \(f(x)\) is called the probability density function of \(X\). The following immediate properties hold.
+\noindent In this course, we will consider only \textit{absolutely} continuous random variables.
+A continuous random variable is absolutely continuous if \(F\) is differentiable.
+We will make the convention that \(F'(x) = f(x)\), where \(f(x)\) is called the probability density function of \(X\).
+The following immediate properties hold.
 \begin{enumerate}[(i)]
 	\item \(f \geq 0\)
 	\item \(\int_{-\infty}^{+\infty} f(x) \dd{x} = 1\)
 	\item \(F(x) = \int_{-\infty}^x f(t) \dd{t}\)
 	\item For \(S \subseteq \mathbb R\), \(\prob{X \in S} = \int_S f(x) \dd{x}\)
 \end{enumerate}
-Here is an intuitive explanation of the probability density function. Suppose \(\Delta x\) is a small quantity. Then
-\[ \prob{x < X \leq x + \Delta x} = \int_x^{x + \Delta x} f(y) \dd{y} \approx f(x) \cdot \Delta x \]
+Here is an intuitive explanation of the probability density function.
+Suppose \(\Delta x\) is a small quantity.
+Then
+\[
+	\prob{x < X \leq x + \Delta x} = \int_x^{x + \Delta x} f(y) \dd{y} \approx f(x) \cdot \Delta x
+\]
 So we can think of \(f(x)\) as the continuous analogy to \(\prob{X = x}\).

@@ -1,44 +1,92 @@
 \subsection{The Boundary Value Problem}
 Many problems in mathematical physics can be reduced to the form
-\[ \laplacian{\phi} = F \]
-This is called Poisson's equation. In the case that \(F \equiv 0\), this is called Laplace's equation. We are interested in solving this equation on \(\Omega \subseteq \mathbb R^n\) for \(n = 2, 3\). This is too general to solve at the moment, so we will need to supply boundary conditions, which are very common in physical problems. In other words, \(\phi\) will be known on \(\partial \Omega\), or as \(\abs{\vb x} \to \infty\) if \(\Omega = \mathbb R^n\). For instance, the Dirichlet problem is
-\[ \laplacian{\phi} = F \text{ inside } \Omega;\quad \phi = f \text{ on } \partial \Omega \]
+\[
+	\laplacian{\phi} = F
+\]
+This is called Poisson's equation.
+In the case that \(F \equiv 0\), this is called Laplace's equation.
+We are interested in solving this equation on \(\Omega \subseteq \mathbb R^n\) for \(n = 2, 3\).
+This is too general to solve at the moment, so we will need to supply boundary conditions, which are very common in physical problems.
+In other words, \(\phi\) will be known on \(\partial \Omega\), or as \(\abs{\vb x} \to \infty\) if \(\Omega = \mathbb R^n\).
+For instance, the Dirichlet problem is
+\[
+	\laplacian{\phi} = F \text{ inside } \Omega;\quad \phi = f \text{ on } \partial \Omega
+\]
 The Neumann problem is
-\[ \laplacian{\phi} = F \text{ inside } \Omega;\quad \pdv{\phi}{\vb n} = g \text{ on } \partial \Omega \]
-where \(\vb n\) is the normal to the surface, and \(\pdv{\phi}{\vb n} := \vb n \cdot \grad{\phi}\). As a further restriction, we must interpret the boundary conditions in an `appropriate' manner; we assume that \(\phi\) (or \(\pdv{\phi}{\vb n}\)) approaches the behaviour at the boundary continuously as \(\vb x \to \partial \Omega\). More precisely, \(\phi\) and \(\grad{\phi}\) are continuous on \(\Omega \cup \partial\Omega\). Note that if we are solving some equation \(\laplacian{\phi} = 0\) in \(\Omega\), we must be certain that \(\phi\) is actually well-defined on the entire set. As a worked example, consider
-\[ \laplacian{\phi} = r \text{ inside } \left\{ r < a \right\};\quad \phi = 1 \text{ on } \left\{ r = a \right\} \]
-We might guess that the solution is of the form \(\phi(r)\). We can use the formula
-\[ \laplacian{\phi} = \frac{1}{r^2} \dv{r}\left( r^2 \dv{\phi}{r} \right) \]
+\[
+	\laplacian{\phi} = F \text{ inside } \Omega;\quad \pdv{\phi}{\vb n} = g \text{ on } \partial \Omega
+\]
+where \(\vb n\) is the normal to the surface, and \(\pdv{\phi}{\vb n} := \vb n \cdot \grad{\phi}\).
+As a further restriction, we must interpret the boundary conditions in an `appropriate' manner; we assume that \(\phi\) (or \(\pdv{\phi}{\vb n}\)) approaches the behaviour at the boundary continuously as \(\vb x \to \partial \Omega\).
+More precisely, \(\phi\) and \(\grad{\phi}\) are continuous on \(\Omega \cup \partial\Omega\).
+Note that if we are solving some equation \(\laplacian{\phi} = 0\) in \(\Omega\), we must be certain that \(\phi\) is actually well-defined on the entire set.
+As a worked example, consider
+\[
+	\laplacian{\phi} = r \text{ inside } \left\{ r < a \right\};\quad \phi = 1 \text{ on } \left\{ r = a \right\}
+\]
+We might guess that the solution is of the form \(\phi(r)\).
+We can use the formula
+\[
+	\laplacian{\phi} = \frac{1}{r^2} \dv{r}\left( r^2 \dv{\phi}{r} \right)
+\]
 to get
-\[ r^3 = \dv{r}\left( r^2 \dv{\phi}{r} \right) \text{ inside } \left\{ r < a \right\};\quad \phi(a) = 1 \]
+\[
+	r^3 = \dv{r}\left( r^2 \dv{\phi}{r} \right) \text{ inside } \left\{ r < a \right\};\quad \phi(a) = 1
+\]
 The general solution to the first part is
-\[ \phi(r) = A + \frac{B}{r} + \frac{1}{12}r^3 \]
-The \(\frac{B}{r}\) term is \textit{not} well-defined inside \(\left\{ r < a \right\}\), therefore \(B=0\) to eliminate the problematic term. By the second part, we can solve for \(A\):
-\[ 1 = \phi(a) = A + \frac{1}{12}a^3 \implies A = 1 - \frac{1}{12}a^3 \]
+\[
+	\phi(r) = A + \frac{B}{r} + \frac{1}{12}r^3
+\]
+The \(\frac{B}{r}\) term is \textit{not} well-defined inside \(\left\{ r < a \right\}\), therefore \(B=0\) to eliminate the problematic term.
+By the second part, we can solve for \(A\):
+\[
+	1 = \phi(a) = A + \frac{1}{12}a^3 \implies A = 1 - \frac{1}{12}a^3
+\]
 Hence the solution is
-\[ \phi(r) = 1 + \frac{1}{12}\left(r^3 - a^3\right) \]
+\[
+	\phi(r) = 1 + \frac{1}{12}\left(r^3 - a^3\right)
+\]
 
 \subsection{Uniqueness of Solutions}
-When solving Poisson's or Laplace's equation, we want to ensure that the solution we find is unique. If it is unique, then we can apply similar logic to solving differential equations, where we can guess the form of an equation and then derive the solution from that, and we don't need to worry about solutions that do not have this form. Consider a generic linear problem
+When solving Poisson's or Laplace's equation, we want to ensure that the solution we find is unique.
+If it is unique, then we can apply similar logic to solving differential equations, where we can guess the form of an equation and then derive the solution from that, and we don't need to worry about solutions that do not have this form.
+Consider a generic linear problem
 \begin{equation}
 	L\phi = F \text{ in } \Omega;\quad B \phi = f \text{ on } \partial\Omega \tag{\(\dagger\)}
 \end{equation}
-where \(L\) and \(B\) are linear differential operators. If \(\phi_1\) and \(\phi_2\) are both solutions to \((\dagger)\), then consider \(\psi = \phi_1 - \phi_2\). By linearity,
-\[ L\psi = L\phi_1 - L\phi_2 = F - F = 0 \text{ in } \Omega \]
+where \(L\) and \(B\) are linear differential operators.
+If \(\phi_1\) and \(\phi_2\) are both solutions to \((\dagger)\), then consider \(\psi = \phi_1 - \phi_2\).
+By linearity,
+\[
+	L\psi = L\phi_1 - L\phi_2 = F - F = 0 \text{ in } \Omega
+\]
 and
-\[ B\psi = B\phi_1 - B\phi_2 = f - f = 0 \text{ on } \partial\Omega \]
-If we can show that the only solution to these new equations is \(\psi = 0\), we must conclude that \(\phi_1 = \phi_2\), which means that there is only one solution to \((\dagger)\). Hence the solution to a linear problem is unique if and only if the only solution to the homogeneous problem is zero.
+\[
+	B\psi = B\phi_1 - B\phi_2 = f - f = 0 \text{ on } \partial\Omega
+\]
+If we can show that the only solution to these new equations is \(\psi = 0\), we must conclude that \(\phi_1 = \phi_2\), which means that there is only one solution to \((\dagger)\).
+Hence the solution to a linear problem is unique if and only if the only solution to the homogeneous problem is zero.
 
 \begin{proposition}
-	The solution to the Dirichlet problem is unique. The solution to the Neumann problem is unique up to the addition of an arbitrary constant.
+	The solution to the Dirichlet problem is unique.
+	The solution to the Neumann problem is unique up to the addition of an arbitrary constant.
 \end{proposition}
 \begin{proof}
-	Let \(\psi = \phi_1 - \phi_2\) be the difference between two solutions. In the Dirichlet case, we want to show that \(\psi = 0\), and in the Neumann case, we want to show that \(\psi\) is an arbitrary constant. We know that
-	\[ \laplacian{\psi} = 0 \text{ in } \Omega;\quad B\psi = 0 \text{ on } \partial\Omega \]
-	where \(B\psi = \psi\) in the Dirichlet problem, or \(B\psi = \pdv{\psi}{\vb n}\) in the Neumann problem. Consider the non-negative functional
-	\[ I[\psi] = \int_\Omega \abs{\grad{\psi}}^2 \dd{V} \geq 0 \]
+	Let \(\psi = \phi_1 - \phi_2\) be the difference between two solutions.
+	In the Dirichlet case, we want to show that \(\psi = 0\), and in the Neumann case, we want to show that \(\psi\) is an arbitrary constant.
+	We know that
+	\[
+		\laplacian{\psi} = 0 \text{ in } \Omega;\quad B\psi = 0 \text{ on } \partial\Omega
+	\]
+	where \(B\psi = \psi\) in the Dirichlet problem, or \(B\psi = \pdv{\psi}{\vb n}\) in the Neumann problem.
+	Consider the non-negative functional
+	\[
+		I[\psi] = \int_\Omega \abs{\grad{\psi}}^2 \dd{V} \geq 0
+	\]
 	Clearly,
-	\[ I[\psi] = 0 \iff \grad{\psi} = 0 \text{ everywhere in } \Omega \]
+	\[
+		I[\psi] = 0 \iff \grad{\psi} = 0 \text{ everywhere in } \Omega
+	\]
 	Now, note that we can apply the divergence theorem to get
 	\begin{align*}
 		I[\psi] & = \int_\Omega \abs{\grad{\psi}}^2 \dd{V}                                          \\
@@ -49,17 +97,35 @@ If we can show that the only solution to these new equations is \(\psi = 0\), we
 		        & = \int_{\partial\Omega} \psi \grad{\psi} \cdot \vb n \dd{S}                       \\
 		        & = \int_{\partial\Omega} \psi \dv{\psi}{\vb n} \dd{S}                              \\
 	\end{align*}
-	In the Dirichlet case, \(I[\psi] = 0\) since \(\psi = 0\) on the boundary. In the Neumann case, \(I[\psi] = 0\) as well, since \(\dv{\psi}{\vb n} = 0\). Hence, in either case, \(\grad{\psi} = 0\) everywhere in \(\Omega\). Therefore, \(\psi\) is a constant throughout \(\Omega\). In the Dirichlet case, we know that \(\psi = 0\) on the boundary, hence \(\psi = 0\) everywhere as it is continuous. However, in the Neumann problem, no such deduction can be made.
+	In the Dirichlet case, \(I[\psi] = 0\) since \(\psi = 0\) on the boundary.
+	In the Neumann case, \(I[\psi] = 0\) as well, since \(\dv{\psi}{\vb n} = 0\).
+	Hence, in either case, \(\grad{\psi} = 0\) everywhere in \(\Omega\).
+	Therefore, \(\psi\) is a constant throughout \(\Omega\).
+	In the Dirichlet case, we know that \(\psi = 0\) on the boundary, hence \(\psi = 0\) everywhere as it is continuous.
+	However, in the Neumann problem, no such deduction can be made.
 \end{proof}
-\noindent Here is an example from electrostatics. Consider the charge density \(\rho\) defined by
-\[ \rho(\vb x) = \begin{cases}
+\noindent Here is an example from electrostatics.
+Consider the charge density \(\rho\) defined by
+\[
+	\rho(\vb x) = \begin{cases}
 		0    & r < a    \\
 		F(r) & r \geq a
-	\end{cases} \]
-We can show that there is no electric field in the region \(r < a\). We know that the electric potential \(\phi\) will satisfy
-\[ \laplacian{\phi} = \frac{-\rho(\vb x)}{\varepsilon_0} = 0 \text{ if } r<a \]
-By symmetry, we will try a \(\phi\) of the form \(\phi(r)\). Hence, \(\phi(a)\) is constant on the boundary \(r=a\). Note that the unique solution to
-\[ \laplacian{\phi} = 0 \text{ for } r<a;\quad \phi = \text{constant on } r = a \]
-is exactly that \(\phi\) is constant everywhere. Hence
-\[ \vb E = -\grad{\psi} = 0 \text{ throughout } r<a \]
+	\end{cases}
+\]
+We can show that there is no electric field in the region \(r < a\).
+We know that the electric potential \(\phi\) will satisfy
+\[
+	\laplacian{\phi} = \frac{-\rho(\vb x)}{\varepsilon_0} = 0 \text{ if } r<a
+\]
+By symmetry, we will try a \(\phi\) of the form \(\phi(r)\).
+Hence, \(\phi(a)\) is constant on the boundary \(r=a\).
+Note that the unique solution to
+\[
+	\laplacian{\phi} = 0 \text{ for } r<a;\quad \phi = \text{constant on } r = a
+\]
+is exactly that \(\phi\) is constant everywhere.
+Hence
+\[
+	\vb E = -\grad{\psi} = 0 \text{ throughout } r<a
+\]
 This can be viewed as a version of Newton's shell theorem.

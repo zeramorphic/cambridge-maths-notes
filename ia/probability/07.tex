@@ -1,43 +1,85 @@
 \subsection{Definition and Example}
 \begin{definition}
-	A random variable \(X\) is called discrete if it takes values in a countable set. Suppose \(X\) takes values in the countable set \(S\). For every \(x \in S\), we write
-	\[ p_x = \prob{X = x} = \prob{\{ \omega \colon X(\omega) = x \}} \]
-	We call \((p_x)_{x \in S}\) the probability mass function of \(X\), or the distribution of \(X\). If \((p_x)\) is Bernoulli for example, then we say that \(X\) is a Bernoulli (or such) random variable, or that \(X\) has the Bernoulli distribution.
+	A random variable \(X\) is called discrete if it takes values in a countable set.
+	Suppose \(X\) takes values in the countable set \(S\).
+	For every \(x \in S\), we write
+	\[
+		p_x = \prob{X = x} = \prob{\{ \omega \colon X(\omega) = x \}}
+	\]
+	We call \((p_x)_{x \in S}\) the probability mass function of \(X\), or the distribution of \(X\).
+	If \((p_x)\) is Bernoulli for example, then we say that \(X\) is a Bernoulli (or such) random variable, or that \(X\) has the Bernoulli distribution.
 \end{definition}
 \begin{definition}
-	Suppose \(X_1, \dots, X_n\) are discrete random variables taking variables in \(S_1, \dots, S_n\). We say that the random variables \(X_1, \dots, X_n\) are independent if
-	\[ \prob{X_1 = x_1, \dots, X_n = x_n} = \prob{X_1 = x_1} \cdots \prob{X_n = x_n}\quad \forall x_1 \in S_1, \dots, x_n \in S_n \]
+	Suppose \(X_1, \dots, X_n\) are discrete random variables taking variables in \(S_1, \dots, S_n\).
+	We say that the random variables \(X_1, \dots, X_n\) are independent if
+	\[
+		\prob{X_1 = x_1, \dots, X_n = x_n} = \prob{X_1 = x_1} \cdots \prob{X_n = x_n}\quad \forall x_1 \in S_1, \dots, x_n \in S_n
+	\]
 \end{definition}
-\noindent As an example, suppose we toss a \(p\)-biased coin \(n\) times independently. Let \(\Omega = \{ 0, 1 \}^n\). For every \(\omega \in \Omega\),
-\[ p_\omega = \prod_{k=1}^n p^{\omega_k} (1-p)^{1-\omega_k};\quad \text{where we write } \omega = (\omega_1, \dots, \omega_n) \]
-We define a set of discrete random variables \(X_k(\omega) = \omega_k\). Then \(X_k\) gives the output of the \(k\)th toss. We have
-\[ \prob{X_k = 1} = \prob{\omega_k = 1} = p;\quad \prob{X_k = 0} = \prob{\omega_k = 0} = 1-p \]
-So \(X_k\) has the Bernoulli distribution with parameter \(p\). We can also show that the \(X_i\) are independent. Let \(x_1, \dots, x_n \in \{ 0, 1 \}\). Then
+\noindent As an example, suppose we toss a \(p\)-biased coin \(n\) times independently.
+Let \(\Omega = \{ 0, 1 \}^n\).
+For every \(\omega \in \Omega\),
+\[
+	p_\omega = \prod_{k=1}^n p^{\omega_k} (1-p)^{1-\omega_k};\quad \text{where we write } \omega = (\omega_1, \dots, \omega_n)
+\]
+We define a set of discrete random variables \(X_k(\omega) = \omega_k\).
+Then \(X_k\) gives the output of the \(k\)th toss.
+We have
+\[
+	\prob{X_k = 1} = \prob{\omega_k = 1} = p;\quad \prob{X_k = 0} = \prob{\omega_k = 0} = 1-p
+\]
+So \(X_k\) has the Bernoulli distribution with parameter \(p\).
+We can also show that the \(X_i\) are independent.
+Let \(x_1, \dots, x_n \in \{ 0, 1 \}\).
+Then
 \begin{align*}
 	\prob{X_1 = x_1, \dots, X_n = x_n} & = \prob{\omega = (x_1, \dots, x_n)}   \\
 	                                   & = p_{(x_1, \dots, x_n)}               \\
 	                                   & = \prod_{k=1}^N p^{x_k} (1-p)^{1-x_k} \\
 	                                   & = \prod_{k=1}^N \prob{X_k = x_k}
 \end{align*}
-as required. Now, we define \(S_n(\omega) = X_1(\omega) + \dots + X_n(\omega)\). This is the number of heads in \(N\) tosses. So \(S_n \colon \Omega \to \{ 0, \dots, N \}\), and
-\[ \prob{S_n = k} = \binom{n}{k} p^k (1-p)^{n-k} \]
+as required.
+Now, we define \(S_n(\omega) = X_1(\omega) + \dots + X_n(\omega)\).
+This is the number of heads in \(N\) tosses.
+So \(S_n \colon \Omega \to \{ 0, \dots, N \}\), and
+\[
+	\prob{S_n = k} = \binom{n}{k} p^k (1-p)^{n-k}
+\]
 So \(S_n\) has the binomial distribution with parameters \(n\) and \(p\).
 
 \subsection{Expectation}
-Let \((\Omega, \mathcal F, \mathbb P)\) be a probability space such that \(\Omega\) is countable. Let \(X \colon \Omega \to \mathbb R\) be a random variable, which is necessarily discrete. We say that \(X\) is non-negative if \(X \geq 0\). We define the expectation of \(X\) to be
-\[ \expect{X} = \sum_\omega X(\omega) \cdot \prob{\{ \omega \}} \]
+Let \((\Omega, \mathcal F, \mathbb P)\) be a probability space such that \(\Omega\) is countable.
+Let \(X \colon \Omega \to \mathbb R\) be a random variable, which is necessarily discrete.
+We say that \(X\) is non-negative if \(X \geq 0\).
+We define the expectation of \(X\) to be
+\[
+	\expect{X} = \sum_\omega X(\omega) \cdot \prob{\{ \omega \}}
+\]
 We will write
-\[ \Omega_X = \{ X(\omega) \colon \omega \in \Omega \} \]
+\[
+	\Omega_X = \{ X(\omega) \colon \omega \in \Omega \}
+\]
 So
-\[ \Omega = \bigcup_{x \in \Omega_X} \{ X = x \} \]
-So we have partitioned \(\Omega\) using \(X\). Note that
-\[ \expect{X} = \sum_\omega X(\omega) \prob{\{\omega\}} = \sum_{x \in \Omega_X} \sum_{\omega \in \{ X = x\}} X(\omega) \prob{\{\omega\}} = \sum_{x \in \Omega_X} \sum_{\omega \in \{ X = x\}} x \prob{\{\omega\}} = \sum_{x \in \Omega_X} x\prob{\{X = x \}} \]
-which matches the more familiar definition of the expectation; the average of the values taken by \(X\), weighted by the probability of the event occcuring. So
-\[ \expect{X} = \sum_{x \in \Omega_X} x p_x \]
+\[
+	\Omega = \bigcup_{x \in \Omega_X} \{ X = x \}
+\]
+So we have partitioned \(\Omega\) using \(X\).
+Note that
+\[
+	\expect{X} = \sum_\omega X(\omega) \prob{\{\omega\}} = \sum_{x \in \Omega_X} \sum_{\omega \in \{ X = x\}} X(\omega) \prob{\{\omega\}} = \sum_{x \in \Omega_X} \sum_{\omega \in \{ X = x\}} x \prob{\{\omega\}} = \sum_{x \in \Omega_X} x\prob{\{X = x \}}
+\]
+which matches the more familiar definition of the expectation; the average of the values taken by \(X\), weighted by the probability of the event occcuring.
+So
+\[
+	\expect{X} = \sum_{x \in \Omega_X} x p_x
+\]
 
 \subsection{Expectation of Binomial Distribution}
-Let \(X \sim \text{Bin}(N, p)\). Then
-\[ \forall k = 0, \dots, N,\quad \prob{X = k} = \binom{N}{k} p^k (1-p)^{N-k} \]
+Let \(X \sim \text{Bin}(N, p)\).
+Then
+\[
+	\forall k = 0, \dots, N,\quad \prob{X = k} = \binom{N}{k} p^k (1-p)^{N-k}
+\]
 So using the second definition,
 \begin{align*}
 	\expect{X} & = \sum_{k=0}^N k \prob{X = k}                                                         \\
@@ -52,7 +94,9 @@ So using the second definition,
 
 \subsection{Expectation of Poisson Distribution}
 Let \(X \sim \text{Poi}(\lambda)\), so
-\[ \prob{X = k} = e^{-\lambda} \frac{\lambda^k}{k!} \]
+\[
+	\prob{X = k} = e^{-\lambda} \frac{\lambda^k}{k!}
+\]
 Hence
 \begin{align*}
 	\expect{X} & = \sum_{k=0}^\infty k e^{-\lambda} \frac{\lambda^k}{k!}              \\
@@ -62,12 +106,24 @@ Hence
 \end{align*}
 
 \subsection{Expectation of a General Random Variable}
-Let \(X\) be a general (not necessarily non-negative) discrete random variable. Then we define
-\[ X^+ = \max(X, 0);\quad X^- = \max(-X, 0) \]
-Then \(X = X^+ - X^-\). Note that \(X^+\) and \(X^-\) are non-negative random variables, which has a well-defined expectation. So if at least one of \(\expect{X^+}, \expect{X^-}\) is finite, we define
-\[ \expect{X} = \expect{X^+} - \expect{X^-} \]
-If both are infinite, then we say that the expectation of \(X\) is not defined. Whenever we write \(\expect{X}\), it is assumed to be well-defined. If \(\expect{\abs{X}} < \infty\), we say that \(X\) is integrable. When \(\expect{X}\) is well-defined, we have again that
-\[ \expect{X} = \sum_{x \in \Omega_x} x \cdot \prob{X = x} \]
+Let \(X\) be a general (not necessarily non-negative) discrete random variable.
+Then we define
+\[
+	X^+ = \max(X, 0);\quad X^- = \max(-X, 0)
+\]
+Then \(X = X^+ - X^-\).
+Note that \(X^+\) and \(X^-\) are non-negative random variables, which has a well-defined expectation.
+So if at least one of \(\expect{X^+}, \expect{X^-}\) is finite, we define
+\[
+	\expect{X} = \expect{X^+} - \expect{X^-}
+\]
+If both are infinite, then we say that the expectation of \(X\) is not defined.
+Whenever we write \(\expect{X}\), it is assumed to be well-defined.
+If \(\expect{\abs{X}} < \infty\), we say that \(X\) is integrable.
+When \(\expect{X}\) is well-defined, we have again that
+\[
+	\expect{X} = \sum_{x \in \Omega_x} x \cdot \prob{X = x}
+\]
 
 \subsection{Properties of the Expectation}
 The following properties follow immediately from the definition.
@@ -76,7 +132,10 @@ The following properties follow immediately from the definition.
 	\item If \(X \geq 0\) and \(\expect{X} = 0\), then \(\prob{X = 0} = 1\).
 	\item If \(c \in \mathbb R\), then \(\expect{cX} = c\expect{X}\), and \(\expect{c + X} = c + \expect{X}\).
 	\item If \(X\), \(Y\) are two integrable random variables, then \(\expect{X + Y} = \expect{X} + \expect{Y}\).
-	\item More generally, let \(c_1, \dots, c_n \in \mathbb R\) and \(X_1, \dots, X_n\) integrable random variables. Then
-	      \[ \expect{c_1X_1 + \dots + c_nX_n} = c_1 \expect{X_1} + \dots + c_n \expect{X_n} \]
+	\item More generally, let \(c_1, \dots, c_n \in \mathbb R\) and \(X_1, \dots, X_n\) integrable random variables.
+	      Then
+	      \[
+		      \expect{c_1X_1 + \dots + c_nX_n} = c_1 \expect{X_1} + \dots + c_n \expect{X_n}
+	      \]
 	      So the expectation is a linear operator over finitely many inputs.
 \end{enumerate}

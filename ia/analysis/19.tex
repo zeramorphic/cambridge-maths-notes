@@ -1,53 +1,98 @@
 \subsection{Determining Integrability}
 \begin{theorem}
 	A function \(f \colon [a, b] \to \mathbb R\) is Riemann integrable if and only if given \(\varepsilon > 0\), there exists \(\mathcal D\) such that
-	\[ S(f, \mathcal D) - s(f, \mathcal D) < \varepsilon \]
+	\[
+		S(f, \mathcal D) - s(f, \mathcal D) < \varepsilon
+	\]
 \end{theorem}
 \begin{proof}
-	For every dissection \(\mathcal D\), we have that \(0 \leq I^\star(f) - I_\star(f) \leq S(f, \mathcal D) - s(f, \mathcal D)\). If the given condition holds, \(0 \leq I^\star(f) - I_\star(f) \leq S(f, \mathcal D) - s(f, \mathcal D) < \varepsilon\) for all \(\varepsilon > 0\). This immediately implies that \(f\) is Riemann integrable since the upper integral and the lower integral match. Conversely, if \(f\) is integrable, by the definition of the supremum and infimum, there are partitions \(\mathcal D_1\) and \(\mathcal D_2\) such that
-	\[ \int_a^b f - \frac{\varepsilon}{2} = I_\star(f) - \frac{\varepsilon}{2} < s(f, \mathcal D_1) \]
+	For every dissection \(\mathcal D\), we have that \(0 \leq I^\star(f) - I_\star(f) \leq S(f, \mathcal D) - s(f, \mathcal D)\).
+	If the given condition holds, \(0 \leq I^\star(f) - I_\star(f) \leq S(f, \mathcal D) - s(f, \mathcal D) < \varepsilon\) for all \(\varepsilon > 0\).
+	This immediately implies that \(f\) is Riemann integrable since the upper integral and the lower integral match.
+	Conversely, if \(f\) is integrable, by the definition of the supremum and infimum, there are partitions \(\mathcal D_1\) and \(\mathcal D_2\) such that
+	\[
+		\int_a^b f - \frac{\varepsilon}{2} = I_\star(f) - \frac{\varepsilon}{2} < s(f, \mathcal D_1)
+	\]
 	Also,
-	\[ \int_a^b f + \frac{\varepsilon}{2} = I^\star(f) + \frac{\varepsilon}{2} > S(f, \mathcal D_2) \]
+	\[
+		\int_a^b f + \frac{\varepsilon}{2} = I^\star(f) + \frac{\varepsilon}{2} > S(f, \mathcal D_2)
+	\]
 	From last lecture, we can use the fact that \(\mathcal D_1 \cup \mathcal D_2\) is a refinement of both \(\mathcal D_1\) and \(\mathcal D_2\) to show that
-	\[ S(f, \mathcal D_1 \cup \mathcal D_2) - s(f, \mathcal D_1 \cup \mathcal D_2) \leq S(f, \mathcal D_2) - s(f, \mathcal D_1) \]
+	\[
+		S(f, \mathcal D_1 \cup \mathcal D_2) - s(f, \mathcal D_1 \cup \mathcal D_2) \leq S(f, \mathcal D_2) - s(f, \mathcal D_1)
+	\]
 	Now,
-	\[ S(f, \mathcal D_2) - s(f, \mathcal D_1) < \int_a^b f + \frac{\varepsilon}{2} - \int_a^b f + \frac{\varepsilon}{2} = \varepsilon \]
+	\[
+		S(f, \mathcal D_2) - s(f, \mathcal D_1) < \int_a^b f + \frac{\varepsilon}{2} - \int_a^b f + \frac{\varepsilon}{2} = \varepsilon
+	\]
 	as required.
 \end{proof}
 
 \subsection{Monotonic and Continuous Functions}
-We can use this theorem to show that monotonic and continous functions are integrable. Note that monotonic and continuous functions (defined on a closed interval) are always bounded.
+We can use this theorem to show that monotonic and continous functions are integrable.
+Note that monotonic and continuous functions (defined on a closed interval) are always bounded.
 \begin{theorem}
-	Suppose a function \(f \colon [a, b] \to \mathbb R\) is monotonic. Then \(f\) is integrable.
+	Suppose a function \(f \colon [a, b] \to \mathbb R\) is monotonic.
+	Then \(f\) is integrable.
 \end{theorem}
 \begin{proof}
-	Suppose \(f\) is increasing. Then \(\sup_{x \in [x_{j-1} - x_j]} f(x) = f(x_j)\), and similarly, \(\inf_{x \in [x_{j-1} - x_j]} f(x) = f(x_{j-1})\). Thus,
-	\[ S(f, \mathcal D) - s(f, \mathcal D) = \sum_{j=1}^n (x_j - x_{j-1}) \left[ f(x_j) - f(x_{j-1}) \right] \]
+	Suppose \(f\) is increasing.
+	Then \(\sup_{x \in [x_{j-1} - x_j]} f(x) = f(x_j)\), and similarly, \(\inf_{x \in [x_{j-1} - x_j]} f(x) = f(x_{j-1})\).
+	Thus,
+	\[
+		S(f, \mathcal D) - s(f, \mathcal D) = \sum_{j=1}^n (x_j - x_{j-1}) \left[ f(x_j) - f(x_{j-1}) \right]
+	\]
 	Let us choose the dissection
-	\[ \mathcal D = \qty{ a, a + \frac{b-a}{n}, a + 2\frac{b-a}{n} + \dots + b } \]
+	\[
+		\mathcal D = \qty{ a, a + \frac{b-a}{n}, a + 2\frac{b-a}{n} + \dots + b }
+	\]
 	giving
-	\[ x_j = a + j\frac{b-a}{n} \]
-	for \(0 \leq j \leq n\). In this case,
-	\[ S(f, \mathcal D) - s(f, \mathcal D) = \frac{b-a}{n} \sum_{j=1}^n \left[ f(x_j) - f(x_{j-1}) \right] = \frac{b-a}{n} \left[ f(b) - f(a) \right] \to 0 \]
+	\[
+		x_j = a + j\frac{b-a}{n}
+	\]
+	for \(0 \leq j \leq n\).
+	In this case,
+	\[
+		S(f, \mathcal D) - s(f, \mathcal D) = \frac{b-a}{n} \sum_{j=1}^n \left[ f(x_j) - f(x_{j-1}) \right] = \frac{b-a}{n} \left[ f(b) - f(a) \right] \to 0
+	\]
 	so then using the above theorem, \(f\) is integrable.
 \end{proof}
 \noindent To prove an analogous result for continuous function, we must first prove the following lemma.
 \begin{lemma}[Uniform Continuity]
-	Suppose a function \(f \colon [a, b] \to \mathbb R\) is continuous. Then given \(\varepsilon > 0\), \(\exists \delta > 0\) such that if \(\abs{x-y} < \delta\), we have \(\abs{f(x) - f(y)} < \varepsilon\).
+	Suppose a function \(f \colon [a, b] \to \mathbb R\) is continuous.
+	Then given \(\varepsilon > 0\), \(\exists \delta > 0\) such that if \(\abs{x-y} < \delta\), we have \(\abs{f(x) - f(y)} < \varepsilon\).
 \end{lemma}
-\noindent Note that in this lemma, we are saying that there exists such a \(\delta\) that works for \textit{every} pair of points within \(\delta\). The definition of continuity only provides a \(\delta\) that depends on \(x\), so this is stronger than the definition of continuity, and this property does not hold for all continuous functions.
+\noindent Note that in this lemma, we are saying that there exists such a \(\delta\) that works for \textit{every} pair of points within \(\delta\).
+The definition of continuity only provides a \(\delta\) that depends on \(x\), so this is stronger than the definition of continuity, and this property does not hold for all continuous functions.
 \begin{proof}
-	Suppose there does not exist such a \(\delta\). Then there exists some \(\varepsilon > 0\) such that for all \(\delta > 0\) there exist \(x, y \in [a, b]\) such that \(\abs{x-y} < \delta\) but \(\abs{f(x) - f(y)} \geq \varepsilon\). Let \(\delta = \frac{1}{n}\). For this choice, we can find sequences \(x_n\) and \(y_n\) with \(\abs{x_n - y_n} < \frac{1}{n}\) but \(\abs{f(x_n) - f(y_n)} \geq \varepsilon\). By the Bolzano-Weierstrass theorem, since we are working in a closed bounded interval, the \(x_n\) and \(y_n\) have convergent subsequences that tend to \(c\) and \(d\). Then by the triangle inequality,
-	\[ \abs{y_{n_k} - c} \leq \abs{y_{n_k} - x_{n_k}} + \abs{x_{n_k} - c} \to 0 \]
-	So \(c = d\). But \(\abs{f(x_{n_k}) - f(y_{n_k})} \geq \varepsilon\), and by continuity as \(k \to \infty\), \(\abs{f(c) - f(c)} \geq \varepsilon\) which is a contradiction.
+	Suppose there does not exist such a \(\delta\).
+	Then there exists some \(\varepsilon > 0\) such that for all \(\delta > 0\) there exist \(x, y \in [a, b]\) such that \(\abs{x-y} < \delta\) but \(\abs{f(x) - f(y)} \geq \varepsilon\).
+	Let \(\delta = \frac{1}{n}\).
+	For this choice, we can find sequences \(x_n\) and \(y_n\) with \(\abs{x_n - y_n} < \frac{1}{n}\) but \(\abs{f(x_n) - f(y_n)} \geq \varepsilon\).
+	By the Bolzano-Weierstrass theorem, since we are working in a closed bounded interval, the \(x_n\) and \(y_n\) have convergent subsequences that tend to \(c\) and \(d\).
+	Then by the triangle inequality,
+	\[
+		\abs{y_{n_k} - c} \leq \abs{y_{n_k} - x_{n_k}} + \abs{x_{n_k} - c} \to 0
+	\]
+	So \(c = d\).
+	But \(\abs{f(x_{n_k}) - f(y_{n_k})} \geq \varepsilon\), and by continuity as \(k \to \infty\), \(\abs{f(c) - f(c)} \geq \varepsilon\) which is a contradiction.
 \end{proof}
 \begin{theorem}
-	Suppose a function \(f \colon [a, b] \to \mathbb R\) is continuous. Then \(f\) is integrable.
+	Suppose a function \(f \colon [a, b] \to \mathbb R\) is continuous.
+	Then \(f\) is integrable.
 \end{theorem}
 \begin{proof}
-	We know that given \(\varepsilon > 0\), there exists \(\delta > 0\) such that \(\abs{x - y} < \delta \implies \abs{f(x) - f(y)} < \varepsilon\). So now, let
-	\[ \mathcal D = \qty{ a, a + \frac{b-a}{n}, a + 2\frac{b-a}{n} + \dots + b } \]
-	where \(n\) is chosen large enough such that \(\frac{b-a}{n} < \delta\). Then, for any \(x, y \in [x_{j-1}, x_j]\), \(\abs{f(x) - f(y)} < \varepsilon\). We can now write
-	\[ \max_{x \in [x_{j-1}, x_j]} f(x) - \min_{x \in [x_{j-1}, x_j]} f(x) = f(p) - f(q) < \varepsilon \]
-	Therefore, the upper sums and lower sums differ by at most \((b-a)\varepsilon\). Hence, \(f\) is integrable.
+	We know that given \(\varepsilon > 0\), there exists \(\delta > 0\) such that \(\abs{x - y} < \delta \implies \abs{f(x) - f(y)} < \varepsilon\).
+	So now, let
+	\[
+		\mathcal D = \qty{ a, a + \frac{b-a}{n}, a + 2\frac{b-a}{n} + \dots + b }
+	\]
+	where \(n\) is chosen large enough such that \(\frac{b-a}{n} < \delta\).
+	Then, for any \(x, y \in [x_{j-1}, x_j]\), \(\abs{f(x) - f(y)} < \varepsilon\).
+	We can now write
+	\[
+		\max_{x \in [x_{j-1}, x_j]} f(x) - \min_{x \in [x_{j-1}, x_j]} f(x) = f(p) - f(q) < \varepsilon
+	\]
+	Therefore, the upper sums and lower sums differ by at most \((b-a)\varepsilon\).
+	Hence, \(f\) is integrable.
 \end{proof}

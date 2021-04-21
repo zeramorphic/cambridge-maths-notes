@@ -1,63 +1,112 @@
 \subsection{Line Integrals}
 For a vector field \(\vb F(\vb x)\) and a piecewise smooth parametrised curve \(C\) defined by \([a, b] \ni t \mapsto \vb x(t)\), we define the line integral of \(F\) along \(C\)
-\[ \int_C \vb F \cdot \dd \vb x = \int_a^b \vb F(\vb x(t)) \cdot \underbrace{\frac{\dd \vb x}{\dd{t}}}_{\mathclap{\text{tangent vector}}} \dd{t} \]
-Note that this tangent vector is not necessarily normalised, and note further that the curve direction matters. If we want to integrate in the other direction, it is common to write \(\int_{-C}\) instead. We can think of this line integral as the work done by a particle moving along \(C\) in the presence of a force \(F\). As an example, consider the vector field given by
-\[ \vb F = \begin{pmatrix}
+\[
+	\int_C \vb F \cdot \dd \vb x = \int_a^b \vb F(\vb x(t)) \cdot \underbrace{\frac{\dd \vb x}{\dd{t}}}_{\mathclap{\text{tangent vector}}} \dd{t}
+\]
+Note that this tangent vector is not necessarily normalised, and note further that the curve direction matters.
+If we want to integrate in the other direction, it is common to write \(\int_{-C}\) instead.
+We can think of this line integral as the work done by a particle moving along \(C\) in the presence of a force \(F\).
+As an example, consider the vector field given by
+\[
+	\vb F = \begin{pmatrix}
 		x^2 y \\ yz \\ 2xz
-	\end{pmatrix} \]
+	\end{pmatrix}
+\]
 Consider two curves connecting the origin to the position vector \(\begin{pmatrix}
 	1 \\ 1 \\ 1
 \end{pmatrix}\).
-\[ C_1 \colon [0, 1] \ni t \mapsto \begin{pmatrix}
+\[
+	C_1 \colon [0, 1] \ni t \mapsto \begin{pmatrix}
 		t \\ t \\ t
 	\end{pmatrix};\quad C_2 \colon [0, 1] \ni t \mapsto \begin{pmatrix}
 		t \\ t \\ t^2
-	\end{pmatrix} \]
-\[ \int_{C_1}\vb F \cdot \dd \vb x = \int_0^1 \begin{pmatrix}
+	\end{pmatrix}
+\]
+\[
+	\int_{C_1}\vb F \cdot \dd \vb x = \int_0^1 \begin{pmatrix}
 		t^3 \\ t^2 \\ 2t^2
 	\end{pmatrix} \cdot \begin{pmatrix}
 		1 \\ 1 \\ 1
-	\end{pmatrix} \dd{t} = \frac{5}{4} \]
-\[ \int_{C_2}\vb F \cdot \dd \vb x = \int_0^1 \begin{pmatrix}
+	\end{pmatrix} \dd{t} = \frac{5}{4}
+\]
+\[
+	\int_{C_2}\vb F \cdot \dd \vb x = \int_0^1 \begin{pmatrix}
 		t^3 \\ t^3 \\ 2t^3
 	\end{pmatrix} \cdot \begin{pmatrix}
 		1 \\ 1 \\ 2t
-	\end{pmatrix} \dd{t} = \frac{13}{10} \]
-In general, the result of the line integral depends on the path taken between the two points. In the force analogy, there might be a path between \(A\) and \(B\) that is very easy to traverse, and another path that is very difficult (i.e.\ uses a lot of energy).
+	\end{pmatrix} \dd{t} = \frac{13}{10}
+\]
+In general, the result of the line integral depends on the path taken between the two points.
+In the force analogy, there might be a path between \(A\) and \(B\) that is very easy to traverse, and another path that is very difficult (i.e.\ uses a lot of energy).
 
 Now, consider a particle at \(\vb x\) experiencing a force \(\vb F\), represented in cylindrical polar coordinates as
-\[ \vb F(\vb x) = z\rho \vb e_{\phi} \]
+\[
+	\vb F(\vb x) = z\rho \vb e_{\phi}
+\]
 Consider the path \(C\) given by
-\[ C \colon [0, 2\pi] \ni t \mapsto \begin{pmatrix}
+\[
+	C \colon [0, 2\pi] \ni t \mapsto \begin{pmatrix}
 		a \cos t \\ a \sin t \\ t
-	\end{pmatrix} \]
-What is the work done by the particle travelling along \(C\)? Using the definition of the line element \(\dd \vb x\) in cylindrical polar coordinates, we can compute that \(\vb F \dd \vb x = z \rho^2 \dd \phi\). Note that in cylindrical polar coordinates, the path can be represented simply as \((\rho, \phi, z) = (a, t, t)\). Hence,
-\[ (\dd \rho, \dd \phi, \dd{z}) = (0, \dd{t}, \dd{t}) \]
-Therefore, \(\vb F \dd \vb x = z \rho^2 \dd{t}\). We can now compute the integral:
-\[ \int_C \vb F \cdot \dd \vb x = a^2 \int_0^{2\pi} t\dd{t} = 2\pi^2a^2 \]
+	\end{pmatrix}
+\]
+What is the work done by the particle travelling along \(C\)? Using the definition of the line element \(\dd \vb x\) in cylindrical polar coordinates, we can compute that \(\vb F \dd \vb x = z \rho^2 \dd \phi\).
+Note that in cylindrical polar coordinates, the path can be represented simply as \((\rho, \phi, z) = (a, t, t)\).
+Hence,
+\[
+	(\dd \rho, \dd \phi, \dd{z}) = (0, \dd{t}, \dd{t})
+\]
+Therefore, \(\vb F \dd \vb x = z \rho^2 \dd{t}\).
+We can now compute the integral:
+\[
+	\int_C \vb F \cdot \dd \vb x = a^2 \int_0^{2\pi} t\dd{t} = 2\pi^2a^2
+\]
 
 \subsection{Closed Curves}
-A curve \([a, b] \ni t \mapsto \vb x(t)\) might be such that \(\vb x(a) = \vb x(b)\). This is called a closed curve. The line integral around a closed loop is written
-\[ \oint_C \vb F \cdot \dd \vb x \]
-Sometimes, this is called the `circulation' of \(\vb F\) about \(C\). Consider the first example from this lecture, with curves \(C_1\) and \(C_2\). Let \(C = C_1 - C_2\). Then
-\[ \oint_C \vb F \cdot \dd \vb x = \int_{C_1} \vb F \cdot \dd \vb x - \int_{C_2} \vb F \cdot \dd \vb x = \frac{-2}{15} \]
+A curve \([a, b] \ni t \mapsto \vb x(t)\) might be such that \(\vb x(a) = \vb x(b)\).
+This is called a closed curve.
+The line integral around a closed loop is written
+\[
+	\oint_C \vb F \cdot \dd \vb x
+\]
+Sometimes, this is called the `circulation' of \(\vb F\) about \(C\).
+Consider the first example from this lecture, with curves \(C_1\) and \(C_2\).
+Let \(C = C_1 - C_2\).
+Then
+\[
+	\oint_C \vb F \cdot \dd \vb x = \int_{C_1} \vb F \cdot \dd \vb x - \int_{C_2} \vb F \cdot \dd \vb x = \frac{-2}{15}
+\]
 
 \subsection{Conservative Forces and Exact Differentials}
-We have seen how to interpret things like \(\vb F \cdot \dd \vb x\) when inside an integral. This is an example of a differential form; in orthogonal curvilinear coordinates \((u, v, w)\) we have
-\[ \vb F \cdot \dd \vb x = a \, \dd{u} + b \, \dd{v} + c \, \dd{w} \]
-for some \(a, b, c\) dependent on \(u, v, w\). We say that \(\vb F \cdot \dd \vb x\) is exact if
-\[ \vb F \cdot \dd \vb x = \dd{f} \]
-for some scalar function \(f\). Recall that \(\dd{f} = \grad f \cdot \dd \vb x\). So equivalently, \(\vb F \cdot \dd \vb x\) is exact if and only if
-\[ \vb F = \grad f \]
-Such a vector field is called conservative. \(\vb F \cdot \dd \vb x\) is exact if and only if \(\vb F\) is conservative. Using the properties that \(\dd (\alpha f + \beta g) = \alpha \, \dd{f} + \beta \, \dd{g}\), \(\dd (fg) = g \, \dd{f} + f \, \dd{g}\) and so on, it is usually easy to see if a differential form is exact.
+We have seen how to interpret things like \(\vb F \cdot \dd \vb x\) when inside an integral.
+This is an example of a differential form; in orthogonal curvilinear coordinates \((u, v, w)\) we have
+\[
+	\vb F \cdot \dd \vb x = a \, \dd{u} + b \, \dd{v} + c \, \dd{w}
+\]
+for some \(a, b, c\) dependent on \(u, v, w\).
+We say that \(\vb F \cdot \dd \vb x\) is exact if
+\[
+	\vb F \cdot \dd \vb x = \dd{f}
+\]
+for some scalar function \(f\).
+Recall that \(\dd{f} = \grad f \cdot \dd \vb x\).
+So equivalently, \(\vb F \cdot \dd \vb x\) is exact if and only if
+\[
+	\vb F = \grad f
+\]
+Such a vector field is called conservative.
+\(\vb F \cdot \dd \vb x\) is exact if and only if \(\vb F\) is conservative.
+Using the properties that \(\dd (\alpha f + \beta g) = \alpha \, \dd{f} + \beta \, \dd{g}\), \(\dd (fg) = g \, \dd{f} + f \, \dd{g}\) and so on, it is usually easy to see if a differential form is exact.
 
 \begin{proposition}
 	If \(\theta\) is an exact differential form, then
-	\[ \oint_C \theta = 0 \]
+	\[
+		\oint_C \theta = 0
+	\]
 	for any closed curve \(C\).
 \end{proposition}
 \begin{proof}
-	If \(\theta\) is exact, then \(\theta = \grad f \cdot \dd \vb x\) for some scalar function \(f\). Given a curve \(C \colon [a, b] \ni t \mapsto \vb x(t)\),
+	If \(\theta\) is exact, then \(\theta = \grad f \cdot \dd \vb x\) for some scalar function \(f\).
+	Given a curve \(C \colon [a, b] \ni t \mapsto \vb x(t)\),
 	\begin{align*}
 		\oint_C \theta & = \oint_C \grad f \cdot \dd \vb x                                  \\
 		               & = \int_a^b \grad f(\vb x(t)) \cdot \frac{\dd \vb x}{\dd{t}} \dd{t} \\
@@ -68,41 +117,70 @@ Such a vector field is called conservative. \(\vb F \cdot \dd \vb x\) is exact i
 	\end{align*}
 	since \(\vb x(a) = \vb x(b)\).
 \end{proof}
-\noindent Note, for example in cylindrical polar coordinates, that \(f(\rho, \phi, z) = \phi\) is not a function on \(\mathbb R^3\), since there are many possible values of \(\phi\) for any given position vector. These are called multi-valued functions; for example the contour integral of this function over a circle where \(\phi \in [0, 2\pi]\) is not well-defined, since \(f(\rho, 0, z) \neq f(\rho, 2 \pi, z)\).
+\noindent Note, for example in cylindrical polar coordinates, that \(f(\rho, \phi, z) = \phi\) is not a function on \(\mathbb R^3\), since there are many possible values of \(\phi\) for any given position vector.
+These are called multi-valued functions; for example the contour integral of this function over a circle where \(\phi \in [0, 2\pi]\) is not well-defined, since \(f(\rho, 0, z) \neq f(\rho, 2 \pi, z)\).
 
-Note that if \(\vb F\) is conservative, then the circulation of \(\vb F\) around any closed curve \(C\) vanishes. This means that the line integral between \(A\) and \(B\) is not dependent on the path chosen between the two points; simply choose the most convenient curve for the problem.
+Note that if \(\vb F\) is conservative, then the circulation of \(\vb F\) around any closed curve \(C\) vanishes.
+This means that the line integral between \(A\) and \(B\) is not dependent on the path chosen between the two points; simply choose the most convenient curve for the problem.
 
-Let \((u, v, w) = (u_1, u_2, u_3)\) be a set of orthogonal curvilinear coordinates. Let
-\[ \vb F \cdot \dd \vb x = \theta = \underbrace{A(u, v, w) \, \dd{u}}_{\theta_1} + \underbrace{B(u, v, w) \, \dd{v}}_{\theta_2} + \underbrace{C(u, v, w) \, \dd{w}}_{\theta_3} = \theta_i \dd{u}_i \]
+Let \((u, v, w) = (u_1, u_2, u_3)\) be a set of orthogonal curvilinear coordinates.
+Let
+\[
+	\vb F \cdot \dd \vb x = \theta = \underbrace{A(u, v, w) \, \dd{u}}_{\theta_1} + \underbrace{B(u, v, w) \, \dd{v}}_{\theta_2} + \underbrace{C(u, v, w) \, \dd{w}}_{\theta_3} = \theta_i \dd{u}_i
+\]
 A necessary condition for \(\theta\) to be exact is
 \begin{equation}
 	\frac{\partial \theta_i}{\partial u_j} = \frac{\partial \theta_j}{\partial u_i}
 	\tag{\(\dagger\)}
 \end{equation}
 Indeed, if \(\theta\) is exact, then \(\theta = \dd{f}\), so
-\[ \theta = \frac{\partial f}{\partial u_i} \, \dd{u}_i \iff \theta_i = \frac{\partial f}{\partial u_i} \]
+\[
+	\theta = \frac{\partial f}{\partial u_i} \, \dd{u}_i \iff \theta_i = \frac{\partial f}{\partial u_i}
+\]
 and therefore,
-\[ \frac{\partial \theta_i}{\partial u_j} = \frac{\partial^2 f}{\partial u_j \partial u_i} = \frac{\partial \theta_j}{\partial u_i} \]
-A differential form \(\theta = \theta_i \, \dd{u}_i\) that obeys \((\dagger)\) is called a \textit{closed} differential form. Certainly any exact differential form is closed. A differential form is exact if it is closed \textit{and} the domain \(\Omega \subset \mathbb R^3\) on which \(\theta\) is defined is simply connected, i.e.\ all closed loops in \(\Omega\) can be continuously `shrunk' to any point inside \(\Omega\) without leaving it. This is notable, since one direction of implication is related to calculus, but the other direction is related to topology.
+\[
+	\frac{\partial \theta_i}{\partial u_j} = \frac{\partial^2 f}{\partial u_j \partial u_i} = \frac{\partial \theta_j}{\partial u_i}
+\]
+A differential form \(\theta = \theta_i \, \dd{u}_i\) that obeys \((\dagger)\) is called a \textit{closed} differential form.
+Certainly any exact differential form is closed.
+A differential form is exact if it is closed \textit{and} the domain \(\Omega \subset \mathbb R^3\) on which \(\theta\) is defined is simply connected, i.e.\ all closed loops in \(\Omega\) can be continuously `shrunk' to any point inside \(\Omega\) without leaving it.
+This is notable, since one direction of implication is related to calculus, but the other direction is related to topology.
 
-Now, let us consider an example. Let
-\[ \theta = y \dd{x} - x \dd{y} \]
+Now, let us consider an example.
+Let
+\[
+	\theta = y \dd{x} - x \dd{y}
+\]
 Is this differential form exact? First, we will check if it is closed.
-\[ \frac{\partial}{\partial y} y = 1;\quad \frac{\partial}{\partial x} (-x) = -1 \]
-It is not closed, so it is not exact. As another example, let us compute the line integral
-\[ \int_C 3x^2y\dd{x} + x^3\dd{y} \]
+\[
+	\frac{\partial}{\partial y} y = 1;\quad \frac{\partial}{\partial x} (-x) = -1
+\]
+It is not closed, so it is not exact.
+As another example, let us compute the line integral
+\[
+	\int_C 3x^2y\dd{x} + x^3\dd{y}
+\]
 where
-\[ C \colon [\alpha_1, \alpha_{100}] \ni t \mapsto \begin{pmatrix}
+\[
+	C \colon [\alpha_1, \alpha_{100}] \ni t \mapsto \begin{pmatrix}
 		\cos \left( \Im \left( \zeta \left( \frac{1}{2} + it \right) \right) \right) \\
 		\sin \left( \Re \left( \zeta \left( \frac{1}{2} + it \right) \right) \right) \\
 		0
-	\end{pmatrix} \]
-where \(\alpha_1\) and \(\alpha_{100}\) are the 1st and 100th zeroes of \(\zeta \left( \frac{1}{2} + it \right)\). The loop is closed and exact; \(\dd(x^3 y) = 3x^2 y \dd{x} + x^3 \, \dd{y}\). So the result is zero. As a final example, consider a particle travelling along a curve \(C \colon [a, b] \ni t \mapsto \vb x(t)\). Then the work done is
+	\end{pmatrix}
+\]
+where \(\alpha_1\) and \(\alpha_{100}\) are the 1st and 100th zeroes of \(\zeta \left( \frac{1}{2} + it \right)\).
+The loop is closed and exact; \(\dd(x^3 y) = 3x^2 y \dd{x} + x^3 \, \dd{y}\).
+So the result is zero.
+As a final example, consider a particle travelling along a curve \(C \colon [a, b] \ni t \mapsto \vb x(t)\).
+Then the work done is
 \begin{align*}
 	W & = \int_C \vb F \cdot \dd \vb x                    \\
 	  & = m \int_a^b \ddot{\vb x} + \dot{\vb x} \, \dd{t} \\
 	  & = \frac{1}{2}m \eval{\abs{\dot{\vb x}}^2}_a^b
 \end{align*}
-which is the change in kinetic energy. If \(\vb F = -\grad V\), i.e.\ \(\vb F\) is conservative,
-\[ \int_C \vb F \cdot \dd \vb x = -\int_C \grad V \cdot \dd \vb x = V(\vb x(a)) - V(\vb x(b)) \]
+which is the change in kinetic energy.
+If \(\vb F = -\grad V\), i.e.\ \(\vb F\) is conservative,
+\[
+	\int_C \vb F \cdot \dd \vb x = -\int_C \grad V \cdot \dd \vb x = V(\vb x(a)) - V(\vb x(b))
+\]
 So the change in kinetic energy is equal to the change in potential energy; energy is conserved.

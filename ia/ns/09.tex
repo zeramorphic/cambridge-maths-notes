@@ -1,29 +1,63 @@
 \subsection{RSA Encryption}
-A practical use of number theory is RSA encryption, which is an asymmetric encryption protocol that allows encryption by using a public and private key pair. We will begin by first choosing two large distinct primes \(p\) and \(q\). By large, we mean primes that are hundreds of digits long; in practice, these primes are between around 512 bits and 2048 bits long when represented in binary. Let \(n=pq\), and pick a `coding exponent' \(e\). Our message that we want to send must be an element of \(\mathbb Z_n\), so if it is not representable in this form we must break it apart into several smaller messages, or perhaps use RSA to share some kind of small symmetric key for another encryption algorithm. Let this message be \(x\), so \(x < n\).
+A practical use of number theory is RSA encryption, which is an asymmetric encryption protocol that allows encryption by using a public and private key pair.
+We will begin by first choosing two large distinct primes \(p\) and \(q\).
+By large, we mean primes that are hundreds of digits long; in practice, these primes are between around 512 bits and 2048 bits long when represented in binary.
+Let \(n=pq\), and pick a `coding exponent' \(e\).
+Our message that we want to send must be an element of \(\mathbb Z_n\), so if it is not representable in this form we must break it apart into several smaller messages, or perhaps use RSA to share some kind of small symmetric key for another encryption algorithm.
+Let this message be \(x\), so \(x < n\).
 
-To encode \(x\), we raise it to the power \(e\) in \(\mathbb Z_n\). To efficiently compute large powers of \(x\), we can use a repeated squaring technique. For example, we can find \(x, x^2, x^4, x^8, x^{16}\) through repeated squaring, and then for example we can calculate \(x^{19} = x^{16} x^{2} x^{1}\).
+To encode \(x\), we raise it to the power \(e\) in \(\mathbb Z_n\).
+To efficiently compute large powers of \(x\), we can use a repeated squaring technique.
+For example, we can find \(x, x^2, x^4, x^8, x^{16}\) through repeated squaring, and then for example we can calculate \(x^{19} = x^{16} x^{2} x^{1}\).
 
-To decode \(x^e\), we ideally want some number \(d\) such that \((x^e)^d = x\). By the Fermat-Euler Theorem, we have \(x^{\varphi(n)} = 1\), so clearly \(x^{k\varphi(n) + 1} = x\). In other words, we want \(ed \equiv 1 \mod \varphi(n)\). By running Euclid's algorithm on \(e\) and \(\varphi(n)\), we can find such a \(d\). Note that this requires \(e\) and \(\varphi(n)\) to be coprime; in practice we would choose \(e\) after we have chosen \(n\) such that this is the case.
+To decode \(x^e\), we ideally want some number \(d\) such that \((x^e)^d = x\).
+By the Fermat-Euler Theorem, we have \(x^{\varphi(n)} = 1\), so clearly \(x^{k\varphi(n) + 1} = x\).
+In other words, we want \(ed \equiv 1 \mod \varphi(n)\).
+By running Euclid's algorithm on \(e\) and \(\varphi(n)\), we can find such a \(d\).
+Note that this requires \(e\) and \(\varphi(n)\) to be coprime; in practice we would choose \(e\) after we have chosen \(n\) such that this is the case.
 
-Now, we can see that to encode a message, all you need is \(n\) and \(e\). However, to decode, you need to also know \(d\), which means you need to know \(\varphi(n) = \varphi(pq) = pq - p - q + 1\) which requires that you know the original \(p\) and \(q\). If we pick sufficiently large \(p\) and \(q\), our \(n\) will be so big as to be almost impossible to factorise in any decent length of time. So we can publish \(n\) and \(e\) as our public key, and anyone may use these numbers to encrypt a message that then only we can decode.
+Now, we can see that to encode a message, all you need is \(n\) and \(e\).
+However, to decode, you need to also know \(d\), which means you need to know \(\varphi(n) = \varphi(pq) = pq - p - q + 1\) which requires that you know the original \(p\) and \(q\).
+If we pick sufficiently large \(p\) and \(q\), our \(n\) will be so big as to be almost impossible to factorise in any decent length of time.
+So we can publish \(n\) and \(e\) as our public key, and anyone may use these numbers to encrypt a message that then only we can decode.
 
 \subsection{Motivation for the Reals}
-Why do we need the real numbers in the first place? Well, we introduce new sets of numbers when there are equations that we cannot solve using our current number system. For example, the equation \(x+2=0\) is not solvable in \(\mathbb N\), so we constructed \(\mathbb Z\). Then we could not solve equations like \(2x = 3\), so we created the rationals, \(\mathbb Q\). Now, we cannot solve equations such as \(x^2 = 2\), so we must create a new set of numbers that contains this solution.
+Why do we need the real numbers in the first place? Well, we introduce new sets of numbers when there are equations that we cannot solve using our current number system.
+For example, the equation \(x+2=0\) is not solvable in \(\mathbb N\), so we constructed \(\mathbb Z\).
+Then we could not solve equations like \(2x = 3\), so we created the rationals, \(\mathbb Q\).
+Now, we cannot solve equations such as \(x^2 = 2\), so we must create a new set of numbers that contains this solution.
 
 \begin{proposition}
-	There does not exist a \(q \in \mathbb Q\) such that \(q^2 = 2\). Note that in this proposition we make no assumption that \(x^2\) is solvable, or that a solution if one exists does not lie within \(\mathbb Q\); we simply state that confined to the realm of \(\mathbb Q\) the equation is unsolvable.
+	There does not exist a \(q \in \mathbb Q\) such that \(q^2 = 2\).
+	Note that in this proposition we make no assumption that \(x^2\) is solvable, or that a solution if one exists does not lie within \(\mathbb Q\); we simply state that confined to the realm of \(\mathbb Q\) the equation is unsolvable.
 \end{proposition}
 \begin{proof}[Proof 1]
-	Suppose that such a \(q \in \mathbb Q\) exists, such that \(q^2 = 2\). Without loss of generality, we will assume that \(q>0\) because \((-q)^2 = q^2\). So let \(q\) be written as \(a/b\) where \(a, b \in \mathbb N\). Then \(a^2/b^2 = 2\), so \(a^2 = 2b^2\). If we factorise each side as a product of primes, the exponent of the prime 2 on the left hand side must be even, but on the right hand side it must be odd. This contradicts the unique factorisation of natural numbers. So such a \(q\) does not exist.
+	Suppose that such a \(q \in \mathbb Q\) exists, such that \(q^2 = 2\).
+	Without loss of generality, we will assume that \(q>0\) because \((-q)^2 = q^2\).
+	So let \(q\) be written as \(a/b\) where \(a, b \in \mathbb N\).
+	Then \(a^2/b^2 = 2\), so \(a^2 = 2b^2\).
+	If we factorise each side as a product of primes, the exponent of the prime 2 on the left hand side must be even, but on the right hand side it must be odd.
+	This contradicts the unique factorisation of natural numbers.
+	So such a \(q\) does not exist.
 \end{proof}
 \begin{proof}[Proof 2]
-	Suppose that there exists some \(q \in \mathbb Q\) written similarly to above as \(a/b\). Note that for any \(c, d \in \mathbb Z\), \(cq + d\) is of the form \(e/b\) for some integer \(e\). Therefore, if \(cq+d>0\) then \(cq+d \geq 1/b\).
+	Suppose that there exists some \(q \in \mathbb Q\) written similarly to above as \(a/b\).
+	Note that for any \(c, d \in \mathbb Z\), \(cq + d\) is of the form \(e/b\) for some integer \(e\).
+	Therefore, if \(cq+d>0\) then \(cq+d \geq 1/b\).
 
-	Now, note that \(0 < (q - 1) < 1\), so for a suitably large \(n\), we have \(0 < (q - 1)^n < 1/b\). However, \((q-1)^n\) is of the form \(cq+d\) because \(q^2 = 1\) so we can eliminate all exponents. This is a contradiction so such a \(q\) does not exist.
+	Now, note that \(0 < (q - 1) < 1\), so for a suitably large \(n\), we have \(0 < (q - 1)^n < 1/b\).
+	However, \((q-1)^n\) is of the form \(cq+d\) because \(q^2 = 1\) so we can eliminate all exponents.
+	This is a contradiction so such a \(q\) does not exist.
 \end{proof}
 
 \subsection{Least Upper Bound}
-We can see from the proofs above that \(\mathbb Q\) has a `gap' at \(\sqrt 2\). How can we express this fact without mentioning \(\mathbb R\)? We can't just say plainly that \(\sqrt 2 \notin \mathbb Q\) because as far as we know from \(\mathbb Q\), there is no reason to assume that such a number called \(\sqrt 2\) even exists! We need to find a way to express the concept of \(\sqrt 2\) in the language of \(\mathbb Q\). One way to do this is by creating sone set \(S = \{ q \in \mathbb Q: q^2 < 2 \}\). Then we can write down some upper bounds for this set. For example, 2 is a trivial upper bound, as is \(1.5\), and a is \(1.42\). In fact, we can continue making smaller and smaller upper bounds. We can see therefore that there exists no least upper bound in \(\mathbb Q\).
+We can see from the proofs above that \(\mathbb Q\) has a `gap' at \(\sqrt 2\).
+How can we express this fact without mentioning \(\mathbb R\)? We can't just say plainly that \(\sqrt 2 \notin \mathbb Q\) because as far as we know from \(\mathbb Q\), there is no reason to assume that such a number called \(\sqrt 2\) even exists! We need to find a way to express the concept of \(\sqrt 2\) in the language of \(\mathbb Q\).
+One way to do this is by creating sone set \(S = \{ q \in \mathbb Q: q^2 < 2 \}\).
+Then we can write down some upper bounds for this set.
+For example, 2 is a trivial upper bound, as is \(1.5\), and a is \(1.42\).
+In fact, we can continue making smaller and smaller upper bounds.
+We can see therefore that there exists no least upper bound in \(\mathbb Q\).
 
 \subsection{Assumptions about \(\mathbb R\)}
 We define the reals as follows: the reals are a set written \(\mathbb R\) with elements 0 and 1 with \(0 \neq 1\); with operations \(+\) and \(\cdot\); and an ordering \(<\); such that:

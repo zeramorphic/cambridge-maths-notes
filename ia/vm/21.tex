@@ -1,12 +1,21 @@
 \subsection{Matrix Polynomials}
 If \(A\) is an \(n \times n\) complex matrix and
-\[ p(t) = c_0 + c_1t + c_2^2 + \dots + c_kt^k \]
+\[
+	p(t) = c_0 + c_1t + c_2^2 + \dots + c_kt^k
+\]
 is a polynomial, then
-\[ p(A) = c_0I + c_1A + c_2A^2 + \dots + c_kA^k \]
-We can also define power series on matrices (subject to convergence). For example, the exponential series which always converges:
-\[ \exp(A) = I + A + \frac{1}{2}A^2 + \dots + \frac{1}{r!}A^r + \dots \]
-For a diagonal matrix, polynomials and power series can be computed easily since the power of a diagonal matrix just involves raising its diagonal elements to said power. Therefore,
-\[ D = \begin{pmatrix}
+\[
+	p(A) = c_0I + c_1A + c_2A^2 + \dots + c_kA^k
+\]
+We can also define power series on matrices (subject to convergence).
+For example, the exponential series which always converges:
+\[
+	\exp(A) = I + A + \frac{1}{2}A^2 + \dots + \frac{1}{r!}A^r + \dots
+\]
+For a diagonal matrix, polynomials and power series can be computed easily since the power of a diagonal matrix just involves raising its diagonal elements to said power.
+Therefore,
+\[
+	D = \begin{pmatrix}
 		\lambda_1 & 0         & \cdots & 0         \\
 		0         & \lambda_2 & \cdots & 0         \\
 		\vdots    & \vdots    & \ddots & \vdots    \\
@@ -16,58 +25,86 @@ For a diagonal matrix, polynomials and power series can be computed easily since
 		0            & p(\lambda_2) & \cdots & 0            \\
 		\vdots       & \vdots       & \ddots & \vdots       \\
 		0            & 0            & \cdots & p(\lambda_n)
-	\end{pmatrix} \]
+	\end{pmatrix}
+\]
 Therefore,
-\[ \exp(D) = \begin{pmatrix}
+\[
+	\exp(D) = \begin{pmatrix}
 		e^{\lambda_1} & 0             & \cdots & 0             \\
 		0             & e^{\lambda_2} & \cdots & 0             \\
 		\vdots        & \vdots        & \ddots & \vdots        \\
 		0             & 0             & \cdots & e^{\lambda_n}
-	\end{pmatrix} \]
+	\end{pmatrix}
+\]
 If \(B = P^{-1}AP\) (similar to \(A\)) where \(P\) is an \(n \times n\) invertible matrix, then
-\[ B^r = P^{-1}A^rP \]
+\[
+	B^r = P^{-1}A^rP
+\]
 Therefore,
-\[ p(B) = p(P^{-1}AP) = P^{-1}p(A)P \]
+\[
+	p(B) = p(P^{-1}AP) = P^{-1}p(A)P
+\]
 Of special interest is the characteristic polynomial,
-\[ \chi_A(t) = \det(A - tI) = c_0 + c_1t + c_2t^2 + \dots + c_nt^n \]
+\[
+	\chi_A(t) = \det(A - tI) = c_0 + c_1t + c_2t^2 + \dots + c_nt^n
+\]
 where \(c_0 = \det A\), and \(c_n = (-1)^n\).
 \begin{theorem}[Cayley-Hamilton Theorem]
-	\[ \chi_A(A) = c_0I + c_1A + c_2A^2 + \dots + c_nA^n = 0 \]
+	\[
+		\chi_A(A) = c_0I + c_1A + c_2A^2 + \dots + c_nA^n = 0
+	\]
 	Less formally, a matrix satisfies its own characteristic equation.
 \end{theorem}
 \begin{remark}
 	We can find an expression for the matrix inverse.
-	\[ -c_0I = A(c_1 + c_2A + \dots + c_nA^{n-1}) \]
+	\[
+		-c_0I = A(c_1 + c_2A + \dots + c_nA^{n-1})
+	\]
 	If \(c_0 = \det A \neq 0\), then
-	\[ A^{-1} = \frac{-1}{c_0}(c_1 + c_2A + \dots + c_nA^{n-1}) \]
+	\[
+		A^{-1} = \frac{-1}{c_0}(c_1 + c_2A + \dots + c_nA^{n-1})
+	\]
 \end{remark}
 
 \subsection{Proofs of Special Cases of Cayley-Hamilton Theorem}
 \begin{proof}[Proof for a \(2\times 2\) matrix]
 	Let \(A\) be a general \(2\times 2\) matrix.
-	\[ A = \begin{pmatrix}
+	\[
+		A = \begin{pmatrix}
 			a & b \\ c & d
-		\end{pmatrix} \implies \chi_A(t) = t^2 - (a+d)t + (ad-bc) \]
+		\end{pmatrix} \implies \chi_A(t) = t^2 - (a+d)t + (ad-bc)
+	\]
 	We can check the theorem by substitution.
-	\[ \chi_A(A) = A^2 - (a+d)A - (ad-bc)I \]
+	\[
+		\chi_A(A) = A^2 - (a+d)A - (ad-bc)I
+	\]
 	This is shown on the last example sheet.
 \end{proof}
 \begin{proof}[Proof for diagonalisable \(n \times n\) matrices]
 	Consider \(A\) with eigenvalues \(\lambda_i\), and an invertible matrix \(P\) such that \(P^{-1}AP = D\), where \(D\) is diagonal.
-	\[ \chi_A(D) = \begin{pmatrix}
+	\[
+		\chi_A(D) = \begin{pmatrix}
 			\chi_A(\lambda_1) & 0                 & \cdots & 0                 \\
 			0                 & \chi_A(\lambda_2) & \cdots & 0                 \\
 			\vdots            & \vdots            & \ddots & \vdots            \\
 			0                 & 0                 & \cdots & \chi_A(\lambda_n)
-		\end{pmatrix} = 0 \]
-	since the \(\lambda_i\) are eigenvalues. Then
-	\[ \chi_A(A) = \chi_A(PDP^{-1}) = P\chi_A(D)P^{-1} = 0 \]
+		\end{pmatrix} = 0
+	\]
+	since the \(\lambda_i\) are eigenvalues.
+	Then
+	\[
+		\chi_A(A) = \chi_A(PDP^{-1}) = P\chi_A(D)P^{-1} = 0
+	\]
 \end{proof}
 
 \subsection{Proof in General Case (non-examinable)}
 \begin{proof}
-	Let \(M = A - tI\). Then \(\det M = \det(A - tI) = \chi_A(t) = \sum_{r=0}c_rt^r\). We can construct the adjugate matrix.
-	\[ \adjugate M = \sum_{r=0}^{n-1} B_rt^r \]
+	Let \(M = A - tI\).
+	Then \(\det M = \det(A - tI) = \chi_A(t) = \sum_{r=0}c_rt^r\).
+	We can construct the adjugate matrix.
+	\[
+		\adjugate M = \sum_{r=0}^{n-1} B_rt^r
+	\]
 	Therefore,
 	\begin{align*}
 		\adjugate M M = (\det M) I & = \left(\sum_{r=0}^{n-1} B_rt^r\right)(A-tI)                                              \\
@@ -89,45 +126,66 @@ where \(c_0 = \det A\), and \(c_n = (-1)^n\).
 
 \subsection{Changing Bases in General}
 Recall that given a linear map \(T\colon V \to W\) where \(V\) and \(W\) are real or complex vector spaces, and choices of bases \(\{ \vb e_i \}\) for \(i = 1, \dots, n\) and \(\{\vb f_a \}\) for \(a = 1, \dots, m\), then the \(m \times n\) matrix \(A\) with respect to these bases is defined by
-\[ T(\vb e_i) = \sum_a \vb f_a A_{ai} \]
-So the entries in column \(i\) of \(A\) are the components of \(T(\vb e_i)\) with respect to the basis \(\{ \vb f_a \}\). This is chosen to ensure that the statement \(\vb y = T(\vb x)\) is equivalent to the statement that \(y_a = A_{ai}x_i\), where \(\vb y = \sum_a y_a \vb f_a\) and \(\vb x = \sum_i x_i \vb e_i\). This equivalence holds since
-\[ T\left(\sum_i x_i \vb e_i \right) = \sum_i x_i T(\vb e_i) = \sum_i x_i \left( \sum_a \vb f_a A_{ai} \right) = \sum_a \underbrace{\left( \sum_i A_{ai} x_i \right)}_{y_a} \vb f_a \]
-as required. For the same linear map \(T\), there is a different matrix representation \(A'\) with respect to different bases \(\{ \vb e'_i \}\) and \(\{ \vb f'_a \}\). To relate \(A\) with \(A'\), we need to understand how the new bases relate to the original bases. The change of base matrices \(P\) (\(n \times n\)) and \(Q\) (\(m \times m\)) are defined by
-\[ \vb e_i' = \sum_j \vb e_j P_{ji};\quad \vb f_a' = \sum_b \vb f_b Q_{ba} \]
-The entries in column \(i\) of \(P\) are the components of the new basis \(\vb e_i'\) in terms of the old basis vectors \(\{ \vb e_j \}\), and similarly for \(Q\). Note, \(P\) and \(Q\) are invertible, and in the relation above we could exchange the roles of \(\{ \vb e_i \}\) and \(\{ \vb e'_i \}\) by replacing \(P\) with \(P^{-1}\), and similarly for \(Q\).
+\[
+	T(\vb e_i) = \sum_a \vb f_a A_{ai}
+\]
+So the entries in column \(i\) of \(A\) are the components of \(T(\vb e_i)\) with respect to the basis \(\{ \vb f_a \}\).
+This is chosen to ensure that the statement \(\vb y = T(\vb x)\) is equivalent to the statement that \(y_a = A_{ai}x_i\), where \(\vb y = \sum_a y_a \vb f_a\) and \(\vb x = \sum_i x_i \vb e_i\).
+This equivalence holds since
+\[
+	T\left(\sum_i x_i \vb e_i \right) = \sum_i x_i T(\vb e_i) = \sum_i x_i \left( \sum_a \vb f_a A_{ai} \right) = \sum_a \underbrace{\left( \sum_i A_{ai} x_i \right)}_{y_a} \vb f_a
+\]
+as required.
+For the same linear map \(T\), there is a different matrix representation \(A'\) with respect to different bases \(\{ \vb e'_i \}\) and \(\{ \vb f'_a \}\).
+To relate \(A\) with \(A'\), we need to understand how the new bases relate to the original bases.
+The change of base matrices \(P\) (\(n \times n\)) and \(Q\) (\(m \times m\)) are defined by
+\[
+	\vb e_i' = \sum_j \vb e_j P_{ji};\quad \vb f_a' = \sum_b \vb f_b Q_{ba}
+\]
+The entries in column \(i\) of \(P\) are the components of the new basis \(\vb e_i'\) in terms of the old basis vectors \(\{ \vb e_j \}\), and similarly for \(Q\).
+Note, \(P\) and \(Q\) are invertible, and in the relation above we could exchange the roles of \(\{ \vb e_i \}\) and \(\{ \vb e'_i \}\) by replacing \(P\) with \(P^{-1}\), and similarly for \(Q\).
 
 \begin{proposition}[Change of base formula for a linear map]
 	With the definitions above,
-	\[ A' = Q^{-1}AP \]
+	\[
+		A' = Q^{-1}AP
+	\]
 \end{proposition}
-\noindent First we will consider an example, then we will construct a proof. Let \(n=2, m=3\), and
+\noindent First we will consider an example, then we will construct a proof.
+Let \(n=2, m=3\), and
 \begin{align*}
 	T(\vb e_1) & = \vb f_1 + 2\vb f_2 - \vb f_3 = \sum_a \vb f_a A_{a1}  \\
 	T(\vb e_2) & = -\vb f_1 + 2\vb f_2 + \vb f_3 = \sum_a \vb f_a A_{a2}
 \end{align*}
 Therefore,
-\[ A = \begin{pmatrix}
+\[
+	A = \begin{pmatrix}
 		1 & -1 \\ 2 & 2 \\ -1 & 1
-	\end{pmatrix} \]
+	\end{pmatrix}
+\]
 Consider a new basis for \(V\), given by
 \begin{align*}
 	\vb e'_1 & = \vb e_1 - \vb e_2 = \sum_i \vb e_i P_{i1} \\
 	\vb e'_2 & = \vb e_1 + \vb e_2 = \sum_i \vb e_i P_{i2}
 \end{align*}
-\[ P = \begin{pmatrix}
+\[
+	P = \begin{pmatrix}
 		1 & 1 \\ -1 & 1
-	\end{pmatrix} \]
+	\end{pmatrix}
+\]
 Consider further a new basis for \(W\), given by
 \begin{align*}
 	\vb f'_1 & = \vb f_1 - \vb f_3 = \sum_a \vb f_a Q_{a1} \\
 	\vb f'_2 & = \vb f_2 = \sum_a \vb f_a Q_{a2}           \\
 	\vb f'_3 & = \vb f_1 + \vb f_3 = \sum_a \vb f_a Q_{a3}
 \end{align*}
-\[ Q = \begin{pmatrix}
+\[
+	Q = \begin{pmatrix}
 		1  & 0 & 1 \\
 		0  & 1 & 0 \\
 		-1 & 0 & 1
-	\end{pmatrix} \]
+	\end{pmatrix}
+\]
 From the change of base formula,
 \begin{align*}
 	A' & = Q^{-1}AP                                                                       \\
@@ -149,7 +207,8 @@ Now checking this result directly,
 	T(\vb e'_1) & = 2\vb f_1 - 2\vb f_3 = 2\vb f_1' \\
 	T(\vb e'_2) & = 4\vb f_2 = 4\vb f_2'
 \end{align*}
-which matches the content of the matrix as required. Now, let us prove the proposition in general.
+which matches the content of the matrix as required.
+Now, let us prove the proposition in general.
 \begin{proof}
 	\begin{align*}
 		T(\vb e'_i) & = T\left( \sum_j \vb e_j P_{ji} \right)              \\
@@ -169,6 +228,8 @@ which matches the content of the matrix as required. Now, let us prove the propo
 		(AP)_{ai}            & = (QA')_{ai}
 	\end{align*}
 	Therefore
-	\[ AP = QA' \implies A' = Q^{-1}AP \]
+	\[
+		AP = QA' \implies A' = Q^{-1}AP
+	\]
 	as required.
 \end{proof}

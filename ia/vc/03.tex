@@ -1,70 +1,122 @@
 \subsection{Differentials and First Order Changes}
 Recall that for a function \(f(u_1, \dots, u_n)\), we define the differential of \(f\), written \(\dd{f}\), by
-\[ \dd{f} = \frac{\partial f}{\partial u_i} \dd{u}_i \]
-noting that the summation convention applies. The \(\dd{u}_i\) are called differential forms, which can be thought of as linearly independent objects (if the coordinates \(u_1, \dots, u_n\) are independent), i.e.\ \(\alpha_i \dd{u}_i = 0 \implies \alpha_i = 0\) for all \(i\). Similarly, if we have a vector \(\vb x(u_1, \dots, u_n)\), we define
-\[ \dd \vb x = \frac{\partial \vb x}{\partial u_i} \dd{u}_i \]
-As an example, let \(f(u, v, w) = u^2 + w \sin(v)\). Then
-\[ \dd{f} = 2u \dd{u} + w \cos(v) \dd{v} + \sin(v) \dd{w} \]
+\[
+	\dd{f} = \frac{\partial f}{\partial u_i} \dd{u}_i
+\]
+noting that the summation convention applies.
+The \(\dd{u}_i\) are called differential forms, which can be thought of as linearly independent objects (if the coordinates \(u_1, \dots, u_n\) are independent), i.e.\ \(\alpha_i \dd{u}_i = 0 \implies \alpha_i = 0\) for all \(i\).
+Similarly, if we have a vector \(\vb x(u_1, \dots, u_n)\), we define
+\[
+	\dd \vb x = \frac{\partial \vb x}{\partial u_i} \dd{u}_i
+\]
+As an example, let \(f(u, v, w) = u^2 + w \sin(v)\).
+Then
+\[
+	\dd{f} = 2u \dd{u} + w \cos(v) \dd{v} + \sin(v) \dd{w}
+\]
 Similarly, given
-\[ \vb x(u, v, w) = \begin{pmatrix}
+\[
+	\vb x(u, v, w) = \begin{pmatrix}
 		u^2 - v^2 \\ w \\ e^v
-	\end{pmatrix} \]
+	\end{pmatrix}
+\]
 we can compute
-\[ \dd \vb x = \begin{pmatrix}
+\[
+	\dd \vb x = \begin{pmatrix}
 		2u \\ 0 \\ 0
 	\end{pmatrix} \dd{u} + \begin{pmatrix}
 		-2v \\ 0 \\ e^v
 	\end{pmatrix} \dd{v} + \begin{pmatrix}
 		0 \\ 1 \\ 0
-	\end{pmatrix} \dd{w} \]
-Differentials encode information about how a function (or vector field) changes when we change the coordinates by a small amount. By calculus,
-\[ f(u + \delta u_1, \dots, u_n + \delta u_n) - f(u_1, \dots, u_n) = \frac{\partial f}{\partial u_i} \delta u_i + o(\delta \vb u) \]
+	\end{pmatrix} \dd{w}
+\]
+Differentials encode information about how a function (or vector field) changes when we change the coordinates by a small amount.
+By calculus,
+\[
+	f(u + \delta u_1, \dots, u_n + \delta u_n) - f(u_1, \dots, u_n) = \frac{\partial f}{\partial u_i} \delta u_i + o(\delta \vb u)
+\]
 So if \(\delta f\) denotes the change in \(f(u_1, \dots, u_n)\) under this small change in coordinates, we have, to first order,
-\[ \delta f \approx \frac{\partial f}{\partial u_i}\delta u_i \]
+\[
+	\delta f \approx \frac{\partial f}{\partial u_i}\delta u_i
+\]
 The analogous result holds for vector vields:
-\[ \delta \vb x \approx \frac{\partial \vb x}{\partial u_i}\delta u_i \]
+\[
+	\delta \vb x \approx \frac{\partial \vb x}{\partial u_i}\delta u_i
+\]
 
 \subsection{Coordinates and Line Elements in \(\mathbb R^2\)}
-We can create multiple different consistent coordinate systems by defining a relationship between them. For example, polar coordinates \((r, \theta)\) and Cartesian coordinates \((x, y)\) can be related by
-\[ x = r \cos \theta;\quad y = r \sin \theta \]
-Even though this relationship is not bijective (there are multiple polar coordinates mapping to the origin), it's still a useful coordinate system because the vast majority of points work well. Even coordinate systems with a countable amount of badly-behaved points are still useful.
+We can create multiple different consistent coordinate systems by defining a relationship between them.
+For example, polar coordinates \((r, \theta)\) and Cartesian coordinates \((x, y)\) can be related by
+\[
+	x = r \cos \theta;\quad y = r \sin \theta
+\]
+Even though this relationship is not bijective (there are multiple polar coordinates mapping to the origin), it's still a useful coordinate system because the vast majority of points work well.
+Even coordinate systems with a countable amount of badly-behaved points are still useful.
 
-A general set of coordinates \((u, v)\) on \(\mathbb R^2\) can be specified by their relationship to the standard Cartesian coordinates \((x, y)\). We must specify smooth, invertible functions \(x(u, v)\), \(y(u, v)\). We would also like to have a small change in one coordinate system to be equivalent to a small change in the other coordinate system (i.e.\ the inverse is also smooth). The same principle applies in \(\mathbb R^3\) for three coordinates, for example.
+A general set of coordinates \((u, v)\) on \(\mathbb R^2\) can be specified by their relationship to the standard Cartesian coordinates \((x, y)\).
+We must specify smooth, invertible functions \(x(u, v)\), \(y(u, v)\).
+We would also like to have a small change in one coordinate system to be equivalent to a small change in the other coordinate system (i.e.\ the inverse is also smooth).
+The same principle applies in \(\mathbb R^3\) for three coordinates, for example.
 
 Consider the standard Cartesian coordinates in \(\mathbb R^2\).
-\[ \vb x(x, y) = \begin{pmatrix}
+\[
+	\vb x(x, y) = \begin{pmatrix}
 		x \\ y
-	\end{pmatrix} = x \vb e_x + y \vb e_y \]
-Note that \(\{\vb e_x, \vb e_y\}\) are orthonormal, and point in the same direction regardless of the value of \(\vb x\): \(\vb e_x\) points in the direction of changing \(x\) with \(y\) held constant, for example. Equivalently,
-\[ \vb e_x = \frac{\frac{\partial}{\partial x} \vb x(x, y)}{\abs{\frac{\partial}{\partial x} \vb x(x, y)}};\quad \vb e_y = \frac{\frac{\partial}{\partial y} \vb x(x, y)}{\abs{\frac{\partial}{\partial y} \vb x(x, y)}} \]
+	\end{pmatrix} = x \vb e_x + y \vb e_y
+\]
+Note that \(\{\vb e_x, \vb e_y\}\) are orthonormal, and point in the same direction regardless of the value of \(\vb x\): \(\vb e_x\) points in the direction of changing \(x\) with \(y\) held constant, for example.
+Equivalently,
+\[
+	\vb e_x = \frac{\frac{\partial}{\partial x} \vb x(x, y)}{\abs{\frac{\partial}{\partial x} \vb x(x, y)}};\quad \vb e_y = \frac{\frac{\partial}{\partial y} \vb x(x, y)}{\abs{\frac{\partial}{\partial y} \vb x(x, y)}}
+\]
 Note that
-\[ \dd \vb x = \frac{\partial \vb x}{\partial x}\dd{x} + \frac{\partial \vb x}{\partial y} \dd{y} = \dd{x} \,\vb e_x + \dd{y} \,\vb e_y \]
-In other words, when applying the change in coordinate \(x \mapsto x + \delta x\), the vector changes (to first order) to \(\vb x \mapsto \vb x + \delta x \vb e_x\). In fact, in the case of Cartesian coordinates, this change is precisely correct for any size of \(\delta\), since the coordinate basis vectors are the same everywhere. We call \(\dd \vb x\) the line element; it tells us how small changes in coordinates produce changes in position vectors.
+\[
+	\dd \vb x = \frac{\partial \vb x}{\partial x}\dd{x} + \frac{\partial \vb x}{\partial y} \dd{y} = \dd{x} \,\vb e_x + \dd{y} \,\vb e_y
+\]
+In other words, when applying the change in coordinate \(x \mapsto x + \delta x\), the vector changes (to first order) to \(\vb x \mapsto \vb x + \delta x \vb e_x\).
+In fact, in the case of Cartesian coordinates, this change is precisely correct for any size of \(\delta\), since the coordinate basis vectors are the same everywhere.
+We call \(\dd \vb x\) the line element; it tells us how small changes in coordinates produce changes in position vectors.
 
-Now, let us consider polar coordinates in two-dimensional space. We can use the same idea as before, giving
-\[ \vb e_r = \frac{\frac{\partial}{\partial r} \vb x(r, \theta)}{\abs{\frac{\partial}{\partial r} \vb x(r, \theta)}} = \begin{pmatrix}
+Now, let us consider polar coordinates in two-dimensional space.
+We can use the same idea as before, giving
+\[
+	\vb e_r = \frac{\frac{\partial}{\partial r} \vb x(r, \theta)}{\abs{\frac{\partial}{\partial r} \vb x(r, \theta)}} = \begin{pmatrix}
 		\cos\theta \\ \sin\theta
 	\end{pmatrix};\quad \vb e_\theta = \frac{\frac{\partial}{\partial \theta} \vb x(r, \theta)}{\abs{\frac{\partial}{\partial \theta} \vb x(r, \theta)}} = \begin{pmatrix}
 		-\sin\theta \\ \cos\theta
-	\end{pmatrix} \]
+	\end{pmatrix}
+\]
 Therefore, we have
-\[ \vb x(r, \theta) = \begin{pmatrix}
+\[
+	\vb x(r, \theta) = \begin{pmatrix}
 		r \cos\theta \\ r \sin\theta
-	\end{pmatrix} = r\vb e_r \]
-Note that \(\{\vb e_r, \vb e_\theta\}\) are also orthonormal at each \((r, \theta)\), but their exact values are not the same everywhere. Since the basis vectors are orthogonal, we can call \(r\) and \(\theta\) orthogonal curvilinear coordinates. Also, we can compute the line element \(\dd \vb x\) as
-\[ \dd \vb x = \frac{\partial \vb x}{\partial r} \dd{r} + \frac{\partial \vb x}{\partial \theta} \dd \theta = \begin{pmatrix}
+	\end{pmatrix} = r\vb e_r
+\]
+Note that \(\{\vb e_r, \vb e_\theta\}\) are also orthonormal at each \((r, \theta)\), but their exact values are not the same everywhere.
+Since the basis vectors are orthogonal, we can call \(r\) and \(\theta\) orthogonal curvilinear coordinates.
+Also, we can compute the line element \(\dd \vb x\) as
+\[
+	\dd \vb x = \frac{\partial \vb x}{\partial r} \dd{r} + \frac{\partial \vb x}{\partial \theta} \dd \theta = \begin{pmatrix}
 		\cos \theta \\ \sin \theta
 	\end{pmatrix} \dd{r} + \begin{pmatrix}
 		-r \sin \theta \\ r \cos \theta
-	\end{pmatrix} \dd \theta = \dd{r} \, \vb e_r + r\, \dd \theta \, \vb e_\theta \]
-We see that a change in \(\theta\) produces (up to first order) a change \(\vb x \mapsto \vb x + r \,\delta \theta \,\vb e_\theta\), a change proportional to \(r\). So a small change in \(\theta\) could cause quite a large change in Cartesian coordinates.
+	\end{pmatrix} \dd \theta = \dd{r} \, \vb e_r + r\, \dd \theta \, \vb e_\theta
+\]
+We see that a change in \(\theta\) produces (up to first order) a change \(\vb x \mapsto \vb x + r \,\delta \theta \,\vb e_\theta\), a change proportional to \(r\).
+So a small change in \(\theta\) could cause quite a large change in Cartesian coordinates.
 
 \subsection{Orthogonal Curvilinear Coordinates}
 We say that \((u, v, w)\) are a set of orthogonal curvilinear coordinates if the vectors
-\[ \vb e_u = \frac{\frac{\partial \vb x}{\partial u}}{\abs{\frac{\partial \vb x}{\partial u}}};\quad \vb e_v = \frac{\frac{\partial \vb x}{\partial v}}{\abs{\frac{\partial \vb x}{\partial v}}};\quad \vb e_w = \frac{\frac{\partial \vb x}{\partial w}}{\abs{\frac{\partial \vb x}{\partial w}}} \]
-form a right-handed, orthonormal basis for each \((u, v, w)\); but not necessarily the same basis over the entire vector field. It is standard to write
-\[ h_u = \abs{\frac{\partial \vb x}{\partial u}};\quad h_v = \abs{\frac{\partial \vb x}{\partial v}};\quad h_w = \abs{\frac{\partial \vb x}{\partial w}} \]
-We call \(h_u, h_v, h_w\) the scale factors.  Note that the line element is
+\[
+	\vb e_u = \frac{\frac{\partial \vb x}{\partial u}}{\abs{\frac{\partial \vb x}{\partial u}}};\quad \vb e_v = \frac{\frac{\partial \vb x}{\partial v}}{\abs{\frac{\partial \vb x}{\partial v}}};\quad \vb e_w = \frac{\frac{\partial \vb x}{\partial w}}{\abs{\frac{\partial \vb x}{\partial w}}}
+\]
+form a right-handed, orthonormal basis for each \((u, v, w)\); but not necessarily the same basis over the entire vector field.
+It is standard to write
+\[
+	h_u = \abs{\frac{\partial \vb x}{\partial u}};\quad h_v = \abs{\frac{\partial \vb x}{\partial v}};\quad h_w = \abs{\frac{\partial \vb x}{\partial w}}
+\]
+We call \(h_u, h_v, h_w\) the scale factors.
+Note that the line element is
 \begin{align*}
 	\dd \vb x & = \frac{\partial \vb x}{\partial u}\dd{u} + \frac{\partial \vb x}{\partial v}\dd{v} + \frac{\partial \vb x}{\partial w} \dd{w} \\
 	          & = h_u \vb e_u \dd{u} + h_v \vb e_v \dd{v} + h_w \vb e_w \dd{w}
@@ -73,50 +125,72 @@ So the scale factors show how first-order changes in the coordinates are scaled 
 
 \subsection{Cylindrical Polar Coordinates}
 We define \((\rho, \phi, z)\) by
-\[ \vb x(\rho, \phi, z) = \begin{pmatrix}
+\[
+	\vb x(\rho, \phi, z) = \begin{pmatrix}
 		\rho \cos \phi \\
 		\rho \sin \phi \\
 		z
-	\end{pmatrix} \]
-where \(0 \leq \rho; 0 \leq \phi < 2 \pi; z \in \mathbb R\). So we can find
-\[ \vb e_\rho = \begin{pmatrix}
+	\end{pmatrix}
+\]
+where \(0 \leq \rho; 0 \leq \phi < 2 \pi; z \in \mathbb R\).
+So we can find
+\[
+	\vb e_\rho = \begin{pmatrix}
 		\cos \phi \\ \sin \phi \\ 0
 	\end{pmatrix};\quad \vb e_\phi = \begin{pmatrix}
 		-\sin \phi \\ \cos \phi \\ 0
 	\end{pmatrix};\quad \vb e_z = \begin{pmatrix}
 		0 \\ 0 \\ 1
-	\end{pmatrix} \]
+	\end{pmatrix}
+\]
 The scale factors are
-\[ h_\rho = 1;\quad h_\phi = \rho;\quad h_z = 1 \]
+\[
+	h_\rho = 1;\quad h_\phi = \rho;\quad h_z = 1
+\]
 The line element is
-\[ \dd \vb x = \dd \rho \, \vb e_\rho + \rho \, \dd \phi \, \vb e_\phi + \dd{z} \, \vb e_z \]
+\[
+	\dd \vb x = \dd \rho \, \vb e_\rho + \rho \, \dd \phi \, \vb e_\phi + \dd{z} \, \vb e_z
+\]
 Note that
-\[ \vb x = \rho \begin{pmatrix}
+\[
+	\vb x = \rho \begin{pmatrix}
 		\cos \phi \\ \sin \phi \\ 0
 	\end{pmatrix} + z \begin{pmatrix}
 		0 \\ 0 \\ 1
-	\end{pmatrix} = \rho \vb e_\rho + z \vb e_z \]
+	\end{pmatrix} = \rho \vb e_\rho + z \vb e_z
+\]
 
 \subsection{Spherical Polar Coordinates}
 We define \((r, \theta, \phi)\) by
-\[ \vb x(r, \theta, \phi) = \begin{pmatrix}
+\[
+	\vb x(r, \theta, \phi) = \begin{pmatrix}
 		r \cos \phi \sin \theta \\
 		r \sin \phi \sin \theta \\
 		r \cos \theta
-	\end{pmatrix} \]
-where \(0 \leq r; 0 \leq \theta < \pi; 0 \leq \phi < 2 \pi\). So we can find
-\[ \vb e_r = \begin{pmatrix}
+	\end{pmatrix}
+\]
+where \(0 \leq r; 0 \leq \theta < \pi; 0 \leq \phi < 2 \pi\).
+So we can find
+\[
+	\vb e_r = \begin{pmatrix}
 		\cos \phi \sin \theta \\ \sin \phi \sin \theta \\ \cos \theta
 	\end{pmatrix};\quad \vb e_\theta = \begin{pmatrix}
 		\cos \phi \cos \theta \\ \sin \phi \cos \theta \\ -\sin \theta
 	\end{pmatrix};\quad \vb e_\phi = \begin{pmatrix}
 		-\sin \phi \\ \cos \phi \\ 0
-	\end{pmatrix} \]
+	\end{pmatrix}
+\]
 The scale factors are
-\[ h_r = 1;\quad h_\theta = r;\quad h_\phi = r \sin \theta \]
+\[
+	h_r = 1;\quad h_\theta = r;\quad h_\phi = r \sin \theta
+\]
 The line element is
-\[ \dd \vb x = \dd{r} \, \vb e_r + r \, \dd \theta \, \vb e_\theta + r \sin \theta \, \dd \phi \, \vb e_\phi \]
+\[
+	\dd \vb x = \dd{r} \, \vb e_r + r \, \dd \theta \, \vb e_\theta + r \sin \theta \, \dd \phi \, \vb e_\phi
+\]
 Note that
-\[ \vb x = r \begin{pmatrix}
+\[
+	\vb x = r \begin{pmatrix}
 		\cos \phi \sin \theta \\ \sin \phi \sin \theta \\ \cos \theta
-	\end{pmatrix} = r \vb e_r \]
+	\end{pmatrix} = r \vb e_r
+\]

@@ -1,18 +1,28 @@
 \subsection{The Number \(e\)}
 We define
-\[ e = 1 + \frac{1}{1!} + \frac{1}{2!} + \frac{1}{3!} + \frac{1}{4!} + \cdots \]
+\[
+	e = 1 + \frac{1}{1!} + \frac{1}{2!} + \frac{1}{3!} + \frac{1}{4!} + \cdots
+\]
 The partial sums are increasing and bounded above by the powers of two after the first term, so it converges.
 
 \subsection{Algebraic Numbers}
-A real \(x\) is called algebraic if it is a root of a nonzero polynomial with integer coefficients. Otherwise, it is called transcendental. For example, any rational \(\frac{p}{q}\) is algebraic as it is the root of \(qx-p=0\). As another example, \(\sqrt 2 + 1\) is algebraic as it is a root of the equation \(x^2 - 2x - 1 = 0\). The logical next question to ask is whether all reals are algebraic.
+A real \(x\) is called algebraic if it is a root of a nonzero polynomial with integer coefficients.
+Otherwise, it is called transcendental.
+For example, any rational \(\frac{p}{q}\) is algebraic as it is the root of \(qx-p=0\).
+As another example, \(\sqrt 2 + 1\) is algebraic as it is a root of the equation \(x^2 - 2x - 1 = 0\).
+The logical next question to ask is whether all reals are algebraic.
 
 \begin{proposition}
 	\(e\) is not rational.
 \end{proposition}
 \begin{proof}
-	Suppose that \(e\) is rational, let it be written \(\frac{p}{q}\), where \(q > 1\) (if \(q=1\), rewrite it as \(\frac{2p}{2q}\)). Multiplying up by \(q!\) (easier than just \(q\) because then we can compare factorials) gives
-	\[ \sum_{n=0}^\infty \frac{q!}{n!} \in \mathbb Z \]
-	We know that \(\sum_{n=0}^q \frac{q!}{n!} \in \mathbb Z\). The next terms are:
+	Suppose that \(e\) is rational, let it be written \(\frac{p}{q}\), where \(q > 1\) (if \(q=1\), rewrite it as \(\frac{2p}{2q}\)).
+	Multiplying up by \(q!\) (easier than just \(q\) because then we can compare factorials) gives
+	\[
+		\sum_{n=0}^\infty \frac{q!}{n!} \in \mathbb Z
+	\]
+	We know that \(\sum_{n=0}^q \frac{q!}{n!} \in \mathbb Z\).
+	The next terms are:
 	\begin{align*}
 		\frac{q!}{(q+1)!} & = \frac{1}{q+1}                                    \\
 		\frac{q!}{(q+2)!} & = \frac{1}{(q+1)(q+2)} \leq \frac{1}{(q+1)^2}      \\
@@ -20,58 +30,92 @@ A real \(x\) is called algebraic if it is a root of a nonzero polynomial with in
 		\frac{q!}{(q+n)!} & \leq \frac{1}{(q+1)^n}                             \\
 	\end{align*}
 	So the next partial sums are bounded above by the geometric series.
-	\[ \sum_{n=q+1}^\infty \frac{q!}{n!} \leq \frac{1}{q} < 1 \]
+	\[
+		\sum_{n=q+1}^\infty \frac{q!}{n!} \leq \frac{1}{q} < 1
+	\]
 	So the whole series multiplied by \(q!\) is a whole number plus a fractional part, which is not an integer \contradiction.
 \end{proof}
-Ideally now we'd have a proof that \(e\) is transcendental. However, even though the terms of \(e\) tend to zero quickly, they don't tend to zero quite quickly enough for us to be able to prove it using what we know now. We instead prove that there exists some transcendental number using a different example, one whose terms tend to zero very quickly indeed.
+Ideally now we'd have a proof that \(e\) is transcendental.
+However, even though the terms of \(e\) tend to zero quickly, they don't tend to zero quite quickly enough for us to be able to prove it using what we know now.
+We instead prove that there exists some transcendental number using a different example, one whose terms tend to zero very quickly indeed.
 \begin{theorem}
-	Liouville's constant \(c = \sum_{n=1}^\infty \frac{1}{10^{n!}}\) is transcendental. As a decimal expansion:
-	\[ c = 0.1100010000000000000000010\cdots \]
+	Liouville's constant \(c = \sum_{n=1}^\infty \frac{1}{10^{n!}}\) is transcendental.
+	As a decimal expansion:
+	\[
+		c = 0.1100010000000000000000010\cdots
+	\]
 \end{theorem}
-This is a long proof, the hardest in this course. We will cherry-pick some important results about polynomials in order to make this proof, without a proper introduction to features of polynomials.
+This is a long proof, the hardest in this course.
+We will cherry-pick some important results about polynomials in order to make this proof, without a proper introduction to features of polynomials.
 \begin{itemize}
-	\item For any polynomial \(P\), \(\exists k \in \mathbb R\) such that \(\abs{P(x) - P(y)} \leq k\abs{x-y}\) for all \(0 \leq x, y \leq 1\). Indeed, say \(P(x) = a_dx^d + \cdots + a_0\), then
+	\item For any polynomial \(P\), \(\exists k \in \mathbb R\) such that \(\abs{P(x) - P(y)} \leq k\abs{x-y}\) for all \(0 \leq x, y \leq 1\).
+	      Indeed, say \(P(x) = a_dx^d + \cdots + a_0\), then
 	      \begin{align*}
 		      P(x) - P(y)       & = a_d(x^d - y^d) + a_{d-1}(x^{d-1} - y^{d-1}) + \cdots + a_1(x-y)     \\
 		                        & = (x-y) [ a_d(x^{d-1} + x^{d-2}y + \cdots + y^{d-1}) + \cdots + a_1 ] \\
 		      \abs{P(x) - P(y)} & \leq \abs{x-y} [ (\abs{a_d} + \abs{a_{d-1}} + \cdots + \abs{a_1})d ]
 	      \end{align*}
 	      because \(x\) and \(y\) are between 0 and 1.
-	\item A nonzero polynomial of degree \(d\) has at most \(d\) roots. Given some polynomial \(P\) of degree \(d\):
+	\item A nonzero polynomial of degree \(d\) has at most \(d\) roots.
+	      Given some polynomial \(P\) of degree \(d\):
 	      \begin{itemize}
 		      \item If \(P\) has no roots, we are trivially done.
-		      \item If \(P\) has some root \(a\), then \(P\) can be written as \((x-a)Q(x)\). Inductively, \(Q(x)\) has at most \(d-1\) roots, so \(P\) has at most \(d\) roots.
+		      \item If \(P\) has some root \(a\), then \(P\) can be written as \((x-a)Q(x)\).
+		            Inductively, \(Q(x)\) has at most \(d-1\) roots, so \(P\) has at most \(d\) roots.
 	      \end{itemize}
 \end{itemize}
 Now we can prove the above theorem.
 \begin{proof}
-	We will write \(c_n = \sum_{k=0}^n \frac{1}{10^{k!}}\), such that \(c_n \to c\). Suppose that some polynomial \(P\) has \(c\) as a root. Then \(\exists k\) such that \(\abs{P(x) - P(y)} \leq k\abs{x-y}\) when \(0 \leq x, y \leq 1\). Let \(P\) have degree \(d\), such that
-	\[ P(x) = a_dx^d + \cdots + a_0 \]
-	Now, \(\abs{c - c_n} = \sum_{k=n+1}^\infty \frac{1}{10^{k!}} \leq \frac{2}{10^{(n+1)!}}\). This is a trivial upper bound, of course better upper bounds exist.
+	We will write \(c_n = \sum_{k=0}^n \frac{1}{10^{k!}}\), such that \(c_n \to c\).
+	Suppose that some polynomial \(P\) has \(c\) as a root.
+	Then \(\exists k\) such that \(\abs{P(x) - P(y)} \leq k\abs{x-y}\) when \(0 \leq x, y \leq 1\).
+	Let \(P\) have degree \(d\), such that
+	\[
+		P(x) = a_dx^d + \cdots + a_0
+	\]
+	Now, \(\abs{c - c_n} = \sum_{k=n+1}^\infty \frac{1}{10^{k!}} \leq \frac{2}{10^{(n+1)!}}\).
+	This is a trivial upper bound, of course better upper bounds exist.
 
-	Also, \(c_n = \frac{a}{10^{n!}}\) for some \(a \in \mathbb Z\). So \(P(c_n) = \frac{b}{10^{dn!}}\) for some \(b \in \mathbb Z\) (since \(P(\frac{s}{t}) = \frac{q}{t^d}\) for some integer \(q\), where \(\frac{s}{t} \in \mathbb Q\)).
+	Also, \(c_n = \frac{a}{10^{n!}}\) for some \(a \in \mathbb Z\).
+	So \(P(c_n) = \frac{b}{10^{dn!}}\) for some \(b \in \mathbb Z\) (since \(P(\frac{s}{t}) = \frac{q}{t^d}\) for some integer \(q\), where \(\frac{s}{t} \in \mathbb Q\)).
 
-	For \(n\) large enough, \(c_n\) is not a root, because \(P\) only has finitely many roots. So
-	\[ \abs{P(c) - P(c_n)} = \abs{P(c_n)} \leq \frac{1}{10^{dn!}} \]
+	For \(n\) large enough, \(c_n\) is not a root, because \(P\) only has finitely many roots.
+	So
+	\[
+		\abs{P(c) - P(c_n)} = \abs{P(c_n)} \leq \frac{1}{10^{dn!}}
+	\]
 	Therefore
-	\[ \frac{1}{10^{dn!}} \leq k\frac{2}{10^{(n+1)!}} \]
+	\[
+		\frac{1}{10^{dn!}} \leq k\frac{2}{10^{(n+1)!}}
+	\]
 	which is a contradiction if \(n\) is large enough.
 \end{proof}
 Here are some remarks about this proof.
 \begin{itemize}
-	\item This same proof shows that any real \(x\) such that \(\forall n \exists \frac{p}{q}\in \mathbb Q\) with \(0 < \abs{x - \frac{p}{q}} < \frac{1}{q^n}\) is transcendental. Informally, \(x\) has very good rational approximations.
+	\item This same proof shows that any real \(x\) such that \(\forall n \exists \frac{p}{q}\in \mathbb Q\) with \(0 < \abs{x - \frac{p}{q}} < \frac{1}{q^n}\) is transcendental.
+	      Informally, \(x\) has very good rational approximations.
 	\item Such \(x\) are often called Liouville numbers; the proof works for all Liouville numbers.
 	\item This proof does not show that \(e\) is transcendental (even though it is), because the terms do not go to zero fast enough.
-	\item We now know that there exist some transcendental numbers. Another proof of existence of transcendental numbers will be seen in a later lecture.
+	\item We now know that there exist some transcendental numbers.
+	      Another proof of existence of transcendental numbers will be seen in a later lecture.
 \end{itemize}
 
 % This really should be part of lecture 15 but it's here for convenience of ordering.
 \subsection{Definition of Complex Numbers}
-Some polynomials have no real roots, for example \(x^2 + 1\). We'll try to `force' an \(x\) with the property \(x^2 = -1\). Note that for example we could not force an \(x\) into existence wih the property \(x^2=2, x^3=3\); how do we know introducing \(i\) will not lead to a contradiction? We will define \(\mathbb C\) to consist of the plane \(\mathbb R^2\), i.e.\ pairs of real numbers, with operations \(+\) and \(\cdot\) which satisfy:
+Some polynomials have no real roots, for example \(x^2 + 1\).
+We'll try to `force' an \(x\) with the property \(x^2 = -1\).
+Note that for example we could not force an \(x\) into existence wih the property \(x^2=2, x^3=3\); how do we know introducing \(i\) will not lead to a contradiction? We will define \(\mathbb C\) to consist of the plane \(\mathbb R^2\), i.e.\ pairs of real numbers, with operations \(+\) and \(\cdot\) which satisfy:
 \begin{itemize}
 	\item \((a,b)+(c,d) := (a+c, b+d)\)
 	\item \((a,b)\cdot(c,d) := (ac-bd, ad+bc)\)
 \end{itemize}
-We can view \(\mathbb R\) as being contained within \(\mathbb C\) by identifying the real number \(a\) with \((a, 0)\). Note that the rules of arithmetic of the reals are inherited inside the first element of the complex plane, so there is no contradiction here. Then let \(i=(0,1)\). Trivially then, any point \((a, b)\) in the complex numbers may be written as \(a+bi\) where \(a, b \in \mathbb R\). And, of course, \(i^2 = -1\).
+We can view \(\mathbb R\) as being contained within \(\mathbb C\) by identifying the real number \(a\) with \((a, 0)\).
+Note that the rules of arithmetic of the reals are inherited inside the first element of the complex plane, so there is no contradiction here.
+Then let \(i=(0,1)\).
+Trivially then, any point \((a, b)\) in the complex numbers may be written as \(a+bi\) where \(a, b \in \mathbb R\).
+And, of course, \(i^2 = -1\).
 
-All of the basic rules like associativity and distributivity work in the complex plane. There are multiplicative inverses: given \(a+bi\), we know that \((a+bi)(a-bi) = a^2 + b^2\) so \(\frac{a-bi}{a^2 + b^2}\) is the inverse (provided the point is nonzero). This kind of structure with familiar properties is known as a field, for example \(\mathbb C\), \(\mathbb R\), \(\mathbb Q\), \(\mathbb Z_p\) where \(p\) is prime. The fundamental theorem of algebra states that any nonzero polynomial with complex coefficients has a complex root; this is proven in the IB course Complex Analysis.
+All of the basic rules like associativity and distributivity work in the complex plane.
+There are multiplicative inverses: given \(a+bi\), we know that \((a+bi)(a-bi) = a^2 + b^2\) so \(\frac{a-bi}{a^2 + b^2}\) is the inverse (provided the point is nonzero).
+This kind of structure with familiar properties is known as a field, for example \(\mathbb C\), \(\mathbb R\), \(\mathbb Q\), \(\mathbb Z_p\) where \(p\) is prime.
+The fundamental theorem of algebra states that any nonzero polynomial with complex coefficients has a complex root; this is proven in the IB course Complex Analysis.

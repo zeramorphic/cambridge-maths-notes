@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"sync"
 
 	"github.com/fatih/color"
@@ -59,6 +60,26 @@ func init() {
 	// fmtCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
+type FormatReplacement struct {
+	re          *regexp.Regexp
+	replacement string
+}
+
+var res = []FormatReplacement{
+	// New sentences go on new lines.
+	{re: regexp.MustCompile(`([^\\])\. `), replacement: "$1.\n"},
+	// Block equations go on new lines, with the \[ and \] tokens on their own lines.
+	{re: regexp.MustCompile(`\\\[\s*`), replacement: "\\[\n"},
+	{re: regexp.MustCompile(`\s*\\\]`), replacement: "\n\\]"},
+}
+
+func formatFile(contents string) string {
+	for _, fr := range res {
+		contents = fr.re.ReplaceAllString(contents, fr.replacement)
+	}
+	return contents
+}
+
 func format() {
 	fmt.Println("Searching for LaTeX sources...")
 	files, _ := walkMatch(".", "*.tex")
@@ -85,6 +106,17 @@ func format() {
 					// Format the file.
 					input := file
 					output := file + ".tmp.tex"
+
+					// First, split long lines and equation lines.
+					fileContents, err := os.ReadFile(input)
+					if err != nil {
+						color.HiRed("File %v did not exist, %v", file, err)
+						bar.Add(1)
+						continue
+					}
+
+					os.WriteFile(input, []byte(formatFile(string(fileContents))), 0)
+
 					cmd := exec.Command("latexindent", "-s", input, "-o", output)
 					cmd.Start()
 					cmd.Wait()
@@ -92,7 +124,7 @@ func format() {
 						os.Remove(input)
 						os.Rename(output, input)
 					} else {
-						color.HiRed("Latexindent failed on file", file)
+						color.HiRed("Latexindent failed on file %v", file)
 					}
 					bar.Add(1)
 
