@@ -15,3 +15,5 @@ LaTeX sources for my notes on the maths courses at Cambridge. To view the compil
 ## Contributing
 
 To contribute to the project (such as making corrections or adding explanations), fork the repository and then submit a pull request. Any contributions must be made under the same license as the project itself.
+
+It is recommended to add the line `go run . fmt` to your `.git/hooks/pre-commit` so that your source code is formatted nicely before committing.
