@@ -61,6 +61,13 @@ func optimise() {
 				ostat, _ := os.Stat(output)
 				istat, _ := os.Stat(input)
 
+				if ostat == nil {
+					color.HiRed("Output file %v not found", output)
+				}
+				if istat == nil {
+					color.HiRed("Input file %v not found", output)
+				}
+
 				if ostat.Size() >= istat.Size() {
 					os.Remove(output)
 					break
