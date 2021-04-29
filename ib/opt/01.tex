@@ -1,0 +1,126 @@
+\subsection{Outline and Definitions}
+An \textit{optimisation problem} is a problem in which we want to minimise some function \(f(\vb x)\) such that \(\vb x \in X \subseteq \mathbb R^n\).
+We may have a set of \textit{constraints} \(\vb h(\vb x) = \vb b\) where \(\vb h(x) \colon \mathbb R^n \to \mathbb R^m\).
+Note that we will only ever consider minimisation of functions since we can maximise a function by minimising its negative.
+
+\begin{definition}
+	The following definitions will be used.
+	\begin{enumerate}
+		\item The function \(f\) that we want to minimise is called the \textit{objective function}.
+		\item The components of the vector \(\vb x\) are called the \textit{decision variables}.
+		\item A constraint of the form \(\vb h(\vb x) = \vb b\) is called a \textit{functional constraint}.
+		\item A constraint of the form \(\vb x \in X\) is called a \textit{regional constraint}.
+		\item The set \( X(\vb b) = \qty{\vb x \colon \vb x \in X, \vb h(\vb x) = \vb b} \) is called the \textit{feasible set}.
+		\item If the feasible set is non-empty, the optimisation problem is called feasible.
+		      If the feasible set is empty, the problem is infeasible.
+		\item The problem is called \textit{bounded} if the minimum on \(X(\vb b)\) is bounded.
+		\item A point \(\vb x^\star \in X(\vb b)\) is \textit{optimal} if it minimises \(f\) over \(X(\vb b)\).
+		      The value \(f(\vb x^\star)\) is called the optimal cost.
+	\end{enumerate}
+\end{definition}
+
+We can convert an inequality constraint into an equality constraint with a regional constraint, for instance
+\[ h(\vb x) \leq b \longrightarrow h(\vb x) + s = b;\; s \geq 0 \]
+
+\subsection{Convexity}
+\begin{definition}
+    A set \(S \subseteq \mathbb R^n\) is \textit{convex} if for all \(\vb x, \vb y \in S\), the line segment from \(x\) to \(y\) lies entirely inside \(S\).
+    In other words, for all \(\lambda \in [0, 1]\), \(\vb x(1-\lambda) + \vb y(\lambda) \in S\).
+\end{definition}
+
+\begin{definition}
+    A function \(f \colon S \to \mathbb R\) is convex if
+    \begin{itemize}
+        \item \(S\) is convex, and
+        \item for all \(\vb x, \vb y \in S\),
+        \[ f\qty((1-\lambda)\vb x + \lambda \vb y) \leq (1-\lambda)f(\vb x) + \lambda f(\vb y) \]
+    \end{itemize}
+\end{definition}
+\noindent So informally, for a convex function, if we take two inputs, the chord connecting their outputs lies above the function's curve.
+If the given inequality above is strict, the function is called \textit{strictly} convex.
+\(f\) is (strictly) \textit{concave} if \(-f\) is (strictly) convex.
+Note that if \(f\) is linear, \(f\) is convex and concave, since \(f\) is linear in its input.
+Hence linear optimisation is a special case of convex optimisation.
+
+\subsection{Unconstrained Optimisation}
+The \textit{unconstrained} optimisation problem is simply to minimise \(f(\vb x)\), where \(f \colon \mathbb R^n \to \mathbb R\) is a convex function.
+Convex functions allow you to generalise the behaviour of a function in a small neighbourhood to global behaviour, so it becomes easier to solve optimisation problems expressed in terms of convex functions.
+
+\subsection{First-Order Conditions for Convexity}
+Suppose we have a tangent to a curve \(f \colon \mathbb R \to \mathbb R\) at a given point \(x\).
+If \(f\) is convex, then \(f\) must only touch the curve once, since if it touched twice we would contradict the definition of convexity.
+In particular, we have the following necessary and sufficient condition for convexity:
+\[ f(y) \geq f(x) + (y - x)f'(x) \]
+In higher dimensions, we might guess that
+\[ f(\vb y) \geq f(\vb x) + (\vb y - \vb x) \cdot \grad{f(\vb x)} \]
+\begin{theorem}
+    A differentiable function \(f \colon \mathbb R^n \to \mathbb R\) is convex if and only if
+    \[ \forall \vb x, \vb y \in \mathbb R^n,\, f(\vb y) \geq f(\vb x) + (\vb y - \vb x) \cdot \grad{f(\vb x)} = f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) \]
+\end{theorem}
+\begin{remark}
+    If \(\grad{f(\vb x)} = \vb 0\) for some vector \(\vb x\), then the first-order condition implies that \(f(\vb y) \geq f(\vb x)\), so \(\vb x\) is the global minimum of \(f\).
+    This is an example of how we can use local properties (the gradient of the function at \(\vb x\)) to deduce global properties (the minimum value of the function).
+\end{remark}
+\begin{proof}
+    First, we will prove that convexity implies the first-order condition.
+    By convexity, we have
+    \[ f\qty((1-\lambda)\vb x + \lambda \vb y) \leq (1-\lambda)f(\vb x) + \lambda f(\vb y) \]
+    Initially, let \(n=1\) so that we have the one-dimensional case.
+    We have
+    \[ f(y) \geq f(x) + \frac{f(x + \lambda(y-x)) - f(x)}{\lambda} = f(x) + \frac{f(x + \lambda(y-x)) - f(x)}{\lambda(y-x)}(y-x) \]
+    Hence, taking the limit as \(\lambda \to 0\), we have
+    \[ f(y) \geq f(x) + f'(x)(y-x) \]
+    For the general case, we define a function \(g\) such that \(g(\lambda) = f((1-\lambda)\vb x + \lambda\vb y)\).
+    Since \(f\) is convex, so is \(g\).
+    We can calculate
+    \[ g'(\lambda) = \grad{f((1-\lambda)\vb x + \lambda\vb y)} \cdot (\vb y - \vb x) \]
+    Since \(g \colon [0, 1] \to \mathbb R\) is convex, by the above argument for \(n = 1\) we have
+    \begin{align*}
+        g(1) &\geq g(0) + g'(0) (1-0) \\
+        f(\vb y) &\geq f(\vb x) + \grad{f(\vb x)} \cdot (\vb y - \vb x)
+    \end{align*}
+    Now we must prove the converse; if the first-order condition hold, then \(f\) is convex.
+    Let
+    \[ \vb x_\lambda = (1-\lambda)x + \lambda y \]
+    The first-order condition shows that
+    \begin{align*}
+        f(\vb x) &\geq f(\vb x_\lambda) + \grad{f(\vb x_\lambda)} \cdot (\vb x - \vb x_\lambda) \\
+        f(\vb y) &\geq f(\vb x_\lambda) + \grad{f(\vb x_\lambda)} \cdot (\vb y - \vb x_\lambda)
+    \end{align*}
+    Multiplying the first equation by \(1-\lambda\) and multiplying the second equation by \(\lambda\), we get
+    \begin{align*}
+        (1-\lambda)f(\vb x) + \lambda f(\vb y) & \geq f(\vb x_\lambda) + \grad{f(\vb x_\lambda)} \cdot \qty[(\vb x - \vb x_\lambda)(1-\lambda) + (\vb y - \vb x_\lambda)\lambda] \\
+        &= f(\vb x_\lambda) + \grad{f(\vb x_\lambda)} \cdot \qty[(\vb x - (1-\lambda)\vb x - \lambda \vb y)(1-\lambda) + (\vb y - (1-\lambda)\vb x - \lambda \vb y)\lambda] \\
+        &= f(\vb x_\lambda) + \grad{f(\vb x_\lambda)} \cdot \qty[(\lambda \vb x - \lambda \vb y)(1-\lambda) + ((1-\lambda)\vb y - (1-\lambda) \vb x)\lambda] \\
+        &= f(\vb x_\lambda) + \grad{f(\vb x_\lambda)} \cdot 0 \\
+        &= f(\vb x_\lambda)
+    \end{align*}
+    Hence \(f\) really is convex.
+\end{proof}
+
+\subsection{Second-Order Conditions for Convexity}
+When \(n = 1\), we suspect that \(f''(x) \geq 0\) is the condition for convexity.
+In higher dimensions, the analogous operator to the double derivative is the Hessian matrix.
+\[ \laplacian{f(x)} = \vb H_f = \begin{pmatrix}
+    \pdv{f(x)}{x_1^2} & \pdv{f(x)}{x_1}{x_2} & \cdots & \pdv{f(x)}{x_1}{x_n} \\
+    \pdv{f(x)}{x_2}{x_1} & \pdv{f(x)}{x_2^2} & \cdots & \pdv{f(x)}{x_2}{x_n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    \pdv{f(x)}{x_n}{x_1} & \pdv{f(x)}{x_n}{x_2} & \cdots & \pdv{f(x)}{x_n^2} \\
+\end{pmatrix} \]
+\begin{definition}
+    An \(n \times n\) matrix \(A\) is \textit{positive semidefinite} if for all \(\vb x \in \mathbb R^n\), we have \(\vb x^\transpose A \vb x \geq 0\). Equivalently, all eigenvalues of \(A\) are non-negative.
+    If \(A\) is positive semidefinite, we write \(A \preceq 0\).
+\end{definition}
+Note that the higher-dimensional analogue of the Taylor expansion of \(f(\vb y)\) is
+\[ f(\vb y) = f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{1}{2}(\vb y - \vb x)^\transpose \laplacian{f(\vb x)} (\vb y - \vb x) + \dots \]
+\begin{theorem}
+    A twice-differentiable function \(f \colon \mathbb R^n \to \mathbb R\) is convex if \(\laplacian{f(x)} \preceq 0\) at all \(\vb x\). The converse also holds, but it is not important for this course, so it will not be proven.
+\end{theorem}
+\begin{proof}
+    Using the Taylor expansion of \(f\), we have
+    \[ f(\vb y) = f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{1}{2}(\vb y - \vb x)^\transpose \laplacian{f(\vb z)} (\vb y - \vb x) + \dots \]
+    where \(\vb z = (1-\lambda)\vb x + \lambda \vb y\) for some \(\lambda \in [0, 1]\).
+    The rightmost term is positive, hence
+    \[ f(\vb y) \geq f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) \]
+    So the first-order conditions are satisfied, which imply convexity.
+\end{proof}
