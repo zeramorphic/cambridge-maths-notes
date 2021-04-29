@@ -14,6 +14,7 @@ var Files []TexFile = []TexFile{
 	{FilePath: "ia/probability", Name: "Probability"},
 	{FilePath: "ia/dr", Name: "Dynamics and Relativity"},
 	{FilePath: "ia/vc", Name: "Vector Calculus"},
+	{FilePath: "ib/opt", Name: "Optimisation"},
 }
 
 var FilesWithBook []TexFile
