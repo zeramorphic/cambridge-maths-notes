@@ -65,7 +65,7 @@ func optimise() {
 					color.HiRed("Output file %v not found", output)
 				}
 				if istat == nil {
-					color.HiRed("Input file %v not found", output)
+					color.HiRed("Input file %v not found", input)
 				}
 
 				if ostat.Size() >= istat.Size() {

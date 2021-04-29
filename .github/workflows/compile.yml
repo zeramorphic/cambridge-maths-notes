@@ -24,21 +24,69 @@ jobs:
 
       - name: Set up TikZ folders
         run: go run . setup
+      
+      # Files are separated into different build steps
+      # so we can track the time taken to compile each step.
 
-      - name: Compile LaTeX
+      - name: Compile Numbers and Sets
         uses: xu-cheng/latex-action@v2
         with:
           args: -shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
-          root_file: |
-            ia/ns/main.tex
-            ia/de/main.tex
-            ia/groups/main.tex
-            ia/vm/main.tex
-            ia/dr/main.tex
-            ia/probability/main.tex
-            ia/vc/main.tex
-            ia/analysis/main.tex
-            book.tex
+          root_file: ia/ns/main.tex
+      
+      - name: Compile Differential Equations
+        uses: xu-cheng/latex-action@v2
+        with:
+          args: -shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
+          root_file: ia/de/main.tex
+      
+      - name: Compile Groups
+        uses: xu-cheng/latex-action@v2
+        with:
+          args: -shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
+          root_file: ia/groups/main.tex
+      
+      - name: Compile Vectors and Matrices
+        uses: xu-cheng/latex-action@v2
+        with:
+          args: -shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
+          root_file: ia/vm/main.tex
+      
+      - name: Compile Dynamics and Relativity
+        uses: xu-cheng/latex-action@v2
+        with:
+          args: -shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
+          root_file: ia/dr/main.tex
+      
+      - name: Compile Probability
+        uses: xu-cheng/latex-action@v2
+        with:
+          args: -shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
+          root_file: ia/probability/main.tex
+      
+      - name: Compile Vector Calculus
+        uses: xu-cheng/latex-action@v2
+        with:
+          args: -shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
+          root_file: ia/vc/main.tex
+      
+      - name: Compile Analysis
+        uses: xu-cheng/latex-action@v2
+        with:
+          args: -shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
+          root_file: ia/analysis/main.tex
+      
+      - name: Compile Optimisation
+        uses: xu-cheng/latex-action@v2
+        with:
+          args: -shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
+          root_file: ib/opt/main.tex
+    
+      - name: Compile book
+        uses: xu-cheng/latex-action@v2
+        with:
+          args: -shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
+          root_file: book.tex
 
       - name: Optimise PDFs
         run: go run . optimise
