@@ -107,75 +107,99 @@ since \(f\) is convex, so this claim would show that \(f\) really is close to th
 \end{proof}
 
 \begin{claim}[Improved first order condition]
-    \[ f(\vb y) \geq f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{1}{2\beta} \norm{\grad{f(\vb x) - \grad{f(\vb y)}}}^2 \]
+	\[
+		f(\vb y) \geq f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{1}{2\beta} \norm{\grad{f(\vb x) - \grad{f(\vb y)}}}^2
+	\]
 \end{claim}
 \begin{proof}
-    For any \(\vb z\), by the standard first order condition and the corollary above we have
-    \[ f(\vb x) + \grad{f(\vb x)}^\transpose (\vb z - \vb x) \leq f(\vb z) \leq f(\vb y) + \grad{f(\vb y)}^\transpose (\vb z - \vb y) + \frac{\beta}{2}\norm{\vb z - \vb y}^2 \]
-    This then implies
-    \[ f(\vb x) - f(\vb y) \leq \grad{f(\vb x)}^\transpose (\vb x - \vb z) + \grad{f(\vb y)}^\transpose (\vb z - \vb y) + \frac{\beta}{2}\norm{\vb z - \vb y}^2 \]
-    The left hand side is not dependent on \(\vb z\), so by minimising \(\vb z\) we get the best bound for the left hand side. We set the gradient of \(\vb z\) to zero.
-    \begin{align*}
-        -\grad{f(\vb x)} + \grad{f(y)} + \beta (\vb z - \vb y) &= 0 \\
-        \implies \vb z = \frac{\grad{f(\vb x) - \grad{f(\vb y)}}}{\beta} + \vb y
-    \end{align*}
-    Substituting back, we have
-    \[ f(\vb x) - f(\vb y) \leq \grad{f(\vb x)}^\transpose (\vb x - \vb y) - \frac{1}{2\beta} \norm{\grad{f(\vb x) - \grad{f(\vb y)}}}^2 \]
+	For any \(\vb z\), by the standard first order condition and the corollary above we have
+	\[
+		f(\vb x) + \grad{f(\vb x)}^\transpose (\vb z - \vb x) \leq f(\vb z) \leq f(\vb y) + \grad{f(\vb y)}^\transpose (\vb z - \vb y) + \frac{\beta}{2}\norm{\vb z - \vb y}^2
+	\]
+	This then implies
+	\[
+		f(\vb x) - f(\vb y) \leq \grad{f(\vb x)}^\transpose (\vb x - \vb z) + \grad{f(\vb y)}^\transpose (\vb z - \vb y) + \frac{\beta}{2}\norm{\vb z - \vb y}^2
+	\]
+	The left hand side is not dependent on \(\vb z\), so by minimising \(\vb z\) we get the best bound for the left hand side.
+	We set the gradient of \(\vb z\) to zero.
+	\begin{align*}
+		-\grad{f(\vb x)} + \grad{f(y)} + \beta (\vb z - \vb y) & = 0 \\
+		\implies \vb z = \frac{\grad{f(\vb x) - \grad{f(\vb y)}}}{\beta} + \vb y
+	\end{align*}
+	Substituting back, we have
+	\[
+		f(\vb x) - f(\vb y) \leq \grad{f(\vb x)}^\transpose (\vb x - \vb y) - \frac{1}{2\beta} \norm{\grad{f(\vb x) - \grad{f(\vb y)}}}^2
+	\]
 \end{proof}
 
 \subsection{\(\alpha\)-Strong Convexity Assumption}
 In general, a small gradient does not imply that we are close to the optimum value of the function.
 We must therefore add an additional assumption in order to justify gradient descent.
 \begin{definition}
-    A function \(f \colon \mathbb R^n \to \mathbb R\) is called \textit{\(\alpha\)-strongly convex} if
-    \[ f(\vb y) \geq f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{\alpha}{2}\norm{\vb y - \vb x}^2 \]
+	A function \(f \colon \mathbb R^n \to \mathbb R\) is called \textit{\(\alpha\)-strongly convex} if
+	\[
+		f(\vb y) \geq f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{\alpha}{2}\norm{\vb y - \vb x}^2
+	\]
 \end{definition}
 \noindent If \(f\) is twice differentiable, then its Hessian satisfies
-\[ \laplacian{f(\vb x)} \succeq \alpha I \]
+\[
+	\laplacian{f(\vb x)} \succeq \alpha I
+\]
 for all \(\vb x\).
 \begin{claim}
-    Let \(f\) be \(\alpha\)-strongly convex. Let \(p^\star\) be the optimal cost; i.e.\ the minimum value of \(f\).
-    Then for any \(\vb x\) we have
-    \[ p^\star \geq f(\vb x) - \frac{1}{2\alpha}\norm{\grad{f(\vb x)}}^2 \]
+	Let \(f\) be \(\alpha\)-strongly convex.
+	Let \(p^\star\) be the optimal cost; i.e.\ the minimum value of \(f\).
+	Then for any \(\vb x\) we have
+	\[
+		p^\star \geq f(\vb x) - \frac{1}{2\alpha}\norm{\grad{f(\vb x)}}^2
+	\]
 \end{claim}
 \begin{remark}
-    If \(\norm{\grad{f(\vb x)}} \leq \sqrt{2\alpha\varepsilon}\), then
-    \[ p^\star \leq f(\vb x) \leq p^\star + \varepsilon\]
-    So a small gradient means we are close to the optimum.
+	If \(\norm{\grad{f(\vb x)}} \leq \sqrt{2\alpha\varepsilon}\), then
+	\[
+		p^\star \leq f(\vb x) \leq p^\star + \varepsilon
+	\]
+	So a small gradient means we are close to the optimum.
 \end{remark}
 \begin{proof}
-    The \(\alpha\)-strong convexity assumption gives
-    \[ f(\vb y) \geq f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{\alpha}{2}\norm{\vb y - \vb x}^2 \]
-    Taking the minimum over \(\vb y\) of both sides, the left hand side becomes \(p^\star\).
-    Setting the gradient of the right hand side to zero,
-    \begin{align*}
-        \grad{f(\vb x)} - \alpha (\vb x - \vb y) &= 0 \\
-        \frac{\grad{f(\vb x)}}{\alpha} &= (\vb x - \vb y) \\
-    \end{align*}
-    This gives
-    \begin{align*}
-        p^\star &\geq f(\vb x) + \grad{f(\vb x)}^\transpose \qty(-\frac{\grad{f(\vb x)}}{\alpha}) + \frac{\alpha}{2}\norm{\frac{\grad{f(\vb x)}}{\alpha}}^2 \\
-        &= f(\vb x) - \frac{\norm{\grad{f(\vb x)}}^2}{\alpha} + \frac{\norm{\grad{f(\vb x)}}^2}{2\alpha} \\
-        &= f(\vb x) - \frac{\norm{\grad{f(\vb x)}}^2}{2\alpha}
-    \end{align*}
+	The \(\alpha\)-strong convexity assumption gives
+	\[
+		f(\vb y) \geq f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{\alpha}{2}\norm{\vb y - \vb x}^2
+	\]
+	Taking the minimum over \(\vb y\) of both sides, the left hand side becomes \(p^\star\).
+	Setting the gradient of the right hand side to zero,
+	\begin{align*}
+		\grad{f(\vb x)} - \alpha (\vb x - \vb y) & = 0               \\
+		\frac{\grad{f(\vb x)}}{\alpha}           & = (\vb x - \vb y) \\
+	\end{align*}
+	This gives
+	\begin{align*}
+		p^\star & \geq f(\vb x) + \grad{f(\vb x)}^\transpose \qty(-\frac{\grad{f(\vb x)}}{\alpha}) + \frac{\alpha}{2}\norm{\frac{\grad{f(\vb x)}}{\alpha}}^2 \\
+		        & = f(\vb x) - \frac{\norm{\grad{f(\vb x)}}^2}{\alpha} + \frac{\norm{\grad{f(\vb x)}}^2}{2\alpha}                                            \\
+		        & = f(\vb x) - \frac{\norm{\grad{f(\vb x)}}^2}{2\alpha}
+	\end{align*}
 \end{proof}
 \begin{claim}
-    Let \(\vb x^\star\) be the minimising value, i.e.\ \(f(\vb x^\star) = p^\star\).
-    Then
-    \[ \norm{\vb x - \vb x^\star} \leq \frac{2}{\alpha} \norm{\grad(\vb x)} \]
-    So if a function is strongly convex, we can find a region in which we know the global maximum lies.
+	Let \(\vb x^\star\) be the minimising value, i.e.\ \(f(\vb x^\star) = p^\star\).
+	Then
+	\[
+		\norm{\vb x - \vb x^\star} \leq \frac{2}{\alpha} \norm{\grad(\vb x)}
+	\]
+	So if a function is strongly convex, we can find a region in which we know the global maximum lies.
 \end{claim}
 \begin{proof}
-    By the Cauchy-Schwarz inequality,
-    \begin{align*}
-        f(\vb x^\star) &\geq f(\vb x) + \grad{f(\vb x)}(\vb x^\star - \vb x) + \frac{\alpha}{2}\norm{\vb x^\star - \vb x}^2 \\
-        &\geq f(\vb x) - \norm{\grad{f(\vb x)}} \norm{\vb x^\star - \vb x} + \frac{\alpha}{2}\norm{\vb x^\star - \vb x}^2
-    \end{align*}
-    Since \(f(\vb x^\star) \leq f(\vb x)\), we have
-    \[ 0 \geq f(\vb x^\star) - f(\vb x) \geq - \norm{\grad{f(\vb x)}} \norm{\vb x^\star - \vb x} + \frac{\alpha}{2}\norm{\vb x^\star - \vb x}^2 \]
-    Hence,
-    \begin{align*}
-        \norm{\grad{f(\vb x)}} \norm{\vb x^\star - \vb x} &\geq \frac{\alpha}{2}\norm{\vb x^\star - \vb x}^2 \\
-        \norm{\grad{f(\vb x)}} &\geq \frac{\alpha}{2}\norm{\vb x^\star - \vb x} \\
-    \end{align*}
+	By the Cauchy-Schwarz inequality,
+	\begin{align*}
+		f(\vb x^\star) & \geq f(\vb x) + \grad{f(\vb x)}(\vb x^\star - \vb x) + \frac{\alpha}{2}\norm{\vb x^\star - \vb x}^2              \\
+		               & \geq f(\vb x) - \norm{\grad{f(\vb x)}} \norm{\vb x^\star - \vb x} + \frac{\alpha}{2}\norm{\vb x^\star - \vb x}^2
+	\end{align*}
+	Since \(f(\vb x^\star) \leq f(\vb x)\), we have
+	\[
+		0 \geq f(\vb x^\star) - f(\vb x) \geq - \norm{\grad{f(\vb x)}} \norm{\vb x^\star - \vb x} + \frac{\alpha}{2}\norm{\vb x^\star - \vb x}^2
+	\]
+	Hence,
+	\begin{align*}
+		\norm{\grad{f(\vb x)}} \norm{\vb x^\star - \vb x} & \geq \frac{\alpha}{2}\norm{\vb x^\star - \vb x}^2 \\
+		\norm{\grad{f(\vb x)}}                            & \geq \frac{\alpha}{2}\norm{\vb x^\star - \vb x}   \\
+	\end{align*}
 \end{proof}
