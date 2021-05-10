@@ -1,0 +1,106 @@
+\subsection{Proving Gradient Descent}
+Let \(f\) be a \(\beta\)-smooth and \(\alpha\)-strongly convex, where \(0 < \alpha < \beta\).
+Then
+\[
+	\alpha I \leq \laplacian{f(\vb x)} \leq \beta I
+\]
+\begin{theorem}
+	Gradient descent with step size \(\frac{1}{\beta}\) satisfies
+	\begin{align*}
+		f(\vb x_T) - f(\vb x^\star) & \leq \qty(1 - \frac{\alpha}{\beta})^T \qty(f(\vb x_0) - f(\vb x^\star)) \\&\leq e^{-\frac{\alpha T}{\beta}} \qty(f(\vb x_0) - f(\vb x^\star)) \\&\leq e^{-\frac{\alpha T}{\beta}} \frac{\beta}{2} \norm{\vb x^\star - \vb x_0}^2
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		f(\vb x_{t+1}) - f(\vb x^\star) & \leq f(\vb x_t) - f(\vb x^\star) - \frac{1}{2\beta} \norm{\grad{f(\vb x_t)}}^2            \\
+		                                & \leq f(\vb x_t) - f(\vb x^\star) - \frac{\alpha}{\beta} \qty(f(\vb x_t) - f(\vb x^\star)) \\
+		                                & \leq \qty(1 - \frac{\alpha}{\beta}) \qty(f(\vb x_t) - f(\vb x^\star))
+	\end{align*}
+	Hence by induction,
+	\[
+		f(\vb x_T) - f(\vb x^\star) \leq \qty(1 - \frac{\alpha}{\beta})^T \qty(f(\vb x_0) - f(\vb x^\star))
+	\]
+	The second line of the theorem is a consequence of the properties of the exponential function.
+	The last inequality in the theorem can be shown by \(\beta\)-smoothness.
+	\begin{align*}
+		f(\vb x_0)                  & \leq f(\vb x^\star) + \grad{f(\vb x^\star)}^\transpose (\vb x_0 - \vb x^\star) + \frac{\beta}{2}\norm{\vb x_0 - \vb x^\star}^2 \\
+		f(\vb x_0) - f(\vb x^\star) & \leq \frac{\beta}{2}\norm{\vb x_0 - \vb x^\star}^2                                                                             \\
+	\end{align*}
+\end{proof}
+
+\subsection{Rate of Convergence}
+For example, suppose that we would like \(f(\vb x_T)  - f(\vb x^\star) \leq 0.1\), and it takes \(k\) steps to reach this tolerance.
+Then, it would take around \(2k\) steps to reach a tolerance of \(0.01\), since the \(\qty(1 - \frac{\alpha}{\beta})^T\) power might increase by a factor of 2.
+In general, the number of steps needed to ensure that the error is less than \(\varepsilon\) is
+\[
+	T = \frac{\beta}{\alpha} \log(\frac{f(\vb x_0) - f(\vb x^\star)}{\varepsilon})
+\]
+This \(\log(1/\varepsilon)\) term is called `linear convergence', since for each extra order of magnitude of accuracy, we need a linear amount of computation steps.
+Linear convergence is very fast, and such algorithms are very useful.
+
+\subsection{Condition Numbers and Oscillation}
+Note that
+\[
+	1 - \frac{\alpha}{\beta}
+\]
+is the term which controls the convergence of gradient descent.
+We call \(\beta/\alpha\) the \textit{condition number} of \(f\).
+Such a number is always greater than 1.
+If the condition number is very close to 1, the convergence is fast.
+Consider the function
+\[ f(x_1, x_2) = \frac{1}{2}(x_1^2 + 100x_2^2) \]
+The Hessian of \(f\) at any point is
+\[ \laplacian{f(x_1, x_2)} = \begin{pmatrix}
+    1 & 0 \\ 0 & 100
+\end{pmatrix} \]
+Hence, \(\alpha = 1, \beta = 100\) giving a condition number of 100.
+This function would optimise very slowly, and we may continually overshoot in the \(x_2\) direction since the gradient points so strongly in this direction.
+We may like to prevent this oscillation between over-guessing and under-guessing certain coordinate components.
+
+\subsection{Newton's Method}
+In gradient descent, we have
+\[ \vb x_{t+1} = \vb x_t - \eta_t \grad{f(\vb x_t)} \]
+In Newton's method, we replace this formula with
+\[ \vb x_{t+1} = \vb x_t - \qty(\laplacian{f(\vb x)})^{-1} \grad{f(\vb x_t)} \]
+Note that the second order approximation for \(f\) is
+\[ f(\vb x) \approx f(\vb x_t) + \grad{f(\vb x_t)}^\transpose + \frac{1}{2}(\vb x - \vb x_t)^\transpose \laplacian{f(\vb x_t)}(\vb x - \vb x_t) \]
+So if we instead try to minimise the right hand side of the second-order approximation with respect to \(\vb x\), we have
+\[ \vb x_{t+1} = \vb x_t - \qty(\laplacian{f(\vb x)})^{-1} \grad{f(\vb x_t)} \]
+as given by Newton's method.
+This ideally allows us to deal with `badly-proportioned' coordinates independently, by scaling each coordinate using the Hessian rather than by a constant.
+Essentially, Newton's method iteratively approximates the function with a parabola, and then moves to the minimum point of this parabola.
+We can show that Newton's method converges according to
+\[ \norm{\vb x_{t+1} - \vb x^\star} \leq c \norm{\vb x_{t} - \vb x^\star}^2 \]
+when \(\vb x_t - \vb x^\star\) is small enough.
+We can see here that the squared term provides very fast convergence once we are in the neighbourhood of the optimum.
+Newton's method can also be used to find a root of a function.
+Suppose \(f \colon \mathbb R \to \mathbb R\), and define \(f' = g\).
+\[ x_{t+1} = x_t - \frac{f'(x_t)}{f''(x_t)} = x_t - \frac{g(x_t)}{g'(x_t)} \]
+So we can find the root of \(g\) by computing the stationary point of \(f\). We are essentially taking a linear approximation at a point, and setting this linear approximation to zero.
+
+\subsection{Barrier Methods}
+Suppose we impose a constraint on an optimisation problem, for instance minimising \(f(\vb x)\) such that \(f_i(\vb x) \leq 0\) for \(1 \leq i \leq m\).
+We can transform such a constrained problem into an unconstrained problem.
+Let us minimise
+\[ f(\vb x) + \sum_{i=1}^m \phi(f_i(\vb x)) \]
+where \(\phi(y_i) = +\infty\) outside the feasible set, and \(\phi(y_i) = 0\) inside the feasible set.
+However, this \(\phi\) function is not differentiable, so this introduces even more problems.
+We instead consider a \textit{logarithmic barrier function}.
+Let us minimise the unconstrained problem
+\[ tf(\vb x) - \sum_{i=1}^m \log(-f_i(\vb x)) \implies \phi(x) = -\log (-x) \]
+This barrier function is infinite for negative \(x\), and gradually rises as \(x \to 0\).
+When \(t\) is chosen to be very large, the optimum of this problem is very close to the optimum of the original problem.
+
+\begin{algorithm*}[H]
+	\SetAlgoLined{}
+	\KwResult{Global minimum of \(f(\vb x)\)}
+	start at a point \(\vb x\) inside the feasible set\;
+	set \(t\) to be a positive real number\;
+	\Repeat{\(t\) is large enough}{
+        solve the minimiser of \( tf(\vb x) - \sum_{i=1}^m \log(-f_i(\vb x)) \) with \(\vb x\) as the initial point using Newton's method giving \(\vb x^\star\)\;
+        \( \vb x \leftarrow \vb x^\star \)\;
+        \( t \leftarrow \alpha t \) for some fixed \(\alpha > 1\)\;
+	}
+	\caption{Barrier Method}
+\end{algorithm*}
