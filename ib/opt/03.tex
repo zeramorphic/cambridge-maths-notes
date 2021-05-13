@@ -49,46 +49,67 @@ We call \(\beta/\alpha\) the \textit{condition number} of \(f\).
 Such a number is always greater than 1.
 If the condition number is very close to 1, the convergence is fast.
 Consider the function
-\[ f(x_1, x_2) = \frac{1}{2}(x_1^2 + 100x_2^2) \]
+\[
+	f(x_1, x_2) = \frac{1}{2}(x_1^2 + 100x_2^2)
+\]
 The Hessian of \(f\) at any point is
-\[ \laplacian{f(x_1, x_2)} = \begin{pmatrix}
-    1 & 0 \\ 0 & 100
-\end{pmatrix} \]
+\[
+	\laplacian{f(x_1, x_2)} = \begin{pmatrix}
+		1 & 0 \\ 0 & 100
+	\end{pmatrix}
+\]
 Hence, \(\alpha = 1, \beta = 100\) giving a condition number of 100.
 This function would optimise very slowly, and we may continually overshoot in the \(x_2\) direction since the gradient points so strongly in this direction.
 We may like to prevent this oscillation between over-guessing and under-guessing certain coordinate components.
 
 \subsection{Newton's Method}
 In gradient descent, we have
-\[ \vb x_{t+1} = \vb x_t - \eta_t \grad{f(\vb x_t)} \]
+\[
+	\vb x_{t+1} = \vb x_t - \eta_t \grad{f(\vb x_t)}
+\]
 In Newton's method, we replace this formula with
-\[ \vb x_{t+1} = \vb x_t - \qty(\laplacian{f(\vb x)})^{-1} \grad{f(\vb x_t)} \]
+\[
+	\vb x_{t+1} = \vb x_t - \qty(\laplacian{f(\vb x)})^{-1} \grad{f(\vb x_t)}
+\]
 Note that the second order approximation for \(f\) is
-\[ f(\vb x) \approx f(\vb x_t) + \grad{f(\vb x_t)}^\transpose + \frac{1}{2}(\vb x - \vb x_t)^\transpose \laplacian{f(\vb x_t)}(\vb x - \vb x_t) \]
+\[
+	f(\vb x) \approx f(\vb x_t) + \grad{f(\vb x_t)}^\transpose + \frac{1}{2}(\vb x - \vb x_t)^\transpose \laplacian{f(\vb x_t)}(\vb x - \vb x_t)
+\]
 So if we instead try to minimise the right hand side of the second-order approximation with respect to \(\vb x\), we have
-\[ \vb x_{t+1} = \vb x_t - \qty(\laplacian{f(\vb x)})^{-1} \grad{f(\vb x_t)} \]
+\[
+	\vb x_{t+1} = \vb x_t - \qty(\laplacian{f(\vb x)})^{-1} \grad{f(\vb x_t)}
+\]
 as given by Newton's method.
 This ideally allows us to deal with `badly-proportioned' coordinates independently, by scaling each coordinate using the Hessian rather than by a constant.
 Essentially, Newton's method iteratively approximates the function with a parabola, and then moves to the minimum point of this parabola.
 We can show that Newton's method converges according to
-\[ \norm{\vb x_{t+1} - \vb x^\star} \leq c \norm{\vb x_{t} - \vb x^\star}^2 \]
+\[
+	\norm{\vb x_{t+1} - \vb x^\star} \leq c \norm{\vb x_{t} - \vb x^\star}^2
+\]
 when \(\vb x_t - \vb x^\star\) is small enough.
 We can see here that the squared term provides very fast convergence once we are in the neighbourhood of the optimum.
 Newton's method can also be used to find a root of a function.
 Suppose \(f \colon \mathbb R \to \mathbb R\), and define \(f' = g\).
-\[ x_{t+1} = x_t - \frac{f'(x_t)}{f''(x_t)} = x_t - \frac{g(x_t)}{g'(x_t)} \]
-So we can find the root of \(g\) by computing the stationary point of \(f\). We are essentially taking a linear approximation at a point, and setting this linear approximation to zero.
+\[
+	x_{t+1} = x_t - \frac{f'(x_t)}{f''(x_t)} = x_t - \frac{g(x_t)}{g'(x_t)}
+\]
+So we can find the root of \(g\) by computing the stationary point of \(f\).
+We are essentially taking a linear approximation at a point, and setting this linear approximation to zero.
 
 \subsection{Barrier Methods}
 Suppose we impose a constraint on an optimisation problem, for instance minimising \(f(\vb x)\) such that \(f_i(\vb x) \leq 0\) for \(1 \leq i \leq m\).
 We can transform such a constrained problem into an unconstrained problem.
 Let us minimise
-\[ f(\vb x) + \sum_{i=1}^m \phi(f_i(\vb x)) \]
+\[
+	f(\vb x) + \sum_{i=1}^m \phi(f_i(\vb x))
+\]
 where \(\phi(y_i) = +\infty\) outside the feasible set, and \(\phi(y_i) = 0\) inside the feasible set.
 However, this \(\phi\) function is not differentiable, so this introduces even more problems.
 We instead consider a \textit{logarithmic barrier function}.
 Let us minimise the unconstrained problem
-\[ tf(\vb x) - \sum_{i=1}^m \log(-f_i(\vb x)) \implies \phi(x) = -\log (-x) \]
+\[
+	tf(\vb x) - \sum_{i=1}^m \log(-f_i(\vb x)) \implies \phi(x) = -\log (-x)
+\]
 This barrier function is infinite for negative \(x\), and gradually rises as \(x \to 0\).
 When \(t\) is chosen to be very large, the optimum of this problem is very close to the optimum of the original problem.
 
@@ -98,9 +119,9 @@ When \(t\) is chosen to be very large, the optimum of this problem is very close
 	start at a point \(\vb x\) inside the feasible set\;
 	set \(t\) to be a positive real number\;
 	\Repeat{\(t\) is large enough}{
-        solve the minimiser of \( tf(\vb x) - \sum_{i=1}^m \log(-f_i(\vb x)) \) with \(\vb x\) as the initial point using Newton's method giving \(\vb x^\star\)\;
-        \( \vb x \leftarrow \vb x^\star \)\;
-        \( t \leftarrow \alpha t \) for some fixed \(\alpha > 1\)\;
+		solve the minimiser of \( tf(\vb x) - \sum_{i=1}^m \log(-f_i(\vb x)) \) with \(\vb x\) as the initial point using Newton's method giving \(\vb x^\star\)\;
+		\( \vb x \leftarrow \vb x^\star \)\;
+		\( t \leftarrow \alpha t \) for some fixed \(\alpha > 1\)\;
 	}
 	\caption{Barrier Method}
 \end{algorithm*}

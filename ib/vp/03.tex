@@ -1,0 +1,137 @@
+\subsection{Fundamental Lemma of Calculus of Variations}
+Consider again the functional
+\[
+	F[y] = \int_\alpha^\beta f(x, y, y') \dd{x}
+\]
+where \(f\) is given, and \(f(\alpha, \wildcard, \wildcard)\) and \(f(\beta, \wildcard, \wildcard)\) are fixed.
+Consider a small perturbation
+\[
+	y \mapsto y + \varepsilon \eta(x);\quad \eta(\alpha) = \eta(\beta) = 0
+\]
+In order to compute the functional for this new function, we first need an additional lemma.
+\begin{lemma}[Fundamental Lemma of Calculus of Variations]
+	If \( g \colon [\alpha, \beta] \to \mathbb R \) is continuous on this interval, and is such that
+	\[
+		\forall \eta \text{ continuous}, \eta(\alpha) = \eta(\beta) = 0,\; \int_\alpha^\beta g(x) \eta(x) \dd{x} = 0
+	\]
+	Then
+	\[
+		\forall x \in (\alpha, \beta),\; g(x) \equiv 0
+	\]
+\end{lemma}
+\begin{proof}
+	Suppose that there exists a value \(\overline{x} \in (\alpha, \beta)\) such that \(g(\overline{x}) \neq 0\).
+	Without loss of generality suppose that this value is positive.
+	Then, by continuity, there exists a sub-interval \([x_1, x_2] \subset (\alpha, \beta)\) where \(g(x) > c\) for some positive real \(c\) in this sub-interval.
+	So we will construct an \(\eta\) such that \(\eta > 0\) in \([x_1, x_2]\) and \(\eta = 0\) outside this interval, for example
+	\[
+		\eta(x) = \begin{cases}
+			(x-x_1)(x_2-x) & x \in [x_1, x_2] \\
+			0              & \text{otherwise}
+		\end{cases}
+	\]
+	Then the integrand is non-negative everywhere, and is lower bounded by a positive number:
+	\[
+		\int_\alpha^\beta g(x) \eta(x) > c\int_{x_1}^{x_2} (x-x_1)(x_2-x)\dd{x} > 0
+	\]
+	So this leads to a contradiction.
+\end{proof}
+\begin{remark}
+	We call such an \(\eta\) function a `bump function'.
+	In general it is possible to construct a \(C^k\) bump function, e.g.
+	\[
+		\eta = \begin{cases}
+			[(x-x_1)(x_2-x)]^{k+1} & x \in [x_1, x_2] \\
+			0                      & \text{otherwise}
+		\end{cases}
+	\]
+\end{remark}
+
+\subsection{Euler-Lagrange Equation}
+Now, we can evaluate the original functional.
+Using a Taylor expansion,
+\begin{align*}
+	F[y + \varepsilon \eta] & = \int_\alpha^\beta f(x, y+\varepsilon\eta, y'+\varepsilon\eta')                                        \\
+	                        & = F[y] + \varepsilon\int_\alpha^\beta \qty(\pdv{f}{y}\eta + \pdv{f}{y'}\eta') \dd{x} + O(\varepsilon^2)
+\end{align*}
+For an extremum,
+\[
+	\eval{\dv{F}{\varepsilon}}_{\varepsilon = 0} = 0
+\]
+So we want the first order term to vanish, so
+\[
+	\varepsilon\int_\alpha^\beta \qty(\pdv{f}{y}\eta + \pdv{f}{y'}\eta') \dd{x} = 0
+\]
+Integrating by parts, we have
+\begin{align*}
+	0 & = \int_\alpha^\beta \qty(\pdv{f}{y}\eta - \dv{x} \qty(\pdv{f}{y'}\eta)) \dd{x} + \qty[\pdv{f}{y'}\eta]_\alpha^\beta \\
+	  & = \int_\alpha^\beta \qty(\pdv{f}{y}\eta - \dv{x} \qty(\pdv{f}{y'}\eta)) \dd{x}                                      \\
+	  & = \int_\alpha^\beta \underbrace{\qty(\pdv{f}{y} - \dv{x} \qty(\pdv{f}{y'}))}_{g(x)} \eta \dd{x}
+\end{align*}
+We can apply the lemma above, showing that a necessary condition for the optimum is
+\[
+	\dv{x} \qty(\pdv{f}{y'}) - \pdv{f}{y} = 0
+\]
+This is the Euler-Lagrange equation.
+\begin{remark}
+	Note that
+	\begin{itemize}
+		\item This can be seen as a second-order differential equation for \(y(x)\) with boundary conditions at \(\alpha\) and \(\beta\).
+		\item The left hand side of the Euler-Lagrange equation is called a `functional derivative' of \(y\), and is written
+		      \[
+			      \fdv{F[y]}{y(x)}
+		      \]
+		      Sometimes, the notation
+		      \[
+			      \delta y = \varepsilon\eta(x)
+		      \]
+		      is used, but is not used in this course.
+		      Note that in this notation,
+		      \[
+			      F[y + \delta y] = F[y] + \delta F[y];\quad \delta F[y] = \int_\alpha^\beta \qty[\fdv{F[y]}{y(x)} \delta y(x)]\dd{x}
+		      \]
+		\item Other boundary conditions, such as \(\eval{\pdv{f}{y'}}_{\alpha, \beta}\) can be used.
+		\item Note that when computing the derivatives, we regard \(x, y, y'\) as independent;
+		      \[
+			      \pdv{f}{y} = \eval{\pdv{f}{y}}_{x, y'}
+		      \]
+		      We can also compute a total derivative, for instance
+		      \[
+			      \dv{x} = \pdv{x} + \pdv{y}y' + \pdv{y'}y''
+		      \]
+		      Note that these give different results.
+		      As an example, let \(f(x, y, y') = x[(y')^2 - y^2]\).
+		      Then
+		      \[
+			      \pdv{f}{x} = (y')^2 - y^2;\quad \pdv{f}{y} = -2xy;\quad \pdv{f}{y'} = 2xy'
+		      \]
+		      Hence
+		      \[
+			      \dv{f}{x} = (y')^2 - y^2 - 2xyy' + 2xy'y''
+		      \]
+	\end{itemize}
+\end{remark}
+
+\subsection{First Integral of Euler-Lagrange Equation}
+In some cases, we can integrate the Euler-Lagrange equation to give a first-order ordinary differential equation.
+Suppose \(f\) does not explicitly depend on \(y\).
+Then
+\[
+	\pdv{f}{y} = 0 \implies \dv{x}\qty(\pdv{f}{y'}) = 0
+\]
+Hence,
+\[
+	\pdv{f}{y'} = c;\quad c \in \mathbb R
+\]
+\begin{example}
+	Consider geodesics on \(\mathbb R^2\); we want to find curves on which the length is minimised.
+	\[
+		F[y] = \int_\alpha^\beta \sqrt{\dd{x}^2 + \dd{y}^2} = \int_\alpha^\beta \underbrace{\sqrt{1 + \dv{y}{x}^2}}_{f(y')}\dd{x}
+	\]
+	We can apply this `first integral' form of the Euler-Lagrange equation to get
+	\[
+		\frac{y'}{\sqrt{1 + (y')^2}} = c
+	\]
+	Hence \(y'\) is a constant, so let \(y' = m\) for \(m \in \mathbb R\).
+	Hence \(y = mx + c\).
+\end{example}
