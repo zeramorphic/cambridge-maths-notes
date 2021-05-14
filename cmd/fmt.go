@@ -68,6 +68,8 @@ type FormatReplacement struct {
 var res = []FormatReplacement{
 	// New sentences go on new lines.
 	{re: regexp.MustCompile(`([^\\])\. `), replacement: "$1.\n"},
+	{re: regexp.MustCompile(`([^\\])\? `), replacement: "$1?\n"},
+	{re: regexp.MustCompile(`([^\\])! `), replacement: "$1!\n"},
 	// Block equations go on new lines, with the \[ and \] tokens on their own lines.
 	{re: regexp.MustCompile(`\\\[\s*`), replacement: "\\[\n"},
 	{re: regexp.MustCompile(`\s*\\\]`), replacement: "\n\\]"},
