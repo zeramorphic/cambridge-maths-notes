@@ -1,20 +1,25 @@
 \subsection{Outline and Definitions}
-An \textit{optimisation problem} is a problem in which we want to minimise some function \(f(\vb x)\) such that \(\vb x \in X \subseteq \mathbb R^n\).
-We may have a set of \textit{constraints} \(\vb h(\vb x) = \vb b\) where \(\vb h(x) \colon \mathbb R^n \to \mathbb R^m\).
+An \textit{optimisation problem} is a problem in which we want to minimise some function \(f(\vb x)\) such that \(\vb x \in \mathcal X \subseteq \mathbb R^n\).
+We may have a set of \textit{constraints} \(h(\vb x) = \vb b\) where \(h(\vb x) \colon \mathbb R^n \to \mathbb R^m\).
 Note that we will only ever consider minimisation of functions since we can maximise a function by minimising its negative.
+Such a problem is often written with notation such as
+\begin{alignat*}{2}
+    &\underset{\vb x \in \mathcal X}{\text{minimise}}        &\qquad& f(\vb x)\\
+    &\text{subject to} &      & h(\vb x) = \vb b
+    \end{alignat*}
 
 \begin{definition}
 	The following definitions will be used.
 	\begin{enumerate}
 		\item The function \(f\) that we want to minimise is called the \textit{objective function}.
 		\item The components of the vector \(\vb x\) are called the \textit{decision variables}.
-		\item A constraint of the form \(\vb h(\vb x) = \vb b\) is called a \textit{functional constraint}.
-		\item A constraint of the form \(\vb x \in X\) is called a \textit{regional constraint}.
-		\item The set \( X(\vb b) = \qty{\vb x \colon \vb x \in X, \vb h(\vb x) = \vb b} \) is called the \textit{feasible set}.
+		\item A constraint of the form \(h(\vb x) = \vb b\) is called a \textit{functional constraint}.
+		\item A constraint of the form \(\vb x \in \mathcal X\) is called a \textit{regional constraint}.
+		\item The set \( \mathcal X(\vb b) = \qty{\vb x \colon \vb x \in \mathcal X, h(\vb x) = \vb b} \) is called the \textit{feasible set}.
 		\item If the feasible set is non-empty, the optimisation problem is called feasible.
 		      If the feasible set is empty, the problem is infeasible.
-		\item The problem is called \textit{bounded} if the minimum on \(X(\vb b)\) is bounded.
-		\item A point \(\vb x^\star \in X(\vb b)\) is \textit{optimal} if it minimises \(f\) over \(X(\vb b)\).
+		\item The problem is called \textit{bounded} if the minimum on \(\mathcal X(\vb b)\) is bounded.
+		\item A point \(\vb x^\star \in \mathcal X(\vb b)\) is \textit{optimal} if it minimises \(f\) over \(\mathcal X(\vb b)\).
 		      The value \(f(\vb x^\star)\) is called the optimal cost.
 	\end{enumerate}
 \end{definition}
@@ -122,11 +127,11 @@ In higher dimensions, we might guess that
 When \(n = 1\), we suspect that \(f''(x) \geq 0\) is the condition for convexity.
 In higher dimensions, the analogous operator to the double derivative is the Hessian matrix.
 \[
-	\laplacian{f(x)} = \vb H_f = \begin{pmatrix}
-		\pdv{f(x)}{x_1^2}    & \pdv{f(x)}{x_1}{x_2} & \cdots & \pdv{f(x)}{x_1}{x_n} \\
-		\pdv{f(x)}{x_2}{x_1} & \pdv{f(x)}{x_2^2}    & \cdots & \pdv{f(x)}{x_2}{x_n} \\
+	\laplacian{f(\vb x)} = \vb H_f = \begin{pmatrix}
+		\pdv{f(\vb x)}{x_1^2}    & \pdv{f(\vb x)}{x_1}{x_2} & \cdots & \pdv{f(\vb x)}{x_1}{x_n} \\
+		\pdv{f(\vb x)}{x_2}{x_1} & \pdv{f(\vb x)}{x_2^2}    & \cdots & \pdv{f(\vb x)}{x_2}{x_n} \\
 		\vdots               & \vdots               & \ddots & \vdots               \\
-		\pdv{f(x)}{x_n}{x_1} & \pdv{f(x)}{x_n}{x_2} & \cdots & \pdv{f(x)}{x_n^2}    \\
+		\pdv{f(\vb x)}{x_n}{x_1} & \pdv{f(\vb x)}{x_n}{x_2} & \cdots & \pdv{f(\vb x)}{x_n^2}    \\
 	\end{pmatrix}
 \]
 \begin{definition}

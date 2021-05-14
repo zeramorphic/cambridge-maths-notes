@@ -1,0 +1,176 @@
+\subsection{Introduction and Lagrange Sufficiency}
+Consider minimising \(f(\vb x)\) subject to \(\vb x \in \mathcal X\), \(h(\vb x) = \vb b\) where \(h \colon \mathbb R^n \to \mathbb R^m\).
+The \textit{Lagrangian} associated with this problem is
+\[
+    \mathcal L(\vb x, \vb \lambda) = f(\vb x) - \vb \lambda^\transpose(h(\vb x) - \vb b)
+\]
+where \(\vb\lambda \in \mathbb R^m\) is the vector of Lagrange multipliers.
+We want to instead minimise \(\mathcal L(\vb x, \vb \lambda), x \in \mathcal X\).
+\begin{theorem}[Lagrange Sufficiency]
+    Suppose we can find a \(\vb \lambda^\star\) such that
+    \begin{enumerate}[(i)]
+        \item \(\min_{\vb x \in \mathcal X} \mathcal L(\vb x, \vb \lambda^\star) = \mathcal L(\vb x^\star, \vb\lambda^\star)\)
+        \item \(\vb x^\star \in \mathcal X(\vb b) = \qty{\vb x \colon \vb x \in \mathcal X, h(\vb x) = \vb b}\)
+    \end{enumerate}
+    Then \(\vb x^\star\) is optimal for the original constrained problem, i.e.
+    \[ \min_{\vb x \in \mathcal X(\vb b)} f(\vb x) = f(\vb x^\star) \]
+\end{theorem}
+\begin{proof}
+    First, note that condition (ii) states that \(f(\vb x^\star) \geq \min_{\vb x \in \mathcal X(\vb b)}f(\vb x)\), because \(\vb x^\star\) is feasible.
+    Then,
+    \begin{align*}
+        \min_{\vb x \in \mathcal X(\vb b)}f(\vb x) &= \min_{\vb x \in \mathcal X(\vb b)} f(\vb x) - \underbrace{(\vb\lambda^\star)^\transpose (h(\vb x) - \vb b)}_{0 \text{ when } \vb x \in \mathcal X(\vb b)} \\
+        &\geq \min_{\vb x \in \mathcal X} f(\vb x) - (\vb\lambda^\star)^\transpose (h(\vb x) - \vb b) \\
+        &= \min_{\vb x \in \mathcal X} \mathcal L(\vb x, \vb \lambda) \\
+        &= \mathcal L(\vb x^\star, \vb \lambda^\star) \\
+        &= f(\vb x^\star) - (\vb\lambda^\star)^\transpose (h(\vb x^\star) - \vb b) \\
+        &= f(\vb x^\star)
+    \end{align*}
+\end{proof}
+
+\begin{example}
+    \begin{alignat*}{2}
+        &\underset{x \in \mathbb R^3}{\text{minimise}}        &\qquad& -x_1 -x_2 + x_3\\
+        &\text{subject to} &      & x_1^2 + x_2^2 = 4\\
+        &                  &      & x_1 + x_2 + x_3 = 1
+        \end{alignat*}
+        In this problem, we have
+        \[ h(\vb x) = \begin{pmatrix}
+            x_1^2 + x_2^2 \\ x_1 + x_2 + x_3
+        \end{pmatrix};\quad \vb b = \begin{pmatrix}
+            4 \\ 1
+        \end{pmatrix} \]
+        Taking Lagrange multipliers, we have
+        \begin{align*}
+            \mathcal L(\vb x, \vb\lambda) &= (-x_1 - x_2 + x_3) - \lambda_1 (x_1^2 + x_2^2 - 4) - \lambda_2(x_1+x_2 + x_3 - 1) \\
+            &= (-(1+\lambda_2) x_1 - \lambda_1 x_1^2) + (-(1 + \lambda_2)x_2 - \lambda_1 x_2^2) + (1 - \lambda_2)x_3 + 4 \lambda_1 + \lambda_2
+        \end{align*}
+        We want to fix a value of \(\vb \lambda\) and minimise \(\mathcal L\), only considering solutions such that \(\vb x^\star\) is finite.
+        Note that if \(\lambda_1 > 0\), then the first bracket can be made as small as we like by picking very small values of \(x_1\); this bracket would diverge to negative infinity so we cannot choose such a \(\lambda_1\).
+        If \(\lambda_2 \neq 1\), the infimum is also negative infinity by considering the \(x_3\) term.
+        So let us consider \(\lambda_1 \leq 0, \lambda_2 = 1\).
+        Setting the derivative of the first term to zero, we have
+        \begin{align*}
+            \dv{x_1} (-(1+\lambda_2) x_1 - \lambda_1 x_1^2) &= -(1+\lambda_2) - 2 \lambda_1 x_1 = 0 \\
+            \implies x_1 &= \frac{-1 - \lambda_2}{2\lambda_1} \\
+            &= \frac{-2}{2\lambda_1} \\
+            &= \frac{-1}{\lambda_1}
+        \end{align*}
+        Setting the derivative of the second term to zero,
+        \begin{align*}
+            \dv{x_1} (-(1+\lambda_2) x_2 - \lambda_1 x_2^2) &= -(1+\lambda_2) - 2 \lambda_1 x_2 = 0 \\
+            \implies x_2 &= \frac{-1}{\lambda_1}
+        \end{align*}
+        We now want to choose \(\lambda_1\) such that \(x_1, x_2, x_3\) satisfy the constraints.
+        \[ x_1^2 + x_2^2 = 4 \implies x_1^2 = x_2^2 = 2 \implies x_1 = x_2 = \sqrt{2} \]
+        Note that \(x_1, x_2 > 0\) since \(\lambda_1 \leq 0\), and correspondingly \(\lambda_1 = \frac{-1}{\sqrt{2}}\).
+        Further, we can now find \(x_3 = 1 - 2\sqrt{2}\).
+        This solution optimises the original problem.
+\end{example}
+
+\subsection{Using Lagrange Multipliers in General}
+Consider the problem
+\begin{alignat*}{2}
+    &\underset{\vb x \in \mathcal X}{\text{minimise}}        &\qquad& f(\vb x)\\
+    &\text{subject to} &      & h(\vb x) \leq \vb b
+    \end{alignat*}
+We can solve this problem using the following steps.
+\begin{enumerate}[(1)]
+    \item Add a slack variable \(\vb s\) to transform the problem to
+    \begin{alignat*}{2}
+        &\underset{\vb x \in \mathcal X}{\text{minimise}}        &\qquad& f(\vb x)\\
+        &\text{subject to} &      & h(\vb x) + \vb s = \vb b\\
+        & & & \vb s \geq 0
+        \end{alignat*}
+    \item Calculate the Lagrangian,
+    \[ \mathcal L(\vb x, \vb \lambda, \vb s) = f(\vb x) - \vb \lambda^\transpose (h(\vb x) + \vb s - \vb b) \]
+    \item Let 
+    \[ \vb \Lambda = \qty{\vb \lambda \colon \inf_{\vb x \in \mathcal X;\; \vb s \geq 0} \mathcal L(\vb x, \vb s, \vb \lambda) > -\infty} \]
+    \item For each \(\vb\lambda \in \vb\Lambda\), find \(\vb x^\star(\vb \lambda), \vb s^\star(\vb \lambda)\) such that
+    \[ \min_{\vb x \in \mathcal X;\; \vb s \geq 0} \mathcal L(\vb x, \vb s, \vb \lambda) = \mathcal L(\vb x^\star(\vb \lambda), \vb s^\star(\vb \lambda), \vb \lambda) \]
+    \item Find \(\vb\lambda^\star \in \vb\Lambda\) such that \((\vb x^\star(\vb \lambda), \vb s^\star(\vb \lambda))\) is feasible, i.e.
+    \[ h(\vb x^\star(\vb \lambda^\star)) = \vb b;\quad \vb s^\star (\vb \lambda^\star) \geq 0 \]
+\end{enumerate}
+
+\subsection{Complementary Slackness}
+In step (4) above, we want to minimise the Lagrangian, i.e.
+\begin{alignat*}{2}
+    &\underset{\vb x \in \mathcal X}{\text{minimise}}        &\qquad& f(\vb x) - \vb \lambda^\transpose (h(\vb x) - \vb b) - \vb \lambda^\transpose \vb s\\
+    &\text{subject to} &      & \vb s \geq 0
+    \end{alignat*}
+Suppose, for a particular value of \(\vb \lambda\), that we solve this problem and arrive at \(\vb x^\star(\vb \lambda), \vb s^\star(\vb \lambda)\).
+Let
+\[ \vb \lambda = \begin{pmatrix}
+    \lambda_1 \\ \vdots \\ \lambda_m
+\end{pmatrix} \]
+If \(\lambda_i > 0\), then for some large \(\vb s\) we can make \(f \to -\infty\), hence \(\vb \lambda \notin \vb \Lambda\).
+Hence, given \(\vb \lambda \in \vb \Lambda\), we must have \(\lambda_i \leq 0\).
+Now, if \(\lambda_i < 0\) for some \(i\), we would want to choose \(s_i = 0\) to minimise the increase to the function caused by the slack variable.
+If \(\lambda_i = 0\), then \(s_i\) can be chosen arbitrarily since it will have no increase on the value of \(f\).
+With these choices of \(s_i\), we can make \(\vb \lambda^\transpose \vb s = 0\), thus making the slack variable not impact the value of \(f\).
+So either
+\begin{itemize}
+    \item \(h(\vb x)_i = b_i\) and \(\lambda_i \leq 0\), or
+    \item \(h(\vb x)_i \geq b_i\) and \(\lambda_i = 0\).
+\end{itemize}
+Alternatively (less precisely),
+\[ \lambda_i s_i = 0 \]
+In other words, either the constraint inequality is tight (defined by an equality) and the Lagrange multipliers are slack (defined by an inequality), or the constraint inequality is slack and the Lagrange multipliers are tight.
+
+\begin{example}
+    \begin{alignat*}{2}
+        &\underset{\vb x \in \mathbb R^2}{\text{minimise}}        &\qquad& x_2 - 3x_2\\
+        &\text{subject to} &      & x_1^2 + x_2^2 \leq 4 \\
+        &&& x_1 + x_2 \leq 2
+        \end{alignat*}
+        Adding slack variables, we have
+
+        \begin{alignat*}{2}
+            &\underset{\vb x \in \mathbb R^2}{\text{minimise}}        &\qquad& x_2 - 3x_2\\
+            &\text{subject to} &      & x_1^2 + x_2^2 + s_1 = 4 \\
+            &&& x_1 + x_2 + s_2 = 2\\
+            &&& s_1 \geq 0\\
+            &&& s_2 \geq 0
+            \end{alignat*}
+            Taking the Lagrangian,
+            \begin{align*}
+                \mathcal L(\vb x, \vb s, \vb \lambda) &= (x_1 - 3x_2) - x_1(x_1^2 + x_2^2 + s_1 - 4) - \lambda_2(x_1 + x_2 + s_2 - 2) \\
+                &= \qty((1 - \lambda_2)x_1 - \lambda_1 x_1^2) + \qty((-3-\lambda_2)x_2 - \lambda_1 x_2^2) - \lambda_1 s_1 - \lambda_2 s_2 + (4\lambda_1 + 2\lambda_2)
+            \end{align*}
+            We must have \(\lambda_1, \lambda_2 \leq 0\) by considering the slack variable. By complementary slackness,
+            \[ \lambda_1 s_1 = \lambda_2 s_2 = 0 \text{ at the optimum} \]
+            Minimising each term independently, we have
+            \begin{align*}
+                1 - \lambda_2 - 2\lambda_1 x_1 &= 0 \\
+                -3-\lambda_2 - 2\lambda_1 x_2 &= 0
+            \end{align*}
+            If \(\lambda_1 = 0\), the above two equations are contradictory.
+            Hence \(\lambda_1 < 0\), giving \(s_1 = 0\).
+            If \(\lambda_2 < 0\), then \(s_2 = 0\) by complementary slackness, so
+            \begin{align*}
+                1 - \lambda_2 - 2\lambda_1 x_1 &= 0 \\
+                -3-\lambda_2 - 2\lambda_1 x_2 &= 0 \\
+                x_1^2 + x_2^2 &= 4 \\
+                x_1 + x_2 &= 2
+            \end{align*}
+            Solving the lower two equations give
+            \[ (x_1, x_2) = (0, 2), (2, 0) \]
+            If \((x_1, x_2) = (0, 2)\), solving the first two equations gives \((\lambda_1, \lambda_2) = (1, -3)\) which is impossible since \(\lambda_1\) must be negative.
+            Similarly, if \((x_1, x_2) = (2, 0)\), solving the first two equations gives \((\lambda_1, \lambda_2) = (-1, 1)\) which is impossible again.
+            We have ruled out every case apart from \(\lambda_1 < 0, \lambda_2 = 0\).
+            In this case,
+            \begin{align*}
+                1 - 2\lambda_1 x_1 &= 0 \\
+                -3 - 2\lambda_1 x_2 &= 0 \\
+                x_1^2 + x_2^2 &= 4 \\
+                x_1 + x_2 + s_2 &= 2
+            \end{align*}
+            The first two equations give
+            \[ x_1 = \frac{1}{2\lambda_1};\quad x_2 = \frac{-3}{2\lambda_1} \]
+            Substituting into the third equation,
+            \[ \lambda_1^2 = \frac{5}{8} \implies \lambda_1 = -\sqrt{\frac{5}{8}} \]
+            Hence,
+            \[ (x_1, x_2) = \qty(-\sqrt{\frac{2}{5}}, -3\sqrt{\frac{2}{5}}) \]
+            which is feasible using the fourth equation.
+            By Lagrange sufficiency, this is the optimum for the original problem.
+\end{example}
