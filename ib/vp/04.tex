@@ -1,0 +1,84 @@
+\subsection{Geodesics on a Sphere}
+Consider the unit sphere \( S^2 \subset \mathbb R^3 \), and two points \( A, B \in S^2 \) which we wish to connect by a path of minimal length, where the path is constrained to the sphere. We will parametrise the sphere with spherical polar coordinates:
+\begin{align*}
+    x &= \sin\theta \sin\phi\\
+    y &= \sin\theta\cos\phi \\
+    z &= \cos\theta
+\end{align*}
+where \( \theta \in [0, \pi]; \phi \in [0, 2\pi] \). We can calculate the length of a path using the Pythagorean theorem:
+\[ \dd{s}^2 = \dd{x}^2 + \dd{y}^2 + \dd{z}^2 = \dd{\theta}^2 + \sin^2 \theta \dd{\phi}^2 \]
+We will parametrise the path by thinking of \( \phi \) as a function of \( \theta \). This gives
+\[ \dd{s} = \sqrt{1 + \sin^2 \theta (\phi')^2} \dd{\theta} \]
+We wish to extremise the functional \( F \), given by
+\[ F[\phi] = \int_{\theta_1 = \alpha}^{\theta_2 = \beta} \dd{s} = \int_{\theta_1}^{\theta_2} \dd{s} = \sqrt{1 + \sin^2 \theta (\phi')^2} \dd{\theta} \]
+The integrand does not depend on \( \phi \) but only on its derivative; so \( \dv{f}{\phi} = 0 \). Using the first integral form of the Euler-Lagrange equation, we have
+\[ \pdv{f}{\phi'} = \kappa \]
+Now, we have
+\begin{align*}
+    \frac{\sin^2 \theta \phi'}{\sqrt{1 + \sin^2 \theta (\phi')^2}} &= \kappa \\
+    \sin^4 \theta (\phi')^2 &= \kappa^2 (1 + \sin^2 \theta (\phi')^2) \\
+    (\phi')^2 &= \frac{\kappa^2}{\sin^2 \theta (\sin^2 \theta - \kappa^2)} \\
+    \dv{\phi}{\theta} &= \pm\sqrt{\frac{\kappa^2}{\sin^2 \theta (\sin^2 \theta - \kappa^2)}} \\
+    \phi &= \pm\int \frac{\kappa \dd{\theta}}{\sin \theta \sqrt{\sin^2 \theta - \kappa^2}} \\
+\end{align*}
+The two solutions correspond to the two directions in which we can trace the path. We then can arrive at
+\[ \pm \frac{1 - \kappa^2}{\kappa} \cos(\phi - \phi_0) = \cot \theta \]
+We will be able to see that this corresponds to a great circle; that is, the intersection of a plane through the origin with the sphere. We will show later that geodesics on a sphere are \textit{only} segments of a great circle.
+
+\subsection{First Integral of Euler-Lagrange Equation (eliminating \(x\))}
+For any \( f (x, y, y') \), consider the quantity
+\[ \dv{x}\qty(f - y' \pdv{f}{y'}) \]
+This is exactly
+\begin{align*}
+    \dv{x}\qty(f - y' \pdv{f}{y'}) &= \pdv{f}{x} + y' \pdv{f}{y} + y''\pdv{f}{y'} - y'' \pdv{f}{y'} - y' \dv{x}\qty(\pdv{f}{y'}) \\
+    &= \pdv{f}{x} + y' \pdv{f}{y} - y' \dv{x}\qty(\pdv{f}{y'}) \\
+    &= y' \underbrace{\qty( \pdv{f}{y} - \dv{x}\pdv{f}{y'} )}_{\mathclap{\text{zero by Euler-Lagrange}}} + \pdv{f}{x} \\
+    &= \pdv{f}{x} \\
+\end{align*}
+So, in the case that \( f \) does not depend explicitly on \( x \) (that is, \( \pdv{f}{x} \equiv 0 \)), then we have another first integral condition from the Euler-Lagrange equation:
+\[ f - y' \pdv{f}{y'} = \text{constant} \]
+
+\subsection{Solving the Brachistochrone Problem}
+Consider a curve in the plane with a fixed endpoint at the origin and another fixed endpoint at \(x = \beta\). We want to find a path such that the time taken for a particle to travel along this curve is minimised. We previously computed that the travel time is given by
+\[ F[y] = \frac{1}{\sqrt{2g}} \int_0^\beta \frac{\sqrt{1 + (y')^2}}{\sqrt{-y}} \dd{x} \]
+This does not depend on \(x\), so we can write (ignoring the \( \frac{1}{\sqrt{2g}} \) factor)
+\[
+    f - y' \pdv{f}{y'} = \frac{\sqrt{1 + (y')^2}}{\sqrt{-y}} - y' \frac{y'}{\sqrt{1 + (y')^2} \sqrt{-y}} = \kappa
+\]
+This gives
+\begin{align*}
+    \frac{1}{\sqrt{1 + (y')^2}} &= \kappa \sqrt{-y} \\
+    y' &= \pm \frac{\sqrt{1 + \kappa^2 y^2}}{\kappa\sqrt{-y}} \\
+    x &= \pm \kappa \int \frac{\sqrt{-y}}{\sqrt{1 + \kappa^2 y}} \dd{y}
+\end{align*}
+We will parametrise further:
+\[ y = \frac{-1}{\kappa^2} \sin^2 \frac{\theta}{2} \implies \dd{y} = \frac{-1}{\kappa^2}\sin \frac{\theta}{2} \cos\frac{\theta}{2} \]
+Hence,
+\begin{align*}
+    x &= \pm \kappa \int \frac{-1}{\kappa^2} \frac{\sin^2 \frac{\theta}{2} \cos \frac{\theta}{2}}{\sqrt{1 - \sin^2 \frac{\theta}{2}}} \dd{\theta} \\
+    &= \mp \frac{1}{2k^2} \int (1 - \cos\theta) \dd{\theta} \\
+    &= \mp \frac{1}{2k^2}(\theta - \sin\theta) + c
+\end{align*}
+The initial condition at \((0, 0)\) gives
+\[ \theta_0 = 0 \implies c = 0 \]
+Taking the positive solution, we have
+\begin{align*}
+    x &= \frac{\theta - \sin\theta}{2k^2} \\
+    y &= \frac{-1}{\kappa^2} \sin^2 \frac{\theta}{2}
+\end{align*}
+This can be shown to be a parametrised equation of a cycloid.
+
+\subsection{Fermat's Principle}
+Fermat's principle states that as light travels between two points, it takes the path of least time. Let a ray of light be represented by a path \( y(x) \). The speed of light is given by a function \( c(x, y) \) since it depends on the material it is in. Then the time taken is
+\[ F[y] = \int \frac{\dv{\ell}}{c} = \int_\alpha^\beta \frac{\sqrt{1 + (y')^2}}{c(x, y)} \dd{x} \]
+In this general form, \( f \) depends on \( x, y, y' \). Now, let us assume \( c \) depends only on \( x \) and not on \( y \). Then we can use a first integral form to get
+\[ \pdv{f}{y'} = \text{constant} \]
+This gives
+\[ \frac{y'}{c(x)\sqrt{1 + (y')^2}} = \text{constant} \]
+Suppose that at \( \alpha \), the light ray's path has an angle \( \theta_1 \) with the \( x \)-axis, and at \( \beta \) the angle is \( \theta_2 \). Note that \( \theta_1 = \eval{\arctan y'}_{\alpha} \) and the corresponding result for \( \beta \). Then,
+\[ \frac{\sin\theta_1}{c(x_1)} = \frac{\sin\theta}{c(x)} \]
+This is known as Snell's law.
+
+Suppose we have a material in which \( c \) increases with \( x \). In such a material, we then have that \( \theta \) increases with \( x \). In a material in which \( c \) decreases as \( x \) increases, \( \theta \) naturally decreases.
+
+Now, suppose we have a slow material with \( c = c_S \) and a fast material with \( c = c_F \) adjacent to each other. We might like to find the path that light takes in its path between points that cross the material boundary. Snell's law can be used to determine that the ratio between the sine of the angle and the speed of light remains constant along the light ray's path.
