@@ -1,0 +1,74 @@
+\subsection{Euler-Lagrange Equation with Constraints}
+Given a functional \( F[y] = \int_\alpha^\beta f(x,y,y') \dd{x} \), we would like to extremise \( F \) subject to \( G[y] = \int_\alpha^\beta g(x,y,y') \dd{x} = k \) for some constant \( k \).
+We can use the method of Lagrange multipliers.
+Instead of extremising \( F \), we will extremise
+\[ \Phi[y;\lambda] = F[y] - \lambda G[y] \]
+Thus, we replace \( f \) in the Euler-Lagrange equation with \( f - \lambda g \), giving
+\[ \dv{x}\qty(\pdv{y'}(f-\lambda g)) - \pdv{y}(f-\lambda g) = 0 \]
+
+\subsection{Dido's Isoparametric Problem}
+Given a fixed perimeter, we wish to find the simple and closed plane curve which maximises the enclosed area.
+We can restrict ourselves to convex curves.
+This is because any concave curve can be transformed into a convex curve with greater area and equal perimeter, by reflecting the non-convex region.
+We will parametrise the curve in \( \mathbb R^2 \) by letting the minimal and maximal values of \( x \) be \( \alpha, \beta \).
+Then, as we trace out the curve, \( x \) monotonically increases from \( \alpha \) to \( \beta \), and then monotonically decreases as we return from \( \beta \) to \( \alpha \).
+This induces two functions \( y_1, y_2 \) on \( (\alpha, \beta) \) where \( y_2 > y_1 \).
+The infinitesimal area is given by \( \dd{A} = (y_2 - y_1) \dd{x} \).
+Thus, the area functional is given by
+\[ A[y] = \int_\alpha^\beta (y_2(x) - y_1(x))\dd{x} = \oint_C y(x) \dd{y} \]
+The constraint functional is
+\[ L[y] = \oint_C \dd{\ell} = \oint_C \sqrt{1 + (y')^2} \dd{x} = L \]
+where \( L \) is the fixed perimeter.
+Using Lagrange multipliers, we can define
+\[ h = y - \lambda \sqrt{1 + (y')^2} \]
+Note that we do not need to consider a boundary term in the derivation of the Euler-Lagrange equation, since the curve has no boundary.
+Using a first integral form of the Euler-Lagrange equation on \( h \), we have
+\[ k = h - y'\dv{h}{y'} = y - \lambda \sqrt{1 + (y')^2} + y' \lambda \frac{y'}{\sqrt{1 + (y')^2}} = y - \frac{\lambda}{\sqrt{1 + (y')^2}} \]
+for some constant \( k \). Hence,
+\[ (y')^2 = \frac{\lambda^2}{(y - k)^2} - 1 \]
+A solution here is the circle of radius \( \lambda \):
+\[ (x - x_0)^2 + (y - y_0)^2 = \lambda^2 \]
+Here, \( L = 2 \pi \lambda \) so we can write the solution in terms of \( L \) instead, giving
+\[ (x - x_0)^2 + (y - y_0)^2 = \frac{L^2}{4\pi^2} \]
+
+\subsection{The Sturm-Liouville Problem}
+Let \( \rho(x), \sigma(x) \) be defined for \( x \in [\alpha, \beta] \), and let \( \rho(x) > 0 \) on this interval.
+Consider the functional
+\[ F[y] = \int_\alpha^\beta \qty[ \rho (y')^2 + \sigma y^2 ]\dd{x} \]
+Let us extremise \( F \) subject to the constraint
+\[ G[y] = \int_\alpha^\beta y^2 \dd{x} = 1 \]
+We have
+\[ \Phi[y;\lambda]  F[y] - \lambda (G[y] - 1) \]
+This induces the integrand
+\[ h = \rho (y')^2 + \sigma y^2 - \lambda (y^2 - \frac{1}{\beta - \alpha}) \]
+We consider the derivatives for the Euler-Lagrange equation:
+\[ \pdv{h}{y'} = 2 \rho y';\quad \pdv{h}{y} = 2 \sigma y - 2 \lambda y \]
+Hence,
+\[ -\dv{x}\qty(\rho y') + \sigma y = \lambda y \]
+We can write this as \( \mathcal L(y) = \lambda y \), where the \( \mathcal L \) is known as the Sturm-Liouville operator.
+This is essentially an eigenvalue problem, since \( \mathcal L \) is a linear operator.
+For example, if \( \rho = 1 \), this eigenvalue problem is exactly the time-independent Schr\"odinger equation where \( \sigma \) is the quantum-mechanical potential.
+
+Suppose \( \sigma > 0 \). Then the functional \( F[y] \) is also greater than zero. Then, the positive minimum of \( F \) (if it exists) is the lowest eigenvalue.
+\begin{proof}
+    Using the result from the Euler-Lagrange equation, we can multiply by \( y \) and integrate by parts giving
+    \begin{align*}
+        -y\dv{x}\qty(\rho y') + \sigma y^2 &= \lambda y^2 \\
+        F[y] - \underbrace{[y y' \rho]_\alpha^\beta}_{\text{zero}} &= \lambda \underbrace{G[y]}_{\text{one}}
+    \end{align*}
+    Thus, the lowest eigenvalue is the minimum of \( F[y] / G[y] \).
+\end{proof}
+
+\subsection{Multiple Dependent Variables}
+Suppose we have some vector
+\[ \vb y(x) = (y_1(x), y_2(x), \dots, y_n(x)) \]
+Suppose we want to extremise the functional
+\[ F[\vb y] = \int_\alpha^\beta f(x, y_1, \dots, y_n, y'_1, \dots, y'_n) \dd{x} \]
+If there is some critical point \( \vb y \), we perturb by a small amount \( \varepsilon\vb \eta = \varepsilon(\eta_1(x), \dots, \eta_n(x)) \), where \( \vb\eta(\alpha) = \vb\eta(\beta) = \vb 0 \).
+Following the derivation of the one-dimensional Euler-Lagrange equation, we can deduce that
+\[ F[\vb y + \varepsilon \vb \eta] - F[\vb y] = \int_\alpha^\beta \sum_{i=1}^n \eta_i \qty(\dv{x}\pdv{f}{y_i'} - \pdv{f}{y_i})\dd{x} + \text{boundary term} + O(\varepsilon^2) \]
+We can apply the fundamental lemma, choosing \( \eta_i \) in a useful way, we can show that a necessary condition for a critical point is
+\[ \dv{x}\pdv{f}{y_i'} - \pdv{f}{y_i} = 0 \]
+for all \( i \). This is a second-order \textit{system} of \( n \) ODEs that we can solve.
+If \( f \) does not depend on one of the \( y_i \), then we have a first integral form for this particular equation. In particular, if \( \pdv{f}{y_j} \equiv 0 \) then \( \pdv{f}{y_j'} = \text{constant} \).
+If \( f \) does not depend on \( x \), then we have \( f - \sum_i y_i' \pdv{f}{y_i'} = \text{constant} \).
