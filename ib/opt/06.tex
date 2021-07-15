@@ -1,0 +1,142 @@
+\subsection{Linear Programs}
+A linear program is a specific case of a constrained optimisation problem in which the objective function and all constraints are linear functions. For instance, consider the problem
+\begin{alignat*}{2}
+    & \underset{\vb x \in \mathbb R^4}{\text{minimise}} & \qquad & 2x_1 - x_2 + 4x_3         \\
+    & \text{subject to}                                &        & x_1 + x_2 + x_4 \leq 2 \\
+    & & & 3x_2 - x_3 = 5 \\
+    & & & x_3 + x_4 \geq 3 \\
+    & & & x_1 \geq 0 \\
+    & & & x_3 \leq 0 \\
+\end{alignat*}
+A general linear program is of the form
+\begin{alignat*}{2}
+    & \underset{\vb x \in \mathbb R^n}{\text{minimise}} & \qquad & \vb c^\transpose \vb x         \\
+    & \text{subject to}                                &        & \vb a_i^\transpose \vb x \geq b_i, i \in M_1 \\
+    &                                &        & \vb a_i^\transpose \vb x \leq b_i, i \in M_2 \\
+    &                                &        & \vb a_i^\transpose \vb x = b_i, i \in M_3 \\
+    &                                &        & x_j \geq 0, j \in N_1 \\
+    &                                &        & x_j \leq 0, j \in N_2 \\
+\end{alignat*}
+Note that we can convert the first inequalities to the other direction by inverting the sign of \( \vb a \). We can convert the `sign' constraints (the last two constraints) by letting \( \vb a \) be a one-hot vector, thus writing them in terms of the first two inequality types. We call this process \textit{reduction} to an equivalent form. Two linear programs are \textit{equivalent} if any feasible solution for one problem can be converted into a feasible solution for the other, with the same cost. We can reduce any linear problem into the form
+\begin{alignat*}{2}
+    & \underset{\vb x \in \mathbb R^n}{\text{minimise}} & \qquad & \vb c^\transpose \vb x         \\
+    & \text{subject to}                                &        & A\vb x \geq \vb b \\
+\end{alignat*}
+where
+\[ A = \begin{pmatrix}
+    \cdots & \vb a_1^\transpose & \cdots \\
+    \cdots & \vb a_2^\transpose & \cdots \\
+    &\vdots& \\
+    \cdots & \vb a_m^\transpose & \cdots
+\end{pmatrix};\quad \vb b = \begin{pmatrix}
+    b_1 \\ b_2 \\ \vdots \\ b_m
+\end{pmatrix} \]
+This is known as the \textit{general form} of a linear programming problem. We could alternatively use a `less-than' inequality, or simply an equality using a slack variable vector. A linear problem is said to be in \textit{standard form} if it is written as
+\begin{alignat*}{2}
+    & \underset{\vb x \in \mathbb R^n}{\text{minimise}} & \qquad & \vb c^\transpose \vb x         \\
+    & \text{subject to}                                &        & A\vb x = \vb b \\
+    & & & \vb x \geq 0
+\end{alignat*}
+This is a special case of the general form. However, we can always reduce any general-form problem into a standard-form problem. First, we add slack variables to convert the inequality into an equality. Then we can convert each variable \( x_i \) into the sum of \( x_j^+ - x_j^- \), where \( x_j^+, x_j^- \geq 0 \). Then, we have the problem
+\begin{alignat*}{2}
+    & \underset{\vb x \in \mathbb R^n}{\text{minimise}} & \qquad & \vb c^\transpose (\vb x^+ - \vb x^-)         \\
+    & \text{subject to}                                &        & A (\vb x^+ - \vb x^-) = \vb b \\
+    & & & \vb x^+, \vb x^- \geq 0
+\end{alignat*}
+Then by concatenating the vectors \( \vb x^+, \vb x^- \) into a larger vector \( \vb z \in [0, \infty)^{2n} \), we have the standard form as required. % chktex 9
+
+\subsection{Maximising Convex Functions}
+Solving linear programs can be seen as a special case of maximising a convex function, since we can maximise \( \vb c^\transpose \vb x \). Consider the problem
+\begin{alignat*}{2}
+    & \text{minimise} & \qquad & f(\vb x) \\
+    & \text{subject to}                                &        & x \in C, C \text{ convex} \\
+    & & & \vb x \geq 0
+\end{alignat*}
+where \( f \) is a convex function. Since \( C \) is convex, if \( \vb z = (1 - \lambda) \vb x + \lambda\vb y \) we have
+\[ f(\vb z) \leq (1 - \lambda) f(\vb x) + \lambda f(\vb y) \leq \max\qty{f(\vb x), f(\vb y)} \]
+If we wish to maximise \( f \) over \( C \), we might guess that we only need to consider points on the boundary. After all, any point not on the boundary can be written as the weighted average of two points on the boundary. Considering those points will give a greater (or equal) value for \( f \).
+\begin{definition}
+    A point \( \vb x \) in a convex set \( C \) is an \textit{extreme point} if it cannot be written as a convex combination of two distinct points in \( C \); that is,
+    \[ (1 - \delta) \vb y + \delta \vb z \]
+    for \( \delta \in (0, 1) \) and \( \vb y \neq \vb z \).
+\end{definition}
+So, more precisely, convex functions on convex sets are maximised at extreme points.
+
+\subsection{Basic Solutions and Basic Feasible Solutions}
+Consider a linear problem in standard form.
+\begin{alignat*}{2}
+    & \underset{\vb x \in \mathbb R^n}{\text{minimise}} & \qquad & \vb c^\transpose \vb x         \\
+    & \text{subject to}                                &        & A\vb x = \vb b \\
+    & & & \vb x \geq 0
+\end{alignat*}
+where \( A \in \mathbb R^{m \times n}, x \in \mathbb R^n, \vb b \in \mathbb R^m \).
+\begin{definition}
+    A vector \( \vb x \) is said to be a \textit{basic solution} if it satisfies \( A \vb x = \vb b \) (that is, it is a solution) and \( x \) has at most \( m \) non-zero entries. If also the non-zero entries are positive, then this is called a \textit{basic feasible solution}, since it lies in the feasible set \( \vb x \geq 0 \).
+\end{definition}
+\noindent We will start the analysis of basic solutions by making three assumptions (one is defined later).
+\begin{enumerate}[A:]
+    \item All \( m \) rows of \( A \) are linearly independent. That is, \( \qty{ \vb a_1^\transpose, \dots, \vb a_m^\transpose } \) is a linearly independent set. This assumption can be made without loss of generality since we can simply remove linearly dependent constraints.
+    \item Every set of \( m \) columns of \( A \) is linearly independent. That is, any \( m \)-subset of the set of columns \( \qty{ A_1, \dots, A_n } \) is a linearly independent set. This can also be made without loss of generality by removing the linearly dependent variables.
+\end{enumerate}
+To find a basic solution, we will start by choosing the coordinates \( B(1), B(2), \dots, B(m) \) to be the indices of \( \vb x \) that are allowed to be non-zero. Now, \( A \vb x \) is
+\[ \begin{pmatrix}
+    \vdots & & \vdots \\
+    A_1 & \cdots & A_n \\
+    \vdots & & \vdots
+\end{pmatrix} \begin{pmatrix}
+    0 \\ \vdots \\ x_{B(1)} \\ \vdots \\ x_{B(2)} \\ \vdots \\ x_{B(m)} \\ \vdots \\ 0
+\end{pmatrix} = \underbrace{\begin{pmatrix}
+    \vdots & & \vdots \\
+    A_{B(1)} & \cdots & A_{B(m)} \\
+    \vdots & & \vdots
+\end{pmatrix}}_{B} \begin{pmatrix}
+    x_{B(1)} \\
+    x_{B(2)} \\
+    \vdots \\
+    x_{B(m)}
+\end{pmatrix} \]
+By setting \( A \vb x = \vb b \), using the above assumptions, we can invert the matrix on the left-hand side to get
+\[ \begin{pmatrix}
+    x_{B(1)} \\
+    x_{B(2)} \\
+    \vdots \\
+    x_{B(m)}
+\end{pmatrix} = \begin{pmatrix}
+    \vdots & & \vdots \\
+    A_{B(1)} & \cdots & A_{B(m)} \\
+    \vdots & & \vdots
+\end{pmatrix}^{-1} \vb b = B^{-1} \vb b \]
+We call \( B \) the basis matrix. The indices \( x_{B(1)}, \dots, x_{B(m)} \) are called the basic variables. The indices \( B(i) \) are called the basic indices. The columns \( A_{B(i)} \) are called the basic columns. If \( B^{-1} \vb b \geq 0 \), we have found a basic feasible solution. We now need to specify one further assumption in order to continue to analyse basic solutions.
+\begin{enumerate}[A:]
+    \setcounter{enumi}{2}
+    \item Every basic solution has \textit{exactly} \( m \) non-zero entries. This is known as the non-degeneracy assumption. This assumption cannot be created without loss of generality, but it is far simpler to discuss problems with this assumption met. Throughout this course, we will keep this assumption to be true.
+\end{enumerate}
+
+\subsection{Extreme Points of the Feasible Set in Standard Form}
+Consider a linear program in standard form.
+\begin{theorem}
+    \( \vb x \) is an extreme point (of the set \( \{ \vb x \colon A \vb x = \vb b, \vb x \geq 0 \} \)) if and only if \( \vb x \) is a basic feasible solution.
+\end{theorem}
+\begin{remark}
+    Since a linear program is optimised at extreme points, we only need to consider the basic feasible solutions in order to solve the original problem. We will pick all possible \( m \) columns of \( A \) (there are \( \binom{n}{m} \) such choices) to find all basic solutions. Filter to consider only basic feasible solutions, then evaluate \( \vb c^\transpose \vb x \) to find the \( \vb x \) which has the least cost. This algorithm will always work, but the amount of choices to evaluate in higher dimensions becomes too inefficient for real-world use.
+\end{remark}
+\begin{proof}
+    First, suppose we know \( \vb x \) is a basic feasible solution, and there exist feasible \( \vb y, \vb z \) such that \( \vb x = (1 - \delta) \vb y + \delta \vb z \) and \( \delta \in (0, 1) \). We know \( \vb x \geq 0 \) and \( \vb x \) has at most \( m \) non-zero entries. Since \( \vb y, \vb z \) are positive, then \( \vb y, \vb z \) must be zero in every index that \( \vb x \) must be zero. Specifically, \( y_j = z_j = 0 \) for \( j \notin \qty{ B(1), \dots, B(m) } \). Now, we define
+    \[ \vb y_B = \begin{pmatrix}
+        y_{B(1)} \\ \vdots \\ y_{B(m)}
+    \end{pmatrix};\quad \vb z_B = \begin{pmatrix}
+        z_{B(1)} \\ \vdots \\ z_{B(m)}
+    \end{pmatrix} \]
+    We then have \( B \vb y_B = \vb b; B \vb z_B = \vb b \) because \( A\vb y = A\vb z = \vb b \). Hence, \( \vb y_B = \vb z_B = B^{-1} \vb b \) and so \( \vb x = \vb y = \vb z \).
+
+    Conversely, suppose \( \vb x \) is not a basic feasible solution. We wish to show it is not an extreme point. Then \( \vb x \) has an amount of non-zero indices greater than \( m \). Let such indices be \( i_1, \dots, i_r \) where \( r > m \). Consider the columns \( A_{i_1}, \dots, A_{i_r} \). Since the rank of \( A \) is only \( m \), these columns form a linearly dependent set. Hence, we can find some weights, not all of which are zero, which give zero when multiplied by the columns.
+    \[ w_{i_1} A_{i_1} + w_{i_2} A_{i_2} + \dots + w_{i_r} A_{i_r} = 0 \]
+    We now define the vector \( \vb w \) by
+    \[ w_i = \begin{cases}
+        0 & i \notin \qty{i_1, \dots, i_r} \\
+        w_{i_j} & i = i_j
+    \end{cases} \]
+    So we have a non-zero vector \( \vb w \) with \( A \vb w = 0 \). We can consider the two points \( \vb x \pm \varepsilon \vb w \), which satisfy \( A(\vb x \pm \varepsilon \vb w) = 0 \). Such perturbed points only change the non-zero indices of \( \vb x \). So we can find an \( \varepsilon \) small enough such that both of \( \vb x \pm \varepsilon \vb w \) are in the feasible set, that is, \( \vb x \pm \varepsilon \vb w \geq 0 \). We therefore can express \( \vb x \) as the midpoint of these two points, hence \( \vb x \) is not an extreme point.
+\end{proof}
+
+% chktex 17
