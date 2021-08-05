@@ -1,0 +1,86 @@
+\subsection{Minimal Surfaces (Continued)}
+We can integrate the equation
+\[ rz'' + z' + (z')^3 = 0 \]
+by first setting \( z' = w \) and multiplying through by \( w \).
+\[ \frac{1}{2}r\dv{r} w^2 + w^2 + w^4 = 0 \]
+Now let \( w^2 = u \) to make this a separable equation for \( u \).
+Solving this, we can find that the solution surface is given by
+\[ r = r_0 \cosh \qty(\frac{z-z_0}{r_0}) \]
+This is known as the \textit{catenoid}.
+At the maximal and minimal values of \( z \), we have the circular boundaries with radii \( R \).
+At \( z = z_0 \), the radius is minimal, and the circle here has radius \( r_0 \).
+Supposing \( z_0 = 0 \) and that the maximal value of \( z \) is \( L \), we have
+\[ \frac{R}{L} = \frac{r_0}{L} \cosh \qty(\frac{L}{r_0}) \]
+Let \( L = 1 \) without loss of generality. This essentially chooses a scale for the coordinate system. This gives
+\[ R = r_0 \cosh \frac{1}{r_0} \]
+Plotting \( R \) as a function of \( r_0 \), there exists a minimum point \( r_0 = \mu \approx 0.833 \) which gives \( R \approx 1.5 \).
+So if \( R > 1.5 \), there exist two distinct minimal surfaces, one with \( r_0 > \mu \) and one with \( r_0 < \mu \).
+The `tighter' minimal surface (with \( r_0 < \mu \)) is unstable, but the `looser' surface is stable (however this cannot be shown from our current understanding of variational principles).
+
+\subsection{Higher Derivatives}
+Consider the functional
+\[ F[y] = \int_\alpha^\beta f(x,y,y',\dots,y^{(n)}) \dd{x} \]
+We can find an analogous Euler-Lagrange equation to extremise this functional.
+Let \( \eta \) be a variation where \( \eta^{(k)} = 0 \) for \( k \in \qty{1, \dots, n-1} \) at the endpoints \( \alpha, \beta \).
+Now,
+\[ F[y+\varepsilon \eta] - F[y] = \varepsilon\int_\alpha^\beta \qty(\pdv{f}{y} \eta + \pdv{f}{y'}\eta' + \dots + \pdv{f}{y^{(n)}}\eta^{(n)}) \dd{x} + O(\varepsilon^2) \]
+We can repeatedly integrate each term by parts, integrating the \( \eta^{(k)} \) term \( k \) times.
+Many of these terms will vanish due to the boundary conditions we specified for \( \eta \).
+This then gives
+\[ F[y+\varepsilon \eta] - F[y] = \varepsilon\int_\alpha^\beta \qty(\pdv{f}{y} \eta - \dv{x} \pdv{f}{y'}\eta + \dots + (-1)^n \dv[n]{x} \pdv{f}{y^{(n)}}\eta) \dd{x} + O(\varepsilon^2) \]
+Applying the fundamental lemma of calculus of variations, we have
+\[ \pdv{f}{y} - \dv{x} \pdv{f}{y'} + \dots + (-1)^n \dv[n]{x} \pdv{f}{y^{(n)}} = 0 \]
+This is the Euler-Lagrange equation in the context of a function with higher derivatives.
+The alternating signs come from the negative signs produced in the iterated integration by parts.
+
+\subsection{First Integral for \( n = 2 \)}
+Suppose \( n = 2 \). If \(\pdv{f}{y} = 0\), we have
+\[ \dv{x}\pdv{f}{y'} - \dv[2]{x}\pdv{f}{y''} = 0 \]
+Hence
+\[ \pdv{f}{y'} - \dv{x}\pdv{f}{y''} = \text{constant} \]
+
+\begin{example}
+    Extremise the functional
+    \[ F[y] = \int_0^1 (y'')^2 \dd{x} \]
+    subject to the conditions
+    \[ y(0) = y'(0) = 0;\quad y(1) = 0;\quad y'(1) = 1 \]
+    Using the above first integral form, we have
+    \[ \dv{x}(2y'') = \text{constant} \implies y''' = k \]
+    for some \( k \in \mathbb R \).
+    Imposing the boundary conditions on this cubic gives
+    \[ y = x^3 - x^2 \]
+    Now, we are going to show that this is an absolute \textit{minimum} of the functional, not just a stationary point.
+    Let \( y_0 = x^2 - x^2 \). Consider a variation \( \eta \) of \( y_0 \), where all relevant endpoints of \( \eta \) are zero.
+    In this case, we are \textit{not} going to assume that \( \eta \) is small; we will simply look at all possible variations.
+    \[ F[y_0 + \eta] - F[y_0] = \underbrace{\int_0^1 (\eta'')^2 \dd{x}}_{> 0} + 2\int_0^1 y_0'' \eta'' \dd{x} \]
+    Substituting for \( y_0 \), given that \( \eta \not\equiv 0 \),
+    \begin{align*}
+        F[y_0 + \eta] - F[y_0] & > 4 \int_0^1 (3x-1)\eta'' \dd{x} \\
+        &= 4\qty{[-\eta']_0^1 + \int_0^1\qty[\dv{x}(3x\eta') - \eta']\dd{x}} \\
+        &= 4\qty{\int_0^1\qty[\dv{x}(3x\eta') - \eta']\dd{x}} \\
+        &= 4\qty{\qty[3x\eta']_0^1 - [3\eta]_0^1} \\
+        &= 0
+    \end{align*}
+    Hence \( y_0 \) is an absolute minimum of \( F \).
+    This method of showing \( y_0 \) is an absolute minimum is easier than calculating second variations, where we know the solution \( y_0 \).
+\end{example}
+
+\subsection{Principle of Least Action}
+Consider a particle moving in \( \mathbb R^3 \) with kinetic energy \( T \) and potential energy \( V \).
+We define the \textit{Lagrangian} to be
+\[ L(\vb x, \dot {\vb x}, t) = T - V \]
+We now define the \textit{action} to be
+\[ S[\vb x] = \int_{t_1}^{t_2} L \dd{t} \]
+We can now formulate the principle of least (or stationary) action: on the path of motion of a particle,
+\[ \fdv{S}{\vb x} = 0 \]
+Equivalently, \( L \) satisfies the Euler-Lagrange equations:
+\[ \pdv{L}{x_i} - \dv{t}\pdv{L}{\dot x_i} = 0 \]
+Consider
+\[ T = \frac{1}{2}m\abs{\dot{\vb x}}^2;\quad V = V(\vb x) \]
+The Euler-Lagrange equations are now
+\begin{align*}
+    \dv{t}\pdv{L}{x_i} &= \pdv{L}{x_i} \\
+    m \ddot x_i &= -\pdv{V}{x_i} \\
+    \implies m \ddot{\vb x} &= -\grad V
+\end{align*}
+This is exactly Newton's second law, derived from the principle of stationary action.
