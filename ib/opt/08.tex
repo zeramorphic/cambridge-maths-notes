@@ -1,0 +1,234 @@
+\subsection{Feasibility of Basic Directions}
+\begin{definition}
+    Let \( P = \qty{\vb x \colon A \vb x = \vb b, \vb x \geq 0} \) be the feasible set of a problem in standard form.
+    Further, let \( \vb x \in P \).
+    A vector \( \vb d \in \mathbb R^n \) is called a \textit{feasible direction} if there exists \( \theta > 0 \) such that \( \vb x + \theta \vb d \in P \).
+\end{definition}
+Let \( \vb x \) be a basic feasible solution. Let \( B(1), \dots, B(m) \) be the indices of the basic variables, and let \( B \) be the basis matrix \( \qty[A_{B(1)}, \dots, A_{B(m)}] \).
+Let \( \vb x_B = \qty(x_{B(1)}, \dots, x_{B(m)}) \).
+Suppose we move in a direction \( \vb d \) such that
+\[ d_j = \begin{cases}
+    1 & \text{if } j \notin \qty{B(1), \dots, B(m)} \\
+    0 & \text{for all non-basic } i \neq j \text{, or more explicitly } i \in \qty{1,2,\dots,n}\setminus\qty{B(1),\dots,B(m),j} \\
+\end{cases} \]
+This direction \( \vb d \) is called the \( j \)th \textit{basic direction}, since it moves in the direction of the \( j \)th basic variable.
+Note that we can write
+\[ \vb d = (d_{B(1)}, \dots, d_{B(m)}, 0, 0, \dots, \underbrace{1}_{\mathclap{j\text{th entry}}}, \dots, 0, 0) \]
+When we move in this direction, we want to move to a feasible point. This means that we require
+\begin{align*}
+    A(\vb x + \theta \vb d) &= \vb b \\
+    A\vb d &= 0 \\
+    B\vb d_B + A_j &= 0 \\
+    \vb d_B  &= -B^{-1}A_j
+\end{align*}
+For the positivity condition, note that
+\[ \vb x + \theta \vb d = (x_{B(1)}+\theta d_{B(1)}, \dots, x_{B(m)}+\theta d_{B(m)}, 0, 0, \dots, \underbrace{\theta}_{\mathclap{j\text{th entry}}}, \dots, 0, 0) \]
+For this \( \vb x \) to be feasible, all \( x_i \) must be non-negative.
+Since \( x_{B(i)} > 0 \), there exists a small enough \( \theta \) such that \( \vb x + \theta \vb d \geq 0 \).
+Hence, the \( j \)th basic direction is feasible.
+
+\subsection{Cost of Basic Directions}
+How does the cost change when \( \vb x \mapsto \vb x + \theta \vb d \) where \( \vb d \) is the (feasible) \( j \)th basic direction?
+The new cost is
+\begin{align*}
+    \vb c^\transpose (\vb x + \theta \vb d) &= \vb c^\transpose (\vb x + \theta (-B^{-1}A_j)) \\
+    &= \vb c^\transpose \vb x + \theta (c_j - \vb c_B^\transpose B^{-1} A_j) \\
+    &= \vb c^\transpose \vb x + \theta \overline{c_j} \\
+\end{align*}
+\begin{theorem}
+    Let \( \vb x \) be a basic feasible solution associated with a basis matrix \( B \), and let \( \overline{\vb c} \) be the vector of reduced costs.
+    Then \( \vb x \) is optimal if and only if \( \overline{\vb c} \geq 0 \).
+\end{theorem}
+\begin{proof}
+    This follows from the optimality conditions given in the previous lecture.
+\end{proof}
+Now, if \( \overline{c_j} \geq 0 \) for all \( j \), then this is an optimal solution.
+However, if any \( \overline{c_j} < 0 \), then we can move in the \( j \)th direction and decrease the cost.
+
+\subsection{Moving to Basic Feasible Solutions}
+Suppose \( \vb x \) is a basic feasible solution. If \( \overline{\vb c} \geq 0 \), then this is the optimum and we can stop.
+If \( c_j < 0 \) for some \( j \), then moving in the \( j \)th feasible direction will reduce the cost by \( \theta \overline{c_j} \).
+The amount by which the cost decreases is proportional to \( \theta \), so we should choose the largest possible value of \( \theta \) while retaining feasibility.
+We denote this largest \( \theta \) with \( \theta^\star \). There are two cases:
+\begin{itemize}
+    \item If \( \vb d \geq 0 \), then \( \theta \) is unbounded since \( \vb x + \theta \vb d \geq 0 \) for all \( \theta > 0 \).
+    Therefore the optimal cost of this problem is \( -\infty \).
+    \item If \( d_i < 0 \) for some \( i \), then we need \( x_i + \theta d_i \geq 0 \), so \( \theta^\star \leq -\frac{x_i}{d_i} \).
+    This then gives
+    \[ \theta^\star = \min_{\qty{i \colon d_i < 0}} -\frac{x_i}{d_i} \]
+    or equivalently,
+    \[ \theta^\star = \min_{\qty{i \in \qty{1,\dots,m} \colon d_{B(i) < 0}}} -\frac{x_{B(i)}}{d_{B(i)}} \]
+\end{itemize}
+Suppose the optimal cost is bounded. Let \( \ell \) be the index minimising \( \theta^\star \), so
+\[ \theta^\star = -\frac{x_{B(\ell)}}{d_{B(\ell)}} \]
+Now, let us move in this direction by this amount.
+\begin{theorem}
+    Let \( \vb y = \vb x + \theta^\star \vb d \). \( \vb y \) is feasible, and \( \vb c^\transpose \vb y < \vb c^\transpose \vb x \).
+    Then, \( \vb y \) is a basic feasible solution with basis matrix
+    \[ \overline{B} = \begin{pmatrix}
+        \vdots & & \vdots & \vdots & \vdots & & \vdots \\
+        A_{B(1)} & \cdots & A_{B(\ell-1)} & A_{j} & A_{B(\ell+1)} & \cdots & A_{B(m)} \\
+        \vdots & & \vdots & \vdots & \vdots & & \vdots \\
+    \end{pmatrix} \]
+\end{theorem}
+\begin{proof}
+    We know that \( \vb y \) has exactly \( m \) non-zero entries, since \( y_{B(\ell)} = 0 \). We know it is feasible, hence \( \vb y \) is a basic feasible solution.
+    \( j \) becomes a basic variable and \( B(\ell) \) is no longer.
+\end{proof}
+
+\subsection{Simplex Method}
+\begin{algorithm*}[H]
+	\SetAlgoLined{}
+	\KwResult{Global minimum of \(\vb c^\transpose \vb x\)}
+	start at a basic feasible solution \(\vb x\) with basis matrix \(B = [A_{B(1)}, \dots, A_{B(m)}]\)\;
+	\Repeat{\(\overline{\vb c} \geq 0\)}{
+		choose \( j \) such that \( \overline{c_j} < 0 \)\;
+        \( \vb u \leftarrow -B^{-1}A_j \)\;
+        \lIf{\( \vb u \leq 0 \)}{cost is \( -\infty \) so terminate algorithm}
+        \( \theta^\star \leftarrow \min \frac{x_{B(i)}}{u_i} \) where \( i \in \qty{1,\dots,m}\) and \(u_i > 0\)\;
+        \( \ell \leftarrow \) an index \( i \) from the step above that gives the minimal value of \( \theta^\star \)\;
+        \( \vb x \leftarrow \vb x - \theta^\star \vb u \)\;
+	}
+    since \( \overline{\vb c} \geq 0 \), \( \vb x \) is optimal
+	\caption{Simplex Method}
+\end{algorithm*}
+
+\subsection{Tableau Implementation}
+The full tableau implementation of the simplex method is a convenient way of executing the simplex algorithm without excessive computation.
+A simplex tableau contains four values of information:
+
+\[
+\arraycolsep=5pt\def\arraystretch{2.2}
+\begin{array}{|c|c|}\hline
+    -\vb c_B^\transpose & \overline{\vb c} \\\hline
+    B^{-1}\vb b & B^{-1}A \\\hline
+\end{array}
+\]
+
+\noindent The information is essentially
+
+\[
+ \arraycolsep=5pt\def\arraystretch{2.2}
+\begin{array}{|c|c|}
+    \hline
+    -\text{cost} & \text{reduced costs} \\\hline
+    \text{vector to generate current basic feasible solution} & \text{matrix to generate basic directions} \\\hline
+\end{array}
+\]
+
+\noindent In a more detailed form,
+
+\[
+\arraycolsep=5pt\def\arraystretch{2.2}
+\begin{array}{|c|cccc|}\hline
+    -\vb c_B^\transpose & \overline{c_1} & \overline{c_2} & \cdots & \overline{c_n} \\\hline
+    x_{B(1)} & \vdots & \vdots & & \vdots \\
+    \vdots & B^{-1} A_1 & B^{-1} A_2 & \cdots & B^{-1} A_n \\
+    x_{B(m)} & \vdots & \vdots & & \vdots \\\hline
+\end{array}
+\]
+
+\noindent To execute the simplex algorithm using this table, use the following algorithm.
+
+\begin{algorithm*}[H]
+	\SetAlgoLined{}
+	\KwResult{Global minimum of \(\vb c^\transpose \vb x\)}
+	start at a basic feasible solution \(\vb x\) with basis matrix \(B = [A_{B(1)}, \dots, A_{B(m)}]\)\;
+	\Repeat{\(\overline{\vb c} \geq 0\) (when all entries in the 0th row are non-negative)}{
+		choose \( j \) such that \( \overline{c_j} < 0 \)\;
+        \( \vb u \leftarrow -B^{-1}A_j \)\;
+        \lIf{\( \vb u \leq 0 \)}{cost is \( -\infty \) so terminate algorithm}
+        \( \theta^\star \leftarrow \min \frac{x_{B(i)}}{u_i} \) where \( i \in \qty{1,\dots,m}\) and \(u_i > 0\)\;
+        \( \ell \leftarrow \) an index \( i \) from the step above that gives the minimal value of \( \theta^\star \)\;
+        \( (\ast) \) add to each row of the tableau a constant multiple of the \( \ell \)th row so that \( u_\ell \) becomes 1 and all other entries of the pivot column are 0\;
+	}
+    since \( \overline{\vb c} \geq 0 \), \( \vb x \) is optimal
+	\caption{Simplex Method (Tableau Implementation)}
+\end{algorithm*}
+
+\noindent This is just the same as the simplex method discussed before, apart from step \((\ast)\). No proof will be given for why this step achieves the same result as the full simplex algorithm.
+
+\begin{example}
+    Consider the problem
+    \begin{alignat*}{2}
+        & \underset{\vb x \in \mathbb R^3}{\text{minimise}} & \qquad & -x_1-x_2-x_3      \\
+        & \text{subject to}                                 &        & x_1 + 2x_2 + 2x_3 \leq 10 \\
+        &                                                   &        & 2x_1 + x_2 + 2x_3 \leq 10 \\
+        &                                                   &        & 2x_1 + 2x_2 + x_3 \leq 20 \\
+        &                                                   &        & x_1,x_2,x_3 \geq 0 \\
+   \end{alignat*}
+   By introducing slack variables, we can write this in standard form.
+   \begin{alignat*}{2}
+    & \underset{\vb x \in \mathbb R^6}{\text{minimise}} & \qquad & -x_1-x_2-x_3      \\
+    & \text{subject to}                                 &        & x_1 + 2x_2 + 2x_3 + x_4 = 10 \\
+    &                                                   &        & 2x_1 + x_2 + 2x_3 + x_5 = 10 \\
+    &                                                   &        & 2x_1 + 2x_2 + x_3 + x_6 = 20 \\
+    &                                                   &        & x_1,x_2,x_3,x_4,x_5,x_6 \geq 0 \\
+\end{alignat*}
+    Observe that \((0,0,0,10,10,20)\) is a basic feasible solution. We will use this to initiate the simplex algorithm.
+    The corresponding basis matrix is the \(3\times 3\) identity matrix.
+    We construct the simplex tableau by first constructing the 0th row:
+    \begin{itemize}
+        \item \( \vb c_B = 0 \) hence \( \vb c_B^\transpose \vb x_B = 0 \).
+        \item \( \overline{\vb c} = \vb c \).
+    \end{itemize}
+    We construct the tableau as follows.
+
+    \[
+    \arraycolsep=5pt\def\arraystretch{2.2}
+    \begin{array}{|c|cccccc|}\hline
+        0 & -1 & -1 & -1 & 0 & 0 & 0 \\\hline
+        10 & 1 & 2 & 2 & 1 & 0 & 0 \\
+        10 & 2 & 1 & 2 & 0 & 1 & 0 \\
+        20 & 2 & 2 & 1 & 0 & 0 & 1 \\\hline
+    \end{array}
+    \]
+
+    \noindent \( \overline{c_1} < 0 \), so we will descend in the 1st basic direction.
+    Consider \( \frac{10}{1}, \frac{10}{2}, \frac{20}{2} \). The smallest is \( \frac{10}{2} = 5 \), so the \textit{favourite element} is the number 2 in the 1st column and 2nd row.
+    We want to change this column to \((0,0,1,0)^\transpose\) by using row operations.
+    Denoting the rows as \(R_0, \dots, R_3\), we want to perform the operations
+    \begin{align*}
+        R_0 &\mapsto R_0 + \frac{1}{2}R_2 \\
+        R_1 &\mapsto R_1 - \frac{1}{2}R_2 \\
+        R_2 &\mapsto \frac{1}{2}R_2 \\
+        R_3 &\mapsto R_3 - R_2 \\
+    \end{align*}
+    The tableau now looks like this.
+
+    \[
+    \arraycolsep=5pt\def\arraystretch{2.2}
+    \begin{array}{|c|cccccc|}\hline
+        5 & 0 & -0.5 & 0 & 0 & 0.5 & 0 \\\hline
+        5 & 0 & 1.5 & 1 & 1 & -0.5 & 0 \\
+        5 & 1 & 0.5 & 1 & 0 & 0.5 & 0 \\
+        10 & 0 & 1 & -1 & 0 & -1 & 1 \\\hline
+    \end{array}
+    \]
+
+    \noindent Now, \( \overline{c_2} < 0 \), so we will descend in the 2nd basic direction.
+    Consider \( \frac{5}{1.5}, \frac{5}{0.5}, \frac{10}{1} \). The smallest is \( \frac{5}{1.5} \), so the favourite element is the \(1.5\) in the 1st row and 2nd column.
+    To make the column a one-hot vector, we perform
+    \begin{align*}
+        R_0 &\mapsto R_0 + \frac{1}{3}R_1 \\
+        R_1 &\mapsto \frac{2}{3}R_1 \\
+        R_2 &\mapsto R_2 - \frac{1}{3}R_1 \\
+        R_3 &\mapsto R_3 - \frac{2}{3}R_1 \\
+    \end{align*}
+
+    \noindent This yields
+
+    \[
+        \arraycolsep=5pt\def\arraystretch{2.2}
+        \begin{array}{|c|cccccc|}\hline
+            \frac{20}{3} & 0 & 0 & \frac{1}{3} & \frac{1}{3} & \frac{1}{3} & 0 \\\hline
+            \frac{10}{3} & 0 & 1 & \frac{2}{3} & \frac{2}{3} & -\frac{3}{4} & 0 \\
+            \frac{10}{3} & 1 & 0 & \frac{2}{3} & -\frac{1}{3} & \frac{2}{3} & 0 \\
+            \frac{20}{3} & 0 & 0 & -\frac{5}{3} & -\frac{2}{3} & -\frac{2}{3} & 1 \\\hline
+        \end{array}
+        \]
+
+        \noindent Now, the 0th row has no negative values, so we are at the optimum.
+        The optimal cost therefore is \(-\frac{20}{3}\).
+        The solution is at \(\qty(\frac{10}{3},\frac{10}{3},0,0,0,\frac{20}{3})\).
+\end{example}

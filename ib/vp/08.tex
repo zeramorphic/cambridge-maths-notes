@@ -1,0 +1,96 @@
+\subsection{Central Forces}
+\begin{example}
+    Consider a central force in the plane. The Lagrangian is
+    \[ L = T - V = \frac{1}{2}m\qty(\dot r^2 + r^2 \dot \theta^2) - V(r) \]
+    The Euler-Lagrange equation gives
+    \begin{align*}
+        \dv{t}\pdv{L}{\dot r} - \pdv{L}{r} &= 0 \\
+        \dv{t}\pdv{L}{\dot \theta} - \pdv{L}{\theta} &= 0
+    \end{align*}
+    Since \( \pdv{L}{\theta} = 0 \), we have a first integral form:
+    \[ \pdv{L}{\dot \theta} = mr^2 \dot \theta = \text{constant} \]
+    This can be interpreted physically as the law of conservation of angular momentum.
+    Further, we have \( \pdv{L}{t} = 0 \) so we have another first integral:
+    \begin{align*}
+        \dot r \pdv{L}{\dot r} + \dot\theta \pdv{L}{\dot\theta} - L &= \text{constant} \\
+        m\dot r^2 + mr^2\dot\theta^2 - \frac{1}{2}m\dot r^2 - \frac{1}{2}mr^2\dot\theta^2 + V(r) &= \text{constant} \\
+        \frac{1}{2} m \qty( \dot r^2 + r^2\dot\theta^2 ) + V(r) &= \text{constant}
+    \end{align*}
+    The left hand side is the total energy of the system, denoted \( E \). This is the law of conservation of energy.
+\end{example}
+
+\subsection{Configuration Space and Generalised Coordinates}
+\begin{example}
+    Consider \( N \) particles moving in \( \mathbb R^3 \). Typically we represent each point as a distinct vector in \( \mathbb R^3 \) that changes over time.
+    We can alternatively consider a point in \( \mathbb R^{3N} \), which contains the information about every point.
+    This is called the configuration space.
+    The Lagrangian in configuration space is
+    \[ L = L(q_i, \dot {q_i}, t) \]
+    where \( \vb q \) is the combined position vector of all \( N \) points, and likewise \( \dot{\vb q} \) is the combined velocity.
+\end{example}
+
+\subsection{Noether's Theorem}
+Consider a functional
+\[ F[\vb y] = \int_\alpha^\beta f(y_i, y_i', x) \dd{x};\quad i = 1,\dots,n \]
+Suppose there exists a one-parameter family of transformations
+\[ y_i(x) \mapsto Y_i(x,s);\quad Y_i(x,0) = y_i(x) \]
+This can be thought of as a change of variables parametrised by \( s \in \mathbb R \), where \( s = 0 \) implies no change of variables.
+This family is called a \textit{continuous symmetry} of the Lagrangian \( f \) if
+\[ \dv{s} f(Y_i(x,s), Y_i'(x,s), x) = 0 \]
+In this course, we only consider continuous symmetries, so they may be abbreviated as just `symmetries'.
+\begin{theorem}[Noether's Theorem]
+    Given a continuous symmetry \( Y_i(x,s) \) of \( f \),
+    \[ \eval{\pdv{f}{y_i'}\pdv{Y_i}{s}}_{s=0} \]
+    is a first integral of the Euler-Lagrange equation (where the summation convention applies).
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+        0 &= \eval{\dv{s} f}_{s=0} \\
+        &= \eval{\pdv{f}{y_i} \dv{Y_i}{s}}_{s=0} + \eval{\pdv{f}{y_i'}\pdv{Y_i'}{s}}_{s=0} \\
+        &= \eval{\qty[\dv{x} \qty(\pdv{f}{y_i'})\dv{Y_i}{s} + \pdv{f}{y_i'}\dv{x}\qty(\dv{Y_i}{s})]}_{s=0} \\
+        &= \dv{x}\eval{\qty[\pdv{f}{y_i'}\pdv{Y_i}{s}]}_{s=0} \\
+        \therefore \text{constant} &= \pdv{f}{y_i'}\pdv{Y_i}{s}
+    \end{align*}
+\end{proof}
+
+\subsection{Conservation of Momentum}
+\begin{example}
+    Consider a vector \( \vb y = (y,z) \) and the function
+    \[ f = \frac{1}{2}y'^2 + \frac{1}{2}z'^2 - V(y-z) \]
+    Consider the symmetry
+    \begin{align*}
+        Y = y + s &\implies Y' = y' \\
+        Z = z + s & \implies Z = z' \\
+        \therefore V(Y-Z) = V(y-z) &\implies \dv{s} f = 0
+    \end{align*}
+    Then from Noether's theorem,
+    \[ \text{constant} = \eval{\qty[\pdv{f}{y'}\dv{Y}{s} + \pdv{f}{z'}\dv{Z}{s}]}_{s=0} = y' + z' \]
+    This can be thought of as a conserved momentum in the \(y+z\) direction.
+\end{example}
+
+\subsection{Conservation of Angular Momentum under Central Force}
+\begin{example}
+    Suppose \( \Theta = \theta + s, R = r \). Our space is isotropic, so \( \dv{L}{s} = 0 \), hence
+    \[ \eval{\qty[\pdv{L}{\dot\theta}\pdv{\Theta}{s} + \pdv{L}{\dot r}\pdv{R}{s}]}_{s=0} = mr^2\dot\theta \]
+    which shows that angular momentum is conserved.
+\end{example}
+
+\subsection{Convex Functions}
+This section reviews certain parts of calculus on \( \mathbb R^n \).
+\begin{definition}
+    A set \( S \subset \mathbb R^n \) is convex if \( \forall \vb x, \vb y \in S, \forall t \in [0,1], (1-t)\vb x + t \vb y \in S \).
+\end{definition}
+\begin{definition}
+    The graph of a function \( f \colon \mathbb R^n \to \mathbb R \) is the surface \( \qty{ (\vb x, z)\in \mathbb R^{n+1} \colon z - f(\vb x) = 0} \).
+\end{definition}
+\begin{definition}
+    A chord of a function \( f \colon \mathbb R^n \to \mathbb R \) is a line segment connecting two points on the graph of \( f \).
+\end{definition}
+\begin{definition}
+    A function \( f \colon \mathbb R^n \to \mathbb R \) is convex if
+    \begin{enumerate}[(i)]
+        \item the domain of \( f \) is a convex set; and
+        \item \( \forall \vb x, \vb y \in S, \forall t \in [0,1], f((1-t)x + ty) \leq (1-t)f(x) + tf(y) \)
+    \end{enumerate}
+    Equivalently, \( f \) is convex if the graph of \( f \) lies below (or on) all of its chords.
+\end{definition}
