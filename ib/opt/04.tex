@@ -2,14 +2,14 @@
 Consider minimising \(f(\vb x)\) subject to \(\vb x \in \mathcal X\), \(h(\vb x) = \vb b\) where \(h \colon \mathbb R^n \to \mathbb R^m\).
 The \textit{Lagrangian} associated with this problem is
 \[
-	\mathcal L(\vb x, \vb \lambda) = f(\vb x) - \vb \lambda^\transpose(h(\vb x) - \vb b)
+	L(\vb x, \vb \lambda) = f(\vb x) - \vb \lambda^\transpose(h(\vb x) - \vb b)
 \]
 where \(\vb\lambda \in \mathbb R^m\) is the vector of Lagrange multipliers.
-We want to instead minimise \(\mathcal L(\vb x, \vb \lambda), x \in \mathcal X\).
+We want to instead minimise \(L(\vb x, \vb \lambda), x \in \mathcal X\).
 \begin{theorem}[Lagrange Sufficiency]
 	Suppose we can find a \(\vb \lambda^\star\) such that
 	\begin{enumerate}[(i)]
-		\item \(\min_{\vb x \in \mathcal X} \mathcal L(\vb x, \vb \lambda^\star) = \mathcal L(\vb x^\star, \vb\lambda^\star)\)
+		\item \(\min_{\vb x \in \mathcal X} L(\vb x, \vb \lambda^\star) = L(\vb x^\star, \vb\lambda^\star)\)
 		\item \(\vb x^\star \in \mathcal X(\vb b) = \qty{\vb x \colon \vb x \in \mathcal X, h(\vb x) = \vb b}\)
 	\end{enumerate}
 	Then \(\vb x^\star\) is optimal for the original constrained problem, i.e.
@@ -23,8 +23,8 @@ We want to instead minimise \(\mathcal L(\vb x, \vb \lambda), x \in \mathcal X\)
 	\begin{align*}
 		\min_{\vb x \in \mathcal X(\vb b)}f(\vb x) & = \min_{\vb x \in \mathcal X(\vb b)} f(\vb x) - \underbrace{(\vb\lambda^\star)^\transpose (h(\vb x) - \vb b)}_{0 \text{ when } \vb x \in \mathcal X(\vb b)} \\
 		                                           & \geq \min_{\vb x \in \mathcal X} f(\vb x) - (\vb\lambda^\star)^\transpose (h(\vb x) - \vb b)                                                                \\
-		                                           & = \min_{\vb x \in \mathcal X} \mathcal L(\vb x, \vb \lambda)                                                                                                \\
-		                                           & = \mathcal L(\vb x^\star, \vb \lambda^\star)                                                                                                                \\
+		                                           & = \min_{\vb x \in \mathcal X} L(\vb x, \vb \lambda)                                                                                                \\
+		                                           & = L(\vb x^\star, \vb \lambda^\star)                                                                                                                \\
 		                                           & = f(\vb x^\star) - (\vb\lambda^\star)^\transpose (h(\vb x^\star) - \vb b)                                                                                   \\
 		                                           & = f(\vb x^\star)
 	\end{align*}
@@ -46,10 +46,10 @@ We want to instead minimise \(\mathcal L(\vb x, \vb \lambda), x \in \mathcal X\)
 	\]
 	Taking Lagrange multipliers, we have
 	\begin{align*}
-		\mathcal L(\vb x, \vb\lambda) & = (-x_1 - x_2 + x_3) - \lambda_1 (x_1^2 + x_2^2 - 4) - \lambda_2(x_1+x_2 + x_3 - 1)                                               \\
+		L(\vb x, \vb\lambda) & = (-x_1 - x_2 + x_3) - \lambda_1 (x_1^2 + x_2^2 - 4) - \lambda_2(x_1+x_2 + x_3 - 1)                                               \\
 		                              & = (-(1+\lambda_2) x_1 - \lambda_1 x_1^2) + (-(1 + \lambda_2)x_2 - \lambda_1 x_2^2) + (1 - \lambda_2)x_3 + 4 \lambda_1 + \lambda_2
 	\end{align*}
-	We want to fix a value of \(\vb \lambda\) and minimise \(\mathcal L\), only considering solutions such that \(\vb x^\star\) is finite.
+	We want to fix a value of \(\vb \lambda\) and minimise \(L\), only considering solutions such that \(\vb x^\star\) is finite.
 	Note that if \(\lambda_1 > 0\), then the first bracket can be made as small as we like by picking very small values of \(x_1\); this bracket would diverge to negative infinity so we cannot choose such a \(\lambda_1\).
 	If \(\lambda_2 \neq 1\), the infimum is also negative infinity by considering the \(x_3\) term.
 	So let us consider \(\lambda_1 \leq 0, \lambda_2 = 1\).
@@ -90,15 +90,15 @@ We can solve this problem using the following steps.
 	      \end{alignat*}
 	\item Calculate the Lagrangian,
 	      \[
-		      \mathcal L(\vb x, \vb \lambda, \vb s) = f(\vb x) - \vb \lambda^\transpose (h(\vb x) + \vb s - \vb b)
+		      L(\vb x, \vb \lambda, \vb s) = f(\vb x) - \vb \lambda^\transpose (h(\vb x) + \vb s - \vb b)
 	      \]
 	\item Let
 	      \[
-		      \vb \Lambda = \qty{\vb \lambda \colon \inf_{\vb x \in \mathcal X;\; \vb s \geq 0} \mathcal L(\vb x, \vb s, \vb \lambda) > -\infty}
+		      \vb \Lambda = \qty{\vb \lambda \colon \inf_{\vb x \in \mathcal X;\; \vb s \geq 0} L(\vb x, \vb s, \vb \lambda) > -\infty}
 	      \]
 	\item For each \(\vb\lambda \in \vb\Lambda\), find \(\vb x^\star(\vb \lambda), \vb s^\star(\vb \lambda)\) such that
 	      \[
-		      \min_{\vb x \in \mathcal X;\; \vb s \geq 0} \mathcal L(\vb x, \vb s, \vb \lambda) = \mathcal L(\vb x^\star(\vb \lambda), \vb s^\star(\vb \lambda), \vb \lambda)
+		      \min_{\vb x \in \mathcal X;\; \vb s \geq 0} L(\vb x, \vb s, \vb \lambda) = L(\vb x^\star(\vb \lambda), \vb s^\star(\vb \lambda), \vb \lambda)
 	      \]
 	\item Find \(\vb\lambda^\star \in \vb\Lambda\) such that \((\vb x^\star(\vb \lambda), \vb s^\star(\vb \lambda))\) is feasible, i.e.
 	      \[
@@ -152,7 +152,7 @@ In other words, either the constraint inequality is tight (defined by an equalit
 	\end{alignat*}
 	Taking the Lagrangian,
 	\begin{align*}
-		\mathcal L(\vb x, \vb s, \vb \lambda) & = (x_1 - 3x_2) - x_1(x_1^2 + x_2^2 + s_1 - 4) - \lambda_2(x_1 + x_2 + s_2 - 2)                                                                       \\
+		L(\vb x, \vb s, \vb \lambda) & = (x_1 - 3x_2) - x_1(x_1^2 + x_2^2 + s_1 - 4) - \lambda_2(x_1 + x_2 + s_2 - 2)                                                                       \\
 		                                      & = \qty((1 - \lambda_2)x_1 - \lambda_1 x_1^2) + \qty((-3-\lambda_2)x_2 - \lambda_1 x_2^2) - \lambda_1 s_1 - \lambda_2 s_2 + (4\lambda_1 + 2\lambda_2)
 	\end{align*}
 	We must have \(\lambda_1, \lambda_2 \leq 0\) by considering the slack variable.
