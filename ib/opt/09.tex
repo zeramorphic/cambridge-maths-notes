@@ -1,46 +1,50 @@
 \subsection{Zero-Sum Games}
 \begin{definition}
-    A \textit{zero-sum two-person game} is a scenario in which two players (denoted P1 and P2) have different actions they can take:
-    \begin{itemize}
-        \item P1 has \( m \) possible actions \( \qty{1, 2, \dots, m } \), and
-        \item P2 has \( n \) possible actions \( \qty{1, 2, \dots, n } \); such that
-    \end{itemize}
-    if P1 plays move \( i \) and P2 plays move \( j \), then we say P1 `wins' an amount \( a_{ij} \) and P2 `loses' the same amount \( a_{ij} \).
-    The matrix of results \( A \) is called the \textit{payoff matrix}.
-    P1 chooses a row of the matrix, and P2 chooses a column, and the intersection is the outcome of the game.
+	A \textit{zero-sum two-person game} is a scenario in which two players (denoted P1 and P2) have different actions they can take:
+	\begin{itemize}
+		\item P1 has \( m \) possible actions \( \qty{1, 2, \dots, m } \), and
+		\item P2 has \( n \) possible actions \( \qty{1, 2, \dots, n } \); such that
+	\end{itemize}
+	if P1 plays move \( i \) and P2 plays move \( j \), then we say P1 `wins' an amount \( a_{ij} \) and P2 `loses' the same amount \( a_{ij} \).
+	The matrix of results \( A \) is called the \textit{payoff matrix}.
+	P1 chooses a row of the matrix, and P2 chooses a column, and the intersection is the outcome of the game.
 \end{definition}
 Suppose P1 plays first, and chooses row \( i \).
 P1 knows that P2 will choose the row \( j \) such that \( a_{ij} \) is minimised, since that will maximise P2's winnings.
 In particular, if P1 picks row \( i \) then they can expect to win \( \min_{j \in \qty{1,\dots,m}} a_{ij} \).
 So P1 will try to solve the problem
 \begin{alignat*}{2}
-    & \text{maximise} & \qquad & \min_{j \in \qty{1,\dots,m}} a_{ij}            \\
-    & \text{subject to}                                &        &i \in \qty{1,\dots,n}
+	 & \text{maximise}   & \qquad & \min_{j \in \qty{1,\dots,m}} a_{ij} \\
+	 & \text{subject to} &        & i \in \qty{1,\dots,n}
 \end{alignat*}
 If P2 plays first, they will try to solve the problem
 \begin{alignat*}{2}
-    & \text{minimise} & \qquad & \max_{i \in \qty{1,\dots,n}} a_{ij}            \\
-    & \text{subject to}                                &        &j \in \qty{1,\dots,m}
+	 & \text{minimise}   & \qquad & \max_{i \in \qty{1,\dots,n}} a_{ij} \\
+	 & \text{subject to} &        & j \in \qty{1,\dots,m}
 \end{alignat*}
 \begin{example}
-    Suppose the payoff matrix is
-    \[ A = \begin{pmatrix}
-        1 & 2 \\ 3 & 4
-    \end{pmatrix} \]
-    P1 chooses a row, and P2 chooses a column.
-    If P1 plays first, they choose row 2, then P2 chooses row 1, and the payoff is 3.
-    If P2 plays first, they choose column 1, then P1 chooses row 2, and the payoff is again 3.
-    Since the solution is the same for both problems, this point \( (2,1) \) is called a \textit{saddle point}.
-    The value \( a_{21} = 3 \) is called the \textit{value} of the game.
+	Suppose the payoff matrix is
+	\[
+		A = \begin{pmatrix}
+			1 & 2 \\ 3 & 4
+		\end{pmatrix}
+	\]
+	P1 chooses a row, and P2 chooses a column.
+	If P1 plays first, they choose row 2, then P2 chooses row 1, and the payoff is 3.
+	If P2 plays first, they choose column 1, then P1 chooses row 2, and the payoff is again 3.
+	Since the solution is the same for both problems, this point \( (2,1) \) is called a \textit{saddle point}.
+	The value \( a_{21} = 3 \) is called the \textit{value} of the game.
 \end{example}
 \begin{example}
-    Consider the payoff matrix
-    \[ A = \begin{pmatrix}
-        4 & 2 \\ 1 & 3
-    \end{pmatrix} \]
-    If P1 plays first, they choose row 1, then P2 chooses column 2, and the payoff is 2.
-    If P2 plays first, they choose column 2, then P1 chooses row 2, and the payoff is 3.
-    Here, both players cannot play optimally simultaneously since different outcomes will occur depending on what they think their opponent will do.
+	Consider the payoff matrix
+	\[
+		A = \begin{pmatrix}
+			4 & 2 \\ 1 & 3
+		\end{pmatrix}
+	\]
+	If P1 plays first, they choose row 1, then P2 chooses column 2, and the payoff is 2.
+	If P2 plays first, they choose column 2, then P1 chooses row 2, and the payoff is 3.
+	Here, both players cannot play optimally simultaneously since different outcomes will occur depending on what they think their opponent will do.
 \end{example}
 
 \subsection{Mixed Strategies}
@@ -49,133 +53,153 @@ Such mixed strategies are employed when we do not know what our opponent will pi
 P1 picks action \( i \) with probability \( p_i \), and P2 picks action \( j \) with probability \( q_j \), such that \( \sum p_i = \sum q_j = 1 \).
 Now, a player's strategy is encoded as a probability vector.
 If P1 picks the mixed strategy \( (p_1, \dots, p_m) \), then the expected reward of P1 (if P2 picks a pure strategy \( j \)) is
-\[ \sum_i a_{ij} p_i \]
+\[
+	\sum_i a_{ij} p_i
+\]
 The optimisation problem for P1 is
 \begin{alignat*}{2}
-    & \text{maximise} & \qquad & \min_{j \in \qty{1,\dots,n}} \sum_i a_{ij} p_i            \\
-    & \text{subject to}                                &        &\sum p_i = 1 \\
-    & & & \vb p \geq 0
+	 & \text{maximise}   & \qquad & \min_{j \in \qty{1,\dots,n}} \sum_i a_{ij} p_i \\
+	 & \text{subject to} &        & \sum p_i = 1                                   \\
+	 &                   &        & \vb p \geq 0
 \end{alignat*}
 Equivalently, where \( \vb e = (1,1,\dots,1)^\transpose \),
 \begin{alignat*}{2}
-    & \text{maximise} & \qquad & v            \\
-    & \text{subject to}                                &        & A^\transpose \vb p \geq v \vb e \\
-    & & & \vb e^\transpose \vb p = 1 \\
-    & & & \vb p \geq 0
+	 & \text{maximise}   & \qquad & v                               \\
+	 & \text{subject to} &        & A^\transpose \vb p \geq v \vb e \\
+	 &                   &        & \vb e^\transpose \vb p = 1      \\
+	 &                   &        & \vb p \geq 0
 \end{alignat*}
 This \( v \) is the minimum value of \( A^\transpose \vb p \).
 P2's optimisation problem is
 \begin{alignat*}{2}
-    & \text{minimise} & \qquad & \max_{i \in \qty{1,\dots,m}} \sum_i a_{ij} q_j            \\
-    & \text{subject to}                                &        &\sum q_j = 1 \\
-    & & & \vb q \geq 0
+	 & \text{minimise}   & \qquad & \max_{i \in \qty{1,\dots,m}} \sum_i a_{ij} q_j \\
+	 & \text{subject to} &        & \sum q_j = 1                                   \\
+	 &                   &        & \vb q \geq 0
 \end{alignat*}
 or equivalently,
 \begin{alignat*}{2}
-    & \text{minimise} & \qquad & w            \\
-    & \text{subject to}                                &        & A \vb q \leq w \vb e \\
-    & & & \vb e^\transpose \vb q = 1 \\
-    & & & \vb q \geq 0
+	 & \text{minimise}   & \qquad & w                          \\
+	 & \text{subject to} &        & A \vb q \leq w \vb e       \\
+	 &                   &        & \vb e^\transpose \vb q = 1 \\
+	 &                   &        & \vb q \geq 0
 \end{alignat*}
 
 \subsection{Duality of Mixed Strategy Problems}
-The two problems above are duals of each other. Adding slack variables, P2's problem is
+The two problems above are duals of each other.
+Adding slack variables, P2's problem is
 \begin{alignat*}{2}
-    & \text{minimise} & \qquad & w            \\
-    & \text{subject to}                                &        & A \vb q + \vb s = w \vb e \\
-    & & & \vb e^\transpose \vb q = 1 \\
-    & & & \vb q \geq 0 \\
-    & & & \vb s \geq 0
+	 & \text{minimise}   & \qquad & w                          \\
+	 & \text{subject to} &        & A \vb q + \vb s = w \vb e  \\
+	 &                   &        & \vb e^\transpose \vb q = 1 \\
+	 &                   &        & \vb q \geq 0               \\
+	 &                   &        & \vb s \geq 0
 \end{alignat*}
 The Lagrangian of this problem is
 \begin{align*}
-        L(w, \vb q, \vb s, \vb\lambda_1, \lambda_2) &= w + \vb\lambda_1^\transpose (A\vb q + \vb s - w\vb e) - \lambda_2 (\vb e^\transpose \vb q - 1) \\
-        &= w(1 - \vb\lambda_1^\transpose \vb e) + (\vb\lambda_1^\transpose A - \lambda_2 \vb e^\transpose) \vb q + \vb \lambda_1^\transpose\vb s + \lambda_2
+	L(w, \vb q, \vb s, \vb\lambda_1, \lambda_2) & = w + \vb\lambda_1^\transpose (A\vb q + \vb s - w\vb e) - \lambda_2 (\vb e^\transpose \vb q - 1)                                                    \\
+	                                            & = w(1 - \vb\lambda_1^\transpose \vb e) + (\vb\lambda_1^\transpose A - \lambda_2 \vb e^\transpose) \vb q + \vb \lambda_1^\transpose\vb s + \lambda_2
 \end{align*}
 Thus,
-\[ \vb\Lambda = \qty{\vb\lambda \colon \vb\lambda_1^\transpose \vb e = 1, \vb\lambda_1^\transpose A - \lambda_2\vb e^\transpose \geq 0, \vb \lambda_1 \geq 0} \]
+\[
+	\vb\Lambda = \qty{\vb\lambda \colon \vb\lambda_1^\transpose \vb e = 1, \vb\lambda_1^\transpose A - \lambda_2\vb e^\transpose \geq 0, \vb \lambda_1 \geq 0}
+\]
 When \( \vb\lambda \in \vb\Lambda \),
-\[ \inf L = \lambda_2 \]
+\[
+	\inf L = \lambda_2
+\]
 Hence the dual is
 \begin{alignat*}{2}
-    & \text{maximise} & \qquad & \lambda_2            \\
-    & \text{subject to}                                &        & \vb\lambda_1^\transpose \vb e = 1 \\
-    & & & \vb\lambda_1^\transpose A \geq \lambda_2 \vb e^\transpose \\
-    & & & \vb \lambda_1 \geq 0
+	 & \text{maximise}   & \qquad & \lambda_2                                                 \\
+	 & \text{subject to} &        & \vb\lambda_1^\transpose \vb e = 1                         \\
+	 &                   &        & \vb\lambda_1^\transpose A \geq \lambda_2 \vb e^\transpose \\
+	 &                   &        & \vb \lambda_1 \geq 0
 \end{alignat*}
 Note that \( \vb \lambda_1 = \vb p \) and \( \lambda_2 = v \) in the above formulation of P1's problem.
 \begin{theorem}
-    A strategy \( \vb p \) is optimal for P1 if there exist \( \vb q, v \) such that
-    \begin{itemize}
-        \item (primal feasibility) \( A^\transpose \vb p \geq v \vb e, \vb e^\transpose \vb p = 1, \vb p \geq 0 \);
-        \item (dual feasibility) \( Aq \leq v\vb e, \vb e^\transpose \vb q = 1, \vb q \geq 0 \); and
-        \item (complementary slackness) \( v = \vb p^\transpose A \vb q \)
-    \end{itemize}
+	A strategy \( \vb p \) is optimal for P1 if there exist \( \vb q, v \) such that
+	\begin{itemize}
+		\item (primal feasibility) \( A^\transpose \vb p \geq v \vb e, \vb e^\transpose \vb p = 1, \vb p \geq 0 \);
+		\item (dual feasibility) \( Aq \leq v\vb e, \vb e^\transpose \vb q = 1, \vb q \geq 0 \); and
+		\item (complementary slackness) \( v = \vb p^\transpose A \vb q \)
+	\end{itemize}
 \end{theorem}
 \begin{proof}
-    \( (\vb p, v) \) and \( (\vb q, w) \) are optimal if
-    \[ (A \vb q - w \vb e)^\transpose \vb p = 0; \vb q^\transpose(A^\transpose \vb p - v \vb e) = 0 \]
-    which gives
-    \[ v = w = \vb p^\transpose A \vb q \]
+	\( (\vb p, v) \) and \( (\vb q, w) \) are optimal if
+	\[
+		(A \vb q - w \vb e)^\transpose \vb p = 0; \vb q^\transpose(A^\transpose \vb p - v \vb e) = 0
+	\]
+	which gives
+	\[
+		v = w = \vb p^\transpose A \vb q
+	\]
 \end{proof}
 
 \subsection{Finding Optimal Strategies}
 There are a number of strategies for finding optimal strategies.
 \begin{enumerate}
-    \item We can search for saddle points in the payoff matrix.
-    If such a saddle point is found, a pure strategy aiming for this saddle point is optimal for both players.
-    \item We can search for \textit{dominating actions}.
-    Suppose there exist \( i, i' \) such that \( a_{ij} \geq a_{i'j} \) for all \( j \).
-    Then \( i \) dominates \( i' \), so P1 will never play \( i' \) and we can simply drop this row in the matrix.
-    A similar technique can be used to drop columns.
-    \item If these simplification techniques are not sufficient, we can simply solve the linear program using (for instance) the simplex method.
+	\item We can search for saddle points in the payoff matrix.
+	      If such a saddle point is found, a pure strategy aiming for this saddle point is optimal for both players.
+	\item We can search for \textit{dominating actions}.
+	      Suppose there exist \( i, i' \) such that \( a_{ij} \geq a_{i'j} \) for all \( j \).
+	      Then \( i \) dominates \( i' \), so P1 will never play \( i' \) and we can simply drop this row in the matrix.
+	      A similar technique can be used to drop columns.
+	\item If these simplification techniques are not sufficient, we can simply solve the linear program using (for instance) the simplex method.
 \end{enumerate}
 \begin{example}
-    Suppose we have a payoff matrix
-    \[ A = \begin{pmatrix}
-        2 & 3 & 4 \\
-        3 & 1 & \frac{1}{2} \\
-        1 & 3 & 2
-    \end{pmatrix} \]
-    First, observe that there is no saddle point.
-    Note that the first row dominates the last row, so we can simplify the payoff matrix to
-    \[ \widetilde{A} = \begin{pmatrix}
-        2 & 3 & 4 \\
-        3 & 1 & \frac{1}{2} \\
-    \end{pmatrix} \]
-    P1's strategy is \( \vb p = (p, 1-p, 0) \), and the optimisation problem is
-    \begin{alignat*}{2}
-        & \text{maximise} & \qquad & v            \\
-        & \text{subject to}                                &        & \widetilde{A}^\transpose \vb p \geq v \vb e \\
-        & & & \vb e^\transpose \vb p = 1 \\
-        & & & \vb p \geq 0
-    \end{alignat*}
-    which is
-    \begin{alignat*}{2}
-        & \text{maximise} & \qquad & v            \\
-        & \text{subject to}                                &        & 2p + 3(1-p) \geq v \\
-        & & & 3p + (1-p) \geq v \\
-        & & & 4p + \frac{1}{2}(1-p) \geq v \\
-        & & & 0 \leq p \leq 1
-    \end{alignat*}
-    and by simplifying,
-    \begin{alignat*}{2}
-        & \text{maximise} & \qquad & v            \\
-        & \text{subject to}                                &        & v \leq 3 - p \\
-        & & & v \leq 1 + 2p \\
-        & & & v \leq \frac{1}{2} + \frac{7}{2}p \\
-        & & & 0 \leq p \leq 1
-    \end{alignat*}
-    We can solve this graphically since it is a one-dimensional problem, or use the simplex method.
-    We arrive at the solution \( \vb p = \qty(\frac{2}{3}, \frac{1}{3}, 0) \), i.e. \( p = \frac{2}{3} \).
-    The payoff is \( \frac{7}{3} \).
-    Player 2 has the dual optimisation problem, so we can use complementary slackness to compute P2's strategy.
-    The first two constraints are tight, but the final constraint may not be (since it is zero in P1's strategy).
-    Therefore \( q_3 = 0 \), and P2's strategy is \( \vb q = (q, 1-q, 0) \).
-    Since the value of the game is \( \frac{7}{3} \), we have
-    \[ \frac{7}{3} = \vb p^\transpose A \vb q \]
-    which lets us find \( q \).
-    Alternatively, we can use complementary slackness.
-    Since \( p_1, p_2 > 0 \), the first two constraints in the dual problem must be tight.
-    \[ 2q + 3(1-q) = \frac{7}{3} \implies q = \frac{2}{3} \]
+	Suppose we have a payoff matrix
+	\[
+		A = \begin{pmatrix}
+			2 & 3 & 4           \\
+			3 & 1 & \frac{1}{2} \\
+			1 & 3 & 2
+		\end{pmatrix}
+	\]
+	First, observe that there is no saddle point.
+	Note that the first row dominates the last row, so we can simplify the payoff matrix to
+	\[
+		\widetilde{A} = \begin{pmatrix}
+			2 & 3 & 4           \\
+			3 & 1 & \frac{1}{2} \\
+		\end{pmatrix}
+	\]
+	P1's strategy is \( \vb p = (p, 1-p, 0) \), and the optimisation problem is
+	\begin{alignat*}{2}
+		 & \text{maximise}   & \qquad & v                                           \\
+		 & \text{subject to} &        & \widetilde{A}^\transpose \vb p \geq v \vb e \\
+		 &                   &        & \vb e^\transpose \vb p = 1                  \\
+		 &                   &        & \vb p \geq 0
+	\end{alignat*}
+	which is
+	\begin{alignat*}{2}
+		 & \text{maximise}   & \qquad & v                            \\
+		 & \text{subject to} &        & 2p + 3(1-p) \geq v           \\
+		 &                   &        & 3p + (1-p) \geq v            \\
+		 &                   &        & 4p + \frac{1}{2}(1-p) \geq v \\
+		 &                   &        & 0 \leq p \leq 1
+	\end{alignat*}
+	and by simplifying,
+	\begin{alignat*}{2}
+		 & \text{maximise}   & \qquad & v                                 \\
+		 & \text{subject to} &        & v \leq 3 - p                      \\
+		 &                   &        & v \leq 1 + 2p                     \\
+		 &                   &        & v \leq \frac{1}{2} + \frac{7}{2}p \\
+		 &                   &        & 0 \leq p \leq 1
+	\end{alignat*}
+	We can solve this graphically since it is a one-dimensional problem, or use the simplex method.
+	We arrive at the solution \( \vb p = \qty(\frac{2}{3}, \frac{1}{3}, 0) \), i.e.
+	\( p = \frac{2}{3} \).
+	The payoff is \( \frac{7}{3} \).
+	Player 2 has the dual optimisation problem, so we can use complementary slackness to compute P2's strategy.
+	The first two constraints are tight, but the final constraint may not be (since it is zero in P1's strategy).
+	Therefore \( q_3 = 0 \), and P2's strategy is \( \vb q = (q, 1-q, 0) \).
+	Since the value of the game is \( \frac{7}{3} \), we have
+	\[
+		\frac{7}{3} = \vb p^\transpose A \vb q
+	\]
+	which lets us find \( q \).
+	Alternatively, we can use complementary slackness.
+	Since \( p_1, p_2 > 0 \), the first two constraints in the dual problem must be tight.
+	\[
+		2q + 3(1-q) = \frac{7}{3} \implies q = \frac{2}{3}
+	\]
 \end{example}
