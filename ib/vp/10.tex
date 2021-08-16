@@ -5,62 +5,78 @@ Instead of solving for each particle, we instead consider macroscopic quantities
 A system has \textit{internal energy} \( U(S, V) \).
 The \textit{Helmholtz free energy} is
 \begin{align*}
-    F(T, V) &= \min_S (U(S, V) - TS) \\
-    &= - \max_S (TS - U(S, V)) \\
-    &= -U^\star(T, V)
+	F(T, V) & = \min_S (U(S, V) - TS)   \\
+	        & = - \max_S (TS - U(S, V)) \\
+	        & = -U^\star(T, V)
 \end{align*}
 where \( U^\star \) is the Legendre transform of \( U \) with respect to \( S \), fixing \( V \) constant.
 Assuming \( U \) is convex,
-\[ \eval{\pdv{S} \qty(TS - U(S,V))}_{T,V} = 0 \implies T = \eval{\pdv{U}{S}}_{V} \]
+\[
+	\eval{\pdv{S} \qty(TS - U(S,V))}_{T,V} = 0 \implies T = \eval{\pdv{U}{S}}_{V}
+\]
 There are other thermodynamical quantities that can be represented using a Legendre transform, for instance enthalpy \( H(S, P) \).
 \begin{align*}
-    H(S, P) &= \min_V (U(S,V) + PV) \\
-    &= - U^\star(-P, S)
+	H(S, P) & = \min_V (U(S,V) + PV) \\
+	        & = - U^\star(-P, S)
 \end{align*}
 At this minimum, \( P = \eval{-\pdv{U}{V}}_S \).
 We can think of the Legendre transform in this context as a way of swapping from dependence on entropy and volume to dependence on other variables.
 
 \subsection{Legendre Transform of the Lagrangian}
 Recall that the Lagrangian in mechanics was defined as
-\[ L = T - V = L(\vb q, \dot{\vb q}, t) \]
+\[
+	L = T - V = L(\vb q, \dot{\vb q}, t)
+\]
 This is a function on the configuration space.
 We define the \textit{Hamiltonian} to be the Legendre transform of \( L \) with respect to \( \dot{\vb q} \).
 We find, assuming that \( L \) is convex,
 \begin{align*}
-    H(\vb q, \vb p, \vb t) &= \sup_{\vb v} (\vb p \cdot \vb v - L) \\
-    &= \vb p \cdot \vb v(\vb p) - L(\vb q, \vb v(\vb p), t)
+	H(\vb q, \vb p, \vb t) & = \sup_{\vb v} (\vb p \cdot \vb v - L)                 \\
+	                       & = \vb p \cdot \vb v(\vb p) - L(\vb q, \vb v(\vb p), t)
 \end{align*}
 where \( \vb v(\vb p) \) is the solution to \( p_i = \pdv{L}{\dot{q}_i} \).
 The \( \vb p \) are referred to as \textit{generalised momenta} or \textit{conjugate momenta}.
 Consider
-\[ T = \frac{1}{2}m \abs{\dot{\vb q}}^2;\quad V = V(\vb q) \]
+\[
+	T = \frac{1}{2}m \abs{\dot{\vb q}}^2;\quad V = V(\vb q)
+\]
 Then,
-\[ \vb p = \pdv{L}{\dot{\vb q}} = m \dot{\vb q} \implies \dot{\vb q} = \frac{1}{m} \vb p \]
+\[
+	\vb p = \pdv{L}{\dot{\vb q}} = m \dot{\vb q} \implies \dot{\vb q} = \frac{1}{m} \vb p
+\]
 The Hamiltonian is therefore
 \begin{align*}
-    H(\vb q, \vb p, t) &= \vb p \cdot \frac{1}{m} \vb p - L \\
-    &= \vb p \cdot \frac{1}{m} \vb p - \qty(\frac{1}{2}m \frac{\abs{\vb p}^2}{m^2} - V(\vb q)) \\
-    &= \frac{1}{2m} \abs{\vb p}^2 + V(\vb q) \\
-    &= T + V
+	H(\vb q, \vb p, t) & = \vb p \cdot \frac{1}{m} \vb p - L                                                       \\
+	                   & = \vb p \cdot \frac{1}{m} \vb p - \qty(\frac{1}{2}m \frac{\abs{\vb p}^2}{m^2} - V(\vb q)) \\
+	                   & = \frac{1}{2m} \abs{\vb p}^2 + V(\vb q)                                                   \\
+	                   & = T + V
 \end{align*}
 
 \subsection{Hamilton's Equations from Euler-Lagrange Equation}
 Given that the Lagrangian satisfies the Euler-Lagrange equation, we can deduce analogous equations for the Hamiltonian.
 We often write the indices of the generalised coordinates in superscript, as follows, where the summation convention applies:
-\[ H = H(\vb q, \vb p, t) = p_i \dot q^i - L(q^i, \dot q^i, t) \]
+\[
+	H = H(\vb q, \vb p, t) = p_i \dot q^i - L(q^i, \dot q^i, t)
+\]
 Using this equation, we can compute two expressions for the differential of the Hamiltonian:
 \begin{align*}
-    \dd{H} &= \pdv{H}{q^i} \dd{q^i} + \pdv{H}{p_i} \dd{p_i} + \pdv{H}{t} \dd{t} \\
-    &= p_i \dd{\dot{q}^i} + \dot{q}^i \dd{p_i} - \pdv{L}{q^i}\dd{q^i} - \pdv{L}{\dot q^i}\dd{\dot q^i} - \pdv{L}{t}\dd{t}
+	\dd{H} & = \pdv{H}{q^i} \dd{q^i} + \pdv{H}{p_i} \dd{p_i} + \pdv{H}{t} \dd{t}                                                  \\
+	       & = p_i \dd{\dot{q}^i} + \dot{q}^i \dd{p_i} - \pdv{L}{q^i}\dd{q^i} - \pdv{L}{\dot q^i}\dd{\dot q^i} - \pdv{L}{t}\dd{t}
 \end{align*}
 Now, note that \( \pdv{L}{\dot q^i} = p_i \).
 This cancels some terms.
 Making use of the Euler-Lagrange equation,
-\[ \pdv{L}{q^i} = \dv{t} \pdv{L}{\dot q^i} = \dv{t} p_i = \dot{p}_i \]
+\[
+	\pdv{L}{q^i} = \dv{t} \pdv{L}{\dot q^i} = \dv{t} p_i = \dot{p}_i
+\]
 This gives
-\[ \dd{H} = \pdv{H}{q^i} \dd{q^i} + \pdv{H}{p_i} \dd{p_i} + \pdv{H}{t} \dd{t} = \dot{q}^i \dd{p_i} - \dot{p}_i\dd{q^i} - \pdv{L}{t}\dd{t} \]
+\[
+	\dd{H} = \pdv{H}{q^i} \dd{q^i} + \pdv{H}{p_i} \dd{p_i} + \pdv{H}{t} \dd{t} = \dot{q}^i \dd{p_i} - \dot{p}_i\dd{q^i} - \pdv{L}{t}\dd{t}
+\]
 Comparing the differentials, we can see that
-\[ \dot{q}^i = \pdv{H}{p_i};\quad \dot{p}_i = -\pdv{H}{q^i};\quad \pdv{L}{t} = -\pdv{H}{t} \]
+\[
+	\dot{q}^i = \pdv{H}{p_i};\quad \dot{p}_i = -\pdv{H}{q^i};\quad \pdv{L}{t} = -\pdv{H}{t}
+\]
 This system of equations is known as Hamilton's equations.
 Note that in the last equation, \( \eval{\pdv{t}}_{q,\dot q} \neq \eval{\pdv{t}}_{p,q} \).
 For now, we will assume that there is no explicit \( t \) dependence in the Lagrangian.
@@ -71,10 +87,16 @@ The solutions to Hamilton's equations are called the \textit{trajectories} in \(
 
 \subsection{Hamilton's Equations from Extremising a Functional}
 Note that we can also arrive at Hamilton's equations by extremising a functional in phase space.
-\[ S[\vb q, \vb p] = \int_{t_1}^{t_2} \qty( \dot q^i p_i - H(\vb q, \vb p, t)) \dd{t} \]
+\[
+	S[\vb q, \vb p] = \int_{t_1}^{t_2} \qty( \dot q^i p_i - H(\vb q, \vb p, t)) \dd{t}
+\]
 The integrand, denoted \( f \), is a function of \( \vb q, \vb p, \dot{\vb q}, t \).
 Writing the Euler-Lagrange equations for \( S \), varying first with respect to \( p_i \),
-\[ \pdv{f}{p_i} - \underbrace{\dv{t}{\pdv{f}{\dot p_i}}}_0 = 0 \implies \dot q^i = \pdv{H}{p_i} \]
+\[
+	\pdv{f}{p_i} - \underbrace{\dv{t}{\pdv{f}{\dot p_i}}}_0 = 0 \implies \dot q^i = \pdv{H}{p_i}
+\]
 Now varying with respect to \( q^i \),
-\[ \pdv{f}{q^i} - \dv{t}{\pdv{f}{\dot q^i}} = 0 \implies \dot p_i = -\pdv{H}{q^i} \]
+\[
+	\pdv{f}{q^i} - \dv{t}{\pdv{f}{\dot q^i}} = 0 \implies \dot p_i = -\pdv{H}{q^i}
+\]
 These results are exactly Hamilton's equations.
