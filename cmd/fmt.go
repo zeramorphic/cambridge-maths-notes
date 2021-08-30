@@ -73,6 +73,8 @@ var res = []FormatReplacement{
 	// Block equations go on new lines, with the \[ and \] tokens on their own lines.
 	{re: regexp.MustCompile(`\\\[\s*`), replacement: "\\[\n"},
 	{re: regexp.MustCompile(`\s*\\\]`), replacement: "\n\\]"},
+	// Use LF not CRLF.
+	{re: regexp.MustCompile(`\r\n`), replacement: "\n"},
 }
 
 func formatFile(contents string) string {

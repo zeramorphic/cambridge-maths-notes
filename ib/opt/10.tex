@@ -79,14 +79,14 @@ which is a special case of the minimum flow problem.
 	which is the maximum amount of flow that could possibly travel along this edge.
 	This transformation does not change the optimal solution.
 	We have now reduced to the cost where all capacities are finite.
-	
+
 	\medskip\noindent Now, for each such minimum cost flow problem, we will construct an equivalent transport problem that has the same feasible solutions and the same costs.
 	For each vertex \( i \), we create a consumer with demand \( \sum_{(i,j) \in E} \overline m_{ik} - b_i \).
 	For every edge \( (i,j) \), we create a supplier with supply \( \overline m_{ij} \).
 	The total supply and the total demand are equal, since \( \sum_i b_i = 0 \).
 	We now define the cost of moving from \( (i,j) \to i \) is zero.
 	We further define the cost of moving from \( (i,j) \to j \) is \( c_{ij} \).
-	
+
 	\medskip\noindent Now, suppose \( x_{ij} \) flows from \( (i,j) \to j \).
 	Then \( \overline m_{ij} - x_{ij} \) flows from \( (i,j) \to i \), since the total incoming and outgoing flow from \( (i,j) \) must balance.
 	Then, since the demand at \( i \) is \( \sum_{(i,j) \in E} \overline m_{ik} - b_i \), the total flow into \( i \) satisfies
@@ -96,7 +96,7 @@ which is a special case of the minimum flow problem.
 	which simplifies to the conservation equation for the minimum cost flow problem.
 	We can easily check that \( 0 \leq x_{ij} \leq \overline m_{ij} \).
 	So this mapping between the minimum cost flow problem and the transport problem preserves feasibility of solutions.
-	
+
 	\medskip\noindent It now suffices to show that the costs of the two feasible solutions for the two problems are the same; since then we will have demonstrated a mapping between the two problems.
 	The cost in the transport problem is \( \sum_{(i,j) \in E} x_{ij} c_{ij} \) since the edge from \( (i,j) \) to \( i \) has zero cost.
 	This is identical to the cost in the minimum cost flow problem.
@@ -108,7 +108,7 @@ These have various interpretations in the context of a transport problem.
 \begin{theorem}
 	If for some feasible \( x \) we have dual variables \( \vb \lambda \in \mathbb R^n \) (for suppliers) and \( \vb \mu \in \mathbb R^m \) (for consumers), such that:
 	\begin{enumerate}
-		\item \( \lambda_i + \mu_j \leq x_{ij} \quad \forall (i,j) \in E \); and
+		\item \( \lambda_i + \mu_j \leq c_{ij} \quad \forall (i,j) \in E \); and
 		\item \( (c_{ij} - (\lambda_i + \mu_j)) x_{ij} = 0 \quad \forall (i,j) \in E \)
 	\end{enumerate}
 	then \( x \) is an optimal solution.
@@ -122,3 +122,6 @@ These have various interpretations in the context of a transport problem.
 	\( (\vb \lambda, \vb \mu) \) is dual feasible if \( \lambda_i + \mu_j \leq c_{ij} \) for all \( i,j \).
 	We have primal feasibility, dual feasibility, and complementary slackness, so optimality holds.
 \end{proof}
+Note that if \( \vb\lambda, \vb\mu \) are optimal, then \( \vb\lambda + k, \vb\mu - k \) are also optimal, since \( (\lambda_i + k) + (\mu_j - k) = \lambda_i + \mu_j \).
+So for simplicity, we can always choose \( \lambda_1 = 0 \).
+This gives \( m + n - 1 \) remaining Lagrange multipliers.

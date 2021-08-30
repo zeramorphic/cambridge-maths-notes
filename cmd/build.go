@@ -17,7 +17,8 @@ var buildCmd = &cobra.Command{
 	Long:  "Builds all LaTeX sources in parallel.",
 	Run: func(cmd *cobra.Command, args []string) {
 		compileBook, _ := cmd.Flags().GetBool("book")
-		build(compileBook)
+		singleThreaded, _ := cmd.Flags().GetBool("single-threaded")
+		build(compileBook, singleThreaded)
 	},
 }
 
@@ -33,9 +34,10 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	buildCmd.Flags().BoolP("book", "b", false, "Compile the book as well as the individual courses")
+	buildCmd.Flags().BoolP("single-threaded", "s", false, "Compile only one file at once")
 }
 
-func build(compileBook bool) {
+func build(compileBook bool, singleThreaded bool) {
 	fmt.Println("Building...")
 	var wg sync.WaitGroup
 
@@ -48,7 +50,7 @@ func build(compileBook bool) {
 	for _, file := range Files {
 		wg.Add(1)
 		file := file
-		go func() {
+		f := func() {
 			defer wg.Done()
 
 			// Compile the file.
@@ -59,11 +61,16 @@ func build(compileBook bool) {
 				bar.Set(bar.GetMax())
 			}
 			bar.Add(1)
-		}()
+		}
+		if singleThreaded {
+			f()
+		} else {
+			go f()
+		}
 	}
 	if compileBook {
 		wg.Add(1)
-		go func() {
+		f := func() {
 			defer wg.Done()
 
 			// Compile the file.
@@ -71,7 +78,12 @@ func build(compileBook bool) {
 			cmd.Start()
 			cmd.Wait()
 			bar.Add(1)
-		}()
+		}
+		if singleThreaded {
+			f()
+		} else {
+			go f()
+		}
 	}
 
 	wg.Wait()
