@@ -1,0 +1,144 @@
+\subsection{Conditions for Local Minimisers}
+The Euler-Lagrange equation gives a necessary condition for a stationary point.
+We cannot tell whether this leads to a minimum, a maximum, or a saddle point, just from the Euler-Lagrange equation.
+We can analyse the nature of the stationary points by considering the second variation.
+Consider the functional
+\[
+	F[y] = \int_\alpha^\beta f(x,y,y') \dd{x}
+\]
+where \( y \) is perturbed by a perturbation \( \varepsilon\eta \).
+Let us assume that \( y \) is a solution to the Euler-Lagrange equation, so has no first variation.
+We will then expand \( F[y+\varepsilon\eta] \) to second order.
+\begin{align*}
+	F[y+\varepsilon\eta]        & = \int_\alpha^\beta \qty[f(x,y+\varepsilon\eta,y'+\varepsilon\eta')] \dd{x}                                                                                  \\
+	F[y+\varepsilon\eta] - F[y] & = \int_\alpha^\beta \qty[f(x,y+\varepsilon\eta,y'+\varepsilon\eta') - f(x,y,y')] \dd{x}                                                                      \\
+	                            & = 0 + \varepsilon \underbrace{\int_\alpha^\beta \eta \qty( \pdv{f}{y} - \dv{x} \pdv{f}{y'} ) \dd{x}}_{\text{zero by Euler-Lagrange equation}}                \\
+	                            & + \frac{1}{2} \varepsilon^2 \int_\alpha^\beta  \qty( \eta^2 \pdv[2]{f}{y} + \eta'^2 \pdv[2]{f}{(y')} + 2\eta\eta' \pdv{f}{y}{y'} ) \dd{x} + O(\varepsilon^3)
+\end{align*}
+The last term (excluding the \( \varepsilon^2 \) component) is called the second variation.
+We write
+\[
+	\delta^2 F[y] \equiv \frac{1}{2}\int_\alpha^\beta \qty( \eta^2 \pdv[2]{f}{y} + \eta'^2 \pdv[2]{f}{(y')} + \dv{x} (\eta^2) \pdv{f}{y}{y'} ) \dd{x}
+\]
+Integrating the last term by parts, using \( \eta = 0 \) at \( \alpha, \beta \), we have
+\[
+	\delta^2 F[y] = \frac{1}{2}\int_\alpha^\beta \qty( Q\eta^2 + P(\eta')^2 ) \dd{x}
+\]
+where
+\[
+	P = \pdv[2]{f}{(y')};\quad Q = \pdv[2]{f}{y} - \dv{x} \qty(\pdv{f}{y}{y'})
+\]
+Thus, if \( y \) is a solution to the Euler-Lagrange equation, and also \( Q\eta^2 + P(\eta')^2 > 0 \) for all \( \eta \) vanishing at \( \alpha, \beta \), then \( y \) is a local minimiser of \( F \).
+
+\begin{example}
+	We will prove that the geodesic on a plane is a local minimiser of path length.
+	The functional we will analyse is given by
+	\[
+		f = \sqrt{1 + (y')^2}
+	\]
+	Hence,
+	\[
+		P = \pdv[2]{f}{(y')} = \pdv{y'} \qty(\frac{y'}{\sqrt{1+(y')^2}}) = \frac{1}{(1+(y')^2)^{\frac{3}{2}}} > 0
+	\]
+	\[
+		Q = 0
+	\]
+	Therefore the second variation is positive, so any \( y \) that satisfies the Euler-Lagrange equation minimises path length.
+	In particular, straight lines minimise path length on the plane.
+\end{example}
+
+\subsection{Legendre Condition for Minimisers}
+\begin{proposition}[Legendre condition]
+	If \( y_0(x) \) is a local minimiser, then \( \eval{P}_{y=y_0} \geq 0 \).
+\end{proposition}
+\noindent We can say that the Legendre condition is a necessary condition for a minimiser.
+In less formal terms, \( P \) is `more important' than \( Q \) when determining if a stationary point is a minimiser.
+\begin{proof}
+	This condition is not proven rigorously.
+	However, the general idea of the proof is to construct a function \( \eta \) which is small everywhere (giving a small \( Q \) contribution), but oscillates very rapidly near some point \( x_0 \), at which \( P < 0 \).
+	This gives a large \( P \) contribution which can overpower the \( Q \) contribution.
+	Then this gives \( Q\eta^2 + P(\eta')^2 < 0 \) if there exists some \( x_0 \) where \( \eval{P}_{y=y_0} < 0 \).
+\end{proof}
+
+\noindent Note that the Legendre condition is not a sufficient condition for local minima, but \( P > 0 \) and \( Q \geq 0 \) is sufficient.
+
+\begin{example}
+	Consider again the brachistochrone problem.
+	\[
+		f = \sqrt{\frac{1 + (y')^2}{-y}}
+	\]
+	We have
+	\[
+		\pdv{f}{y} = -\frac{1}{2y}f
+	\]
+	\[
+		\pdv{f}{y'} = \frac{y'}{\sqrt{1+(y')^2}\sqrt{-y}}
+	\]
+	Hence
+	\[
+		P = \frac{1}{(1+(y')^2)^\frac{3}{2} \sqrt{-y}} > 0
+	\]
+	\[
+		Q = \frac{1}{2\sqrt{1 + (y^2)^2}y^2 \sqrt{-y}} > 0
+	\]
+	Hence the cycloid is a local minimiser of the time taken to travel between the two points.
+\end{example}
+
+\subsection{Associated Eigenvalue Problem}
+When deriving the minimiser condition, we had the integrand
+\[
+	Q\eta^2 + P(\eta')^2
+\]
+We can integrate this by parts:
+\[
+	Q\eta^2 + \dv{x} (P \eta \eta') - \eta \dv{x} (P \eta')
+\]
+giving
+\[
+	\delta^2 F[y] = \frac{1}{2}\int_\alpha^\beta \eta \qty[-(P\eta')' + Q\eta]\dd{x}
+\]
+The bracketed term \( -(P\eta')' + Q\eta \) is known as the Sturm-Liouville operator acting on \( \eta \), denoted \( \mathcal L(\eta) \).
+If there exists \( \eta \) such that \( \mathcal L(\eta) = -\omega^2\eta \), \( \omega \in \mathbb R\), and \( \eta(\alpha) = \eta(\beta) = 0 \), then \( y \) is not a minimiser, since the integrand will be \( -\omega^2\eta^2 < 0 \).
+
+\begin{example}
+	Consider
+	\[
+		F[y] = \int_0^\beta \qty((y')^2 - y^2)\dd{x}
+	\]
+	such that
+	\[
+		y(0) = y(\beta) = 0;\quad \beta \neq k\pi, k \in \mathbb N
+	\]
+	The Euler-Lagrange equation gives
+	\[
+		y'' + y = 0
+	\]
+	Thus, constrained to the boundary conditions, the only stationary point of \( F \) is
+	\[
+		y \equiv 0
+	\]
+	Analysing the second variation,
+	\[
+		\delta^2 F[0] = \frac{1}{2} \int_0^\beta \qty[\eta'^2 - \eta^2] \dd{x}
+	\]
+	giving
+	\[
+		P = 1 > 0;\quad Q < 0
+	\]
+	Let us now examine the eigenvalue problem, since we cannot find whether \( y \equiv 0 \) is a minimiser from what we know already.
+	Consider the eigenvalue problem
+	\[
+		-\eta'' - \eta = -\omega^2 \eta;\quad \eta(0) = \eta(\beta) = 0
+	\]
+	Let us take
+	\[
+		\eta = A \sin(\frac{\pi x}{\beta})
+	\]
+	to give
+	\[
+		(\frac{\pi}{\beta})^2 = 1 - \omega^2
+	\]
+	So this has a solution \( \omega > 0 \) if and only if \( \beta > \pi \).
+	If \( P > 0 \), a problem may arise if the interval of integration is `too large' (in this case \( \beta > \pi \)).
+	Next lecture we will make this notion precise.
+\end{example}
