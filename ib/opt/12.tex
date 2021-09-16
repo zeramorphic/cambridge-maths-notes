@@ -1,68 +1,85 @@
 \subsection{Introduction}
 Consider the problem
 \begin{alignat*}{2}
-    & \text{maximise} & \qquad & \delta     \\
-    & \text{subject to}                             &  & \sum_{\qty{j \colon (i,j) \in E}} x_{ij} - \sum_{\qty{j \colon (j,i) \in E}} x_{ji} = 0 \text{ for all } i \neq 1, i \neq n \\
-    &                                               &        & \sum_{\qty{j \colon (1,j) \in E}} x_{1j} - \sum_{\qty{j \colon (j,1) \in E}} x_{j1} = \delta \\
-    &&& \sum_{\qty{j \colon (n,j) \in E}} x_{nj} - \sum_{\qty{j \colon (j,n) \in E}} x_{jn} = -\delta \\
-    &&& 0 \leq x_{ij} \leq c_{ij} \text{ for all } (i,j) \in E
+	 & \text{maximise}   & \qquad & \delta                                                                                                                      \\
+	 & \text{subject to} &        & \sum_{\qty{j \colon (i,j) \in E}} x_{ij} - \sum_{\qty{j \colon (j,i) \in E}} x_{ji} = 0 \text{ for all } i \neq 1, i \neq n \\
+	 &                   &        & \sum_{\qty{j \colon (1,j) \in E}} x_{1j} - \sum_{\qty{j \colon (j,1) \in E}} x_{j1} = \delta                                \\
+	 &                   &        & \sum_{\qty{j \colon (n,j) \in E}} x_{nj} - \sum_{\qty{j \colon (j,n) \in E}} x_{jn} = -\delta                               \\
+	 &                   &        & 0 \leq x_{ij} \leq c_{ij} \text{ for all } (i,j) \in E
 \end{alignat*}
 This is a graph where vertex 1 is a source and vertex \( n \) is a sink, and \( \delta \) is the flow from vertex 1 to vertex \( n \).
 We want to maximise the total amount of flow on the graph, constrained by a certain maximum flow \( c_{ij} \) on each edge.
 
 \subsection{Cuts and Flows}
 \begin{definition}
-    A \textit{cut} of a graph \( G = (V, E) \) is a partition of its vertices into two sets \( (S, V \setminus S) \).
-    The \textit{capacity} of a cut is given by
-    \[ C(S) = \sum_{\qty{(i,j) \in E \colon i \in S, j \in V \setminus S}} c_{ij} \]
+	A \textit{cut} of a graph \( G = (V, E) \) is a partition of its vertices into two sets \( (S, V \setminus S) \).
+	The \textit{capacity} of a cut is given by
+	\[
+		C(S) = \sum_{\qty{(i,j) \in E \colon i \in S, j \in V \setminus S}} c_{ij}
+	\]
 \end{definition}
 \begin{theorem}
-    For any feasible flow \( x \) with value \( \delta \), then for any cut \( (S, V \setminus S) \) such that \( 1 \in S, n \in V \setminus S \), we have
-    \[ \delta \leq C(S) \]
+	For any feasible flow \( x \) with value \( \delta \), then for any cut \( (S, V \setminus S) \) such that \( 1 \in S, n \in V \setminus S \), we have
+	\[
+		\delta \leq C(S)
+	\]
 \end{theorem}
 \begin{proof}
-    For any sets \( X, Y \subseteq V \), we define the function
-    \[ f_x(X, Y) = \sum_{\qty{(i,j) \in E \colon i \in X, j \in Y}} x_{ij} \]
-    Note that \( X, Y \) need not be disjoint.
-    Let \( (S, V \setminus S) \) be a cut such that \( 1 \in S, n \in V \setminus S \).
-    We have
-    \[ \delta = \sum_{i \in S} \qty( \sum_{\qty{j \colon (i,j) \in E}} x_{ij} - \sum_{\qty{j \colon (j,i) \in E}} x_{ji} ) \]
-    since for \( i = 1 \) the bracket is \( \delta \) and for all others it is zero.
-    Therefore,
-    \begin{align*}
-        \delta &= f_x(S, V) - f_x(V, S) \\
-        &= f_x(S, S) + f_x(S, V \setminus S) - f_x(S, S) - f_x(V \setminus S, S) \\
-        &= f_x(S, V \setminus S) - \underbrace{f_x(V \setminus S, S)}_{\geq 0} \\
-        &\leq f_x(S, V \setminus S) \\
-        &\leq C(S)
-    \end{align*}
+	For any sets \( X, Y \subseteq V \), we define the function
+	\[
+		f_x(X, Y) = \sum_{\qty{(i,j) \in E \colon i \in X, j \in Y}} x_{ij}
+	\]
+	Note that \( X, Y \) need not be disjoint.
+	Let \( (S, V \setminus S) \) be a cut such that \( 1 \in S, n \in V \setminus S \).
+	We have
+	\[
+		\delta = \sum_{i \in S} \qty( \sum_{\qty{j \colon (i,j) \in E}} x_{ij} - \sum_{\qty{j \colon (j,i) \in E}} x_{ji} )
+	\]
+	since for \( i = 1 \) the bracket is \( \delta \) and for all others it is zero.
+	Therefore,
+	\begin{align*}
+		\delta & = f_x(S, V) - f_x(V, S)                                                 \\
+		       & = f_x(S, S) + f_x(S, V \setminus S) - f_x(S, S) - f_x(V \setminus S, S) \\
+		       & = f_x(S, V \setminus S) - \underbrace{f_x(V \setminus S, S)}_{\geq 0}   \\
+		       & \leq f_x(S, V \setminus S)                                              \\
+		       & \leq C(S)
+	\end{align*}
 \end{proof}
 
 \subsection{Max-Flow Min-Cut Theorem}
 \begin{theorem}
-    Let \( \delta^\star \) be the value of the maximum flow.
-    Then we have
-    \[ \delta^\star = \min \qty{ C(S) \colon 1 \in S, n \in V \setminus S } \]
-    So the value of the maximum flow is equal to the cut of smallest capacity.
+	Let \( \delta^\star \) be the value of the maximum flow.
+	Then we have
+	\[
+		\delta^\star = \min \qty{ C(S) \colon 1 \in S, n \in V \setminus S }
+	\]
+	So the value of the maximum flow is equal to the cut of smallest capacity.
 \end{theorem}
 \begin{proof}
-    A \textit{path} \( v_0, v_1, \dots, v_k \) is a sequence of vertices such that every pair of adjacent vertices is connected by an edge, either in the forward direction or in the reverse direction.
-    A path is called an \textit{augmenting} path if
-    \begin{align*}
-        x_{v_i v_{i+1}} < c_{v_i v_{i+1}} &\quad \text{for all forward edges}; \\
-        x_{v_i v_{i+1}} > 0 &\quad \text{for all backward edges}
-    \end{align*}
-    So each forward edge must have remaining capacity, and reverse edges must have some flow.
-    This definition allows us to state that augmenting paths are actually all paths such that altering the flow on all edges in the path can increase the total flow from 1 to \( n \), while keeping the amount of flow into each vertex the same (excluding the first and last vertices in the path).
-    Therefore, an optimal flow \( x \) cannot have an augmenting path from vertex 1 to vertex \( n \).
-    Now, suppose \( x \) is optimal. We define a cut:
-    \[ S = \{ 1 \} \cup \{ i \colon \exists \text{ an augmenting path } 1 \to i \} \]
-    Therefore \( n \in V \setminus S \), since there is no augmenting path from 1 to \( n \).
-    Then,
-    \[ \delta^\star = f_x(S, V \setminus S) - f_x(V \setminus S, S) \]
-    But we can show that \( f_x(V \setminus S, S) = 0 \), so
-    \[ \delta^\star = f_x(S, V \setminus S) = C(S) \]
-    as required.
+	A \textit{path} \( v_0, v_1, \dots, v_k \) is a sequence of vertices such that every pair of adjacent vertices is connected by an edge, either in the forward direction or in the reverse direction.
+	A path is called an \textit{augmenting} path if
+	\begin{align*}
+		x_{v_i v_{i+1}} < c_{v_i v_{i+1}} & \quad \text{for all forward edges}; \\
+		x_{v_i v_{i+1}} > 0               & \quad \text{for all backward edges}
+	\end{align*}
+	So each forward edge must have remaining capacity, and reverse edges must have some flow.
+	This definition allows us to state that augmenting paths are actually all paths such that altering the flow on all edges in the path can increase the total flow from 1 to \( n \), while keeping the amount of flow into each vertex the same (excluding the first and last vertices in the path).
+	Therefore, an optimal flow \( x \) cannot have an augmenting path from vertex 1 to vertex \( n \).
+	Now, suppose \( x \) is optimal.
+	We define a cut:
+	\[
+		S = \{ 1 \} \cup \{ i \colon \exists \text{ an augmenting path } 1 \to i \}
+	\]
+	Therefore \( n \in V \setminus S \), since there is no augmenting path from 1 to \( n \).
+	Then,
+	\[
+		\delta^\star = f_x(S, V \setminus S) - f_x(V \setminus S, S)
+	\]
+	But we can show that \( f_x(V \setminus S, S) = 0 \), so
+	\[
+		\delta^\star = f_x(S, V \setminus S) = C(S)
+	\]
+	as required.
 \end{proof}
 
 \subsection{Ford-Fulkerson Algorithm}
@@ -73,153 +90,176 @@ The above proof provides a convenient method for finding an optimal flow.
 	\KwResult{Optimal flow \(x\)}
 	start with a feasible flow, such as \(x = 0\)\;
 	\Repeat{no augmenting paths from \( 1 \) to \( n \)}{
-        choose an augmenting path from \( 1 \) to \( n \), and increase the flow along this path as much as possible\;
+		choose an augmenting path from \( 1 \) to \( n \), and increase the flow along this path as much as possible\;
 	}
 	\caption{Ford-Fulkerson Algorithm}
 \end{algorithm*}
 
 \begin{example}
-    \textit{Note that typically such graphs are represented pictorially, but due to difficulty of typesetting abstract diagrams, a matrix is substituted here.}
-    Consider a graph given by the capacity matrix
-\[ C = \begin{array}{c|cccccc}
-        c_{ij} & 1 & a & b & c & d & n \\\hline
-        1 & & 5 & & 5 \\
-        a & & & 1 & & 4 \\
-        b & & & & & & 5\\
-        c & & & & & 2\\
-        d & & & & & & 5\\
-        n \\
-\end{array} \]
-First consider the feasible flow of \( x = 0 \).
-There exists an augmenting path \( 1, a, b, n \).
-We increase the flow by 1 in all edges, saturating edge \( (a,b) \), giving the flow matrix
-\[ x = \begin{array}{c|cccccc}
-    x_{ij} & 1 & a & b & c & d & n \\\hline
-    1 & & 1 & & & & \\
-    a & & & 1 & & & \\
-    b & & & & & & 1 \\
-    c & & & & & & \\
-    d & & & & & & \\
-    n \\
-\end{array} \]
-The path \( 1, a, d, n \) is now augmenting.
-We can increase the flow by 4 to saturate the edge \( (a,d) \):
-\[ x = \begin{array}{c|cccccc}
-    x_{ij} & 1 & a & b & c & d & n \\\hline
-    1 & & 5 & & & & \\
-    a & & & 1 & & 4 & \\
-    b & & & & & & 1 \\
-    c & & & & & & \\
-    d & & & & & & 4 \\
-    n \\
-\end{array} \]
-The path \( 1,c,d,n \) is augmenting.
-Increasing by 1,
-\[ x = \begin{array}{c|cccccc}
-    x_{ij} & 1 & a & b & c & d & n \\\hline
-    1 & & 5 & & 1 & & \\
-    a & & & 1 & & 4 & \\
-    b & & & & & & 1 \\
-    c & & & & & 1 & \\
-    d & & & & & & 5 \\
-    n \\
-\end{array} \]
-There are no augmenting paths.
-We can also check that the cut \( (\{ 1 \}, \{ a,b,c,d,n \}) \) gives the capacity 6, equivalent to the value at \( n \) so this must be optimal.
-We now have \( \delta^\star = 6 \).
+	\textit{Note that typically such graphs are represented pictorially, but due to difficulty of typesetting abstract diagrams, a matrix is substituted here.}
+	Consider a graph given by the capacity matrix
+	\[
+		C = \begin{array}{c|cccccc}
+			c_{ij} & 1 & a & b & c & d & n \\\hline
+			1      &   & 5 &   & 5         \\
+			a      &   &   & 1 &   & 4     \\
+			b      &   &   &   &   &   & 5 \\
+			c      &   &   &   &   & 2     \\
+			d      &   &   &   &   &   & 5 \\
+			n                              \\
+		\end{array}
+	\]
+	First consider the feasible flow of \( x = 0 \).
+	There exists an augmenting path \( 1, a, b, n \).
+	We increase the flow by 1 in all edges, saturating edge \( (a,b) \), giving the flow matrix
+	\[
+		x = \begin{array}{c|cccccc}
+			x_{ij} & 1 & a & b & c & d & n \\\hline
+			1      &   & 1 &   &   &   &   \\
+			a      &   &   & 1 &   &   &   \\
+			b      &   &   &   &   &   & 1 \\
+			c      &   &   &   &   &   &   \\
+			d      &   &   &   &   &   &   \\
+			n                              \\
+		\end{array}
+	\]
+	The path \( 1, a, d, n \) is now augmenting.
+	We can increase the flow by 4 to saturate the edge \( (a,d) \):
+	\[
+		x = \begin{array}{c|cccccc}
+			x_{ij} & 1 & a & b & c & d & n \\\hline
+			1      &   & 5 &   &   &   &   \\
+			a      &   &   & 1 &   & 4 &   \\
+			b      &   &   &   &   &   & 1 \\
+			c      &   &   &   &   &   &   \\
+			d      &   &   &   &   &   & 4 \\
+			n                              \\
+		\end{array}
+	\]
+	The path \( 1,c,d,n \) is augmenting.
+	Increasing by 1,
+	\[
+		x = \begin{array}{c|cccccc}
+			x_{ij} & 1 & a & b & c & d & n \\\hline
+			1      &   & 5 &   & 1 &   &   \\
+			a      &   &   & 1 &   & 4 &   \\
+			b      &   &   &   &   &   & 1 \\
+			c      &   &   &   &   & 1 &   \\
+			d      &   &   &   &   &   & 5 \\
+			n                              \\
+		\end{array}
+	\]
+	There are no augmenting paths.
+	We can also check that the cut \( (\{ 1 \}, \{ a,b,c,d,n \}) \) gives the capacity 6, equivalent to the value at \( n \) so this must be optimal.
+	We now have \( \delta^\star = 6 \).
 \end{example}
 
 \begin{example}
-    Consider a graph given by the capacity matrix
-    \[ C = \begin{array}{c|cccccc}
-        c_{ij} & 1 & a & b & c & d & n \\\hline
-        1 & & 10 & & 10 & & \\
-        a & & & 4 & 2 & 8 & \\
-        b & & & & & & 10 \\
-        c & & & & & 9 & \\
-        d & & & 6 & & & 10 \\
-        n \\
-\end{array} \]
-The path \( 1,a,d,n \) is augmenting.
-We can increase the (currently zero) flow by 8.
-\[ x = \begin{array}{c|cccccc}
-    x_{ij} & 1 & a & b & c & d & n \\\hline
-    1 & & 8 & & & & \\
-    a & & & & & 8 & \\
-    b & & & & & & \\
-    c & & & & & & \\
-    d & & & & & & 8 \\
-    n \\
-\end{array} \]
-The path \( 1,c,d,n \) is also augmenting.
-We increase the flow by 2.
-\[ x = \begin{array}{c|cccccc}
-    x_{ij} & 1 & a & b & c & d & n \\\hline
-    1 & & 8 & & 2 & & \\
-    a & & & & & 8 & \\
-    b & & & & & & \\
-    c & & & & & 2 & \\
-    d & & & & & & 10 \\
-    n \\
-\end{array} \]
-Now, the path \( 1,c,d,a,b,n \) is augmenting. \( (b,a) \) here is a reverse edge.
-Here, we can increase the flow by 4. This will decrease the \( (a,b) \) by 4.
-\[ x = \begin{array}{c|cccccc}
-    x_{ij} & 1 & a & b & c & d & n \\\hline
-    1 & & 8 & & 6 & & \\
-    a & & & 4 & & 4 & \\
-    b & & & & & & 4 \\
-    c & & & & & 6 & \\
-    d & & & & & & 10 \\
-    n \\
-\end{array} \]
-The path \( 1,a,d,b,n \) is augmenting, with all forward edges.
-Increasing by 2,
-\[ x = \begin{array}{c|cccccc}
-    x_{ij} & 1 & a & b & c & d & n \\\hline
-    1 & & 10 & & 6 & & \\
-    a & & & 4 & & 6 & \\
-    b & & & & & & 6 \\
-    c & & & & & 6 & \\
-    d & & & 2 & & & 10 \\
-    n \\
-\end{array} \]
-Finally, \( 1,c,d,b,n \) is augmenting, with all forward edges.
-Increasing by 3,
-\[ x = \begin{array}{c|cccccc}
-    x_{ij} & 1 & a & b & c & d & n \\\hline
-    1 & & 10 & & 9 & & \\
-    a & & & 4 & & 6 & \\
-    b & & & & & & 9 \\
-    c & & & & & 9 & \\
-    d & & & 5 & & & 10 \\
-    n \\
-\end{array} \]
-The flow \( \delta \) is now 19.
-The cut given by \( \qty{1,c} \) has capacity 19, so we are at the optimum.
+	Consider a graph given by the capacity matrix
+	\[
+		C = \begin{array}{c|cccccc}
+			c_{ij} & 1 & a  & b & c  & d & n  \\\hline
+			1      &   & 10 &   & 10 &   &    \\
+			a      &   &    & 4 & 2  & 8 &    \\
+			b      &   &    &   &    &   & 10 \\
+			c      &   &    &   &    & 9 &    \\
+			d      &   &    & 6 &    &   & 10 \\
+			n                                 \\
+		\end{array}
+	\]
+	The path \( 1,a,d,n \) is augmenting.
+	We can increase the (currently zero) flow by 8.
+	\[
+		x = \begin{array}{c|cccccc}
+			x_{ij} & 1 & a & b & c & d & n \\\hline
+			1      &   & 8 &   &   &   &   \\
+			a      &   &   &   &   & 8 &   \\
+			b      &   &   &   &   &   &   \\
+			c      &   &   &   &   &   &   \\
+			d      &   &   &   &   &   & 8 \\
+			n                              \\
+		\end{array}
+	\]
+	The path \( 1,c,d,n \) is also augmenting.
+	We increase the flow by 2.
+	\[
+		x = \begin{array}{c|cccccc}
+			x_{ij} & 1 & a & b & c & d & n  \\\hline
+			1      &   & 8 &   & 2 &   &    \\
+			a      &   &   &   &   & 8 &    \\
+			b      &   &   &   &   &   &    \\
+			c      &   &   &   &   & 2 &    \\
+			d      &   &   &   &   &   & 10 \\
+			n                               \\
+		\end{array}
+	\]
+	Now, the path \( 1,c,d,a,b,n \) is augmenting.
+	\( (b,a) \) here is a reverse edge.
+	Here, we can increase the flow by 4.
+	This will decrease the \( (a,b) \) by 4.
+	\[
+		x = \begin{array}{c|cccccc}
+			x_{ij} & 1 & a & b & c & d & n  \\\hline
+			1      &   & 8 &   & 6 &   &    \\
+			a      &   &   & 4 &   & 4 &    \\
+			b      &   &   &   &   &   & 4  \\
+			c      &   &   &   &   & 6 &    \\
+			d      &   &   &   &   &   & 10 \\
+			n                               \\
+		\end{array}
+	\]
+	The path \( 1,a,d,b,n \) is augmenting, with all forward edges.
+	Increasing by 2,
+	\[
+		x = \begin{array}{c|cccccc}
+			x_{ij} & 1 & a  & b & c & d & n  \\\hline
+			1      &   & 10 &   & 6 &   &    \\
+			a      &   &    & 4 &   & 6 &    \\
+			b      &   &    &   &   &   & 6  \\
+			c      &   &    &   &   & 6 &    \\
+			d      &   &    & 2 &   &   & 10 \\
+			n                                \\
+		\end{array}
+	\]
+	Finally, \( 1,c,d,b,n \) is augmenting, with all forward edges.
+	Increasing by 3,
+	\[
+		x = \begin{array}{c|cccccc}
+			x_{ij} & 1 & a  & b & c & d & n  \\\hline
+			1      &   & 10 &   & 9 &   &    \\
+			a      &   &    & 4 &   & 6 &    \\
+			b      &   &    &   &   &   & 9  \\
+			c      &   &    &   &   & 9 &    \\
+			d      &   &    & 5 &   &   & 10 \\
+			n                                \\
+		\end{array}
+	\]
+	The flow \( \delta \) is now 19.
+	The cut given by \( \qty{1,c} \) has capacity 19, so we are at the optimum.
 \end{example}
 
 \subsection{Termination of Ford-Fulkerson}
-If all capacities are integers, then the algorithm will always find the optimal flow. The same argument can be used for rational numbers.
+If all capacities are integers, then the algorithm will always find the optimal flow.
+The same argument can be used for rational numbers.
 At each step, the flow increases by a positive integer value, so after a finite amount of steps it will stop, as the maximum flow is bounded.
 
 \subsection{Bipartite Matching Problem}
 A \( k \)-regular bipartite graph is a graph with \( \frac{n}{2} \) vertices on the left and \( \frac{n}{2} \) vertices on the right, where each vertex on both the left and right has exactly \( k \) edges.
 Suppose we want to match up the vertices on the left and right, such that each pair \( (a,b) \) is joined with an edge that already exists in this graph.
 \begin{theorem}
-    Every \( k \)-regular bipartite graph has a perfect matching.
+	Every \( k \)-regular bipartite graph has a perfect matching.
 \end{theorem}
 \begin{proof}
-    First, we construct a new graph with extra vertices \( 1, n \).
-    We construct edges from vertex \( 1 \) to all vertices \( a \) on the left, with capacity \( 1 \).
-    We then construct edges from all vertices \( b \) on the right to vertex \( n \), also with capacity \( 1 \).
-    The original edges in the graph will be given capacity \( \infty \).
-    Then by using the cut given by \( { 1 } \), \( \delta^\star < \frac{n}{2} \).
-    We can easily achieve the value \( \delta^\star \) by attaching a flow \( \frac{1}{k} \) to every edge from the left to the right, and of course sending a flow of 1 along each new edge.
-    So the maximum flow for this new graph is \( \frac{n}{2} \).
+	First, we construct a new graph with extra vertices \( 1, n \).
+	We construct edges from vertex \( 1 \) to all vertices \( a \) on the left, with capacity \( 1 \).
+	We then construct edges from all vertices \( b \) on the right to vertex \( n \), also with capacity \( 1 \).
+	The original edges in the graph will be given capacity \( \infty \).
+	Then by using the cut given by \( { 1 } \), \( \delta^\star < \frac{n}{2} \).
+	We can easily achieve the value \( \delta^\star \) by attaching a flow \( \frac{1}{k} \) to every edge from the left to the right, and of course sending a flow of 1 along each new edge.
+	So the maximum flow for this new graph is \( \frac{n}{2} \).
 
-    Now, we know that the Ford-Fulkerson algorithm will terminate, when given the initial flow \( x = 0 \).
-    But with this algorithm, all edge weights are always integers, since all capacities are integral or infinite.
-    The only way for all edge weights to be integer values are when we have a perfect matching.
-    So this algorithm will generate a perfect matching.
+	Now, we know that the Ford-Fulkerson algorithm will terminate, when given the initial flow \( x = 0 \).
+	But with this algorithm, all edge weights are always integers, since all capacities are integral or infinite.
+	The only way for all edge weights to be integer values are when we have a perfect matching.
+	So this algorithm will generate a perfect matching.
 \end{proof}
