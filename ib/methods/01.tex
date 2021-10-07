@@ -1,0 +1,79 @@
+\subsection{Periodic Functions}
+A function \( f(x) \) is \textit{periodic} if \( f(x+T) = f(x) \) for all \( x \), where \( T \) is the period.
+For example, simple harmonic motion is periodic.
+In space, we consider the wavelength \( \lambda = \frac{2\pi}{k} \), and the (angular) wave number \( k \) is defined conversely by \( k = \frac{2\pi}{\lambda} \).
+
+\subsection{Properties of Trigonometric Functions}
+Consider the set of functions
+\[ g_n(x) = \cos \frac{n\pi x}{L};\quad h_n(x) = \sin \frac{n\pi x}{L} \]
+where \( n \in \mathbb N \).
+These functions are periodic with period \( T = 2L \).
+Recall that
+\[ \cos A \cos B = \frac{1}{2}\qty(\cos(A-B) + \cos(A+B)); \]
+\[ \sin A \sin B = \frac{1}{2}\qty(\cos(A-B) - \cos(A+B)); \]
+\[ \sin A \cos B = \frac{1}{2}\qty(\sin(A-B) + \sin(A+B)); \]
+
+\subsection{Periodic Function Space}
+We define the inner product
+\[ \inner{f, g} = \int_0^{2L} f(x) g(x) \dd{x} \]
+The functions \( g_n \) and \( h_n \) are mutually orthogonal on the interval \( [0, 2L) \) with respect to the inner product above.
+\begin{align*}
+    \inner{h_n, h_m} &= \int_0^{2L} \sin \frac{n\pi x}{L} \sin \frac{m\pi x}{L} \dd{x} \\
+    &= \frac{1}{2} \int_0^{2L} \qty(\cos\frac{(n-m)\pi x}{L} - \cos \frac{(n+m)\pi x}{L}) \dd{x} \\
+    &= \frac{1}{2} \frac{L}{\pi} \qty[ \frac{1}{n-m}\sin\frac{(n-m)\pi x}{L} - \frac{1}{n+m} \sin \frac{(n+m)\pi x}{L} ]_0^{2L} \\
+    &= 0 \text{ when } n \neq m
+\end{align*}
+If \( n = m \), we have
+\[ \inner{h_n, h_n} = \int_0^{2L} \sin^2 \frac{n\pi x}{L} \dd{x} = \frac{1}{2} \int_0^{2L} \qty(1-\cos \frac{2\pi n x}{L}) \dd{x} = L \]
+Thus,
+\[ \inner{h_n, h_m} = \begin{cases}
+    L \delta_{nm} & n,m \neq 0 \\
+    0 & nm = 0
+\end{cases} \]
+Similarly, we can show
+\[ \inner{g_n, g_m} = \begin{cases}
+    L \delta_{nm} & n,m \neq 0 \\
+    0 & \text{exactly one of } m,n \text{ is zero}
+    2L & n,m = 0
+\end{cases} \]
+and
+\[ \inner{h_n, g_m} = 0 \]
+Now, we assert that \( \qty{g_n, h_n} \) form a complete orthogonal set; they span the space of all `well-behaved' periodic functions of period \( 2L \).
+Further, the set \( \qty{g_n, h_n} \) is linearly independent.
+
+\subsection{Fourier Series}
+Since \( g_n, h_n \) span the space of `well-behaved' periodic functions of period \( 2L \), we can express any such function as a sum of such eigenfunctions.
+\begin{definition}
+The Fourier series of \( f \) is
+\[ f(x) = \frac{1}{2}a_0 + \sum_{n=1}^\infty a_n \cos \frac{n \pi x}{L} + \sum_{n=1}^\infty b_n \sin \frac{n \pi x}{L} \]
+where \( a_n, b_n \) are constants such that the right hand side is convergent for all \( x \) where \( f \) is continuous.
+At a discontinuity \( x \), the Fourier series approaches the midpoint of the supremum and infimum of the function in a close neighbourhood of \( x \).
+That is, we replace the left hand side with
+\[ \frac{1}{2}f(x_+) + \frac{1}{2}f(x_-) \]
+\end{definition}
+\noindent Let \( m > 0 \), and consider taking the inner product \( \inner{h_m, f} \) and substituting the Fourier series of \( f \).
+\begin{align*}
+    \inner{h_m, f} &= \int_0^{2L} \sin\frac{m \pi x}{L} \f(x) \dd{x} \\
+    &= \inner{h_m, b_m h_m} \\
+    &= L b_m
+\end{align*}
+Thus,
+\[ b_n = \frac{1}{L} \inner{h_n, f} = \frac{1}{L} \int_0^{2L} \sin\frac{m \pi x}{L} \f(x) \dd{x} \]
+and analogously
+\[ a_n = \frac{1}{L} \inner{g_n, f} = \frac{1}{L} \int_0^{2L} \cos\frac{m \pi x}{L} \f(x) \dd{x} \]
+Note that \( \frac{1}{2} a_0 \) is the average of the function.
+Note further that we may integrate over any range as long as the total length is one period, \( 2L \).
+Notably, we may integrate over the interval \( [-L, L] \).
+
+\begin{example}
+    Consider the \textit{sawtooth wave}; defined by \( f(x) = x \) for \( x \in [-L, L) \) and periodic elsewhere.
+    Here,
+    \[ a_n = \frac{1}{L} \int_{-L}^L x \cos \frac{n\pi x}{L} \dd{x} = 0 \]
+    and
+    \begin{align*}
+        b_n &= \frac{2}{L} \int_0^L x \sin \frac{n\pi x}{L} \dd{x} \\
+        &= \frac{-2}{n\pi} \qty[x \cos \frac{n\pi x}{L}]_0^L + \frac{2}{n\pi} \int_0^L \cos \frac{n \pi x}{L} \dd{x} \\
+        &= \frac{-2L}{n\pi} \cos n \pi + \frac{2L}{(n\pi)^2} \sin n \pi \\
+        &= \frac{2L}{n\pi} (-1)^{n+1}
+    \end{align*}
+\end{example}

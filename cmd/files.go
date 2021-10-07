@@ -16,6 +16,11 @@ var Files []TexFile = []TexFile{
 	{FilePath: "ia/vc", Name: "Vector Calculus"},
 	{FilePath: "ib/opt", Name: "Optimisation"},
 	{FilePath: "ib/vp", Name: "Variational Principles"},
+	{FilePath: "ib/markov", Name: "Markov Chains"},
+	{FilePath: "ib/antop", Name: "Analysis and Topology"},
+	{FilePath: "ib/methods", Name: "Methods"},
+	{FilePath: "ib/quantum", Name: "Quantum Mechanics"},
+	{FilePath: "ib/linalg", Name: "Linear Algebra"},
 }
 
 var FilesWithBook []TexFile
