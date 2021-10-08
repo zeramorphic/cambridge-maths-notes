@@ -1,0 +1,115 @@
+\subsection{Vector Spaces}
+\begin{definition}
+Let \( F \) be an arbitrary field.
+An \textit{\( F \)-vector space} is an abelian group \( (V, +) \) equipped with a function
+\[ F \times V \to V;\quad (\lambda, v) \mapsto \lambda v \]
+such that
+\begin{enumerate}[(i)]
+\item \( \lambda(v_1 + v_2) = \lambda v_1 + \lambda v_2 \)
+\item \( (\lambda_1 + \lambda_2) v = \lambda_1 v + \lambda_2 v \)
+\item \( \lambda ( \mu v ) = ( \lambda \mu ) v \)
+\item \( 1 v = v \)
+\end{enumerate}
+Such a vector space may also be called a \textit{vector space over \( F \)}.
+\end{definition}
+
+\begin{example}
+Let \( X \) be a set, and define \( \mathbb R^X = \qty{ f \colon X \to \mathbb R} \).
+Then \( \mathbb R^X \) is an \( \mathbb R \)-vector space, where \( (f_1 + f_2)(x) = f_1(x) + f_2(x) \).
+\end{example}
+
+\begin{example}
+Define \( M_{n,m}(F) \) to be the set of \( n \times m \) \( F \)-valued matrices.
+This is an \( F \)-vector space, where the sum of matrices is computed elementwise.
+\end{example}
+
+\begin{remark}
+The axioms of scalar multiplication imply that \( \forall v \in V, 0_F v = 0_V \).
+\end{remark}
+
+\subsection{Subspaces}
+\begin{definition}
+Let \( V \) be an \( F \)-vector space.
+The subset \( U \subseteq V \) is a vector subspace of \( V \), denoted \( U \leq V \), if
+\begin{enumerate}[(i)]
+\item \( 0_V \in U \)
+\item \( u_1, u_2 \in U \implies u_1 + u_2 \in U \)
+\item \( (\lambda, u) \in F \times U \implies \lambda u \in U \)
+\end{enumerate}
+Conditions (ii) and (iii) are equivalent to
+\[ \forall \lambda_1, \lambda_2 \in F, \forall u_1, u_2 \in U, \lambda_1 u_1 + \lambda_2 u_2 \in U \]
+This means that \( U \) is \textit{stable} by addition and scalar multiplication.
+\end{definition}
+
+\begin{proposition}
+If \( V \) is an \( F \)-vector space, and \( U \leq V \), then \( U \) is an \( F \)-vector space.
+\end{proposition}
+% proof as exercise
+
+\begin{example}
+Let \( V = \mathbb R^{\mathbb R} \) be the space of functions \( \mathbb R \to \mathbb R \).
+The set \( C(\mathbb R) \) of continuous real functions is a subspace of \( V \).
+The set \( \mathbb P \) of polynomials is a subspace of \( C(\mathbb R) \).
+\end{example}
+\begin{example}
+Consider the subset of \( \mathbb R^3 \) such that \( x_1 + x_2 + x_3 = t \) for some real \( t \).
+This is a subspace for \( t = 0 \) only, since no other \( t \) values yield the origin as a member of the subset.
+\end{example}
+
+\begin{proposition}
+Let \( V \) be an \( F \)-vector space.
+Let \( U, W \leq V \).
+Then \( U \cap W \) is a subspace of \( V \).
+\end{proposition}
+\begin{proof}
+First, note \( 0_V \in U, 0_V \in W \implies 0_V \in U \cap W \).
+Now, consider stability:
+\[ \lambda_1, \lambda_2 \in F, v_1, v_2 \in U \cap W \implies \lambda_1 v_1 + \lambda_2 v_2 \in U, \lambda_1 v_1 \lambda_2 v_2 \in W \]
+Hence stability holds.
+\end{proof}
+
+\subsection{Sum of Subspaces}
+\begin{remark}
+The union of two subspaces is not, in general, a subspace.
+For instance, consider \( \mathbb R, i\mathbb R \subset \mathbb C \).
+Their union does not span the space; for example, \( 1 + i \notin \mathbb R \cup i\mathbb R \).
+\end{remark}
+
+\begin{definition}
+Let \( V \) be an \( F \)-vector space.
+Let \( U, W \leq V \).
+The sum \( U + W \) is defined to be the set
+\[ U + W = \qty{ u + w \colon u \in U, w \in W } \]
+\end{definition}
+\begin{proposition}
+\( U + W \) is a subspace of \( V \).
+\end{proposition}
+\begin{proof}
+First, note \( O_{U+W} = 0_U + 0_W = 0_V \).
+Then, for \( \lambda_1, \lambda_2 \in F \), and \( u \in U, w \in W \),
+\[ \lambda_1 u + \lambda_2 w = u' + w' \in U + W \]
+since \( u' \in U, w' \in W \).
+We can decompose a vector from \( U + W \) into its \( U \) and \( W \) components.
+Adding these components independently (noting that \( V \) is abelian) yields the requirements of a subspace.
+\end{proof}
+\begin{proposition}
+The sum \( U + W \) is the smallest subspace of \( V \) that contains both \( U \) and \( W \).
+\end{proposition}
+
+\subsection{Quotients}
+\begin{definition}
+Let \( V \) be an \( F \)-vector space.
+Let \( U \leq V \).
+The quotient space \( V / U \) is the abelian group \( V / U \) equipped with the scalar multiplication function
+\[ F \times V \setminus U \to V \setminus U;\quad (\lambda, v + U) \mapsto \lambda v + U \]
+\end{definition}
+\begin{proposition}
+\( V / U \) is an \( F \)-vector space.
+\end{proposition}
+\begin{proof}
+We must check that the multiplication operation is well-defined.
+Indeed, suppose \( v_1 + U = v_2 + U \).
+Then,
+\[ v_1 - v_2 \in U \implies \lambda (v_1 - v_2) \in U \implies \lambda v_1 + U = \lambda v_2 + U \in V / U \]
+% complete as exercise
+\end{proof}
