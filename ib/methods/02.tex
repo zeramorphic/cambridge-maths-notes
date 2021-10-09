@@ -1,0 +1,122 @@
+\subsection{Dirichlet Conditions}
+The Dirichlet conditions are sufficiency conditions for a well-behaved function, that will imply the existence of a unique Fourier series.
+\begin{theorem}
+	If \( f(x) \) is a bounded periodic function of period \( 2L \) with a finite number of minima, maxima and discontinuities in \( [0, 2L) \), then the Fourier series converges to \( f \) at all points at which \( f \) is continuous, and at discontinuities the series converges to the midpoint.
+\end{theorem}
+\begin{remark}
+	\begin{enumerate}[(i)]
+		\item These are some relatively weak conditions for convergence, compared to Taylor series.
+		      However, this definition still eliminates pathological functions such as \( \frac{1}{x} \), \( \sin \frac{1}{x} \), \( \mathbbm 1 (\mathbb Q) \) and so on.
+		\item The converse is not true; for example, \( \sin \frac{1}{x} \) does in fact have a Fourier series.
+		\item The proof is difficult and will not be given.
+	\end{enumerate}
+\end{remark}
+
+\noindent The rate of convergence of the Fourier series depends on the smoothness of the function.
+\begin{theorem}
+	If \( f(x) \) has continuous derivatives up to a \( p \)th derivative which is discontinuous, then the Fourier series converges with order \( O(n^{-(p+1)}) \) as \( n \to \infty \).
+\end{theorem}
+\noindent \textit{In all subsequent examples and notes, we define \( n = 2m - 1 \).}
+\begin{example}[\( p = 0 \)]
+	Consider the square wave
+	\[
+		f(x) = \begin{cases}
+			1  & 0 \leq x < 1  \\
+			-1 & -1 \leq x < 0
+		\end{cases}
+	\]
+	Then the Fourier series is
+	\[
+		f(x) = 4 \sum_{m=1}^\infty \frac{\sin (2m-1)\pi x}{(2m-1)\pi}
+	\]
+\end{example}
+\begin{example}[\( p = 1 \)]
+	Consider the general `seesaw' wave, defined by
+	\[
+		f(x) = \begin{cases}
+			x(1 - \xi) & 0 \leq x < \xi \\
+			\xi(1 - x) & \xi \leq x < 1
+		\end{cases}
+	\]
+	and defined as an odd function for \( -1 \leq x < 0 \).
+	The Fourier series is
+	\[
+		f(x) = 2 \sum_{m=1}^\infty \frac{\sin n\pi \xi \sin n\pi x}{(n \pi)^2}
+	\]
+	For instance, if \( \xi = \frac{1}{2} \), we can show that
+	\[
+		f(x) = 2 \sum_{m=1}^\infty (-1)^{m+1} \frac{\sin (2m-1)\pi x}{((2m-1)\pi)^2}
+	\]
+\end{example}
+\begin{example}[\( p = 2 \)]
+	Let
+	\[
+		f(x) = \frac{1}{2} x(1-x)
+	\]
+	for \( 0 \leq x < 1 \), and defined as an odd function for \( -1 \leq x < 0 \).
+	We can show that
+	\[
+		f(x) = 4\sum_{n=1}^\infty \frac{\sin(2m - 1)\pi x}{((2m-1)\pi)^3}
+	\]
+\end{example}
+\begin{example}[\( p = 3 \)]
+	Consider
+	\[
+		f(x) = (1-x^2)^2
+	\]
+	with Fourier series
+	\[
+		a_n = O\qty(\frac{1}{n^4})
+	\]
+\end{example}
+
+\subsection{Integration}
+It is always valid to take the integral of a Fourier series term by term.
+Defining \( F(x) = \int_{-L}^x f(x) \dd{x} \), we can show that \( F \) satisfies the Dirichlet conditions if \( f \) does.
+For instance, a jump discontinuity becomes continuous in the integral.
+
+\subsection{Differentiation}
+Differentiating term by term is not always valid.
+For example, consider the square wave above:
+\[
+	f(x) \stackrel{?}{=} 4 \sum_{m=1}^\infty \cos (2m-1)\pi x
+\]
+which is an unbounded series.
+\begin{theorem}
+	If \( f(x) \) is continuous and satisfies the Dirichlet conditions, and \( f'(x) \) also satisfies the Dirichlet conditions, then \( f'(x) \) can be found term by term by differentiating the Fourier series of \( f(x) \).
+\end{theorem}
+\begin{example}
+	We can differentiate the seesaw function with \( \xi = \frac{1}{2} \), even though the derivative is not continuous.
+	The result is an offset square wave, or by mapping \( x \mapsto x + \frac{1}{2} \) we recover the original square wave.
+\end{example}
+
+\subsection{Parseval's Theorem}
+Parseval's theorem relates the integral of the square of a function with the squares of the function's Fourier series coefficients.
+\begin{theorem}
+	Suppose \( f \) has Fourier coefficients \( a_i, b_i \).
+	Then
+	\begin{align*}
+		\int_0^{2L} [f(x)]^2 \dd{x} & = \int_0^2L \qty[ \frac{1}{2}a_0 + \sum_{n=1}^\infty a_k \cos \frac{k \pi x}{L} + \sum_{n=1}^\infty b_n \sin \frac{n\pi x}{L} ]^2 \dd{x}           \\
+		\intertext{We can remove cross terms, since the basis functions are orthogonal.}
+		                            & = \int_0^{2L} \qty[ \frac{1}{4} a_0^2 + \sum_{n=1}^\infty a_n^2 \cos^2 \frac{n\pi x}{L} + \sum_{n=1}^\infty b_n^2 \sin^2 \frac{n\pi x}{L} ] \dd{x} \\
+		                            & = L \qty[ \frac{1}{2} a_0^2 + \sum_{n=1}^\infty (a_n^2 + b_n^2) ]
+	\end{align*}
+\end{theorem}
+\noindent This is also called the completeness relation: the left hand side is greater than or equal to the right hand side if any of the basis functions are missing.
+\begin{example}
+	Let us apply Parseval's theorem to the sawtooth wave.
+	\[
+		\int_{-L}^L [f(x)]^2 \dd{x} = \int_{-L}^L x^2 \dd{x} = \frac{2}{3}L^3
+	\]
+	The right hand side gives
+	\[
+		L \sum_{n=1}^\infty \frac{4L^2}{n^2 \pi^2} = \frac{4 L^3}{\pi^2} \sum_{n=1}^\infty \frac{1}{n^2}
+	\]
+	Parseval's theorem then implies
+	\[
+		\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}
+	\]
+\end{example}
+\begin{remark}
+	Parseval's theorem for functions is equivalent to Pythagoras' theorem for vectors in \( \mathbb R^n \): we can find the norm of a linear combination by computing the sum of the norms of the components.
+\end{remark}

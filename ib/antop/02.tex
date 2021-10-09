@@ -1,0 +1,137 @@
+\subsection{Uniform Convergence Remarks}
+The above proof is often called a \( 3\varepsilon \)-proof.
+Note, the proof is not true for pointwise convergence; if \( f_n \to f \) pointwise and \( f_n \) continuous, \( f \) is not necessarily continuous.
+Further, it is not true for differentiability; \( f_n \) differentiable does not imply \( f \) differentiable (see example sheet).
+Another way to interpret the result of the above theorem is to swap limits:
+\[
+	\lim_{x \to a} \lim_{n \to \infty} f_n(x) = \lim_{x \to a} f(x) = f(a) = \lim_{n \to \infty} f_n(a) = \lim_{n \to \infty} \lim_{x \to a} f_n(x)
+\]
+
+\begin{lemma}
+	Assume \( f_n \to f \) uniformly on \( S \).
+	If \( f_n \) is bounded for every \( n \), then so is \( f \).
+\end{lemma}
+\noindent In other words, the uniform limit of bounded functions is bounded.
+\begin{proof}
+	Fix some \( n \in \mathbb N \) such that \( \forall x \in S, \abs{f_n(x) - f(x)} < 1 \).
+	Since \( f_n \) is bounded, \( \exists M \in \mathbb R \) such that \( \forall x \in S, \abs{f_n(x)} < M \).
+	Hence, \( \forall x \in S, \abs{f(x)} \leq \abs{f(x) - f_n(x)} + \abs{f_n(x)} \leq 1 + M \).
+	So \( f \) is bounded.
+\end{proof}
+
+\subsection{Integrability}
+Let \( f \colon [a, b] \to \mathbb R \) be a bounded function.
+Recall that for a dissetion \( \mathcal D \) of \( [a, b] \), we define the upper and lower sums of \( f \) with respect to \( \mathcal D \) by
+\[
+	U_{\mathcal D}(f) = \sum_{k=1}^n (x_k - x_{k-1}) \sup_{[x_{k-1}, x_k]} f(x)
+\],
+\[
+	L_{\mathcal D}(f) = \sum_{k=1}^n (x_k - x_{k-1}) \inf_{[x_{k-1}, x_k]} f(x)
+\],
+Riemann's integrability criterion states that \( f \) is integrable if and only if
+\[
+	\forall \varepsilon, \exists \mathcal D, U_{\mathcal D}(f) - L_{\mathcal D}(f) < \varepsilon
+\]
+Equivalently, % exercise
+for any \( I \subset [a, b] \), we have
+\[
+	\sup_I f - \inf_I f = \sup_{x,y \in I} \qty(f(x) - f(y)) = \sup_{x,y \in I} \abs{f(x) - f(y)}
+\]
+This is called the oscillation of \( f \) on \( I \).
+So an integrable function `doesn't oscillate too much'.
+
+\begin{theorem}
+	Let \( f_n \colon [a,b] \to \mathbb R \) be integrable for all \( n \).
+	If \( f_n \to f \) uniformly on \( [a,b] \), then \( f \) is integrable and
+	\[
+		\int_a^b f_n \to \int_a^b f
+	\]
+\end{theorem}
+\begin{proof}
+	First, we prove \( f \) to be bounded, then we will check Riemann's criterion.
+	We know \( f \) is bounded because each \( f_n \) is bounded, hence by the lemma above \( f \) is bounded.
+	Now fix \( \varepsilon > 0 \), and choose \( n \in \mathbb N \) such that \( \forall x \in [a,b], \abs{f_n(x) - f(x)} < \varepsilon \).
+	Since \( f_n \) is integrable, \( \exists \mathcal D \colon a = x_0 < x_1 < \dots < x_N = b \) of \( [a,b] \) such that \( U_{\mathcal D} - L_{\mathcal D} < \varepsilon \).
+	Now, we fix \( k \in \qty{1,\dots,N} \) and then for any \( x,y \in [x_{k-1}, x_k] \) we have
+	\[
+		\abs{f(x) - f(y)} \leq \abs{f(x) - f_n(x)} + \abs{f_n(x) - f_n(y)} + \abs{f_n(y) - f(y)} < 2\varepsilon + \abs{f_n(x) - f_n(y)}
+	\]
+	Taking the supremum,
+	\[
+		\sup_{x,y \in [x_{k-1},x_k]} \qty(f(x) - f(y)) \leq \sup_{kth interval} \abs{f_n(x) - f_n(y)} + 2\varepsilon
+	\]
+	Multiplying by \( (x_k - x_{k-1} \) and taking the sum over all \( k \),
+	\[
+		U(f) - L(f) \leq U(f_n) - L(f_n) + 2\varepsilon (b-a) \leq \varepsilon (2(b-a) + 1)
+	\]
+	Hence \( f \) is integrable.
+	We can now show that
+	\[
+		\abs{\int_a^b f_n - \int_a^b f} \leq \int_a^b \abs{f_n - f} \leq (b-a) \sup_{[a,b]} \abs{f_n - f} \to 0
+	\]
+\end{proof}
+We can interpret this as
+\[
+	\int_a^b \lim_{n \to \infty} f_n(x) \dd{x} = \lim_{n \to \infty} \int_a^b f_n(x) \dd{x}
+\]
+This is another `allowed' way to swap limits.
+
+\begin{corollary}
+	Let \( f_n \colon [a,b] \to \mathbb R \) be integrable for all \( n \).
+	If \( \sum_{n=1}^\infty f_n(x) \) converges uniformly on \( [a,b] \), then
+	\[
+		F(x) = \sum_{n=1}^\infty f_n(x)
+	\]
+	is integrable, and
+	\[
+		\int_a^b \sum_{n=1}^\infty f_n(x) \dd{x} = \sum_{n=1}^\infty \int_a^b f_n(x) \dd{x}
+	\]
+\end{corollary}
+\begin{proof}
+	Let \( F_n(x) = \sum_{k=1}^n f_k(x) \).
+	By assumption, \( F_n \to F \) uniformly on \( [a,b] \).
+	\( F_n \) is integrable where the integral of \( F_n \) is the sum of the integrals:
+	\[
+		\int_a^b F_n = \sum_{k=1}^n \int_a^b f_k
+	\]
+	Then the result follows from the theorem above.
+\end{proof}
+
+\subsection{Differentiability}
+\begin{theorem}
+	Let \( f_n \colon [a,b] \to \mathbb R \) be continuously differentiable for all \( n \).
+	Suppse \( \sum_{k=1}^\infty f_k'(x) \) converges uniformly on \( [a,b] \), and that \( \exists c \in [a,b], \sum_{n-1}^\infty f_n(c) \) converges.
+	Then, \( \sum_{k=1}^\infty f_k(x) \) converges uniformly on \( [a,b] \) to a continuously differentiable function \( f \), and
+	\[
+		\dv{x} \qty(\sum_{k=1}^\infty f_k) = \sum_{k=1}^\infty \dv{x} f_k(x)
+	\]
+\end{theorem}
+\begin{proof}
+	Let \( g(x) = \sum_{k=1}^\infty f_k'(x) \), for \( x \in [a,b] \).
+	The general idea is that we want to solve the differential equation \( f' = g \) subject to the initial conditino \( f(c) = \sum_{n=1}^\infty f_n(c) \).
+	Let \( \lambda = \sum_{n=1}^\infty f_n(c) \) and define \( f \colon [a,b] \to \mathbb R \) by
+	\[
+		f(x) = \lambda + \int_c^x g(t) \dd{t}
+	\]
+	Note that \( g \) is integrable; \( \sum_{k=1}^\infty f_k'(x) \to g \) uniformly implies that \( g \) is continuous and hence integrable.
+	By the fundamental theorem of calculus, \( f' = g \) and \( f(c) = \lambda \).
+	So we have found such an \( f \) that satisfies the conditions set out.
+	All that remains is to prove uniform convergence of \( \sum_{k=1}^\infty f_k \to f \).
+	Also by the fundamental theorem, \( f_k(x) = f_k(c) + \int_c^x f_k'(t) \dd{t} \).
+	Let \( \varepsilon > 0 \).
+	There exists \( N \in \mathbb N \) such that \( \abs{\lambda - \sum_{k=1}^N f_k(c)} < \varepsilon \) and \( \abs{g(t) - \sum_{k=1}^N f_k'(t)} < \varepsilon \).
+	Now, for \( n \geq N \) we have
+	\begin{align*}
+		\abs{f(x) - \sum_{k=1}^n f_k(x)} & = \abs{\lambda + \int_c^x g(t) \dd{t} - \sum_{k=1}^n \qty(f_k(c) + \int_c^x f_k'(t) \dd{t})}       \\
+		                                 & \leq \abs{\lambda - \sum_{k=1}^n f_k(c)} + \abs{\int_c^x \qty(g(t) - \sum_{k-1}^n f_k'(t)) \dd{t}} \\
+		                                 & \leq \varepsilon + \abs{x-c} \varepsilon                                                           \\
+		                                 & \leq \varepsilon (b-a + 1)
+	\end{align*}
+\end{proof}
+
+\subsection{Conditions for Uniform Convergence}
+Recall tha a scalar sequence \( x_n \) is Cauchy if
+\[
+	\forall \varepsilon > 0, \exists N \in \mathbb N, \forall m,n \geq N, \abs{x_m - x_n} < \varepsilon
+\]
+and that the general principle of convergence shows that any Cauchy sequence converges.
