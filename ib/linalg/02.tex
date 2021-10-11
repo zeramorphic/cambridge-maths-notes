@@ -1,0 +1,157 @@
+\subsection{Span}
+\begin{definition}
+    Let \( V \) be an \( F \)-vector space.
+    Let \( S \subset V \).
+    We define the span of \( S \), written \( \genset{S} \), as the set of finite linear combinations of elements of \( S \).
+    In particular,
+    \[ \genset{S} = \qty{ \sum_{s \in S} \lambda_s v_s \colon \lambda_s \in F, v_s \in S, \text{only finitely many nonzero } \lambda_s } \]
+    By convention, we specify
+    \[ \genset{\varnothing} = \qty{0} \]
+    so that all spans are subspaces.
+\end{definition}
+\begin{remark}
+    \( \genset{S} \) is the smallest vector subspace of \( V \) containing \( S \).
+\end{remark}
+\begin{example}
+    Let \( V = \mathbb R^3 \), and
+    \[ S = \qty{ \begin{pmatrix}
+        1 \\ 0 \\ 0
+    \end{pmatrix}, \begin{pmatrix}
+        0 \\ 1 \\ 2
+    \end{pmatrix} }, \begin{pmatrix}
+        3 \\ -2 \\ -4
+    \end{pmatrix} \]
+    Then we can check that
+    \[ \genset{S} = \qty{\begin{pmatrix}
+        a \\ b \\ 2b
+    \end{pmatrix} \colon (a,b) \in \mathbb R} \]
+\end{example}
+\begin{example}
+    Let \( V = \mathbb R^n \).
+    We define
+    \[ e_i = \begin{pmatrix}
+        0 \\ \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \\ 0
+    \end{pmatrix} \]
+    where the 1 is in the \( i \)th position.
+    Then \( V = \genset{(e_i)_{1 \leq i \leq n}} \).
+\end{example}
+\begin{example}
+    Let \( X \) be a set, and \( \mathbb R^X = \qty{f \colon X \to \mathbb R} \).
+    Then let \( S_x \colon X \to \mathbb R \) be defined by
+    \[ S_x(y) = \begin{cases}
+        1 & y = x \\
+        0 & \text{otherwise}
+    \end{cases} \]
+    Then, \( \genset{(S_x)_{x \in X}} = \qty{f \in \mathbb R^X \colon f \text{ has finite support}} \),
+    where the support of \( f \) is defined to be \( \qty{x \colon f(x) \neq 0} \). % check this
+\end{example}
+
+\subsection{Dimensionality}
+\begin{definition}
+    Let \( V \) be an \( F \)-vector space.
+    Let \( S \subset V \).
+    We say that \( S \) spans \( V \) if \( \genset{S} = V \).
+    If \( S \) spans \( V \), we say that \( S \) is a generating family of \( V \).
+\end{definition}
+
+\begin{definition}
+    Let \( V \) be an \( F \)-vector space.
+    \( V \) is finite-dimensional if it is spanned by a finite set.
+\end{definition}
+\begin{example}
+    Consider the set \( V = \mathbb P[x] \) which is the set of polynomials on \( \mathbb R \).
+    Further, consider \( V_n = \mathbb P_n[x] \) which is the subspace with degree less than or equal to \( n \).
+    Then \( V_n \) is spanned by \( \qty{1, x, x^2, \dots, x^n} \), so \( V_n \) is finite-dimensional.
+    Conversely, \( V \) is infinite-dimensional; there is no finite set \( S \) such that \( \genset{S} = V \).
+\end{example}
+
+\subsection{Linear Independence}
+\begin{definition}
+    We say that \( v_1, \dots, v_n \in V \) are linearly independent if, for \( \lambda_i \in F \),
+    \[ \sum_{i=1}^n \lambda_i v_i = 0 \implies \forall i, \lambda_i = 0 \]
+\end{definition}
+\begin{definition}
+    Similarly, \( v_1, \dots, v_n \in V \) are linearly dependent if
+    \[ \exists \vb \lambda \in F^n, \sum_{i=1}^n \lambda_i v_i = 0, \exists i, \lambda_i \neq 0 \]
+    Equivalently, one of the vectors can be written as a linear combination of the remaining ones.
+\end{definition}
+\begin{remark}
+    If \( (v_i)_{1 \leq i \leq n} \) are linearly independent, then
+    \[ \forall i \in \qty{1,\dots,n}, v_i \neq 0 \]
+\end{remark}
+
+\subsection{Bases}
+\begin{definition}
+    \( S \subset V \) is a basis of \( V \) if
+    \begin{enumerate}[(i)]
+        \item \( \genset{S} = V \)
+        \item \( S \) is a linearly independent set
+    \end{enumerate}
+    So, a basis is a linearly independent (also known as \textit{free}) generating family.
+\end{definition}
+\begin{example}
+    Let \( V = \mathbb R^n \).
+    The \textit{canonical basis} \( (e_i) \) is a basis since we can show that they are free and span \( V \).
+\end{example}
+\begin{example}
+    Let \( V = \mathbb C \), considered as \( \mathbb C \)-vector space.
+    Then \( \qty{1} \) is a basis.
+    If \( V \) is a \( \mathbb R \)-vector space, \( \qty{1,i} \) is a basis.
+\end{example}
+\begin{example}
+    Consider again \( \mathbb P[x] \).
+    Then \( S = \qty{x^n \colon n \in \mathbb N} \) is a basis of \( \mathbb P \).
+\end{example}
+\begin{lemma}
+    Let \( V \) be an \( F \)-vector space.
+    Then, \( (v_1, \dots, v_n) \) is a basis of \( V \) if and only if any vector \( v \in V \) has a unique decomposition
+    \[ v = \sum_{i=1}^n \lambda_i v_i, \forall i, \lambda_i \in F \]
+\end{lemma}
+\begin{remark}
+    In the above definition, we call \( (\lambda_1, \dots, \lambda_n) \) the \textit{coordinates} of \( v \) in the basis \( (v_1, \dots, v_n) \).
+\end{remark}
+\begin{proof}
+    Suppose \( (v_1, \dots, v_n) \) is a basis of \( V \).
+    Then \( \forall v \in V \) there exists \( \lambda_1, \dots, \lambda_n \in F \) such that
+    \[ v = \sum_{i=1}^n \lambda_i v_i \]
+    So there exists a tuple of \( \lambda \) values.
+    Suppose two such \( \lambda \) tuples exist.
+    Then
+    \[ v = \sum_{i=1}^n \lambda_i v_i = \sum_{i=1}^n \lambda_i' v_i \implies \sum_{i=1}^n (\lambda_i - \lambda_i') v_i = 0 \implies \lambda_i = \lambda_i' \]
+    The converse is left as an exercise.
+\end{proof}
+\begin{lemma}
+    If \( \genset{\qty{v_1, \dots, v_n}} = V \), then some subset of this set is a basis of \( V \).
+\end{lemma}
+\begin{proof}
+    If \( (v_1, \dots, v_n) \) are linearly independent, this is a basis.
+    Otherwise, one of the vectors can be written as a linear combination of the others.
+    So, up to reordering,
+    \[ v_n \in \genset{\qty{v_1, \dots, v_{n-1}}} = V \]
+    So we have removed a vector from this set and preserved the span.
+    By induction, we will eventually reach a basis.
+\end{proof}
+
+\subsection{Steinitz Exchange Lemma}
+\begin{theorem}
+    Let \( V \) be a finite dimensional \( F \)-vector space.
+    Let \( (v_1, \dots, v_m) \) be linearly independent, and \( (w_1, \dots, w_n) \) which spans \( V \).
+    Then,
+    \begin{enumerate}[(i)]
+        \item \( m \leq n \); and
+        \item up to reordering, \( (v_1, \dots, v_m, w_{m+1}, \dots w_n) \) spans \( V \).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Suppose that we have replaced \( \ell \geq 0 \) of the \( w_i \).
+    \[ \genset{v_1, \dots, v_\ell, w_{\ell+1}, \dots w_n} = V \]
+    If \( m = \ell \), we are done.
+    Otherwise, \( \ell < m \).
+    Then,
+    \( v_{\ell + 1} \in V = \genset{v_1, \dots, v_\ell, w_{\ell+1}, \dots w_n} \)
+    Hence \( v_{\ell + 1} \) can be expressed as a linear combination of the generating set.
+    Since the \( (v_i)_{1 \leq i \leq m} \) are linearly independent (free), one of the coefficients on the \( w_i \) are non-zero.
+    In particular, up to reordering we can express \( w_{\ell+1} \) as a linear combination of \( v_1, \dots, v_{\ell + 1}, w_{\ell + 2}, \dots, w_n \).
+    Inductively, we may replace \( m \) of the \( w \) terms with \( v \) terms.
+    Since we have replaced \( m \) vectors, necessarily \( m \leq n \).
+\end{proof}
