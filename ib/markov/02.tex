@@ -1,0 +1,129 @@
+\subsection{Simple Markov Property}
+\begin{theorem}
+	Suppose \( X \) is \( \Markov{\lambda, P} \).
+	Let \( m \in \mathbb N \) and \( i \in I \).
+	Given that \( X_m = i \), we have that the process after time \( m \), written \( (X_{m+n})_{n \geq 0} \), is \( \Markov{\delta_i, P} \), and it is independent of \( X_0, \dots, X_n \).
+\end{theorem}
+\noindent Informally, the past and the future are independent given the present.
+\begin{proof}
+	We must show that
+	\[
+		\prob{X_m = x_0, \dots, X_{m+n} = x_n \mid X_m = i} = \delta_{i x_0} P(x_0, x_1) \dots P(x_{n-1}, x_n)
+	\]
+	We have
+	\[
+		\prob{X_{m+n} = x_{m+n}, \dots, X_m = x_m \mid X_m = i}
+		= \frac{\prob{X_{m+n} = x_{m+n}, \dots, X_m = x_m} \delta_{i x_m}}{\prob{X_m = i}}
+	\]
+	The numerator is
+	\begin{align*}
+		\prob{X_{m+n}, \dots, X_m = x_m} = \sum_{x_0, \dots, x_{m-1} \in I} \prob{X_{m+n} = x_{m+n}, \dots, X_m = x_m, X_{m-1} = x_{m-1}, \dots, X_0 = x_0} \\
+		 & = \sum_{x_0, \dots, x_{m-1}} \lambda_{x_0} P(x_0, x_1) \dots P(x_{m-1}, x_m) P(x_m, x_{m+1}) \dots P(x_{m+n-1}, x_{m+n})                         \\
+		 & = P(x_m, x_{m+1}) \dots P(x_{m+n-1}, x_{m+n}) \sum_{x_0, \dots, x_{m-1}} \lambda_{x_0} P(x_0, x_1) \dots P(x_{m-1}, x_m)                         \\
+		 & = P(x_m, x_{m+1}) \dots P(x_{m+n-1}, x_{m+n}) \prob{X_m = x_m}                                                                                   \\
+	\end{align*}
+	Thus we have
+	\[
+		\prob{X_{m+n} = x_{m+n}, \dots, X_m = x_m \mid X_m = i}
+		= P(x_m, x_{m+1}) \dots P(x_{m+n-1}, x_{m+n}) \delta_{i x_m}
+	\]
+	Hence \( (X_{m+n})_{n \geq 0} \sim \Markov(\delta_i, P) \) conditional on \( X_m = i \).
+	Now it suffices to show independence between the past and future variables.
+	In particular, we need to show \( m \leq i_1 < \dots < i_k \) for some \( k \in \mathbb N \) implies that
+	\begin{align*}
+		\prob{X_{i_1} = x_{m+1}, \dots, X_{i_k} = x_{m+k}, X_0 = x_0, \dots, X_m = x_m \mid X_m = i} & = \prob{X_{i_1} = x_{m+1}, \dots, X_{i_k} = x_{m+k} \mid X_m = i} \prob{X_0 = x_0, \dots, X_m = x_m \mid X_m = i}                          \\
+		\intertext{So let \( i = x_m \), and then}
+		                                                                                             & = \frac{\prob{X_{i_1} = x_{m+1}, \dots, X_{i_k} = x_{m+k}, X_0 = x_0, \dots, X_m = x_m}}{\prob{X_m = i}}                                   \\
+		                                                                                             & = \frac{\lambda_{x_0} P(x_0, x_1) \dots P(x_{m-1}, x_m) \prob{X_{i_1} = x_{m+1}, \dots, X_{i_k} = x_{m+k} \mid X_m = x_m}}{\prob{x_m = i}} \\
+		                                                                                             & = \frac{\prob{X_0 = x_0, \dots, X_m = x_m}}{\prob{X_m = x_m}} \prob{X_{i_1} = x_{m+1}, \dots, X_{i_k} = x_{m+k} \mid X_m = x_m}
+	\end{align*}
+	which gives the result as required.
+\end{proof}
+
+\subsection{Powers of the Transition Matrix}
+Suppose \( X \sim \Markov(\lambda, P) \) with values in \( I \).
+If \( I \) is finite, then \( P \) is an \( \abs{I} \times \abs{I} \) square matrix.
+In this case, we can label the states as \( 1, \dots, \abs{I} \).
+If \( I \) is infinite, then we label the states using the natural numbers \( \mathbb N \).
+Let \( x \in I \) and \( n \in \mathbb N \).
+Then,
+\begin{align*}
+	\prob{X_n = x} & = \sum_{x_0, \dots, x_{n-1} \in I} \prob{X_n = x, X_{n-1} = x_{n-1}, \dots, X_0 = x_0} \\
+	               & = \sum_{x_0, \dots, x_{n-1} \in I} \lambda_{x_0} P(x_0, x_1) \dots P(x_{n-1}, x)       \\
+	\intertext{We can think of \( \lambda \) as a row vector.
+		So we can write this as}
+	               & = (\lambda P^n)_x
+\end{align*}
+By convention, we take \( P^0 = I \), the identity matrix.
+Now, suppose \( m, n \in \mathbb N \).
+By the simple Markov property,
+\[
+	\prob{X_{m+n} = y \mid X_m = x} = \prob{X_n = y \mid X_0 = x} = ( \delta_x P^n )_y
+\]
+We will write \( \psubx{A} := \prob{A \mid X_0 = x} \) as an abbreviation.
+Further, we write \( p_{ij}(n) \) for the \( (i,j) \) element of \( P^n \).
+We have therefore proven the following theorem.
+\begin{theorem}
+	\[
+		\prob{X_n = x} = (\lambda P^n)_x;
+	\]
+	\[
+		\prob{X_{n+m} = y \mid X_m = x} = \psubx{X_n = y} = p_{xy}(n)
+	\]
+\end{theorem}
+
+\subsection{Calculating Powers}
+\begin{example}
+	Consider
+	\[
+		P = \begin{pmatrix}
+			1-\alpha & \alpha \\ \beta & 1-\beta
+		\end{pmatrix};\quad \alpha, \beta \in [0,1]
+	\]
+	Note that for any stochastic matrix \( P \), \( P^n \) is a stochastic matrix.
+	First, we have \( P^{n+1} = P^n P \).
+	Let us begin by finding \( p_{11}(n+1) \).
+	\[
+		p_{11}(n+1) = p_{11}(n)(1-\alpha) + p_{12}(n)\beta
+	\]
+	Note that \( p_{11}(n) + p_{12}(n) = 1 \) since \( P^n \) is stochastic.
+	Therefore,
+	\[
+		p_{11}(n+1) = p_{11}(n)(1-\alpha-\beta) + \beta
+	\]
+	We can solve this recursion relation to find
+	\[
+		p_{11}(n) = \begin{cases}
+			\frac{\alpha}{\alpha + \beta} + \frac{\alpha}{\alpha + \beta}(1-\alpha-\beta)^n & \alpha + \beta > 0 \\
+			1                                                                               & \alpha + \beta = 0\end{cases}
+	\]
+\end{example}
+The general procedure for finding \( P^n \) is as follows.
+Suppose that \( P \) is a \( k \times k \) matrix.
+Then let \( \lambda_1, \dots, \lambda_k \) be its eigenvalues (which may not be all distinct).
+\begin{enumerate}[(1)]
+	\item All \( \lambda_i \) distinct.
+	      In this case, \( P \) is diagonalisable, and hence we can write \( P = U D U^{-1} \) where \( U \) is a diagonal matrix, whose diagonal entries are the \( \lambda_i \).
+	      Then, \( P^n = U D^n U^{-1} \).
+	      Calculating \( D^n \) may be done termwise since \( D \) is diagonal.
+	      In this case, we have terms such as
+	      \[
+		      p_{11}(n) = a_1 \lambda_1^n + \dots + a_k \lambda_k^n; \quad a_i \in \mathbb R
+	      \]
+	      First, note \( P^0 = I \) hence \( p_{11}(0) = 1 \).
+	      We can substitute small values of \( n \) and then solve the system of equations.
+	      Now, suppose \( \lambda_k \) is complex for some \( k \).
+	      In this case, \( \overline{\lambda_k} \) is also an eigenvalue.
+	      Then, up to reordering,
+	      \[
+		      \lambda_k = re^{i\theta} = r(\cos \theta + i \sin \theta); \lambda_{k-1} = \overline{\lambda_k} = re^{i\theta} = r(\cos \theta - i \sin \theta)
+	      \]
+	      We can instead write \( p_{11}(n) \) as
+	      \[
+		      p_{11}(n) = a_1 \lambda_1^n + \dots + a_{k-1} r^n \cos (n\theta) + a_k r^n \sin (n\theta)
+	      \]
+	      Since \( p_{11}(n) \) is real, all the imaginary parts disappear, so we can simply ignore them.
+	\item Not all \( \lambda_i \) distinct.
+	      In this case, \( \lambda \) appears with multiplicity 2, then we include also the term \( (an + b) \lambda^n \) as well as \( b \lambda^n \).
+	      This can be shown by considering the Jordan normal form of \( P \).
+\end{enumerate}

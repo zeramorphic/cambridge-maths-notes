@@ -1,0 +1,160 @@
+\subsection{General Principle of Uniform Convergence}
+\begin{definition}
+	A sequence \( (f_n) \) of scalar functions on a set \( S \) is called \textit{uniformly Cauchy} if
+	\[
+		\forall \varepsilon > 0, \exists N \in \mathbb N, \forall m, n \geq N, \forall x \in S, \abs{f_m(x) - f_n(x)} < \varepsilon
+	\]
+\end{definition}
+\begin{theorem}
+	A uniformly Cauchy sequence of functions is uniformly convergent.
+\end{theorem}
+\begin{proof}
+	Let \( x \in S \) and we will show that \( (f_n(x))_{n=1}^\infty \) converges.
+	Given \( \varepsilon > 0, \exists N \in mathbb N, \forall m, n \geq N, \forall t \in S, \abs{f_m(t) - f_n(t)} < \varepsilon \).
+	In particular, \( \forall m,n \geq N, \abs{f_m(x) - f_n(x)} < \varepsilon \).
+	So certainly \( (f_n(x))_{n=1}^\infty \) is Cauchy and hence convergent by the general principle of convergence.
+	Therefore \( f_n \) converges pointwise.
+	Now, let \( f(x) \) be the limit \( f(x) = \lim_{n\to\infty} f_n(x) \).
+	Then \( f_n \to f \) pointwise on \( S \).
+	Now we must extend this to show \( f_n \to f \) uniformly on \( S \).
+	Given \( \varepsilon > 0 \), we know that \( \exists N \in \mathbb N, \forall m, n \geq N, \forall x \in S, \abs{f_m(x) - f_n(x)} < \varepsilon \).
+	Now, we must show \( \forall n \geq N, \forall x \in S, \abs{f_n(x) - f(x)} < 2 \varepsilon \), then we are done.
+	We will fix \( x \in S, n \geq N \).
+	Since \( f_n(x) \to f(x) \), we can choose \( m \in \mathbb N \) such that \( \abs{f_m(x) - f(x)} < \varepsilon \), and \( m \geq N \).
+	Note however that \( m \) depends on \( x \) in this statement, but this doesn't matter --- we have shown that
+	\[
+		\abs{f_n(x) - f(x)} \leq \abs{f_n(x) - f_m(x)} + \abs{f_m(x) - f(x)} \leq \varepsilon + \varepsilon = 2 \varepsilon
+	\]
+	which is a result that, in itself, does \textit{not} depend on \( x \).
+\end{proof}
+\begin{note}
+	Alternatively, we could end the proof as the following.
+	Fix \( x \in S, n \geq N \).
+	Then
+	\[
+		\forall m \geq N, \abs{f_n(x) - f_m(x)} < \varepsilon
+	\]
+	Then let \( m \to \infty \), and
+	\[
+		\abs{f_n(x) - f(x)} \leq \varepsilon
+	\]
+\end{note}
+
+\subsection{Weierstra\ss{} M-test}
+\begin{theorem}
+	Let \( (f_n) \) be a sequence of scalar functions on \( S \).
+	Assume that \( \forall n \in \mathbb N, \exists M_n \in \mathbb R^+, \forall x \in S, \abs{f_n(x)} \leq M_n \).
+	In other words, \( (f_n) \) is a sequence of bounded scalar functions.
+	Then,
+	\[
+		\sum_{n = 1}^\infty M_n < \infty \implies \sum_{n=1}^\infty f_n(x) \text{ is uniformly convergent on } S
+	\]
+\end{theorem}
+\begin{proof}
+	Let \( F_n(x) = \sum_{k=1}^\infty f_k(x) \) for \( x \in S, n \in \mathbb N \).
+	Then
+	\[
+		\abs{F_n(x) - F_m(x)} \leq \sum_{k=m+1}^n \abs{f_k(x)} \leq \sum_{k=m+1}^n M_k
+	\]
+	Hence, given \( \varepsilon > 0 \), we can choose \( N \in \mathbb N \) such that \( \sum_{k=N+1}^n M_k < \varepsilon \).
+	Thus, \( \forall x \in S, \forall n \geq m \geq N \), we have
+	\[
+		\abs{F_n(x) - F_m(x)} \leq \sum_{k=m+1}^n M_k < \varepsilon
+	\]
+	We have shown \( (F_n) \) is uniformly Cauchy on \( S \) and hence uniformly convergent on \( S \).
+\end{proof}
+
+\subsection{Power Series}
+Consider the power series
+\[
+	\sum_{n=0}^\infty c_n (z-a)^n
+\]
+where \( c_n \in \mathbb C, a \in \mathbb C \) are constants, and \( z \in \mathbb C \).
+Let \( R \in [0, \infty] \) be the radius of convergence.
+Recall that
+\begin{align*}
+	\abs{z-a} < R & \implies \sum_{n = 0}^\infty c_n (z-a)^n \text{ converges absolutely}; \\
+	\abs{z-a} > R & \implies \sum_{n = 0}^\infty c_n (z-a)^n \text{ diverges}
+\end{align*}
+Let \( D(a, R) := \qty{z \in \mathbb C \mid \abs{z-a} < R} \) be the open disc centred on \( a \) with radius \( R \).
+Then we can create \( f \colon D(a, \mathbb R) \to \mathbb C \) to be defined by the power series, which is well-defined.
+\( f \) is the pointwise limit of the power series on \( D \).
+In general, the convergence of the power series is not uniformly convergent.
+\begin{example}
+	\( \sum_{n=1}^\infty \frac{z^n}{n^2} \) has \( R = 1 \).
+	Let \( f_n \colon D(0,1) \to \mathcal C \) be defined by \( f_n(z) = \frac{z^n}{n^2} \).
+	Then for every \( z \in D(0,1), \abs{z} \leq \frac{1}{n^2} \).
+	Since \( \sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6} < \infty \), by the Weierstra\ss{} M-test, the power series converges uniformly on the disc.
+\end{example}
+\begin{example}
+	Consider \( \sum_{n=0}^\infty z^n = \frac{1}{1-z} \) with \( R = 1 \).
+	Now,
+	\[
+		\forall z \in D(0,1), \abs{\sum_{n=0}^\infty z^n} \leq N + 1
+	\]
+	Therefore, the series does not converge uniformly on the disc since \( \frac{1}{1-z} \) is unbounded on the disc.
+	Alternatively, consider
+	\[
+		\sup_{\abs{z} < 1} \abs{\frac{1}{1-z} - \sum_{k=0}^n z_k} = \sup_{\abs{z} < 1} \abs{\frac{z^{n+1}}{1-z}} = \infty
+	\]
+	In some sense, the problem with uniform convergence here is that we are allowed to go too close too the boundary.
+\end{example}
+\begin{theorem}
+	Suppose the power series \( \sum_{n=0}^\infty c_n (z-a)^n \) has radius of convergence \( R \).
+	Then for all \( 0 < r < R \), the power series converges uniformly on \( D(a,r) \).
+\end{theorem}
+\begin{proof}
+	Let \( w \in \mathbb C \) such that \( r < \abs{w - a} < R \), for instance \( w = a + \frac{r + R}{2} \).
+	Now, let \( \rho = \frac{r}{\abs{w-a}} \in (0,1) \).
+	Since \( \sum_{n=0}^\infty c_n (w-a)^n \) converges, we have that \( c_n (w-a)^n \to 0 \) as \( n \to \infty \).
+	Therefore, \( \exists M \in \mathbb R+ \) such that \( \abs{c_n (w-a)^n} \leq M \) for all \( n \in \mathbb N \), since convergence implies boundedness.
+	Now, for \( z \in D(a,r), n \in \mathbb N \) we have
+	\[
+		\abs{c_n(z-a)^n} = \abs{c_n(w-a)^n} \qty(\frac{\abs{z-a}}{\abs{w-a}})^n \leq M \qty(\frac{r}{\abs{w-a}})^n = M\rho^n
+	\]
+	Since the sum \( \sum_{n=0}^\infty M \rho^n \) converges, the Weierstra\ss{} M-test shows us that \( \sum_{n=0}^\infty c_n (z-a)^n \) converges uniformly on \( D(a,r) \).
+\end{proof}
+\begin{remark}
+	\( f \colon D(a,R) \to \mathbb C \) defined by \( f(z) = \sum_{n=0}^\infty c_n (z-a)^n \) is the uniform limit on \( D(a,r) \) of polynomials for any \( r \) such that \( 0 < r < R \).
+	Hence \( f \) is continuous on \( D(a,r) \).
+	Since \( D(a,R) = \bigcup_{0 < r < R} D(a,r) \), it follows that \( f \) is continuous everywhere inside the radius of convergence.
+
+	Recall that the termwise derivative \( \sum_{n=1}^\infty c_n n(z-a)^{n-1} \) has the same radius of convergence.
+	This sequence therefore also converges uniformly on \( D(a,r) \) if \( 0 < r < R \).
+	Analogously to the previous result about interchanging derivatives and sums, we can show that \( \sum c_n (z-a)^n \) is complex differentiable on \( D(a,R) \) with derivative \( \sum_{n=1}^\infty c_n n(z-a)^{n-1} \).
+	This is seen in the IB Complex Analysis course.
+
+	Now, fix \( w \in D(a,R) \).
+	Then fix \( r \) such that \( \abs{w-a} < r < R \), and fix \( \delta > 0 \) such that \( \abs{w-a} + \delta < r \).
+	If \( \abs{z-w} < \delta \), then \( \abs{z-a} \leq \abs{z-w} + \abs{w-a} < \delta + \abs{w-a} < r \).
+	Therefore, geometrically, \( D(w,\delta) \subset D(a,r) \).
+	Hence, \( \sum_{n=0}^\infty c_n (z-a)^n \) converges uniformly on \( D(w,\delta) \).
+	This is known as local uniform convergence.
+\end{remark}
+\begin{definition}
+	\( U \subset \mathbb C \) is called open if \( \forall w \in W, \exists \delta > 0, D(w,\delta) \subset U \).
+\end{definition}
+\begin{definition}
+	Let \( U \) be an open subset of \( \mathbb C \), and \( f_n \) be a sequence of scalar functions on \( U \).
+	Then \( f_n \) converges locally uniformly on \( U \) if
+	\[
+		\forall w \in U, \exists \delta > 0, f_n \text{ converges uniformly on } D(w,\delta) \subset U
+	\]
+\end{definition}
+\begin{remark}
+	Above, we showed that power series always converge locally uniformly inside the radius of convergence, or equivalently inside the disc \( D(a,R) \).
+	We will return to this point about local uniform convergence when discussing compactness.
+\end{remark}
+
+\subsection{Uniform Continuity}
+Let \( U \subset \mathbb R, \mathbb C \).
+Let \( f \) be a scalar function on \( U \).
+Then for \( x \in U \), we say \( f \) is continuous at \( x \) if
+\[
+	\forall \varepsilon > 0, \exists \delta > 0, \forall y \in U, \abs{y-x} < \delta \implies \abs{f(y)-f(x)} < \epsilon
+\]
+We say \( f \) is continuous on \( U \) if \( f \) is continuous at \( x \) for all \( x \in U \):
+\[
+	\forall x \in U, \forall \varepsilon > 0, \exists \delta > 0, \forall y \in U, \abs{y-x} < \delta \implies \abs{f(y)-f(x)} < \epsilon
+\]
+Note here that \( \delta \) depends on \( \varepsilon \) and \( x \).
