@@ -1,0 +1,123 @@
+\subsection{Consequences of Steinitz Exchange Lemma}
+\begin{corollary}
+Let \( V \) be a finite-dimensional \( F \)-vector space.
+Then, any two bases of \( V \) have the same number of vectors.
+This number is called the dimension of \( V \), \( \dim_F V \).
+\end{corollary}
+\begin{proof}
+Suppose the two bases are \( (v_1, \dots, v_n) \) and \( (w_1, \dots, w_m) \).
+Then, \( (v_1, \dots, v_n) \) is free and \( (w_1, \dots, w_m) \) is generating, so the Steinitz exchange lemma shows that \( n \leq m \).
+Vice versa, \( m \leq n \).
+Hence \( m = n \).
+\end{proof}
+\begin{corollary}
+Let \( V \) be an \( F \)-vector space with finite dimension \( n \).
+Then,
+\begin{enumerate}[(i)]
+\item Any independent set of vectors has at most \( n \) elements, with equality if and only if it is a basis.
+\item Any spanning set of vectors has at least \( n \) elements, with equality if and only if it is a basis.
+\end{enumerate}
+\end{corollary}
+\begin{proof}
+Exercise.
+\end{proof}
+
+\subsection{???}
+\begin{proposition}
+Let \( V \) be an \( F \)-vector space.
+Let \( U, W \) be subspaces of \( V \).
+If \( U, W \) are finite-dimensional, then so is \( U + W \), with
+\[ \dim_F (U + W) = \dim_F U + \dim_F W - \dim_F (U \cap W) \]
+\end{proposition}
+\begin{proof}
+Consider a basis \( (v_1, \dots, v_n) \) of the intersection.
+Extend this basis to a basis \( (v_1, \dots, v_n, u_1, \dots, u_m) \) of \( U \) and \( (v_1, \dots, v_n, w_1, \dots, w_k) \) of \( W \).
+Then, we will show that \( (v_1, \dots, v_n, u_1, \dots, u_m, w_1, \dots, w_k) \) is a basis of \( \dim_F (U + W) \), which will conclude the proof.
+Indeed, since any component of \( U + W \) can be decomposed as a sum of some element of \( U \) and some element of \( W \), we can add their decompositions together.
+Now we must show that this new basis is free.
+\begin{align*}
+    \sum_{i=1}^n \alpha_i v_i + \sum_{i=1}^m \beta_i u_i + \sum_{i=1}^k \gamma_i w_i &= 0 \\
+    \underbrace{\sum_{i=1}^n \alpha_i v_i + \sum_{i=1}^m \beta_i u_i}_{\in U} &= \underbrace{\sum_{i=1}^k \gamma_i w_i}_{\in W} \\
+    \sum_{i=1}^k \gamma_i w_i &\in U \cap W \\
+    \sum_{i=1}^k \gamma_i w_i &= \sum_{i=1}^n \delta_i v_i \\
+    \sum_{i=1}^n (\alpha_i + \delta_i) v_i + \sum_{i=1}^m \beta_i u_i &= 0 \\
+    \beta_i = 0, \alpha_i &= -\delta_i \\
+    \sum_{i=1}^n \alpha_i v_i + \sum_{i=1}^k \gamma_i w_i &= 0 \\
+    \alpha_i = 0, \gamma_i &= 0
+\end{align*}
+\end{proof}
+\begin{proposition}
+If \( V \) is a finite-dimensional \( F \)-vector space, and \( U \leq V \), then \( U \) and \( V / U \) are also finite-dimensional.
+In particular, \( \dim_F V = \dim_F U + \dim_F (V / U) \).
+\end{proposition}
+\begin{proof}
+Let \( (u_1, \dots, u_\ell) \) be a basis of \( U \).
+We extend this basis to a basis of \( V \): \( (u_1, \dots, u_\ell, w_{\ell + 1}, \dots, w_n) \).
+We claim that \( (w_{\ell + 1} + U, \dots, w_n + U) \) is a basis of the vector space \( V / U \). % exercise.
+\end{proof}
+
+\begin{remark}
+If \( V \) is an \( F \)-vector space, and \( U \leq V \), then we say \( U \) is a proper subspace if \( U \neq V \).
+Then if \( U \) is proper, then \( \dim_F U < \dim_F V \) and \( \dim_F ( V / U ) > 0 \) because \( (V/U) \neq \varnothing \).
+\end{remark}
+
+\begin{definition}
+If \( V \) is an \( F \)-vector space and \( U, W \) be subspaces of \( V \).
+We say that \( V = U \oplus V \), read as the direct sum of \( U \) and \( V \), if \( \forall v \in V, \exists! u \in U, \exists! w \in W, u + w = v \).
+We say that \( W \) is \textit{a} direct complement of \( U \) in \( V \); there is no uniqueness of such a complement.
+\end{definition}
+\begin{lemma}
+Let \( V \) be an \( F \)-vector space, and \( U, W \leq V \).
+Then the following statements are equivalent.
+\begin{enumerate}[(i)]
+\item \( V = U \oplus W \)
+\item \( V = U + W \) and \( U \cap W = \{0\} \)
+\item For any basis \( B_1 \) of \( U \) and \( B_2 \) of \( W \), \( B_1 \cup B_2 \) is a basis of \( V \)
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+First, we show that (ii) implies (i).
+If \( V = U + W \), then certainly \( \forall v \in V, \exists u \in U, \exists w \in W, v = u + w \), so it suffices to show uniqueness.
+Note, \( u_1 + w_1 = u_2 + w_2 \implies u_1 - u_2 = w_2 - w_1 \).
+The left hand side is an element of \( U \) and the right hand side is an element of \( W \), so they must be the zero vector; \( u_1 = u_2, w_1 = w_2 \).
+
+Now, we show (i) implies (iii).
+Suppose \( B_1 \) is a basis of \( U \) and \( B_2 \) is a basis of \( W \).
+Let \( B = B_1 \cup B_2 \).
+First, note that \( B \) is a generating family of \( U + W \).
+Now we must show that \( B \) is free.
+\[ \underbrace{\sum_{u \in B_1} \lambda_u u}_{\in U} + \underbrace{\sum_{w \in B_2} \lambda_w w}_{\in W} = 0 \]
+Hence both sums must be zero.
+Since \( B_1, B_2 \) are bases, all \( \lambda \) are zero, so \( B \) is free and hence a basis.
+
+Now it remains to show that (iii) implies (ii).
+We must show that \( V = U + W \) and \( U \cap W = \{0\} \).
+Now, suppose \( v \in V \).
+Then, \( v = \sum_{u \in B_1} \lambda_u u + \sum{w \in B_2} \lambda_w w \).
+In particular, \( V = U + W \), since the \( \lambda_u, \lambda_w \) are arbitrary.
+Now, let \( v \in U \cap W \).
+Then
+\[ v = \sum_{u \in B_1} \lambda_u u = \sum_{w \in B_2} \lambda_w w \implies \lambda_u = \lambda_w = 0 \]
+\end{proof}
+
+\begin{definition}
+Let \( V \) be an \( F \)-vector space, with subspaces \( V_1, \dots, V_p \leq V \).
+Then
+\[ \sum_{i=1}^p V_i = \qty{ v_1, \dots, v_\ell, v_i \in V_i, 1 \leq i \leq \ell} \]
+We say the sum is direct, written
+\[ \bigoplus_{i=1}^p V_i \]
+if the decomposition is unique.
+Equivalently,
+\[ V = \bigoplus_{i=1}^p V_i \iff \exists! v_1 \in V_1, \dots, v_n \in V_n, v = \sum_{i=1}^n v_i \]
+\end{definition}
+\begin{lemma}
+The following are equivalent:
+\begin{enumerate}[(i)]
+\item \( \sum_{i=1}^p V_i = \bigoplus_{i=1}^p V_i \)
+\item \( \forall 1 \leq i \leq l \), \( V_i \cap \qty( \sum_{j \neq i} V_j ) = \{0\} \)
+\item For any basis \( B_i \) of \( V_i \), \( B = \bigcup_{i=1}^n B_i \) is a basis of \( \sum_{i=1}^n V_i \).
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+Exercise.
+\end{proof}
