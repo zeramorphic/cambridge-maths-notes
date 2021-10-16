@@ -1,119 +1,153 @@
 \subsection{???}
 \begin{example}
-Let
-\[ P = \begin{pmatrix}
-0 & 1 & 0 \\
-0 & \frac{1}{2} & \frac{1}{2} \\
-\frac{1}{2} & 0 & \frac{1}{2}
-\end{pmatrix} \]
-The eigenvalues are \( 1, \frac{1}{2}i, -\frac{1}{2}i \).
-Then, writing \( \frac{i}{2} = \frac{1}{2} (\cos \frac{\pi}{2} + i \sin \frac{\pi}{2} ) \), we can write
-\[ p_{11}(n) = \alpha + \beta \qty(\frac{1}{2})^n \cos \frac{n \pi}{2} + \gamma \qty(\frac{1}{2})^n \sin \frac{n \pi}{2} \]
-For \( n = 0 \) we have \( p_{11}(0) = 1 \), and for \( n = 1 \) we have \( p_{11}(1) = 0 \), and for \( n = 2 \) we can calculated \( P^2 \) and find \( p_{11}(2) = 0 \).
-Solving this system of equations for \( \alpha, \beta, \gamma \), we can find
-\[ p_{11}(n) = \frac{1}{5} + \qty(\frac{1}{2})^n \qty(\frac{4}{5}\cos \frac{n \pi}{2} - \frac{2}{5}\sin \frac{n \pi}{2} ) \]
+	Let
+	\[
+		P = \begin{pmatrix}
+			0           & 1           & 0           \\
+			0           & \frac{1}{2} & \frac{1}{2} \\
+			\frac{1}{2} & 0           & \frac{1}{2}
+		\end{pmatrix}
+	\]
+	The eigenvalues are \( 1, \frac{1}{2}i, -\frac{1}{2}i \).
+	Then, writing \( \frac{i}{2} = \frac{1}{2} (\cos \frac{\pi}{2} + i \sin \frac{\pi}{2} ) \), we can write
+	\[
+		p_{11}(n) = \alpha + \beta \qty(\frac{1}{2})^n \cos \frac{n \pi}{2} + \gamma \qty(\frac{1}{2})^n \sin \frac{n \pi}{2}
+	\]
+	For \( n = 0 \) we have \( p_{11}(0) = 1 \), and for \( n = 1 \) we have \( p_{11}(1) = 0 \), and for \( n = 2 \) we can calculated \( P^2 \) and find \( p_{11}(2) = 0 \).
+	Solving this system of equations for \( \alpha, \beta, \gamma \), we can find
+	\[
+		p_{11}(n) = \frac{1}{5} + \qty(\frac{1}{2})^n \qty(\frac{4}{5}\cos \frac{n \pi}{2} - \frac{2}{5}\sin \frac{n \pi}{2} )
+	\]
 \end{example}
 
 \subsection{Communicating Classes}
 \begin{definition}
-Let \( X \) be a Markov chain with transition matrix \( P \) and values in \( I \).
-For \( x, y \in I \), we say that \( x \) \textit{leads to} \( y \), written \( x \to y \), if
-\[ \psubx{\exists n \geq 0, X_n = y} > 0 \]
-We say that \( x \) \textit{communicates with} \( y \) and write \( x \leftrightarrow y \) if \( x \to y \) and \( y \to x \).
+	Let \( X \) be a Markov chain with transition matrix \( P \) and values in \( I \).
+	For \( x, y \in I \), we say that \( x \) \textit{leads to} \( y \), written \( x \to y \), if
+	\[
+		\psubx{\exists n \geq 0, X_n = y} > 0
+	\]
+	We say that \( x \) \textit{communicates with} \( y \) and write \( x \leftrightarrow y \) if \( x \to y \) and \( y \to x \).
 \end{definition}
 \begin{theorem}
-The following are equivalent:
-\begin{enumerate}[(i)]
-\item \( x \to y \)
-\item There exists a sequence of states \( x = x_0, x_1, \dots, x_k = y \) such that \( P(x_0, x_1)P(x_1,x_2)\dots P(x_{k-1},x_k) > 0 \)
-\item There exists \( n \geq 0 \) such that \( p_{xy}(n) > 0 \).
-\end{enumerate}
+	The following are equivalent:
+	\begin{enumerate}[(i)]
+		\item \( x \to y \)
+		\item There exists a sequence of states \( x = x_0, x_1, \dots, x_k = y \) such that \( P(x_0, x_1)P(x_1,x_2)\dots P(x_{k-1},x_k) > 0 \)
+		\item There exists \( n \geq 0 \) such that \( p_{xy}(n) > 0 \).
+	\end{enumerate}
 \end{theorem}
 \begin{proof}
-First, we show (i) and (iii) are equivalent.
-If \( x \to y \), then \( \psubx{\exists n \geq 0, X_n = y} > 0 \).
-Then if \( \psubx{\exists n \geq 0, X_n = y} > 0 \) we must have some \( n \geq 0 \) such that \( \psubx{X_n = y} = p_{xy}(n) > 0 \).
-Note that we can write (i) as \( \psubx{\bigcup_{n=0}^\infty X_n = y} > 0 \).
-If there exists \( n \geq 0 \) such that \( p_{xy}(n) > 0 \), then certainly the probability of the union is also positive.
+	First, we show (i) and (iii) are equivalent.
+	If \( x \to y \), then \( \psubx{\exists n \geq 0, X_n = y} > 0 \).
+	Then if \( \psubx{\exists n \geq 0, X_n = y} > 0 \) we must have some \( n \geq 0 \) such that \( \psubx{X_n = y} = p_{xy}(n) > 0 \).
+	Note that we can write (i) as \( \psubx{\bigcup_{n=0}^\infty X_n = y} > 0 \).
+	If there exists \( n \geq 0 \) such that \( p_{xy}(n) > 0 \), then certainly the probability of the union is also positive.
 
-Now we show (ii) and (iii) are equivalent.
-We can write
-\[ p_{xy}(n) = \sum_{x_1, \dots, x_{n-1}} P(x, x_1), \dots, P(x_{n-1}, y) \]
-which leads directly to the equivalence of (ii) with (iii).
+	Now we show (ii) and (iii) are equivalent.
+	We can write
+	\[
+		p_{xy}(n) = \sum_{x_1, \dots, x_{n-1}} P(x, x_1), \dots, P(x_{n-1}, y)
+	\]
+	which leads directly to the equivalence of (ii) with (iii).
 \end{proof}
 \begin{corollary}
-Communication is an equivalence relation on \( I \).
+	Communication is an equivalence relation on \( I \).
 \end{corollary}
 \begin{proof}
-\( x \leftrightarrow x \) since \( p_{xx}(0) = 1 \).
-If \( x \to y \) and \( y \to z \) then by (ii) above, \( x \to z \).
+	\( x \leftrightarrow x \) since \( p_{xx}(0) = 1 \).
+	If \( x \to y \) and \( y \to z \) then by (ii) above, \( x \to z \).
 \end{proof}
 \begin{definition}
-The equivalence classes induced on \( I \) by the communication equivalence relation are called \textit{communicating classes}.
-A communicating class \( C \) is \textit{closed} if \( x \in C, x \to y \implies y \in C \).
+	The equivalence classes induced on \( I \) by the communication equivalence relation are called \textit{communicating classes}.
+	A communicating class \( C \) is \textit{closed} if \( x \in C, x \to y \implies y \in C \).
 \end{definition}
 \begin{definition}
-A transition matrix \( P \) is called \textit{irreducible} if it has a single communicating class.
-In other words, \( \forall x, y \in I, x \leftrightarrow y \).
+	A transition matrix \( P \) is called \textit{irreducible} if it has a single communicating class.
+	In other words, \( \forall x, y \in I, x \leftrightarrow y \).
 \end{definition}
 \begin{definition}
-A state \( x \) is called \textit{absorbing} if \( \{ x \} \) is a closed (communicating) class.
+	A state \( x \) is called \textit{absorbing} if \( \{ x \} \) is a closed (communicating) class.
 \end{definition}
 
 \subsection{Hitting Times}
 \begin{definition}
-For \( A \subseteq I \), we define the \textit{hitting time} of \( A \) to be a random variable \( T_A \colon \Omega \to \qty{0,1,2\dots} \cup \{ \infty \} \), defined by
-\[ T_A(\omega) = \inf \qty{n \geq 0 \colon X_n(\omega) \in A} \]
-with the convention that \( \inf \varnothing = \infty \).
-The \textit{hitting probability} of \( A \) is \( h^A \colon I \to [0,1] \), defined by
-\[ h_i^A = \psub{i}{T_A < \infty} \]
-The \textit{mean hitting time} of \( A \) is \( k^A \colon I \to [0,\infty] \), defined by
-\[ k_i^A = \esub{i}{T_A} = \sum{n=0}^\infty n \psub{i}{T_A = n} + \infty \psub{i}{T_A = \infty} \]
+	For \( A \subseteq I \), we define the \textit{hitting time} of \( A \) to be a random variable \( T_A \colon \Omega \to \qty{0,1,2\dots} \cup \{ \infty \} \), defined by
+	\[
+		T_A(\omega) = \inf \qty{n \geq 0 \colon X_n(\omega) \in A}
+	\]
+	with the convention that \( \inf \varnothing = \infty \).
+	The \textit{hitting probability} of \( A \) is \( h^A \colon I \to [0,1] \), defined by
+	\[
+		h_i^A = \psub{i}{T_A < \infty}
+	\]
+	The \textit{mean hitting time} of \( A \) is \( k^A \colon I \to [0,\infty] \), defined by
+	\[
+		k_i^A = \esub{i}{T_A} = \sum{n=0}^\infty n \psub{i}{T_A = n} + \infty \psub{i}{T_A = \infty}
+	\]
 \end{definition}
 \begin{example}
-Consider
-\[ P = \begin{pmatrix}
-1 & 0 & 0 & 0 \\
-1/2 & 0 & 1/2 & 0 \\
-0 & 1/2 & 0 & 1/2 \\
-0 & 0 & 0 & 1
-\end{pmatrix} \]
-Consider \( A = \qty{4} \).
-\[ h_1^A = 0 \]
-\[ h_2^A = \psub{2}{T_A < \infty} = \frac{1}{2} h_1^A + \frac{1}{2} h_3^A \]
-\[ h_3^A = \frac{1}{2} \cdot 1 + \frac{1}{2} h_2^A \]
-Hence \( h_2^A = \frac{1}{3} \).
-Now, consider \( B = \qty{1,4} \).
-\[ k_1^B = k_4^B = 0 \]
-\[ k_2^B = 1 + \frac{1}{2} k_1^B + \frac{1}{2} k_3^B \]
-\[ k_3^B = 1 + \frac{1}{2} k_4^B + \frac{1}{2} k_2^B \]
-Hence \( k_2^B = 2 \).
+	Consider
+	\[
+		P = \begin{pmatrix}
+			1   & 0   & 0   & 0   \\
+			1/2 & 0   & 1/2 & 0   \\
+			0   & 1/2 & 0   & 1/2 \\
+			0   & 0   & 0   & 1
+		\end{pmatrix}
+	\]
+	Consider \( A = \qty{4} \).
+	\[
+		h_1^A = 0
+	\]
+	\[
+		h_2^A = \psub{2}{T_A < \infty} = \frac{1}{2} h_1^A + \frac{1}{2} h_3^A
+	\]
+	\[
+		h_3^A = \frac{1}{2} \cdot 1 + \frac{1}{2} h_2^A
+	\]
+	Hence \( h_2^A = \frac{1}{3} \).
+	Now, consider \( B = \qty{1,4} \).
+	\[
+		k_1^B = k_4^B = 0
+	\]
+	\[
+		k_2^B = 1 + \frac{1}{2} k_1^B + \frac{1}{2} k_3^B
+	\]
+	\[
+		k_3^B = 1 + \frac{1}{2} k_4^B + \frac{1}{2} k_2^B
+	\]
+	Hence \( k_2^B = 2 \).
 \end{example}
 \begin{theorem}
-Let \( A \subset I \).
-Then the vector \( (h_i^A)_{i \in A} \) is the minimal non-negative solution to the system
-\[ h_i^A = \begin{cases}
-1 & i \in A \\
-\sum_j P(i,j) h_j^A & i \not\in A \end{cases} \]
-Minimality here means that if \( (x_i)_{i \in I} \) is another non-negative solution, then \( \forall i, h_i^A \leq x_i \).
+	Let \( A \subset I \).
+	Then the vector \( (h_i^A)_{i \in A} \) is the minimal non-negative solution to the system
+	\[
+		h_i^A = \begin{cases}
+			1                   & i \in A     \\
+			\sum_j P(i,j) h_j^A & i \not\in A\end{cases}
+	\]
+	Minimality here means that if \( (x_i)_{i \in I} \) is another non-negative solution, then \( \forall i, h_i^A \leq x_i \).
 \end{theorem}
 \begin{note}
-The vector \( h_i^A = 1 \) always satisfies the equation, since \( P \) is stochastic, but is typically not minimal.
+	The vector \( h_i^A = 1 \) always satisfies the equation, since \( P \) is stochastic, but is typically not minimal.
 \end{note}
 \begin{proof}
-First, we will show that \( (h_i)_{i \in A} \) solves the system of equations.
-Certainly if \( i \in A \) then \( h_i^A = 1 \).
-Suppose \( i \not\in A \).
-Consider the event \( \qty{T_A < \infty} \).
-We can write this event as a disjoint union of the following events:
-\[ \qty{T_A < \infty} = \qty{X_0 \in A} \cup \bigcup_{n=1}^\infty \qty{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A} \]
-By countable additivity,
-\begin{align*}
-    \psub{i}{T_A < \infty} = \underbrace{\psub{i}{X_0 \in A}}_{=0} + \sum_{n=1}^\infty \psub{i}{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A}
-    &= \sum_{n=1}^\infty \sum_j \prob{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A, X_1 \in j \mid X_0 = i}
-    &= \sum_j \prob{X_1 \in A, X_1 = j \mid X_0 = i} + \sum_{n=2}^\infty \sum_j \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A, X_1 \in j \mid X_0 = i}
-    &= \sum_j P(i,j) \prob{X_1 \in A \mid X_1 = j, X_0 = i} + \sum_j P(i,j) \sum_{n=2}^\infty \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A \mid X_1 \in j, X_0 = i}
-    \intertext{By the definition of the Markov chain, we can drop the condition on \( X_0 \), and subtract one from all indices.}
-    &= \sum_j P(i,j) \prob{X_0 \in A \mid X_0 = j} + \sum_j P(i,j) \sum_{n=2}^\infty \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A \mid X_1 \in j}
-\end{align*}
+	First, we will show that \( (h_i)_{i \in A} \) solves the system of equations.
+	Certainly if \( i \in A \) then \( h_i^A = 1 \).
+	Suppose \( i \not\in A \).
+	Consider the event \( \qty{T_A < \infty} \).
+	We can write this event as a disjoint union of the following events:
+	\[
+		\qty{T_A < \infty} = \qty{X_0 \in A} \cup \bigcup_{n=1}^\infty \qty{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A}
+	\]
+	By countable additivity,
+	\begin{align*}
+		\psub{i}{T_A < \infty} = \underbrace{\psub{i}{X_0 \in A}}_{=0} + \sum_{n=1}^\infty \psub{i}{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A}
+		 & = \sum_{n=1}^\infty \sum_j \prob{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A, X_1 \in j \mid X_0 = i}
+		 & = \sum_j \prob{X_1 \in A, X_1 = j \mid X_0 = i} + \sum_{n=2}^\infty \sum_j \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A, X_1 \in j \mid X_0 = i}
+		 & = \sum_j P(i,j) \prob{X_1 \in A \mid X_1 = j, X_0 = i} + \sum_j P(i,j) \sum_{n=2}^\infty \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A \mid X_1 \in j, X_0 = i}
+		\intertext{By the definition of the Markov chain, we can drop the condition on \( X_0 \), and subtract one from all indices.}
+		 & = \sum_j P(i,j) \prob{X_0 \in A \mid X_0 = j} + \sum_j P(i,j) \sum_{n=2}^\infty \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A \mid X_1 \in j}
+	\end{align*}
 \end{proof}

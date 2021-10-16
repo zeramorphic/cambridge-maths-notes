@@ -1,129 +1,161 @@
 \subsection{Uniform Continuity}
 \begin{definition}
-Let \( U, f \) be as in the previous definition.
-We say \( f \) is \textit{uniformly continuous} if
-\[ \forall \varepsilon > 0, \exists \delta > 0, \forall x, y \in U, \abs{y-x} < \delta \implies \abs{f(y) - f(x)} < \varepsilon \]
-Now, \( \delta \) works for all \( x \in U \) simultaneously; \( \delta \) depends on \( \varepsilon \) only.
-Certainly, uniform continuity implies continuity.
+	Let \( U, f \) be as in the previous definition.
+	We say \( f \) is \textit{uniformly continuous} if
+	\[
+		\forall \varepsilon > 0, \exists \delta > 0, \forall x, y \in U, \abs{y-x} < \delta \implies \abs{f(y) - f(x)} < \varepsilon
+	\]
+	Now, \( \delta \) works for all \( x \in U \) simultaneously; \( \delta \) depends on \( \varepsilon \) only.
+	Certainly, uniform continuity implies continuity.
 \end{definition}
 \begin{example}
-Let \( f \colon \mathbb R \to \mathbb R \) such that \( f(x) = 2x + 17 \).
-Then \( f \) is uniformly continuous; given \( \varepsilon > 0 \), we can find \( \delta = \frac{1}{2} \varepsilon \).
-Then \( \forall x, y \in \mathbb R, \abs{y-x} < \delta \implies \abs{f(y)-f(x)} = \abs{2y-2x} = 2{y-x} < 2 \delta = \varepsilon \).
+	Let \( f \colon \mathbb R \to \mathbb R \) such that \( f(x) = 2x + 17 \).
+	Then \( f \) is uniformly continuous; given \( \varepsilon > 0 \), we can find \( \delta = \frac{1}{2} \varepsilon \).
+	Then \( \forall x, y \in \mathbb R, \abs{y-x} < \delta \implies \abs{f(y)-f(x)} = \abs{2y-2x} = 2{y-x} < 2 \delta = \varepsilon \).
 \end{example}
 \begin{example}
-Let \( f \colon \mathbb R \to \mathbb R \), defined by \( f(x) = x^2 \).
-This is not uniformly continuous, since no \( \delta \) works for all \( x \) given some `bad` \( \varepsilon \).
-Let us take \( \varepsilon = 1 \), and we wish to show that no \( \delta \) exists.
-Suppose some \( \delta \) does exist.
-Then, let \( x > 0 \) and \( y = x + \frac{\delta}{2} \).
-We should have \( \abs{f(y) - f(x)} < 1 \).
-\[ \qty(x + \frac{\delta}{2})^2 - x^2 = \delta x + \frac{\delta^2}{4} \]
-So for \( x = \frac{1}{\delta} \), this condition \( \abs{f(y) - f(x)} < 1 \) is not satisfied.
-Hence \( f \) is not uniformly continuous.
+	Let \( f \colon \mathbb R \to \mathbb R \), defined by \( f(x) = x^2 \).
+	This is not uniformly continuous, since no \( \delta \) works for all \( x \) given some `bad' \( \varepsilon \).
+	Let us take \( \varepsilon = 1 \), and we wish to show that no \( \delta \) exists.
+	Suppose some \( \delta \) does exist.
+	Then, let \( x > 0 \) and \( y = x + \frac{\delta}{2} \).
+	We should have \( \abs{f(y) - f(x)} < 1 \).
+	\[
+		\qty(x + \frac{\delta}{2})^2 - x^2 = \delta x + \frac{\delta^2}{4}
+	\]
+	So for \( x = \frac{1}{\delta} \), this condition \( \abs{f(y) - f(x)} < 1 \) is not satisfied.
+	Hence \( f \) is not uniformly continuous.
 \end{example}
 \begin{note}
-For \( U, f \) as in the above definition, \( f \) is not uniformly continuous on \( U \) if
-\[ \exists \varepsilon > 0, \forall \delta > 0, \exists x, y \in U, \abs{y-x} < \delta, \abs{f(y) - f(x)} \geq \varepsilon \]
-So there are points arbitrarily close together whose difference of function values exceed some fixed \( \varepsilon \).
+	For \( U, f \) as in the above definition, \( f \) is not uniformly continuous on \( U \) if
+	\[
+		\exists \varepsilon > 0, \forall \delta > 0, \exists x, y \in U, \abs{y-x} < \delta, \abs{f(y) - f(x)} \geq \varepsilon
+	\]
+	So there are points arbitrarily close together whose difference of function values exceed some fixed \( \varepsilon \).
 \end{note}
 \begin{theorem}
-Let \( f \) be a scalar function on a closed bounded interval \( [a,b] \).
-If \( f \) is continuous on \( [a,b] \), then \( f \) is uniformly continuous on \( [a,b] \).
+	Let \( f \) be a scalar function on a closed bounded interval \( [a,b] \).
+	If \( f \) is continuous on \( [a,b] \), then \( f \) is uniformly continuous on \( [a,b] \).
 \end{theorem}
 \begin{proof}
-Suppose there exists \( \varepsilon > 0 \) such that \( \forall \delta > 0, \exists x,y \in [a,b], \abs{y-x} < \delta, \abs{f(y)-f(x)} < \varepsilon \).
-In particular, we can construct a sequence \( (\delta_n) \) defined by \( \delta_n = \frac{1}{n} \), and we can construct sequences \( x_n, y_n \in [a,b] \) such that \( \abs{y_n-x_n}, \abs{f(y_n) - f(x_n)} \).
-By the Bolzano-Weierstrass theorem, there exists a subsequence \( (x_{k_n}) \) that converges.
-Now, let \( x \) be the limit of the subsequence, \( \lim_{n \to \infty} x_{k_n} \).
-Then \( x \in [a,b] \) since the interval is closed.
-Then, \( \abs{y_{k_n} - x} \leq \abs{y_{k_n} - x_{k_n}} + \abs{x_{k_n} - x} < \frac{1}{n} + \abs{x_{k_n} - x} \to 0 \).
-Hence \( y_{k_n} \to x \).
-Now, since \( f \) is continuous \( f(x_{k_n}), f(y_{k_n}) \to f(x) \).
-Now, \( \varepsilon \leq \abs{f(x_{k_n}) - f(y_{k_n})} \to \abs{f(x) - f(x)} = 0 \), which is a contradiction.
+	Suppose there exists \( \varepsilon > 0 \) such that \( \forall \delta > 0, \exists x,y \in [a,b], \abs{y-x} < \delta, \abs{f(y)-f(x)} < \varepsilon \).
+	In particular, we can construct a sequence \( (\delta_n) \) defined by \( \delta_n = \frac{1}{n} \), and we can construct sequences \( x_n, y_n \in [a,b] \) such that \( \abs{y_n-x_n}, \abs{f(y_n) - f(x_n)} \).
+	By the Bolzano-Weierstrass theorem, there exists a subsequence \( (x_{k_n}) \) that converges.
+	Now, let \( x \) be the limit of the subsequence, \( \lim_{n \to \infty} x_{k_n} \).
+	Then \( x \in [a,b] \) since the interval is closed.
+	Then, \( \abs{y_{k_n} - x} \leq \abs{y_{k_n} - x_{k_n}} + \abs{x_{k_n} - x} < \frac{1}{n} + \abs{x_{k_n} - x} \to 0 \).
+	Hence \( y_{k_n} \to x \).
+	Now, since \( f \) is continuous \( f(x_{k_n}), f(y_{k_n}) \to f(x) \).
+	Now, \( \varepsilon \leq \abs{f(x_{k_n}) - f(y_{k_n})} \to \abs{f(x) - f(x)} = 0 \), which is a contradiction.
 \end{proof}
 \begin{corollary}
-A continuous function \( f \colon [a,b] \to \mathbb R \) is Riemann integrable.
+	A continuous function \( f \colon [a,b] \to \mathbb R \) is Riemann integrable.
 \end{corollary}
 \begin{proof}
-Since a continuous function on a closed bounded interval is bounded, we have that \( f \) is bounded.
-Now, fix \( \varepsilon > 0 \), and we want to find a dissection \( \mathcal D \) such that the difference between upper and lower sums is less than \( \varepsilon \).
-By the above theorem, \( f \) is uniformly continuous.
-Hence,
-\[ \exists \delta > 0, \forall x, y \in [a,b], \abs{y-x} < \delta \implies \abs{f(y) - f(x)} < \varepsilon \]
-So we must simply choose a dissection such that all intervals have size smaller than \( \delta \).
-For instance, choose some \( n \in \mathbb N \) such that \( \frac{b-a}{N} < \delta \), and then divide the interval equally into \( n \) subintervals.
-If \( I \) is an interval in this dissection, then \( \forall x,y \in I \) we have \( \abs{y-x} < \delta \) and hence \( \abs{f(y) - f(x)} < \varepsilon \).
-Hence,
-\[ \sup_{x,y \in I} \abs{f(y) - f(x)} \leq \varepsilon \]
-Multiplying by the length of \( I \) and summing over all subintervals \( I \),
-\[ U_{\mathcal D}(f) - L_{\mathcal D}(f) \leq (b-a) \varepsilon \]
-Hence \( f \) is Riemann integrable.
+	Since a continuous function on a closed bounded interval is bounded, we have that \( f \) is bounded.
+	Now, fix \( \varepsilon > 0 \), and we want to find a dissection \( \mathcal D \) such that the difference between upper and lower sums is less than \( \varepsilon \).
+	By the above theorem, \( f \) is uniformly continuous.
+	Hence,
+	\[
+		\exists \delta > 0, \forall x, y \in [a,b], \abs{y-x} < \delta \implies \abs{f(y) - f(x)} < \varepsilon
+	\]
+	So we must simply choose a dissection such that all intervals have size smaller than \( \delta \).
+	For instance, choose some \( n \in \mathbb N \) such that \( \frac{b-a}{N} < \delta \), and then divide the interval equally into \( n \) subintervals.
+	If \( I \) is an interval in this dissection, then \( \forall x,y \in I \) we have \( \abs{y-x} < \delta \) and hence \( \abs{f(y) - f(x)} < \varepsilon \).
+	Hence,
+	\[
+		\sup_{x,y \in I} \abs{f(y) - f(x)} \leq \varepsilon
+	\]
+	Multiplying by the length of \( I \) and summing over all subintervals \( I \),
+	\[
+		U_{\mathcal D}(f) - L_{\mathcal D}(f) \leq (b-a) \varepsilon
+	\]
+	Hence \( f \) is Riemann integrable.
 \end{proof}
 
 \subsection{Metric Spaces}
 \begin{definition}
-Let \( M \) be a set.
-Then a \textit{metric} on \( M \) is a function \( d \colon M \times M \to \mathbb R \) such that
-\begin{enumerate}[(i)]
-\item (positivity) \( \forall x,y \in M, d(x,y) > 0 \), and in particular, \( x = y \iff d(x,x) = 0 \)
-\item (symmetric) \( \forall x,y \in M, d(x,y) = d(y,x) \)
-\item (triangle inequality) \( \forall x,y,z \in M, d(x,z) \leq d(x,y) + d(y,z) \).
-\end{enumerate}
-A metric space is a set \( M \) together with a metric \( d \) on \( M \), written as the pair \( (M, d) \).
+	Let \( M \) be a set.
+	Then a \textit{metric} on \( M \) is a function \( d \colon M \times M \to \mathbb R \) such that
+	\begin{enumerate}[(i)]
+		\item (positivity) \( \forall x,y \in M, d(x,y) > 0 \), and in particular, \( x = y \iff d(x,x) = 0 \)
+		\item (symmetric) \( \forall x,y \in M, d(x,y) = d(y,x) \)
+		\item (triangle inequality) \( \forall x,y,z \in M, d(x,z) \leq d(x,y) + d(y,z) \).
+	\end{enumerate}
+	A metric space is a set \( M \) together with a metric \( d \) on \( M \), written as the pair \( (M, d) \).
 \end{definition}
 \begin{example}
-Let \( M = \mathbb R, \mathbb C \) and \( d(x,y) = \abs{x-y} \).
-This is known as the `standard metric' on \( M \).
-If a metric is not specified, the standard metric is taken as implied.
+	Let \( M = \mathbb R, \mathbb C \) and \( d(x,y) = \abs{x-y} \).
+	This is known as the `standard metric' on \( M \).
+	If a metric is not specified, the standard metric is taken as implied.
 \end{example}
 \begin{example}
-Let \( M = \mathbb R^n, \mathbb C^n \), and we define the Euclidean norm (or Euclidean length) to be
-\[ \norm{x} = \norm{x}_2 = \qty(\sum_{k=1}^n \abs{x_k}^2)^{\frac{1}{2}} \]
-This satisfies
-\[ \norm{x+y} \leq \norm{x} + \norm{y} \]
-and it then follows that we can define the metric as
-\[ d_2(x,y) = \norm{x-y}_2 \]
-called the Euclidean metric.
-We can check that this is indeed a metric easily.
-This is the standard metric on \( \mathbb R^n, \mathbb C^n \).
-The metric space \( (M, d) \) in this case is called \( n \)-dimensional real (or complex) Euclidean space, sometimes denoted \( \ell_2^n \).
-The Euclidean norm is sometimes called the \( \ell_2 \) norm, and the Euclidean metric is the \( \ell_2 \) metric.
+	Let \( M = \mathbb R^n, \mathbb C^n \), and we define the Euclidean norm (or Euclidean length) to be
+	\[
+		\norm{x} = \norm{x}_2 = \qty(\sum_{k=1}^n \abs{x_k}^2)^{\frac{1}{2}}
+	\]
+	This satisfies
+	\[
+		\norm{x+y} \leq \norm{x} + \norm{y}
+	\]
+	and it then follows that we can define the metric as
+	\[
+		d_2(x,y) = \norm{x-y}_2
+	\]
+	called the Euclidean metric.
+	We can check that this is indeed a metric easily.
+	This is the standard metric on \( \mathbb R^n, \mathbb C^n \).
+	The metric space \( (M, d) \) in this case is called \( n \)-dimensional real (or complex) Euclidean space, sometimes denoted \( \ell_2^n \).
+	The Euclidean norm is sometimes called the \( \ell_2 \) norm, and the Euclidean metric is the \( \ell_2 \) metric.
 \end{example}
 \begin{example}
-Let \( M = \mathbb R^n, \mathbb C^n \), and we define the \( \ell_1 \) norm to be
-\[ \abs{x}_1 = \sum_{k=1}^n \abs{x_k} \]
-which defines the \( \ell_1 \) metric given by
-\[ d_1(x,y) = \norm{x-y}_1 \]
-\( (M, d_1) \) is denoted \( \ell_1^n \).
-We can generalise and form the metric space \( \ell_p^n \) for all \( p \in [1, \infty] \).
+	Let \( M = \mathbb R^n, \mathbb C^n \), and we define the \( \ell_1 \) norm to be
+	\[
+		\abs{x}_1 = \sum_{k=1}^n \abs{x_k}
+	\]
+	which defines the \( \ell_1 \) metric given by
+	\[
+		d_1(x,y) = \norm{x-y}_1
+	\]
+	\( (M, d_1) \) is denoted \( \ell_1^n \).
+	We can generalise and form the metric space \( \ell_p^n \) for all \( p \in [1, \infty] \).
 \end{example}
 \begin{example}
-Again, let \( M = \mathbb R^n, \mathbb C^n \).
-We can define the \( \ell_\infty \) norm by
-\[ \norm{x}_\infty = \max_{1 \leq k \leq n} \abs{x_k} \]
-This defines the \( \ell_\infty \) metric:
-\[ d_\infty(x,y) = \norm{x-y}_\infty = \max_{1 \leq k \leq n} \abs{x_k - y_k} \]
-We denote \( (M, d) \) by \( \ell_\infty^n \).
+	Again, let \( M = \mathbb R^n, \mathbb C^n \).
+	We can define the \( \ell_\infty \) norm by
+	\[
+		\norm{x}_\infty = \max_{1 \leq k \leq n} \abs{x_k}
+	\]
+	This defines the \( \ell_\infty \) metric:
+	\[
+		d_\infty(x,y) = \norm{x-y}_\infty = \max_{1 \leq k \leq n} \abs{x_k - y_k}
+	\]
+	We denote \( (M, d) \) by \( \ell_\infty^n \).
 \end{example}
 \noindent \textit{In this course, we will only work with \( p = 1, 2, \infty \), although the calculations can be made to work for other \( p \).}
 \begin{example}
-Let \( S \) be a set.
-Let \( \ell_\infty(S) \) be the set of all bounded scalar functions on \( S \).
-We then define the \( \ell_\infty \) norm of \( f \in \ell_\infty(S) \) by
-\[ \norm{f} = \norm{f}_\infty = \sup_{x \in S} \abs{f(x)} \]
-The supremum exists since the function is always bounded.
-This is also known as the `sup norm' or the `uniform norm'.
-Note that, for \( f,g \in \ell_\infty(S) \), and \( x \in S \),
-\[ \norm{f+g} \leq \sup_{x \in S} \abs{f(x) + g(x)} \leq \abs{f(x) + g(x)} \leq \abs{f(x)} + \abs{g(x)} \leq \norm{f} + \norm{g} \]
-Hence \( d(f,g) =\norm{f-g} \) defines a metric on \( \ell_\infty(S) \).
-This is the standard metric on this space \( \ell_\infty(S) \), also called the `uniform metric'.
-For example, \( \ell_\infty(\qty{1, \dots, n}) = \mathbb R^n \) with the metric \( \ell_\infty \).
-Also, for \( \ell_\infty(\mathbb N) \), we typically omit the \( \mathbb N \) and instead write \( \ell_\infty \) for the space of scalar sequences with the uniform metric.
+	Let \( S \) be a set.
+	Let \( \ell_\infty(S) \) be the set of all bounded scalar functions on \( S \).
+	We then define the \( \ell_\infty \) norm of \( f \in \ell_\infty(S) \) by
+	\[
+		\norm{f} = \norm{f}_\infty = \sup_{x \in S} \abs{f(x)}
+	\]
+	The supremum exists since the function is always bounded.
+	This is also known as the `sup norm' or the `uniform norm'.
+	Note that, for \( f,g \in \ell_\infty(S) \), and \( x \in S \),
+	\[
+		\norm{f+g} \leq \sup_{x \in S} \abs{f(x) + g(x)} \leq \abs{f(x) + g(x)} \leq \abs{f(x)} + \abs{g(x)} \leq \norm{f} + \norm{g}
+	\]
+	Hence \( d(f,g) =\norm{f-g} \) defines a metric on \( \ell_\infty(S) \).
+	This is the standard metric on this space \( \ell_\infty(S) \), also called the `uniform metric'.
+	For example, \( \ell_\infty(\qty{1, \dots, n}) = \mathbb R^n \) with the metric \( \ell_\infty \).
+	Also, for \( \ell_\infty(\mathbb N) \), we typically omit the \( \mathbb N \) and instead write \( \ell_\infty \) for the space of scalar sequences with the uniform metric.
 \end{example}
 \begin{example}
-Consider \( C[a,b] \), the set of all continuous functions on \( [a,b] \).
-For \( p = 1,2 \), we define the \( L_p \) norm of \( f \in C[a,b] \) by
-\[ \norm{f}_p = \qty( \int_a^b \abs{f(x)}^p \dd{x} )^{\frac{1}{p}} \]
-which induces the \( L_p \) metric on \( C[a,b] \).
+	Consider \( C[a,b] \), the set of all continuous functions on \( [a,b] \).
+	For \( p = 1,2 \), we define the \( L_p \) norm of \( f \in C[a,b] \) by
+	\[
+		\norm{f}_p = \qty( \int_a^b \abs{f(x)}^p \dd{x} )^{\frac{1}{p}}
+	\]
+	which induces the \( L_p \) metric on \( C[a,b] \).
 \end{example}

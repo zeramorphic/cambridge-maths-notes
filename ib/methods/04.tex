@@ -2,7 +2,9 @@
 \textit{This section is a review of IA Differential Equations.}
 
 \noindent We wish to solve a general inhomogeneous ODE, written
-\[ \mathcal L y \equiv \alpha(x) y'' + \beta(x) y' + \gamma(x) y = f(x) \]
+\[
+	\mathcal L y \equiv \alpha(x) y'' + \beta(x) y' + \gamma(x) y = f(x)
+\]
 The homogeneous version has \( f(x) = 0 \), so \( \mathcal L y = 0 \), which has two independent solutions \( y_1, y_2 \).
 The general solution, also the complementary function for the inhomogeneous ODE, is \( y_c(x) = A y_1(x) + B y_2(x) \).
 The inhomogeneous equation \( \mathcal L y = f(x) \) has a solution called the particular integral, denoted \( y_p(x) \).
@@ -22,95 +24,124 @@ We could also specify initial data, such as solving for \( x \geq a \), given \(
 To solve the inhomogeneous equation, we want to use eigenfunction expansions such as Fourier series.
 In order to do this, we must first solve the related eigenvalue problem.
 In this case, that is
-\[ \alpha(x) y'' + \beta(x) y' + \gamma(x) y = -\lambda \rho(x) y \]
+\[
+	\alpha(x) y'' + \beta(x) y' + \gamma(x) y = -\lambda \rho(x) y
+\]
 We must solve this equation with the same boundary conditions as the original problem.
 This form of equation often arises as a result of applying a separation of variables, particularly for PDEs in several dimensions.
 
 \subsection{Sturm-Liouville Form}
 For two complex-valued functions \( f, g \) on \( [a,b] \), we define the inner product as
-\[ \inner{f,g} = \int_a^b f^\star(x) g(x) \dd{x} \]
+\[
+	\inner{f,g} = \int_a^b f^\star(x) g(x) \dd{x}
+\]
 The eigenvalue problem above greatly simplifies if \( \mathcal L \) is self-adjoint, that is, if it can be expressed in Sturm-Liouville form:
-\[ \mathcal L y \equiv (-py')' + qy = \lambda w y \]
+\[
+	\mathcal L y \equiv (-py')' + qy = \lambda w y
+\]
 \( \lambda \) is an eigenvalue, and \( w \) is the \textit{weight function}, which must be non-negative.
 
 \subsection{Converting to Sturm-Liouville Form}
 Suppose we have the eigenvalue problem
-\[ \alpha(x) y'' + \beta(x) y' + \gamma(x) y = -\lambda \rho(x) y \]
+\[
+	\alpha(x) y'' + \beta(x) y' + \gamma(x) y = -\lambda \rho(x) y
+\]
 Multiply this by an integrating factor \( F \) to give
 \begin{align*}
-    F \alpha y'' + F \beta y' + F \gamma y &= -\lambda F \rho y \\
-    \dv{x} \qty(F \alpha y') - F' \alpha y' - F \alpha' y + F \beta y' + F \gamma y &= -\lambda F \rho y
+	F \alpha y'' + F \beta y' + F \gamma y                                          & = -\lambda F \rho y \\
+	\dv{x} \qty(F \alpha y') - F' \alpha y' - F \alpha' y + F \beta y' + F \gamma y & = -\lambda F \rho y
 \end{align*}
 To eliminate the \( y' \) term, we require \( F'\alpha = F(\beta - \alpha') \).
 Thus,
-\[ \frac{F'}{F} = \frac{\beta - \alpha'}{\alpha} \implies F = \exp \int^x \frac{\beta - \alpha'}{\alpha} \dd{x} \]
+\[
+	\frac{F'}{F} = \frac{\beta - \alpha'}{\alpha} \implies F = \exp \int^x \frac{\beta - \alpha'}{\alpha} \dd{x}
+\]
 and further,
-\[ (F\alpha y')' + F \gamma y = - \lambda F \rho y \]
+\[
+	(F\alpha y')' + F \gamma y = - \lambda F \rho y
+\]
 hence
 \begin{align*}
-    p &= F \alpha \\
-    q &= F \gamma \\
-    w &= F \rho
+	p & = F \alpha \\
+	q & = F \gamma \\
+	w & = F \rho
 \end{align*}
 and \( F(x) > 0 \) hence \( w > 0 \).
 \begin{example}
-    Consider the Hermite equation,
-    \[ y'' - 2xy' + 2ny = 0 \]
-    In this case,
-    \[ F = \exp \int^x \frac{-2x}{1} \dd{x} = e^{-x^2} \]
-    Then the equation, in Sturm-Liouville form, is
-    \[ \mathcal L y \equiv -\qty(e^{-x^2} y')' = 2n e^{-x^2} y \]
+	Consider the Hermite equation,
+	\[
+		y'' - 2xy' + 2ny = 0
+	\]
+	In this case,
+	\[
+		F = \exp \int^x \frac{-2x}{1} \dd{x} = e^{-x^2}
+	\]
+	Then the equation, in Sturm-Liouville form, is
+	\[
+		\mathcal L y \equiv -\qty(e^{-x^2} y')' = 2n e^{-x^2} y
+	\]
 \end{example}
 
 \subsection{Self-adjoint Operators}
 \( \mathcal L \) is a self-adjoint operator on \( [a,b] \) for all pairs of functions \( y_1,y_2 \) satisfying appropriate boundary conditions if
-\[ \inner{y_1, \mathcal L y_2} = \inner{\mathcal L y_1, y_2} \]
+\[
+	\inner{y_1, \mathcal L y_2} = \inner{\mathcal L y_1, y_2}
+\]
 Written explicitly,
-\[ \int_a^b y_1^\star(x) \mathcal L y_2(x) \dd{x} = \int_a^b (\mathcal L y_1(x))^\star y_2(x) \dd{x} \]
+\[
+	\int_a^b y_1^\star(x) \mathcal L y_2(x) \dd{x} = \int_a^b (\mathcal L y_1(x))^\star y_2(x) \dd{x}
+\]
 Substituting Sturm-Liouville form into the above,
 \begin{align*}
-    inner{y_1, \mathcal L y_2} - \inner{\mathcal L y_1, y_2} &= \int_a^b \qty[-y_1 (py_2')' + y_1 q y_2 + y_2 (p y_1')' - y_2 q y_1] \dd{x} \\
-    &= \int_a^b \qty[-y_1 (py_2')' + y_1 q y_2 + y_2 (p y_1')' - y_2 q y_1] \dd{x} \\
-    &= \int_a^b \qty[-y_1 (py_2')' + y_2 (p y_1')'] \dd{x} \\
-    \intertext{Adding \( -y_1' p y_2' + y_1' p y_2' \),}
-    &= \int_a^b \qty[-(py_1y_2')' + (py_1'y_2)'] \dd{x} \\
-    &= [-py_1y_2' + py_1'y_2]_a^b
+	inner{y_1, \mathcal L y_2} - \inner{\mathcal L y_1, y_2} & = \int_a^b \qty[-y_1 (py_2')' + y_1 q y_2 + y_2 (p y_1')' - y_2 q y_1] \dd{x} \\
+	                                                         & = \int_a^b \qty[-y_1 (py_2')' + y_1 q y_2 + y_2 (p y_1')' - y_2 q y_1] \dd{x} \\
+	                                                         & = \int_a^b \qty[-y_1 (py_2')' + y_2 (p y_1')'] \dd{x}                         \\
+	\intertext{Adding \( -y_1' p y_2' + y_1' p y_2' \),}
+	                                                         & = \int_a^b \qty[-(py_1y_2')' + (py_1'y_2)'] \dd{x}                            \\
+	                                                         & = [-py_1y_2' + py_1'y_2]_a^b
 \end{align*}
 which must be zero for an equation in Sturm-Liouville form to be self-adjoint.
 
 \subsection{Self-adjoint Compatible Boundary Conditions}
 \begin{itemize}
-    \item Suppose \( y(a) = y(b) = 0 \).
-    Then certainly the Sturm-Liouville form of the differential equation is self-adjoint.
-    We could also choose \( y'(a) = y'(b) = 0 \).
-    Collectively, the act of using homogeneous boundary conditions is known as the \textit{regular} Sturm-Liouville problem.
-    \item Periodic boundary conditions could also be used, such as \( y(a) = y(b) \).
-    \item If \( a \) and \( b \) are singular points of the equation, i.e. \( p(a) = p(b) = 0 \), this is self-adjoint compatible.
-    \item We could also have combinations of the above properties, one at \( a \) and one at \( b \).
+	\item Suppose \( y(a) = y(b) = 0 \).
+	      Then certainly the Sturm-Liouville form of the differential equation is self-adjoint.
+	      We could also choose \( y'(a) = y'(b) = 0 \).
+	      Collectively, the act of using homogeneous boundary conditions is known as the \textit{regular} Sturm-Liouville problem.
+	\item Periodic boundary conditions could also be used, such as \( y(a) = y(b) \).
+	\item If \( a \) and \( b \) are singular points of the equation, i.e.
+	      \( p(a) = p(b) = 0 \), this is self-adjoint compatible.
+	\item We could also have combinations of the above properties, one at \( a \) and one at \( b \).
 \end{itemize}
 
 \subsection{Properties of Self-adjoint Operators}
 The following properties hold for any self-adjoint differential operator \( \mathcal L \).
 \begin{enumerate}[(i)]
-    \item The eigenvalues \( \lambda_n \) are real.
-    \item The eigenfunctions \( y_n \) are orthogonal.
-    \item The \( y_n \) are a complete set; they span the space of all functions hence our general solution can be written in terms of these eigenfunctions.
+	\item The eigenvalues \( \lambda_n \) are real.
+	\item The eigenfunctions \( y_n \) are orthogonal.
+	\item The \( y_n \) are a complete set; they span the space of all functions hence our general solution can be written in terms of these eigenfunctions.
 \end{enumerate}
+Each property is proven in its own subsection.
+
+\subsection{Real Eigenvalues}
 \begin{proof}
-    This is a proof of the first property.
-    Suppose we have some eigenvalue \( \lambda_n \), so \( \mathcal L y_n = \lambda_n w y_n \).
-    Taking the complex conjugate, \( \mathcal L y_n^\star = \lambda_n^\star w y_n^\star \), since \( \mathcal L, w \) are real.
-    Now, consider
-    \[ \int_a^b \qty(y_n^\star \mathcal L y_n - y_n \mathcal L y_n^\star) \dd{x} \]
-    which must be zero if \( \mathcal L \) is self-adjoint.
-    This can be written as
-    \[ (\lambda_n - \lambda_n^\star) \int_a^b w y_n^\star y_n \dd{x} \]
-    The integral is non-zero, hence \( \lambda_n - \lambda_n^\star = 0 \) which implies \( \lambda_n \) is real.
-    Note, if the \( \lambda_n \) are non-degenerate (simple), i.e.\ with a unique eigenfunction \( y_n \), then \( y_n^\star = y_n \) hence they are real.
-    We can in fact show that (for a second-order equation) it is always possible to take linear combinations of eigenfunctions such that the result is linear, for example in the exponential form of the Fourier series.
-    Hence, we can assume that \( y_n \) is real.
-    We can further prove that the regular Sturm-Liouville problem must have simple (non-degenerate) eigenvalues \( \lambda_n \), by considering two possible eigenfunctions \( u, v \) for the same \( \lambda \), and use the expression for self-adjointness.
-    We find \( u \mathcal L v - (\mathcal L u) v = [-p(uv' - u'v)]' \) which contains the Wronskian.
-    We can integrate and impose homogeneous boundary conditions to get the required result.
-    % exercise
+	Suppose we have some eigenvalue \( \lambda_n \), so \( \mathcal L y_n = \lambda_n w y_n \).
+	Taking the complex conjugate, \( \mathcal L y_n^\star = \lambda_n^\star w y_n^\star \), since \( \mathcal L, w \) are real.
+	Now, consider
+	\[
+		\int_a^b \qty(y_n^\star \mathcal L y_n - y_n \mathcal L y_n^\star) \dd{x}
+	\]
+	which must be zero if \( \mathcal L \) is self-adjoint.
+	This can be written as
+	\[
+		(\lambda_n - \lambda_n^\star) \int_a^b w y_n^\star y_n \dd{x}
+	\]
+	The integral is non-zero, hence \( \lambda_n - \lambda_n^\star = 0 \) which implies \( \lambda_n \) is real.
+	Note, if the \( \lambda_n \) are non-degenerate (simple), i.e.\ with a unique eigenfunction \( y_n \), then \( y_n^\star = y_n \) hence they are real.
+	We can in fact show that (for a second-order equation) it is always possible to take linear combinations of eigenfunctions such that the result is linear, for example in the exponential form of the Fourier series.
+	Hence, we can assume that \( y_n \) is real.
+	We can further prove that the regular Sturm-Liouville problem must have simple (non-degenerate) eigenvalues \( \lambda_n \), by considering two possible eigenfunctions \( u, v \) for the same \( \lambda \), and use the expression for self-adjointness.
+	We find \( u \mathcal L v - (\mathcal L u) v = [-p(uv' - u'v)]' \) which contains the Wronskian.
+	We can integrate and impose homogeneous boundary conditions to get the required result.
+	% exercise
 \end{proof}
