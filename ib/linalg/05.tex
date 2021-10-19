@@ -1,0 +1,152 @@
+\subsection{Space of Linear Maps}
+Let \( V \) and \( W \) be \( F \)-vector spaces.
+Consider the space of linear maps from \( V \) to \( W \).
+Then \( L(V,W) = \qty{\alpha \colon V \to W \text{ linear}} \).
+\begin{proposition}
+	\( L(V,W) \) is an \( F \)-vector space under the operation
+	\[
+		(\alpha_1 + \alpha_2)(v) = \alpha_1(v) + \alpha_2(v);
+	\]
+	\[
+		(\lambda \alpha)(v) = \lambda( \alpha(v) )
+	\]
+	Further, if \( V \) and \( W \) are finite-dimensional, then so is \( L(V,W) \) with
+	\[
+		\dim_F L(V,W) = \dim_F V \dim_F W
+	\]
+\end{proposition}
+\begin{proof}
+	Proving that \( L(V,W) \) is a vector space is left as an exercise.
+	The dimensionality part is proven later.
+\end{proof}
+
+\subsection{Matrices}
+\begin{definition}
+	An \( m \times n \) matrix over \( F \) is an array of \( m \) rows and \( n \) columns, with entries in \( F \).
+\end{definition}
+We write \( M_{m \times n}(F) \) for the set of \( m \times n \) matrices over \( F \).
+\begin{proposition}
+	\( M_{m \times n}(F) \) is an \( F \)-vector space under
+	\[
+		((a_{ij}) + (b_{ij})) = (a_{ij} + b_{ij});
+	\]
+	\[
+		\lambda (a_{ij}) = (\lambda a_{ij})
+	\]
+\end{proposition}
+\begin{proposition}
+	\( \dim_F M_{m,n}(F) = m n \).
+\end{proposition}
+\begin{proof}
+	Consider the basis defined by, the `elementary matrix' for all \( i,j \):
+	\[
+		e_{pq} = \delta_{ip}\delta_{jq}
+	\]
+	Then \( (e_{ij}) \) is a basis of \( M_{m \times n}(F) \), since it spans \( M_{m \times n}(F) \) and we can show that it is free.
+\end{proof}
+
+\subsection{Linear Maps as Matrices}
+Consider bases \( B \) of \( V \) and \( C \) of \( W \):
+\[
+	B = (v_1, \dots, v_n); C = (w_1, \dots, w_n)
+\]
+Then let \( v \in V \).
+We have
+\[
+	v = \sum_{j=1}^n \lambda_j v_j \equiv [v]_B = \begin{pmatrix}
+		\lambda_1 \\ \vdots \\ \lambda_n
+	\end{pmatrix} \in F^n
+\]
+where the vector given is the coordinates in basis \( B \).
+We can equivalently find \( [w]_C \), the coordinates of \( w \) in basis \( C \).
+We can now define a matrix of some linear map \( \alpha \) in the \( B, C \) basis.
+\begin{definition}
+	\[
+		[\alpha]_{B,C} = \begin{pmatrix}
+			[\alpha(v_1)]_C, \dots, [\alpha(v_n)]_C
+		\end{pmatrix} \in M_{m\times n}(F)
+	\]
+\end{definition}
+Note that if \( [\alpha]_{BC} = (a_{ij}) \), then by definition
+\[
+	\alpha (v_j) = \sum_{i=1}^n a_{ij} w_i
+\]
+\begin{lemma}
+	For all \( v \in V \),
+	\[
+		[\alpha(v)]_C = [\alpha]_{BC} \cdot [v]_{B}
+	\]
+\end{lemma}
+\begin{proof}
+	We have
+	\[
+		v = \sum_{i=1}^n \lambda_j v_j
+	\]
+	Hence
+	\[
+		\alpha\qty(\sum_{i=1}^n \lambda_j v_j) = \sum_{j=1}^n \lambda_j \alpha(v_j) = \sum_{j=1}^n \lambda_i \sum_{i=1}^m a_{ij} w_i = \sum_{i=1}^m \qty( \sum_{j=1}^n a_{ij} \lambda_j ) w_i
+	\]
+\end{proof}
+\begin{lemma}
+	Let \( \beta \colon U \to V \) and \( \alpha \colon V \to W \) bea linear.
+	Then, if \( A,B,C \) are bases of \( U,V,W \) respectively, then
+	\[
+		[\alpha \circ \beta]_{A,C} = [\alpha]_{B,C} \cdot [\beta]_{A,B}
+	\]
+\end{lemma}
+\begin{proof}
+	Consider \( u \in A \).
+	Then
+	\[
+		(\alpha \circ \beta)(u) = \alpha(\beta(u))
+	\]
+	giving
+	\[
+		\alpha\qty(\sum_j b_{jp} v_i) = \sum_j b_{jp} \alpha(v_j) = \sum_j b_{jp} \sum_i a_{ij} w_i = \sum_i ( \sum_j a_{ij} b_{jp} ) w_i
+	\]
+	where \( a_{ij} p_{jp} \) is the \( (i,j) \) element of \( AB \) by the definition of the product of matrices.
+\end{proof}
+\begin{proposition}
+	If \( V, W \) are \( F \)-vector spaces, and \( \dim V = n, \dim W = m \), then
+	\[
+		L(V,W) \simeq M_{m \times n}(F)
+	\]
+	which implies the dimensionailty of \( L(V,W) \) in \( F \) is \( m \times n \).
+\end{proposition}
+\begin{proof}
+	Consider two bases \( B, C \) of \( V, W \).
+	We claim that
+	\[
+		\theta \colon L(V,W) \to M_{m \times n}(F)
+	\]
+	defined by \( \theta(\alpha) = [\alpha]_{B,C} \).
+	is an isomorphism.
+	First, note that \( \theta \) is linear.
+	Then, \( \theta \) is surjective; consider any matrix \( A = (a_{ij}) \) and consider \( \alpha \colon v_j \mapsto \sum_{i=1}^m a_{ij} w_i \).
+	Then this is certainly a linear map which extends uniquely by linearity to \( A \), giving \( [\alpha]_{B,C} = (a_{ij}) = A \).
+	Now, \( \theta \) is injective since \( [\alpha]_{B,C} = 0 \implies \alpha = 0 \).
+\end{proof}
+\begin{remark}
+	If \( B,C \) are bases of \( V,W \) respectively, and \( \varepsilon_B \colon V \to F^n \) is defined by \( v \mapsto [v]_B \), and analogously for \( \varepsilon_C \), then
+	\[
+		[\alpha]_{B,C} \circ \varepsilon_B = \varepsilon_C \circ \alpha
+	\]
+	so the operations commute.
+\end{remark}
+\begin{example}
+	Let \( \alpha \colon V \to W \) be a linear map and \( Y \leq V \), where \( V, W \) are finite-dimensional.
+	Then let \( \alpha(Y) = Z \leq W \).
+	Consider a basis \( B \) of \( V \), such that \( B' = (v_1, \dots, v_k) \) is a basis of \( Y \) completed by \( B'' = (v_{k+1}, \dots, v_n) \) into \( B = B' \cup B'' \).
+	Then let \( C \) be a basis of W, such that \( C' = (w_1, \dots, w_\ell) \) is a basis of \( Z \) completed by \( C'' = (w_{\ell + 1}, \dots, w_m) \) into \( C = C' \cup C'' \).
+	Then
+	\[
+		[\alpha]_{B,C} = \begin{pmatrix}
+			\alpha(v_1) & \dots & \alpha(v_k) & \alpha(v_{k+1}) & \dots & \alpha(v_n)
+		\end{pmatrix}
+	\]
+	For \( 1 \leq i \leq k \), \( \alpha(v_i) \in Z \) since \( v_i \in Y, \alpha(Y) = Z \).
+	So the matrix has an upper-left \( \ell \times k \) block \( A \) which is \( \alpha \colon Y \to Z \) on the basis \( B', C' \).
+	We can show further that \( \alpha \) induces a map \( \overline{\alpha} \colon V / Y \to W / Z \) by \( v + Y \mapsto \alpha(v) + Z \).
+	This is well-defined; \( v_1 + Y = v_2 + Y \) implies \( v_1 - v_2 \in Y \) hence \( \alpha(v_1 - v_2) \in Z \) as required.
+	The bottom-right block is \( [\overline{\alpha}]_{B'', C''} \).
+\end{example}

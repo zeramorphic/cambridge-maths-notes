@@ -143,11 +143,36 @@
 	\]
 	By countable additivity,
 	\begin{align*}
-		\psub{i}{T_A < \infty} = \underbrace{\psub{i}{X_0 \in A}}_{=0} + \sum_{n=1}^\infty \psub{i}{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A}
-		 & = \sum_{n=1}^\infty \sum_j \prob{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A, X_1 \in j \mid X_0 = i}
-		 & = \sum_j \prob{X_1 \in A, X_1 = j \mid X_0 = i} + \sum_{n=2}^\infty \sum_j \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A, X_1 \in j \mid X_0 = i}
-		 & = \sum_j P(i,j) \prob{X_1 \in A \mid X_1 = j, X_0 = i} + \sum_j P(i,j) \sum_{n=2}^\infty \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A \mid X_1 \in j, X_0 = i}
+		\psub{i}{T_A < \infty} = \underbrace{\psub{i}{X_0 \in A}}_{=0} + \sum_{n=1}^\infty \psub{i}{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A}                               \\
+		 & = \sum_{n=1}^\infty \sum_j \prob{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A, X_1 \in j \mid X_0 = i}                                                               \\
+		 & = \sum_j \prob{X_1 \in A, X_1 = j \mid X_0 = i} + \sum_{n=2}^\infty \sum_j \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A, X_1 \in j \mid X_0 = i}               \\
+		 & = \sum_j P(i,j) \prob{X_1 \in A \mid X_1 = j, X_0 = i} + \sum_j P(i,j) \sum_{n=2}^\infty \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A \mid X_1 \in j, X_0 = i} \\
 		\intertext{By the definition of the Markov chain, we can drop the condition on \( X_0 \), and subtract one from all indices.}
-		 & = \sum_j P(i,j) \prob{X_0 \in A \mid X_0 = j} + \sum_j P(i,j) \sum_{n=2}^\infty \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A \mid X_1 \in j}
+		 & = \sum_j P(i,j) \prob{X_0 \in A \mid X_0 = j} + \sum_j P(i,j) \sum_{n=2}^\infty \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A \mid X_1 \in j}                   \\
+		 & = \sum_j P(i,j) \prob{X_0 \in A \mid X_0 = j} + \sum_j P(i,j) \sum_{n=2}^\infty \psub{j}{X_0 \not\in A, \dots, X_{n-2} \not\in A, X_{n-1} \in A}                           \\
+		 & = \sum_j P(i,j) \qty( \psub{j}{X_0 \in A} + \sum_{2}^\infty \psub{j}{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A} )                                                 \\
+		 & = \sum_j P(i,j) \qty( \psub{j}{T_A = 0} + \sum_{n=1}^\infty \psub{j}{T_A = n} )                                                                                            \\
+		 & = \sum_j P(i,j) \psub{j}{T_A < \infty}                                                                                                                                     \\
+		 & = \sum_j P(i,j) h_j^A
 	\end{align*}
+	Now we must show minimality.
+	If \( (x_i) \) is another non-negative solution, we must show that \( h_i^A \leq x_i \).
+	We have
+	\[
+		x_i = \sum_j P(i,j) x_j = \sum_{j \in A} P(i,j) + \sum_{j \not\in A} P(i,j) x_j
+	\]
+	Substituting again,
+	\[
+		x_i = \sum_{j \in A} P(i,j) x_j + \sum_{j \not\in A} P(i,j) \qty( \sum_{k \in A} P(j,k) + \sum{k \not\in A} P(j,k) x_k )
+	\]
+	Then
+	\[
+		x_i = \sum_{j_1 \in A} P(i,j_1) + \sum_{j_1 \not\in A} \sum_{j_2 \in A} P(i,j_1)P(j_1,j_2) + \dots + \sum_{j_1 \not\in A, \dots, j_{n-1} \not\in A, j_n \in A} P(i,j_1)\dots P(j_{n-1},j_n) + \sum_{j_1 \not\in A \dots, j_n \not\in A} P(i,j_1)\dots P(j_{n-1},j_n) x_{j_n}
+	\]
+	The last term is non-negative since \( x \) is non-negative.
+	So
+	\[
+		x_i \geq \psub{i}{T_A = 1} + \psub{i}{T_A = 2} + \dots + \psub{i}{T_A = n} \geq \psub{i}{T_A \leq n},\ \forall n \in \mathbb N
+	\]
+	Now, note \( \qty{T_A \leq n} \) are a set of increasing functions of \( n \), so by continuity of the probability measure, the probability increases to that of the union, \( \qty{T_A < \infty} = h_i^A \).
 \end{proof}
