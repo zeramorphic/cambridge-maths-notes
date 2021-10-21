@@ -127,4 +127,42 @@ Recall that
 	\]
 	so since the left hand side is positive, there must exist \( j \) with \( P(i,j) > 0 \) and \( \psub{j}{T_A = \infty > 0} \).
 	For this \( j \), we also have \( k_j^A = \infty \).
+
+	Now we only need to compute \( \sum_n n\psub{i}{T_A = n} \).
+	\[
+		\psub{i}{T_A = n} = \psub{i}{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A}
+	\]
+	Then, using the same method as the previous theorem,
+	\[
+		k_i^A = \sum_n n \psub{i}{T_A = n} = 1 + \sum_{j \not\in A} P(i,j) k_j^A
+	\]
+
+	It now suffices to prove minimality.
+	Suppose \( (x_i) \) is another solution to this system of equations.
+	We need to show that \( x_i \geq k_i^A \) for all \( i \).
+	Suppose \( i \not\in A \).
+	Then
+	\[
+		x_i = 1 + \sum_{j \not\in A} P(i,j) x_j = 1 + \sum_{j \not\in A} P(i,j) \qty(1 + \sum_{k \not\in A} P(j,k) x_k)
+	\]
+	Expanding inductively,
+	\[
+		x_i = 1 + \sum_{j_1 \not\in A} P(i,j_1) + \sum_{j_1 \not\in A, j_2 \not\in A} P(i,j_1)P(j_1,j_2) + \dots + \sum_{j_1 \not\in A, \dots, j_n \not\in A} P(i,j_1) \dots P(j_{n-1}, j_n) + \sum_{j_1 \not\in A, \dots, j_{n+1} \not\in A} P(i,j) \dots P(j_n,j_{n+1})x_{j_{n+1}}
+	\]
+	Since \( x \) is non-negative, we can remove the last term and reach an inequality.
+	\[
+		x_i \geq 1 + \sum_{j_1 \not\in A} P(i,j_1) + \sum_{j_1 \not\in A, j_2 \not\in A} P(i,j_1)P(j_1,j_2) + \dots + \sum_{j_1 \not\in A, \dots, j_n \not\in A} P(i,j_1) \dots P(j_{n-1}, j_n)
+	\]
+	Hence
+	\begin{align*}
+		x_i \geq 1 + \psub{i}{T_A > 1} + \psub{i}{T_A > 2} + \dots + \psub{i}{T_A > n}             \\
+		 & = \psub{i}{T_A > 0} + \psub{i}{T_A > 1} + \psub{i}{T_A > 2} + \dots + \psub{i}{T_A > n} \\
+		 & = \sum_{k = 0}^n \psub{i}{T_A > k}
+	\end{align*}
+	for all \( n \).
+	Hence, the limit of this sum is
+	\[
+		x_i \geq \sum_{k=0}^\infty \psub{i}{T_A > k} = \esub{i}{T_A}
+	\]
+	which gives minimality as required.
 \end{proof}
