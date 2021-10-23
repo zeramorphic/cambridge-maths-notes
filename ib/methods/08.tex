@@ -1,0 +1,113 @@
+\subsection{Energy of Oscillations}
+A vibrating string has kinetic energy due to its motion.
+\[ \text{Kinetic energy} = \frac{1}{2}u \int_0^L \qty(\pdv{y}{t})^2 \dd{x} \]
+It has potential energy given by
+\[ \text{Potential energy} = T \Delta x = T \int_c^T \qty(\sqrt{1 + \qty(\pdv{y}{x})^2}-1)\dd{x} \approx \frac{1}{2} T \int_0^L \qty(\pdv{y}{x})^2 \dd{x} \]
+assuming that the disturbances on the string are small, that is, \( \abs{\pdv{y}{x}} \ll 1 \).
+The total energy on the string, given \( c^2 = T/\mu \), is given by
+\[ E = \frac{1}{2}\mu \int_0^L \qty[\qty(\pdv{y}{t})^2 + c^2 \qty(\pdv{y}{x})^2] \dd{x} \]
+Substituting the solution, using the orthogonality conditions,
+\begin{align*}
+    E &= \frac{1}{2}\mu \sum_{n=1}^\infty \int_0^L \Bigg[-\qty(\frac{n \pi c}{L} C_n \sin \frac{n \pi c t}{L} + \frac{n \pi c}{L} D_n \cos \frac{n \pi c t}{L})^2 \sin^2 \frac{n \pi x}{L} \\
+    &+ c^2 \qty(C_n \cos \frac{n \pi c t}{L} + D_n \sin \frac{n \pi c t}{L})^2 \frac{n^2 \pi^2}{L^2} \cos^2 \frac{n \pi x}{L} \Bigg] \dd{x} \\
+    &= \frac{1}{4} \mu \sum_{n=1}^\infty \frac{n^2 \pi^2 c^2}{L} \qty(C_n^2 + D_n^2)
+\end{align*}
+which is an analogous result to Parseval's theorem.
+This is true since \[ \int \cos^2 \frac{n \pi x}{L}\dd{x} = \frac{1}{2} \] and \( \cos^2 + \sin^2 = 1 \).
+We can think of this energy as the sum over all the normal modes of the energy in that specific mode.
+Note that this quantity is constant over time.
+
+\subsection{Wave Reflection and Transmission}
+The travelling wave has left-moving and right-moving modes.
+A \textit{simple harmonic} travelling wave is
+\[ y = \Re\qty[ A e^{i \omega(t-x/c)} ] = A \cos \qty[\omega(t-x/c) + \phi] \]
+where the phase \( \phi \) is equal to \( \arg A \), and the wavelength \( \lambda \) is \( 2 \pi c / \omega \).
+In further discussion, we assume only the real part is used.
+Consider a density discontinuity on the string at \( x = 0 \) with the following properties.
+\[ \mu = \begin{cases}
+    \mu_- & \text{for } x < 0 \\
+    \mu_+ & \text{for } x > 0
+\end{cases} \implies c = \begin{cases}
+    c_- = \sqrt{\frac{T}{\mu_-}} & \text{for } x < 0 \\
+    c_+ = \sqrt{\frac{T}{\mu_+}} & \text{for } x > 0 \\
+\end{cases} \]
+assuming a constant tension \( T \).
+As a wave from the negative direction approaches the discontinuity, some of the wave will be reflected, given by \( B e^{i \omega(t + x/c_-)} \), and some of the wave will be transmitted, given by \( D e^{i \omega(t + x/c_+)} \).
+The boundary conditions at \( x = 0 \) are
+\begin{enumerate}[(i)]
+    \item \( y \) is continuous for all \( t \) (the string does not break), so
+    \begin{equation}
+        A + B = D \tag{\(\ast\)}
+    \end{equation}
+    \item The forces balance, \( T \eval{\pdv{y}{x}}_{x = 0^-} = T \eval{\pdv{y}{x}}_{x = 0^+} \) which means \( \pdv{y}{x} \) must be continuous for all \( t \).
+    This gives
+    \begin{equation}
+        \frac{-i\omega A}{c_-} + \frac{i \omega B}{c_-} = \frac{-i \omega D}{c_+} \tag{\(\dagger\)}
+    \end{equation}
+\end{enumerate}
+We can eliminate \( B \) from \( (\ast) \) by subtracting \( \frac{c_-}{i \omega}(\dagger) \).
+\[ 2A = D + D \frac{c_-}{c_+} = \frac{D}{c_+}(c_+ + c_-) \]
+Hence, given \( A \), we have the solution for the transmitted amplitude and reflected amplitude to be
+\[ D = \frac{2 c_+}{c_- + c_+} A;\quad B = \frac{c_+ - c_-}{c_- + c_+} \]
+In general \( A, B, D \) are complex, hence different phase shifts are possible.
+
+There are a number of limiting cases, for example
+\begin{enumerate}[(i)]
+    \item If \( c_- = c_+ \) we have \( D = A \) and \( B = 0 \) so we have full transmission and no reflection.
+    \item (Dirichlet boundary conditions) If \( \frac{\mu_+}{\mu_-} \to \infty \), this models a fixed end at \( x = 0 \). We have \( \frac{c_+}{c_-} \to 0 \) giving \( D = 0 \) and \( B = -A \).
+    Notice that the reflection has occurred with opposite phase, \( \phi = \pi \).
+    \item (Neumann boundary conditions) Consider \( \frac{\mu_+}{\mu_-} \to 0 \), this models a free end. Then \( \frac{c_+}{c_-} \to \infty \) giving \( D = 2A \), \( B = A \).
+    This gives total reflection but with the same phase.
+\end{enumerate}
+
+\subsection{Wave Equation in Plane Polar Coordinates}
+Consider the two-dimensional wave equation for \( u(r,\theta,t) \) given by
+\[ \frac{1}{c^2} \pdv[2]{u}{t} = \laplacian u \]
+with boundary conditions at \( r = 1 \) on a unit disc given by
+\[ u(1,\theta,t) = 0 \]
+and initial conditions for \( t = 0 \) given by
+\[ u(r,\theta,0) = \phi(r,\theta);\quad \pdv{u}{t}(r,\theta,0) = \psi(r,\theta) \]
+Suppose that this equation is separable.
+First, let us consider temporal separation.
+Suppose that
+\[ u(r,\theta,t) = T(t) V(r,\theta) \]
+Then we have
+\[ \ddot T + \lambda c^2 T = 0;\quad \laplacian V + \lambda V = 0 \]
+In plane polar coordinates, we can write the spatial equation as
+\[ \pdv[2]{V}{r} + \frac{1}{r} \pdv{V}{r} + \frac{1}{r^2}\pdv[2]{V}{\theta} + \lambda V = 0 \]
+We will perform another separation, supposing
+\[ V(r,\theta) = R(r) \Theta(\theta) \]
+to give
+\[ \Theta'' + \mu \Theta = 0;\quad r^2 R'' + r R' + \qty(\lambda r^2 - \mu) R = 0 \]
+where \( \lambda, \mu \) are the separation constants.
+The polar solution is constrained by periodicity \( \Theta(0) = \Theta(2 \pi) \), since we are working on a disc.
+We also consider only \( \mu > 0 \).
+The eigenvalue is then given by \( \mu = m^2 \), where \( m \in \mathbb N \).
+\[ \Theta_m(\theta) = A_m \cos m \theta + B_m \sin m \theta \]
+Or, in complex exponential form,
+\[ \Theta_m(\theta) = C_m e^{im\theta};\quad m \in \mathbb Z \]
+
+\subsection{Bessel's Equation}
+We can solve the radial equation (in the previous subsection) by converting it first into Sturm-Liouville form, which can be accomplished by dividing by \( r \).
+\[ \dv{r} \qty(r R') - \frac{m^2}{r} = -\lambda r R \]
+where \( p(r) = r, q(r) = \frac{m^2}{r}, w(r) = r \), with self-adjoint boundary conditions with \( R(1) = 0 \).
+We will require \( R \) is bounded at \( R(0) \), and since \( p(0) = 0 \) there is a regular singular point at \( r = 0 \).
+This particular equation for \( R \) is known as Bessel's equation.
+We will first substitute \( z \equiv \sqrt{\lambda} r \), then we find the usual form of Bessel's equation,
+\[ z^2 \dv[2]{R}{z} + z \dv{R}{z} + (z^2 - m^2)R = 0 \]
+We can use the method of Frobenius by substituting the following power series:
+\[ R = z^p \sum_{n=0}^\infty a_n z^n \]
+to find
+\[ \sum_{n=0}^\infty \qty[ a_n (n+p)(n+p-1) z^{n+p} + (n+p) z^{n+p} + z^{n+p+2} + m^2 z^{n+p} ] = 0 \]
+Equating powers of \( z \), we can find the indicial equation
+\[ p^2 - m^2 = 0 \implies p = m, -m \]
+The regular solution, given by \( p = m \), has recursion relation
+\[ (n+m)^2 a_n + a_{n-2} - m^2 a_n = 0 \]
+which gives
+\[ a_n = \frac{-1}{n(n+2m)} a_{n-2} \]
+Hence, we can find
+\[ a_{2n} = a_0 \frac{(-1)^n}{2^{2n} n! (n+m)(n+m-1) \dots (m+1)} \]
+If, by convention, we let
+\[ a_0 = \frac{1}{2^m m!} \]
+we can then write the \textit{Bessel function of the first kind} by
+\[ J_m(z) = \qty(\frac{z}{2})^m \sum_{n=0}^\infty \frac{(-1)^n}{n! (n+m)!} \qty(\frac{z}{2})^{2n} \]

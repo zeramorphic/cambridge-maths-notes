@@ -1,0 +1,125 @@
+\subsection{Properties of Topology of Metric Space}
+\begin{definition}
+    A subspace \( A \) of a metric space \( M \) is \textit{closed in} \( M \) if for every sequence \( (x_n) \in A \) that is convergent in \( M \),
+    \[ \lim_{n \to \infty} x_n \in A \]
+\end{definition}
+\begin{lemma}
+    Closed balls are closed.
+\end{lemma}
+\begin{proof}
+    Consider \( \mathcal B_r(x) \) in \( M \).
+    Consider further \( (x_n) \in \mathcal B_r(x) \) such that \( x_n \to z \) in \( M \).
+    \[ d(z,x) \leq d(z,x_n) + d(x_n,x) \leq d(z,x_n) + r \to r \]
+    Hence \( d(z,x) \leq r \), so \( z \in \mathcal B_r(x) \).
+\end{proof}
+\begin{example}
+    \( [0,1] \in \mathcal B_{1/2}(1/2) \) is closed in \( \mathbb R \).
+    This is not open, for instance consider \( D_r(0) \not\subset [0,1] \).
+\end{example}
+\begin{example}
+    \( (0,1) = \mathcal D_{1/2}(1/2) \) is open in \( \mathbb R \).
+    This is not closed, for instance the sequence \( \frac{1}{n+1} \) tends to zero in \( \mathbb R \).
+\end{example}
+\begin{example}
+    \( \mathbb R \) and \( \varnothing \) are open and closed in \( \mathbb R \).
+\end{example}
+\begin{example}
+    \( (0,1] \) in \( \mathbb R \) is neither open nor closed.
+    Consider \( \mathcal D_r(1) \not\subset (0,1] \) and \( \frac{1}{n} \to 0 \not\in (0,1] \).
+\end{example}
+\begin{lemma}
+    Let \( A \subset M \).
+    Then \( A \) is closed in \( M \) if and only if \( M \setminus A \) is open in \( M \).
+\end{lemma}
+\begin{proof}
+    Let \( A \) be closed.
+    Suppose \( M \setminus A \) is not open.
+    Then \( \exists x \in M \setminus A, \forall r > 0, \mathcal D_r(x) \not\subset M \setminus A \), so \( \mathcal D_r(x) \cap A \neq \varnothing \).
+    In particular, for every \( n \) we can choose a point in \( \mathcal D_{1/n}(x) \cap A \).
+    Then, \( d(x_n,x) < \frac{1}{n} \to 0 \) and \( x_n \in A \) which contradicts the fact that \( A \) is closed.
+
+    Conversely, let us assume \( M \setminus A \) is open, but suppose \( A \) is not closed.
+    Then there exists a sequence \( (x_n) \in A \) such that \( x_n \to x \) in \( M \) but \( x \not\in A \).
+    Since \( x \in M \setminus A \) and \( M \setminus A \) is open, there exists \( \varepsilon > 0, \mathcal D_\varepsilon(x) \subset M \setminus A \).
+    Since \( x_n \to x \), we must have \( \exists N \in \mathbb N, \forall n \geq N, x_n \in \mathcal D_\varepsilon(x) \) and hence \( x_n \in M \setminus A \), which is a contradiction.
+\end{proof}
+\begin{example}
+    Let \( M \) be a discrete metric space.
+    Let \( A \subset M \).
+    Then for all \( x \in A \), \( \mathcal D_1(x) = \qty{x} \subset A \).
+    Hence \( A \) is open.
+    So in a discrete metric space, all subsets are open.
+    Hence every subset is closed.
+\end{example}
+\begin{definition}
+    A map \( f \colon M \to M' \) between metric spaces is called a \textit{homeomorphism} if \( f \) is a bijection and \( f, f^{-1} \) are continuous.
+    Equivalently, \( f \) is a bijection, and for all open sets \( V \) in \( M' \), \( f^{-1}(V) \) is open in \( M \), and for all open sets \( U \) in \( M \), \( f(U) \) is open in \( M' \).
+    If there exists a homeomorphism between \( M, M' \), we say that \( M, M' \) are homeomorphic.
+\end{definition}
+\begin{example}
+    Consider \( (0,\infty) \) and \( (0,1) \).
+    Consider the map \( x \mapsto \frac{1}{x+1} \) with inverse \( x \mapsto \frac{1}{x} - 1 \).
+    These are continuous, so the metric spaces are homeomorphic.
+\end{example}
+\begin{remark}
+    Every isometry is a homeomorphism.
+    It is not true that every homeomorphism is an isometry.
+
+    Consider the identity on \( \mathbb R \) with the discrete metric to \( \mathbb R \) with the Euclidean metric.
+    This is a continuous bijection whose inverse is not continuous.
+    So it is not true that a continuous bijection always has a continuous inverse.
+\end{remark}
+\begin{definition}
+    Let \( d, d' \) be metrics on a set \( M \).
+    We say that \( d, d' \) are \textit{equivalent}, written \( d \sim d' \), if they define the same topology.
+    In particular, \( U \subset M \) is open in \( (M,d) \) if and only if \( U \) is open in \( (M,d') \).
+    So \( d \sim d' \) if and only if \( \mathrm{id} \colon (M,d) \to (M,d') \) is a homeomorphism.
+\end{definition}
+\begin{remark}
+    If \( d \sim d' \), then \( (M,d) \) and \( (M, d') \) have the same convergent sequences and continuous maps.
+\end{remark}
+\begin{definition}
+    Let \( d, d' \) be metrics on \( M \).
+    Then we say \( d, d' \) are \textit{uniformly equivalent}, written \( d \sim_u d' \) if
+    \[ \mathrm{id} \colon (M, d) \to (M, d');\quad \mathrm{id} \colon (M, d') \to (M, d) \]
+    are uniformly continuous.
+    We say \( d, d' \) are \textit{Lipschitz equivalent}, written \( d \sim_\mathrm{Lip} d' \), if the identity maps above are Lipschitz.
+    Equivalently, \( d \sim_\mathrm{Lip} d' \) if \( \exists a > 0, b > 0, ad(x,y) \leq d'(x,y) \leq bd(x,y) \).
+    Note, \( d \sim_\mathrm{Lip} d' \implies d \sim_u d' \implies d \sim d' \).
+\end{definition}
+\begin{example}
+    Given a metric space \( (M,d) \), we define \( d'(x,y) = \min(1,d(x,y)) \).
+    This defines a metric on \( M \), and \( d' \sim_u d \).
+\end{example}
+\begin{example}
+    On \( M \times M' \), \( d_1, d_2, d_\infty \) are pairwise Lipschitz equivalent.
+\end{example}
+\begin{example}
+    Consider \( C[0,1] \).
+    The \( L_1 \) metric and the uniform metric are not equivalent.
+    Consider \( f_n(x) = x^n \).
+    This is convergent to zero in the \( L_1 \) metric but is not convergent in the uniform metric.
+\end{example}
+\begin{example}
+    The discrete metric and Euclidean metric on \( \mathbb R \) are not equivalent.
+    This is becaue in the discrete metric all sets are open, but in the Euclidean metric there are some non-open sets.
+\end{example}
+
+\subsection{Completeness}
+In \( \mathbb R, \mathbb C \), every Cauchy sequence is convergent.
+We wish to generalise this notion to an arbitrary metric space.
+Recall that a sequence \( (x_n) \) in \( \mathbb R \) or \( \mathbb C \) is bounded if there exists \( c \in \mathbb R^+ \) such that \( \forall n \in \mathbb N, \abs{x_n} \leq c \).
+\begin{definition}
+    A sequence \( (x_n) \) in a metric space \( M \) is said to be \textit{Cauchy} if
+    \[ \exists \varepsilon > 0, \exists N \in \mathbb N, \forall m,n \geq N, d(x_m,x_n) < \varepsilon \]
+    The sequence is bounded if
+    \[ \exists z \in M, \exists r > 0, \forall n \in \mathbb N, x_n \in \mathcal B_r(z) \]
+    This is equivalent to
+    \[ \forall z \in M, \exists r > 0, \forall n \in \mathbb N, x_n \in \mathcal B_r(z) \]
+    by considering the triangle inequality around the given \( z \) point.
+    In particular, if the metric arises from a norm, \( (x_n) \) is bounded if and only if \( \norm{x_n} \) is bounded.
+\end{definition}
+\begin{lemma}
+    If a sequence is convergent, it is Cauchy.
+    If a sequence is Cauchy, it is bounded.
+\end{lemma}
