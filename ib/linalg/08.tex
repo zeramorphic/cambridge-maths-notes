@@ -1,0 +1,157 @@
+\subsection{Dual Spaces}
+\begin{definition}
+	Let \( V \) be an \( F \)-vector space.
+	Then \( V^\star \) is the \textit{dual} of \( V \), defined by
+	\[ V^\star = L(V,F) = \qty{\alpha \colon V \to F} \]
+	where the \( \alpha \) are linear.
+	If \( \alpha \colon V \to F \) is linear, then we say \( \alpha \) is a linear form.
+	So the dual of \( V \) is the set of linear forms on \( V \).
+\end{definition}
+\begin{example}
+	For instance, the trace \( \tr \colon M_{n,n}(F) \to F \) is a linear form on \( M_{n,n}(F) \).
+\end{example}
+\begin{example}
+	Consider functions \( [0,1] \to \mathbb R \).
+	We can define \( T_f \colon \mathcal C^\infty([0,1], \mathbb R) \to \mathbb R \) such that \( \phi \mapsto \int_0^1 f(x) \phi(x) \dd{x} \).
+	Then \( T_f \) is a linear form on \( \mathcal C^{\infty}([0,1], \mathbb R) \).
+	We can then reconstruct \( f \) given \( T_f \).
+	This mathematical formulation is called distribution.
+\end{example}
+\begin{lemma}
+	Let \( V \) be an \( F \)-vector space with a finite basis \( B = \qty{e_1, \dots, e_n} \).
+	Then there exists a basis \( B^\star \) for \( V^\star \) given by
+	\[ B^\star = \qty{\varepsilon_1, \dots, \varepsilon_n}; \quad \varepsilon_j \qty( \sum_{i=1}^n a_i e_i ) = a_j \]
+	We call \( B^\star \) the \textit{dual basis} for \( B \).
+\end{lemma}
+\begin{proof}
+	We know
+	\[ \varepsilon_j \qty( \sum_{i=1}^n a_i e_i ) = a_j \]
+	Equivalently,
+	\[ \varepsilon_j (e_i) = \delta_{ij} \]
+	First, we will show that the set of linear forms as defined is free.
+	For all \( i \),
+	\begin{align*}
+		\sum_{j=1}^n \lambda_j \varepsilon_j &= 0 \\
+		\therefore \qty( \sum_{j=1}^n \lambda_j \varepsilon_j ) e_i &= 0 \\
+		\sum_{j=1}^n \lambda_j \varepsilon_j(e_i) &= 0 \\
+		\lambda_i &= 0
+	\end{align*}
+	Now we show that the set spans \( V^\star \).
+	Suppose \( \alpha \in V^\star \), \( x \in V \).
+	\begin{align*}
+		\alpha(x) &= \alpha\qty(\sum_{j=1}^\infty \lambda_j e_j) \\
+		&= \sum_{i=1}^\infty \lambda_j \alpha(e_j)
+	\end{align*}
+	Conversely, we can write
+	\[ \sum_{i=1}^\infty \alpha(e_j) \varepsilon(j) \in V^\star \]
+	Thus,
+	\begin{align*}
+		\qty( \sum_{i=1}^n \alpha(e_j) \varepsilon_j) (x) &= \sum_{j=1}^n \alpha(e_j) \varepsilon_j\qty(\sum_{k=1}^n \lambda_k e_k) \\
+		&= \sum_{j=1}^n \alpha(e_j) \sum_{k=1}^n \lambda_k \varepsilon_j(e_k) \\
+		&= \sum_{j=1}^n \alpha(e_j) \sum_{k=1}^n \lambda_k \delta_{jk} \\
+		&= \sum_{j=1}^n \alpha(e_j) \lambda_j \\
+		&= \alpha(x)
+	\end{align*}
+	We have then shown that
+	\[ \alpha = \sum_{j=1}^n \alpha(e_j) \varepsilon_j \]
+	as required.
+\end{proof}
+\begin{corollary}
+	If \( V \) is finite-dimensional, \( V^\star \) has the same dimension.
+\end{corollary}
+\begin{remark}
+	It is sometimes convenient to think of \( V^\star \) as the spaces of row vectors of length \( \dim V \) over \( F \).
+	For instance, consider \( (e_1, \dots, e_n) \) the dual basis of \( B \), so \( x = \sum_{i=1}^n x_i e_i \).
+	Then we can pick \( (\varepsilon_1, \dots, \varepsilon_n) \) a basis of \( V^\star \), so \( \alpha = \sum_{i=1}^n \alpha_i \varepsilon_i \).
+	Then
+	\[ \alpha(x) = \sum_{i=1}^n \alpha_i \varepsilon_i(x) = \sum_{i=1}^n \alpha_i \varepsilon\qty(\sum_{j=1}^n x_j e_j) = \sum_{i=1}^n \alpha_i x_i \]
+	This is exactly
+	\[ \begin{pmatrix} \alpha_1 & \cdots & \alpha_n \end{pmatrix} \begin{pmatrix} x_1 \\ \vdots \\ x_n \end{pmatrix} \]
+	which essentially defines a scalar product between the two spaces.
+\end{remark}
+
+\subsection{Annihilators}
+\begin{definition}
+	Let \( U \subseteq V \).
+	Then the annihilator of \( U \) is
+	\[ U^0 = \qty{\alpha \in V^\star \colon \forall u \in U, \alpha(u) = 0} \]
+\end{definition}
+\begin{lemma}
+	\begin{enumerate}[(i)]
+		\item \( U^0 \leq V^\star \);
+		\item If \( U \leq V \) and \( \dim V < \infty \), then \( \dim V = \dim U + \dim U^0 \).
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	\begin{enumerate}[(i)]
+		\item First, note that \( 0 \in U^0 \) since \( \alpha(0) = 0 \) by linearity.
+			If \( \alpha, \alpha' \in U^0 \), then for all \( u \in U \),
+			\[ (\alpha + \alpha')(u) = \alpha(u) + \alpha'(u) = 0 \]
+			Further, for all \( \lambda \in F \),
+			\[ (\lambda \alpha)(u) = \lambda \alpha(u) = 0 \]
+			Hence \( U^0 \leq V^\star \).
+		\item Let \( (e_1, \dots, e_k) \) be a basis of \( U \), completed into a basis \( B = (e_1, \dots, e_k, e_{k+1}, \dots, e_n) \) of \( V \).
+			Let \( (\varepsilon_1, \dots, \varepsilon_n) \) be the dual basis \( B^\star \).
+			We then will prove that
+			\[ U^0 = \genset{\varepsilon_{k+1}, \dots, \varepsilon_n} \]
+			If \( i > k \), then \( \varepsilon_i(e_k) = \delta_{ik} = 0 \).
+			Hence \( \varepsilon_i \in U^0 \).
+			Thus \( \genset{\varepsilon_{k+1}, \dots, \varepsilon_n} \subset U^0 \).
+			Conversely, let \( \alpha \in U^0 \).
+			Then \( \alpha = \sum_{i=1}^n \alpha_i \varepsilon_i \).
+			For \( i \leq k \), \( \alpha \in U^0 \) hence \( \alpha(e_i) = 0 \).
+			Hence,
+			\[ \alpha = \sum_{i=k+1}^n \alpha_i \varepsilon_i \]
+			Thus
+			\[ \alpha \in \genset{\varepsilon_{k+1}, \dots, \varepsilon_n} \]
+			as required.
+	\end{enumerate}
+\end{proof}
+
+\subsection{Dual Maps}
+\begin{lemma}
+	Let \( V, W \) be \( F \)-vector spaces.
+	Let \( \alpha \in L(V,W) \).
+	Then there exists a unique \( \alpha^\star \in L(W^\star, V^\star) \) such that
+	\[ \varepsilon \mapsto \varepsilon \circ \alpha \]
+	called the dual map.
+\end{lemma}
+\begin{proof}
+	First, note \( \varepsilon(\alpha) \colon V \to F \) is a linear map.
+	Hence, \( \varepsilon \circ \alpha \in V^\star \).
+	Now we must show \( \alpha^\star \) is linear.
+	\[ \alpha^\star(\theta_1 + \theta_2) = (\theta_1 + \theta_2)(\alpha) = \theta_1 \circ \alpha + \theta_2 \circ \alpha = \alpha^\star(\theta_1) + \alpha^\star(\theta_2) \]
+	Similarly, we can show
+	\[ \alpha^\star(\lambda \theta) = \lambda \alpha^\star(\theta) \]
+	as required.
+	Hence \( \alpha^\star \in L(W^\star, V^\star) \).
+\end{proof}
+\begin{proposition}
+	Let \( V, W \) be finite-dimensional \( F \)-vector spaces with bases \( B, C \) respectively.
+	Then
+	\[ [\alpha^\star]_{C^\star, B^\star} = [\alpha]^\transpose_{B, C} \]
+	Thus, we can think of the dual map as the \textit{adjoint} of \( \alpha \).
+\end{proposition}
+\begin{proof}
+	This follows from the definition of the dual map.
+	Let \( B = (b_1, \dots, b_n) \), \( C = (c_1, \dots, c_m) \), \( B^\star = (\beta_1, \dots, \beta_n) \), \( C^\star = (\gamma_1, \dots, \gamma_m) \).
+	Let \( [\alpha]_{B,C} = (a_{ij}) \).
+	Then, we compute
+	\begin{align*}
+		\alpha^\star(\gamma_r)(b_s) &= \gamma_r \circ \alpha(b_s) \\
+		&= \gamma_r \qty( \sum_t a_{ts} c_t ) \\
+		&= \sum_t a_{ts} \gamma_r(c_t) \\
+		&= \sum_t a_{ts} \delta_{tr} \\
+		&= a_{rs}
+	\end{align*}
+	We can conversely write \( [\alpha^\star]_{C^\star, B^\star} = (m_{ij}) \) and
+	\begin{align*}
+		\alpha^\star(\gamma_r) &= \sum_{i=1}^n m_{ir} \beta_i \\
+		\alpha^\star(\gamma_r)(b_s) &= \sum_{i=1}^n m_{ir} \beta_i(b_s) \\
+		&= \sum_{i=1}^n m_{ir} \delta_{is} \\
+		&= m_{sr}
+	\end{align*}
+	Thus,
+	\[ a_{rs} = m_{sr} \]
+	as required.
+\end{proof}
