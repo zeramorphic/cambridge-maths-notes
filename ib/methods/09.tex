@@ -1,0 +1,59 @@
+\subsection{Asymptotic Behaviour of Bessel Functions}
+If \( z \) is small, the leading-order behaviour of \( J_m(z) \) is
+\begin{align*}
+    J_0(z) &\approx 1 \\
+    J_m(z) &\approx \frac{1}{m!} \qty(\frac{z}{2})^m
+\end{align*}
+Now, let us consider large \( z \).
+In this case, the function becomes oscillatory;
+\[ J_m(z) \approx \sqrt{\frac{2}{\pi z}} \cos(z - \frac{m \pi}{2} - \frac{\pi}{4}) \]
+
+\subsection{Zeroes of Bessel Functions}
+We can see from the asymptotic behaviour that there are infinitely many zeroes of the Bessel functions of the first kind as \( z \to \infty \).
+We define \( j_{mn} \) to be the \( n \)th zero of \( J_m \), for \( z > 0 \).
+Approximately,
+\[ \cos(z - \frac{m \pi}{2} - \frac{\pi}{4}) = 0 \implies z - \frac{m \pi}{2} - \frac{\pi}{4} = n \pi - \frac{\pi}{2} \]
+Hence
+\[ z \approx n \pi + \frac{m \pi}{2} - \frac{\pi}{4} \equiv \widetilde j_{mn} \]
+
+\subsection{Solving the Vibrating Drum}
+Recall that the radial solutions become
+\[ R_m(z) = R_m(\sqrt{\lambda} x) = A J_m(\sqrt{\lambda} x) + B Y_m(\sqrt{\lambda} x) \]
+Imposing the boundary condition of boundedness at \( r = 0 \), we must have \( B = 0 \).
+Further imposing \( r = 1 \) and \( R = 0 \) gives \( J_m(\sqrt{\lambda}) = 0 \).
+These zeroes occur at \( j_{mn} \approx n \pi + \frac{m \pi}{2} - \frac{\pi}{4} \).
+Hence, the eigenvalues must be \( j^2_{mn} \).
+Therefore, the spatial solution is
+\[ V_{mn}(r, \theta) = \Theta_m(\theta) R_{mn}(\sqrt{\lambda_{mn}} r) = (A_{mn} \cos m \theta + B_{mn} \sin m \theta) J_m (j_{mn} r) \]
+The temporal solution is
+\[ \ddot T = -\lambda c T \implies T_{mn}(t) = \cos(j_{mn} ct), \sin(j_{mn} ct) \]
+Combining everything together, the full solution is
+\begin{align*}
+    u(r,\theta,t) &= \sum_{n=1}^\infty J_0(j_{0n} r) \qty( A{0n}\cos j_{0n}ct + C_{0n}\sin j_{0n}ct ) \\
+    &+ \sum_{m=1}^\infty \sum_{n=1}^\infty J_m (j_{mn}r) \qty( A_{mn} \cos m \theta + B_{mn} \sin m\theta ) \cos j_{mn} ct \\
+    &+ \sum_{m=1}^\infty \sum_{n=1}^\infty J_m (j_{mn}r) \qty( C_{mn} \cos m \theta + D_{mn} \sin m\theta ) \sin j_{mn} ct
+\end{align*}
+Now, we impose the boundary conditions
+\[ u(r,\theta,0) = \phi(r,\theta) = \sum_{m=0}^\infty \sum_{n=1}^\infty J_m (j_{mn}r) \qty( A_{mn} \cos m \theta + B_{mn} \sin m\theta ) \]
+and
+\[ \pdv{u}{t}\qty(r,\theta,0) = \psi(r,\theta) = \sum_{m=0}^\infty \sum_{n=1}^\infty j_{mn} c J_m (j_{mn}r) \qty( C_{mn} \cos m \theta + D_{mn} \sin m\theta ) \]
+We need to find the coefficients by multiplying by \( J_m, \cos, \sin \) and using the orthogonality relations, which are
+\[ \int_0^1 J_m(j_{mn} r) J_m(j_{mk} r) r \dd{r} = \frac{1}{2}\qty[J_m'(j_{mn})]^2 \delta_{nk} = \frac{1}{2}\qty[J_{m+1}(j_{mn})]^2 \delta_{nk} \]
+by using a recursion relation of the Bessel functions.
+We can then integrate to obtain the coefficients \( A_{mn} \).
+\[ \int_0^{2\pi} \dd{\theta} \cos p\theta \int_0^1 r \dd{r} J_p(j_{pq} r) \phi(r,\theta) = \frac{\pi}{2}\qty[J_{p+1}(j_{pq})]^2 A_{pq} \]
+where the \( \frac{\pi}{2} \) coefficient is \( 2\pi \) for \( p = 0 \).
+We can find analogous results for the \( B_{mn}, C_{mn}, D_{mn} \).
+\begin{example}
+    Consider an initial radial profile \( u(r,\theta,0) = \phi(r) = 1 - r^2 \).
+    Then, \( m = 0, B_{mn} = 0 \) for all \( m \) and \( A_{mn} = 0 \) for all \( m \neq 0 \).
+    Then
+    \[ \pdv{u}{t}\qty(r,0,0) = 0 \]
+    hence \( C_{mn}, D_{mn} = 0 \).
+    We just now need to find
+    \[ A_{0n} = \frac{2}{J_0(j_{0n})^2} \int_0^1 J_0(j_{0n}r)(1-r)^2 r\dd{r} = \frac{2}{J_0(j_{0n})^2} \frac{J_2(j_{0n})}{j_{0n}^2} \approx \frac{J_2(j_{0n})}{n} \text{ as } n \to \infty \]
+    Then the approximate solution is
+    \[ u(r,\theta,t) = \sum_{n=1}^\infty A_{0n} J_0(j_{0n}r)\cos j_{0n} ct \]
+    The fundamental frequency is \( \omega_d = j_{01} c \frac{2}{d} \approx 4.8\frac{c}{d} \) where \( d \) is the diameter of the drum.
+    Comparing this to a string with length \( d \), this has a fundamental frequency of \( \omega_s = \frac{\pi c}{d} \approx 0.77 \omega_d \).
+\end{example}

@@ -1,7 +1,9 @@
 \subsection{Conserved Probability Current}
 We have proven that the normalisation of wavefunctions are constant in time.
 Hence, we can derive the probability conservation law:
-\[ \pdv{\rho}{t}(x,t) + \div{J} = 0;\quad J(x,t) = \frac{-i\hbar}{2m} \qty(\psi^\star \grad{\psi} - \psi \grad{\psi^\star} ) \]
+\[
+	\pdv{\rho}{t}(x,t) + \div{J} = 0;\quad J(x,t) = \frac{-i\hbar}{2m} \qty(\psi^\star \grad{\psi} - \psi \grad{\psi^\star} )
+\]
 This is the conserved probability current.
 
 \subsection{Expectation and Operators}
@@ -11,7 +13,9 @@ Given the wavefunction, we would like to extract some information about the part
 \end{definition}
 \begin{definition}
 	An \textit{operator} is any linear map \( \mathcal H \to \mathcal H \) such that
-	\[ \hat O(a_1 \psi_1 + a_2 \psi_2) = a_1 \hat O(\psi_1) + a_2 \hat O(\psi_2) \]
+	\[
+		\hat O(a_1 \psi_1 + a_2 \psi_2) = a_1 \hat O(\psi_1) + a_2 \hat O(\psi_2)
+	\]
 	where \( a_1, a_2 \in \mathbb C, \psi_1, \psi_2 \in \mathcal H \).
 \end{definition}
 \noindent In quantum mechanics, each observable is represented by an operator acting on the state \( \psi \).
@@ -19,80 +23,116 @@ Each measurement is represented by an expectation value of the operator.
 In comparison, in linear algebra we would often use a linear transformation for a similar purpose.
 Once we have a basis for a linear transformation, we have a matrix.
 In quantum mechanics, we use the \( x \) basis, so we can write
-\[ \widetilde \psi = (\hat O)(x, t) \]
+\[
+	\widetilde \psi = (\hat O)(x, t)
+\]
 \begin{example}
 	Consider the class of finite differential operators
-	\[ \sum_{n=0}^N p_n(x) \pdv[n]{x} \]
+	\[
+		\sum_{n=0}^N p_n(x) \pdv[n]{x}
+	\]
 	This includes, for example, position, momentum, and energy.
 \end{example}
 \begin{example}
 	A translation is an operator:
-	\[ s_a \colon \psi(x) \mapsto \psi(x-a) \]
+	\[
+		s_a \colon \psi(x) \mapsto \psi(x-a)
+	\]
 \end{example}
 \begin{example}
 	The parity operator is
-	\[ P \colon \psi(x) \mapsto \psi(-x) \]
+	\[
+		P \colon \psi(x) \mapsto \psi(-x)
+	\]
 \end{example}
 
 \subsection{Dynamical Observables}
 In general, to calculate the expectation value of an observable, we place the operator between \( \psi^\star \) and \( \psi \) and integrate over the whole space.
 From the probabilistic interpretation of the Born rule, the position of the particle can be interpreted as
-\[ \inner{x} = \int_{-\infty}^{+\infty} x \abs{\psi(x,t)}^2 \dd{x} = \int_{-\infty}^{+\infty} \psi^\star x \psi \dd{x} \]
+\[
+	\inner{x} = \int_{-\infty}^{+\infty} x \abs{\psi(x,t)}^2 \dd{x} = \int_{-\infty}^{+\infty} \psi^\star x \psi \dd{x}
+\]
 Hence, we can write the coefficient \( x \) as the operator \( \hat x \).
 Now, consider the momentum.
 By considering the time-dependent Schr\"odinger equation with \( U = 0 \), and then integrating by parts,
 \begin{align*}
-	\inner{p} &= m \dv{t} \inner{x} \\
-	&= m \dv{t} \int_{-\infty}^{+\infty} x \psi^\star \psi \dd{x} \\
-	&= m \int_{-\infty}^{+\infty} x \pdv{t} \qty( \psi^\star \psi ) \dd{x} \\
-	&= m \cdot \frac{i \hbar}{2m} \int_{-\infty}^{+\infty} x \pdv{x}\qty( \psi^\star \pdv{\psi}{x} - \psi \pdv{\psi^\star}{x} ) \dd{x} \\
-	&= \frac{-i \hbar}{2} \int_{-\infty}^{+\infty} x \pdv{x}\qty( \psi^\star \pdv{\psi}{x} - \psi \pdv{\psi^\star}{x} ) \dd{x} \\
-	&= \frac{-i \hbar}{2} \int_{-\infty}^{+\infty} \qty( \psi^\star \pdv{\psi}{x} - \psi \pdv{\psi^\star}{x} ) \dd{x} \\
-	&= -i \hbar \int_{-\infty}^{+\infty} \psi^\star \pdv{\psi}{x} \dd{x} \\
-	&= \int_{-\infty}^{+\infty} \psi^\star \qty(-i \hbar \pdv{x} ) \pdv{\psi}{x} \dd{x}
+	\inner{p} & = m \dv{t} \inner{x}                                                                                                              \\
+	          & = m \dv{t} \int_{-\infty}^{+\infty} x \psi^\star \psi \dd{x}                                                                      \\
+	          & = m \int_{-\infty}^{+\infty} x \pdv{t} \qty( \psi^\star \psi ) \dd{x}                                                             \\
+	          & = m \cdot \frac{i \hbar}{2m} \int_{-\infty}^{+\infty} x \pdv{x}\qty( \psi^\star \pdv{\psi}{x} - \psi \pdv{\psi^\star}{x} ) \dd{x} \\
+	          & = \frac{-i \hbar}{2} \int_{-\infty}^{+\infty} x \pdv{x}\qty( \psi^\star \pdv{\psi}{x} - \psi \pdv{\psi^\star}{x} ) \dd{x}         \\
+	          & = \frac{-i \hbar}{2} \int_{-\infty}^{+\infty} \qty( \psi^\star \pdv{\psi}{x} - \psi \pdv{\psi^\star}{x} ) \dd{x}                  \\
+	          & = -i \hbar \int_{-\infty}^{+\infty} \psi^\star \pdv{\psi}{x} \dd{x}                                                               \\
+	          & = \int_{-\infty}^{+\infty} \psi^\star \qty(-i \hbar \pdv{x} ) \pdv{\psi}{x} \dd{x}
 \end{align*}
 So the operator \( \hat p \) is \( -i \hbar \pdv{x} \).
 Given \( x \) and \( p \), we can write many classical dynamical observables.
 The classical notion is written in parentheses.
 The symbol \( \mapsto \) is used instead of equality since we are representing the observable in the \( x \) basis.
 \begin{align*}
-	\hat x &\mapsto x \\
-	\hat p &\mapsto -i\hbar \pdv{x} \\
-	\qty(T = \frac{p^2}{2m})\quad \hat T &\mapsto \frac{\hat p^2}{2m} = \frac{-\hbar^2}{2m} \pdv[2]{x} \\
-	\hat U &\mapsto U(\hat x) = U(x)
+	\hat x                               & \mapsto x                                                    \\
+	\hat p                               & \mapsto -i\hbar \pdv{x}                                      \\
+	\qty(T = \frac{p^2}{2m})\quad \hat T & \mapsto \frac{\hat p^2}{2m} = \frac{-\hbar^2}{2m} \pdv[2]{x} \\
+	\hat U                               & \mapsto U(\hat x) = U(x)
 \end{align*}
 
 \subsection{Hamiltonian Operator}
 The total energy is
-\[ E = T + U \]
+\[
+	E = T + U
+\]
 given by the Hamiltonian operator
-\[ \hat H = \hat T + \hat U \]
+\[
+	\hat H = \hat T + \hat U
+\]
 In one dimension,
-\[ \hat H \mapsto \frac{-\hbar^2}{2m} \pdv[2]{\psi}{x} + U(x) \]
+\[
+	\hat H \mapsto \frac{-\hbar^2}{2m} \pdv[2]{\psi}{x} + U(x)
+\]
 In three dimensions,
-\[ \hat H \mapsto \frac{-\hbar^2}{2m} \laplacian \psi + U(x) \]
+\[
+	\hat H \mapsto \frac{-\hbar^2}{2m} \laplacian \psi + U(x)
+\]
 We can now represent the time-dependent Schr\"odinger equation in a more compact form:
-\[ i\hbar \pdv{\psi}{t} = \hat H \psi \]
+\[
+	i\hbar \pdv{\psi}{t} = \hat H \psi
+\]
 We can now prove that for a particle in a potential \( U(x) \neq 0 \),
-\[ \dv{t} \inner{p} = -\inner{\pdv{U}{x}} \]
+\[
+	\dv{t} \inner{p} = -\inner{\pdv{U}{x}}
+\]
 
 \subsection{Time-Independent Schr\"odinger Equation}
 From the time-dependent version of the equation,
-\[ i\hbar \pdv{\psi}{t} = \hat H \psi \]
+\[
+	i\hbar \pdv{\psi}{t} = \hat H \psi
+\]
 we can try a solution of the form
-\[ \psi(x,t) = T(t) \chi(x) \]
+\[
+	\psi(x,t) = T(t) \chi(x)
+\]
 Then, we can find
-\[ i \hbar \pdv{T(t)}{t} \chi(x) = T(t) \hat H \chi(x) \]
+\[
+	i \hbar \pdv{T(t)}{t} \chi(x) = T(t) \hat H \chi(x)
+\]
 Then, dividing by \( T \chi \),
-\[ \frac{1}{T(t)} \qty(i \hbar \pdv{T}{t}) = \frac{\hat H \chi(x)}{\chi} \]
+\[
+	\frac{1}{T(t)} \qty(i \hbar \pdv{T}{t}) = \frac{\hat H \chi(x)}{\chi}
+\]
 Since both the left and right hand sides depend on \( x, t \), they must be equal to a separation constant \( E \in \mathbb R \).
 Solving for time,
-\[ \frac{1}{T} i \hbar \pdv{T}{t} = E \implies T(t) = e^{\frac{-i Et}{\hbar}} \]
+\[
+	\frac{1}{T} i \hbar \pdv{T}{t} = E \implies T(t) = e^{\frac{-i Et}{\hbar}}
+\]
 If \( E \) were complex, \( T \) would diverge.
 Solving for space, we have the time-independent Schr\"odinger equation as follows.
-\[ \hat H \chi(x) = E \chi(x) \]
+\[
+	\hat H \chi(x) = E \chi(x)
+\]
 Explicitly,
-\[ -\frac{\hbar^2}{2m} \laplacian{\psi(x)} + U(x) \chi(x) = E \chi(x) \]
+\[
+	-\frac{\hbar^2}{2m} \laplacian{\psi(x)} + U(x) \chi(x) = E \chi(x)
+\]
 This is an eigenvalue equation for \( \hat H \); we wish to find the eigenvalues for \( \hat H \) in the \( x \) basis.
 Note that the factorised solution \( \psi = T \chi \) is just a particular class of solutions for the time-dependent Schr\"odinger equation.
 However, it can be shown that any solution to the time-dependent equation can be written as a linear combination of the time-independent equation solutions.

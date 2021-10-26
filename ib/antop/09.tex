@@ -1,0 +1,132 @@
+\subsection{Completeness}
+\begin{definition}
+    A metric space \( M \) is called \textit{complete} if every Cauchy sequence in \( M \) converges in \( M \).
+\end{definition}
+\begin{example}
+    \( \mathbb R, \mathbb C \) are complete.
+\end{example}
+\begin{proposition}
+    Product spaces of complete spacees are complete.
+    More precisely, if \( M, M' \) are complete, then so is \( M \oplus_p M' \).
+\end{proposition}
+\begin{proof}
+    Let \( (a_n) \) be a Cauchy sequence in the product space \( M \oplus_p M' \).
+    We will write \( a_n = (x_n, x_n') \) for all \( n \).
+    Then, since \( (a_n) \) is Cauchy,
+    \[ \forall \varepsilon > 0, \exists N \in \mathbb N, \forall m,n \in N, d_p(a_m, a_n) < \varepsilon \]
+    Then, for all \( m, n \geq N \),
+    \[ d(x_m,x_n) \leq \max\qty{d(x_m,x_n), d(x_m', x_n')} \leq d_p(a_m,a_n) < \varepsilon \]
+    Hence \( (x_n) \) is Cauchy in \( M \), and similarly \( (x_m') \) is Cauchy in \( M' \).
+    Since \( M, M' \) are complete, \( (x_n), (x_n') \) are convergent in \( M, M' \) to \( x, x' \).
+    Now, let \( a = (x,x') \).
+    Then,
+    \[ d_p(a_n,a) \leq d_1(a_n,a) = d(x_n,x) + d(x_n',x') \to 0 \]
+    So the product space is complete.
+\end{proof}
+\begin{remark}
+    \( (a_n) \) is Cauchy in \( M \oplus_p M' \) if and only if \( (x_n) \) is Cauchy in \( M \) and \( (x_n') \) is Cauchy in \( M' \).
+\end{remark}
+\begin{corollary}
+    \( \mathbb R^n, \mathbb C^n \) are complete in the \( \ell_p \) metric.
+    In particular, \( n \)-dimensional real or complex Euclidean space is complete.
+\end{corollary}
+\begin{theorem}
+    Let \( S \) be any set.
+    Then, \( \ell_\infty(S) \), the set of bounded scalar functions on \( S \), is complete in the uniform metric \( D \).
+\end{theorem}
+\begin{proof}
+    Let \( (f_n) \) be a Cauchy sequence in \( \ell_\infty(S) \).
+    Then,
+    \[ \forall \varepsilon > 0, \exists N \in \mathbb N, \forall m,n \geq N, D(x_m, x_n) = \sup_{x \in S} \abs{f_m(x) - f_n(x)} < \varepsilon \]
+    In other words, \( \forall m,n \geq N, \forall x \in S, \abs{f_m(x) - f_n(x)} < \varepsilon \).
+    So \( (f_n) \) is uniformly Cauchy as defined previously.
+    As shown previously, \( (f_n) \) is uniformly convergent.
+    Hence, there is a scalar function \( f \) on \( S \) such that \( f_n \to f \) uniformly on \( S \).
+    We have also shown previously that the uniform limit \( f \) of bounded functions \( (f_n) \) is bounded.
+    In other words, \( f \in \ell_\infty(S) \).
+    Now it remains to show that \( f_n \to f \) in the uniform metric.
+    \[ \forall \varepsilon > 0, \exists N \in \mathbb N, \forall n \geq M, \forall x \in S, \abs{f_n(x) - f(x)} < \varepsilon \]
+    Hence,
+    \[ \forall n \geq N, \sup_{x \in S} \abs{f_n(x) - f(x)} = D(f_n,f) \leq \varepsilon \]
+    which is convergence in the metric as required.
+\end{proof}
+\begin{proposition}
+    Let \( N \) be a subspace of a metric space \( M \).
+    Then,
+    \begin{enumerate}[(i)]
+        \item If \( N \) is complete, \( N \) is closed in \( M \).
+        \item If \( M \) is complete and \( N \) is closed in \( M \), then \( N \) is complete.
+    \end{enumerate}
+    In other words, in a complete metric space, a subspace is complete if and only if it is closed.
+\end{proposition}
+\begin{proof}
+    To prove (i), we let \( (x_n) \) be a sequence in \( N \) and assume that \( x_n \to x \) in \( M \).
+    We want to show that \( x \in N \).
+    We know \( (x_n) \) is convergent in \( M \), so it is Cauchy in \( M \).
+    So \( (x_n) \) is Cauchy in \( N \).
+    Since \( N \) is complete, \( x_n \to y \) in \( N \).
+    So \( x_n \to y \) in \( M \)
+    By uniqueness of limits, \( x = y \) as required.
+
+    Now we want to prove (ii) is complete.
+    Let \( (x_n) \) be a Cauchy sequence in \( N \).
+    Then \( (x_n) \) is Cauchy in \( M \).
+    Since \( M \) is complete, \( x_n \to x \) in \( M \) for some \( x \in M \).
+    Since \( N \) is closed in \( M \), \( x \in N \).
+    So \( x_n \to x \) in \( N \).
+\end{proof}
+\begin{theorem}
+    Let \( (M, d) \) be a metric space, and define \( C_b(M) \) to be the set of functions \( f \) in \( \ell_\infty(M) \) such that \( f \) is continuous.
+    This is a subspace of \( \ell_\infty(M) \) in the uniform metric \( D \).
+    \( C_b(M) \) is complete in the uniform metric.
+\end{theorem}
+\begin{proof}
+    By the above proposition, it is sufficient to show that \( C_b(M) \) is closed in \( \ell_\infty(M) \).
+    Let \( (f_n) \) be a sequence in \( C_b(M) \) and we assume that \( f_n \to f \) in \( \ell_\infty(M) \).
+    We want to show that \( f_n \in C_b(M) \).
+    It is now sufficient to show that \( f \) is continuous, or equivalently, continuous at every point in \( M \).
+    Let \( a \in M \), and let \( \varepsilon > 0 \).
+    Since \( f_n \to f \) in \( \ell_\infty(M) \), we can fix \( n \in \mathbb N \) such that \( F(f_n,f) < \varepsilon \).
+    Since \( f_n \) is continuous (at \( a \)),
+    \[ \exists \delta > 0, \forall x \in M, d(x,a) < \delta \implies \abs{f_n(x) - f_n(a)} < \varepsilon \]
+    Hence, \( \forall x \in M \), if \( d(x,a) < \delta \) we have
+    \[ \abs{f(x) - f(a)} \leq \abs{f(x) - f_n(x)} + \abs{f_n(x) - f_n(a)} + \abs{f_n(a) - f(a)} \leq 2 D(f_n,f) + \abs{f_n(x) - f_n(a)} < 3\varepsilon \]
+\end{proof}
+\begin{corollary}
+    Consider \( C[a,b] \), the space of continuous functions on \( [a,b] \).
+    This space is complete in the uniform metric, since \( C[a,b] = C_b[a,b] \).
+\end{corollary}
+\begin{definition}
+    Let \( S \) be a set, and \( (N,e) \) be a metric space.
+    Then we generalise \( \ell_\infty(S) \) to the following definition.
+    \[ \ell_\infty(S,N) = \qty{f \colon S \to N \colon f \text{ is bounded}} \]
+    where \( f \) is bounded if there exists \( y \in M, r > 0 \) such that \( \forall x \in S, f(x) \in \mathcal B_r(y) \).
+    If \( g \colon S \to N \) is a bounded function, \( \forall x \in S, g(x) \in \mathcal B_s(z) \), then
+    \[ \forall x \in S, e(f(x),g(x)) \leq e(f(x),y) + e(y,z) + e(z,g(x)) \leq r + e(y,z) + s \]
+    This is a uniform bound for all \( x \), so we may take the supremum.
+    So \( \sup_{x \in S} e(f(x), g(x)) \) exists and we denote this by
+    \[ \mathcal D(f,g) = \sup_{x \in S} e(f(x), g(x)) \]
+    This can be shown to be a metric, called the uniform metric on \( \ell_\infty(S,N) \).
+    Now, let \( S = M \), where \( (M,d) \) is a metric space.
+    We define
+    \[ C_b(M, N) = \qty{f \colon M \to N \colon f \text{ continuous and bounded}} \]
+    Note that \( C_b(M,N) \) is a subspace of \( \ell_\infty(M,N) \) with the uniform metric.
+\end{definition}
+\begin{theorem}
+    Let \( S \) be a set, let \( (M,d) \) be a metric space, and let \( (N,e) \) be a complete metric space.
+    Then
+    \begin{enumerate}[(i)]
+        \item \( \ell_\infty(S,N) \) is complete in the uniform metric \( D \);
+        \item \( C_b(M,N) \) is complete in the uniform metric \( D \).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    We first prove part (i).
+    Let \( (f_n) \) be a Cauchy sequence in \( \ell_\infty(S, N) \).
+    We first show that \( (f_n) \) is pointwise Cauchy.
+    Let \( x \in S \).
+    \[ \forall \varepsilon > 0, \exists K \in \mathbb N, \forall i,j \geq K, D(f_i, f_j) < \varepsilon \]
+    In particular, \( e(f_i(x), f_j(x)) \leq D(f_i,f_j) < \varepsilon \) for \( i,j \geq K \).
+    So the sequence \( (f_k(x))_k \) is Cauchy in \( N \).
+    Since \( N \) is complete, \( (f_k(x))_k \) converges...
+\end{proof}
