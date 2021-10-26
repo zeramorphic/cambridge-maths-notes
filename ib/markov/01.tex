@@ -26,7 +26,7 @@ It is a stochastic matrix:
 \begin{remark}
 	The index set does not need to be \( \mathbb N \); it could alternatively be \( \qty{0,1,\dots,N} \) for \( N \in \mathbb N \).
 \end{remark}
-We say that \( X \) is \(\Markov{\lambda, P}\) if \( X_0 \) has distribution \(\lambda\), and P is the transition matrix.
+\noindent We say that \( X \) is \(\Markov{\lambda, P}\) if \( X_0 \) has distribution \(\lambda\), and P is the transition matrix.
 Hence,
 \begin{enumerate}[(i)]
 	\item \( \prob{X_0 = x_0} = \lambda_{x_0} \)
@@ -45,7 +45,8 @@ Directed edges between nodes are labelled with their transition probabilities.
 \begin{proof}
 	If \( X \) is Markov, then we have
 	\begin{align*}
-		\prob{X_0 = x_0, \dots, X_n = x_n} & = \prob{X_n = x_n \mid X_{n-1} = x_{n-1}, \dots, X_0 = x_0} \prob{X_{n-1} = x_{n-1}, \dots, X_0 = x_0} \\
+		\prob{X_0 = x_0, \dots, X_n = x_n} & = \prob{X_n = x_n \mid X_{n-1} = x_{n-1}, \dots, X_0 = x_0} \\
+		&\cdot \prob{X_{n-1} = x_{n-1}, \dots, X_0 = x_0} \\
 		                                   & = P(x_{n-1}, x_n) \prob{X_{n-1} = x_{n-1}, \dots, X_0 = x_0}                                           \\
 		                                   & = P(x_{n-1}, x_n) \dots P(x_0, x_1) \lambda_{x_0}
 	\end{align*}
@@ -53,7 +54,7 @@ Directed edges between nodes are labelled with their transition probabilities.
 	Conversely, \( \prob{X_0 = x_0} = \lambda_{x_0} \) satisfies (i).
 	The transition matrix is given by
 	\[
-		\prob{X_n = x_n \mid previous} = \frac{\lambda_{x_0} P(x_0, x_1) \dots P(x_{n-1}, x_n)}{\lambda_{x_0} P(x_0, x_1) \dots P(x_{n-2}, x_{n-1})} = P(x_{n-1}, x_n)
+		\prob{X_n = x_n \mid X_0 = x_0, \dots, X_{n-1} = x_{n-1}} = \frac{\lambda_{x_0} P(x_0, x_1) \dots P(x_{n-1}, x_n)}{\lambda_{x_0} P(x_0, x_1) \dots P(x_{n-2}, x_{n-1})} = P(x_{n-1}, x_n)
 	\]
 	which is exactly the Markov property as required.
 \end{proof}

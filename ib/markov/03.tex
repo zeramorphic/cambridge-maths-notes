@@ -1,4 +1,4 @@
-\subsection{???}
+\subsection{Example of Powers of Transition Matrix}
 \begin{example}
 	Let
 	\[
@@ -47,7 +47,7 @@
 	Now we show (ii) and (iii) are equivalent.
 	We can write
 	\[
-		p_{xy}(n) = \sum_{x_1, \dots, x_{n-1}} P(x, x_1), \dots, P(x_{n-1}, y)
+		p_{xy}(n) = \sum_{x_1, \dots, x_{n-1}} P(x, x_1) \dots P(x_{n-1}, y)
 	\]
 	which leads directly to the equivalence of (ii) with (iii).
 \end{proof}
@@ -83,7 +83,7 @@
 	\]
 	The \textit{mean hitting time} of \( A \) is \( k^A \colon I \to [0,\infty] \), defined by
 	\[
-		k_i^A = \esub{i}{T_A} = \sum{n=0}^\infty n \psub{i}{T_A = n} + \infty \psub{i}{T_A = \infty}
+		k_i^A = \esub{i}{T_A} = \sum_{n=0}^\infty n \psub{i}{T_A = n} + \infty \psub{i}{T_A = \infty}
 	\]
 \end{definition}
 \begin{example}
@@ -143,13 +143,17 @@
 	\]
 	By countable additivity,
 	\begin{align*}
-		\psub{i}{T_A < \infty} = \underbrace{\psub{i}{X_0 \in A}}_{=0} + \sum_{n=1}^\infty \psub{i}{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A}                               \\
+		\psub{i}{T_A < \infty} & = \underbrace{\psub{i}{X_0 \in A}}_{=0} + \sum_{n=1}^\infty \psub{i}{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A}                               \\
 		 & = \sum_{n=1}^\infty \sum_j \prob{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A, X_1 \in j \mid X_0 = i}                                                               \\
-		 & = \sum_j \prob{X_1 \in A, X_1 = j \mid X_0 = i} + \sum_{n=2}^\infty \sum_j \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A, X_1 \in j \mid X_0 = i}               \\
-		 & = \sum_j P(i,j) \prob{X_1 \in A \mid X_1 = j, X_0 = i} + \sum_j P(i,j) \sum_{n=2}^\infty \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A \mid X_1 \in j, X_0 = i} \\
+		 & = \sum_j \prob{X_1 \in A, X_1 = j \mid X_0 = i} \\
+		 & + \sum_{n=2}^\infty \sum_j \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A, X_1 \in j \mid X_0 = i}               \\
+		 & = \sum_j P(i,j) \prob{X_1 \in A \mid X_1 = j, X_0 = i} \\
+		 & + \sum_j P(i,j) \sum_{n=2}^\infty \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A \mid X_1 \in j, X_0 = i} \\
 		\intertext{By the definition of the Markov chain, we can drop the condition on \( X_0 \), and subtract one from all indices.}
-		 & = \sum_j P(i,j) \prob{X_0 \in A \mid X_0 = j} + \sum_j P(i,j) \sum_{n=2}^\infty \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A \mid X_1 \in j}                   \\
-		 & = \sum_j P(i,j) \prob{X_0 \in A \mid X_0 = j} + \sum_j P(i,j) \sum_{n=2}^\infty \psub{j}{X_0 \not\in A, \dots, X_{n-2} \not\in A, X_{n-1} \in A}                           \\
+		 & = \sum_j P(i,j) \prob{X_0 \in A \mid X_0 = j} \\
+		 & + \sum_j P(i,j) \sum_{n=2}^\infty \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A \mid X_1 \in j}                   \\
+		 & = \sum_j P(i,j) \prob{X_0 \in A \mid X_0 = j} \\
+		 & + \sum_j P(i,j) \sum_{n=2}^\infty \psub{j}{X_0 \not\in A, \dots, X_{n-2} \not\in A, X_{n-1} \in A}                           \\
 		 & = \sum_j P(i,j) \qty( \psub{j}{X_0 \in A} + \sum_{2}^\infty \psub{j}{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A} )                                                 \\
 		 & = \sum_j P(i,j) \qty( \psub{j}{T_A = 0} + \sum_{n=1}^\infty \psub{j}{T_A = n} )                                                                                            \\
 		 & = \sum_j P(i,j) \psub{j}{T_A < \infty}                                                                                                                                     \\
@@ -166,9 +170,11 @@
 		x_i = \sum_{j \in A} P(i,j) x_j + \sum_{j \not\in A} P(i,j) \qty( \sum_{k \in A} P(j,k) + \sum{k \not\in A} P(j,k) x_k )
 	\]
 	Then
-	\[
-		x_i = \sum_{j_1 \in A} P(i,j_1) + \sum_{j_1 \not\in A} \sum_{j_2 \in A} P(i,j_1)P(j_1,j_2) + \dots + \sum_{j_1 \not\in A, \dots, j_{n-1} \not\in A, j_n \in A} P(i,j_1)\dots P(j_{n-1},j_n) + \sum_{j_1 \not\in A \dots, j_n \not\in A} P(i,j_1)\dots P(j_{n-1},j_n) x_{j_n}
-	\]
+	\begin{align*}
+		x_i &= \sum_{j_1 \in A} P(i,j_1) + \sum_{j_1 \not\in A} \sum_{j_2 \in A} P(i,j_1)P(j_1,j_2) + \cdots \\
+		&+ \sum_{j_1 \not\in A, \dots, j_{n-1} \not\in A, j_n \in A} P(i,j_1)\dots P(j_{n-1},j_n) \\
+		&+ \sum_{j_1 \not\in A \dots, j_n \not\in A} P(i,j_1)\dots P(j_{n-1},j_n) x_{j_n}
+	\end{align*}
 	The last term is non-negative since \( x \) is non-negative.
 	So
 	\[

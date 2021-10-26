@@ -17,7 +17,7 @@
 	\]
 	The numerator is
 	\begin{align*}
-		\prob{X_{m+n}, \dots, X_m = x_m} = \sum_{x_0, \dots, x_{m-1} \in I} \prob{X_{m+n} = x_{m+n}, \dots, X_m = x_m, X_{m-1} = x_{m-1}, \dots, X_0 = x_0} \\
+		\prob{X_{m+n}, \dots, X_m = x_m} &= \sum_{x_0, \dots, x_{m-1} \in I} \prob{X_{m+n} = x_{m+n}, \dots, X_m = x_m, X_{m-1} = x_{m-1}, \dots, X_0 = x_0} \\
 		 & = \sum_{x_0, \dots, x_{m-1}} \lambda_{x_0} P(x_0, x_1) \dots P(x_{m-1}, x_m) P(x_m, x_{m+1}) \dots P(x_{m+n-1}, x_{m+n})                         \\
 		 & = P(x_m, x_{m+1}) \dots P(x_{m+n-1}, x_{m+n}) \sum_{x_0, \dots, x_{m-1}} \lambda_{x_0} P(x_0, x_1) \dots P(x_{m-1}, x_m)                         \\
 		 & = P(x_m, x_{m+1}) \dots P(x_{m+n-1}, x_{m+n}) \prob{X_m = x_m}                                                                                   \\
@@ -27,11 +27,12 @@
 		\prob{X_{m+n} = x_{m+n}, \dots, X_m = x_m \mid X_m = i}
 		= P(x_m, x_{m+1}) \dots P(x_{m+n-1}, x_{m+n}) \delta_{i x_m}
 	\]
-	Hence \( (X_{m+n})_{n \geq 0} \sim \Markov(\delta_i, P) \) conditional on \( X_m = i \).
+	Hence \( (X_{m+n})_{n \geq 0} \sim \Markov{\delta_i, P} \) conditional on \( X_m = i \).
 	Now it suffices to show independence between the past and future variables.
 	In particular, we need to show \( m \leq i_1 < \dots < i_k \) for some \( k \in \mathbb N \) implies that
 	\begin{align*}
-		\prob{X_{i_1} = x_{m+1}, \dots, X_{i_k} = x_{m+k}, X_0 = x_0, \dots, X_m = x_m \mid X_m = i} & = \prob{X_{i_1} = x_{m+1}, \dots, X_{i_k} = x_{m+k} \mid X_m = i} \prob{X_0 = x_0, \dots, X_m = x_m \mid X_m = i}                          \\
+		&\prob{X_{i_1} = x_{m+1}, \dots, X_{i_k} = x_{m+k}, X_0 = x_0, \dots, X_m = x_m \mid X_m = i} \\
+		& = \prob{X_{i_1} = x_{m+1}, \dots, X_{i_k} = x_{m+k} \mid X_m = i} \prob{X_0 = x_0, \dots, X_m = x_m \mid X_m = i}                          \\
 		\intertext{So let \( i = x_m \), and then}
 		                                                                                             & = \frac{\prob{X_{i_1} = x_{m+1}, \dots, X_{i_k} = x_{m+k}, X_0 = x_0, \dots, X_m = x_m}}{\prob{X_m = i}}                                   \\
 		                                                                                             & = \frac{\lambda_{x_0} P(x_0, x_1) \dots P(x_{m-1}, x_m) \prob{X_{i_1} = x_{m+1}, \dots, X_{i_k} = x_{m+k} \mid X_m = x_m}}{\prob{x_m = i}} \\
@@ -41,7 +42,7 @@
 \end{proof}
 
 \subsection{Powers of the Transition Matrix}
-Suppose \( X \sim \Markov(\lambda, P) \) with values in \( I \).
+Suppose \( X \sim \Markov{\lambda, P} \) with values in \( I \).
 If \( I \) is finite, then \( P \) is an \( \abs{I} \times \abs{I} \) square matrix.
 In this case, we can label the states as \( 1, \dots, \abs{I} \).
 If \( I \) is infinite, then we label the states using the natural numbers \( \mathbb N \).
@@ -98,7 +99,7 @@ We have therefore proven the following theorem.
 			1                                                                               & \alpha + \beta = 0\end{cases}
 	\]
 \end{example}
-The general procedure for finding \( P^n \) is as follows.
+\noindent The general procedure for finding \( P^n \) is as follows.
 Suppose that \( P \) is a \( k \times k \) matrix.
 Then let \( \lambda_1, \dots, \lambda_k \) be its eigenvalues (which may not be all distinct).
 \begin{enumerate}[(1)]

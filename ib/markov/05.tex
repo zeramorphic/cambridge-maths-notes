@@ -1,7 +1,7 @@
 \subsection{Strong Markov Property}
 The simple Markov property shows that, if \( X_m = i \),
 \[
-	X_{m + n} \sim \Markov(\delta_i, P)
+	X_{m + n} \sim \Markov{\delta_i, P}
 \]
 and this is independent of \( X_0, \dots, X_m \).
 The strong Markov property will show that the same property holds when we replace \( m \) with a finite random `time' variable.
@@ -24,27 +24,31 @@ It is not the case that \textit{any} random variable will work; indeed, an \( m 
 	Let \( X \sim \Markov(\lambda, P) \) and \( T \) be a stopping time.
 	Conditional on \( T < \infty \) and \( X_T = i \),
 	\[
-		\qty(X_{n + T})_{n \geq 0} \sim \Markov(\delta_i, P)
+		\qty(X_{n + T})_{n \geq 0} \sim \Markov{\delta_i, P}
 	\]
 	and this distribution is independent of \( X_0, \dots, X_T \).
 \end{theorem}
 \begin{proof}
 	We need to show that, for all \( x_0, \dots, x_n \) and for all vectors \( w \) of any length,
-	\[
-		\prob{X_T = x_0, \dots, X_{T+n} = x_n, (X_0, \dots, X_T) = w \mid T < \infty, X_T = i} = \delta_{i x_0} P(x_0,x_1) \dots P(x_{n-1}, x_n) \prob{(X_0, \dots, X_T) = w \colon T < \infty, X_T = i}
-	\]
+	\begin{align*}
+		&\prob{X_T = x_0, \dots, X_{T+n} = x_n, (X_0, \dots, X_T) = w \mid T < \infty, X_T = i} \\
+		&= \delta_{i x_0} P(x_0,x_1) \dots P(x_{n-1}, x_n) \prob{(X_0, \dots, X_T) = w \colon T < \infty, X_T = i}
+	\end{align*}
 	Suppose that \( w \) is of the form \( w = (w_0, \dots, w_k) \).
 	Then,
-	\[
-		\prob{X_T = X_0, \dots, X_{T+n} = x_n, (X_0, \dots, X_T) = w \mid T < \infty, X_T = i} = \frac{\prob{X_k = x_0, \dots, X_{k+n} = x_n, (X_0, \dots, X_k)=w, T=k,X_k=i}}{\prob{T < \infty, X_T = i}}
-	\]
+	\begin{align*}
+		&\prob{X_T = X_0, \dots, X_{T+n} = x_n, (X_0, \dots, X_T) = w \mid T < \infty, X_T = i} \\
+		&= \frac{\prob{X_k = x_0, \dots, X_{k+n} = x_n, (X_0, \dots, X_k)=w, T=k,X_k=i}}{\prob{T < \infty, X_T = i}}
+	\end{align*}
 	Now, since \( \qty{T=k} \) depends only on \( X_0, \dots, X_k \), by the simple Markov property we have
-	\[
-		\prob{X_k = x_0, \dots, X_{k+n} = x_n \mid (X_0, \dots, X_k) = w, T = k, X_k = i} = \prob{X_k = x_0, \dots, X_{k+n} = x_n \mid X_k = i} = \delta_{i x_0} P(x_0, x_1) \dots P(x_{n-1}, x_n)
-	\]
+	\begin{align*}
+		&\prob{X_k = x_0, \dots, X_{k+n} = x_n \mid (X_0, \dots, X_k) = w, T = k, X_k = i} \\
+		&= \prob{X_k = x_0, \dots, X_{k+n} = x_n \mid X_k = i} = \delta_{i x_0} P(x_0, x_1) \dots P(x_{n-1}, x_n)
+	\end{align*}
 	Now,
 	\begin{align*}
-		\prob{X_T = x_0, \dots, X_{T+n} = x_n, (X_0, \dots, X_T) = w \mid T < \infty, X_T = i} = \frac{\delta_{i x_0} P(x_0,x_1) \dots P(x_{n-1}, x_n) \prob{(X_0, \dots, X_k) = w \colon T = k, X_k = i}}{\prob{T < \infty, X_T = i}} \\
+		& \prob{X_T = x_0, \dots, X_{T+n} = x_n, (X_0, \dots, X_T) = w \mid T < \infty, X_T = i} \\
+		&= \frac{\delta_{i x_0} P(x_0,x_1) \dots P(x_{n-1}, x_n) \prob{(X_0, \dots, X_k) = w \colon T = k, X_k = i}}{\prob{T < \infty, X_T = i}} \\
 		 & = \delta_{i x_0} P(x_0,x_1) \dots P(x_{n-1}, x_n) \prob{(X_0, \dots, X_T) = w \colon T < \infty, X_T = i}
 	\end{align*}
 	as required.
@@ -99,7 +103,7 @@ It is not the case that \textit{any} random variable will work; indeed, an \( m 
 		\psub{i}{X_n = i \text{ for infinitely many } n} = 0
 	\]
 \end{definition}
-We will prove that any \( i \) is either recurrent or transient.
+\noindent We will prove that any \( i \) is either recurrent or transient.
 \begin{definition}
 	Let \( T_i^{(0)} = 0 \) and inductively define
 	\[
