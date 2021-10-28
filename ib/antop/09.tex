@@ -158,5 +158,38 @@
 	\]
 	In particular, \( e(f_i(x), f_j(x)) \leq D(f_i,f_j) < \varepsilon \) for \( i,j \geq K \).
 	So the sequence \( (f_k(x))_k \) is Cauchy in \( N \).
-	Since \( N \) is complete, \( (f_k(x))_k \) converges...
+	Since \( N \) is complete, \( (f_k(x))_k \) converges.
+	This holds for all \( x \in S \), hence we can define \( f \colon S \to N \) by \( f(x) = \lim_{k \to \infty} f_k(x) \).
+
+	Now, we must show that \( f \) is bounded, such that \( f \in \ell_\infty(S,N) \).
+	Since \( f_k \) is Cauchy in the uniform metric \( D \), there exists \( K \in \mathbb N \) such that \( \forall i,j \geq K \), \( D(f_i,f_j) < 1 \).
+	In particular, for all \( i \geq K \), \( D(f_i,f_K) < 1 \).
+	Since \( f_K \) is bounded, there exists \( y \in N, r > 0 \) such that \( \forall x \in S, f_K(x) \in \mathcal B_r(y) \).
+	Then, by the triangle inequality, for a fixed \( x \in S \), \( \forall i \geq K, e(f_i(x), f_K(x)) \leq D(f_i(x), f_K(x)) < 1 \).
+	Let \( i \to \infty \), then \( e(f_i(x), f_K(x)) \leq 1 \).
+	Hence \( e(f(x),y) \leq e(f(x), f_K(x)) + e(f_K(x),y) \leq 1 + r \).
+	But since this is true for all \( x \), \( 1 + r \) is a uniform bound; \( \forall x \in S, f(x) \in \mathcal B_{r+1}(y) \).
+
+	Now we will show that \( f_k \to f \) uniformly in \( D \).
+	Again, we use
+	\[
+		\forall \varepsilon > 0, \exists K \in \mathbb N, \forall i,j \geq K, D(f_i, f_j) < \varepsilon
+	\]
+	So choose \( i \geq K \), and \( x \in S \).
+	Then for all \( j \geq K \), \( e(f_i(x), f_j(x)) \leq D(f_i, f_j) < \varepsilon \).
+	As \( j \to \infty \), \( e(f(x), f_i(x)) \leq \varepsilon \).
+	But since \( x \) was arbitrary, we have a uniform distance \( D(f, f_i) < \varepsilon \).
+	This holds for all \( i \geq K \), so we have uniform convergence.
+
+	Now we prove part (ii).
+	By part (i) and an above proposition, it is enough to show that \( C_b(M,N) \) is closed in \( \ell_\infty(M,N) \).
+	Let \( (f_k) \) be a sequence in \( C_b(M,N) \) and \( f_k \to f \) in \( \ell_\infty(M,N) \).
+	We require \( f \in C_b(M,N) \), so it is enough to show that \( f \) is continuous.
+	This is exactly the proof that the uniform limit of continuous functions is continuous.
+	Let \( a \in M \), \( \varepsilon > 0 \).
+	Then, since \( f_k \to f \) in \( \ell_\infty(M,N) \), we can fix \( k \in \mathbb N \) such that \( D(f_k,f) < \varepsilon \).
+	Since \( f_k \) is continuous, \( \exists \delta > 0, \forall x \in M, d(x,a) < \delta \implies e(f_k(x), f_k(a)) < \varepsilon \).
+	\[
+		\forall x \in M, f(x,a) < \delta \implies e(f(x),f(a)) \leq e(f(x), f_k(x)) + e(f_k(x), f_k(a)) + e(f_k(a), f(a)) \leq 3\varepsilon
+	\]
 \end{proof}

@@ -1,0 +1,155 @@
+\subsection{Properties of dual map}
+Let \( \alpha \in L(V,W) \), and \( \alpha^\star \in L(W^\star, V^\star) \).
+Let \( B \) and \( C \) be bases of \( V, W \) respectively, and \( B^\star, C^\star \) be their duals.
+We have proven that
+\[
+	[\alpha]_{B,C} = [\alpha^\star]^\transpose_{B,C}
+\]
+\begin{lemma}
+	Suppose that \( E = (e_1, \dots, e_n) \) and \( F = (f_1, \dots, f_n) \) are bases of \( V \).
+	Let \( P = [\mathbb I]_{F, E} \) be a change of basis matrix from \( F \) to \( E \).
+	The bases \( E^\star = (\varepsilon_1, \dots, \varepsilon_n) \), \( F^\star = (\eta_1, \dots, \eta_n) \) are the corresponding dual bases.
+	Then,
+	The change of basis matrix from \( F^\star \) to \( E^\star \) is
+	\[
+		\qty(P^{-1})^\transpose
+	\]
+\end{lemma}
+\begin{proof}
+	Consider
+	\[
+		[\mathbb I]_{F^\star, E^\star} = [\mathbb I]^\transpose_{E, F} = \qty([\mathbb I]_{F, E}^{-1})^\transpose = \qty(P^{-1})^\transpose
+	\]
+\end{proof}
+\begin{lemma}
+	Let \( V, W \) be \( F \)-vector spaces.
+	Let \( \alpha \in L(V, W) \).
+	Let \( \alpha^\star \) be the corresponding dual map.
+	Then, denoting \( N(\alpha) \) for the kernel of \( \alpha \),
+	\begin{enumerate}[(i)]
+		\item \( N(\alpha^\star) = (\Im \alpha)^0 \), so \( \alpha^\star \) is injective if and only if \( \alpha \) is surjective.
+		\item \( \Im \alpha^\star \leq (N(\alpha))^0 \), with equality if \( V, W \) are finite-dimensional.
+		      In this finite-dimensional case, \( \alpha^\star \) is surjective if and only if \( \alpha \) is injective.
+	\end{enumerate}
+\end{lemma}
+\begin{remark}
+	In many applications, it is often simpler to understand the dual map \( \alpha^\star \) than it is to understand \( \alpha \).
+\end{remark}
+\begin{proof}
+	First, we prove (i).
+	Let \( \varepsilon \in W^\star \).
+	Then, \( \varepsilon \in N(\alpha^\star) \) means \( \alpha^\star(\varepsilon) = 0 \).
+	Hence, \( \alpha^\star(\varepsilon) = \varepsilon \circ \alpha = 0 \)
+	So for any \( v \in V \), \( \varepsilon(\alpha(v)) = 0 \).
+	Equivalently, \( \varepsilon \) is an element of the annihilator of \( \Im \alpha \).
+
+	Now, we will show (ii).
+	Let \( \varepsilon \in \Im \alpha^\star \).
+	Then \( \alpha^\star(\phi) = \varepsilon \) for some \( \phi \in W^\star \).
+	Then, for all \( u \in N(\alpha) \), \( \varepsilon(u) = \qty(\alpha^\star(\phi))(u) = \phi \circ \alpha(u) = \phi(\alpha(u)) = 0 \).
+	Certainly then \( \varepsilon \in \qty(N(\alpha))^0 \).
+	Then, \( \Im \alpha^\star \leq (N(\alpha))^0 \).
+
+	In the finite-dimensional case, we can compare the dimension of these two spaces.
+	\[
+		\dim \Im \alpha^\star = r(\alpha^\star) = r\qty([\alpha^\star]_{C^\star, B^\star}) = r\qty([\alpha]_{B,C}^\transpose) = r\qty([\alpha]_{B,C}) = r(\alpha) = \dim \Im \alpha
+	\]
+	Due to the rank-nullity theorem, \( \dim \Im \alpha^\star = \dim V - \dim N(\alpha) = \dim\qty[(N(\alpha))^0] \).
+	Hence,
+	\[
+		\Im \alpha^\star \leq (N(\alpha))^0;\quad \dim \Im \alpha^\star = \dim (N(\alpha))^0
+	\]
+	The dimensions are equal, and one is a subspace of the other, hence the spaces are equal.
+\end{proof}
+
+\subsection{Double duals}
+\begin{definition}
+	Let \( V \) be an \( F \)-vector space.
+	Let \( V^\star \) be the dual of \( V \).
+	The \textit{double dual} or \text{bidual} of \( V \) is
+	\[
+		V^\sstar = L(V^\star, F) = (V^\star)^\star
+	\]
+\end{definition}
+\begin{remark}
+	In general, there is no obvious relation between \( V \) and \( V^\star \).
+	However, the following useful facts hold about \( V \) and \( V^\sstar \).
+	\begin{enumerate}[(i)]
+		\item There is a \textit{canonical embedding} from \( V \) to \( V^\sstar \).
+		      In particular, there exists \( i \) in \( L(V, V^\sstar) \) which is injective.
+		\item There are examples of infinite-dimensional spaces where \( V \simeq V^\sstar \).
+		      These are called reflexive spaces.
+		      Such spaces are investigated in the study of Banach spaces.
+	\end{enumerate}
+\end{remark}
+\begin{theorem}
+	\( V \) embeds into \( V^\sstar \).
+\end{theorem}
+\begin{proof}
+	Choose a vector \( v \in V \) and define the linear form \( \hat v \in L(V^\star, F) \) such that
+	\[
+		\hat v(\varepsilon) = \varepsilon(v)
+	\]
+	So clearly \( \hat v \) is linear.
+	We want to show \( \hat v \in V^\sstar \).
+	If \( \varepsilon \in V^\star, \varepsilon(v) \in F \).
+	Further, \( \lambda_1, \lambda_2 \in F \) and \( \varepsilon_1, \varepsilon_2 \in V^\star \) give
+	\[
+		\hat v (\lambda_1 \varepsilon_1 + \lambda_2 \varepsilon_2) = (\lambda_1 \varepsilon_1 + \lambda_2 \varepsilon_2)(v) = \lambda_1 \varepsilon_1(v) + \lambda_2 \varepsilon_2(v) = \lambda_1 \hat v(\varepsilon_1) + \lambda_2 \hat v(\varepsilon_2)
+	\]
+\end{proof}
+\begin{theorem}
+	If \( V \) is finite-dimensional, then \( i \colon V \to V^\sstar \) given by \( i(v) = \hat v \) is an isomorphism.
+\end{theorem}
+\begin{proof}
+	We will show \( i \) is linear.
+	If \( v_1, v_2 \in V, \lambda_1, \lambda_2 \in F \), then
+	\[
+		i(\lambda_1 v_1 + \lambda_2 v_2) (\varepsilon) = \varepsilon(\lambda_1 v_1 + \lambda_2 v_2) = \lambda_1 \varepsilon(v_1) + \lambda_2 \varepsilon(v_2) = \lambda_1 \hat v_1(\varepsilon) + \lambda_2 \hat v_2(\varepsilon)
+	\]
+	Now, we will show that \( i \) is injective for finite-dimensional \( V \).
+	Let \( e \in V \setminus \qty{0} \).
+	We will show that \( e \not\in \ker i \).
+	We extend \( e \) into a basis \( (e, e_2, \dots, e_n) \) of \( V \).
+	Now, let \( (\varepsilon, \varepsilon_2, \dots, \varepsilon_n) \) be the dual basis.
+	Then \( \hat e(\varepsilon) = \varepsilon(e) = 1 \).
+	In particular, \( \hat e \neq 0 \).
+	Hence \( \ker i = \qty{0} \), so it is injective.
+
+	We now show that \( i \) is an isomorphism.
+	We need to simply compute the dimension of the image under \( i \).
+	Certainly, \( \dim V = \dim V^\star = \dim (V^\star)^\star = \dim V^\sstar \).
+	Since \( i \) is injective, \( \dim V = \dim V^\sstar \).
+	So \( i \) is surjective as required.
+\end{proof}
+\begin{lemma}
+	Let \( V \) be a finite-dimensional \( F \)-vector space.
+	Let \( U \leq V \).
+	Then,
+	\[
+		\hat U = U^{00}
+	\]
+	After identifying \( V \) and \( V^\sstar \), we typically say
+	\[
+		U = U^{00}
+	\]
+	although this is is incorrect notation and not an equality.
+\end{lemma}
+\begin{proof}
+	We will show that \( \hat U \leq U^{00} \).
+	Indeed, let \( u \in U \), then by definition
+	\[
+		\forall \varepsilon \in U^0, \varepsilon(u) = 0 \implies \hat u(\varepsilon) = 0
+	\]
+	Then,
+	Hence \( \hat u \in U^{00} \) and so \( \hat U \leq U^{00} \).
+
+	Now, we will compute dimension:	\( \dim U^{00} = \dim V - \dim U^0 = \dim U \).
+	Since \( \hat U \simeq U \), their dimensions are the same, so \( U^{00} = \hat U \).
+\end{proof}
+\begin{remark}
+	Due to this identification of \( V^\sstar \) and \( V \), we can define
+	\[
+		T \leq V^\star, T^0 = \qty{v \in V \colon \forall \theta \in T, \theta(v) = 0}
+	\]
+\end{remark}
