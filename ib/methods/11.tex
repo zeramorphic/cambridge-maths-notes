@@ -1,0 +1,111 @@
+\subsection{Particular solution to diffusion equation}
+Recall that
+\[
+	\hat \theta(x,t) = \sum_{n=1}^\infty b_n \sin \frac{n \pi x}{L} \exp(-\frac{Dn^2 \pi^2}{L^2} t )
+\]
+At \( t = 0 \), we have a pure Fourier sine series.
+We can then impose the initial conditions, to give
+\[ b_n = \frac{1}{L} \int_{-L}^L \hat \phi(x,0) \sin \frac{n \pi x}{L} \dd{x} \]
+where
+\[ \hat\phi(x,0) = H(x) - \frac{x+L}{2L} \]
+Hence, we can use the half-range sine series and find
+\[ b_n = \underbrace{ \frac{2}{L} \int_0^L \qty(H(x) = \frac{1}{2}) \sin \frac{n \pi x}{L} \dd{x} }_{\text{square wave}/2} - \underbrace{ \frac{2}{L}\frac{x}{2L} \sin \frac{n \pi x}{L} \dd{x} }_{\text{sawtooth}/2L} \]
+which gives
+\[ b_n = \frac{2}{(2m-1)\pi} - \frac{(-1)^{n+1}}{n\pi} \]
+where \( n = 2m - 1 \), and the first term vanishes for \( n \) even.
+For \( n \) odd or even, we find the same result
+\[ b_n = \frac{1}{n\pi} \]
+Hence
+\[ \hat\theta(x,t) = \sum_{n=1}^\infty \frac{1}{n \pi} \sin \frac{n \pi x}{L} e^{-D \frac{n^2 \pi^2}{L^2} t} \]
+For the inhomogeneous boundary conditions,
+\[ \theta(x,t) = \frac{x+L}{2L} + \sum_{n=1}^\infty \frac{1}{n \pi} \sin \frac{n \pi x}{L} e^{-D \frac{n^2 \pi^2}{L^2} t} \]
+The similarity solution \( \frac{1}{2}\qty(1 + \erf(\frac{x}{2\sqrt{Dt}})) \) is a good fit for early \( t \), but it does not necessarily satisfy the boundary conditions, so for large \( t \) it is a bad approximation.
+
+\subsection{Laplace's equation}
+Laplace's equation is
+\[ \laplacian \phi = 0 \]
+This equation describes (among others) steady-state heat flow, potential theory \( F = -\grad{\phi} \), and incompressible fluid flow \( v = \grad{\phi} \).
+The equation is solved typically on a domain \( D \), where boundary conditions are specified often on the boundary surface.
+The Dirichlet boundary conditions fix \( \phi \) on the boundary surface \( \partial D \).
+The Neumann boundary conditions fix \( \hat n \cdot \grad{\phi} \) on \( \partial D \).
+
+\subsection{Three-dimensional Cartesian coordinates}
+In \( \mathbb R^3 \) with Cartesian coordinates, Laplace's equation becomes
+\[ \pdv[2]{\phi}{x} + \pdv[2]{\phi}{y} + \pdv[2]{\phi}{z} = 0 \]
+We seek separable solutions in the usual way:
+\[ \phi(x,y,z) = X(x)Y(y)Z(z) \]
+Substituting,
+\[ X''YZ + XY''Z + XYZ'' = 0 \]
+Dividing by \( XYZ \) as usual,
+\begin{align*}
+    \frac{X''}{X} = \frac{-Y''}{Y} - \frac{Z''}{Z} &= -\lambda_\ell \\
+    \frac{Y''}{Y} = \frac{-Z''}{Z} - \frac{X''}{X} &= -\lambda_m \\
+    \frac{Z''}{Z} = \frac{-X''}{X} - \frac{Y''}{Y} &= -\lambda_n = \lambda_\ell + \lambda_m
+\end{align*}
+From the eigenmodes, our general solution will be of the form
+\[ \phi(x,y,z) = \sum_{\ell,m,n} a_{\ell mn} X_\ell(x) Y_m(y) Z_n(z) \]
+Consider steady (\(\pdv{\phi}{t} = 0 \)) heat flow in a semi-infinite rectangular bar, with boundary conditions \( \phi = 0 \) at \( x = 0 \), \( x = a \), \( y = 0 \) and \( y = b \); and \( \phi = 1 \) at \( z = 0 \) and \( \phi \to 0 \) as \( z \to \infty \).
+We will solve for each eigenmode successively.
+First, consider \( X'' = -\lambda_\ell X \) with \( X(0) = X(a) = 0 \).
+This gives
+\[ \lambda_\ell = \frac{l^2 \pi^2}{a^2};\quad X_\ell = \sin \frac{\ell \pi x}{a} \]
+where \( \ell > 0, \ell \in \mathbb N \).
+By symmetry,
+\[ \lambda_m = \frac{m^2 \pi^2}{b^2};\quad Y_m = \sin \frac{m \pi y}{b} \]
+For the \( z \) mode,
+\[ Z'' = -\lambda_n Z = (\lambda_\ell + \lambda_m) Z = \pi^2\qty(\frac{\ell^2}{a^2} + \frac{m^2}{b^2}) Z \]
+Since \( \phi \to 0 \) as \( z \to \infty \), the growing exponentials must vanish.
+Therefore,
+\[ Z_{\ell m} = \exp[-\qty(\frac{\ell^2}{a^2} + \frac{m^2}{b^2})^{1/2} \pi z] \]
+Thus the general solution is
+\[ \phi(x,y,z) = \sum_{\ell, m} a_{\ell m} \sin \frac{\ell \pi x}{a} \sin \frac{m \pi y}{b} \exp[-\qty(\frac{\ell^2}{a^2} + \frac{m^2}{b^2})^{1/2} \pi z] \]
+Now, we will fix \( a_{\ell m} \) using \( \phi(x,y,0) = 1 \) using the Fourier sine series.
+\[ a_{\ell m} = \frac{2}{b} \int_0^b \frac{2}{a} \int_0^a \underbrace{1 \sin \frac{\ell \pi x}{a}}_{\text{square wave}} \underbrace{\sin \frac{m \pi y}{b}}_{\text{square wave}} \dd{x} \dd{y} \]
+So only the odd terms remain, giving
+\[ a_{\ell m} = \frac{4a}{a(2k-1)\pi} \cdot \frac{4b}{b(2p-1) \pi} \]
+where \( \ell = 2k-1 \) is odd and \( m = 2p-1 \) is odd.
+Simplifying,
+\[ a_{\ell m} = \frac{16}{\pi^2 \ell m} \quad \text{ for } \ell, m \text{ odd} \]
+So the heat flow solution is
+\[ \phi(x,y,z) = \sum_{\ell, m \text{ odd}} \frac{16}{\pi^2 \ell m} \sin \frac{\ell \pi x}{a} \sin \frac{\ell \pi y}{b} \exp[-\qty(\frac{\ell^2}{a^2} + \frac{m^2}{b^2})^{1/2} \pi z] \]
+As \( z \) increases, every contribution but the lowest mode will be very small.
+So low \( \ell, m \) dominate the solution.
+
+\subsection{Plane polar coordinates}
+In plane polar coordinates, Laplace's equation becomes
+\[ \frac{1}{r} \pdv{r} \qty(r \pdv{\phi}{r}) + \frac{1}{r^2} \pdv[2]{\phi}{\theta} \]
+Consider a separable form of the answer, given by
+\[ \phi(r,\theta) = R(r) \Theta(\theta) \]
+We then have
+\[ \Theta'' + \mu \Theta = 0;\quad r(rR')' - \mu R = 0 \]
+The polar equation can be solved easily by considering periodic boundary conditions.
+This gives \( \mu = m^2 \) and the eigenmodes
+\[ \Theta_m(\theta) = \cos m \theta, \sin m \theta \]
+The radial equation is \textit{not} Bessel's equation, since there is no second separation constant.
+We simply have
+\[ r(rR')' - m^2 R = 0 \]
+We will try a power law solution, \( r = \alpha r^\beta \).
+We find
+\[ \beta^2 - m^2 = 0 \implies \beta = \pm m \]
+So the eigenfunctions are
+\[ R_m(r) = r^m, r^{-m} \]
+which is one regular solution at the origin and one singular solution.
+In the case \( m = 0 \), we have
+\[ (rR') = 0 \implies rR' = \text{constant} \implies R = \log r \]
+So
+\[ R_0(r) = \text{constant}, \log r \]
+The general solution is therefore
+\[ \phi(r,\theta) = \frac{a_0}{2} + c_0 \log r + \sum_{m=1}^\infty \qty(a_m \cos m\theta + b_m \sin m\theta) r^m + \sum_{m=1}^\infty \qty(c_m \cos m\theta + d_m \sin m\theta) r^{-m} \]
+\begin{example}
+    Consider a soap film on a unit disc.
+    We wish to solve Laplace's equation with a vertically distorted circular wire of radius \( r = 1 \) with boundary conditions \( \phi(1, \theta) = f(\theta) \).
+    The \( z \) displacement of the wire produces the \( f(\theta) \) term.
+    We wish to find \( \phi(r,\theta) \) for \( r < 1 \), assuming regularity at \( r = 0 \).
+    Then, \( c_m = d_m = 0 \) and the solution is of the form
+    \[ \phi(r,\theta) = \frac{a_0}{2} + \sum_{m=1}^\infty \qty(a_m \cos m\theta + b_m \sin m\theta) r^m \]
+    At \( r = 1 \),
+    \[ \phi(1,\theta) = f(\theta) = \frac{a_0}{2} + \sum_{m=1}^\infty \qty(a_m \cos m\theta + b_m \sin m\theta) \]
+    which is exactly the Fourier series.
+    Thus,
+    \[ a_m = \frac{1}{\pi} \int_0^{2\pi} f(\theta) \cos m \theta \dd{\theta};\quad b_m = \frac{1}{\pi} \int_0^{2\pi} f(\theta) \sin m \theta \dd{\theta} \]
+\end{example}
