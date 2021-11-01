@@ -1,0 +1,56 @@
+\subsection{Free particles}
+A free particle is under no potential.
+The time-independent Schr\"odinger equation is
+\[ -\frac{\hbar}{2m} \chi''(x) = E\chi(x) \]
+This has solutions
+\[ \chi_k(x) = A e^{i k x};\quad k = \sqrt{\frac{2mE}{\hbar^2}} \]
+The complete solution, adding \( T(t) \), is thus
+\[ \psi_k(x,t) = \chi_k(x) e^{-i E_k t / \hbar} = A e^{i\qty(kx - \frac{\hbar k^2}{2m} t)} \]
+which are called De Broglie plane waves.
+This is not a solution since
+\[ \int_{-\infty}^\infty \abs{\phi_k(x,t)} \dd{x} = \abs{A}^2 \int_{-\infty}^\infty 1 \dd{x} \]
+which diverges.
+In general, any non-bound solution is non-normalisable.
+This is true since \( \int_{-\infty}^\infty \abs{\chi(x)}^2 \dd{x} < \infty \) requires \( \lim_{R \to \infty} \int_{\abs{x} > R} \abs{\chi(x)} \dd{x} = 0 \).
+So, to solve the free particle system, we will build a linear combination of plane waves \( \chi \) to yield a normalisable solution.
+This is called the Gaussian wavepacket.
+Alternatively, we can simply ignore the problem of normalisability, and change the interpretation of \( \chi_n(x) \).
+
+\subsection{Gaussian wavepacket}
+Due to the superposition principle, we can take a continuous linear combination of the \( \psi_k \) functions.
+\[ \psi(x,t) = \int_0^\infty A(k) \psi_k(x,t) \dd{k} \]
+We can construct a suitable \( A(k) \) such that \( \psi \) is normalisable.
+Choosing
+\[ A(k) = A_{\text{GP}}(k) = \exp[-\frac{\sigma}{2}(k-k_0)^2];\quad k_0 \in \mathbb R, \sigma \in \mathbb R^+ \]
+produces a solution called the Gaussian wavepacket.
+Substituting into the above,
+\[ \psi_{\text{GP}}(x,t) = \int_0^\infty \exp[-\frac{\sigma}{2}(k-k_0)^2] \psi_k(x,t) \dd{k} = \int_0^\infty \exp[F(k)] \dd{k};\quad F(k) = -\frac{\sigma}{2}(k-k_0)^2 + ikx - i \frac{\hbar k^2}{2m} t \]
+We can rewrite this as
+\[ F(k) = -\frac{1}{2}\qty(\sigma + \frac{i \hbar t}{m}) k^2 + (k_0 \sigma + ix)k - \frac{\sigma}{2} k_0^2 \]
+We define further
+\[ \alpha \equiv \sigma + \frac{i \hbar t}{m};\quad \beta = k_0 \sigma + ix;\quad \delta = -\frac{\sigma}{2} k_0^2 \]
+Completing the square,
+\[ F(k) = -\frac{\alpha}{2} \qty(k - \frac{\beta}{\alpha})^2 + \frac{\beta^2}{2\alpha} + \delta \]
+We arrive at the solution
+\[ \psi_{\text{GP}}(x,t) = \exp[\frac{\beta^2}{2\alpha} + \delta] \int_{-\infty}^\infty \exp[-\frac{\alpha}{2}\qty(k - \frac{\beta}{\alpha})^2 ] \dd{k} \]
+Under a change of variables \( \widetilde k = k - \frac{\beta}{\alpha}, u = \Im(\frac{\beta}{\alpha}) \),
+\[ \psi_{\text{GP}}(x,t) = \exp[\frac{\beta^2}{2\alpha} + \delta] \int_{\infty - iu}^{\infty - iu} \exp[-\frac{\alpha}{2} \widetilde k] \dd{\widetilde k} \]
+We arrive at the usual Gaussian integral:
+\[ I(a) = \int_{-\infty}^\infty \exp[-a x^2] \dd{x} = \sqrt{\frac{\pi}{2}} \]
+giving
+\[ \psi_{\text{GP}}(x,t) = \sqrt{\frac{2 \pi}{\alpha}} \exp[\frac{\beta^2}{2\alpha} + \delta] = \sqrt{\frac{2\pi}{\alpha}} \exp[-\frac{\sigma}{2} \frac{\qty(x - \frac{\hbar k_0}{m} t)^2}{\qty(\sigma^2 + \frac{\hbar^2 t^2}{m^2} )} ] \]
+We define \( \overline \psi_{\text{GP}} \) to be the normalised Gaussian wavefunction, so \( \overline \psi_{\text{GP}} = C \psi_{\text{GP}} \).
+We can find that
+\[ \rho_{\text{GP}}(x,t) = \abs{\overline \psi_{\text{GP}}(x,t)}^2 = \sqrt{\frac{\sigma}{\pi \qty(\sigma^2 + \frac{\hbar^2 t^2}{m^2})}} \exp[ - \frac{\sigma\qty(x - \frac{\hbar k}{m} t)^2}{\sigma^2 + \frac{\hbar^2 t^2}{m^2}} ] \]
+This is a wavefunction whoes probability density distribution resembles a Gaussian \( e^{-x^2} \) term, with a maximum point at
+\[ \inner{x} = \int_{-\infty}^\infty \psi_{\text{GP}}^\star x \psi_{\text{GP}} \dd{x} = \int_{-\infty}^\infty x \rho_{\text{GP}} \dd{x} = \frac{\hbar k_0}{m} t \]
+and a width of
+\[ \Delta x = \sqrt{\inner{x^2} - \inner{x}^2} = \sqrt{\frac{1}{2} \qty(\sigma + \frac{\hbar^2 t^2}{m^2 \sigma})} \]
+The physical interpretation is that the uncertainty of the particle's position grows with time.
+In this case, we can find
+\[ \inner{p} = \int_{-\infty}^\infty \psi_{\text{GP}}^\star i \hbar \pdv{x} \psi_{\text{GP}} \dd{x} = \hbar k_0 \]
+which is constant.
+The uncertainty in the momentum can be found to be
+\[ \Delta p = \sqrt{\inner{p^2} - \inner{p}^2} = \frac{\hbar}{\sqrt{\frac{1}{2} \qty(\sigma + \frac{\hbar^2 t^2}{m \sigma})}} \]
+Thus,
+\[ \Delta x \Delta p = \frac{\hbar}{2} \]
