@@ -1,0 +1,174 @@
+\subsection{More topological spaces}
+\begin{example}
+	The discrete topology on a set \( X \) is \( \tau = \mathcal P(X) \).
+	This is the finest topology on \( X \).
+	This is metrisable by the discrete metric.
+\end{example}
+\begin{definition}
+	A topological space \( X \) is \textit{Hausdorff} if \( \forall x \neq y \) in \( X \), there exist open sets \( U, V \) in \( X \) such that \( x \in U, y \in V, U \cap V = \varnothing \).
+	Informally, \( x, y \) are `separated by open sets'.
+\end{definition}
+\begin{proposition}
+	Metric spaces are Hausdorff.
+\end{proposition}
+\begin{proof}
+	Let \( x \neq y \) be points in a metric space \( (M, d) \).
+	Let \( r > 0 \) such that \( 2r < d(x,y) \).
+	Then let \( U = \mathcal D_r(x) \), let \( V = \mathcal D_r(y) \).
+	Certainly \( U, V \) are open since they are open balls, and they have no intersection by the triangle inequality, so the metric space is Hausdorff as required.
+\end{proof}
+\begin{example}
+	The cofinite topology on a set \( X \) is
+	\[ \tau = \qty{\varnothing} \cup \qty{U \in X \colon U \text{ is cofinite in } X} \]
+	where \( U \) is cofinite in \( X \) if \( X \setminus U \) is finite.
+	When \( X \) is finite, this topology \( \tau \) is simply \( \mathcal P(X) \).
+	When \( X \) is infinite, \( \tau \) is not metrisable.
+	Let \( x \neq y \) in \( X \), and let \( x \in U, y \in V \) where \( U, V \) are open in \( X \).
+	Then \( U \) and \( V \) are cofinite, and hence \( U \cap V \neq \varnothing \).
+	So this topology on an infinite set is not Hausdorff and hence not metrisable.
+\end{example}
+
+\subsection{Closed subsets}
+\begin{definition}
+	A subset \( A \) of a topological space \( (X, \tau) \) is said to be \textit{closed} in \( X \) if \( X \setminus A \) is open in \( X \).
+\end{definition}
+\begin{remark}
+	In a metric space, this agrees with the earlier definition of a closed subset, as proven before.
+\end{remark}
+\begin{proposition}
+	The collection of closed sets in a topological space \( X \) satisfy
+	\begin{enumerate}[(i)]
+		\item \( \varnothing, X \) are closed;
+		\item If \( A_i \) are closed in \( X \) for \( i \) in some non-empty index set \( I \), then \( \bigcap_{i \in I} A_i \) is closed;
+		\item If \( A_1, A_2 \) are closed in \( X \) then \( A_1 \cup A_2 \) is closed.
+	\end{enumerate}
+\end{proposition}
+\begin{example}
+	In a discrete topological space, every set is closed.
+\end{example}
+\begin{example}
+	In the cofinite topology, a subset is closed if and only if it is finite or the full set.
+\end{example}
+
+\subsection{Neighbourhoods}
+\begin{definition}
+	Let \( X \) be a topological space, and let \( U \subset X \) and \( x \in X \).
+	We say that \( U \) is a \textit{neighbourhood} of \( x \) in \( X \) if there exists an open set \( V \) in \( X \) such that \( X \in V \subset U \).
+\end{definition}
+\begin{remark}
+	In a metric space, we defined this in terms of open balls not open sets.
+	However, we have already proven that the definitions agree.
+\end{remark}
+\begin{proposition}
+	Let \( U \) be a subset of a topological space \( X \).
+	Then \( U \) is open if and only if \( U \) is a neighbourhood of \( x \) for every \( x \in U \).
+\end{proposition}
+\begin{proof}
+	If \( U \) is open, and \( x \in U \), then by letting \( V = U \), \( V \) is open and \( x \in V \subset U \).
+	Conversely, if \( x \in U \), there exists \( V_x \) in \( X \) such that \( x \in V_x \subset U \).
+	Then, \( U = \bigcup_{x \in U} x = \bigcup_{x \in U} V_x \) is open, since each \( V_x \) is open.
+\end{proof}
+
+\subsection{Convergence}
+\begin{definition}
+	Let \( (x_n) \) be a sequence in a topological space \( X \).
+	Let \( x \in X \).
+	We say that \( (x_n) \) \text{converges to} \( x \) if for all neighbourhoods \( U \) of \( x \) in \( X \), there exists \( N \in \mathbb N \) such that \( \forall n \geq N, x_n \in U \).
+	Equivalently, for all open sets \( U \) which contain \( X \), there exists \( N \in \mathbb N \) such that \( \forall n \geq N, x_n \in U \).
+\end{definition}
+\begin{remark}
+	Again, the definition in a metric space agrees with this definition.
+\end{remark}
+\begin{example}
+	Eventually constant sequences converge.
+	If \( \exists z \in X, \exists N \in \mathbb N, \forall n \geq N, x_n = z \), then \( x_n \to z \).
+\end{example}
+\begin{example}
+	In an indiscrete topological space, every sequence converges to every point.
+\end{example}
+\begin{example}
+	In the cofinite topology on a set \( X \), let \( x_n \to X \).
+	Suppose that \( x_n \to x \) in \( X \).
+	Then if \( y \neq x \), \( X \setminus \qty{y} \) is a neighbourhood of \( x \).
+	Then \( N_y = \qty{n \in N \colon X_n = y} \) is finite.
+
+	Conversely, suppose \( (x_n) \) is a sequence such that for some \( x \in X \) and for all \( y \neq x \), \( N_y \) is finite.
+	Then \( x_n \to x \).
+
+	In particular, if \( N_y \) is finite for all \( y \in X \), the sequence converges to every point.
+\end{example}
+\begin{proposition}
+	If \( x_n \to x \) and \( x_n \to y \) in a Hausdorff space, then \( x = y \).
+\end{proposition}
+\begin{proof}
+	Suppose \( x \neq y \), then we can choose open sets \( U, V \) such that \( x \in U, y \in V, U \cap V = \varnothing \).
+	Since \( x_n \to x \), there exists \( N_1 \in \mathbb N \) such that \( \forall n \geq N_1, x_n \in U \).
+	Similarly there exists an analogous \( N_2 \).
+	Hence \( \forall n \geq \max(N_1, N_2), x_n \in U, x_n \in V \) which is a contradiction since \( U \cap V = \varnothing \).
+\end{proof}
+\begin{remark}
+	If \( x_n \to x \) in a Hausdorff space, we write \( x = \lim_{n \to \infty} x_n \) since the limit is unique.
+\end{remark}
+\begin{remark}
+	In a metric space, for a subset \( A \), we say that \( A \) is closed if and only if \( x_n \to x \) in \( A \) implies \( x \in A \).
+	In a general topological space, any closed set is closed under limits, but not every subset that is closed under limits is closed.
+\end{remark}
+
+\subsection{Interiors and closures}
+\begin{definition}
+	Let \( X \) be a topological space, and \( A \subset X \).
+	We define the \textit{interior} of \( A \) in \( X \), denoted \( A^\circ \) or \( \mathrm{int}(A) \), by
+	\[ A^\circ = \bigcup \qty{ U \subset X \colon U \text{ is open in } X, U \subset A } \]
+	Similarly we define the \textit{closure} of \( A \) in \( X \), denoted \( \overline A \) or \( \mathrm{cl}(A) \), by
+	\[ \overline A = \bigcap \qty{ F \subset X \colon F \text{ is closed in } X, F \supset A } \]
+\end{definition}
+\begin{remark}
+	Note that \( A^\circ \) is open in \( X \), and \( A^\circ \subset A \).
+	In particular, if \( U \) is open in \( X \) and \( U \subset A \), then \( U \subset A^\circ \).
+	Hence, \( A^\circ \) is the largest open subset of \( A \).
+
+	Similarly, \( \overline A \) is closed in \( X \), and \( \overline A \supset A \).
+	The intersection is not empty since \( X \) is closed and \( X \supset A \), so it is well-defined.
+	We have that \( \overline A \) is the smallest closed superset of \( A \).
+\end{remark}
+\begin{proposition}
+	Let \( X \) be a topological space and let \( A \subset X \).
+	Then the interior is exactly those \( x \in X \) for which \( A \) is a neighbourhood of \( x \).
+	Similarly, the closure is those \( x \in X \) such that for all neighbourhoods \( U \) of \( x \), \( U \cap A \neq \varnothing \).
+\end{proposition}
+\begin{proof}
+	If \( A \) is a neighbourhood of \( X \), then by definition there exists an open set \( U \) such that \( x \in U \subset A \), which is true if and only if \( x \in A^\circ \).
+
+	For the other part, suppose \( x \not\in \overline A \).
+	Then there exists a closed set \( F \supset A \) such that \( x \not\in F \).
+	Let \( U = X \setminus F \).
+	Then \( U \) is open and \( x \in U \).
+	So \( U \) is a neighbourhood of \( x \), and \( U \cap A = \varnothing \).
+
+	Conversely, suppose there exists a neighbourhood \( U \) of \( x \) such that \( U \cap A = \varnothing \).
+	Then there exists an open set \( V \) such that \( x \in V \subset U \).
+	Since \( V \subset U \), \( V \cap A = \varnothing \).
+	Let \( F = X \setminus V \).
+	Then \( F \) is closed, and \( A \subset F \).
+	Hence \( \overline A \subset F \).
+	So \( x \not\in \overline A \).
+\end{proof}
+\begin{example}
+	In \( \mathbb R \), let \( A = [0,1) \cup \qty{2} \).
+	Then \( A^\circ = (0,1) \), and \( \overline A = [0,1] \cup \qty{2} \).
+	Further, \( \mathbb Q^\circ = \varnothing \) and \( \overline {\mathbb Q} = \mathbb R \).
+	Finally, \( \mathbb Z^\circ = \varnothing \) and \( \overline {\mathbb Z} = \mathbb Z \).
+\end{example}
+\begin{remark}
+	In a metric space, for a subset \( A \) we have that \( x \in \overline A \) if and only if there exists a sequence \( (x_n) \) in \( A \) such that \( x_n \to x \).
+	In a general topological space, the existence of a sequence implies \( x \in \overline A \) but the converse is not true.
+\end{remark}
+
+\subsection{Dense subsets}
+\begin{definition}
+	A subset \( A \) of a topological space \( X \) is said to be \textit{dense} in \( X \) if \( \overline A = X \).
+	\( X \) is \textit{separable} if there exists a countable subset \( A \subset X \) such that \( A \) is dense in \( X \).
+\end{definition}
+\begin{example}
+	\( \mathbb R \) is separable as \( \mathbb Q \) is dense in \( \mathbb R \).
+\end{example}

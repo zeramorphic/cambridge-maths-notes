@@ -1,0 +1,94 @@
+\subsection{Invariant distributions}
+Let \( I \) be a countable set. \( (\lambda_i) \) is a probability distribution if \( \lambda_i \geq 0 \) and \( \sum_i \lambda_i = 1 \).
+\begin{example}
+	Consider a Markov chain with two elements, and \( P(1,1) = P(1,2) = P(2,1) = P(2,2) = \frac{1}{2} \).
+	As \( n \to \infty \), it is easy to see here that both states should be equally likely to occur.
+	In fact, \( p_{11}(n) = p_{12}(n) = p_{21}(n) = p_{22}(n) = \frac{1}{2} \).
+	In this case, the row vector \( \qty(\frac{1}{2}, \frac{1}{2}) \) is an equilibrium probability distribution.
+\end{example}
+In general, we want to find a distribution \( \pi \) such that if \( X_0 \sim \pi \), we have \( X_n \sim \pi \) for all \( n \).
+Suppose \( X_0 \sim \pi \).
+Then,
+\begin{align*}
+	\prob{X_1 = j} &= \sum_{i \in I} \prob{X_0 = i, X_1 = j} \\
+	&= \sum_{i \in I} \prob{X_1 = j \mid X_0 = i}\prob{X_0 = i}
+	&= \sum_{i \in I} \pi(i) P(i,j)
+\end{align*}
+Since we want \( X_1 \sim \pi \), we must have \( \pi(j) = \sum_{i \in I} \pi(i) P(i,j) \) for all \( j \).
+In matrix form, \( \pi = \pi P \).
+\begin{definition}
+	An \textit{invariant (or equilibrium, or stationary) distribution} for \( P \) is a probability distribution \( \pi \) such that \( \pi = \pi P \).
+\end{definition}
+\begin{theorem}
+	Let \( \pi \) be invariant.
+	Then, if \( X_0 \sim \pi \), for all \( n \) we have \( X_n \sim \pi \).
+\end{theorem}
+\begin{proof}
+	If \( X_0 \sim \pi \), then \( X_n \sim \pi P^n = \pi \).
+\end{proof}
+\begin{theorem}
+	Suppose \( I \) is finite, and there exists \( i \in I \) such that \( p_{ij}(n) \to \pi_j \) as \( n \to \infty \) for all \( j \).
+	Then \( \pi = (\pi_j) \) is an invariant distribution.
+\end{theorem}
+\begin{proof}
+	First, we check that the sum of \( \pi_j \) is one.
+	Since \( I \) is finite, we can interchange the sum and limit.
+	\[ \sum_{j \in I} \pi_j = \sum_{j \in I} \lim_{n \to \infty} p_{ij}(n) = \lim_{n \to \infty} \sum_{j \in I} p_{ij}(n) = \lim_{n \to \infty} 1 = 1 \]
+	So \( \pi_j \) is a probability distribution.
+	We now must show \( \pi = \pi P \).
+	\[ \pi_j = \lim_{n \to \infty} p_{ij}(n) = \lim_{n \to \infty} \sum_{k \in I} p_{ik}(n-1) P(k,j) = \sum_{k \in I} \lim_{n \to \infty} p_{ik}(n-1) P(k,j) = \sum_{k \in I} \pi_k P(k,j) \]
+	as required.
+\end{proof}
+\begin{remark}
+	If \( I \) is infinite, the theorem does not necessarily hold.
+	For example, let \( I = \mathbb Z \), \( X \) be a simple symmetric random walk.
+	We know that \( p_{00}(n) \sim \frac{c}{\sqrt{n}} \), and \( p_{0x}(n) \to 0 \) as \( n \to \infty \) for all \( x \in \mathbb Z \).
+	So zero is given by the limit but this is not a distribution.
+\end{remark}
+
+\subsection{Conditions for unique invariant distribution}
+In this section, we restrict our analysis to irreducible chains.
+If \( P \) is finite and irreducible, then 1 is an eigenvalue, since \( P \) is stochastic.
+The corresponding right eigenvector is \( (1, \dots, 1)^\transpose \).
+We know that 1 is an eigenvalue of \( P^\transpose \), so \( P^\transpose \) has a right eigenvector corresponding to the eigenvalue of 1, which can be transposed to find a left eigenvector for \( P \).
+Since \( I \) is finite, we can normalise the left eigenvector such that its components sum to 1, giving an invariant distribution.
+\begin{definition}
+	Let \( k \in I \).
+	Recall that \( T_k \) is the first return time to \( k \).
+	For every \( i \in I \), we define
+	\[ \nu_k(i) = \esub{k}{\sum_{n=0}^{T_k - 1} 1(X_n = i)} \]
+	which is the expected number of times that we hit \( i \) while on an excursion from \( k \) (returning back to \( k \)).
+\end{definition}
+\begin{theorem}
+	If \( P \) is irreducible and recurrent, then \( \nu_k \) is an invariant measure: \( \nu_k = \nu_k P \).
+	Further, \( \nu_k \) satisfies \( \nu_k(k) = 1 \) and in general \( \nu_k(i) \in (0, \infty) \) for all \( i \).
+\end{theorem}
+\begin{proof}
+	It is clear from the definition that \( \nu_k(k) = 1 \), since we must hit \( k \) exactly once on the outset, and we do not count the return.
+	We will now prove that \( \nu_k = \nu_k P \).
+	\( T_k < \infty \) with probability 1 by recurrence, and \( X_{T_k} = k \).
+	Then,
+	\begin{align*}
+		\nu_k(i) &= \esub{k}{\sum_{n=0}^{T_k - 1} 1(X_n = i)} \\
+		&= \esub{k}{\sum_{n=1}^{T_k} 1(X_n = i)} \\
+		&= \esub{k}{\sum_{n=1}^\infty 1(X_n = i, T_k \geq n)} \\
+		&= \sum_{n=1}^\infty \esub{k}{1(X_n = i, T_k \geq n)} \\
+		&= \sum_{n=1}^\infty \psub{k}{X_n = i, T_k \geq n} \\
+		&= \sum_{n=1}^\infty \sum_{j \in I} \psub{k}{X_n = i, X_{n-1} = j, T_k \geq n} \\
+		&= \sum_{n=1}^\infty \sum_{j \in I} \psub{k}{X_n = i \mid X_{n-1} = j, T_k \geq n} \psub{k}{X_{n-1} = j, T_k \geq n} \\
+		\intertext{\( T_k \) is a stopping time, so the event \( \qty{T_k \geq n} = \qty{T_k \leq n-1}^\complement \) depends only on values we already know or don't care about. Hence, we can remove it.}
+		&= \sum_{n=1}^\infty \sum_{j \in I} \psub{k}{X_n = i \mid X_{n-1} = j} \psub{k}{X_{n-1} = j, T_k \geq n} \\
+		&= \sum_{n=1}^\infty \sum_{j \in I} P(j, i) \psub{k}{X_{n-1} = j, T_k \geq n} \\
+		&= \sum_{j \in I} \sum_{n=1}^\infty P(j, i) \psub{k}{X_{n-1} = j, T_k \geq n} \\
+		&= \sum_{j \in I} \sum_{n=0}^\infty P(j, i) \psub{k}{X_n = j, T_k \geq n + 1} \\
+		&= \sum_{j \in I} P(j, i) \esub{k}{\sum_{n=0}^{T_k - 1} 1(X_n = j)} \\
+		&= \sum_{j \in I} P(j, i) \nu_k(j)
+	\end{align*}
+	Hence \( \nu_k = \nu_k P \).
+	We must show \( \nu_k > 0 \).
+	\( P \) is irreducible, hence there exists \( n \) such that \( p_{ki}(n) > 0 \).
+	Then
+	\[ \nu_k(i) = \sum_{j \in I} \nu_k(j) P^n(j,i) \geq \nu_k(k) p_{ki}(n) > 0 \]
+	To show \( \nu_k < \infty \), let \( m \) such that \( p_{ik}(m) > 0 \).
+	\[ 1 = \nu_k(k) = \sum_{j \in I} \nu_k(j) P^m(j,k) \geq \nu_k(i) P^m(i,k) \implies \nu_k(i) \leq \frac{1}{P^m(i,k)} < \infty \]
+\end{proof}
