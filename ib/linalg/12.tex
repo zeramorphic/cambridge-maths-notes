@@ -1,0 +1,119 @@
+\subsection{Multiplicative property}
+\begin{lemma}
+	Let \( A, B \in M_n(F) \).
+	Then \( \det(AB) = \det(A) \det(B) \).
+\end{lemma}
+\begin{proof}
+	Given \( A \), we define the volume form \( d_A \colon (F^n)^n \to F \) by
+	\[ d_A(v_1, \dots, v_n) \mapsto \det(A v_1, \dots, A v_n) \]
+	\( v_i \mapsto A v_i \) is linear, and the determinant is multilinear, so \( d_A \) is multilinear.
+	If \( i \neq j \) and \( v_i = v_j \), then \( \det(\dots, A v_i, \dots, A v_j, \dots) = 0 \) so \( d_A \) is alternating.
+	Hence \( d_A \) is a volume form.
+	Hence there exists a constant \( C_A \) such that \( d_A(v_1, \dots, v_n) = C_A \det(v_1, \dots, v_n) \).
+	We can compute \( C_A \) by considering the basis vectors; \( A e_i = A_i \) where \( A_i \) is the \( i \)th column vector of \( A \).
+	Then,
+	\[ C_A = d_A(e_1, \dots, e_n) = \det(Ae_1, \dots, Ae_n) = \det A \]
+	Hence,
+	\[ \det(AB) = d_A(B) = \det A \det B \]
+\end{proof}
+
+\subsection{Singular and non-singular matrices}
+\begin{definition}
+	Let \( A \in M_n(F) \).
+	We say that
+	\begin{enumerate}[(i)]
+		\item \( A \) is \textit{singular} if \( \det A = 0 \);
+		\item \( A \) is \textit{non-singular} if \( \det A \neq 0 \).
+	\end{enumerate}
+\end{definition}
+\begin{lemma}
+	If \( A \) is invertible, it is non-singular.
+\end{lemma}
+\begin{proof}
+	If \( A \) is invertible, there exists \( A^{-1} \).
+	Then, since the determinant is a homomorphism,
+	\[ \det(A A^{-1}) = \det I = 1 \]
+	Thus \( \det A \det A^{-1} = 1 \) and hence neither of these determinants can be zero.
+\end{proof}
+\begin{theorem}
+	Let \( A \in M_n(F) \).
+	The following are equivalent.
+	\begin{enumerate}[(i)]
+		\item \( A \) is invertible;
+		\item \( A \) is non-singular;
+		\item \( r(A) = n \).
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	We have already shown that (i) implies (ii).
+	We have also shown that (i) and (iii) are equivalent by the rank-nullity theorem.
+	So it suffices to show that (ii) implies (iii).
+
+	Suppose \( r(A) < n \).
+	Then we will show \( A \) is singular.
+	We have \( \dim \vecspan(A_1, \dots, A_n) < n \).
+	Therefore, since there are \( n \) vectors, \( (A_1, \dots, A_n) \) is not free.
+	So there exist scalars \( \lambda_i \) not all zero such that \( \sum_i \lambda_i A_i = 0 \).
+	Choose \( j \) such that \( \lambda_j \neq 0 \).
+	Then,
+	\[ A_j = -\frac{1}{\lambda_j} \sum_{i \neq j} \lambda_i A_i \]
+	So we can compute the determinant of \( A \) by
+	\[ \det A = \det(A_1, \dots, -\frac{1}{\lambda_j} \sum_{i \neq j} \lambda_i A_i, \dots, A_n) \]
+	Since the determinant is alternating and linear in the \( j \)th entry, its value is zero.
+	So \( A \) is singular as required.
+\end{proof}
+\begin{remark}
+	The above theorem gives necessary and sufficient conditions for invertibility of a set of \( n \) linear equations with \( n \) unknowns.
+\end{remark}
+
+\subsection{Determinants of linear maps}
+\begin{lemma}
+	Similar matrices have the same determinant.
+\end{lemma}
+\begin{proof}
+	\[ \det (P^{-1} A P) = \det(P^{-1}) \det A \det P = \det A \det (P^{-1} P) = \det A \]
+\end{proof}
+\begin{definition}
+	If \( \alpha \) is an endomorphism, then we define
+	\[ \det \alpha = \det [\alpha]_{B, B} \]
+	where \( B \) is any basis of the vector space.
+	This is well-defined, since this value does not depend on the choice of basis.
+\end{definition}
+\begin{theorem}
+	\( \det \colon L(V,V) \to F \) satisfies the following properties.
+	\begin{enumerate}[(i)]
+		\item \( \det \mathbb I = 1 \);
+		\item \( \det (\alpha\beta) = \det\alpha \det\beta \);
+		\item \( \det \alpha \neq 0 \) if and only if \( \alpha \) is invertible, and in this case, \( \det(\alpha^{-1}) \det \alpha = 1 \).
+	\end{enumerate}
+	This is simply a reformulation of the previous theorem for matrices.
+	The proof is simple, and relies on the invariance of the determinant under a change of basis.
+\end{theorem}
+
+\subsection{Determinant of block-triangular matrices}
+\begin{lemma}
+	Let \( A \in M_k(F) \), \( B \in M_\ell(F) \), \( C \in M_{k, \ell}(F) \).
+	Consider the matrix
+	\[ M = \begin{pmatrix}
+		A & C \\
+		0 & B
+	\end{pmatrix} \]
+	Then \( \det M = \det A \det B \).
+\end{lemma}
+\begin{proof}
+	Let \( n = k + \ell \), so \( M \in M_n(F) \).
+	Let \( M = (m_{ij}) \).
+	We must compute
+	\[ \det M = \sum_{\sigma \in S_n} \varepsilon(\sigma) \prod_{i=1}^n m_{\sigma(i) i} \]
+	Observe that \( m_{\sigma(i) i} = 0 \) if \( i \leq k \) and \( \sigma(i) > k \).
+	Then, we need only sum over \( \sigma \in S_n \) such that for all \( j \leq k \), we have \( \sigma(j) \leq k \).
+	Thus, for all \( j \in \qty{k+1, \dots, n} \), we have \( \sigma(j) \in \qty{k+1, \dots, n} \).
+	We can then uniquely decompose \( \sigma \) into two permutations \( \sigma = \sigma_1 \sigma_2 \), where \( \sigma_1 \) is restricted to \( \qty{1, \dots, k} \) and \( \sigma_2 \) is restricted to \( \qty{k+1, \dots, n} \).
+	Hence,
+	\begin{align*}
+		\det M &= \sum_{\sigma_1 \in S_k} \sum_{\sigma_2 \in S_{n-k}} \varepsilon(\sigma) \prod_{i=1}^n m_{\sigma(i) i} \\
+		&= \sum_{\sigma_1 \in S_k} \sum_{\sigma_2 \in S_{n-k}} \varepsilon(\sigma_1) \varepsilon(\sigma_2) \prod_{i=1}^k m_{\sigma(i) i} \prod_{i=k+1}^n m_{\sigma(i) i} \\
+		&= \sum_{\sigma_1 \in S_k} \varepsilon(\sigma_1) \prod_{i=1}^k m_{\sigma(i) i} \sum_{\sigma_2 \in S_{n-k}} \varepsilon(\sigma_2) \prod_{i=k+1}^n m_{\sigma(i) i} \\
+		&= \det A \det B
+	\end{align*}
+\end{proof}
