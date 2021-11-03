@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"bytes"
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
@@ -35,6 +37,17 @@ func init() {
 	// optimiseCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
+func exists(name string) bool {
+	_, err := os.Stat(name)
+	if err == nil {
+		return true
+	}
+	if errors.Is(err, os.ErrNotExist) {
+		return false
+	}
+	return false
+}
+
 func html() {
 	fmt.Println("Building...")
 	var wg sync.WaitGroup
@@ -50,19 +63,37 @@ func html() {
 
 			// Compile the file.
 			os.MkdirAll("html/build/"+file.FilePath, 0777)
-			cmd := exec.Command(
-				"pandoc",
-				"main.tex",
-				"--standalone",
-				"--mathjax",
-				"--include-in-header", "../../html/header.html",
-				"--output", "../../html/build/"+file.FilePath+"/index.html",
-			)
-			cmd.Dir = file.FilePath
-			out, err := cmd.CombinedOutput()
-			if err != nil {
-				errorChan <- file.FilePath + ":\n" + string(out)
-				bar.Set(bar.GetMax())
+			for i := 1; exists(file.FilePath + "/" + fmt.Sprintf("%02d", i) + ".tex"); i++ {
+				iStr := fmt.Sprintf("%02d", i)
+				rawFileContents, _ := os.ReadFile(file.FilePath + "/" + iStr + ".tex")
+				fileString := string(rawFileContents)
+
+				// We can modify the contents of the file that pandoc sees here.
+				fileString = "\\input{../../util.tex}\\n" + fileString
+
+				cmd := exec.Command(
+					"pandoc",
+					"--from", "latex",
+					"--standalone",
+					"--mathjax",
+					"--include-in-header", "../../html/header.html",
+					"--css=../../../normalize.css",
+					"--css=../../../main.css",
+					"--output", "../../html/build/"+file.FilePath+"/"+iStr+".html",
+				)
+				cmd.Dir = file.FilePath
+				var out bytes.Buffer
+				var err bytes.Buffer
+				cmd.Stdout = &out
+				cmd.Stderr = &err
+				stdin, _ := cmd.StdinPipe()
+				cmd.Start()
+				stdin.Write([]byte(fileString))
+				stdin.Close()
+				if cmd.Wait() != nil {
+					errorChan <- file.FilePath + "#" + iStr + ":\n" + out.String()
+					bar.Set(bar.GetMax())
+				}
 			}
 			bar.Add(1)
 		}
