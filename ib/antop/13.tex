@@ -1,0 +1,138 @@
+\subsection{Subspaces}
+\begin{definition}
+	Let \( (X, \tau) \) be a topological space.
+	Let \( Y \subset X \).
+	Then the \textit{subspace topology}, or \textit{relative topology} on \( Y \) induced by \( \tau \) is the topology
+	\[ \qty{ V \cap Y \colon V \in \tau } \]
+	on \( Y \).
+	This is the intersection of \( Y \) with all open sets in \( X \).
+	We can denote this \( \eval{\tau}_Y \).
+	So, for \( U \subset Y \), \( U \) is open in \( Y \) if and only if there exists an open set \( V \) in \( X \) with \( U = V \cap Y \).
+\end{definition}
+\begin{example}
+	Let \( X = \mathbb R, Y = [0,2] \), and \( U = (1,2] \).
+	Then certainly \( U \subset Y \subset X \).
+	\( U \) is open in \( Y \), since \( V = (1,3) \) is open in \( X \) and \( U = V \cap Y \).
+	However, \( U \) is not open in \( X \), since no neighbourhood (or ball) around \( 2 \) can be constructed in \( X \) that is contained within \( U \).
+\end{example}
+\begin{remark}
+	On a subset of a topological space, this is considered the standard topology.
+	Suppose that \( (X, \tau) \) is a topological space, and \( Z \subset Y \subset X \).
+	There are two natural topologies on \( Z \): \( \eval{\tau}_Z \) and \( \eval{\eval{\tau}_Y}_Z \).
+	One can easily check that these two topologies are equal.
+
+	Let \( (M,d) \) be a metric space, and \( N \subset M \).
+	Again, there are two natural topologies on \( N \): \( \eval{\tau(d)}_N \) and \( \tau\qty(\eval{d}_N) \), where \( \tau(e) \) is the metric topology induced by the metric \( e \).
+	This is because, for any \( x \in N, r > 0 \),
+	\[ \qty{y \in N \colon d(y,x) < r} = \qty{y \in M \colon d(y,x) < r} \cap N \]
+\end{remark}
+\begin{proposition}
+	Let \( X \) be a topological space, and let \( A \subset Y \subset X \).
+	\( A \) is closed in \( Y \) if and only if there exists a closed subset \( B \subset X \) such that \( A = B \cap Y \).
+	Further,
+	\[ \mathrm{cl}_Y(A) = \mathrm{cl}_X(A) \cap Y \]
+	This is not true for the interior of a subset in general.
+	For instance, consider \( X = \mathbb R, A = Y = \qty{0} \).
+	In this case, \( \mathrm{int}_Y(A) = A, \mathrm{int}_X(A) = \varnothing \).
+\end{proposition}
+\begin{proof}
+	The first part is true by taking complemenents: \( Y \setminus A \) is open in \( Y \).
+	By definition, \( Y \setminus A = V \cap Y \) for some open \( V \) in \( X \).
+	So \( B = X \setminus V \) is closed in \( X \) and \( A = B \cap Y \).
+	If \( A = B \cap Y \), \( B \) is closed in \( X \), then \( X \setminus B \) is open in \( X \), and hence \( Y \setminus A = (X \setminus B) \cap Y \) is open in \( Y \).
+
+	For the second part, we know \( \mathrm{cl}_X(A) \) is closed in \( X \), so by the first part, \( \mathrm{cl}_X(A) \cap Y \) is closed in \( Y \).
+	Then \( A \subset \mathrm{cl}_X(A) \cap Y \).
+	So by definition, \( \mathrm{cl}_Y(A) \subset \mathrm{cl}_X(A) \cap Y \).
+	Similarly, since \( \mathrm{cl}_Y(A) \) is closed in \( Y \), we can write \( \mathrm{cl}_Y(A) = B \cap Y \) for some closed set \( B \) in \( X \).
+	But \( A \subset B \), and \( B \) is closed in \( X \), so \( \mathrm{cl}_X(A) \subset B \) and hence \( \mathrm{cl}_Y(A) = B \cap Y \supset \mathrm{cl}_X(A) \cap Y \).
+\end{proof}
+\begin{remark}
+	If \( U \subset Y \subset X \), and \( Y \) is open in \( X \), then \( U \) is open in \( Y \) if and only if \( U \) is open in \( X \).
+\end{remark}
+
+\subsection{Continuity}
+\begin{definition}
+	A function \( f \colon X \to Y \) between topological spaces is said to be continuous if for all open sets \( V \) in \( Y \), the preimage \( f^{-1}(V) \) is open in \( X \).
+\end{definition}
+\begin{remark}
+	We have already proven that this agrees with the definition of continuity of functions between metric spaces.
+\end{remark}
+\begin{example}
+	Constant functions are always continuous.
+	Consider \( f \colon X \to Y \) defined by \( f(x) = y_0 \) for a fixed \( y_0 \in Y \).
+	For any \( V \subset Y \), \( f^{-1}(V) = \varnothing \) if \( y_0 \not\in V \), and \( f^{-1}(V) = X \) if \( y_0 \in V \).
+	So \( f \) is continuous.
+\end{example}
+\begin{example}
+	The identity map is always continuous.
+	If \( f \colon X \to X \) is defined by \( x \mapsto x \), \( f^{-1}(V) = V \) so if \( V \) is open, \( f^{-1}(V) \) is trivially open.
+\end{example}
+\begin{example}
+	Let \( Y \subset X \).
+	Let \( i \colon Y \to X \) be the inclusion map.
+	Then for an open set \( V \) in \( X \), \( i^{-1}(V) = V \cap Y \) which by definition is open in \( Y \).
+	Hence, if \( g \colon X \to Z \) is continuous, then \( \eval{g}_Y = g \circ i \colon X \to Y \) is continuous, as we will see below.
+\end{example}
+\begin{proposition}
+	Let \( f \colon X \to Y \) be a function between topological spaces.
+	Then,
+	\begin{enumerate}[(i)]
+		\item \( f \) is continuous if and only if for all closed sets \( B \) in \( Y \), \( f^{-1}(B) \) is closed in \( X \);
+		\item if \( f \) is continuous and \( g \colon Y \to Z \) is continuous, then \( g \circ f \) is continuous.
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	To prove (i), note that for any subset \( D \subset Y \), \( f^{-1}(Y \setminus D) = X \setminus f^{-1}(D) \).
+	We can now use the fact that \( A \subset X \) is open in \( X \) if and only if \( X \setminus A \) is closed in \( X \), and vice versa for \( Y \).
+
+	To prove (ii), note that if \( W \) is an open subset of \( Z \), then \( g^{-1}(W) \) is open in \( Y \) since \( g \) is continuous.
+	Hence \( f^{-1}g^{-1}(W) \) is open in \( X \) since \( f \) is continuous.
+	But then \( f^{-1}g^{-1} = (g \circ f)^{-1} \), so \( g \circ f \) is continuous.
+\end{proof}
+\begin{remark}
+	There exists a notion of `continuity at a point' for topological spaces, but it is not as useful in this course as the global continuity definition.
+\end{remark}
+
+\subsection{Homeomorphisms and topological invariance}
+\begin{definition}
+	A function \( f \colon X \to Y \) between topological spaces is a homeomorphism if \( f \) is a bijection, and both \( f, f^{-1} \) are continuous.
+	If such an \( f \) exists, we say that \( X \) and \( Y \) are homeomorphic.
+	This is exactly the definition from metric spaces.
+\end{definition}
+\begin{definition}
+	A property \( \mathcal P \) of topological spaces is said to be a \textit{topological property} or \textit{topological invariant} if, for all pairs \( X, Y \) of homeomorphic spaces, \( X \) satisfies \( \mathcal P \) if and only if \( Y \) satisfies \( \mathcal P \).
+\end{definition}
+\begin{example}
+	Metrisability is a topological invariant.
+	Being Hausdorff is a topological invariant.
+	Being a complete metrisable (metrisable into a complete metric space) is \textit{not} a topological invariant.
+	For example, consider metrics \( d, d' \) on \( \mathbb R \) such that \( d \sim d' \) but \( d \) is complete and \( d' \) is not.
+\end{example}
+\begin{remark}
+	If \( f \colon X \to Y \) is a homeomorphism, for an open set \( U \) in \( X \), \( f(U) = (f^{-1})^{-1}(U) \) is open in \( Y \) since \( f^{-1} \colon Y \to X \) is continuous.
+\end{remark}
+\begin{definition}
+	A function \( f \colon X \to Y \) between topological spaces is an \textit{open map} if for all open sets \( U \) in \( X \), \( f(U) \) is open in \( Y \).
+\end{definition}
+\begin{remark}
+	\( f \colon X \to Y \) is a homeomorphism if and only if \( f \) is a continuous and open bijection.
+\end{remark}
+
+\subsection{Products}
+Let \( X, Y \) be topological spaces.
+We want to define the topology on \( X \times Y \).
+If \( U \) is open in \( X \) and \( V \) is open in \( Y \), then we would like \( U \times V \) to be open in \( X \times Y \).
+Certainly \( \varnothing = \varnothing \times \varnothing \) and \( X \times Y \) should be open.
+Further \( (U \times V) \cap (U' \times V') = (U \cap U') \times (V \cap V') \), so intersections work.
+\( \bigcup_{i \in I} U_i \times V_i \) must be open for open sets \( U_i, V_i \), but this is not obvious from what we have shown so far, so we must include this in our definition.
+\begin{definition}
+	The \textit{product topology} on \( X \times Y \) consists of all sets of the form
+	\[ \bigcup_{i \in I} U_i \times V_i \]
+	where \( I \) is arbitrary, and for all \( i \) the sets \( U_i, V_i \) are open in \( X, Y \).
+\end{definition}
+\begin{remark}
+	For \( W \subset X \times Y \), we know that \( W \) is open if and only if for all \( z \in W \), there exist open sets \( U \subset X, V \subset Y \), such that \( z \in U \times V \subset W \).
+	So, thinking of the product as a product of real lines, we might say that \( W \) is open if for every point \( z \in W \), we can construct a `box set' (the Cartesian product of open intervals) contained in \( W \) that has \( z \) as an element.
+	More formally, \( W \) is a neighbourhood of \( z ) if and only if there exist neighbourhoods \( U \) of \( x \) in \( X \) and \( V \) of \( y \) in \( Y \) such that \( U \times V \subset W \).
+\end{remark}
