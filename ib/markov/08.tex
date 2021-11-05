@@ -1,5 +1,6 @@
 \subsection{Invariant distributions}
-Let \( I \) be a countable set. \( (\lambda_i) \) is a probability distribution if \( \lambda_i \geq 0 \) and \( \sum_i \lambda_i = 1 \).
+Let \( I \) be a countable set.
+\( (\lambda_i) \) is a probability distribution if \( \lambda_i \geq 0 \) and \( \sum_i \lambda_i = 1 \).
 \begin{example}
 	Consider a Markov chain with two elements, and \( P(1,1) = P(1,2) = P(2,1) = P(2,2) = \frac{1}{2} \).
 	As \( n \to \infty \), it is easy to see here that both states should be equally likely to occur.
@@ -10,9 +11,9 @@ In general, we want to find a distribution \( \pi \) such that if \( X_0 \sim \p
 Suppose \( X_0 \sim \pi \).
 Then,
 \begin{align*}
-	\prob{X_1 = j} &= \sum_{i \in I} \prob{X_0 = i, X_1 = j} \\
-	&= \sum_{i \in I} \prob{X_1 = j \mid X_0 = i}\prob{X_0 = i}
-	&= \sum_{i \in I} \pi(i) P(i,j)
+	\prob{X_1 = j} & = \sum_{i \in I} \prob{X_0 = i, X_1 = j}                   \\
+	               & = \sum_{i \in I} \prob{X_1 = j \mid X_0 = i}\prob{X_0 = i}
+	               & = \sum_{i \in I} \pi(i) P(i,j)
 \end{align*}
 Since we want \( X_1 \sim \pi \), we must have \( \pi(j) = \sum_{i \in I} \pi(i) P(i,j) \) for all \( j \).
 In matrix form, \( \pi = \pi P \).
@@ -33,10 +34,14 @@ In matrix form, \( \pi = \pi P \).
 \begin{proof}
 	First, we check that the sum of \( \pi_j \) is one.
 	Since \( I \) is finite, we can interchange the sum and limit.
-	\[ \sum_{j \in I} \pi_j = \sum_{j \in I} \lim_{n \to \infty} p_{ij}(n) = \lim_{n \to \infty} \sum_{j \in I} p_{ij}(n) = \lim_{n \to \infty} 1 = 1 \]
+	\[
+		\sum_{j \in I} \pi_j = \sum_{j \in I} \lim_{n \to \infty} p_{ij}(n) = \lim_{n \to \infty} \sum_{j \in I} p_{ij}(n) = \lim_{n \to \infty} 1 = 1
+	\]
 	So \( \pi_j \) is a probability distribution.
 	We now must show \( \pi = \pi P \).
-	\[ \pi_j = \lim_{n \to \infty} p_{ij}(n) = \lim_{n \to \infty} \sum_{k \in I} p_{ik}(n-1) P(k,j) = \sum_{k \in I} \lim_{n \to \infty} p_{ik}(n-1) P(k,j) = \sum_{k \in I} \pi_k P(k,j) \]
+	\[
+		\pi_j = \lim_{n \to \infty} p_{ij}(n) = \lim_{n \to \infty} \sum_{k \in I} p_{ik}(n-1) P(k,j) = \sum_{k \in I} \lim_{n \to \infty} p_{ik}(n-1) P(k,j) = \sum_{k \in I} \pi_k P(k,j)
+	\]
 	as required.
 \end{proof}
 \begin{remark}
@@ -57,7 +62,9 @@ Since \( I \) is finite, we can normalise the left eigenvector such that its com
 	Let \( k \in I \).
 	Recall that \( T_k \) is the first return time to \( k \).
 	For every \( i \in I \), we define
-	\[ \nu_k(i) = \esub{k}{\sum_{n=0}^{T_k - 1} 1(X_n = i)} \]
+	\[
+		\nu_k(i) = \esub{k}{\sum_{n=0}^{T_k - 1} 1(X_n = i)}
+	\]
 	which is the expected number of times that we hit \( i \) while on an excursion from \( k \) (returning back to \( k \)).
 \end{definition}
 \begin{theorem}
@@ -70,26 +77,31 @@ Since \( I \) is finite, we can normalise the left eigenvector such that its com
 	\( T_k < \infty \) with probability 1 by recurrence, and \( X_{T_k} = k \).
 	Then,
 	\begin{align*}
-		\nu_k(i) &= \esub{k}{\sum_{n=0}^{T_k - 1} 1(X_n = i)} \\
-		&= \esub{k}{\sum_{n=1}^{T_k} 1(X_n = i)} \\
-		&= \esub{k}{\sum_{n=1}^\infty 1(X_n = i, T_k \geq n)} \\
-		&= \sum_{n=1}^\infty \esub{k}{1(X_n = i, T_k \geq n)} \\
-		&= \sum_{n=1}^\infty \psub{k}{X_n = i, T_k \geq n} \\
-		&= \sum_{n=1}^\infty \sum_{j \in I} \psub{k}{X_n = i, X_{n-1} = j, T_k \geq n} \\
-		&= \sum_{n=1}^\infty \sum_{j \in I} \psub{k}{X_n = i \mid X_{n-1} = j, T_k \geq n} \psub{k}{X_{n-1} = j, T_k \geq n} \\
-		\intertext{\( T_k \) is a stopping time, so the event \( \qty{T_k \geq n} = \qty{T_k \leq n-1}^\complement \) depends only on values we already know or don't care about. Hence, we can remove it.}
-		&= \sum_{n=1}^\infty \sum_{j \in I} \psub{k}{X_n = i \mid X_{n-1} = j} \psub{k}{X_{n-1} = j, T_k \geq n} \\
-		&= \sum_{n=1}^\infty \sum_{j \in I} P(j, i) \psub{k}{X_{n-1} = j, T_k \geq n} \\
-		&= \sum_{j \in I} \sum_{n=1}^\infty P(j, i) \psub{k}{X_{n-1} = j, T_k \geq n} \\
-		&= \sum_{j \in I} \sum_{n=0}^\infty P(j, i) \psub{k}{X_n = j, T_k \geq n + 1} \\
-		&= \sum_{j \in I} P(j, i) \esub{k}{\sum_{n=0}^{T_k - 1} 1(X_n = j)} \\
-		&= \sum_{j \in I} P(j, i) \nu_k(j)
+		\nu_k(i) & = \esub{k}{\sum_{n=0}^{T_k - 1} 1(X_n = i)}                                                                         \\
+		         & = \esub{k}{\sum_{n=1}^{T_k} 1(X_n = i)}                                                                             \\
+		         & = \esub{k}{\sum_{n=1}^\infty 1(X_n = i, T_k \geq n)}                                                                \\
+		         & = \sum_{n=1}^\infty \esub{k}{1(X_n = i, T_k \geq n)}                                                                \\
+		         & = \sum_{n=1}^\infty \psub{k}{X_n = i, T_k \geq n}                                                                   \\
+		         & = \sum_{n=1}^\infty \sum_{j \in I} \psub{k}{X_n = i, X_{n-1} = j, T_k \geq n}                                       \\
+		         & = \sum_{n=1}^\infty \sum_{j \in I} \psub{k}{X_n = i \mid X_{n-1} = j, T_k \geq n} \psub{k}{X_{n-1} = j, T_k \geq n} \\
+		\intertext{\( T_k \) is a stopping time, so the event \( \qty{T_k \geq n} = \qty{T_k \leq n-1}^\complement \) depends only on values we already know or don't care about.
+			Hence, we can remove it.}
+		         & = \sum_{n=1}^\infty \sum_{j \in I} \psub{k}{X_n = i \mid X_{n-1} = j} \psub{k}{X_{n-1} = j, T_k \geq n}             \\
+		         & = \sum_{n=1}^\infty \sum_{j \in I} P(j, i) \psub{k}{X_{n-1} = j, T_k \geq n}                                        \\
+		         & = \sum_{j \in I} \sum_{n=1}^\infty P(j, i) \psub{k}{X_{n-1} = j, T_k \geq n}                                        \\
+		         & = \sum_{j \in I} \sum_{n=0}^\infty P(j, i) \psub{k}{X_n = j, T_k \geq n + 1}                                        \\
+		         & = \sum_{j \in I} P(j, i) \esub{k}{\sum_{n=0}^{T_k - 1} 1(X_n = j)}                                                  \\
+		         & = \sum_{j \in I} P(j, i) \nu_k(j)
 	\end{align*}
 	Hence \( \nu_k = \nu_k P \).
 	We must show \( \nu_k > 0 \).
 	\( P \) is irreducible, hence there exists \( n \) such that \( p_{ki}(n) > 0 \).
 	Then
-	\[ \nu_k(i) = \sum_{j \in I} \nu_k(j) P^n(j,i) \geq \nu_k(k) p_{ki}(n) > 0 \]
+	\[
+		\nu_k(i) = \sum_{j \in I} \nu_k(j) P^n(j,i) \geq \nu_k(k) p_{ki}(n) > 0
+	\]
 	To show \( \nu_k < \infty \), let \( m \) such that \( p_{ik}(m) > 0 \).
-	\[ 1 = \nu_k(k) = \sum_{j \in I} \nu_k(j) P^m(j,k) \geq \nu_k(i) P^m(i,k) \implies \nu_k(i) \leq \frac{1}{P^m(i,k)} < \infty \]
+	\[
+		1 = \nu_k(k) = \sum_{j \in I} \nu_k(j) P^m(j,k) \geq \nu_k(i) P^m(i,k) \implies \nu_k(i) \leq \frac{1}{P^m(i,k)} < \infty
+	\]
 \end{proof}

@@ -1,0 +1,103 @@
+\subsection{Column and row expansions}
+Let \( A \in M_n(F) \) with column vectors \( A^{(i)} \).
+We know that
+\[
+	\det(A^{(1)}, \dots, A^{(j)}, \dots, A^{(k)}, \dots, A^{(n)}) = -\det(A^{(1)}, \dots, A^{(k)}, \dots, A^{(j)}, \dots, A^{(n)})
+\]
+Using the fact that \( \det A = \det A^\transpose \) we can similarly see that swapping two rows will invert the sign of the determinant.
+\begin{remark}
+	We could have proven all of the properties of the determinant above by using the decomposition of \( A \) into elementary matrices.
+\end{remark}
+\begin{definition}
+	Let \( A \in M_n(F) \).
+	Let \( i, j \in \qty{1, \dots, n} \).
+	We define the \textit{minor} \( A_{\widehat{ij}} \in M_{n-1}(F) \) to be the matrix obtained by removing the \( i \)th row and the \( j \)th column.
+\end{definition}
+\begin{lemma}
+	Let \( A \in M_n(F) \).
+	\begin{enumerate}[(i)]
+		\item Let \( j \in \qty{1, \dots, n} \).
+		      The determinant of \( A \) is given by the \textit{column expansion with respect to the \( j \)th column}:
+		      \[
+			      \det A = \sum_{i=1}^n (-1)^{i+j} a_{ij} \det A_{\widehat{ij}}
+		      \]
+		\item Let \( i \in \qty{1, \dots, n} \).
+		      The same determinant is also given by the \textit{row expansion with respect to the \( i \)th row}:
+		      \[
+			      \det A = \sum_{j=1}^n (-1)^{i+j} a_{ij} \det A_{\widehat{ij}}
+		      \]
+	\end{enumerate}
+	This is a process of reducing the computation of \( n \times n \) determinants to \( (n-1) \times (n-1) \) determinants.
+\end{lemma}
+\begin{proof}
+	We will prove case (i), the column expansion with respect to the \( j \)th column.
+	Then (ii) will follow from the transpose of the matrix.
+	Let \( j \in \qty{1, \dots, n} \).
+	We can write \( A^{(j)} = \sum_{i=1}^n a_{ij} e_i \) where the \( e_i \) are the canonical basis.
+	Then, by swapping rows and columns,
+	\begin{align*}
+		\det A & = \det\qty(A^{(1)}, \dots, \sum_{i=1}^n a_{ij} e_i, \dots, A^{(n)})                                    \\
+		       & = \sum_{i=1}^n a_{ij} \det\qty(A^{(1)}, \dots, e_i, \dots, A^{(n)})                                    \\
+		       & = \sum_{i=1}^n a_{ij} (-1)^{j-1} \det\qty(e_i, A^{(1)}, \dots, A^{(n)})                                \\
+		       & = \sum_{i=1}^n a_{ij} (-1)^{j-1} (-1)^{i-1} \det\qty(e_1, \overline A^{(1)}, \dots, \overline A^{(n)})
+	\end{align*}
+	This has brought the matrix into block form, where there is an element of value 1 in the top left, and the matrix \( A_{\widehat{ij}} \) in the bottom right.
+	The bottom left block is entirely zeroes.
+	Hence,
+	\[
+		\det A = \sum_{i=1}^n (-1)^{i+j} a_{ij} \det A_{\widehat{ij}}
+	\]
+	as required.
+\end{proof}
+\begin{remark}
+	We have proven that
+	\[
+		\det (A^{(1)}, \dots, e_i, \dots, A^{(n)}) = (-1)^{i+j} \det A_{\widehat{ij}}
+	\]
+\end{remark}
+
+\subsection{Adjugates}
+\begin{definition}
+	Let \( A \in M_n(F) \).
+	The \textit{adjugate matrix} of \( A \), denoted \( \adj A \), is the \( n \times n \) matrix given by
+	\[
+		(\adj A)_{ij} = (-1)^{i+j} \det A_{\widehat{ij}}
+	\]
+	Hence,
+	\[
+		\det (A^{(1)}, \dots, e_i, \dots, A^{(n)}) = (\adj A)_{ji}
+	\]
+\end{definition}
+\begin{theorem}
+	Let \( A \in M_n(F) \).
+	Then
+	\[
+		(\adj A) A = (\det A) I
+	\]
+	In particular, when \( A \) is invertible,
+	\[
+		A^{-1} = \frac{\adj A}{\det A}
+	\]
+\end{theorem}
+\begin{proof}
+	We have
+	\[
+		\det A = \sum_{i=1}^n (-1)^{i+j} a_{ij} \det A_{\widehat{ij}}
+	\]
+	Hence,
+	\[
+		\det A = \sum_{i=1}^n (\adj A)_{ji} a_{ij} = ((\adj A) A)_{jj}
+	\]
+	So the diagonal terms match.
+	Off the diagonal,
+	\[
+		0 = \det(A^{(1)}, \dots, \underbrace{A^{(k)}}_{\mathclap{j\text{th position}}}, \dots, A^{(k)}, \dots, A^{(n)})
+	\]
+	By linearity,
+	\begin{align*}
+		0 & = \det\qty(A^{(1)}, \dots, \underbrace{\sum_{i=1}^n a_{ik} e_i}_{\mathclap{j\text{th position}}}, \dots, A^{(k)}, \dots, A^{(n)}) \\
+		  & = \sum_{i=1}^n a_{ik} \det\qty(A^{(1)}, \dots, \underbrace{e_i}_{\mathclap{j\text{th position}}}, \dots, A^{(k)}, \dots, A^{(n)}) \\
+		  & = \sum_{i=1}^n a_{ik} (\adj A)_{ji}                                                                                               \\
+		  & = ((\adj A) A)_{jk}
+	\end{align*}
+\end{proof}

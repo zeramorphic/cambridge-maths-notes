@@ -1,82 +1,108 @@
 \subsection{Definition}
 \begin{definition}
-    We define a generalised function \( \delta(x - \xi) \) such that
-    \begin{enumerate}[(i)]
-        \item \( \delta(x-\xi) = 0 \) for all \( x \neq \xi \);
-        \item \( \int_{-\infty}^\infty \delta(x-\xi) \dd{x} = 1 \).
-    \end{enumerate}
-    This acts as a linear operator \( \int \dd{x} \delta(x - \xi) \) on some function \( f(x) \) to produce a number \( f(\xi) \).
-    \[ \int_{-\infty}^\infty \dd{x} \delta(x-\xi) f(x) = f(\xi) \]
-    This relationship holds provided that \( f(x) \) is sufficiently `well-behaved' at \( x=\xi \) and \( x\to\pm \infty \).
+	We define a generalised function \( \delta(x - \xi) \) such that
+	\begin{enumerate}[(i)]
+		\item \( \delta(x-\xi) = 0 \) for all \( x \neq \xi \);
+		\item \( \int_{-\infty}^\infty \delta(x-\xi) \dd{x} = 1 \).
+	\end{enumerate}
+	This acts as a linear operator \( \int \dd{x} \delta(x - \xi) \) on some function \( f(x) \) to produce a number \( f(\xi) \).
+	\[
+		\int_{-\infty}^\infty \dd{x} \delta(x-\xi) f(x) = f(\xi)
+	\]
+	This relationship holds provided that \( f(x) \) is sufficiently `well-behaved' at \( x=\xi \) and \( x\to\pm \infty \).
 \end{definition}
 \begin{remark}
-    Strictly, the \( \delta \) `function' is classified as a distribution, not as a function.
-    For this reason, we will never use \( \delta \) outside an integral, although such an integral may be implied.
-    The \( \delta \) function represnts a unit point source or impulse.
+	Strictly, the \( \delta \) `function' is classified as a distribution, not as a function.
+	For this reason, we will never use \( \delta \) outside an integral, although such an integral may be implied.
+	The \( \delta \) function represnts a unit point source or impulse.
 \end{remark}
 We can approximate the \( \delta \) function using a Gaussian approximation.
-\[ \delta_\varepsilon(x) = \frac{1}{\varepsilon \sqrt{\pi}} \exp[-\frac{x^2}{\varepsilon^2}] \]
+\[
+	\delta_\varepsilon(x) = \frac{1}{\varepsilon \sqrt{\pi}} \exp[-\frac{x^2}{\varepsilon^2}]
+\]
 Therefore,
 \begin{align*}
-    \int_{-\infty}^\infty f(x) \delta(x) \dd{x} &= \lim_{\varepsilon \to 0} \int_{-\infty}^\infty \frac{1}{\varepsilon \sqrt{\pi}} \exp[-\frac{x^2}{\varepsilon^2}] f(x) \dd{x} \\
-    &= \lim_{\varepsilon \to 0} \int_{-\infty}^\infty \frac{1}{\varepsilon \sqrt{\pi}} \exp[-y^2] f(\varepsilon y) \dd{y} \\
-    &= \lim_{\varepsilon \to 0} \int_{-\infty}^\infty \frac{1}{\varepsilon \sqrt{\pi}} \exp[-y^2] [f(0) + \varepsilon y f'(0) + \cdots] \dd{y} \\
-    &= f(0)
+	\int_{-\infty}^\infty f(x) \delta(x) \dd{x} & = \lim_{\varepsilon \to 0} \int_{-\infty}^\infty \frac{1}{\varepsilon \sqrt{\pi}} \exp[-\frac{x^2}{\varepsilon^2}] f(x) \dd{x}            \\
+	                                            & = \lim_{\varepsilon \to 0} \int_{-\infty}^\infty \frac{1}{\varepsilon \sqrt{\pi}} \exp[-y^2] f(\varepsilon y) \dd{y}                      \\
+	                                            & = \lim_{\varepsilon \to 0} \int_{-\infty}^\infty \frac{1}{\varepsilon \sqrt{\pi}} \exp[-y^2] [f(0) + \varepsilon y f'(0) + \cdots] \dd{y} \\
+	                                            & = f(0)
 \end{align*}
 for all well-behaved functions \( f \) at \( 0, \pm \infty \).
 We could alternatively use the Dirichlet kernel
-\[ \delta_n(x) = \frac{\sin n x}{\pi x} = \frac{1}{2\pi} \int_{-n}^n e^{ikx} \dd{k} \]
+\[
+	\delta_n(x) = \frac{\sin n x}{\pi x} = \frac{1}{2\pi} \int_{-n}^n e^{ikx} \dd{k}
+\]
 or even
-\[ \delta_n(x) = \frac{n}{2} \sech^2 nx \]
+\[
+	\delta_n(x) = \frac{n}{2} \sech^2 nx
+\]
 
 \subsection{Integral and derivative of delta function}
 We define the Heaviside step function by
-\[ H(x) = \begin{cases}
-    1 & x \geq 0 \\
-    0 & x < 0
-\end{cases} \]
+\[
+	H(x) = \begin{cases}
+		1 & x \geq 0 \\
+		0 & x < 0
+	\end{cases}
+\]
 For \( x \neq 0 \), we have
-\[ H(x) = \int_{-\infty}^x \delta(t) \dd{t} \]
+\[
+	H(x) = \int_{-\infty}^x \delta(t) \dd{t}
+\]
 Thus,
-\[ \dv{x} H(x) = \delta(x) \]
+\[
+	\dv{x} H(x) = \delta(x)
+\]
 where this identification takes place under an implied integral.
 We define \( \delta'(x) \) using integration by parts.
 \begin{align*}
-    \int_{-\infty}^\infty \delta'(x-\xi) f(x) \dd{x} &= \qty[\delta(x-\xi) f(x)]_{-\infty}^\infty - \int_{-\infty}^\infty \delta(x-\xi) f'(x) \dd{x} \\
-    &= - \int_{-\infty}^\infty \delta(x-\xi) f'(x) \dd{x} \\
-    &= - f'(\xi)
+	\int_{-\infty}^\infty \delta'(x-\xi) f(x) \dd{x} & = \qty[\delta(x-\xi) f(x)]_{-\infty}^\infty - \int_{-\infty}^\infty \delta(x-\xi) f'(x) \dd{x} \\
+	                                                 & = - \int_{-\infty}^\infty \delta(x-\xi) f'(x) \dd{x}                                           \\
+	                                                 & = - f'(\xi)
 \end{align*}
 This is valid for all \( f \) that are smooth at \( x = \xi \).
 \begin{example}
-    Consider the Gaussian approximation:
-    \[ \delta_\varepsilon(x) = \frac{1}{\varepsilon \sqrt{\pi}} \exp[-\frac{x^2}{\varepsilon^2}] \]
-    Then,
-    \[ \delta_\varepsilon'(x) = \frac{-2x}{\varepsilon^3 \sqrt{\pi}} \exp[-\frac{x^2}{\varepsilon^2}] \]
+	Consider the Gaussian approximation:
+	\[
+		\delta_\varepsilon(x) = \frac{1}{\varepsilon \sqrt{\pi}} \exp[-\frac{x^2}{\varepsilon^2}]
+	\]
+	Then,
+	\[
+		\delta_\varepsilon'(x) = \frac{-2x}{\varepsilon^3 \sqrt{\pi}} \exp[-\frac{x^2}{\varepsilon^2}]
+	\]
 \end{example}
 
 \subsection{Properties of delta function}
 Note that
-\[ \int_a^b f(x) \delta(x-\xi) \dd{x} = \begin{cases}
-    f(\xi) & a < \xi < b \\
-    0 & \text{otherwise}
-\end{cases} \]
+\[
+	\int_a^b f(x) \delta(x-\xi) \dd{x} = \begin{cases}
+		f(\xi) & a < \xi < b      \\
+		0      & \text{otherwise}
+	\end{cases}
+\]
 So the \( \delta \) function only `samples' values within the integral range.
 This is known as the sampling property.
 Let \( u = -(x-\xi) \), and consider
 \begin{align*}
-    \int_{-\infty}^\infty f(x) \delta\qty(-(x-\xi)) \dd{x} &= \int_{\infty}^{-\infty} f(\xi - u) \delta(u) (-\dd{u}) \\
-    &= \int_{-\infty}^\infty f(\xi - u) \delta(u) \dd{u} \\
-    &= f(\xi)
+	\int_{-\infty}^\infty f(x) \delta\qty(-(x-\xi)) \dd{x} & = \int_{\infty}^{-\infty} f(\xi - u) \delta(u) (-\dd{u}) \\
+	                                                       & = \int_{-\infty}^\infty f(\xi - u) \delta(u) \dd{u}      \\
+	                                                       & = f(\xi)
 \end{align*}
 Hence,
-\[ \int_{-\infty}^\infty f(x) \delta\qty(-(x-\xi)) \dd{x} = \int_{-\infty}^\infty f(x) \delta(x-\xi) \dd{x} \]
+\[
+	\int_{-\infty}^\infty f(x) \delta\qty(-(x-\xi)) \dd{x} = \int_{-\infty}^\infty f(x) \delta(x-\xi) \dd{x}
+\]
 This is called the even property.
 Now, consider
-\[ \int_{-\infty}^\infty f(x) \delta(a(x-\xi)) \dd{x} = \frac{1}{\abs{a}}f(\xi) \]
+\[
+	\int_{-\infty}^\infty f(x) \delta(a(x-\xi)) \dd{x} = \frac{1}{\abs{a}}f(\xi)
+\]
 This is the scaling property.
 Let \( g(x) \) be a function with \( n \) isolated roots at \( x_1, \dots, x_n \).
 Then, assuming \( g'(x) \) does not vanish at the \( x_i \),
-\[ \delta(g(x)) = \sum_{i=1}^n \frac{\delta(x - x_i)}{\abs{g'(x_i)}} \]
+\[
+	\delta(g(x)) = \sum_{i=1}^n \frac{\delta(x - x_i)}{\abs{g'(x_i)}}
+\]
 This is a generalisation of the above, known as the advanced scaling property.
 Now, if \( g(x) \) is continuous at \( x = 0 \), then \( g(x) \delta(x) \) equivalent to \( g(0) \delta(x) \) inside an integral.
 This is known as the isolation property.
