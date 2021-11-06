@@ -1,0 +1,124 @@
+\subsection{Continuity in product topology}
+\begin{example}
+	Let \( (M, d), (M', d') \) be metric spaces.
+	Then, the metric \( d_\infty \) on \( M \times M' \) is
+	\[
+		d_\infty((x,x'), (y,y')) = \max(d(x,y), d'(x',y'))
+	\]
+	This metric is chosen since all \( d_p \) metrics induce the same metric topology, but this is easier to work with.
+	Also, \( M, M' \) are topological spaces with their metric topologies, which induce the product topology on the product space \( M \times M' \).
+	These two constructions create the same topology.
+	For a point \( z = (x,x') \in M \times M' \) and \( r > 0 \), the open ball \( \mathcal D_r(z) \) is exactly
+	\[
+		\mathcal D_r(z) = \qty{(y,y') \in M \times M' \colon d_\infty((y,y'), (x,x')) < r} = \qty{(y,y') \in M \times M' \colon d(x,y) < r, d(x',y') < r} = \mathcal D_r(x) \times \mathcal D_r(x')
+	\]
+	Now, let \( W \subset M \times M' \).
+	Then \( W \) is open in the product topology if and only if for all \( z = (x,x') \in W \), there exist open sets \( U \) in \( M \) and \( U' \) in \( M' \) such that \( (x,x') \in U \times U' \subset W \).
+	Equivalently, for all \( z = (x,x') \in W \), there exists \( r > 0 \) such that \( \mathcal D_r(x) \times \mathcal D_r(x') \subset W \).
+	But \( \mathcal D_r(x) \times \mathcal D_r(x') = \mathcal D_r(z) \), so \( W \) is \( d_\infty \)-open, as required.
+	For instance, the product topology on \( \mathbb R \times \mathbb R \) is the Euclidean topology on \( \mathbb R^2 \).
+\end{example}
+\begin{proposition}
+	Let \( X, Y \) be topological spaces.
+	Let \( X \times Y \) be given the product topology.
+	Then, the coordinate projections \( q_X \colon X \times Y \to X \) and \( q_Y \colon X \to Y \to Y \) satisfy
+	\begin{enumerate}[(i)]
+		\item \( q_X, q_Y \) are continuous;
+		\item if \( Z \) is any topological space, and \( g \colon Z \to X \times Y \) is a function, then \( g \) is continuous if and only if \( q_X \circ g, q_Y \circ g \) are continuous.
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	If \( U \) is open in \( X \), then \( q_X^{-1}(U) = U \times Y \), which is the product of an open set in \( X \) and an open set in \( Y \), so is open in \( X \times Y \).
+	Hence \( q_X \) is continuous.
+	Similarly, \( q_Y \) is continuous.
+
+	If \( g \) is continuous then certainly \( q_X \circ g, q_Y \circ g \) are continuous since the composition of continuous functions are continuous.
+	Conversely, let \( h \colon Z \to X \) and \( k \colon Z \to Y \) be continuous functions with \( h = q_X \circ g \) and \( k = q_Y \circ g \).
+	Then \( g(x) = (h(x), k(x)) \) for \( x \in Z \).
+	Now, for open sets \( U \) in \( X \) and \( V \) in \( Y \), we have
+	\[
+		z \in g^{-1}(U \times V) \iff g(z) \in U \times V \iff h(z) \in U, k(z) \in V \iff z \in h^{-1}(U) \cap k^{-1}(V)
+	\]
+	So \( g^{-1}(U \times V) = h^{-1}(U) \cap k^{-1}(V) \) which is open in \( Z \) as \( h, k \) are continuous.
+	Given an arbitrary open set \( W \) in \( X \times Y \), we can write \( W = \bigcup_{i\in I} U_i \times V_i \), where \( U_i \) are open in \( X \) and \( V_i \) are open in \( Y \).
+	Thus, \( g^{-1}(W) = \bigcup_{i \in I} g^{-1}(U_i \times V_i) \) which is open.
+\end{proof}
+\begin{remark}
+	The product topology may be extended to a finite product \( X_1 \times \dots \times X_n \), consisting of all unions of sets of the form \( U_1 \times \dots \times U_n \) where \( U_j \) is open in \( X_j \).
+	Properties of the product topology hold in this more general case.
+	For example, if \( X_j \) is metrisable with metric \( e_j \) for all \( j \), then the product topology is metrisable with, for instance, the \( d_\infty \) metric.
+\end{remark}
+
+\subsection{Quotients}
+Let \( X \) be a set and \( R \) an equivalence relation on \( X \).
+So \( R \subset X \times X \), but we will write \( x \sim y \) to mean \( (x,y) \in R \).
+For \( x \in X \), we define \( q(x) = \qty{y \in X \colon y \sim x} \) to be the equivalence class of \( x \), the set of which partition \( X \).
+Let \( X / R \) denote the set of all equivalence classes.
+The map \( q \colon X \to X/R \) is called the quotient map.
+\begin{definition}
+	Let \( X \) be a topological space, and \( R \) an equivalence relation on \( X \).
+	The \textit{quotient topology} on \( X/R \) is given by
+	\[
+		\tau = \qty{V \subset X/R \colon q^{-1}(V) \text{ open in } X }
+	\]
+	This is a topology:
+	\begin{enumerate}[(i)]
+		\item \( q^{-1}(\varnothing) = \varnothing \) which is open, and \( q^{-1}(X/R) = X \) which is open.
+		\item If \( V_i \) are open, then \( q^{-1}\qty(\bigcup_{i \in I} V_i) = \bigcup_{i \in I} q^{-1}(V_i) \) which is a union of open sets which is open.
+		\item If \( U, V \) are open, then \( q^{-1}(U \cap V) = q^{-1}(U) \cap q^{-1}(V) \) which is open.
+	\end{enumerate}
+\end{definition}
+\begin{remark}
+	The quotient map \( q \colon X \to X/R \) is continuous.
+	In particular, it is the largest possible topology on \( X \) such that \( q \) is continuous.
+
+	Let \( x \in X, t \in X/R \).
+	Then \( x \in t \) if and only if \( t = q(x) \).
+	For \( V \subset X/R \),
+	\[
+		q^{-1}(V) = \qty{x \in X \colon q(x) \in V} = \qty{x \in X \colon \exists t \in V, t = q(x)} = \qty{x \in X \colon \exists t \in V, x \in t} = \bigcup_{t \in V} t
+	\]
+\end{remark}
+\begin{example}
+	Consider \( \mathbb R \), an abelian group under addition, and the subgroup \( \mathbb Z \).
+	We can form the quotient group \( \mathbb R / \mathbb Z \), which is the set of equivalence classes where \( x \sim y \iff x - y \in \mathbb Z \).
+	For all \( x \in \mathbb R \), there exists \( y \in [0,1] \) such that \( x \sim y \), and for all \( x, y \in [0,1] \) we have \( x \sim y \) if and only if \( x = y \) or \( \qty{x,y} = \qty{0,1} \).
+	So we can think of the quotient topology of \( \mathbb R / \mathbb Z \) as a circle.
+	We can say that \( \mathbb R / \mathbb Z \) is homeomorphic to \( S_1 = \qty{(x,y) \in \mathbb R^2 \colon \norm{(x,y)} = 1} \), which we will prove later.
+\end{example}
+\begin{example}
+	Consider the subgroup \( \mathbb Q \) of \( \mathbb R \).
+	Let \( V \subset \mathbb R / \mathbb Q \), such that \( V \neq \varnothing \) and \( V \) is open.
+	Then \( q^{-1}(V) \) is open and not empty.
+	Therefore, there exist \( a < b \in \mathbb R \) such that \( (a,b) \subset q^{-1}(V) \).
+	Given \( x \in \mathbb R \), we can choose a rational \( r \) in the interval \( (a-x, b-x) \).
+	Then \( r + x \in (a,b) \subset q^{-1}(V) \), so \( q(x) = q(r+x) \in V \).
+	So \( V = \mathbb R / \mathbb Q \).
+	This is the indiscrete topology, which is not metrisable or Hausdorff.
+	So we cannot (in general) take quotients of metric spaces.
+\end{example}
+\begin{example}
+	Let \( Q = [0,1] \times [0,1] \subset \mathbb R^2 \).
+	We define the equivalence relation
+	\[
+		(x_1, x_2) \sim (y_1, y_2) \iff
+		\begin{cases}
+			(x_1, x_2) = (y_1, y_2)               & \text{or} \\
+			x_1 = y_1, \qty{x_2, y_2} = \qty{0,1} & \text{or} \\
+			x_2 = y_2, \qty{x_1, y_1} = \qty{0,1}
+		\end{cases}
+	\]
+	and \( \qty{0,0} \sim \qty{0,1} \sim \qty{1,0} \sim \qty{1,1} \).
+	We can write this \( \mathbb R^2 / \mathbb Z^2 \).
+	This is a square where the top and bottom edges are identified as the same, and the left and right edges are also identified as the same.
+	This is homeomorphic to the surface of a torus with the Euclidean topology embedded in Euclidean three-dimensional space.
+\end{example}
+\begin{remark}
+	Let \( X \) be a set, and let \( R \) be an equivalence relation on \( X \).
+	Let \( q \colon X \to X/R \) be the quotient map.
+	Let \( Y \) be a set, and \( f \colon X \to Y \) be a function.
+	Suppose that \( f \) `respects' \( R \); that is, \( x \sim y \implies f(x) = f(y) \).
+	Then there exists a unique map \( \widetilde f \colon X/R \to Y \) such that \( f = \widetilde f \circ q \).
+	For \( z \in X/R \), we write \( z = q(x) \) for some \( x \in X \), and then define \( \widetilde f(z) = f(x) \).
+	Note that \( \Im f = \Im \widetilde f \) since \( q \) is surjective.
+\end{remark}
