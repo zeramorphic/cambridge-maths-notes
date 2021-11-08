@@ -29,3 +29,135 @@ and the continuity at \( a \) gives
 \[
 	B e^{-\eta a} + C e^{\eta a} = D e^{ika};\quad -\eta B e^{-\eta a} + \eta C e^{\eta a} = ikD e^{ika}
 \]
+Solving the system gives
+\[
+	D = \frac{-4 i \eta k}{(\eta-ik)^2 \exp[(\eta+ik)a] - (\eta+ik)^2\exp[-(\eta-ik)a]}
+\]
+The transmitted flux is \( j_{\text{tr}} = \frac{\hbar k}{m} \abs{D}^2 \) and the incident flux is \( j_{\textit{inc}} = \frac{\hbar k}{m} \).
+Hence, the transmission coefficient is \( T = \abs{D}^2 \).
+This is
+\[
+	T = \frac{4 k^2 \eta^2}{(k^2+\eta^2)^2 \sinh^2(\eta a) + 4 k^2 \eta^2}
+\]
+If we take the limit as \( U_0 \gg E \), we have \( \eta a \gg 1 \).
+Then
+\[
+	T \to \frac{16k^2 \eta^2}{(\eta^2 + k^2)^2} \exp[-2\eta a] \propto \exp[-\frac{2a}{k} \sqrt{2m(U_0 - E)}]
+\]
+So the probability decreases exponentially with the width of the barrier.
+
+\subsection{Harmonic oscillator}
+Consider a parabolic potential
+\[
+	U(x) = \frac{1}{2} kx^2 = \frac{1}{2} m \omega^2 x^2
+\]
+where \( k \) is an elastic constant and \( \omega = \sqrt{\frac{k}{m}} \) is the angular frequency of the harmonic oscillator.
+Classically, we find the solution \( x = A \cos \omega t + B \sin \omega t \).
+This gives a continuous energy spectrum.
+The TDSE gives
+\[
+	-\frac{\hbar^2}{2m} \chi''(x) + \frac{1}{2} m\omega^2 x^2 \chi(x) = E \chi(X)
+\]
+Since this is a bound system, we will have a discrete set of eigenvalues.
+The potential is symmetric so the eigenfunctions are odd or even.
+We will make the change of variables
+\[
+	\xi^2 = \frac{m\omega}{\hbar} x^2;\quad \varepsilon = \frac{2E}{\hbar \omega}
+\]
+which reformulates the TDSE as
+\[
+	-dv[2]{\chi}{\xi} + \xi^2 \chi = \varepsilon \chi
+\]
+We will start by considering the solution for \( \varepsilon = 1 \).
+In this case, \( E = \frac{\hbar \omega}{2} \).
+The solution in this case is
+\[
+	\chi_0(\xi) = \exp[-\frac{\xi^2}{2}]
+\]
+So the first eigenfunction, \( \chi_0 \), is known in terms of \( x \), given by
+\[
+	\chi_0(x) = A \exp[-\frac{m\omega}{2\hbar}x^2];\quad E_0 = \frac{\hbar \omega}{2}
+\]
+To find the other eigenfunctions, we will take the general form
+\[
+	\chi(\xi) = f(\xi) \exp[-\frac{\xi^2}{2}]
+\]
+This works because we know we have a bound solution and \( \chi \) must tend to zero quickly as \( \xi \) tends to infinity, due to the differential equation in terms of \( \xi, \varepsilon \).
+Using the above ansatz for \( \chi \) in the Schr\"odinger equation,
+\[
+	-\dv[2]{f}{\xi} + 2\xi \dv{f}{\xi} + (1-\varepsilon)f = 0
+\]
+Note that if \( \varepsilon = 1 \), a solution is \( f = 1 \).
+We can find a power series solution to this differential equation, with \( \xi = 0 \) as a regular point.
+\[
+	f(\xi) = \sum_{n=0}^\infty a_n \xi^n
+\]
+We find
+\[
+	\xi \dv{f}{\xi} = \sum_{n=0}^\infty n a_n \xi^n;\quad \dv[2]{f}{\xi} = \sum_{n=0}^\infty n(n-1)a_n \xi^{n-2} = \sum_{n=0}^\infty (n+1)(n+2)a_{n+2}\xi^n
+\]
+Comparing coefficients of \( \xi^n \),
+\[
+	(n+1)(n+2) a_{n+2} - 2n a_n + (\varepsilon - 1) a_n = 0
+\]
+Hence,
+\[
+	a_{n+2} = \frac{2n - \varepsilon + 1}{(n+1)(n+2)} a_n
+\]
+Since the function must be either even or odd, exactly one of \( a_0 \) and \( a_1 \) must be zero.
+\begin{proposition}
+	If the series for \( f \) does not terminate, \( \chi \) is not normalisable.
+\end{proposition}
+\begin{proof}
+	Suppose the series does not terminate.
+	We will consider the asymptotic behaviour as \( n \to \infty \).
+	\[
+		\frac{a_{n+2}}{a_n} \to \frac{2}{n}
+	\]
+	But this is the same asymptotic behaviour as the function \( g(\xi) \) given by
+	\[
+		g(\xi) = \exp[\xi^2] = \sum_{m=0}^\infty \frac{\xi^{2m}}{m!} = \sum_{n=0}^\infty b_n \xi^n
+	\]
+	with
+	\[
+		b_n = \begin{cases}
+			\frac{1}{m!} & n = 2m     \\
+			0            & n = 2m + 1
+		\end{cases}
+	\]
+	So asymptotically,
+	\[
+		\frac{b_{n+2}}{b_n} = \frac{\qty(\frac{n}{2})!}{\qty(\frac{n}{2} + 1)!} = \frac{2}{n+2} \to \frac{2}{n}
+	\]
+	Hence \( \chi \) would have a form asymptotically equal to
+	\[
+		\chi(\xi) \sim \exp[\frac{\xi^2}{2}]
+	\]
+	Hence \( \chi(\xi) \) would be not normalisable.
+\end{proof}
+Hence \( f \) must be a polynomial.
+So there exists \( N \) such that \( a_{N+2} = 0 \) and \( a_N \neq 0 \).
+So for this value,
+\[
+	2N - \varepsilon + 1 = 0 \implies \varepsilon = 2N + 1
+\]
+By the definition of \( \varepsilon \),
+\[
+	E_N = \qty(N + \frac{1}{2}) \hbar \omega
+\]
+In particular, \( E_{N+1} - E_N = \hbar \omega \).
+The eigenfunctions are
+\[
+	\chi_N(\xi) = f_N(\xi) \exp[-\frac{\xi^2}{2}]
+\]
+with the property that
+\[
+	\chi_N(-\xi) = (-1)^N \chi_N(\xi)
+\]
+\begin{align*}
+	f_0(\xi) & = 1                      \\
+	f_1(\xi) & = \xi                    \\
+	f_2(\xi) & = 1 - 2 \xi^2            \\
+	f_3(\xi) & = \xi - \frac{2}{3}\xi^3 \\
+	         & \vdots
+\end{align*}

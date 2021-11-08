@@ -1,0 +1,134 @@
+\subsection{Eigenvalues}
+Let \( V \) be an \( F \)-vector space.
+Let \( \dim V = n < \infty \), and let \( \alpha \) be an endomorphism of \( V \).
+We wish to find a basis \( B \) of \( V \) such that, in this basis, \( [\alpha]_B \equiv [\alpha]_{B,B} \) has a simple (e.g.\ diagonal, triangular) form.
+Recall that if \( B' \) is another basis and \( P \) is the change of basis matrix, \( [\alpha]_{B'} = P^{-1} [\alpha]_B P \).
+Equivalently, given a square matrix \( A \in M_n(F) \) we want to conjugate it by a matrix \( P \) such that the result is `simpler'.
+\begin{definition}
+	Let \( \alpha \in L(V) \) be an endomorphism.
+	We say that \( \alpha \) is \textit{diagonalisable} if there exists a basis \( B \) of \( V \) such that the matrix \( [\alpha]_B \) is diagonal.
+	We say that \( \alpha \) is \textit{triangulable} if there exists a basis \( B \) of \( V \) such that \( [\alpha]_B \) is triangular.
+\end{definition}
+\begin{remark}
+	We can express this equivalently in terms of conjugation of matrices.
+\end{remark}
+\begin{definition}
+	A scalar \( \lambda \in F \) is an \textit{eigenvalue} of an endomorphism \( \alpha \) if and only if there exists a vector \( v \in V \setminus \qty{0} \) such that \( \alpha(v) = \lambda v \).
+	Such a vector is an \textit{eigenvector} with eigenvalue \( \lambda \).
+	\( V_\lambda = \qty{ v \in V \colon \alpha(v) = \lambda v } \leq V \) is the \textit{eigenspace} associated to \( \lambda \).
+\end{definition}
+\begin{lemma}
+	\( \lambda \) is an eigenvalue if and only if \( \det(\alpha - \lambda I) = 0 \).
+\end{lemma}
+\begin{proof}
+	If \( \lambda \) is an eigenvalue, there exists a nonzero vector \( v \) such that \( \alpha(v) = \lambda v \), so \( (\alpha - \lambda)(v) = 0 \).
+	So the kernel is non-trivial.
+	So \( \alpha - \lambda I \) is not injective, so it is not surjective by the rank-nullity theorem.
+	Hence this matrix is not invertible, so it has zero determinant.
+\end{proof}
+\begin{remark}
+	If \( \alpha(v_j) = \lambda v_j \) for \( j \in \qty{1, \dots, m} \), we can complete the family \( v_j \) into a basis \( (v_1, \dots, v_n) \) of \( V \).
+	Then in this basis, the first \( m \) columns of the matrix \( \alpha \) has diagonal entries \( \lambda_j \).
+\end{remark}
+
+\subsection{Polynomials}
+Recall the following facts about polynomials on a field, for instance
+\[
+	f(t) = a_n t^n + \dots + a_1 t + a_0
+\]
+We say that the degree of \( f \), written \( \deg f \) is \( n \).
+The degree of \( f + g \) is at most the maximum degree of \( f \) and \( g \).
+\( \deg (fg) = \deg f + \deg g \).
+Let \( F[t] \) be the vector space of polynomials with coefficients in \( F \).
+If \( \lambda \) is a root of \( f \), then \( (t-\lambda) \) divides \( F \).
+\begin{proof}
+	\[
+		f(t) = a_n t^n + \dots + a_1 t + a_0
+	\]
+	Hence,
+	\[
+		f(\lambda) = a_n \lambda^n + \dots + a_1 \lambda + a_0 = 0
+	\]
+	which implies that
+	\[
+		f(t) = f(t) - f(\lambda) = a_n(t^n - \lambda^n) + \dots + a_1(t - \lambda)
+	\]
+	But note that, for all \( n \),
+	\[
+		t^n - \lambda^n = (1-\lambda)(t^{n-1} + \lambda t^{n-2} + \dots + \lambda^{n-2} t + \lambda^{n-1})
+	\]
+\end{proof}
+\begin{remark}
+	We say that \( \lambda \) is a root of \textit{multiplicity} \( k \) if \( (t-\lambda)^k \) divides \( f \) but \( (t-\lambda)^{k+1} \) does not.
+\end{remark}
+\begin{corollary}
+	A non-zero polynomial of degree \( n \) has at most \( n \) roots, counted with multiplicity.
+\end{corollary}
+\begin{corollary}
+	If \( f_1, f_2 \) are two polynomials of degree less than \( n \) such that \( f_1(t_i) = f_2(t_i) \) for \( i \in \qty{1, \dots, n} \) and \( t_i \) distinct, then \( f_1 \equiv f_2 \).
+\end{corollary}
+\begin{proof}
+	\( f_1 - f_2 \) has degree less than \( n \), but has \( n \) roots.
+	Hence it is zero.
+\end{proof}
+\begin{theorem}
+	Any polynomial \( f \in \mathbb C[t] \) of positive degree has a complex root.
+	When counted with multiplicity, \( f \) has a number of roots equal to its degree.
+\end{theorem}
+\begin{corollary}
+	Any polynomial \( f \in \mathbb C[t] \) can be factorised into an amount of linear factors equal to its degree.
+\end{corollary}
+
+\subsection{Characteristic polynomials}
+\begin{definition}
+	Let \( \alpha \) be an endomorphism.
+	The \textit{characteristic polynomial} of \( \alpha \) is
+	\[
+		\chi_\alpha(\lambda) = \det(\alpha - \lambda I)
+	\]
+\end{definition}
+\begin{remark}
+	\( \chi_\alpha \) is a polynomial because the determinant is defined as a polynomial in the terms of the matrix.
+	Note further that conjugate matrices have the same characteristic polynomial, so the above definition is well defined in any basis.
+	Indeed, \( \det(P^{-1}\alpha P - \lambda I) = \det(P^{-1}(\alpha - \lambda I)P) = \det(\alpha - \lambda I) \).
+\end{remark}
+\begin{theorem}
+	Let \( \alpha \in L(V) \).
+	\( \alpha \) is triangulable if and only if \( \chi_\alpha \) can be written as a product of linear factors over \( F \).
+	In particular, all complex matrices are triangulable.
+\end{theorem}
+\begin{proof}
+	Suppose \( \alpha \) is triangulable.
+	Then for a basis \( B \), \( [\alpha]_B \) is triangulable with diagonal entries \( a_i \).
+	Then
+	\[
+		\chi_\alpha(t) = (a_1 - t)(a_2 - t) \cdots (a_n - t)
+	\]
+	Conversely, let \( \chi_\alpha(t) \) be the characteristic polynomial of \( \alpha \) with a root \( \lambda \).
+	Then, \( \chi_\alpha(\lambda) = 0 \) implies \( \lambda \) is an eigenvalue.
+	Let \( V_\lambda \) be the corresponding eigenspace.
+	Let \( (v_1, \dots, v_k) \) be the basis of this eigenspace, completed to a basis \( (v_1, \dots, v_n) \) of \( V \).
+	Let \( W = \vecspan\qty{v_{k+1}, \dots, v_n} \), and then \( V = V_\lambda \oplus W \).
+	Then
+	\[
+		[\alpha]_B = \begin{pmatrix}
+			\lambda I & \star \\
+			0         & C
+		\end{pmatrix}
+	\]
+	where \( \star \) is arbitrary, and \( C \) is a block of size \( (n-k) \times (n-k) \).
+	Then \( \alpha \) induces an endomorphism \( \overline \alpha \colon V/U \to V/U \) with respect to the basis \( (v_{k+1}, \dots, v_n) \).
+	By induction on the dimension, we can find a basis \( (w_{k+1}, \dots, w_n) \) for which \( C \) has a triangular form.
+	Then the basis \( (v_1, \dots, v_k, w_{k+1}, \dots, w_n) \) is a basis for which \( \alpha \) is triangular.
+\end{proof}
+\begin{lemma}
+	Let \( n = \dim V \), and \( V \) be a vector space over \( \mathbb R \) or \( \mathbb C \).
+	Then
+	\[
+		\chi_n(t) = (-1)^n t^n + c_{n-1} t^{n-1} + \dots + c_0
+	\]
+	with
+	\[
+		c_0 = \det A;\quad c_{n-1} = (-1)^{n-1} \tr A
+	\]
+\end{lemma}

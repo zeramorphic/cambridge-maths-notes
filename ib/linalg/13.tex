@@ -61,7 +61,7 @@ Using the fact that \( \det A = \det A^\transpose \) we can similarly see that s
 	Let \( A \in M_n(F) \).
 	The \textit{adjugate matrix} of \( A \), denoted \( \adj A \), is the \( n \times n \) matrix given by
 	\[
-		(\adj A)_{ij} = (-1)^{i+j} \det A_{\widehat{ij}}
+		(\adj A)_{ij} = (-1)^{i+j} \det A_{\widehat{ji}}
 	\]
 	Hence,
 	\[
@@ -100,4 +100,28 @@ Using the fact that \( \det A = \det A^\transpose \) we can similarly see that s
 		  & = \sum_{i=1}^n a_{ik} (\adj A)_{ji}                                                                                               \\
 		  & = ((\adj A) A)_{jk}
 	\end{align*}
+\end{proof}
+
+\subsection{Cramer's rule}
+\begin{proposition}
+	Let \( A \) be an invertible square matrix of dimension \( n \).
+	Let \( b \in F^n \).
+	Then the unique solution to \( Ax = b \) is given by
+	\[
+		x_i = \frac{1}{\det A} \det (A_{\widehat{ib}})
+	\]
+	where \( A_{\widehat{ib}} \) is obtained by replacing the \( i\)th column of \( A \) by \( b \).
+	This is an algorithm to compute \( x \), avoiding the computation of \( A^{-1} \).
+\end{proposition}
+\begin{proof}
+	Let \( A \) be invertible.
+	Then there exists a unique \( x \in F^n \) such that \( Ax = b \).
+	Then, since the determinant is alternating,
+	\begin{align*}
+		\det (A_{\widehat{ib}}) & = \det(A^{(1)}, \dots, A^{(i-1)}, b, A^{(i+1)}, \dots, A^{(n)})                            \\
+		                        & = \det\qty(A^{(1)}, \dots, A^{(i-1)}, \sum_{j=1}^n x_j A^{(j)}, A^{(i+1)}, \dots, A^{(n)}) \\
+		                        & = \det\qty(A^{(1)}, \dots, A^{(i-1)}, x_i A^{(i)}, A^{(i+1)}, \dots, A^{(n)})              \\
+		                        & = x_i \det A
+	\end{align*}
+	So the formula works.
 \end{proof}
