@@ -1,0 +1,108 @@
+\subsection{Explicit form for Green's functions}
+We want to solve
+\[
+	\mathcal L G(x,\xi) = \delta(x-\xi)
+\]
+on \( a \leq x \leq b \), subject to homogeneous boundary conditions \( G(a,\xi) = G(b,\xi) = 0 \).
+The functions \( G_1, G_2 \) satisfy the homogeneous equation, so \( \mathcal L G_i(x,\xi) = 0 \).
+Suppose there exist two independent homogeneous solutions \( y_1(x), y_2(x) \) to \( \mathcal L y = 0 \).
+Then, \( G_1 = A y_1 + B y_2 \), such that \( A y_1(a) + B y_2(a) = 0 \), which gives a constraint between \( A \) and \( B \).
+This defines a complementary function \( y_-(x) \) such that \( y_-(a) = 0 \).
+The general homogeneous solution with \( G_1(a) = 0 \) is
+\[
+	G_1 = C y_-
+\]
+\( C \) will be found later.
+Similarly we can define \( y_+ \) as a linear combination of \( y_1, y_2 \) such that \( y_+(b) = 0 \).
+\[
+	G_2 = D y_+
+\]
+We require \( G_1(\xi, \xi) = G_2(\xi, \xi) \) for continuity, hence
+\[
+	C y_-(\xi) = D y_+(\xi)
+\]
+Since \( [G']_{\xi_-}^{\xi^+} = \frac{1}{\alpha(\xi)} \), we have
+\[
+	Dy'_+(\xi) - C Y_-'(\xi) = \frac{1}{\alpha(\xi)}
+\]
+We can solve these equations for \( C, D \) simultaneously to find
+\[
+	C(\xi) = \frac{y_+(\xi)}{\alpha(\xi)W(\xi)};\quad D(\xi) = \frac{y_-(\xi)}{\alpha(\xi)W(\xi)}
+\]
+where \( W(\xi) \) is the Wro\'nskian
+\[
+	W(\xi) = y_-(\xi) y_+'(\xi) - y_+(\xi) y_-'(\xi)
+\]
+which is nonzero if \( y_-, y_+ \) are linearly independent.
+Hence,
+\[
+	G(x,\xi) = \begin{cases}
+		\frac{y_-(x) y_+(\xi)}{\alpha(\xi)W(\xi)} & a \leq x \leq \xi \\
+		\frac{y_-(\xi) y_+(x)}{\alpha(\xi)W(\xi)} & \xi \leq x \leq b
+	\end{cases}
+\]
+
+\subsection{Solving boundary value problems}
+We know that the solution of \( \mathcal L y = f \) is
+\[
+	y(x) = \int_a^b G(x,\xi) f(\xi) \dd{\xi}
+\]
+We can split this into two intervals given that \( G = G_1 \) for \( \xi > x \) and \( G = G_2 \) for \( \xi < x \).
+\begin{align*}
+	y(x) & = \int_a^x G_2(x,\xi) f(\xi) \dd{\xi} + \int_x^b G_1(x,\xi) f(\xi) \dd{\xi}                                                               \\
+	     & = y_+(x) \int_a^x \frac{y_-(\xi) f(\xi)}{\alpha(\xi)W(\xi)} \dd{\xi} + y_-(x) \int_a^x \frac{y_+(\xi) f(\xi)}{\alpha(\xi)W(\xi)} \dd{\xi}
+\end{align*}
+Note that if \( \mathcal L \) is in Sturm-Liouville form, so \( \beta = \alpha' \), then the denominator \( \alpha(\xi)W(\xi) \) is a constant.
+Further, \( G \) is symmetric; \( G(x,\xi) = G(\xi,x) \).
+Often, by convention, we take \( \alpha = 1 \) (however Sturm-Liouville form typically takes \( \alpha < 0 \)).
+\begin{example}
+	Consider \( y'' - y = f(x) \) with \( y(0) = y(1) = 0 \).
+	Homogeneous solutions are \( y_1 = e^x \), \( y_2 = e^{-x} \).
+	Imposing boundary conditions,
+	\[
+		G = \begin{cases}
+			C \sinh x    & 0 \leq x < \xi \\
+			D \sinh(1-x) & \xi < x \leq b
+		\end{cases}
+	\]
+	Continuity at \( x = \xi \) implies
+	\[
+		C \sinh \xi = D \sinh (1 - \xi) \implies C = D \frac{\sinh (1-\xi)}{\sinh \xi}
+	\]
+	The jump condition is
+	\[
+		-D \cosh(1-\xi) - C \cosh \xi = 1
+	\]
+	Hence,
+	\begin{align*}
+		-D\qty[\cosh(1-\xi)\sinh \xi + \sinh(1-\xi)\cosh \xi] & = \sinh \xi                     \\
+		-D\qty[\sinh((1-\xi) + \xi)]                          & = \sinh \xi                     \\
+		-D\sinh 1                                             & = \sinh \xi                     \\
+		D                                                     & = \frac{\sinh \xi}{\sinh 1}     \\
+		\therefore C                                          & = \frac{-\sinh(1-\xi)}{\sinh 1}
+	\end{align*}
+	Therefore,
+	\[
+		y(x) = \frac{-\sinh(1-x)}{\sinh 1} \int_0^x \sinh \xi f(\xi) \dd{\xi} - \frac{\sinh x}{\sinh 1} \int_x^1 \sinh (1-\xi) f(\xi) \dd{\xi}
+	\]
+\end{example}
+\noindent Suppose we have inhomogeneous boundary conditions.
+In this case, we want to find a homogeneous solution \( y_p \) that solves the inhomogeneous boundary conditions.
+That is, \( \mathcal L y_p = 0 \) but \( y_p(a), y_p(b) \) are as required for the boundary conditions.
+Then, by subtracting this solution from the original equation, we can solve using a homogeneous set of boundary conditions.
+For instance, in the above example, suppose \( y(0) = 0, y(1) = 1 \).
+We can find a solution \( y_p = \frac{\sinh x}{\sinh 1} \) which has the inhomogeneous boundary conditions but solves the homogeneous problem.
+
+\subsection{Higher-order ODEs}
+Suppose \( \mathcal L y = f(x) \) where \( \mathcal L \) is an \( n \)th order linear differential operator, and \( \alpha(x) \) is the coefficient for the highest degree derivative.
+Suppose that homogeneous boundary conditions are satisfied.
+Then we can define the Green's function in this case to be the function that solves
+\[
+	\mathcal L G(x,\xi) = \delta(x-\xi)
+\]
+which has the properties:
+\begin{enumerate}[(i)]
+	\item \( G_1, G_2 \) are homogeneous solutions satisfying the homogeneous boundary conditions;
+	\item \( G_1^{(k)} = G_2^{(k)} \) for \( k \in \qty{0, \dots, n-2} \);
+	\item \( G_2^{(n-1)}(\xi^+) - G_1^{(n-1)}(\xi^-) = \frac{1}{\alpha(\xi)} \).
+\end{enumerate}

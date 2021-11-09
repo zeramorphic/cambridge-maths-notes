@@ -1,0 +1,169 @@
+\subsection{???}
+\begin{proposition}
+	Let \( X \) be a topological space and let \( R \) be an equivalence relation on \( X \).
+	Let \( q \colon X \to X/R \) be a quotient map, where \( X/R \) has the quotient topology.
+	Let \( Y \) be another topological space and \( f \colon X \to Y \) be a function that respects \( R \).
+	Let \( \widetilde f \colon X/R \to Y \) be the unique map such that \( f = \widetilde f \circ q \).
+	Then
+	\begin{enumerate}[(i)]
+		\item if \( f \) is continuous then \( \widetilde f \) is continuous; and
+		\item if \( f \) is an open map (the image of an open set is open) then \( \widetilde f \) is an open map.
+	\end{enumerate}
+	In particular, if \( f \) is a continuous surjective map that fully respects \( R \), then \( \widetilde f \) is a continuous bijection.
+	If in addition \( f \) is an open map, then \( \widetilde f \) is a continuous bijective open map, so is a homeomorphism.
+\end{proposition}
+\begin{proof}
+	We prove part (i).
+	Let \( V \) be an open set in \( Y \).
+	\[
+		q\qty(\widetilde f^{-1}(V)) = (\widetilde f \circ q)^{-1}(V) = f^{-1}(V) \text{ is open}
+	\]
+	So by definition, \( \widetilde f^{-1}(V) \) is open in \( X/R \).
+	Hence \( \widetilde f \) is continuous.
+	Now, we prove part (ii).
+	Let \( V \) be an open set in \( X/R \).
+	Let \( U = q^{-1}(V) \).
+	Then \( U \) is open in \( X \) by definition of the quotient topology.
+	Since \( q \) is surjective, \( q(U) = q\qty(q^{-1}(V)) = V \).
+	Hence,
+	\[
+		\widetilde f(V) = \widetilde f(q(U)) = (\widetilde f \circ q)(U) = f(U) \text{ is open}
+	\]
+	since \( f \) is an open map.
+\end{proof}
+\begin{example}
+	\( \mathbb R / \mathbb Z \) is homeomorphic to a circle \( S^1 = \qty{x \in \mathbb R^2 \colon \norm{x} = 1} \).
+	We define
+	\[
+		f(t) = (\cos 2 \pi t, \sin 2 \pi t
+	\]
+	Then, \( s - t \in \mathbb Z \) if and only if \( f(s) = f(t) \) so \( f \) fully respects the relation, and \( f \) is surjective.
+	\( f \) is also continuous since each component is continuous.
+	Hence, there exists \( \widetilde f \colon \mathbb R / \mathbb Z \to S^1 \) such that \( f = \widetilde f \circ q \) and \( \widetilde f \) is a continuous bijection.
+	Now we must show \( f \) is an open map, and then \( \widetilde f \) will be a homeomorphism.
+	Suppose \( f \) is not an open map, so there exists an open set \( U \) in \( \mathbb R \) such that \( f(U) \) is not open in \( S^1 \).
+	So \( S^1 \setminus f(U) \) is not closed, so there exists a sequence \( (z_n) \) in this complement and \( z \in f(U) \) such that \( z_n \to z \).
+	\( f \) is surjective so for all \( n \in N \) we can choose \( x_n \in [0,1] \) such that \( f(x_n) = z_n \).
+	This is a bounded sequence, so by the Bolzano-Weierstrass theorem, without loss of generality we can let \( x_n \to x \in [0,1] \).
+	Since \( f \) is continuous, \( f(x_n) \to f(x) \), so \( z_n \to z \).
+	But since \( z_n \not\in f(U) \), we have \( x_n \in \mathbb R \setminus U \).
+	Since the complement is closed and \( x_n \to x \), we have \( x \in \mathbb R \setminus U \) so \( x \not\in U \).
+	Since \( z \in f(U) \), there exists \( y \in U \) such that \( z = f(y) \).
+	Hence \( k = y - x \in \mathbb Z \).
+	Now, \( f(x_n + k) = f(x_n) = z_n \to z \), but also \( x_n + k \to x + k = y \in U \).
+	Since \( z_n \not\in f(U) \), we have \( x_n + k \not\in U \).
+	Since \( \mathbb R \setminus U \) is closed and \( x_n + k \to y \), we have \( y \in \mathbb R \setminus U \) which is a contradiction.
+\end{example}
+\begin{proposition}
+	Let \( X \) be a topological space, and \( R \) an equivalence relation on \( X \).
+	Then,
+	\begin{enumerate}[(a)]
+		\item If \( X / R \) is Hausdorff, then \( R \) is closed in \( X \times X \).
+		\item If \( R \) is closed in \( X \times X \) and the quotient map \( q \colon X \to X/R \) is an open map, and \( X \) is Hausdorff, then \( X / R \) is Hausdorff.
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	Let \( W = X \times X \setminus R \).
+	For part (a), we want to show \( W \) is open, so is a neighbourhood of all of its points.
+	Given \( (x,y) \in W \), we have \( x \not\sim y \), so \( q(x) \neq q(y) \).
+	Since the quotient is Hausdorff, there exist open sets \( S, T \) in \( X/R \) such that \( S \cap T = \varnothing \) and \( q(x) \in S, q(y) \in T \).
+	Let \( U = q^{-1}(S), V = q^{-1}(T) \) which are open in \( X \), and \( x \in U, y \in V \).
+	For all \( (a,b) \in U \times V \), we have \( q(a) \in S, q(b) \in T \) hence \( a \not\sim b \).
+	So \( (x,y) \in U \times V \subset W \).
+	Hence \( R \) is closed.
+
+	For part (b), let \( z \neq w \) be elements of \( X/R \), and we want to separate these points by open sets.
+	Let \( x,y \in X \) such that \( q(x) = z, q(y) = w \).
+	Then \( (x,y) \in W \) since \( x \not\sim w \).
+	Since \( R \) is closed, \( W \) is open, so there exist open sets \( U, V \) in \( X \) such that \( (x,y) \in U \times V \subset W \).
+	Since \( q \) is an open map, \( q(U) \) and \( q(V) \) are open in \( X/R \), and \( z = q(x) \in q(U), w = q(y) \in q(V) \).
+	Now it suffices to show \( q(U) \cap q(V) = \varnothing \).
+	For \( (a,b) \in U \times V \subset W \), \( (a,b) \not\in R \) hence \( q(a) \neq q(b) \) so \( q(U) \cap q(V) = \varnothing \).
+\end{proof}
+
+\subsection{Connectedness}
+Recall the intermediate value theorem from IA Analysis.
+If \( f \colon I \to \mathbb R \) is continuous, where \( I \) is an interval, and \( x < y \) in \( I \) and \( c \in (f(x), f(y)) \), then there exists \( z \in (x,y) \) such that \( f(z) = c \).
+An interval in this context is a set \( I \) such that for all \( x<y<z \in \mathbb R \), \( x,z \in I \implies y \in I \).
+So the intermediate value theorem essentially states that the continuous image of an interval is an interval.
+\begin{example}
+	Consider \( [0,1) \cup (1,2] \).
+	Let \( f \) be a function from this space to \( \mathbb R \), defined by
+	\[
+		f(x) = \begin{cases}
+			0 & x \in [0,1) \\
+			1 & x \in (1,2]
+		\end{cases}
+	\]
+	This is continuous, but the image of \( f \) is not an interval.
+\end{example}
+\begin{definition}
+	A topological space \( X \) is \textit{disconnected} if there exist open subsets \( U, V \) of \( X \) such that \( U \cap V = \varnothing, U \cup V = X \) and \( U, V \neq \varnothing \).
+	We say that \( U \) and \( V \) \textit{disconnect} \( X \).
+	We say \( X \) is \textit{connected} if \( X \) is not disconnected.
+\end{definition}
+\begin{theorem}
+	Let \( X \) be a topological space.
+	Then the following are equivalent.
+	\begin{enumerate}[(i)]
+		\item \( X \) is connected;
+		\item if \( f \colon X \to \mathbb R \) is continuous, then \( f(X) \) is an interval;
+		\item if \( f \colon X \to \mathbb Z \) is continuous, \( f \) is constant.
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	First we show (i) implies (ii).
+	Suppose \( X \) is connected, and \( f \colon X \to \mathbb R \) is continuous, but \( f(X) \) is not an interval.
+	Then there exist \( a<b<c \in \mathbb R \) such that \( a,c \in f(X) \) and \( b \not\in f(X) \).
+	Let \( x,y \in X \) such that \( f(x) = a, f(y) = c \).
+	Let \( U = f^{-1}(-\infty, b), V = f^{-1}(b,\infty) \).
+	\( U, V \) are open since \( f \) is continuous.
+	\( U, V \) are non-empty since \( x \in U, y \in V \).
+	Their intersection is empty since we are taking the preimage of disjoint sets.
+	Finally, \( U \cup V = f^{-1}(\mathbb R \setminus b) = X \) since \( b \) is not in the image.
+	So \( U, V \) disconnect \( X \), which is a contradiction.
+
+	Now (ii) implies (iii).
+	This is immediate since an interval containing an integer must only contain one integer.
+
+	Finally, (iii) implies (i).
+	Suppose \( U, V \) disconnect \( X \).
+	Let \( f \colon X \to \mathbb R \) by
+	\[
+		f(x) = \begin{cases}
+			0 & x \in U \\
+			1 & x \in V
+		\end{cases}
+	\]
+	For any \( Y \subset \mathbb R \),
+	\[
+		f^{-1}(Y) = \begin{cases} \varnothing & 0,1 \not\in Y      \\
+              U           & 0\in Y, 1\not\in Y \\
+              V           & 0\not\in Y, 1\in Y \\
+              X           & 0,1 \in Y
+		\end{cases}
+	\]
+	which is open.
+	But \( f \) is not constant, so this is a contradiction.
+\end{proof}
+\begin{corollary}
+	Let \( X \subset \mathbb R \).
+	Then \( X \) is connected if and only if \( X \) is an interval.
+\end{corollary}
+\begin{proof}
+	Suppose \( X \) is connected.
+	Then the inclusion map \( i \colon X \to \mathbb R \) is continuous.
+	By the theorem above, \( i(X) = X \) is an interval.
+	Conversely, suppose \( X \) is an interval.
+	Then, for all continuous \( f \colon X \to \mathbb R \), \( f(X) \) is an interval by the intermediate value theorem.
+	Then \( X \) is connected.
+\end{proof}
+\begin{proof}
+	This is an alternative, direct proof that intervals are connected.
+	Suppose \( U, V \) disconnect \( X \).
+	Then let \( x \in U, y \in V \) such that \( x < y \).
+	Let \( z = \sup U \cap [x,y] \).
+	This set is non-empty since it contains \( x \) and is bounded above by \( y \).
+	So \( z = [x,y] \subset X \).
+	We will show \( z \in U \cap V \), which is a contradiction.
+\end{proof}

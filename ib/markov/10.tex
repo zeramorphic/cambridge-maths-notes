@@ -1,0 +1,152 @@
+\subsection{???}
+\begin{remark}
+	Consider a simple random walk on \( \mathbb Z^3 \).
+	This is transient.
+	However, \( \lambda_i = 1 \) for all \( i \in \mathbb Z^3 \), this is clearly an invariant measure, so existence of an invariant measure does not imply recurrence.
+\end{remark}
+\begin{example}
+	Consider a random walk on \( \mathbb Z \) with transition probabilities \( P(i, i+1) = p, P(i, i-1) = q \) such that \( 1 > p > q > 0 \) and \( p + q = 1 \).
+	This random walk is transient.
+	Suppose there is an invariant distribution \( \pi \), so \( \pi = \pi P \).
+	Then
+	\[
+		\pi_i = \pi_{i-1} q + \pi_{i+1} p
+	\]
+	Solving the recursion gives
+	\[
+		\pi_i = a + b \qty(\frac{p}{q})^i
+	\]
+	This is not unique up to a multiplicative constant, due to the constant \( a \).
+\end{example}
+\begin{example}
+	Consider a random walk on \( \mathbb Z^+ \) with transition probabilities \( P(i, i+1) = p, P(i, i-1) = q, P(0, 0) = q \), and \( p < q \) so there is a drift towards zero.
+	We can check that this is recurrent.
+	We will look for a solution to \( \pi = \pi P \).
+	\[
+		\pi_0 = q \pi_0 + q \pi_1;\quad \pi_i = p \pi_{i-1} + q \pi_{i+1}
+	\]
+	Solving this system yields
+	\[
+		\pi_1 = \frac{p}{q} \pi_0;\quad \pi_i = \qty(\frac{p}{q})^i \pi_0
+	\]
+	This is unique up to a multiplicative constant.
+	Since \( p < q \), we can normalise this to reach an invariant distribution.
+	Let \( \pi_0 = 1 - \frac{p}{q} \).
+	Then,
+	\[
+		\pi_i = \qty(\frac{p}{q})^i \qty(1 - \frac{p}{q})
+	\]
+	Hence the walk is positive recurrent.
+\end{example}
+
+\subsection{Time reversibility}
+\begin{theorem}
+	Let \( P \) be irreducible, and \( \pi \) be an invariant distribution.
+	Let \( N \in \mathbb N \) and let \( Y_n = X_{N-n} \) for \( 0 \leq n \leq N \).
+	If \( X_0 \sim \pi \), then \( (Y_n)_{0 \leq n \leq N} \) is a Markov chain with transition matrix
+	\[
+		\hat P(x,y) = \frac{\pi(y)}{\pi(x)} P(y,x)
+	\]
+	and has invariant distribution \( \pi \), so \( \pi \hat P = \pi \).
+	Further, \( \hat P \) is also irreducible.
+\end{theorem}
+\begin{proof}
+	First, note that \( \hat P \) is stochasic.
+	Since \( \pi = \pi P \),
+	\[
+		\sum_y \hat P(x,y) = \sum_y \frac{\pi(y) P(y,x)}{\pi(x)} = \frac{\pi(x)}{\pi(x)} = 1
+	\]
+	Now we show \( Y \) is a Markov chain.
+	\begin{align*}
+		\prob{Y_0 = y_0, \dots, Y_N = y_N} & = \prob{X_N = y_0, \dots, X_0 = y_n}                                      \\
+		                                   & = \pi(y_N) P(y_N, y_{N-1}) \dots P(y_1, y_0)                              \\
+		                                   & = \hat P(y_{N-1}, y_N) \pi(y_{N-1}) P(y_{N-1}, y_{N-2}) \dots P(y_1, y_0) \\
+		                                   & = \dots                                                                   \\
+		                                   & = \pi(y_0) \hat P(y_0, y_1) \dots P(y_{N-1}, y_N)
+	\end{align*}
+	Hence \( Y \sim \Markov{\pi, \hat P} \).
+	Now, we must show \( \pi = \pi \hat P \).
+	\[
+		\sum_x \pi(x) \hat P(x,y) = \sum_x \pi(x) \frac{P(y,x) \pi(y)}{\pi(x)} = \pi(y) \sum_x P(y,x) = \pi(y)
+	\]
+	Hence \( \pi \) is invariant for \( \hat P \).
+	Now we show \( \hat P \) is irreducible.
+	Let \( x,y \in I \).
+	Then there exists \( x = x_0, x_1, \dots, x_k = y \) such that
+	\[
+		P(x_0, x_1) \dots P(x_{k-1}, x_k) > 0
+	\]
+	Hence
+	\[
+		\hat P(x_k, x_{k-1}) \dots \hat P(x_1, x_0) = \pi(x_0) P(x_0, x_1) \dots \frac{P(x_{k-1}, x_k)}{\pi(x_k)} > 0
+	\]
+	So \( \hat P \) is irreducible.
+\end{proof}
+\begin{definition}
+	A Markov chain \( X \) with transition matrix \( P \) and invariant distribution \( \pi \) is called \textit{reversible} or \text{time reversible} if \( \hat P = P \).
+	Equivalently, for all \( x, y \),
+	\[
+		\pi(x) P(x,y) = \pi(y) P(y,x)
+	\]
+	These equations are called the \textit{detailed balance equations}.
+	Equivalently, \( X \) is reversible if, for any fixed \( N \in \mathbb N \), \( X_0 \sim \pi \) implies
+	\[
+		(X_0, \dots, X_N) \overset{=}{d} (X_N, \dots, X_0)
+	\]
+	which means that they are equal in distribution.
+\end{definition}
+\begin{remark}
+	Intuitively, \( X \) is reversible if, starting from \( \pi \), we cannot tell if we are watching \( X \) evolve forwards in time or backwards in time.
+\end{remark}
+\begin{lemma}
+	Let \( P \) be a transition matrix, and \( \mu \) a distribution satisfying the detailed balance equations.
+	\[
+		\mu(x) P(x,y) = \mu(y) P(y,x)
+	\]
+	Then \( \mu \) is invariant for \( P \).
+\end{lemma}
+\begin{proof}
+	\[
+		\sum_x \mu(x) P(x,y) = \sum_x \mu(y) P(y,x) = \mu(y)
+	\]
+\end{proof}
+\begin{remark}
+	If we can find a solution to the detailed balance equations which is a distribution, it must be an invariant distribution.
+	It is simpler to solve this set of equations than to solve \( \pi P = P \).
+	If there is no solution to the detailed balance equations, then even if there exists an invariant distribution, the Markov chain is not reversible.
+\end{remark}
+\begin{example}
+	Consider a random walk on the integers modulo \( n \), with \( P(i, i+1) = \frac{2}{3} \) and \( P(i, i-1) = \frac{1}{3} \).
+	We can check \( \pi_i = \frac{1}{n} \) is an invariant distribution.
+	This does not satisfy the detailed balance equations.
+	Hence the Markov chain is not reversible.
+\end{example}
+\begin{example}
+	Consider a random walk on \( \qty{0, \dots, n-1} \) with \( P(i, i+1) = \frac{2}{3}, P(i, i-1) = \frac{1}{3} \) and \( P(0,0) = \frac{1}{3}, P(n-1, n-1) = \frac{2}{3} \).
+	This is an `opened up' version of the previous example; the circle is `cut' open into a line at zero.
+	The detailed balance equations give
+	\[
+		\pi_i P(i, i+1) = \pi_{i+1} P(i+1, i) \implies \pi_i = k 2_i
+	\]
+	We can normalise this by setting \( k \) such that \( \pi \) is a distribution.
+	Hence the chain is reversible.
+\end{example}
+\begin{example}
+	Consider a random walk on a graph.
+	Let \( G = (V, E) \) be a finite connected graph, where \( V \) is a set of vertices and \( E \) is a set of edges.
+	The simple random walk on \( G \) has the transition matrix
+	\[
+		P(x,y) = \begin{cases}
+			\frac{1}{d(x)} & (x,y) \in E     \\
+			0              & (x,y) \not\in E
+		\end{cases}
+	\]
+	where \( d(x) = \sum_y 1((x,y) \in E) \) is the degree of \( x \).
+	The detailed balance equations give, for \( (x,y) \in E \),
+	\[
+		\pi(x) P(x,y) = \pi(y) P(y,x) \implies \frac{\pi(x)}{d(x)} = \frac{\pi(y)}{d(y)}
+	\]
+	Let \( \pi(x) \propto d(x) \).
+	Then this is an invariant distribution with normalising constant \( \frac{1}{\sum_y d(y)} = \frac{1}{2\abs{E}} \).
+	So the simple random walk on a finite connected graph is always reversible.
+\end{example}
