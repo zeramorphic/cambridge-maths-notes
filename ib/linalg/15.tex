@@ -1,0 +1,185 @@
+\subsection{Notation}
+Let \( p(t) \) be a polynomial over \( F \).
+We will write
+\[
+	p(t) = a_n t^n + \dots + a_0
+\]
+For a matrix \( A \in M_n(F) \), we write
+\[
+	p(A) = a_n A^n + \dots + a_0 \in M_n(F)
+\]
+For an endomorphism \( \alpha \in L(V) \),
+\[
+	p(\alpha) = a_n \alpha^n + \dots + a_0 I \in L(V);\quad \alpha^k \equiv \underbrace{\alpha \circ \dots \circ \alpha}_{k \text{ times}}
+\]
+
+\subsection{Sharp criterion of diagonalisability}
+\begin{theorem}
+	Let \( V \) be a vector space over \( F \) of finite dimension \( n \).
+	Let \( \alpha \) be an endomorphism of \( V \).
+	Then \( \alpha \) is diagonalisable if and only if there exists a polynomial \( p \) which is a product of \textit{distinct} linear factors, such that \( p(\alpha) = 0 \).
+	In other words, there exist distinct \( \lambda_1, \dots, \lambda_k \) such that
+	\[
+		p(t) = \prod_{i=1}^n (t - \lambda_i) \implies p(\alpha) = 0
+	\]
+\end{theorem}
+\begin{proof}
+	Suppose \( \alpha \) is diagonalisable in a basis \( B \).
+	Let \( \lambda_1, \dots, \lambda_k \) be the \( k \leq n \) \textit{distinct} eigenvalues.
+	Let
+	\[
+		p(t) = \prod_{i=1}^k (t-\lambda_i)
+	\]
+	Let \( v \in B \).
+	Then \( \alpha(v) = \lambda_i v \) for some \( i \).
+	Then, since the terms in the following product commute,
+	\[
+		(\alpha - \lambda_i I)(v) = 0 \implies p(\alpha)(v) = \qty[\prod_{i=1}^k (\alpha - \lambda_i I)](v) = 0
+	\]
+	So for all basis vectors, \( p(\alpha)(v) \).
+	By linearity, \( p(\alpha) = 0 \).
+
+	Conversely, suppose that \( p(\alpha) = 0 \) for some polynomial \( p(t) = \prod_{i=1}^k (t-\lambda_i) \) with distinct \( \lambda_i \).
+	Let \( V_{\lambda_i} = \ker(\alpha - \lambda_i I) \).
+	We claim that
+	\[
+		V = \bigoplus_{i=1}^k V_{\lambda_i}
+	\]
+	Consider the polynomials
+	\[
+		q_j(t) = \prod_{i=1,i \neq j}^k \frac{t-\lambda_i}{\lambda_j - \lambda_i}
+	\]
+	These polynomials evaluate to one at \( \lambda_j \) and zero at \( \lambda_i \) for \( i \neq j \).
+	Hence \( q_j(\lambda_i) = \delta_{ij} \).
+	We now define the polynomial
+	\[
+		q = q_1 + \dots + q_k
+	\]
+	The degree of \( q \) is at most \( (k-1) \).
+	Note, \( q(\lambda_i) = 1 \) for all \( i \in \qty{1, \dots, k} \).
+	The only polynomial that evaluates to one at \( k \) points with degree at most \( (k-1) \) is exactly given by \( q(t) = 1 \).
+	Consider the endomorphism
+	\[
+		\pi_j = q_j(\alpha) \in L(V)
+	\]
+	These are called the `projection operators'.
+	By construction,
+	\[
+		\sum_{j=1}^k \pi_j = \sum_{j=1}^k q_j(\alpha) = I
+	\]
+	So the sum of the \( \pi_j \) is the identity.
+	Hence, for all \( v \in V \),
+	\[
+		I(v) = v = \sum_{j=1}^k \pi_j(v) = \sum_{j=1}^k q_j(\alpha)(v)
+	\]
+	So we can decompose any vector as a sum of its projections \( \pi_j(v) \).
+	Now, by definition of \( q_j \) and \( p \),
+	\begin{align*}
+		(\alpha - \lambda_j I) q_j(\alpha)(v) & = \frac{1}{\prod_{i \neq j} (\lambda_j - \lambda_i)} (\alpha - \lambda_j I) \qty[\prod_{i \neq j} (t - \lambda_i)] (\alpha) \\
+		                                      & = \frac{1}{\prod_{i \neq j} (\lambda_j - \lambda_i)} \prod_{i=1}^k (\alpha - \lambda_i I)(v)                                \\
+		                                      & = \frac{1}{\prod_{i \neq j} (\lambda_j - \lambda_i)} p(\alpha)(v)
+	\end{align*}
+	By assumption, this is zero.
+	For all \( v \), we have \( (\alpha - \lambda_j I) q_j(\alpha)(v) \).
+	Hence,
+	\[
+		(\alpha - \lambda_j I) \pi_j(v) = 0 \implies \pi_j(v) \in \ker(\alpha - \lambda_j I) = v_j
+	\]
+	We have then proven that, for all \( v \in V \),
+	\[
+		v = \sum_{j=1}^k \underbrace{\pi_j(v)}_{\in V_j}
+	\]
+	Hence,
+	\[
+		V = \sum_{j=1}^k V_j
+	\]
+	It remains to show that the sum is direct.
+	Indeed, let
+	\[
+		v \in V_{\lambda_j} \cap \qty(\sum_{i \neq j} V_{\lambda_i})
+	\]
+	We must show \( v = 0 \).
+	Applying \( \pi_j \),
+	\[
+		\pi_j(v) = q_j(\alpha)(v) = \prod_{i \neq j} \frac{(\alpha - \lambda_i I)(v)}{\lambda_j - \lambda_i}
+	\]
+	Since \( \alpha(v) = \lambda_j v \),
+	\[
+		\pi_j(v) = \prod_{i \neq j} \frac{(\lambda_j - \lambda_i)v}{\lambda_j - \lambda_i} = v
+	\]
+	Hence \( \pi_j \) really projects onto \( V_{\lambda_j} \).
+	However, we also know \( v \in \sum_{i \neq j} V_{\lambda_i} \).
+	So we can write \( v = \sum_{i \neq j} w_i \) for \( w \in V_{\lambda_i} \).
+	Thus,
+	\[
+		\pi_j(w_i) = \prod_{m \neq j} \frac{(\alpha - \lambda_m I)(v)}{\lambda_m - \lambda_j}
+	\]
+	Since \( \alpha(w_i) = \lambda_i w_i \), one of the factors will vanish, hence
+	\[
+		\pi_j(w_i) = 0
+	\]
+	So
+	\[
+		v = \sum_{i \neq j} w_i \implies \pi_j(v) = \sum_{i \neq j} \pi_j(w_i) = 0
+	\]
+	But \( v = \pi_j(v) \) hence \( v = 0 \).
+	So the sum is direct.
+	Hence, \( B = (B_1, \dots, B_k) \) is a basis of \( V \), where the \( B_i \) are bases of \( V_{\lambda_i} \).
+	Then \( [\alpha]_B \) is diagonal.
+\end{proof}
+\begin{remark}
+	We have shown further that if \( \lambda_1, \dots, \lambda_k \) are distinct eigenvalues of \( \alpha \), then
+	\[
+		\sum_{i=1}^k V_{\lambda_i} = \bigoplus_{i=1}^k V_{\lambda_i}
+	\]
+	Therefore, the only way that diagonalisation fails is when this sum is not direct, so
+	\[
+		\sum_{i=1}^k V_{\lambda_i} < V
+	\]
+\end{remark}
+\begin{example}
+	Let \( F = \mathbb C \).
+	Let \( A \in M_n(F) \) such that \( A \) has finite order; there exists \( m \in \mathbb N \) such that \( A^m = I \).
+	Then \( A \) is diagonalisable.
+	This is because
+	\[
+		t^m - 1 = p(t) = \prod_{j=1}^m (t - \xi_m^j);\quad \xi_m = e^{2 \pi i/m}
+	\]
+	and \( p(A) = 0 \).
+\end{example}
+
+\subsection{Simultaneous diagonalisation}
+\begin{theorem}
+	Let \( \alpha, \beta \) be endomorphisms of \( V \) which are diagonalisable.
+	Then \( \alpha, \beta \) are \textit{simultaneously diagonalisable} (there exists a basis \( B \) of \( V \) such that \( [\alpha]_B, [\beta]_B \) are diagonal) if and only if \( \alpha \) and \( \beta \) commute.
+\end{theorem}
+\begin{proof}
+	Two diagonal matrices commute.
+	If such a basis exists, \( \alpha \beta = \beta \alpha \) in this basis.
+	So this holds in any basis.
+
+	Conversely, suppose \( \alpha \beta = \beta \alpha \).
+	We have
+	\[
+		V = \bigoplus_{i=1}^k V_{\lambda_i}
+	\]
+	where \( \lambda_i, \dots, \lambda_k \) are the \( k \) distinct eigenvalues of \( \alpha \).
+	We claim that \( \beta \qty(V_{\lambda_j}) \leq V_{\lambda_j} \).
+	Indeed, for \( v in V_{\lambda_j} \),
+	\[
+		\alpha \beta(v) = \beta \alpha(v) = \beta(\lambda_j v) = \lambda_j \beta(v) \implies \alpha(\beta(v)) = \lambda_j \beta(v)
+	\]
+	Hence, \( \beta(v) \in V_{\lambda_j} \).
+	By assumption, \( \beta \) is diagonalisable.
+	Hence, there exists a polynomial \( p \) with distinct linear factors such that \( p(\beta) = 0 \).
+	Now, \( \beta\qty(V_{\lambda_j}) \leq V_{\lambda_j} \) so we can consider \( \eval{\beta}_{V_{\lambda_j}} \).
+	This is an endomorphism of \( V_{\lambda_j} \).
+	We can compute
+	\[
+		p\qty(\eval{\beta}_{V_{\lambda_j}}) = 0
+	\]
+	Hence, \( \eval{\beta}_{V_{\lambda_j}} \) is diagonalisable.
+	Let \( B_i \) be the basis of \( V_{\lambda_i} \) in which \( \eval{\beta}_{V_{\lambda_j}} \) is diagonal.
+	Since \( V = \bigoplus V_{\lambda_i} \), \( B = (B_1, \dots, B_k) \) is a basis of \( V \).
+	Then the matrices of \( \alpha \) and \( \beta \) in \( V \) are diagonal.
+\end{proof}

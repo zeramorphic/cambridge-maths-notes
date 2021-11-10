@@ -21,3 +21,120 @@
 		\inner{\hat A \psi_1, \psi_2} = \inner{\psi_1, \hat A \psi_2}
 	\]
 \end{definition}
+\begin{example}
+	The familiar operators \( \hat x, \hat p \) are Hermitian.
+	\begin{align*}
+		\inner{\hat x \psi_1, \psi_2} & = \int_{\mathbb R^3} (x \psi_1)^\star \psi_2 \dd{V} \\
+		                              & = \int_{\mathbb R^3} \psi_1^\star x \psi_2 \dd{V}   \\
+		                              & = \inner{\psi_1, \hat x \psi_2}
+	\end{align*}
+	For \( \hat p \), integrating by parts, we have
+	\begin{align*}
+		\inner{\hat p \psi_1, \psi_2} & = \int_{-\infty}^\infty \qty(-i\hbar \pdv{x} \psi_1)^\star \psi_2 \dd{x} \\
+		                              & = i \hbar \int_{-\infty}^\infty \pdv{\psi_1^\star}{x} \psi_2 \dd{x}      \\
+		                              & = -i\hbar \int_{-\infty}^\infty \psi_1^\star \pdv{\psi_2}{x} \dd{x}      \\
+		                              & = \inner{\psi_1, \hat p \psi_2}
+	\end{align*}
+\end{example}
+\begin{theorem}
+	The eigenvalues of a Hermitian operator are real.
+\end{theorem}
+\begin{proof}
+	Let \( \hat A \) be a Hermitian operator, and \( \psi \) a normalised eigenfunction with eigenvalue \( a \).
+	\[
+		\inner{\psi, \hat A \psi} = \inner{\psi, a \psi} = a \inner{\psi, \psi} = a
+	\]
+	Since \( \hat A \) is Hermitian,
+	\[
+		\inner{\psi, \hat A \psi} = \inner{\hat A \psi, \psi} = \inner{a \psi, \psi} = a^\star \inner{\psi, \psi} = a^\star
+	\]
+	Hence \( a = a^\star \) so \( a \in \mathbb R \).
+\end{proof}
+\begin{theorem}
+	Let \( \hat A \) be a Hermitian operator, and \( \psi_1, \psi_2 \) normalised eigenfunctions with distinct eigenvalues \( a_1, a_2 \).
+	Then \( \psi_1, \psi_2 \) are orthogonal.
+\end{theorem}
+\begin{proof}
+	We have \( \hat A \psi_1 = a_1 \psi_1 \) and \( \hat A \psi_2 = a_2 \psi_2 \).
+	Then,
+	\[
+		\inner{\hat A \psi_1, \psi_2} = a_1 \inner{\psi_1, \psi_2}
+	\]
+	But also,
+	\[
+		\inner{\psi_1, \hat A \psi_2} = a_2 \inner{\psi_1, \psi_2}
+	\]
+	These two values must be the same, so \( \inner{\psi_1, \psi_2} = 0 \).
+\end{proof}
+\begin{theorem}
+	The discrete and continuous set of eigenfunctions of any Hermitian operator form a complete orthogonal basis for the Hilbert space.
+	This theorem is stated without proof.
+\end{theorem}
+\begin{corollary}
+	Every solution of the time-dependent Schr\"odinger can be written as a superposition of stationary states.
+	\[
+		\psi(x, t) = \sum_{n=1}^\infty a_n \chi_n(x) e^{-iEnt/\hbar};\quad a_n = \inner{\chi_n, \psi}
+	\]
+	In the continuous case,
+	\[
+		\psi(x, t) = \int_{\Delta_\alpha} A(\alpha) \chi_\alpha(x) e^{-iEnt/\hbar} \dd{\alpha};\quad A(\alpha) = \inner{\chi_\alpha, \psi}
+	\]
+\end{corollary}
+
+\subsection{Postulates of quantum mechanics}
+The following postulates are used to interpret measurements in quantum systems.
+\begin{enumerate}[(i)]
+	\item Any observable \( O \) is represented by a Hermitian operator \( \hat O \).
+	\item The possible outcomes of \( O \) are the eigenvalues of \( \hat O \).
+	      Since \( \hat O \) is Hermitian, we can only ever observe real values.
+	\item Let \( \hat O \) have a discrete set of normalised eigenfunctions \( \qty{\psi_i} \) with distinct eigenvalues \( \qty{\lambda_i} \).
+	      Let \( \psi \) be a state, written in terms of the eigenfunctions of \( \hat O \).
+	      \[
+		      \psi = \sum a_i \psi_i
+	      \]
+	      Suppose we measure \( O \) on a particle in the state \( \psi \).
+	      Then, the probability that \( O \) takes value \( \lambda_i \) is
+	      \[
+		      \prob{O = \lambda_i} = \abs{a_i}^2 = a_i^\star a_i
+	      \]
+	\item The above postulate can be generalised to the case where \( \hat O \) has degenerate eigenvalues.
+	      Let \( \qty{\psi_i} \) be a discrete set of normalised eigenfunctions with not necessarily distinct eigenvalues \( \qty{\lambda_i} \).
+	      If \( \qty{\psi_i}_{i \in I} \) is a complete set of orthonormal eigenfunctions with the same eigenvalue \( \lambda \), then
+	      \[
+		      \prob{O = \lambda} = \sum_{i \in I} \abs{a_i}^2 = \sum_{i \in I} a^\star a
+	      \]
+	\item We can verify from the postulates above that the sum of all probabilities is unity.
+	      \[
+		      \sum_i \abs{a_i}^2 = \sum_i \inner{a_i \psi_i, a_i \psi_i} = \sum_i \sum_j \inner{a_i \psi_i, a_j \psi_j} = \inner{\psi, \psi} = 1
+	      \]
+	\item If \( O \) is measured on a state \( \psi \) at time \( t \), and the outcome is \( \lambda_i \), then the wavefunction instantaneously `collapses' into the measured state after the measurement.
+	      \[
+		      \psi \mapsto \psi_i
+	      \]
+	      This is called the \textit{projection postulate}.
+	\item If \( \hat O \) has degenerate eigenfunctions all with eigenvalue \( \lambda \), then instead we find
+	      \[
+		      \psi \mapsto \sum_{i \in I} a_i \psi_i
+	      \]
+	      So in this case, the wavefunction collapses to a linear combination of the eigenfunctions that give this eigenvalue.
+\end{enumerate}
+
+\subsection{Expectation of operators}
+\begin{definition}
+	\[
+		\psi = \sum_i a_i \psi_i = \sum_i \inner{\psi_i, \psi} \psi_i
+	\]
+	The \textit{projector} operator projects \( \psi \) onto a specific eigenfunction.
+	\[
+		\hat P \colon \psi \mapsto \inner{\psi_i, \psi} \psi_i
+	\]
+\end{definition}
+\begin{definition}
+	The expectation value of an observable \( \hat O \) on a state \( \psi \) is
+	\begin{align*}
+		\inner{O}_\psi & = \sum_i \lambda_i \prob{O = \lambda_i}                                                    \\
+		               & = \sum_i \lambda_i \abs{\inner{\psi_i, \psi}}^2                                            \\
+		               & = \inner{\sum_i \inner{\psi_i, \psi} \psi_i, \sum_j \lambda_j \inner{\psi_j, \psi} \psi_j} \\
+		               & = \inner{\psi, \hat O \psi}
+	\end{align*}
+\end{definition}
