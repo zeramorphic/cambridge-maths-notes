@@ -1,0 +1,130 @@
+\subsection{Eigenfunction expansions of Green's functions}
+Suppose \( \mathcal L \) is in Sturm-Liouville form with eigenfunctions \( y_n(x) \) and eigenvalues \( \lambda_n \).
+We seek \( G(x,\xi) = \sum_{n=1}^\infty A_n y_n(x) \) satisfying \( \mathcal L G = \delta(x-\xi) \).
+\begin{align*}
+	\mathcal L G & = \sum_n A_n \mathcal L y_n        \\
+	             & = \sum_n A_n \lambda_n w(x) y_n(x)
+\end{align*}
+The \( \delta \) function has expansion
+\[
+	\delta(x-\xi) = w(x) \sum_n \frac{y_n(\xi) y_n(x)}{N_n};\quad N_n = \int w y_n^2 \dd{x}
+\]
+Hence,
+\[
+	A_n(\xi) = \frac{y_n(\xi)}{\lambda_n N_n}
+\]
+Thus,
+\[
+	G(x,\xi) = \sum_{n=1}^\infty \frac{y_n(\xi) y_n(x)}{\lambda_n \int w y_n^2 \dd{x}} = \sum_{n=1}^\infty \frac{Y_n(\xi) Y_N(x)}{\lambda_n}
+\]
+which was already obtained earlier in the course when studying Sturm-Liouville theory.
+
+\subsection{Constructing Green's function for an initial value problem}
+Suppose we want to solve \( \mathcal L y = f(t) \) for \( t \geq a \) with \( y(a) = y'(a) = 0 \), using \( G(t, \tau) \) satisfying \( \mathcal L g = \delta(t - \tau) \).
+For \( t < \tau \), we have
+\[
+	G_1 = A y_1(t) + B y_2(t);\quad A y_1(a) + B y_2(a) = 0;\quad A y_1'(a) + B y_2'(a) = 0
+\]
+If \( A \neq B \neq 0 \), then we can solve this by dividing out \( A, B \) and find \( y_1 y_2' - y_2 y_1' = 0 \).
+Since the Wro\'nskian at \( a \) cannot be zero, \( A = B = 0 \).
+So \( G_1(t,\tau) \equiv 0 \) for \( a \leq t < \tau \), so there is no change until the `impulse' at \( t = \tau \).
+
+For \( t > \tau \), by continuity we must have \( G_2(\tau, \tau) = 0 \).
+So we choose a complementary function \( G_2 = D y_+(t) \) with \( y_+(t) = A y_1(t) + B y_2(t) \), and \( y_+(\tau) = 0 \).
+The discontinuity in the derivative implies that
+\[
+	G_2'(\tau, \tau) = Dy_+'(\tau) = \frac{1}{\alpha(\tau)}
+\]
+Hence,
+\[
+	A y_1'(\tau) + B y_2'(\tau) = \frac{1}{\alpha(\tau)} \implies D(\tau) = \frac{1}{\alpha(\tau) y_+'(\tau)}
+\]
+Hence we have a non-trivial solution
+\[
+	G(t, \tau) = \begin{cases}
+		0                                      & t < \tau \\
+		\frac{y_+(t)}{\alpha(\tau) y_+'(\tau)} & t > \tau
+	\end{cases}
+\]
+The initial value problem has solution
+\[
+	y(t) = \int_a^t G_2(t, \tau) f(\tau) \dd{\tau} = \int_a^t \frac{y_+(t) f(\tau)}{y_+'(\tau)} \dd{\tau}
+\]
+Causality is `built in' to this solution.
+Only forces which occur before \( t \) may have an impact on \( y(t) \).
+\begin{example}
+	Let us solve \( y''-y = f(t) \) with \( y(0) = y'(0) = 0 \).
+	The homogeneous solution and initial conditions are
+	\[
+		t < \tau \implies G_1 \equiv 0
+	\]
+	and
+	\[
+		t > \tau \implies G_2 = A e^t + Be^{-t} = D \sinh (t - \tau)
+	\]
+	Now,
+	\[
+		[G']_{\tau_-}^{\tau_+} = \frac{1}{\alpha(\tau)} = 1 \implies G'(\tau, \tau) = D \cosh 0 = D = 1
+	\]
+	Hence, the solution is
+	\[
+		y(t) = \int_0^t f(\tau) \sinh (t - \tau) \dd{\tau}
+	\]
+\end{example}
+
+\subsection{Fourier transform}
+\begin{definition}
+	The \textit{Fourier transform} of a function \( f(x) \) is
+	\[
+		\widetilde f(k) = \mathcal F(f)(k) = -\int_{-\infty}^\infty f(x) e^{-ikx} \dd{x}
+	\]
+	The \textit{inverse Fourier transform} is
+	\[
+		f(x) = \mathcal F^{-1}(\widetilde f)(x) = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde f(k) e^{ikx} \dd{x}
+	\]
+	Different internally-consistent definitions exist, which distribute the multiplicative constants in different ways.
+\end{definition}
+\begin{theorem}[Fourier inversion theorem]
+	For a function \( f(x) \),
+	\[
+		\mathcal F^{-1} (\mathcal F (f))(x) = f(x)
+	\]
+	with a sufficient condition that \( f \) and \( \widetilde f \) are absolutely integrable, so
+	\[
+		\int_{-\infty}^\infty \abs{f(x)} \dd{x} = M < \infty
+	\]
+	In particular, \( f \to 0 \) as \( x \to \pm \infty \).
+\end{theorem}
+\begin{example}
+	Consider the Gaussian,
+	\[
+		f(x) = \frac{1}{\sigma \sqrt{\pi}} \exp[-\frac{x^2}{\sigma^2}]
+	\]
+	We wish to compute its Fourier transform.
+	Since \( i \sin kx \) is an odd function,
+	\[
+		\widetilde f(k) = \frac{1}{\sigma \sqrt{\pi}} \int_{-\infty}^\infty \exp[-\frac{x^2}{\sigma^2}] \exp[-ikx] \dd{x} = \frac{1}{\sigma \sqrt{\pi}} \int_{-\infty}^\infty \exp[-\frac{x^2}{\sigma^2}] \cos(kx) \dd{x}
+	\]
+	Consider, using Leibniz' rule,
+	\[
+		\dv{\widetilde f}{k} = \frac{-1}{\sigma \sqrt{\pi}} \int_{-\infty}^\infty x\exp[\frac{-x^2}{\sigma^2}] \sin kx \dd{x}
+	\]
+	Integrating by parts,
+	\begin{align*}
+		\dv{\widetilde f}{k} & = \frac{1}{\sigma \sqrt{\pi}} \qty[\frac{\sigma^2}{2} \exp[\frac{-x^2}{\sigma^2}] \sin kx]_{-\infty}^\infty - \frac{1}{\sigma \sqrt{\pi}} \int_{-\infty}^\infty \frac{k\sigma^2}{2} \exp[\frac{-x^2}{\sigma^2}] \cos kx \dd{x} \\
+		                     & = \frac{1}{\sigma \sqrt{\pi}} \int_{-\infty}^\infty \frac{k\sigma^2}{2} \exp[\frac{-x^2}{\sigma^2}] \cos kx \dd{x}                                                                                                             \\
+		                     & = -\frac{k\sigma^2}{2} \widetilde f(k)
+	\end{align*}
+	This is a differential equation for \( \widetilde f \), which gives
+	\[
+		\widetilde f(k) = C \exp[-\frac{k^2\sigma^2}{4}]
+	\]
+	Suppose \( k = 0 \).
+	Then, in the original expression for the Fourier transform, we can directly find \( \widetilde f(0) = 1 \).
+	Hence \( C \exp[-\frac{0^2\sigma^2}{4}] = 1 \implies C = 1 \).
+	Hence,
+	\[
+		\widetilde f(k) = \exp[-\frac{k^2\sigma^2}{4}]
+	\]
+	which is another Gaussian with the width parameter inverted.
+\end{example}

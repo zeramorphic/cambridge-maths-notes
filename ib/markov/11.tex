@@ -1,0 +1,135 @@
+\subsection{Aperiodicity}
+\begin{definition}
+	Let \( P \) be a transition matrix.
+	For all \( i \), we write
+	\[
+		d_i = \gcd{n \geq 1 \colon P^n(i,i) > 0}
+	\]
+	This is called the \textit{period} of \( i \).
+	If \( d_i = 1 \), we say that \( i \) is aperiodic.
+\end{definition}
+\begin{lemma}
+	\( d_i = 1 \) if and only if \( P^n(i,i) > 0 \) for all \( n \) sufficiently large.
+	More rigorously, there exists \( n_0 \in \mathbb N \) such that for all \( n > n_0 \), \( P^n(i,i) > 0 \).
+\end{lemma}
+\begin{proof}
+	First, if \( P^n(i,i)>0 \) for all \( n \) sufficiently large, the greatest common divisor of all sufficiently large numbers is one so this direction is trivial.
+	Conversely, let \( D(i) = \qty{n \geq 1 \colon P^n(i,i) > 0} \).
+	Observe that if \( a, b \in D(i) \) then \( a + b \in D(i) \).
+
+	We claim that \( D(i) \) contains two consecutive integers.
+	Suppose that it does not, so for all \( a, b \in D(i) \) we must have \( \abs{a-b} > 1 \).
+	Let \( r \) be the minimal distance between two integers in \( D(i) \), so \( r \geq 2 \).
+	Let \( n, m \) be numbers in \( D(i) \) separated by \( r \), so \( n = m + r \).
+	Then we can show there exists \( k \in D(i) \) which can be written as \( \ell r + s \) with \( 0 < s < r \).
+	Indeed, if there were not such a \( k \), all elements of \( d_i = 1 \), since all elements would be multiples of \( r \).
+	Now, let \( a = (\ell + 1)n \) and \( b = (\ell+1)m + k \).
+	Then \( a, b \in D(i) \), and \( a-b = r-s < r \).
+	This is a contradiction, since we have found two points in \( D(i) \) with a distance smaller than the minimal distance.
+
+	Now, let \( n_1, n_1 + 1 \) be elements of \( D(i) \).
+	Then \( \qty{x n_1 + y(n_1 + 1) \colon x,y \in \mathbb N } \subseteq D(i) \).
+	It is then easy to check that \( D(i) \supseteq \qty{n \colon n \geq n_1^2} \).
+\end{proof}
+\begin{lemma}
+	Suppose \( P \) is irreducible and \( i \) is aperiodic.
+	Then for all \( j \in I \), \( j \) is aperiodic.
+	Hence, aperiodicity is a class property.
+\end{lemma}
+\begin{proof}
+	There exist \( n, m \) such that \( P^n(i,j) > 0, P^m(i,j) > 0 \).
+	Hence, \( P^{n+m+r}(j,j) \geq P^n(j,i) P^r(i,i) P^n(i,j) \).
+	The first and last terms are positive, and the middle term is positive for sufficiently large \( r \).
+\end{proof}
+
+\subsection{Convergence to invariant distribution}
+\begin{theorem}
+	Let \( P \) be irreducible and aperiodic with invariant distribution \( \pi \).
+	Let \( X \sim \Markov{\lambda, P} \).
+	Then for all \( y \in I \), \( \prob{X_n = y} \to \pi_y \) as \( n \to \infty \).
+	Taking \( \lambda = \delta_x \), we get \( p_{xy}(n) \to \pi(y) \) as \( n \to \infty \).
+\end{theorem}
+\begin{proof}
+	This proof will use the idea of `coupling' of Markov chains.
+	Let \( Y \sim \Markov{\pi, P} \) be independent of \( X \).
+	Consider the pair \( ((X_n, Y_n))_{n \geq 0} \).
+	This is a Markov chain on the state space \( I \times I \), because \( X \) and \( Y \) are independent.
+	The initial distribution is \( \lambda \times \pi \).
+	We have \( \prob{(X_0, Y_0) = (x,y)} = \lambda(x) \pi(y) \) and transition matrix \( \widetilde P \) given by
+	\[
+		\widetilde P((x,y), (x',y')) = P(x,x') P(y,y')
+	\]
+	This product chain has invariant distribution \( \widetilde \pi \) given by
+	\[
+		\widetilde \pi(x,y) = \pi(x) \pi(y)
+	\]
+	Let \( a \in I \), and let \( T = \inf{n \geq 1 \colon (X_n, Y_n) = (a,a)} \) be the hitting time of \( (a,a) \).
+
+	First, we want to show that \( \prob{T < \infty} = 1 \).
+	We show that \( \widetilde P \) is irreducible.
+	Let \( (x,y), (x',y') \in I \times I \).
+	By irreducibility of \( P \), there exist \( \ell, m \) such that \( P^\ell(x,x') > 0 \) and \( P^m(y,y') > 0 \).
+	Now,
+	\[
+		\widetilde P^{\ell + m + n}((x,y), (x', y')) = P^{\ell+m+n}(x,x')P^{\ell+m+n}(y,y')
+	\]
+	Note that
+	\[
+		P^{\ell+m+n}(x,x') \geq P^\ell(x,x') P^{m+n}(x',x')
+	\]
+	By taking \( n \) large, by aperiodicity the product is positive.
+	Therefore, for sufficiently large \( n \), \( P^n(x,x') > 0 \).
+	So \( \widetilde P \) is irreducible, and there exists an invariant distribution \( \widetilde \pi \).
+	Hence \( \widetilde P \) is positive recurrent.
+	So \( \prob{T < \infty} = 1 \).
+
+	Now, we define
+	\[
+		Z_n = \begin{cases}
+			X_n & n < T    \\
+			Y_n & n \geq T
+		\end{cases}
+	\]
+	We wish to show \( Z = (Z_n){n \geq 0} \) has the same distribution as \( X \), that is, \( Z \sim \Markov{\lambda, P} \).
+	Now,
+	\[
+		\prob{Z_0 = x} = \prob{X_0 = x} = \lambda(x)
+	\]
+	so the initial distribution is the same.
+	Now, we will check that \( Z \) evolves with transition matrix \( P \).
+	Let \( A = \qty{Z_{n-1} = z_{n-1}, \dots, Z_0 = z_0} \).
+	We need to show \( \prob{Z_{n+1} = y \mid Z_n = x, A} = P(x,y) \).
+	\begin{align*}
+		\prob{Z_{n+1} = y \mid Z_n = x, A} & = \prob{Z_{n+1} = y, T > n \mid Z_n = x, A} + \prob{Z_{n+1} = y, T \leq n \mid Z_n = x, A}                                                            \\
+		                                   & = \prob{X_{n+1} = y \mid T > n, Z_n = x, A} \prob{T > n \mid Z_n = x, A} + \prob{Y_n+1 = y \mid T \leq n, Z_n = x, A} \prob{T \leq n \mid Z_n = x, A}
+	\end{align*}
+	Now,
+	\[
+		\prob{X_{n+1} = y \mid T > n, Z_n = x, A} = \sum_z \prob{X_{n+1} = y \mid T>n, Z_n = x, Y_n = z, A} \prob{Y_n = z \mid T > n, Z-n = x, A}
+	\]
+	Note, \( \qty{T > n} \) depends only on \( (X_0, Y_0), \dots, (X_n, Y_n) \) since it is the complement of \( \qty{T \leq n} \), so it is a stopping time.
+	Hence,
+	\[
+		\prob{X_{n+1} = y \mid T > n, Z_n = x, A} = \sum_z P(x,y) \prob{Y_n = z \mid T > n, Z-n = x, A} = P(x,y)
+	\]
+	Similarly,
+	\[
+		\prob{Y_{n+1} = y \mid T > n, Z_n = x, A} = P(x,y)
+	\]
+	Hence,
+	\begin{align*}
+		\prob{Z_{n+1} = y \mid Z_n = x, A} & = P(x,y) \prob{T > n \mid Z_n = x, A} + P(x,y) \prob{T \leq n \mid Z_n = x, A}  \\
+		                                   & = P(x,y) \qty[ \prob{T > n \mid Z_n = x, A} + \prob{T \leq n \mid Z_n = x, A} ] \\
+		                                   & = P(x,y)
+	\end{align*}
+	as required.
+	Hence \( Z \sim \Markov{\lambda, P} \).
+	Thus,
+	\begin{align*}
+		\abs{\prob{X_n = y} - \pi(y)} & = \abs{\prob{Z_n = y} - \prob{Y_n = y}}                                                                     \\
+		                              & = \abs{\prob{X_n = y, n < T} + \prob{Y_n = y, n \geq T} - \prob{Y_n = y, n < T} - \prob{Y_n = y, n \geq T}} \\
+		                              & = \abs{\prob{X_n = y, n < T} - \prob{Y_n = y, n < T}}                                                       \\
+		                              & \leq \prob{n < T}
+	\end{align*}
+	As \( n \to \infty \), this upper bound becomes zero, since \( \prob{T < \infty} = 1 \).
+\end{proof}
