@@ -183,3 +183,48 @@ For an endomorphism \( \alpha \in L(V) \),
 	Since \( V = \bigoplus V_{\lambda_i} \), \( B = (B_1, \dots, B_k) \) is a basis of \( V \).
 	Then the matrices of \( \alpha \) and \( \beta \) in \( V \) are diagonal.
 \end{proof}
+
+\subsection{Minimal polynomials}
+Recall from IB Groups, Rings and Modules the Euclidean algorithm for dividing polynomials.
+Given \( a, b \) polynomials over \( F \) with \( b \) non-zero, there exist polynomials \( q, r \) over \( F \) with \( \deg r < \deg b \) and \( a = qb + r \).
+\begin{definition}
+	Let \( V \) be a finite dimensional \( F \)-vector space.
+	Let \( \alpha \) be an endomorphism on \( V \).
+	The \textit{minimal polynomial} \( m_\alpha \) of \( \alpha \) is the non-zero polynomial with smallest degree such that \( m_\alpha(\alpha) = 0 \).
+\end{definition}
+\begin{remark}
+	If \( \dim V = n < \infty \), then \( \dim L(V) = n^2 \).
+	In particular, the family \( \qty{I, \alpha, \dots, \alpha^{n^2}} \) cannot be free since it has \( n^2+1 \) entries.
+	This generates a polynomial in \( \alpha \) which evaluates to zero.
+	Hence, a minimal polynomial always exists.
+\end{remark}
+\begin{lemma}
+	Let \( \alpha \in L(V) \) and \( p \in F[t] \) be a polynomial.
+	Then \( p(\alpha) = 0 \) if and only if \( m_\alpha \) is a factor of \( p \).
+	In particular, \( m_\alpha \) is well-defined and unique up to a constant multiple.
+\end{lemma}
+\begin{proof}
+	Let \( p \in F[t] \) such that \( p(\alpha) = 0 \).
+	If \( m_\alpha(\alpha) = 0 \) and \( \deg m_\alpha < \deg p \), we can perform the division \( p = m_\alpha q + r \) for \( \deg r < \deg m_\alpha \).
+	Then \( p(\alpha) = m_\alpha(\alpha) q(\alpha) + r(\alpha) \).
+	But \( m_\alpha(\alpha) = 0 \).
+	But \( \deg r < \deg m_\alpha \) and \( m_\alpha \) is the smallest degree polynomial which evaluates to zero for \( \alpha \), so \( r \equiv 0 \) so \( p = m_\alpha q \).
+	In particular, if \( m_1, m_2 \) are both minimal polynomials that evaluate to zero for \( \alpha \), we have \( m_1 \) divides \( m_2 \) and \( m_2 \) divides \( m_1 \).
+	Hence they are equivalent up to a constant.
+\end{proof}
+\begin{example}
+	Let \( V = F^2 \) and
+	\[
+		A= \begin{pmatrix}
+			1 & 0 \\
+			0 & 1
+		\end{pmatrix};\quad B = \begin{pmatrix}
+			1 & 1 \\
+			0 & 1
+		\end{pmatrix}
+	\]
+	We can check \( p(t) = (t-1)^2 \) gives \( p(A) = p(B) = 0 \).
+	So the minimal polynomial of \( A \) or \( B \) must be either \( (t-1) \) or \( (t-1)^2 \).
+	For \( A \), we can find the minimal polynomial is \( (t-1) \), and for \( B \) we require \( (t-1)^2 \).
+	So \( B \) is not diagonalisable, since its minimal polynomial is not a product of distinct linear factors.
+\end{example}

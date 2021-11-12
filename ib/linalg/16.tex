@@ -1,0 +1,121 @@
+\subsection{Cayley-Hamilton theorem}
+\begin{theorem}
+	Let \( V \) be a finite dimensional \( F \)-vector space.
+	Let \( \alpha \in L(V) \) with characteristic polynomial \( \chi_\alpha(t) = \det(\alpha - t I) \).
+	Then \( \chi_\alpha(\alpha) = 0 \).
+\end{theorem}
+\noindent Two proofs will provided; one more physical and based on \( F = \mathbb C \) and one more algebraic.
+\begin{proof}
+	Let \( B = \qty{v_1, \dots, v_n} \) be a basis of \( V \) such that \( [\alpha]_B \) is triangular.
+	This can be done when \( F = \mathbb C \).
+	Note, if the diagonal entries in this basis are \( a_i \),
+	\[
+		\chi_\alpha(t) = \prod_{i=1}^n (a_i - t) \implies \chi_\alpha(\alpha) = (\alpha - a_1 I) \dots (\alpha - a_n I)
+	\]
+	We want to show that this expansion evaluates to zero.
+	Let \( U_j = \vecspan \qty{v_1, \dots, v_j} \).
+	Let \( v \in V = U_n \).
+	We want to compute \( \chi_\alpha(\alpha)(v) \).
+	Note, by construction of the triangular matrix.
+	\begin{align*}
+		\chi_\alpha(\alpha)(v) & = (\alpha - a_1 I) \dots \underbrace{(\alpha - a_n I)(v)}_{\in U_{n-1}}                     \\
+		                       & = (\alpha - a_1 I) \dots \underbrace{(\alpha - a_{n-1} I)(\alpha - a_n I)(v)}_{\in U_{n-2}} \\
+		                       & = \dots                                                                                     \\
+		                       & \in U_0
+	\end{align*}
+	Hence this evaluates to zero.
+\end{proof}
+\noindent The following proof works for any field where we can equate coefficients, but is much less intuitive.
+\begin{proof}
+	We will write
+	\[
+		\det(t I - \alpha) = (-1)^n \chi_\alpha(t) = t^n + a_{n-1}t^{n-1} + \dots + a_0
+	\]
+	For any matrix \( B \), we have proven \( B \adj B = (\det B) I \).
+	We apply this relation to the matrix \( B = tI - A \).
+	We can check that
+	\[
+		\adj B = \adj(tI - A) = B_{n-1} t^{n-1} + \dots + B_1 t + B_0
+	\]
+	since adjugate matrices are degree \( (n-1) \) polynomials for each element.
+	Then, by applying \( B \adj B = (\det B) I \),
+	\[
+		(tI - A) [ B_{n-1} t^{n-1} + \dots + B_1 t + B_0 ] = (\det B) I = (t^n + \dots + a_0) I
+	\]
+	Since this is true for all \( t \), we can equate coefficients.
+	This gives
+	\begin{align*}
+		t^n     & : \quad I         &  & = B_{n-1}           \\
+		t^{n-1} & : \quad a_{n-1} I &  & =B_{n-2} - AB_{n-1} \\
+		        &                   &  & \vdots              \\
+		t^0     & : \quad a_0 I     &  & = -A B_1
+	\end{align*}
+	Then, substituting \( A \) for \( t \) in each relation will give, for example, \( A^n I = A^n B_{n-1} \).
+	Computing the sum of all of these identities, we recover the original polynomial in terms of \( A \) instead of in terms of \( t \).
+	Many terms will cancel since the sum telescopes, yielding
+	\[
+		A^n + a_{n-1} A^{n-1} + \dots + a_0 I = 0
+	\]
+\end{proof}
+
+\subsection{Algebraic and geometric multiplicity}
+\begin{definition}
+	Let \( V \) be a finite dimensional \( F \)-vector space.
+	Let \( \alpha \in L(V) \) and let \( \lambda \) be an eigenvalue of \( \alpha \).
+	Then
+	\[
+		\chi_\alpha(t) = (t-\lambda)^{a_\lambda} q(t)
+	\]
+	where \( q(t) \) is a polynomial over \( F \) such that \( (t-\lambda) \) does not divide \( q \).
+	\( a_\lambda \) is known as the \textit{algebraic multiplicity} of the eigenvalue \( \lambda \).
+	We define the \textit{geometric multiplicity} \( g_\lambda \) of \( \lambda \) to be the dimension of the eigenspace associated with \( \lambda \), so \( g_\lambda = \dim \ker (\alpha - \lambda I) \).
+\end{definition}
+\begin{lemma}
+	If \( \lambda \) is an eigenvalue of \( \alpha \in L(V) \), then \( 1 \leq g_\lambda \leq a_\lambda \).
+\end{lemma}
+\begin{proof}
+	We have \( g_\lambda = \dim \ker (\alpha - \lambda I) \).
+	There exists a nontrivial vector \( v \in V \) such that \( v \in \ker(\alpha - \lambda I) \) since \( \lambda \) is an eigenvalue.
+	Hence \( g_\lambda \geq 1 \).
+	We will show that \( g_\lambda \leq a_\lambda \).
+	Indeed, let \( v_1, \dots, v_{g_\lambda} \) be a basis of \( V_\lambda \equiv \ker (\alpha - \lambda I) \).
+	We complete this into a basis \( B \equiv \qty(v_1, \dots, v_{g_\lambda}, v_{g_\lambda + 1}, \dots, v_n) \) of \( V \).
+	Then note that
+	\[
+		[\alpha]_B = \begin{pmatrix}
+			\lambda I_{g_\lambda} & \star \\
+			0                     & A_1
+		\end{pmatrix}
+	\]
+	for some matrix \( A_1 \).
+	Now,
+	\[
+		\det (\alpha - tI) = \det \begin{pmatrix}
+			(\lambda - t) I_{g_\lambda} & \star     \\
+			0                           & A_1 - t I
+		\end{pmatrix}
+	\]
+	By the formula for determinants of block matrices with a zero block on the off diagonal,
+	\[
+		\det (\alpha - tI) = (\lambda-t)^{g_\lambda} \det(A_1 - t I)
+	\]
+	Hence \( g_\lambda \leq a_\lambda \) since the determinant is a polynomial that could have more factors of the same form.
+\end{proof}
+\begin{lemma}
+	Let \( V \) be a finite dimensional \( F \)-vector space.
+	Let \( \alpha \in L(V) \) and let \( \lambda \) be an eigenvalue of \( \alpha \).
+	Let \( c_\lambda \) be the multiplicity of \( \lambda \) as a root of the minimal polynomial of \( \alpha \).
+	Then \( 1 \leq c_\lambda \leq a_\lambda \).
+\end{lemma}
+\begin{proof}
+	By the Cayley-Hamilton theorem, \( \chi_\alpha(\alpha) = 0 \).
+	Since \( m_\alpha \) is linear, \( m_\alpha \) divides \( \chi_\alpha \).
+	Hence \( c_\lambda \leq a_\lambda \).
+	Now we show \( c_\lambda \geq 1 \).
+	Indeed, \( \lambda \) is an eigenvalue hence there exists a nonzero \( v \in V \) such that \( \alpha(v) = \lambda v \).
+	For such an eigenvector, \( \alpha^P(v) = \lambda^P v \) for \( P \in \mathbb N \).
+	Hence for \( p \in F[t] \), \( p(\alpha)(v) = [p(\lambda)](v) \).
+	Hence \( m_\alpha(\alpha)(v) = [m_\alpha(\lambda)](v) \).
+	Since the left hand side is zero, \( m_\alpha(\lambda) = 0 \).
+	So \( c_\lambda \geq 1 \).
+\end{proof}
