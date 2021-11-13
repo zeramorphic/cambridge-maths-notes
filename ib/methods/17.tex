@@ -1,0 +1,168 @@
+\subsection{Converting Fourier series into Fourier transforms}
+Recall that the complex form of the Fourier series is
+\[
+	f(x) = \sum_{n=-\infty}^\infty c_n e^{ik_n x}
+\]
+where \( k_n = \frac{n\pi}{L} \).
+We can write in particular \( k_n = n \Delta k \) where \( \Delta k = \frac{\pi}{L} \).
+Then,
+\[
+	c_n = \frac{1}{2L} \int_{-L}^L f(x) e^{-ik_n x} \dd{x} = \frac{\Delta k}{2\pi} \int_{-L}^L f(x) e^{-ik_n x}\dd{x}
+\]
+Now, re-substituting into the Fourier series,
+\[
+	f(x) = \sum_{n=-\infty}^\infty \frac{\Delta k}{2\pi} e^{i k_n x} \int_{-L}^L f(x') e^{-ik_n x'} \dd{x'}
+\]
+Interpreting the sum multiplied by \( \Delta k \) as a Riemann integral,
+\[
+	f(x) \to \int_{-\infty}^\infty \frac{1}{2\pi} e^{i k_n x} \int_{-L}^L f(x') e^{-ik x'} \dd{x'} \dd{k}
+\]
+Taking the limit \( L \to \infty \),
+\[
+	f(x) = \frac{1}{2\pi} \int_{-\infty}^\infty \dd{k} e^{i k x} \int_{-\infty}^\infty \dd{x'} f(x') e^{-ik_n x'}
+\]
+which is the inverse Fourier transform of the Fourier transform of \( f \), which gives the Fourier inversion theorem.
+Note that when \( f(x) \) is discontinuous at \( x \), the Fourier transform gives
+\[
+	\mathcal F^{-1}(\mathcal F(f))(x) = \frac{1}{2}(f(x_-) + f(x_+))
+\]
+which is analogous to the result for Fourier series.
+
+\subsection{Properties of Fourier series}
+Recall the definition of the Fourier transform.
+\[
+	\widetilde f(k) = \int_{-\infty}^\infty f(x) e^{-ikx} \dd{x}
+\]
+The (inverse) Fourier transform is linear.
+\[
+	h(x) = \lambda f(x) + \mu g(x) \iff \widetilde h(k) = \lambda \widetilde f(k) + \mu \widetilde g(k)
+\]
+Translated functions transform to multiplicative factors.
+\[
+	h(x) = f(x - \lambda) \iff \widetilde h(k) = e^{-i\lambda k} \widetilde f(k)
+\]
+This is because
+\[
+	\widetilde h(k) = \int f(x - \lambda) e^{-ikx} \dd{x} = \int f(y) e^{-ik(y + \lambda)} \dd{y} = e^{-i\lambda k} \widetilde f(k)
+\]
+Frequency shifts transform to translations in frequency space.
+\[
+	h(x) = e^{i\lambda x}f(x) \implies \widetilde h(k) = \widetilde f(k - \lambda)
+\]
+A scalar multiple applied to the argument transforms into an inverse scalar multiple.
+\[
+	h(x) = f(\lambda x) \iff \widetilde h(k) = \frac{1}{\abs{\lambda}} \widetilde f\qty(\frac{k}{\lambda})
+\]
+Multiplication by \( x \) transforms into an imaginary derivative.
+\[
+	h(x) = xf(x) \iff \widetilde h(k) = i\widetilde f'(k)
+\]
+This is because
+\[
+	\int_{-\infty}^\infty f(x) e^{-ikx} \dd{x} = \frac{-1}{i} \dv{k} \int_{-\infty}^\infty f(x) e^{-ikx} \dd{x}
+\]
+Derivatives transform into a muliplication by \( ik \).
+\[
+	h(x) = f'(x) \iff \widetilde h(k) = ik \widetilde f(k)
+\]
+This is because we can integrate by parts and find
+\[
+	\widetilde h(k) = \int_{-\infty}^\infty f'(x) e^{-ikx} \dd{x} = \underbrace{\qty[f(x) e^{-ikx}]_{-\infty}^\infty}_{=0} + ik\int_{-\infty}^\infty f(x) e^{-ikx} \dd{x}
+\]
+The \textit{general duality} property states that by mapping \( x \mapsto -x \), we have
+\[
+	f(-x) = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde f(k) e^{-ikx} \dd{k}
+\]
+hence mapping \( k \leftrightarrow x \), treating \( \widetilde f \) now as a function in position space, we have
+\[
+	f(-k) = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde f(x) e^{-ikx} \dd{x}
+\]
+Thus
+\[
+	g(x) = \widetilde f(x) \iff \widetilde g(k) = 2\pi f(-k)
+\]
+We can then write the corollary that
+\[
+	f(-x) = \frac{1}{2\pi} \mathcal F(\mathcal F(f))(x)
+\]
+Finally,
+\[
+	\mathcal F^4(f)(x) = 4\pi^2 f(x)
+\]
+\begin{example}
+	Consider a function defined by
+	\[
+		f(x) = \begin{cases}
+			1 & \abs{x} \leq a   \\
+			0 & \text{otherwise}
+		\end{cases}
+	\]
+	for some \( a > 0 \).
+	By the definition of the Fourier transform,
+	\[
+		\widetilde f(k) = \int_{-\infty}^\infty f(x) e^{-ikx} \dd{x} = \int_{-a}^a e^{-ikx} \dd{x} = \int_{-a}^a \cos kx \dd{x} = \frac{2}{k} \sin ka
+	\]
+	By the Fourier inversion theorem,
+	\[
+		\frac{1}{\pi} \int_{-\infty}^\infty e^{ikx} \frac{1}{k} \sin ka \dd{k} = f(x)
+	\]
+	for \( x \neq a \).
+	Now, in this expression, let \( x = 0 \) and let \( k \mapsto x \).
+	We arrive at the Dirichlet discontinuous formula.
+	\[
+		\int_0^\infty \frac{\sin ax}{x} \dd{x} = \frac{\pi}{2}\, \mathrm{sgn}\, a = \begin{cases}
+			\frac{\pi}{2}  & a > 0 \\
+			0              & a = 0 \\
+			-\frac{\pi}{2} & a < 0
+		\end{cases}
+	\]
+\end{example}
+
+\subsection{Convolution theorem}
+We want to multiply Fourier transforms in the frequency domain (transformed space).
+This is useful for filtering or processing signals.
+\[
+	\widetilde h(k) = \widetilde f(k) \widetilde g(k)
+\]
+Consider the inverse.
+\begin{align*}
+	h(x) & = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde f(k) \widetilde g(k) e^{ikx} \dd{k}                                    \\
+	     & = \frac{1}{2\pi} \int_{-\infty}^\infty \qty(\int_{-\infty}^\infty f(y) e^{-iky} \dd{y}) \widetilde g(k) e^{ikx} \dd{k}   \\
+	     & = \int_{-\infty}^\infty f(y) \qty( \frac{1}{2\pi} \int_{-\infty}^\infty e^{-iky} \widetilde g(k) e^{ikx} \dd{k} ) \dd{y} \\
+	     & = \int_{-\infty}^\infty f(y) \qty( \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde g(k) e^{ik(x-y)} \dd{k} ) \dd{y}      \\
+	     & = \int_{-\infty}^\infty f(y) g(x-y) \dd{y}                                                                               \\
+	     & = (f \ast g)(x)
+\end{align*}
+where \( f \ast g \) is called the \textit{convolution} of \( f \) and \( g \).
+By duality, we also have
+\[
+	h(x) = f(x) g(x) \implies \widetilde h(k) = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde f(p) \widetilde g(k-p) \dd{p} = \frac{1}{2\pi}\qty(\widetilde f \ast \widetilde g)(k)
+\]
+
+\subsection{Parseval's theorem}
+Consider \( h(x) = g^\star(-x) \).
+Then, by letting \( x = -y \),
+\begin{align*}
+	\widetilde h(k) & = \int_{-\infty}^\infty g^\star(-x) e^{-ikx} \dd{x}      \\
+	                & = \qty[\int_{-\infty}^\infty g(-x) e^{ikx} \dd{x}]^\star \\
+	                & = \qty[\int_{-\infty}^\infty g(y) e^{-iky} \dd{y}]^\star \\
+	                & = \widetilde g^\star(k)
+\end{align*}
+Substituting this into the convolution theorem, with \( g(x) \mapsto g^\star(-x) \), we have
+\[
+	\int_{-\infty}^\infty f(y) g^\star(y-x) \dd{y} = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde f(k) \widetilde g^\star(k) e^{ikx} \dd{x}
+\]
+Taking \( x = 0 \) in this expression and mapping \( y \mapsto x \), we find
+\[
+	\int_{-\infty}^\infty f(x) g^\star(x) \dd{x} = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde f(k) \widetilde g^\star(k) \dd{x}
+\]
+Equivalently,
+\[
+	\inner{g,f} = \frac{1}{2\pi} \inner{\widetilde g, \widetilde f}
+\]
+So the inner product is conserved under the Fourier transform (up to a factor of \( 2 \pi \)).
+Now, by setting \( g^\star = f^\star \), we have
+\[
+	\int_{-\infty}^\infty \abs{f(x)}^2 \dd{x} = \frac{1}{2\pi} \int_{-\infty}^\infty \abs{\widetilde f(k)}^2 \dd{k}
+\]
+This is Parseval's theorem.

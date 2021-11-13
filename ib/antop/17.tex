@@ -1,0 +1,130 @@
+\subsection{Path-connectedness}
+\begin{definition}
+	Let \( X \) be a topological space.
+	For points \( x, y \in X \), a \textit{path} from \( x \) to \( y \) in \( X \) is a continuous function \( \gamma \colon [0,1] \to X \) such that \( \gamma(0) = x, \gamma(1) = y \).
+	We say that \( X \) is \textit{path-connected} if for all \( x, y \in X \), there exists a path from \( x \) to \( y \) in \( X \).
+\end{definition}
+\begin{example}
+	In \( \mathbb R^n \), \( \mathcal D_r(x) \) is path-connected by a straight line segment between any two points in the ball.
+	In particular, let \( \gamma(t) = (1-t)y + tz \).
+	This is continuous and lies entirely inside \( \mathcal D_r(x) \), since
+	\[
+		\norm{\gamma(t) = x} = \norm{(1-t)t + tz - x} = \norm{((1-t)y+tz)-((1-t)x+tx)} \leq (1-t)\norm{y-x} + t\norm{z-x} < r
+	\]
+	In a similar way, any convex subset of \( \mathbb R^n \) is path-connected.
+\end{example}
+\begin{theorem}
+	If \( X \) is path-connected, \( X \) is connected.
+\end{theorem}
+\begin{proof}
+	Suppose \( X \) is not connected.
+	Let \( U, V \) disconnect \( X \).
+	Let \( x \in U, y \in V \), and suppose \( \gamma \colon [0,1] \to X \) is continuous with \( \gamma(0) = x \) and \( \gamma(1) = y \).
+	Then \( \gamma^{-1}(U) \) and \( \gamma^{-1}(V) \) disconnect \( [0,1] \), which contradicts the connectedness of \( [0,1] \).
+\end{proof}
+\begin{example}
+	The converse is false in general.
+	Recall that the space
+	\[
+		X = \qty{\qty(x, \sin \frac{1}{x}) \colon x > 0} \cup \qty{(0,y) \colon -1 \leq y \leq 1}
+	\]
+	is connected.
+	We will show \( X \) is not path-connected.
+	Suppose \( \gamma \colon [0,1] \to X \) is continuous, and \( \gamma(0) = (0,0) \) and \( \gamma(1) = (1, \sin 1) \).
+	Let \( \gamma = (\gamma_1, \gamma_2) \), so \( \gamma_1, \gamma_2 \) are continuous functions.
+	Suppose \( t \in [0,1] \) such that \( \gamma_1(t) > 0 \).
+	Then \( \gamma_1((0,t)) \supset (0, \gamma_1(t)) \) by the intermediate value theorem.
+	In particular, there exists \( n \in \mathbb N \) such that \( \frac{1}{2\pi n} \in (0, \gamma_1(t)) \).
+	Hence, there exists \( s < t \) such that \( \gamma_1(s) = \frac{1}{2\pi n} \) so \( \gamma_1(s) = 0 \).
+	Similarly, \( \frac{1}{2\pi n + \frac{\pi}{2}} \in (0, \gamma_1(t)) \) so there exists a different \( s < t \) such that \( \gamma_1(s) = \frac{1}{2\pi n + \frac{\pi}{2}} \) hence \( \gamma_2(s) = 1 \).
+	In both cases, \( \gamma_1(s) > 0 \).
+	We can inductively find a sequence \( 1 > t_1 > t_2 > \dots > 0 \) such that \( \gamma_2(t_n) \) alternates between zero and one.
+	But then \( t_n \to t \) since it is a decreasing bounded-below sequence, and \( \gamma_2 \) is continuous, so \( \gamma_2(t_n) \to \gamma_2(t) \) which is a contradiction.
+\end{example}
+
+\subsection{Gluing lemma}
+\begin{lemma}
+	Let \( X \) be a topological space.
+	Suppose \( X = A \cup B \) where \( A, B \) are closed in \( X \).
+	Let \( g \colon A \to Y \) and \( h \colon B \to Y \) be continuous where \( Y \) is a topological space, such that for \( A \cap B \), we have \( g = h \).
+	Then \( f \colon X \to Y \) defined by
+	\[
+		f(x) = \begin{cases}
+			g(x) & x \in A \\
+			h(x) & x \in B
+		\end{cases}
+	\]
+	is well defined and continuous.
+\end{lemma}
+\begin{proof}
+	First, observe that if \( F \subset A \) and \( F \) is closed in \( A \), then there exists a closed set \( G \) in \( X \) such that \( F = A \cap G \).
+	Since \( A \) is closed in \( X \), we must have \( F \) is closed in \( X \).
+	The same holds for \( F \subset B \).
+	Now, let \( V \) be a closed set in \( Y \).
+	Then the inverse image of \( V \) under \( f \) is
+	\[
+		f^{-1}(V) = (f^{-1}(V) \cap A) \cup (f^{-1}(V) \cap B) = \underbrace{g^{-1}(V)}_{\text{closed in } A} \cup \underbrace{h^{-1}(V)}_{\text{closed in } B}
+	\]
+	So \( f^{-1}(V) \) is closed in \( X \).
+	To prove continuity it suffices to show that the preimage of a closed set is closed, since that implies that the preimage of an open set is open.
+\end{proof}
+\begin{definition}
+	Let \( X \) be a topological space.
+	For \( x, y \in X \), we write \( x \sim y \) if there exists a path from \( x \) to \( y \) in \( X \).
+	This is an equivalence relation:
+	\begin{enumerate}[(i)]
+		\item The constant function shows that \( x \sim x \) for all \( x \).
+		\item If \( \gamma \colon [0,1] \to X \) is continuous and \( \gamma(0) = x \), \( \gamma(1) = y \), we define \( t \mapsto \gamma(1-t) \), which is a path from \( y \) to \( x \).
+		\item Finally, if \( x \sim y \) and \( y \sim z \), we have continuous functions \( \gamma, \delta \) such that \( \gamma(0) = x, \gamma(1) = y = \delta(0), \delta(1) = z \).
+		      Then let
+		      \[
+			      \eta(t) = \begin{cases}
+				      \gamma(2t)   & t \in \qty[0, \frac{1}{2}] \\
+				      \delta(2t-1) & t \in \qty[\frac{1}{2}, 1]
+			      \end{cases}
+		      \]
+		      These intervals are closed on \( [0,1] \) and their union is \( [0,1] \).
+		      On the intersection, they are equal.
+		      By the gluing lemma, \( \eta \) is continuous, and now since \( \eta(0) = x, \eta(1) = z \) we have \( x \sim z \).
+	\end{enumerate}
+	We call the equivalence classes \textit{path-connected components} of \( X \).
+\end{definition}
+\begin{theorem}
+	Let \( U \) be an open subset of \( \mathbb R^n \).
+	Then \( U \) is connected if and only if \( U \) is path-connected.
+\end{theorem}
+\begin{proof}
+	The converse is trivial.
+	Suppose \( U \) is connected.
+	Without loss of generality, suppose \( U \neq \varnothing \).
+	Let \( x_0 \in U \).
+	Let \( P = \qty{x \in U \colon x \sim x_0} \) be the equivalence class of \( x_0 \).
+	We want to show \( P = U \).
+	To do this, we will show that \( P \) is open and closed in \( U \).
+	Then, \( P, U \setminus P \) will disconnect \( U \) unless \( P = \varnothing \) or \( P = U \).
+	But we know \( x_0 \in P \), hence \( P = U \) will be the only possibility.
+
+	To show \( P \) is open, let \( x \in U \).
+	Since \( U \) is open, there exists \( r > 0 \) such that \( \mathcal D_r(x) \subset U \).
+	Recall that for all \( y \in \mathcal D_r(x) \), we have \( y \sim x \).
+	Now, if \( x \in P \), then we have \( y \sim x \) and \( x \sim x_0 \) so \( y \sim x_0 \).
+	So \( \mathcal D_r(x) \subset P \).
+	So \( P \) is open.
+
+	Now, if \( x \in U \setminus P \) and \( y \in \mathcal D_r(x) \) has \( y \sim x_0 \), then by transitivity \( x \sim x_0 \).
+	But this is a contradiction since \( x \not\in P \).
+	Hence \( U \setminus P \) is open.
+	So \( P \) is open and closed, so \( P = U \).
+\end{proof}
+\begin{theorem}
+	For \( n \geq 2 \), \( \mathbb R \) and \( \mathbb R^n \) are not homeomorphic.
+\end{theorem}
+The generalisation \( \mathbb R^m \not\simeq \mathbb R^n \) is true, but significantly harder to prove and outside the scope of this course.
+\begin{proof}
+	Suppose \( f \colon \mathbb R \to \mathbb R^n \) is a homeomorphism.
+	Let \( g = f^{-1} \).
+	Then \( g \) is continuous.
+	Then, \( \eval{f}_{\mathbb R \setminus \qty{0}} \) is a homeomorphism from \( \mathbb R \setminus \qty{0} \) to \( \mathbb R^n \setminus \qty{f(0)} \), with inverse \( \eval{g}_{\mathbb R^n \setminus \qty{f(0)}} \).
+	But \( \mathbb R \setminus \qty{0} \) is disconnected, but \( \mathbb R^n \setminus \qty{f(0)} \) is connected since it is path-connected.
+	This is a contradiction.
+\end{proof}
