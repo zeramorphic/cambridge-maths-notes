@@ -38,7 +38,8 @@
 \end{lemma}
 \begin{proof}
 	There exist \( n, m \) such that \( P^n(i,j) > 0, P^m(i,j) > 0 \).
-	Hence, \( P^{n+m+r}(j,j) \geq P^n(j,i) P^r(i,i) P^n(i,j) \).
+	Hence,
+	\[ P^{n+m+r}(j,j) \geq P^n(j,i) P^r(i,i) P^n(i,j) \]
 	The first and last terms are positive, and the middle term is positive for sufficiently large \( r \).
 \end{proof}
 
@@ -101,12 +102,14 @@
 	We need to show \( \prob{Z_{n+1} = y \mid Z_n = x, A} = P(x,y) \).
 	\begin{align*}
 		\prob{Z_{n+1} = y \mid Z_n = x, A} & = \prob{Z_{n+1} = y, T > n \mid Z_n = x, A} + \prob{Z_{n+1} = y, T \leq n \mid Z_n = x, A}                                                            \\
-		                                   & = \prob{X_{n+1} = y \mid T > n, Z_n = x, A} \prob{T > n \mid Z_n = x, A} + \prob{Y_n+1 = y \mid T \leq n, Z_n = x, A} \prob{T \leq n \mid Z_n = x, A}
+		                                   & = \prob{X_{n+1} = y \mid T > n, Z_n = x, A} \prob{T > n \mid Z_n = x, A} \\
+										   &+ \prob{Y_n+1 = y \mid T \leq n, Z_n = x, A} \prob{T \leq n \mid Z_n = x, A}
 	\end{align*}
 	Now,
-	\[
-		\prob{X_{n+1} = y \mid T > n, Z_n = x, A} = \sum_z \prob{X_{n+1} = y \mid T>n, Z_n = x, Y_n = z, A} \prob{Y_n = z \mid T > n, Z-n = x, A}
-	\]
+	\begin{align*}
+		&\prob{X_{n+1} = y \mid T > n, Z_n = x, A} \\
+		&= \sum_z \prob{X_{n+1} = y \mid T>n, Z_n = x, Y_n = z, A} \prob{Y_n = z \mid T > n, Z-n = x, A}
+	\end{align*}
 	Note, \( \qty{T > n} \) depends only on \( (X_0, Y_0), \dots, (X_n, Y_n) \) since it is the complement of \( \qty{T \leq n} \), so it is a stopping time.
 	Hence,
 	\[
@@ -127,7 +130,8 @@
 	Thus,
 	\begin{align*}
 		\abs{\prob{X_n = y} - \pi(y)} & = \abs{\prob{Z_n = y} - \prob{Y_n = y}}                                                                     \\
-		                              & = \abs{\prob{X_n = y, n < T} + \prob{Y_n = y, n \geq T} - \prob{Y_n = y, n < T} - \prob{Y_n = y, n \geq T}} \\
+		                              & = \left| \prob{X_n = y, n < T} + \prob{Y_n = y, n \geq T} \right. \\
+									  &- \left. {Y_n = y, n < T} - \prob{Y_n = y, n \geq T} \right| \\
 		                              & = \abs{\prob{X_n = y, n < T} - \prob{Y_n = y, n < T}}                                                       \\
 		                              & \leq \prob{n < T}
 	\end{align*}
