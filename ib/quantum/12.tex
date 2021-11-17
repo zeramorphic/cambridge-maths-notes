@@ -1,0 +1,103 @@
+\subsection{Consequences of uncertainty relation}
+\begin{enumerate}[(i)]
+	\item \( \qty[\hat A, \hat B] = 0 \) implies that there exists a joint set of eigenfunctions which is a complete basis of \( \mathcal H \).
+	      In particular, \( \hat A \) and \( \hat B \) can be measured simulaneously with arbitrary precision.
+	      For instance, we can measure \( E \), \( \abs{\overline L} \) and \( L z \) simultaneously for an electron on a hydrogen atom.
+	\item We cannot simultaneously measure position and momentum of a particle with arbitrary precision.
+	      In particular,
+	      \[
+		      \Delta_\psi x \Delta_\psi p \geq \frac{\hbar}{2}
+	      \]
+	      This is Heisenberg's uncertainty principle.
+\end{enumerate}
+
+\subsection{States of minimal uncertainty}
+The Gaussian wavepacket was a state of minimal uncertainty:
+\[
+	\Delta_\psi x \Delta_\psi p = \frac{\hbar}{2}
+\]
+We would like to analyse the conditions for a state \( \psi \) to have minimal uncertainty.
+\begin{lemma}
+	\( \psi \) is a state of minimal uncertainty if and only if
+	\[
+		\hat x \psi = i a \hat p \psi
+	\]
+	for some \( a \in \mathbb R \).
+	A non-example is the De Broglie plane waves.
+\end{lemma}
+\begin{lemma}
+	The condition for the above lemma to hold is that
+	\[
+		\psi(x) = ce^{-bx^2};\quad b,c \in \mathbb R, b > 0, c \neq 0
+	\]
+	The Gaussian wavepacket is an example of this form.
+\end{lemma}
+
+\subsection{Ehrenfest theorem}
+\begin{theorem}
+	The time evolution of a Hermitian operator \( \hat A \) is governed by
+	\[
+		\dv{t} \inner{\hat A}_\psi = \frac{i}{\hbar} \inner{\qty[\hat H, \hat A]}_\psi + \inner{\pdv{\hat A}{t}}_\psi
+	\]
+	In this course, we will not see any operators with time dependence, so the last term will not be needed.
+\end{theorem}
+\begin{proof}
+	\begin{align*}
+		\dv{t} \inner{\hat A}_\psi & = \dv{t} \int_{-\infty}^\infty \psi^\star \hat A \psi \dd{x}                                                                                \\
+		                           & = \int_{-\infty}^\infty \pdv{t} \qty(\psi^\star \hat A \psi) \dd{x}                                                                         \\
+		                           & = \int_{-\infty}^\infty \qty[\pdv{\psi^\star}{t} \hat A \psi + \psi^\star \pdv{\hat A}{t} \psi + \psi^\star \hat A \pdv{\hat A}{t} ] \dd{x}
+	\end{align*}
+	The time-dependent Schr\"odinger equation gives
+	\[
+		\qty(i \hbar \pdv{\psi}{t})^\star = \qty(\hat H \psi)^\star \implies -i\hbar \pdv{\psi^\star}{t} = \psi^\star \hat H^\star = \psi^\star \hat H^\star
+	\]
+	Hence,
+	\begin{align*}
+		\dv{t} \inner{\hat A}_\psi & = \frac{i}{\hbar} \int_{-\infty}^\infty \qty[\psi^\star \hat H \hat A \psi - \psi^\star \hat A \hat H \psi] \dd{x} + \int_{-\infty}^\infty \psi^\star \pdv{\hat A}{t} \psi \dd{x} \\
+		                           & = \frac{i}{\hbar} \inner{\qty[\hat H, \hat A]}_\psi + \inner{\pdv{\hat A}{t}}_\psi
+	\end{align*}
+\end{proof}
+\begin{example}
+	Let \( \hat A = \hat H \).
+	Then,
+	\[
+		\dv{t} \inner{\hat H}_\psi = 0
+	\]
+	This corresponds to the classical notion of conservation of energy.
+\end{example}
+\begin{example}
+	Let \( \hat A = \hat p \).
+	First, note
+	\begin{align*}
+		\qty[\hat H, \hat p] \psi & = \qty[\frac{\hat p^2}{2m} + U(\hat x), \hat p] \psi               \\
+		                          & = \qty[U(\hat x), \hat p] \psi                                     \\
+		                          & = U(x) \qty(-i\hbar \pdv{x}) \psi - \qty(-i\hbar \pdv{x})U(x) \psi \\
+		                          & = i \hbar \pdv{U(x)}{x} \psi
+	\end{align*}
+	Hence,
+	\[
+		\dv{t}\inner{\hat p}_\psi = \frac{i}{\hbar} \inner{\qty[\hat H, \hat p]}_\psi = -\inner{\pdv{U}{x}}_\psi
+	\]
+	This corresponds exactly to Newton's second law,
+	\[
+		\dot p = -\dv{U}{x}
+	\]
+\end{example}
+\begin{example}
+	Let \( \hat A = \hat x \).
+	We have
+	\begin{align*}
+		\qty[\hat H, \hat x] \psi & = \qty[\frac{\hat p^2}{2m} + U(\hat x), \hat x] \psi                                 \\
+		                          & = \frac{1}{2m} \qty[\hat p^2, \hat x] \psi                                           \\
+		                          & = \frac{1}{2m} \qty( \hat p \qty[\hat p, \hat x] + \qty[\hat p, \hat x] \hat p) \psi \\
+		                          & = \frac{-i\hbar}{m}
+	\end{align*}
+	Hence,
+	\[
+		\dv{t}\inner{\hat x}_\psi = \frac{i}{\hbar} \inner{\qty[\hat H, \hat x]}_\psi = \frac{\inner{\hat p}_\psi}{m}
+	\]
+	which aligns with the classical equation
+	\[
+		\dot x = \frac{p}{m}
+	\]
+\end{example}
