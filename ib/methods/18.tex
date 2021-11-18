@@ -151,3 +151,72 @@ So we can write
 \[
 	\widetilde{\mathcal R}(\omega) = \frac{1}{(i \omega - c_1)^{k_1} \dots (i \omega - c_J)^{k_J}}
 \]
+Expressing this as partial fractions,
+\[
+	\widetilde{\mathcal R}(\omega) = \sum_{j=1}^J \sum_{m=1}^{k_i} \frac{\Gamma_{jm}}{(i\omega - c_j)^m}
+\]
+The \( \Gamma_{jm} \) terms are constant.
+To solve this, we must find the inverse Fourier transform of \( (i\omega - a)^{-m} \).
+Recall that
+\[
+	\mathcal F^{-1}\qty(\frac{1}{i\omega - a}) = \begin{cases}
+		e^{at} & t > 0 \\
+		0      & t < 0
+	\end{cases}
+\]
+for \( \Re a < 0 \).
+So we will require \( \Re c_j < 0 \) for all \( j \) to eliminate exponentially growing solutions.
+Note that for \( n = 2 \),
+\[
+	i \dv{\omega} \qty(\frac{1}{(i \omega - a)^2})
+\]
+and recall that
+\[
+	\mathcal F (t f(t)) = i \mathcal F'(\omega)
+\]
+Hence,
+\[
+	\mathcal F^{-1}\qty(\frac{1}{(i \omega - a)^2}) = \begin{cases}
+		t e^{at} & t > 0 \\
+		0        & t < 0
+	\end{cases}
+\]
+Inductively, we arrive at
+\[
+	\mathcal F^{-1}\qty(\frac{1}{(i \omega - a)^m}) = \begin{cases}
+		\frac{t^{m-1}}{(m-1)!} e^{at} & t > 0 \\
+		0                             & t < 0
+	\end{cases}
+\]
+We can therefore invert any transfer function to obtain the response function.
+Thus the response function takes the form
+\[
+	\mathcal R(t) = \sum_{j=1}^J \sum_{m=1}^{k_i} \Gamma_{jm} \frac{t^{m-1}}{(m-1)!} e^{c_j t};\quad t > 0
+\]
+and zero for \( t < 0 \).
+We can now solve such differential equations in Green's function form, or directly invert \( \widetilde{\mathcal R}(\omega) \widetilde{\mathcal I}(\omega) \) for a polynomial \( \widetilde{\mathcal I}(\omega) \).
+
+\subsection{Damped oscillator}
+We can use the Fourier transform method to solve the differential equation
+\[
+	\mathcal L y \equiv y'' + 2py' + (p^2 + q^2)y = f(t)
+\]
+where \( p > 0 \).
+Consider homogeneous boundary conditions \( y(0) = y'(0) = 0 \).
+The Fourier transform is
+\[
+	(i\omega)^2 \widetilde y + 2 i p \omega \widetilde y + (p^2 + q^2) \widetilde y = \widetilde f
+\]
+Hence,
+\[
+	\widetilde y = \frac{\widetilde f}{-\omega^2 + 2ip\omega + p^2 + q^2} \equiv \widetilde R \widetilde f
+\]
+We can invert this using the convolution theorem by inverting \( \widetilde R \).
+\[
+	y(t) = \int_0^t \mathcal R(t-\tau) f(\tau) \dd{\tau}
+\]
+where the response function is
+\[
+	\mathcal R(t - \tau) = \frac{1}{2\pi} \int_{-\infty}^\infty \frac{e^{i\omega(t-\tau)}}{p^2 + q^2 + 2ip\omega - \omega^2} \dd{\omega}
+\]
+We can show that \( \mathcal L \mathcal R(t-\tau) = \delta(t-\tau) \); in other words, \( \mathcal R \) is the Green's function.

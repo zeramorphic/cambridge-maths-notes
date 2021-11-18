@@ -1,0 +1,73 @@
+\subsection{Discrete sampling and the Nyquist frequency}
+Suppose a signal \( h(t) \) is sampled at equal times \( t_n = n\Delta \) with a time step \( \Delta \) and values \( h_n = h(t_n) = h(n\Delta) \), for all \( n \in \mathbb Z \).
+The sampling frequency is therefore \( \Delta^{-1} \), so the sampling angular velocity is \( \omega_s = 2\pi f_s = \frac{2\pi}{\Delta} \).
+The Nyquist frequency is \( f_c = \frac{1}{2\Delta} \), which is the highest frequency actually sampled at \( \Delta \).
+Suppose we have a signal \( g_f \) with a given frequency \( f \).
+We will write
+\[
+	g_f(t) = A \cos(2\pi f t + \varphi) = \Re \qty(A e^{2 \pi i f t + \varphi}) = \frac{1}{2} \qty(A e^{2 \pi i f t + \varphi}) + \frac{1}{2} \qty(A e^{-2 \pi i f t + \varphi})
+\]
+where \( A \in \mathbb R \).
+Note that this signal has two `frequencies'; a positive and a negative frequency.
+The combination of these frequencies gives the full wave.
+Suppose we sample \( g_f(t) \) at the Nyquist frequency, so \( f = f_c \).
+Then,
+\begin{align*}
+	g_{f_c}(t_n) & = A \cos(2 \pi \frac{1}{2\Delta} n \Delta + \varphi) \\
+	             & = A \cos(\pi n + \varphi)                            \\
+	             & = A \cos \pi n \cos \phi + A \sin \pi n \sin \phi    \\
+	             & = A' \cos(2\pi f_c f_n)
+\end{align*}
+where \( A' = A \cos \phi \).
+This has removed half of the information about the wave; the ampliude and the phase have become degenerate.
+We can identify \( f_c \) with \( -f_c \) when considering the remaining information; we say that the two frequencies are \textit{aliased} together.
+Now, suppose we sample at greater than the Nyquist frequency, in particular \( f = f_c + \delta f > f_c \), where for simplicity we let \( \delta f < f_c \).
+We have
+\begin{align*}
+	g_f(t_n) & = A \cos(2\pi (f_c + \delta f)t_n + \varphi) \\
+	         & = A \cos(2\pi (f_c - \delta f)t_n - \varphi)
+\end{align*}
+So frequencies above the Nyquist frequency are reinterpreted after the sampling as a frequency lower than the Nyquist frequency.
+This aliases \( f_c + \delta f \) with \( f_c - \delta f \).
+
+\subsection{Nyquist-Shannon sampling theorem}
+\begin{definition}
+	A signal \( g(t) \) is \textit{bandwidth-limited} if it contains no frequencies above \( \omega_{\max} = 2\pi f_{\max} \).
+	In other words, \( \widetilde g(\omega) = 0 \) for all \( \abs{\omega} > \omega_{\max} \).
+	In this case,
+	\[
+		g(t) = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde g(\omega) e^{i\omega t} \dd{\omega} = \frac{1}{2\pi} \int_{-\omega_{\max}}^{\omega_{\max}} \widetilde g(\omega) e^{i\omega t} \dd{\omega}
+	\]
+\end{definition}
+\noindent Suppose we set the sampling rate to the Nyquist frequency, so \( \Delta = \frac{1}{2f_{\max}} \).
+Then,
+\[
+	g_n \equiv g(t_n) = \frac{1}{2\pi} \int_{-\omega_{\max}}^{\omega_{\max}} \widetilde g(\omega) e^{i\pi n \omega / \omega_{\max}} \dd{\omega}
+\]
+This is a complex Fourier series coefficient \( c_n \), multiplied by \( \frac{\omega_{\max}}{\pi} \).
+The Fourier series is periodic in \( \omega \) with period \( 2 \omega_{\max} \), not in space or time.
+\[
+	\widetilde g_\mathrm{per}(\omega) = \frac{\pi}{\omega_{\max}} \sum_{n=-\infty}^\infty g_n e^{-i \pi n \omega / \omega_{\max}}
+\]
+The actual Fourier transform \( \widetilde g \) is found by multiplying by a top hat window function
+\[
+	\widetilde h(\omega) = \begin{cases}
+		1 & \abs{\omega} \leq \omega_{\max} \\
+		0 & \text{otherwise}
+	\end{cases}
+\]
+Hence,
+\[
+	\widetilde g(\omega) = \widetilde g_\mathrm{per}(\omega) \widetilde h(\omega)
+\]
+Note that this relation is exact.
+Inverting this expression,
+\begin{align*}
+	g(t) & = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde g_\mathrm{per}(\omega) \widetilde h(\omega) e^{i \omega t} \dd{\omega}                                     \\
+	     & = \frac{1}{2\omega_{\max}} \sum_{n=-\infty}^\infty g_n \int_{-\omega_{\max}}^{\omega_{\max}} \exp(i \omega\qty(t - \frac{n \pi}{\omega_{\max}})) \dd{\omega}
+\end{align*}
+Only the cosine term is even, hence
+\[
+	g(t) = \frac{1}{2\omega_{\max}} \sum_{n=-\infty}^\infty g_n \frac{\sin(\omega_{\max} t - \pi n)}{\omega_{\max} t - \pi n}
+\]
+Hence, \( g(t) \) can be written \textit{exactly} as a combination of countably many discrete sample points.
