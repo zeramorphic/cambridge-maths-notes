@@ -1,0 +1,172 @@
+\subsection{Hermitian forms}
+\begin{definition}
+	Let \( V \) be a finite-dimensional \( \mathbb C \)-vector space.
+	Let \( \phi \) be a sesquilinear form on \( V \).
+	Then \( \phi \) is \textit{Hermitian} if, for all \( u, v \in V \),
+	\[
+		\phi(u, v) = \overline{\phi(v,u)}
+	\]
+\end{definition}
+\begin{remark}
+	If \( \phi \) is Hermitian, then \( \phi(u,u) = \overline{\phi(u,u)} \in \mathbb R \).
+	Further, \( \phi(\lambda u, \lambda u) = \abs{\lambda}^2 \phi(u,u) \).
+	This allows us to define positive and negative definite Hermitian forms.
+\end{remark}
+\begin{lemma}
+	A sesquilinear form \( \phi \colon V \times V \to \mathbb C \) is Hermitian if and only if, for any basis \( B \) of \( V \),
+	\[
+		[\phi]_B = [\phi]_B^\dagger
+	\]
+\end{lemma}
+\begin{proof}
+	Let \( A = [\phi]_B = (a_{ij}) \).
+	Then \( a_{ij} = \phi(e_i, e_j) \), and \( a_{ji} = \phi(e_j, e_i) = \overline{\phi(e_i, e_j)} = \overline{a_{ij}} \).
+	So \( \overline A^\transpose = A \).
+	Conversely suppose that \( [\phi]_B = A = \overline A^\transpose \).
+	Now let
+	\[
+		u = \sum_{i=1}^n \lambda_i e_i;\quad v = \sum_{i=1}^n \mu_i e_i
+	\]
+	Then,
+	\[
+		\phi(u,v) = \phi\qty(\sum_{i=1}^n \lambda_i e_i, \sum_{i=1}^n \mu_i e_i) = \sum_{i=1}^n \sum_{j=1}^n \lambda_i \overline{\mu_j} a_{ij}
+	\]
+	Further,
+	\[
+		\overline{\phi(v,u)} = \overline{\phi\qty(\sum_{i=1}^n \mu_i e_i, \sum_{i=1}^n \lambda_i e_i)} = \sum_{i=1}^n \sum_{j=1}^n \overline{\mu_j \overline{\lambda_i}} \overline{a_{ij}}
+	\]
+	which is equivalent.
+	Hence \( \phi \) is Hermitian.
+\end{proof}
+
+\subsection{Polarisation identity}
+A Hermitian form \( \phi \) on a complex vector space \( V \) is entirely determined by a quadratic form \( Q \colon V \to \mathbb R \) such that \( v \mapsto \phi(v,v) \) by the formula
+\[
+	\phi(u,v) = \frac{1}{4} \qty[ Q(u+v) - Q(u-v) + iQ(u+iv) - iQ(u-iv) ]
+\]
+
+\subsection{Hermitian formulation of Sylvester's law}
+\begin{theorem}
+	Let \( V \) be a finite-dimensional \( \mathbb C \)-vector space.
+	Let \( \phi \colon V \times V \to \mathbb C \) be a Hermitian form on \( V \).
+	Then there exists a basis \( B = (v_1, \dots, v_n) \) of \( V \) such that
+	\[
+		[\phi]_B = \begin{pmatrix}
+			I_p & 0    & 0 \\
+			0   & -I_q & 0 \\
+			0   & 0    & 0
+		\end{pmatrix}
+	\]
+	where \( p, q \) depend only on \( \phi \) and not \( B \).
+\end{theorem}
+\begin{proof}
+	The following is a sketch proof; it is nearly identical to the case of real symmetric bilinear forms.
+	If \( \phi = 0 \), existence is trivial.
+	Otherwise, using the polarisation identity there exists \( e_1 \neq 0 \) such that \( \phi(e_1, e_1) \neq 0 \).
+	Let
+	\[
+		v_1 = \frac{e_1}{\sqrt{\abs{\phi(e_1, e_1)}}} \implies \phi(v_1, v_1) = \pm 1
+	\]
+	Consider the orthogonal space \( W = \qty{w \in V \colon \phi(v_1, w) = 0} \).
+	We can check, arguing analogously to the real case, that \( V = \genset{v_1} \oplus W \).
+	Hence, we can inductively diagonalise \( \phi \).
+
+	\( p, q \) are unique.
+	Indeed, we can prove that \( p \) is the maximal dimension of a subspace on which \( \phi \) is positive definite (which is well-defined since \( \phi(u,u) \in \mathbb R \)).
+	The geometric interpretation of \( q \) is similar.
+\end{proof}
+
+\subsection{Skew-symmetric forms}
+\begin{definition}
+	Let \( V \) be a finite-dimensional \( \mathbb R \)-vector space.
+	Let \( \phi \) be a bilinear form on \( V \).
+	Then \( \phi \) is \textit{skew-symmetric} if, for all \( u,v \in V \),
+	\[
+		\phi(u,v) = -\phi(v,u)
+	\]
+\end{definition}
+\begin{remark}
+	\( \phi(u,u) = -\phi(u,u) = 0 \).
+	Also, in any basis \( B \) of \( V \), we have \( [\phi]_B = -[\phi]_B^\transpose \).
+	Any real matrix can be decomposed as the sum
+	\[
+		A = \frac{1}{2}\qty(A + A^\transpose) + \frac{1}{2}\qty(A - A^\transpose)
+	\]
+	where the first summand is symmetric and the second is skew-symmetric.
+\end{remark}
+
+\subsection{Skew-symmetric formulation of Sylvester's law}
+\begin{theorem}
+	Let \( V \) be a finite-dimensional \( \mathbb R \)-vector space.
+	Let \( \phi \colon V \times V \to \mathbb R \) be a skew-symmetric form on \( V \).
+	Then there exists a basis
+	\[
+		B = (v_1, w_1, v_2, w_2, \dots, v_m, w_m, v_{2m+1}, v_{2m+2}, \dots, v_n)
+	\]
+	of \( V \) such that
+	\[
+		[\phi]_B = \begin{pmatrix}
+			0  & 1                       \\
+			-1 & 0                       \\
+			   &   & 0  & 1              \\
+			   &   & -1 & 0              \\
+			   &   &    &   & \ddots     \\
+			   &   &    &   &        & 0
+		\end{pmatrix}
+	\]
+\end{theorem}
+\begin{corollary}
+	Skew-symmetric matrices have an even rank.
+\end{corollary}
+\begin{proof}
+	This is again very similar to the previous case.
+	We will perform an inductive step on the dimension of \( V \).
+	If \( \phi \neq 0 \), there exist \( v_1, w_1 \) such that \( \phi_1(v_1, w_1) \neq 0 \).
+	After scaling one of the vectors, we can assume \( \phi(v_1, w_1) = 1 \).
+	Since \( \phi \) is skew-symmetric, \( \phi(w_1, v_1) = -1 \).
+	Then \( v_1, w_1 \) are linearly independent; if they were linearly dependent we would have \( \phi(v_1, w_1) = \phi(v_1, \lambda v_1) = 0 \).
+	Let \( U = \genset{v_1, w_1} \) and let \( W = \qty{v \in V \colon \phi(v_1, v) = \phi(w_1, v) = 0} \) and we can show \( V = U \oplus W \).
+	Then induction gives the required result.
+\end{proof}
+
+\subsection{Inner product spaces}
+\begin{definition}
+	Let \( V \) be a vector space over \( \mathbb R \) or \( \mathbb C \).
+	A \textit{scalar product} or \textit{inner product} is a positive-definite symmetric (respectively Hermitian) bilinear form \( \phi \) on \( V \).
+	We write
+	\[
+		\phi(u,v) = \inner{u,v}
+	\]
+	\( V \), when equipped with this inner product, is called a real (respectively complex) \textit{inner product space}.
+\end{definition}
+\begin{example}
+	In \( \mathbb C^n \), we define
+	\[
+		\inner{x,y} = \sum_{i=1}^n x_i \overline y_i
+	\]
+\end{example}
+\begin{example}
+	Let \( V = C^0([0,1], \mathbb C) \).
+	Then we can define
+	\[
+		\inner{f,g} = \int_0^1 f(t) \overline g(t) \dd{t}
+	\]
+	This is the \( L^2 \) scalar product.
+\end{example}
+\begin{example}
+	Let \( \omega \colon [0,1] \colon \mathbb R^\star_+ \) and define
+	\[
+		\inner{f,g} = \int_0^1 f(t) \overline g(t) w(t) \dd{t}
+	\]
+\end{example}
+\begin{remark}
+	Typically it suffices to check \( \inner{u,u} = 0 \implies u = 0 \) since linearity and positivity are usually trivial.
+\end{remark}
+\begin{definition}
+	Let \( V \) be an inner product space.
+	Then for \( v \in V \), the \textit{norm} of \( v \) induced by the inner product is defined by
+	\[
+		\norm{v} = \qty(\inner{v,v})^{1/2}
+	\]
+	This is real, and positive if \( v \neq 0 \).
+\end{definition}
