@@ -1,0 +1,176 @@
+\subsection{Restricted definition of derivative}
+We may define the derivative on a subset of \( \mathbb R^m \).
+We will use the notion of open subsets since we are typically interested in neigbourhoods of points.
+\begin{definition}
+	Let \( U \) be an open subset of \( \mathbb R^m \).
+	Let \( f \colon U \to \mathbb R^n \) be a function, and \( a \in U \).
+	Then we say \( f \) is \textit{differentiable} at \( a \) if there exists a linear map \( T \in L(\mathbb R^m, \mathbb R^n) \) such that
+	\[
+		f(a+h) = f(a) + T(h) + \norm{h} \varepsilon(h)
+	\]
+	where \( \epsilon(0) = 0 \) and \( \varepsilon \) is continuous at zero.
+	Note that \( \varepsilon \) need only be defined on the set of \( h \) such that \( a + h \in U \), or more precisely the open set \( U - a \).
+	Hence there exists \( r > 0 \) such that \( \mathcal D_r(0) \subset U_a \).
+	Then
+	\[
+		\varepsilon(h) = \begin{cases}
+			0                                     & h = 0                 \\
+			\frac{f(a+h) - f(a) - T(h)}{\norm{h}} & h \neq 0, a + h \in U
+		\end{cases}
+	\]
+	So \( f \) is differentiable at \( a \) if and only if there exists a linear map \( T \in L(\mathbb R^m, \mathbb R^n) \) such that
+	\[
+		\frac{f(a+h) - f(a) - T(h)}{\norm{h}} \to 0
+	\]
+\end{definition}
+\begin{remark}
+	The linear map \( T \) is unique, and is called the \textit{derivative} of \( f \) at \( a \), denoted \( f'(a) \).
+	In particular,
+	\[
+		f(a+h) = f(a) + f'(a)(h) + o(\norm{h})
+	\]
+\end{remark}
+\begin{remark}
+	If \( m = 1 \), the space \( L(\mathbb R, \mathbb R^n) \) is isomorphic to \( \mathbb R^n \).
+	The linear map is defined uniquely by a vector in \( \mathbb R^n \) which multiplies by the scalar \( h \).
+	Hence, if \( U \subset \mathbb R \) is open and \( f \colon U \to \mathbb R \) be a function and \( a \in U \), then \( f \) is differentiable at \( a \) if there exists a vector \( v \in \mathbb R^n \) such that
+	\[
+		\frac{f(a+h) - f(a) - hv}{\abs{v}} \to 0
+	\]
+	Equivalently, there exists \( v \in \mathbb R^n \) such that
+	\[
+		\frac{f(a+h) - f(a)}{h} \to v
+	\]
+\end{remark}
+
+\subsection{Properties of derivative}
+\begin{proposition}[chain rule]
+	Let \( U \subset \mathbb R^m \) be open, \( f \colon U \to \mathbb R^n \) be a function, and \( a \in U \).
+	If \( f \) is differentiable at \( a \), \( f \) is continuous at \( a \).
+\end{proposition}
+\begin{proof}
+	We have
+	\[
+		f(a+h) = f(a) + f'(a)(h) + \norm{h} \varepsilon(h)
+	\]
+	Hence,
+	\[
+		f(x) = f(a) + f'(a)(x-a) + \norm{x-a} \varepsilon(x-a)
+	\]
+	The functions \( x \mapsto f(a) \), \( x \mapsto f'(a)(x-a) \) and \( x \mapsto \norm{x-a}\varepsilon(x-a) \) are all continuous at \( a \).
+	Hence their sum is continuous.
+\end{proof}
+\begin{proposition}
+	Let \( U \subset \mathbb R^m \) and \( V \subset \mathbb R^n \) be open, \( f \colon U \to \mathbb R^n \) and \( g \colon V \to \mathbb R^p \) be functions, and \( a \in U, b \equiv f(a) \in V \).
+	Suppose \( f \) is differentiable at \( a \), and \( g \) is differentiable at \( b \).
+	Then \( g \circ f \) is differentiable at \( a \) and
+	\[
+		(g \circ f)'(a) = g'(b) \circ f'(a)
+	\]
+\end{proposition}
+\begin{proof}
+	Let \( S = f'(a) \) and \( T = g'(b) \).
+	Then by assumption
+	\[
+		f(a+h) = f(a) + S(h) + \norm{h} \varepsilon(h);\quad g(b+k) + g(b) + T(k) + \norm{k} \zeta(k)
+	\]
+	for suitable \( \varepsilon, \zeta \).
+	Then,
+	\begin{align*}
+		(g \circ f)(a+h) & = g\qty(f(a) + S(h) + \norm{h} \varepsilon(h))                                                                               \\
+		                 & = g\qty(b + \underbrace{S(h) + \norm{h} \varepsilon(h)}_{k})                                                                 \\
+		                 & = g(b) + T\qty(S(h) + \norm{h} \varepsilon(h)) + \norm{S(h) + \norm{h} \varepsilon(h)} \zeta(S(h) + \norm{h} \varepsilon(h)) \\
+		                 & = (g \circ f)(a) + (T \circ S)(h) + \norm{h} T(\varepsilon(h)) + \norm{k} \zeta(k)
+	\end{align*}
+	It suffices to show that
+	\[
+		\eta(h) \equiv \norm{h} T(\varepsilon(h)) + \norm{k} \zeta(k)
+	\]
+	satisfies \( \frac{\eta}{\norm{h}} \to 0 \).
+	Then the result follows.
+	First,
+	\[
+		\frac{\norm{h}T(\varepsilon(h))}{\norm{h}} = T(\varepsilon(h)) \to 0
+	\]
+	as \( \norm{T(\varepsilon(h))} \leq \norm{T} \cdot \norm{\varepsilon(h)} \to 0 \).
+	Then,
+	\[
+		\frac{\norm{k}}{\norm{h}} = \frac{\norm{S(h)} + \norm{h} \cdot \norm{\varepsilon(h)}}{\norm{h}} \leq \norm{S} + \norm{\varepsilon(h)}
+	\]
+	Hence, \( k = S(h) + \norm{h} \cdot \varepsilon(h) \to 0 \) as \( h \to 0 \).
+	Thus \( \zeta(k) \to 0 \) as \( k \to 0 \).
+	So
+	\[
+		\frac{\eta(h)}{\norm{h}} = T(\varepsilon(h)) + \frac{\norm{k}}{\norm{h}} \zeta(k) \to 0
+	\]
+	as required.
+\end{proof}
+\begin{proposition}
+	Let \( U \subset \mathbb R^m \) be open, \( f \colon U \to \mathbb R^n \) be a function, and \( a \in U \).
+	Let \( f_j \) be the \( j \)th component of \( f \), so \( f_j = \pi_j \circ f \).
+	Then \( f \) is differentiable at \( a \) if and only if each \( f_j \) is differentiable at \( a \).
+	If this holds,
+	\[
+		f'(a)(h) = \sum_{j=1}^n f_j'(a)(h) e_j'
+	\]
+	Equivalently,
+	\[
+		\pi_j \qty[ f'(a)(h) ] = f_j'(a)(h)
+	\]
+\end{proposition}
+\begin{proof}
+	If \( f \) is differentiable at \( a \), by the chain rule the composite \( \pi_j \circ f \) is differentiable at \( a \).
+	Since the derivative of a linear map is itself, the derivative is given by
+	\[
+		f_j'(a) = \pi_j'(f(a)) \circ f'(a) = \pi_j \circ f'(a)
+	\]
+	Hence
+	\[
+		f'(a)(h) = \sum_{j=1}^n \pi_j\qty[ f'(a)(h) e_j' ] = \sum_{j=1}^n f_j'(a)(h) e_j'
+	\]
+	Conversely suppose each \( f_j \) is differentiable.
+	Then
+	\[
+		f_j(a+h) = f_j(a) + f_j'(a)(h) + \norm{h} \varepsilon_j(h)
+	\]
+	for suitable \( \varepsilon(j) \).
+	Now,
+	\begin{align*}
+		f(a+h) & = \sum_{j=1}^n f_j(a+h)e_j'                                                                             \\
+		       & = \sum_{j=1}^n \qty[f_j(a) + f_j'(a)(h) + \norm{h} \varepsilon_j(h)] e_j'                               \\
+		       & = \sum_{j=1}^n f_j(a) e_j' + \sum_{j=1}^n f_j'(a)(h) e_j' + \norm{h} \sum_{j=1}^n \varepsilon_j(h) e_j'
+	\end{align*}
+	Since each \( \varepsilon_j \) tends to zero as \( h \to 0 \), so does their sum.
+\end{proof}
+\begin{remark}
+	This proposition shows that we can prove things for an image \( \mathbb R^n = \mathbb R \) without loss of generality.
+\end{remark}
+
+\subsection{Linearity and product rule}
+\begin{proposition}
+	Let \( U \subset \mathbb R^m \) be open and functions \( f,g \colon U \to \mathbb R^n \), \( \phi \colon U \to \mathbb R \) which are differentiable at \( a \).
+	Then the functions \( f + g \) and \( \phi \cdot f \) are also differentiable and their derivatives are
+	\[
+		(f+g)'(a) = f'(a) + g'(a);\quad (\phi f)'(a)(h) = \phi(a)\qty[f'(a)(h)] + \qty[\phi'(a)(h)] f(a)
+	\]
+	For \( m = n = 1 \) this is the usual product rule.
+\end{proposition}
+\begin{proof}
+	We have
+	\begin{align*}
+		f(a+h)    & = f(a) + f'(a)(h) + \norm{h}\varepsilon(h) \\
+		g(a+h)    & = g(a) + g'(a)(h) + \norm{h} \zeta(h)      \\
+		\phi(a+h) & = \phi(a) + \phi'(a)(h) + \norm{h}\eta(h)
+	\end{align*}
+	for suitable \( \varepsilon, \zeta, \eta \).
+	The sum gives
+	\[
+		(f+g)(a+h) = (f+g)(a+h) + (f'(a) + g'(a))(h) + \norm{h}(\varepsilon(h) + \zeta(h))
+	\]
+	It follows that \( f+g \) is differentiable at \( a \) and its derivative is the sum of the derivatives of its components.
+	\begin{align*}
+		(\phi \cdot f)(a+h) & = \phi(a+h) f(a+h)                                                                                                                       \\
+		                    & = (\phi \cdot f)(a) + \qty[\phi(a) f'(a)(h) + \phi'(a)(h) f(a)] + f'(a)(h) g'(a)(h)                                                      \\
+		                    & + \norm{h} \qty(f'(a)(h) \eta(h) + \phi'(a)(h) \varepsilon(h) + \eta(h) f(a) + \phi(a) \varepsilon(h) + \norm{h} \eta(h) \varepsilon(h))
+	\end{align*}
+\end{proof}
