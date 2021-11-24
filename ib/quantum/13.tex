@@ -109,7 +109,7 @@ We have
 \]
 We define
 \[
-	\nu = -\frac{2mE}{\hbar^2} > 0;\quad \beta = \frac{e^2 m_e}{2\pi \varepsilon_0 \hbar^2} > 0
+	\nu^2 = -\frac{2mE}{\hbar^2} > 0;\quad \beta = \frac{e^2 m_e}{2\pi \varepsilon_0 \hbar^2} > 0
 \]
 The Schr\"odinger equation becomes
 \[
@@ -117,7 +117,7 @@ The Schr\"odinger equation becomes
 \]
 Asymptotically as \( r \to \infty \), we can see that \( \chi'' \sim \nu^2 \chi \).
 Since \( \nu^2 > 0 \), this yields solutions that asymptotically behave similarly to \( e^{-r \nu} \), where the positive exponential solution is not applicable due to the normalisation condition.
-For \( r = 0 \), the eigenfunctino should be finite.
+For \( r = 0 \), the eigenfunction should be finite.
 We will consider an ansatz educated by the asymptotical behaviour.
 Suppose
 \[
@@ -131,9 +131,9 @@ The Schr\"odinger equation is
 This is a homogeneous linear ordinary differential equation with a regular point at \( r = 0 \).
 Suppose there exist series solutions.
 \[
-	f(r) = r^2 \sum_{n=0}^\infty a_n r^n
+	f(r) = r^c \sum_{n=0}^\infty a_n r^n
 \]
-The \( r^2 \) term constrains the limiting behaviour such that the function is normalisable.
+We can differentiate and find
 \[
 	f'(r) = \sum_{n=0}^\infty a_n (c+n) r^{c+n-1};\quad f''(r) = \sum_{n=0}^\infty a_n (c+n)(c+n-1) r^{c+n-2}
 \]
@@ -151,3 +151,54 @@ Then the power series becomes
 \[
 	\sum_{n=0}^\infty a_n \qty[n(n-1) + 2n] r^{n-2} + \sum_{n=0}^\infty a_n \qty( -2\nu n + \beta - 2 \nu ) r^{n-1} = 0
 \]
+Comparing coefficients of equal powers of \( r \),
+\[
+	a_n n(n+1) + a_{n-1} (-2 \nu n + 2 \nu + \beta - 2 \nu) = 0
+\]
+Hence, we arrive at the recurrence relation
+\[
+	a_n = \frac{2\nu n - \beta}{n(n+1)} a_{n-1}
+\]
+Suppose this series were infinite.
+Asymptotically, the behaviour of \( f(r) \) is determined by \( \frac{a_n}{a_{n-1}} \sim \frac{2\nu}{n} \).
+We can compare this behaviour to the asymptotic behaviour of \( g(r) = e^{2\nu r} \).
+In this case, the series expansion with coefficients \( b_n \) satisfies
+\[
+	b_n = \frac{(2\nu)^n}{n!} \implies \frac{b_n}{b_{n-1}} = \frac{2 \nu}{n}
+\]
+Hence, asymptotically \( f(r) \sim e^{2 \nu r} \) if the series does not terminate.
+Since \( \chi(r) = f(r) e^{-\nu r} \), we have \( \chi(r) \sim e^{\nu r} \) which is not normalisable.
+Hence the series is finite.
+So there exists an integer \( N > 0 \) such that \( a_N = 0 \) and \( a_{N-1} \neq 0 \).
+This implies \( 2 \nu N - \beta = 0 \) hence \( \nu = \frac{\beta}{2N} \).
+Substituting \( \nu^2 \) and \( \beta \), we find
+\[
+	E = E_N = -\frac{e^4 m_e}{32 \pi^2 \varepsilon_0^2 \hbar^2 N^2}
+\]
+So the eigenvalues are equivalent to those found in the Bohr model.
+We now wish to find the radial eigenfunctions.
+Note, \( \frac{\beta}{2\nu} = N \) hence we can substitute and find
+\[
+	\frac{a_n}{a_{n-1}} = -2 \nu \frac{N - n}{n(n+1)}
+\]
+This recursion can be used to find the coefficients of the polynomial \( f_N(r) \).
+\begin{align*}
+	f_1(r) & = 1                                   \\
+	f_2(r) & = 1 - \nu r                           \\
+	f_3(r) & = 1 - 2 \nu r + \frac{2}{3} \nu^2 r^2
+\end{align*}
+These are called the Laguerre polynomials of order \( N-1 \) (for example, the first order Laguerre polynomial is \( f_2 \)).
+We can then multiply the Laguerre polynomials by \( e^{-\nu r} \) and normalise over \( \mathbb R^3 \) to find the normalised eigenfunctions \( \chi_N(r) \).
+For example,
+\[
+	\chi_1(r) = \frac{\nu^{3/2}}{\sqrt{\pi}} = \frac{1}{\sqrt{\pi}} \qty(\frac{e^2 m_e}{4 \pi \varepsilon_0 \hbar^2})^{3/2} e^{-\nu r}
+\]
+Recall that the Bohr model implied that the ground state has radius \( a_0 \), known as the Bohr radius, given in terms of \( \nu \) by \( a_0 = \frac{1}{\nu} \).
+Using quantum mechanics, we instead find
+\begin{align*}
+	\inner{r}_{\chi_1} & = \int_{\mathbb R^3} \chi_1^\star(r) r \chi_1(r) \dd{V}                                                       \\
+	                   & = \int_0^{2\pi} \dd{\phi} \int_{-1}^1 \dd{\cos \theta} \int_0^\infty \frac{\nu^3}{\pi} r^3 e^{-2\nu r} \dd{r} \\
+	                   & = 4\pi \frac{\nu^3}{\pi} \int_0^\infty r^3 e^{-2\nu r} \dd{r}                                                 \\
+	                   & = \frac{3}{2} a_0
+\end{align*}
+We have verified with physical experiments that this larger expected radius is physically accurate.
