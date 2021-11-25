@@ -1,0 +1,160 @@
+\subsection{???}
+\begin{definition}
+	Let \( U \), \( f \), \( a \) as before.
+	Fix a direction \( u \in \mathbb R^m \) where \( u \neq 0 \).
+	If the limit
+	\[
+		\lim_{t \to 0} \frac{f(a+tu) - f(a)}{t}
+	\]
+	exists, then the value of this limit is the \textit{directional derivative} of \( f \) at \( a \) in direction \( u \), denoted \( D_u f(a) \).
+\end{definition}
+\begin{remark}
+	Note that \( D_u f(a) \in \mathbb R^n \).
+	Further, \( f(a+tu) = f(a) + t D_u f(a) + o(t) \).
+	Define \( \gamma \colon \mathbb R \to \mathbb R^m \) by \( \gamma(t) = a + tu \).
+	Then \( f \circ \gamma \) is defined on \( \gamma^{-1}(U) \) which is open as \( \gamma \) is continuous, and \( 0 \in \gamma^{-1}(U) \).
+	Then,
+	\[
+		\frac{f(a+tu) - f(a)}{t} = \frac{(f \circ \gamma)(t) - (f \circ \gamma)(0)}{t}
+	\]
+	Hence \( D_u f(a) \) exists if and only if \( f \circ \gamma \) is differentiable at zero, and its value is the derivative of \( f \circ \gamma \).
+	When \( u = e_i \) for a standard basis vector \( e_i \), if \( D_{e_i} f(a) \) exists we call it the \( i \)th \textit{partial derivative} of \( f \) at \( a \), denoted \( D_i f(a) \).
+\end{remark}
+\begin{proposition}
+	Let \( U \), \( f \), \( a \) as before.
+	If \( f \) is differentiable at \( a \), then all directional derivatives \( D_u f(a) \) exist.
+	Further,
+	\[
+		D_u f(a) = f'(a)(u)
+	\]
+	Further,
+	\[
+		f'(a)(h) = \sum_{i=1}^m h_i D_i f(a)
+	\]
+	for all \( h = \sum_{i=1}^m h_i e_i \).
+\end{proposition}
+\begin{proof}
+	Since \( f \) is differentiable,
+	\[
+		f(a+h) = f(a) + f'(a)(h) + \norm{h} \varepsilon(h)
+	\]
+	Let \( h = tu \).
+	Then,
+	\[
+		f(a+tu) = f(a) + tf'(a)(u) + \abs{t} \cdot \norm{u} \varepsilon(tu)
+	\]
+	Hence,
+	\[
+		\frac{f(a+tu) - f(a)}{t} = f'(a)(u) + \frac{\abs{t}}{t} \norm{u} \varepsilon(tu)
+	\]
+	The error term converges to zero, hence the limit becomes \( f'(a)(u) \).
+	Moreover, for all \( h \) defined as above,
+	\[
+		f'(a)(h) = \sum_{i=1}^m h_i f'(a)(e_i) = \sum_{i=1}^m h_i D_i f(a)
+	\]
+\end{proof}
+\begin{proof}[alternative proof]
+	Let \( \gamma(t) = a+tu \).
+	Then \( f \circ \gamma \) is defined on the open set \( \gamma^{-1}(U) \).
+	Note that \( \gamma \) is differentiable and \( \gamma'(t) = u \) for all \( t \).
+	By the chain rule, \( f \circ \gamma \) is differentiable at zero, and
+	\[
+		D_u f(a) = (f \circ \gamma)'(0) = f'(\gamma(0))(\gamma'(0)) = f'(a)(u)
+	\]
+\end{proof}
+\begin{remark}
+	If \( D_u f(a) \) exists, then so does \( D_u f_j(a) \) where \( f_j = \pi_j \circ f \).
+	Indeed, by linearity and continuity of \( \pi \),
+	\[
+		\frac{f_j(a+tu) - f_j(a)}{t} = \pi_j \qty(\frac{f(a+tu) - f(t)}{t}) \to \pi_j (D_u f(a))
+	\]
+	The converse of the proposition is false in general.
+\end{remark}
+
+\subsection{Jacobian matrix}
+\begin{definition}
+	Suppose \( f \) is differentiable at \( a \).
+	Then the Jacobian matrix of \( f \) at \( a \), denoted \( J_f(a) \), is the matrix of \( f'(a) \) with respect to the standard bases.
+	For \( 1 \leq i \leq m \), the \( i \)th column is
+	\[
+		f'(a)(e_i) = D_i f(a)
+	\]
+	In particular, for the \( j,i \) entry,
+	\[
+		\qty(J_f(a))_{ji} = \inner{D_i f(a), e_j'} = \pi_j\qty(D_i f(a)) = D_i f_j(a) = \pdv{f_j}{x_i}(a)
+	\]
+\end{definition}
+
+\subsection{???}
+\begin{theorem}
+	Suppose there exists an open neighbourhood \( V \) of \( a \) with \( V \subset U \) such that \( D_i f(x) \) exists for all \( x \in V \) and for all \( 1 \leq i \leq m \), and the map \( x \mapsto D_i f(x) \) from \( V \) to \( \mathbb R^n \) is continuous at \( a \) for all \( i \).
+	Then \( f \) is differentiable at \( a \).
+\end{theorem}
+\begin{proof}
+	By considering components, without loss of generality let \( n = 1 \).
+	Let \( m = 2 \) for convenience of notation; this does not change the proof.
+	Let \( a = (p,q) \).
+	Let
+	\[
+		\psi(h,k) = f(p+h, q+k) - f(p,q) - h D_1 f(p,q) - k D_2 f(p,q)
+	\]
+	We need to show \( \psi(h,k) = o\qty(\norm{(h,k)}) \), then the derivative of \( f \) can be read off from the definition of \( \psi \).
+	Note,
+	\[
+		\psi(h,k) = \qty[f(p+h, q+k) - f(p+h, q) - k D_2 f(p,q)] + \qty[f(p+h,q) - f(p,q) - h D_1(p,q)]
+	\]
+	We will show separately that each part is small enough to be an error term.
+	The second term is \( o(h) \) and hence \( o\qty(\norm{(h,k)}) \) by the definition of \( D_1 f(p,q) \).
+	For the first term, let \( \phi(t) = f(p+h, q+tk) \) for a given fixed \( h,k \).
+	Then \( \phi \) is differentiable and by the chain rule we have \( \phi'(t) = D_2 f(p+h, q+tk) \cdot k \).
+	By the mean value theorem, there exists a point \( t(h,k) \in (0,1) \) such that \( \phi(1) - \phi(0) = \phi'(t) \).
+	Hence, the first term becomes
+	\[
+		\phi(1) - \phi(0) - k D_2 f(p,q) = k \qty[ D_2 f(p + h, q + tk) - D_2 f(p,q) ]
+	\]
+	As \( (h,k) \to (0,0) \), we have \( (p+h, q + tk) \to (p,q) \).
+	By continuity of \( D_2 f \) at \( a \), the term is \( o(k) \) and hence \( o\qty(\norm{(h,k)}) \).
+\end{proof}
+
+\subsection{Mean value inequality}
+\begin{theorem}
+	Let \( U \subset \mathbb R^n \) be open, and \( f \colon U \to \mathbb R^n \) be differentiable at every \( z \in U \).
+	Let \( a, b \in U \) such that the line segment connecting \( a,b \) given by
+	\[
+		[a,b] = \qty{(1-t)a + tb \colon 0 \leq t \leq 1}
+	\]
+	is contained inside \( U \).
+	Suppose there exists \( M \geq 0 \) such that for all \( z \in [a,b] \), we have \( \norm{f'(z)} \leq M \).
+	Then
+	\[
+		\norm{f(h) - f(a)} \leq M \norm{b-a}
+	\]
+\end{theorem}
+\begin{proof}
+	Let \( u = b - a \) and \( v = f(b) - f(a) \).
+	Without loss of generality, let \( u \neq 0 \).
+	Let \( \gamma(t) = a + tu \), so \( f \circ \gamma \) is defined on the open set \( \gamma^{-1}(U) \), and is differentiable with derivative
+	\[
+		(f \circ \gamma)'(t) = f'(\gamma(t))(\gamma'(t)) = f'(a+tu)(u)
+	\]
+	Now,
+	\[
+		\norm{f(b) - f(a)}^2 = \inner{f(b) - f(a), v} = \inner{(f \circ \gamma)(1) - (f \circ \gamma)(0), v}
+	\]
+	Let \( \phi(t) = \inner{(f \circ \gamma)(t), v} \).
+	Note that \( \phi \) is differentiable since the inner product is linear.
+	The derivative is
+	\[
+		\phi'(t) = \inner{(f \circ \gamma)'(t), v} = \inner{f'(a+tu)(u), v}
+	\]
+	By the mean value theorem, there exists \( \theta \in (0,1) \) such that \( \phi(1) - \phi(0) = \phi'(\theta) \).
+	Then, by the Cauchy-Schwarz inequality,
+	\[
+		\norm{f(b) - f(a)}^2 = \phi'(\theta) = \inner{f'(a+\theta u)(u), v} \leq \norm{f'(a+\theta u)(u)} \cdot \norm{v} \leq \norm{f'(a+\theta u)} \cdot \norm{u} \cdot \norm{v} \leq M \norm{b-a} \cdot \norm{v}
+	\]
+	Hence,
+	\[
+		\norm{f(b) - f(a)} \leq M \norm{b-a}
+	\]
+	as required.
+\end{proof}
