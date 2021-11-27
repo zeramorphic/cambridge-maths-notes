@@ -1,0 +1,184 @@
+\subsection{???}
+\begin{corollary}
+	Let \( U \) be an open, connected subset of \( \mathbb R^m \), and \( f \colon U \to \mathbb R^n \) be differentiable at every \( U \).
+	If \( f'(a) = 0 \) for all \( a \in U \), then \( f \) is constant.
+\end{corollary}
+\begin{proof}
+	If \( a, b \in U \) satisfy \( [a,b] \subset U \), then by the mean value inequality we have
+	\[
+		\norm{f(b) - f(a)} \leq \norm{b-a} \sup_{z \in [a,b]} \norm{f'(z)} = 0
+	\]
+	Hence \( f(a) = f(b) \).
+	For an arbitrary \( x \in U \), there exists \( r > 0 \) such that \( \mathcal D_r(x) \subset U \).
+	This open ball is convex, so for all \( y \in \mathcal D_r(x) \) we have \( f(y) = f(x) \).
+	Hence \( f \) is locally constant; every point has a neighbourhood on which \( f \) is constant.
+	Since \( U \) is connected, \( f \) is constant (refer to the derivation from the example sheet).
+\end{proof}
+
+\subsection{Inverse function theorem}
+\begin{remark}
+	Let \( V \subset \mathbb R^m \) and \( W \subset \mathbb R^n \) be open sets.
+	Let \( f \colon V \to W \) be a bijection.
+	Let \( a \in V \), and let \( f \) be differentiable at \( a \), and the inverse \( f^{-1} \colon W \to V \) is differentiable at \( f(a) \).
+	Denoting \( S = f'(a), T = \qty(f^{-1})'(f(a)) \), we can use the chain rule to find
+	\[
+		TS = \qty(f^{-1} \circ f)'(a);\quad ST = \qty(f \circ f^{-1})'(f(a))
+	\]
+	The identity function is linear so its derivative is the identity.
+	Hence \( TS \) is the identity on \( \mathbb R^m \) and \( ST \) is the identity on \( \mathbb R^n \).
+	Hence, \( m = \tr(TS) = \tr(ST) = n \).
+	So in order for \( f \) to be a bijection, the dimensions of the spaces must match.
+	Hence \( f'(a) \) is an invertible matrix.
+	This proves that \( \mathbb R^m, \mathbb R^n \) are not homeomorphic.
+	We aim now to prove an inverse; if \( f \) is differentiable and \( f' \) is invertible, then \( f \) is locally a bijection between neighbourhoods.
+\end{remark}
+\begin{definition}
+	Let \( U \subset \mathbb R^m \) be open, and \( f \colon U \to \mathbb R^n \) be a function.
+	We say that \( f \) is differentiable on \( U \) if \( f \) is differentiable at \( a \) for all \( a \in U \).
+	Then, the \textit{derivative of \( f \) on \( U \)} is the function \( f' \colon U \to L(\mathbb R^m, \mathbb R^n) \) mapping points to their derivatives.
+	We say that \( f \) is a \textit{\( C^1 \)-function on \( U \)} if \( f \) is continuously differentiable on \( U \); \( f \) is differentiable on \( U \) and \( f' \colon U \to L(\mathbb R^m, \mathbb R^n) \) is a continuous function.
+\end{definition}
+\begin{theorem}
+	Let \( U \subset \mathbb R^n \) be open.
+	Let \( f \colon U \to \mathbb R^n \) be a \( C^1 \)-function.
+	Let \( a \in U \), and let \( f'(a) \) be an invertible linear map \( f'(a) \colon L(\mathbb R^n) \).
+	Then there exist open sets \( V, W \) such that \( a \in V, f(a) \in W, V \subset U \) and \( \eval{f}_V \colon V \to W \) is a bijection with inverse function \( g\colon W \to V \).
+	Further, \( g \) is a \( C^1 \)-function, and
+	\[
+		g'(y) = \qty[f'(g(y))]^{-1}
+	\]
+\end{theorem}
+\begin{proof}
+	We first show that without loss of generality we can let \( a = f(a) = 0 \) and \( f'(a) = I \).
+	To see this, let \( T = f'(a) \) and define \( h(x) = T^{-1}(f(x+a) - f(a)) \).
+	Then, \( h \) is defined on \( U - a \), which is open.
+	In particular, \( U - a \) is an open neighbourhood of zero.
+	By the chain rule, \( h \) is differentiable with \( h'(x) = T^{-1} \circ f'(x+a) \).
+	For \( x, y \in U - a \), we then have
+	\[
+		\norm{h'(x) - h'(y)} = \norm{T^{-1} \circ (f'(a+x) - f'(a+y))} \leq \norm{T^{-1}} \cdot \norm{f'(a+x) - f'(a+y)}
+	\]
+	It then follows that \( h \) is a \( C^1 \)-function, and that \( h(0) = 0 \), \( h'(0) = T^{-1} \circ T = I \).
+	We have transformed into a coordinate system where \( a = f(a) = 0 \) and \( f'(a) = I \).
+	If we can prove the result for this coordinate system, we can translate back using \( f(x) = T(h(x-a)) + f(a) \).
+
+	Now, let \( f(0) = 0 \) and \( f'(0) = I \).
+	Since \( f' \) is continuous, there exists \( r > 0 \) such that \( \mathcal B_r(0) \subset U \) and for all \( x \in U \), we have
+	\[
+		\norm{f'(x) - f'(0)} = \norm{f'(x) - I} \leq \frac{1}{2}
+	\]
+	We intend to show that for all \( x,y \in \mathcal B_r(0) \), we have \( \norm{f(x) - f(y)} \geq \frac{1}{2} \norm{x-y} \).
+	Indeed, define \( p \colon U \to \mathbb R^n \) by \( p(x) = f(x) - x \).
+	Then \( p'(x) = f'(x) - I \).
+	Then, \( \norm{p'(x)} \leq \frac{1}{2} \) for all \( x \in \mathcal B_r(0) \).
+	By the mean value inequality, \( \norm{p(x) - p(y)} \leq \frac{1}{2}\norm{x-y} \) for all \( x, y \in \mathcal B_r(0) \).
+	Hence,
+	\[
+		\norm{f(x) - f(y)} = \norm{(p(x) + x) - (p(y) + y)} \geq \norm{x-y} - \norm{p(x) - p(y)} \geq \frac{1}{2} \norm{x-y}
+	\]
+	So we have proven the bound as claimed.
+	Now, let \( s = \frac{r}{2} \).
+	We will show that \( f(\mathcal D_r(0)) \subset \mathcal D_s(0) \).
+	More precisely, we will show that for all \( w \in \mathcal D_s(0) \) there exists a unique \( x \in \mathcal D_r(0) \) such that \( f(x) = w \).
+	Let \( w \in \mathcal D_s(0) \) be fixed.
+	We now define, for all \( x \in \mathcal B_r(0) \), the function \( q(x) = w - f(x) + x = w - p(x) \).
+	Note that \( f(x) = w \) if and only if \( q(x) = x \).
+	We will show that \( q \) is a contraction mapping, and that there exists a fixed point.
+	Since \( p(0) = f(0) - 0 = 0 \), we have for all \( x \in \mathcal B_r(0) \) that
+	\[
+		\norm{q(x)} \leq \norm{w} + \norm{p(x)} = \norm{w} + \norm{p(x) - p(0)} \leq \norm{w} + \frac{1}{2} \norm{x-0} = \frac{1}{2} \norm{x} < s + \frac{1}{2} r
+	\]
+	Hence, \( q(\mathcal B_r(0)) \subset \mathcal D_r(0) \subset \mathcal B_r(0) \).
+	We now show \( q \) is a contraction mapping.
+	For \( x,y \in \mathcal B_r(0) \), we have
+	\[
+		\norm{q(x) - q(y)} = \norm{p(x) - p(y)} \leq \frac{1}{2} \norm{x-y}
+	\]
+	Hence \( q \colon \mathcal B_r(0) \to \mathcal B_r(0) \) really is a contraction mapping on the non-empty, complete metric space \( \mathcal B_r(0) \).
+	By the contraction mapping theorem, there exists a unique \( x \in \mathcal B_r(0) \) such that \( q(x) = x \).
+	But since \( q(\mathcal B_r(0)) \subset \mathcal D_r(0) \), we must have \( x \in \mathcal D_r(0) \).
+	In particular, there exists a unique \( x \in \mathcal D_r(0) \) such that \( f(x) = w \).
+
+	Now, let \( W = \mathcal D_s(0), V = \mathcal D_r(0) \cap f^{-1}(W) \).
+	Then, we will now show that \( \eval{f}_V \colon V \to W \) is a bijection with inverse \( g \colon W \to V \) which is continuous.
+	First, \( W \) is open and \( f(0) = 0 \in W \).
+	Since \( f \) is continuous, \( f^{-1}(W) \) is open.
+	Hence \( V \) is open, as the intersection of two open sets.
+	We have \( 0 \in V \).
+	By the previous paragraph, \( \eval{f}_V \colon V \to W \) is a bijection since for every point in \( W \) there exists a unique point in \( V \) mapping to it.
+	Finally, let \( u, v \in W \).
+	Let \( x = g(u), y = g(v) \).
+	Then,
+	\[
+		\norm{g(u) - g(v)} = \norm{x - y} \leq 2 \norm{f(x) - f(y)} = 2\norm{u - v}
+	\]
+	Hence \( g \) is \( 2 \)-Lipschitz and hence continuous.
+	Now it suffices to show \( g \) is \( C^1 \), and for all \( y \in W \) we have \( g'(y) = \qty[f'(g(y))]^{-1} \).
+	This part of the proof is non-examinable.
+	% add this from additional notes on website
+\end{proof}
+
+\subsection{Second derivatives}
+\begin{definition}
+	Let \( U \subset \mathbb R^m \) be an open set, and \( f \colon U \to \mathbb R^n \).
+	Let \( a \in U \).
+	Suppose that there exists an open neighbourhood \( V \) of \( a \) contained within \( U \), and \( f \) is differentiable on \( V \).
+	We say that \( f \) is \textit{twice differentiable} at \( a \) if \( f' \colon V \to L(\mathbb R^m \to \mathbb R^n) \) is differentiable at \( a \).
+	We write \( f''(a) \) for the derivative of \( f' \) at \( a \), called the \textit{second derivative} of \( f \) at \( a \).
+	Note that \( f''(a) \in L(\mathbb R^m, L(\mathbb R^m, \mathbb R^n)) \).
+\end{definition}
+\begin{remark}
+	We can visualise the second derivative as a bilinear map instead of a nested sequence of linear maps.
+	Note,
+	\[
+		L(\mathbb R^m, L(\mathbb R^m, \mathbb R^n)) \sim \mathrm{Bil}(\mathbb R^m \times \mathbb R^m, \mathbb R^n)
+	\]
+	where \( \mathrm{Bil}(X \times Y, Z) \) is the vector space of bilinear maps from \( X \times Y \) to \( Z \).
+	For \( h, k \in \mathbb R^m \), and \( T \) is the second derivative, we can say \( T(h)(k) = \widetilde T(h,k) \) where \( \widetilde T \) is a bilinear map.
+	From now on, this bilinear map notation will be used, and \( T \) and \( \widetilde T \) will be identified as the same.
+\end{remark}
+\begin{proposition}
+	Let \( U \subset \mathbb R^m \) be open, \( f \colon U \to \mathbb R^n \) be a function, and \( a \in U \).
+	Let \( f \) be differentiable on an open neighbourhood \( V \) of \( A \) contained in \( U \).
+	Then \( f \) is twice differentiable at \( a \) if and only if there exists a bilinear map \( T \in \mathrm{Bil}(\mathbb R^m \times \mathbb R^m, \mathbb R^n) \) such that for every \( k \in \mathbb R^m \), we have
+	\[
+		f'(a+h)(k) = f'(a)(k) + T(h,k) + o(\norm{h})
+	\]
+	Then \( T = f''(a) \).
+\end{proposition}
+\begin{proof}
+	Suppose \( f \) is twice differentiable at \( a \).
+	Then \( f' \) is differentiable at \( a \).
+	So,
+	\[
+		f'(a+h) = f'(a) + f''(a)(h) + \norm{h} \cdot \varepsilon(h)
+	\]
+	All terms are linear maps \( L(\mathbb R^m, \mathbb R^n) \).
+	In particular, \( \varepsilon \) is defined on \( V - a \to L(\mathbb R^m, \mathbb R^n) \) such that \( \varepsilon(0) = 0 \) and \( \varepsilon \) is continuous at zero.
+	If we evaluate this equation at a fixed \( k \in \mathbb R^m \),
+	\[
+		f'(a+h)(k) = f'(a)(k) + f''(a)(h,k) + \norm{h} \cdot \varepsilon(h)(k)
+	\]
+	Here, \( f''(a) \) is a bilinear map.
+	Further,
+	\[
+		\norm{varepsilon(h)(k)} \leq \norm{\varepsilon(h)} \cdot \norm{k} \to 0
+	\]
+	Hence, \( \norm{h} \cdot \varepsilon(h)(k) = o\qty(\norm{h}) \).
+	Conversely, suppose \( T \) is a bilinear map and
+	\[
+		\frac{f'(a+h)(k) - f'(a)(k) - T(h,k)}{\norm{h}} \to 0
+	\]
+	for any fixed \( k \), as \( h \to 0 \).
+	We need to show that
+	\[
+		\varepsilon(h) = \frac{f'(a+h) - f'(a) - T(h)}{\norm{h}} \to 0
+	\]
+	in the space \( L(\mathbb R^m, \mathbb R^n) \).
+	We know that for a fixed \( k \in \mathbb R^m \), \( \varepsilon(h)(k) \to 0 \) in \( \mathbb R^n \) as \( h \to 0 \).
+	It then follows that
+	\[
+		\norm{\varepsilon(h)} = \sqrt{\sum_{i=1}^m \norm{\varepsilon(h)(e_i)}^2} \to 0
+	\]
+	since we are in a finite-dimensional vector space.
+\end{proof}

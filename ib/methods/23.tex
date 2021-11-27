@@ -1,0 +1,172 @@
+\subsection{Gaussian pulse for heat equation}
+Suppose that the initial conditions for the head equation are given by
+\[
+	f(x) = \sqrt{\frac{a}{\pi}} \Theta_0 e^{-ax^2}
+\]
+Then, our previous solution gives
+\begin{align*}
+	\Theta(x,t) & = \frac{\Theta_0 \sqrt{a}}{\sqrt{4 \pi^2 D t}} \int_{-\infty}^\infty \exp[-au^2 - \frac{(x-u)^2}{4 D t}] \dd{u}                                                      \\
+	            & = \frac{\Theta_0 \sqrt{a}}{\sqrt{4 \pi^2 D t}} \int_{-\infty}^\infty \exp[-\frac{(1 + 4 a D t)u^2 - 2xu + x^2}{4 D t}] \dd{u}                                        \\
+	            & = \frac{\Theta_0 \sqrt{a}}{\sqrt{4 \pi^2 D t}} \int_{-\infty}^\infty \exp[-\frac{1 + 4 a D t}{4 D t} \qty(u - \frac{x}{1+4aDt}) ] \exp[ \frac{-ax^2}{1+4aDt}] \dd{u}
+\end{align*}
+Recall that
+\[
+	\int_{-\infty}^\infty \exp[\frac{-(u - \mu)^2}{\sigma^2}] \dd{u} = \sigma \sqrt{\pi}
+\]
+The integral above is a Gaussian, so its solution can be read off directly as
+\[
+	\Theta(x,t) = \frac{\Theta_0 \sqrt{a}}{\sqrt{\pi (1 + 4 \pi^2 D t)}} \exp[\frac{-ax^2}{1+4aDt}]
+\]
+So the width of the Gaussian pulse will get wider over time, according to \( \sigma^2 \sim t \), as it evolves according to the heat equation.
+The area is constant, so heat energy is conserved in the system.
+
+\subsection{Forced diffusion equation}
+Consider the equation
+\[
+	\pdv{t}\Theta(x,t) - D \pdv[2]{\Theta}{x}(x,t) = f(x,t)
+\]
+subject to homogeneous initial conditions \( \Theta(x,0) = 0 \).
+We construct a two-dimensional Green's function \( G(x,t; \xi, \tau) \) such that
+\[
+	\pdv{t}G(x,t) - D \pdv[2]{G}{x}(x,t) = \delta(x - \xi)\delta(t - \tau)
+\]
+subject to the same homogeneous boundary conditions \( G(x,0;\xi,\tau) = 0 \).
+Consider the Fourier transform with respect to \( x \).
+\[
+	\pdv{\widetilde G}{t} + D k^2 \widetilde G = e^{-ik\xi} \delta(t - \tau)
+\]
+We can solve this using an integrating factor \( e^{Dk^2 t} \) and integrating with respect to time.
+Since \( G = 0 \) at \( t = 0 \),
+\begin{align*}
+	\pdv{t} \qty[ e^{D k^2 t} \widetilde G ]                    & = e^{-ik\xi + D k^2 t} \delta(t - \tau)                      \\
+	\int_0^t \pdv{t'} \qty[ e^{D k^2 t'} \widetilde G ] \dd{t'} & = \int_0^t e^{-ik\xi + D k^2 t'} \delta(t' - \tau) \dd{t'}   \\
+	e^{D k^2 t} \widetilde G                                    & = e^{-ik\xi} \int_0^t e^{D k^2 t'} \delta(t' - \tau) \dd{t'} \\
+	e^{D k^2 t} \widetilde G                                    & = e^{-ik\xi} e^{D k^2 \tau} H(t - \tau)
+\end{align*}
+where \( H \) is the Heaviside step function.
+Thus,
+\[
+	\widetilde G(k,t;\xi,\tau) = e^{-ik\xi} e^{-D k^2 (t - \tau)} H(t - \tau)
+\]
+The inverse Fourier transform gives the Green's function.
+\[
+	G(x,t;\xi,\tau) = \frac{H(t - \tau)}{2\pi} \int_{-\infty}^\infty e^{-ik\xi} e^{-D k^2 (t - \tau)} e^{ikx} \dd{k}
+\]
+This is a Gaussian; by changing variables into \( x' = x - \xi \) and \( t' = t - \tau \) we find
+\[
+	G(x,t;\xi,\tau) = \frac{H(t')}{2\pi} \int_{-\infty}^\infty e^{ikx'} e^{-D k^2 t'} \dd{k} = \frac{H(t')}{\sqrt{4 \pi D t'}} \exp[-\frac{(x')^2}{4Dt'}]
+\]
+Converting back,
+\[
+	G(x,t;\xi,\tau) = \frac{H(t - \tau)}{\sqrt{4 \pi D (t - \tau)}} \exp[-\frac{(x - \xi)^2}{4D(t - \tau)}] = H(t-\tau) S_d(x-\xi, t-\tau)
+\]
+where \( S_d \) is the fundamental solution as above.
+Thus, the general solution is
+\[
+	\Theta(x,t) = \int_0^\infty \dd{\tau} \int_{-\infty}^\infty \dd{\xi} G(x,t;\xi,\tau) f(\xi, \tau)
+\]
+Let \( \xi = u \), then
+\[
+	\Theta(x,t) = \int_0^t \dd{\tau} \int_{-\infty}^\infty \dd{u} f(u, \tau) S_d(x-u, t-\tau)
+\]
+
+\subsection{Duhamel's principle}
+In the above equation, omitting the integral over time, this is exactly the solution as found earlier with initial conditions at \( t = \tau \), which was
+\[
+	\Theta(x,t) = \int_{-\infty}^\infty \dd{u} f(u) S_d(x-u, t-\tau)
+\]
+The forced PDE with homogeneous boundary conditions can be related to solutions of the homogeneous PDE with inhomogeneous boundary conditions.
+The forcing term \( f(x,t) \) at \( t = \tau \) acts as an initial condition for subsequent evolution.
+Thus, the solution is a superposition of the effects of the initial conditions integrated over \( 0 < \tau < t \).
+This relation between the homogeneous and inhomogeneous problems is known as \textit{Duhamel's principle}.
+
+\subsection{Forced wave equation}
+Consider the forced wave equation, given by
+\[
+	\pdv[2]{\phi}{t} - c^2 \pdv[2]{\phi}{x} = f(x,t)
+\]
+with \( \phi(x,0) = \phi_t(x,0) = 0 \).
+We construct the Green's function using
+\[
+	\pdv[2]{G}{t} - c^2 \pdv[2]{G}{x} = \delta(x-\xi)\delta(t-\tau)
+\]
+with \( G(x,0) = \phi_t(x,0) = 0 \).
+We take the Fourier transform with respect to \( x \), and find
+\[
+	\pdv[2]{\widetilde G}{t} + c^2 k^2 \widetilde G = e^{-ik\xi} \delta(t - \tau)
+\]
+We can solve this by inspection by comparing with the corresponding initial value problem Green's function, and find
+\[
+	\widetilde G = \begin{cases}
+		0                                       & t < \tau \\
+		e^{-ik\xi} \frac{\sin kc(t - \tau)}{kc} & t > \tau
+	\end{cases}
+\]
+Using the Heaviside function.
+\[
+	\widetilde H = e^{-ik\xi} \frac{\sin kc(t - \tau)}{kc} H(t - \tau)
+\]
+We invert the Fourier transform.
+\[
+	G(x,t;\xi,\tau) = \frac{H(t-\tau)}{2\pi c} \int_{-\infty}^\infty e^{ik(x - \xi)} \frac{\sin kc(t - \tau)}{k} \dd{k}
+\]
+Let \( A = x - \xi \), and \( B = ct - \tau \).
+By evenness of sine, only the cosine term of the complex exponential remains.
+Noting the similarity to the Dirichlet discontinuous function,
+\begin{align*}
+	G(x,t;\xi,\tau) & = \frac{H(t-\tau)}{\pi c} \int_0^\infty \frac{\cos(kA) \sin(kB)}{k} \dd{k}          \\
+	                & = \frac{H(t-\tau)}{2\pi c} \int_0^\infty \frac{\sin k(A+B) - \sin k(A-B)}{k} \dd{k} \\
+	                & = \frac{H(t-\tau)}{2\pi c} \qty[ \sgn(A+B) - \sgn(A-B) ]
+\end{align*}
+Since the \( H(t - \tau) \) term is nonzero only for \( t > \tau \), we must have \( B = c(t-\tau) > 0 \).
+The only way that the bracketed term can be nonzero is when \( \abs{A} < B \); so \( \abs{x - \xi} < c(t-\tau) \).
+This is the domain of dependence as found before, demonstrating the causality of the relation.
+Hence,
+\[
+	G(x,t;\xi,\tau) = \frac{1}{2c} H(c(t-\tau) - \abs{x - \xi})
+\]
+Thus, the solution is
+\begin{align*}
+	\phi(x,t) & = \int_0^\infty \dd{\tau} \int_{-\infty}^\infty \dd{\xi} f(\xi, t) G(x,t;\xi,\tau)          \\
+	          & = \frac{1}{2c} \int_0^t \dd{\tau} \int_{x - c(t-\tau)}^{x + c(t - \tau)} \dd{\xi} f(\xi, t)
+\end{align*}
+
+\subsection{Poisson's equation}
+Consider
+\[
+	\laplacian{\phi} - \rho(r)
+\]
+defined on a three-dimensional domain \( D \), with Dirichlet boundary conditions \( \phi = 0 \) on a boundary \( \partial D \).
+The Dirac \( \delta \) function, when defined in \( \mathbb R^3 \), has the following properties.
+\begin{enumerate}[(i)]
+	\item \( \delta(r - r') = 0 \) for all \( r \neq r' \);
+	\item \( \int_D \delta(r - r') \dd[3]{r} = 1 \) if \( r' \in D \), and zero otherwise;
+	\item \item \( \int_D f(r) \delta(r - r') \dd[3]{r} = f(r') \).
+\end{enumerate}
+First, we consider \( D = \mathbb R^3 \) with the homogeneous boundary conditions that \( G \to 0 \) as \( \norm{r} \to \infty \).
+This is known as the \textit{free-space} Green's function, denoted \( G_{\mathrm{FS}} \).
+The potential here is spherically symmetric, so the Green's function is a function only of the distance between the point and the source.
+WIthout loss of generality, let \( r' = 0 \), so \( G \) is a function only of the radius, now denoted \( r \).
+Integrating the left hand side of Poisson's equation over a ball \( B \) with radius \( r \) around zero, we find
+\[
+	\int_B \laplacian{G_{\mathrm{FS}}} \dd[3]{r} = \int_{\partial B} \grad{G_{\mathrm{FS}}} \cdot \hat n \dd{S} = \int_{\partial B} \pdv{G}{r} r^2 \dd{\Omega}
+\]
+where \( \dd{\Omega} \) is the angle element.
+This gives
+\[
+	\int_B \laplacian{G_{\mathrm{FS}}} \dd[3]{r} = 4 \pi r^2 \pdv{G_{\mathrm{FS}}}{r}
+\]
+The right hand side of Poisson's equation gives unity, since zero is contained in the ball.
+Therefore,
+\[
+	\pdv{G_{\mathrm{FS}}}{r} = \frac{1}{4 \pi r^2} \implies G_{\mathrm{FS}} = \frac{-1}{4 \pi r} + c
+\]
+Since \( G \to 0 \) as \( r \to \infty \), we must have \( c = 0 \).
+The fundamental solution is therefore the free-space Green's function given by
+\[
+	G(r; r') = \frac{-1}{4 \pi \norm{r - r'}}
+\]
+Thus, Poisson's equation is solved by
+\[
+	\Phi(r) = \frac{1}{4 \pi} \int_{\mathbb R^3} \frac{\rho(r')}{\norm{r - r'}} \dd[3]{r'}
+\]
