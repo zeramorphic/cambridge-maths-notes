@@ -1,0 +1,101 @@
+\subsection{Second derivatives and partial derivatives}
+Let \( U \) be open in \( \mathbb R^n \), let \( f \colon U \to \mathbb R^n \), and let \( a \in U \).
+Let \( f \) be twice differentiable at \( a \), so \( f \) is differentiable on some open neighbourhood \( V \) of \( a \) contained within \( U \), and \( f' \colon V \to L(\mathbb R^m, \mathbb R^n) \) is differentiable at \( a \).
+Recall that
+\[
+	f'(a+h) = f'(a) + f''(a)(h) + o\qty(\norm{h})
+\]
+Evaluating at a fixed \( k \),
+\[
+	f'(a+h)(k) = f'(a)(k) + f''(a)(h,k) + o\qty(\norm{h})
+\]
+Let \( u, v \in \mathbb R^m \setminus \qty{0} \) be directions.
+Let \( k = v \).
+Then,
+\[
+	f'(a+h)(v) = D_v f(a+h) = D_v f(a) + f''(a)(h,v) + o\qty(\norm{h})
+\]
+Hence, the map \( D_v f \colon V \to \mathbb R^n \) maps \( x \mapsto D_v f(x) = f'(x)(v) \).
+Then this map is differentiable at \( a \) and
+\[
+	(D_v f)'(a)(h) = f''(a)(h,v)
+\]
+Hence there exist directional derivatives.
+\[
+	D_u D_v f(a) \overset{\mathrm{def}}{=} D_u (D_v f)(a) = (D_v f)'(a)(u) = f''(a)(u,v)
+\]
+In particular, we have
+\[
+	D_i D_j f(a) = f''(a)(e_i, e_j)
+\]
+for \( 1 \leq i, j \leq m \).
+
+\subsection{Symmetry of mixed directional derivatives}
+\begin{theorem}
+	Let \( U \) be open in \( \mathbb R^n \), let \( f \colon U \to \mathbb R^n \), and let \( a \in U \).
+	Let \( f \) be twice differentiable on an open set \( V \) with \( a \in V \subset U \).
+	Let \( f'' \colon V \to \mathrm{Bil}(\mathbb R^m \times \mathbb R^m, \mathbb R^n) \) be continuous at \( a \).
+	Then, for all directions \( u,v \in \mathbb R^m \setminus \qty{0} \), we have
+	\[
+		D_u D_v f(a) = D_v D_u f(a)
+	\]
+	Equivalently,
+	\[
+		f''(a)(u,v) = f''(a)(v,u)
+	\]
+	In other words, \( f'' \) is a symmetric bilinear map.
+\end{theorem}
+\begin{proof}
+	Without loss of generality we can let \( n = 1 \).
+	Indeed, we have
+	\[
+		(D_u f)_j(x) = [D_u f(x)]_j = [f'(x)(u)]_j = f_j'(x)(u) = D_u f_j(x)
+	\]
+	Hence, \( (D_u f)_j = D_u f_j \).
+	For \( v \):
+	\[
+		(D_v D_u f)_j = D_v (D_u f)_j = D_v D_u f_j
+	\]
+	So it is sufficient to show that \( D_v D_u f_j(a) = D_u D_v f_j(a) \).
+	Now, consider
+	\[
+		\phi(s,t) = f(a+su+tv) - f(a+tv) - f(a+su) + f(a)
+	\]
+	for \( s, t \in \mathbb R \).
+	Let \( s, t \) be fixed, and consider
+	\[
+		\psi(y) = f(a+yu+tv) - f(a+yu)
+	\]
+	Note that \( \phi(s,t) \) can be written as
+	\[
+		\phi(s,t) = \psi(s) - \psi(0)
+	\]
+	The term \( \psi(s) - \psi(0) \) can be interpreted as \( (f(a+su+tv) - f(a+tv)) - (f(a+su) - f(a)) \), which is the second difference given by the function when traversing the parallelogram with sides \( su, tv \).
+	By the mean value theorem, there exists \( \alpha(s,t) \in (0,1) \) such that
+	\[
+		\phi(s,t) = \psi(s) - \psi(0) = s \psi'(\alpha s) = s \qty[ D_u f(a+\alpha s u+ tv) - D_u f(a + \alpha s u) ]
+	\]
+	Now, applying the mean value theorem to the function \( y \mapsto D_u f(a+\alpha s u + y v) \), we have
+	\[
+		\phi(s,t) = s t D_v D_u f (a+\alpha s u + \beta t v)
+	\]
+	for \( \beta(s,t) \in (0,1) \).
+	Now,
+	\[
+		\frac{\phi(s,t)}{st} = D_v D_u f(a+\alpha su + \beta tv) = f''(a+\alpha su + \beta tv)(u,v)
+	\]
+	Since \( f'' \) is continuous at \( a \), we can let \( s, t \to 0 \) and find
+	\[
+		\frac{\phi(s,t)}{st} \to f''(a)(u,v)
+	\]
+	Now, we can repeat the above using
+	\[
+		\psi(y) = f(a+su) + yv) - f(a+yv)
+	\]
+	This calculates the second difference from above, but using the other path.
+	We can find
+	\[
+		\frac{\phi(s,t)}{st} \to f''(a)(v,u)
+	\]
+	as required.
+\end{proof}
