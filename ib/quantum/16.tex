@@ -13,5 +13,113 @@ Hence,
 \]
 Thus we can rewrite the TISE as
 \[
-	-\frac{\hbar^2}{2m_e} \frac{1}{r} \qty( \pdv[2]{r} \qty(r \chi) ) + \frac{\hat L^2}{2 m_e r^2} \chi - \frac{e^2}{4 \pi \varepsilon} \chi = E \chi
+	-\frac{\hbar^2}{2m_e} \frac{1}{r} \qty( \pdv[2]{r} \qty(r \chi) ) + \frac{\hat L^2}{2 m_e r^2} \chi - \frac{e^2}{4 \pi \varepsilon_0 r} \chi = E \chi
 \]
+Since \( \hat L^2, \hat L_3, \hat H \) are a maximal set of pairwise commuting operators, we know that the eigenfunctions of the Hamiltonian \( \chi \) must also be eigenfunctions of \( \hat L^2, \hat L_3 \).
+Hence,
+\[
+	\chi(r,\theta,\phi) = R(r) Y_{\ell, m}(\theta, \phi)
+\]
+Since \( \chi \) is an eigenfunction of \( \hat L^2 \),
+\[
+	\hat L^2 (R(r) Y_{\ell,m}(\theta,\phi)) = R(r) \hbar^2 \ell (\ell+1)Y_{\ell,m}(\theta, \phi)
+\]
+Substituting into the TISE, we find
+\[
+	-\frac{\hbar^2}{2m_e} \qty( \pdv[2]{R}{r} + \frac{2}{r} \pdv{R}{r} ) Y_{\ell,m}(\theta, \phi) + \frac{\hbar^2}{2 m_e r^2} \ell(\ell+1) R(r)Y_{\ell,m}(\theta, \phi) - \frac{e^2}{4 \pi \varepsilon_0 r} R(r)Y_{\ell,m}(\theta,\phi) = E R(r)Y_{\ell,m}(\theta,\phi)
+\]
+Cancelling the spherical harmonic,
+\[
+	-\frac{\hbar^2}{2m_e} \qty( \pdv[2]{R}{r} + \frac{2}{r} \pdv{R}{r} ) + \underbrace{\qty(\frac{\hbar^2}{2 m_e r^2} \ell(\ell+1) - \frac{e^2}{4 \pi \varepsilon_0 r})}_{U_{\mathrm{eff}} = \text{ effective potential}} R(r) = E R(r)
+\]
+This is an equation for the radial part of the solution.
+We have already solved this equation for \( \ell = 0 \) to find \( \chi(r) \), the radial wavefunction.
+Note that the azimuthal quantum number does not appear in the effective potential, giving a degeneracy of order at least \( 2 \ell + 1 \).
+We define
+\[
+	\nu^2 = -\frac{2m_e E}{\hbar^2} > 0;\quad \beta = \frac{e^2 m_e}{2 \pi \varepsilon_0 \hbar^2}
+\]
+Hence,
+\[
+	R'' + \frac{2}{r} R' + \qty(\frac{\beta}{r} - \nu^2 - \frac{\ell(\ell+1)}{r^2})R = 0
+\]
+The asymptotic limit is as before in the radial case, since the angular velocity dependence is suppressed by \( \frac{1}{r^2} \).
+We have \( R'' - \nu^2 R \to 0 \) hence \( R \propto e^{-\nu r} \) in the limit.
+We let \( R(r) = g(r) e^{-\nu r} \).
+Then,
+\[
+	g'' + \frac{2}{r} (1 - \nu r) g' + \qty(\frac{\beta}{r} - 2 \nu - \frac{\ell(\ell+1)}{r^2}) g = 0
+\]
+Expanding in power series,
+\[
+	g(r) = r^\sigma \sum_{n=0}^\infty a_n r^n
+\]
+Substituting and comparing the lowest power of \( r \),
+\[
+	a_0 [ \sigma (\sigma - 1) + 2 \sigma - \ell(\ell + 1) ] = 0 \implies \sigma(\sigma + 1) = \ell(\ell + 1)
+\]
+Hence, \( \sigma = \ell \) or \( \sigma = -\ell - 1 \).
+If \( \sigma = -\ell - 1 \), we have \( R(r) \sim \frac{1}{r^{\ell + 1}} \) which cannot be the solution, so \( \sigma = \ell \).
+Thus,
+\[
+	g(r) = r^\ell \sum_{n=0}^\infty a_n r^n
+\]
+We can evaluate the recurrence relation between the coefficients as before to find
+\[
+	\sum_{n=0}^\infty \qty[(n+\ell)(n+\ell - 1)a_n + 2(n+1)a_n - \ell(\ell+1)a_n - 2 \nu(n+\ell - 1) a_{n-1} + (\beta - 2\nu) a_{n-1}] r^{\ell + n - 2} = 0
+\]
+which gives
+\[
+	a_n = \frac{2\nu(n+\ell) - \beta}{n(n+2\ell - 1)}
+\]
+If \( \ell = 0 \) this yields the result for the radial solution.
+Unless the series terminates, it is possible to show that \( R \) diverges.
+Hence \( g \) must be a polynomial with first zero coefficient \( a_{n_{\max}} \).
+Here,
+\[
+	2\nu(n_{\max} + \ell) - \beta = 0
+\]
+We define \( N = n_{\max} + \ell \), so \( 2 \nu N - \beta = 0 \) giving \( nu = \frac{\beta}{2N} \).
+Note that \( N > \ell \) since \( n_{\max} > 0 \).
+We can then find the energy level to be
+\[
+	E_N = -\frac{e^4 m_e}{32 \pi^2 \varepsilon_0^2 \hbar^2} \frac{1}{n^2}
+\]
+which is an identical energy spectrum as we found before when not considering angular momentum (using the Bohr model).
+For each \( E_N \), we have \( N = n_{\max} + \ell \) so there can be \( \ell = 0, \dots, N-1 \) and \( m = -\ell, \dots, \ell \).
+Hence, the degeneracy of the solution for each \( N \) is
+\[
+	D(N) = \sum_{\ell=0}^{N-1} \sum_{m=-\ell}^\ell 1 = N^2
+\]
+So the degeneracy increases quadratically with the energy level.
+For example, for \( N = 2 \) there are four possible eigenfunctions with the same energy.
+The eigenfunctions are now dictated by three quantum numbers.
+\[
+	\chi_{N,\ell,m}(r,\theta,\phi) = R_{N,\ell}(r)Y_{\ell,m}(\theta,\phi) = r^\ell g_{N,\ell}(r) e^{-\frac{\beta r}{2N}} Y_{\ell,m}(\theta,\phi)
+\]
+where \( g_{N,\ell} \) is a polynomial of degree \( N - \ell - 1 \) defined by the recurrence relation
+\[
+	a_k = \frac{2\nu}{k} \frac{k + \ell - N}{k + 2\ell + 1} a_{n-1}
+\]
+These are the generalised Laguerre polynomials, often written
+\[
+	g_{N,\ell}(r) = L_{N - \ell - 1}^{2\ell + 1}(2r)
+\]
+The quantum number \( N \in \qty{0, 1, \dots} \) is known as the \textit{principal} quantum number.
+
+\subsection{Comparison to Bohr model}
+In the Bohr model, the energy levels were predicted accurately.
+Further, the maximum of the radial probability corresponds to the orbits found in the Bohr model:
+\[
+	\dv{r} \qty( \abs{\chi_{N,0,0}(r)}^2 r^2) = 0
+\]
+The classical trajectory, and the assumption about the angular momentum \( L^2 = N^2 \hbar^2 \), were incorrect.
+The angular momentum found in quantum mechanics is \( L^2 = \ell(\ell+1) \hbar^2 \), which corresponds closely with the Bohr model for large \( \ell \).
+
+\subsection{Other elements of the periodic table}
+The above solution does not hold for other elements of the periodic table.
+Generalising to a nucleus with clarge \( +ze \) and \( z \) orbiting electrons, we could model this as
+\[
+	\chi(x_1, \dots, x_z) = \chi(x_1) \dots \chi(x_N);\quad E = \sum_{j=1}^N e_j
+\]
+This approximation can be acceptable for small \( z \), but diverges very quickly from the true solution as \( z \) increases, due to the electron-electron interactions and the Pauli exclusion principle.
