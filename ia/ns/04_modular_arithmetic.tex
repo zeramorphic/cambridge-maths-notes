@@ -1,0 +1,238 @@
+\subsection{Introduction}
+In modular arithmetic, we need to prove that things like addition and multiplication are valid.
+In order to do this, we need to show that if \(a \equiv a' \mod n\) and \(b \equiv b' \mod n\) then, for example, \(ab \equiv a'b'\).
+We can prove these statements trivially by writing \(a' = a + kn\) where \(k\) is some integer, then evaluating the left and right hand sides in \(\mathbb Z\).
+
+Many rules of arithmetic are inherited from \(\mathbb Z\); for example, addition is commutative.
+This is easy to realise: to prove that \(a + b = b + a\) in \(\mathbb Z_n\) it is sufficient to prove the statement is true in the whole of \(\mathbb Z\).
+
+As another example, we can transform the unique prime factorisation lemma into \(\mathbb Z_p\).
+In \(\mathbb Z_p\) where \(p\) is prime,
+\[
+	ab = 0 \implies (a = 0) \lor (b = 0)
+\]
+In general, \(\mathbb Z_p\) where \(p\) is prime is a very well behaved and convenient-to-use subset of \(\mathbb Z\).
+
+\subsection{Inverses}
+For any \(a, b \in \mathbb Z_n\), \(b\) is an inverse of \(a\) if \(ab=1\).
+Note that unlike in group theory, it is not necessarily the case that all elements will have inverses.
+For example, in \(\mathbb Z_{10}\), the elements 3 and 7 are inverses, but 4 has no inverse.
+Note that:
+\begin{itemize}
+	\item Invertible integers are cancellable.
+	      For example, \(ab=ac \implies b=c\) if \(a\) is invertible (by left-multiplying by its inverse).
+	\item In general, you cannot simply cancel an integer multiple in the realm of modular arithmetic.
+	      For example \(4 \cdot 5 = 2 \cdot 5 \centernot\implies 4 = 2\).
+	\item Invertible numbers are also called `units'.
+\end{itemize}
+
+\subsection{Invertibility}
+\begin{proposition}
+	Let \(n \geq 2\).
+	Then every \(a \centernot\equiv 0\ (n)\) is invertible modulo \(n\) if and only if \((a, n) = 1\).
+	Note that the parenthesis notation means the highest common factor of the parameters.
+	In particular, if \(n\) is prime, then all \(1 \leq a < n\) are invertible.
+\end{proposition}
+\begin{proof}
+	This first proof uses Euclid's algorithm.
+	If \(a\) and \(n\) satisfy \((a, n) = 1\) then \(ax + ny = 1\) for some \(x, y \in \mathbb Z\).
+	So \(ax = 1 - ny\), so \(ax \equiv 1\ (n)\).
+	So \(x\) is the inverse of \(a\).
+\end{proof}
+\begin{proof}
+	This alternate proof only works for \(n=p\) where \(p\) is a prime; our whole proof lies entirely within \(\mathbb Z_p\).
+	Consider \(0a, 1a, 2a, \cdots, (p-1)a\).
+	Take two numbers \(i, j\) between 0 and \(p-1\), then consider the condition \(ia = ja\).
+	This implies that \((i - j)a = 0\), but \(a \neq 0\), so \(i=j\).
+	So this list \(0a, 1a, \cdots\) contains all distinct elements, all of which must be between 0 and \(p-1\).
+	Therefore, by the pigeonhole principle, one of these elements must be equal to 1.
+	Therefore there exists an inverse for \(a\).
+\end{proof}
+
+\subsection{Euler's totient function}
+\begin{definition}
+	Let \(\varphi(n)\) be the amount of natural numbers less than or equal to \(n\) that are coprime to \(n\).
+\end{definition}
+Here are some examples.
+\begin{itemize}
+	\item If \(p\) is prime, then \(\varphi(p) = p - 1\) since all naturals less than \(p\) are coprime to it.
+	\item \(\varphi(p^2) = p^2 - p\) because there are \(p\) numbers in this range who shares the common factor \(p\) with \(p^2\), specifically the numbers \(p, 2p, 3p, \cdots, (p-1)p, p^2\).
+	\item If \(a, b\) are coprime, \(\varphi(ab) = ab - a - b + 1\).
+	      There are \(ab\) numbers in total to pick from.
+	      There are \(a\) multiples of \(b\) and \(b\) multiples of \(a\), and since we discounted \(ab\) itself twice we need to count it again.
+	      Note that \(\varphi(ab) = \varphi(a)\varphi(b)\).
+\end{itemize}
+
+\subsection{Fermat's little theorem and Fermat-Euler theorem}
+\begin{theorem}
+	Let \(p\) be a prime.
+	Then in \(\mathbb Z_p\), \(a \neq 0 \implies a^{p-1} = 1\).
+\end{theorem}
+\noindent This is actually a special case of the following theorem:
+\begin{theorem}[Fermat-Euler Theorem]
+	Let \(n \geq 2\).
+	Then in \(\mathbb Z_n\), any unit \(a\) satisfies \(a^{\varphi(n)} = 1\).
+\end{theorem}
+\begin{proof}
+	Let the set of units \(\mathbb Z_n \supset X = \{ x_1, x_2, \cdots, x_{\varphi(n)} \}\).
+	Consider multiplying each unit by \(a\).
+	We have \(Y = \{ ax_1, ax_2, \cdots, ax_{\varphi(n)} \}\).
+	Since \(a\) is invertible, this set is comprised of distinct elements.
+	Further, since they are all products of units, they are all units.
+	So \(Y\) is a list of \(\varphi(n)\) distinct units, so this list must be equal to \(X\).
+	Now, since the lists are the same, the product of all their elements must be the same.
+	So \(\prod X = \prod Y = a^{\varphi(n)}\prod X\).
+	We can cancel the factor of \(\prod X\) because it is a product of invertibles, leaving \(1 = a^{\varphi(n)}\) as required.
+\end{proof}
+If alternatively we wanted to prove this just for \(p\) prime, then we could replace \(\varphi(n)\) with \(p-1\), and \(\prod X\) with \((p-1)!
+\).
+
+\subsection{Square roots of one}
+\begin{lemma}
+	Let \(p\) be prime.
+	Then in \(\mathbb Z_p\), \(x^2 = 1\) has solutions \(1\) and \(-1\) only.
+\end{lemma}
+\begin{note}
+	In \(\mathbb Z_8\), for example, we have \(1^2 = 3^2 = 5^2 = 7^2 = 1\), so obviously this does not hold in the general case.
+\end{note}
+\begin{proof}
+	\(x^2 = 1\) implies that \((x-1)(x+1) = 0\).
+	Because of the \(p\mid ab\implies (p\mid a) \lor (p\mid b)\) lemma, we know that \((x-1) = 0\) or \((x+1) = 0\), so \(-1\) and \(1\) are the only solutions.
+\end{proof}
+
+\subsection{Square roots of negative one}
+\begin{theorem}[Wilson's Theorem]
+	Let \(p\) be prime.
+	Then \((p-1)!
+	\equiv -1\ (p)\).
+\end{theorem}
+\begin{proof}
+	Since this is obviously true for \(p=2\), we will suppose that \(p>2\).
+	In \(\mathbb Z_p\), let us consider the list \(1, 2, 3 \cdots (p-1)\).
+	We can pair each \(a\) with its inverse \(a^{-1}\) for all \(a \neq a^{-1}\).
+	Note that \(a = a^{-1} \iff a^2 = 1\) so in this case \(a=1\) or \(a=-1\).
+	So let us now multiply each element together, to get
+	\[
+		(p-1)!
+		= (aa^{-1}) (bb^{-1}) \cdots 1 \cdot -1 = (1) \cdot (1) \cdots 1 \cdot -1 = -1
+	\]
+\end{proof}
+
+\begin{proposition}
+	Let \(p>2\) be prime.
+	Then \(-1\) is a square number modulo \(p\) if and only if \(p \equiv 1\ (4)\).
+\end{proposition}
+\begin{proof}
+	If \(p>2\) then \(p\) is odd.
+	There are therefore two cases, either \(p \equiv 1\) or \(p \equiv 3\) modulo 4.
+	Each case is proven individually.
+	\begin{itemize}
+		\item (\(p = 4k + 3\)) Suppose that \(x^2 = -1\) in \(\mathbb Z_p\).
+		      The only thing we know about powers in modular arithmetic is Fermat's Little Theorem, so we will have to use this.
+		      So, \(x^{p-1} = x^{4k+2} = 1\).
+		      Therefore, \((x^2)^{2k+1} = 1\).
+		      But we know that \(x^2=-1\), and we raise this \(-1\) to an odd power, which is \(-1\).
+		      So this is a contradiction.
+		\item (\(p = 4k + 1\)) By Wilson's Theorem, we know that \((4k)!
+		      = -1\).
+		      We intend to show that this is a square number in the world of \(\mathbb Z_p\).
+		      We will compare the termwise expansion of \((4k)!
+		      \) and \([(2k)!]^2\) on consecutive lines.
+		      \begin{alignat*}{9}
+			      (4k)!
+			                & = 1 &  & \cdot 2 &  & \cdot 3 &  & \cdots (2k) &  & \cdot (2k+1) &  & \cdot (2k+2)  &  & \cdots (4k-1)  &  & \cdot (4k)                   \\
+			      [(2k)!]^2 & = 1 &  & \cdot 2 &  & \cdot 3 &  & \cdots (2k) &  & \cdot 1      &  & \cdot 2       &  & \cdots (2k-1)  &  & \cdot (2k)                   \\
+			      \intertext{By writing each term as an equivalent negative:}
+			                & = 1 &  & \cdot 2 &  & \cdot 3 &  & \cdots (2k) &  & \cdot (-4k)  &  & \cdot (-4k+1) &  & \cdots (-2k-2) &  & \cdot (-2k-1)                \\
+			      \intertext{Extracting out the negatives:}
+			                & = 1 &  & \cdot 2 &  & \cdot 3 &  & \cdots (2k) &  & \cdot (4k)   &  & \cdot (4k-1)  &  & \cdots (2k+2)  &  & \cdot (2k+1) \cdot (-1)^{2k}
+		      \end{alignat*}
+		      which is equal to the first line by rearranging.
+		      So \([(2k)!]^2 = (4k)!
+		      = -1\).
+		      So \(-1\) is a square number modulo \(p\).
+	\end{itemize}
+\end{proof}
+
+\subsection{Solving congruence equations}
+Let us try to solve the equation \(7x \equiv 4\ (30)\).
+We take a two-phase approach: first, we will find a single solution, and then we will find all of the other solutions.
+
+Since 7 and 30 are coprime, we can use Euclid's algorithm to find a way of expressing 1 in terms of 7 and 30, in particular \(13 \cdot 7 - 3\cdot 30 = 1\).
+This allows us to solve \(7y \equiv 1\ (30)\), by setting \(y=13\).
+Then, of course, we can multiply both sides by 4: \(7 y\cdot 4 \equiv 4\ (30)\), so \(x = y \cdot 4 = 13 \cdot 4 = 22\).
+
+We can now find other solutions (apart from trivially adding \(30k\)).
+Suppose that there exists some other solution \(x'\), i.e.\ \(7x' \equiv 4\ (30)\).
+Then \(7x \equiv 7x'\ (30)\).
+As 7 is invertible modulo 30, we can simply multiply by the inverse of 7 to give \(x \equiv x'\ (30)\).
+So \(x\) is unique modulo 30.
+Alternatively, we could solve the equation without any of this working out by noticing that 7 is invertible!
+However, this is not very likely to happen in the general case, since it requires that the coefficient of \(x\) is coprime to the modulus.
+
+Now, let's try a different equation, \(10x = 12\ (34)\).
+Since 10 is not invertible, we can't do quite the same thing as above.
+We can't also just divide the whole thing by 2, there isn't a rule for that in general.
+We can, however, move into \(\mathbb Z\) and manipulate the expression there.
+\(10x = 12 + 34y\) for some \(y \in \mathbb Z\), so we can divide the equation by 2 to get \(5x = 6 + 17y\), so \(5x = 6\ (17)\) and we can solve from there.
+
+\subsection{Chinese remainder theorem}
+Is there a solution for the simultaneous congruences
+\[
+	x \equiv 6\ (17);\quad x \equiv 2\ (19)
+\]
+17 and 19 are coprime, so congruence mod 17 and congruence mod 19 are independent of each other.
+How about
+\[
+	x \equiv 6\ (34);\quad x \equiv 11\ (36)
+\]
+In this instance, there is obviously no solution; should \(x\) be even or odd?
+We can see that, the smallest amount we can adjust \(x\) by in one equation while retaining congruence in the other equation is \(\HCF(34, 36)\), which is 2.
+\begin{theorem}
+	Let \(u, v\) be coprime.
+	Then for any \(a, b\), there exists a value \(x\) such that
+	\[
+		x \equiv a\ (u);\quad x \equiv b\ (v)
+	\]
+	and that this value is unique modulo \(uv\).
+\end{theorem}
+\begin{proof}
+	We first prove existence of such an \(x\).
+	By Euclid's Algorithm, we have \(su + tv = 1\) for some integers \(s, t\).
+	Note that therefore:
+	\[
+		su \equiv 0\ (u);\quad tv \equiv 0\ (v);\quad su \equiv 1\ (v);\quad tv \equiv 1\ (u);
+	\]
+	Therefore we can make a linear combination of \(su\) and \(tv\) that is the required size in each congruence, specifically
+	\[
+		x = (su)b + (tv)a
+	\]
+	Now we prove that this value \(x\) is unique modulo \(uv\).
+	Suppose there was some other solution \(x'\).
+	Also, \(x' \equiv x\ (u)\) and \(x' \equiv x\ (v)\).
+	So we have \(u\mid (x' - x)\) and \(v\mid (x' - x)\) but as \(u\) and \(b\) are coprime we have \(uv\mid (x' - x)\).
+	So \(x\) is unique modulo \(uv\).
+\end{proof}
+
+\subsection{RSA encryption}
+A practical use of number theory is RSA encryption, which is an asymmetric encryption protocol that allows encryption by using a public and private key pair.
+We will begin by first choosing two large distinct primes \(p\) and \(q\).
+By large, we mean primes that are hundreds of digits long; in practice, these primes are between around 512 bits and 2048 bits long when represented in binary.
+Let \(n=pq\), and pick a `coding exponent' \(e\).
+Our message that we want to send must be an element of \(\mathbb Z_n\), so if it is not representable in this form we must break it apart into several smaller messages, or perhaps use RSA to share some kind of small symmetric key for another encryption algorithm.
+Let this message be \(x\), so \(x < n\).
+
+To encode \(x\), we raise it to the power \(e\) in \(\mathbb Z_n\).
+To efficiently compute large powers of \(x\), we can use a repeated squaring technique.
+For example, we can find \(x, x^2, x^4, x^8, x^{16}\) through repeated squaring, and then for example we can calculate \(x^{19} = x^{16} x^{2} x^{1}\).
+
+To decode \(x^e\), we ideally want some number \(d\) such that \((x^e)^d = x\).
+By the Fermat-Euler Theorem, we have \(x^{\varphi(n)} = 1\), so clearly \(x^{k\varphi(n) + 1} = x\).
+In other words, we want \(ed \equiv 1 \mod \varphi(n)\).
+By running Euclid's algorithm on \(e\) and \(\varphi(n)\), we can find such a \(d\).
+Note that this requires \(e\) and \(\varphi(n)\) to be coprime; in practice we would choose \(e\) after we have chosen \(n\) such that this is the case.
+
+Now, we can see that to encode a message, all you need is \(n\) and \(e\).
+However, to decode, you need to also know \(d\), which means you need to know \(\varphi(n) = \varphi(pq) = pq - p - q + 1\) which requires that you know the original \(p\) and \(q\).
+If we pick sufficiently large \(p\) and \(q\), our \(n\) will be so big as to be almost impossible to factorise in any decent length of time.
+So we can publish \(n\) and \(e\) as our public key, and anyone may use these numbers to encrypt a message that then only we can decode.
