@@ -1,0 +1,170 @@
+\subsection{Improper integration}
+\begin{definition}
+	Suppose \(f \colon [a, \infty) \to \mathbb R\) is integrable (and therefore bounded) on every interval of the form \([a, R]\), and further, as \(R \to \infty\), we have \(\int_a^R f \to \ell\).
+
+	Then we say that the integral \(\int_a^\infty f\) exists (or converges), and its value is \(\ell\).
+	If this integral does not tend to a limit, we say that \(\int_a^\infty f\) diverges.
+\end{definition}
+\noindent We can similarly define the integral \(\int_{-\infty}^a f\).
+If \(\int_a^\infty f = \ell_1\) and \(\int_{-\infty}^a f = \ell_2\), we can write
+\[
+	\int_{-\infty}^\infty f = \ell_1 + \ell_2
+\]
+Note that this last condition is \textit{not} the same as saying that \(\lim_{R \to \infty}\int_{-R}^R f\) exists.
+For this two-sided improper integral to exist, we need the stronger condition that the one-sided improper integrals exist on either side.
+For example, consider \(f(x) = x\).
+Clearly \(\int_{-R}^R f = 0\), but this function is not improper integrable.
+For example, consider
+\[
+	\int_1^\infty \frac{\dd{x}}{x^k}
+\]
+This converges if and only if \(k > 1\).
+Indeed, if \(k \neq 1\),
+\[
+	\int_1^R \frac{\dd{x}}{x^k} = \eval{\frac{x^{1-k}}{1-k}}_1^R = \frac{R^{1-k} - 1}{1-k}
+\]
+which is clearly finite in the limit if and only if \(k > 1\).
+If \(k=1\), then we can find
+\[
+	\int_1^R \frac{\dd{x}}{x} = \log R \to \infty
+\]
+as expected.
+Note the following observations.
+\begin{enumerate}[(1)]
+	\item \(\frac{1}{\sqrt{x}}\) is continuous (and bounded) on \([\delta, 1]\) for all \(\delta > 0\), and
+	      \[
+		      \int_\delta^1 \frac{\dd{x}}{\sqrt{x}} = \eval{2\sqrt{x}}_\delta^1 = 2 - 2\sqrt{\delta}
+	      \]
+	      So as \(\delta \to 0\), this integral tends to 2.
+	      This integral is defined, even though the value of the function at zero is unbounded.
+	      So we commonly write
+	      \[
+		      \int_0^1 \frac{\dd{x}}{\sqrt{x}} = 2
+	      \]
+	\item Similarly, we write
+	      \[
+		      \int_0^1 \frac{\dd{x}}{x} = \lim_{\delta \to 0} \int_\delta^1 \frac{\dd{x}}{x} = \lim_{\delta \to 0} \eval{\log x}_\delta^1 = \lim_{\delta \to 0} (\log 1 - \log \delta)
+	      \]
+	      Since this limit does not exist, the integral \(\int_0^1 \frac{\dd{x}}{x}\) does not exist.
+	\item If \(f \geq 0\) and \(g \geq 0\) for \(x \geq a\), and \(f(x) \leq kg(x)\), where \(k\) is a constant for \(x \geq a\), then
+	      \[
+		      \int_a^\infty g \text{ converges} \implies \int_a^\infty f \text{ converges, and } \int_a^\infty f \leq \int_a^\infty g
+	      \]
+	      This is similar to the comparison test for series.
+	      First, note that \(\int_a^R f \leq k \int_a^R g\).
+	      Further, \(\int_a^R f\) is an increasing function of \(R\) since \(f \geq 0\), and bounded above, since \(\int_a^\infty g\) converges.
+	      Let
+	      \[
+		      \ell = \sup_{R \geq a}\int_a^R f < \infty
+	      \]
+	      Then we want to show that \(\lim_{R \to \infty}\int_a^R f = \ell\).
+	      Given \(\varepsilon > 0\), by the definition of the supremum \(\exists R_0\) such that
+	      \[
+		      \int_a^{R_0} f \geq \ell - \varepsilon
+	      \]
+	      Thus for all \(R\geq R_0\) we have
+	      \[
+		      \int_a^R f \geq \int_a^{R_0} f \geq \ell - \varepsilon
+	      \]
+	      Hence,
+	      \[
+		      0 \leq \ell - \int_a^R f \leq \varepsilon
+	      \]
+	      As an example, consider the integral
+	      \[
+		      \int_0^\infty \exp(\frac{-x^2}{2}) \dd{x}
+	      \]
+	      Now, for \(x \geq 1\), we can bound the integrand by \(\exp(-\frac{x}{2})\), and the integral of this bound is clearly bounded.
+	      Hence the original integral converges.
+	\item If \(\sum a_n\) converges, then \(a_n \to 0\).
+	      However, with improper integrals, this is not necessarily the case.
+	      Consider a convergent series \(a_n\), where \(0 < a_n < 1\) for all \(n\).
+	      Then define the function \(f\) defined by
+	      \[
+		      f(n + r) = \begin{cases}
+			      1 & \text{if } r < a_n \\
+			      0 & \text{otherwise}
+		      \end{cases}
+	      \]
+	      where the input \(x\) is split into the integer part \(n\) and the remainder \(r\).
+	      This function is essentially a sequence of rectangles of height 1 and width \(a_n\), spaced so that each rectangle starts at an integer value of \(x\).
+	      Clearly, we have
+	      \[
+		      \int_0^n f = \sum_0^n a_n
+	      \]
+	      where \(n\) is an integer.
+	      So the integral converges, but the integrand does not tend to zero.
+\end{enumerate}
+
+\subsection{Integral test for series convergence}
+\begin{theorem}
+	Let \(f(x)\) be a positive decreasing function for \(x \geq 1\).
+	Then,
+	\begin{enumerate}[(1)]
+		\item The integral \(\int_1^\infty f(x) \dd{x}\) and the series \(\sum_1^\infty f(x)\) both converge or diverge.
+		      (Note that such a function is always Riemann integrable on a closed interval since it is bounded and decreasing.)
+		\item As \(n \to \infty\), \(\sum_{r=1}^n f(r) - \int_1^n f(x) \dd{x}\) tends to a limit \(\ell\) such that \(0 \leq \ell \leq f(1)\).
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	If \(n-1 \leq x \leq n\), then
+	\[
+		f(n-1) \geq f(x) \geq f(n)
+	\]
+	Hence,
+	\[
+		f(n-1) \geq \int_{n-1}^n f(x) \dd{x} \geq f(n)
+	\]
+	Adding up such integrals, we get
+	\[
+		\sum_1^{n-1} f(r) \geq \int_1^n f(x) \dd{x} \geq \sum_2^{n} f(r)
+	\]
+	Then the first claim is obvious.
+	For the second claim, let
+	\[
+		\phi(n) = \sum_1^n f(r) - \int_1^n f(x) \dd{x}
+	\]
+	Then, using the inequalities established above,
+	\[
+		\phi(n) - \phi(n-1) = f(n) - \int_{n-1}^n f(x) \dd{x} \leq 0
+	\]
+	So \(\phi\) is a decreasing sequence.
+	Further,
+	\[
+		0 \leq \phi(n) \leq f(1)
+	\]
+	\(\phi\) is bounded, so it converges to some limit \(\ell\).
+\end{proof}
+\begin{example}
+	First, consider the sum \(\sum_1^\infty \frac{1}{n^k}\).
+	By the integral test, this converges if and only if \(k > 1\).
+	As a more complicated example, consider \(\sum_2^\infty \frac{1}{n\log n}\).
+	Let \(f(x) = \frac{1}{x\log x}\), and
+	\[
+		\int_2^R \frac{\dd{x}}{x\log x} = \eval{\log(\log x)}_2^R
+	\]
+	which diverges, so by the integral test the series diverges.
+\end{example}
+\begin{corollary}[Euler-Mascheroni Constant]
+	As \(n \to \infty\),
+	\[
+		\sum_1^n \frac{1}{n} - \int_1^n \frac{1}{n} = 1 + \frac{1}{2} + \dots + \frac{1}{n} - \log n \to \gamma
+	\]
+	where \(\gamma \in [0, 1]\).
+	This is known as the Euler-Mascheroni constant.
+	It is unknown whether \(\gamma\) is irrational.
+\end{corollary}
+
+\subsection{Piecewise continuous functions}
+\begin{definition}
+	A function \(f \colon [a, b] \to \mathbb R\) is piecewise continuous if there is a dissection \(\mathcal D\) such that \(f\) is continuous on all intervals defined by this dissection, and that the one-sided limits
+	\[
+		\lim_{x \to x_{j-1}^+} f(x);\quad \lim_{x \to x_{j-1}^-} f(x)
+	\]
+	exist.
+\end{definition}
+\noindent We can extend the class of Riemann integrable functions to include piecewise continuous functions as well.
+This is true since we use this dissection to construct the upper and lower sums.
+The one-sided limits are here to ensure that the function is bounded near these discontinuities.
+We might now ask how large the discontinuity set is allowed to be in order for \(f\) to still be Riemann integrable.
+As we have seen from examples before, it is possible to have a function which has countably many discontinuity points, but is still Riemann integrable.

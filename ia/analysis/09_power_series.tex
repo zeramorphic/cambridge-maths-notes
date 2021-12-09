@@ -1,0 +1,461 @@
+\subsection{Complex differentiation}
+The complex derivative and the real derivative have the same core properties, for instance linearity, the product rule and the chain rule.
+However, the complex derivative is significantly more restrictive than the real derivative, since we can approach a point in any number of directions.
+If we can find a function that is complex differentiable with this restriction, we actually get a whole array of features for free.
+As an example of this restriction, consider the function \(f(z) = \overline{z}\).
+This function is actually nowhere differentiable.
+If it were differentiable, then any sequence tending to \(z\) would yield the same limit when substituted into the definition of the derivative.
+Consider first the sequence
+\[
+	z_n = z + \frac{1}{n} \to z
+\]
+Then
+\[
+	\frac{f(z_n) - f(z)}{z_n - z} = \frac{\overline{z} + \frac{1}{n} - \overline{z}}{z + \frac{1}{n} - z} = 1
+\]
+Now consider the sequence
+\[
+	z_n = z + \frac{i}{n} \to z
+\]
+Then
+\[
+	\frac{f(z_n) - f(z)}{z_n - z} = \frac{\overline{z} - \frac{i}{n} - \overline{z}}{z + \frac{i}{n} - z} = -1
+\]
+Hence \(f(z)\) is nowhere differentiable.
+On the other hand, the real function \(f(x, y) = (x, -y)\) is clearly real differentiable, since it is linear; but in the complex world the function \(z \mapsto \overline{z}\) is not linear.
+
+\subsection{Definition of power series}
+A power series is a series of the form
+\[
+	\sum_{n=0}^\infty a_n z^n
+\]
+where \(z \in \mathbb C\), and the \(a_n\) is a given sequence of complex numbers.
+We can also take a power series of the form
+\[
+	\sum_{n=0}^\infty a_n (z-z_0)^n
+\]
+but for simplicity we will take \(z_0 = 0\) in all of the analysis we will conduct on power series.
+
+\subsection{Radius of convergence}
+\begin{lemma}
+	If the series
+	\[
+		\sum_{n=0}^\infty a_n z_1^n
+	\]
+	converges for some point \(z_1\), and \(\abs{z} < \abs{z_1}\), then the series
+	\[
+		\sum_{n=0}^\infty a_n z^n
+	\]
+	also converges absolutely.
+\end{lemma}
+\begin{proof}
+	Since \(\sum_{n=0}^\infty a_n z_1^n\) converges, \(a_n z_1^n \to 0\).
+	Thus the sequence \(a_n z_1^n\) is bounded by some \(k > 0\), i.e.\ for all \(n\), \(\abs{a_n z_1^n}<k\).
+	Then
+	\[
+		\abs{a_n z^n} \leq k\abs{\frac{z}{z_1}}^n
+	\]
+	Since the geometric series \(\sum_0^\infty \abs{\frac{z}{z_1}}^n\) converges, the lemma follows by comparison.
+\end{proof}
+\noindent Using this lemma, we can find that there exists a radius inside which any given power series converges absolutely.
+This radius might be zero, and it might be infinite.
+\begin{theorem}
+	Any power series either
+	\begin{enumerate}[(i)]
+		\item converges absolutely for all \(z\), or
+		\item converges absolutely for all \(z\) where \(\abs{z} < R\) and diverges for all \(z\) where \(\abs{z} > R\), or
+		\item converges for \(z = 0\) only.
+	\end{enumerate}
+\end{theorem}
+\noindent The circle \(\abs{z} = R\) is called the circle of convergence, and \(R\) is called the radius of convergence.
+Note that this theorem does not make any claim about the behaviour \textit{on} the circle of convergence, just the behaviour inside it.
+\begin{proof}
+	Let
+	\[
+		S = \left\{ x \in \mathbb R \colon x \geq 0, \sum_0^\infty a_n x^n \text{ converges} \right\}
+	\]
+	Clearly, \(0 \in S\).
+	By the above lemma, if \(x_1 \in S\), then \([0, x_1] \subseteq S\).
+	If \(S = [0, \infty)\), then we have case (i) above due to the lemma.
+
+	If \(S \neq [0, \infty)\), there exists a supremum \(0 \leq R = \sup S < \infty\).
+
+	We must now just deal with case (ii), which is \(R > 0\).
+	For all \(z_1\) with \(\abs{z_1} < R\) there exists \(R_0\) such that \(\abs{z_1} < R_0 < R\), and absolute convergence follows using the lemma.
+	If \(\abs{z_1} > R\), there exists \(R_0\) such that \(\abs{z_1} > R_0 > R\).
+	If the series with \(z_1\) converges, then by the lemma the same would be true for \(R_0\).
+	But \(R_0\) does not converge, so this is a contradiction.
+\end{proof}
+
+\begin{lemma}
+	If
+	\[
+		\abs{\frac{a_{n+1}}{a_n}} \to \ell
+	\]
+	as \(n \to \infty\), then \(R = \frac{1}{\ell}\).
+\end{lemma}
+\begin{proof}
+	By the ratio test, we have absolute convergence if
+	\[
+		\abs{\frac{a_{n+1}}{a_n} \frac{z^{n+1}}{z^n}} < 1
+	\]
+	So we have absolute convergence if \(\abs{z} < \frac{1}{\ell}\) and divergence if \(\abs{z} > \frac{1}{\ell}\) as required.
+\end{proof}
+\begin{lemma}
+	If
+	\[
+		\abs{a_n^{1/n}} \to \ell
+	\]
+	as \(n \to \infty\), then \(R = \frac{1}{\ell}\).
+\end{lemma}
+\noindent This can be shown similarly using the root test.
+
+\subsection{Examples of radii of convergence}
+\begin{enumerate}
+	\item Consider the series \(\sum_0^\infty \frac{z^n}{n!}\).
+	      Using the ratio test, the series converges absolutely everywhere.
+	\item The geometric series \(\sum_0^\infty z^n\) gives \(R=1\) by the ratio test.
+	      In this case, \(\abs{z} = 1\) gives divergence.
+	\item The series \(\sum_0^\infty n!z^n\) has \(R=0\), which again can be seen using the ratio test.
+	\item Consider \(\sum_1^\infty \frac{z^n}{n}\).
+	      This also has \(R = 1\) by the ratio test.
+	      Note that the series diverges for \(z=1\) since we get the harmonic series.
+	      However, it converges when \(z = -1\) by the alternating series test.
+	      To work out the behaviour at other points on the circle of convergence, we could consider the series \(\sum_1^\infty \frac{z^n}{n}(1-z)\), which converges exactly when the original series does.
+	      The partial sums are
+	      \begin{align*}
+		      S_N & = \sum_1^N \left[ \frac{z_n - z^{n+1}}{n} \right]            \\
+		          & = \sum_1^N \frac{z^n}{n} - \sum_1^N \frac{z^{n+1}}{n}        \\
+		          & = \sum_1^N \frac{z^n}{n} - \sum_2^{N+1} \frac{z^n}{n-1}      \\
+		          & = z - \frac{z^{N+1}}{N+1} + \sum_2^{N+1} \frac{-z^n}{n(n-1)} \\
+	      \end{align*}
+	      If \(\abs{z} = 1\), then the term \(\frac{z^{N+1}}{N+1}\) will vanish as \(N \to \infty\).
+	      If \(z \neq 1\), the term \(\sum_2^{N+1} \frac{-z^n}{n(n-1)}\) converges as \(N \to \infty\).
+	      So \(S_N\) does indeed converge for \(\abs{z} = 1\), \(z \neq 1\).
+	\item Now, consider \(\sum_1^\infty \frac{z^n}{n^2}\).
+	      This has \(R=1\) by the ratio test, but it converges for all \(z\) with \(\abs{z} = 1\).
+	\item If we have \(\sum_0^\infty nz^n\), we have \(R=1\), but diverges for all \(\abs{z} = 1\).
+\end{enumerate}
+\noindent In conclusion, we cannot determine the behaviour at the boundary in the general case.
+Inside the radius of convergence, power series will behave as if they were simply polynomials.
+
+\subsection{Infinite differentiability}
+\begin{theorem}
+	Let \(f(z) = \sum_0^\infty a_n z^n\) have a radius of convergence \(R\).
+	Then \(f\) is complex differentiable at all points with \(\abs{z} < R\), with
+	\[
+		f'(z) = \sum_1^\infty n a_n z^{n-1}
+	\]
+	with the same radius of convergence as the original series.
+\end{theorem}
+\noindent This proof comprises the entire subsection.
+This whole subsection is non-examinable, but included for completeness.
+First, we will state two lemmas.
+\begin{lemma}
+	If \(\sum_0^\infty a_n z^n\) has radius of convergence \(R\), then both series
+	\[
+		\sum_1^\infty n a_n z^{n-1}
+	\]
+	and
+	\[
+		\sum_2^\infty n(n-1)a_n z^{n-2}
+	\]
+	also have radius of convergence \(R\).
+\end{lemma}
+\begin{proof}
+	Let \(R_0\) be such that \(0 < \abs{z} < R_0 < R\).
+	Since \(a_0 R_0^n \to 0\), the sequence \(a_0 R_0^n\) is bounded.
+	In other words there exists a \(k\) such that \(\abs{a_n R_0^n} \leq k\) for all \(n \geq 0\).
+	Thus,
+	\[
+		\abs{a_n n z^{n-1}} = \frac{n}{\abs{z}}\abs{a_n R_0^n} \abs{\frac{z}{R_0}}^n \leq \frac{kn}{\abs{z}}\abs{\frac{z}{R_0}}^n
+	\]
+	But
+	\[
+		\sum n\abs{\frac{z}{R_0}}^n
+	\]
+	converges by the ratio test, since the ratio is
+	\[
+		\frac{n+1}{n}\abs{\frac{z}{R_0}}^{n+1} \abs{\frac{R_0}{z}}^n = \frac{n+1}{n}\abs{\frac{z}{R_0}} \to \abs{\frac{z}{R_0}} < 1
+	\]
+	Hence, the original series \(\sum_1^\infty n a_n z^{n-1}\) is absolutely bounded above by a convergent series, and therefore is absolutely convergent.
+	So it is known that the radius of convergence of this derivative series is \textit{at least} \(R\).
+	Now, if \(\abs{z} > R\), the series diverges since \(\abs{a_n z^n}\) is unbounded, and hence \(\abs{n a_n z^n}\) is also unbounded.
+	The same proof applies to the series for the second derivative.
+\end{proof}
+\noindent We will need this `second derivative' condition in order to talk about the remainder term after the first derivative, which is related to the second derivative.
+\begin{lemma}
+	First, for all \(2 \leq r \leq n\).
+	\[
+		\binom{n}{r} \leq n(n-1)\binom{n-2}{r-2}
+	\]
+	Further, for all \(z \in \mathbb C\), \(h \in \mathbb C\),
+	\[
+		\abs{(z + h)^n - z^n - nhz^{n-1}} \leq n(n-1)(\abs{z} + \abs{h})^{n-2}\abs{h}^2
+	\]
+\end{lemma}
+\begin{proof}
+	For the first part, we can expand the definitions to get
+	\[
+		\frac{\binom{n}{r}}{\binom{n-2}{r-2}} = \frac{n(n-1)}{r(r-1)} \leq n(n-1)
+	\]
+	as required.
+	For the second part, we can apply the binomial expansion to cancel the other two terms, and we get
+	\begin{align*}
+		(z + h)^n - z^n - nhz^{n-1}                  & = \left( \sum_{r=0}^n \binom{n}{r} z^{n-r} h^r \right)  - z^n - nhz^{n-1}                                                               \\
+		                                             & = \sum_{r=2}^n \binom{n}{r} z^{n-r} h^r                                                                                                 \\
+		\therefore \abs{(z + h)^n - z^n - nhz^{n-1}} & = \abs{\sum_{r=2}^n \binom{n}{r} z^{n-r} h^r}                                                                                           \\
+		                                             & \leq \sum_{r=2}^n \abs{\binom{n}{r} z^{n-r} h^r}                                                                                        \\
+		                                             & = \sum_{r=2}^n \binom{n}{r} \abs{z}^{n-r} \abs{h}^r                                                                                     \\
+		                                             & \leq n(n-1) \underbrace{\left[ \sum_{r=2}^n \binom{n-2}{r-2} \abs{z}^{n-r} \abs{h}^{r-2} \right]}_{(\abs{z} + \abs{h})^{n-2}} \abs{h}^2 \\
+		                                             & = n(n-1) (\abs{z} + \abs{h})^{n-2} \abs{h}^2                                                                                            \\
+	\end{align*}
+	as required.
+\end{proof}
+\noindent Now, we can prove the original theorem.
+\begin{proof}
+	By the first lemma, we may define \(f'(z)\) to be
+	\[
+		f'(z) = \sum_1^\infty n a_n z^{n-1}
+	\]
+	We now just need to prove that
+	\[
+		\lim_{h \to 0} I = 0;\quad I = \frac{f(z + h) - f(z) - h f'(z)}{h}
+	\]
+	We can substitute the expressions we have found for each power series:
+	\begin{align*}
+		I       & = \frac{\sum_0^\infty a_n (z+h)^n - \sum_0^\infty a_n z^n - h \sum_1^\infty n a_n z^{n-1}}{h}            \\
+		        & = \frac{1}{h} \sum_0^\infty \left[ a_n (z+h)^n - a_n z^n - h n a_n z^{n-1} \right]                       \\
+		        & = \frac{1}{h} \sum_0^\infty a_n \left[ (z+h)^n - z^n - h n z^{n-1} \right]                               \\
+		\abs{I} & = \frac{1}{\abs{h}} \abs{\lim_{N \to \infty} \sum_0^N a_n \left[ (z+h)^n - z^n - h n z^{n-1} \right]}    \\
+		\intertext{Since the modulus function is continuous,}
+		\abs{I} & = \frac{1}{\abs{h}} \lim_{N \to \infty} \abs{\sum_0^N a_n \left[ (z+h)^n - z^n - h n z^{n-1} \right]}    \\
+		        & \leq \frac{1}{\abs{h}} \lim_{N \to \infty} \sum_0^N \abs{a_n \left[ (z+h)^n - z^n - h n z^{n-1} \right]} \\
+		        & = \frac{1}{\abs{h}} \sum_0^\infty \abs{a_n} \cdot \abs{(z+h)^n - z^n - h n z^{n-1}}                      \\
+		\intertext{By the second part of the second lemma above,}
+		\abs{I} & \leq \frac{1}{\abs{h}} \sum_0^\infty \abs{a_n} \cdot n(n-1)(\abs{z} + \abs{h})^{n-2}\abs{h}^2            \\
+		        & = \abs{h} \sum_0^\infty \abs{a_n} \cdot n(n-1)(\abs{z} + \abs{h})^{n-2}                                  \\
+	\end{align*}
+	For \(\abs{h}\) small enough, \((\abs{z} + \abs{h}) < R\).
+	Therefore, by the first lemma above,
+	\[
+		\sum_0^\infty \abs{a_n} \cdot n(n-1)(\abs{z} + \abs{h})^{n-2}
+	\]
+	converges to some \(A(h)\).
+	But \(A(h)\) is monotonically decreasing, so
+	\[
+		\abs{I} \leq \abs{h} A(h) \leq \abs{h} A(r)
+	\]
+	for some \(r\) such that \(\abs{z} + r < R\).
+	We can now let \(h \to 0\), giving
+	\[
+		\abs{I} \to 0
+	\]
+	as required.
+\end{proof}
+
+\subsection{Defining standard functions}
+We can now use this differentiability property to cleanly define the standard exponential, logarithmic and trigonometric functions.
+Let \(e \colon \mathbb C \to \mathbb C\) be defined by
+\[
+	e(z) = \sum_0^\infty \frac{z^n}{n!}
+\]
+We have already seen that it has infinite radius of convergence.
+Straight from the above theorem, \(e\) is infinitely differentiable everywhere, and it is its own derivative.
+Note that if a function \(F \colon \mathbb C \to \mathbb C\) has \(F'(z) = 0\) for all \(z \in \mathbb C\), then \(F\) is constant.
+Indeed, consider \(g(t) = F(tz) = u(t) + iv(t)\) where \(t, u, v \in \mathbb R\).
+Then by the chain rule, \(g'(t) = F'(tz)z = 0\) and hence \(u'(t) + iv'(t) = 0\), giving \(u'(t) = 0\) and \(v'(t) = 0\) everywhere.
+We can now apply the real-valued case, showing that \(u\) and \(v\) (and hence \(F\)) are constant everywhere.
+Now, let \(a, b \in \mathbb C\), and consider
+\[
+	F(z) = e(a + b - z)e(z)
+\]
+Then
+\[
+	F'(z) = -e(a+b-z)e(z) + e(a+b-z)e(z) = 0
+\]
+Hence \(e(a + b - z)e(z)\) is constant for all \(z\), hence
+\[
+	e(a + b - z)e(z) = e(a + b - 0)e(0) = e(a + b)
+\]
+Since \(z\) is arbitrary, we can set \(z=b\) to recover the familiar relation
+\[
+	e(a+b-b)e(b) = e(a+b) \implies e(a)e(b) = e(a+b)
+\]
+
+\subsection{Exponential and logarithmic functions}
+Last lecture, we covered the power series form of the exponential function \(e \colon \mathbb C \to \mathbb C\).
+Note that if we input a real number, the output is also real.
+Hence, \(e \colon \mathbb R \to \mathbb R\).
+This restricted definition of the function has the following properties.
+\begin{theorem}
+	\begin{enumerate}[(i)]
+		\item \(e \colon \mathbb R \to \mathbb R\) is everywhere differentiable, and \(e'(x) = e(x)\).
+		\item \(e(x+y) = e(x)e(y)\).
+		\item \(e(x) > 0\).
+		\item \(e\) is strictly increasing.
+		\item \(e(x) \to \infty\) as \(x \to \infty\), and \(e(x) \to 0\) as \(x \to -\infty\).
+		\item \(e \colon \mathbb R \to (0, \infty)\) is a bijection.
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	The first two properties follow from the last lecture.
+	\begin{enumerate}[(i)]
+		\setcounter{enumi}{2}
+		\item Clearly, \(e(x) > 0\) for all \(x \geq 0\) by considering the power series, which contains only positive terms for \(x>0\), and also \(e(0) = 1\).
+		      Also, \(e(0) = e(x - x) = e(x)e(-x)\), hence for all negative \(x\), \(e(x) > 0\).
+		\item Since \(e'(x) = e(x)\), \(e'(x) = e(x) > 0\) everywhere.
+		\item By considering partial sums, if \(x>0\) we have \(e(x) > 1+x\), so if \(x \to \infty\), \(e(x) \to \infty\).
+		      When \(x \to -\infty\), \(e(x) = \frac{1}{e(x)} \to 0\).
+		\item Injectivity follows from being strictly increasing.
+		      For surjectivity, we need to show that given any \(y \in (0, \infty)\) there exists some \(x\) such that \(e(x) = y\).
+		      Due to property (v) above, we can certainly find real numbers \(a\) and \(b\) such that \(e(a) < y < e(b)\).
+		      By the intermediate value theorem, there exists \(x \in \mathbb R\) such that \(e(x) = y\).
+	\end{enumerate}
+\end{proof}
+\begin{remark}
+	We have essentially proven that \(e \colon (\mathbb R, +) \to ((0, \infty), \times)\) is a group isomorphism.
+	This is exactly the same as showing that it is a bijection.
+	Since \(e\) is a function, there exists an inverse function \(\ell \colon ((0, \infty), \times) \to (\mathbb R, +)\).
+\end{remark}
+\begin{theorem}
+	\begin{enumerate}[(i)]
+		\item \(\ell \colon (0, \infty) \to \mathbb R\) is a bijection, and \(\ell(e(x)) = x\) for all \(x \in \mathbb R\), and \(e(\ell(x)) = x\) for all \(x \in (0, \infty)\).
+		\item \(\ell\) is differentiable and its derivative is \(\ell'(t) = \frac{1}{t}\).
+		\item \(\ell(xy) = \ell(x) + \ell(y)\).
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	\begin{enumerate}[(i)]
+		\item This first propety is obvious from the definition.
+		\item By the inverse function theorem, \(\ell\) is differentiable everywhere and \(\ell'(t) = \frac{1}{t}\) as required.
+		\item From IA Groups, if \(e\) is an isomorphism, so is its inverse.
+	\end{enumerate}
+\end{proof}
+
+\subsection{Real numbered exponents}
+We will now define for \(\alpha \in \mathbb R\) and \(x > 0\) the function
+\[
+	r_\alpha(x) = e(\alpha \ell(x))
+\]
+This can be taken as the definition of \(x\) raised to the power \(\alpha\).
+\begin{theorem}
+	Suppose \(x, y > 0\) and \(\alpha, \beta \in \mathbb R\).
+	Then
+	\begin{enumerate}[(i)]
+		\item \(r_\alpha(xy) = r_\alpha(x)r_\alpha(y)\)
+		\item \(r_{\alpha + \beta}(x) = r_\alpha(x) r_\beta(x)\)
+		\item \(r_\alpha(r_\beta(x)) = r_{\alpha\beta}(x)\)
+		\item \(r_1(x) = x\), and \(r_0(x) = 1\)
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	\begin{enumerate}[(i)]
+		\item \(r_\alpha(xy) = e(\alpha \ell(xy)) = e(\alpha \ell(x) + \alpha \ell(y)) = e(\alpha \ell(x))e(\alpha\ell(y)) = r_\alpha(x)r_\alpha(y)\)
+		\item \(r_{\alpha + \beta}(x) = e((\alpha + \beta) \ell(x)) = e(\alpha\ell(x) + \beta\ell(x)) = e(\alpha\ell(x))e(\beta\ell(x)) = r_\alpha(x) r_\beta(x)\)
+		\item \(r_\alpha(r_\beta(x)) = e(\alpha \ell[e(\beta \ell(x))]) = e(\alpha \beta \ell(x)) = r_{\alpha\beta}(x)\)
+		\item \(r_1(x) = e(\ell(x)) = x\), and \(r_0(x) = e(0 \ell(x)) = e(0) = 1\)
+	\end{enumerate}
+\end{proof}
+\noindent Suppose we want to compute \(r_n(x)\), where \(n \in\mathbb Z\).
+Then \(r_n(x) = r_{1 + \dots + 1}(x) = x \cdots x\), so we have aggreement between \(r_n(x)\) and our previous definition of \(x^n\).
+Similarly, since \(r_1(x) r_{-1}(x) = 1\), we have \(r_{-1}(x) = \frac{1}{x}\).
+Further, \(r_{\frac{1}{q}}(x) = x^\frac{1}{q}\).
+Therefore, \(r_{\frac{p}{q}}(x) = x^{\frac{p}{q}}\).
+So this definition is simply a more general definition for exponentiation by a real number.
+
+From now, we will let \(\exp(x) \equiv e(x)\), \(\log(x) \equiv \ell(x)\), and \(x^\alpha \equiv r_\alpha(x)\).
+In fact, \(\exp(x) = e^x\) for a suitable number \(e\), since \(e(x) = e(x \log(e)) = r_x(e) = e^x\) where \(e := e(1) = \sum_0^\infty \frac{1}{n!}\).
+
+Finally, we can compute the derivative of \(x^\alpha\) using the chain rule.
+\[
+	(x^\alpha)' = \left( e^{\alpha \log x} \right)' = e^{\alpha \log x} \alpha \frac{1}{x} = \alpha x^\alpha x^{-1} = \alpha x^{\alpha - 1}
+\]
+as expected.
+Further, if \(f(x) = a^x\), we can find
+\[
+	f'(x) = \left( e^{x \log a} \right)' = e^{x \log a} \log a = a^x \log a
+\]
+
+\subsection{Trigonometric functions}
+We define
+\begin{align*}
+	\cos z & = 1 - \frac{z^2}{2!} + \frac{z^4}{4!} - \frac{z^6}{6!} + \dots = \sum_0^\infty \frac{(-1)^k z^{2k}}{(2k)!}     \\
+	\sin z & = z - \frac{z^3}{3!} + \frac{z^5}{5!} - \frac{z^7}{7!} + \dots = \sum_0^\infty \frac{(-1)^k z^{2k+1}}{(2k+1)!} \\
+\end{align*}
+Both power series have infinite radius of convergence, by the ratio test (the same proof from the exponential function can be used here).
+Hence \(\cos z\) and \(\sin z\) are differentiable, and \(\dv{z}\cos z = -\sin z\) and \(\dv{z}\sin z = \cos z\) as expected, by termwise differentiation.
+Further, we can deduce that
+\[
+	e^{iz} = \sum_0^\infty \frac{(iz)^n}{n!} = \sum_0^\infty \frac{(iz)^{2k}}{(2k)!} + \sum_0^\infty \frac{(iz)^{2k+1}}{(2k+1)!}
+\]
+Note that
+\[
+	(iz)^{2k} = (-1)^k z^{2k};\quad (iz)^{2k+1} = i (-1)^k z^{2k+1}
+\]
+Hence,
+\[
+	e^{iz} = \cos z + i \sin z
+\]
+Similarly,
+\[
+	e^{-iz} = \cos z - i \sin z
+\]
+We can then write
+\[
+	\cos z = \frac{1}{2}\qty( e^{iz} + e^{-iz} );\quad \sin z = \frac{1}{2i}\qty( e^{iz} - e^{-iz} )
+\]
+Many common trigonometric identities follow from this, such as the identity \(\cos^2 z + \sin^2 z \equiv 1\).
+However, we have not deduced the period of the functions.
+Now, restricted to the real case, \(\sin x, \cos x \in \mathbb R\), and the identity \(\cos^2 z + \sin^2 z \equiv 1\) gives that \(\abs{\sin x} \leq 1\) and \(\abs{\cos x} \leq 1\) for all real \(x\).
+
+\subsection{Circle constants}
+\begin{proposition}
+	There is a smallest positive number \(\pi\) such that
+	\[
+		\cos \frac{\pi}{2} = 0
+	\]
+	and we have \(\sqrt{2} < \frac{\pi}{2} < \sqrt{3}\).
+\end{proposition}
+\begin{proof}
+	If \(0 < x < 2\),
+	\[
+		\sin x = \qty(x - \frac{x^3}{3!}) + \qty(\frac{x^5}{5!} - \frac{x^7}{7!}) + \cdots
+	\]
+	For this range of values, each parenthesised block is positive, so \(\sin x > 0\).
+	So in this range,
+	\[
+		\dv{x} \cos x < 0
+	\]
+	Hence, \(\cos x\) is a strictly decreasing function on this interval.
+	Now,
+	\[
+		\cos \sqrt{2} = 1 - \frac{\sqrt{2}^2}{2!} + \qty(\frac{\sqrt{2}^4}{4!} - \frac{\sqrt{2}^6}{6!}) + \cdots > 0
+	\]
+	since each bracketed block is positive.
+	\[
+		\cos \sqrt{3} = 1 - \frac{\sqrt{3}^2}{2!} + \frac{\sqrt{3}^4}{4!} - \qty(\frac{\sqrt{3}^6}{6!} - \frac{\sqrt{3}^8}{8!}) + \cdots < 0
+	\]
+	since all the bracketed terms are positive, and being subtracted from a negative number.
+	By the intermediate value theorem, the existence of such a \(\pi\) follows.
+\end{proof}
+\begin{corollary}
+	We have that \(\sin \frac{\pi}{2} = 1\).
+\end{corollary}
+\begin{proof}
+	We know that \(\cos^2 \frac{\pi}{2} + \sin^2 \frac{\pi}{2} = 1\), and \(\sin \frac{\pi}{2} > 0\), so the result follows.
+\end{proof}
+\begin{theorem}
+	The following standard properties about the periodicity of trigonometric functions hold.
+	\begin{enumerate}[(i)]
+		\item \(\sin(z + \frac{\pi}{2}) = \cos z\), and \(\cos(z + \frac{\pi}{2}) = -\sin z\)
+		\item \(\sin(z + \pi) = -\sin z\), and \(\cos(z + \pi) = -\cos z\)
+		\item \(\sin(z + 2 \pi) = \sin z\), and \(\cos(z + 2\pi) = \cos z\)
+	\end{enumerate}
+\end{theorem}
+\noindent The proofs are immediate from the angle addition formulae.
+This then implies that
+\[
+	e^{iz + 2\pi i} = e^{iz}
+\]
+Hence \(e^{z}\) is periodic with period \(2 \pi i\).
