@@ -37,7 +37,10 @@ def uncollate(root: str):
     contents = ""
     with open(f"{root}/collated.tex") as f:
         contents = f.read()
-
+    # Remove old files.
+    for file in list(os.walk(root))[0][2]:
+        if file[0].isnumeric() and file[1].isnumeric():
+            os.remove(f"{root}/{file}")
     m = list(re.finditer("\\\\section\\{([^\\}]*)\\}", contents))
     section_names = []
     for i in range(len(m)):
@@ -57,8 +60,8 @@ def uncollate(root: str):
     main_contents = ""
     with open(f"{root}/main.tex", 'r') as f:
         main_contents = f.read()
-    main_contents = re.sub("\\\\input\\{([a-zA-Z0-9\\.]*)\\}", "", main_contents)
-    main_contents = re.sub("\\\\section\\{[^\\\\}]*\\}", "", main_contents)
+    main_contents = re.sub("\\\\input\\{\\d.*\\}", "", main_contents)
+    main_contents = re.sub("\\\\section\\{.*\\}", "", main_contents)
     main_contents = re.sub("\\n(\\n)+", "\\n\\n", main_contents)
     main_contents = main_contents.replace("\\end{document}", section_inputs + "\n\\end{document}")
     with open(f"{root}/main.tex", 'w') as f:
@@ -71,7 +74,11 @@ def cleanup(root: str):
             os.remove(fname)
         except:
             break
+    os.remove(f"{root}/collated.tex")
+
+for entry in ["ia/vm", "ia/groups", "ia/de"]:
+    cleanup(entry)
 
 # collate("ia/ns")
 # uncollate("ia/ns")
-cleanup("ia/ns")
+# cleanup("ia/ns")
