@@ -1,0 +1,232 @@
+\subsection{Forces}
+Consider a particle of mass \(m\) at position \(x(t)\) in one spatial dimension.
+Let us consider the action of a force \(F(x)\) on the particle, i.e.\ a force dependent entirely on the position and not the velocity or time.
+We define the potential energy \(V(x)\) by
+\[
+	F(x) = -\frac{\dd{V}}{\dd{x}}
+\]
+Hence,
+\[
+	V(x) = - \int^x F(u) \dd{u}
+\]
+The lower limit is unspecified to give an arbitrary constant in \(V(x)\).
+If possible, the constant is usually chosen such that as \(\abs{x} \to \infty\), we have \(V \to 0\).
+By Newton's Second Law,
+\[
+	m\ddot{x} = -\frac{\dd{V}}{\dd{x}}
+\]
+We define the kinetic energy \(T = \frac{1}{2}m\dot x^2\).
+The total energy in the system \(E\) is defined as \(T + V = \frac{1}{2} m \dot x^2 + V(x)\).
+We will show that total energy is conserved: \(\frac{\dd{E}}{\dd{t}} = 0\).
+\begin{proof}
+	\begin{align*}
+		\frac{\dd{E}}{\dd{t}} & = \frac{\dd}{\dd{t}}\left( \frac{1}{2}m\dot x^2 + V(x) \right) \\
+		                      & = m\dot x \ddot x + \frac{\dd{V}}{\dd{x}} \dot x               \\
+		                      & = \dot x\left( m \ddot x + \frac{\dd{V}}{\dd{x}} \right)       \\
+		                      & = \dot x ( 0 )                                                 \\
+		                      & = 0
+	\end{align*}
+\end{proof}
+\noindent In general, in order to conserve a total energy \(\frac{1}{2}m\dot x^2 + \Phi\), we require that
+\[
+	\dot x F = -\frac{\dd{\phi}}{\dd{t}}
+\]
+It is usually the case that there exists no such \(\Phi\) if \(F\) depends on \(\dot x\) or \(t\).
+
+\subsection{Force in the harmonic oscillator}
+Let us consider the example of the harmonic oscillator, i.e.
+\[
+	F(x) = -kx
+\]
+Then we can construct
+\[
+	V(x) = -\int^x -ku \dd{u} = \int^x ku \dd{u} = \frac{1}{2} kx^2
+\]
+where we have chosen the arbitrary constant conveniently.
+Note that we can explicitly solve the second order ordinary differential equation to compute \(x\) as a function of \(t\):
+\[
+	x(t) = A\cos \omega t + B\sin \omega t;\quad \dot x(t) = -\omega A \sin \omega t + \omega B \cos \omega t
+\]
+where \(\omega = \sqrt{\frac{k}{m}}\).
+We can check that energy \(E\) is conserved:
+\begin{align*}
+	E & = \frac{1}{2}m\dot x^2 + \frac{1}{2}kx^2                                                                                                         \\
+	  & = \frac{1}{2}m \left( -\omega A \cos \omega t + \omega B \sin \omega t \right)^2 + \frac{1}{2}k \left( A\sin \omega t + B\cos \omega t \right)^2 \\
+	  & = \frac{1}{2}k(A^2 + B^2)
+\end{align*}
+
+\subsection{More general potentials}
+Note that conservation of energy is a first integral of Newton's Second Law.
+In one dimension, conservation of energy gives useful information about a particle's motion that can help in deriving \(x\) as a function of \(t\).
+In the previous example, we verified that conservation of energy holds having already solved the differential equation, but it can often be more useful to consider energy while solving the equation.
+\[
+	E = \frac{1}{2}m\dot x^2 + V(x)
+\]
+Hence,
+\[
+	\dot x = \pm \sqrt{\frac{2}{m}(E - V(x))}
+\]
+Therefore,
+\[
+	\int_{x_0}^x \frac{\dd{u}}{\sqrt{\frac{2}{m}(E - V(u))}} = t - t_0
+\]
+where \(x(t_0) = x_0\).
+This gives \(t\) as a function of \(x\); we can invert this function to give \(x\) as a function of \(x\).
+Realistically, this integral is mostly useful to get structural insight rather than actually solving \(x\) as a function of time, since it is difficult to do this analytically.
+As an example, let
+\[
+	V(x) = \lambda(x^3 - 3 \beta^2 x)
+\]
+where \(\lambda, \beta\) are positive constants.
+What happens if we release the particle from rest at \(x=x_0\)?
+We can draw the graph of \(V(x)\) and imagine the height of the graph as the height of a `rail' that the particle sits on, acted on under gravity, i.e.\ the particle `falls' from higher \(V(x)\) to lower \(V(x)\), gaining kinetic energy as it falls.
+Since we start at rest, \(E = V(x_0)\) at \(t=0\), and in the subsequent motion \(E \leq V(x_0)\).
+We have a few cases:
+\begin{enumerate}[{Case} 1:]
+	\item (\(x_0 < -\beta\)) \(x_0 = -\beta\) is a maximum point on the graph.
+	      The particle will move to the left with \(x(t) \to -\infty\) as \(t \to \infty\).
+	\item (\(-\beta < x_0 < 2\beta\)) Note that \(V(-\beta) = V(2\beta)\); they are the same height on the graph.
+	      Since there is no friction in this model, the particle's motion is confined to the region \(-\beta < x < 2\beta\) and will oscillate forever.
+	\item (\(2\beta < x_0\)) The particle will move to the left, reaching \(x=-\beta\), and then will continue to the left, since it has kinetic energy at this point.
+	      So \(x \to -\infty\) as \(t \to \infty\).
+\end{enumerate}
+We also have special cases on the turning points \(\pm\beta\), where the particle does not move.
+There is another case at \(x_0 = 2\beta\): the particle will move to the left, accelerating until \(x=\beta\), then decelerating until \(x=-\beta\), where it will then stop moving at this maximum point.
+How long does it take for the particle to move from \(x_0=2\beta\) to \(x=-\beta\), where it rests?
+We can use the integral above to compute this, letting \(t_0 = 0\) and \(x(0) = 2\beta\).
+\begin{align*}
+	\int_{x(t)}^{2\beta} \frac{\dd \widetilde x}{\sqrt{\frac{2\lambda}{m}(2\beta^3 - \widetilde x^3 + 3 \beta^2 \widetilde x)}} & = t \\
+	\int_{x(t)}^{2\beta} \frac{\dd \widetilde x}{\sqrt{\frac{2\lambda}{m}(\widetilde x + \beta)^2(2\beta - \widetilde x)}}      & = t \\
+	\int_{x(t)}^{2\beta} \frac{\dd \widetilde x}{(\widetilde x + \beta)\sqrt{\frac{2\lambda}{m}(2\beta - \widetilde x)}}        & = t \\
+\end{align*}
+This integral diverges as \(\widetilde x \to -\beta\), so it takes an infinite amount of time to come to rest at this maximum point; specifically it exhibits logarithmic behaviour.
+
+\subsection{Equilibrium points}
+An equilibrium point is defined as a point where the potential is stationary, in other words where the force on the particle is zero.
+So the particle stays at rest for all time.
+In the example in the previous lecture, \(x = \pm \beta\) were the equilibrium points.
+We can analyse the motion close to the equilibrium point in order to work out whether the equilibrium point is stable or unstable.
+Let \(x_0\) be an equilibrium point, so \(V'(x_0) = 0\).
+We can expand \(V(x)\) as a series, assuming that \(x-x_0\) is small.
+\[
+	V(x) = V(x_0) + \frac{1}{2}(x-x_0)^2V''(x_0) + o((x-x_0)^2)
+\]
+In the neighbourhood of \(x_0\),
+\[
+	m\ddot x = -V'(x) \approx -(x-x_0)V''(x_0)
+\]
+\begin{itemize}
+	\item If \(V''(x_0) > 0\), we have a local minimum of potential, which gives rise to a stable equilibrium point.
+	      The equation of motion of a particle near \(x_0\) is a harmonic oscillator.
+	      The angular frequency of oscillation is \(\omega = \sqrt{\frac{V''(x_0)}{m}}\).
+	\item If \(V''(x_0) < 0\), we have a local maximum of potential, which gives rise to an unstable equilibrium point.
+	      Any perturbation from this point will cause an increased deviation from the point.
+	      The equation of motion near this point is exponential; almost always exponentially increasing rather than decreasing.
+	      The growth rate is \(\gamma = \sqrt{\frac{-V''(x_0)}{m}}\).
+	\item If \(V''(x) = 0\), we must use higher-order terms from the Taylor series in order to determine the behaviour.
+\end{itemize}
+Let us consider the example of a simple pendulum with a mass \(m\) held by a rigid beam of length \(\ell\).
+Let the angle between the beam and the vertical direction be \(\theta\).
+By Newton's second law,
+\[
+	F(x = \ell \theta) = m \ell \ddot \theta = -mg \sin \theta
+\]
+We can derive an energy equation by using \(F(x) = -V'(x)\).
+\[
+	V(x = \ell \theta) = -\int_0^{\ell\theta} F(u) \dd{u} = -mg \ell \cos \theta
+\]
+The kinetic energy \(T\) is given by
+\[
+	T = \frac{1}{2}m\ell^2\dot\theta^2
+\]
+We can check that \(\frac{\dd{E}}{\dd{t}} = 0\) at all \(t\).
+The stationary points of \(V\) are at \(\theta = 0\) and \(\theta = \pi\) (assuming \(0 \leq \theta < 2\pi\)).
+The \(\theta=0\) point is stable, since \(V''(\theta = 0) > 0\).
+The \(\theta=\pi\) point is unstable.
+If \(-mg\ell < E < mg\ell\), the pendulum will oscillate between two values since it cannot continue spinning in circles.
+In particular, this oscillation occurs about a position of stable equilibrium.
+However, if we add additional energy into this system, either \(\dot\theta > 0\) or \(\dot\theta < 0\) for all time.
+It is impossible to have \(E < -mg\ell\) since this is the minimum value of the potential.
+
+Now, let us consider the period \(P\) of the oscillation of \(\theta\) after releasing the particle from rest at some initial angle \(\theta_0\).
+Note that the oscillation consists of \(\theta_0 \to 0 \to -\theta_0 \to 0 \to \theta_0\).
+By symmetry, this period is four times the time it takes to go from \(\theta_0\) to 0.
+From the energy equation, we can deduce
+\begin{align*}
+	P & = 4 \int_0^{\theta_0} \frac{\dd{\theta}}{\sqrt{\frac{2g\ell}{\ell^2}(\cos \theta - \cos \theta_0)}}  \\
+	  & = 4\sqrt{\frac{\ell}{g}} \int_0^{\theta_0} \frac{\dd{\theta}}{\sqrt{2\cos \theta - 2 \cos \theta_0}} \\
+	  & = 4\sqrt{\frac{\ell}{g}} F(\theta_0)
+\end{align*}
+where \(f\) is notably a function only of \(\theta_0\).
+Recall from the dimensional analysis lecture that
+\[
+	P = \sqrt{\frac{l}{g}}H\left( \frac{d}{\ell} \right)
+\]
+noting that \(d/\ell\) and \(\theta\) both define the initial condition.
+So we have deduced this unknown function \(H\).
+This integral is difficult to compute exactly; however, we can compute an approximation when \(\theta_0\) (and hence \(\theta\)) is small.
+\begin{align*}
+	F(\theta_0) & = \int_0^{\theta_0} \frac{\dd{\theta}}{\sqrt{\theta_0^2 - \theta^2}} \\
+	            & = \frac{\pi}{2}
+\end{align*}
+which is independent of \(\theta_0\).
+Hence, for small angles,
+\[
+	P \approx 2\pi \sqrt{\frac{\ell}{g}}
+\]
+
+\subsection{Force and potential in three spatial dimensions}
+Consider a particle moving in three spatial dimensions under a force \(\vb F\).
+Then Newton's second law states
+\[
+	m \ddot {\vb r} = \vb F
+\]
+We define the kinetic energy by
+\[
+	T = \frac{1}{2}\abs{\dot {\vb r}}^2 = \frac{1}{2}\abs{\vb u}^2
+\]
+Then
+\[
+	\frac{\dd{T}}{\dd{t}} = m \dot {\vb r} \cdot \ddot {\vb r} = \vb F \cdot \dot{\vb r} = \vb F \cdot \vb u
+\]
+This is the rate of working of the force on the particle.
+Let us consider the total work done by a force on a particle as it moves along a finite curve \(C\) from \(t_1\) to \(t_2\).
+Then the total work done is the line integral
+\[
+	W = \int_{t_1}^{t_2} \vb F \cdot \vb u \dd{t}
+	= \int_{t_1}^{t_2} \vb F \cdot \dot {\vb r} \dd{t}
+	= \int_{\vb r(t_1)}^{\vb r(t_2)} \vb F \cdot \dd \vb r
+\]
+Note that we must specify that this integral acts along the curve \(C\), since any other curve could connect the points \(\vb r(t_1)\) and \(\vb r(t_2)\).
+We can write this integral in terms of coordinates:
+\[
+	\int_{\vb r(t_1)}^{\vb r(t_2)} F_x \dd{x} + F_y \dd{y} + F_z \dd{z}
+\]
+Now, if force is only a function of the position \(\vb r\), then we say that \(\vb F(\vb r)\) defines a force field.
+A \textit{conservative} force field is such that
+\[
+	\vb F(\vb r) = -\grad V(\vb r)
+\]
+for some function \(V(\vb r)\).
+In component form, this is equivalent to
+\[
+	F_i = -\frac{\partial V}{\partial x_i}
+\]
+If the force is conservative, then the energy \(E = T + V(\vb r)\) is conserved.
+\begin{proof}
+	\[
+		\frac{\dd{E}}{\dd{t}} = \frac{\dd{T}}{\dd{t}} + \frac{\dd}{\dd{t}}V(\vb r) = m \dot{\vb r} \cdot \ddot{\vb r} + \grad V \cdot \dot{\vb r} = m\dot{\vb r} \cdot \ddot{\vb r} - m\ddot{\vb r} \cdot \dot{\vb r} = 0
+	\]
+\end{proof}
+\noindent Let us consider the total work done on the particle under a conservative force.
+From the properties of the gradient vector,
+\[
+	W = \int_C \vb F \cdot \dd \vb r = -\int_C \grad V \cdot \dd \vb r = V(\vb r_1) - V(\vb r_2)
+\]
+Note that this is dependent only on the end points of the curve; it is irrelevant of the path taken.
+Hence, if \(C\) is closed, then no net work is done by the force.
+Note that in general, \(F(\vb r)\) is not conservative, so in general there is no \(V(\vb r)\) such that \(\vb F = -\grad V\).
+In fact, \(\vb F(\vb r)\) is conservative if
+\[
+	\grad \times \vb F(\vb r) = \vb 0
+\]

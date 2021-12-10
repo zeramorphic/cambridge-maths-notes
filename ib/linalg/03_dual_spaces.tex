@@ -1,0 +1,367 @@
+\subsection{Dual spaces}
+\begin{definition}
+	Let \( V \) be an \( F \)-vector space.
+	Then \( V^\star \) is the \textit{dual} of \( V \), defined by
+	\[
+		V^\star = L(V,F) = \qty{\alpha \colon V \to F}
+	\]
+	where the \( \alpha \) are linear.
+	If \( \alpha \colon V \to F \) is linear, then we say \( \alpha \) is a linear form.
+	So the dual of \( V \) is the set of linear forms on \( V \).
+\end{definition}
+\begin{example}
+	For instance, the trace \( \tr \colon M_{n,n}(F) \to F \) is a linear form on \( M_{n,n}(F) \).
+\end{example}
+\begin{example}
+	Consider functions \( [0,1] \to \mathbb R \).
+	We can define \( T_f \colon \mathcal C^\infty([0,1], \mathbb R) \to \mathbb R \) such that \( \phi \mapsto \int_0^1 f(x) \phi(x) \dd{x} \).
+	Then \( T_f \) is a linear form on \( \mathcal C^{\infty}([0,1], \mathbb R) \).
+	We can then reconstruct \( f \) given \( T_f \).
+	This mathematical formulation is called distribution.
+\end{example}
+\begin{lemma}
+	Let \( V \) be an \( F \)-vector space with a finite basis \( B = \qty{e_1, \dots, e_n} \).
+	Then there exists a basis \( B^\star \) for \( V^\star \) given by
+	\[
+		B^\star = \qty{\varepsilon_1, \dots, \varepsilon_n}; \quad \varepsilon_j \qty( \sum_{i=1}^n a_i e_i ) = a_j
+	\]
+	We call \( B^\star \) the \textit{dual basis} for \( B \).
+\end{lemma}
+\begin{proof}
+	We know
+	\[
+		\varepsilon_j \qty( \sum_{i=1}^n a_i e_i ) = a_j
+	\]
+	Equivalently,
+	\[
+		\varepsilon_j (e_i) = \delta_{ij}
+	\]
+	First, we will show that the set of linear forms as defined is free.
+	For all \( i \),
+	\begin{align*}
+		\sum_{j=1}^n \lambda_j \varepsilon_j                        & = 0 \\
+		\therefore \qty( \sum_{j=1}^n \lambda_j \varepsilon_j ) e_i & = 0 \\
+		\sum_{j=1}^n \lambda_j \varepsilon_j(e_i)                   & = 0 \\
+		\lambda_i                                                   & = 0
+	\end{align*}
+	Now we show that the set spans \( V^\star \).
+	Suppose \( \alpha \in V^\star \), \( x \in V \).
+	\begin{align*}
+		\alpha(x) & = \alpha\qty(\sum_{j=1}^\infty \lambda_j e_j) \\
+		          & = \sum_{i=1}^\infty \lambda_j \alpha(e_j)
+	\end{align*}
+	Conversely, we can write
+	\[
+		\sum_{i=1}^\infty \alpha(e_j) \varepsilon(j) \in V^\star
+	\]
+	Thus,
+	\begin{align*}
+		\qty( \sum_{i=1}^n \alpha(e_j) \varepsilon_j) (x) & = \sum_{j=1}^n \alpha(e_j) \varepsilon_j\qty(\sum_{k=1}^n \lambda_k e_k) \\
+		                                                  & = \sum_{j=1}^n \alpha(e_j) \sum_{k=1}^n \lambda_k \varepsilon_j(e_k)     \\
+		                                                  & = \sum_{j=1}^n \alpha(e_j) \sum_{k=1}^n \lambda_k \delta_{jk}            \\
+		                                                  & = \sum_{j=1}^n \alpha(e_j) \lambda_j                                     \\
+		                                                  & = \alpha(x)
+	\end{align*}
+	We have then shown that
+	\[
+		\alpha = \sum_{j=1}^n \alpha(e_j) \varepsilon_j
+	\]
+	as required.
+\end{proof}
+\begin{corollary}
+	If \( V \) is finite-dimensional, \( V^\star \) has the same dimension.
+\end{corollary}
+\begin{remark}
+	It is sometimes convenient to think of \( V^\star \) as the spaces of row vectors of length \( \dim V \) over \( F \).
+	For instance, consider \( (e_1, \dots, e_n) \) the dual basis of \( B \), so \( x = \sum_{i=1}^n x_i e_i \).
+	Then we can pick \( (\varepsilon_1, \dots, \varepsilon_n) \) a basis of \( V^\star \), so \( \alpha = \sum_{i=1}^n \alpha_i \varepsilon_i \).
+	Then
+	\[
+		\alpha(x) = \sum_{i=1}^n \alpha_i \varepsilon_i(x) = \sum_{i=1}^n \alpha_i \varepsilon\qty(\sum_{j=1}^n x_j e_j) = \sum_{i=1}^n \alpha_i x_i
+	\]
+	This is exactly
+	\[
+		\begin{pmatrix} \alpha_1 & \cdots & \alpha_n \end{pmatrix} \begin{pmatrix} x_1 \\ \vdots \\ x_n \end{pmatrix}
+	\]
+	which essentially defines a scalar product between the two spaces.
+\end{remark}
+
+\subsection{Annihilators}
+\begin{definition}
+	Let \( U \subseteq V \).
+	Then the annihilator of \( U \) is
+	\[
+		U^0 = \qty{\alpha \in V^\star \colon \forall u \in U, \alpha(u) = 0}
+	\]
+\end{definition}
+\begin{lemma}
+	\begin{enumerate}[(i)]
+		\item \( U^0 \leq V^\star \);
+		\item If \( U \leq V \) and \( \dim V < \infty \), then \( \dim V = \dim U + \dim U^0 \).
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	\begin{enumerate}[(i)]
+		\item First, note that \( 0 \in U^0 \) since \( \alpha(0) = 0 \) by linearity.
+		      If \( \alpha, \alpha' \in U^0 \), then for all \( u \in U \),
+		      \[
+			      (\alpha + \alpha')(u) = \alpha(u) + \alpha'(u) = 0
+		      \]
+		      Further, for all \( \lambda \in F \),
+		      \[
+			      (\lambda \alpha)(u) = \lambda \alpha(u) = 0
+		      \]
+		      Hence \( U^0 \leq V^\star \).
+		\item Let \( (e_1, \dots, e_k) \) be a basis of \( U \), completed into a basis \( B = (e_1, \dots, e_k, e_{k+1}, \dots, e_n) \) of \( V \).
+		      Let \( (\varepsilon_1, \dots, \varepsilon_n) \) be the dual basis \( B^\star \).
+		      We then will prove that
+		      \[
+			      U^0 = \genset{\varepsilon_{k+1}, \dots, \varepsilon_n}
+		      \]
+		      If \( i > k \), then \( \varepsilon_i(e_k) = \delta_{ik} = 0 \).
+		      Hence \( \varepsilon_i \in U^0 \).
+		      Thus \( \genset{\varepsilon_{k+1}, \dots, \varepsilon_n} \subset U^0 \).
+		      Conversely, let \( \alpha \in U^0 \).
+		      Then \( \alpha = \sum_{i=1}^n \alpha_i \varepsilon_i \).
+		      For \( i \leq k \), \( \alpha \in U^0 \) hence \( \alpha(e_i) = 0 \).
+		      Hence,
+		      \[
+			      \alpha = \sum_{i=k+1}^n \alpha_i \varepsilon_i
+		      \]
+		      Thus
+		      \[
+			      \alpha \in \genset{\varepsilon_{k+1}, \dots, \varepsilon_n}
+		      \]
+		      as required.
+	\end{enumerate}
+\end{proof}
+
+\subsection{Dual maps}
+\begin{lemma}
+	Let \( V, W \) be \( F \)-vector spaces.
+	Let \( \alpha \in L(V,W) \).
+	Then there exists a unique \( \alpha^\star \in L(W^\star, V^\star) \) such that
+	\[
+		\varepsilon \mapsto \varepsilon \circ \alpha
+	\]
+	called the dual map.
+\end{lemma}
+\begin{proof}
+	First, note \( \varepsilon(\alpha) \colon V \to F \) is a linear map.
+	Hence, \( \varepsilon \circ \alpha \in V^\star \).
+	Now we must show \( \alpha^\star \) is linear.
+	\[
+		\alpha^\star(\theta_1 + \theta_2) = (\theta_1 + \theta_2)(\alpha) = \theta_1 \circ \alpha + \theta_2 \circ \alpha = \alpha^\star(\theta_1) + \alpha^\star(\theta_2)
+	\]
+	Similarly, we can show
+	\[
+		\alpha^\star(\lambda \theta) = \lambda \alpha^\star(\theta)
+	\]
+	as required.
+	Hence \( \alpha^\star \in L(W^\star, V^\star) \).
+\end{proof}
+\begin{proposition}
+	Let \( V, W \) be finite-dimensional \( F \)-vector spaces with bases \( B, C \) respectively.
+	Then
+	\[
+		[\alpha^\star]_{C^\star, B^\star} = [\alpha]^\transpose_{B, C}
+	\]
+	Thus, we can think of the dual map as the \textit{adjoint} of \( \alpha \).
+\end{proposition}
+\begin{proof}
+	This follows from the definition of the dual map.
+	Let \( B = (b_1, \dots, b_n) \), \( C = (c_1, \dots, c_m) \), \( B^\star = (\beta_1, \dots, \beta_n) \), \( C^\star = (\gamma_1, \dots, \gamma_m) \).
+	Let \( [\alpha]_{B,C} = (a_{ij}) \).
+	Then, we compute
+	\begin{align*}
+		\alpha^\star(\gamma_r)(b_s) & = \gamma_r \circ \alpha(b_s)         \\
+		                            & = \gamma_r \qty( \sum_t a_{ts} c_t ) \\
+		                            & = \sum_t a_{ts} \gamma_r(c_t)        \\
+		                            & = \sum_t a_{ts} \delta_{tr}          \\
+		                            & = a_{rs}
+	\end{align*}
+	We can conversely write \( [\alpha^\star]_{C^\star, B^\star} = (m_{ij}) \) and
+	\begin{align*}
+		\alpha^\star(\gamma_r)      & = \sum_{i=1}^n m_{ir} \beta_i      \\
+		\alpha^\star(\gamma_r)(b_s) & = \sum_{i=1}^n m_{ir} \beta_i(b_s) \\
+		                            & = \sum_{i=1}^n m_{ir} \delta_{is}  \\
+		                            & = m_{sr}
+	\end{align*}
+	Thus,
+	\[
+		a_{rs} = m_{sr}
+	\]
+	as required.
+\end{proof}
+
+\subsection{Properties of dual map}
+Let \( \alpha \in L(V,W) \), and \( \alpha^\star \in L(W^\star, V^\star) \).
+Let \( B \) and \( C \) be bases of \( V, W \) respectively, and \( B^\star, C^\star \) be their duals.
+We have proven that
+\[
+	[\alpha]_{B,C} = [\alpha^\star]^\transpose_{B,C}
+\]
+\begin{lemma}
+	Suppose that \( E = (e_1, \dots, e_n) \) and \( F = (f_1, \dots, f_n) \) are bases of \( V \).
+	Let \( P = [I]_{F, E} \) be a change of basis matrix from \( F \) to \( E \).
+	The bases \( E^\star = (\varepsilon_1, \dots, \varepsilon_n) \), \( F^\star = (\eta_1, \dots, \eta_n) \) are the corresponding dual bases.
+	Then,
+	The change of basis matrix from \( F^\star \) to \( E^\star \) is
+	\[
+		\qty(P^{-1})^\transpose
+	\]
+\end{lemma}
+\begin{proof}
+	Consider
+	\[
+		[I]_{F^\star, E^\star} = [I]^\transpose_{E, F} = \qty([I]_{F, E}^{-1})^\transpose = \qty(P^{-1})^\transpose
+	\]
+\end{proof}
+\begin{lemma}
+	Let \( V, W \) be \( F \)-vector spaces.
+	Let \( \alpha \in L(V, W) \).
+	Let \( \alpha^\star \) be the corresponding dual map.
+	Then, denoting \( N(\alpha) \) for the kernel of \( \alpha \),
+	\begin{enumerate}[(i)]
+		\item \( N(\alpha^\star) = (\Im \alpha)^0 \), so \( \alpha^\star \) is injective if and only if \( \alpha \) is surjective.
+		\item \( \Im \alpha^\star \leq (N(\alpha))^0 \), with equality if \( V, W \) are finite-dimensional.
+		      In this finite-dimensional case, \( \alpha^\star \) is surjective if and only if \( \alpha \) is injective.
+	\end{enumerate}
+\end{lemma}
+\begin{remark}
+	In many applications, it is often simpler to understand the dual map \( \alpha^\star \) than it is to understand \( \alpha \).
+\end{remark}
+\begin{proof}
+	First, we prove (i).
+	Let \( \varepsilon \in W^\star \).
+	Then, \( \varepsilon \in N(\alpha^\star) \) means \( \alpha^\star(\varepsilon) = 0 \).
+	Hence, \( \alpha^\star(\varepsilon) = \varepsilon \circ \alpha = 0 \)
+	So for any \( v \in V \), \( \varepsilon(\alpha(v)) = 0 \).
+	Equivalently, \( \varepsilon \) is an element of the annihilator of \( \Im \alpha \).
+
+	Now, we will show (ii).
+	Let \( \varepsilon \in \Im \alpha^\star \).
+	Then \( \alpha^\star(\phi) = \varepsilon \) for some \( \phi \in W^\star \).
+	Then, for all \( u \in N(\alpha) \), \( \varepsilon(u) = \qty(\alpha^\star(\phi))(u) = \phi \circ \alpha(u) = \phi(\alpha(u)) = 0 \).
+	Certainly then \( \varepsilon \in \qty(N(\alpha))^0 \).
+	Then, \( \Im \alpha^\star \leq (N(\alpha))^0 \).
+
+	In the finite-dimensional case, we can compare the dimension of these two spaces.
+	\[
+		\dim \Im \alpha^\star = r(\alpha^\star) = r\qty([\alpha^\star]_{C^\star, B^\star}) = r\qty([\alpha]_{B,C}^\transpose) = r\qty([\alpha]_{B,C}) = r(\alpha) = \dim \Im \alpha
+	\]
+	Due to the rank-nullity theorem, \( \dim \Im \alpha^\star = \dim V - \dim N(\alpha) = \dim\qty[(N(\alpha))^0] \).
+	Hence,
+	\[
+		\Im \alpha^\star \leq (N(\alpha))^0;\quad \dim \Im \alpha^\star = \dim (N(\alpha))^0
+	\]
+	The dimensions are equal, and one is a subspace of the other, hence the spaces are equal.
+\end{proof}
+
+\subsection{Double duals}
+\begin{definition}
+	Let \( V \) be an \( F \)-vector space.
+	Let \( V^\star \) be the dual of \( V \).
+	The \textit{double dual} or \text{bidual} of \( V \) is
+	\[
+		V^\sstar = L(V^\star, F) = (V^\star)^\star
+	\]
+\end{definition}
+\begin{remark}
+	In general, there is no obvious relation between \( V \) and \( V^\star \).
+	However, the following useful facts hold about \( V \) and \( V^\sstar \).
+	\begin{enumerate}[(i)]
+		\item There is a \textit{canonical embedding} from \( V \) to \( V^\sstar \).
+		      In particular, there exists \( i \) in \( L(V, V^\sstar) \) which is injective.
+		\item There are examples of infinite-dimensional spaces where \( V \simeq V^\sstar \).
+		      These are called reflexive spaces.
+		      Such spaces are investigated in the study of Banach spaces.
+	\end{enumerate}
+\end{remark}
+\begin{theorem}
+	\( V \) embeds into \( V^\sstar \).
+\end{theorem}
+\begin{proof}
+	Choose a vector \( v \in V \) and define the linear form \( \hat v \in L(V^\star, F) \) such that
+	\[
+		\hat v(\varepsilon) = \varepsilon(v)
+	\]
+	So clearly \( \hat v \) is linear.
+	We want to show \( \hat v \in V^\sstar \).
+	If \( \varepsilon \in V^\star, \varepsilon(v) \in F \).
+	Further, \( \lambda_1, \lambda_2 \in F \) and \( \varepsilon_1, \varepsilon_2 \in V^\star \) give
+	\[
+		\hat v (\lambda_1 \varepsilon_1 + \lambda_2 \varepsilon_2) = (\lambda_1 \varepsilon_1 + \lambda_2 \varepsilon_2)(v) = \lambda_1 \varepsilon_1(v) + \lambda_2 \varepsilon_2(v) = \lambda_1 \hat v(\varepsilon_1) + \lambda_2 \hat v(\varepsilon_2)
+	\]
+\end{proof}
+\begin{theorem}
+	If \( V \) is finite-dimensional, then \( i \colon V \to V^\sstar \) given by \( i(v) = \hat v \) is an isomorphism.
+\end{theorem}
+\begin{proof}
+	We will show \( i \) is linear.
+	If \( v_1, v_2 \in V, \lambda_1, \lambda_2 \in F \), then
+	\[
+		i(\lambda_1 v_1 + \lambda_2 v_2) (\varepsilon) = \varepsilon(\lambda_1 v_1 + \lambda_2 v_2) = \lambda_1 \varepsilon(v_1) + \lambda_2 \varepsilon(v_2) = \lambda_1 \hat v_1(\varepsilon) + \lambda_2 \hat v_2(\varepsilon)
+	\]
+	Now, we will show that \( i \) is injective for finite-dimensional \( V \).
+	Let \( e \in V \setminus \qty{0} \).
+	We will show that \( e \not\in \ker i \).
+	We extend \( e \) into a basis \( (e, e_2, \dots, e_n) \) of \( V \).
+	Now, let \( (\varepsilon, \varepsilon_2, \dots, \varepsilon_n) \) be the dual basis.
+	Then \( \hat e(\varepsilon) = \varepsilon(e) = 1 \).
+	In particular, \( \hat e \neq 0 \).
+	Hence \( \ker i = \qty{0} \), so it is injective.
+
+	We now show that \( i \) is an isomorphism.
+	We need to simply compute the dimension of the image under \( i \).
+	Certainly, \( \dim V = \dim V^\star = \dim (V^\star)^\star = \dim V^\sstar \).
+	Since \( i \) is injective, \( \dim V = \dim V^\sstar \).
+	So \( i \) is surjective as required.
+\end{proof}
+\begin{lemma}
+	Let \( V \) be a finite-dimensional \( F \)-vector space.
+	Let \( U \leq V \).
+	Then,
+	\[
+		\hat U = U^{00}
+	\]
+	After identifying \( V \) and \( V^\sstar \), we typically say
+	\[
+		U = U^{00}
+	\]
+	although this is is incorrect notation and not an equality.
+\end{lemma}
+\begin{proof}
+	We will show that \( \hat U \leq U^{00} \).
+	Indeed, let \( u \in U \), then by definition
+	\[
+		\forall \varepsilon \in U^0, \varepsilon(u) = 0 \implies \hat u(\varepsilon) = 0
+	\]
+	Then,
+	Hence \( \hat u \in U^{00} \) and so \( \hat U \leq U^{00} \).
+
+	Now, we will compute dimension:	\( \dim U^{00} = \dim V - \dim U^0 = \dim U \).
+	Since \( \hat U \simeq U \), their dimensions are the same, so \( U^{00} = \hat U \).
+\end{proof}
+\begin{remark}
+	Due to this identification of \( V^\sstar \) and \( V \), we can define
+	\[
+		T \leq V^\star, T^0 = \qty{v \in V \colon \forall \theta \in T, \theta(v) = 0}
+	\]
+\end{remark}
+\begin{lemma}
+	Let \( V \) be a finite-dimensional \( F \)-vector space.
+	Let \( U_1, U_2 \) be subspaces of \( V \).
+	Then
+	\begin{enumerate}[(i)]
+		\item \( (U_1 + U_2)^0 = U_1^0 \cap U_2^0 \);
+		\item \( (U_1 \cap U_2)^0 = U_1^0 + U_2^0 \)
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	Let \( \theta \in V^\star \).
+	Then \( \theta \in (U_1 + U_2)^0 \iff \forall u_1 \in U_1, u_2 \in U_2, \theta(u_1 + u_2) = 0 \).
+	Hence \( \theta(u) = 0 \) for all \( u \in U_1 \cup U_2 \) by linearity.
+	Hence \( \theta \in U_1^0 \cap U_2^0 \).
+	Now, take the annihilator of (i) and \( U^{00} = U \) to complete part (ii).
+\end{proof}

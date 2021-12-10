@@ -1,0 +1,342 @@
+\subsection{Convergence in distribution}
+\begin{definition}
+	Let \((X_n \colon n \in \mathbb N)\) be a sequence of random variables and let \(X\) be another random variable.
+	We say that \(X_n\) converges to \(X\) in distribution, written \(X_n \convdist X\), if
+	\[
+		F_{X_n}(x) \to F_X(x)
+	\]
+	for all \(x \in \mathbb R\) that are continuity points of \(F_X\).
+\end{definition}
+\begin{theorem}[Continuity property for moment generating functions]
+	Let \(X\) be a continuous random variable with \(m(\theta) < \infty\) for some \(\theta \neq 0\).
+	Suppose that \(m_n(\theta) \to m(\theta)\) for all \(\theta \in \mathbb R\), where \(m_n(\theta) = \expect{e^{\theta X_n}}\), and \(m(\theta) = \expect{e^{\theta X}}\).
+	Then \(X_n \convdist X\).
+\end{theorem}
+
+\subsection{Weak law of large numbers}
+\begin{theorem}
+	Let \((X_n \colon n \in \mathbb N)\) be a sequence of independent and identically distributed random variables, with \(\mu = \expect{X_1} < \infty\).
+	Let \(S_n = X_1 + \dots + X_n\).
+	Then for all \(\varepsilon > 0\),
+	\[
+		\prob{\abs{\frac{S_n}{n} - \mu} > \varepsilon} \to 0
+	\]
+	as \(n \to \infty\).
+\end{theorem}
+\noindent We will give a proof assuming that the variance of \(X_1\) is finite.
+\begin{proof}
+	By Chebyshev's inequality,
+	\begin{align*}
+		\prob{\abs{\frac{S_n}{n} - \mu} > \varepsilon} & = \prob{\abs{S_n - n\mu} > \varepsilon n} \\
+		                                               & \leq \frac{\Var{S_n}}{\varepsilon^2 n^2}  \\
+		                                               & = \frac{n\sigma^2}{\varepsilon^2 n^2}     \\
+		                                               & \to 0
+	\end{align*}
+\end{proof}
+
+\subsection{Types of convergence}
+\begin{definition}
+	A sequence \((X_n)\) converges to \(X\) \textit{in probability}, written \(X_n \convprob X\) as \(n \to \infty\) if for all \(\varepsilon > 0\),
+	\[
+		\prob{\abs{X_n - X} > \varepsilon} \to 0;\quad n \to \infty
+	\]
+\end{definition}
+\begin{definition}
+	A sequence \((X_n)\) converges to \(X\) \textit{almost surely} (with probability 1), if
+	\[
+		\prob{\lim_{n \to \infty} X_n = X } = 1
+	\]
+\end{definition}
+\noindent This second definition is a stronger form of convergence.
+If a sequence \((X_n)\) converges to zero almost surely, then \(X_n \convprob 0\) as \(n \to \infty\).
+\begin{proof}
+	We want to show that given any \(\varepsilon > 0\), \(\prob{\abs{X_n} > \varepsilon} \to 0\) as \(n \to \infty\), or equivalently, \(\prob{\abs{X_n} \leq \varepsilon} \to 1\).
+	\[
+		\prob{\abs{X_n} \leq \varepsilon} \geq \prob{\underbrace{\bigcap_{m = n}^\infty  \qty{\abs{X_m} \leq \varepsilon}}_{A_n}}
+	\]
+	Note that \(A_n\) is an increasing sequence of events, and
+	\[
+		\bigcup_n A_n = \qty{\abs{X_m} \leq \varepsilon \text{ for all } m \text{ sufficiently large}}
+	\]
+	Hence, as \(n \to \infty\),
+	\[
+		\prob{A_n} \to \prob{\bigcup A_n}
+	\]
+	Therefore,
+	\[
+		\lim_{n \to \infty} \prob{\abs{X_n} \leq \varepsilon} \geq \lim_{n \to \infty} \prob{A_n} = \prob{\bigcup A_n} \geq \prob{\lim_{n \to \infty} X_n = 0}
+	\]
+	Since \(X_n\) converges to zero almost surely, this event on the right hand side has probability 1, so in particular the limit on the left has probability 1, as required.
+\end{proof}
+
+\subsection{Strong law of large numbers}
+\begin{theorem}
+	Let \((X_n)_{n \in \mathbb N}\) be an independent and identically distributed sequence of random variables, with \(\mu = \expect{X_1}\) finite.
+	Let \(S_n = X_1 + \dots + X_n\).
+	Then
+	\[
+		\frac{S_n}{n} \to \mu \text{ as } n \to \infty \text{ almost surely}
+	\]
+	In other words,
+	\[
+		\prob{\lim_{n \to \infty}\frac{S_n}{n}\to \mu} = 1
+	\]
+\end{theorem}
+\noindent The following proof, made under the assumption of a finite fourth moment, is non-examinable.
+A proof can be formulated without this assumption, but it is more complicated.
+\begin{proof}
+	Let \(Y_i = X_i - \mu\).
+	Then \(\expect{Y_i} = 0\), and \(\expect{Y_i^4} \leq 2^4(\expect{X_i^4} + \mu^4) < \infty\).
+	It then suffices to show that
+	\[
+		\frac{S_n}{n} \to 0 \text{ a.s.}
+	\]
+	where \(S_n = \sum_1^n X_i\) and \(\expect{X_i} = 0\), \(\expect{X_i^4} < \infty\).
+	First,
+	\[
+		S_n^4 = \left( \sum_{i=1}^n X_i \right)^4 = \sum_{i=1}^n X_i^4 + \binom{4}{2}\sum_{i=1}^n X_i^2 X_j^2 + R
+	\]
+	where \(R\) is a sum of terms of the form \(X_i^2 X_j X_k\) or \(X_i^3 X_j\) or \(X_i X_j X_k X_\ell\) for \(i, j, k, l\) distinct.
+	Once we take expectations, each term in \(R\) will have no contribution to the result, since they all contain an \(\expect{X_i} = 0\) term.
+	\begin{align*}
+		\expect{S_n^4} & = n\expect{X_i^4} + \binom{4}{2}\frac{n(n-1)}{2}\expect{X_i^2 X_j^2} + \expect{R} \\
+		               & = n\expect{X_1^4} + 3n(n-1)\expect{X_1^2}\expect{X_1^2}                           \\
+		               & \leq n\expect{X_1^4} + 3n(n-1)\expect{X_1^4}                                      \\
+		               & = 3n^2\expect{X_1^4}
+	\end{align*}
+	by Jensen's inequality.
+	Now,
+	\[
+		\expect{\sum_{n=1}^\infty \qty(\frac{S_n}{n})^4} \leq \sum_{n=1}^\infty \frac{3}{n^2}\expect{X_1^4} < \infty
+	\]
+	Hence,
+	\[
+		\sum_{n=1}^\infty \qty(\frac{S_n}{n})^4 < \infty \text{ with probability 1}
+	\]
+	Then since the sum of infinitely many positive terms is finite, the terms must converge to zero.
+	\[
+		\lim_{n\to\infty}\frac{S_n}{n} \to 0 \text{ a.s.}
+	\]
+\end{proof}
+
+\subsection{Central limit theorem}
+Suppose, like before, that we have a sequence of independent and identically distributed random variables \(X_n\), and suppose further that \(\expect{X_1} = \mu\), and \(\Var{X_1} = \sigma^2 < \infty\).
+\[
+	\Var{\frac{S_n}{n} - \mu} = \frac{\sigma^2}{n}
+\]
+We can normalise this new random variable \(\frac{S_n}{n} - \mu\) by dividing by its standard deviation.
+\[
+	\frac{\frac{S_n}{n} - \mu}{\sqrt{\Var{\frac{S_n}{n} - \mu}}} = \frac{\frac{S_n}{n} - \mu}{\frac{\sigma}{\sqrt{n}}} = \frac{Sn - n\mu}{\sigma \sqrt{n}}
+\]
+\begin{theorem}
+	For all \(x \in \mathbb R\),
+	\[
+		\prob{\frac{S_n - n\mu}{\sigma \sqrt{n}} \leq x} \to \Phi(x) = \int_{-\infty}^x \frac{e^{-\frac{y^2}{2}}}{\sqrt{2\pi}} \dd{y}
+	\]
+	In other words,
+	\[
+		\frac{S_n - n\mu}{\sigma \sqrt{n}} \convdist Z
+	\]
+	where \(Z\) is the standard normal distribution.
+\end{theorem}
+\noindent Less formally, we might say that the central limit theorem shows that, for a large \(n\),
+\[
+	S_n \approx n\mu + \sigma\sqrt{n}Z \sim N(n\mu, n\sigma^2)
+\]
+\begin{proof}
+	Consider \(Y_i = \frac{X_i - \mu}{\sigma}\).
+	Then the \(Y_i\) have zero expectation and unit variance.
+	It then suffices to prove the central limit theorem when the \(X_i\) have zero expectation and unit variance.
+	We assume further that there exists \(\delta > 0\) such that
+	\[
+		\expect{e^{\delta X_1}} < \infty;\quad \expect{e^{-\delta X_1}} < \infty
+	\]
+	We will show that
+	\[
+		\frac{S_n}{n} \convdist \mathrm{N}(0, 1)
+	\]
+	By the continuity property of moment generating functions, it is sufficient to show that for all \(\theta \in \mathbb R\),
+	\[
+		\lim_{n \to \infty}\expect{e^{\frac{\theta S_n}{n}}} = \expect{e^{\theta Z}} = e^{\frac{\theta^2}{2}}
+	\]
+	Let \(m(\theta) = \expect{e^{\theta X_1}}\).
+	Then
+	\[
+		\expect{e^{\frac{\theta S_n}{n}}} = \expect{e^{\frac{\theta}{\sqrt{n}} X_1}}^n = \qty(m\qty(\frac{\theta}{\sqrt{n}}))^n
+	\]
+	We now need to show that
+	\[
+		\lim_{n \to \infty}\qty(m\qty(\frac{\theta}{\sqrt{n}}))^n = e^{\frac{\theta^2}{2}}
+	\]
+	Now, let \(\abs{\theta} < \frac{\delta}{2}\).
+	In this case,
+	\begin{align*}
+		m(\theta) & = \expect{e^{\theta X_1}}                                                                                                    \\
+		          & = \expect{1 + \theta X_1 + \frac{\theta^2}{2} X_1^2 + \sum_{k=3}^\infty \frac{\theta^k}{k!}X_1^k}                            \\
+		          & = \expect{1} + \expect{\theta X_1} + \expect{\frac{\theta^2}{2} X_1^2} + \expect{\sum_{k=3}^\infty \frac{\theta^k}{k!}X_1^k} \\
+		          & = 1 + \frac{\theta^2}{2} + \expect{\sum_{k=3}^\infty \frac{\theta^k}{k!}X_1^k}
+	\end{align*}
+	Now, it suffices to prove that \(\abs{\expect{\sum_{k=3}^\infty \frac{\theta^k}{k!}X_1^k}} = o(\theta^2)\) as \(\theta \to 0\).
+	Indeed, if we have this bound, then \(m\qty(\frac{\theta}{\sqrt{n}}) = 1 + \frac{\theta^2}{2n} + o\qty(\frac{\theta^2}{n})\), and hence \(\lim_{n \to \infty}\qty(m\qty(\frac{\theta}{\sqrt{n}}))^n = e^{\frac{\theta^2}{2}}\).
+	To find this bound, we know that
+	\begin{align*}
+		\abs{\expect{\sum_{k=3}^\infty \frac{\theta^k}{k!}X_1^k}} & \leq \expect{\sum_{k=3}^\infty \frac{\abs{\theta}^k \abs{X_1}^k}{k!}}             \\
+		                                                          & = \expect{\abs{\theta X_1}^3 \sum_{k=0}^\infty \frac{\abs{\theta X_1}^k}{(k+3)!}} \\
+		                                                          & \leq \expect{\abs{\theta X_1}^3 \sum_{k=0}^\infty \frac{\abs{\theta X_1}^k}{k!}}
+	\end{align*}
+	Since \(\abs{\theta} \leq \frac{\delta}{2}\),
+	\[
+		\expect{\abs{\theta X_1}^3 \sum_{k=0}^\infty \frac{\abs{\theta X_1}^k}{k!}} \leq \expect{\abs{\theta X_1}^3 e^{\frac{\delta}{2}\abs{X_1}}}
+	\]
+	Now,
+	\[
+		\abs{\theta X_1}^3 e^{\frac{\delta}{2}\abs{X_1}} = \abs{\theta}^3 \frac{\qty(\frac{\delta}{2}\abs{X_1})^3}{3!} \cdot \frac{3!}{\qty(\frac{\delta}{2})^3} \cdot e^{\frac{\delta}{2}\abs{X_1}}
+	\]
+	Note that
+	\[
+		\frac{\qty(\frac{\delta}{2}\abs{X_1})^3}{3!} \leq \sum_{k=0}^\infty \frac{\qty(\frac{\delta}{2}\abs{X_1})^k}{k!} = e^{\frac{\delta}{2}\abs{X_1}}
+	\]
+	Hence,
+	\[
+		\abs{\theta X_1}^3 e^{\frac{\delta}{2}\abs{X_1}} \leq \abs{\theta}^3 e^{\frac{\delta}{2}\abs{X_1}} \cdot \frac{3!}{\qty(\frac{\delta}{2})^3} \cdot e^{\frac{\delta}{2}\abs{X_1}} = \frac{3!\abs{\theta}^3}{\qty(\frac{\delta}{2})^3}e^{\delta\abs{X_1}} = 3!\qty(\frac{2\abs{\theta}}{\delta})^3 e^{\delta \abs{X_1}}
+	\]
+	Therefore,
+	\[
+		e^{\delta \abs{X_1}} \leq e^{\delta X_1} + e^{-\delta X_1}
+	\]
+	So finally,
+	\[
+		\expect{\abs{\theta X_1}^3 \sum_{k=0}^\infty \frac{\abs{\theta X_1}^k}{k!}} \leq 3!\qty(\frac{2\abs{\theta}}{\delta})^3 \expect{e^{\delta X_1} + e^{-\delta X_1}} = o(\abs{\theta}^2)
+	\]
+	as \(\theta \to 0\).
+\end{proof}
+
+\subsection{Applications of central limit theorem}
+We can use the central limit theorem to approximate the binomial distribution using the normal distribution.
+Suppose that \(S_n \sim \mathrm{Bin}(n, p)\).
+Then \(S_n = \sum_{i=1}^n X_i\), where the \(X_i\) have the Bernoulli distribution with parameter \(p\).
+We know that \(\expect{S_n} = np\), and \(\Var{S_n} = np(1-p)\).
+Therefore, in particular,
+\[
+	S_n \approx \mathrm{N}(np, np(1-p))
+\]
+for \(n\) large.
+Note that we showed before that
+\[
+	\mathrm{Bin}\qty(n, \frac{\lambda}{n}) \to \mathrm{Po}(\lambda)
+\]
+Note that with this approximation to the binomial, we let the parameter \(p\) depend on \(n\).
+Since this is the case, we can no longer apply the central limit theorem, and we get a Poisson distributed approximation.
+
+We can, however, use the central limit theorem to find a normal approximation for a Poisson random variable \(S_n \sim \mathrm{Po}(n)\), since \(S_n\) can be written as \(\sum_{i=1}^n X_i\) where the \(X_i \sim \mathrm{Po}(1)\).
+Then
+\[
+	S_n \approx \mathrm{N}(n, n)
+\]
+
+\subsection{Sampling error via central limit theorem}
+Suppose individuals independently vote `yes' (with probability \(p\)) or `no' (with probability \(1-p\)).
+We can sample the population to find an approximation for \(p\).
+Pick \(N\) individuals at random, and let \(\hat{p}_N = \frac{S_N}{N}\), where \(S_n\) is the number of individuals who voted `yes'.
+We would like to find the minimum \(N\) such that \(\abs{\hat{p}_N - p} \leq 4\%\) with probability at least \(99\%\).
+We have
+\[
+	S_N \sim \mathrm{Bin}(N, p) \approx Np + \sqrt{Np(1-p)}Z;\quad Z \sim \mathrm{N}(0, 1)
+\]
+Hence,
+\[
+	\frac{S_N}{N} \approx p + \sqrt{\frac{p(1-p)}{N}}Z \implies \abs{\hat{p}_N - p} \approx \sqrt{\frac{p(1-p)}{N}}\abs{Z}
+\]
+We then want to find \(N\) such that
+\[
+	\prob{\sqrt{\frac{p(1-p)}{N}}\abs{Z} \leq 0.04} \geq 0.99
+\]
+We can compute this from the tables of the standard normal distribution.
+If \(z = 2.58\), then \(\prob{\abs{Z} \geq 2.58} = 0.01\), hence we need an \(N\) such that
+\[
+	0.04 \sqrt{\frac{N}{p(1-p)}} \geq 2.58
+\]
+In the worst case scenario, \(p = \frac{1}{2}\) would give the largest \(N\).
+So we need \(N \geq 1040\) to get a good result for all \(p\).
+
+\subsection{Buffon's needle}
+Consider a set of parallel lines on a plane, all a distance \(L\) apart.
+Imagine dropping a needle of length \(\ell \leq L\) onto this plane at random.
+What is the probability that it intersects at least one line?
+
+We will interpret a random drop to be represented by independent values \(x\) and \(\theta\), where \(x\) is the perpendicular distance from the lower end of the needle to the nearest line above it, and \(\theta\) is the angle between the horizontal and the needle, where a value of \(\theta = 0\) means that the needle is horizontal, and higher values of \(\theta\) mean that the needle has been rotated \(\theta\) radians anticlockwise.
+We assume that \(\Theta \sim \mathrm{U}[0, \pi]\), and \(X \sim \mathrm{U}[0, L]\), and that they are independent.
+The needle intersects a line if and only if \(\ell\sin\theta \geq x\).
+We have
+\begin{align*}
+	\prob{\text{intersection}} & = \prob{X \leq \ell\sin\Theta}                                                  \\
+	                           & = \int_0^L \int_0^\pi \frac{1}{\pi L} 1(x \leq \ell\sin\theta)\dd{x}\dd{\theta} \\
+	                           & = \frac{2\ell}{\pi L}
+\end{align*}
+Let this probability be denoted by \(p\).
+So we can compute an approximation to \(\pi\) by finding
+\[
+	\pi = \frac{2\ell}{pL}
+\]
+We can use the sampling error calculation above to find the amount of needles required to get a good approximation to \(\pi\) (within \(0.1\%\)) with probability ast least \(99\%\), so we want
+\[
+	\prob{\abs{\hat{\pi}_n - \pi} \leq 0.001} \geq 0.99
+\]
+Let \(S_n\) be the number of needles intersecting a line.
+Then \(S_n \sim \mathrm{Bin}(n, p)\).
+So by the central limit theorem,
+\[
+	S_n \approx np + \sqrt{np(1-p)} Z \implies \hat{p}_n = \frac{S_n}{n} = p + \sqrt{\frac{p(1-p)}{n}}Z
+\]
+Hence,
+\[
+	\hat{p}_n - p \approx \sqrt{\frac{p(1-p)}{n}}Z
+\]
+Now, let \(f(x) = 2\ell/xL\).
+Then \(f(p) = \pi\), \(f'(p) = -\frac{\pi}{p}\), and \(\hat{\pi}_n = f(\hat{p}_n)\).
+We can then use a Taylor expansion to find
+\[
+	\hat{\pi}_n = f(\hat{p}_n) \approx f(p) + (\hat{p}_n - p)f'(p) \implies \hat{\pi}_n \approx \pi - (\hat{p}_n - p) \frac{\pi}{p}
+\]
+Hence,
+\[
+	\hat{\pi}_n - \pi \approx - \frac{\pi}{p} \sqrt{\frac{p(1-p)}{n}} = -\pi \sqrt{\frac{1-p}{pn}}Z
+\]
+We want
+\[
+	\prob{\pi \sqrt{\frac{1-p}{pn}}\abs{Z} \leq 0.001} \geq 0.99
+\]
+So using tables, we find in the worst case scenario that \(n \approx \num{3.75e7}\).
+So this approximation becomes good very slowly.
+
+\subsection{Bertrand's paradox}
+Consider a circle of radius \(r\), and draw a random chord on the circle.
+What is the probability that its length \(C\) is less than \(r\)?
+There are two interpretations of the words `random chord', that give different results.
+This is Bertrand's paradox.
+\begin{enumerate}[(i)]
+	\item First, let us interpret `random chord' as follows.
+	      Let \(X \sim \mathrm{U}[0, r]\), and then we draw a chord perpendicular to a radius, such that it intersects the radius at a distance of \(X\) from the origin.
+	      Then we have formed a triangle between this intersection point, one end of the chord, and the circle's centre.
+	      By Pythagoras' theorem, the length of the chord is then twice the height of this triangle, so \(C = 2\sqrt{r^2 - X^2}\).
+	      Hence,
+	      \[
+		      \prob{C \leq r} = \prob{2\sqrt{r^2 - X^2} \leq r} = \prob{4(r^2 - X^2) \leq r^2} = \prob{X \geq \frac{\sqrt{3}}{2}r} = 1 - \frac{sqrt 3}{2} \approx 0.134
+	      \]
+	\item Instead, let us fix one end point of the chord \(A\), and let \(\Theta \sim \mathrm{U}[0, 2\pi]\).
+	      Let the other end point \(B\) be such that the angle between the radii \(OA\) and \(OB\) is \(\Theta\).
+	      Then if \(\Theta \in [0, \pi]\), the length of the chord can be found by splitting this triangle in two by dropping a perpendicular from the centre, giving
+	      \[
+		      C = 2r\sin\frac{\Theta}{2}
+	      \]
+	      If \(\Theta \in [\pi, 2\pi]\), then
+	      \[
+		      C = 2r\sin\frac{2\pi - \Theta}{2} = 2r\sin\frac{\Theta}{2}
+	      \]
+	      as before.
+	      Now,
+	      \[
+		      \prob{C \leq r} = \prob{2r\sin\frac{\Theta}{2} \leq r} = \prob{\sin\frac{\Theta}{2} \leq \frac{1}{2}} = \prob{\Theta \leq \frac{\pi}{3}} + \prob{\Theta \geq \frac{5\pi}{3}} = \frac{1}{6} + \frac{1}{6} = \frac{1}{3} \approx 0.333
+	      \]
+\end{enumerate}
+Clearly, the two probabilities do not match.

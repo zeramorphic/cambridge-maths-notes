@@ -1,0 +1,442 @@
+\subsection{Linear 2nd order ODEs with constant coefficients}
+The general form of an equation of this type is
+\[
+	ay'' + by' + cy = f(x)
+\]
+To solve equations like this, we are going to exploit two facts: the linearity of the differential operator together with the principle of superposition.
+From the definition of the derivative, we have
+\[
+	\frac{\dd}{\dd{x}}(y_1 + y_2) = y_1' + y_2'
+\]
+And similarly,
+\[
+	\frac{\dd^2}{\dd{x}^2}(y_1 + y_2) = y_1'' + y_2''
+\]
+For a linear differential operator \(D\) built from a linear combination of derivatives, for example
+\[
+	D = \left[ a \frac{\dd^2}{\dd{x}^2} + b\frac{\dd}{\dd{x}} + c \right]
+\]
+it then follows that
+\[
+	D(y_1 + y_2) = D(y_1) + D(y_2)
+\]
+We will then solve the above general equation in three steps.
+\begin{enumerate}
+	\item Find the complementary functions \(y_1\) and \(y_2\) which satisfy the equivalent homogeneous equation \(ay'' + by' + cy = 0\).
+	\item Find a particular integral \(y_p\) which solves the original equation.
+	\item If \(y_1\) and \(y_2\) are linearly independent, then \(y_1 + y_p\) and \(y_2 + y_p\) are each linearly independent solutions, which follows from the fact that \(D(y_1) = D(y_2) = 0\) and \(D(y_p) = f(x)\).
+\end{enumerate}
+
+\subsection{Eigenfunctions for 2nd order ODEs}
+\(e^{\lambda x}\) is the eigenfunction of \(\frac{\dd}{\dd{x}}\), and it is also the eigenfunction of \(\frac{\dd^2}{\dd{x}^2}\), but with eigenvalue \(\lambda^2\).
+More generally, it is the eigenfunction of \(\frac{\dd^n}{\dd{x}^n}\) with eigenvalue \(\lambda^n\).
+In fact, \(e^{\lambda x}\) is the eigenfunction of any linear differential operator \(D\).
+The equation \( ay'' + by' + cy = 0 \) can be written
+\[
+	\underbrace{\left[ a \frac{\dd^2}{\dd{x}^2} + b\frac{\dd}{\dd{x}} + c \right]}_{\equiv\ D} y = 0
+\]
+Therefore, solutions to this take the form
+\[
+	y_c = Ae^{\lambda x}
+\]
+and by substituting, we have
+\[
+	a \lambda^2 + b\lambda + c = 0
+\]
+This is known as the characteristic (or auxiliary) equation.
+From the fundamental theorem of algebra, this must have two real or complex solutions.
+Now, let \(\lambda_1, \lambda_2\) be these roots.
+
+In the case that \(\lambda_1 \neq \lambda_2\), \(y_1 = Ae^{\lambda_1 x}; y_2 = Be^{\lambda_2 x}\).
+In this case, the two are linearly independent and complete; they form a basis of solution space.
+Therefore any other solution to this differential equation can be written as a linear combination of \(y_1\) and \(y_2\).
+In general, \(y_c = Ae^{\lambda_1 x} + Be^{\lambda_2 x}\).
+
+\subsection{Detuning}
+In the case that \(\lambda_1 = \lambda_2\), this is known as a degenerate case as we have repeated eigenvalues; \(y_1\) and \(y_2\) are linearly dependent and not complete.
+Let us take as an example the differential equation \(y'' - 4y' + 4y = 0\).
+We try \(y_c = e^{2x}\) as \(\lambda = 2\) in this case.
+We will consider a slightly modified (`detuned') equation to rectify the degeneracy.
+\[
+	y'' - 4y' + (4-\varepsilon^2)y = 0 \text{ where } \varepsilon \ll 1
+\]
+Again we will try \(y_c = e^{\lambda x}\), giving
+\[
+	\lambda^2 - 4 \lambda + (4 - \varepsilon^2) = 0
+\]
+So we have \(\lambda = 2 \pm \varepsilon\).
+The complementary function therefore is \(y_c = Ae^{(2+\varepsilon)x} + Be^{(2-\varepsilon)x} = e^{2x}\left( Ae^{\varepsilon x} + Be^{-\varepsilon x} \right)\).
+We will expand this in a Taylor series for small \(\varepsilon\), giving
+\[
+	y_c = e^{2x}\left[ (A + B) + \varepsilon x(A - B) + O(\varepsilon^2) \right]
+\]
+and by taking the limit, we have
+\[
+	\lim_{\varepsilon \to 0} y_c \approx e^{2x} \left[ (A + B) + \varepsilon x(A - B) \right]
+\]
+Now consider applying initial conditions to \(y_c\) at \(x = 0\).
+\[
+	\eval{y_c}_{x=0} = C\quad \eval{y_c'}_{x=0} = D
+\]
+and therefore
+\[
+	C = A + B;\quad D = 2C + \varepsilon(A - B)
+\]
+hence
+\[
+	A + B = O(1);\quad A - B = O\left(\frac{1}{\varepsilon}\right)
+\]
+in order that \(D\) is a constant.
+Now, let \(\alpha = A + B; \beta = \varepsilon(A - B)\), so that we can get constants of \(O(1)\) magnitude.
+Hence,
+\[
+	\lim_{\varepsilon \to 0} y_c = e^{2x}\left[ \alpha + \beta x \right]
+\]
+In general, if \(y_1(x)\) is a degenerate complementary function for linear ODEs with constant coefficients, then \(y_2 = xy_1\) is a linearly independent complementary function.
+
+\subsection{Reduction of order}
+Consider a homogeneous second-order linear ODE with non-constant coefficients.
+The general form of such an equation is
+\begin{equation}\label{hom_2_lin_ode_const}
+	y'' + p(x) y' + q(x) y = 0
+\end{equation}
+Our objective is to use one solution to this equation (here denoted \(y_1\)) to find the other solution \(y_2\).
+The general idea is to look for a solution of the form
+\begin{equation}\label{y2_y1_reduction}
+	y_2(x) = v(x)y_1(x)
+\end{equation}
+First, note that
+\begin{align*}
+	y_2'  & = v'y_1 + vy_1'             \\
+	y_2'' & = v''y_1 + 2v'y_1' + vy_1''
+\end{align*}
+If \(y_2\) is a solution to \eqref{hom_2_lin_ode_const}, then
+\[
+	y_2'' + p(x) y_2' + q(x) y_2 = 0
+\]
+We can use \eqref{y2_y1_reduction} and collect terms, to get
+\[
+	v\cdot\underbrace{(y_1'' + py_1' + qy_1)}_{\mathclap{\text{0 since \(y_1\) is a solution to \eqref{hom_2_lin_ode_const}}}} + v'\cdot(2y_1' + py_1) + v''\cdot y_1 = 0
+\]
+Hence
+\[
+	v'\cdot (2y_1' + py_1) + v'' \cdot y_1 = 0
+\]
+This is a first order differential equation for \(v'(x)\).
+Let \(u=v'\).
+Then
+\[
+	u'y_1 + u (2y_1' + py_1) = 0
+\]
+This is a separable first order ODE for \(u(x)\).
+So we can solve for \(u(x)\) and deduce \(v(x)\) by integration.
+
+\subsection{Solution space}
+An \(n\)th order linear ODE written
+\[
+	p(x)y^{(n)} + q(x) y^{(n-1)} + \cdots + r(x)y = f(x)
+\]
+can be used to write \(y^{(n)}(x)\) in terms of lower derivatives of \(y\).
+For example, the oscillations of a mass on a spring in a damped system can be modelled as
+\[
+	m\ddot y = -k y - L\dot y
+\]
+Therefore the state of the system can be described by an \(n\)-dimensional solution vector
+\begin{equation}
+	\vb Y(x) \equiv \begin{pmatrix}
+		y(x) \\ y'(x) \\ \vdots \\ y^{(n-1)}(x)
+	\end{pmatrix}
+\end{equation}
+For example, an undamped oscillator modelled by \(y'' + 4y = 0\) has solutions
+\[
+	y_1 = \cos 2x;\quad y_2 = \sin 2x
+\]
+and has derivatives
+\[
+	y_1' = -2\sin 2x;\quad y_2' = 2\cos 2x
+\]
+and therefore two solution vectors are
+\[
+	\vb Y_1(x) = \begin{pmatrix}
+		y_1 \\ y_1'
+	\end{pmatrix} = \begin{pmatrix}
+		\cos 2x \\ -2 \sin 2x
+	\end{pmatrix}
+\]
+and
+\[
+	\vb Y_2(x) = \begin{pmatrix}
+		y_2 \\ y_2'
+	\end{pmatrix} = \begin{pmatrix}
+		\sin 2x \\ 2 \cos 2x
+	\end{pmatrix}
+\]
+
+\begin{wrapfigure}{l}{0.3\textwidth}
+	\begin{tikzpicture}
+		\begin{axis}[
+				%axis lines = left,
+				xlabel = \(y\),
+				ylabel = \(\dot y\),
+				width=5cm,
+				height=5cm,
+				xmin=-2.4,
+				xmax=2.4,
+				ymin=-2.4,
+				ymax=2.4,
+				xticklabel=\empty,
+				yticklabel=\empty
+			]
+
+			\addplot [
+				domain=-1:1,
+				samples=200,
+				color=red,
+			]
+			{2*sqrt(1-x^2)};
+			\addplot [
+				domain=-1:1,
+				samples=200,
+				color=red,
+			]
+			{-2*sqrt(1-x^2)};
+
+			\draw[red] (axis cs: 1,0.05) -- (axis cs: 1,-0.05);
+		\end{axis}
+	\end{tikzpicture}
+\end{wrapfigure}
+
+We can plot the paths of these two solutions using a two-dimensional phase portrait.
+In this case, both solutions follow an elliptical path.
+Since \(\vb Y_1\) and \(\vb Y_2\) are linearly independent for all \(x\), any point in solution space \((y, y')\) can be written as a linear combination of these solutions.
+
+Solutions \(y_1, y_2, \cdots, y_n\) are linearly independent for any ODE if their solution vectors \(\vb Y_1, \vb Y_2, \cdots, \vb Y_n\) are linearly independent.
+A set of \(n\) linearly independent solution vectors forms a basis for the solution space of an \(n\)th order ODE.\@
+
+\subsection{Initial conditions}
+Consider initial conditions for a second order homogeneous ODE.\@
+\[
+	y(0) = a,\quad y'(0) = b
+\]
+If the general solution is
+\[
+	y(x) = Ay_1(x) + By_2(x)
+\]
+then we have the following linear system of equations
+\begin{align*}
+	Ay_1(0) + By_2(0)   & = a \\
+	Ay_1'(0) + By_2'(0) & = b
+\end{align*}
+which is a system of two equations for two unknowns.
+Or alternatively,
+\[
+	\underbrace{\begin{pmatrix}
+			y_1(0)  & y_2(0)  \\
+			y_1'(0) & y_2'(0)
+		\end{pmatrix}}_{\equiv M}
+	\begin{pmatrix}
+		A \\ B
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		a \\b
+	\end{pmatrix}
+\]
+Unique solutions for \(A\) and \(B\) exist if \(\det M \neq 0\).
+
+\subsection{The fundamental matrix and the Wro\'nskian}
+The fundamental matrix is a matrix formed by placing solution vector \(\vb Y_i\) in the \(i\)th column.
+The Wro\'nskian, denoted \(W(x)\), is the determinant of the fundamental matrix.
+\[
+	W(x) \equiv \begin{vmatrix}
+		\vdots  & \vdots  &        & \vdots  \\
+		\vb Y_1 & \vb Y_2 & \cdots & \vb Y_n \\
+		\vdots  & \vdots  &        & \vdots
+	\end{vmatrix} = \begin{vmatrix}
+		y_1         & y_2         & \cdots & y_n         \\
+		y_1'        & y_2'        & \cdots & y_n'        \\
+		\vdots      & \vdots      & \ddots & \vdots      \\
+		y_1^{(n-1)} & y_2^{(n-1)} & \cdots & y_n^{(n-1)}
+	\end{vmatrix}
+\]
+For a second order ODE:\@
+\begin{equation}\label{wronskian2}
+	W(x) = \begin{vmatrix}
+		y_1 & y_2 \\ y_1' & y_2'
+	\end{vmatrix}
+	= y_1y_2' - y_2y_1'
+\end{equation}
+The solution vectors are linearly independent if \(W(x) \neq 0\).
+This is a convenient test for the linear independence of two solution vectors.
+In our example above, we had
+\[
+	W(x) = \begin{vmatrix}
+		\cos 2x   & \sin 2x  \\
+		-2\sin 2x & 2\cos 2x
+	\end{vmatrix}
+	= 2\cos^2 2x + 2\sin^2 2x = 2 \neq 0
+\]
+So the solution vectors are linearly independent for all \(x\).
+
+\subsection{Using the Wro\'nskian to find the original ODE}
+If \(\vb Y_1\) and \(\vb Y_2\) are linearly dependent, then \(W(x) = 0\).
+Suppose that a third solution \(y(x)\) is a linear combination of \(y_1(x)\) and \(y_2(x)\).
+Then the solution vectors \(\vb Y, \vb Y_1, \vb Y_2\) are a linearly dependent set.
+Hence
+\[
+	\begin{vmatrix}
+		y   & y_1   & y_2   \\
+		y'  & y_1'  & y_2'  \\
+		y'' & y_1'' & y_2''
+	\end{vmatrix}
+	= 0
+\]
+For \(y_1 = \cos 2x\) and \(y_2 = \sin 2x\), we can deduce the original differential equation that produced these solutions by solving for \(y\).
+\begin{align*}
+	\begin{vmatrix}
+		y   & \cos 2x   & \sin 2x    \\
+		y'  & -2\sin 2x & 2 \cos 2x  \\
+		y'' & -4\cos 2x & -4 \sin 2x
+	\end{vmatrix}          & = 0 \\
+	\implies y(8\sin^2 2x + 8\cos^2 2x) &     \\ - y'(-4 \cos 2x \sin 2x + 4 \cos 2x \sin 2x) &\\ + y''(2\cos^2 2x + 2\sin^2 2x) &= 0 \\
+	\implies y'' + 4y                   & = 0
+\end{align*}
+Note that if \(W(x) = 0\), this does not necessarily imply linear dependence.
+
+\subsection{Abel's theorem}
+Consider a second order homogeneous ODE:\@
+\[
+	y'' + p(x)y' + q(x)y = 0
+\]
+\begin{theorem}[Abel's Theorem]
+	If \(p(x)\) and \(q(x)\) are continuous on an interval \(I\), then the Wro\'nskian \(W(x)\) is either zero or non-zero for all \(x \in I\).
+\end{theorem}
+\begin{proof}
+	Let \(y_1, y_2\) be solutions to the equation.
+	Then
+	\begin{align}
+		\label{abelproof1} y_2(y_1'' + p(x)y_1' + q(x)y_1) & = 0 \\
+		\label{abelproof2} y_1(y_2'' + p(x)y_2' + q(x)y_2) & = 0
+	\end{align}
+	Now, calculating \eqref{abelproof2} \(-\) \eqref{abelproof1}, we get
+	\begin{equation}\label{abelproof3}
+		(y_1y_2'' - y_2y_1'') + p(x)(y_1y_2' - y_2y_1') = 0
+	\end{equation}
+	As we are solving a second order equation, \(W(x) = y_1y_2' - y_2y_1'\) and therefore
+	\[
+		\frac{\dd{W}}{\dd{x}} = y_1y_2'' + y_1'y_2' - y_2'y_1' - y_2y_1'' = y_1y_2'' - y_2y_1''
+	\]
+	Note that these are the coefficients in \eqref{abelproof3}.
+	We have therefore
+	\begin{equation}\label{abelproof4}
+		W' + pW = 0
+	\end{equation}
+	Then by separating variables:
+	\begin{align*}
+		\frac{\dd{W}}{W}              & = -p(x)\dd{x}                         \\
+		\int_{x_0}^x \frac{\dd{W}}{W} & = -\int_{x_0}^x p(u)\dd{u}            \\
+		W(x)                          & = W(x_0)e^{-\int_{x_0}^x p(u) \dd{u}}
+	\end{align*}
+	This last equation is known as Abel's Identity, and is very important.
+	Since \(p(x)\) is continuous on \(I\) with \(x \in I\), it is bounded and therefore integrable.
+	Therefore \(e^{-\int_{x_0}^x p(u) \dd{u}} \neq 0\).
+	It follows that if \(W(x_0) = 0\) then \(W(x) = 0\) for all \(x\).
+	Likewise, if \(W(x_0) \neq 0\), then \(W(x) \neq 0\) for all \(x\) (on the interval).
+\end{proof}
+\begin{corollary}
+	If \(p(x) = 0\), then \(W = W_0\) which is a constant.
+\end{corollary}
+Note that we can use this to find \(W(x)\) without actually solving the differential equation itself.
+For example, Bessel's Equation
+\[
+	x^2y'' + xy' + (x^2 - n^2)y = 0
+\]
+has no closed form solutions, but the Wro\'nskian can be calculated be rewriting it as
+\[
+	y'' + \frac{1}{x}y' + \frac{x^2-n^2}{x^2}y = 0
+\]
+and by Abel's Identity,
+\begin{align*}
+	W(x) & = W_0 e^{-\int_{x_0}^x \frac{1}{u} \dd{u}} \\
+	     & = W_0 e^{-\ln x}                           \\
+	     & = \frac{W_0}{x}
+\end{align*}
+
+\subsection{Using Abel's identity}
+We can find a second solution \(y_2\) given a solution \(y_1\) using a reduction of order method, but we can also use Abel's Identity.
+\[
+	y_1y_2' - y_2y_1' = W_0 e^{-\int_{x_0}^x p(u) \dd{u}}
+\]
+This is a first order ODE for \(y_2\) which we can now solve:
+\[
+	\frac{y_1y_2' - y_2y_1'}{y_1^2} =  \frac{W_0}{y_1^2} e^{-\int_{x_0}^x p(u) \dd{u}}
+\]
+The left hand side is exactly the quotient rule, giving
+\[
+	\dv{x}\frac{y_2}{y_1} = \frac{W_0}{y_1^2} e^{-\int_{x_0}^x p(u) \dd{u}}
+\]
+which can be solved to give \(y_2\) as a function of \(y_1\) and \(W\).
+
+\subsection{Abel's theorem in higher dimensions}
+Any linear \(n\)th order ODE can be written
+\[
+	\vb Y' + A(x) \vb Y = 0
+\]
+where \(A\) is a matrix; this converts an \(n\)th order ODE into a system of \(n\) first order ODEs.
+This will be discussed later in the course.
+It can be shown that this generalisation of Abel's Identity
+\[
+	W' + \tr(A)W = 0
+\]
+holds, and hence
+\[
+	W' = W_0e^{-\int_{x_0}^x \tr(A) \dd{u}}
+\]
+and Abel's theorem holds.
+This is shown on Example Sheet 3, Question 7.
+
+\subsection{Equidimensional equations}
+An ODE is equidimensional if the differential operator is unaffected by a multiplicative scaling.
+For example, rescaling
+\[
+	x \mapsto X = \alpha x
+\]
+where \(\alpha \in \mathbb R\).
+The general form for a second order equidimensional equation is
+\begin{equation}\label{equidimensional1}
+	ax^2 y'' + bxy' + cy = f(x)
+\end{equation}
+where \(a, b, c\) are constant.
+Note, \(\frac{\dd}{\dd{X}} = \frac{1}{\alpha}\frac{\dd}{\dd{x}}\), and \(\frac{\dd^2}{\dd{X}^2} = \frac{1}{\alpha^2}\frac{\dd}{\dd{x}^2}\), so plugging this into \eqref{equidimensional1} gives
+\[
+	aX^2\frac{\dd^2 y}{\dd{X}^2} + bX\frac{\dd{y}}{\dd{X}} + cy = f\left(\frac{X}{\alpha}\right)
+\]
+The left hand side was unaffected by this rescaling, so the equation is equidimensional.
+
+There are two main methods for solving equidimensional equations.
+\begin{enumerate}
+	\item Note that \(y = x^k\) is an eigenfunction of the differential operator \(x\frac{\dd}{\dd{x}}\).
+	      Inspired by this, to solve \eqref{equidimensional1} we will look for solutions of the form \(y=x^k\), so we have
+	      \[
+		      ak(k-1) + bk + c = 0
+	      \]
+	      We can simply solve this quadratic for two roots \(k_1\) and \(k_2\).
+	      If \(k_1 \neq k_2\), then the complementary function is
+	      \[
+		      y_c = Ax^{k_1} + Bx^{k_2}
+	      \]
+	\item If \(k_1 = k_2\), then the substitution \(z = \ln x\) turns \eqref{equidimensional1} into an equation with constant coefficients.
+	      \[
+		      a \frac{\dd^2 y}{\dd{z}^2} + (b-a)\frac{\dd{y}}{\dd{z}} + cy = f(e^z)
+	      \]
+	      (TODO verify this).
+	      Because this has constant coefficients, our complementary functions will be of the form \(y = e^{\lambda z}\), which can be solved as usual.
+	      \[
+		      y_c = Ae^{\lambda_1 z} + Be^{\lambda_2 z} = Ax^{\lambda_1} + Bx^{\lambda_2}
+	      \]
+	      which is the same form as above.
+	      In this form, it is easier to see that if the two solutions \(\lambda_1\), \(\lambda_2\) are the same, then
+	      \[
+		      y_c = Ae^{\lambda_1 z} + Bze^{\lambda_1 z} = Ax^{k_1} + Bx^{k_1}\ln x
+	      \]
+\end{enumerate}

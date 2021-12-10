@@ -1,0 +1,118 @@
+\subsection{Inclusion-exclusion formula}
+Suppose that \(A, B \in \mathcal F\).
+Then \(\prob{A \cup B} = \prob{A} + \prob{B} - \prob{A \cap B}\).
+Now let also \(C \in \mathcal F\).
+Then
+\begin{align*}
+	\prob{A \cup B \cup C} & = \prob{A \cup B} + \prob{C} - \prob{(A \cup B) \cap C} \\
+	                       & = \prob{A} + \prob{B} + \prob{C}                        \\
+	                       & - \prob{A \cap B} - \prob{A \cap C} - \prob{B \cap C}   \\
+	                       & + \prob{A \cap B \cap C}
+\end{align*}
+Let \(A_1, \dots, A_n\) be events in \(\mathcal F\).
+Then
+\begin{align*}
+	\prob{\bigcup_{i=1}^n A_i} & = \sum_{i=1}^n \prob{A_i}                                                      \\
+	                           & - \sum_{1 \leq i_1 < i_2 \leq n}\prob{A_{i_1} \cap A_{i_2}}                    \\
+	                           & + \sum_{1 \leq i_1 < i_2 < i_3 \leq n}\prob{A_{i_1} \cap A_{i_2} \cap A_{i_3}} \\
+	                           & - \cdots                                                                       \\
+	                           & + (-1)^{n+1}\prob{A_1 \cap \dots \cap A_n}
+\end{align*}
+Or more concisely,
+\[
+	\prob{\bigcup_{i=1}^n A_i} = \sum_{k=1}^n (-1)^{k+1} \sum_{1 \leq i_1 < i_2 < \dots < i_k \leq n} \prob{A_{i_1} \cap \dots \cap A_{i_k}}
+\]
+
+\begin{proof}
+	The case for \(n=2\) has been verified, so we can use induction on \(n\).
+	Now, let us assume this holds for \(n-1\) events.
+	\begin{align*}
+		\prob{\bigcup_{i=1}^n A_i} & = \prob{\left( \bigcup_{i=1}^{n-1} A_i  \right) \cup A_n}                                                     \\
+		                           & = \prob{\bigcup_{i=1}^{n-1} A_i} + \prob{A_n} - \prob{\left( \bigcup_{i=1}^{n-1} A_i  \right) \cap A_n}       \\
+		                           & = \prob{\bigcup_{i=1}^{n-1} A_i} + \prob{A_n} - \prob{\bigcup_{i=1}^{n-1} (A_i \cap A_n)}                     \\
+		\intertext{Let \(B_i = A_i \cap A_n\) for all \(i\).
+			By the inductive hypothesis, we have}
+		\prob{\bigcup_{i=1}^n A_i} & = \prob{\bigcup_{i=1}^{n-1} A_i} + \prob{A_n} - \prob{\bigcup_{i=1}^{n-1} B_n}                                \\
+		                           & = \sum_{k=1}^{n-1} (-1)^{k+1} \sum_{1 \leq i_1 < \dots < i_k \leq n-1} \prob{A_{i_1} \cap \dots \cap A_{i_k}} \\
+		                           & - \sum_{k=1}^{n-1} (-1)^{k+1} \sum_{1 \leq i_1 < \dots < i_k \leq n-1} \prob{B_{i_1} \cap \dots \cap B_{i_k}} \\
+		                           & + \prob{A_n}
+	\end{align*}
+	which gives the claim as required.
+\end{proof}
+
+Let \((\Omega, \mathcal F, \mathbb P)\) be a probability space with \(\abs{\Omega} < \infty\) and \(\prob{A} = \frac{\abs{A}}{\abs{\Omega}}\).
+Let \(A_1, \dots, A_n \in \mathcal F\).
+Then
+\[
+	\abs{A_1 \cup \dots \cup A_n} = \sum_{k=1}^n (-1)^{k+1} \sum_{1 \leq i_1 < \dots < i_k \leq n} \abs{A_{i_1} \cap \dots \cap A_{i_k}}
+\]
+
+\subsection{Bonferroni inequalities}
+Truncating the sum in the inclusion-exclusion formula at the \(r\)th term yields an estimate for the probability.
+The Bonferroni Inequalities state that if \(r\) is odd, it is an overestimate, and if \(r\) is even, it is an underestimate.
+\begin{align*}
+	r \text{ odd}  & \implies \prob{\bigcup_{i=1}^n A_i} \leq \sum_{k=1}^r (-1)^{k+1} \sum_{1 \leq i_1 < \dots < i_k \leq n} \prob{A_{i_1} \cap \dots \cap A_{i_k}} \\
+	r \text{ even} & \implies \prob{\bigcup_{i=1}^n A_i} \geq \sum_{k=1}^r (-1)^{k+1} \sum_{1 \leq i_1 < \dots < i_k \leq n} \prob{A_{i_1} \cap \dots \cap A_{i_k}}
+\end{align*}
+\begin{proof}
+	Again, we will use induction.
+	The \(n=2\) case is trivial.
+	Suppose that \(r\) is odd.
+	Then
+	\begin{equation}
+		\prob{\bigcup_{i=1}^n A_i} = \prob{\bigcup_{i=1}^{n-1} A_i} + \prob{A_n} - \prob{\bigcup_{i=1}^n B_i} \tag{\(\ast\)}
+	\end{equation}
+	where \(B_i = A_i \cap A_n\).
+	Since \(r\) is odd,
+	\[
+		\prob{\bigcup_{i=1}^{n-1} A_i} \leq \sum_{k=1}^r (-1)^{k+1} \sum_{1 \leq i_1 < \dots < i_k \leq n-1} \prob{A_{i_1} \cap \dots \cap A_{i_k}}
+	\]
+	Since \(r-1\) is even, we can apply the inductive hypothesis to \(\prob{\bigcup_{i=1}^{n-1} B_i}\).
+	\[
+		\prob{\bigcup_{i=1}^{n-1} B_i} \geq \sum_{k=1}^{r-1} (-1)^{k+1} \sum_{1 \leq i_1 < \dots < i_k \leq n-1} \prob{B_{i_1} \cap \dots \cap B_{i_k}}
+	\]
+	We can substitute both bounds into (\(\ast\)) to get an overestimate.
+\end{proof}
+
+\subsection{Counting using inclusion-exclusion}
+We can apply the Inclusion-Exclusion formula to count various things.
+How many functions \(f \colon \{ 1, \dots, n \} \to \{ 1, \dots, m \}\) are surjective?
+Let \(\Omega\) be the set of such functions, and \(A = \{ f \in \Omega : f \text{ is a surjection} \}\).
+For all \(i \in \{ 1, \dots, m \}\), we define \(A_i = \{ f \in \Omega : i \notin \{ f(1), f(2), \dots, f(n) \} \}\).
+Then \(A = \stcomp{A_1} \cap \stcomp{A_2} \cap \dots \cap \stcomp{A_m} = \stcomp{(A_1 \cup A_2 \cup \dots \cup A_m)}\).
+Then
+\[
+	\abs{A} = \abs{\Omega} - \abs{A_1 \cup \dots \cup A_m} = m^n - \abs{A_1 \cup \dots \cup A_m}
+\]
+Now, let us use the Inclusion-Exclusion formula.
+\begin{align*}
+	\abs{A_1 \cup \dots \cup A_m} & = \sum_{k=1}^n (-1)^{k+1} \sum_{1 \leq i_1 < \dots < i_k \leq n} \abs{A_{i_1} \cap \dots \cap A_{i_k}} \\
+	\intertext{Note that \(A_{i_1} \cap \dots \cap A_{i_k}\) is the set of functions where \(k\) distinct numbers are not included in the function's range.
+		There are \((m-k)^n\) such functions.}
+	\abs{A_1 \cup \dots \cup A_m} & = \sum_{k=1}^n (-1)^{k+1} \sum_{1 \leq i_1 < \dots < i_k \leq n} (m-k)^n                               \\
+	                              & = \sum_{k=1}^n (-1)^{k+1} \binom{m}{k} (m-k)^n                                                         \\
+	\abs{A}                       & = m^n -  \sum_{k=1}^n (-1)^{k+1} \binom{m}{k} (m-k)^n                                                  \\
+	\abs{A}                       & = \sum_{k=0}^n (-1)^k \binom{m}{k} (m-k)^n
+\end{align*}
+
+\subsection{Counting derangements}
+A derangement is a permutation which has no fixed point, i.e.\ \(\forall i, \sigma(i) \neq i\).
+We will let \(\Omega\) be the set of permutations of \(\{1, \dots, n\}\), i.e.\ \(S_n\).
+Let \(A\) be the set of derangements in \(\Omega\).
+Let us pick a permutation \(\sigma\) at random from \(\Omega\).
+What is the probability that it is a derangement?
+We define \(A_i = \{ f \in \Omega \colon f(i) = i \}\), then \(A = \stcomp{A_1} \cap \dots \stcomp{A_n} = \stcomp{\left( \bigcup_{i=1}^n A_i  \right)}\), so \(\prob{A} = 1 - \prob{\bigcup_{i=1}^n A_i}\).
+By the inclusion-exclusion formula,
+\begin{align*}
+	\prob{\bigcup_{i=1}^n A_i} & = \sum_{k=1}^n (-1)^{k+1} \sum_{1 \leq i_1 < i_2 < \dots < i_k \leq n} \prob{A_{i_1} \cap \dots \cap A_{i_k}} \\
+	                           & = \sum_{k=1}^n (-1)^{k+1} \sum_{1 \leq i_1 < i_2 < \dots < i_k \leq n} \frac{(n-k)!}{\abs{\Omega}}            \\
+	                           & = \sum_{k=1}^n (-1)^{k+1} \sum_{1 \leq i_1 < i_2 < \dots < i_k \leq n} \frac{(n-k)!}{n!}                      \\
+	                           & = \sum_{k=1}^n (-1)^{k+1} \binom{n}{k} \frac{(n-k)!}{n!}                                                      \\
+	                           & = \sum_{k=1}^n (-1)^{k+1} \frac{n!}{k!(n-k)!} \cdot \frac{(n-k)!}{n!}                                         \\
+	                           & = \sum_{k=1}^n (-1)^{k+1} \frac{1}{k!}                                                                        \\
+\end{align*}
+So
+\[
+	\prob{A} = 1 - \prob{\bigcup_{i=1}^n A_i} = 1 - \sum_{k=1}^n \frac{(-1)^{k+1}}{k!} = \sum_{k=0}^n \frac{(-1)^k}{k!}
+\]
+As \(n \to \infty\), this value tends to \(e^{-1} \approx 0.3678\).

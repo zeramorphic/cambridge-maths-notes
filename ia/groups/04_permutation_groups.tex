@@ -1,0 +1,186 @@
+\subsection{Definition}
+\begin{definition}
+	Given a set \(X\), a permutation of the set is a bijective function \(\sigma: X \to X\).
+	The set of all permutations of \(X\) is denoted \(\Sym X\).
+\end{definition}
+\begin{theorem}
+	\(\Sym X\) is a group with respect to composition.
+\end{theorem}
+This is provable by checking the group axioms, noting that all bijective functions are invertible, and that function compositions are always associative.
+\begin{definition}
+	If \(\abs{X} = n\) then \(S_n\) is the isomorphism class of \(\Sym X\).
+\end{definition}
+Note that \(\abs{S_n}\) is \(n!
+\) because the first element has \(n\) choices for where to be mapped, the second element has \(n-1\) choices, etc.
+
+\subsection{Cycles}
+We may use a two-row notation for permutations.
+For example, a permutation \(\sigma \in S_3\) such that \(\sigma(1) = 2, \sigma(2) = 3, \sigma(3) = 1\) may be written
+\[
+	\sigma = \begin{pmatrix}
+		1 & 2 & 3 \\
+		2 & 3 & 1
+	\end{pmatrix}
+\]
+The columns represent the maps that \(\sigma\) performs: \(1 \mapsto 2; 2 \mapsto 3; 3 \mapsto 1\).
+However, this is quite a clunky, long-winded notation.
+More often we use a kind of cycle notation, for example
+\[
+	\sigma = (1\ 2\ 3)
+\]
+This says that \(\sigma\) represents the cycle \(1 \mapsto 2 \mapsto 3 \mapsto 1\).
+Note that, for example, the cycle (1 2 3) is equivalent to the cycle (2 3 1).
+We call a cycle like this a 3-cycle because it has 3 elements.
+So, for example, the cycle (1 2 3 4 5 6 7) \(\in S_n\) where \(n \geq 7\) is a 7-cycle.
+Cycles with two elements are called transpositions, and cycles with one element are called singletons.
+
+Since cycles are permutations, we can compose them like this:
+\[
+	(1\ 2\ 3\ 4)(3\ 2\ 4) \in S_4
+\]
+We know that the resulting permutation must be a member of \(S_4\) because of the closure axiom.
+We can deduce what the resulting permutation is in two ways:
+\begin{itemize}
+	\item We can find the value of \((1\ 2\ 3\ 4)(3\ 2\ 4)(x)\) for all \(1 \leq x \leq n\).
+	      This allows us to write the permutation in the two-row notation.
+	      \[
+		      \sigma = \begin{pmatrix}
+			      1 & 2 & 3 & 4 \\
+			      2 & 1 & 3 & 4
+		      \end{pmatrix}
+	      \]
+	\item Alternatively, let us begin by just finding \(\sigma(1) = 2\).
+	      Then, we can find where this result maps to, and so on, until we have a completed cycle.
+	      We are guaranteed to form a cycle, as we will prove later.
+	      Repeat this cycle generation for all unused numbers, and then you will get a product of cycles, in this case \(\sigma = (1\ 2)(3)(4)\).
+\end{itemize}
+Note that the inverse of a permutation can be created by swapping the rows.
+A cycle can be inverted by simply reversing the order of its elements.
+One more interesting fact is that \(D_{2n} \leq S_n\).
+\(D_{2n}\) is a permutation of \(n\) vertices with some added constraints (e.g.
+edges must map to edges), so it makes sense that it would be a subgroup.
+In particular, \(D_6 = S_3\).
+
+\subsection{Disjoint cycles}
+Cycles are considered disjoint if no number appears in both.
+\begin{lemma}
+	Disjoint cycles commute.
+\end{lemma}
+\begin{proof}
+	Let \(\sigma, \tau\) be disjoint cycles of \(S_n\).
+	We want to prove that \(\sigma\tau(x) = \tau\sigma(x)\) for all \(1 \leq x \leq n\).
+	There are three cases:
+	\begin{itemize}
+		\item If \(x \notin \sigma\) and \(x \notin \tau\) then immediately \(\sigma\tau(x) = x = \tau\sigma(x)\).
+		\item If \(x \in \sigma\) but \(x \notin \tau\) then because \(\sigma\) is a cycle, \(\sigma(x) \in \sigma\); and because the cycles are disjoint, \(\sigma(x) \notin \tau\).
+		      So \(\sigma\tau(x) = \sigma(x) = \tau\sigma(x)\).
+		\item If \(x \in \tau\) but \(x \notin \sigma\), use the proof above but swap the letters.
+	\end{itemize}
+\end{proof}
+
+\subsection{Disjoint cycle decomposition}
+\begin{theorem}
+	Any \(\sigma \in S_n\) can be written as a product of disjoint cycles.
+	This is unique up to reordering cycles (and, of course, moving the elements around within a cycle without altering it).
+\end{theorem}
+\begin{proof}
+	Let \(\sigma \in S_n\).
+	Now consider the infinite list of terms \(1, \sigma(1), \sigma^2(1), \sigma^3(1) \cdots\).
+	\(\sigma\) is a bijection from a set to itself so this list will continue infinitely, but there are only \(n\) possible items in this set.
+	Therefore, by the pigeonhole principle, there must be two distinct items in that list that are the same.
+	Let us label their indices \(a\) and \(b\), such that \(\sigma^a(1) = \sigma^b(1)\), and that \(a > b\) without loss of generality.
+	Then we can multiply on the right by \(\sigma^{-b}(1)\) to get \(\sigma^{a-b}(1) = 1\).
+
+	Now that we have proven that the number 1 exists multiple times in the list, let us take \(k\) to be the smallest positive integer such that \(\sigma^k(1) = 1\).
+	Then for \(0 \leq l < m < k\), if \(\sigma^m(1) = \sigma^l(1)\) then \(\sigma^{m-l}(1) = 1\) which contradicts the minimality of \(k\).
+	So the first \(k\) numbers on the list are distinct, so \((1\ \sigma(1)\ \sigma^2(1)\ \cdots\ \sigma^{k-1}(1))\) is a cycle.
+
+	Repeat this whole process, replacing 1 with different unused values in the set.
+	This will always continue to work because no number that has already appeared can reappear (because \(\sigma\) is a bijection).
+
+	Continue until we have exhausted the entire set \(\{ 1, \cdots, n\}\).
+	Then we can multiply together all of the (disjoint) cycles we have generated.
+	Note that each element from \(\{ 1, \cdots, n\}\) must appear exactly once in this product (if it is mapped to itself, it is present as a singleton).
+	It is clear then that this product is equal to \(\sigma\), because for any input \(k\), no cycles except for the one containing said input (and also, of course, containing the output \(\sigma(k)\)) will do anything to it.
+
+	We can prove the uniqueness of the decomposition by supposing that there might exist two decompositions.
+	Taking any element \(x\) in the set \(\{ 1, \cdots, n\}\), we know that \(\sigma\) uniquely defines the cycle that \(x\) belongs to.
+	So that means that in both decompositions, the cycle containing \(x\) is the same.
+	By repeating this for all \(x\) in the set, we can be sure that all cycles are the same, and thus the decompositions in their entirety are the same.
+	Therefore the decomposition is unique.
+\end{proof}
+
+\subsection{Order of permutations}
+The set of cycle lengths of the disjoint cycle decomposition of \(\sigma\) is called the cycle type of \(\sigma\).
+For example, \(\sigma = (1\ 2\ 3)(5\ 6)\) has cycle type \(3, 2\) (or equivalently \(2, 3\)).
+
+\begin{theorem}
+	The order of \(\sigma \in S_n\) is the least common multiple of the cycle lengths in its cycle type.
+\end{theorem}
+\begin{proof}
+	The order of a \(k\)-cycle is \(k\).
+	Let us decompose \(\sigma\) into a product of disjoint cycles such that \(\sigma = \tau_1 \tau_2 \cdots \tau_r\).
+	Then \(\sigma^m = \tau_1^m \tau_2^m \cdots \tau_r^m\) since disjoint cycles commute.
+
+	Let each \(\tau_i\) be a \(k_i\)-cycle.
+	Then if \(\sigma^m = e\), \(\tau_1^m \tau_2^m \cdots \tau_r^m = e\), and so \(\tau_1^m = \tau_2^{-m} \tau_3^{-m} \cdots \tau_r^{-m}\).
+	Note that the right hand side and left hand side permute different elements, so they must both be the identity element \(e\).
+	Repeating this style of argument with every \(\tau\) shows that \(\tau_i^m = e\) so \(k_i | m\).
+
+	So clearly the lowest common multiple of all of the \(k_i\) divides the order of the permutation, \(o(\sigma)\).
+	Now, we check that it is actually equal to \(o(\sigma)\).
+	Let \(L\) be this lowest common multiple.
+	Then \(\sigma^L = \tau_1^L \tau_2^L \cdots \tau_r^L = (\tau_1^{k_1})^{L/k_1} (\tau_2^{k_2})^{L/k_2} \cdots (\tau_r^{k_r})^{L/k_r}\).
+	All of these exponents are integers because \(L\) is a multiple of each \(k_i\).
+	So we have \(e \cdot e \cdots e = e\).
+	So the order of \(\sigma\) is \(L\).
+\end{proof}
+
+\subsection{Products of transpositions}
+\begin{proposition}
+	Let \(\sigma \in S_n\).
+	Then \(\sigma\) is a product of transpositions.
+\end{proposition}
+\begin{proof}
+	It is enough to prove this for just a cycle, then we can use the disjoint cycle decomposition to create a transposition product for the whole \(\sigma\).
+	\((a_1\ a_2\cdots a_n) = (a_1\ a_2)(a_2\ a_3)\cdots(a_{n-1}\ a_n)\), so the result is immediate.
+\end{proof}
+\noindent Note that this decomposition is not unique in general.
+
+\subsection{Permutation parity}
+A permutation may be considered even if its transposition decomposition has an even number of terms, or odd otherwise.
+Note that an even-length cycle has odd parity, and an odd-length cycle has even parity.
+\begin{proposition}
+	The parity of a permutation is well-defined, regardless of exactly how you write a permutation.
+\end{proposition}
+\begin{proof}
+	Let us denote the amount of cycles in the disjoint cycle decomposition of \(\sigma\) with \(\#(\sigma)\).
+	Let \(\tau = (c\ d)\).
+	Then the effects of multiplying \(\sigma\) by \(\tau\) (on the right) have two cases, since it only affects \(c\) and \(d\).
+	\begin{itemize}
+		\item If \(c\) and \(d\) are in the same cycle in \(\sigma\), we get the following conversion:
+		      \[
+			      (c\ a_2 \cdots a_{k-1}\ d\ a_{k+1} \cdots a_l) \mapsto (c\ a_{k+1} \cdots a_l) (d\ a_2 \cdots a_{k-1})
+		      \]
+		      So \(\#(\sigma\tau) = \#(\sigma) + 1\).
+		\item Otherwise, \(c\) and \(d\) are in different cycles (possibly singletons) in \(\sigma\), so we get the following conversion:
+		      \[
+			      (c\ a_2 \cdots a_k) (d\ b_2 \cdots a_l) \mapsto (c\ b_2 \cdots b_l\ d\ a_2 \cdots a_k)
+		      \]
+		      So \(\#(\sigma\tau) = \#(\sigma) - 1\).
+	\end{itemize}
+	In either case, parity is flipped.
+	Now, suppose that \(\sigma\) is written as two products of transpositions, where one has \(m\) transpositions, and one has \(n\) transpositions.
+	Therefore we have \(\#(\sigma) \equiv \#(e) + m \mod 2\), and \(\#(\sigma) \equiv \#(e) + n \mod 2\).
+	But \(\#(\sigma)\) is uniquely determined by \(\sigma\), so both equations match, so \(m \equiv n \mod 2\), so the parity is well-defined.
+\end{proof}
+
+\begin{definition}
+	Writing \(\sigma\) as a product of transpositions, the sign of \(\sigma\) is defined as 1 if the permutation is even, and \(-1\) if it is odd.
+\end{definition}
+Note that the function \(\mathrm{sign}(\sigma)\) is a homomorphism from \(S_n\) to \((\{-1, 1\}, \cdot)\).
+
+\begin{definition}
+	The alternating group \(A_n\) is defined as the kernel of the sign homomorphism on \(S_n\).
+	In other words, it is the set of even permutations of \(S_n\).
+\end{definition}

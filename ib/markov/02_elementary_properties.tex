@@ -1,0 +1,435 @@
+\subsection{Communicating classes}
+\begin{definition}
+	Let \( X \) be a Markov chain with transition matrix \( P \) and values in \( I \).
+	For \( x, y \in I \), we say that \( x \) \textit{leads to} \( y \), written \( x \to y \), if
+	\[
+		\psubx{\exists n \geq 0, X_n = y} > 0
+	\]
+	We say that \( x \) \textit{communicates with} \( y \) and write \( x \leftrightarrow y \) if \( x \to y \) and \( y \to x \).
+\end{definition}
+\begin{theorem}
+	The following are equivalent:
+	\begin{enumerate}[(i)]
+		\item \( x \to y \)
+		\item There exists a sequence of states \( x = x_0, x_1, \dots, x_k = y \) such that
+		      \[
+			      P(x_0, x_1)P(x_1,x_2)\dots P(x_{k-1},x_k) > 0
+		      \]
+		\item There exists \( n \geq 0 \) such that \( p_{xy}(n) > 0 \).
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	First, we show (i) and (iii) are equivalent.
+	If \( x \to y \), then \( \psubx{\exists n \geq 0, X_n = y} > 0 \).
+	Then if \( \psubx{\exists n \geq 0, X_n = y} > 0 \) we must have some \( n \geq 0 \) such that \( \psubx{X_n = y} = p_{xy}(n) > 0 \).
+	Note that we can write (i) as \( \psubx{\bigcup_{n=0}^\infty X_n = y} > 0 \).
+	If there exists \( n \geq 0 \) such that \( p_{xy}(n) > 0 \), then certainly the probability of the union is also positive.
+
+	Now we show (ii) and (iii) are equivalent.
+	We can write
+	\[
+		p_{xy}(n) = \sum_{x_1, \dots, x_{n-1}} P(x, x_1) \dots P(x_{n-1}, y)
+	\]
+	which leads directly to the equivalence of (ii) with (iii).
+\end{proof}
+\begin{corollary}
+	Communication is an equivalence relation on \( I \).
+\end{corollary}
+\begin{proof}
+	\( x \leftrightarrow x \) since \( p_{xx}(0) = 1 \).
+	If \( x \to y \) and \( y \to z \) then by (ii) above, \( x \to z \).
+\end{proof}
+\begin{definition}
+	The equivalence classes induced on \( I \) by the communication equivalence relation are called \textit{communicating classes}.
+	A communicating class \( C \) is \textit{closed} if \( x \in C, x \to y \implies y \in C \).
+\end{definition}
+\begin{definition}
+	A transition matrix \( P \) is called \textit{irreducible} if it has a single communicating class.
+	In other words, \( \forall x, y \in I, x \leftrightarrow y \).
+\end{definition}
+\begin{definition}
+	A state \( x \) is called \textit{absorbing} if \( \{ x \} \) is a closed (communicating) class.
+\end{definition}
+
+\subsection{Hitting times}
+\begin{definition}
+	For \( A \subseteq I \), we define the \textit{hitting time} of \( A \) to be a random variable \( T_A \colon \Omega \to \qty{0,1,2\dots} \cup \{ \infty \} \), defined by
+	\[
+		T_A(\omega) = \inf \qty{n \geq 0 \colon X_n(\omega) \in A}
+	\]
+	with the convention that \( \inf \varnothing = \infty \).
+	The \textit{hitting probability} of \( A \) is \( h^A \colon I \to [0,1] \), defined by
+	\[
+		h_i^A = \psub{i}{T_A < \infty}
+	\]
+	The \textit{mean hitting time} of \( A \) is \( k^A \colon I \to [0,\infty] \), defined by
+	\[
+		k_i^A = \esub{i}{T_A} = \sum_{n=0}^\infty n \psub{i}{T_A = n} + \infty \psub{i}{T_A = \infty}
+	\]
+\end{definition}
+\begin{example}
+	Consider
+	\[
+		P = \begin{pmatrix}
+			1   & 0   & 0   & 0   \\
+			1/2 & 0   & 1/2 & 0   \\
+			0   & 1/2 & 0   & 1/2 \\
+			0   & 0   & 0   & 1
+		\end{pmatrix}
+	\]
+	Consider \( A = \qty{4} \).
+	\[
+		h_1^A = 0
+	\]
+	\[
+		h_2^A = \psub{2}{T_A < \infty} = \frac{1}{2} h_1^A + \frac{1}{2} h_3^A
+	\]
+	\[
+		h_3^A = \frac{1}{2} \cdot 1 + \frac{1}{2} h_2^A
+	\]
+	Hence \( h_2^A = \frac{1}{3} \).
+	Now, consider \( B = \qty{1,4} \).
+	\[
+		k_1^B = k_4^B = 0
+	\]
+	\[
+		k_2^B = 1 + \frac{1}{2} k_1^B + \frac{1}{2} k_3^B
+	\]
+	\[
+		k_3^B = 1 + \frac{1}{2} k_4^B + \frac{1}{2} k_2^B
+	\]
+	Hence \( k_2^B = 2 \).
+\end{example}
+\begin{theorem}
+	Let \( A \subset I \).
+	Then the vector \( (h_i^A)_{i \in A} \) is the minimal non-negative solution to the system
+	\[
+		h_i^A = \begin{cases}
+			1                   & i \in A     \\
+			\sum_j P(i,j) h_j^A & i \not\in A\end{cases}
+	\]
+	Minimality here means that if \( (x_i)_{i \in I} \) is another non-negative solution, then \( \forall i, h_i^A \leq x_i \).
+\end{theorem}
+\begin{note}
+	The vector \( h_i^A = 1 \) always satisfies the equation, since \( P \) is stochastic, but is typically not minimal.
+\end{note}
+\begin{proof}
+	First, we will show that \( (h_i)_{i \in A} \) solves the system of equations.
+	Certainly if \( i \in A \) then \( h_i^A = 1 \).
+	Suppose \( i \not\in A \).
+	Consider the event \( \qty{T_A < \infty} \).
+	We can write this event as a disjoint union of the following events:
+	\[
+		\qty{T_A < \infty} = \qty{X_0 \in A} \cup \bigcup_{n=1}^\infty \qty{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A}
+	\]
+	By countable additivity,
+	\begin{align*}
+		\psub{i}{T_A < \infty} & = \underbrace{\psub{i}{X_0 \in A}}_{=0} + \sum_{n=1}^\infty \psub{i}{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A}   \\
+		                       & = \sum_{n=1}^\infty \sum_j \prob{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A, X_1 \in j \mid X_0 = i}               \\
+		                       & = \sum_j \prob{X_1 \in A, X_1 = j \mid X_0 = i}                                                                            \\
+		                       & + \sum_{n=2}^\infty \sum_j \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A, X_1 \in j \mid X_0 = i}               \\
+		                       & = \sum_j P(i,j) \prob{X_1 \in A \mid X_1 = j, X_0 = i}                                                                     \\
+		                       & + \sum_j P(i,j) \sum_{n=2}^\infty \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A \mid X_1 \in j, X_0 = i}        \\
+		\intertext{By the definition of the Markov chain, we can drop the condition on \( X_0 \), and subtract one from all indices.}
+		                       & = \sum_j P(i,j) \prob{X_0 \in A \mid X_0 = j}                                                                              \\
+		                       & + \sum_j P(i,j) \sum_{n=2}^\infty \prob{X_1 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A \mid X_1 \in j}                 \\
+		                       & = \sum_j P(i,j) \prob{X_0 \in A \mid X_0 = j}                                                                              \\
+		                       & + \sum_j P(i,j) \sum_{n=2}^\infty \psub{j}{X_0 \not\in A, \dots, X_{n-2} \not\in A, X_{n-1} \in A}                         \\
+		                       & = \sum_j P(i,j) \qty( \psub{j}{X_0 \in A} + \sum_{2}^\infty \psub{j}{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A} ) \\
+		                       & = \sum_j P(i,j) \qty( \psub{j}{T_A = 0} + \sum_{n=1}^\infty \psub{j}{T_A = n} )                                            \\
+		                       & = \sum_j P(i,j) \psub{j}{T_A < \infty}                                                                                     \\
+		                       & = \sum_j P(i,j) h_j^A
+	\end{align*}
+	Now we must show minimality.
+	If \( (x_i) \) is another non-negative solution, we must show that \( h_i^A \leq x_i \).
+	We have
+	\[
+		x_i = \sum_j P(i,j) x_j = \sum_{j \in A} P(i,j) + \sum_{j \not\in A} P(i,j) x_j
+	\]
+	Substituting again,
+	\[
+		x_i = \sum_{j \in A} P(i,j) x_j + \sum_{j \not\in A} P(i,j) \qty( \sum_{k \in A} P(j,k) + \sum{k \not\in A} P(j,k) x_k )
+	\]
+	Then
+	\begin{align*}
+		x_i & = \sum_{j_1 \in A} P(i,j_1) + \sum_{j_1 \not\in A} \sum_{j_2 \in A} P(i,j_1)P(j_1,j_2) + \cdots \\
+		    & + \sum_{j_1 \not\in A, \dots, j_{n-1} \not\in A, j_n \in A} P(i,j_1)\dots P(j_{n-1},j_n)        \\
+		    & + \sum_{j_1 \not\in A \dots, j_n \not\in A} P(i,j_1)\dots P(j_{n-1},j_n) x_{j_n}
+	\end{align*}
+	The last term is non-negative since \( x \) is non-negative.
+	So
+	\[
+		x_i \geq \psub{i}{T_A = 1} + \psub{i}{T_A = 2} + \dots + \psub{i}{T_A = n} \geq \psub{i}{T_A \leq n},\ \forall n \in \mathbb N
+	\]
+	Now, note \( \qty{T_A \leq n} \) are a set of increasing functions of \( n \), so by continuity of the probability measure, the probability increases to that of the union, \( \qty{T_A < \infty} = h_i^A \).
+\end{proof}
+
+\subsection{Examples of hitting times}
+\begin{example}
+	Consider the Markov chain previously explored:
+	\[
+		P = \begin{pmatrix}
+			1   & 0   & 0   & 0   \\
+			1/2 & 0   & 1/2 & 0   \\
+			0   & 1/2 & 0   & 1/2 \\
+			0   & 0   & 0   & 1
+		\end{pmatrix}
+	\]
+	Let \( A = \qty{4} \).
+	Then \( h_1^A = 0 \) since there is no route from 1 to 4.
+	From the theorem above, the system of linear equations is
+	\[
+		h_2 = \frac{1}{2} h_1 + \frac{1}{2} h_3
+	\]
+	\[
+		h_3 = \frac{1}{2} h_4 + \frac{1}{2} h_2
+	\]
+	\[
+		h_4 = 1
+	\]
+	Hence,
+	\[
+		h_2 = \frac{2}{3} h_1 + \frac{1}{3}
+	\]
+	\[
+		h_3 = \frac{1}{3} h_1 + \frac{2}{3}
+	\]
+	So the minimal solution arises at \( h_1 = 0 \).
+\end{example}
+\begin{example}
+	Consider \( I = \mathbb N \), and
+	\[
+		P(i, i+1) = p \in (0,1);\quad P(i, i-1) = 1-p = q
+	\]
+	Then \( h_i = \psub{i}{T_0 < \infty} \) hence \( h_0 = 1 \).
+	The linear equations are
+	\[
+		p \neq q \implies h_i = p h_{i+1} + q h_{i-1}
+	\]
+	\[
+		p(h_{i+1} - h_i) = q(h_i - h_{i-1})
+	\]
+	Let \( u_i = h_i - h_{i-1} \).
+	Then,
+	\[
+		\frac{q}{p} u_i = \dots = \qty(\frac{q}{p})^i u_1
+	\]
+	Hence
+	\[
+		h_i = \sum_{j=1}^i (h_j - h_{j-1}) + 1 = 1 - (1-h_i) \sum_{j=1}^i \qty(\frac{q}{p})^j
+	\]
+	The general solution is therefore
+	\[
+		h_i = a + b \qty(\frac{q}{p})^i
+	\]
+	If \( q > p \), then minimality of \( h_i \) implies \( b = 0 \), \( a = 1 \).
+	Hence,
+	\[
+		h_i = 1
+	\]
+	Otherwise, if \( p > q \), minimality of \( h_i \) implies \( a = 0 \), \( b = 1 \).
+	Hence,
+	\[
+		h_i = \qty(\frac{q}{p})^i
+	\]
+	If \( p = q = \frac{1}{2} \), then
+	\[
+		h_i = \frac{1}{2} h_{i+1} + \frac{1}{2} h_{i-1}
+	\]
+	Hence, \( h_i = a + bi \).
+	Minimality implies \( a = 1 \) and \( b = 0 \).
+	\[
+		h_i = 1
+	\]
+\end{example}
+
+\subsection{Birth and death chain}
+Consider a Markov chain on \( \mathbb N \) with
+\[
+	P(i,i+1) = p_i;\quad P(i,i-1) = q_i;\quad \forall i,\ p_i + q_i = 1
+\]
+Now, consider \( h_i = \psub{i}{T_0 < \infty} \).
+\( h_0 = 1 \), and \( h_i = p_i h_{i+1} + q_i h_{i-1} \).
+\[
+	p_i (h_{i+1} - h_i) = q_i (h_i - h_{i-1})
+\]
+Let \( u_i = h_i - h_{i-1} \) to give
+\[
+	u_{i+1} = \frac{q_i}{p_i} u_i = \underbrace{\prod{j=1}^i \frac{q_i}{p_i}}_{\gamma_i} u_i
+\]
+Then
+\[
+	h_i = 1 - (1 - h_1) \qty( \gamma_0 + \gamma_1 + \dots + \gamma_{i-1} )
+\]
+where we let \( \gamma_0 = 1 \).
+Since \( h_i \) is the minimal non-negative solution,
+\[
+	h_i \geq 0 \implies 1 - h_1 \leq \frac{1}{\sum_{j=0}^{i-1} \gamma_j} \leq \frac{1}{\sum_{j=0}^{\infty} \gamma_j}
+\]
+By minimality, we must have exactly this bound.
+If \( \sum_{j=0}^\infty \gamma_j = \infty \) then \( 1 - h_1 = 0 \implies h_i = 1 \) for all \( i \).
+If \( \sum_{j=0}^\infty \gamma_j < \infty \) then
+\[
+	h_i = \frac{\sum_{j=i}^\infty \gamma_j}{\sum_{j=0}^\infty \gamma_j}
+\]
+
+\subsection{Mean hitting times}
+Recall that
+\[
+	k_i^A = \esub{i}{T_A} = \sum_n n \psub{i}{T_A = n} + \infty \psub{i}{T_A = \infty}
+\]
+\begin{theorem}
+	The vector \( (k_i^A)_{i \in I} \) is the minimal non-negative solution to the system of equations
+	\[
+		\begin{cases}
+			0                                   & \text{if } i \in A     \\
+			1 + \sum_{j \not\in A} P(i,j) k_j^A & \text{if } i \not\in A
+		\end{cases}
+	\]
+\end{theorem}
+\begin{proof}
+	Suppose \( i \in A \).
+	Then \( k_i = 0 \).
+	Now suppose \( i \not\in A \).
+	Further, we may assume that \( \psub{i}{T_A = \infty} = 0 \), since if that probability is positive then the claim is trivial.
+	Indeed, if \( \psub{i}{T_A = \infty} > 0 \), then there must exist \( j \) such that \( P(i,j) > 0 \) and \( \psub{j}{T_A = \infty} > 0 \) since
+	\[
+		\psub{i}{T_A < \infty} = \sum_j P(i,j) h_j^A \implies 1 - \psub{i}{T_A = \infty} = \sum_j P(i,j) \qty(1 - \psub{j}{T_A = \infty})
+	\]
+	Because \( P \) is stochastic,
+	\[
+		\psub{i}{T_A = \infty} = \sum_j P(i,j) \psub{j}{T_A = \infty}
+	\]
+	so since the left hand side is positive, there must exist \( j \) with \( P(i,j) > 0 \) and \( \psub{j}{T_A = \infty > 0} \).
+	For this \( j \), we also have \( k_j^A = \infty \).
+	Now we only need to compute \( \sum_n n\psub{i}{T_A = n} \).
+	\[
+		\psub{i}{T_A = n} = \psub{i}{X_0 \not\in A, \dots, X_{n-1} \not\in A, X_n \in A}
+	\]
+	Then, using the same method as the previous theorem,
+	\[
+		k_i^A = \sum_n n \psub{i}{T_A = n} = 1 + \sum_{j \not\in A} P(i,j) k_j^A
+	\]
+	It now suffices to prove minimality.
+	Suppose \( (x_i) \) is another solution to this system of equations.
+	We need to show that \( x_i \geq k_i^A \) for all \( i \).
+	Suppose \( i \not\in A \).
+	Then
+	\[
+		x_i = 1 + \sum_{j \not\in A} P(i,j) x_j = 1 + \sum_{j \not\in A} P(i,j) \qty(1 + \sum_{k \not\in A} P(j,k) x_k)
+	\]
+	Expanding inductively,
+	\begin{align*}
+		x_i & = 1 + \sum_{j_1 \not\in A} P(i,j_1) + \sum_{j_1 \not\in A, j_2 \not\in A} P(i,j_1)P(j_1,j_2) + \cdots                                                               \\
+		    & + \sum_{j_1 \not\in A, \dots, j_n \not\in A} P(i,j_1) \dots P(j_{n-1}, j_n) + \sum_{j_1 \not\in A, \dots, j_{n+1} \not\in A} P(i,j) \dots P(j_n,j_{n+1})x_{j_{n+1}}
+	\end{align*}
+	Since \( x \) is non-negative, we can remove the last term and reach an inequality.
+	\[
+		x_i \geq 1 + \sum_{j_1 \not\in A} P(i,j_1) + \sum_{j_1 \not\in A, j_2 \not\in A} P(i,j_1)P(j_1,j_2) + \dots + \sum_{j_1 \not\in A, \dots, j_n \not\in A} P(i,j_1) \dots P(j_{n-1}, j_n)
+	\]
+	Hence
+	\begin{align*}
+		x_i & \geq 1 + \psub{i}{T_A > 1} + \psub{i}{T_A > 2} + \dots + \psub{i}{T_A > n}              \\
+		    & = \psub{i}{T_A > 0} + \psub{i}{T_A > 1} + \psub{i}{T_A > 2} + \dots + \psub{i}{T_A > n} \\
+		    & = \sum_{k = 0}^n \psub{i}{T_A > k}
+	\end{align*}
+	for all \( n \).
+	Hence, the limit of this sum is
+	\[
+		x_i \geq \sum_{k=0}^\infty \psub{i}{T_A > k} = \esub{i}{T_A}
+	\]
+	which gives minimality as required.
+\end{proof}
+
+\subsection{Strong Markov property}
+The simple Markov property shows that, if \( X_m = i \),
+\[
+	X_{m + n} \sim \Markov{\delta_i, P}
+\]
+and this is independent of \( X_0, \dots, X_m \).
+The strong Markov property will show that the same property holds when we replace \( m \) with a finite random `time' variable.
+It is not the case that \textit{any} random variable will work; indeed, an \( m \) very dependent on the Markov chain itself might not satisfy this property.
+\begin{definition}
+	A random time \( T \colon \Omega \to \qty{0, 1, \dots} \cup \qty{\infty} \) is called a \textit{stopping time} if, for all \( n \in \mathbb N \), \( \qty{ T = n } \) depends only on \( X_0, \dots, X_n \).
+\end{definition}
+\begin{example}
+	The hitting time \( T_A = \inf \qty{ n \geq 0 \colon X_n \in A} \) is a stopping time.
+	This is because we can write
+	\[
+		\qty{T_A = n} = \qty{X_0 \in A, \dots, X_{n-1} \not\in A, X_n \in A}
+	\]
+\end{example}
+\begin{example}
+	The time \( L_A = \sup \qty{n \geq 0 \colon X_n \in A} \) is not a stopping time.
+	This is because we need to know information about the future behaviour of \( X_n \) in order to guarantee that we are at the supremum of such events.
+\end{example}
+\begin{theorem}[Strong Markov Property]
+	Let \( X \sim \Markov(\lambda, P) \) and \( T \) be a stopping time.
+	Conditional on \( T < \infty \) and \( X_T = i \),
+	\[
+		\qty(X_{n + T})_{n \geq 0} \sim \Markov{\delta_i, P}
+	\]
+	and this distribution is independent of \( X_0, \dots, X_T \).
+\end{theorem}
+\begin{proof}
+	We need to show that, for all \( x_0, \dots, x_n \) and for all vectors \( w \) of any length,
+	\begin{align*}
+		 & \prob{X_T = x_0, \dots, X_{T+n} = x_n, (X_0, \dots, X_T) = w \mid T < \infty, X_T = i}                    \\
+		 & = \delta_{i x_0} P(x_0,x_1) \dots P(x_{n-1}, x_n) \prob{(X_0, \dots, X_T) = w \colon T < \infty, X_T = i}
+	\end{align*}
+	Suppose that \( w \) is of the form \( w = (w_0, \dots, w_k) \).
+	Then,
+	\begin{align*}
+		 & \prob{X_T = X_0, \dots, X_{T+n} = x_n, (X_0, \dots, X_T) = w \mid T < \infty, X_T = i}                      \\
+		 & = \frac{\prob{X_k = x_0, \dots, X_{k+n} = x_n, (X_0, \dots, X_k)=w, T=k,X_k=i}}{\prob{T < \infty, X_T = i}}
+	\end{align*}
+	Now, since \( \qty{T=k} \) depends only on \( X_0, \dots, X_k \), by the simple Markov property we have
+	\begin{align*}
+		 & \prob{X_k = x_0, \dots, X_{k+n} = x_n \mid (X_0, \dots, X_k) = w, T = k, X_k = i}                        \\
+		 & = \prob{X_k = x_0, \dots, X_{k+n} = x_n \mid X_k = i} = \delta_{i x_0} P(x_0, x_1) \dots P(x_{n-1}, x_n)
+	\end{align*}
+	Now,
+	\begin{align*}
+		 & \prob{X_T = x_0, \dots, X_{T+n} = x_n, (X_0, \dots, X_T) = w \mid T < \infty, X_T = i}                                                  \\
+		 & = \frac{\delta_{i x_0} P(x_0,x_1) \dots P(x_{n-1}, x_n) \prob{(X_0, \dots, X_k) = w \colon T = k, X_k = i}}{\prob{T < \infty, X_T = i}} \\
+		 & = \delta_{i x_0} P(x_0,x_1) \dots P(x_{n-1}, x_n) \prob{(X_0, \dots, X_T) = w \colon T < \infty, X_T = i}
+	\end{align*}
+	as required.
+\end{proof}
+\begin{example}
+	Consider a simple random walk on \( I = \mathbb N \), where \( P(x,x\pm 1) = \frac{1}{2} \) for \( x \neq 0 \), and \( P(0,1) = 1 \).
+	Now, let \( h_i = \psub{i}{T_0 < \infty} \).
+	We want to calculate \( h_1 \).
+	We can write
+	\[
+		h_1 = \frac{1}{2} + \frac{1}{2} h_2
+	\]
+	but the system of recursion relations this generates is difficult to solve.
+	Instead, we will write
+	\[
+		h_2 = \psub{2}{T_0 < \infty}
+	\]
+	Note that in order to hit 0, we must first hit 1.
+	So conditioning on the first hitting time of 1 being finite, after this time the process starts again from 1.
+	We can write \( T_0 = T_1 + \widetilde T_0 \), where \( \widetilde T_0 \) is independent of \( T_1 \), with the same distribution as \( T_0 \) under \( \mathbb P_1 \).
+	Now,
+	\[
+		h_2 = \psub{2}{T_0 < \infty, T_1 < \infty} = \psub{2}{T_0 < \infty \mid T_1 < \infty} \psub{2}{T_2 < \infty}
+	\]
+	Note that
+	\[
+		\psub{2}{T_0 < \infty \mid T_1 < \infty} = \psub{2}{T_1 + \widetilde T_0 < \infty \mid T_1 < \infty} = \psub{2}{\widetilde T_0 < \infty \mid T_1 < \infty} = \psub{1}{T_0 < \infty}
+	\]
+	But \( \psub{2}{T_1 < \infty} = \psub{1}{T_0 < \infty} \), so
+	\[
+		h_2 = \psub{2}{T_1 < \infty} \psub{1}{T_0 < \infty}
+	\]
+	By translation invariance,
+	\[
+		h_2 = h_1^2
+	\]
+	In general, therefore, for any \( n \in \mathbb N \),
+	\[
+		h_n = h_1^n
+	\]
+\end{example}

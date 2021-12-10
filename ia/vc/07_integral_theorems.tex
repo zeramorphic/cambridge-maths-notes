@@ -1,0 +1,399 @@
+\subsection{Green's theorem}
+\begin{proposition}
+	If \(P = P(x, y)\) and \(Q = Q(x, y)\) are continuously differentiable on a planar domain \(A \cup \partial A\) (\(A\) and its boundary), and \(\partial A\) is piecewise smooth, then
+	\[
+		\oint_{\partial A} P \dd{x} + Q \dd{y} = \iint_{A} \left( \pdv{Q}{x} - \pdv{P}{y} \right) \dd{x}\dd{y}
+	\]
+	where the orientation of \(\partial A\) is such that \(A\) lies to the left while traversing \(\partial A\).
+\end{proposition}
+\noindent Note that it is easy to arrive at this result for a rectangle.
+In this case,
+\begin{align*}
+	\iint_{A} \left( \pdv{Q}{x} - \pdv{P}{y} \right) \dd{x}\dd{y} & = \int_c^d \dd{y} \int_a^b \dd{x} \pdv{Q}{x} - \int_a^b \dd{x} \int_x^d \dd{y} \pdv{P}{y} \\
+	                                                              & = \int_c^d [Q(b, y) - Q(a, y)] \dd{y} + \int_a^b [P(x, c) - P(x, d)] \dd{x}               \\
+	                                                              & = \oint_{\partial A} P \dd{x} + Q \dd{y}
+\end{align*}
+It then intuitively follows that we can approximate a surface with a set of small rectangles, and then the theorem should hold.
+As an example, let
+\[
+	P = -\frac{1}{2}y;\quad Q = \frac{1}{2}x
+\]
+Then the area of some region is given by
+\begin{align*}
+	\iint_A \dd{x}\dd{y} & = \iint_A \left( \frac{1}{2} + \frac{1}{2} \right) \dd{x}\dd{y} \\
+	                     & = \iint_A \left( \pdv{Q}{x} - \pdv{P}{y} \right) \dd{x}\dd{y}   \\
+	                     & = \frac{1}{2}\oint_{\partial A} x\dd{y} - y\dd{x}
+\end{align*}
+So letting \(A\) be the ellipse \(\frac{x^2}{a^2} + \frac{y^2}{b^2} \leq 1\), we can parametrise \(\partial A\) by
+\[
+	[0, 2 \pi] \ni t \mapsto \begin{pmatrix}
+		a \cos t \\ b \sin t
+	\end{pmatrix}
+\]
+Hence the area is
+\[
+	\frac{1}{2}\int_0^{2\pi} \left( ab\cos^2 t + ab\sin^2 t \right) \dd{t} = \pi ab
+\]
+
+\subsection{Stokes' theorem}
+\begin{proposition}
+	If \(\vb F(\vb x)\) is a continuously differentiable vector field, and \(S\) is an orientable, piecewise regular surface with a piecewise smooth boundary \(\partial S\), then
+	\[
+		\int_S (\curl{\vb F}) \cdot \dd \vb S = \oint_{\partial S} \vb F\cdot \dd{\vb x}
+	\]
+\end{proposition}
+\noindent This can be thought of as a generalisation to the fundamental theorem of calculus.
+From the fundamental theorem, we know that the integral of a differentiated function over an interval \(I\) is just the original function evaluated at the boundary \(\partial I\).
+Likewise, Stokes' theorem states that the integral of the curl of a function (just another differential operator) over a surface \(S\) is just the original function evaluated at the boundary of the surface \(\partial S\).
+In the one-dimensional fundamental theorem of calculus, we say that the function `evaluated over the boundary' is simply the function applied to the final point, minus the function applied to the initial point; we are in some sense considering every point on the boundary \(\partial I\).
+But in the case of \(\partial S\) being a curve, we must integrate around the curve boundary, since without an integral we can't consider infinitely many boundary points.
+
+Note that for a surface to be `orientable', it simply means that it has two sides, an inside and an outside.
+There must be a consistent choice of normal at each point.
+For example, a sphere is orientable, but a M\"obius strip is not orientable.
+
+\begin{example}
+	Let \(S\) be a cap of a sphere:
+	\[
+		S = \left\{ \vb x(\theta, \phi) = \begin{pmatrix}
+			\sin\theta\cos\phi \\ \sin\theta\sin\phi \\ \cos\theta
+		\end{pmatrix} \equiv \vb e_r; 0 \leq \theta \leq \alpha; 0 \leq \phi < 2 \pi \right\}
+	\]
+	Now, let
+	\[
+		\vb F(\vb x) = \begin{pmatrix}
+			-x^2y \\ 0 \\ 0
+		\end{pmatrix} \implies \curl{\vb F} = \begin{pmatrix}
+			0 \\ 0 \\ x^2
+		\end{pmatrix}
+	\]
+	On \(S\),
+	\[
+		\dd {\vb S} = \dv{\vb x}{\theta} \times \dv{\vb x}{\phi} \dd{\theta}\dd{\phi} = \vb e_r \sin\theta \dd{\theta}\dd{\phi}
+	\]
+	Note that since
+	\[
+		x^2 \vb e_z \cdot \vb e_r = (\sin\theta\cos\phi)^2 \cos\theta
+	\]
+	on \(S\), we can compute
+	\[
+		\int_S (\curl{\vb F}) \cdot \dd{\vb S} = \int_{\phi = 0}^{2 \pi} \left( \int_{\theta = 0}^\alpha (\sin\theta\cos\phi)^2 \cos\theta \sin\theta \dd{\theta} \right) \dd{\phi} = \frac{\pi}{4}\sin^4 \alpha
+	\]
+	We can instead compute the integral over the boundary.
+	By Stokes' theorem, the results should match.
+	\(\partial S\) is described by
+	\[
+		[0, 2\pi] \ni t \mapsto \begin{pmatrix}
+			\sin\alpha\cos t \\ \sin\alpha\sin t \\ \cos\alpha
+		\end{pmatrix}
+	\]
+	Then
+	\[
+		\dd{\vb x} = \dv{\vb x}{t} \dd{t} = \sin \alpha\begin{pmatrix}
+			-\sin t \\ \cos t \\ 0
+		\end{pmatrix} \dd{t}
+	\]
+	We can show that
+	\[
+		\oint_{\partial S} \vb F \cdot \dd{\vb S} = \sin^4 \alpha \int_0^{2\pi} \left( -\cos^2 t \sin t \right)\left( -\sin t \right) \dd{t} = \frac{\pi}{4}\sin^4 \alpha
+	\]
+\end{example}
+
+\subsection{Stokes' theorem on closed surfaces}
+If \(S\) is an orientable, closed surface, and \(\vb F\) is continuously differentiable, then
+\[
+	\int_S (\curl{\vb F}) \cdot \dd{\vb S} = 0
+\]
+This is clear since \(\partial S = \varnothing\).
+
+\subsection{Zero circulation and irrotationality}
+\begin{proposition}
+	If \(\vb F\) is continuously differentiable, and for every loop \(C\) we have that
+	\[
+		\oint_C \vb F \cdot \dd{\vb x} = 0
+	\]
+	then \(\curl{\vb F} = \vb 0\).
+	In other words, \(\vb F\) is irrotational if and only if \(\vb F\) has zero circulation around all closed loops.
+\end{proposition}
+\noindent Note that the backward implication is trivial.
+If \(\vb F\) has zero circulation around all loops, we can define that loop to be the boundary of some surface, and so the integral of the curl vanishes.
+\begin{proof}
+	Suppose that the result is false; there exists a unit vector \(\vu{k}\) such that \(\vu{k} \cdot \left( \curl{\vb F(\vb x_0)} \right) = \varepsilon > 0\) for some \(\vb x_0\).
+	By continuity, for a sufficiently small \(\delta > 0\),
+	\[
+		\vu{k} \cdot \left( \curl{\vb F(\vb x_0)} \right) > \frac{1}{2}\varepsilon;\quad \text{for }\abs{\vb x - \vb x_0} < \delta
+	\]
+	Now, we can take a loop in this ball \(\{ \vb x \colon \abs{\vb x - \vb x_0} < \delta \}\) that lies entirely in a plane with normal \(\vu{k}\).
+	Let this small loop's enclosed surface be \(S\), with boundary \(\partial S\).
+	Then
+	\[
+		0 = \oint_{\partial S} \vb F \cdot \dd{\vb x} = \int_S \curl{\vb F} \cdot \vu k \dd{S} > \frac{1}{2}\varepsilon \int \dd{S} > 0
+	\]
+	which is a contradiction.
+\end{proof}
+
+\subsection{Intuition for curl as infinitesimal circulation}
+Let \(S_\varepsilon\) denote a region contained inside a disk of radius \(\varepsilon > 0\), centred at \(\vb x_0\) with normal \(\vu{k}\).
+\begin{align*}
+	\int_{S_\varepsilon} \curl{\vb F} \cdot \dd{\vb S} & = \int_{S_\varepsilon} \left( \curl{\vb F(\vb x)} - \curl{\vb F(\vb x_0)} \right) \cdot \dd{\vb S} + \int_{S_\varepsilon} \curl{\vb F(\vb x_0)} \cdot \vu k \dd{S}                                                                                        \\
+	                                                   & = \underbrace{\int_{S_\varepsilon} \left( \curl{\vb F(\vb x)} - \curl{\vb F(\vb x_0)} \right) \cdot \dd{\vb S}}_{o(\text{area}(S_\varepsilon))} + \curl{\vb F(\vb x_0)} \cdot \vu k \underbrace{\int_{S_\varepsilon} \dd{S}}_{\text{area}(S_\varepsilon)} \\
+\end{align*}
+As \(\varepsilon\) shrinks, the first integral tends to zero faster than the second term.
+Hence,
+\[
+	\int_{S_\varepsilon} \curl{\vb F} \cdot \dd{\vb S} =  \curl{\vb F(\vb x_0)} \cdot \vu k \cdot \text{area}(S_\varepsilon) + o(\text{area}(S_\varepsilon))
+\]
+We can then see, by Stokes' theorem, that
+\[
+	\curl{\vb F(\vb x_0)} \cdot \vu k = \lim_{\varepsilon \to 0} \frac{1}{\text{area}(S_\varepsilon)} \oint_{\partial S_\varepsilon} \vb F \cdot \dd{\vb x}
+\]
+So the curl of \(\vb F\) at \(\vb x_0\) in the direction \(\vu k\) is the infinitesimal circulation around \(\vb x_0\), per unit area.
+
+\subsection{Gauss' divergence theorem}
+\begin{proposition}
+	If \(\vb F(\vb x)\) is a continuously differentiable vector field, and \(V\) is a volume with a piecewise regular boundary \(\partial V\), then
+	\[
+		\int_V \div{\vb F} \dd{V} = \int_{\partial V} \vb F \cdot \dd{\vb S}
+	\]
+	where the normal of \(\partial V\) points out of \(V\).
+\end{proposition}
+\noindent There is also a two-dimensional version.
+If \(D\) is a planar region with a piecewise smooth boundary \(\partial D\),
+\[
+	\int_D \div{\vb F} \dd{A} = \oint_{\partial D} \vb F \cdot \vb n \dd{s}
+\]
+where the \(\dd{s}\) represents arc length, and where \(\vb n\) points out of \(D\).
+
+\begin{example}
+	Let \(V\) be a cylinder, defined in cylindrical polar coordinates \((\rho, \phi, z)\) as
+	\[
+		V = \left\{ (\rho, \phi, z) \colon 0 \leq \rho \leq R, -h \leq z \leq h, 0 \leq \phi < 2 \pi \right\}
+	\]
+	Let us label the boundary on the top \(S_+\), the boundary on the bottom \(S_-\), and the rest of the boundary \(S_R\):
+	\begin{align*}
+		S_\pm & = \{ (\rho, \phi, z) \colon 0 \leq \rho \leq R, z = \pm h, 0 \leq \phi < 2 \pi \} \\
+		S_R   & = \{ (\rho, \phi, z) \colon \rho = R, -h \leq z \leq h, 0 \leq \phi < 2 \pi \}    \\
+	\end{align*}
+	Consider \(\vb F(\vb x) = \vb x\), hence \(\div{\vb F} = 3\).
+	\[
+		\int_V \div{\vb F} \dd{V} = 3 \int_V \dd{V} = 6\pi R^2 h
+	\]
+	Using instead the divergence theorem,
+	\[
+		\int_V \div{\vb F} \dd{V} = \int_{\partial V} \vb F \cdot \dd{\vb S}
+	\]
+	On \(S_R\), \(\dd{\vb S} = \vb e_\rho R \dd{\phi}\dd{z}\), and \(\vb x \cdot \vb e_\rho = R\).
+	So we have the flux integral
+	\[
+		\int_{S_R} \vb F \cdot \dd{\vb S} = \int_{z = -h}^h \int_{\phi = 0}^{2 \pi} R^2 \dd{\phi} \dd{z} = 4\pi R^2 h
+	\]
+	On \(S_\pm\), \(\dd{\vb S} = \pm \vb e_z \rho \dd{\rho}\dd{\phi}\), and \(\vb x \cdot \vb e_z = \pm h\).
+	Hence
+	\[
+		\int_{S_\pm} \vb F \cdot \dd{\vb S} = \int_{\phi = 0}^{2 \pi} \int_{\rho = 0}^R h \rho\dd{\rho}\dd{\phi} = \pi R^2 h
+	\]
+	The total is \(6\pi R^2 h\) as expected.
+\end{example}
+
+\begin{proposition}
+	If \(\vb F\) is continuously differentiable, and for every closed surface \(S\) we have
+	\[
+		\int_S \vb F \cdot \dd{\vb S} = 0
+	\]
+	then \(\div{\vb F} = 0\).
+\end{proposition}
+\begin{proof}
+	Suppose that the result is false; \(\div{\vb F}(\vb x_0) = \varepsilon > 0\).
+	By continuity, for some sufficiently small \(\delta > 0\) we have
+	\[
+		\div{\vb F}(\vb x) > \frac{1}{2} \varepsilon \text{ for } \abs{\vb x_0 - \vb x} < \delta
+	\]
+	Now, we can choose a volume \(V\) inside the ball \(\abs{\vb x_0 - \vb x} < \delta\), and then by assumption, applying the divergence theorem,
+	\[
+		0 = \int_{\partial V} \vb F \cdot \dd{\vb S} = \int_V \div{\vb F} \dd{V} > 0
+	\]
+	which is a contradiction.
+	We then conclude that if the vector field has zero net flux through any closed surface, it is solenoidal.
+\end{proof}
+
+\subsection{Intuition for divergence as infinitesimal flux}
+Let \(V_\varepsilon\) be a volume in \(\mathbb R^3\), contained inside a ball of radius \(\varepsilon > 0\), centred at a point \(\vb x_0\).
+Then
+\[
+	\int_{V_\varepsilon} \div{\vb F} \dd{V} = \mathrm{vol}(V_\varepsilon) \div{\vb F}(\vb x_0) + \underbrace{\int_{V_\varepsilon}  \left[ \div{\vb F}(\vb x) - \div{\vb F}(\vb x_0) \right] \dd{V}}_{o(\mathrm{vol}(V_\varepsilon))}
+\]
+Dividing both sides by the volume of \(V_\varepsilon\), and taking \(\varepsilon \to 0\), we can apply the divergence theorem to get
+\[
+	\div{\vb F}(\vb x_0) = \lim_{\varepsilon \to 0} \frac{1}{\mathrm{vol}(V_\varepsilon)} \int_{\partial V_\varepsilon} \vb F \cdot \dd{\vb S}
+\]
+The divergence of \(\vb F\) measures the infinitesimal flux per unit volume.
+If the flux is moving `outward' at this point, \(\div{\vb F} > 0\), and vice versa.
+
+\subsection{Conservation laws}
+Many equations in mathematical physics can be represented using density \(\rho(\vb x, t)\) and a vector field \(\vb J(\vb x, t)\), as follows.
+\begin{equation}
+	\pdv{\rho}{t} + \div{\vb J} = 0 \tag{\(\dagger\)}
+\end{equation}
+This kind of equation is called a `conservation law'.
+Suppose both \(\rho\) and \(\abs{\vb J}\) decrease rapidly as \(\abs{\vb x} \to \infty\).
+We will define the charge \(Q\) by
+\[
+	Q = \int_{\mathbb R^3} \rho(\vb x, t) \dd{V}
+\]
+We have conservation of charge;
+\begin{align*}
+	\dv{Q}{t} & = \int_{\mathbb R^3} \pdv{\rho}{t} \dd{V}                            \\
+	          & = -\int_{\mathbb R^3} \div{\vb J} \dd{V}                             \\
+	          & = -\lim_{R \to \infty} \int_{\abs{\vb x} \leq R} \div{\vb J} \dd{V}  \\
+	          & = -\lim_{R \to \infty} \int_{\abs{\vb x} = R} \vb J \cdot \dd{\vb S} \\
+	          & = 0                                                                  \\
+\end{align*}
+as \(\vb J\) decreases rapidly to zero as \(\abs{\vb x} \to \infty\).
+So \((\dagger)\) gives conservation of charge.
+
+\subsection{Proof of divergence theorem}
+\begin{proof}
+	Suppose first that
+	\[
+		\vb F = F_z(x,y,z) \vb e_z
+	\]
+	The divergence theorem states that
+	\begin{equation}
+		\int_V \underbrace{\pdv{F_z}{z}}_{\div{\vb F}} \dd{V} = \int_{\partial V} F_z \vb e_z \cdot \dd{\vb S}
+		\tag{\(\dagger\)}
+	\end{equation}
+	We would like to show that these two are really the same.
+	First, let us simplify the problem to a convex volume \(V\), such that we can split the boundary into two halves, one with normals in the positive \(z\) direction (\(S_+\)) and one with normals in the negative \(z\) direction (\(S_-\)).
+	Then \(\partial V = S_+ \cup S_-\).
+	Project the volume into the \(x\)-\(y\) plane, and call this region \(A\).
+	This planar region is then the shape of the `cut' between the \(S_+\) and \(S_-\) halves.
+	We can write
+	\[
+		S_\pm = \left\{ \vb x(x, y) = \begin{pmatrix}
+			x \\ y \\ g_\pm (x, y)
+		\end{pmatrix} : (x, y) \in A \right\}
+	\]
+	We can then say
+	\begin{align*}
+		\int_V \pdv{F_z}{z} \dd{V} & = \iint_{A} \left[ \int_{z = g_- (x, y)}^{g_+ (x, y)} \pdv{F_z}{z} \dd{z} \right] \dd{x} \dd{y} \\
+		                           & = \iint_A \left[ F_z(x, y, g_+ (x, y)) - F_z(x, y, g_- (x, y)) \right] \dd{x}\dd{y}
+	\end{align*}
+	To calculate right hand side of \((\dagger)\), we need \(\dd{\vb S}\):
+	\begin{align*}
+		\dd{\vb S} & = \pdv{\vb x}{x} \times \pdv{\vb x}{y} \dd{x}\dd{y} \\
+		           & = \begin{pmatrix}
+			-\pdv*{g_\pm}{x} \\
+			-\pdv*{g_\pm}{y} \\
+			1                \\
+		\end{pmatrix} \dd{x}\dd{y}
+	\end{align*}
+	Since we want the normal to point `out' of \(V\), on \(S_\pm\) we have
+	\[
+		\eval{\dd{\vb S}}_{S_\pm} = \pm \begin{pmatrix}
+			-\pdv*{g_\pm}{x} \\
+			-\pdv*{g_\pm}{y} \\
+			1                \\
+		\end{pmatrix} \dd{x}\dd{y}
+	\]
+	Therefore,
+	\begin{align*}
+		\int_{\partial V} \vb F \cdot \dd{\vb S} & = \left[ \int_{S_+} + \int_{S_-} \right] F_z \vb e_z \cdot \dd{\vb S}                   \\
+		                                         & = \iint_A F_z(x, y, g_+(x, y)) \dd{x}\dd{y} - \iint_A F_z(x, y, g_-(x, y)) \dd{x}\dd{y}
+	\end{align*}
+	which matches the expression we found for the left hand side of \((\dagger)\) above.
+	In the same way, we can show that
+	\begin{align*}
+		\int_V \pdv{F_x}{x} \dd{V} & = \int_{\partial V} F_x \vb e_x \cdot \dd{\vb S} \\
+		\int_V \pdv{F_y}{y} \dd{V} & = \int_{\partial V} F_y \vb e_y \cdot \dd{\vb S} \\
+	\end{align*}
+	and because the integrals are linear, we can compute their sum to find
+	\[
+		\int_V \div{\vb F} \dd{V} = \int_{\partial V} \vb F \cdot \dd{\vb S}
+	\]
+	which is exactly the divergence theorem.
+\end{proof}
+
+\subsection{Proof of Green's theorem}
+We can use the two-dimensional divergence theorem to prove Green's theorem.
+\begin{proof}
+	Let
+	\[
+		\vb F = \begin{pmatrix}
+			Q(x, y) \\ -P(x, y)
+		\end{pmatrix}
+	\]
+	Then
+	\[
+		\iint_A \left( \pdv{Q}{x} - \pdv{P}{y} \right) \dd{x}\dd{y} = \int_A \div{\vb F} \dd{A} = \oint_{\partial A} \vb F \cdot \vb n \dd{s}
+	\]
+	If \(\partial A\) is parametrised with respect to arc length, this means that the unit tangent vector is
+	\[
+		\vb t = \begin{pmatrix}
+			x'(s) \\ y'(s)
+		\end{pmatrix}
+	\]
+	then the normal vector is
+	\[
+		\vb n = \begin{pmatrix}
+			y'(s) \\ -x'(s)
+		\end{pmatrix}
+	\]
+	Therefore,
+	\[
+		\oint_{\partial A} \vb F \cdot \vb n \dd{s} = \oint_{\partial A} \begin{pmatrix}
+			Q \\ -P
+		\end{pmatrix} \cdot \begin{pmatrix}
+			y'(s) \\ -x'(s)
+		\end{pmatrix} \dd{s} = \oint_{\partial A} P \dv{x}{s} \dd{s} + Q \dv{y}{s} \dd{s} = \oint_{\partial A} P \dd{x} + Q \dd{y}
+	\]
+\end{proof}
+
+\subsection{Proof of Stokes' theorem}
+We can now use Green's theorem to derive Stokes' theorem.
+\begin{proof}
+	Consider a regular surface
+	\[
+		S = \left\{ \vb x = \vb x(u, v) \colon (u, v) \in A \right\}
+	\]
+	Then the boundary is
+	\[
+		\partial S = \left\{ \vb x = \vb x(u, v) \colon (u, v) \in \partial A \right\}
+	\]
+	Green's theorem gives
+	\begin{equation}
+		\oint_{\partial A} P \dd{u} + Q \dd{v} = \iint_A \left( \pdv{Q}{u} - \pdv{P}{v} \right) \dd{u}\dd{v}
+		\tag{\(\dagger\)}
+	\end{equation}
+	We will now set
+	\[
+		P(u, v) = \vb F(\vb x(u, v)) \cdot \pdv{\vb x}{u};\quad Q(u, v) = \vb F(\vb x(u, v)) \cdot \pdv{\vb x}{v}
+	\]
+	Then
+	\[
+		P \dd{u} + Q \dd{v} = \vb F(\vb x(u, v)) \cdot \left( \pdv{\vb x}{u} \dd{u} + \pdv{\vb v} \dd{v} \right) = \vb F(\vb x(u, v)) \cdot \dd{\vb x(u, v)}
+	\]
+	And so we can compute the left hand side of \((\dagger)\):
+	\[
+		\oint_{\partial A} P \dd{u} + Q \dd{v} = \oint_{\partial S} \vb F \cdot \dd{\vb x}
+	\]
+	For the right hand side, we must first compute some derivatives.
+	\[
+		Q = F_i(\vb x(u, v))\pdv{x_i}{v} \implies \pdv{Q}{u} = \pdv{x_j}{u}\pdv{F_i}{x_j}\pdv{x_i}{v} + F_i \pdv{x_i}{u}{v}
+	\]
+	\[
+		P = F_i(\vb x(u, v))\pdv{x_i}{u} \implies \pdv{Q}{v} = \pdv{x_j}{v}\pdv{F_i}{x_j}\pdv{x_i}{u} + F_i \pdv{x_i}{v}{u}
+	\]
+	Hence
+	\begin{align*}
+		\pdv{Q}{u} - \pdv{P}{v} & = \left( \pdv{x_i}{v}\pdv{x_j}{u} - \pdv{x_i}{u}\pdv{x_j}{v} \right) \pdv{F_i}{x_j}                       \\
+		                        & = \left( \delta_{ip} \delta_{jq} - \delta_{iq} \delta_{jp} \right) \pdv{F_i}{x_j}\pdv{x_p}{v}\pdv{x_q}{u} \\
+		                        & = \varepsilon_{ijk} \varepsilon_{pqk} \pdv{F_i}{x_j}\pdv{x_p}{v}\pdv{x_q}{u}                              \\
+		                        & = \left[ -\curl{\vb F} \right]_k \left( -\pdv{\vb x}{u} \times \pdv{\vb x}{v} \right)_k                   \\
+		                        & = \left( \curl{\vb F} \right) \cdot \left( \pdv{\vb x}{u} \times \pdv{\vb x}{v} \right)                   \\
+	\end{align*}
+	Therefore,
+	\[
+		\iint_{A} \left( \pdv{Q}{u} - \pdv{P}{v} \right) \dd{u}\dd{v} = \iint_{A} \left( \curl{\vb F} \right) \cdot \left( \pdv{\vb x}{u} \times \pdv{\vb x}{v} \right) = \iint_{S} (\curl{\vb F}) \cdot \dd{\vb S}
+	\]
+	which gives Stokes' theorem as required.
+\end{proof}

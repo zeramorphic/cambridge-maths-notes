@@ -1,0 +1,327 @@
+\subsection{Notation}
+Throughout this course, a column vector e.g.
+\[
+	\begin{pmatrix}
+		a \\ b \\ c
+	\end{pmatrix}
+\]
+should be interpreted as the vector
+\[
+	\vb x = a \vb e_x + b \vb e_y + x \vb e_z
+\]
+where \(\{ \vb e_x, \vb e_y, \vb e_z \}\) are the basis vectors aligned with the fixed Cartesian \(x, y, z\) axes in \(\mathbb R^3\).
+We will be dealing with various kinds of basis vectors through the course, so it is useful to define now that column vectors written as above always represent the standard basis.
+
+\subsection{Parametrised curves and smoothness}
+A parametrised curve \(C\) in \(R^3\) is the image of a continuous map \(\vb x \colon [a, b] \to \mathbb R^3\), in which \(t \mapsto \vb x(t)\).
+In Cartesian coordinates,
+\[
+	\vb x(t) = \begin{pmatrix}
+		x_1(t) \\ x_2(t) \\ x_3(t)
+	\end{pmatrix} = \begin{pmatrix}
+		x(t) \\ y(t) \\ z(t)
+	\end{pmatrix}
+\]
+The resultant curve has a direction, from \(\vb x(a)\) to \(\vb x(b)\).
+\begin{definition}
+	We say that \(C\) is a differentiable curve if each of the components \(\{x_i(t)\}\) are differentiable functions.
+	\(C\) is regular if it is differentiable and \(\abs{\vb x'(t)} \neq 0\).
+	If \(C\) is differentiable and regular, we say that \(C\) is smooth.
+\end{definition}
+\begin{note}
+	We need this regularity condition because it is quite easy to create `bad curves' with cusps and spikes using only differentiable functions, for example
+	\[
+		\vb x(t) = (t^2, t^3)
+	\]
+	The components are clearly differentiable, but \(\vb x(t)\) has a cusp at \(t = 0\).
+	At this point, \(\abs{\vb x'(0)} = 0\).
+\end{note}
+\begin{definition}
+	Recall that \(x_i(t)\) is called `differentiable' at \(t\) if
+	\[
+		x_i(t+h) = x_i(t) + x_i'(t)h + o(h)
+	\]
+	where \(o(h)\) represents a function that obeys
+	\[
+		\lim_{h \to 0} \frac{o(h)}{h} = 0
+	\]
+	In terms of vectors,
+	\[
+		\vb x(t+h) = \vb x(t) + \vb x'(t)h + o(h)
+	\]
+	where here \(o(h)\) is a vector for which
+	\[
+		\lim_{h \to 0} \frac{\abs{o(h)}}{h} = 0
+	\]
+\end{definition}
+
+\subsection{Arc length}
+We can approximate the length of a curve \(C\) by splitting it into small straight lines and summing the lengths of such lines.
+We will introduce a partition \(P\) of \([a, b]\) with \(t_0 = a, t_N = b\) and
+\[
+	t_0 < t_1 < t_2 < \dots < t_N
+\]
+Let us now set \(\Delta t_i = t_{i+1} - t_i\) and \(\Delta t = \max_i \Delta t_i\).
+The length of the curve relative to \(P\) is defined as
+\[
+	\ell(C, P) = \sum_{i=0}^{N-1} \abs{\vb x(t_{i+1}) - \vb x(t_i)}
+\]
+As \(\Delta t\) gets smaller, we would expect \(\ell(C, P)\) to give a better approximation to the true length of \(C\), which we will call \(\ell(C)\).
+Therefore we can define the length of \(C\) by
+\[
+	\ell(C) = \lim_{\Delta t \to 0} \sum_{i=0}^{N-1}\abs{\vb x(t_{i+1}) - \vb x(t_i)} = \lim_{\Delta t \to 0} \ell(C, P)
+\]
+If this limit doesn't exist, we say that the curve is \textit{non-rectifiable}.
+Suppose \(C\) is differentiable.
+Then
+\begin{align*}
+	\vb x(t_{i+1}) & = \vb x(t_i + t_{i+1} - t_i)                          \\
+	               & = \vb x(t_i + \Delta t_i)                             \\
+	               & = \vb x(t_i) + \vb x'(t_i) \Delta t_i + o(\Delta t_i)
+\end{align*}
+It follows then that
+\[
+	\abs{\vb x(t_{i+1}) - \vb x(t_i)} = \abs{\vb x'(t_i)}\Delta t_i + o(\Delta t_i)
+\]
+So if \(C\) is differentiable,
+\[
+	\ell(C, P) = \lim_{\Delta t \to 0} \sum_{i=0}^{N-1} \left( \abs{\vb x'(t_i)}\Delta t_i + o(\Delta t_i)  \right)
+\]
+Recall that this \(o(\Delta t_i)\) term represents a function for which \(o(\Delta t_i) / \Delta t_i \to 0\).
+So for any \(\varepsilon > 0\), if \(\Delta t = \max_i \Delta t_i\) is sufficiently small, we have \(\abs{o(\Delta t_i)} < \frac{\varepsilon}{b-a}\Delta t_i\), for \(i = 0, \dots, N-1\).
+So by the Triangle Inequality, choosing \(\Delta t\) sufficiently small,
+\[
+	\abs{\ell(C, P) - \sum_{i=0}^{N-1} \abs{\vb x'(t_i)}\Delta t_i} = \abs{\sum_{i=0}^{N-1} o(\Delta t_i)} < \frac{\varepsilon}{b-a}\underbrace{\sum_{i=0}^{N-1} \Delta t_i}_{b-a} = \varepsilon
+\]
+So the left hand side tends to zero as \(\Delta t \to 0\).
+We then get
+\begin{align*}
+	\ell(C) & = \lim_{\Delta t \to 0} \ell(C, P)                                     \\
+	        & = \lim_{\Delta t \to 0} \sum_{i=0}^{N - 1} \abs{\vb x'(t_i)}\Delta t_i \\
+	        & = \int_a^b \abs{\vb x'(t)} \dd{t}
+\end{align*}
+according to Analysis I, and the definition of the Riemann Integral.
+So in summary, if \(C \colon [a, b] \ni t \mapsto \vb x(t)\), then
+\begin{align*}
+	\ell(C) & = \int_a^b \abs{\vb x'(t)} \dd{t} \\
+	        & = \int_C \dd{s}
+\end{align*}
+where \(\dd{s}\) is the `arc length element', i.e.\ \(\dd{s} = \abs{\vb x'(t)} \dd{t}\).
+Similarly, we define
+\[
+	\int_C f(\vb x) \dd{s} = \int_a^b f(\vb x(t)) \,\abs{\vb x'(t)} \dd{t}
+\]
+If \(C\) is made up of \(M\) smooth curves \(C_1, \dots, C_M\), we say that \(C\) is `piecewise smooth'.
+We write \(C = C_1 + \dots + C_M\) and define
+\[
+	\int_C f(\vb x) \dd{s} = \sum_{i=1}^M \int_{C_i}f(\vb x) \dd{s}
+\]
+Now note (informally) that
+\[
+	\dd{s} = \abs{\vb x'(t)}\dd{t} = \sqrt{\left( \frac{\dd{x}}{\dd{t}} \right)^2 + \left( \frac{\dd{y}}{\dd{t}} \right)^2 + \left( \frac{\dd{z}}{\dd{t}} \right)^2} \dd{t}
+\]
+i.e.\ (now very informally)
+\[
+	\dd{s}^2 = \dd{x}^2 + \dd{y}^2 + \dd{z}^2
+\]
+which is Pythagoras' Theorem.
+
+\subsection{Example of arc length}
+Let \(C\) be the circle of radius \(r>0\) in \(\mathbb R^3\)
+\[
+	\vb x(t) = \begin{pmatrix}
+		r\cos t \\ r\sin t \\ 0
+	\end{pmatrix};\quad t \in [0, 2\pi]
+\]
+So
+\[
+	\vb x'(t) = \begin{pmatrix}
+		-r\sin t \\ r\cos t \\ 0
+	\end{pmatrix}
+\]
+Therefore
+\[
+	\int_C \dd{s} = \int_0^{2\pi} \abs{\vb x'(t)} \dd{t} = \int_0^{2\pi} \sqrt{r^2 \sin^2 t + r^2 \cos^2 t} \dd{t} = \int_0^{2\pi} r \dd{t} = 2\pi r
+\]
+Also, for example,
+\[
+	\int_C x^2 y \dd{s} = \int_0^{2\pi} (r \cos t)^2 (r \sin t) \sqrt{r^2 \sin^2 t + r^2 \cos^2 t} \dd{t} = \int_0^{2\pi} r^3 \cos^2 t \sin t \dd{t} = 0
+\]
+
+\subsection{Choice of parametrisation of curves}
+Does \(\ell(C)\) depend on the choice of parametrisation of \(\vb x(t)\)?
+For example,
+\[
+	\vb x(t) = \begin{pmatrix}
+		r\cos t \\ r \sin t \\ 0
+	\end{pmatrix};\quad t \in [0, 2\pi]
+\]
+and
+\[
+	\widetilde{\vb x}(t) = \begin{pmatrix}
+		r\cos 2t \\ r \sin 2t \\ 0
+	\end{pmatrix};\quad t \in [0, \pi]
+\]
+both give rise to a circle, but have different forms.
+Suppose that \(C\) has two different parametrisations,
+\[
+	\vb x = \vb x_1(t);\quad a \leq t \leq b
+\]
+\[
+	\vb x = \vb x_2(\tau);\quad \alpha \leq \tau \leq \beta
+\]
+There must be some relationship \(\vb x_2(\tau) = \vb x_1(t(\tau))\) for some function \(t(\tau)\), since they represent the same curve.
+We can assume \(\frac{\dd{t}}{\dd \tau} \neq 0\), so the map between \(t\) and \(\tau\) is invertible and differentiable (see IB Analysis and Topology).
+Note that
+\begin{align*}
+	\vb x_2'(\tau) & = \frac{\dd}{\dd \tau}\vb x_2(\tau)        \\
+	               & = \frac{\dd}{\dd \tau}\vb x_1(t(\tau))     \\
+	\intertext{By the Chain Rule,}
+	               & = \frac{\dd{t}}{\dd \tau}\vb x_1'(t(\tau))
+\end{align*}
+And now from the above definitions,
+\[
+	\int_C f(\vb x) \dd{s} = \int_a^b f(\vb x_1(t)) \, \abs{\vb x_1'(t)} \dd{t}
+\]
+Making the substitution \(t = t(\tau)\), and assuming \(\frac{\dd{t}}{\dd \tau} > 0\), the latter integral becomes
+\[
+	\int_\alpha^\beta f(\vb x_2(\tau)) \, \underbrace{\abs{\vb x_1'(t(\tau))} \,\frac{\dd{t}}{\dd \tau}\dd \tau}_{\abs{\vb x_2'(\tau)}\,\dd \tau} = \int_\alpha^\beta f(\vb x_2(\tau)) \, \abs{\vb x_2'(\tau)} \,\dd \tau
+\]
+which is precisely the same as \(\int_C f(\vb x) \dd{s}\) using the \(\vb x_2(\tau)\) parametrisation.
+When \(\frac{\dd{t}}{\dd \tau} < 0\), you get the same result.
+So the definition of \(\int_C f(\vb x) \dd{s}\) does \textit{not} depend on the choice of parametrisation of \(C\).
+
+\subsection{Parametrisation according to arc length}
+We know that for any curve \(C\) there exist multiple unique parametrisations.
+We will define the arc-length function for a curve \([a, b] \ni t \mapsto \vb x(t)\) by
+\[
+	s(t) = \int_a^t \abs{\vb x'(\tau)} \,\dd \tau
+\]
+So \(s(a) = 0, s(b) = \ell(C)\).
+Using the Fundamental Theorem of Calculus, we have
+\[
+	s'(t) = \abs{\vb x'(t)} \geq 0
+\]
+For regular curves, we have that
+\[
+	s'(t) > 0
+\]
+So we can invert the relationship between \(s\) and \(t\); i.e.\ we can find \(t\) as a function of \(s\).
+Hence, we can parametrise curves with respect to arc length.
+If we write
+\[
+	\vb r(s) = \vb x(t(s))
+\]
+where \(0 \leq s \leq \ell(C)\), then by the chain rule we have
+\[
+	\frac{\dd{t}}{\dd{s}} = \frac{1}{\frac{\dd{s}}{\dd{t}}} = \frac{1}{\abs{\vb x'(t(s))}}
+\]
+So
+\[
+	\vb r'(s) = \frac{\dd}{\dd{s}} \vb x(t(s)) = \frac{\dd{t}}{\dd{s}} \vb x'(t(s)) = \frac{\vb x'(t(s))}{\abs{\vb x'(t(s))}}
+\]
+In other words, \(\vb r'(s)\) is a unit vector tangential to the curve.
+This (consistently) gives
+\[
+	\ell(C) = \int_0^{\ell(C)} \abs{\vb r'(s)} \dd{s} = \int_0^{\ell(C)} \dd{s}
+\]
+as previously found above.
+
+\subsection{Curvature}
+Throughout this section, we will be talking about a generic regular curve \(C\), parametrised with respect to arc length, where a position vector on \(C\) is given by \(\vb r(s)\).
+We will define the tangent vector
+\[
+	\vb t(s) = \vb r'(s)
+\]
+We already know that \(\abs{\vb t(s)} = 1\).
+Therefore the only part of \(\vb t\) that changes with respect to \(s\) is its direction.
+So \(\vb t'(s) = \vb r''(s)\) only measures the change in the direction of the tangent as we move along the curve.
+So intuitively, if \(\abs{\vb r''(s)}\) is large then the curve is rapidly changing direction.
+If \(\abs{\vb r''(s)}\) is small, the curve is approximately flat; there is little change in direction.
+Using this intuition, we will define curvature as
+\[
+	\kappa(s) = \abs{\vb r''(s)} = \abs{\vb t'(s)}
+\]
+In other words \(\kappa\) is the magnitude of the acceleration a particle experiences while moving along the curve at unit speed.
+
+\subsection{Torsion}
+Since \(\vb t = \vb r'(s)\) is a unit vector, differentiating \(\vb t \cdot \vb t = 1\) gives \(\vb t \cdot \vb t' = 0\).
+We will define the principal normal \(\vb n\) by the formula
+\[
+	\vb t' = \kappa \vb n
+\]
+Note that \(\vb n\) is everywhere normal to the curve \(C\), since it is always perpendicular to the tangent vector \(\vb t\), since \(\vb t \cdot \vb n = 0\).
+We can extend the vectors \(\{ \vb t, \vb n \}\) into an orthonormal basis by computing the cross product:
+\[
+	\vb b = \vb t \times \vb n
+\]
+We call \(\vb b\) the binormal.
+It is a unit vector, since it is the cross product of two orthogonal unit vectors in \(\mathbb R^3\).
+We also have that \(\vb b \cdot \vb b' = 0\); also since \(\vb t \cdot \vb b = 0\) and \(\vb n \cdot \vb b = 0\), we must have
+\[
+	0 = (\vb t \cdot \vb b)' = \vb t' \cdot \vb b + \vb t \cdot \vb b' = \kappa \vb n \cdot \vb b + \vb t \cdot \vb b' = \vb t \cdot \vb b'
+\]
+So \(\vb b'\) is orthogonal to both \(\vb t\) and \(\vb b\), i.e.\ it is parallel to \(\vb n\).
+We will define the torsion \(\tau\) of a curve by
+\[
+	\vb b' = -\tau \vb n
+\]
+A physical interpretation of torsion is a kind of `corkscrew' rotation in three dimensions.
+
+\begin{proposition}[Fundamental Theorem of Differential Geometry of Curves]
+	The curvature \(\kappa(s)\) and torsion \(\tau(s)\) uniquely define a curve in \(\mathbb R^3\), up to translation and orientation.
+\end{proposition}
+\begin{proof}
+	Since \(\vb n = \vb b \times \vb t\), we have \(\vb t' = \kappa(\vb b \times \vb t)\) and \(\vb b' = -\tau(\vb b \times \vb t)\).
+	This gives six equations (written in component form) for six unknowns.
+	Given \(\kappa(s)\) and \(\tau(s)\), and given \(\vb t(0)\) and \(\vb b(0)\), we can construct the functions \(\vb t(s), \vb b(s), \vb n(s) = \vb b(s) \times \vb t(s)\).
+\end{proof}
+
+\subsection{Radius of curvature}
+A generic curve \(s \mapsto \vb r(s)\) can be Taylor expanded around \(s=0\).
+Writing \(\vb t = \vb t(0), \vb n = \vb n(0)\) and so on, we have
+\begin{align*}
+	\vb r(s) & = \vb r + s\vb r' + \frac{1}{2}s^2 \vb r'' + o(s^2)    \\
+	         & = \vb r + s\vb t + \frac{1}{2}s^2 \kappa\vb n + o(s^2)
+\end{align*}
+What circle that touches the curve at \(s=0\) would be the best approximation for the curve at this point?
+Since the circle touches the curve, we know the position vectors (of the curve and the circle) match, and their first derivatives match.
+So we want to unify the second derivatives.
+The equation of such a circle of radius \(R\) is
+\[
+	\vb x(\theta) = \vb r + R(1 - \cos \theta)\vb n + R(\sin \theta) \vb t
+\]
+Expanding this for small \(\theta\) gives
+\[
+	\vb x(\theta) = \vb r + R\theta\vb t + \frac{1}{2} R\theta^2\vb n + o(\theta^2)
+\]
+But the arc length on a circle is simply \(R\theta\).
+So in terms of arc length,
+\[
+	\vb x(\theta) = \vb r + s\vb t + \frac{1}{2} s^2 \frac{1}{R}\vb n + o(s^2)
+\]
+Hence by comparing coefficients,
+\[
+	R = \frac{1}{\kappa}
+\]
+We name this \(R(s)\) the radius of curvature.
+
+\subsection{Gaussian curvature (non-examinable)}
+This subsection is non-examinable.
+How can we find the curvature of a surface?
+At any point \(\vb r\) on a surface, we have a normal vector \(\vb n\).
+We can construct a plane containing this normal; such a plane will then intersect the surface near \(\vb r\).
+This intersection is a curve \(C\), which has a curvature \(\kappa\).
+The choice of plane is arbitrary, however.
+To unify all of these different possible results for \(\kappa\), we can compute the Gaussian curvature \(\kappa_G\) by
+\[
+	\kappa_G = \kappa_{\text{min}} \kappa_{\text{max}}
+\]
+\begin{itemize}
+	\item The Gaussian curvature of a flat plane is zero, since the minimum and maximum curvatures are both zero.
+	\item On any point on a sphere of radius \(R\), the Gaussian curvature is \(\frac{1}{R^2}\), since any plane containing the normal produces a great circle of radius \(R\), i.e.\ of curvature \(\frac{1}{\kappa}\).
+\end{itemize}
+
+\begin{theorem}[Gauss's Remarkable Theorem]
+	The Gaussian curvature of a surface \(S\) is invariant under local isometries; i.e.\ if you bend the surface without stretching it.
+\end{theorem}

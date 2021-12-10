@@ -1,0 +1,265 @@
+\subsection{Introduction}
+We can now study the action of the M\"obius group \(\mathcal M\), which is the group of M\"obius maps
+\[
+	f\colon \hat{\mathbb C} \to \hat{\mathbb C};\quad f(z) = \frac{az+b}{cz+d};\quad a,b,c,d\in\mathbb C;\quad ad-bc\neq 0;\quad \frac{1}{0}=\infty;\quad\frac{1}{\infty}=0
+\]
+\begin{remark}
+	The above definition defines an action \(M \acts \hat{\mathbb C}\).
+\end{remark}
+\begin{proposition}
+	The action \(M \acts \hat{\mathbb C}\) is faithful (the only elements acting as the identity are the identity), and so \(\mathcal M \leq \Sym(\hat{\mathbb C})\).
+\end{proposition}
+\begin{proof}
+	Consider \(\rho\colon \mathcal M \to \Sym(\hat{\mathbb C})\) given by \(\rho(f)(z) = f(z)\).
+	Then if \(\rho(f) = e_{\Sym(\hat{\mathbb C})}\) (the function \(z \mapsto z\)) then \(f\) is the identity \(e_{\mathcal M}\).
+	So \(\rho\) is injective and the action is faithful.
+\end{proof}
+\begin{definition}
+	A fixed point of a M\"obius map \(f\) is a point \(z\) such that \(f(z) = z\).
+\end{definition}
+\begin{theorem}
+	A M\"obius map with at least three fixed points is the identity.
+\end{theorem}
+\begin{proof}
+	Let \(f(z) = \frac{az+b}{cz+d}\) have at least three fixed points.
+	\begin{itemize}
+		\item If \(\infty\) is not a fixed point, then the equation \(\frac{az+b}{cz+d} = z\) is true for at least three complex numbers.
+		      Rewritten,
+		      \[
+			      cz^2 + (d-a)z-b=0
+		      \]
+		      By the fundamental theorem of algebra, this can only have at most two distinct roots.
+		      So we must have \(c=b=0, d=a\), i.e.\ \(f(z) = z\).
+		\item If \(\infty\) is a fixed point, then \(\frac{a\infty + b}{c\infty + d} = \frac{a}{c} = \infty\) so \(c = 0\).
+		      So for the other two fixed points, \(\frac{az+b}{d} = z\) for at least two complex numbers.
+		      Rewritten,
+		      \[
+			      (a-d)z+b=0
+		      \]
+		      By the fundamental theorem of algebra, this can only have one root.
+		      So we must have \(a=d,b=0\), i.e.\ \(f(z) = z\).
+	\end{itemize}
+\end{proof}
+\begin{corollary}
+	If two M\"obius maps coincide on three distinct points in \(\hat{\mathbb C}\), then they must be equal.
+\end{corollary}
+\begin{proof}
+	Let \(f, g \in \mathcal M\) be such that \(f(z_1) = g(z_1)\), \(f(z_2) = g(z_2)\), \(f(z_3) = g(z_3)\) for three distinct points \(z_1, z_2, z_3 \in \hat{\mathbb C}\).
+	Then \(g^{-1}f(z_i) = z_i\) for the same three distinct points.
+	So \(g^{-1}f\) is the identity by the theorem above, so \(g = f\).
+\end{proof}
+In less formal words, we can say `knowing what a M\"obius map does to 3 points determines it'.
+
+\subsection{Constructing M\"obius maps}
+\begin{theorem}
+	There is a unique M\"obius map sending any three distinct points of \(\hat{\mathbb C}\) to any three distinct points of \(\hat{\mathbb C}\).
+\end{theorem}
+\begin{proof}
+	Let the map send distinct points \(z_1, z_2, z_3\) to \(w_1, w_2, w_3\).
+	Suppose first that \(w_1 = 0\), \(w_2 = 1\), \(w_3 = \infty\).
+	Then
+	\[
+		f(z) = \frac{(z_2 - z_3)(z - z_1)}{(z_2 - z_1)(z - z_3)}
+	\]
+	satisfies this requirement.
+	There is a special case if one of the \(z_i\) is infinity.
+	Then
+	\[
+		z_1 = \infty \implies f(z) = \frac{z_2 - z_3}{z - z_3}
+	\]
+	\[
+		z_2 = \infty \implies f(z) = \frac{z - z_1}{z - z_3}
+	\]
+	\[
+		z_3 = \infty \implies f(z) = \frac{z - z_1}{z_2 - z_1}
+	\]
+	Thus we can find a function \(f_1\) sending \((z_1, z_2, z_3)\) to \((0, 1, \infty)\).
+	We can also find a function \(f_2\) sending \((w_1, w_2, w_3)\) to \((0, 1, \infty)\).
+	So surely \(f_2^{-1}\circ f_1\) is a map first sending \((z_1, z_2, z_3)\) to \((0, 1, \infty)\), and then from \((0, 1, \infty)\) to \((w_1, w_2, w_3)\), which is the required map.
+	It is unique because of the corollary at the end of the previous section.
+\end{proof}
+
+On example sheet 2, it was proven that a conjugate \(hfh^{-1}\) of a M\"obius map \(f\) satisfies:
+\begin{itemize}
+	\item \(\ord(hfh^{-1}) = \ord(f)\) since \((hfh^{-1})^n = hf^n h^{-1}\)
+	\item \(f(z) = z \iff hfh^{-1}(h(z)) = h(z)\).
+	      In particular, the number of fixed points of a conjugate is the same as that of the original map.
+	      The following theorem is a partial converse to this observation.
+\end{itemize}
+\begin{theorem}
+	Every non-identity \(f\in\mathcal M\) has either one or two fixed points.
+	\begin{itemize}
+		\item If \(f\) has one fixed point, then it is conjugate to the map \(z \mapsto z+1\); and
+		\item If \(f\) has two fixed points, then it is conjugate to the map \(z \mapsto az\) for some \(a \in \mathbb C \setminus \{ 0 \}\).
+	\end{itemize}
+\end{theorem}
+\begin{proof}
+	We know that a non-identity element has at most two fixed points, so it suffices to show that it cannot have zero fixed points.
+	If \(f(z) = \frac{az+b}{cz+d}\), we can consider the quadratic
+	\[
+		cz^2 + (d-a)z - b = 0
+	\]
+	arising from \(f(z) = z\).
+	This quadratic must have at least one solution in the complex plane, so in \(\mathbb C\) there must be at least one fixed point.
+	\begin{itemize}
+		\item If \(f\) has exactly one fixed point \(z_0\), then let us choose some point \(z_1 \in \mathbb C\) which is not fixed by \(f\).
+		      Then the triple \((z_1, f(z_1), z_0)\) are all distinct.
+		      So there is some \(g \in \mathcal M\) such that \((z_1, f(z_1), z_0) \mapsto (0, 1, \infty)\).
+		      Now, let us consider \(gfg^{-1}\).
+		      We have
+		      \begin{itemize}
+			      \item \(0 \mapsto z_1 \mapsto f(z_1) \mapsto 1\)
+			      \item \(\infty \mapsto z_0 \mapsto z_0 \mapsto \infty\)
+		      \end{itemize}
+		      So \(gfg^{-1}\) has the form \(z \mapsto az + 1\) for some complex number \(a\) (proof as exercise).
+		      If \(a \neq 1\) then \(\frac{1}{1-a}\) is a fixed point, but this is a contradiction since \(\infty\) can be the only fixed point.
+		      So \(gfg^{-1}\) has the form \(z \mapsto z + 1\), so \(f\) is conjugate (via \(g\)) to \(z \mapsto z + 1\) as required.
+
+		\item If \(f\) has exactly two fixed points \(z_0\) and \(z_1\), then let \(g\) be any M\"obius map which sends \((z_0, z_1) \mapsto (0, \infty)\).
+		      So \(gfg^{-1}\) sends:
+		      \begin{itemize}
+			      \item \(0 \mapsto z_0 \mapsto z_0 \mapsto 0\)
+			      \item \(\infty \mapsto z_1 \mapsto z_1 \mapsto \infty\)
+		      \end{itemize}
+		      So \(gfg^{-1}\) fixes zero and infinity.
+		      So \(gfg^{-1}\) must have the form \(z \mapsto az\) where \(a = gfg^{-1}(1)\) as required.
+	\end{itemize}
+\end{proof}
+
+We can use this to efficiently work out \(f^n\) for \(f \in \mathcal M\).
+We can quickly see that \(gf^n g^{-1} = (gfg^{-1})^n\) will be either
+\begin{itemize}
+	\item \(z \mapsto z + n\) if \(f\) has one fixed point; and
+	\item \(z \mapsto a^n z\) if \(f\) has two fixed points.
+\end{itemize}
+
+\subsection{Geometric properties of M\"obius maps}
+We have seen that the image under \(f \in \mathcal M\) of three points in \(\hat{\mathbb C}\) uniquely determine \(f\).
+Three points also uniquely define lines and circles in \(\hat{\mathbb C}\).
+\begin{itemize}
+	\item The equation of a circle with centre \(b \in \mathbb C\) and radius \(r \in \mathbb R\), \(r > 0\) is \(\abs{z-b} = r\).
+	      We can rewrite this as
+	      \begin{align*}
+		      \abs{z-b}^2 - r^2                                                        & = 0                \\
+		      \iff (z-b)\overline{(z-b)} - r^2                                         & = 0                \\
+		      \iff z\overline{z} - \overline{b}z - b\overline{z} + b\overline{b} - r^2 & = 0 \tag{\(\ast\)}
+	      \end{align*}
+	\item The equation of a straight line in \(\mathbb C\) is \(a \Re(z) + b \Im(z) = c\), similar to the implicit form of a straight line in \(\mathbb R^2\), \(ax+by=c\).
+	      Expanded, we have
+	      \begin{align*}
+		      a \Re(z) + b \Im(z)                                                      & = c                   \\
+		      a \frac{z + \overline z}{2} + b \frac{z - \overline z}{2i}               & = c                   \\
+		      \frac{1}{2}\left[ a (z + \overline z) - bi (z - \overline z) \right] - c & = 0                   \\
+		      \frac{1}{2}\left[ z(a-bi) + \overline z(a+bi) \right] - c                & = 0                   \\
+		      \overline{\frac{a + ib}{2}}z + \frac{a+ib}{2}\overline{z} - c            & = 0 \tag{\(\dagger\)}
+	      \end{align*}
+	      For a straight line in \(\hat{\mathbb C}\), we also consider that \(\infty\) is always on the line.
+	      Under a stereographic projection to the Riemann sphere, lines are circles through the north pole (\(\infty\)).
+\end{itemize}
+Both equations (\(\ast\)) and (\(\dagger\)) have the form of the following definition:
+\begin{definition}
+	A circle in \(\hat{\mathbb C}\) is the set of points satisfying the equation
+	\[
+		Az\overline z + \overline B z + B \overline z + C = 0
+	\]
+	where \(A, C \in \mathbb R\), \(B \in \mathbb C\), and \(\abs{B}^2 > AC\).
+	We consider \(\infty\) to be a solution to this equation if and only if \(A = 0\).
+\end{definition}
+Exercise: the set of points satisfying such an equation is always either a circle in \(\mathbb C\) or a line in \(\hat{\mathbb C}\).
+We call all of these `circles' in \(\hat{\mathbb C}\) by convention, since they're all circles on the Riemann sphere.
+We should not consider \(\infty\) to be a special point here; it simply `closes off' any line in \(\mathbb C\) into a circle in \(\hat{\mathbb C}\).
+
+\begin{theorem}
+	M\"obius maps preserve circles.
+	In other words, points on a circle in \(\hat{\mathbb C}\) are transformed onto points on a (possibly different) circle in \(\hat{\mathbb C}\).
+\end{theorem}
+\begin{proof}
+	As we saw in a previous section on M\"obius maps, maps in \(\mathcal M\) are generated by
+	\begin{itemize}
+		\item \(z \mapsto az\)
+		\item \(z \mapsto z + b\)
+		\item \(z \mapsto \frac{1}{z}\)
+	\end{itemize}
+	So it is enough to check that each of these generating maps preserves circles.
+	Writing \(S(A, B, C)\) for the circle satisfying
+	\[
+		Az\overline z + \overline B z + B \overline z + C = 0 \tag{\(\clubsuit\)}
+	\]
+	We can check that under a dilation or rotation \(z \mapsto az\),
+	\[
+		S(A, B, C) \mapsto S\left( \frac{A}{\overline a a}, \frac{B}{\overline a}, C \right)
+	\]
+	Under a translation \(z \mapsto z + b\),
+	\[
+		S(A, B, C) \mapsto S\left( A, B-Ab, C+Ab\overline b - B\overline b - \overline B b \right)
+	\]
+	Under an inversion, solutions to (\(\clubsuit\)) become solutions to
+	\[
+		Cw\overline w + Bw + \overline B\overline w + A = 0
+	\]
+	So
+	\[
+		S(A, B, C) \mapsto S(C, \overline B, A)
+	\]
+\end{proof}
+Bear in mind when solving various exercises that it is often sufficient to check certain properties apply in the generating set in order to verify that they apply in the general case.
+
+\begin{remark}
+	A circle is determined by three points on it, and a M\"obius map is determined by where it sends three points.
+	So in practice, it is easy to find a M\"obius map sending a given circle to another given circle.
+\end{remark}
+
+\subsection{Cross-ratios}
+Recall that given distinct points \(z_1, z_2, z_3 \in \hat{\mathbb C}\), we have a unique M\"obius map \(f\) such that \(f(z_1) = 0\), \(f(z_2) = 1\), \(f(z_3) = \infty\).
+\begin{definition}
+	If \(z_1, z_2, z_3, z_4 \in \hat{\mathbb C}\) are distinct, then their cross-ratio \([z_1, z_2, z_3, z_4]\) is defined to be \(f(z_4)\) where \(f \in \mathcal M\) is the unique M\"obius map \(f\) such that \(f(z_1) = 0\), \(f(z_2) = 1\), \(f(z_3) = \infty\).
+\end{definition}
+In particular, \([0, 1, \infty, w] = w\).
+We have the following formula for computing the cross-ratio.
+\[
+	[z_1, z_2, z_3, z_4] = \frac{(z_4 - z_1)(z_2 - z_3)}{(z_2 - z_1)(z_4 - z_3)}
+\]
+with special cases interpreted accordingly where \(z_i = \infty\).
+This result follows from the proof that we can construct a map to send any three distinct points to \(0, 1, \infty\).
+There are in fact \(4!
+\) different conventions for the cross-ratio, depending on the order of \(0, 1, \infty\), so ensure that the correct convention is being used if referring to sources.
+However, this potential ambiguity is mitigated by the following fact.
+\begin{proposition}
+	Double transpositions of the \(z_i\) fix the cross-ratio.
+\end{proposition}
+\begin{proof}
+	By inspection of the formula, it it clear that this is true.
+\end{proof}
+\begin{theorem}
+	M\"obius maps preserve the cross-ratio.
+	\(\forall g \in \mathcal M\), \(\forall z_1, z_2, z_3, z_4 \in \hat{\mathbb C}\),
+	\[
+		[g(z_1), g(z_2), g(z_3), g(z_4)] = [z_1, z_2, z_3, z_4]
+	\]
+\end{theorem}
+\begin{proof}
+	Let \(f \in \mathcal M\) be the unique M\"obius map such that
+	\[
+		f(z_1) = 0;\quad f(z_2) = 1;\quad f(z_3) = \infty
+	\]
+	so therefore \(f(z_4) = [z_1, z_2, z_3, z_4]\).
+	Now, consider \(f \circ g^{-1}\):
+	\[
+		(f \circ g^{-1})g(z_1) = 0;\quad (f \circ g^{-1})g(z_2) = 1;\quad (f \circ g^{-1})g(z_3) = \infty
+	\]
+	and \(f \circ g^{-1}\) is the unique map with this property.
+	So the cross-ratio here is
+	\[
+		[g(z_1), g(z_2), g(z_3), g(z_4)] = (f \circ g^{-1})g(z_4) = f(z_4)
+	\]
+	as required.
+\end{proof}
+\begin{corollary}
+	Four distinct points \(z_1, z_2, z_3, z_4 \in \hat{\mathbb C}\) lie on a circle if and only if their cross-ratio is real.
+\end{corollary}
+\begin{proof}
+	Let \(f\) be the unique M\"obius map sending \((z_1, z_2, z_3) \mapsto (0, 1, \infty)\), so that \(f(z_4)\) is the required cross-ratio.
+	The circle \(C\) passing through \(z_1, z_2, z_3\) is sent by \(f\) to the unique circle passing through \(0, 1, \infty\), i.e.\ the real line together with the point at infinity.
+	So \(z_4\) lies on \(C\) if and only if \(f(z_4)\) lies on \(\mathbb R \cup \{ \infty \}\).
+	But since \(f(z_3) = \infty\), \(f(z_4) \neq \infty\), so this condition is restricted only to \(\mathbb R\), excluding a point at infinity.
+\end{proof}

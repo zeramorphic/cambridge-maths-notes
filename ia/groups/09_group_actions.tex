@@ -1,0 +1,310 @@
+\subsection{Definition}
+For many of the examples of groups that we have encountered, we have identified elements of that group by their effect on some set, for example the symmetric group \(S_n\) permuting the set \(\{ 1, \cdots, n \}\), and the M\"obius group being functions \(\hat{\mathbb C} \to \hat{\mathbb C}\), and the dihedral group \(D_{2n}\) being symmetries of an \(n\)-gon.
+While we can study groups purely algebraically, it can be very useful to see how a group acts on other objects.
+
+\begin{definition}
+	Let \(G\) be a group, \(X\) be a set.
+	An action of \(G\) on \(X\) is a function \(\alpha: G \times X \to X\), written
+	\[
+		\alpha(g, x) = \alpha_g(x)
+	\]
+	satisfying:
+	\begin{itemize}
+		\item \(\alpha_g(x) \in X\) (implied by the function's type)
+		\item \(\alpha_e(x) = x;\; \forall x \in X\)
+		\item \(\alpha_g \circ \alpha_h(x) = \alpha_{gh}(x);\; \forall g, h \in G, \forall x \in X\)
+	\end{itemize}
+	We can write \(G \acts X\).
+\end{definition}
+Here are some examples.
+\begin{enumerate}
+	\setcounter{enumi}{-1}
+	\item Take any \(G\), \(X\) and define the trivial action \(\alpha_g(x) = x\).
+	\item \(S_n \acts \{ 1, 2, \cdots, n \}\) by permutation.
+	\item \(D_{2n} \acts \{ \text{vertices of a regular \(n\)-gon} \}\), and labelling the vertices as 1 to \(n\), we have \(D_{2n} \acts \{ 1, 2, \cdots, n \}\).
+	\item \(\mathcal M \acts \hat{\mathbb C}\) via M\"obius maps.
+	\item Symmetries of a cube act on the set of vertices, the set of edges, and even (for example) the set of pairs of opposite faces of the cube.
+\end{enumerate}
+Examples 1, 2 show that more than one group can act on a given set.
+Example 4 shows that one group can act on many sets.
+Group actions help us deduce information about the group.
+
+\begin{lemma}
+	\(\forall g \in G, \alpha_g: X \to X, x \mapsto \alpha_g(x)\) is a bijection.
+\end{lemma}
+\begin{proof}
+	We have that \(\alpha_g(\alpha_{g^{-1}}(x)) = \alpha_{g g^{-1}}(x) = \alpha_e(x) = x\).
+	Similarly, \(\alpha_{g^{-1}}(\alpha_g(x)) = \alpha_{g^{-1} g}(x) = \alpha_e(x) = x\).
+	So the composition \(\alpha_g \circ \alpha_{g^{-1}}\) is the identity on \(X\), and \(\alpha_{g^{-1}} \circ \alpha_g\) is also the identity on \(X\), so \(\alpha_g\) is a bijection.
+\end{proof}
+We can also define actions by linking \(G\) to \(\Sym(X)\).
+\begin{proposition}
+	Let \(G\) be a group, \(X\) a set.
+	Then \(\alpha\colon G \times X \to X\) is an action if and only if the function \(\rho\colon G \to \Sym(X)\) where \(\rho(g) = \alpha_g\) is a homomorphism.
+\end{proposition}
+\begin{proof}
+	\(\alpha\) is an action.
+	By the above lemma, \(\alpha_g\) is a bijection from \(X \to X\).
+	So \(\alpha_g \in \Sym(X)\).
+	Now, we want to show that \(\rho\) is a homomorphism.
+	\(\rho(gh) = \alpha_{gh}\), and for all \(x \in X\), \(\alpha_{gh}(x) = \alpha_g \circ \alpha_h (x)\), so \(\rho(gh) = \alpha_{gh} = \rho(g)\circ\rho(h)\).
+	So \(\rho\) is a homomorphism.
+
+	In the other direction, given that \(\rho\) is a homomorphism \(G \to \Sym(X)\), we can define an action \(\alpha\colon G \times X \to X\) by \(\alpha(g, x) = \alpha_g(x) := \rho(g)(x)\).
+	\(\alpha\) is an action because \(\alpha_g \circ \alpha_h = \rho(g)\rho(h) = \rho(gh) = \alpha_{gh}\), and the identity element \(\rho(e)\) is the identity element in \(\Sym(X)\), so \(\alpha_e(x) = \rho(e)(x) = x\) as required.
+\end{proof}
+Sometimes we write \(g(x)\) instead of the more verbose \(\alpha_g(x)\).
+
+\begin{definition}
+	The kernel of an action \(\alpha\colon G \times X \to X\) is the kernel of the homomorphism \(\rho\colon G \to \Sym(X)\).
+	These are all the elements of \(G\) that preserve every element of \(X\).
+\end{definition}
+Note that \(\frac{G}{\ker \rho} \cong \Im \rho \leq \Sym(X)\).
+So in particular, if the kernel is trivial, then \(G \leq \Sym(X)\).
+\begin{enumerate}
+	\item \(D_{2n}\) acting on the vertices \(\{ 1, \cdots, n \}\) of an \(n\)-gon has \(\ker\rho = \{ e \}\).
+	      Every non-trivial element of \(D_{2n}\) moves at least one vertex.
+	      So \(D_{2n} \leq S_n\) by the First Isomorphism Theorem.
+	\item Let \(G\) be symmetries of a cube, and consider \(X = \{ \text{unordered pairs of opposite faces} \}\).
+	      Then \(\abs{X} = 3\) as there are three unordered pairs of opposite faces.
+	      So \(\rho\colon G \to S_3\).
+	      Clearly there are symmetries of the cube that realise all the permutations of \(X\), so \(\rho\) is surjective.
+	      So \(\frac{G}{\ker \rho} \cong S_3\).
+	      Note that there are clearly non-trivial symmetries (e.g.
+	      reflection) that preserve \(X\), so the kernel is non-trivial.
+\end{enumerate}
+\begin{definition}
+	An action \(G \acts X\) is called faithful if \(\ker \rho = \{ e \}\).
+\end{definition}
+Then \(G\) is isomorphic to a subgroup of \(\Sym X\) by the First Isomorphism Theorem.
+
+\subsection{Orbits and stabilisers}
+Which elements of \(X\) can we `get to' from a certain \(x \in X\) using the action of \(G\)?
+\begin{definition}
+	Let \(G \acts X\), \(x \in X\).
+	The orbit of \(x\) is
+	\[
+		\Orb (x) = G(x) := \{ g(x) : g \in G \} \subseteq X
+	\]
+\end{definition}
+\noindent Which group elements leave a given \(x\) unchanged?
+\begin{definition}
+	The stabiliser of \(x\) is defined by
+	\[
+		\Stab(x) = G_x := \{ g \in G : g(x) = x \} \subseteq G
+	\]
+\end{definition}
+\begin{definition}
+	An action is transitive if \(\Orb(x) = X\), i.e.\ we can get to any element from any other element.
+\end{definition}
+As an example, let \(G = S_3\).
+Then we could say, for example, \(G \acts \{ 1, 2, 3, 4 \}\).
+\begin{itemize}
+	\item \(\Orb(1) = \Orb(2) = \Orb(3) = \{ 1, 2, 3 \}\)
+	\item \(\Orb(4) = \{ 4 \}\)
+	\item \(\Stab(1) = \{ e, (2\ 3) \}\)
+	\item \(\Stab(2) = \{ e, (1\ 3) \}\)
+	\item \(\Stab(3) = \{ e, (1\ 2) \}\)
+	\item \(\Stab(4) = G\)
+\end{itemize}
+
+\subsection{Properties}
+\begin{lemma}
+	For any \(x \in X\), \(\Stab(x) \leq G\).
+\end{lemma}
+\begin{proof}
+	Associativity is inherited.
+	\begin{itemize}
+		\item (closure) \(g, h \in \Stab(x)\) implies that \((gh)(x) = g(h(x)) = g(x) = x\) so \(gh \in \Stab(x)\).
+		\item (identity) \(e(x) = x\) by definition, so \(e \in \Stab(x)\).
+		\item (inverses) if \(g \in \Stab(x)\) then \(g(x) = x\), and therefore \(x = g^{-1}(x)\), so \(g^{-1} \in \Stab(x)\).
+	\end{itemize}
+\end{proof}
+Recall from Numbers and Sets: a partition of a set \(X\) is a set of subsets of \(X\) such that each \(x \in X\) belongs to exactly one subset in the partition.
+\begin{lemma}
+	Let \(G \acts X\).
+	Then the orbits partition \(X\).
+\end{lemma}
+\begin{proof}
+	\begin{itemize}
+		\item Firstly, for any \(x \in X\), \(x \in \Orb(x)\).
+		      So the union of all orbits is \(X\).
+		\item Suppose that the orbits are not all disjoint.
+		      Let \(z \in \Orb(x) \cap \Orb(y)\).
+		      Then \(\exists g_1 \in G\) such that \(g_1(x) = z\), and also \(\exists g_2 \in G\) such that \(g_2(y) = z\), i.e.\ \(y = g_2^{-1}(z)\).
+		      So \(y = g_2^{-1}g_1(x)\).
+		      Thus, for any \(g \in G\), \(g(y) = gg_2^{-1}g_1(x) \in \Orb(x)\) so \(\Orb(y) \subseteq \Orb(x)\).
+		      Vice versa, \(\Orb(x) \subseteq \Orb(y)\), so \(\Orb(x) = \Orb(y)\).
+		      Thus orbits are either disjoint or equal.
+	\end{itemize}
+\end{proof}
+Recall the proof of disjoint cycle notation for \(\sigma \in S_n\): we were really finding the orbits in \(\{ 1, 2, \cdots, n \}\) under \(\genset \sigma\), which are disjoint.
+Note that the sizes of orbits can be different (unlike cosets, where the sizes are always the same).
+\begin{theorem}[Orbit-Stabiliser Theorem]
+	Let \(G \acts X\), \(G\) finite.
+	Then for any \(x \in X\),
+	\[
+		\abs{G} = \abs{\Orb x} \cdot \abs{\Stab x}
+	\]
+\end{theorem}
+\begin{proof}
+	\(g(x) = h(x) \iff h^{-1}g(x) = x \iff h^{-1}g \in \Stab(x)\).
+	By the proposition in section 9.2, this statement is true if and only if
+	\(g \Stab(x) = h \Stab(x)\) as cosets.
+	So distinct points in the orbit of \(x\) are in bijection with distinct cosets of the stabiliser.
+	So \(\abs{\Orb x} = \abs{G : \Stab x}\) and the result follows.
+\end{proof}
+In particular, notice that all elements in a given coset \(g \Stab(x)\) do the same thing to \(x\) as \(g\): an element of this coset has the form \(gh\) where \(h \in \Stab(x)\).
+Then \(gh(x) = g(x)\).
+
+This theorem is very powerful, we can use it for investigating groups further.
+For example, we can construct another proof that \(\abs{D_{2n}} = 2n\) using the Orbit-Stabiliser theorem.
+\(D_{2n}\) acts transitively on \(\{1, 2, \cdots, n\}\) so \(\abs{\Orb(1)} = n\).
+\(\abs{\Stab(1)} = 2\) because only the identity and the reflection through this point stabilise the point.
+So \(\abs{D_{2n}} = 2n\).
+
+\subsection{Symmetries of the tetrahedron}
+A tetrahedron has 4 faces (regular, equilateral triangles), 4 vertices, and 6 edges.
+We will label the vertices \(1, 2, 3, 4\).
+Let \(G\) be the group of symmetries of the tetrahedron.
+Clearly \(G\) acts transitively on the vertices (we can get from any vertex to any other through a symmetry).
+There is no non-trivial symmetry that fixes all the vertices, so \(\rho\colon G \to S_4\) is an injective homomorphism.
+
+\(\Orb(1) = \{ 1, 2, 3, 4 \}\) as \(G\) is transitive.
+\(\Stab(1) =\) all of the symmetries of the face \(\{2,3,4\}\), i.e.
+\[
+	\Stab(1) = \{ e, (2\ 3\ 4), (2\ 4\ 3), (2\ 3), (3\ 4), (2\ 4) \} \cong D_6 \cong S_3
+\]
+Then \(\abs{G} = \abs{\Orb(1)} \cdot \abs{\Stab(1)} = 4 \cdot 6 = 24 = \abs{S_4}\).
+Since \(G \leq S_4\) and their orders match, \(G = S_4\).
+
+Now let \(G^+\) be the subgroup of \(G\) formed only of the rotations in \(G\).
+Again, \(\Orb(1) = \{ 1, 2, 3, 4 \}\).
+Now, \(\Stab(1) = \{ e, (2\ 3\ 4), (2\ 4\ 3) \}\).
+So \(\abs{G^+} = \abs{\Orb(1)} \cdot \abs{\Stab(1)} = 4 \cdot 3 = 12\).
+Since \(G^+ \leq G = S_4\), then we know that \(G^+ = A_4\).
+Indeed, we have all 3-cycles (since these are rotations through vertices), and all elements of the form \((1\ 2)(3\ 4)\) since these are rotations in the axis through the midpoints of opposite edges.
+
+\subsection{Symmetries of the cube}
+We label the vertices from 1 to 8 here, and let \(G\) be the group of symmetries of the cube acting on the vertices.
+Clearly the action is transitive, so \(\abs{\Orb(1)} = 8\).
+\(\Stab(1) = \{ e, r, r^2, s_1, s_2, s_3 \}\) where \(r\) and \(r^2\) are the rotations through the axis that passes through vertex 1, and where the \(s_i\) are the reflections through three planes containing vertex 1.
+So \(\abs{\Stab(1)} = 6\), so \(\abs{G} = 48\).
+We will determine this group completely later on.
+
+Let \(G^+\) be the subgroup of \(G\) containing the rotations of \(G\).
+Then, the action is still transitive, and \(\abs{\Stab(1)} = 3\), since we are only looking at the rotations.
+So \(\abs{G^+} = 24\).
+
+Now, to determine this group, let \(G^+\) act on the 4 diagonals in the cube.
+This gives us a homomorphism \(\rho\colon G^+ \to S_4\).
+We have all 4-cycles in \(\Im \rho\), since rotating the cube by quarter turns through the \(x, y, z\) axes permute the diagonals in this way.
+We also have all transpositions (2-cycles) by rotating the cube by a half turn through the plane of two diagonals.
+In Example Sheet 2, we prove that \(\genset{(1\ 2), (1\ 2\ 3\ 4)} = S_4\), so \(\rho\) is surjective.
+But since the orders match, \(G^+ \cong S_4\).
+
+\subsection{Platonic solids}
+The aforementioned solids are two of the five Platonic solids; the solids in \(\mathbb R^3\) that have polygonal faces, straight edges and vertices such that their group of symmetries acts transitively on triples (vertex, incident edge, incident face).
+These are therefore particularly symmetric solids for having this transitive action.
+The other solids are the octahedron, dodecahedron and icosahedron.
+The cube and octahedron are `dual', i.e.\ they can be inscribed in each other with vertices placed in the centres of faces.
+The dodecahedron and icosahedron are also dual.
+Dual solids have the same symmetry groups, so there are only three symmetry groups of Platonic solids.
+
+\subsection{Cauchy's theorem}
+\begin{theorem}
+	Let \(G\) be a finite group, \(p\) a prime such that \(p \mid \abs{G}\).
+	Then \(G\) has an element of order \(p\).
+\end{theorem}
+\begin{proof}
+	Let \(p \mid \abs{G}\).
+	Consider \(G^p = G \times G \times \cdots \times G\).
+	This is the group formed of \(p\)-tuples of elements of \(G\) with coordinate-wise composition.
+	Consider the subset \(X \subseteq G^p\), given by
+	\[
+		X := \{ (g_1, g_2, \cdots, g_p) \in G^p: g_1g_2\cdots g_p = e \}
+	\]
+	which can be described as `\(p\)-tuples multiplying to \(e\)'.
+	Note that if \(g \in G\) has order \(p\), then \((g, g, \cdots, g) \in X\); and that if \((g, g, \cdots, g) \in X\) where \(g \neq e\), then \(g\) has order \(p\).
+
+	Now take a cyclic group \(C_p = \genset a\), and let \(C_p \acts X\) by `cycling':
+	\[
+		a(g_1, g_2, \cdots, g_p) = (g_2, \cdots, g_p, g_1)
+	\]
+	This really is an action:
+	\begin{itemize}
+		\item If \(g_1g_2 \cdots g_p = e\), then \(e = g_1^{-1} e g_1 = g_1^{-1}g_1g_2 \cdots g_p g_1 = g_2 \cdots g_p g_1\) as required.
+		      Of course, this applies inductively for any power of \(a\).
+		\item \(e(g_1, \cdots, g_p) = (g_1, \cdots, g_p)\) as required.
+		\item \(a^k(g_1, \cdots, g_p) = (g_{k+1}, \cdots, g_k) = a \cdot a \cdots a(g_1, \cdots, g_k)\).
+	\end{itemize}
+	Since orbits partition \(X\), the sum of the sizes of the orbits must be \(\abs{X}\).
+	We know that \(\abs{X} = \abs{G}^{p-1}\), since all choices of \(g_i\) are free apart from the last one, which must be the inverse of the product of the other elements.
+	So we have \(p-1\) choices of \(\abs{G}\) elements, so \(\abs{X} = \abs{G}^{p-1}\).
+
+	So since \(p \mid \abs{G}\), then \(p \mid \abs{X}\).
+	By the Orbit-Stabiliser theorem:
+	\[
+		\abs{\Orb((g_1, \cdots, g_p))} \cdot \abs{\Stab((g_1, \cdots, g_p))} = \abs{C_p} = p
+	\]
+	So any orbit has size 1 or \(p\), and they sum to \(\abs{X} = pk\) for some \(k \in \mathbb N\).
+	So
+	\[
+		\abs{X} = pk = \sum_{\text{orbits of size 1}} 1 + \sum_{\text{orbits of size \(p\)}} p
+	\]
+	Clearly, \(\abs{\Orb((e, e, \cdots, e))} = 1\).
+	So there must be some other orbits of size 1, so that \(p\) divides the amount of orbits of size 1.
+	But orbits of size 1 must be of the form \(\Orb((g, g, \cdots, g))\) in order to have the same form under the action of \(a\).
+	So there exists some \(g \neq e \in G\) such that \((g, g, \cdots g) \in X\), i.e.\ \(g^p = e\), so \(o(g) = p\).
+\end{proof}
+
+\subsection{Left regular action}
+\begin{lemma}
+	Let \(G\) be a group.
+	\(G\) acts on itself by left multiplication.
+	This action is faithful and transitive.
+\end{lemma}
+\begin{proof}
+	\begin{itemize}
+		\item For any \(g, x \in G\), \(gx \in G\)
+		\item \(e(x) = e \cdot x = x\)
+		\item \((g_1 g_2) x = g_1 (g_2 x)\)
+	\end{itemize}
+	So it really is an action.
+	It is faithful because \(g(x) = gx = x\) implies \(g = e\).
+	It is transitive, because given any \(x, y \in G\), the action \(g = yx^{-1}\) gives \(g(x) = y\).
+\end{proof}
+\begin{definition}
+	This left-multiplication action of a group on itself is known as the left regular action.
+\end{definition}
+
+\subsection{Cayley's theorem}
+\begin{theorem}
+	Every group is isomorphic to a subgroup of a symmetric group.
+\end{theorem}
+\begin{proof}
+	Let \(G \acts G\) by the left regular action.
+	This gives a homomorphism \(\rho\colon G \to \Sym(G)\), with \(\ker \rho = \{ e \}\) since the action is faithful.
+	So, by the First Isomorphism Theorem, \(\frac{G}{\ker \rho} = G \cong \Im \rho \leq \Sym(G)\).
+\end{proof}
+
+\begin{proposition}
+	Let \(H \leq G\).
+	Then \(G\) acts on the set of left cosets of \(H\) in \(G\) by left multiplication, and this action is transitive.
+	(This is called the `left coset action').
+\end{proposition}
+\begin{proof}
+	We check the conditions for actions.
+	\begin{itemize}
+		\item \(g(g_1H) = gg_1H\), so \(g(g_1H)\) is a left coset.
+		\item \(e(g_1G) = eg_1H = g_1H\)
+		\item \((gg')(g_1H) = gg'g_1H = g(g'(g_1H))\)
+	\end{itemize}
+	So this is an action.
+	Given two cosets \(g_1H\) and \(g_2H\), the element \((g_1g_2^{-1})\) acts on \(g_2H\) to give \(g_1H\), so it is transitive.
+\end{proof}
+Note:
+\begin{itemize}
+	\item This is the left regular action if \(H = \{ e \}\).
+	\item This induces actions of \(G\) on its quotient groups \(\frac{G}{N}\).
+\end{itemize}

@@ -1,0 +1,447 @@
+\subsection{Second-order linear ODEs}
+\textit{This section is a review of IA Differential Equations.}
+
+\noindent We wish to solve a general inhomogeneous ODE, written
+\[
+	\mathcal L y \equiv \alpha(x) y'' + \beta(x) y' + \gamma(x) y = f(x)
+\]
+The homogeneous version has \( f(x) = 0 \), so \( \mathcal L y = 0 \), which has two independent solutions \( y_1, y_2 \).
+The general solution, also the complementary function for the inhomogeneous ODE, is \( y_c(x) = A y_1(x) + B y_2(x) \).
+The inhomogeneous equation \( \mathcal L y = f(x) \) has a solution called the particular integral, denoted \( y_p(x) \).
+The general solution to this equation is then \( y_p + y_c \).
+
+We need two boundary or initial conditions to find the particular solution to the differential equation.
+Suppose \( x \in [a,b] \).
+We can create boundary conditions by defining \( y(a), y(b) \), often called the Dirichlet conditions.
+Alternatively, we can consider \( y(a), y'(a) \), called the Neumann conditions.
+We could also used some kind of mixed condision, for instance \( y + ky' \).
+Homogeneous boundary conditions are such that \( y(a) = y(b) = 0 \).
+In this part of the course, homogeneous boundary conditions are often assumed.
+Note that we can add a complementary function \( y_c \) to the solution, for instance \( \overline{y} = y + A y_1 + B y_2 \) such that \( \overline{y}(a) = \overline{y}(b) = 0 \).
+This would allow us to construct homogeneous boundary conditions even when they are not present \textit{a priori} in the problem.
+We could also specify initial data, such as solving for \( x \geq a \), given \( y, y' \) at \( x = a \).
+
+To solve the inhomogeneous equation, we want to use eigenfunction expansions such as Fourier series.
+In order to do this, we must first solve the related eigenvalue problem.
+In this case, that is
+\[
+	\alpha(x) y'' + \beta(x) y' + \gamma(x) y = -\lambda \rho(x) y
+\]
+We must solve this equation with the same boundary conditions as the original problem.
+This form of equation often arises as a result of applying a separation of variables, particularly for PDEs in several dimensions.
+
+\subsection{Sturm-Liouville form}
+For two complex-valued functions \( f, g \) on \( [a,b] \), we define the inner product as
+\[
+	\inner{f,g} = \int_a^b f^\star(x) g(x) \dd{x}
+\]
+The eigenvalue problem above greatly simplifies if \( \mathcal L \) is self-adjoint, that is, if it can be expressed in Sturm-Liouville form:
+\[
+	\mathcal L y \equiv (-py')' + qy = \lambda w y
+\]
+\( \lambda \) is an eigenvalue, and \( w \) is the \textit{weight function}, which must be non-negative.
+
+\subsection{Converting to Sturm-Liouville form}
+Suppose we have the eigenvalue problem
+\[
+	\alpha(x) y'' + \beta(x) y' + \gamma(x) y = -\lambda \rho(x) y
+\]
+Multiply this by an integrating factor \( F \) to give
+\begin{align*}
+	F \alpha y'' + F \beta y' + F \gamma y                                          & = -\lambda F \rho y \\
+	\dv{x} \qty(F \alpha y') - F' \alpha y' - F \alpha' y + F \beta y' + F \gamma y & = -\lambda F \rho y
+\end{align*}
+To eliminate the \( y' \) term, we require \( F'\alpha = F(\beta - \alpha') \).
+Thus,
+\[
+	\frac{F'}{F} = \frac{\beta - \alpha'}{\alpha} \implies F = \exp \int^x \frac{\beta - \alpha'}{\alpha} \dd{x}
+\]
+and further,
+\[
+	(F\alpha y')' + F \gamma y = - \lambda F \rho y
+\]
+hence
+\begin{align*}
+	p & = F \alpha \\
+	q & = F \gamma \\
+	w & = F \rho
+\end{align*}
+and \( F(x) > 0 \) hence \( w > 0 \).
+\begin{example}
+	Consider the Hermite equation,
+	\[
+		y'' - 2xy' + 2ny = 0
+	\]
+	In this case,
+	\[
+		F = \exp \int^x \frac{-2x}{1} \dd{x} = e^{-x^2}
+	\]
+	Then the equation, in Sturm-Liouville form, is
+	\[
+		\mathcal L y \equiv -\qty(e^{-x^2} y')' = 2n e^{-x^2} y
+	\]
+\end{example}
+
+\subsection{Self-adjoint operators}
+\( \mathcal L \) is a self-adjoint operator on \( [a,b] \) for all pairs of functions \( y_1,y_2 \) satisfying appropriate boundary conditions if
+\[
+	\inner{y_1, \mathcal L y_2} = \inner{\mathcal L y_1, y_2}
+\]
+Written explicitly,
+\[
+	\int_a^b y_1^\star(x) \mathcal L y_2(x) \dd{x} = \int_a^b (\mathcal L y_1(x))^\star y_2(x) \dd{x}
+\]
+Substituting Sturm-Liouville form into the above,
+\begin{align*}
+	\inner{y_1, \mathcal L y_2} - \inner{\mathcal L y_1, y_2} & = \int_a^b \qty[-y_1 (py_2')' + y_1 q y_2 + y_2 (p y_1')' - y_2 q y_1] \dd{x} \\
+	                                                          & = \int_a^b \qty[-y_1 (py_2')' + y_1 q y_2 + y_2 (p y_1')' - y_2 q y_1] \dd{x} \\
+	                                                          & = \int_a^b \qty[-y_1 (py_2')' + y_2 (p y_1')'] \dd{x}                         \\
+	\intertext{Adding \( -y_1' p y_2' + y_1' p y_2' \),}
+	                                                          & = \int_a^b \qty[-(py_1y_2')' + (py_1'y_2)'] \dd{x}                            \\
+	                                                          & = [-py_1y_2' + py_1'y_2]_a^b
+\end{align*}
+which must be zero for an equation in Sturm-Liouville form to be self-adjoint.
+
+\subsection{Self-adjoint compatible boundary conditions}
+\begin{itemize}
+	\item Suppose \( y(a) = y(b) = 0 \).
+	      Then certainly the Sturm-Liouville form of the differential equation is self-adjoint.
+	      We could also choose \( y'(a) = y'(b) = 0 \).
+	      Collectively, the act of using homogeneous boundary conditions is known as the \textit{regular} Sturm-Liouville problem.
+	\item Periodic boundary conditions could also be used, such as \( y(a) = y(b) \).
+	\item If \( a \) and \( b \) are singular points of the equation, i.e.
+	      \( p(a) = p(b) = 0 \), this is self-adjoint compatible.
+	\item We could also have combinations of the above properties, one at \( a \) and one at \( b \).
+\end{itemize}
+
+\subsection{Properties of self-adjoint operators}
+The following properties hold for any self-adjoint differential operator \( \mathcal L \).
+\begin{enumerate}[(i)]
+	\item The eigenvalues \( \lambda_n \) are real.
+	\item The eigenfunctions \( y_n \) are orthogonal.
+	\item The \( y_n \) are a complete set; they span the space of all functions hence our general solution can be written in terms of these eigenfunctions.
+\end{enumerate}
+Each property is proven in its own subsection.
+
+\subsection{Real eigenvalues}
+\begin{proof}
+	Suppose we have some eigenvalue \( \lambda_n \), so \( \mathcal L y_n = \lambda_n w y_n \).
+	Taking the complex conjugate, \( \mathcal L y_n^\star = \lambda_n^\star w y_n^\star \), since \( \mathcal L, w \) are real.
+	Now, consider
+	\[
+		\int_a^b \qty(y_n^\star \mathcal L y_n - y_n \mathcal L y_n^\star) \dd{x}
+	\]
+	which must be zero if \( \mathcal L \) is self-adjoint.
+	This can be written as
+	\[
+		(\lambda_n - \lambda_n^\star) \int_a^b w y_n^\star y_n \dd{x}
+	\]
+	The integral is non-zero, hence \( \lambda_n - \lambda_n^\star = 0 \) which implies \( \lambda_n \) is real.
+	Note, if the \( \lambda_n \) are non-degenerate (simple), i.e.\ with a unique eigenfunction \( y_n \), then \( y_n^\star = y_n \) hence they are real.
+	We can in fact show that (for a second-order equation) it is always possible to take linear combinations of eigenfunctions such that the result is linear, for example in the exponential form of the Fourier series.
+	Hence, we can assume that \( y_n \) is real.
+	We can further prove that the regular Sturm-Liouville problem must have simple (non-degenerate) eigenvalues \( \lambda_n \), by considering two possible eigenfunctions \( u, v \) for the same \( \lambda \), and use the expression for self-adjointness.
+	We find \( u \mathcal L v - (\mathcal L u) v = [-p(uv' - u'v)]' \) which contains the Wronskian.
+	We can integrate and impose homogeneous boundary conditions to get the required result.
+	% exercise
+\end{proof}
+
+\subsection{Orthogonality of eigenfunctions}
+Suppose \( \mathcal L y_n = \lambda_n w y_n \), and \( \mathcal L y_m = \lambda_m w y_m \) where \( \lambda_n \neq \lambda_m \).
+Then, we can integrate to find
+\[
+	\int_a^b (y_m \mathcal L y_n - y_n \mathcal L y_m) \dd{x} = (\lambda_n - \lambda_m) \int_a^b w y_n y_m \dd{x} = 0 \text{ by self-adjointness}
+\]
+Since \( \lambda_n \neq \lambda_m \), we have
+\[
+	\forall n \neq m, \int_a^b w y_n y_m \dd{x} = 0
+\]
+Hence, \( y_n \) and \( y_m \) are orthogonal \textit{with respect to} the weight function \( w \) on \( [a,b] \).
+\begin{definition}
+	We define the inner product with respect to \( w \) to be
+	\[
+		\inner{f,g}_w = \int_a^b w f^\star g \dd{x}
+	\]
+	Note,
+	\[
+		\inner{f,g}_w = \inner{wf,g} = \inner{f,wg}
+	\]
+\end{definition}
+Hence, the orthogonality relation becomes
+\[
+	\forall n \neq m, \inner{y_n, y_m}_w = 0
+\]
+
+\subsection{Eigenfunction expansions}
+The completeness of the family of eigenfunctions (which is not proven here) implies that we can approximate any `well-behaved' \( f(x) \) on \( [a,b] \) by the series
+\[
+	f(x) = \sum_{n=1}^\infty a_n y_n(x)
+\]
+This is comparable to Fourier series.
+To find the coefficients \( a_n \), we will take the inner product with an eigenfunction.
+By orthogonality,
+\[
+	\int_a^b w y_m f \dd{x} = \sum_{n=1}^\infty a_n \int_a^b w y_n y_m \dd{x} = a_m \int_a^b w y_m^2 \dd{x}
+\]
+Hence,
+\[
+	a_n = \frac{\int_a^b w y_n f \dd{x}}{\int_a^b w y_n^2 \dd{x}}
+\]
+We can normalise eigenfunctions, for instance
+\[
+	Y_n(x) = \frac{y_n(x)}{\qty(\int_a^b w y_n^2 \dd{x})^{\frac{1}{2}}}
+\]
+hence
+\[
+	\inner{Y_n, Y_m}_w = \delta_{nm}
+\]
+giving an orthonormal set of eigenfunctions.
+In this case,
+\[
+	f(x) = \sum_{n=1}^\infty A_n Y_n
+\]
+where
+\[
+	A_n = \int_a^b w Y_n f \dd{x}
+\]
+\begin{example}
+	Recall Fourier series in Sturm-Liouville form:
+	\[
+		\mathcal L y_n \equiv - \dv[2]{y}{x} = \lambda_n y_n
+	\]
+	where in this case we have
+	\[
+		\lambda_n = \qty(\frac{n \pi}{L})^2
+	\]
+\end{example}
+
+\subsection{Completeness and Parseval's identity}
+Consider
+\[
+	\int_a^b \qty[ f(x) - \sum_{n=1}^\infty a_n y_n ]^2 w \dd{x}
+\]
+By orthogonality, this is equivalently
+\[
+	\int_a^b \qty[ f^2 - 2 f \sum_n a_n y_n + \sum_n a_n^2 y_n^2 ] w \dd{x}
+\]
+Note that the second term can be extracted using the definition of \( a_n \), giving
+\[
+	\int_a^b wf^2 \dd{x} - \sum_{n=1}^\infty a_n^2 \int_a^b w y_n^2 \dd{x}
+\]
+If the eigenfunctions are complete, then the result will be zero, showing that the series expansion converges.
+\[
+	\int_a^b w f^2 \dd{x} = \sum_{n=1}^\infty a_n^2 \int_a^b w y_n^2 \dd{x} = \sum_{n=1}^\infty A_n^2
+\]
+If some eigenfunctions are missing, this is Bessel's inequality:
+\[
+	\int_a^b w f^2 \dd{x} \geq \sum_{n=1}^\infty A_n^2
+\]
+We define the partial sum to be
+\[
+	S_N(x) = \sum_{n=1}^N a_n y_n
+\]
+with \( f(x) = \lim_{N \to \infty} S_N(x) \).
+Convergence is defined in terms of the mean-square error.
+In particular, if we have a complete set of eigenfunctions,
+\[
+	\varepsilon_N = \int_a^b w \qty[f(x) - S_n(x)]^2 \dd{x} \to 0
+\]
+This `global' definition of convergence is convergence in the mean, not pointwise convergence as in Fourier series.
+The error in partial sum \( S_N \) is minimised by \( a_n \) above for the \( N = \infty \) expansion.
+\[
+	\pdv{\varepsilon_N}{a_n} = -2 \int_a^b y_n w \qty[ f - \sum_{n=1}^N a_n y_n ] \dd{x} = -2 \int_a^b \qty(wfy_n - a_n w y_n^2) \dd{x} = 0
+\]
+It is minimal because we can show \( \pdv[2]{\varepsilon}{a_n} = 2 \int_a^b w y_n^2 \dd{x} \geq 0 \).
+Thus the \( a_n \) given above is the best possible choice for the coefficient at all \( N \).
+
+\subsection{Legendre's equation}
+Legendre's equation is
+\[
+	(1-x^2)y'' - 2xy' + \lambda y = 0
+\]
+on \( [-1,1] \), with boundary conditions that \( y \) is finite at \( x = \pm 1 \), at the regular singular points of the ODE.\@
+This equation is already in Sturm-Liouville form with
+\[
+	p=1-x^2, q=0, w=1
+\]
+We seek a power series solution centred on \( x = 0 \):
+\[
+	y = \sum_n c_n x^n
+\]
+Substituting into the differential equation,
+\[
+	(1-x^2) \sum_n n(n-1) x_n x^{n-2} - 2x \sum_n c_n c^{n-1} + \lambda \sum_n c_n x^n = 0
+\]
+Equating powers,
+\[
+	(n+2)(n+1)c_{n+2} - n(n-1)c_n - 2n c_n + \lambda c_n = 0
+\]
+which gives a recursion relation between \( c_{n+2} \) and \( c_n \).
+\[
+	c_{n+2} = \frac{n(n+1) - \lambda}{(n+1)(n+2)} c_n
+\]
+Hence, specifying \( c_0, c_1 \) gives two independent solutions.
+In particular,
+\[
+	y_{\text{even}} = c_0 \qty[1 + \frac{(-\lambda)}{2!}x^2 + \frac{(6-\lambda)(-\lambda)}{4!} x^4 + \dots]
+\]
+\[
+	y_{\text{odd}} = c_1 \qty[x + \frac{(2-\lambda)}{3!}x^3 + \dots]
+\]
+As \( n \to \infty \), \( \frac{c_{n+2}}{c_n} \to 1 \).
+So these are geometric series, with radius of convergence \( \abs{x} < 1 \), hence there is divergence at \( x = \pm 1 \).
+So taking a power series does not give a useful solution.
+
+Suppose we chose \( \lambda = \ell (\ell + 1) \).
+Then eventually we have \( n \) such that the numerator vanishes.
+In particular, by taking \( \lambda = \ell (\ell + 1) \), either the series for \( y_{\text{even}} \) or \( y_{\text{odd}} \) terminates.
+These functions are called the Legendre polynomials, denoted \( P_\ell(x) \), with the normalisation convention \( P_\ell(1) = 1 \).
+\begin{itemize}
+	\item \( \ell = 0, \lambda = 0, P_0(x) = 1 \)
+	\item \( \ell = 1, \lambda = 2, P_1(x) = x \)
+	\item \( \ell = 2, \lambda = 6, P_2(x) = \frac{3x^2 - 1}{2} \)
+	\item \( \ell = 3, \lambda = 12, P_3(x) = \frac{5x^3 - 3x}{2} \)
+\end{itemize}
+Note, \( P_\ell(x) \) has \( \ell \) zeroes.
+The polynomials oscillate in parity.
+
+\subsection{Properties of Legendre polynomials}
+Since Legendre polynomials come from a self-adjoint operator, they must have certain conditions, such as orthogonality.
+For \( n \neq m \),
+\[
+	\int_{-1}^1 P_n P_m \dd{x} = 0
+\]
+They are also normalisable,
+\[
+	\int_{-1}^1 P_n^2 \dd{x} = \frac{2}{2n+1}
+\]
+We can prove this with Rodrigues' formula:
+\[
+	P_n(x) = \frac{1}{2^n n!} \qty( \dv{x} )^n (x^2 - 1)^n
+\]
+Alternatively we could use a generating function:
+\begin{align*}
+	\sum_{n=0}^\infty P_n(x) t^n = \frac{1}{\sqrt{1 - 2xt + t^2}} & = 1 + \frac{1}{2}\qty(2xt - t^2) + \frac{3}{8}\qty(2xt - t^2)^2 + \dots \\
+	                                                              & = 1 + xt + \frac{1}{2}\qty(3x^2 - 1)t^2 + \dots
+\end{align*}
+There are some useful recursion relations.
+\[
+	\ell(\ell + 1) P_{\ell + 1} = (2 \ell + 1) x P_\ell(x) - \ell P_{\ell - 1}(x)
+\]
+Also,
+\[
+	(2\ell + 1)P_\ell(x) = \dv{x} \qty[ P_{\ell + 1}(x) - P_{\ell - 1}(x) ]
+\]
+
+\subsection{Legendre polynomials as eigenfunctions}
+Any (well-behaved) function on \( [-1,1] \) can be expressed as
+\[
+	f(x) = \sum_{\ell = 0}^\infty a_\ell P_\ell(x)
+\]
+where
+\[
+	a_\ell = \frac{2\ell + 1}{2} \int_{-1}^1 f(x) P_\ell(x) \dd{x}
+\]
+with no boundary conditions (e.g.\ periodicity conditions) on \( f \).
+
+\subsection{Solving inhomogeneous differential equations}
+\textit{This can be thought of as the general case of Fourier series discussed previously.}
+
+\noindent Consider the problem
+\[
+	\mathcal L y = f(x) \equiv w(x) F(x)
+\]
+on \( x \in [a,b] \) assuming homogeneous boundary conditions.
+Given eigenfunctions \( y_n(x) \) satisfying \( \mathcal L y_n = \lambda_n w y_n \), we wish to expand this solution as
+\[
+	y(x) = \sum_n c_n y_n(x)
+\]
+and
+\[
+	F(x) = \sum_n a_n y_n(x)
+\]
+where \( a_n \) are known and \( c_n \) are unknown:
+\[
+	a_n = \frac{\int_a^b w F y_n \dd{x}}{\int_a^b w y_n^2 \dd{x}}
+\]
+Substituting,
+\[
+	\mathcal L y = \mathcal L \sum_n c_n y_n = \sum_n c_n \lambda_n y_n = w \sum_n a_n y_n
+\]
+By orthogonality,
+\[
+	c_n \lambda_n = a_n \implies c_n = \frac{a_n}{\lambda_n}
+\]
+In particular,
+\[
+	y(x) = \sum_{n=1}^\infty \frac{a_n}{\lambda_n}y_n(x)
+\]
+We can further generalise; we can permit a driving force, which often induces a linear response term \( \widetilde\lambda w y \).
+\[
+	\mathcal L y - \widetilde \lambda w y = f(x)
+\]
+where \( \widetilde \lambda \) is fixed.
+The solution becomes
+\[
+	y(x) = \sum_{n=1}^\infty \frac{a_n}{\lambda_n - \widetilde \lambda} y_n(x)
+\]
+
+\subsection{Integral solutions}
+Recall that
+\[
+	y(x) = \sum_{n=1}^\infty \frac{a_n}{\lambda_n} y_n(x) = \sum_n \frac{y_n(x)}{\lambda_n \lambda_n N_n} \int_a^b w(\xi) F(\xi) y_n(\xi) \dd{\xi}
+\]
+where
+\[
+	N_n = \int w y_n^2 \dd{x}
+\]
+This then gives
+\[
+	y(x) = \int_a^b \underbrace{\sum_{n=1}^\infty \frac{y_n(x) y_n(\xi)}{\lambda_n N_n}}_{G(x,\xi)} \underbrace{w(\xi) F(\xi)}_{f(\xi)} \dd{\xi} = \int_a^b G(x;\xi) f(\xi) \dd{\xi}
+\]
+where
+\[
+	G(x,\xi) = \sum_{n=1}^\infty \frac{y_n(x) y_n(\xi)}{\lambda_n N_n}
+\]
+is the eigenfunction expansion of the Green's function.
+Note that the Green's function does not depend on \( f \), but only on \( \mathcal L \) and the boundary conditions.
+In this sense, it acts like an inverse operator
+\[
+	\mathcal L^- \equiv \int \dd{\xi} G(x,\xi)
+\]
+analogously to how \( Ax = b \implies x = A^{-1} b \) for matrix equations.
+
+\subsection{Waves on an elastic string}
+Consider a small displacement \( y(x,t) \) on a stretched string with fixed ends at \( x = 0 \) and \( x = L \), that is, with boundary conditions \( y(0,t) = y(L,t) = 0 \).
+We can determine the string's motion for specified initial conditions \( y(x,0) = p(x) \) and \( \pdv{y}{t}(x,0) = q(x) \).
+We derive the equation of motion governing the motion of the string by balancing forces on a string segment \( (x,x+\delta x) \) and take the limit as \( \delta x \to 0 \).
+Let \( T_1 \) be the tension force acting to the left at angle \( \theta_1 \) from the horizontal.
+Analogously, let \( T_2 \) be the rightwards tension force at angle \( \theta_2 \).
+We assume at any point on the string that \( \abs{\pdv{y}{x}} \ll 1 \), so the angles of the forces are small.
+In the \( x \) dimension,
+\[
+	T_1 \cos \theta_1 = T_2 \cos \theta_2 \implies T_1 \approx T_2 = T
+\]
+So the tension \( T \) is constant up to an error of order \( O\qty(\abs{\pdv{y}{x}
+}^2) \).
+In the \( y \) dimension, since \( \theta \) are small,
+\[
+	F_T = T_2 \sin \theta_2 - T_1 \sin \theta_1 \approx T \qty(\eval{\pdv{y}{x}}_{x + \delta x} - \eval{\pdv{y}{x}}_x) \approx T \pdv[2]{y}{x} \delta x
+\]
+By \( F = ma \),
+\[
+	F_T + F_g = (\mu \delta x) \pdv[2]{y}{t} = T \pdv[2]{y}{x} \delta x - g \mu \delta x
+\]
+where \( F_g \) is the gravitational force and \( \mu \) is the linear mass density.
+We define the wave speed as
+\[
+	c = \sqrt{\frac{T}{\mu}}
+\]
+and find
+\[
+	\pdv[2]{y}{t} = \frac{T}{\mu} \pdv[2]{y}{x} - g = c^2 \pdv[2]{y}{x}
+\]
+We often assume gravity is negligible to produce the pure wave equation
+\[
+	\frac{1}{c^2} \pdv[2]{y}{t} = \pdv[2]{y}{x}
+\]

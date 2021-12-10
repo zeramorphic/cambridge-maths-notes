@@ -1,0 +1,259 @@
+\subsection{Convex functions}
+\textit{This subsection is covered by Lecture 1 of the IB Optimisation course.}
+\begin{definition}
+	A set \( S \subset \mathbb R^n \) is convex if \( \forall \vb x, \vb y \in S, \forall t \in [0,1], (1-t)\vb x + t \vb y \in S \).
+\end{definition}
+\begin{definition}
+	The graph of a function \( f \colon \mathbb R^n \to \mathbb R \) is the surface \( \qty{ (\vb x, z)\in \mathbb R^{n+1} \colon z - f(\vb x) = 0} \).
+\end{definition}
+\begin{definition}
+	A chord of a function \( f \colon \mathbb R^n \to \mathbb R \) is a line segment connecting two points on the graph of \( f \).
+\end{definition}
+\begin{definition}
+	A function \( f \colon \mathbb R^n \to \mathbb R \) is convex if
+	\begin{enumerate}[(i)]
+		\item the domain of \( f \) is a convex set; and
+		\item \( \forall \vb x, \vb y \in S, \forall t \in (0,1), f((1-t)\vb x + t\vb y) \leq (1-t)f(\vb x) + tf(\vb y) \)
+	\end{enumerate}
+	Equivalently, \( f \) is convex if the graph of \( f \) lies below (or on) all of its chords.
+	We say that \( f \) is concave if \( f \) lies above (or on) all of its chords.
+	Clearly, \( f \) is convex if and only if \( -f \) is concave.
+	We say \( f \) is \textit{strictly} convex (or concave) if the inequality in (ii) becomes strict.
+\end{definition}
+
+\subsection{Examples of convex functions}
+\begin{example}
+	Consider the function \( f \colon \mathbb R \to \mathbb R \) defined by
+	\[
+		f(x) = x^2
+	\]
+	The domain is clearly convex.
+	To show convexity, we need
+	\[
+		f((1-t)x+ty) - (1-t)f(x) - tf(y) \leq 0
+	\]
+	We have
+	\[
+		[(1-t)x+ty]^2 - (1-t)x^2 - ty^2 = x^2(1-t)(-t) + ty^2(1-t) + 2(1-t)txy = -(1-t)t(x-y)^2 < 0
+	\]
+	as required.
+	Hence \( f(x) = x^2 \) is a strictly convex function.
+\end{example}
+\begin{example}
+	Consider
+	\[
+		f(x) = \frac{1}{x}
+	\]
+	where the domain is \( \mathbb R \setminus \{ 0 \} \).
+	This domain is not convex, so \( f \) is not convex.
+	However, restricted to the domain \( \qty{ x \in \mathbb R \colon x > 0 } \), \( f \) can be shown to be convex.
+\end{example}
+
+\subsection{Conditions for convexity}
+\textit{Proofs for these conditions, where appropriate, are given in Lecture 1 of the IB Optimisation course.}
+\begin{theorem}
+	If \( f \) is a once-differentiable function, then \( f \) is convex if and only if
+	\[
+		f(\vb y) \geq f(\vb x) + (\vb y - \vb x) \cdot \grad{f}(\vb x)
+	\]
+\end{theorem}
+\begin{corollary}
+	If \( f \) is convex, and has a stationary point, then it is a global minimum.
+\end{corollary}
+\begin{proof}
+	Suppose the stationary point is at \( \vb x_0 \), so \( \grad{f}(\vb x_0) = \vb 0 \).
+	We then have
+	\[
+		f(\vb y) \geq f(\vb x_0) + (\vb y - \vb x_0) \cdot \vb 0
+	\]
+	which is larger than \( f(\vb x_0) \) as required.
+\end{proof}
+
+\begin{theorem}
+	If \( f \) is a once-differentiable function, then \( f \) is convex if
+	\[
+		(\grad{f(\vb y)} - \grad {f(\vb x)}) \cdot (\vb y - \vb x) \geq 0
+	\]
+	This can be thought of as stating that \( f' \) is monotonically increasing.
+\end{theorem}
+
+\begin{theorem}
+	If \( f \) is a twice-differentiable function, then \( f \) is convex if and only if
+	\[
+		\laplacian{f} \succeq 0
+	\]
+	i.e.\ all eigenvalues of the Hessian matrix are non-negative.
+	Note that \( \laplacian{f} \succ 0 \) implies strict convexity.
+\end{theorem}
+
+\begin{example}
+	Consider the function
+	\[
+		f(x,y) = \frac{1}{xy}
+	\]
+	for \( x > 0, y > 0 \).
+	Then the Hessian is
+	\[
+		H = \frac{1}{xy}\begin{pmatrix}
+			\frac{2}{x^2} & \frac{1}{xy}  \\
+			\frac{1}{xy}  & \frac{2}{y^2} \\
+		\end{pmatrix}
+	\]
+	Then,
+	\[
+		\det H = \frac{3}{x^3 y^3} > 0
+	\]
+	\[
+		\tr H > 0
+	\]
+	Hence the eigenvalues are both positive.
+	So \( f \) is strictly convex.
+\end{example}
+
+\subsection{Legendre transform}
+\begin{definition}
+	The Legendre transform of a function \( f \colon \mathbb R^n \to \mathbb R \) is a function \( f^\star \) given by
+	\[
+		f^\star(\vb p) = \sup_{\vb x} (\vb p \cdot \vb x - f(\vb x))
+	\]
+	The domain of \( f^\star \) is such that the supremum provided is finite.
+	In one dimension, we can consider \( f^\star(p) \) to be the maximum vertical distance between the graphs of \( y = f(x) \) and \( y = px \).
+\end{definition}
+\begin{example}
+	Consider the function \( f(x) = ax^2 \), which is convex where \( a > 0 \).
+	Computing the derivative of the right hand side and setting it to zero,
+	\begin{align*}
+		f^\star(p) & = \sup_x (px - ax^2)                           \\
+		           & = p\qty(\frac{p}{2a}) - a \qty(\frac{p}{2a})^2 \\
+		           & = \frac{p^2}{4a}
+	\end{align*}
+	We can apply the Legendre transform twice:
+	\[
+		f^{\star\star}(s) = \sup_p (sp - f^\star(p)) = as^2 = f(s)
+	\]
+	In fact, if \( f \) is convex, then we always have \( f^{\star\star} = f \).
+	If \( a < 0 \), the supremum does not exist so \( f^\star \) has an empty domain, and thus \( f^{\star\star} \neq f \).
+\end{example}
+\begin{proposition}
+	If the domain of \( f^\star \) is non-empty, it is a convex set, and \( f^\star \) is convex.
+\end{proposition}
+\begin{proof}
+	Given \( \vb p, \vb q \) in the domain of \( f^\star \),
+	\begin{align*}
+		f^\star((1-t)\vb p + t \vb q) & = \sup_{\vb x} \qty[(1-t)\vb p \cdot \vb x + t \vb q \cdot \vb x - f(\vb x)]                                      \\
+		                              & = \sup_{\vb x} \qty[(1-t)(\vb p \cdot \vb x - f(\vb x)) + t (\vb q \cdot \vb x - f(\vb x))]                       \\
+		                              & \leq \sup_{\vb x} \qty[(1-t)(\vb p \cdot \vb x - f(\vb x))] + \sup_{\vb x} \qty[t (\vb q \cdot \vb x - f(\vb x))] \\
+		                              & < \infty
+	\end{align*}
+	as required.
+\end{proof}
+
+\noindent In practice, if \( f \) is convex and differentiable, we compute \( f^\star(\vb p) \) by considering the derivative:
+\[
+	\grad(\vb p \cdot \vb x - f(\vb x)) = 0 \implies \vb p = \grad{f}
+\]
+If \( f \) is strictly convex, the condition \( \vb p = \grad{f} \) has a unique inverse to give \( \vb x \) as a function of \( \vb p \), so \( f^\star(\vb p) = \vb p \cdot \vb x(\vb p) - f(\vb x(\vb p)) \).
+This eliminates the supremum condition.
+
+\subsection{Applications to thermodynamics}
+If we consider the particles in a gas, we could theoretically solve the Euler-Lagrange equations for a system of around \num{e23} particles.
+However, solving such a complicated system is difficult.
+Instead of solving for each particle, we instead consider macroscopic quantities such as pressure \( P \), volume \( V \), temperature \( T \), and entropy \( S \).
+A system has \textit{internal energy} \( U(S, V) \).
+The \textit{Helmholtz free energy} is
+\begin{align*}
+	F(T, V) & = \min_S (U(S, V) - TS)   \\
+	        & = - \max_S (TS - U(S, V)) \\
+	        & = -U^\star(T, V)
+\end{align*}
+where \( U^\star \) is the Legendre transform of \( U \) with respect to \( S \), fixing \( V \) constant.
+Assuming \( U \) is convex,
+\[
+	\eval{\pdv{S} \qty(TS - U(S,V))}_{T,V} = 0 \implies T = \eval{\pdv{U}{S}}_{V}
+\]
+There are other thermodynamical quantities that can be represented using a Legendre transform, for instance enthalpy \( H(S, P) \).
+\begin{align*}
+	H(S, P) & = \min_V (U(S,V) + PV) \\
+	        & = - U^\star(-P, S)
+\end{align*}
+At this minimum, \( P = \eval{-\pdv{U}{V}}_S \).
+We can think of the Legendre transform in this context as a way of swapping from dependence on entropy and volume to dependence on other variables.
+
+\subsection{Legendre transform of the Lagrangian}
+Recall that the Lagrangian in mechanics was defined as
+\[
+	L = T - V = L(\vb q, \dot{\vb q}, t)
+\]
+This is a function on the configuration space.
+We define the \textit{Hamiltonian} to be the Legendre transform of \( L \) with respect to \( \dot{\vb q} \).
+We find, assuming that \( L \) is convex,
+\begin{align*}
+	H(\vb q, \vb p, \vb t) & = \sup_{\vb v} (\vb p \cdot \vb v - L)                 \\
+	                       & = \vb p \cdot \vb v(\vb p) - L(\vb q, \vb v(\vb p), t)
+\end{align*}
+where \( \vb v(\vb p) \) is the solution to \( p_i = \pdv{L}{\dot{q}_i} \).
+The \( \vb p \) are referred to as \textit{generalised momenta} or \textit{conjugate momenta}.
+Consider
+\[
+	T = \frac{1}{2}m \abs{\dot{\vb q}}^2;\quad V = V(\vb q)
+\]
+Then,
+\[
+	\vb p = \pdv{L}{\dot{\vb q}} = m \dot{\vb q} \implies \dot{\vb q} = \frac{1}{m} \vb p
+\]
+The Hamiltonian is therefore
+\begin{align*}
+	H(\vb q, \vb p, t) & = \vb p \cdot \frac{1}{m} \vb p - L                                                       \\
+	                   & = \vb p \cdot \frac{1}{m} \vb p - \qty(\frac{1}{2}m \frac{\abs{\vb p}^2}{m^2} - V(\vb q)) \\
+	                   & = \frac{1}{2m} \abs{\vb p}^2 + V(\vb q)                                                   \\
+	                   & = T + V
+\end{align*}
+
+\subsection{Hamilton's equations from Euler-Lagrange equation}
+Given that the Lagrangian satisfies the Euler-Lagrange equation, we can deduce analogous equations for the Hamiltonian.
+We often write the indices of the generalised coordinates in superscript, as follows, where the summation convention applies:
+\[
+	H = H(\vb q, \vb p, t) = p_i \dot q^i - L(q^i, \dot q^i, t)
+\]
+Using this equation, we can compute two expressions for the differential of the Hamiltonian:
+\begin{align*}
+	\dd{H} & = \pdv{H}{q^i} \dd{q^i} + \pdv{H}{p_i} \dd{p_i} + \pdv{H}{t} \dd{t}                                                  \\
+	       & = p_i \dd{\dot{q}^i} + \dot{q}^i \dd{p_i} - \pdv{L}{q^i}\dd{q^i} - \pdv{L}{\dot q^i}\dd{\dot q^i} - \pdv{L}{t}\dd{t}
+\end{align*}
+Now, note that \( \pdv{L}{\dot q^i} = p_i \).
+This cancels some terms.
+Making use of the Euler-Lagrange equation,
+\[
+	\pdv{L}{q^i} = \dv{t} \pdv{L}{\dot q^i} = \dv{t} p_i = \dot{p}_i
+\]
+This gives
+\[
+	\dd{H} = \pdv{H}{q^i} \dd{q^i} + \pdv{H}{p_i} \dd{p_i} + \pdv{H}{t} \dd{t} = \dot{q}^i \dd{p_i} - \dot{p}_i\dd{q^i} - \pdv{L}{t}\dd{t}
+\]
+Comparing the differentials, we can see that
+\[
+	\dot{q}^i = \pdv{H}{p_i};\quad \dot{p}_i = -\pdv{H}{q^i};\quad \pdv{L}{t} = -\pdv{H}{t}
+\]
+This system of equations is known as Hamilton's equations.
+Note that in the last equation, \( \eval{\pdv{t}}_{q,\dot q} \neq \eval{\pdv{t}}_{p,q} \).
+For now, we will assume that there is no explicit \( t \) dependence in the Lagrangian.
+Then, Hamilton's equations are a system of \( 2n \) first-order ordinary differential equations.
+(Note, for comparison, that the Euler-Lagrange equations were a system of \( n \) second-order differential equations, which gives the same amount of initial conditions.)
+The initial conditions are typically a configuration of \( \vb p, \vb q \) at some fixed \( t_0 \).
+The solutions to Hamilton's equations are called the \textit{trajectories} in \( 2n \)-dimensional phase space.
+
+\subsection{Hamilton's equations from extremising a functional}
+Note that we can also arrive at Hamilton's equations by extremising a functional in phase space.
+\[
+	S[\vb q, \vb p] = \int_{t_1}^{t_2} \qty( \dot q^i p_i - H(\vb q, \vb p, t)) \dd{t}
+\]
+The integrand, denoted \( f \), is a function of \( \vb q, \vb p, \dot{\vb q}, t \).
+Writing the Euler-Lagrange equations for \( S \), varying first with respect to \( p_i \),
+\[
+	\pdv{f}{p_i} - \underbrace{\dv{t}\pdv{f}{\dot p_i}}_0 = 0 \implies \dot q^i = \pdv{H}{p_i}
+\]
+Now varying with respect to \( q^i \),
+\[
+	\pdv{f}{q^i} - \dv{t}\pdv{f}{\dot q^i} = 0 \implies \dot p_i = -\pdv{H}{q^i}
+\]
+These results are exactly Hamilton's equations.

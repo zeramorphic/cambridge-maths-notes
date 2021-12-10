@@ -1,0 +1,125 @@
+\subsection{Matrix polynomials}
+If \(A\) is an \(n \times n\) complex matrix and
+\[
+	p(t) = c_0 + c_1t + c_2^2 + \dots + c_k t^k
+\]
+is a polynomial, then
+\[
+	p(A) = c_0I + c_1A + c_2A^2 + \dots + c_k A^k
+\]
+We can also define power series on matrices (subject to convergence).
+For example, the exponential series which always converges:
+\[
+	\exp(A) = I + A + \frac{1}{2}A^2 + \dots + \frac{1}{r!}A^r + \dots
+\]
+For a diagonal matrix, polynomials and power series can be computed easily since the power of a diagonal matrix just involves raising its diagonal elements to said power.
+Therefore,
+\[
+	D = \begin{pmatrix}
+		\lambda_1 & 0         & \cdots & 0         \\
+		0         & \lambda_2 & \cdots & 0         \\
+		\vdots    & \vdots    & \ddots & \vdots    \\
+		0         & 0         & \cdots & \lambda_n
+	\end{pmatrix} \implies p(D) = \begin{pmatrix}
+		p(\lambda_1) & 0            & \cdots & 0            \\
+		0            & p(\lambda_2) & \cdots & 0            \\
+		\vdots       & \vdots       & \ddots & \vdots       \\
+		0            & 0            & \cdots & p(\lambda_n)
+	\end{pmatrix}
+\]
+Therefore,
+\[
+	\exp(D) = \begin{pmatrix}
+		e^{\lambda_1} & 0             & \cdots & 0             \\
+		0             & e^{\lambda_2} & \cdots & 0             \\
+		\vdots        & \vdots        & \ddots & \vdots        \\
+		0             & 0             & \cdots & e^{\lambda_n}
+	\end{pmatrix}
+\]
+If \(B = P^{-1}AP\) (similar to \(A\)) where \(P\) is an \(n \times n\) invertible matrix, then
+\[
+	B^r = P^{-1}A^r P
+\]
+Therefore,
+\[
+	p(B) = p(P^{-1}AP) = P^{-1}p(A)P
+\]
+Of special interest is the characteristic polynomial,
+\[
+	\chi_A(t) = \det(A - tI) = c_0 + c_1t + c_2t^2 + \dots + c_n t^n
+\]
+where \(c_0 = \det A\), and \(c_n = (-1)^n\).
+\begin{theorem}[Cayley-Hamilton Theorem]
+	\[
+		\chi_A(A) = c_0I + c_1A + c_2A^2 + \dots + c_n A^n = 0
+	\]
+	Less formally, a matrix satisfies its own characteristic equation.
+\end{theorem}
+\begin{remark}
+	We can find an expression for the matrix inverse.
+	\[
+		-c_0I = A(c_1 + c_2A + \dots + c_n A^{n-1})
+	\]
+	If \(c_0 = \det A \neq 0\), then
+	\[
+		A^{-1} = \frac{-1}{c_0}(c_1 + c_2A + \dots + c_n A^{n-1})
+	\]
+\end{remark}
+
+\subsection{Proofs of special cases of Cayley-Hamilton theorem}
+\begin{proof}[Proof for a \(2\times 2\) matrix]
+	Let \(A\) be a general \(2\times 2\) matrix.
+	\[
+		A = \begin{pmatrix}
+			a & b \\ c & d
+		\end{pmatrix} \implies \chi_A(t) = t^2 - (a+d)t + (ad-bc)
+	\]
+	We can check the theorem by substitution.
+	\[
+		\chi_A(A) = A^2 - (a+d)A - (ad-bc)I
+	\]
+	This is shown on the last example sheet.
+\end{proof}
+\begin{proof}[Proof for diagonalisable \(n \times n\) matrices]
+	Consider \(A\) with eigenvalues \(\lambda_i\), and an invertible matrix \(P\) such that \(P^{-1}AP = D\), where \(D\) is diagonal.
+	\[
+		\chi_A(D) = \begin{pmatrix}
+			\chi_A(\lambda_1) & 0                 & \cdots & 0                 \\
+			0                 & \chi_A(\lambda_2) & \cdots & 0                 \\
+			\vdots            & \vdots            & \ddots & \vdots            \\
+			0                 & 0                 & \cdots & \chi_A(\lambda_n)
+		\end{pmatrix} = 0
+	\]
+	since the \(\lambda_i\) are eigenvalues.
+	Then
+	\[
+		\chi_A(A) = \chi_A(PDP^{-1}) = P\chi_A(D)P^{-1} = 0
+	\]
+\end{proof}
+
+\subsection{Proof in general case (non-examinable)}
+\begin{proof}
+	Let \(M = A - tI\).
+	Then \(\det M = \det(A - tI) = \chi_A(t) = \sum_{r=0}c_r t^r\).
+	We can construct the adjugate matrix.
+	\[
+		\adjugate M = \sum_{r=0}^{n-1} B_r t^r
+	\]
+	Therefore,
+	\begin{align*}
+		\adjugate M M = (\det M) I & = \left(\sum_{r=0}^{n-1} B_r t^r\right)(A-tI)                                             \\
+		                           & = B_0A + (B_1A - B_0)t + (B_2A - B_1)t^2 + \dots + (B_{n-1}A - B_{n-2})t^{n-1} - B_{n-1}t
+	\end{align*}
+	Now by comparing coefficients,
+	\begin{align*}
+		C_0I     & = B_0A               \\
+		C_1I     & = B_1A - B_0         \\
+		\vdots                          \\
+		C_{n-1}I & = B_{n-1}A - B_{n-2} \\
+		C_n I    & = -B_{n-1}
+	\end{align*}
+	Summing all of these coefficients, multiplying by the relevant powers,
+	\begin{align*}
+		 & C_0I + C_1A + C_2A^2 + \dots + C_n A^n \\=\ &B_0A + (B_1A^2 - B_0A) + (B_2A^3 - B_1A^2) + \dots + (B_{n-1}A^n - B_{n-2}A^{n-1}) - B_{n-1}A^n \\=\ &0
+	\end{align*}
+\end{proof}

@@ -1,0 +1,367 @@
+\subsection{Linear maps}
+Let \( m, n \in \mathbb N \).
+Recall that \( L(\mathbb R^m, \mathbb R^n) \) is the vector space of linear maps from \( \mathbb R^m \) to \( \mathbb R^n \).
+This is isomorphic to \( M_{n,m} \), the space of \( n \times m \) real matrices.
+There is also an isomorphism to \( \mathbb R^{mn} \).
+Let \( e_1, \dots, e_m \) be the standard basis of \( \mathbb R^m \), and similarly let \( e_1', \dots, e_n' \) be the standard basis of \( \mathbb R^n \).
+Then \( T \in L(\mathbb R^m, \mathbb R^n) \) is identified with the \( n \times m \) matrix \( (T_{ji}) \) where \( 1 \leq j \leq n \) and \( 1 \leq i \leq m \), such that \( T_{ji} = \inner{T e_i, e_j'} \).
+We can therefore view \( L(\mathbb R^m, \mathbb R^n) \) as the \( mn \)-dimensional vector space \( \mathbb R^{mn} \) with the Euclidean norm.
+So the norm of a linear map \( T \) is given by
+\[
+	\norm{T} = \sqrt{\sum_{i=1}^m \sum_{j=1}^n T_{ji}^2} = \sqrt{\sum_{i=1}^m \norm{Te_i}^2}
+\]
+where \( T e_i \) is the \( i \)th column of \( T \).
+Thus, \( L(\mathbb R^m, \mathbb R^n) \) becomes a metric space together with the Euclidean distance \( d(S,T) = \norm{S-T} \).
+\begin{lemma}
+	For \( T \in L(\mathbb R^m, \mathbb R^n) \) and \( x \in \mathbb R^m \),
+	\[
+		\norm{Tx} \leq \norm{T} \cdot \norm{x}
+	\]
+	So \( T \) is a Lipschitz map and hence continuous.
+	Further, if \( S \in L(\mathbb R^n, \mathbb R^p) \) then
+	\[
+		\norm{ST} \leq \norm{S} \cdot \norm{T}
+	\]
+\end{lemma}
+\begin{proof}
+	We can write
+	\[
+		x = \sum_{i=1}^m x_i e_i
+	\]
+	Hence,
+	\[
+		Tx = \sum_{i=1}^m x_i T e_i
+	\]
+	Thus,
+	\[
+		\norm{Tx} \leq \sum_{i=1}^m \abs{x_i} \norm{T e_i} \leq \qty(\sum_{i=1}^m x_i^2)^{1/2} \cdot \qty(\sum_{i=1}^m \norm{Te_i}^2)^{1/2} = \norm{T} \cdot \norm{x}
+	\]
+	Further, for \( x,y \in \mathbb R^m \) we have
+	\[
+		d(Tx, Ty) = \norm{Tx - Ty} = \norm{T(x-y)} \leq \norm{T} \cdot \norm{x-y} = \norm{T} d(x,y)
+	\]
+	So \( T \) is Lipschitz, and any Lipschitz function is continuous.
+	Now,
+	\[
+		\norm{ST} = \qty(\sum_{i=1}^m \norm{STe_i}^2)^{1/2} \leq \qty(\sum_{i=1}^m \norm{S} \norm{Te_i}^2)^{1/2} = \norm{S} \qty(\sum_{i=1}^m \norm{Te_i}^2)^{1/2} = \norm{S} \cdot \norm{T}
+	\]
+\end{proof}
+
+\subsection{Differentiation}
+Recall from IA Analysis that a function \( f \colon \mathbb R \to \mathbb R \) is \textit{differentiable} at a point \( a \in \mathbb R \) if
+\[
+	\lim_{h \to 0} \frac{f(a+h) - f(a)}{h}
+\]
+exists.
+The value of this limit is called the \textit{derivative} of \( f \) at \( a \), and denoted \( f'(a) \).
+Note that \( f \) is differentiable at \( a \) if and only if there exists \( \lambda \in \mathbb R \) and \( \varepsilon \colon \mathbb R \to \mathbb R \) such that \( \varepsilon(0) = 0 \) and \( \varepsilon \) is continuous at \( 0 \), and
+\[
+	f(a+h) = f(a) + \lambda h + h \varepsilon(h)
+\]
+This is because we can define
+\[
+	\varepsilon(h) = \begin{cases}
+		0                                 & h = 0    \\
+		\frac{f(a+h) - f(a)}{h} - \lambda & h \neq 0
+	\end{cases}
+\]
+Informally, this \( \varepsilon \) definition states that \( f \) is approximated very well (the error \( h\varepsilon(h) \) shrinks rapidly since \( \varepsilon \to 0 \)) by a linear function in a small neighbourhood of \( a \).
+Recall that if \( f \) is \( n \) times differentiable at \( a \), then
+\[
+	f(a+h) = f(a) + \sum_{k=1}^n \frac{f^{(k)}(a)}{k!}h^k + o(h^n)
+\]
+\begin{definition}
+	Let \( m, n \in \mathbb N \).
+	Then \( f \colon \mathbb R^m \to \mathbb R^n \) and \( a \in \mathbb R^m \).
+	We say that \( f \) is \textit{differentiable} at \( a \) if there exists a linear map \( T \in L(\mathbb R^m, \mathbb R^n) \) and a function \( \varepsilon \colon \mathbb R^m \to \mathbb R^n \) such that \( \varepsilon(0) = 0 \) and \( \varepsilon \) is continuous at \( 0 \), and
+	\[
+		f(a+h) = f(a) + T(h) + \norm{h} \varepsilon(h)
+	\]
+	Note that
+	\[
+		\varepsilon(h) = \begin{cases}
+			0                                     & h = 0    \\
+			\frac{f(a+h) - f(a) - T(h)}{\norm{h}} & h \neq 0
+		\end{cases}
+	\]
+	So \( f \) is differentiable at \( a \) if and only if there exists \( T \in L(\mathbb R^m, \mathbb R^n) \) such that
+	\[
+		\frac{f(a+h) - f(a) - T(h)}{\norm{h}} \to 0
+	\]
+	as \( h \to 0 \).
+	Such a \( T \) is unique.
+	Indeed, suppose \( S, T \) satisfy the above limit.
+	Then, by subtracting,
+	\[
+		\frac{S(h) - T(h)}{\norm{h}} \to 0
+	\]
+	For a fixed \( x \in \mathbb R^m \), \( x \neq 0 \), we have \( \frac{x}{k} \to 0 \) as \( k \to \infty \) so
+	\[
+		\frac{S\qty(\frac{x}{k}) - T\qty(\frac{x}{k})}{\norm{\frac{x}{k}}} \to 0 \implies \frac{S(x) - T(x)}{\norm{x}} = 0
+	\]
+	So \( Sx = Tx \).
+	It follows that \( S = T \).
+	We say that if a function \( f \) is differentiable at a point \( a \), \( T \) is the unique \textit{derivative} of \( f \) at \( a \).
+	This is denoted \( f'(a) = Df(a) = \eval{Df}_a \).
+	If \( f \colon \mathbb R^m \to \mathbb R^n \) is differentiable at \( a \in \mathbb R^m \) for every \( a \), we say that \( f \) is \textit{differentiable on} \( \mathbb R^m \).
+	The function \( f' = D \colon \mathbb R^m \to L(\mathbb R^m, \mathbb R^n) \) mapping \( a \mapsto f'(a) \) is the derivative of \( f \).
+\end{definition}
+\begin{example}
+	Constant functions are differentiable.
+	Let \( f \colon \mathbb R^m \to \mathbb R^n \) such that \( f(x) = b \) for \( b \in \mathbb R^n \).
+	Then for all \( a \in \mathbb R^m \), we have
+	\[
+		f(a+h) = f(a) + 0h + 0
+	\]
+	so \( f \) is differentiable at \( a \) and the derivative is zero.
+\end{example}
+\begin{example}
+	Linear maps are differentiable.
+	Let \( f \colon \mathbb R^m \to \mathbb R^n \) be defined by \( f(x) = Tx \) for a linear map \( T \in L(\mathbb R^m, \mathbb R^n) \).
+	Then
+	\[
+		f(a+h) = f(a) + f(h) + 0
+	\]
+	so \( f \) is differentiable at \( a \) with derivative \( T = f \).
+	So \( f' \) is a constant function.
+\end{example}
+\begin{example}
+	Consider
+	\[
+		f(x) = \norm{x}^2
+	\]
+	For \( a \in \mathbb R^m \), we can find
+	\[
+		f(a+h) = \norm{a+h}^2 = \norm{a}^2 + 2\inner{a,h} + \norm{h}^2 = f(a) + 2\inner{a,h} + \norm{h} \varepsilon(h)
+	\]
+	Hence, \( f \) is differentiable with derivative
+	\[
+		f'(a)(h) = 2\inner{a,h}
+	\]
+	Note that \( f' \colon \mathbb R^m \to L(\mathbb R^m \to \mathbb R) \) is linear.
+\end{example}
+\begin{example}
+	Note \( M_n \simeq \mathbb R^{n^2} \).
+	The function \( f \colon M_n \to M_n \) given by \( f(A) = A^2 \).
+	For a fixed \( A \in M_n \),
+	\[
+		f(A+H) = (A+H)^2 = A^2 + AH + HA + H^2
+	\]
+	It suffices to show \( H^2 \) is \( o(\norm{H}) \).
+	We have \( \norm{H^2} \leq \norm{H}^2 \), hence
+	\[
+		\frac{\norm{H^2}}{\norm{H}} \leq \norm{H} \to 0
+	\]
+	So \( f \) is differentiable at \( A \) and the derivative is given by
+	\[
+		f'(A)(H) = AH + HA
+	\]
+\end{example}
+\begin{example}
+	Suppose \( f \colon \mathbb R^m \times \mathbb R^n \to \mathbb R^p \) is bilinear.
+	Let \( (a, b) \in \mathbb R^m \times \mathbb R^n \).
+	Then,
+	\[
+		f((a,b) + (h,k)) = f((a+h, b+k)) = f(a,b) + f(a,k) + f(h,b) + f(h,k)
+	\]
+	The map \( \mathbb R^m \times \mathbb R^n \to \mathbb R^p \) given by \( (h,k) \mapsto f(a,k) + f(h,b) \) is linear as the sum of two linear maps.
+	So it suffices to show \( f(h,k) \) is \( o(\norm{(h,k)}) \).
+	\[
+		h = \sum_{i=1}^m h_i e_i;\quad k = \sum_{j=1}^n k_j e_j'
+	\]
+	Hence,
+	\[
+		f(h,k) = \sum_{i=1}^m \sum_{j=1}^n h_i k_j f(e_i, e_j') \implies \norm{f(h,k)} \leq \sum_{i=1}^m \sum_{j=1}^n \abs{h_i} \cdot \abs{k_j} \cdot \norm{f(e_i, e_j')} \leq C \norm{(h,k)}^2
+	\]
+	for some constant \( C \), since \( \abs{h_i} \leq \norm{(h,k)}^2 \) and similarly for \( \abs{k_j} \).
+	So
+	\[
+		\frac{\norm{f(h,k)}}{\norm{(h,k)}} \leq C \norm{(h,k)} \to 0
+	\]
+	Hence \( f \) is differentiable with
+	\[
+		f'(a,b)(h,k) = f(a,k) + f(h,b)
+	\]
+\end{example}
+
+\subsection{Derivatives on open subsets}
+We may define the derivative on a subset of \( \mathbb R^m \).
+We will use the notion of open subsets since we are typically interested in neigbourhoods of points.
+\begin{definition}
+	Let \( U \) be an open subset of \( \mathbb R^m \).
+	Let \( f \colon U \to \mathbb R^n \) be a function, and \( a \in U \).
+	Then we say \( f \) is \textit{differentiable} at \( a \) if there exists a linear map \( T \in L(\mathbb R^m, \mathbb R^n) \) such that
+	\[
+		f(a+h) = f(a) + T(h) + \norm{h} \varepsilon(h)
+	\]
+	where \( \epsilon(0) = 0 \) and \( \varepsilon \) is continuous at zero.
+	Note that \( \varepsilon \) need only be defined on the set of \( h \) such that \( a + h \in U \), or more precisely the open set \( U - a \).
+	Hence there exists \( r > 0 \) such that \( \mathcal D_r(0) \subset U_a \).
+	Then
+	\[
+		\varepsilon(h) = \begin{cases}
+			0                                     & h = 0                 \\
+			\frac{f(a+h) - f(a) - T(h)}{\norm{h}} & h \neq 0, a + h \in U
+		\end{cases}
+	\]
+	So \( f \) is differentiable at \( a \) if and only if there exists a linear map \( T \in L(\mathbb R^m, \mathbb R^n) \) such that
+	\[
+		\frac{f(a+h) - f(a) - T(h)}{\norm{h}} \to 0
+	\]
+\end{definition}
+\begin{remark}
+	The linear map \( T \) is unique, and is called the \textit{derivative} of \( f \) at \( a \), denoted \( f'(a) \).
+	In particular,
+	\[
+		f(a+h) = f(a) + f'(a)(h) + o(\norm{h})
+	\]
+\end{remark}
+\begin{remark}
+	If \( m = 1 \), the space \( L(\mathbb R, \mathbb R^n) \) is isomorphic to \( \mathbb R^n \).
+	The linear map is defined uniquely by a vector in \( \mathbb R^n \) which multiplies by the scalar \( h \).
+	Hence, if \( U \subset \mathbb R \) is open and \( f \colon U \to \mathbb R \) be a function and \( a \in U \), then \( f \) is differentiable at \( a \) if there exists a vector \( v \in \mathbb R^n \) such that
+	\[
+		\frac{f(a+h) - f(a) - hv}{\abs{v}} \to 0
+	\]
+	Equivalently, there exists \( v \in \mathbb R^n \) such that
+	\[
+		\frac{f(a+h) - f(a)}{h} \to v
+	\]
+\end{remark}
+
+\subsection{Properties of derivative}
+\begin{proposition}[chain rule]
+	Let \( U \subset \mathbb R^m \) be open, \( f \colon U \to \mathbb R^n \) be a function, and \( a \in U \).
+	If \( f \) is differentiable at \( a \), \( f \) is continuous at \( a \).
+\end{proposition}
+\begin{proof}
+	We have
+	\[
+		f(a+h) = f(a) + f'(a)(h) + \norm{h} \varepsilon(h)
+	\]
+	Hence,
+	\[
+		f(x) = f(a) + f'(a)(x-a) + \norm{x-a} \varepsilon(x-a)
+	\]
+	The functions \( x \mapsto f(a) \), \( x \mapsto f'(a)(x-a) \) and \( x \mapsto \norm{x-a}\varepsilon(x-a) \) are all continuous at \( a \).
+	Hence their sum is continuous.
+\end{proof}
+\begin{proposition}
+	Let \( U \subset \mathbb R^m \) and \( V \subset \mathbb R^n \) be open, \( f \colon U \to \mathbb R^n \) and \( g \colon V \to \mathbb R^p \) be functions, and \( a \in U, b \equiv f(a) \in V \).
+	Suppose \( f \) is differentiable at \( a \), and \( g \) is differentiable at \( b \).
+	Then \( g \circ f \) is differentiable at \( a \) and
+	\[
+		(g \circ f)'(a) = g'(b) \circ f'(a)
+	\]
+\end{proposition}
+\begin{proof}
+	Let \( S = f'(a) \) and \( T = g'(b) \).
+	Then by assumption
+	\[
+		f(a+h) = f(a) + S(h) + \norm{h} \varepsilon(h);\quad g(b+k) + g(b) + T(k) + \norm{k} \zeta(k)
+	\]
+	for suitable \( \varepsilon, \zeta \).
+	Then,
+	\begin{align*}
+		(g \circ f)(a+h) & = g\qty(f(a) + S(h) + \norm{h} \varepsilon(h))                                                                               \\
+		                 & = g\qty(b + \underbrace{S(h) + \norm{h} \varepsilon(h)}_{k})                                                                 \\
+		                 & = g(b) + T\qty(S(h) + \norm{h} \varepsilon(h)) + \norm{S(h) + \norm{h} \varepsilon(h)} \zeta(S(h) + \norm{h} \varepsilon(h)) \\
+		                 & = (g \circ f)(a) + (T \circ S)(h) + \norm{h} T(\varepsilon(h)) + \norm{k} \zeta(k)
+	\end{align*}
+	It suffices to show that
+	\[
+		\eta(h) \equiv \norm{h} T(\varepsilon(h)) + \norm{k} \zeta(k)
+	\]
+	satisfies \( \frac{\eta}{\norm{h}} \to 0 \).
+	Then the result follows.
+	First,
+	\[
+		\frac{\norm{h}T(\varepsilon(h))}{\norm{h}} = T(\varepsilon(h)) \to 0
+	\]
+	as \( \norm{T(\varepsilon(h))} \leq \norm{T} \cdot \norm{\varepsilon(h)} \to 0 \).
+	Then,
+	\[
+		\frac{\norm{k}}{\norm{h}} = \frac{\norm{S(h)} + \norm{h} \cdot \norm{\varepsilon(h)}}{\norm{h}} \leq \norm{S} + \norm{\varepsilon(h)}
+	\]
+	Hence, \( k = S(h) + \norm{h} \cdot \varepsilon(h) \to 0 \) as \( h \to 0 \).
+	Thus \( \zeta(k) \to 0 \) as \( k \to 0 \).
+	So
+	\[
+		\frac{\eta(h)}{\norm{h}} = T(\varepsilon(h)) + \frac{\norm{k}}{\norm{h}} \zeta(k) \to 0
+	\]
+	as required.
+\end{proof}
+\begin{proposition}
+	Let \( U \subset \mathbb R^m \) be open, \( f \colon U \to \mathbb R^n \) be a function, and \( a \in U \).
+	Let \( f_j \) be the \( j \)th component of \( f \), so \( f_j = \pi_j \circ f \).
+	Then \( f \) is differentiable at \( a \) if and only if each \( f_j \) is differentiable at \( a \).
+	If this holds,
+	\[
+		f'(a)(h) = \sum_{j=1}^n f_j'(a)(h) e_j'
+	\]
+	Equivalently,
+	\[
+		\pi_j \qty[ f'(a)(h) ] = f_j'(a)(h)
+	\]
+\end{proposition}
+\begin{proof}
+	If \( f \) is differentiable at \( a \), by the chain rule the composite \( \pi_j \circ f \) is differentiable at \( a \).
+	Since the derivative of a linear map is itself, the derivative is given by
+	\[
+		f_j'(a) = \pi_j'(f(a)) \circ f'(a) = \pi_j \circ f'(a)
+	\]
+	Hence
+	\[
+		f'(a)(h) = \sum_{j=1}^n \pi_j\qty[ f'(a)(h) e_j' ] = \sum_{j=1}^n f_j'(a)(h) e_j'
+	\]
+	Conversely suppose each \( f_j \) is differentiable.
+	Then
+	\[
+		f_j(a+h) = f_j(a) + f_j'(a)(h) + \norm{h} \varepsilon_j(h)
+	\]
+	for suitable \( \varepsilon(j) \).
+	Now,
+	\begin{align*}
+		f(a+h) & = \sum_{j=1}^n f_j(a+h)e_j'                                                                             \\
+		       & = \sum_{j=1}^n \qty[f_j(a) + f_j'(a)(h) + \norm{h} \varepsilon_j(h)] e_j'                               \\
+		       & = \sum_{j=1}^n f_j(a) e_j' + \sum_{j=1}^n f_j'(a)(h) e_j' + \norm{h} \sum_{j=1}^n \varepsilon_j(h) e_j'
+	\end{align*}
+	Since each \( \varepsilon_j \) tends to zero as \( h \to 0 \), so does their sum.
+\end{proof}
+\begin{remark}
+	This proposition shows that we can prove things for an image \( \mathbb R^n = \mathbb R \) without loss of generality.
+\end{remark}
+
+\subsection{Linearity and product rule}
+\begin{proposition}
+	Let \( U \subset \mathbb R^m \) be open and functions \( f,g \colon U \to \mathbb R^n \), \( \phi \colon U \to \mathbb R \) which are differentiable at \( a \).
+	Then the functions \( f + g \) and \( \phi \cdot f \) are also differentiable and their derivatives are
+	\[
+		(f+g)'(a) = f'(a) + g'(a);\quad (\phi f)'(a)(h) = \phi(a)\qty[f'(a)(h)] + \qty[\phi'(a)(h)] f(a)
+	\]
+	For \( m = n = 1 \) this is the usual product rule.
+\end{proposition}
+\begin{proof}
+	We have
+	\begin{align*}
+		f(a+h)    & = f(a) + f'(a)(h) + \norm{h}\varepsilon(h) \\
+		g(a+h)    & = g(a) + g'(a)(h) + \norm{h} \zeta(h)      \\
+		\phi(a+h) & = \phi(a) + \phi'(a)(h) + \norm{h}\eta(h)
+	\end{align*}
+	for suitable \( \varepsilon, \zeta, \eta \).
+	The sum gives
+	\[
+		(f+g)(a+h) = (f+g)(a+h) + (f'(a) + g'(a))(h) + \norm{h}(\varepsilon(h) + \zeta(h))
+	\]
+	It follows that \( f+g \) is differentiable at \( a \) and its derivative is the sum of the derivatives of its components.
+	\begin{align*}
+		(\phi \cdot f)(a+h) & = \phi(a+h) f(a+h)                                                                                                                                                \\
+		                    & = (\phi \cdot f)(a) + \qty[\phi(a) f'(a)(h) + \phi'(a)(h) f(a)] + f'(a)(h) \phi'(a)(h)                                                                            \\
+		                    & + \norm{h} \underbrace{\qty(f'(a)(h) \eta(h) + \phi'(a)(h) \varepsilon(h) + \eta(h) f(a) + \phi(a) \varepsilon(h) + \norm{h} \eta(h) \varepsilon(h))}_{\delta(h)}
+	\end{align*}
+	Now,
+	\[
+		\frac{\norm{\phi'(a)(h) \cdot f'(a)(h)}}{\norm{h}} = \frac{\abs{\phi'(a)(h)} \cdot \norm{f'(a)(h)}}{\norm{h}} \leq \frac{\norm{\phi'(a)} \cdot \norm{h} \cdot \norm{f'(a)} \cdot \norm{h}}{\norm{h}} \to 0
+	\]
+	Clearly \( \delta \to 0 \) since the same is true for all of its components.
+\end{proof}

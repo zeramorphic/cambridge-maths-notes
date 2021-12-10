@@ -1,0 +1,283 @@
+\subsection{Conjugation actions}
+\begin{definition}
+	Given \(g, h \in G\), the element \(hgh^{-1}\) is the conjugate of \(g\) by \(h\).
+\end{definition}
+We should think of conjugate elements as doing the same thing but from different `points of view' --- we change perspective by doing \(h^{-1}\), then do the action \(g\), then reset the perspective back to normal using \(h\).
+
+Here is an example using \(D_{10}\), where the vertices of the regular pentagon are \(v_1 \dots v_5\) clockwise.
+Consider the conjugates \(s\) and \(rsr^{-1}\), where \(s\) is a reflection through \(v_1\) and the centre, and \(r\) is a rotation by \(\frac{2\pi}{5}\) clockwise.
+So \(rsr^{-1}\) ends up being just a reflection through \(v_2\) and the centre.
+So the result of conjugating the reflection by a rotation is still a reflection, just from a different point of view.
+
+Another example is in matrix groups such as \(GL_n(\mathbb R)\) where a conjugate matrix represents the same transformation but with respect to a different basis.
+This will be covered in more detail later.
+
+As a general principle, conjugate elements can be expected to have similar properties.
+We will now prove some of these such properties.
+\begin{proposition}
+	A group \(G\) acts on itself by conjugation.
+\end{proposition}
+\begin{proof}
+	\begin{itemize}
+		\item \(g(x) = gxg^{-1} \in G\) for any \(g, x \in G\)
+		\item \(e(x) = exe^{-1} = x\) for any \(x \in G\)
+		\item \(g(h(x)) = ghxh^{-1}g^{-1} = (gh)(x)\)
+	\end{itemize}
+\end{proof}
+\begin{definition}
+	The kernel, orbits and stabilisers have special names:
+	\begin{itemize}
+		\item The kernel of the conjugation action of \(G\) on itself is the centre \(Z(G)\):
+		      \[
+			      Z(G) := \{ g \in G : \forall h \in G,\, ghg^{-1} = h \iff gh=hg \}
+		      \]
+		      In less formal terms, \(Z(G)\) is the set of `elements that commute with everything'.
+		\item An orbit of this action is called a conjugacy class:
+		      \[
+			      \ccl(h) := \{ ghg^{-1}: g \in G \}
+		      \]
+		      Sometimes this is written \(\ccl_G(h)\) to clarify which group we're working on.
+		\item Stabilisers are called centralisers:
+		      \[
+			      C_G(h) := \{ g \in G : ghg^{-1} = h \iff gh = hg \}
+		      \]
+		      This is the set of `elements that commute with \(h\)'.
+	\end{itemize}
+\end{definition}
+Exercise: \(Z(G) = \bigcap_{h \in G} C_G(h)\).
+
+\begin{definition}
+	If \(H \leq G, g \in G\), then the conjugate of \(H\) by \(g\) is:
+	\[
+		gHg^{-1} = \{ ghg^{-1} : h \in H \}
+	\]
+\end{definition}
+\begin{proposition}
+	Let \(H \leq G, g \in G\).
+	Then \(gHg^{-1}\) is also a subgroup of \(G\).
+\end{proposition}
+\begin{proof}
+	We check the group axioms.
+	\begin{itemize}
+		\item (closure) If \(gh_1g^{-1}, gh_2g^{-1} \in gHg^{-1}\), then
+		      \[
+			      (gh_1g^{-1})(gh_2g^{-1}) = gh_1(g^{-1}g)h_2g^{-1} = g(h_1h_2)g^{-1} \in gHg^{-1}
+		      \]
+		\item (identity) \(geg^{-1} = e \in gHg^{-1}\)
+		\item (inverses) Given \(ghg^{-1} \in gHg^{-1}\), the inverse is \(gh^{-1}g^{-1}\), which of course is an element of \(gHg^{-1}\).
+	\end{itemize}
+\end{proof}
+Note that \(gHg^{-1}\) is isomorphic to \(H\) (proof as exercise).
+\begin{proposition}
+	A group \(G\) acts by conjugation on the set of its subgroups.
+	The singleton orbits are the normal subgroups.
+\end{proposition}
+Proof as exercise.
+(Recall that \(N \trianglelefteq G \iff \forall g \in G,\, gNg^{-1} = N\), which is the same as being stable under conjugation)
+
+\subsection{Normal subgroups and conjugation}
+\begin{proposition}
+	Normal subgroups are those subgroups that are unions of conjugacy classes.
+	Recall that \(\ccl(h) = \{ ghg^{-1} : g \in G \}\).
+\end{proposition}
+\begin{proof}
+	Let \(M \trianglelefteq G\).
+	Then if \(h \in N\), then \(ghg^{-1} \in N\) for all \(g \in G\) because \(N\) is a normal subgroup.
+	So \(\ccl(h) \subseteq N\).
+	So \(N\) is a union of conjugacy classes of its elements;
+	\[
+		N = \bigcup_{h \in N} \ccl(h)
+	\]
+	Conversely, if \(H\) is a subgroup that is a union of conjugacy classes, then \(\forall g \in G, \forall h \in H\), we have \(ghg^{-1} \in H\).
+	So \(H \trianglelefteq G\).
+\end{proof}
+As an example, consider \(A_3 = \{ e, (1\ 2\ 3), (1\ 3\ 2) \} \trianglelefteq S_3\).
+Now, \(A_3 = \{ e \} \sqcup \{ (1\ 2\ 3), (1\ 3\ 2) \}\).
+Note that \((1\ 2\ 3), (1\ 3\ 2)\) are conjugates in \(S_3\) but they are not conjugates in \(A_3\).
+
+\subsection{Conjugation in symmetric groups}
+\begin{lemma}
+	Given a \(k\)-cycle \((a_1\dots a_k)\) and \(\sigma \in S_n\), we have
+	\[
+		\sigma (a_1\dots a_k) \sigma^{-1} = (\sigma(a_1)\dots \sigma(a_k))
+	\]
+\end{lemma}
+\begin{proof}
+	Let us apply the left hand side transformation to \(\sigma(a_i)\).
+	\[
+		\sigma (a_1\dots a_k) \sigma^{-1} \sigma(a_i) = \sigma (a_1\dots a_k) (a_i) = \sigma(a_{i+1\mod k})
+	\]
+	Now let us consider the effect of the transformation on \(\sigma(b)\) for \(b \neq a_i\).
+	\[
+		\sigma (a_1\dots a_k) \sigma^{-1} \sigma(b) = \sigma (a_1\dots a_k) (b) = \sigma(b)
+	\]
+	So these are unchanged.
+	Therefore, the left hand side is equal to the right hand side.
+\end{proof}
+
+\begin{proposition}
+	Two elements of \(S_n\) are conjugate (in \(S_n\), i.e.\ via a conjugation by some element in \(S_n\)) if and only if they have the same cycle type.
+\end{proposition}
+\begin{proof}
+	Two elements that are conjugate will have the same cycle type: given \(\sigma \in S_n\), we can write \(\sigma\) as a product of disjoint cycles, say \(\sigma = \sigma_1\dots\sigma_m\).
+	Then if \(\rho \in S_n\), \(\rho \sigma \rho^{-1} = \rho \sigma_1 \rho^{-1} \rho \sigma_2 \rho^{-1} \dots \rho \sigma_m \rho^{-1}\) which is a product of the conjugates of the cycles.
+	By the above lemma, the conjugate of a \(k\)-cycle is a \(k\)-cycle, and because \(\rho\) is bijective the \(\rho \sigma_i \rho^{-1}\) are all disjoint, so we retain the cycle type of \(\sigma\) under conjugation in \(S_n\).
+
+	Conversely, if \(\sigma\) and \(\tau\) have the same cycle type, then we can write
+	\[
+		\sigma = (a_1\dots a_{k_1})(a_{k_1+1}\dots a_{k_2})\dots
+	\]
+	\[
+		\tau = (b_1\dots b_{k_1})(b_{k_1+1}\dots b_{k_2})\dots
+	\]
+	in disjoint cycle notation, including singletons.
+	Then all of \(\{ 1, \dots, n \}\) appear in both \(\sigma\) and \(\tau\).
+	Then, setting \(\rho\) to be defined by \(\rho(a_i) = b_i\), which is indeed a permutation, we obtain \(\rho\sigma\rho^{-1}=\tau\).
+\end{proof}
+Let us consider the conjugacy classes of \(S_4\).
+We can compute the size of \(C_{S_4}\) using the orbit-stabiliser theorem; the conjugacy class is the orbit of a particular point under conjugation.\medskip
+
+\noindent\begin{tabular}{ccccc}
+	cycle type  & example element  & size of ccl & size of \(C_{S_4}\) & sign   \\\midrule
+	\(1,1,1,1\) & \(e\)            & 1           & 24                  & \(+1\) \\
+	\(2,1,1\)   & \((1\ 2)\)       & 6           & 4                   & \(-1\) \\
+	\(2,2\)     & \((1\ 2)(3\ 4)\) & 3           & 8                   & \(+1\) \\
+	\(3,1\)     & \((1\ 2\ 3)\)    & 8           & 3                   & \(+1\) \\
+	\(4\)       & \((1\ 2\ 3\ 4)\) & 6           & 4                   & \(-1\) \\
+\end{tabular}
+
+From this, we can compute all normal subgroups of \(S_4\), since normal subgroups:
+\begin{itemize}
+	\item must contain \(e\)
+	\item must be a union of conjugacy classes
+	\item must have an order that divides \(\abs{S_4} = 24\)
+\end{itemize}
+To check all possibilities, we will look through all divisors of \(24\), and check whether we can form a union of conjugacy classes.
+\begin{itemize}
+	\item (1) \(\{ e \}\)
+	\item (2) impossible, no conjugacy classes have orders which add to 2
+	\item (3) impossible
+	\item (4) \(3+1=4\) so we have
+	      \[
+		      \{ e, (1\ 2)(3\ 4), (1\ 3)(2\ 4), (1\ 4)(2\ 3) \} \cong C_2 \times C_2
+	      \]
+	      This subgroup is often referred to as \(V_4\), the Klein four group.
+	\item (6) impossible
+	\item (8) impossible
+	\item (12) \(1+3+8=12\) so we have
+	      \[
+		      \{ e, (1\ 2)(3\ 4), (1\ 3)(2\ 4), (1\ 4)(2\ 3), (1\ 2\ 3), (1\ 3\ 2), (1\ 2\ 4), (1\ 4\ 2), (1\ 3\ 4), (1\ 4\ 3), (2\ 3\ 4), (2\ 4\ 3) \} = A_4
+	      \]
+	\item (24) \(S_4 \trianglelefteq S_4\).
+\end{itemize}
+So all possible quotients of \(S_4\) are:
+\begin{itemize}
+	\item \(\frac{S_4}{\{ e \}} \cong S_4\)
+	\item \(\frac{S_4}{V_4} = \{ V_4, (1\ 2)V_4, (1\ 3)V_4, (2\ 3)V_4, (1\ 2\ 3)V_4, (1\ 3\ 2)V_4 \} \cong S_3\)
+	\item \(\frac{S_4}{A_4} \cong C_2\)
+	\item \(\frac{S_4}{S_4} \cong \{ e \}\)
+\end{itemize}
+Exercise: repeat with \(S_5\).
+
+\subsection{Conjugation in alternating groups}
+Note that
+\begin{align*}
+	\ccl_{S_n}(\sigma) & = \{ \tau \sigma \tau^{-1} : \tau \in S_n \} \\
+	\ccl_{A_n}(\sigma) & = \{ \tau \sigma \tau^{-1} : \tau \in A_n \}
+\end{align*}
+So clearly \(\ccl_{A_n}(\sigma) \subseteq \ccl_{S_n}(\sigma)\) since \(A_n \subseteq S_n\).
+But elements that are conjugate in \(S_n\) may not be conjugate in \(A_n\), for example \((1\ 2\ 3)\) and \((1\ 3\ 2)\) in \(S_3\) and \(A_3\).
+
+\subsection{Splitting conjugacy classes}
+Some conjugacy classes of \(S_n\) are split into smaller conjugacy classes in \(A_n\), since some elements require elements of \(S_n \setminus A_n\) to conjugate with each other.
+By the orbit-stabiliser theorem,
+\[
+	\abs{S_n} = \abs{\ccl_{S_n}(\sigma)} \cdot \abs{C_{S_n}(\sigma)}
+\]
+\[
+	\abs{A_n} = \abs{\ccl_{A_n}(\sigma)} \cdot \abs{C_{A_n}(\sigma)}
+\]
+But \(\abs{S_n} = 2\abs{A_n}\), and \(\abs{\ccl_{S_n}(\sigma)} \geq \abs{\ccl_{A_n}(\sigma)}\).
+So either:
+\begin{itemize}
+	\item \(\ccl_{S_n}(\sigma) = \ccl_{A_n}(\sigma)\) and \(\abs{C_{S_n}(\sigma)} = 2\abs{C_{A_n}(\sigma)}\), or
+	\item \(\abs{\ccl_{S_n}(\sigma)} = 2 \abs{\ccl_{A_n}(\sigma)}\) and \(C_{S_n}(\sigma) = C_{A_n}(\sigma)\)
+\end{itemize}
+\begin{definition}
+	When \(\abs{\ccl_{S_n}(\sigma)} = 2 \abs{\ccl_{A_n}(\sigma)}\), we say that the conjugacy class of \(\sigma\) splits in \(A_n\).
+\end{definition}
+When does a conjugacy class split in \(A_n\)?
+\begin{proposition}
+	The conjugacy class of \(\sigma \in A_n\) splits in \(A_n\) if and only if there are no odd permutations that commute with \(\sigma\).
+\end{proposition}
+\begin{proof}
+	\[
+		\abs{\ccl_{S_n}(\sigma)} = 2 \abs{\ccl_{A_n}(\sigma)} \iff C_{S_n}(\sigma) = C_{A_n}(\sigma)
+	\]
+	\[
+		C_{A_n}(\sigma) = A_n \cap C_{S_n}(\sigma)
+	\]
+	\[
+		A_n \cap C_{S_n}(\sigma) = C_{S_n}(\sigma) \iff C_{S_n}(\sigma)\text{ contains no odd elements}
+	\]
+	So no odd permutation is in this centraliser.
+\end{proof}
+Let us consider an example for conjugacy classes in \(A_4\).\medskip
+
+\noindent\begin{tabular}{ccccc}
+	cycle type  & example element        & odd element in \(C_{S_4}\)?
+	            & size of \(\ccl_{S_4}\) & size of \(\ccl_{A_4}\)                                  \\\midrule
+	\(1,1,1,1\) & \(e\)                  & yes, e.g.
+	\((1\ 2)\)  & 1                      & 1                                                       \\
+	\(2,2\)     & \((1\ 2)(3\ 4)\)       & yes, e.g.
+	\((1\ 2)\)  & 3                      & 3                                                       \\
+	\(3,1\)     & \((1\ 2\ 3)\)          & no                          & 8 & two classes of size 4 \\
+\end{tabular}
+
+\medskip\noindent There is no odd element in \(C_{S_4}(1\ 2\ 3)\) because \(\abs{C_{S_4}(1\ 2\ 3)} = 3\) and clearly \(C_{S_4}\) contains \(\genset{(1\ 2\ 3)}\), which is a set of 3 elements, so \(C_{S_4} = \genset{(1\ 2\ 3)}\) which are all even elements.
+
+Let us now consider conjugacy classes in \(A_5\).\medskip
+
+\noindent\begin{tabular}{ccccc}
+	cycle type    & example element        & odd element in \(C_{S_5}\)?
+	              & size of \(\ccl_{S_5}\) & size of \(\ccl_{A_5}\)                                    \\ \midrule
+	\(1,1,1,1,1\) & \(e\)                  & yes, e.g.
+	\((1\ 2)\)    & 1                      & 1                                                         \\
+	\(2,2,1\)     & \((1\ 2)(3\ 4)\)       & yes, e.g.
+	\((1\ 2)\)    & 15                     & 15                                                        \\
+	\(3,1,1\)     & \((1\ 2\ 3)\)          & yes, e.g.
+	\((4\ 5)\)    & 20                     & 20                                                        \\
+	\(5\)         & \((1\ 2\ 3\ 4\ 5)\)    & no                          & 24 & two classes of size 12 \\
+\end{tabular}
+
+\medskip\begin{lemma}
+	\(C_{S_5}(1\ 2\ 3\ 4\ 5) = \genset{(1\ 2\ 3\ 4\ 5)}\).
+\end{lemma}
+\begin{proof}
+	\[
+		\abs{\ccl_{S_5}(1\ 2\ 3\ 4\ 5)} = \frac{5 \cdot 4 \cdot 3 \cdot 2}{5} = 24
+	\]
+	By the orbit-stabiliser theorem,
+	\[
+		\abs{S_5} = 120 = 24 \abs{C_{S_5}(1\ 2\ 3\ 4\ 5)} \implies \abs{C_{S_5}(1\ 2\ 3\ 4\ 5)} = 5
+	\]
+	Clearly \(\genset{(1\ 2\ 3\ 4\ 5)} \subseteq C_{S_5}(1\ 2\ 3\ 4\ 5)\) so \(\genset{(1\ 2\ 3\ 4\ 5)} = C_{S_5}(1\ 2\ 3\ 4\ 5)\).
+	Note, this contains only even elements.
+\end{proof}
+
+\begin{theorem}
+	\(A_5\) is a simple group.
+\end{theorem}
+\begin{proof}
+	Normal subgroups must be unions of conjugacy classes, they must contain \(e\), and their order must divide the order of the group \(\abs{A_5} = 60\).
+	The sizes of conjugacy classes we have are \(1, 15, 20, 12, 12\) from the example above.
+	The only ways of adding 1 plus some of the other numbers to get a divisor of 60 are
+	\begin{itemize}
+		\item (1) which can only be the trivial subgroup
+		\item (\(1+15+20+12+12=60\)) which can only be the group itself
+	\end{itemize}
+	So those are the only possible normal subgroups, so it is simple.
+\end{proof}
+\begin{remark}
+	All \(A_n\) for \(n \geq 5\) are simple.
+\end{remark}

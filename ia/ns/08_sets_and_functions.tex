@@ -1,0 +1,102 @@
+\subsection{Sets}
+A set is any* collection of mathematical objects.
+\((\forall x, x \in A \iff x \in B) \iff (A = B)\).
+In words, two sets which have the same members are considered to be the same; order of members is not important in a set.
+There is no `multiple membership' of a set, \(\{ a, a \} = \{ a \}\).
+
+\subsection{Subsets}
+Given a set \(A\) and a property \(p(x)\), we can form \(\{ x \in A: p(x) \}\); the subset of all members of \(A\) with property \(p\).
+This is sometimes called the `subset selection' rule or axiom.
+We can say that \(B\) is a subset of \(A\) if \(\forall x, x \in B \implies x \in A\), written \(B \subseteq A\).
+Further, \(A = B \iff A \subseteq B, B \subseteq A\).
+
+\subsection{Unions and intersections}
+Given sets \(A\) and \(B\), we can form their union \(A \cup B = \{ x: x \in A \lor x \in B \}\).
+We can also form their intersection \(A \cap B = \{ x: x \in A \wedge x \in B \}\).
+If \(A \cap B = \varnothing\), we say \(A\) and \(B\) are disjoint.
+Note that we could consider \(A \cap B\) as a special case of subset selection; the subset of \(A\) with the property that the element is in \(B\).
+Therefore, \(A \cap B \subseteq A\), and \(A \cap B \subseteq B\).
+We define the set difference \(A \setminus B = \{ x \in A: x \notin B \}\).
+
+Note that \(\cap\) and \(\cup\) are commutative and associative.
+Also, \(\cup\) is distributive over \(\cap\), and \(\cap\) is distributive over \(\cup\).
+For example, let us prove that \(A \cap (B \cup C) = (A \cap B) \cup (A \cap C)\).
+\begin{itemize}
+	\item (LHS \(\subseteq\) RHS) Given \(x \in A \cap (B \cup C)\), we have \(x \in A\) and also either \(x \in B\) or \(x \in C\).
+	      If \(x \in B\) then \(x \in A \cap B\) so \(x \in (A \cap B) \cup (A \cap C)\); and vice versa for \(C\).
+	\item (RHS \(\subseteq\) LHS) Given \(x \in (A \cap B) \cup (A \cap C)\), either \(x \in A \cap B\) or \(x \in A \cap C\).
+	      If \(x \in A \cap B\) then \(x \in A\) and \(x \in B \cup C\) as required; and vice versa for the other case.
+\end{itemize}
+As the union is associative, we can have bigger unions of more sets.
+For example, if we let \(A_n = \{ n^2, n^3 \}\) for each \(n \in \mathbb N\), the infinite union
+\[
+	A_1 \cup A_2 \cup A_3 \cup \cdots = \bigcup_{n=1}^\infty A_n = \bigcup_{n \in \mathbb N} A_n = \{ x \in N: x \text{ is a square or a cube} \}
+\]
+When we use the \(n \in \mathbb N\) on the large union symbol, we call \(\mathbb N\) the `index set'.
+Note that the infinite union is not defined as a limit of finite unions; it is simply defined using set comprehension.
+In general, given a set \(I\), and sets \(A_i\), \(i \in I\), we can form
+\[
+	\bigcup_{i \in I}A_i = \{ x: \exists i \in I, x \in A_i \}
+\]
+and
+\[
+	\bigcap_{i \in I}A_i = \{ x: \forall i \in I, x \in A_i \}
+\]
+Note that we cannot form an intersection when \(I = \varnothing\), as will be explained later.
+
+\subsection{Ordered pairs}
+For any \(a, b\), we can form the ordered pair \((a, b)\), where equality is checked component-wise.
+For sets \(A, B\), we can form their product \(A \times B = \{ (a, b) : a \in A, b \in B \}\).
+For example, \(\mathbb R^2 = \mathbb R \times \mathbb R\) can be viewed as a plane.
+We can form other sizes of tuples similarly.
+
+\subsection{Power sets}
+For any set \(X\), we can form the power set \(\mathcal P(X)\) consisting of all subsets of \(X\).
+\[
+	\mathcal P(X) = \{ Y: Y \subseteq X \}
+\]
+For example:
+\[
+	\mathcal P(\{ 1, 2 \}) = \{ \varnothing, \{ 1 \}, \{ 2 \}, \{ 1, 2\} \}
+\]
+
+\subsection{Russell's paradox}
+For a set \(A\), we can always form the set \(\{ x \in A: p(x) \}\) for any property \(p\).
+We cannot, however, form the set \(\{ x: p(x) \}\).
+Suppose we could form such a set, then we could form the set \(X = \{ x: x \notin x \}\).
+Now, is \(X \in X\)?
+If this is true, then it fails the defining property \(x \notin x\).
+If this is false, then the defining property is true, so it must be in the set.
+This is a contradiction in both cases.
+
+Similarly, there is no `universal' set \(\mathscr E\), meaning \(\forall x, x \in \mathscr E\).
+Otherwise we could form the \(X\) above by \(\{ x \in \mathscr E: p(x) \}\).
+To guarantee that a given set exists, we need to obtain it in some way from known sets.
+
+\subsection{Finite sets}
+We will write \(\mathbb N_0 = \mathbb N \cup \{ 0 \}\).
+For \(n \in \mathbb N_0\), we can say that a set \(A\) has size \(n\) if we can write \(A = \{ a_1, a_2, \cdots, a_n \}\) where the \(a_i\) are distinct.
+A set is called finite if it has a size \(n \in \mathbb N_0\).
+
+Note that a set cannot have size \(n\) and size \(m\) for \(n \neq m\).
+Suppose that \(A\) has size \(n\) and size \(m\) where \(n, m > 0\).
+Then, removing an element, we obtain a set that has size \(n-1\) and \(m-1\).
+By induction on the larger of \(n\) and \(m\), we will eventually reach a size of both zero and non-zero which is a contradiction.
+
+\begin{proposition}
+	A set of size \(n\) has exactly \(2^n\) subsets.
+\end{proposition}
+\begin{proof}[Proof 1]
+	We may assume that our set is simply \(\{ 1, 2, \cdots, n \}\) by relabelling.
+	When constructing a subset \(S\) from this set, there are \(n\) independent binary choices for whether a given element should be within this subset, since for example either \(1 \in S\) or \(1 \notin S\) must be true.
+	So there are \(2^n\) distinct choices of subset you can make.
+\end{proof}
+\begin{proof}[Proof 2]
+	We will prove this inductively on \(n\), noting that \(n=0\) is trivial.
+	For any subset \(T \subseteq \{ 1, 2, \cdots n-1 \}\), how many \(S \subseteq \{ 1, \cdots, n \}\) have \(S \cap \{ 1, 2, \cdots n-1 \} = T\)?
+	Exactly two: \(T\) and \(T \cup \{ n \}\).
+	So there are two choices for how to extend this subset to the new element \(n\).
+	So the number of subsets is \(2 \cdot 2^{n-1} = 2^n\).
+\end{proof}
+\noindent In some sense Proof 2 is a more `formal' version of Proof 1, using induction rather than intuition.
+We sometimes say that if \(A\) has size \(n\), then \(\abs{A} = n\), and that \(A\) is an \(n\)-set.
