@@ -1,0 +1,353 @@
+\subsection{Radial wavefunction of hydrogen atom}
+The hydrogen atom is comprised of a nucleus and a single electron.
+The nucleus has a positive charge and the electron has a negative charge.
+We will model the proton to be stationary at the origin.
+The Coulomb force experienced by the electron is given by
+\[
+	F = -\frac{e^2}{4\pi \varepsilon_0} \frac{1}{r^2} = -\pdv{U}{r} \implies U = -\frac{e^2}{4\pi \varepsilon_0} \frac{1}{r}
+\]
+Since zero potential is achieved only at infinity, we search for bound states with \( E < 0 \).
+We will search for the radial symmetric eigenfunctions.
+We have
+\[
+	-\frac{\hbar^2}{2m_e} \qty( \chi''(r) + \frac{2}{r} \chi'(r) ) - \frac{e^2}{4 \pi \varepsilon_0} \frac{1}{r} \chi(r) = E \chi(r)
+\]
+We define
+\[
+	\nu^2 = -\frac{2mE}{\hbar^2} > 0;\quad \beta = \frac{e^2 m_e}{2\pi \varepsilon_0 \hbar^2} > 0
+\]
+The Schr\"odinger equation becomes
+\[
+	\chi''(r) + \frac{2}{r} \chi'(r) + \qty( \frac{\beta}{r} - \nu^2 ) \chi(r) = 0
+\]
+Asymptotically as \( r \to \infty \), we can see that \( \chi'' \sim \nu^2 \chi \).
+Since \( \nu^2 > 0 \), this yields solutions that asymptotically behave similarly to \( e^{-r \nu} \), where the positive exponential solution is not applicable due to the normalisation condition.
+For \( r = 0 \), the eigenfunction should be finite.
+We will consider an ansatz educated by the asymptotical behaviour.
+Suppose
+\[
+	\chi(r) = f(r) e^{-\nu r}
+\]
+and we solve for \( f(r) \).
+The Schr\"odinger equation is
+\[
+	f''(r) + \frac{2}{r} (1 - \nu r) f'(r) + \frac{1}{r} (\beta - 2 \nu) f(r) = 0
+\]
+This is a homogeneous linear ordinary differential equation with a regular point at \( r = 0 \).
+Suppose there exist series solutions.
+\[
+	f(r) = r^c \sum_{n=0}^\infty a_n r^n
+\]
+We can differentiate and find
+\[
+	f'(r) = \sum_{n=0}^\infty a_n (c+n) r^{c+n-1};\quad f''(r) = \sum_{n=0}^\infty a_n (c+n)(c+n-1) r^{c+n-2}
+\]
+Hence,
+\[
+	\sum_{n=0}^\infty \qty[ a_n (c+n)(c+n-1) r^{c+n-2} + \frac{2}{r}(1-\nu r) a_n (c+n) r^{c+n-1} + (\beta - 2\nu)r^{c+n-1} ] = 0
+\]
+By comparing coefficients of the lowest power of \( r \),
+\[
+	a_0 c(c-1) + 2a_0 c = 0 \implies a_0 c (c+1) = 0 \implies c = -1, 0
+\]
+The solution \( c = -1 \) implies \( \chi(r) \sim \frac{1}{r} \) which is invalid at \( r = 0 \).
+So we require \( c = 0 \).
+Then the power series becomes
+\[
+	\sum_{n=0}^\infty a_n \qty[n(n-1) + 2n] r^{n-2} + \sum_{n=0}^\infty a_n \qty( -2\nu n + \beta - 2 \nu ) r^{n-1} = 0
+\]
+Comparing coefficients of equal powers of \( r \),
+\[
+	a_n n(n+1) + a_{n-1} (-2 \nu n + 2 \nu + \beta - 2 \nu) = 0
+\]
+Hence, we arrive at the recurrence relation
+\[
+	a_n = \frac{2\nu n - \beta}{n(n+1)} a_{n-1}
+\]
+Suppose this series were infinite.
+Asymptotically, the behaviour of \( f(r) \) is determined by \( \frac{a_n}{a_{n-1}} \sim \frac{2\nu}{n} \).
+We can compare this behaviour to the asymptotic behaviour of \( g(r) = e^{2\nu r} \).
+In this case, the series expansion with coefficients \( b_n \) satisfies
+\[
+	b_n = \frac{(2\nu)^n}{n!} \implies \frac{b_n}{b_{n-1}} = \frac{2 \nu}{n}
+\]
+Hence, asymptotically \( f(r) \sim e^{2 \nu r} \) if the series does not terminate.
+Since \( \chi(r) = f(r) e^{-\nu r} \), we have \( \chi(r) \sim e^{\nu r} \) which is not normalisable.
+Hence the series is finite.
+So there exists an integer \( N > 0 \) such that \( a_N = 0 \) and \( a_{N-1} \neq 0 \).
+This implies \( 2 \nu N - \beta = 0 \) hence \( \nu = \frac{\beta}{2N} \).
+Substituting \( \nu^2 \) and \( \beta \), we find
+\[
+	E = E_N = -\frac{e^4 m_e}{32 \pi^2 \varepsilon_0^2 \hbar^2 N^2}
+\]
+So the eigenvalues are equivalent to those found in the Bohr model.
+We now wish to find the radial eigenfunctions.
+Note, \( \frac{\beta}{2\nu} = N \) hence we can substitute and find
+\[
+	\frac{a_n}{a_{n-1}} = -2 \nu \frac{N - n}{n(n+1)}
+\]
+This recursion can be used to find the coefficients of the polynomial \( f_N(r) \).
+\begin{align*}
+	f_1(r) & = 1                                   \\
+	f_2(r) & = 1 - \nu r                           \\
+	f_3(r) & = 1 - 2 \nu r + \frac{2}{3} \nu^2 r^2
+\end{align*}
+These are called the Laguerre polynomials of order \( N-1 \) (for example, the first order Laguerre polynomial is \( f_2 \)).
+We can then multiply the Laguerre polynomials by \( e^{-\nu r} \) and normalise over \( \mathbb R^3 \) to find the normalised eigenfunctions \( \chi_N(r) \).
+For example,
+\[
+	\chi_1(r) = \frac{\nu^{3/2}}{\sqrt{\pi}} = \frac{1}{\sqrt{\pi}} \qty(\frac{e^2 m_e}{4 \pi \varepsilon_0 \hbar^2})^{3/2} e^{-\nu r}
+\]
+Recall that the Bohr model implied that the ground state has radius \( a_0 \), known as the Bohr radius, given in terms of \( \nu \) by \( a_0 = \frac{1}{\nu} \).
+Using quantum mechanics, we instead find
+\begin{align*}
+	\inner{r}_{\chi_1} & = \int_{\mathbb R^3} \chi_1^\star(r) r \chi_1(r) \dd{V}                                                       \\
+	                   & = \int_0^{2\pi} \dd{\phi} \int_{-1}^1 \dd{\cos \theta} \int_0^\infty \frac{\nu^3}{\pi} r^3 e^{-2\nu r} \dd{r} \\
+	                   & = 4\pi \frac{\nu^3}{\pi} \int_0^\infty r^3 e^{-2\nu r} \dd{r}                                                 \\
+	                   & = \frac{3}{2} a_0
+\end{align*}
+We have verified with physical experiments that this larger expected radius is physically accurate.
+
+\subsection{Angular momentum}
+Recall that classically the angular momentum \( L \) is given by
+\[
+	L = x \times p
+\]
+Spherically symmetric potentials conserve classical angular momentum:
+\[
+	\dv{L}{t} = \dot x \times p + x \times \dot p = 0
+\]
+Solving classical problems in this way allows us to reduce a three-dimensional problem into a two-dimensional problem, by considering motion on the plane \( L \cdot x = 0 \).
+Then we reduce to one dimension by considering \( \hat e_r \).
+In quantum mechanics, we can do an analogous simplification.
+\begin{definition}
+	In quantum mechanics, the angular momentum is given by
+	\[
+		\hat L = \hat x \times \hat p = i \hbar x \times \nabla
+	\]
+	In Cartesian coordinates, this reduces to
+	\[
+		\hat L_i = -i \hbar \varepsilon_{ijk} x_j \pdv{x_k}
+	\]
+\end{definition}
+\noindent Each component \( \hat L_i \) is a Hermitian operator.
+Note,
+\begin{align*}
+	\qty[\hat L_1, \hat L_2] \psi(x_1, x_2, x_3) & = -\hbar^2\qty[\qty(x_2 \pdv{x_3} - x_3 \pdv{x_2})\qty(x_3 \pdv{x_1} - x_1 \pdv{x_3}) - \qty(x_3 \pdv{x_1} - x_1 \pdv{x_3})\qty(x_2 \pdv{x_3} - x_3 \pdv{x_2})] \psi \\
+	                                             & = -\hbar^2 \qty[ x_2 \pdv{x_1} - x_1 \pdv{x_2} ] \psi                                                                                                                \\
+	                                             & = -i \hbar \hat L_3 \psi
+\end{align*}
+Hence the commutator \( \qty[\hat L_i, \hat L_j] = i \hbar \varepsilon_{ijk} \hat L_k \) is nonzero for \( i \neq j \).
+In particular, we cannot measure each component of the angular momentum simultaneously.
+\begin{definition}
+	The \textit{total angular momentum} is
+	\[
+		\hat L^2 = \hat L_1^2 + \hat L_2^2 + \hat L_3^2
+	\]
+\end{definition}
+\noindent We can find that \( \qty[\hat L^2, \hat L_i] = 0 \), so we can measure both the total angular momentum and a specific component of angular momentum simultaneously.
+For a spherically symmetric potential, given by \( \hat H = \frac{\hat p^2}{2m} + U(\hat r) \), we can find
+\[
+	\qty[\hat H, \hat L^2] = \qty[\hat H, \hat L_i] = 0
+\]
+
+\subsection{Commutativity of angular momentum operators}
+The set \( \qty{ \hat H, \hat L^2, \hat L_i } \) commutes pairwise.
+By convention, we choose \( i = 3 \) to extract the \( z \) component of the angular momentum.
+Hence,
+\begin{enumerate}[(i)]
+	\item We can find joint eigenstates of the three operators, and such eigenstates can be chosen to form a basis for the Hilbert space \( \mathcal H \).
+	\item The corresponding eigenvalues \( \abs{L}, L_z, E \) can be measured simultaneously to an arbitrary precision.
+	\item The set of operators is maximal; there exists no operator (other than a linear combination of the above) that commutes with all three.
+\end{enumerate}
+
+\subsection{Joint eigenfunctions of anglar momentum}
+We search for joint eigenfunctions of \( \hat L_z \) and \( \hat L^2 \).
+We will write \( \hat L \) in spherical coordinates.
+In Cartesian coordinates,
+\[
+	\hat L = -i \hbar x \cdot \nabla
+\]
+Hence,
+\[
+	\hat L_3 = -i \hbar \pdv{\phi};\quad \hat L^2 = -\frac{\hbar^2}{\sin^2 \theta} \qty[\sin \theta \pdv{\theta} \qty(\sin \theta \pdv{\theta}) + \pdv[2]{\phi} ]
+\]
+Now we search for eigenfunctions of these operators.
+\[
+	\hat L^2 Y(\theta, \phi) = \lambda Y(\theta, \phi);\quad \hat L_3 Y(\theta, \phi) = \hbar m Y(\theta, \phi)
+\]
+Solving the equation in \( \hat L_3 \),
+\[
+	-i\hbar \pdv{\phi} Y(\theta, \phi) = \hbar m Y(\theta, \phi)
+\]
+We can find solutions of the form \( Y(\theta, \phi) = y(\theta)x(\phi) \).
+We find
+\[
+	-i\hbar y(\theta) x'(\phi) = \hbar m y(\theta) x(\phi)
+\]
+Hence \( y(\theta) \) is arbitrary, and further
+\[
+	-i\hbar x'(\phi) = \hbar m x(\phi) \implies x(\phi) = e^{i m \phi}
+\]
+Given that the wavefunctions must be single-valued on \( \mathbb R^3 \), we must have \( x(\phi) \) invariant under the choice of \( \phi = \phi + 2\pi k \).
+Hence \( m \) must be an integer.
+Since this must also be an eigenfunction of \( \hat L^2 \), we have further
+\[
+	-\frac{\hbar^2}{\sin^2 \theta} \qty[\sin \theta \pdv{\theta} \qty(\sin \theta \pdv{\theta}) + \pdv[2]{\phi} ] [y(\theta) x(\phi)] = \lambda y(\theta) x(\phi)
+\]
+Hence, substituting \( x(\phi) = e^{i m \phi} \), we find
+\[
+	\frac{1}{\sin \theta} \pdv{\theta} \qty(\sin \theta y'(\theta)) - \frac{m^2}{\sin^2 \theta} y(\theta) = - \frac{\lambda}{\hbar^2} y(\theta)
+\]
+This is the associate Legendre equation.
+The solutions of \( y(\theta) \) are the associate Legendre functions.
+\[
+	y(\theta) = P_{\ell,m}(\cos \theta) = (\sin \theta)^{\abs{m}} \dv[\abs{m}]{(\cos \theta)}  P_\ell(\cos \theta)
+\]
+where the \( P_\ell \) are the Legendre polynomials.
+Since the ordinary Legendre polynomials are of degree \( \ell \), we must have \( \abs{m} \leq \ell \) to obtain a non-zero solution.
+This corresponds to the classical notion that \( \abs{L_z} \leq \abs{L} \) for a physical solution.
+The eigenvalues of \( \hat L^2 \) are
+\[
+	\lambda = \ell(\ell+1) \hbar^2
+\]
+with \( \ell \in \qty{0, 1, 2, \dots} \).
+Thus,
+\[
+	Y_{\ell, m}(\theta, \phi) = P_{\ell,m}(\cos\theta) e^{im\phi}
+\]
+The \( Y \) functions are called the spherical harmonics.
+The parameters \( \ell, m \) are known as the quantum numbers of the eigenfunction; \( \ell \) is the total angular momentum quantum number and \( m \) is the azimuthal quantum number.
+Examples of normalised eigenfunctions are
+\begin{align*}
+	Y_{0,0} = \frac{1}{\sqrt{4 \pi}}             \\
+	Y_{1,0} = \sqrt{\frac{3}{4 \pi}} \cos \theta \\
+	Y_{1,\pm 1} = \mp \sqrt{\frac{3}{8 \pi}} \sin \theta e^{-i \phi}
+\end{align*}
+All spherical harmonics can be shown to be orthogonal.
+
+\subsection{Full solution to hydrogen atom}
+The time-independent Schr\"odinger equation for the hydrogen atom is
+\[
+	-\frac{\hbar^2}{2m_e} \laplacian{\chi(r, \theta, \phi)} - \frac{e^2}{4 \pi \varepsilon_0} \frac{1}{r} \chi(r, \theta, \phi) = E \chi(r,\theta, \phi)
+\]
+Writing the Laplacian in spherical polar coordinates,
+\[
+	\laplacian{} = \frac{1}{r} \pdv[2]{r} + \frac{1}{r^2 \sin^2 \theta} \qty( \sin \theta \pdv{\theta} \sin \theta \pdv{\theta} + \pdv[2]{\phi} )
+\]
+Hence,
+\[
+	\hat L^2 = \frac{\hbar^2}{\sin^2\theta} \qty[ \sin \theta \pdv{\theta} \sin \theta \pdv{\theta} + \pdv[2]{\phi} ] \implies -\hbar^2 \laplacian{} = -\frac{\hbar^2}{r} \pdv[2]{r} r + \frac{\hat L^2}{r^2}
+\]
+Thus we can rewrite the TISE as
+\[
+	-\frac{\hbar^2}{2m_e} \frac{1}{r} \qty( \pdv[2]{r} \qty(r \chi) ) + \frac{\hat L^2}{2 m_e r^2} \chi - \frac{e^2}{4 \pi \varepsilon_0 r} \chi = E \chi
+\]
+Since \( \hat L^2, \hat L_3, \hat H \) are a maximal set of pairwise commuting operators, we know that the eigenfunctions of the Hamiltonian \( \chi \) must also be eigenfunctions of \( \hat L^2, \hat L_3 \).
+Hence,
+\[
+	\chi(r,\theta,\phi) = R(r) Y_{\ell, m}(\theta, \phi)
+\]
+Since \( \chi \) is an eigenfunction of \( \hat L^2 \),
+\[
+	\hat L^2 (R(r) Y_{\ell,m}(\theta,\phi)) = R(r) \hbar^2 \ell (\ell+1)Y_{\ell,m}(\theta, \phi)
+\]
+Substituting into the TISE, we find
+\[
+	-\frac{\hbar^2}{2m_e} \qty( \pdv[2]{R}{r} + \frac{2}{r} \pdv{R}{r} ) Y_{\ell,m}(\theta, \phi) + \frac{\hbar^2}{2 m_e r^2} \ell(\ell+1) R(r)Y_{\ell,m}(\theta, \phi) - \frac{e^2}{4 \pi \varepsilon_0 r} R(r)Y_{\ell,m}(\theta,\phi) = E R(r)Y_{\ell,m}(\theta,\phi)
+\]
+Cancelling the spherical harmonic,
+\[
+	-\frac{\hbar^2}{2m_e} \qty( \pdv[2]{R}{r} + \frac{2}{r} \pdv{R}{r} ) + \underbrace{\qty(\frac{\hbar^2}{2 m_e r^2} \ell(\ell+1) - \frac{e^2}{4 \pi \varepsilon_0 r})}_{U_{\mathrm{eff}} = \text{ effective potential}} R(r) = E R(r)
+\]
+This is an equation for the radial part of the solution.
+We have already solved this equation for \( \ell = 0 \) to find \( \chi(r) \), the radial wavefunction.
+Note that the azimuthal quantum number does not appear in the effective potential, giving a degeneracy of order at least \( 2 \ell + 1 \).
+We define
+\[
+	\nu^2 = -\frac{2m_e E}{\hbar^2} > 0;\quad \beta = \frac{e^2 m_e}{2 \pi \varepsilon_0 \hbar^2}
+\]
+Hence,
+\[
+	R'' + \frac{2}{r} R' + \qty(\frac{\beta}{r} - \nu^2 - \frac{\ell(\ell+1)}{r^2})R = 0
+\]
+The asymptotic limit is as before in the radial case, since the angular velocity dependence is suppressed by \( \frac{1}{r^2} \).
+We have \( R'' - \nu^2 R \to 0 \) hence \( R \propto e^{-\nu r} \) in the limit.
+We let \( R(r) = g(r) e^{-\nu r} \).
+Then,
+\[
+	g'' + \frac{2}{r} (1 - \nu r) g' + \qty(\frac{\beta}{r} - 2 \nu - \frac{\ell(\ell+1)}{r^2}) g = 0
+\]
+Expanding in power series,
+\[
+	g(r) = r^\sigma \sum_{n=0}^\infty a_n r^n
+\]
+Substituting and comparing the lowest power of \( r \),
+\[
+	a_0 [ \sigma (\sigma - 1) + 2 \sigma - \ell(\ell + 1) ] = 0 \implies \sigma(\sigma + 1) = \ell(\ell + 1)
+\]
+Hence, \( \sigma = \ell \) or \( \sigma = -\ell - 1 \).
+If \( \sigma = -\ell - 1 \), we have \( R(r) \sim \frac{1}{r^{\ell + 1}} \) which cannot be the solution, so \( \sigma = \ell \).
+Thus,
+\[
+	g(r) = r^\ell \sum_{n=0}^\infty a_n r^n
+\]
+We can evaluate the recurrence relation between the coefficients as before to find
+\[
+	\sum_{n=0}^\infty \qty[(n+\ell)(n+\ell - 1)a_n + 2(n+1)a_n - \ell(\ell+1)a_n - 2 \nu(n+\ell - 1) a_{n-1} + (\beta - 2\nu) a_{n-1}] r^{\ell + n - 2} = 0
+\]
+which gives
+\[
+	a_n = \frac{2\nu(n+\ell) - \beta}{n(n+2\ell - 1)}
+\]
+If \( \ell = 0 \) this yields the result for the radial solution.
+Unless the series terminates, it is possible to show that \( R \) diverges.
+Hence \( g \) must be a polynomial with first zero coefficient \( a_{n_{\max}} \).
+Here,
+\[
+	2\nu(n_{\max} + \ell) - \beta = 0
+\]
+We define \( N = n_{\max} + \ell \), so \( 2 \nu N - \beta = 0 \) giving \( nu = \frac{\beta}{2N} \).
+Note that \( N > \ell \) since \( n_{\max} > 0 \).
+We can then find the energy level to be
+\[
+	E_N = -\frac{e^4 m_e}{32 \pi^2 \varepsilon_0^2 \hbar^2} \frac{1}{n^2}
+\]
+which is an identical energy spectrum as we found before when not considering angular momentum (using the Bohr model).
+For each \( E_N \), we have \( N = n_{\max} + \ell \) so there can be \( \ell = 0, \dots, N-1 \) and \( m = -\ell, \dots, \ell \).
+Hence, the degeneracy of the solution for each \( N \) is
+\[
+	D(N) = \sum_{\ell=0}^{N-1} \sum_{m=-\ell}^\ell 1 = N^2
+\]
+So the degeneracy increases quadratically with the energy level.
+For example, for \( N = 2 \) there are four possible eigenfunctions with the same energy.
+The eigenfunctions are now dictated by three quantum numbers.
+\[
+	\chi_{N,\ell,m}(r,\theta,\phi) = R_{N,\ell}(r)Y_{\ell,m}(\theta,\phi) = r^\ell g_{N,\ell}(r) e^{-\frac{\beta r}{2N}} Y_{\ell,m}(\theta,\phi)
+\]
+where \( g_{N,\ell} \) is a polynomial of degree \( N - \ell - 1 \) defined by the recurrence relation
+\[
+	a_k = \frac{2\nu}{k} \frac{k + \ell - N}{k + 2\ell + 1} a_{n-1}
+\]
+These are the generalised Laguerre polynomials, often written
+\[
+	g_{N,\ell}(r) = L_{N - \ell - 1}^{2\ell + 1}(2r)
+\]
+The quantum number \( N \in \qty{0, 1, \dots} \) is known as the \textit{principal} quantum number.
+
+\subsection{Comparison to Bohr model}
+In the Bohr model, the energy levels were predicted accurately.
+Further, the maximum of the radial probability corresponds to the orbits found in the Bohr model:
+\[
+	\dv{r} \qty( \abs{\chi_{N,0,0}(r)}^2 r^2) = 0
+\]
+The classical trajectory, and the assumption about the angular momentum \( L^2 = N^2 \hbar^2 \), were incorrect.
+The angular momentum found in quantum mechanics is \( L^2 = \ell(\ell+1) \hbar^2 \), which corresponds closely with the Bohr model for large \( \ell \).
+
+\subsection{Other elements of the periodic table}
+The above solution does not hold for other elements of the periodic table.
+Generalising to a nucleus with clarge \( +ze \) and \( z \) orbiting electrons, we could model this as
+\[
+	\chi(x_1, \dots, x_z) = \chi(x_1) \dots \chi(x_N);\quad E = \sum_{j=1}^N e_j
+\]
+This approximation can be acceptable for small \( z \), but diverges very quickly from the true solution as \( z \) increases, due to the electron-electron interactions and the Pauli exclusion principle.

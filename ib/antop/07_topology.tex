@@ -1,0 +1,590 @@
+\subsection{Definitions}
+\begin{definition}
+	Let \( X \) be a set.
+	A \textit{topology} on \( X \) is a family \( \tau \) of subsets of \( X \) (so \( \tau \subset \mathcal P(X) \)) such that
+	\begin{enumerate}[(i)]
+		\item \( \varnothing, X \in \tau \);
+		\item if \( U_i \in \tau \) for all \( i \in I \) where \( I \) is some index set, then \( \bigcup_{i \in I} U_i \in \tau \); and
+		\item if \( U, V \in \tau \) then \( U \cap V \in \tau \).
+	\end{enumerate}
+	A \textit{topological space} is a pair \( (X, \tau) \) where \( X \) is a set and \( \tau \) is a topology on \( X \).
+	Members of \( \tau \) are called \textit{open sets} in the topology.
+	So we say that \( U \subset X \) is \textit{open in} \( X \), or \( U \) is \( \tau \)\textit{-open}, if \( U \in \tau \).
+\end{definition}
+\begin{remark}
+	If \( U_i \in \tau \) for \( i = 1, \dots, n \), then \( \bigcap_{i=1}^n U_i \in \tau \).
+\end{remark}
+\begin{example}
+	Let \( (M, d) \) be a metric space.
+	Recall that \( U \subset M \) is open in the metric sense if \( \forall x \in U, \exists r > 0, \mathcal B_r(x) \subset U \).
+	We may say that \( U \) is \( d \)\textit{-open}.
+	We have already proven that the family of \( d \)-open sets is a topology on \( M \).
+	This is a metric topology.
+\end{example}
+\begin{definition}
+	Let \( (X, \tau) \) be a topological space.
+	Then we say that \( X \) is \textit{metrisable} (or sometimes we say \( \tau \) is metrisable) if there exists a metric \( d \) on \( X \) such that \( \tau \) is the metric topology on \( X \) induced by \( d \).
+	In other words, \( U \subset X \) is \( \tau \)-open if and only if \( U \) is \( d \)-open.
+	If \( d' \sim d \), then \( d' \) also induces the same topology \( \tau \) on \( X \).
+\end{definition}
+\begin{example}
+	The indiscrete topology on a set \( X \) is a topology \( \tau = \qty{ \varnothing, X } \).
+	If \( \abs{X} \geq 2 \), then this is not metrisable.
+	Let \( d \) be a metric on \( X \).
+	Then let \( x \neq Y \in X \), let \( r = d(x,y) \), and finally let \( U = \mathcal D_r(x) \).
+	We know that \( U \) is \( d \)-open.
+	But since \( x \in U, y \not\in U \), \( U \not\in \tau \).
+\end{example}
+\begin{definition}
+	If \( \tau_1, \tau_2 \) are topologies on \( X \), we say that \( \tau_1 \) is \textit{coarser} than \( \tau_2 \), or that \( \tau_2 \) is finer than \( \tau_1 \), if \( \tau_1 \subset \tau_2 \).
+	For example, the indiscrete topology on \( X \) is the coarsest topology on \( X \).
+\end{definition}
+\begin{example}
+	The discrete topology on a set \( X \) is \( \tau = \mathcal P(X) \).
+	This is the finest topology on \( X \).
+	This is metrisable by the discrete metric.
+\end{example}
+\begin{definition}
+	A topological space \( X \) is \textit{Hausdorff} if \( \forall x \neq y \) in \( X \), there exist open sets \( U, V \) in \( X \) such that \( x \in U, y \in V, U \cap V = \varnothing \).
+	Informally, \( x, y \) are `separated by open sets'.
+\end{definition}
+\begin{proposition}
+	Metric spaces are Hausdorff.
+\end{proposition}
+\begin{proof}
+	Let \( x \neq y \) be points in a metric space \( (M, d) \).
+	Let \( r > 0 \) such that \( 2r < d(x,y) \).
+	Then let \( U = \mathcal D_r(x) \), let \( V = \mathcal D_r(y) \).
+	Certainly \( U, V \) are open since they are open balls, and they have no intersection by the triangle inequality, so the metric space is Hausdorff as required.
+\end{proof}
+\begin{example}
+	The cofinite topology on a set \( X \) is
+	\[
+		\tau = \qty{\varnothing} \cup \qty{U \in X \colon U \text{ is cofinite in } X}
+	\]
+	where \( U \) is cofinite in \( X \) if \( X \setminus U \) is finite.
+	When \( X \) is finite, this topology \( \tau \) is simply \( \mathcal P(X) \).
+	When \( X \) is infinite, \( \tau \) is not metrisable.
+	Let \( x \neq y \) in \( X \), and let \( x \in U, y \in V \) where \( U, V \) are open in \( X \).
+	Then \( U \) and \( V \) are cofinite, and hence \( U \cap V \neq \varnothing \).
+	So this topology on an infinite set is not Hausdorff and hence not metrisable.
+\end{example}
+
+\subsection{Closed subsets}
+\begin{definition}
+	A subset \( A \) of a topological space \( (X, \tau) \) is said to be \textit{closed} in \( X \) if \( X \setminus A \) is open in \( X \).
+\end{definition}
+\begin{remark}
+	In a metric space, this agrees with the earlier definition of a closed subset, as proven before.
+\end{remark}
+\begin{proposition}
+	The collection of closed sets in a topological space \( X \) satisfy
+	\begin{enumerate}[(i)]
+		\item \( \varnothing, X \) are closed;
+		\item If \( A_i \) are closed in \( X \) for \( i \) in some non-empty index set \( I \), then \( \bigcap_{i \in I} A_i \) is closed;
+		\item If \( A_1, A_2 \) are closed in \( X \) then \( A_1 \cup A_2 \) is closed.
+	\end{enumerate}
+\end{proposition}
+\begin{example}
+	In a discrete topological space, every set is closed.
+\end{example}
+\begin{example}
+	In the cofinite topology, a subset is closed if and only if it is finite or the full set.
+\end{example}
+
+\subsection{Neighbourhoods}
+\begin{definition}
+	Let \( X \) be a topological space, and let \( U \subset X \) and \( x \in X \).
+	We say that \( U \) is a \textit{neighbourhood} of \( x \) in \( X \) if there exists an open set \( V \) in \( X \) such that \( X \in V \subset U \).
+\end{definition}
+\begin{remark}
+	In a metric space, we defined this in terms of open balls not open sets.
+	However, we have already proven that the definitions agree.
+\end{remark}
+\begin{proposition}
+	Let \( U \) be a subset of a topological space \( X \).
+	Then \( U \) is open if and only if \( U \) is a neighbourhood of \( x \) for every \( x \in U \).
+\end{proposition}
+\begin{proof}
+	If \( U \) is open, and \( x \in U \), then by letting \( V = U \), \( V \) is open and \( x \in V \subset U \).
+	Conversely, if \( x \in U \), there exists \( V_x \) in \( X \) such that \( x \in V_x \subset U \).
+	Then, \( U = \bigcup_{x \in U} x = \bigcup_{x \in U} V_x \) is open, since each \( V_x \) is open.
+\end{proof}
+
+\subsection{Convergence}
+\begin{definition}
+	Let \( (x_n) \) be a sequence in a topological space \( X \).
+	Let \( x \in X \).
+	We say that \( (x_n) \) \text{converges to} \( x \) if for all neighbourhoods \( U \) of \( x \) in \( X \), there exists \( N \in \mathbb N \) such that \( \forall n \geq N, x_n \in U \).
+	Equivalently, for all open sets \( U \) which contain \( x \), there exists \( N \in \mathbb N \) such that \( \forall n \geq N, x_n \in U \).
+\end{definition}
+\begin{remark}
+	Again, the definition in a metric space agrees with this definition.
+\end{remark}
+\begin{example}
+	Eventually constant sequences converge.
+	If \( \exists z \in X, \exists N \in \mathbb N, \forall n \geq N, x_n = z \), then \( x_n \to z \).
+\end{example}
+\begin{example}
+	In an indiscrete topological space, every sequence converges to every point.
+\end{example}
+\begin{example}
+	In the cofinite topology on a set \( X \), let \( x_n \to X \).
+	Suppose that \( x_n \to x \) in \( X \).
+	Then if \( y \neq x \), \( X \setminus \qty{y} \) is a neighbourhood of \( x \).
+	Then \( N_y = \qty{n \in N \colon x_n = y} \) is finite.
+
+	Conversely, suppose \( (x_n) \) is a sequence such that for some \( x \in X \) and for all \( y \neq x \), \( N_y \) is finite.
+	Then \( x_n \to x \).
+
+	In particular, if \( N_y \) is finite for all \( y \in X \), the sequence converges to every point.
+\end{example}
+\begin{proposition}
+	If \( x_n \to x \) and \( x_n \to y \) in a Hausdorff space, then \( x = y \).
+\end{proposition}
+\begin{proof}
+	Suppose \( x \neq y \), then we can choose open sets \( U, V \) such that \( x \in U, y \in V, U \cap V = \varnothing \).
+	Since \( x_n \to x \), there exists \( N_1 \in \mathbb N \) such that \( \forall n \geq N_1, x_n \in U \).
+	Similarly there exists an analogous \( N_2 \).
+	Hence \( \forall n \geq \max(N_1, N_2), x_n \in U, x_n \in V \) which is a contradiction since \( U \cap V = \varnothing \).
+\end{proof}
+\begin{remark}
+	If \( x_n \to x \) in a Hausdorff space, we write \( x = \lim_{n \to \infty} x_n \) since the limit is unique.
+\end{remark}
+\begin{remark}
+	In a metric space, for a subset \( A \), we say that \( A \) is closed if and only if \( x_n \to x \) in \( A \) implies \( x \in A \).
+	In a general topological space, any closed set is closed under limits, but not every subset that is closed under limits is closed.
+\end{remark}
+
+\subsection{Interiors and closures}
+\begin{definition}
+	Let \( X \) be a topological space, and \( A \subset X \).
+	We define the \textit{interior} of \( A \) in \( X \), denoted \( A^\circ \) or \( \mathrm{int}(A) \), by
+	\[
+		A^\circ = \bigcup \qty{ U \subset X \colon U \text{ is open in } X, U \subset A }
+	\]
+	Similarly we define the \textit{closure} of \( A \) in \( X \), denoted \( \overline A \) or \( \mathrm{cl}(A) \), by
+	\[
+		\overline A = \bigcap \qty{ F \subset X \colon F \text{ is closed in } X, F \supset A }
+	\]
+\end{definition}
+\begin{remark}
+	Note that \( A^\circ \) is open in \( X \), and \( A^\circ \subset A \).
+	In particular, if \( U \) is open in \( X \) and \( U \subset A \), then \( U \subset A^\circ \).
+	Hence, \( A^\circ \) is the largest open subset of \( A \).
+
+	Similarly, \( \overline A \) is closed in \( X \), and \( \overline A \supset A \).
+	The intersection is not empty since \( X \) is closed and \( X \supset A \), so it is well-defined.
+	We have that \( \overline A \) is the smallest closed superset of \( A \).
+\end{remark}
+\begin{proposition}
+	Let \( X \) be a topological space and let \( A \subset X \).
+	Then the interior is exactly those \( x \in X \) for which \( A \) is a neighbourhood of \( x \).
+	Similarly, the closure is those \( x \in X \) such that for all neighbourhoods \( U \) of \( x \), \( U \cap A \neq \varnothing \).
+\end{proposition}
+\begin{proof}
+	If \( A \) is a neighbourhood of \( X \), then by definition there exists an open set \( U \) such that \( x \in U \subset A \), which is true if and only if \( x \in A^\circ \).
+
+	For the other part, suppose \( x \not\in \overline A \).
+	Then there exists a closed set \( F \supset A \) such that \( x \not\in F \).
+	Let \( U = X \setminus F \).
+	Then \( U \) is open and \( x \in U \).
+	So \( U \) is a neighbourhood of \( x \), and \( U \cap A = \varnothing \).
+
+	Conversely, suppose there exists a neighbourhood \( U \) of \( x \) such that \( U \cap A = \varnothing \).
+	Then there exists an open set \( V \) such that \( x \in V \subset U \).
+	Since \( V \subset U \), \( V \cap A = \varnothing \).
+	Let \( F = X \setminus V \).
+	Then \( F \) is closed, and \( A \subset F \).
+	Hence \( \overline A \subset F \).
+	So \( x \not\in \overline A \).
+\end{proof}
+\begin{example}
+	In \( \mathbb R \), let \( A = [0,1) \cup \qty{2} \).
+	Then \( A^\circ = (0,1) \), and \( \overline A = [0,1] \cup \qty{2} \).
+	Further, \( \mathbb Q^\circ = \varnothing \) and \( \overline {\mathbb Q} = \mathbb R \).
+	Finally, \( \mathbb Z^\circ = \varnothing \) and \( \overline {\mathbb Z} = \mathbb Z \).
+\end{example}
+\begin{remark}
+	In a metric space, for a subset \( A \) we have that \( x \in \overline A \) if and only if there exists a sequence \( (x_n) \) in \( A \) such that \( x_n \to x \).
+	In a general topological space, the existence of a sequence implies \( x \in \overline A \) but the converse is not true.
+\end{remark}
+
+\subsection{Dense subsets}
+\begin{definition}
+	A subset \( A \) of a topological space \( X \) is said to be \textit{dense} in \( X \) if \( \overline A = X \).
+	\( X \) is \textit{separable} if there exists a countable subset \( A \subset X \) such that \( A \) is dense in \( X \).
+\end{definition}
+\begin{example}
+	\( \mathbb R \) is separable as \( \mathbb Q \) is dense in \( \mathbb R \).
+	\( \mathbb R^n \) is separable in the same way as \( \mathbb Q^n \) is dense in \( \mathbb R^n \).
+\end{example}
+\begin{example}
+	An uncountable discrete topological space is not separable, since the closure of any set is itself.
+\end{example}
+
+\subsection{Subspaces}
+\begin{definition}
+	Let \( (X, \tau) \) be a topological space.
+	Let \( Y \subset X \).
+	Then the \textit{subspace topology}, or \textit{relative topology} on \( Y \) induced by \( \tau \) is the topology
+	\[
+		\qty{ V \cap Y \colon V \in \tau }
+	\]
+	on \( Y \).
+	This is the intersection of \( Y \) with all open sets in \( X \).
+	We can denote this \( \eval{\tau}_Y \).
+	So, for \( U \subset Y \), \( U \) is open in \( Y \) if and only if there exists an open set \( V \) in \( X \) with \( U = V \cap Y \).
+\end{definition}
+\begin{example}
+	Let \( X = \mathbb R, Y = [0,2] \), and \( U = (1,2] \).
+	Then certainly \( U \subset Y \subset X \).
+	\( U \) is open in \( Y \), since \( V = (1,3) \) is open in \( X \) and \( U = V \cap Y \).
+	However, \( U \) is not open in \( X \), since no neighbourhood (or ball) around \( 2 \) can be constructed in \( X \) that is contained within \( U \).
+\end{example}
+\begin{remark}
+	On a subset of a topological space, this is considered the standard topology.
+	Suppose that \( (X, \tau) \) is a topological space, and \( Z \subset Y \subset X \).
+	There are two natural topologies on \( Z \): \( \eval{\tau}_Z \) and \( \eval{\eval{\tau}_Y}_Z \).
+	One can easily check that these two topologies are equal.
+
+	Let \( (M,d) \) be a metric space, and \( N \subset M \).
+	Again, there are two natural topologies on \( N \): \( \eval{\tau(d)}_N \) and \( \tau\qty(\eval{d}_N) \), where \( \tau(e) \) is the metric topology induced by the metric \( e \).
+	This is because, for any \( x \in N, r > 0 \),
+	\[
+		\qty{y \in N \colon d(y,x) < r} = \qty{y \in M \colon d(y,x) < r} \cap N
+	\]
+\end{remark}
+\begin{proposition}
+	Let \( X \) be a topological space, and let \( A \subset Y \subset X \).
+	\( A \) is closed in \( Y \) if and only if there exists a closed subset \( B \subset X \) such that \( A = B \cap Y \).
+	Further,
+	\[
+		\mathrm{cl}_Y(A) = \mathrm{cl}_X(A) \cap Y
+	\]
+	This is not true for the interior of a subset in general.
+	For instance, consider \( X = \mathbb R, A = Y = \qty{0} \).
+	In this case, \( \mathrm{int}_Y(A) = A, \mathrm{int}_X(A) = \varnothing \).
+\end{proposition}
+\begin{proof}
+	The first part is true by taking complemenents: \( Y \setminus A \) is open in \( Y \).
+	By definition, \( Y \setminus A = V \cap Y \) for some open \( V \) in \( X \).
+	So \( B = X \setminus V \) is closed in \( X \) and \( A = B \cap Y \).
+	If \( A = B \cap Y \), \( B \) is closed in \( X \), then \( X \setminus B \) is open in \( X \), and hence \( Y \setminus A = (X \setminus B) \cap Y \) is open in \( Y \).
+
+	For the second part, we know \( \mathrm{cl}_X(A) \) is closed in \( X \), so by the first part, \( \mathrm{cl}_X(A) \cap Y \) is closed in \( Y \).
+	Then \( A \subset \mathrm{cl}_X(A) \cap Y \).
+	So by definition, \( \mathrm{cl}_Y(A) \subset \mathrm{cl}_X(A) \cap Y \).
+	Similarly, since \( \mathrm{cl}_Y(A) \) is closed in \( Y \), we can write \( \mathrm{cl}_Y(A) = B \cap Y \) for some closed set \( B \) in \( X \).
+	But \( A \subset B \), and \( B \) is closed in \( X \), so \( \mathrm{cl}_X(A) \subset B \) and hence \( \mathrm{cl}_Y(A) = B \cap Y \supset \mathrm{cl}_X(A) \cap Y \).
+\end{proof}
+\begin{remark}
+	If \( U \subset Y \subset X \), and \( Y \) is open in \( X \), then \( U \) is open in \( Y \) if and only if \( U \) is open in \( X \).
+\end{remark}
+
+\subsection{Continuity}
+\begin{definition}
+	A function \( f \colon X \to Y \) between topological spaces is said to be continuous if for all open sets \( V \) in \( Y \), the preimage \( f^{-1}(V) \) is open in \( X \).
+\end{definition}
+\begin{remark}
+	We have already proven that this agrees with the definition of continuity of functions between metric spaces.
+\end{remark}
+\begin{example}
+	Constant functions are always continuous.
+	Consider \( f \colon X \to Y \) defined by \( f(x) = y_0 \) for a fixed \( y_0 \in Y \).
+	For any \( V \subset Y \), \( f^{-1}(V) = \varnothing \) if \( y_0 \not\in V \), and \( f^{-1}(V) = X \) if \( y_0 \in V \).
+	So \( f \) is continuous.
+\end{example}
+\begin{example}
+	The identity map is always continuous.
+	If \( f \colon X \to X \) is defined by \( x \mapsto x \), \( f^{-1}(V) = V \) so if \( V \) is open, \( f^{-1}(V) \) is trivially open.
+\end{example}
+\begin{example}
+	Let \( Y \subset X \).
+	Let \( i \colon Y \to X \) be the inclusion map.
+	Then for an open set \( V \) in \( X \), \( i^{-1}(V) = V \cap Y \) which by definition is open in \( Y \).
+	Hence, if \( g \colon X \to Z \) is continuous, then \( \eval{g}_Y = g \circ i \colon X \to Y \) is continuous, as we will see below.
+\end{example}
+\begin{proposition}
+	Let \( f \colon X \to Y \) be a function between topological spaces.
+	Then,
+	\begin{enumerate}[(i)]
+		\item \( f \) is continuous if and only if for all closed sets \( B \) in \( Y \), \( f^{-1}(B) \) is closed in \( X \);
+		\item if \( f \) is continuous and \( g \colon Y \to Z \) is continuous, then \( g \circ f \) is continuous.
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	To prove (i), note that for any subset \( D \subset Y \), \( f^{-1}(Y \setminus D) = X \setminus f^{-1}(D) \).
+	We can now use the fact that \( A \subset X \) is open in \( X \) if and only if \( X \setminus A \) is closed in \( X \), and vice versa for \( Y \).
+
+	To prove (ii), note that if \( W \) is an open subset of \( Z \), then \( g^{-1}(W) \) is open in \( Y \) since \( g \) is continuous.
+	Hence \( f^{-1}g^{-1}(W) \) is open in \( X \) since \( f \) is continuous.
+	But then \( f^{-1}g^{-1} = (g \circ f)^{-1} \), so \( g \circ f \) is continuous.
+\end{proof}
+\begin{remark}
+	There exists a notion of `continuity at a point' for topological spaces, but it is not as useful in this course as the global continuity definition.
+\end{remark}
+
+\subsection{Homeomorphisms and topological invariance}
+\begin{definition}
+	A function \( f \colon X \to Y \) between topological spaces is a homeomorphism if \( f \) is a bijection, and both \( f, f^{-1} \) are continuous.
+	If such an \( f \) exists, we say that \( X \) and \( Y \) are homeomorphic.
+	This is exactly the definition from metric spaces.
+\end{definition}
+\begin{definition}
+	A property \( \mathcal P \) of topological spaces is said to be a \textit{topological property} or \textit{topological invariant} if, for all pairs \( X, Y \) of homeomorphic spaces, \( X \) satisfies \( \mathcal P \) if and only if \( Y \) satisfies \( \mathcal P \).
+\end{definition}
+\begin{example}
+	Metrisability is a topological invariant.
+	Being Hausdorff is a topological invariant.
+	Being completely metrisable (metrisable into a complete metric space) is \textit{not} a topological invariant.
+	For example, consider metrics \( d, d' \) on \( \mathbb R \) such that \( d \sim d' \) but \( d \) is complete and \( d' \) is not.
+\end{example}
+\begin{remark}
+	If \( f \colon X \to Y \) is a homeomorphism, for an open set \( U \) in \( X \), \( f(U) = (f^{-1})^{-1}(U) \) is open in \( Y \) since \( f^{-1} \colon Y \to X \) is continuous.
+\end{remark}
+\begin{definition}
+	A function \( f \colon X \to Y \) between topological spaces is an \textit{open map} if for all open sets \( U \) in \( X \), \( f(U) \) is open in \( Y \).
+\end{definition}
+\begin{remark}
+	\( f \colon X \to Y \) is a homeomorphism if and only if \( f \) is a continuous and open bijection.
+\end{remark}
+
+\subsection{Products}
+Let \( X, Y \) be topological spaces.
+We want to define the topology on \( X \times Y \).
+If \( U \) is open in \( X \) and \( V \) is open in \( Y \), then we would like \( U \times V \) to be open in \( X \times Y \).
+Certainly \( \varnothing = \varnothing \times \varnothing \) and \( X \times Y \) should be open.
+Further \( (U \times V) \cap (U' \times V') = (U \cap U') \times (V \cap V') \), so intersections work.
+\( \bigcup_{i \in I} U_i \times V_i \) must be open for open sets \( U_i, V_i \), but this is not obvious from what we have shown so far, so we must include this in our definition.
+\begin{definition}
+	The \textit{product topology} on \( X \times Y \) consists of all sets of the form
+	\[
+		\bigcup_{i \in I} U_i \times V_i
+	\]
+	where \( I \) is arbitrary, and for all \( i \) the sets \( U_i, V_i \) are open in \( X, Y \).
+\end{definition}
+\begin{remark}
+	For \( W \subset X \times Y \), we know that \( W \) is open if and only if for all \( z \in W \), there exist open sets \( U \subset X, V \subset Y \), such that \( z \in U \times V \subset W \).
+	So, thinking of the product as a product of real lines, we might say that \( W \) is open if for every point \( z \in W \), we can construct a `box set' (the Cartesian product of open intervals) contained in \( W \) that has \( z \) as an element.
+	More formally, \( W \) is a neighbourhood of \( z \) if and only if there exist neighbourhoods \( U \) of \( x \) in \( X \) and \( V \) of \( y \) in \( Y \) such that \( U \times V \subset W \).
+\end{remark}
+
+\subsection{Continuity in product topology}
+\begin{example}
+	Let \( (M, d), (M', d') \) be metric spaces.
+	Then, the metric \( d_\infty \) on \( M \times M' \) is
+	\[
+		d_\infty((x,x'), (y,y')) = \max(d(x,y), d'(x',y'))
+	\]
+	This metric is chosen since all \( d_p \) metrics induce the same metric topology, but this is easier to work with.
+	Also, \( M, M' \) are topological spaces with their metric topologies, which induce the product topology on the product space \( M \times M' \).
+	These two constructions create the same topology.
+	For a point \( z = (x,x') \in M \times M' \) and \( r > 0 \), the open ball \( \mathcal D_r(z) \) is exactly\
+	\begin{align*}
+		\mathcal D_r(z) & = \qty{(y,y') \in M \times M' \colon d_\infty((y,y'), (x,x')) < r} \\
+		                & = \qty{(y,y') \in M \times M' \colon d(x,y) < r, d(x',y') < r}     \\
+		                & = \mathcal D_r(x) \times \mathcal D_r(x')
+	\end{align*}
+	Now, let \( W \subset M \times M' \).
+	Then \( W \) is open in the product topology if and only if for all \( z = (x,x') \in W \), there exist open sets \( U \) in \( M \) and \( U' \) in \( M' \) such that \( (x,x') \in U \times U' \subset W \).
+	Equivalently, for all \( z = (x,x') \in W \), there exists \( r > 0 \) such that \( \mathcal D_r(x) \times \mathcal D_r(x') \subset W \).
+	But \( \mathcal D_r(x) \times \mathcal D_r(x') = \mathcal D_r(z) \), so \( W \) is \( d_\infty \)-open, as required.
+	For instance, the product topology on \( \mathbb R \times \mathbb R \) is the Euclidean topology on \( \mathbb R^2 \).
+\end{example}
+\begin{proposition}
+	Let \( X, Y \) be topological spaces.
+	Let \( X \times Y \) be given the product topology.
+	Then, the coordinate projections \( q_X \colon X \times Y \to X \) and \( q_Y \colon X \to Y \to Y \) satisfy
+	\begin{enumerate}[(i)]
+		\item \( q_X, q_Y \) are continuous;
+		\item if \( Z \) is any topological space, and \( g \colon Z \to X \times Y \) is a function, then \( g \) is continuous if and only if \( q_X \circ g, q_Y \circ g \) are continuous.
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	If \( U \) is open in \( X \), then \( q_X^{-1}(U) = U \times Y \), which is the product of an open set in \( X \) and an open set in \( Y \), so is open in \( X \times Y \).
+	Hence \( q_X \) is continuous.
+	Similarly, \( q_Y \) is continuous.
+
+	If \( g \) is continuous then certainly \( q_X \circ g, q_Y \circ g \) are continuous since the composition of continuous functions are continuous.
+	Conversely, let \( h \colon Z \to X \) and \( k \colon Z \to Y \) be continuous functions with \( h = q_X \circ g \) and \( k = q_Y \circ g \).
+	Then \( g(x) = (h(x), k(x)) \) for \( x \in Z \).
+	Now, for open sets \( U \) in \( X \) and \( V \) in \( Y \), we have
+	\[
+		z \in g^{-1}(U \times V) \iff g(z) \in U \times V \iff h(z) \in U, k(z) \in V \iff z \in h^{-1}(U) \cap k^{-1}(V)
+	\]
+	So \( g^{-1}(U \times V) = h^{-1}(U) \cap k^{-1}(V) \) which is open in \( Z \) as \( h, k \) are continuous.
+	Given an arbitrary open set \( W \) in \( X \times Y \), we can write \( W = \bigcup_{i\in I} U_i \times V_i \), where \( U_i \) are open in \( X \) and \( V_i \) are open in \( Y \).
+	Thus, \( g^{-1}(W) = \bigcup_{i \in I} g^{-1}(U_i \times V_i) \) which is open.
+\end{proof}
+\begin{remark}
+	The product topology may be extended to a finite product \( X_1 \times \dots \times X_n \), consisting of all unions of sets of the form \( U_1 \times \dots \times U_n \) where \( U_j \) is open in \( X_j \).
+	Properties of the product topology hold in this more general case.
+	For example, if \( X_j \) is metrisable with metric \( e_j \) for all \( j \), then the product topology is metrisable with, for instance, the \( d_\infty \) metric.
+\end{remark}
+
+\subsection{Quotients}
+Let \( X \) be a set and \( R \) an equivalence relation on \( X \).
+So \( R \subset X \times X \), but we will write \( x \sim y \) to mean \( (x,y) \in R \).
+For \( x \in X \), we define \( q(x) = \qty{y \in X \colon y \sim x} \) to be the equivalence class of \( x \), the set of which partition \( X \).
+Let \( X / R \) denote the set of all equivalence classes.
+The map \( q \colon X \to X/R \) is called the quotient map.
+\begin{definition}
+	Let \( X \) be a topological space, and \( R \) an equivalence relation on \( X \).
+	The \textit{quotient topology} on \( X/R \) is given by
+	\[
+		\tau = \qty{V \subset X/R \colon q^{-1}(V) \text{ open in } X }
+	\]
+	This is a topology:
+	\begin{enumerate}[(i)]
+		\item \( q^{-1}(\varnothing) = \varnothing \) which is open, and \( q^{-1}(X/R) = X \) which is open.
+		\item If \( V_i \) are open, then \( q^{-1}\qty(\bigcup_{i \in I} V_i) = \bigcup_{i \in I} q^{-1}(V_i) \) which is a union of open sets which is open.
+		\item If \( U, V \) are open, then \( q^{-1}(U \cap V) = q^{-1}(U) \cap q^{-1}(V) \) which is open.
+	\end{enumerate}
+\end{definition}
+\begin{remark}
+	The quotient map \( q \colon X \to X/R \) is continuous.
+	In particular, it is the largest possible topology on \( X \) such that \( q \) is continuous.
+
+	Let \( x \in X, t \in X/R \).
+	Then \( x \in t \) if and only if \( t = q(x) \).
+	For \( V \subset X/R \),
+	\[
+		q^{-1}(V) = \qty{x \in X \colon q(x) \in V} = \qty{x \in X \colon \exists t \in V, t = q(x)} = \qty{x \in X \colon \exists t \in V, x \in t} = \bigcup_{t \in V} t
+	\]
+\end{remark}
+\begin{example}
+	Consider \( \mathbb R \), an abelian group under addition, and the subgroup \( \mathbb Z \).
+	We can form the quotient group \( \mathbb R / \mathbb Z \), which is the set of equivalence classes where \( x \sim y \iff x - y \in \mathbb Z \).
+	For all \( x \in \mathbb R \), there exists \( y \in [0,1] \) such that \( x \sim y \), and for all \( x, y \in [0,1] \) we have \( x \sim y \) if and only if \( x = y \) or \( \qty{x,y} = \qty{0,1} \).
+	So we can think of the quotient topology of \( \mathbb R / \mathbb Z \) as a circle.
+	We can say that \( \mathbb R / \mathbb Z \) is homeomorphic to \( S_1 = \qty{(x,y) \in \mathbb R^2 \colon \norm{(x,y)} = 1} \), which we will prove later.
+\end{example}
+\begin{example}
+	Consider the subgroup \( \mathbb Q \) of \( \mathbb R \).
+	Let \( V \subset \mathbb R / \mathbb Q \), such that \( V \neq \varnothing \) and \( V \) is open.
+	Then \( q^{-1}(V) \) is open and not empty.
+	Therefore, there exist \( a < b \in \mathbb R \) such that \( (a,b) \subset q^{-1}(V) \).
+	Given \( x \in \mathbb R \), we can choose a rational \( r \) in the interval \( (a-x, b-x) \).
+	Then \( r + x \in (a,b) \subset q^{-1}(V) \), so \( q(x) = q(r+x) \in V \).
+	So \( V = \mathbb R / \mathbb Q \).
+	This is the indiscrete topology, which is not metrisable or Hausdorff.
+	So we cannot (in general) take quotients of metric spaces.
+\end{example}
+\begin{example}
+	Let \( Q = [0,1] \times [0,1] \subset \mathbb R^2 \).
+	We define the equivalence relation \( R \) given by
+	\[
+		(x_1, x_2) \sim (y_1, y_2) \iff
+		\begin{cases}
+			(x_1, x_2) = (y_1, y_2)               & \text{or} \\
+			x_1 = y_1, \qty{x_2, y_2} = \qty{0,1} & \text{or} \\
+			x_2 = y_2, \qty{x_1, y_1} = \qty{0,1} & \text{or} \\
+			x_1, x_2, y_1, y_2 \in \qty{0,1}
+		\end{cases}
+	\]
+	The space \( Q / R \) is homeomorphic to \( \mathbb R^2 / \mathbb Z^2 \).
+	This is a square where the top and bottom edges are identified as the same, and the left and right edges are also identified as the same.
+	This is homeomorphic to the surface of a torus with the Euclidean topology embedded in Euclidean three-dimensional space.
+\end{example}
+\begin{proposition}
+	Let \( X \) be a set, and let \( R \) be an equivalence relation on \( X \).
+	Let \( q \colon X \to X/R \) be the quotient map.
+	Let \( Y \) be a set, and \( f \colon X \to Y \) be a function.
+	Suppose that \( f \) `respects' \( R \); that is, \( x \sim y \implies f(x) = f(y) \).
+	Then there exists a unique map \( \widetilde f \colon X/R \to Y \) such that \( f = \widetilde f \circ q \).
+	For \( z \in X/R \), we write \( z = q(x) \) for some \( x \in X \), and then define \( \widetilde f(z) = f(x) \).
+\end{proposition}
+\begin{remark}
+	Note that \( \Im f = \Im \widetilde f \) since \( q \) is surjective.
+	\( \widetilde f \) is injective if for all \( x, y \in X \), \( \widetilde f(q(x)) = \widetilde f(q(y)) \) implies \( q(x) = q(y) \).
+	In other words, for all \( x,y \in X \), \( f(x) = f(y) \implies x \sim y \).
+	We say that \( f \) \textit{fully respects} \( R \) if, for all \( x,y \in X \),
+	\[
+		x \sim y \iff f(x) = f(y)
+	\]
+	In this case, \( \widetilde f \) is injective.
+\end{remark}
+
+\subsection{Continuity of functions in quotient spaces}
+\begin{proposition}
+	Let \( X \) be a topological space and let \( R \) be an equivalence relation on \( X \).
+	Let \( q \colon X \to X/R \) be a quotient map, where \( X/R \) has the quotient topology.
+	Let \( Y \) be another topological space and \( f \colon X \to Y \) be a function that respects \( R \).
+	Let \( \widetilde f \colon X/R \to Y \) be the unique map such that \( f = \widetilde f \circ q \).
+	Then
+	\begin{enumerate}[(i)]
+		\item if \( f \) is continuous then \( \widetilde f \) is continuous; and
+		\item if \( f \) is an open map (the image of an open set is open) then \( \widetilde f \) is an open map.
+	\end{enumerate}
+	In particular, if \( f \) is a continuous surjective map that fully respects \( R \), then \( \widetilde f \) is a continuous bijection.
+	If in addition \( f \) is an open map, then \( \widetilde f \) is a continuous bijective open map, so is a homeomorphism.
+\end{proposition}
+\begin{proof}
+	We prove part (i).
+	Let \( V \) be an open set in \( Y \).
+	\[
+		q\qty(\widetilde f^{-1}(V)) = (\widetilde f \circ q)^{-1}(V) = f^{-1}(V) \text{ is open}
+	\]
+	So by definition, \( \widetilde f^{-1}(V) \) is open in \( X/R \).
+	Hence \( \widetilde f \) is continuous.
+	Now, we prove part (ii).
+	Let \( V \) be an open set in \( X/R \).
+	Let \( U = q^{-1}(V) \).
+	Then \( U \) is open in \( X \) by definition of the quotient topology.
+	Since \( q \) is surjective, \( q(U) = q\qty(q^{-1}(V)) = V \).
+	Hence,
+	\[
+		\widetilde f(V) = \widetilde f(q(U)) = (\widetilde f \circ q)(U) = f(U) \text{ is open}
+	\]
+	since \( f \) is an open map.
+\end{proof}
+\begin{example}
+	\( \mathbb R / \mathbb Z \) is homeomorphic to a circle \( S^1 = \qty{x \in \mathbb R^2 \colon \norm{x} = 1} \).
+	We define
+	\[
+		f(t) = (\cos 2 \pi t, \sin 2 \pi t)
+	\]
+	Then, \( s - t \in \mathbb Z \) if and only if \( f(s) = f(t) \) so \( f \) fully respects the relation, and \( f \) is surjective.
+	\( f \) is also continuous since each component is continuous.
+	Hence, there exists \( \widetilde f \colon \mathbb R / \mathbb Z \to S^1 \) such that \( f = \widetilde f \circ q \) and \( \widetilde f \) is a continuous bijection.
+	Now we must show \( f \) is an open map, and then \( \widetilde f \) will be a homeomorphism.
+	Suppose \( f \) is not an open map, so there exists an open set \( U \) in \( \mathbb R \) such that \( f(U) \) is not open in \( S^1 \).
+	So \( S^1 \setminus f(U) \) is not closed, so there exists a sequence \( (z_n) \) in this complement and \( z \in f(U) \) such that \( z_n \to z \).
+	\( f \) is surjective so for all \( n \in N \) we can choose \( x_n \in [0,1] \) such that \( f(x_n) = z_n \).
+	This is a bounded sequence, so by the Bolzano-Weierstrass theorem, without loss of generality we can let \( x_n \to x \in [0,1] \).
+	Since \( f \) is continuous, \( f(x_n) \to f(x) \), so \( z_n \to z \).
+	But since \( z_n \not\in f(U) \), we have \( x_n \in \mathbb R \setminus U \).
+	Since the complement is closed and \( x_n \to x \), we have \( x \in \mathbb R \setminus U \) so \( x \not\in U \).
+	Since \( z \in f(U) \), there exists \( y \in U \) such that \( z = f(y) \).
+	Hence \( k = y - x \in \mathbb Z \).
+	Now, \( f(x_n + k) = f(x_n) = z_n \to z \), but also \( x_n + k \to x + k = y \in U \).
+	Since \( z_n \not\in f(U) \), we have \( x_n + k \not\in U \).
+	Since \( \mathbb R \setminus U \) is closed and \( x_n + k \to y \), we have \( y \in \mathbb R \setminus U \) which is a contradiction.
+\end{example}
+\begin{proposition}
+	Let \( X \) be a topological space, and \( R \) an equivalence relation on \( X \).
+	Then,
+	\begin{enumerate}[(a)]
+		\item If \( X / R \) is Hausdorff, then \( R \) is closed in \( X \times X \).
+		\item If \( R \) is closed in \( X \times X \) and the quotient map \( q \colon X \to X/R \) is an open map, and \( X \) is Hausdorff, then \( X / R \) is Hausdorff.
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	Let \( W = X \times X \setminus R \).
+	For part (a), we want to show \( W \) is open, so is a neighbourhood of all of its points.
+	Given \( (x,y) \in W \), we have \( x \not\sim y \), so \( q(x) \neq q(y) \).
+	Since the quotient is Hausdorff, there exist open sets \( S, T \) in \( X/R \) such that \( S \cap T = \varnothing \) and \( q(x) \in S, q(y) \in T \).
+	Let \( U = q^{-1}(S), V = q^{-1}(T) \) which are open in \( X \), and \( x \in U, y \in V \).
+	For all \( (a,b) \in U \times V \), we have \( q(a) \in S, q(b) \in T \) hence \( a \not\sim b \).
+	So \( (x,y) \in U \times V \subset W \).
+	Hence \( R \) is closed.
+
+	For part (b), let \( z \neq w \) be elements of \( X/R \), and we want to separate these points by open sets.
+	Let \( x,y \in X \) such that \( q(x) = z, q(y) = w \).
+	Then \( (x,y) \in W \) since \( x \not\sim w \).
+	Since \( R \) is closed, \( W \) is open, so there exist open sets \( U, V \) in \( X \) such that \( (x,y) \in U \times V \subset W \).
+	Since \( q \) is an open map, \( q(U) \) and \( q(V) \) are open in \( X/R \), and \( z = q(x) \in q(U), w = q(y) \in q(V) \).
+	Now it suffices to show \( q(U) \cap q(V) = \varnothing \).
+	For \( (a,b) \in U \times V \subset W \), \( (a,b) \not\in R \) hence \( q(a) \neq q(b) \) so \( q(U) \cap q(V) = \varnothing \).
+\end{proof}

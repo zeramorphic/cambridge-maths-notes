@@ -1,0 +1,281 @@
+\subsection{Directional and partial derivatives}
+\begin{definition}
+	Let \( U \), \( f \), \( a \) as before.
+	Fix a direction \( u \in \mathbb R^m \) where \( u \neq 0 \).
+	If the limit
+	\[
+		\lim_{t \to 0} \frac{f(a+tu) - f(a)}{t}
+	\]
+	exists, then the value of this limit is the \textit{directional derivative} of \( f \) at \( a \) in direction \( u \), denoted \( D_u f(a) \).
+\end{definition}
+\begin{remark}
+	Note that \( D_u f(a) \in \mathbb R^n \).
+	Further, \( f(a+tu) = f(a) + t D_u f(a) + o(t) \).
+	Define \( \gamma \colon \mathbb R \to \mathbb R^m \) by \( \gamma(t) = a + tu \).
+	Then \( f \circ \gamma \) is defined on \( \gamma^{-1}(U) \) which is open as \( \gamma \) is continuous, and \( 0 \in \gamma^{-1}(U) \).
+	Then,
+	\[
+		\frac{f(a+tu) - f(a)}{t} = \frac{(f \circ \gamma)(t) - (f \circ \gamma)(0)}{t}
+	\]
+	Hence \( D_u f(a) \) exists if and only if \( f \circ \gamma \) is differentiable at zero, and its value is the derivative of \( f \circ \gamma \).
+	When \( u = e_i \) for a standard basis vector \( e_i \), if \( D_{e_i} f(a) \) exists we call it the \( i \)th \textit{partial derivative} of \( f \) at \( a \), denoted \( D_i f(a) \).
+\end{remark}
+\begin{proposition}
+	Let \( U \), \( f \), \( a \) as before.
+	If \( f \) is differentiable at \( a \), then all directional derivatives \( D_u f(a) \) exist.
+	Further,
+	\[
+		D_u f(a) = f'(a)(u)
+	\]
+	Further,
+	\[
+		f'(a)(h) = \sum_{i=1}^m h_i D_i f(a)
+	\]
+	for all \( h = \sum_{i=1}^m h_i e_i \).
+\end{proposition}
+\begin{proof}
+	Since \( f \) is differentiable,
+	\[
+		f(a+h) = f(a) + f'(a)(h) + \norm{h} \varepsilon(h)
+	\]
+	Let \( h = tu \).
+	Then,
+	\[
+		f(a+tu) = f(a) + tf'(a)(u) + \abs{t} \cdot \norm{u} \varepsilon(tu)
+	\]
+	Hence,
+	\[
+		\frac{f(a+tu) - f(a)}{t} = f'(a)(u) + \frac{\abs{t}}{t} \norm{u} \varepsilon(tu)
+	\]
+	The error term converges to zero, hence the limit becomes \( f'(a)(u) \).
+	Moreover, for all \( h \) defined as above,
+	\[
+		f'(a)(h) = \sum_{i=1}^m h_i f'(a)(e_i) = \sum_{i=1}^m h_i D_i f(a)
+	\]
+\end{proof}
+\begin{proof}[alternative proof]
+	Let \( \gamma(t) = a+tu \).
+	Then \( f \circ \gamma \) is defined on the open set \( \gamma^{-1}(U) \).
+	Note that \( \gamma \) is differentiable and \( \gamma'(t) = u \) for all \( t \).
+	By the chain rule, \( f \circ \gamma \) is differentiable at zero, and
+	\[
+		D_u f(a) = (f \circ \gamma)'(0) = f'(\gamma(0))(\gamma'(0)) = f'(a)(u)
+	\]
+\end{proof}
+\begin{remark}
+	If \( D_u f(a) \) exists, then so does \( D_u f_j(a) \) where \( f_j = \pi_j \circ f \).
+	Indeed, by linearity and continuity of \( \pi \),
+	\[
+		\frac{f_j(a+tu) - f_j(a)}{t} = \pi_j \qty(\frac{f(a+tu) - f(t)}{t}) \to \pi_j (D_u f(a))
+	\]
+	The converse of the proposition is false in general.
+\end{remark}
+
+\subsection{Jacobian matrix}
+\begin{definition}
+	Suppose \( f \) is differentiable at \( a \).
+	Then the Jacobian matrix of \( f \) at \( a \), denoted \( J_f(a) \), is the matrix of \( f'(a) \) with respect to the standard bases.
+	For \( 1 \leq i \leq m \), the \( i \)th column is
+	\[
+		f'(a)(e_i) = D_i f(a)
+	\]
+	In particular, for the \( j,i \) entry,
+	\[
+		\qty(J_f(a))_{ji} = \inner{D_i f(a), e_j'} = \pi_j\qty(D_i f(a)) = D_i f_j(a) = \pdv{f_j}{x_i}(a)
+	\]
+\end{definition}
+
+\subsection{Constructing total derivative from partial derivatives}
+\begin{theorem}
+	Suppose there exists an open neighbourhood \( V \) of \( a \) with \( V \subset U \) such that \( D_i f(x) \) exists for all \( x \in V \) and for all \( 1 \leq i \leq m \), and the map \( x \mapsto D_i f(x) \) from \( V \) to \( \mathbb R^n \) is continuous at \( a \) for all \( i \).
+	Then \( f \) is differentiable at \( a \).
+\end{theorem}
+\begin{proof}
+	By considering components, without loss of generality let \( n = 1 \).
+	Let \( m = 2 \) for convenience of notation; this does not change the proof.
+	Let \( a = (p,q) \).
+	Let
+	\[
+		\psi(h,k) = f(p+h, q+k) - f(p,q) - h D_1 f(p,q) - k D_2 f(p,q)
+	\]
+	We need to show \( \psi(h,k) = o\qty(\norm{(h,k)}) \), then the derivative of \( f \) can be read off from the definition of \( \psi \).
+	Note,
+	\[
+		\psi(h,k) = \qty[f(p+h, q+k) - f(p+h, q) - k D_2 f(p,q)] + \qty[f(p+h,q) - f(p,q) - h D_1(p,q)]
+	\]
+	We will show separately that each part is small enough to be an error term.
+	The second term is \( o(h) \) and hence \( o\qty(\norm{(h,k)}) \) by the definition of \( D_1 f(p,q) \).
+	For the first term, let \( \phi(t) = f(p+h, q+tk) \) for a given fixed \( h,k \).
+	Then \( \phi \) is differentiable and by the chain rule we have \( \phi'(t) = D_2 f(p+h, q+tk) \cdot k \).
+	By the mean value theorem, there exists a point \( t(h,k) \in (0,1) \) such that \( \phi(1) - \phi(0) = \phi'(t) \).
+	Hence, the first term becomes
+	\[
+		\phi(1) - \phi(0) - k D_2 f(p,q) = k \qty[ D_2 f(p + h, q + tk) - D_2 f(p,q) ]
+	\]
+	As \( (h,k) \to (0,0) \), we have \( (p+h, q + tk) \to (p,q) \).
+	By continuity of \( D_2 f \) at \( a \), the term is \( o(k) \) and hence \( o\qty(\norm{(h,k)}) \).
+\end{proof}
+
+\subsection{Mean value inequality}
+The mean value theorem cannot be extended verbatim to higher dimensional spaces, since there can be multiple paths between points.
+\begin{theorem}
+	Let \( U \subset \mathbb R^n \) be open, and \( f \colon U \to \mathbb R^n \) be differentiable at every \( z \in U \).
+	Let \( a, b \in U \) such that the line segment connecting \( a,b \) given by
+	\[
+		[a,b] = \qty{(1-t)a + tb \colon 0 \leq t \leq 1}
+	\]
+	is contained inside \( U \).
+	Suppose there exists \( M \geq 0 \) such that for all \( z \in [a,b] \), we have \( \norm{f'(z)} \leq M \).
+	Then
+	\[
+		\norm{f(h) - f(a)} \leq M \norm{b-a}
+	\]
+\end{theorem}
+\begin{proof}
+	Let \( u = b - a \) and \( v = f(b) - f(a) \).
+	Without loss of generality, let \( u \neq 0 \).
+	Let \( \gamma(t) = a + tu \), so \( f \circ \gamma \) is defined on the open set \( \gamma^{-1}(U) \), and is differentiable with derivative
+	\[
+		(f \circ \gamma)'(t) = f'(\gamma(t))(\gamma'(t)) = f'(a+tu)(u)
+	\]
+	Now,
+	\[
+		\norm{f(b) - f(a)}^2 = \inner{f(b) - f(a), v} = \inner{(f \circ \gamma)(1) - (f \circ \gamma)(0), v}
+	\]
+	Let \( \phi(t) = \inner{(f \circ \gamma)(t), v} \).
+	Note that \( \phi \) is differentiable since the inner product is linear.
+	The derivative is
+	\[
+		\phi'(t) = \inner{(f \circ \gamma)'(t), v} = \inner{f'(a+tu)(u), v}
+	\]
+	By the mean value theorem, there exists \( \theta \in (0,1) \) such that \( \phi(1) - \phi(0) = \phi'(\theta) \).
+	Then, by the Cauchy-Schwarz inequality,
+	\[
+		\norm{f(b) - f(a)}^2 = \phi'(\theta) = \inner{f'(a+\theta u)(u), v} \leq \norm{f'(a+\theta u)(u)} \cdot \norm{v} \leq \norm{f'(a+\theta u)} \cdot \norm{u} \cdot \norm{v} \leq M \norm{b-a} \cdot \norm{v}
+	\]
+	Hence,
+	\[
+		\norm{f(b) - f(a)} \leq M \norm{b-a}
+	\]
+	as required.
+\end{proof}
+
+\subsection{Zero derivatives}
+\begin{corollary}
+	Let \( U \) be an open, connected subset of \( \mathbb R^m \), and \( f \colon U \to \mathbb R^n \) be differentiable at every \( U \).
+	If \( f'(a) = 0 \) for all \( a \in U \), then \( f \) is constant.
+\end{corollary}
+\begin{proof}
+	If \( a, b \in U \) satisfy \( [a,b] \subset U \), then by the mean value inequality we have
+	\[
+		\norm{f(b) - f(a)} \leq \norm{b-a} \sup_{z \in [a,b]} \norm{f'(z)} = 0
+	\]
+	Hence \( f(a) = f(b) \).
+	For an arbitrary \( x \in U \), there exists \( r > 0 \) such that \( \mathcal D_r(x) \subset U \).
+	This open ball is convex, so for all \( y \in \mathcal D_r(x) \) we have \( f(y) = f(x) \).
+	Hence \( f \) is locally constant; every point has a neighbourhood on which \( f \) is constant.
+	Since \( U \) is connected, \( f \) is constant (refer to the derivation from the example sheet).
+\end{proof}
+
+\subsection{Inverse function theorem}
+\begin{remark}
+	Let \( V \subset \mathbb R^m \) and \( W \subset \mathbb R^n \) be open sets.
+	Let \( f \colon V \to W \) be a bijection.
+	Let \( a \in V \), and let \( f \) be differentiable at \( a \), and the inverse \( f^{-1} \colon W \to V \) is differentiable at \( f(a) \).
+	Denoting \( S = f'(a), T = \qty(f^{-1})'(f(a)) \), we can use the chain rule to find
+	\[
+		TS = \qty(f^{-1} \circ f)'(a);\quad ST = \qty(f \circ f^{-1})'(f(a))
+	\]
+	The identity function is linear so its derivative is the identity.
+	Hence \( TS \) is the identity on \( \mathbb R^m \) and \( ST \) is the identity on \( \mathbb R^n \).
+	Hence, \( m = \tr(TS) = \tr(ST) = n \).
+	So in order for \( f \) to be a bijection, the dimensions of the spaces must match.
+	Hence \( f'(a) \) is an invertible matrix.
+	This proves that \( \mathbb R^m, \mathbb R^n \) are not homeomorphic.
+	We aim now to prove an inverse; if \( f \) is differentiable and \( f' \) is invertible, then \( f \) is locally a bijection between neighbourhoods.
+\end{remark}
+\begin{definition}
+	Let \( U \subset \mathbb R^m \) be open, and \( f \colon U \to \mathbb R^n \) be a function.
+	We say that \( f \) is differentiable on \( U \) if \( f \) is differentiable at \( a \) for all \( a \in U \).
+	Then, the \textit{derivative of \( f \) on \( U \)} is the function \( f' \colon U \to L(\mathbb R^m, \mathbb R^n) \) mapping points to their derivatives.
+	We say that \( f \) is a \textit{\( C^1 \)-function on \( U \)} if \( f \) is continuously differentiable on \( U \); \( f \) is differentiable on \( U \) and \( f' \colon U \to L(\mathbb R^m, \mathbb R^n) \) is a continuous function.
+\end{definition}
+\begin{theorem}
+	Let \( U \subset \mathbb R^n \) be open.
+	Let \( f \colon U \to \mathbb R^n \) be a \( C^1 \)-function.
+	Let \( a \in U \), and let \( f'(a) \) be an invertible linear map \( f'(a) \colon L(\mathbb R^n) \).
+	Then there exist open sets \( V, W \) such that \( a \in V, f(a) \in W, V \subset U \) and \( \eval{f}_V \colon V \to W \) is a bijection with inverse function \( g\colon W \to V \).
+	Further, \( g \) is a \( C^1 \)-function, and
+	\[
+		g'(y) = \qty[f'(g(y))]^{-1}
+	\]
+\end{theorem}
+\begin{proof}
+	We first show that without loss of generality we can let \( a = f(a) = 0 \) and \( f'(a) = I \).
+	To see this, let \( T = f'(a) \) and define \( h(x) = T^{-1}(f(x+a) - f(a)) \).
+	Then, \( h \) is defined on \( U - a \), which is open.
+	In particular, \( U - a \) is an open neighbourhood of zero.
+	By the chain rule, \( h \) is differentiable with \( h'(x) = T^{-1} \circ f'(x+a) \).
+	For \( x, y \in U - a \), we then have
+	\[
+		\norm{h'(x) - h'(y)} = \norm{T^{-1} \circ (f'(a+x) - f'(a+y))} \leq \norm{T^{-1}} \cdot \norm{f'(a+x) - f'(a+y)}
+	\]
+	It then follows that \( h \) is a \( C^1 \)-function, and that \( h(0) = 0 \), \( h'(0) = T^{-1} \circ T = I \).
+	We have transformed into a coordinate system where \( a = f(a) = 0 \) and \( f'(a) = I \).
+	If we can prove the result for this coordinate system, we can translate back using \( f(x) = T(h(x-a)) + f(a) \).
+
+	Now, let \( f(0) = 0 \) and \( f'(0) = I \).
+	Since \( f' \) is continuous, there exists \( r > 0 \) such that \( \mathcal B_r(0) \subset U \) and for all \( x \in U \), we have
+	\[
+		\norm{f'(x) - f'(0)} = \norm{f'(x) - I} \leq \frac{1}{2}
+	\]
+	We intend to show that for all \( x,y \in \mathcal B_r(0) \), we have \( \norm{f(x) - f(y)} \geq \frac{1}{2} \norm{x-y} \).
+	Indeed, define \( p \colon U \to \mathbb R^n \) by \( p(x) = f(x) - x \).
+	Then \( p'(x) = f'(x) - I \).
+	Then, \( \norm{p'(x)} \leq \frac{1}{2} \) for all \( x \in \mathcal B_r(0) \).
+	By the mean value inequality, \( \norm{p(x) - p(y)} \leq \frac{1}{2}\norm{x-y} \) for all \( x, y \in \mathcal B_r(0) \).
+	Hence,
+	\[
+		\norm{f(x) - f(y)} = \norm{(p(x) + x) - (p(y) + y)} \geq \norm{x-y} - \norm{p(x) - p(y)} \geq \frac{1}{2} \norm{x-y}
+	\]
+	So we have proven the bound as claimed.
+	Now, let \( s = \frac{r}{2} \).
+	We will show that \( f(\mathcal D_r(0)) \subset \mathcal D_s(0) \).
+	More precisely, we will show that for all \( w \in \mathcal D_s(0) \) there exists a unique \( x \in \mathcal D_r(0) \) such that \( f(x) = w \).
+	Let \( w \in \mathcal D_s(0) \) be fixed.
+	We now define, for all \( x \in \mathcal B_r(0) \), the function \( q(x) = w - f(x) + x = w - p(x) \).
+	Note that \( f(x) = w \) if and only if \( q(x) = x \).
+	We will show that \( q \) is a contraction mapping, and that there exists a fixed point.
+	Since \( p(0) = f(0) - 0 = 0 \), we have for all \( x \in \mathcal B_r(0) \) that
+	\[
+		\norm{q(x)} \leq \norm{w} + \norm{p(x)} = \norm{w} + \norm{p(x) - p(0)} \leq \norm{w} + \frac{1}{2} \norm{x-0} = \frac{1}{2} \norm{x} < s + \frac{1}{2} r
+	\]
+	Hence, \( q(\mathcal B_r(0)) \subset \mathcal D_r(0) \subset \mathcal B_r(0) \).
+	We now show \( q \) is a contraction mapping.
+	For \( x,y \in \mathcal B_r(0) \), we have
+	\[
+		\norm{q(x) - q(y)} = \norm{p(x) - p(y)} \leq \frac{1}{2} \norm{x-y}
+	\]
+	Hence \( q \colon \mathcal B_r(0) \to \mathcal B_r(0) \) really is a contraction mapping on the non-empty, complete metric space \( \mathcal B_r(0) \).
+	By the contraction mapping theorem, there exists a unique \( x \in \mathcal B_r(0) \) such that \( q(x) = x \).
+	But since \( q(\mathcal B_r(0)) \subset \mathcal D_r(0) \), we must have \( x \in \mathcal D_r(0) \).
+	In particular, there exists a unique \( x \in \mathcal D_r(0) \) such that \( f(x) = w \).
+
+	Now, let \( W = \mathcal D_s(0), V = \mathcal D_r(0) \cap f^{-1}(W) \).
+	Then, we will now show that \( \eval{f}_V \colon V \to W \) is a bijection with inverse \( g \colon W \to V \) which is continuous.
+	First, \( W \) is open and \( f(0) = 0 \in W \).
+	Since \( f \) is continuous, \( f^{-1}(W) \) is open.
+	Hence \( V \) is open, as the intersection of two open sets.
+	We have \( 0 \in V \).
+	By the previous paragraph, \( \eval{f}_V \colon V \to W \) is a bijection since for every point in \( W \) there exists a unique point in \( V \) mapping to it.
+	Finally, let \( u, v \in W \).
+	Let \( x = g(u), y = g(v) \).
+	Then,
+	\[
+		\norm{g(u) - g(v)} = \norm{x - y} \leq 2 \norm{f(x) - f(y)} = 2\norm{u - v}
+	\]
+	Hence \( g \) is \( 2 \)-Lipschitz and hence continuous.
+	Now it suffices to show \( g \) is \( C^1 \), and for all \( y \in W \) we have \( g'(y) = \qty[f'(g(y))]^{-1} \).
+	This part of the proof is non-examinable.
+	% todo add this from additional notes on website
+\end{proof}

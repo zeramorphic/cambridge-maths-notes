@@ -1,0 +1,873 @@
+\subsection{Separation of variables}
+We wish to solve the wave equation subject to certain boundary and initial conditions.
+Consider a possible solution of separable form:
+\[
+	y(x,t) = X(x) T(t)
+\]
+Substituting into the wave equation,
+\[
+	\frac{1}{c^2} \ddot y = y'' \implies \frac{1}{c^2} X \ddot T = X'' T
+\]
+Then
+\[
+	\frac{1}{c^2}\frac{\ddot T}{T} = \frac{X''}{X}
+\]
+However, \( \frac{\ddot T}{T} \) depends only on \( t \) and \( \frac{X''}{X} \) depends only on \( x \).
+Thus, both sides must be equal to some \textit{separation constant} \( -\lambda \).
+\[
+	\frac{1}{c^2}\frac{\ddot T}{T} = \frac{X''}{X} = -\lambda
+\]
+Hence,
+\[
+	X'' + \lambda X = 0;\quad \ddot T + \lambda c^2 T = 0
+\]
+
+\subsection{Boundary conditions and normal modes}
+We will begin by first solving the spatial part of the solution.
+One of \( \lambda > 0, \lambda < 0, \lambda = 0 \) must be true.
+The boundary conditions restrict the possible \( \lambda \).
+\begin{enumerate}[(i)]
+	\item First, suppose \( \lambda < 0 \).
+	      Take \( \chi^2 = -\lambda \).
+	      Then,
+	      \[
+		      X(x) = Ae^{\chi x} + Be^{-\chi x} = C \cosh (\chi x) + D \sinh (\chi x)
+	      \]
+	      The boundary conditions are \( x(0) = x(L) = 0 \), so only the trivial solution is possible: \( C = D = 0 \).
+	\item Now, suppose \( \lambda = 0 \).
+	      Then
+	      \[
+		      X(x) = Ax + B
+	      \]
+	      Again, the boundary conditions impose \( A = B = 0 \) giving only the trivial solution.
+	\item Finally, the last possibility is \( \lambda > 0 \).
+	      \[
+		      X(x) = A \cos \qty(\sqrt{\lambda} x) + B \sin \qty(\sqrt{\lambda} x)
+	      \]
+	      The boundary conditions give
+	      \[
+		      A = 0;\quad B \sin \qty(\sqrt{\lambda} L) = 0 \implies \sqrt{\lambda} L = n \pi
+	      \]
+\end{enumerate}
+\noindent The following are the eigenfunctions and eigenvalues.
+\[
+	X_n(x) = B_n \sin \frac{n \pi x}{L};\quad \lambda_n = \qty(\frac{n \pi}{L})^2
+\]
+These are also called the `normal modes' of the system.
+The spatial shape in \( x \) does not change in time, but the amplitude may vary.
+The fundamental mode is the lowest frequency of vibration, given by
+\[
+	n = 1 \implies \lambda_1 = \frac{\pi^2}{L^2}
+\]
+The second mode is the first overtone, and is given by
+\[
+	n = 2 \implies \lambda_2 = \frac{4\pi^2}{L^2}
+\]
+
+\subsection{Initial conditions and temporal solutions}
+Substituting \( \lambda_n \) into the time ODE,
+\[
+	\ddot T + \frac{n^2 \pi^2 c^2}{L^2}T = 0
+\]
+Hence,
+\[
+	T_n(t) = C_n \cos \frac{n \pi c t}{L} + D_n \sin \frac{n \pi c t}{L}
+\]
+Therefore, a specific solution of the wave equation satisfying the boundary conditions is (absorbing the \( B_n \) into the \( C_n, D_n \)):
+\[
+	y_n(x,t) = T_n(t) X_n(x) = \qty(C_n \cos \frac{n \pi c t}{L} + D_n \sin \frac{n \pi c t}{L}) \sin \frac{n \pi x}{L}
+\]
+To find a particular solution for a given set of initial conditions, we must consider a linear superposition of all possible \( y_n \).
+\[
+	y(x,t) = \sum_{n=1}^\infty \qty(C_n \cos \frac{n \pi c t}{L} + D_n \sin \frac{n \pi c t}{L}) \sin \frac{n \pi x}{L}
+\]
+By construction, this \( y(x,t) \) satisfies the boundary conditions, so now we can impose the initial conditions.
+\[
+	y(x,0) = p(x) = \sum_{n=1}^\infty C_n \sin \frac{n \pi x}{L}
+\]
+We can find the \( C_n \) using standard Fourier series techniques, since this is exactly a half-range sine series.
+Further,
+\[
+	\pdv{y(x,0)}{t} = q(x) = \sum_{n=1}^\infty \frac{n \pi c}{L} D_n \sin \frac{n \pi x}{L}
+\]
+Again we can solve for the \( D_n \) in a similar way.
+In particular,
+\[
+	C_n = \frac{2}{L} \int_0^L p(x) \sin \frac{n \pi x}{L} \dd{x}
+\]
+\[
+	D_n = \frac{2}{n \pi c} \int_0^L q(x) \sin \frac{n \pi x}{L} \dd{x}
+\]
+\begin{example}
+	Consider the initial condition of a see-saw wave parametrised by \( \xi \), and let \( L = 1 \).
+	This can be visualised as plucking the string at position \( \xi \).
+	\[
+		y(x,0) = p(x) = \begin{cases}
+			x(1-\xi) & 0 \leq x < \xi \\
+			\xi(1-x) & \xi \leq x < 1
+		\end{cases}
+	\]
+	We also define
+	\[
+		\pdv{y(x,0)}{t} = q(x) = 0
+	\]
+	The Fourier series for \( p \) is given by
+	\[
+		C_n = \frac{2 \sin n \pi \xi}{(n \pi)^2};\quad D_n = 0
+	\]
+	Hence the solution to the wave equation is
+	\[
+		y(x,t) = \sum_{n=1}^\infty \frac{2}{(n \pi)^2} \sin n \pi \xi \sin n \pi x \cos n \pi c t
+	\]
+\end{example}
+
+\subsection{Separation of variables methodology}
+A general strategy for solving higher-dimensional partial differential equations is as follows.
+\begin{enumerate}[(i)]
+	\item Obtain a linear PDE system, using boundary and initial conditions.
+	\item Separate variables to yield decoupled ODEs.
+	\item Impose homogeneous boundary conditions to find eigenvalues and eigenfunctions.
+	\item Use these eigenvalues (constants of separation) to find the eigenfunctions in the other variables.
+	\item Sum over the products of separable solutions to find the general series solution.
+	\item Determine coefficients for this series using the initial conditions.
+\end{enumerate}
+\begin{example}
+	We will solve the wave equation instead in characteristic coordinates.
+	Recall the sine and cosine summation identities:
+	\begin{align*}
+		y(x,t) & = \frac{1}{2} \sum_{n=1}^\infty \Bigg[ \qty(C_n \sin \frac{n \pi}{L}(x-ct) + D_n \cos \frac{n \pi}{L}(x-ct)) \\&
+		+ \qty(C_n \sin \frac{n \pi}{L}(x+ct) - D_n \cos \frac{n \pi}{L}(x+ct)) \Bigg]                                        \\
+		       & = f(x-ct) + g(x+ct)
+	\end{align*}
+	The standing wave solution can be interpreted as a superposition of a right-moving wave and a left-moving wave.
+	A special case is \( q(x) = 0 \), implying \( f = g = \frac{1}{2} p \).
+	Then,
+	\[
+		y(x,t) = \frac{1}{2}\qty[p(x-ct) + p(x+ct)]
+	\]
+\end{example}
+
+\subsection{Energy of oscillations}
+A vibrating string has kinetic energy due to its motion.
+\[
+	\text{Kinetic energy} = \frac{1}{2} \mu \int_0^L \qty(\pdv{y}{t})^2 \dd{x}
+\]
+It has potential energy given by
+\[
+	\text{Potential energy} = T \Delta x = T \int_c^T \qty(\sqrt{1 + \qty(\pdv{y}{x})^2}-1)\dd{x} \approx \frac{1}{2} T \int_0^L \qty(\pdv{y}{x})^2 \dd{x}
+\]
+assuming that the disturbances on the string are small, that is, \( \abs{\pdv{y}{x}} \ll 1 \).
+The total energy on the string, given \( c^2 = T/\mu \), is given by
+\[
+	E = \frac{1}{2}\mu \int_0^L \qty[\qty(\pdv{y}{t})^2 + c^2 \qty(\pdv{y}{x})^2] \dd{x}
+\]
+Substituting the solution, using the orthogonality conditions,
+\begin{align*}
+	E & = \frac{1}{2}\mu \sum_{n=1}^\infty \int_0^L \Bigg[-\qty(\frac{n \pi c}{L} C_n \sin \frac{n \pi c t}{L} + \frac{n \pi c}{L} D_n \cos \frac{n \pi c t}{L})^2 \sin^2 \frac{n \pi x}{L} \\
+	  & + c^2 \qty(C_n \cos \frac{n \pi c t}{L} + D_n \sin \frac{n \pi c t}{L})^2 \frac{n^2 \pi^2}{L^2} \cos^2 \frac{n \pi x}{L} \Bigg] \dd{x}                                              \\
+	  & = \frac{1}{4} \mu \sum_{n=1}^\infty \frac{n^2 \pi^2 c^2}{L} \qty(C_n^2 + D_n^2)
+\end{align*}
+which is an analogous result to Parseval's theorem.
+This is true since \[
+	\int \cos^2 \frac{n \pi x}{L}\dd{x} = \frac{1}{2}
+\] and \( \cos^2 + \sin^2 = 1 \).
+We can think of this energy as the sum over all the normal modes of the energy in that specific mode.
+Note that this quantity is constant over time.
+
+\subsection{Wave reflection and transmission}
+The travelling wave has left-moving and right-moving modes.
+A \textit{simple harmonic} travelling wave is
+\[
+	y = \Re\qty[ A e^{i \omega(t-x/c)} ] = A \cos \qty[\omega(t-x/c) + \phi]
+\]
+where the phase \( \phi \) is equal to \( \arg A \), and the wavelength \( \lambda \) is \( 2 \pi c / \omega \).
+In further discussion, we assume only the real part is used.
+Consider a density discontinuity on the string at \( x = 0 \) with the following properties.
+\[
+	\mu = \begin{cases}
+		\mu_- & \text{for } x < 0 \\
+		\mu_+ & \text{for } x > 0
+	\end{cases} \implies c = \begin{cases}
+		c_- = \sqrt{\frac{T}{\mu_-}} & \text{for } x < 0 \\
+		c_+ = \sqrt{\frac{T}{\mu_+}} & \text{for } x > 0 \\
+	\end{cases}
+\]
+assuming a constant tension \( T \).
+As a wave from the negative direction approaches the discontinuity, some of the wave will be reflected, given by \( B e^{i \omega(t + x/c_-)} \), and some of the wave will be transmitted, given by \( D e^{i \omega(t - x/c_+)} \).
+The boundary conditions at \( x = 0 \) are
+\begin{enumerate}[(i)]
+	\item \( y \) is continuous for all \( t \) (the string does not break), so
+	      \begin{equation}
+		      A + B = D \tag{\(\ast\)}
+	      \end{equation}
+	\item The forces balance, \( T \eval{\pdv{y}{x}}_{x = 0^-} = T \eval{\pdv{y}{x}}_{x = 0^+} \) which means \( \pdv{y}{x} \) must be continuous for all \( t \).
+	      This gives
+	      \begin{equation}
+		      \frac{-i\omega A}{c_-} + \frac{i \omega B}{c_-} = \frac{-i \omega D}{c_+} \tag{\(\dagger\)}
+	      \end{equation}
+\end{enumerate}
+We can eliminate \( B \) from \( (\ast) \) by subtracting \( \frac{c_-}{i \omega}(\dagger) \).
+\[
+	2A = D + D \frac{c_-}{c_+} = \frac{D}{c_+}(c_+ + c_-)
+\]
+Hence, given \( A \), we have the solution for the transmitted amplitude and reflected amplitude to be
+\[
+	D = \frac{2 c_+}{c_- + c_+} A;\quad B = \frac{c_+ - c_-}{c_- + c_+}
+\]
+In general \( A, B, D \) are complex, hence different phase shifts are possible.
+
+There are a number of limiting cases, for example
+\begin{enumerate}[(i)]
+	\item If \( c_- = c_+ \) we have \( D = A \) and \( B = 0 \) so we have full transmission and no reflection.
+	\item (Dirichlet boundary conditions) If \( \frac{\mu_+}{\mu_-} \to \infty \), this models a fixed end at \( x = 0 \).
+	      We have \( \frac{c_+}{c_-} \to 0 \) giving \( D = 0 \) and \( B = -A \).
+	      Notice that the reflection has occurred with opposite phase, \( \phi = \pi \).
+	\item (Neumann boundary conditions) Consider \( \frac{\mu_+}{\mu_-} \to 0 \), this models a free end.
+	      Then \( \frac{c_+}{c_-} \to \infty \) giving \( D = 2A \), \( B = A \).
+	      This gives total reflection but with the same phase.
+\end{enumerate}
+
+\subsection{Wave equation in plane polar coordinates}
+Consider the two-dimensional wave equation for \( u(r,\theta,t) \) given by
+\[
+	\frac{1}{c^2} \pdv[2]{u}{t} = \laplacian u
+\]
+with boundary conditions at \( r = 1 \) on a unit disc given by
+\[
+	u(1,\theta,t) = 0
+\]
+and initial conditions for \( t = 0 \) given by
+\[
+	u(r,\theta,0) = \phi(r,\theta);\quad \pdv{u}{t}(r,\theta,0) = \psi(r,\theta)
+\]
+Suppose that this equation is separable.
+First, let us consider temporal separation.
+Suppose that
+\[
+	u(r,\theta,t) = T(t) V(r,\theta)
+\]
+Then we have
+\[
+	\ddot T + \lambda c^2 T = 0;\quad \laplacian V + \lambda V = 0
+\]
+In plane polar coordinates, we can write the spatial equation as
+\[
+	\pdv[2]{V}{r} + \frac{1}{r} \pdv{V}{r} + \frac{1}{r^2}\pdv[2]{V}{\theta} + \lambda V = 0
+\]
+We will perform another separation, supposing
+\[
+	V(r,\theta) = R(r) \Theta(\theta)
+\]
+to give
+\[
+	\Theta'' + \mu \Theta = 0;\quad r^2 R'' + r R' + \qty(\lambda r^2 - \mu) R = 0
+\]
+where \( \lambda, \mu \) are the separation constants.
+The polar solution is constrained by periodicity \( \Theta(0) = \Theta(2 \pi) \), since we are working on a disc.
+We also consider only \( \mu > 0 \).
+The eigenvalue is then given by \( \mu = m^2 \), where \( m \in \mathbb N \).
+\[
+	\Theta_m(\theta) = A_m \cos m \theta + B_m \sin m \theta
+\]
+Or, in complex exponential form,
+\[
+	\Theta_m(\theta) = C_m e^{im\theta};\quad m \in \mathbb Z
+\]
+
+\subsection{Bessel's equation}
+We can solve the radial equation (in the previous subsection) by converting it first into Sturm-Liouville form, which can be accomplished by dividing by \( r \).
+\[
+	\dv{r} \qty(r R') - \frac{m^2}{r} = -\lambda r R
+\]
+where \( p(r) = r, q(r) = \frac{m^2}{r}, w(r) = r \), with self-adjoint boundary conditions with \( R(1) = 0 \).
+We will require \( R \) is bounded at \( R(0) \), and since \( p(0) = 0 \) there is a regular singular point at \( r = 0 \).
+This particular equation for \( R \) is known as Bessel's equation.
+We will first substitute \( z \equiv \sqrt{\lambda} r \), then we find the usual form of Bessel's equation,
+\[
+	z^2 \dv[2]{R}{z} + z \dv{R}{z} + (z^2 - m^2)R = 0
+\]
+We can use the method of Frobenius by substituting the following power series:
+\[
+	R = z^p \sum_{n=0}^\infty a_n z^n
+\]
+to find
+\[
+	\sum_{n=0}^\infty \qty[ a_n (n+p)(n+p-1) z^{n+p} + (n+p) z^{n+p} + z^{n+p+2} + m^2 z^{n+p} ] = 0
+\]
+Equating powers of \( z \), we can find the indicial equation
+\[
+	p^2 - m^2 = 0 \implies p = m, -m
+\]
+The regular solution, given by \( p = m \), has recursion relation
+\[
+	(n+m)^2 a_n + a_{n-2} - m^2 a_n = 0
+\]
+which gives
+\[
+	a_n = \frac{-1}{n(n+2m)} a_{n-2}
+\]
+Hence, we can find
+\[
+	a_{2n} = a_0 \frac{(-1)^n}{2^{2n} n!
+		(n+m)(n+m-1) \dots (m+1)}
+\]
+If, by convention, we let
+\[
+	a_0 = \frac{1}{2^m m!}
+\]
+we can then write the \textit{Bessel function of the first kind} by
+\[
+	J_m(z) = \qty(\frac{z}{2})^m \sum_{n=0}^\infty \frac{(-1)^n}{n!
+		(n+m)!} \qty(\frac{z}{2})^{2n}
+\]
+
+\subsection{Asymptotic behaviour of Bessel functions}
+If \( z \) is small, the leading-order behaviour of \( J_m(z) \) is
+\begin{align*}
+	J_0(z) & \approx 1                                \\
+	J_m(z) & \approx \frac{1}{m!} \qty(\frac{z}{2})^m
+\end{align*}
+Now, let us consider large \( z \).
+In this case, the function becomes oscillatory;
+\[
+	J_m(z) \approx \sqrt{\frac{2}{\pi z}} \cos(z - \frac{m \pi}{2} - \frac{\pi}{4})
+\]
+
+\subsection{Zeroes of Bessel functions}
+We can see from the asymptotic behaviour that there are infinitely many zeroes of the Bessel functions of the first kind as \( z \to \infty \).
+We define \( j_{mn} \) to be the \( n \)th zero of \( J_m \), for \( z > 0 \).
+Approximately,
+\[
+	\cos(z - \frac{m \pi}{2} - \frac{\pi}{4}) = 0 \implies z - \frac{m \pi}{2} - \frac{\pi}{4} = n \pi - \frac{\pi}{2}
+\]
+Hence
+\[
+	z \approx n \pi + \frac{m \pi}{2} - \frac{\pi}{4} \equiv \widetilde j_{mn}
+\]
+
+\subsection{Solving the vibrating drum}
+Recall that the radial solutions become
+\[
+	R_m(z) = R_m(\sqrt{\lambda} x) = A J_m(\sqrt{\lambda} x) + B Y_m(\sqrt{\lambda} x)
+\]
+Imposing the boundary condition of boundedness at \( r = 0 \), we must have \( B = 0 \).
+Further imposing \( r = 1 \) and \( R = 0 \) gives \( J_m(\sqrt{\lambda}) = 0 \).
+These zeroes occur at \( j_{mn} \approx n \pi + \frac{m \pi}{2} - \frac{\pi}{4} \).
+Hence, the eigenvalues must be \( j^2_{mn} \).
+Therefore, the spatial solution is
+\[
+	V_{mn}(r, \theta) = \Theta_m(\theta) R_{mn}(\sqrt{\lambda_{mn}} r) = (A_{mn} \cos m \theta + B_{mn} \sin m \theta) J_m (j_{mn} r)
+\]
+The temporal solution is
+\[
+	\ddot T = -\lambda c T \implies T_{mn}(t) = \cos(j_{mn} ct), \sin(j_{mn} ct)
+\]
+Combining everything together, the full solution is
+\begin{align*}
+	u(r,\theta,t) & = \sum_{n=1}^\infty J_0(j_{0n} r) \qty( A{0n}\cos j_{0n}ct + C_{0n}\sin j_{0n}ct )                                    \\
+	              & + \sum_{m=1}^\infty \sum_{n=1}^\infty J_m (j_{mn}r) \qty( A_{mn} \cos m \theta + B_{mn} \sin m\theta ) \cos j_{mn} ct \\
+	              & + \sum_{m=1}^\infty \sum_{n=1}^\infty J_m (j_{mn}r) \qty( C_{mn} \cos m \theta + D_{mn} \sin m\theta ) \sin j_{mn} ct
+\end{align*}
+Now, we impose the boundary conditions
+\[
+	u(r,\theta,0) = \phi(r,\theta) = \sum_{m=0}^\infty \sum_{n=1}^\infty J_m (j_{mn}r) \qty( A_{mn} \cos m \theta + B_{mn} \sin m\theta )
+\]
+and
+\[
+	\pdv{u}{t}\qty(r,\theta,0) = \psi(r,\theta) = \sum_{m=0}^\infty \sum_{n=1}^\infty j_{mn} c J_m (j_{mn}r) \qty( C_{mn} \cos m \theta + D_{mn} \sin m\theta )
+\]
+We need to find the coefficients by multiplying by \( J_m, \cos, \sin \) and using the orthogonality relations, which are
+\[
+	\int_0^1 J_m(j_{mn} r) J_m(j_{mk} r) r \dd{r} = \frac{1}{2}\qty[J_m'(j_{mn})]^2 \delta_{nk} = \frac{1}{2}\qty[J_{m+1}(j_{mn})]^2 \delta_{nk}
+\]
+by using a recursion relation of the Bessel functions.
+We can then integrate to obtain the coefficients \( A_{mn} \).
+\[
+	\int_0^{2\pi} \dd{\theta} \cos p\theta \int_0^1 r \dd{r} J_p(j_{pq} r) \phi(r,\theta) = \frac{\pi}{2}\qty[J_{p+1}(j_{pq})]^2 A_{pq}
+\]
+where the \( \frac{\pi}{2} \) coefficient is \( 2\pi \) for \( p = 0 \).
+We can find analogous results for the \( B_{mn}, C_{mn}, D_{mn} \).
+\begin{example}
+	Consider an initial radial profile \( u(r,\theta,0) = \phi(r) = 1 - r^2 \).
+	Then, \( m = 0, B_{mn} = 0 \) for all \( m \) and \( A_{mn} = 0 \) for all \( m \neq 0 \).
+	Then
+	\[
+		\pdv{u}{t}\qty(r,0,0) = 0
+	\]
+	hence \( C_{mn}, D_{mn} = 0 \).
+	We just now need to find
+	\[
+		A_{0n} = \frac{2}{J_0(j_{0n})^2} \int_0^1 J_0(j_{0n}r)(1-r)^2 r\dd{r} = \frac{2}{J_0(j_{0n})^2} \frac{J_2(j_{0n})}{j_{0n}^2} \approx \frac{J_2(j_{0n})}{n} \text{ as } n \to \infty
+	\]
+	Then the approximate solution is
+	\[
+		u(r,\theta,t) = \sum_{n=1}^\infty A_{0n} J_0(j_{0n}r)\cos j_{0n} ct
+	\]
+	The fundamental frequency is \( \omega_d = j_{01} c \frac{2}{d} \approx 4.8\frac{c}{d} \) where \( d \) is the diameter of the drum.
+	Comparing this to a string with length \( d \), this has a fundamental frequency of \( \omega_s = \frac{\pi c}{d} \approx 0.77 \omega_d \).
+\end{example}
+
+\subsection{Diffusion equation derivation with Fourier's law}
+In a volume \( V \), the overall heat energy \( Q \) is given by
+\[
+	Q = \int_V c_V \rho \theta \dd{V}
+\]
+where \( c_V \) is the specific heat of the material, \( \rho \) is the mass density, and \( \theta \) is the temperature.
+The rate of change due to heat flow is
+\[
+	\dv{Q}{t} = \int_V c_V \rho \pdv{\theta}{t} \dd{V}
+\]
+Fourier's law for heat flow is
+\[
+	q = -k \grad{\theta}
+\]
+where \( q \) is the heat flux.
+We will integrate this over the surface \( S = \partial V \), giving
+\[
+	-\dv{Q}{t} = \int_S q \cdot \hat n \dd{S}
+\]
+The negative sign is due to the normals facing outwards.
+This is exactly
+\[
+	-\dv{Q}{t} = \int_S (-k \grad{\theta}) \cdot \hat n \dd{S} = \int_V -k \laplacian{\theta} \dd{V}
+\]
+Equating these two forms for \( \dv{Q}{t} \), we find
+\[
+	\int_V (c_V \rho \pdv{\theta}{t} - k \laplacian{\theta}) \dd{V} = 0
+\]
+Since \( V \) was arbitrary, the integrand must be zero.
+So we have
+\[
+	\pdv{\theta}{t} - \frac{k}{c_V \rho} \laplacian{\theta} = 0
+\]
+Let \( D = \frac{k}{c_V \rho} \) be the diffusion constant.
+Then we have the diffusion equation
+\[
+	\pdv{\theta}{t} - D \laplacian{\theta} = 0
+\]
+
+\subsection{Diffusion equation derivation with statistical dynamics}
+We can derive this equation in another way, using statistical dynamics.
+Gas particles diffuse by scattering every fixed time step \( \Delta t \) with probability density function \( p(\xi) \) of moving by a displacement \( \xi \).
+On average, we have
+\[
+	\inner{\xi} = \int p(\xi) \xi \dd{\xi} = 0
+\]
+since there is no bias the direction in which any given particle is travelling.
+Suppose that the probability density function after \( N\Delta t \) time is described by \( P_{N \Delta t}(x) \).
+Then, for the next time step,
+\[
+	P_{(N+1)\Delta t}(x) = \int_{-\infty}^\infty p(\xi) P_{N \Delta t}(x - \xi) \dd{\xi}
+\]
+Using the Taylor expansion,
+\begin{align*}
+	P_{(N+1)\Delta t}(x) & \approx \int_{-\infty}^\infty p(\xi) \qty[P_{N \Delta t}(x) + P_{N \Delta t}'(x)(-\xi) + P_{N \Delta t}''(x)\frac{\xi^2}{2} + \cdots] \dd{\xi} \\
+	                     & \approx P_{N \Delta t}(x) - P_{N \Delta t}'(x) \inner{\xi} + P_{N \Delta t}''(x) \frac{\inner{\xi^2}}{2} + \cdots                              \\
+	                     & \approx P_{N \Delta t}(x) + P_{N \Delta t}''(x) \frac{\inner{\xi^2}}{2} + \cdots
+\end{align*}
+since \( \int p(\xi) \dd{\xi} = 1 \).
+Identifying \( P_{N \Delta t}(x) = P(x, N\Delta t) \), we can write
+\[
+	P(x, (N+1)\Delta t) - P(x, N \Delta t) = \pdv[2]{x} P(x, N\Delta t) \frac{\inner{\xi^2}}{2}
+\]
+Assuming that the variance \( \frac{\inner{\xi^2}}{2} \) is proportional to \( D \Delta t \), then for small \( \Delta t \), we find
+\[
+	\pdv{P}{t} = D \pdv[2]{P}{x}
+\]
+which is exactly the diffusion equation.
+
+\subsection{Similarity solutions}
+The characteristic relation between the variance and time suggests that we seek solutions with a dimensionless parameter.
+If we can a change of variables of the form \( \theta(\eta) = \theta(x,t) \), then it will likely be easier to solve.
+Consider
+\[
+	\eta \equiv \frac{x}{2\sqrt{Dt}}
+\]
+Then,
+\[
+	\pdv{\theta}{t} = \pdv{\eta}{t} \pdv{\theta}{\eta} = \frac{-1}{2} \frac{x}{\sqrt{D} t^{3/2}} \theta' = \frac{-1}{2} \frac{\eta}{t} \theta'
+\]
+and
+\[
+	D \pdv[2]{\theta}{x} = D \pdv{x} \qty(\pdv{\eta}{x} \pdv{\theta}{\eta}) = D \pdv{x} \qty(\frac{1}{2\sqrt{Dt}} \theta') = \frac{D}{4Dt} \theta'' = \frac{1}{4t} \theta''
+\]
+Substituting into the diffusion equation,
+\[
+	\theta'' = -2 \eta \theta'
+\]
+Let \( \psi = \theta' \).
+Then
+\[
+	\frac{\psi'}{\psi} = -2\eta \implies \ln \psi = -\eta^2 + \text{constant}
+\]
+Then, choosing a constant of \( c\frac{2}{\sqrt{\pi}} \),
+\[
+	\psi = c\frac{2}{\sqrt{\pi}} e^{-\eta^2} \implies \theta(\eta) = c\frac{2}{\sqrt{\pi}} \int_0^\eta e^{-u^2} \dd{u} = c \erf(\eta) = c \erf(\frac{x}{2\sqrt{Dt}})
+\]
+where
+\[
+	\erf(z) = \frac{2}{\sqrt{\pi}} \int_0^z e^{-u^2} \dd{u}
+\]
+This describes discontinuous initial conditions that spread over time.
+
+\subsection{Heat conduction in a finite bar}
+Suppose we have a bar of length \( 2L \) with \( -L \leq x \leq L \) and initial temperature
+\[
+	\theta(x,0) = H(x) = \begin{cases}
+		1 & \text{if } 0 \leq x \leq L \\
+		0 & \text{if } -L \leq x < 0
+	\end{cases}
+\]
+with boundary conditions \( \theta(L, t) = 1 \), \( \theta(-L, t) = 0 \).
+Currently the boundary conditions are not homoegeneous, so Sturm-Liouville theory cannot be used directly.
+If we can identify a steady-state solution (time-independent) that reflects the late-time behaviour, then we can turn it into a homoegeneous set of boundary conditions.
+We will try a solution of the form
+\[
+	\theta_s(x) = Ax + B
+\]
+since this certainly satisfies the diffusion equation.
+To satisfy the boundary conditions,
+\[
+	A = \frac{1}{2L};\quad B = \frac{1}{2}
+\]
+Hence we have a solution
+\[
+	\theta_s = \frac{x + L}{2L}
+\]
+We will subtract this solution from our original equation for \( \theta \), giving
+\[
+	\hat \theta(x,t) = \theta(x,t) - \theta_s(x)
+\]
+with homogeneous boundary conditions
+\[
+	\hat \theta(-L, t) = \hat \theta(L, t) = 0
+\]
+and initial conditions
+\[
+	\theta(x,0) = H(x) - \frac{x+L}{2L}
+\]
+We will now separate variables in the usual way.
+We will consider the ansatz
+\[
+	\hat \theta(x,t) = X(x) T(t) \implies X'' = - \lambda X; \dot T = -D \lambda T
+\]
+The boundary conditions imply \( \lambda > 0 \) and give the Fourier modes \( X(x) = A \cos \sqrt{\lambda} x + B \sin \sqrt{\lambda} x \).
+For \( \cos \sqrt{\lambda} L = 0 \), we require \( \sqrt{\lambda_m} = \frac{m \pi}{2L} \) for \( m \) odd.
+Also, \( \sin \sqrt{\lambda} L = 0 \) gives \( \sqrt{\lambda_n} = \frac{n \pi}{L} \) for \( n \) even.
+Since \( \hat \theta \) is odd due to our initial conditions, we can take
+\[
+	X_n = B_n \sin \frac{n \pi x}{L}; \quad \lambda_n = \frac{n^2 \pi^2}{L^2}
+\]
+Substituting into \( \dot T = -D \lambda T \), we have
+\[
+	T_n(t) = c_n \exp(-\frac{Dn^2 \pi^2}{L^2} t )
+\]
+In general, the solution is
+\[
+	\hat \theta(x,t) = \sum_{n=1}^\infty b_n \sin \frac{n \pi x}{L} \exp(-\frac{Dn^2 \pi^2}{L^2} t )
+\]
+
+\subsection{Particular solution to diffusion equation}
+Recall that
+\[
+	\hat \theta(x,t) = \sum_{n=1}^\infty b_n \sin \frac{n \pi x}{L} \exp(-\frac{Dn^2 \pi^2}{L^2} t )
+\]
+At \( t = 0 \), we have a pure Fourier sine series.
+We can then impose the initial conditions, to give
+\[
+	b_n = \frac{1}{L} \int_{-L}^L \hat \phi(x,0) \sin \frac{n \pi x}{L} \dd{x}
+\]
+where
+\[
+	\hat\phi(x,0) = H(x) - \frac{x+L}{2L}
+\]
+Hence, we can use the half-range sine series and find
+\[
+	b_n = \underbrace{ \frac{2}{L} \int_0^L \qty(H(x) = \frac{1}{2}) \sin \frac{n \pi x}{L} \dd{x} }_{\text{square wave}/2} - \underbrace{ \frac{2}{L}\frac{x}{2L} \sin \frac{n \pi x}{L} \dd{x} }_{\text{sawtooth}/2L}
+\]
+which gives
+\[
+	b_n = \frac{2}{(2m-1)\pi} - \frac{(-1)^{n+1}}{n\pi}
+\]
+where \( n = 2m - 1 \), and the first term vanishes for \( n \) even.
+For \( n \) odd or even, we find the same result
+\[
+	b_n = \frac{1}{n\pi}
+\]
+Hence
+\[
+	\hat\theta(x,t) = \sum_{n=1}^\infty \frac{1}{n \pi} \sin \frac{n \pi x}{L} e^{-D \frac{n^2 \pi^2}{L^2} t}
+\]
+For the inhomogeneous boundary conditions,
+\[
+	\theta(x,t) = \frac{x+L}{2L} + \sum_{n=1}^\infty \frac{1}{n \pi} \sin \frac{n \pi x}{L} e^{-D \frac{n^2 \pi^2}{L^2} t}
+\]
+The similarity solution \( \frac{1}{2}\qty(1 + \erf(\frac{x}{2\sqrt{Dt}})) \) is a good fit for early \( t \), but it does not necessarily satisfy the boundary conditions, so for large \( t \) it is a bad approximation.
+
+\subsection{Laplace's equation}
+Laplace's equation is
+\[
+	\laplacian \phi = 0
+\]
+This equation describes (among others) steady-state heat flow, potential theory \( F = -\grad{\phi} \), and incompressible fluid flow \( v = \grad{\phi} \).
+The equation is solved typically on a domain \( D \), where boundary conditions are specified often on the boundary surface.
+The Dirichlet boundary conditions fix \( \phi \) on the boundary surface \( \partial D \).
+The Neumann boundary conditions fix \( \hat n \cdot \grad{\phi} \) on \( \partial D \).
+
+\subsection{Laplace's equation in three-dimensional Cartesian coordinates}
+In \( \mathbb R^3 \) with Cartesian coordinates, Laplace's equation becomes
+\[
+	\pdv[2]{\phi}{x} + \pdv[2]{\phi}{y} + \pdv[2]{\phi}{z} = 0
+\]
+We seek separable solutions in the usual way:
+\[
+	\phi(x,y,z) = X(x)Y(y)Z(z)
+\]
+Substituting,
+\[
+	X''YZ + XY''Z + XYZ'' = 0
+\]
+Dividing by \( XYZ \) as usual,
+\begin{align*}
+	\frac{X''}{X} = \frac{-Y''}{Y} - \frac{Z''}{Z} & = -\lambda_\ell                         \\
+	\frac{Y''}{Y} = \frac{-Z''}{Z} - \frac{X''}{X} & = -\lambda_m                            \\
+	\frac{Z''}{Z} = \frac{-X''}{X} - \frac{Y''}{Y} & = -\lambda_n = \lambda_\ell + \lambda_m
+\end{align*}
+From the eigenmodes, our general solution will be of the form
+\[
+	\phi(x,y,z) = \sum_{\ell,m,n} a_{\ell mn} X_\ell(x) Y_m(y) Z_n(z)
+\]
+Consider steady (\(\pdv{\phi}{t} = 0 \)) heat flow in a semi-infinite rectangular bar, with boundary conditions \( \phi = 0 \) at \( x = 0 \), \( x = a \), \( y = 0 \) and \( y = b \); and \( \phi = 1 \) at \( z = 0 \) and \( \phi \to 0 \) as \( z \to \infty \).
+We will solve for each eigenmode successively.
+First, consider \( X'' = -\lambda_\ell X \) with \( X(0) = X(a) = 0 \).
+This gives
+\[
+	\lambda_\ell = \frac{l^2 \pi^2}{a^2};\quad X_\ell = \sin \frac{\ell \pi x}{a}
+\]
+where \( \ell > 0, \ell \in \mathbb N \).
+By symmetry,
+\[
+	\lambda_m = \frac{m^2 \pi^2}{b^2};\quad Y_m = \sin \frac{m \pi y}{b}
+\]
+For the \( z \) mode,
+\[
+	Z'' = -\lambda_n Z = (\lambda_\ell + \lambda_m) Z = \pi^2\qty(\frac{\ell^2}{a^2} + \frac{m^2}{b^2}) Z
+\]
+Since \( \phi \to 0 \) as \( z \to \infty \), the growing exponentials must vanish.
+Therefore,
+\[
+	Z_{\ell m} = \exp[-\qty(\frac{\ell^2}{a^2} + \frac{m^2}{b^2})^{1/2} \pi z]
+\]
+Thus the general solution is
+\[
+	\phi(x,y,z) = \sum_{\ell, m} a_{\ell m} \sin \frac{\ell \pi x}{a} \sin \frac{m \pi y}{b} \exp[-\qty(\frac{\ell^2}{a^2} + \frac{m^2}{b^2})^{1/2} \pi z]
+\]
+Now, we will fix \( a_{\ell m} \) using \( \phi(x,y,0) = 1 \) using the Fourier sine series.
+\[
+	a_{\ell m} = \frac{2}{b} \int_0^b \frac{2}{a} \int_0^a \underbrace{1 \sin \frac{\ell \pi x}{a}}_{\text{square wave}} \underbrace{\sin \frac{m \pi y}{b}}_{\text{square wave}} \dd{x} \dd{y}
+\]
+So only the odd terms remain, giving
+\[
+	a_{\ell m} = \frac{4a}{a(2k-1)\pi} \cdot \frac{4b}{b(2p-1) \pi}
+\]
+where \( \ell = 2k-1 \) is odd and \( m = 2p-1 \) is odd.
+Simplifying,
+\[
+	a_{\ell m} = \frac{16}{\pi^2 \ell m} \quad \text{ for } \ell, m \text{ odd}
+\]
+So the heat flow solution is
+\[
+	\phi(x,y,z) = \sum_{\ell, m \text{ odd}} \frac{16}{\pi^2 \ell m} \sin \frac{\ell \pi x}{a} \sin \frac{\ell \pi y}{b} \exp[-\qty(\frac{\ell^2}{a^2} + \frac{m^2}{b^2})^{1/2} \pi z]
+\]
+As \( z \) increases, every contribution but the lowest mode will be very small.
+So low \( \ell, m \) dominate the solution.
+
+\subsection{Laplace's equation in plane polar coordinates}
+In plane polar coordinates, Laplace's equation becomes
+\[
+	\frac{1}{r} \pdv{r} \qty(r \pdv{\phi}{r}) + \frac{1}{r^2} \pdv[2]{\phi}{\theta}
+\]
+Consider a separable form of the answer, given by
+\[
+	\phi(r,\theta) = R(r) \Theta(\theta)
+\]
+We then have
+\[
+	\Theta'' + \mu \Theta = 0;\quad r(rR')' - \mu R = 0
+\]
+The polar equation can be solved easily by considering periodic boundary conditions.
+This gives \( \mu = m^2 \) and the eigenmodes
+\[
+	\Theta_m(\theta) = \cos m \theta, \sin m \theta
+\]
+The radial equation is \textit{not} Bessel's equation, since there is no second separation constant.
+We simply have
+\[
+	r(rR')' - m^2 R = 0
+\]
+We will try a power law solution, \( r = \alpha r^\beta \).
+We find
+\[
+	\beta^2 - m^2 = 0 \implies \beta = \pm m
+\]
+So the eigenfunctions are
+\[
+	R_m(r) = r^m, r^{-m}
+\]
+which is one regular solution at the origin and one singular solution.
+In the case \( m = 0 \), we have
+\[
+	(rR') = 0 \implies rR' = \text{constant} \implies R = \log r
+\]
+So
+\[
+	R_0(r) = \text{constant}, \log r
+\]
+The general solution is therefore
+\[
+	\phi(r,\theta) = \frac{a_0}{2} + c_0 \log r + \sum_{m=1}^\infty \qty(a_m \cos m\theta + b_m \sin m\theta) r^m + \sum_{m=1}^\infty \qty(c_m \cos m\theta + d_m \sin m\theta) r^{-m}
+\]
+\begin{example}
+	Consider a soap film on a unit disc.
+	We wish to solve Laplace's equation with a vertically distorted circular wire of radius \( r = 1 \) with boundary conditions \( \phi(1, \theta) = f(\theta) \).
+	The \( z \) displacement of the wire produces the \( f(\theta) \) term.
+	We wish to find \( \phi(r,\theta) \) for \( r < 1 \), assuming regularity at \( r = 0 \).
+	Then, \( c_m = d_m = 0 \) and the solution is of the form
+	\[
+		\phi(r,\theta) = \frac{a_0}{2} + \sum_{m=1}^\infty \qty(a_m \cos m\theta + b_m \sin m\theta) r^m
+	\]
+	At \( r = 1 \),
+	\[
+		\phi(1,\theta) = f(\theta) = \frac{a_0}{2} + \sum_{m=1}^\infty \qty(a_m \cos m\theta + b_m \sin m\theta)
+	\]
+	which is exactly the Fourier series.
+	Thus,
+	\[
+		a_m = \frac{1}{\pi} \int_0^{2\pi} f(\theta) \cos m \theta \dd{\theta};\quad b_m = \frac{1}{\pi} \int_0^{2\pi} f(\theta) \sin m \theta \dd{\theta}
+	\]
+	We can see from the equation that high harmonics are confined to have effects only near \( r = 1 \).
+\end{example}
+
+\subsection{Laplace's equation in cylindrical polar coordinates}
+In cylindrical coordinates,
+\[
+	\frac{1}{r} \pdv{r} \qty(r \pdv{\phi}{r}) + \frac{1}{4^2} \pdv[2]{\phi}{\theta} + \pdv[2]{\phi}{z} = 0
+\]
+With \( \phi = R(r) \Theta(\theta) Z(z) \), we find
+\[
+	\Theta'' = -\mu \Theta;\quad Z'' = \lambda Z;\quad r(rR')' + (\lambda r^2 - \mu) R = 0
+\]
+The polar equation can be easily solved by
+\[
+	\mu_m = m^2;\quad \Theta_m(\theta) = \cos m\theta, \sin m\theta
+\]
+The radial equation is Bessel's equation, giving solutions
+\[
+	R = J_m(kr), Y_m(kr)
+\]
+Setting boundary conditions in the usual way, defining \( R=0 \) at \( r = a \) means that
+\[
+	J_m(ka) = 0 \implies k = \frac{j_{mn}}{a}
+\]
+The radial solution is
+\[
+	R_{mn}(r) = J_m\qty(\frac{j_{mn}}{a}r)
+\]
+We have eliminated the \( Y_n \) term since we require \( r = 0 \) to give a finite \( \phi \).
+Finally, the \( z \) equation gives
+\[
+	Z'' = k^2 Z \implies Z = e^{-kz}, e^{kz}
+\]
+We typically eliminate the \( e^{kz} \) mode due to boundary conditions, such as \( Z \to 0 \) as \( z \to \infty \).
+The general solution is therefore
+\[
+	\phi(r,\theta,z) = \sum_{m=0}^\infty \sum_{n = 1}^\infty \qty(a_{mn} \cos m\theta + b_{mn} \sin m\theta) J_m\qty(\frac{j_{mn}}{a} r) e^{-frac{j_{mn}r}{a}}
+\]
+
+\subsection{Laplace's equation in spherical polar coordinates}
+In spherical polar coordinates,
+\[
+	\frac{1}{r^2} \pdv{r} \qty(r^2 \pdv{\Phi}{r}) + \frac{1}{r^2 \sin\theta}\pdv{\theta} \qty(\sin\theta \pdv{\Phi}{\theta}) + \frac{1}{r^2 \sin^2 \theta} \pdv[2]{\Phi}{\phi} = 0
+\]
+We will consider the \textit{axisymmetric case}; supposing that there is no \( \phi \) dependence.
+We seek a separable solution of the form
+\[
+	\Phi(r,\theta) = R(r) \Theta(\theta)
+\]
+which gives
+\[
+	(\sin\theta \Theta')' + \lambda \sin\theta \Theta = 0;\quad (r^2R')' - \lambda R = 0
+\]
+Consider the substitution \( x = \cos\theta, \dv{x}{\theta} = -\sin\theta \) in the polar equation.
+This gives \( \dv{\Theta}{\theta} = -\sin\theta \dv{\Theta}{x} \) and hence
+\[
+	-\sin\theta \dv{x}\qty[-\sin^2\theta \dv{\Theta}{x}] + \lambda \sin\theta \Theta = 0 \implies \dv{x}\qty[(1-x^2)\dv{\Theta}{x}] + \lambda \Theta = 0
+\]
+This gives Legendre's equation, so it has solutions of eigenvalues \( \lambda_\ell = \ell (\ell + 1) \) and eigenfunctions
+\[
+	\Theta_\ell(\theta) = P_\ell(x) = P_\ell(\cos\theta)
+\]
+The radial equation then gives
+\[
+	(r^2 R')' - \ell (\ell + 1) R = 0
+\]
+We will seek power law solutions: \( R = \alpha r^\beta \).
+This gives
+\[
+	\beta(\beta + 1) - \ell(\ell + 1) = 0 \implies \beta = \ell, \beta = -\ell - 1
+\]
+Thus the radial eigenmodes are
+\[
+	R_\ell = r^{\ell}, r^{-\ell - 1}
+\]
+Therefore the general axisymmetric solution for spherical polar coordinates is
+\[
+	\Phi(r,\theta) = \sum_{\ell = 0}^\infty (a_\ell r^{\ell} + b_\ell r^{-\ell - 1}) P_\ell(\cos\theta)
+\]
+The \( a_\ell, b_\ell \) are determined by the boundary conditions.
+Orthogonality conditions for the \( P_\ell \) can be used to determine coefficients.
+Consider a solution to Laplace's equation on the unit sphere with axisymmetric boundary conditions given by
+\[
+	\Phi(1,\theta) = f(\theta)
+\]
+Given that we wish to find the interior solution, \( b_n = 0 \) by regularity.
+Then,
+\[
+	f(\theta) = \sum_{\ell=0}^\infty a_\ell P_\ell(\cos\theta)
+\]
+By defining \( f(\theta) = F(\cos\theta) \),
+\[
+	F(x) = \sum_{\ell=0}^\infty a_\ell P_\ell(x)
+\]
+We can then find the coefficients in the usual way, giving
+\[
+	a_\ell = \frac{2\ell + 1}{2} \int_{-1}^1 F(x) P_{\ell}(x) \dd{x}
+\]
+
+\subsection{Generating function for Legendre polynomials}
+Consider a charge at \( r_0 = (x,y,z) = (0,0,1) \).
+Then, the potential at a point \( P \) becomes
+\begin{align*}
+	\Phi(r) & = \frac{1}{\abs{r - r_0}} = \frac{1}{(x^2 + y^2 + (x-1)^2)^{1/2}}                                         \\
+	        & = \frac{1}{(r^2 (\sin^2 \phi + \cos^2 \phi) \sin^2 \theta + r^2 \cos^2 \theta - 2r \cos\theta + 1)^{1/2}} \\
+	        & = \frac{1}{(r^2 \sin^2 \theta + r^2 \cos^2 \theta - 2r \cos\theta + 1)^{1/2}}                             \\
+	        & = \frac{1}{(r^2 - 2r \cos\theta + 1)^{1/2}}                                                               \\
+	        & = \frac{1}{(r^2 - 2r \overline x + 1)^{1/2}}
+\end{align*}
+where \( \overline x \equiv \cos \theta \).
+This function \( \Phi \) is a solution to Laplace's equation where \( r \neq r_0 \).
+Note that we can represent any axisymmetric solution as a sum of Legendre polynomials.
+Now,
+\[
+	\frac{1}{\sqrt{r^2 - 2rx + 1}} = \sum_{\ell = 0}^\infty a_\ell P_\ell(x) r^\ell
+\]
+With the normalisation condition for the Legendre polynomials \( P_\ell(1) = 1 \), we find
+\[
+	\frac{1}{1-r} = \sum_{\ell=0}^\infty a_\ell r^\ell
+\]
+Using the geometric series expansion, we arrive at \( a_\ell = 1 \).
+This gives
+\[
+	\frac{1}{\sqrt{r^2 - 2rx + 1}} = \sum_{\ell = 0}^\infty P_\ell(x) r^\ell
+\]
+which is the generating function for the Legendre polynomials.

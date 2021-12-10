@@ -1,0 +1,209 @@
+For this section, let \( F = \mathbb C \).
+
+\subsection{Definition}
+\begin{definition}
+	Let \( A \in M_n(\mathbb C) \).
+	We say that \( A \) is in \textit{Jordan normal form} if it is a block diagonal matrix, where each block is of the form
+	\[
+		J_{n_i}(\lambda) =
+		\begin{pmatrix}
+			\lambda & 1       & 0       & \cdots & 0       \\
+			0       & \lambda & 1       & \cdots & 0       \\
+			0       & 0       & \lambda & \cdots & 0       \\
+			\vdots  & \vdots  & \vdots  & \ddots & \vdots  \\
+			0       & 0       & 0       & \cdots & \lambda
+		\end{pmatrix}
+	\]
+	We say that \( J_{n_i}(\lambda) \in M_{n_i}(\mathbb C) \) are \textit{Jordan blocks}.
+	The \( \lambda_i \in \mathbb C \) need not be distinct.
+\end{definition}
+\begin{remark}
+	In three dimensions,
+	\[
+		A =
+		\begin{pmatrix}
+			\lambda & 0       & 0       \\
+			0       & \lambda & 0       \\
+			0       & 0       & \lambda
+		\end{pmatrix}
+	\]
+	is in Jordan normal form, with three one-dimensional Jordan blocks with the same \( \lambda \) value.
+\end{remark}
+
+\subsection{Similarity to Jordan normal form}
+\begin{theorem}
+	Any complex matrix \( A \in M_n(\mathbb C) \) is similar to a matrix in Jordan normal form, which is unique up to reordering the Jordan blocks.
+\end{theorem}
+\noindent The proof is non-examinable.
+This follows from IB Groups, Rings and Modules.
+\begin{example}
+	Let \( \dim V = 2 \).
+	Then any matrix is similar to one of
+	\[
+		\begin{pmatrix}
+			\lambda_1 & 0         \\
+			0         & \lambda_2
+		\end{pmatrix};\quad
+		\begin{pmatrix}
+			\lambda & 0       \\
+			0       & \lambda
+		\end{pmatrix};\quad
+		\begin{pmatrix}
+			\lambda & 1       \\
+			0       & \lambda
+		\end{pmatrix}
+	\]
+	The minimal polynomials are
+	\[
+		(t-\lambda_1)(t-\lambda_2);\quad (t-\lambda);\quad (t-\lambda)^2
+	\]
+\end{example}
+
+\subsection{Direct sum of eigenspaces}
+\begin{theorem}
+	Let \( V \) be a \( \mathbb C \)-vector space.
+	Let \( \dim V = n < \infty \).
+	Then, the minimal polynomial \( m_\alpha(t) \) of an endomorphism \( \alpha \in L(V) \) satisfies
+	\[
+		V = \bigoplus_{j=1}^k V_j
+	\]
+	where \( V_j = \ker[(\alpha - \lambda_j I)^{c_j}] \), and where
+	\[
+		m_\alpha(t) = \prod_{i=1}^k (t - \lambda_i)^{c_i}
+	\]
+	\( V_j \) is called a \textit{generalised eigenspace} associated with \( \lambda_j \).
+\end{theorem}
+\begin{remark}
+	Note that \( V_j \) is stable by \( \alpha \), that is, \( \alpha(V_j) = V_j \).
+	Note further that \( \eval{(\alpha - \lambda_j I)}_{V_j} = \mu_j \) gives that \( \mu_j \) is a nilpotent endomorphism; \( \mu_j^{c_j} = 0 \).
+	So the Jordan normal form theorem is a statement about nilpotent matrices.
+
+	Note, when \( \alpha \) is diagonalisable, \( c_j = 1 \) and hence we recover \( V_j = \ker(\alpha - \lambda_j I) \) and \( V = \bigoplus V_j \).
+\end{remark}
+\begin{proof}
+	The key to this proof is that the projectors onto \( V_j \) are `explicit'.
+	First, recall
+	\[
+		m_\alpha(t) = \prod_{j=1}^k (t-\lambda_j)^{c_j}
+	\]
+	Then, let
+	\[
+		p_j(t) = \prod_{i \neq j} (t - \lambda_i)^{c_i}
+	\]
+	Then \( p_j \) have by definition no common factor.
+	So by Euclid's algorithm, we can find polynomials \( q_i \) such that
+	\[
+		\sum_{i=1}^k q_i p_i = 1
+	\]
+	We define the projector \( \pi_j = q_j p_j(\alpha) \), which is an endomorphism.
+	By construction, for all \( v \in V \), we have
+	\[
+		\sum_{j=1}^k \pi_j(v) = \sum_{j=1}^k a_j p_j(\alpha(v)) = I(v) = v
+	\]
+	Hence,
+	\[
+		v = \sum_{i=1}^k \pi_i(v)
+	\]
+	Observe further that \( \pi_j(v) \in V_j \).
+	Indeed,
+	\[
+		(\alpha - \lambda_j I)^{c_j} \pi_j(v) = (\alpha - \lambda_j I)^{c_j} q_j p_j(\alpha(v)) = q_j m_\alpha (\alpha(v)) = 0
+	\]
+	Hence \( \pi_j(v) \in V_j \).
+	In particular, \( V = \sum_{j=1}^k V_j \).
+	We need to show that this sum is direct.
+	Note, for \( i \neq j \), \( \pi_i \pi_j = 0 \) from the definition of \( \pi \).
+	Hence, observe that
+	\[
+		\pi_i = \pi_i \qty(\sum_{j=1}^k \pi_j) \implies \pi_i = \pi_i \pi_i
+	\]
+	Thus, \( \pi \) is a projector.
+	In particular, this implies that \( \eval{\pi_i}_{V_j} \) is the identity if \( i = j \) and zero if \( i \neq j \).
+	This immediately implies that th sum is direct;
+	\[
+		V = \bigoplus_{j=1}^k V_j
+	\]
+	Indeed, suppose
+	\[
+		\sum_{j=1}^k \alpha_j v_j = 0;\quad v_j \in V_j;\quad \alpha_1 = 0
+	\]
+	Then
+	\[
+		v_1 = -\frac{1}{\alpha_1} \sum_{j=2}^k \alpha_j v_j
+	\]
+	Applying \( \pi_1 \),
+	\[
+		v_1 = -\frac{1}{\alpha_1} \sum_{j=2}^k \alpha_j \pi_1(v_j) = 0
+	\]
+	Iterating, we find \( v = 0 \).
+\end{proof}
+\begin{remark}
+	We can compute the quantities \( a_\lambda, g_\lambda, c_\lambda \) on the Jordan normal form of a matrix.
+	Indeed, let \( m \geq 2 \) and consider a Jordan block \( J_m(\lambda) \).
+	Then \( J_m(\lambda) - \lambda I \) is the zero matrix with ones on the off-diagonal.
+	\( (J_m(\lambda) - \lambda I)^k \) pushes the ones onto the next line iteratively, so
+	\[
+		(J_m(\lambda) - \lambda I)^k = \begin{pmatrix}
+			0 & I_{m-k} \\
+			0 & 0
+		\end{pmatrix}
+	\]
+	Hence \( J \) is nilpotent of order exactly \( m \).
+	In Jordan normal form,
+	\begin{enumerate}[(i)]
+		\item \( a_\lambda \) is the sum of sizes of blocks with eigenvalue \( \lambda \).
+		      This is the amount of times \( \lambda \) is seen on the diagonal.
+		\item \( g_\lambda \) is the amount of blocks with eigenvalue \( \lambda \), since each block represents one eigenvector.
+		\item \( c_\lambda \) is the size of the largest block with eigenvalue \( \lambda \).
+	\end{enumerate}
+\end{remark}
+\begin{example}
+	Let
+	\[
+		A = \begin{pmatrix}
+			0 & -1 \\
+			1 & 2
+		\end{pmatrix}
+	\]
+	We wish to convert this matrix into Jordan normal form; so we seek a basis for which this matrix becomes Jordan normal form.
+	\[
+		\chi_A(t) = (t-1)^2
+	\]
+	Hence there exists only one eigenvalue, \( \lambda = 1 \).
+	\( A - I \neq 0 \) hence \( m_\alpha(t) = (t-1)^2 \).
+	Thus, the Jordan normal form of \( A \) is of the form
+	\[
+		B = \begin{pmatrix}
+			1 & 1 \\
+			0 & 1
+		\end{pmatrix}
+	\]
+	Now,
+	\[
+		\ker(A - I) = \genset{v_1};\quad v_1 = \begin{pmatrix}
+			1 \\ -1
+		\end{pmatrix}
+	\]
+	Further, we seek a \( v_2 \) such that
+	\[
+		(A - I)v_2 = v_1 \implies v_2 = \begin{pmatrix}
+			-1 \\ 0
+		\end{pmatrix}
+	\]
+	Such a \( v_2 \) is not unique.
+	Now,
+	\[
+		A = \begin{pmatrix}
+			1  & -1 \\
+			-1 & 0
+		\end{pmatrix}
+		\begin{pmatrix}
+			1 & 1 \\
+			0 & 1
+		\end{pmatrix}
+		\begin{pmatrix}
+			1  & -1 \\
+			-1 & 0
+		\end{pmatrix}
+	\]
+\end{example}

@@ -76,5 +76,5 @@ def cleanup(root: str):
             break
     os.remove(f"{root}/collated.tex")
 
-for entry in ["ib/opt", "ib/vp"]:
+for entry in ["ib/markov", "ib/antop", "ib/linalg", "ib/methods", "ib/quantum"]:
     cleanup(entry)

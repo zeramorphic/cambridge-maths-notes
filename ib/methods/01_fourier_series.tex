@@ -1,0 +1,382 @@
+\subsection{Periodic functions}
+A function \( f(x) \) is \textit{periodic} if \( f(x+T) = f(x) \) for all \( x \), where \( T \) is the period.
+For example, simple harmonic motion is periodic.
+In space, we consider the wavelength \( \lambda = \frac{2\pi}{k} \), and the (angular) wave number \( k \) is defined conversely by \( k = \frac{2\pi}{\lambda} \).
+
+\subsection{Properties of trigonometric functions}
+Consider the set of functions
+\[
+	g_n(x) = \cos \frac{n\pi x}{L};\quad h_n(x) = \sin \frac{n\pi x}{L}
+\]
+where \( n \in \mathbb N \).
+These functions are periodic with period \( T = 2L \).
+Recall that
+\begin{align*}
+	\cos A \cos B & = \frac{1}{2}\qty(\cos(A-B) + \cos(A+B)); \\
+	\sin A \sin B & = \frac{1}{2}\qty(\cos(A-B) - \cos(A+B)); \\
+	\sin A \cos B & = \frac{1}{2}\qty(\sin(A-B) + \sin(A+B))
+\end{align*}
+
+\subsection{Periodic function space}
+We define the inner product
+\[
+	\inner{f, g} = \int_0^{2L} f(x) g(x) \dd{x}
+\]
+The functions \( g_n \) and \( h_n \) are mutually orthogonal on the interval \( [0, 2L) \) with respect to the inner product above.
+\begin{align*}
+	\inner{h_n, h_m} & = \int_0^{2L} \sin \frac{n\pi x}{L} \sin \frac{m\pi x}{L} \dd{x}                                                           \\
+	                 & = \frac{1}{2} \int_0^{2L} \qty(\cos\frac{(n-m)\pi x}{L} - \cos \frac{(n+m)\pi x}{L}) \dd{x}                                \\
+	                 & = \frac{1}{2} \frac{L}{\pi} \qty[ \frac{1}{n-m}\sin\frac{(n-m)\pi x}{L} - \frac{1}{n+m} \sin \frac{(n+m)\pi x}{L} ]_0^{2L} \\
+	                 & = 0 \text{ when } n \neq m
+\end{align*}
+If \( n = m \), we have
+\[
+	\inner{h_n, h_n} = \int_0^{2L} \sin^2 \frac{n\pi x}{L} \dd{x} = \frac{1}{2} \int_0^{2L} \qty(1-\cos \frac{2\pi n x}{L}) \dd{x} = L
+\]
+Thus,
+\[
+	\inner{h_n, h_m} = \begin{cases}
+		L \delta_{nm} & n,m \neq 0 \\
+		0             & nm = 0
+	\end{cases}
+\]
+Similarly, we can show
+\[
+	\inner{g_n, g_m} = \begin{cases}
+		L \delta_{nm} & n,m \neq 0                                 \\
+		0             & \text{exactly one of } m,n \text{ is zero} \\
+		2L            & n,m = 0
+	\end{cases}
+\]
+and
+\[
+	\inner{h_n, g_m} = 0
+\]
+Now, we assert that \( \qty{g_n, h_n} \) form a complete orthogonal set; they span the space of all `well-behaved' periodic functions of period \( 2L \).
+Further, the set \( \qty{g_n, h_n} \) is linearly independent.
+
+\subsection{Fourier series}
+Since \( g_n, h_n \) span the space of `well-behaved' periodic functions of period \( 2L \), we can express any such function as a sum of such eigenfunctions.
+\begin{definition}
+	The Fourier series of \( f \) is
+	\[
+		f(x) = \frac{1}{2}a_0 + \sum_{n=1}^\infty a_n \cos \frac{n \pi x}{L} + \sum_{n=1}^\infty b_n \sin \frac{n \pi x}{L}
+	\]
+	where \( a_n, b_n \) are constants such that the right hand side is convergent for all \( x \) where \( f \) is continuous.
+	At a discontinuity \( x \), the Fourier series approaches the midpoint of the supremum and infimum of the function in a close neighbourhood of \( x \).
+	That is, we replace the left hand side with
+	\[
+		\frac{1}{2}f(x_+) + \frac{1}{2}f(x_-)
+	\]
+\end{definition}
+\noindent Let \( m > 0 \), and consider taking the inner product \( \inner{h_m, f} \) and substituting the Fourier series of \( f \).
+\begin{align*}
+	\inner{h_m, f} & = \int_0^{2L} \sin\frac{m \pi x}{L} f(x) \dd{x} \\
+	               & = \inner{h_m, b_m h_m}                          \\
+	               & = L b_m
+\end{align*}
+Thus,
+\[
+	b_n = \frac{1}{L} \inner{h_n, f} = \frac{1}{L} \int_0^{2L} \sin\frac{n \pi x}{L} f(x) \dd{x}
+\]
+and analogously
+\[
+	a_n = \frac{1}{L} \inner{g_n, f} = \frac{1}{L} \int_0^{2L} \cos\frac{n \pi x}{L} f(x) \dd{x}
+\]
+Note that \( \frac{1}{2} a_0 \) is the average of the function.
+Note further that we may integrate over any range as long as the total length is one period, \( 2L \).
+Notably, we may integrate over the interval \( [-L, L] \).
+
+\begin{example}
+	Consider the \textit{sawtooth wave}; defined by \( f(x) = x \) for \( x \in [-L, L) \) and periodic elsewhere.
+	Here,
+	\[
+		a_n = \frac{1}{L} \int_{-L}^L x \cos \frac{n\pi x}{L} \dd{x} = 0
+	\]
+	and
+	\begin{align*}
+		b_n & = \frac{2}{L} \int_0^L x \sin \frac{n\pi x}{L} \dd{x}                                                       \\
+		    & = \frac{-2}{n\pi} \qty[x \cos \frac{n\pi x}{L}]_0^L + \frac{2}{n\pi} \int_0^L \cos \frac{n \pi x}{L} \dd{x} \\
+		    & = \frac{-2L}{n\pi} \cos n \pi + \frac{2L}{(n\pi)^2} \sin n \pi                                              \\
+		    & = \frac{2L}{n\pi} (-1)^{n+1}
+	\end{align*}
+\end{example}
+
+\subsection{Dirichlet conditions}
+The Dirichlet conditions are sufficiency conditions for a well-behaved function, that will imply the existence of a unique Fourier series.
+\begin{theorem}
+	If \( f(x) \) is a bounded periodic function of period \( 2L \) with a finite number of minima, maxima and discontinuities in \( [0, 2L) \), then the Fourier series converges to \( f \) at all points at which \( f \) is continuous, and at discontinuities the series converges to the midpoint.
+\end{theorem}
+\begin{remark}
+	\begin{enumerate}[(i)]
+		\item These are some relatively weak conditions for convergence, compared to Taylor series.
+		      However, this definition still eliminates pathological functions such as \( \frac{1}{x} \), \( \sin \frac{1}{x} \), \( \mathbbm 1 (\mathbb Q) \) and so on.
+		\item The converse is not true; for example, \( \sin \frac{1}{x} \) does in fact have a Fourier series.
+		\item The proof is difficult and will not be given.
+	\end{enumerate}
+\end{remark}
+
+\noindent The rate of convergence of the Fourier series depends on the smoothness of the function.
+\begin{theorem}
+	If \( f(x) \) has continuous derivatives up to a \( p \)th derivative which is discontinuous, then the Fourier series converges with order \( O(n^{-(p+1)}) \) as \( n \to \infty \).
+\end{theorem}
+\begin{example}[\( p = 0 \)]
+	Consider the square wave
+	\[
+		f(x) = \begin{cases}
+			1  & 0 \leq x < 1  \\
+			-1 & -1 \leq x < 0
+		\end{cases}
+	\]
+	Then the Fourier series is
+	\[
+		f(x) = 4 \sum_{m=1}^\infty \frac{\sin (2m-1)\pi x}{(2m-1)\pi}
+	\]
+\end{example}
+\begin{example}[\( p = 1 \)]
+	Consider the general `seesaw' wave, defined by
+	\[
+		f(x) = \begin{cases}
+			x(1 - \xi) & 0 \leq x < \xi \\
+			\xi(1 - x) & \xi \leq x < 1
+		\end{cases}
+	\]
+	and defined as an odd function for \( -1 \leq x < 0 \).
+	The Fourier series is
+	\[
+		f(x) = 2 \sum_{m=1}^\infty \frac{\sin n\pi \xi \sin n\pi x}{(n \pi)^2}
+	\]
+	For instance, if \( \xi = \frac{1}{2} \), we can show that
+	\[
+		f(x) = 2 \sum_{m=1}^\infty (-1)^{m+1} \frac{\sin (2m-1)\pi x}{((2m-1)\pi)^2}
+	\]
+\end{example}
+\begin{example}[\( p = 2 \)]
+	Let
+	\[
+		f(x) = \frac{1}{2} x(1-x)
+	\]
+	for \( 0 \leq x < 1 \), and defined as an odd function for \( -1 \leq x < 0 \).
+	We can show that
+	\[
+		f(x) = 4\sum_{n=1}^\infty \frac{\sin(2m - 1)\pi x}{((2m-1)\pi)^3}
+	\]
+\end{example}
+\begin{example}[\( p = 3 \)]
+	Consider
+	\[
+		f(x) = (1-x^2)^2
+	\]
+	with Fourier series
+	\[
+		a_n = O\qty(\frac{1}{n^4})
+	\]
+\end{example}
+
+\subsection{Integration}
+It is always valid to take the integral of a Fourier series term by term.
+Defining \( F(x) = \int_{-L}^x f(x) \dd{x} \), we can show that \( F \) satisfies the Dirichlet conditions if \( f \) does.
+For instance, a jump discontinuity becomes continuous in the integral.
+
+\subsection{Differentiation}
+Differentiating term by term is not always valid.
+For example, consider the square wave above:
+\[
+	f(x) \stackrel{?}{=} 4 \sum_{m=1}^\infty \cos (2m-1)\pi x
+\]
+which is an unbounded series.
+\begin{theorem}
+	If \( f(x) \) is continuous and satisfies the Dirichlet conditions, and \( f'(x) \) also satisfies the Dirichlet conditions, then \( f'(x) \) can be found term by term by differentiating the Fourier series of \( f(x) \).
+\end{theorem}
+\begin{example}
+	We can differentiate the seesaw function with \( \xi = \frac{1}{2} \), even though the derivative is not continuous.
+	The result is an offset square wave, or by mapping \( x \mapsto x + \frac{1}{2} \) we recover the original square wave.
+\end{example}
+
+\subsection{Parseval's theorem}
+Parseval's theorem relates the integral of the square of a function with the squares of the function's Fourier series coefficients.
+\begin{theorem}
+	Suppose \( f \) has Fourier coefficients \( a_i, b_i \).
+	Then
+	\begin{align*}
+		\int_0^{2L} [f(x)]^2 \dd{x} & = \int_0^2L \qty[ \frac{1}{2}a_0 + \sum_{n=1}^\infty a_k \cos \frac{k \pi x}{L} + \sum_{n=1}^\infty b_n \sin \frac{n\pi x}{L} ]^2 \dd{x}           \\
+		\intertext{We can remove cross terms, since the basis functions are orthogonal.}
+		                            & = \int_0^{2L} \qty[ \frac{1}{4} a_0^2 + \sum_{n=1}^\infty a_n^2 \cos^2 \frac{n\pi x}{L} + \sum_{n=1}^\infty b_n^2 \sin^2 \frac{n\pi x}{L} ] \dd{x} \\
+		                            & = L \qty[ \frac{1}{2} a_0^2 + \sum_{n=1}^\infty (a_n^2 + b_n^2) ]
+	\end{align*}
+\end{theorem}
+\noindent This is also called the completeness relation: the left hand side is greater than or equal to the right hand side if any of the basis functions are missing.
+\begin{example}
+	Let us apply Parseval's theorem to the sawtooth wave.
+	\[
+		\int_{-L}^L [f(x)]^2 \dd{x} = \int_{-L}^L x^2 \dd{x} = \frac{2}{3}L^3
+	\]
+	The right hand side gives
+	\[
+		L \sum_{n=1}^\infty \frac{4L^2}{n^2 \pi^2} = \frac{4 L^3}{\pi^2} \sum_{n=1}^\infty \frac{1}{n^2}
+	\]
+	Parseval's theorem then implies
+	\[
+		\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}
+	\]
+\end{example}
+\begin{remark}
+	Parseval's theorem for functions is equivalent to Pythagoras' theorem for vectors in \( \mathbb R^n \): we can find the norm of a linear combination by computing the sum of the norms of the components.
+\end{remark}
+
+\subsection{Half-range series}
+Consider \( f(x) \) defined only on \( 0 \leq x < L \).
+We can extend the range of \( f \) to be the full range \( -1 \leq x < L \) in two simple ways:
+\begin{enumerate}[(i)]
+	\item require \( f \) to be odd, so \( f(-x) = -f(x) \).
+	      Hence, \( a_n = 0 \) and
+	      \[
+		      b_n = \frac{2}{L} \int_0^L f(x) \sin \frac{n \pi x}{L} \dd{x}
+	      \]
+	      So
+	      \[
+		      f(x) = \sum_{n=1}^\infty b_n \sin \frac{n\pi x}{L}
+	      \]
+	      which is called a Fourier sine series.
+	\item require \( f \) to be even, so \( f(-x) = f(x) \).
+	      In this case, \( b_n = 0 \) and
+	      \[
+		      a_n = \frac{2}{L} \int_0^L f(x) \cos \frac{n \pi x}{L} \dd{x}
+	      \]
+	      and
+	      \[
+		      So f(x) = \frac{1}{2}a_0 + \sum_{n=1}^\infty a_n \cos \frac{n\pi x}{L}
+	      \]
+	      which is a Fourier cosine series.
+\end{enumerate}
+
+\subsection{Complex representation of Fourier series}
+Recall that
+\begin{align*}
+	\cos \frac{n \pi x}{L} & = \frac{1}{2}\qty(e^{i n \pi x / L} + e^{-i n \pi x / L}); \\
+	\sin \frac{n \pi x}{L} & = \frac{1}{2i}\qty(e^{i n \pi x / L} - e^{-i n \pi x / L})
+\end{align*}
+Therefore, a Fourier series can be written as
+\begin{align*}
+	f(x) & = \frac{1}{2} a_0 + \frac{1}{2} \sum_{n=1}^\infty \qty[ (a_n - i b_n) e^{i n \pi x / L} + (a_n + i b_n) e^{-i n \pi x / L} ] \\
+	     & = \sum_{m=-\infty}^\infty c_m e^{i m \pi x / L}
+\end{align*}
+where for \( m > 0 \) we have \( m=n, c_m = \frac{1}{2}(a_n - ib_n) \), and for \( m < 0 \) we have \( n = -m, c_m = \frac{1}{2}(a_{-m} + ib_{-m}) \), and where \( m = 0 \) we have \( c_0 = \frac{1}{2} a_0 \).
+In particular,
+\[
+	c_m = \frac{1}{2L} \int_{-L}^L f(x) e^{-i m \pi x / L} \dd{x}
+\]
+where the negative sign comes from the complex conjugate.
+This is because, for complex-valued \( f, g \), we have
+\[
+	\inner{f,g} = \int_{-L}^L f^\star g \dd{x}
+\]
+The orthogonality conditions are
+\[
+	\int_{-L}^L e^{-i m \pi x / L} e^{i n \pi x / L} \dd{x} = 2L \delta_{mn}
+\]
+Parseval's theorem now states
+\[
+	\int_{-L}^L f^\star(x) f(x) \dd{x} = \int_{-L}^L \abs{f(x)}^2 \dd{x} = 2L \sum_{m=-\infty}^\infty \abs{c_m}^2
+\]
+
+\subsection{Self-adjoint matrices}
+\textit{Much of this section is a recap of IA Vectors and Matrices.}
+Suppose that \( u, v \in \mathbb C^N \) with inner product
+\[
+	\inner{u,v} = u^\dagger v
+\]
+The \( N \times N \) matrix \( A \) is \textit{self-adjoint}, or \textit{Hermitian}, if
+\[
+	\forall u,v \in \mathbb C^N, \inner{Au, v} = \inner{u, Av} \iff A^\dagger = A
+\]
+The eigenvalues \( \lambda_n \) and eigenvectors \( v_n \) satisfy
+\[
+	A v_n = \lambda_n v_n
+\]
+They have the following properties:
+\begin{enumerate}[(i)]
+	\item \( \lambda_n^\star = \lambda_n \);
+	\item \( \lambda_n \neq \lambda_m \implies \inner{ v_n, v_m } = 0 \);
+	\item we can create an orthonormal basis from the eigenvectors.
+\end{enumerate}
+Given \( b \in \mathbb C^n \), we can solve for \( x \) in the general matrix equation \( Ax = b \) by expressing \( b \) in terms of the eigenvector basis:
+\[
+	b = \sum_{n=1}^N b_n v_n
+\]
+We seek a solution of the form
+\[
+	x = \sum_{n=1}^N c_n v_n
+\]
+At this point, the \( b_n \) are known and the \( c_n \) are our target.
+Substituting into the matrix equation, orthogonality of basis vectors gives
+\begin{align*}
+	A \sum_{n=1}^N c_n v_n         & = \sum_{n=1}^N b_n v_n  \\
+	\sum_{n=1}^N c_n \lambda_n v_n & = \sum_{n=1}^N b_n v_n  \\
+	c_n \lambda_n                  & = b_n                   \\
+	c_n                            & = \frac{b_n}{\lambda_n} \\
+\end{align*}
+Therefore,
+\[
+	x = \sum_{n=1}^N \frac{b_n}{\lambda_n} v_n
+\]
+provided \( \lambda_n \neq 0 \), or equivalently, the matrix is invertible.
+
+\subsection{Solving inhomogeneous ODEs with Fourier series}
+We wish to find \( y(x) \) given a source term \( f(x) \) for the general differential equation
+\[
+	\mathcal L y \equiv -\dv[2]{y}{x} = f(x)
+\]
+with boundary conditions \( y(0) = y(L) = 0 \).
+The related eigenvalue problem is
+\[
+	\mathcal L y_n = \lambda_n y_n,\quad y_n(0) = y_n(L) = 0
+\]
+which has solutions
+\[
+	y_n(x) = \sin \frac{n \pi x}{L}, \lambda_n = \qty(\frac{n\pi}{L})^2
+\]
+We can show that this is a self-adjoint linear operator with orthogonal eigenfunctions.
+We seek solutions of the form of a half-range sine series.
+Consider
+\[
+	y(x) = \sum_{n=1}^\infty c_n \sin\frac{n \pi x}{L}
+\]
+The right hand side is
+\[
+	f(x) = \sum_{n=1}^\infty b_n \sin \frac{n \pi x}{L}
+\]
+We can find \( b_n \) by
+\[
+	b_n = \frac{2}{L} \int_0^L f(x) \sin \frac{n \pi x}{L} \dd{x}
+\]
+Substituting, we have
+\[
+	\mathcal L y = -\dv[2]{x} \qty(\sum_n c_n \sin \frac{n \pi x}{L}) = \sum_n c_n \qty(\frac{n\pi}{L})^2 \sin \frac{n \pi x}{L} = \sum_n b_n \sin \frac{n \pi x}{L}
+\]
+By orthogonality,
+\[
+	c_n \qty(\frac{n \pi}{L})^2 = b_n \implies c_n = \qty(\frac{L}{n \pi})^2 b_n
+\]
+Therefore the solution is
+\[
+	y(x) = \sum_n \qty(\frac{L}{n \pi})^2 b_n \sin \frac{n \pi x}{L} = \sum_n \frac{b_n}{\lambda_n} y_n
+\]
+which is equivalent to the solution we found for self-adjoint matrices for which the eigenvalues and eigenvectors are known.
+\begin{example}
+	Consider an odd square wave with \( L = 1 \), so \( f(x) = 1 \) from \( 0 \leq x < 1 \).
+	\[
+		f(x) = 4 \sum_m \frac{\sin(2m-1)\pi x}{(2m-1)\pi}
+	\]
+	Then the solution to \( \mathcal L y = f \) should be (with odd \( n = 2m-1 \))
+	\[
+		y(x) = \sum_n \frac{b_n}{\lambda_n} y_n = 4 \sum_n \frac{\sin (2m-1) \pi x}{((2m - 1) \pi)^3}
+	\]
+	This is exactly the Fourier series for
+	\[
+		y(x) = \frac{1}{2}x(1-x)
+	\]
+	so this \( y \) is the solution to the differential equation.
+	We can in fact integrate \( \mathcal L y = 1 \) directly with the boundary conditions to verify the solution.
+	We can also differentiate the Fourier series for \( y \) twice to find the square wave.
+\end{example}
