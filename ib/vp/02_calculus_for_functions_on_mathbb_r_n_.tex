@@ -1,0 +1,149 @@
+\subsection{Introduction}
+Let \(f \in C^2(\mathbb R^n)\), so \(f \colon \mathbb R^n \to \mathbb R\) with all continuous second partial derivatives.
+We say that the point \( \vb a \in \mathbb R^n \) is stationary if
+\[
+	\grad{f(\vb a)} = \vb 0
+\]
+Consider a Taylor series expansion near a stationary point.
+\[
+	f(\vb x) = f(\vb a) + \frac{1}{2} (x_i - a_i)(x_j - a_j) \eval{\partial^2_{ij} f}_{\vb a} + O(\norm{\vb x - \vb a}^2)
+\]
+The Hessian matrix is defined as \(H_{ij} = \partial_i \partial_j f = H_{ji}\), where \(\partial_i \equiv \pdv{}{x_i}\).
+For convenience, we will shift the origin to let \(\vb a = \vb 0\).
+The Hessian, evaluated at \(\vb 0\), written \(H(\vb 0)\), is a real symmetric matrix and hence can be diagonalised using an orthogonal transformation.
+\[
+	H' = R^\transpose H(\vb 0) R = \begin{pmatrix}
+		\lambda_1 & 0         & \cdots & 0         \\
+		0         & \lambda_2 & \cdots & 0         \\
+		\vdots    & \vdots    & \ddots & \vdots    \\
+		0         & 0         & \cdots & \lambda_n
+	\end{pmatrix}
+\]
+Then
+\[
+	f(\vb x') - f(\vb 0) = \frac{1}{2} \sum \lambda_i (x_i')^2 + O(\norm{\vb x}^2)
+\]
+We can characterise the stationary point using the eigenvalues of the Hessian.
+\begin{enumerate}[(i)]
+	\item If all \(\lambda_i > 0\), then \(f(\vb x') > f(\vb 0)\) so \(f(\vb x')\) is a local minimum.
+	\item If all \(\lambda_i < 0\), then \(f(\vb x') < f(\vb 0)\) so \(f(\vb x')\) is a local maxmimum.
+	\item If the eigenvalues have mixed signs, this is a saddle point.
+	      \(f(\vb x')\) increases in some directions, but decreases in other directions.
+	\item If some eigenvalues are zero, we must consider higher-order terms of the Taylor expansion.
+\end{enumerate}
+When \(n = 2\), this is a special case.
+We can compute properties of the eigenvalues using the trace and determinant of the matrix.
+\[
+	\det H = \lambda_1 \lambda_2;\;\tr H = \lambda_1 + \lambda_2
+\]
+\begin{enumerate}[(i)]
+	\item If \(\det H > 0,\,\tr H > 0\) then we have a local minimum.
+	\item If \(\det H > 0,\,\tr H < 0\) then we have a local maximum.
+	\item If \(\det H < 0\) then we have a saddle point.
+	\item If \(\det H = 0\) we need to consider higher-order terms.
+\end{enumerate}
+
+Note that if \(f \colon D \to \mathbb R\) where \(D \subset \mathbb R^n\), it is possible that we have a local maximum which is not the global maximum, if such a global maximum actually lies on the boundary and is not a stationary point.
+
+Now, let us suppose that \(f\) is harmonic, i.e.\ \(\laplacian{f(\vb x)} = 0\) on \(D \subset \mathbb R^2\).
+Hence, \(\tr H = 0\) which implies that if there exists a turning point it is a saddle point.
+The minimum or maximum of a harmonic function must therefore occur on the boundary.
+
+\begin{example}
+	Let
+	\[
+		f(x, y) = x^3 + y^3 - 3xy
+	\]
+	\[
+		\grad{f(\vb x)} = \begin{pmatrix}
+			3x^2 - 3y \\ 3y^2 - 3x
+		\end{pmatrix} = \begin{pmatrix}
+			0 \\ 0
+		\end{pmatrix} \implies \begin{pmatrix}
+			x \\ y
+		\end{pmatrix} = \begin{pmatrix}
+			0 \\ 0
+		\end{pmatrix} \text{ or } \begin{pmatrix}
+			1 \\ 1
+		\end{pmatrix}
+	\]
+	The Hessian is
+	\[
+		H = \begin{pmatrix}
+			6x & -3 \\ -3 & 6y
+		\end{pmatrix} \implies H(\vb 0) = \begin{pmatrix}
+			0 & -3 \\ -3 & 0
+		\end{pmatrix};\quad H\begin{pmatrix}
+			1 \\ 1
+		\end{pmatrix} = \begin{pmatrix}
+			6 & -3 \\ -3 & 6
+		\end{pmatrix}
+	\]
+	The determinant is negative at zero, giving us a saddle point.
+	At the other point, the determinant is positive and the trace is positive, giving a local minimum.
+\end{example}
+
+\subsection{Constraints and Lagrange multipliers}
+\begin{example}
+	Find the circle centered at \((0, 0)\) with smallest radius that intersects the parabola \(y = x^2 - 1\).
+	There are essentially two approaches.
+	\begin{itemize}
+		\item First, we consider the `direct' method.
+		      We solve the constraints directly, which in this case means solving the equations
+		      \begin{align*}
+			      f & = x^2 + y^2 \\
+			      y & = x^2 - 1
+		      \end{align*}
+		      for minimal \(f\).
+		      This gives
+		      \[
+			      f = x^2 + (x^2 - 1)^2 = x^4 - x^2 + 1
+		      \]
+		      Then by setting \(\partial_x f = 0\) we have
+		      \[
+			      4x^3 - 2x = 0 \implies x \in \qty{0, \frac{1}{\sqrt 2}, \frac{-1}{\sqrt 2}}
+		      \]
+		      which gives
+		      \[
+			      x = \frac{\pm 1}{\sqrt{2}} \implies y = \frac{-1}{2};\; r = \frac{\sqrt{3}}{2}
+		      \]
+		      The other solution for \(x\) yields a larger radius.
+		      This method works fine for simple problems like this where the constraints are solvable.
+		      Therefore, we present an alternative method that works in the more general case.
+		\item This method uses `Lagrange multipliers'.
+		      We define a new function
+		      \[
+			      h(x, y, \lambda) = f(x, y) - \lambda g(x, y)
+		      \]
+		      where \(g(x, y)\) is defined such that \(g = 0\) is the constraint.
+		      \(\lambda\) is called the Lagrange multiplier.
+		      In this example,
+		      \[
+			      h(x, y, \lambda) = x^2 + y^2 - \lambda (y - x^2 + 1)
+		      \]
+		      We now extremise \(h\) over all free variables without constraints.
+		      \[
+			      \grad{h} = \begin{pmatrix}
+				      \pdv*{h}{x} \\ \pdv*{h}{y} \\ \pdv*{h}{\lambda}
+			      \end{pmatrix} = \begin{pmatrix}
+				      2x + 2\lambda x \\
+				      2y - \lambda    \\
+				      y - x^2 + 1
+			      \end{pmatrix}
+		      \]
+		      Solving \(\grad{h} = 0\), we have
+		      \[
+			      2x + 4xy = 0 \implies x = 0 \text{ or } y = \frac{-1}{2}
+		      \]
+		      and the same results follow as before by substitution.
+	\end{itemize}
+\end{example}
+
+\subsection{Geometric justification of Lagrange multipliers}
+Consider a curve given by \(g = 0\).
+At each point on this curve, there is a normal to the curve of gradient \(\grad{g}\).
+In particular, \(\grad{g}\) is perpendicular to \(g = 0\).
+The function \(f\) has gradient perpendicular to the function \(f = c\) for some constant \(c\).
+So at the extremum, \(\grad{f} \propto \grad{g}\), so \(\grad{f - \lambda g} = 0\) for some \(\lambda\).
+This guides the creation of the new function \(h\), for which we can optimise without constraints.
+This same reasoning generalises to functions in higher dimensions and with multiple constraints.

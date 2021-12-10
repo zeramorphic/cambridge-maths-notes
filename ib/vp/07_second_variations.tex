@@ -1,0 +1,243 @@
+\subsection{Conditions for local minimisers}
+The Euler-Lagrange equation gives a necessary condition for a stationary point.
+We cannot tell whether this leads to a minimum, a maximum, or a saddle point, just from the Euler-Lagrange equation.
+We can analyse the nature of the stationary points by considering the second variation.
+Consider the functional
+\[
+	F[y] = \int_\alpha^\beta f(x,y,y') \dd{x}
+\]
+where \( y \) is perturbed by a perturbation \( \varepsilon\eta \).
+Let us assume that \( y \) is a solution to the Euler-Lagrange equation, so has no first variation.
+We will then expand \( F[y+\varepsilon\eta] \) to second order.
+\begin{align*}
+	F[y+\varepsilon\eta]        & = \int_\alpha^\beta \qty[f(x,y+\varepsilon\eta,y'+\varepsilon\eta')] \dd{x}                                                                                  \\
+	F[y+\varepsilon\eta] - F[y] & = \int_\alpha^\beta \qty[f(x,y+\varepsilon\eta,y'+\varepsilon\eta') - f(x,y,y')] \dd{x}                                                                      \\
+	                            & = 0 + \varepsilon \underbrace{\int_\alpha^\beta \eta \qty( \pdv{f}{y} - \dv{x} \pdv{f}{y'} ) \dd{x}}_{\text{zero by Euler-Lagrange equation}}                \\
+	                            & + \frac{1}{2} \varepsilon^2 \int_\alpha^\beta  \qty( \eta^2 \pdv[2]{f}{y} + \eta'^2 \pdv[2]{f}{(y')} + 2\eta\eta' \pdv{f}{y}{y'} ) \dd{x} + O(\varepsilon^3)
+\end{align*}
+The last term (excluding the \( \varepsilon^2 \) component) is called the second variation.
+We write
+\[
+	\delta^2 F[y] \equiv \frac{1}{2}\int_\alpha^\beta \qty( \eta^2 \pdv[2]{f}{y} + \eta'^2 \pdv[2]{f}{(y')} + \dv{x} (\eta^2) \pdv{f}{y}{y'} ) \dd{x}
+\]
+Integrating the last term by parts, using \( \eta = 0 \) at \( \alpha, \beta \), we have
+\[
+	\delta^2 F[y] = \frac{1}{2}\int_\alpha^\beta \qty( Q\eta^2 + P(\eta')^2 ) \dd{x}
+\]
+where
+\[
+	P = \pdv[2]{f}{(y')};\quad Q = \pdv[2]{f}{y} - \dv{x} \qty(\pdv{f}{y}{y'})
+\]
+Thus, if \( y \) is a solution to the Euler-Lagrange equation, and also \( Q\eta^2 + P(\eta')^2 > 0 \) for all \( \eta \) vanishing at \( \alpha, \beta \), then \( y \) is a local minimiser of \( F \).
+
+\begin{example}
+	We will prove that the geodesic on a plane is a local minimiser of path length.
+	The functional we will analyse is given by
+	\[
+		f = \sqrt{1 + (y')^2}
+	\]
+	Hence,
+	\[
+		P = \pdv[2]{f}{(y')} = \pdv{y'} \qty(\frac{y'}{\sqrt{1+(y')^2}}) = \frac{1}{(1+(y')^2)^{\frac{3}{2}}} > 0
+	\]
+	\[
+		Q = 0
+	\]
+	Therefore the second variation is positive, so any \( y \) that satisfies the Euler-Lagrange equation minimises path length.
+	In particular, straight lines minimise path length on the plane.
+\end{example}
+
+\subsection{Legendre condition for minimisers}
+\begin{proposition}[Legendre condition]
+	If \( y_0(x) \) is a local minimiser, then \( \eval{P}_{y=y_0} \geq 0 \).
+\end{proposition}
+\noindent We can say that the Legendre condition is a necessary condition for a minimiser.
+In less formal terms, \( P \) is `more important' than \( Q \) when determining if a stationary point is a minimiser.
+\begin{proof}
+	This condition is not proven rigorously.
+	However, the general idea of the proof is to construct a function \( \eta \) which is small everywhere (giving a small \( Q \) contribution), but oscillates very rapidly near some point \( x_0 \), at which \( P < 0 \).
+	This gives a large \( P \) contribution which can overpower the \( Q \) contribution.
+	Then this gives \( Q\eta^2 + P(\eta')^2 < 0 \) if there exists some \( x_0 \) where \( \eval{P}_{y=y_0} < 0 \).
+\end{proof}
+
+\noindent Note that the Legendre condition is not a sufficient condition for local minima, but \( P > 0 \) and \( Q \geq 0 \) is sufficient.
+
+\begin{example}
+	Consider again the brachistochrone problem.
+	\[
+		f = \sqrt{\frac{1 + (y')^2}{-y}}
+	\]
+	We have
+	\[
+		\pdv{f}{y} = -\frac{1}{2y}f
+	\]
+	\[
+		\pdv{f}{y'} = \frac{y'}{\sqrt{1+(y')^2}\sqrt{-y}}
+	\]
+	Hence
+	\[
+		P = \frac{1}{(1+(y')^2)^\frac{3}{2} \sqrt{-y}} > 0
+	\]
+	\[
+		Q = \frac{1}{2\sqrt{1 + (y^2)^2}y^2 \sqrt{-y}} > 0
+	\]
+	Hence the cycloid is a local minimiser of the time taken to travel between the two points.
+\end{example}
+
+\subsection{Associated eigenvalue problem}
+When deriving the minimiser condition, we had the integrand
+\[
+	Q\eta^2 + P(\eta')^2
+\]
+We can integrate this by parts:
+\[
+	Q\eta^2 + \dv{x} (P \eta \eta') - \eta \dv{x} (P \eta')
+\]
+giving
+\[
+	\delta^2 F[y] = \frac{1}{2}\int_\alpha^\beta \eta \qty[-(P\eta')' + Q\eta]\dd{x}
+\]
+The bracketed term \( -(P\eta')' + Q\eta \) is known as the Sturm-Liouville operator acting on \( \eta \), denoted \( \mathcal L(\eta) \).
+If there exists \( \eta \) such that \( \mathcal L(\eta) = -\omega^2\eta \), \( \omega \in \mathbb R\), and \( \eta(\alpha) = \eta(\beta) = 0 \), then \( y \) is not a minimiser, since the integrand will be \( -\omega^2\eta^2 < 0 \).
+
+\begin{example}
+	Consider
+	\[
+		F[y] = \int_0^\beta \qty((y')^2 - y^2)\dd{x}
+	\]
+	such that
+	\[
+		y(0) = y(\beta) = 0;\quad \beta \neq k\pi, k \in \mathbb N
+	\]
+	The Euler-Lagrange equation gives
+	\[
+		y'' + y = 0
+	\]
+	Thus, constrained to the boundary conditions, the only stationary point of \( F \) is
+	\[
+		y \equiv 0
+	\]
+	Analysing the second variation,
+	\[
+		\delta^2 F[0] = \frac{1}{2} \int_0^\beta \qty[\eta'^2 - \eta^2] \dd{x}
+	\]
+	giving
+	\[
+		P = 1 > 0;\quad Q < 0
+	\]
+	Let us now examine the eigenvalue problem, since we cannot find whether \( y \equiv 0 \) is a minimiser from what we know already.
+	Consider the eigenvalue problem
+	\[
+		-\eta'' - \eta = -\omega^2 \eta;\quad \eta(0) = \eta(\beta) = 0
+	\]
+	Let us take
+	\[
+		\eta = A \sin(\frac{\pi x}{\beta})
+	\]
+	to give
+	\[
+		\qty(\frac{\pi}{\beta})^2 = 1 - \omega^2
+	\]
+	So this has a solution \( \omega > 0 \) if and only if \( \beta > \pi \).
+	If \( P > 0 \), a problem may arise if the interval of integration is `too large' (in this case \( \beta > \pi \)).
+	Next lecture we will make this notion precise.
+\end{example}
+
+\subsection{Jacobi accessory condition}
+Legendre tried to prove that \( P > 0 \) implied local minimality; obviously this was impossible due to the counterexample shown above.
+However, the method he used is still useful to analyse, since we can find an actual sufficient condition using the same idea.
+Let \( \phi(x) \) be any differentiable function of \( x \) on \( [\alpha, \beta] \).
+Then note that
+\[
+	\int_\alpha^\beta \dv{x} \qty( \phi \eta^2 ) \dd{x} = 0
+\]
+since \( \eta(\alpha) = \eta(\beta) = 0 \).
+We can expand the integrand to give
+\[
+	\int_\alpha^\beta \qty( \phi' \eta^2 + 2 \eta \eta' \phi ) \dd{x} = 0
+\]
+We can add this new zero to both sides of the second variation equation.
+\[
+	\delta^2 F[y] = \frac{1}{2} \int_\alpha^\beta \qty( P(\eta')^2 + 2 \eta \eta' \phi + \qty(Q + \phi') \eta^2 ) \dd{x}
+\]
+Now, suppose that \( P > 0 \) at a particular \( y \).
+Then, we can complete the square on the integrand, giving
+\[
+	\delta^2 F[y] = \frac{1}{2} \int_\alpha^\beta \qty( P\qty(\eta' + \frac{\phi}{P} \eta)^2 + \qty(Q + \phi' - \frac{\phi^2}{P}) \eta^2 ) \dd{x}
+\]
+If we could choose a \( \phi \) such that the second bracket vanishes, then the integrand would be \( P\qty(\eta' + \frac{\phi}{P} \eta)^2 \).
+The only way the integral can be zero is if \( \eta' + \frac{\phi}{P} \eta \equiv 0 \).
+Since \( \eta = 0 \) at \( \alpha \), we have \( \eta'(\alpha) = 0 \).
+Hence, \( \eta \equiv 0 \) by the uniqueness of solutions to first order differential equations.
+Therefore, by contradiction, the integrand is not identically zero, and the second variation is positive.
+Now, such a \( \phi \) function is given by
+\[
+	\phi^2 = P\qty(Q + \phi')
+\]
+If a solution to this differential equation exists, then \( \delta^2 F[y] > 0 \).
+We can transform this non-linear equation into a second order equation by the substitution \( \phi = -P \frac{u'}{u} \) for some function \( u \neq 0 \).
+We have
+\[
+	P \qty(\frac{u'}{u})^2 = Q - \qty(\frac{Pu'}{u})' = Q - \frac{(Pu')'}{u} + P \qty(\frac{u'}{u})^2
+\]
+Hence,
+\[
+	-(Pu')' + Qu = 0
+\]
+This is known as the Jacobi accessory condition.
+Note that ther left hand side is just \( \mathcal L(u) \), where \( \mathcal L \) is the Sturm-Liouville operator.
+
+\subsection{Solving the Jacobi condition}
+We need to find a solution to \( \mathcal L(u) = 0 \), where \( u \neq 0 \) on \( [\alpha, \beta] \).
+The solution we find may not be non-zero on a large enough interval, in which case we would not have a local minimum.
+
+\begin{example}
+	Consider
+	\[
+		F[y] = \frac{1}{2} \int_\alpha^\beta \qty( (y')^2 - y^2 ) \dd{x}
+	\]
+	The second variation is
+	\[
+		\delta^2 F[y] = \frac{1}{2} \int_\alpha^\beta \qty( (\eta')^2 - \eta^2 ) \dd{x}
+	\]
+	In this case, \( P = 1, Q = -1 \).
+	The Jacobi accessory equation is
+	\[
+		u'' + u = 0
+	\]
+	We can solve this to find
+	\[
+		u = A \sin x - B \cos x;\quad A,B \in \mathbb R
+	\]
+	We want this to be non-zero on the interval \( [\alpha, \beta] \).
+	In particular,
+	\[
+		\tan x \neq \frac{B}{A};\quad \forall x \in [\alpha, \beta]
+	\]
+	Note that \( \tan x \) repeats every \( \pi \), so if \( \abs{\beta - \alpha} < \pi \) we have a positive second variation for any stationary \( y \).
+\end{example}
+
+\begin{example}
+	Consider again the geodesic on a sphere.
+	\[
+		F[\theta] = \int \sqrt{\dd{\theta}^2 + \sin^2\theta \dd{\phi}^2} = \int \sqrt{(\theta')^2 + \sin^2\theta}\dd{\phi}
+	\]
+	We have already proven that critical points of this functional are segments of great circles.
+	Considering an equatorial great circle (since all great circles are equatorial under a change of perspective),
+	\[
+		\theta = \frac{\pi}{2}
+	\]
+	Consider \( \phi_1, \phi_2 \) on this great circle.
+	The minor arc is clearly the shortest path, but the major arc is also a stationary point and must still be analysed.
+	\[
+		P = 1;\quad Q = -1
+	\]
+	Thus,
+	\[
+		\delta^2 F\qty[\theta_0 = \frac{\pi}{2}] = \frac{1}{2} \int_{\phi_1}^{\phi_2} \qty((\eta')^2 - \eta^2) \dd{\phi}
+	\]
+	which is exactly the example from above.
+	This is a minimiser if \( \abs{\phi_2 - \phi_1} < \pi \), which is exactly the condition of being a minor arc.
+	If \( \phi_2 - \phi_1 = \pi \), we have an infinite amount of geodesics, since these represent antipodal points.
+	The set of geodesics exhibit rotational symmetry.
+\end{example}

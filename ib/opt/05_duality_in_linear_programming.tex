@@ -1,0 +1,163 @@
+\subsection{Strong duality of linear programs}
+\begin{theorem}
+	If a linear program is bounded and feasible, then strong duality holds.
+\end{theorem}
+\begin{proof}
+	This is true since the value function is convex.
+\end{proof}
+
+\subsection{Duals of linear programs in standard form}
+Consider a linear program in standard form:
+\begin{alignat*}{2}
+	 & \text{minimise}   & \qquad & \vb c^\transpose \vb x \\
+	 & \text{subject to} &        & A \vb x = \vb b        \\
+	 &                   &        & \vb x \geq 0
+\end{alignat*}
+The dual problem is therefore
+\begin{alignat*}{2}
+	 & \text{maximise}   & \qquad & g(\vb \lambda) = \inf_{\vb x in \mathcal X} L(\vb x, \vb \lambda) \\
+	 & \text{subject to} &        & \vb \lambda \in \vb \Lambda                                       \\
+\end{alignat*}
+The function \( g \) is given by
+\begin{align*}
+	g(\vb \lambda) & = \inf_{\vb x \geq 0} \vb c^\transpose \vb x - \vb \lambda^\transpose (A \vb x - \vb b)                 \\
+	               & = \inf_{\vb x \geq 0} (\vb c^\transpose - \vb \lambda^\transpose A)\vb x + \vb \lambda^\transpose \vb b
+\end{align*}
+This is only bounded below where \( \vb c^\transpose - \vb \lambda^\transpose A \geq 0 \).
+Hence
+\[
+	\vb \Lambda = \qty{\vb \lambda \colon \vb \lambda^\transpose A \leq \vb c^\transpose}
+\]
+Further, the minimum value of \( g \) for \( \vb \lambda \in \vb \Lambda \) is \( \vb \lambda^\transpose \vb b \).
+Therefore, the dual problem is
+\begin{alignat*}{2}
+	 & \text{maximise}   & \qquad & \vb \lambda^\transpose \vb b                   \\
+	 & \text{subject to} &        & \vb \lambda^\transpose A \leq \vb c^\transpose \\
+\end{alignat*}
+The dual of a linear program in standard form is a linear problem, but no longer in standard form.
+
+\subsection{Duals of linear programs in general form}
+Consider a linear program in general form:
+\begin{alignat*}{2}
+	 & \text{minimise}   & \qquad & \vb c^\transpose \vb x \\
+	 & \text{subject to} &        & A \vb x \geq \vb b     \\
+\end{alignat*}
+We can introduce a slack variable \( \vb s \) and write equivalently
+\begin{alignat*}{2}
+	 & \text{minimise}   & \qquad & \vb c^\transpose \vb x  \\
+	 & \text{subject to} &        & A \vb x - \vb s = \vb b \\
+	 &                   &        & \vb s \geq 0
+\end{alignat*}
+To calculate the dual, we need to calculate \( g(\vb \lambda) \).
+\begin{align*}
+	g(\vb \lambda) & = \inf_{\vb x, \vb s \geq 0} \vb c^\transpose \vb x - \vb \lambda^\transpose (A \vb x - \vb s - \vb b)                                         \\
+	               & = \inf_{\vb x, \vb s \geq 0} (\vb c^\transpose - \vb \lambda^\transpose A) \vb x + \vb \lambda^\transpose \vb s + \vb \lambda^\transpose \vb b \\
+\end{align*}
+In this case, since \( \vb x \) may be any value, we must have \( \vb c^\transpose - \vb \lambda^\transpose A = 0 \).
+Further, since the slack variable can be any positive value, \( \vb \lambda^\transpose \geq 0 \).
+The infimum is \( \vb \lambda^\transpose \vb b \) since \( \vb s \) may be set to zero.
+Thus, the dual is
+\begin{alignat*}{2}
+	 & \text{maximise}   & \qquad & \vb \lambda^\transpose \vb b                \\
+	 & \text{subject to} &        & \vb \lambda^\transpose A = \vb c^\transpose \\
+	 &                   &        & \vb \lambda \geq 0
+\end{alignat*}
+The dual of a general linear program is a linear program in standard form.
+
+\subsection{Dual of dual program}
+The dual of a dual problem is the primal problem.
+Suppose the primal problem is in standard form:
+\begin{alignat*}{2}
+	 & \text{minimise}   & \qquad & \vb c^\transpose \vb x \\
+	 & \text{subject to} &        & A \vb x = \vb b        \\
+	 &                   &        & \vb x \geq 0
+\end{alignat*}
+We know the dual is
+\begin{alignat*}{2}
+	 & \text{maximise}   & \qquad & \vb \lambda^\transpose \vb b                   \\
+	 & \text{subject to} &        & \vb \lambda^\transpose A \leq \vb c^\transpose \\
+\end{alignat*}
+Equivalently,
+\begin{alignat*}{2}
+	 & -\text{ minimise} & \qquad & -\vb \lambda^\transpose \vb b                    \\
+	 & \text{subject to} &        & -\vb \lambda^\transpose A \geq -\vb c^\transpose \\
+\end{alignat*}
+Definining \( \widetilde{\vb \lambda} = -\vb\lambda^\transpose \), we have
+\begin{alignat*}{2}
+	 & -\text{ minimise} & \qquad & \widetilde{\vb \lambda} \vb b                    \\
+	 & \text{subject to} &        & \widetilde{\vb \lambda} A \geq -\vb c^\transpose \\
+\end{alignat*}
+We can find the dual of this problem using the solution above.
+\begin{alignat*}{2}
+	 & -\text{ maximise} & \qquad & -\vb \theta^\transpose \vb c                          \\
+	 & \text{subject to} &        & \vb \theta^\transpose A^\transpose = \vb b^\transpose \\
+	 &                   &        & \vb \theta \geq 0
+\end{alignat*}
+This is equivalent to the primal problem.
+
+\subsection{Dual of arbitrary linear program}
+Consider the problem
+\begin{alignat*}{3}
+	 & \text{minimise}   & \qquad & \vb c^\transpose \vb x                &       &           \\
+	 & \text{subject to} &        & \vb a_i^\transpose \vb x \geq \vb b_i & \quad & i \in M_1 \\
+	 &                   &        & \vb a_i^\transpose \vb x \leq \vb b_i &       & i \in M_2 \\
+	 &                   &        & \vb a_i^\transpose \vb x = \vb b_i    &       & i \in M_3 \\
+	 &                   &        & x_j \geq 0                            &       & j \in N_1 \\
+	 &                   &        & x_j \leq 0                            &       & j \in N_2 \\
+	 &                   &        & x_j \text{ free}                      &       & j \in N_3 \\
+\end{alignat*}
+The dual of this problem is
+\begin{alignat*}{3}
+	 & \text{maximise}   & \qquad & \vb p^\transpose \vb b                &       &           \\
+	 & \text{subject to} &        & p_i \geq 0                            & \quad & i \in M_1 \\
+	 &                   &        & p_i \leq 0                            &       & i \in M_2 \\
+	 &                   &        & p_i \text{ free}                      &       & i \in M_3 \\
+	 &                   &        & \vb p^\transpose \vb A_j \leq \vb c_j &       & j \in N_1 \\
+	 &                   &        & \vb p^\transpose \vb A_j \geq \vb c_j &       & j \in N_2 \\
+	 &                   &        & \vb p^\transpose \vb A_j = \vb c_j    &       & j \in N_3 \\
+\end{alignat*}
+This will be shown in the example sheets.
+
+\subsection{Optimality conditions}
+If \( \vb x \) is feasible for the primal, \( \vb p \) is feasible for the dual, and complementary slackness holds, then \( \vb x \) is optimal for the primal and \( \vb p \) is optimal for the dual.
+\begin{theorem}[Fundamental Theorem of Linear Programming]
+	Let \( \vb x, \vb p \) be feasible solutions to the primal and dual problems respectively.
+	Then \( \vb x, \vb p \) are optimal for these problems if and only if
+	\begin{itemize}
+		\item \( p_i (\vb a_i^\transpose \vb x - b_i) = 0 \) for all \( i \), and
+		\item  \( (c_j - \vb p^\transpose \vb A_j) x_j = 0 \) for all \( j \).
+	\end{itemize}
+\end{theorem}
+\begin{proof}
+	First, let us define \( u_i = p_i (\vb a_i^\transpose \vb x - b_i ) \) and \( v_j = (c_j - \vb p^\transpose \vb A_j) x_j \).
+	Observe that if \( \vb x, \vb p \) are feasible, then \( u_i \geq 0 \) for all \( i \), and \( v_j \geq 0 \) for all \( j \).
+	This can be seen by the signs of the constraints on the primal and dual problems.
+	Now,
+	\[
+		\sum u_i = \sum p_i (\vb a_i^\transpose \vb x - b_i ) = \vb p^\transpose A \vb x - \vb p^\transpose \vb b
+	\]
+	Similarly,
+	\[
+		\sum v_j = \sum (c_j - \vb p^\transpose \vb A_j) x_j = \vb c^\transpose \vb x - \vb p^\transpose A \vb x
+	\]
+	Then,
+	\[
+		\sum u_i + \sum v_j = \vb c^\transpose \vb x - \vb p^\transpose \vb b
+	\]
+	which is the difference between the two objective functions in the primal and the dual.
+	Hence,
+	\[
+		0 \leq \sum u_i + \sum v_j = \vb c^\transpose \vb x - \vb p^\transpose \vb b
+	\]
+	So if complementary slackness holds, then \( u_i = 0 \) and \( v_j = 0 \) for all \( i, j \).
+	This then implies that \( \vb c^\transpose \vb x = \vb p^\transpose \vb b \).
+	By weak duality, \( \vb x \) and \( \vb p \) must be optimal.
+	Conversely, suppose \( \vb x, \vb p \) are optimal.
+	By strong duality, \( \vb c^\transpose \vb x = \vb p^\transpose \vb b \).
+	\[
+		0 \leq \sum u_i + \sum v_j = \vb c^\transpose \vb x - \vb p^\transpose \vb b = 0
+	\]
+	Thus \( \sum u_i + \sum v_j = 0 \).
+	Since all \( u_i, v_j \) are non-negative, \( u_i = 0 \) and \( v_j = 0 \) for all \( i, j \).
+	Equivalently, complementary slackness holds.
+\end{proof}

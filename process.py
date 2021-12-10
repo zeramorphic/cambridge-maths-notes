@@ -76,9 +76,5 @@ def cleanup(root: str):
             break
     os.remove(f"{root}/collated.tex")
 
-for entry in ["ia/dr", "ia/probability", "ia/vc"]:
+for entry in ["ib/opt", "ib/vp"]:
     cleanup(entry)
-
-# collate("ia/ns")
-# uncollate("ia/ns")
-# cleanup("ia/ns")
