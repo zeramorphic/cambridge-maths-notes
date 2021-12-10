@@ -1,0 +1,408 @@
+\subsection{Definition}
+A rigid body is an extended object of finite size that can be considered as a multi-particle system such that the distance between any two particles in the body remains constant, i.e.
+\[
+	\abs{\vb r_i - \vb r_j} = \text{constant}
+\]
+The possible motion of a rigid body is therefore constrained to some combination of the two basic isometries of Euclidean space, rotations and translations.
+We exclude reflections from this, since this would alter the `ordering' of the points in some sense.
+
+\subsection{Recap of angular velocity}
+Consider a particle rotating about an axis through the origin with angular velocity \(\vb \omega\).
+Let \(r_\perp\) be the perpendicular distance from \(\vb r\) to the axis of rotation.
+Then
+\[
+	\rdot = \vb\omega \times \vb r;\quad \abs{\rdot} = \omega r_\perp
+\]
+If the particle has mass \(m\), then the kinetic energy \(T\) is given by
+\[
+	T = \frac{1}{2}m\rdot^2 = \frac{1}{2}m (\vb\omega \times \vb r) \cdot (\vb\omega \times \vb r) = \frac{1}{2}m\omega^2 r_\perp^2
+\]
+Note that if \(\vb\omega = \omega \vb n\), then \(r_\perp = \abs{\vb n \times \vb r}\).
+We will define the moment of inertia \(I\) to be
+\[
+	I = mr_\perp^2 \implies T = \frac{1}{2}I\omega^2
+\]
+
+\subsection{Moment of inertia for a rigid body}
+Consider a rigid body to be made up of \(N\) particles, rotating about an axis through the origin, with angular velocity \(\vb \omega\).
+For each particle in the body,
+\[
+	\rdot_i = \vb \omega \times \vb r_i
+\]
+Note that
+\begin{align*}
+	\dv{t} \abs{\vb r_i - \vb r_j}^2 & = 2(\vb r_i - \vb r_j) \cdot (\rdot_i - \rdot_j)                 \\
+	                                 & = 2(\vb r_i - \vb r_j) \cdot (\omega \times (\vb r_i - \vb r_j)) \\
+	                                 & = 0
+\end{align*}
+which is consistent with the expected properties of the rigid body.
+Consider the kinetic energy of the entire body, which is the sum of the energies of the component particles.
+\begin{align*}
+	T & = \sum_{i=1}^N \frac{1}{2}m_i \dot{\vb r}_i^2                        \\
+	  & = \sum_{i=1}^N \frac{1}{2}m_i \abs{\vb\omega \times \vb r_i}^2       \\
+	  & = \frac{1}{2} \omega^2 \sum_{i=1}^N m_i \abs{\vb n \times \vb r_i}^2 \\
+	  & = \frac{1}{2}I\omega^2
+\end{align*}
+where \(I = \sum_{i=1}^N m_i \abs{\vb n \times \vb r_i}^2\) is the moment of inertia of the body for a rotation of axis \(\vb n\) through the origin.
+Now, we can consider the angular momentum.
+\[
+	\vb L = \sum_{i=1}^N m_i \vb r_i \times (\vb \omega \times \vb r_i)
+\]
+In the case that \(\vb\omega = \omega \vb n\), we have
+\[
+	\vb L = \omega \sum_{i=1}^N m_i \vb r_i \times (\vb n \times \vb r_i)
+\]
+Now, we will consider just the component of \(\vb L\) that is parallel to the rotation axis.
+\begin{align*}
+	\vb L \cdot \vb n & = \omega \sum_{i=1}^N m_i \vb n \cdot (\vb r_i \times (\vb n \times \vb r_i)) \\
+	                  & = \omega\sum_{i=1}^N m_i \abs{ \vb n \times \vb r_i }^2                       \\
+	                  & = \omega\sum_{i=1}^N m_i {\dot r}_{i\perp}^2                                  \\
+	                  & = I\omega
+\end{align*}
+Therefore the component of the angular momentum in the direction of the rotation axis is \(I\omega\).
+However, it is not the case that \(\vb L\) \textit{only} has a component in the direction of the rotation axis; indeed it is possible that it may have more components in other directions.
+We can derive that
+\begin{align*}
+	\vb L & = \omega \sum_{i=1}^N m_i \vb r_i \times (\vb n \times \vb r_i)                     \\
+	      & = \sum_{i=1}^N m_i (\abs{\vb r_i}^2 \vb\omega - (\vb r_i \cdot \vb \omega) \vb r_i)
+\end{align*}
+which is a linear function of the vector \(\vb\omega\).
+For instance, in terms of suffix notation (which is not examinable),
+\[
+	\vb L_\alpha = I_{\alpha\beta} \omega_\beta
+\]
+for some symmetric tensor \(I\) (symmetric since \(I_{\alpha\beta} = I_{\beta\alpha}\)).
+In fact, we can deduce
+\[
+	I_{\alpha\beta} = \sum_{i=1}^N m_i \left\{ \abs{\vb r_i}^2 \delta_{\alpha\beta} - (\vb r_i)_\alpha (\vb r_i)_\beta \right\}
+\]
+In general therefore, there are three principal axes; three linearly independent directions \(\vb \omega\) such that \(I \cdot \vb \omega\) is parallel to \(\vb \omega\).
+If a body is rotated about one of these principal axes, the angular momentum \(\vb L\) will be parallel to \(\vb\omega\).
+This holds for any shape of body, since it is simply a property of matrices.
+To recap, if we choose to rotate in a direction such that \(\vb L\) is parallel to \(\vb \omega\), then
+\[
+	\vb L = I(\vb n) \vb \omega
+\]
+where \(I(\vb n)\) is the moment of inertia about this axis \(\vb n\).
+Note that since we often consider bodies which are symmetric about a particular axis, rotating about this axis guarantees this above property.
+Further note the similarities between the equations for angular and linear velocities and energies:
+\[
+	T = \frac{1}{2}I\omega^2, \vb L = I\vb\omega;\quad T = \frac{1}{2}mv^2, \vb p = m\vb v
+\]
+
+\subsection{Calculating moments of inertia}
+For a solid body, instead of considering finite sums of particles we instead consider integrals.
+Consider a body occupying a volume \(V\), with mass density \(\rho(\vb r)\).
+Then we can compute the total mass \(m\) by
+\[
+	M = \int_V \rho \dd{V}
+\]
+The centre of mass is given by
+\[
+	\vb R = \frac{1}{M} \int_V \rho \vb r \dd{V}
+\]
+The moment of inertia about an axis \(\vb n\) is
+\[
+	I = \int_V \rho \abs{\vb r_\perp}^2 \dd{V} = \int_V \rho \abs{\vb n \times \vb r}^2 \dd{V}
+\]
+We can alternatively formulate these volume integrals as surface or line integrals in order to compute these quantities for mass distributed on a sheet or along a curve.
+We can explicitly calculate these values for simple shapes.
+\begin{enumerate}
+	\item Consider a uniform thin ring of total mass \(M\) and radius \(a\).
+	      Let \(\rho\) be the mass per unit length, which is therefore \(M/2\pi a\).
+	      The moment of inertia about an axis through the centre of the ring and perpendicular to the plane of the ring is given by
+	      \[
+		      I = \int_0^{2\pi} \frac{M}{2\pi a} a^2 a \dd{\theta} = a^2 M
+	      \]
+	      This is easy to compute since every point in the body has \(r_\perp = a\).
+	\item Consider a uniform thin rod of total mass \(M\) and length \(\ell\).
+	      The axis of rotation is at one end of the rod, and the rod is rotating about an axis perpendicular to its length.
+	      Here, \(\rho = M/\ell\).
+	      \[
+		      I = \int_0^\ell \frac{M}{\ell} x^2 \dd{x} = \frac{1}{3}M\ell^2
+	      \]
+	\item Consider a uniform thin disc of mass \(M\), radius \(a\) with the axis of rotation through the centre of the disc, perpendicular to the plane of the disc.
+	      We will use an area integral, and let \(\rho = \frac{M}{\pi a^2}\) be the mass per unit area.
+	      In plane polar coordinates,
+	      \[
+		      I = \int_{r=0}^a \dd{r} \int_{\theta = 0}^{2 \pi} \dd{\theta} \frac{M}{\pi a^2} r^2 r = \frac{1}{2}Ma^2
+	      \]
+	\item Consider the same disc, but with the axis of rotation through the centre, in the plane of the disc.
+	      Again in plane polar coordinates, we can let \(\theta\) be the angle between the axis of rotation and the line through the point and the centre of mass.
+	      Therefore \(r_\perp = r\sin\theta\).
+	      Hence,
+	      \[
+		      I = \int_{r=0}^a \dd{r} \int_{\theta = 0}^{2 \pi} \dd{\theta} \frac{M}{\pi a^2} r^2 \sin^2\theta r = \frac{1}{4}Ma^2
+	      \]
+	\item Consider a uniform sphere with mass \(M\) and radius \(a\), with axis of rotation through the centre of the sphere.
+	      Then \(\rho\), the density per unit volume, is \(\frac{3M}{4\pi a^3}\).
+	      In spherical polar coordinates, we can let the \(\theta = 0\) axis be the axis of rotation.
+	      Then
+	      \[
+		      I = \int_{r=0}^a \dd{r} \int_{\theta = 0}^{\pi} \dd{\theta} \int_{\phi = 0}^{2 \pi} \dd{\phi} \frac{3M}{4\pi a^3} r^2 \sin^2 \theta r^2\sin\theta = \frac{2}{5}Ma^2
+	      \]
+\end{enumerate}
+
+\subsection{Results on moments of inertia}
+\begin{theorem}[Perpendicular Axes Theorem]
+	For a two-dimensional body (a lamina),
+	\[
+		I_z = I_x + I_y
+	\]
+	where \(I_z\) is the moment of inertia about the axis perpendicular to the lamina, and the \(I_x\) and \(I_y\) are the moments of inertia in perpendicular directions in the plane of the lamina.
+\end{theorem}
+\begin{proof}
+	Let \(A\) be the lamina as shown.
+	Then
+	\[
+		I_x = \int_A \rho y^2 \dd{A};\quad I_y = \int_A \rho x^2 \dd{A}
+	\]
+	where \(x, y\) are the plane Cartesian components of the position vector of a point.
+	Then
+	\[
+		I_z = \int_A \rho (x^2 + y^2) \dd{A} = I_x + I_y
+	\]
+	as required.
+\end{proof}
+\noindent This theorem is useful when there is a level of symmetry in the problem where \(I_x = I_y\).
+\begin{theorem}[Parallel Axes Theorem]
+	Consider a rigid body of mass \(M\) with a moment of inertia \(I_c\) about some axis through the centre of mass.
+	Then the moment of inertia about a parallel axis a distance \(d\) from the centre of mass has moment of inertia
+	\[
+		I = I_c + Md^2
+	\]
+\end{theorem}
+\begin{proof}
+	Let us consider Cartesian coordinates, with the origin at the centre of mass.
+	The moment of inertia about an axis in the \(z\) direction through the origin is \(I_c\), and the moment about the axis passing through the point \((d, 0, 0)\) is \(I\).
+	Let us denote the volume of the body as \(V\).
+	Then
+	\[
+		I_c = \int_V \rho (x^2 + y^2) \dd{V};\quad I = \int_V \rho ((x-d)^2 + y^2) \dd{V}
+	\]
+	Hence,
+	\[
+		I = \int_V \rho (x^2 + y^2) \dd{V} - 2\underbrace{\int_V \rho xd \dd{V}}_{=0} + \int_V \rho d^2 \dd{V}
+	\]
+	The middle term is zero since the origin is the centre of mass, and we are integrating over the \(x\) coordinate multiplied by a constant multiple of density.
+	\[
+		I = I_c + Md^2
+	\]
+	as required.
+\end{proof}
+
+\subsection{General motion of a rigid body}
+In general, the motion of a rigid body can be described by a combination of
+\begin{itemize}
+	\item the translation of the centre of mass, following a trajectory \(\vb R(t)\), and
+	\item the rotation about an axis through the centre of mass.
+\end{itemize}
+Like before, we define the position vector of a point \(i\) in the body as \(\vb r_i = \vb R + \vb s_i\) where the \(\vb s_i\) are relative to the centre of mass.
+Recall that \(\sum_{i=1}^N \vb s_i = \vb 0\).
+If a body is rotating about the centre of mass with angular velocity \(\vb\omega\), then
+\[
+	\dot{\vb s}_i = \vb\omega \times \vb s_i;\quad \dot{\vb r}_i = \dot{\vb R} + \vb\omega \times \dot{\vb s}_i
+\]
+Recall that the kinetic energy is
+\[
+	T = \frac{1}{2}M \dot{\vb R}^2 + \frac{1}{2}\sum_{i=1}^N m_i \dot{\vb s}_i^2 = \frac{1}{2}M \dot{\vb R}^2 + \frac{1}{2}I_c \omega^2
+\]
+where \(I_c\) is the moment of inertia about the axis of rotation \(\vb n = \vb\omega / \omega\) through the centre of mass.
+We can therefore consider \(T\) as the sum of a `translational' kinetic energy and a `rotational' kinetic energy.
+Recall that in a general multiparticle system, linear momentum and angular momentum satisfy
+\[
+	\dot{\vb p} = \vb F;\quad \dot{\vb L} = \vb G
+\]
+where \(\vb F\) is the total external force and \(\vb G\) is the total external torque.
+For a rigid body, these two equations determine the translational and rotational components of motion entirely.
+Note that sometimes we can determine the motion in a simpler way by using energy conservation laws.
+Note further that \(\vb L\) and \(\vb G\) depend on the choice of origin, which could be defined as any point fixed in an inertial frame, or alternatively we could define them with respect to the centre of mass.
+In this case, the equation \(\dot{\vb L} = \vb G\) still holds.
+Indeed,
+\begin{align*}
+	\underbrace{\vb G}_{\text{external torque about origin}} & = \dv{t} \left( M \vb R \times \dot{\vb R} + \sum_{i=1}^N m_i \vb s_i \times \dot{\vb s}_i \right)                      \\
+	                                                         & = M \dot{\vb R} \times \dot{\vb R} + M \vb R \times \ddot{\vb R} + \dv{t} \sum_{i=1}^N m_i \vb s_i \times \dot{\vb s}_i \\
+	                                                         & = \vb R \times \vb F^\text{ext} + \dv{t} \sum_{i=1}^N m_i \vb s_i \times \dot{\vb s}_i
+\end{align*}
+Hence the rate of change of the angular momentum about the centre of mass \(\dv{t} \sum_{i=1}^N m_i \vb s_i \times \dot{\vb s}_i\) is exactly \(\vb G - \vb R \times \vb F^\text{ext}\).
+Therefore,
+\begin{align*}
+	\vb G_c & = \sum_{i=1}^N \vb r_i \times \vb F_i^\text{ext} - \vb R \times \vb F^\text{ext} \\
+	        & = \sum_{i=1}^N (\vb r_i - \vb R) \times \vb F_i^\text{ext}
+\end{align*}
+Hence the rate of change of the angular momentum about the centre of mass is exactly the external torque about the centre of mass.
+
+\subsection{Example of rigid body motion}
+Consider the motion of a rigid body in a uniform gravitional field with constant acceleration \(\vb g\).
+The total gravitational force and torque acting on the rigid body are the same as those that would act on a particle of the same mass located at the rigid body's centre of mass.
+In a gravitational field, the centre of mass is often referred to as the `centre of gravity'.
+Indeed,
+\begin{align*}
+	\vb F & = \sum_{i=1}^N \vb F_i^\text{ext} \\
+	      & = \sum_{i=1}^N m_i \vb g          \\
+	      & = M\vb g
+\end{align*}
+Correspondingly, the total torque is given by
+\begin{align*}
+	\vb G & = \sum_{i=1}^N \vb G_i^\text{ext}       \\
+	      & = \sum_{i=1}^N \vb r_i \times m_i \vb g \\
+	      & = \sum_{i=1}^N m_i \vb r_i \times \vb g \\
+	      & = M \vb R \times \vb g
+\end{align*}
+Note that the gravitational torque about the centre of mass is exactly zero, since
+\begin{align*}
+	\vb G_c & = \sum_{i=1}^N \vb s_i \times m_i \vb g \\
+	        & = \sum_{i=1}^N m_i \vb s_i \times \vb g \\
+	        & = \vb 0
+\end{align*}
+Note further that the external potential \(V^\text{ext}\), which is exactly the gravitational potential, will be given by
+\begin{align*}
+	V^\text{ext} & = -\sum_{i=1}^N m_i \vb r_i \cdot \vb g \\
+	             & = -M\vb R \cdot \vb g
+\end{align*}
+\noindent Consider a stick thrown into the air.
+The centre of mass will follow a parabola, and the angular acceleration about the centre of mass is zero.
+
+\subsection{Simple pendulum}
+Consider a uniform rod of length \(\ell\) and mass \(M\), fixed at one end to a pivot point \(O\).
+The centre of mass is the midpoint of the rod, at a distance of \(\ell/2\) from the pivot.
+The angle between the rod and the rest position (when the rod is pointing downwards from the pivot) is \(\theta\).
+We can consider the angular momentum about the pivot point.
+\[
+	\omega = \dot\theta;\quad L = I \dot\theta = \frac{1}{3}M\ell^2 \dot\theta
+\]
+The torque produced by the gravitational force is
+\[
+	G = -Mg \frac{\ell}{2}\sin\theta
+\]
+The torque associated with the force at the pivot will be zero, since it acts on the line of the rod.
+We have
+\[
+	\dot L = G \implies I\ddot\theta = -Mg\frac{\ell}{2}\sin\theta \implies \ddot\theta = \frac{-3g}{2\ell}\sin\theta
+\]
+which is equivalent to a simple pendulum of length \(\flatfrac{2\ell}{3}\), and small oscillations will have period \(2\pi\sqrt{2\ell/3g}\).
+We could alternatively solve this using conservation of energy.
+\[
+	T + V = \frac{1}{2}I\dot\theta^2 - \frac{Mg\ell}{2}\cos\theta = E
+\]
+where \(E\) is constant.
+Then
+\[
+	I\dot\theta\ddot\theta + \frac{Mg\ell}{2}\dot\theta\sin\theta = 0
+\]
+So either \(\dot\theta = 0\) everywhere, or
+\[
+	I\ddot\theta + \frac{Mg\ell}{2}\sin\theta = 0
+\]
+which gives the equation of motion we found earlier.
+In general, when solving a problem, there are three methods:
+\begin{enumerate}
+	\item use Newton's second law for the centre of mass, and use the rate of change of angular momentum about the centre of mass;
+	\item use the rate of change of angular momentum about a fixed point; and
+	\item use conservation of energy (less useful in general, since it removes dimensions).
+\end{enumerate}
+
+\subsection{Comparison of sliding and rolling}
+Consider a cylinder or a sphere with radius \(a\), moving along a stationary horizontal surface.
+The general motion is some combination of the rotation of the centre of mass with angular velocity \(\omega\) and the translation of the centre of mass with velocity \(v\).
+The point \(P\) is the instantaneous point of contact between the body and the surface.
+The horizontal velocity of the point of contact is given by
+\[
+	v_\text{slip} = v - a\omega
+\]
+In general, the point of contact \(P\) slips, and there may be some kinetic frictional force associated with this slip.
+We can categorise rolling and sliding as follows.
+\begin{itemize}
+	\item A `pure sliding' motion is given by \(\omega = 0\), and \(v = v_\text{slip} \neq 0\).
+	      In this case, the body slides across the surface without rotation.
+	\item A `pure rolling' motion is given by \(v_\text{slip} = 0\), but \(v \neq 0\) and \(\omega \neq 0\).
+	      In this case, the point of contact \(P\) is stationary.
+	      A rolling body can be described instantaneously as rotating about the point of contact with angular velocity \(\omega\).
+\end{itemize}
+As an example, consider a body rolling downhill, where the hill has a constant incline \(\alpha\) to the horizontal.
+Let \(x\) be the displacement of the centre of mass from its initial position, so \(v = \dot x\).
+Let \(Mg\) be the gravitational force, \(N\) be the normal force, and \(F\) be the frictional force.
+Now, we know that the rolling condition is that \(v - a\omega = 0\).
+We will analyse the motion of this body, under the assumption that it is rolling, by considering conservation of energy.
+\[
+	T = \frac{1}{2}Mv^2 + \frac{1}{2}I\omega^2 = \frac{1}{2}\qty(M + \frac{I}{a^2})v^2;\quad V = -Mgx\sin\alpha
+\]
+The normal force does not do any work, since it is perpendicular to the direction of motion, and the frictional force does not do work because the point of contact is instantaneously stationary.
+Hence, energy is conserved, giving
+\[
+	\frac{1}{2}\qty(M + \frac{I}{a^2})v^2 - Mgx\sin\alpha = E
+\]
+Hence,
+\[
+	\qty(M + \frac{I}{a^2})\dot x \ddot x - Mg \dot x \sin\alpha = 0
+\]
+We have therefore deduced that
+\[
+	\qty(M + \frac{I}{a^2})\ddot x = Mg\sin\alpha
+\]
+which is a second order differential equation with constant coefficients, which we can solve.
+Note that due to the \(\frac{I}{a^2}\) term, the total acceleration is less than it would be for a frictionless particle (since such a particle would not rotate).
+For example, a cylinder would have \(I = \frac{1}{2}Ma^2\) hence \(\ddot x = \frac{2}{3}Mg\sin\alpha\).
+Alternatively, we could analyse the forces and torques.
+We can use Newton's second law to deduce
+\[
+	M\dot v = Mg\sin\alpha - F
+\]
+Further, the rate of change of angular momentum about the centre of mass is
+\[
+	I \dot\omega = aF
+\]
+The rolling condition implies that \(\dot v = a \dot\omega\), hence
+\[
+	\frac{I\dot v}{a} = aF \implies M\dot v = Mg\sin\alpha - \frac{I\dot v}{a^2} \implies \left( M + \frac{I}{a^2} \right)\dot v = Mg\sin\alpha
+\]
+We could also alternatively look at the torque about the point \(P\).
+In this case, using the parallel axes theorem,
+\[
+	I_P = I + Ma^2
+\]
+Then,
+\[
+	I_P \dot\omega = Mga\sin\alpha \implies (M a^2 + I)\frac{\dot v}{a} = Mga\sin\alpha
+\]
+and the substitution \(v = a\omega\) gives the equation we found before.
+
+\subsection{Transition from sliding to rolling}
+Consider a sphere with radius \(a\) that begins by sliding across a horizontal surface, for instance a snooker ball being hit parallel to the table, through the centre of mass, by a cue.
+Eventually, the ball will transition from sliding to rolling across the table.
+Initially, \(v = v_0\) and \(\omega = 0\).
+The kinetic frictional force \(F\) is given by
+\[
+	F = \mu_k N = \mu_k Mg
+\]
+Considering linear motion, we have
+\[
+	M \dot v = -F
+\]
+Considering angular motion,
+\[
+	I\dot\omega = aF \implies \frac{2}{5}Ma \dot\omega = F
+\]
+Hence,
+\[
+	M\dot v +\frac{2}{5}Ma \dot\omega = 0 \implies v = v_0 - \mu_k g t; \omega = \frac{5}{2a}\mu_k g t
+\]
+We can now compute the slip velocity.
+\[
+	v_\text{slip} = v - a\omega = v_0 - \frac{7}{2}\mu_k gt
+\]
+There is slipping when \(v_\text{slip} > 0\), which occurs for
+\[
+	0 \leq t < \frac{2v_0}{7\mu_k g}
+\]
+Rolling begins when \(t = \frac{2v_0}{7\mu_k g} = t_\text{roll}\).
+Note that at this time,
+\[
+	T = \frac{1}{2}Mv^2 + \frac{1}{2}I\omega^2 = \frac{1}{2}M\qty(1 + \frac{2}{5})v_\text{roll}^2 = \frac{5}{7}\qty( \frac{1}{2} Mv_0^2 )
+\]
+So during the sliding phase, we have lost \(\frac{2}{7}\) of the initial kinetic energy.
+We can check the loss of kinetic energy due to friction, giving
+\[
+	\int_0^{t_\text{roll}} F v_\text{slip} \dd{t} = \int_0^{t_\text{roll}} F \qty(v_0 - \frac{7}{2}\mu_k gt) \dd{t} = \frac{2}{7}\qty(\frac{1}{2}Mv_0^2)
+\]
+as expected.

@@ -1,0 +1,299 @@
+\subsection{Probability spaces and \(\sigma\)-algebras}
+\begin{definition}
+	Suppose \(\Omega\) is a set, and \(\mathcal F\) is a collection of subsets of \(\Omega\).
+	We call \(\mathcal F\) a \(\sigma\)-algebra if
+	\begin{enumerate}
+		\item \(\Omega \in \mathcal F\)
+		\item if \(A \in \mathcal F\), then \(\stcomp{A} \in \mathcal F\)
+		\item for any countable collection \((A_n)_{n \geq 1}\) with \(A_n \in \mathcal F\) for all \(n\), we must also have that \(\bigcup_n A_n \in \mathcal F\)
+	\end{enumerate}
+\end{definition}
+\begin{definition}
+	Suppose that \(\mathcal F\) is a \(\sigma\)-algebra on \(\Omega\).
+	A function \(\mathbb P \colon \mathcal F \to [0, 1]\) is called a probability measure if
+	\begin{enumerate}
+		\item \(\prob{\Omega} = 1\)
+		\item for any countable disjoint collection of sets \((A_n)_{n \geq 1}\) in \(\mathcal F\) (\(A_n \in \mathcal F\) for all \(n\)), then \(\prob{\bigcup_{n \geq 1}A_n} = \sum_{n \geq 1} \prob{A_n}\) (this is called `countable additivity')
+	\end{enumerate}
+	We say that \(\prob{A}\) is `the probability of \(A\)'.
+	We call \((\Omega, \mathcal F, \mathbb P)\) a probability space, where \(\Omega\) is the sample space, \(\mathcal F\) is the \(\sigma\)-algebra, and \(\mathbb P\) is the probability measure.
+\end{definition}
+
+\begin{remark}
+	When \(\Omega\) is countable, we take \(\mathcal F\) to be all subsets of \(\Omega\), i.e.\ \(\mathcal F = \mathcal P(\Omega)\), its power set.
+\end{remark}
+\begin{definition}
+	The elements of \(\Omega\) are called outcomes, and the elements of \(\mathcal F\) are called events.
+\end{definition}
+Note that \(\mathbb P\) is dependent on \(\mathcal F\) but not on \(\Omega\).
+We talk about probabilities of \textit{events}, not probabilities of \textit{outcomes}.
+For example, if you pick a uniform number from the interval \([0, 1]\); then the probability of getting any specific outcome is zero --- but we can define useful events that have non-zero probabilities.
+
+\subsection{Properties of the probability measure}
+\begin{itemize}
+	\item \(\prob{\stcomp{A}} = 1 - \prob{A}\), since \(A\) and \(\stcomp{A}\) are disjoint sets, whose union is \(\Omega\)
+	\item \(\prob{\varnothing} = 0\), since it is the complement of \(\Omega\)
+	\item if \(A \subseteq B\), then \(\prob{A} \leq \prob{B}\)
+	\item \(\prob{A \cup B} = \prob{A} + \prob{B} - \prob{A \cap B}\) using the Inclusion-Exclusion theorem
+\end{itemize}
+
+\subsection{Examples of probability spaces}
+\begin{itemize}
+	\item Rolling a fair 6-sided die:
+	      \begin{itemize}
+		      \item \(\Omega = \{ 1, 2, 3, 4, 5, 6 \}\)
+		      \item \(\mathcal F = \mathcal P(\Omega)\)
+		      \item \(\forall \omega \in \Omega, \prob{\{ \omega \}} = \frac{1}{6}\), and if \(A \subseteq \Omega\) then \(\prob{A} = \frac{\abs{A}}{6}\)
+	      \end{itemize}
+
+	\item Equally likely outcomes (more generally).
+	      Suppose \(\Omega\) is some finite set, e.g.
+	      \(\Omega = \{ \omega_1, \omega_2, \dots, \omega_n \}\).
+	      Then we define \(\prob{A} = \frac{\abs{A}}{\abs{\Omega}}\).
+	      In classical probability, this models picking a random element of \(\Omega\).
+
+	\item Picking balls from a bag.
+	      Suppose we have \(n\) balls with \(n\) labels from the set \(\{1, \dots, n\}\), indistinguishable by touching.
+	      Let us pick \(k \leq n\) balls at random from the bag, \textit{without replacement}.
+	      Here, `at random' just means that all possible outcomes are equally likely, and their probability measures should be equal.
+
+	      We will take \(\Omega = \{ A \subseteq \{1, \dots, n\} : \abs{A} = k \}\).
+	      Then \(\abs{\Omega} = \binom{n}{k}\).
+	      Then of course \(\prob{\{ \omega \}} = \frac{1}{\abs*{\Omega}}\), since all outcomes (combinations, in this case) are equally likely.
+
+	\item Consider a well-shuffled deck of 52 cards, i.e.\ it is equally likely that each possible permutation of the 52 cards will appear.
+	      \(\Omega = \{ \text{all permutations of 52 cards} \}\), and \(\abs*{\Omega} = 52!
+	      \)
+
+	      The probability that the top two cards are aces is therefore \(\frac{4 \times 3 \times 50!}{52!} = \frac{1}{221}\), since there are \(4 \times 3 \times 50!
+	      \) outcomes that produce such an event.
+
+	\item Consider a string of \(n\) random digits from \(\{0, \dots, 9\}\).
+	      Then \(\Omega = \{ 0, \dots, 9 \}^n\), and \(\abs*{\Omega} = 10^n\).
+	      We define \(A_k = \{ \text{no digit exceeds } k \}\), and \(B_k = \{ \text{largest digit is } k \}\).
+	      Then \(\prob{B_k} = \frac{\abs*{B_k}}{\abs*{\Omega}}\).
+	      Notice that \(B_k = A_k \setminus A_{k-1}\).
+	      \(\abs*{A_k} = (k+1)^n\), so \(\abs*{B_k} = (k+1)^n - k^n\), so \(\prob{B_k} = \frac{(k+1)^n - k^n}{10^n}\).
+
+	\item The birthday problem.
+	      There are \(n\) people; what is the probability that at least two of them share a birthday?
+	      We assume that each year has exactly 365 days, i.e.\ nobody is born on 29\textsuperscript{th} of February, and that the probabilities of being born on any given day are equal.
+
+	      Let \(\Omega = \{1, \dots, 365\}^n\), and \(\mathcal F = \mathcal P(\Omega)\).
+	      Since all outcomes are equally likely, we take \(\prob{\{\omega\}} = \frac{1}{365^n}\).
+
+	      Let \(A = \{ \text{at least two people share the same birthday} \}\).
+	      \(\stcomp{A} = \{ \text{all } n \text{ birthdays are different} \}\).
+	      Since \(\prob{A} = 1 - \prob{\stcomp{A}}\), it suffices to calculate \(\prob{\stcomp{A}}\), which is \(\frac{\abs*{\stcomp{A}}}{\abs*{\Omega}} = \frac{365!}{(365 - n)!365^n}\).
+	      So the answer is \(\prob{A} = 1 - \frac{365!}{(365 - n)!365^n}\)
+
+	      Note that at \(n=22\), \(\prob{A} \approx 0.476\) and at \(n=23\), \(\prob{A} \approx 0.507\).
+	      So when there are at least 23 people in a room, the probability that two of them share a birthday is around 50\%.
+\end{itemize}
+
+\subsection{Combinatorial analysis}
+Let \(\Omega\) be a finite set, and suppose \(\abs*{\Omega} = n\).
+We want to partition \(\Omega\) into \(k\) disjoint subsets \(\Omega_1, \dots, \Omega_k\) with \(\abs*{\Omega_i} = n_i\) and \(\sum_{i=1}^k n_i = n\).
+How many ways of doing such a partition are there?
+The result is
+\[
+	\underbrace{\binom{n}{n_1}}_{\text{choose first set}}\underbrace{\binom{n-n_1}{n_2}}_{\text{choose second set}}\dots\underbrace{\binom{n-(n_1 + n_2 + \dots + n_{k-1})}{n_k}}_{\text{choose last set}} = \frac{n!}{n_1!n_2!\dots n_k!}
+\]
+So we will write
+\[
+	\binom{n}{n_1, \dots, n_k} = \frac{n!}{n_1!n_2!\dots n_k!}
+\]
+
+Now, let \(f\colon \{1, \dots, k\} \to \{1, \dots, n\}\).
+\(f\) is strictly increasing if \(x < y \implies f(x) < f(y)\).
+\(f\) is increasing if \(x < y \implies f(x) \leq f(y)\).
+How many strictly increasing functions \(f\) exist?
+Note that if we know the range of \(f\), the function is completely determined.
+The range is a subset of \(\{1, \dots, n\}\) of size \(k\), i.e.\ a \(k\)-subset of an \(n\)-set, which yields \(\binom{n}{k}\) choices, and thus there are \(\binom{n}{k}\) strictly increasing functions.
+
+How many increasing functions \(f\) exist?
+Let us define a bijection from the set of increasing functions \(\{f\colon \{1, \dots, k\} \to \{1, \dots, n\}\}\) to the set of \textit{strictly} increasing functions \(\{g\colon \{1, \dots, k\} \to \{1, \dots, n+k-1\}\}\).
+For any increasing function \(f\), we define \(g(i) = f(i) + i - 1\).
+Then \(g\) is clearly strictly increasing, and takes values in the range \(\{1, \dots, n+k-1\}\).
+By extension, we can define an increasing function \(f\) from any strictly increasing function \(g\).
+So the total number of increasing functions \(f\colon \{1, \dots, k\} \to \{1, \dots, n\}\) is \(\binom{n+k-1}{k}\).
+
+\subsection{Stirling's formula}
+Let \((a_n)\) and \((b_n)\) be sequences.
+We will write \(a_n \sim b_n\) if \(\frac{a_n}{b_n} \to 1\) as \(n \to \infty\).
+This is asymptotic equality.
+\begin{theorem}[Stirling's Formula]
+	\(n!
+	\sim n^n\, \sqrt{2 \pi n}\, e^{-n}\) as \(n \to \infty\).
+\end{theorem}
+\noindent Let us first prove the weaker statement \(\log (n!) \sim n \log n\).
+\begin{proof}
+	Let us define \(l_n = \log (n!) = \log 2 + \log 3 + \dots + \log n\).
+	For \(x \in \mathbb R\), we write \(\floor{x}\) for the integer part of \(x\).
+	Note that
+	\[
+		\log \floor x \leq \log x \leq \log \floor{x+1}
+	\]
+	Let us integrate this from 1 to \(n\).
+	\[
+		\sum_{k=1}^{n-1} \log k \leq \int_1^n \log x\dd{x} \leq \sum_{k=2}^{n} \log k
+	\]
+	\[
+		l_{n-1} \leq n \log n - n + 1 \leq l_n
+	\]
+	For all \(n\), therefore:
+	\[
+		n \log n - n + 1 \leq l_n \leq (n+1) \log (n+1) - (n+1) + 1
+	\]
+	Dividing through by \(n\log n\), we get
+	\[
+		\frac{l_n}{n \log n} \to 1
+	\]
+	as \(n \to \infty\).
+\end{proof}
+\noindent The following complete proof is non-examinable.
+\begin{proof}
+	For any twice-differentiable function \(f\), for any \(a < b\) we have
+	\[
+		\int_a^b f(x) \dd{x} = \frac{f(a) + f(b)}{2} (b - a) - \frac{1}{2}\int_a^b (x-a)(b-x)f''(x)\dd{x}
+	\]
+	Now let \(f(x) = \log x\), \(a=k\) and \(b=k+1\).
+	Then
+	\begin{align*}
+		\int_k^{k+1} \log x \dd{x} & = \frac{\log k + \log(k+1)}{2} + \frac{1}{2}\int_k^{k+1} \frac{(x-k)(k+1-x)}{x^2}\dd{x}                            \\
+		                           & = \frac{\log k + \log(k+1)}{2} + \frac{1}{2}\int_0^1 \frac{x(1-x)}{(x+k)^2}\dd{x}                                  \\
+		\intertext{Let us take the sum for \(k=1, \dots, n-1\) of the equality.}
+		\int_1^n \log x \dd{x}     & = \frac{\log ((n-1)!) + \log(n!)}{2} + \frac{1}{2}\sum_{k=1}^{n-1}\int_0^1 \frac{x(1-x)}{(x+k)^2}\dd{x}            \\
+		n\log n - n + 1            & = \log (n!) - \frac{\log n}{2} + \sum_{k=1}^{n-1} a_k;\quad a_k = \frac{1}{2}\int_0^1 \frac{x(1-x)}{(x+k)^2}\dd{x} \\
+		\log (n!)                  & = n \log n - n + \frac{\log n}{2} + 1 - \sum_{k=1}^{n-1} a_k                                                       \\
+		n!
+		                           & = n^n \, e^{-n} \, \sqrt n \, \exp\left( 1 - \sum_{k=1}^{n-1} a_k \right)
+	\end{align*}
+	Now, note that
+	\[
+		a_k \leq \frac{1}{2}\int_0^1 \frac{x(1-x)}{k^2}\dd{x} = \frac{1}{12k^2}
+	\]
+	So the sum of all \(a_k\) converges.
+	We set
+	\[
+		A = \exp\left( 1 - \sum_{k=1}^\infty a_k \right)
+	\]
+	and then
+	\[
+		n!
+		= n^n \, e^{-n} \, \sqrt n \, A \, \exp\left( \underbrace{\sum_{k=n}^\infty a_k}_{\text{converges to zero}} \right)
+	\]
+	Therefore,
+	\[
+		n!
+		\sim n^n\, \sqrt{n}\, e^{-n}\, A
+	\]
+	To finish the proof, we must show that \(A = \sqrt{2 \pi}\).
+	We can utilise the fact that \(n!
+	\sim n^n\, \sqrt{n}\, e^{-n}\, A\).
+	\begin{align*}
+		2^{-2n} \binom{2n}{n} & = 2^{-2n} \cdot \frac{2n!}{(n!)^2}                                                                                           \\
+		                      & \sim 2^{-2n} \frac{(2n)^{2n} \cdot \sqrt{2n} \cdot A \cdot e^{-2n}}{n^n\, e^{-n}\, \sqrt n\, A\, n^n\, e^{-n}\, \sqrt n\, A} \\
+		                      & = \frac{\sqrt{2}}{A\sqrt{n}}
+	\end{align*}
+	Using a different method, we will prove that \(2^{-2n} \binom{2n}{n} \sim \frac{1}{\sqrt{\pi n}}\), which then forces \(A = \sqrt{2\pi}\).
+	Consider
+	\[
+		I_n = \int_0^{\frac{\pi}{2}} (\cos \theta)^n \dd{\theta};\quad n \geq 0
+	\]
+	So \(I_0 = \frac{\pi}{2}\) and \(I_1 = 1\).
+	By integrating by parts,
+	\[
+		I_n = \frac{n-1}{n}I_{n-2}
+	\]
+	Therefore,
+	\[
+		I_{2n} = \frac{2n-1}{2n}I_{2n-2} = \frac{(2n-1)(2n-3)\dots(3)(1)}{(2n)(2n-2)\dots(2)}I_0
+	\]
+	Multiplying the numerator and denominator by the denominator, we have
+	\[
+		I_{2n} = \frac{(2n)!}{(n!
+			\cdot 2^n)^2} \cdot \frac{\pi}{2} = 2^{-2n} \frac{2n}{n} \cdot \frac{\pi}{2}
+	\]
+	In the same way, we can deduce that
+	\[
+		I_{2n+1} = \frac{(2n)(2n-2)\dots(2)}{(2n+1)(2n-1)\dots(3)(1)}I_1 = \frac{1}{2n+1} \left( 2^{-2n} \binom{2n}{n} \right)^{-1}
+	\]
+	From \(I_n = \frac{n-1}{n}I_{n-2}\), we get that
+	\[
+		\frac{I_n}{I_{n-2}} \to 1
+	\]
+	as \(n \to \infty\).
+	We now want to show that \(\frac{I_{2n}}{I_{2n+1}} \to 1\).
+	We see from the definition of \(I_n\) that \(I\) is a decreasing function of \(n\).
+	Therefore,
+	\[
+		\frac{I_{2n}}{I_{2n+1}} \leq \frac{I_{2n-1}}{I_{2n+1}} \to 1
+	\]
+	and also
+	\[
+		\frac{I_{2n}}{I_{2n+1}} \geq \frac{I_{2n}}{I_{2n-2}} \to 1
+	\]
+	So
+	\[
+		\frac{I_{2n}}{I_{2n+1}} \to 1
+	\]
+	which means that
+	\[
+		\frac{2^{-2n} \binom{2n}{n} \frac{\pi}{2}}{\left( 2^{-2n} \binom{2n}{n} \right)^{-1} \frac{1}{2n+1}} \to 1 \implies \left( 2^{-2n} \binom{2n}{n} \right)^2 \frac{\pi}{2} (2n+1) \to 1
+	\]
+	Therefore,
+	\[
+		\left( 2^{-2n} \binom{2n}{n} \right)^2 \sim \frac{2}{\pi (2n+1)} \sim \frac{1}{\pi n}
+	\]
+	Finally,
+	\[
+		A = \sqrt{2 \pi}
+	\]
+	completes the proof.
+\end{proof}
+
+\subsection{Countable subadditivity}
+Let \((\Omega, \mathcal F, \mathbb P)\) be a probability space, and let \((A_n)_{n \geq 1}\) be a (not necessarily disjoint) sequence of events in \(\mathcal F\).
+Then
+\[
+	\prob{\bigcup_{n=1}^\infty A_n} \leq \sum_{n=1}^\infty \prob{A_n}
+\]
+\begin{proof}
+	Let us define a new sequence \(B_1 = A_1\) and \(B_n = A_n \setminus (A_1 \cup A_2 \cup \dots \cup A_{n-1})\).
+	So by construction, the sequence \(B_n\) is a disjoint sequence of events in \(\mathcal F\).
+	Note further that the union of all \(B_n\) is equal to the union of all \(A_n\).
+	So
+	\[
+		\prob{\bigcup_{n=1}^\infty A_n} = \prob{\bigcup_{n=1}^\infty B_n}
+	\]
+	By the countable additivity axiom,
+	\[
+		\prob{\bigcup_{n=1}^\infty B_n} = \sum_{n=1}^\infty \prob{B_n}
+	\]
+	But \(B_n \subseteq A_n\).
+	So \(\prob{B_n} \leq \prob{A_n}\).
+	Therefore,
+	\[
+		\prob{\bigcup_{n=1}^\infty A_n} \leq \sum_{n=1}^\infty \prob{A_n}
+	\]
+\end{proof}
+
+\subsection{Continuity of probability measures}
+Let \((\Omega, \mathcal F, \mathbb P)\) be a probability space.
+Let \((A_n)_{n \geq 1}\) be an increasing sequence in \(\mathcal F\), i.e.\ \(A_n \in \mathcal F\), and \(A_n \subseteq A_{n+1}\).
+Then \(\prob{A_n} \leq \prob{A_{n+1}}\).
+We want to show that
+\[
+	\lim_{n \to \infty}\prob{A_n} = \prob{\bigcup_n A_n}
+\]
+\begin{proof}
+	Let \(B_1 = A_1\), and for all \(n \geq 2\), let \(B_n = A_n \setminus (A_1 \cup A_2 \cup \dots \cup A_{n-1})\).
+	Then the union over \(B_i\) up to \(n\) is equal to the union over \(A_i\) up to \(n\).
+	So
+	\[
+		\prob{A_n} = \prob{\bigcup_{k=1}^n B_k} = \sum_{k=1}^n \prob{B_k} \to \sum_{k=1}^\infty \prob{B_k} = \prob{\bigcup_n B_n} = \prob{\bigcup_n A_n}
+	\]
+\end{proof}
+\noindent We can say that probability measures are continuous; an increasing sequence of events has a probability which tends to some limit.
+Similarly, if \((A_n)\) is decreasing, then the limit probability is the probability of the intersection of all \(A_n\).

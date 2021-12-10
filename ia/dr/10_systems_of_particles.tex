@@ -1,0 +1,115 @@
+\subsection{Basic setup}
+Consider a system of \(N\) particles of mass \(m_i\) with position vectors \(\vb r_i(t)\) and momentum \(\vb p_i(t) = m_i \dot {\vb r}_i\).
+Newton's second law applies to the \(i\)th particle individually, but not necessarily to the whole group without any further derivation.
+\[
+	m_i \rddot_i = \dot{\vb p}_i = \vb F_i
+\]
+We will make a distinction between internal and external forces;
+\[
+	\vb F_i = \vb F_i^\text{ext} + \sum_{j = 1}^N \vb F_{ij}
+\]
+where the \(\vb F_i^\text{ext}\) is the external force on the \(i\)th particle, and the \(\vb F_{ij}\) is the force exerted on the \(i\)th particle by the \(j\)th particle.
+Note that \(\vb F_{ii} = 0\) since particles do not affect themselves.
+Newton's third law gives a further constraint:
+\[
+	\vb F_{ij} = -\vb F_{ji}
+\]
+
+\subsection{Centre of mass}
+The total mass of the system, \(M\), is given by
+\[
+	M = \sum_{i=1}^N m_i
+\]
+The centre of mass, \(\vb R\), is given by
+\[
+	\vb R = \frac{1}{M} \sum_{i=1}^N m_i \vb r_i
+\]
+The total linear momentum, \(\vb P\), is given by
+\[
+	\vb P = \sum_{i=1}^N m_i \rdot_i = \sum_{i=1}^N \vb p_i = M\dot{\vb R}
+\]
+which is the same momentum as a single particle of mass \(M\) and position vector \(\vb R\) would have.
+Then, by Newton's second law, taking into account the fact that the \(\vb F_{ij}\) are antisymmetric,
+\begin{align*}
+	\dot{\vb P} & = M \ddot{\vb R}                                                         \\
+	            & = \sum_{i=1}^N \dot{\vb p_i}                                             \\
+	            & = \sum_{i=1}^N \vb F_i^\text{ext} + \sum_{i=1}^N \sum_{j=1}^N \vb F_{ij} \\
+	            & = \sum_{i=1}^N \vb F_i^\text{ext}                                        \\
+	            & = \vb F^\text{ext}
+\end{align*}
+So the centre of mass moves as if it were the position of a mass \(M\) under the influence of a force \(\vb F^\text{ext}\).
+This extends Newton's second law to a system of particles.
+If \(\vb F^\text{ext} = \vb 0\) then we have conservation of the total momentum \(\vb P\).
+In this case, there will be an inertial frame tracking the centre of mass at its origin.
+
+\subsection{Motion relative to the centre of mass}
+Let \(\vb r_i = \vb R + \vb s_i\), then \(\vb s_i\) is the position vector of the \(i\)th particle relative to the centre of mass.
+Then
+\[
+	\sum_{i=1}^N m_i \vb s_i = \sum_{i=1}^N m_i (\vb r_i - \vb R) = \sum_{i=1}^N m_i \vb r_i - \sum_{i=1}^N m_i \vb R = \vb 0
+\]
+Further,
+\[
+	\dv{t} \left( \sum_{i=1}^N m_i \vb s_i \right) = \vb 0
+\]
+The total linear momentum is
+\[
+	\vb P = \sum_{i=1}^N m_i (\dot{\vb R} + \dot{\vb s}_i) = \sum_{i=1}^N m_i \dot{\vb R} = M\dot{\vb R}
+\]
+as expected.
+
+\subsection{Angular momentum}
+The total angular momentum \(\vb L\) is defined as
+\[
+	\vb L = \sum_{i=1}^N \vb r_i \times \vb p_i
+\]
+Then
+\begin{align*}
+	\dot{\vb L} & = \sum_{i=1}^N \dot{\vb r}_i \times \vb p_i + \sum_{i=1}^N \vb r_i \times \dot{\vb p}_i                \\
+	            & = \sum_{i=1}^N \vb r_i \times \dot{\vb p}_i                                                            \\
+	            & = \sum_{i=1}^N \vb r_i \times \left( \vb F_i^\text{ext} + \sum_{j=1}^N \vb F_{ij} \right)              \\
+	            & = \sum_{i=1}^N \vb r_i \times \vb F_i^\text{ext} + \sum_{i=1}^N \vb r_i \times \sum_{j=1}^N \vb F_{ij} \\
+\end{align*}
+The latter term is not necessarily zero, but for example if \(\vb F_{ij} \parallel (\vb r_i - \vb r_j)\) then it is zero.
+If \(\vb F_{ij} \parallel (\vb r_i - \vb r_j)\) then
+\[
+	\dot{\vb L} = \sum_{i=1}^N \vb r_i \times \vb F_i^\text{ext} = \vb G^\text{ext}
+\]
+where \(\vb G^\text{ext}\) is the total external torque on the system.
+Relative to the centre of mass, we can write instead
+\begin{align*}
+	\vb L & = \sum_{i=1}^N m_i (\vb R + \vb s_i) \times (\dot{\vb R} + \dot{\vb s}_i)                                                                                                                                                   \\
+	      & = \sum_{i=1}^N m_i \vb R \times \dot{\vb R} + \underbrace{\sum_{i=1}^N m_i \vb R \times \dot{\vb s}_i}_{=0} + \underbrace{\sum_{i=1}^N m_i \vb s_i \times \dot{\vb R}}_{=0} + \sum_{i=1}^N m_i \vb s_i \times \dot{\vb s}_i \\
+	      & = \sum_{i=1}^N m_i \vb R \times \dot{\vb R} + \sum_{i=1}^N m_i \vb s_i \times \dot{\vb s}_i
+\end{align*}
+So the total angular momentum is essentially the sum of the angular momentum of a particle of mass \(M\) at \(\vb R\) moving with velocity \(\dot{\vb R}\), and the angular momentum associated with the particles relative to the centre of mass.
+
+\subsection{Energy}
+The total kinetic energy \(T\) is given by
+\begin{align*}
+	T & = \sum_{i=1}^N \frac{1}{2} m_i \dot{\vb r}_i^2                                                                                                                  \\
+	  & = \sum_{i=1}^N \frac{1}{2} m_i (\dot{\vb R} + \dot{\vb s}_i)^2                                                                                                  \\
+	  & = \frac{1}{2}\dot{\vb R}^2\sum_{i=1}^N m_i + \underbrace{\sum_{i=1}^N  m_i \dot{\vb R} \cdot \dot{\vb s}_i}_{=0} + \sum_{i=1}^N \frac{1}{2} m_i \dot{\vb s}_i^2 \\
+	  & = \frac{1}{2}M\dot{\vb R}^2 + \sum_{i=1}^N \frac{1}{2} m_i \dot{\vb s}_i^2
+\end{align*}
+The total kinetic energy is the sum of the kinetic energy of a particle of mass \(M\) at \(\vb R\) moving with velocity \(\dot{\vb R}\), and the kinetic energy associated with the particles relative to the centre of mass.
+Let us consider the rate of change of kinetic energy:
+\begin{align*}
+	\dv{T}{t} & = \dv{t} \sum_{i=1}^N \frac{1}{2} m_i \dot{\vb r}_i^2                                                                              \\
+	          & = \sum_{i=1}^N \frac{1}{2} m_i \dot{\vb r}_i \cdot \ddot{\vb r}_i                                                                  \\
+	          & = \sum_{i=1}^N \dot{\vb r}_i \cdot \vb F^\text{ext} + \sum_{i=1}^N \dot{\vb r}_i \cdot \sum_{j=1}^N \vb F_{ij}                     \\
+	          & = \sum_{i=1}^N \dot{\vb r}_i \cdot \vb F^\text{ext} + \sum_{i=1}^N \sum_{j=i+1}^N (\dot{\vb r}_i - \dot{\vb r}_j) \cdot \vb F_{ij} \\
+\end{align*}
+If the external forces are defined by a potential
+\[
+	\vb F_i^\text{ext} = -\grad_{\vb r_i} V_i^\text{ext}
+\]
+and the internal forces are defined by a potential
+\[
+	\vb F_{ij} = -\grad_{\vb r_i} V(\vb r_i - \vb r_j)
+\]
+then
+\[
+	\dv{T}{t} = -\dv{t} \sum_{i=1}^N V_i^\text{ext} - \dv{t} \sum_{i=1}^N \sum_{j=1+1}^N V(\vb r_i - \vb r_j)
+\]
+Hence we have conservation of energy if the given properties are true.
