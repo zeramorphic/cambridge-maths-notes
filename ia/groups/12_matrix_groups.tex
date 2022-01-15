@@ -1,0 +1,559 @@
+\subsection{Definitions}
+We will look at various groups of matrices, their related actions, and study distance-preserving maps on \(\mathbb R^2\) and \(\mathbb R^3\).
+Here are some examples of matrix groups.
+\begin{itemize}
+	\item \(M_{n \times n}(\mathbb F)\) is the set of \(n \times n\) matrices over the field \(\mathbb F\).
+	\item \(GL_n(\mathbb F)\) is the set of \(n \times n\) matrices over \(\mathbb F\) which are invertible.
+	      This is known as the general linear group over \(\mathbb F\).
+	      \begin{itemize}
+		      \item \(GL_n(\mathbb F)\) is a group under multiplication.
+		      \item \(\det\colon GL_n(\mathbb F) \to \mathbb F^* := \mathbb F \setminus \{ 0 \}\) is a surjective homomorphism.
+		      \item Given \(A \in GL_n(\mathbb R)\), \(A^\transpose\) is the matrix with entries \((A^\transpose)_{ij} = A_{ji}\).
+		            It satisfies
+		            \begin{itemize}
+			            \item \((AB)^\transpose = B^\transpose A^\transpose\)
+			            \item \((A^{-1})^\transpose = (A^\transpose)^{-1}\)
+			            \item \(AA^\transpose = I \iff A^\transpose A = I \iff A^\transpose = A^{-1}\)
+			            \item \(\det A^\transpose = \det A\)
+		            \end{itemize}
+	      \end{itemize}
+	\item \(SL_n(\mathbb F) \leq GL_n(\mathbb F)\) is the kernel of the \(\det\) homomorphism.
+	      This is the special linear group.
+	\item \(O_n = O_n(\mathbb R) := \{ A \in GL_n(\mathbb R): A^\transpose A = I \}\) is the orthogonal group.
+	      We can check the group axioms to verify it is a subgroup of \(GL_n(\mathbb R)\).
+	\item \(SO_n \leq O_n\) is the kernel of the \(\det\) homomorphism.
+	      This is the special orthogonal group.
+\end{itemize}
+\begin{proposition}
+	\(\det \colon O_n \to \{ \pm 1 \}\) is a surjective homomorphism.
+\end{proposition}
+\begin{proof}
+	If \(A \in O_n\), then \(A^\transpose A = I\).
+	So \((\det A)^2 = \det A^\transpose \cdot \det A = \det(A^\transpose A) = \det I = 1\).
+	So \(\det A = \pm 1\).
+	It is surjective since \(\det I = 1\), and the determinant of the matrix similar to the identity but one of the diagonal entries is \(-1\) has determinant \(-1\).
+\end{proof}
+
+\subsection{Matrix encoding of M\"obius maps}
+\begin{proposition}
+	The function \(\varphi\colon SL_2(\mathbb C) \to \mathcal M\) mapping
+	\[
+		\begin{pmatrix}
+			a & b \\ c & d
+		\end{pmatrix} \mapsto f;\quad f(z) = \frac{az + b}{cz + d}
+	\]
+	is a surjective homomorphism with kernel \(\{ I, -I \}\).
+\end{proposition}
+\begin{proof}
+	Firstly, \(\varphi\) is a homomorphism.
+	If \(f_1(z) = \frac{a_1z+b_1}{c_1z+d_1}, f_2(z) = \frac{a_2z+b_2}{c_2z+d_2}\), then we have seen that \(f_2(f_1(z))\) can be written in the form \(\frac{az+b}{cz+d}\) where
+	\[
+		\begin{pmatrix}
+			a & b \\ c & d
+		\end{pmatrix} = \begin{pmatrix}
+			a_2 & b_2 \\ c_2 & d_2
+		\end{pmatrix}\begin{pmatrix}
+			a_1 & b_1 \\ c_1 & d_1
+		\end{pmatrix}
+	\]
+	So
+	\[
+		\varphi\left( \begin{pmatrix}
+				a_2 & b_2 \\ c_2 & d_2
+			\end{pmatrix}\begin{pmatrix}
+				a_1 & b_1 \\ c_1 & d_1
+			\end{pmatrix} \right) = \varphi \begin{pmatrix}
+			a_2 & b_2 \\ c_2 & d_2
+		\end{pmatrix} \cdot \varphi \begin{pmatrix}
+			a_1 & b_1 \\ c_1 & d_1
+		\end{pmatrix}
+	\]
+	Secondly, \(\varphi\) is surjective.
+	If \(\frac{az+b}{cz+d}\) is a M\"obius map, then
+	\[
+		\begin{pmatrix}
+			a & b \\ c & d
+		\end{pmatrix} \in GL_2(\mathbb C)
+	\]
+	since \(ad-bc\neq 0\).
+	But
+	\[
+		\det \begin{pmatrix}
+			a & b \\ c & d
+		\end{pmatrix}
+	\]
+	may not be 1, so we will take \(D^2\) to be this determinant, then we can consider
+	\[
+		\begin{pmatrix}
+			a/D & b/D \\ c/D & d/D
+		\end{pmatrix}
+	\]
+	This new matrix has determinant 1 and is equal to the original M\"obius map, so we have a matrix in \(SL_2(\mathbb C)\) that maps to any given M\"obius map.
+	Finally, we want to find the kernel.
+	\[
+		\varphi \begin{pmatrix}
+			a & b \\ c & d
+		\end{pmatrix} = \text{id} \in \mathbb M \implies \frac{az+b}{cz+d} = z \iff c = d = 0; a = d
+	\]
+	But since this matrix has determinant 1, \(a = d = \pm 1\), and thus \(\ker \varphi = \{ I, -I \}\).
+\end{proof}
+\begin{corollary}
+	\[
+		\mathcal M \cong \frac{SL_2(\mathbb C)}{\{ I, -I \}}
+	\]
+\end{corollary}
+\begin{proof}
+	This is an immediate consequence of the first isomorphism theorem.
+\end{proof}
+The quotient \(\frac{SL_2(\mathbb C)}{\{ I, -I \}}\) is known as the projective special linear group \(PSL_2(\mathbb C)\).
+
+\subsection{Actions of matrices on vector spaces}
+All of the groups defined above act on the corresponding vector spaces.
+For example, \(GL_n(\mathbb F) \acts \mathbb F^n\).
+As an example, let \(G \leq GL_2(\mathbb R) \acts \mathbb R^2\).
+What are the orbits of this action?
+Clearly, \(\{ \vb 0 \}\) is a singleton orbit since we are acting by linear maps.
+\begin{itemize}
+	\item If \(G = GL_2(\mathbb R)\), \(G\) acts transitively on \(\mathbb R^2 \setminus \{ 0 \}\).
+	      We can complete any \(\vb v \neq 0\) to a basis and therefore we have an invertible change of basis matrix sending any basis to any basis.
+	      So there are two orbits: \(\mathbb R^2 \setminus \{ 0 \}\) and \(\{ 0 \}\) itself.
+	\item If \(G\) is the set of upper triangular matrices given by
+	      \[
+		      G = \left\{ \begin{pmatrix}
+			      a & b \\ 0 & d
+		      \end{pmatrix} \in GL_2(\mathbb R) \right\} = \left\{ \begin{pmatrix}
+			      a & b \\ 0 & d
+		      \end{pmatrix}: a, d \neq 0 \right\}
+	      \]
+	      We know that \(\Orb(\vb 0) = \{ \vb 0 \}\).
+	      Further:
+	      \[
+		      \Orb\begin{pmatrix}
+			      1 \\ 0
+		      \end{pmatrix} = \left\{ \begin{pmatrix}
+			      a & b \\ 0 & d
+		      \end{pmatrix} \begin{pmatrix}
+			      1 \\ 0
+		      \end{pmatrix}: \begin{pmatrix}
+			      a & b \\ 0 & d
+		      \end{pmatrix} \in G \right\} = \left\{ \begin{pmatrix}
+			      a \\ 0
+		      \end{pmatrix}: a \neq 0 \right\}
+	      \]
+	      We haven't found all of the orbits yet so let us consider another point.
+	      \[
+		      \Orb\begin{pmatrix}
+			      0 \\ 1
+		      \end{pmatrix} = \left\{ \begin{pmatrix}
+			      a & b \\ 0 & d
+		      \end{pmatrix} \begin{pmatrix}
+			      0 \\ 1
+		      \end{pmatrix}: \begin{pmatrix}
+			      a & b \\ 0 & d
+		      \end{pmatrix} \in G \right\} = \left\{ \begin{pmatrix}
+			      b \\ d
+		      \end{pmatrix}: d \neq 0 \right\}
+	      \]
+	      We have found all of the orbits since the union gives \(\mathbb R^2\).
+\end{itemize}
+
+\subsection{Conjugation action of general linear group}
+Recall from Vectors and Matrices: if \(\alpha\colon \mathbb F^n \to \mathbb F^n\) is a linear map, we can represent \(\alpha\) as a matrix \(A\) with respect to a basis \(\{ \vb e_1, \dots, \vb e_n \}\).
+If we choose a different basis \(\{ \vb f_1, \dots, \vb f_n \}\) then \(\alpha\) can also be written as a matrix with respect to this new basis, by the matrix \(P^{-1}AP\) where \(P\) is the change of basis matrix, defined by
+\[
+	\vb f_j = P_{ij}\vb e_i
+\]
+This is an example of conjugation.
+\begin{proposition}
+	\(GL_n(\mathbb F)\) acts on \(M_{n \times n}(\mathbb F)\) by conjugation.
+	The orbit of a matrix \(A \in M_{n \times n}(\mathbb F)\) is the set of matrices representing the same linear map as \(A\) with respect to different bases.
+\end{proposition}
+\begin{proof}
+	This is an action:
+	\begin{itemize}
+		\item \(P(A) = PAP^{-1} \in M_{n \times n}(\mathbb F)\) for any chosen matrix \(A \in M_{n \times n}(\mathbb F)\), \(P \in GL_n(\mathbb F)\)
+		\item \(I(A) = IAI^{-1} = A\)
+		\item \(Q(P(A)) = QPAP^{-1}Q^{-1} = (QP)A(QP)^{-1} = (QP)(A)\)
+	\end{itemize}
+	As shown in the discussion above, \(A\) and \(B\) are in the same orbit if and only if \(A = PBP^{-1} \iff B = P^{-1}AP\), which is equivalent to this conjugation action.
+\end{proof}
+
+\subsection{Orbits of conjugation action: Jordan normal form}
+Recall from Vectors and Matrices that any matrix in \(M_{2 \times 2}(\mathbb C)\) is conjugate to a matrix in Jordan Normal Form, i.e.\ to one of the following types of matrix:
+\[
+	\begin{pmatrix}
+		\lambda_1 & 0 \\ 0 & \lambda_2
+	\end{pmatrix};\quad \begin{pmatrix}
+		\lambda & 0 \\ 0 & \lambda
+	\end{pmatrix};\quad \begin{pmatrix}
+		\lambda & 1 \\ 0 & \lambda
+	\end{pmatrix}
+\]
+In the first case, the values \(\lambda_1, \lambda_2\) are uniquely determined by the matrix we are trying to conjugate (specifically its eigenvalues).
+But of course, the order of the eigenvalues is not determined uniquely.
+Other than this, no two matrices on this list of possible Jordan Normal Forms are conjugate.
+\begin{itemize}
+	\item \(\begin{pmatrix}
+		      \lambda_1 & 0 \\ 0 & \lambda_2
+	      \end{pmatrix}\) is characterised by having two distinct eigenvalues, a property independent of the chosen basis, so it cannot be conjugate to the others.
+	\item \(\begin{pmatrix}
+		      \lambda & 0 \\ 0 & \lambda
+	      \end{pmatrix}\) is only conjugate to itself since it is \(\lambda I\).
+	\item \(\begin{pmatrix}
+		      \lambda & 1 \\ 0 & \lambda
+	      \end{pmatrix}\) is characterised by having a repeated eigenvalue \(\lambda\), but only a one dimensional eigenspace (independent of the basis we choose).
+\end{itemize}
+This gives a complete description of the orbits of \(GL_n(\mathbb C) \acts M_{n \times n}(\mathbb C)\).
+
+\subsection{Stabilisers of conjugation action}
+Clearly we have
+\[
+	P \in \Stab(A) \iff PAP^{-1} = A \iff PA = AP
+\]
+So if two matrices commute, they stabilise each other.
+Let us consider the three cases as above.
+\begin{itemize}
+	\item For \(A = \begin{pmatrix}
+		      \lambda_1 & 0 \\ 0 & \lambda_2
+	      \end{pmatrix}\):
+	      \begin{align*}
+		      \begin{pmatrix}
+			      a & b \\ c & d
+		      \end{pmatrix}\begin{pmatrix}
+			                   \lambda_1 & 0 \\ 0 & \lambda_2
+		                   \end{pmatrix} & = \begin{pmatrix}
+			                                     \lambda_1 a & \lambda_2 b \\
+			                                     \lambda_1 c & \lambda_2 d
+		                                     \end{pmatrix} \\
+		      \begin{pmatrix}
+			      \lambda_1 & 0 \\ 0 & \lambda_2
+		      \end{pmatrix}\begin{pmatrix}
+			                   a & b \\ c & d
+		                   \end{pmatrix} & = \begin{pmatrix}
+			                                     \lambda_1 a & \lambda_1 b \\
+			                                     \lambda_2 c & \lambda_2 d
+		                                     \end{pmatrix}
+	      \end{align*}
+	      So this matrix is in the stabiliser if and only if \(b = c = 0\).
+	      \[
+		      \Stab\begin{pmatrix}
+			      \lambda_1 & 0 \\ 0 & \lambda_2
+		      \end{pmatrix} = \left\{ \begin{pmatrix}
+			      a & 0 \\ 0 & d
+		      \end{pmatrix} \in GL_2(\mathbb C) \right\}
+	      \]
+	\item For \(A = \begin{pmatrix}
+		      \lambda & 0 \\ 0 & \lambda
+	      \end{pmatrix}\), clearly its stabiliser is \(GL_2(\mathbb C)\) since \(A = \lambda I\), and so it commutes with any matrix.
+	\item For \(A = \begin{pmatrix}
+		      \lambda & 1 \\ 0 & \lambda
+	      \end{pmatrix}\), the stabiliser is
+	      \[
+		      \Stab \begin{pmatrix}
+			      \lambda & 1 \\ 0 & \lambda
+		      \end{pmatrix} = \left\{ \begin{pmatrix}
+			      a & b \\ 0 & a
+		      \end{pmatrix} \in GL_2(\mathbb C) \right\}
+	      \]
+	      (Proof as exercise)
+\end{itemize}
+
+\subsection{Geometry of orthogonal groups}
+We will look more closely at the orthogonal group and special orthogonal group, and then focus on symmetries of \(\mathbb R^2\) and \(\mathbb R^3\).
+Let us consider the standard inner product in \(\mathbb R^n\):
+\[
+	\vb x \cdot \vb y = x_i y_i = \vb x^\transpose \vb y
+\]
+If we consider the columns \(\vb p_1, \dots, \vb p_n\) of an orthogonal matrix \(P \in O_n\), we have
+\[
+	(P^\transpose P)_{ij} = \vb p_i^\transpose \vb p_j = \vb p_i \cdot \vb p_j
+\]
+So since \(P \in O_n \iff P^\transpose P = I\), we have
+\[
+	\vb p_i \cdot \vb p_j = \delta_{ij}
+\]
+\begin{proposition}
+	\(P \in O_n\) if and only if the columns of \(P\) form an orthonormal basis.
+\end{proposition}
+This has been proven by the above discussion.
+Thinking of \(P \in O_n\) as a change of basis matrix, we get the following result.
+\begin{proposition}
+	Consider \(O_n \acts M_{n \times n}(\mathbb R)\) by conjugation.
+	Two matrices are in the same orbit if and only if they represent the same linear map with respect to two orthonormal bases.
+\end{proposition}
+\begin{proposition}
+	\(P \in O_n\) if and only if \(P \vb x \cdot P \vb y = \vb x \cdot \vb y\), i.e.\ the matrix preserves the inner product.
+\end{proposition}
+\begin{proof}
+	In the forward direction:
+	\[
+		(P\vb x) \cdot (P \vb y) = (P \vb x)^\transpose (P \vb y) = \vb x^\transpose P^\transpose P \vb y = \vb x^\transpose \vb y = \vb x \cdot \vb y
+	\]
+	In the backward direction: if \(P\vb x \cdot P\vb y = \vb x \cdot \vb y\) for all \(\vb x, \vb y \in \mathbb R^n\), then taking the standard basis vectors \(\vb e_i, \vb e_j\) we have
+	\[
+		P\vb e_i \cdot P\vb e_j = \vb e_i \cdot \vb e_j = \delta_{ij}
+	\]
+	So the vectors \(P\vb e_1, \dots, P\vb e_n\) are orthonormal.
+	These are the columns of \(P\), so \(P \in O_n\).
+\end{proof}
+\begin{corollary}
+	For \(P \in O_n\), \(\vb x, \vb y \in \mathbb R^n\), we have
+	\begin{enumerate}[(i)]
+		\item \(\abs{P\vb x} = \abs{\vb x}\) (\(P\) preserves length)
+		\item \(P\vb x \angle P\vb y = \vb x \angle \vb y\) (\(P\) preserves angles between vectors)
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(i)]
+			\item Follows from the fact that the inner product is preserved, by taking the inner product of a vector with itself under the transformation.
+			\item Angles are also defined using the inner product,
+			      \[
+				      \cos (\vb x \angle \vb y) = \frac{\vb x \cdot \vb y}{\abs{\vb x}\abs{\vb y}}
+			      \]
+			      Since the inner product and the lengths are preserved, the cosine of the angle is therefore preserved.
+			      Since \(\cos\colon [0, \pi] \to [-1, 1]\) is injective, \(\vb x \angle \vb y = P\vb x \angle P\vb y\).
+		\end{enumerate}
+	\end{proof}
+\end{corollary}
+
+\subsection{Reflections in \(O_n\)}
+We will consider what the elements of these groups look like when acting upon \(\mathbb R^n\).
+\begin{definition}
+	If \(\vb a \in \mathbb R^n\) with \(\abs{\vb a} = 1\), then the reflection in the plane normal to \(\vb a\) is the linear map
+	\[
+		R_{\vb a} \colon \mathbb R^n \to \mathbb R^n;\quad \vb x \mapsto \vb x - 2 (\vb x \cdot \vb a) \vb a
+	\]
+\end{definition}
+\begin{lemma}
+	\(R_{\vb a}\) lies in \(O_n\).
+\end{lemma}
+\begin{proof}
+	Let \(\vb x, \vb y \in \mathbb R^n\).
+	\begin{align*}
+		R_{\vb a}(\vb x) \cdot R_{\vb a}(\vb y) & = (\vb x - 2 (\vb x \cdot \vb a) \vb a) \cdot (\vb y - 2 (\vb y \cdot \vb a) \vb a)                                                                                                  \\
+		                                        & = \vb x \cdot \vb y - 2(\vb x \cdot \vb a)(\vb a \cdot \vb y) - 2(\vb y\cdot \vb a)(\vb x \cdot \vb a) + 4(\vb x\cdot \vb a)(\vb y \cdot \vb a)\underbrace{(\vb a \cdot \vb a)}_{=1} \\
+		                                        & = \vb x \cdot \vb y
+	\end{align*}
+	So it preserves the inner product, so it is an orthogonal matrix.
+\end{proof}
+As we might expect, conjugates of reflections by orthogonal matrices are also reflections.
+\begin{lemma}
+	Given \(P \in O_n\), \(PR_{\vb a}P^{-1} = R_{P\vb a}\).
+\end{lemma}
+\begin{proof}
+	We have
+	\begin{align*}
+		PR_{\vb a}P^{-1}(\vb x) & = P(P^{-1}(\vb x) - 2 (P^{-1}(\vb x) \cdot \vb a) \vb a) \\
+		                        & = \vb x - 2(P^{-1}(\vb x)\cdot\vb a)(P\vb a)             \\
+		                        & = \vb x - 2(P^\transpose (\vb x)\cdot\vb a)(P\vb a)      \\
+		                        & = \vb x - 2(\vb x^\transpose P \vb a)(P\vb a)            \\
+		                        & = \vb x - 2(\vb x \cdot P\vb a)(P\vb a)
+	\end{align*}
+	which by inspection is the reflection of \(\vb x\) by the plane with normal \(P\vb a\).
+\end{proof}
+We know that no reflection matrix can be in \(SO_n\), since this requires the determinant to be \(+1\), which is the product of the eigenvalues.
+The \(n-1\) eigenvectors with eigenvalue \(+1\) are \(n-1\) linearly independent vectors spanning the plane, and the single eigenvector with eigenvalue \(-1\) is the normal to the plane.
+So the determinant is \(-1\).
+
+\subsection{Classifying elements of \(O_2\)}
+\begin{theorem}
+	Every element of \(SO_2\) is of the form
+	\[
+		\begin{pmatrix}
+			\cos\theta & -\sin\theta \\
+			\sin\theta & \cos\theta
+		\end{pmatrix}
+	\]
+	for some \(\theta \in [0, 2\pi)\).
+
+	This is an anticlockwise rotation of \(\mathbb R^2\) about the origin by angle \(\theta\).
+	Conversely, every such element lies in \(SO_2\).
+\end{theorem}
+\begin{proof}
+	Let
+	\[
+		A = \begin{pmatrix}
+			a & b \\ c & d
+		\end{pmatrix} \in SO_2
+	\]
+	We have \(A^\transpose A = I\) and \(\det A = 1\).
+	So
+	\[
+		A^\transpose = A^{-1} \implies \begin{pmatrix}
+			a & c \\ b & d
+		\end{pmatrix} = \frac{1}{1} \begin{pmatrix}
+			d & -b \\ -c & a
+		\end{pmatrix}
+	\]
+	So \(a=d, b=-c\).
+	Since \(ad-bc=1\), \(a^2+c^2=1\).
+	Then we can write \(a = \cos \theta\) and \(c = \sin \theta\) for a unique \(\theta \in [0, 2\pi)\).
+
+	Conversely, the determinant of this matrix is 1, and is in \(O_2\), so this element lies in \(SO_2\).
+\end{proof}
+\begin{theorem}
+	The elements of \(O_2 \setminus SO_2\) are the reflections in lines through the origin.
+\end{theorem}
+\begin{proof}
+	Let
+	\[
+		A = \begin{pmatrix}
+			a & b \\ c & d
+		\end{pmatrix} \in O_2 \setminus SO_2
+	\]
+	So \(A^\transpose A = I\) and \(\det A = -1\).
+	\[
+		A^\transpose = A^{-1} \implies \begin{pmatrix}
+			a & c \\ b & d
+		\end{pmatrix} = \frac{1}{-1} \begin{pmatrix}
+			d & -b \\ -c & a
+		\end{pmatrix}
+	\]
+	So \(a=-d, b=c\).
+	Together with \(ad-bc=-1\), we have \(a^2 + c^2 = 1\).
+	So let \(a = \cos \theta\), \(c = \sin \theta\) like before, so
+	\[
+		A = \begin{pmatrix}
+			\cos \theta & \sin \theta  \\
+			\sin \theta & -\cos \theta
+		\end{pmatrix}
+	\]
+	which can be shown to be a reflection using double angle formulas such that
+	\[
+		A \begin{pmatrix}
+			\sin \frac{\theta}{2} \\ \cos \frac{\theta}{2}
+		\end{pmatrix} = -\begin{pmatrix}
+			\sin \frac{\theta}{2} \\ \cos \frac{\theta}{2}
+		\end{pmatrix};\quad A\begin{pmatrix}
+			\cos \frac{\theta}{2} \\ \sin \frac{\theta}{2}
+		\end{pmatrix} = \begin{pmatrix}
+			\cos \frac{\theta}{2} \\ \sin \frac{\theta}{2}
+		\end{pmatrix}
+	\]
+	So \(A\) is a reflection in the plane orthogonal to the vector \(\begin{pmatrix}
+		\sin \frac{\theta}{2} \\ \cos \frac{\theta}{2}
+	\end{pmatrix}\).
+	Conversely, any reflection in a line through the origin has this form, so it will be in \(O_2 \setminus SO_2\).
+\end{proof}
+
+\begin{corollary}
+	Every element of \(O_2\) is the composition of at most two reflections.
+\end{corollary}
+\begin{proof}
+	Every element of \(O_2 \setminus SO_2\) is a reflection, so this is trivial.
+	If \(A \in SO_2\), then we can write
+	\[
+		A = \underbrace{A \begin{pmatrix}
+				-1 & 0 \\ 0 & 1
+			\end{pmatrix}}_{\det = -1} \underbrace{\begin{pmatrix}
+				-1 & 0 \\ 0 & 1
+			\end{pmatrix}}_{\det = -1}
+	\]
+	So we have expressed \(A\) as the product of two reflections.
+\end{proof}
+
+\subsection{Classifying elements of \(O_3\)}
+\begin{theorem}
+	If \(A \in SO_3\), then there exists some unit vector \(\vb v \in \mathbb R^3\) with \(A\vb v = \vb v\), i.e.\ there exists an eigenvector with eigenvalue 1.
+\end{theorem}
+\begin{proof}
+	It is sufficient to show that 1 is an eigenvalue of \(A\), since this guarantees that there is some nonzero eigenvector for this eigenvalue which we can then normalise.
+	This is equivalent to showing that \(\det (A - I) = 0\).
+	\begin{align*}
+		\det(A - I) & = \det(A - AA^\transpose)       \\
+		            & = \det(A)\det(I - A^\transpose) \\
+		            & = \det(I - A^\transpose)        \\
+		            & = \det((I - A)^\transpose)      \\
+		            & = \det(I - A)                   \\
+		            & = (-1)^3\det(A - I)
+	\end{align*}
+	So \(2\det(A - I) = 0 \implies \det(A - I) = 0\).
+\end{proof}
+\begin{corollary}
+	Every element \(A \in SO_3\) is conjugate (in \(SO_3\)) to a matrix of the form
+	\[
+		\begin{pmatrix}
+			1 & 0           & 0            \\
+			0 & \cos \theta & -\sin \theta \\
+			0 & \sin \theta & \cos \theta
+		\end{pmatrix}
+	\]
+\end{corollary}
+\begin{proof}
+	By the above theorem, there exists some unit vector \(\vb v_1\) which is an eigenvector of eigenvalue 1.
+	We can extend this vector to an orthonormal basis \(\{ \vb v_1, \vb v_2, \vb v_3 \}\) of \(\mathbb R^3\).
+	Then, for \(i=2,3\), we have
+	\[
+		A\vb v_i \cdot \vb v_1 = A\vb v_i \cdot A\vb v_1 = \vb v_i \cdot \vb v_1 = 0
+	\]
+	So \(A\vb v_2, A\vb v_3\) lie in the subspace generated by \(\vb v_2, \vb v_3\), i.e.\ \(\vecspan \{ \vb v_2, \vb v_3 \} = \genset{\vb v_2, \vb v_3}\).
+	So \(A\) maps this subspace to itself, and we can thus consider the restriction of \(A\) to this subspace.
+	The matrix in this new basis will have form
+	\[
+		\begin{pmatrix}
+			1 & 0 & 0 \\
+			0 & a & b \\
+			0 & c & d
+		\end{pmatrix}
+	\]
+	The smaller matrix in the bottom right will still have determinant 1, since we can expand the determinant here by the first row.
+	So \(A\) restricted to this subspace is an element of \(SO_2\), so its matrix must be of the form
+	\[
+		\begin{pmatrix}
+			a & b \\ c & d
+		\end{pmatrix} = \begin{pmatrix}
+			\cos \theta & -\sin \theta \\
+			\sin \theta & \cos \theta
+		\end{pmatrix}
+	\]
+	So \(A\) has the required form with respect to this new basis \(\{ \vb v_1, \vb v_2, \vb v_3 \}\).
+	The change of basis matrix \(P\) lies in \(O_3\) since \(\{ \vb v_1, \vb v_2, \vb v_3 \}\) is an orthonormal basis.
+	If \(P \notin SO_3\), then we can use the basis \(\{ -\vb v_1, \vb v_2, \vb v_3 \}\) instead, which will invert the determinant of \(P\).
+	So in either case \(P \in SO_3\).
+\end{proof}
+This tells us in particular that every element in \(SO_3\) is a rotation about some axis, here \(\vb v_1\).
+
+\begin{corollary}
+	Every element of \(O_3\) is the composition of at most three reflections.
+\end{corollary}
+\begin{proof}
+	\begin{itemize}
+		\item If \(A \in SO_3\), then \(\exists P \in SO_3\) such that \(PAP^{-1} = B\), where \(B\) is of the form
+		      \[
+			      B = \begin{pmatrix}
+				      1 & 0           & 0            \\
+				      0 & \cos \theta & -\sin \theta \\
+				      0 & \sin \theta & \cos \theta
+			      \end{pmatrix}
+		      \]
+		      Since this smaller matrix
+		      \[
+			      \begin{pmatrix}
+				      \cos \theta & -\sin \theta \\
+				      \sin \theta & \cos \theta
+			      \end{pmatrix}
+		      \]
+		      is a composition of at most two reflections, then \(B\) is also a composition of at most two reflections, i.e.\ \(B = B_1 B_2\).
+		      Since \(A\) is a conjugate of \(B\), it is also a composition of at most two reflections, as the conjugate of a reflection is a reflection, and \(A = P^{-1}BP = (P^{-1}B_1P)(P^{-1}B_2P)\).
+		\item If \(A \in O_3 \setminus SO_3\), then \(\det A = -1\) and we can construct
+		      \[
+			      A = \underbrace{A\begin{pmatrix}
+					      -1 & 0 & 0 \\
+					      0  & 1 & 0 \\
+					      0  & 0 & 1
+				      \end{pmatrix}}_{\det = 1}\underbrace{\begin{pmatrix}
+					      -1 & 0 & 0 \\
+					      0  & 1 & 0 \\
+					      0  & 0 & 1
+				      \end{pmatrix}}_{\det = -1}
+		      \]
+		      So the left-hand product lies in \(SO_3\), so it is a composition of at most two reflections.
+		      The final element is a reflection in the \(y\)--\(z\) plane, so the combined product is a composition of at most three reflections.
+	\end{itemize}
+\end{proof}
+
+\subsection{Symmetries of the cube (revisited)}
+We can think of symmetry groups of the Platonic solids as subgroups of \(O_3\) by placing the solid at the origin.
+By question 11 on example sheet 4, we have that \(O_3 \cong SO_3 \times C_2\), where \(C_2\) is generated by the map \(\vb v \mapsto -\vb v\).
+So if \(\vb v\mapsto -\vb v\) is a symmetry of our platonic solid, then this group of symmetries will also split as the direct product of \(G^+ \times C_2\) where \(G^+\) is the group of rotations (proof as exercise).
+
+So we have that the group of symmetries of the cube is \(G^+ \times C_2 \cong S_4 \times C_2\) by the results from earlier.

@@ -1,0 +1,617 @@
+\subsection{Invariant distributions}
+Let \( I \) be a countable set.
+\( (\lambda_i) \) is a probability distribution if \( \lambda_i \geq 0 \) and \( \sum_i \lambda_i = 1 \).
+\begin{example}
+	Consider a Markov chain with two elements, and \( P(1,1) = P(1,2) = P(2,1) = P(2,2) = \frac{1}{2} \).
+	As \( n \to \infty \), it is easy to see here that both states should be equally likely to occur.
+	In fact, \( p_{11}(n) = p_{12}(n) = p_{21}(n) = p_{22}(n) = \frac{1}{2} \).
+	In this case, the row vector \( \qty(\frac{1}{2}, \frac{1}{2}) \) is an equilibrium probability distribution.
+\end{example}
+In general, we want to find a distribution \( \pi \) such that if \( X_0 \sim \pi \), we have \( X_n \sim \pi \) for all \( n \).
+Suppose \( X_0 \sim \pi \).
+Then,
+\begin{align*}
+	\prob{X_1 = j} & = \sum_{i \in I} \prob{X_0 = i, X_1 = j}                   \\
+	               & = \sum_{i \in I} \prob{X_1 = j \mid X_0 = i}\prob{X_0 = i} \\
+	               & = \sum_{i \in I} \pi(i) P(i,j)
+\end{align*}
+Since we want \( X_1 \sim \pi \), we must have \( \pi(j) = \sum_{i \in I} \pi(i) P(i,j) \) for all \( j \).
+In matrix form, \( \pi = \pi P \).
+\begin{definition}
+	An \textit{invariant (or equilibrium, or stationary) distribution} for \( P \) is a probability distribution \( \pi \) such that \( \pi = \pi P \).
+\end{definition}
+\begin{theorem}
+	Let \( \pi \) be invariant.
+	Then, if \( X_0 \sim \pi \), for all \( n \) we have \( X_n \sim \pi \).
+\end{theorem}
+\begin{proof}
+	If \( X_0 \sim \pi \), then \( X_n \sim \pi P^n = \pi \).
+\end{proof}
+\begin{theorem}
+	Suppose \( I \) is finite, and there exists \( i \in I \) such that \( p_{ij}(n) \to \pi_j \) as \( n \to \infty \) for all \( j \).
+	Then \( \pi = (\pi_j) \) is an invariant distribution.
+\end{theorem}
+\begin{proof}
+	First, we check that the sum of \( \pi_j \) is one.
+	Since \( I \) is finite, we can interchange the sum and limit.
+	\[
+		\sum_{j \in I} \pi_j = \sum_{j \in I} \lim_{n \to \infty} p_{ij}(n) = \lim_{n \to \infty} \sum_{j \in I} p_{ij}(n) = \lim_{n \to \infty} 1 = 1
+	\]
+	So \( \pi_j \) is a probability distribution.
+	We now must show \( \pi = \pi P \).
+	\[
+		\pi_j = \lim_{n \to \infty} p_{ij}(n) = \lim_{n \to \infty} \sum_{k \in I} p_{ik}(n-1) P(k,j) = \sum_{k \in I} \lim_{n \to \infty} p_{ik}(n-1) P(k,j) = \sum_{k \in I} \pi_k P(k,j)
+	\]
+	as required.
+\end{proof}
+\begin{remark}
+	If \( I \) is infinite, the theorem does not necessarily hold.
+	For example, let \( I = \mathbb Z \), \( X \) be a simple symmetric random walk.
+	We know that \( p_{00}(n) \sim \frac{c}{\sqrt{n}} \), and \( p_{0x}(n) \to 0 \) as \( n \to \infty \) for all \( x \in \mathbb Z \).
+	So zero is given by the limit but this is not a distribution.
+\end{remark}
+
+\subsection{Conditions for unique invariant distribution}
+In this section, we restrict our analysis to irreducible chains.
+If \( P \) is finite and irreducible, then 1 is an eigenvalue, since \( P \) is stochastic.
+The corresponding right eigenvector is \( (1, \dots, 1)^\transpose \).
+We know that 1 is an eigenvalue of \( P^\transpose \), so \( P^\transpose \) has a right eigenvector corresponding to the eigenvalue of 1, which can be transposed to find a left eigenvector for \( P \).
+It is possible to show using the Perron-Frobenius theorem that the eigenvector has non-negative components since \( P \) is irreducible.
+Since \( I \) is finite, we can normalise the left eigenvector such that its components sum to 1, giving an invariant distribution.
+\begin{definition}
+	Let \( k \in I \).
+	Recall that \( T_k \) is the first return time to \( k \).
+	For every \( i \in I \), we define
+	\[
+		\nu_k(i) = \esub{k}{\sum_{n=0}^{T_k - 1} 1(X_n = i)}
+	\]
+	which is the expected number of times that we hit \( i \) while on an excursion from \( k \) (returning back to \( k \)).
+\end{definition}
+\begin{theorem}
+	If \( P \) is irreducible and recurrent, then \( \nu_k \) is an invariant measure: \( \nu_k = \nu_k P \).
+	Further, \( \nu_k \) satisfies \( \nu_k(k) = 1 \) and in general \( \nu_k(i) \in (0, \infty) \) for all \( i \).
+\end{theorem}
+\begin{proof}
+	It is clear from the definition that \( \nu_k(k) = 1 \), since we must hit \( k \) exactly once on the outset, and we do not count the return.
+	We will now prove that \( \nu_k = \nu_k P \).
+	\( T_k < \infty \) with probability 1 by recurrence, and \( X_{T_k} = k \).
+	Then,
+	\begin{align*}
+		\nu_k(i) & = \esub{k}{\sum_{n=0}^{T_k - 1} 1(X_n = i)}                                                                         \\
+		         & = \esub{k}{\sum_{n=1}^{T_k} 1(X_n = i)}                                                                             \\
+		         & = \esub{k}{\sum_{n=1}^\infty 1(X_n = i, T_k \geq n)}                                                                \\
+		         & = \sum_{n=1}^\infty \esub{k}{1(X_n = i, T_k \geq n)}                                                                \\
+		         & = \sum_{n=1}^\infty \psub{k}{X_n = i, T_k \geq n}                                                                   \\
+		         & = \sum_{n=1}^\infty \sum_{j \in I} \psub{k}{X_n = i, X_{n-1} = j, T_k \geq n}                                       \\
+		         & = \sum_{n=1}^\infty \sum_{j \in I} \psub{k}{X_n = i \mid X_{n-1} = j, T_k \geq n} \psub{k}{X_{n-1} = j, T_k \geq n} \\
+		\intertext{\( T_k \) is a stopping time, so the event \( \qty{T_k \geq n} = \stcomp{\qty{T_k \leq n-1}} \) depends only on values we already know or don't care about.
+			Hence, we can remove it.}
+		         & = \sum_{n=1}^\infty \sum_{j \in I} \psub{k}{X_n = i \mid X_{n-1} = j} \psub{k}{X_{n-1} = j, T_k \geq n}             \\
+		         & = \sum_{n=1}^\infty \sum_{j \in I} P(j, i) \psub{k}{X_{n-1} = j, T_k \geq n}                                        \\
+		         & = \sum_{j \in I} \sum_{n=1}^\infty P(j, i) \psub{k}{X_{n-1} = j, T_k \geq n}                                        \\
+		         & = \sum_{j \in I} \sum_{n=0}^\infty P(j, i) \psub{k}{X_n = j, T_k \geq n + 1}                                        \\
+		         & = \sum_{j \in I} P(j, i) \esub{k}{\sum_{n=0}^{T_k - 1} 1(X_n = j)}                                                  \\
+		         & = \sum_{j \in I} P(j, i) \nu_k(j)
+	\end{align*}
+	Hence \( \nu_k = \nu_k P \).
+	We must show \( \nu_k > 0 \).
+	\( P \) is irreducible, hence there exists \( n \) such that \( p_{ki}(n) > 0 \).
+	Then
+	\[
+		\nu_k(i) = \sum_{j \in I} \nu_k(j) P^n(j,i) \geq \nu_k(k) p_{ki}(n) > 0
+	\]
+	To show \( \nu_k < \infty \), let \( m \) such that \( p_{ik}(m) > 0 \).
+	\[
+		1 = \nu_k(k) = \sum_{j \in I} \nu_k(j) P^m(j,k) \geq \nu_k(i) P^m(i,k) \implies \nu_k(i) \leq \frac{1}{P^m(i,k)} < \infty
+	\]
+\end{proof}
+
+\subsection{Uniqueness of invariant distributions}
+\begin{theorem}
+	Let \( P \) be irreducible.
+	Let \( \lambda \) be an invariant measure (\( \lambda = \lambda P \)) with \( \lambda_k = 1 \).
+	Then \( \lambda \geq \nu_k \).
+	If \( P \) is recurrent, then \( \lambda = \nu_k \).
+\end{theorem}
+\begin{proof}
+	Let \( \lambda \) be an invariant measure with \( \lambda_k = 1 \).
+	Then,
+	\begin{align*}
+		\lambda_i & = \sum_{j_1} \lambda_{j_1} P(j_1, i)                                                                                                                                                               \\
+		          & = P(k,i) + \sum_{j_1 \neq k} \lambda_{j_1} P(j_1, i)                                                                                                                                               \\
+		          & = P(k,i) + \sum_{j_1 \neq k} P(k,j_1) P(j_1, i) + \sum_{j_1, j_2 \neq k} P(j_2, j_1) P(j_1, i) \lambda_{j_2}                                                                                       \\
+		          & = P(k,i) + \sum_{j_1 \neq k} P(k,j_1) P(j_1, i) + \dots                                                                                                                                            \\
+		          & + \sum_{j_1, \dots j_{n-1} \neq k} P(k,j_{n-1}) P(j_{n-1}, j_{n-2}) \dots P(j_2, j_1) P(j_1 i) + \underbrace{\sum_{j_1, \dots, j_n \neq k} P(j_n, j_{n-1}) \dots P(j_n, i) \lambda_{j_n}}_{\geq 0} \\
+		          & \geq \psub{k}{X_1 = i, T_k \geq 1} + \psub{k}{X_2 = i, T_k \geq 2} + \dots + \psub{k}{X_n = i, T_k \geq n}                                                                                         \\
+		          & \geq \sum_{i=1}^n \psub{k}{X_n = i, T_k \geq n}                                                                                                                                                    \\
+		          & \to \nu_k(i)
+	\end{align*}
+	as \( n \to \infty \).
+	Now, suppose \( P \) is recurrent, so \( \nu_k \) is invariant.
+	We define \( \mu = \lambda - \nu_k \).
+	Then \( \mu \geq 0 \) is an invariant measure satisfying \( \mu_k = 0 \).
+	We need to show \( \mu_i = 0 \) for all \( i \).
+	By invariance, for all \( n \),
+	\[
+		\mu_k = \sum_j \mu_j P^n(j,k)
+	\]
+	By irreducibility, we can choose \( n \) such that \( P^n(i,k) > 0 \).
+	\[
+		\mu_k \geq P^n(i,k) \mu_i \implies \mu_i = 0
+	\]
+\end{proof}
+\begin{remark}
+	In the irreducible and recurrent case, all invariant measures are equal up to a scaling factor.
+\end{remark}
+\noindent Let \( k \) be fixed.
+Then, \( \nu_k \) is invariant, and unique in the above sense.
+If \( \sum_i \nu_k(i) \) is finite, we can take
+\[
+	\pi_i = \frac{\nu_k(i)}{\sum_j \nu_k(j)}
+\]
+which is an invariant distribution.
+The sum as required is
+\begin{align*}
+	\sum_{i \in I} \nu_k(i) & = \sum_{i\in I} \esub{k}{\sum_{n=0}^{T_k - 1} 1(X_n = i)}  \\
+	                        & = \esub{k}{\sum_{n=0}^{T_k - 1} \sum_{i \in I} 1(X_n = i)} \\
+	                        & = \esub{k}{\sum_{n=0}^{T_k - 1} 1}                         \\
+	                        & = \esub{k}{T_k}                                            \\
+\end{align*}
+So we require that the expectation of the first return time is finite.
+If \( \esub{k}{T_k} \) is finite, we can normalise \( \nu_k \) into a (unique) invariant distribution.
+\begin{definition}
+	Let \( k \in I \) be a recurrent state (so \( \psub{k}{T_k < \infty} = 1 \)).
+	\( k \) is \textit{positive recurrent} if \( \esub{k}{T_k} < \infty \).
+	\( k \) is called \textit{null recurrent} otherwise; so if \( \esub{k}{T_k} = \infty \).
+\end{definition}
+\begin{theorem}
+	Let \( P \) be irreducible.
+	Then the following are equivalent.
+	\begin{enumerate}[(i)]
+		\item every state is positive recurrent;
+		\item some state is positive recurrent;
+		\item \( P \) has an invariant distribution \( \pi \).
+	\end{enumerate}
+	If any of these conditions hold, we have
+	\[
+		\pi_i = \frac{1}{\esub{i}{T_i}}
+	\]
+	for all \( i \).
+\end{theorem}
+\begin{proof}
+	First, (i) clearly implies (ii).
+	We now show (ii) implies (iii).
+	Let \( k \) be the a positive recurrent state, and consider \( \nu_k \).
+	Since \( k \) is recurrent, we know that \( \nu_k \) is an invariant measure.
+	Then,
+	\[
+		\sum_{i \in I} \nu_k(i) = \esub{k}{T_k} < \infty
+	\]
+	since \( k \) is positive recurrent.
+	If we define
+	\[
+		\pi_i = \frac{\nu_k(i)}{\esub{k}{T_k}}
+	\]
+	we have that \( \pi \) is an invariant distribution.
+
+	Now we show that (iii) implies (i).
+	Let \( k \) be a state, which we will prove is positive recurrent.
+	First, we show that \( \pi_k > 0 \).
+	There exists \( i \) such that \( \pi_i > 0 \), and we will choose \( n \) such that \( P^n(i,k) > 0 \) by irreducibility.
+	Then,
+	\[
+		\pi_k = \sum_j \pi_j P^n(j,k) \geq \pi_i P^n(i,k) > 0
+	\]
+	Now, we define \( \lambda_i = \frac{\pi_i}{\pi_k} \).
+	This is an invariant measure with \( \lambda_k = 1 \).
+	So from the above theorem, \( \lambda \geq \nu_k \).
+	Now, since \( \pi \) is a distribution,
+	\[
+		\esub{k}{T_k} = \sum_i \nu_k(i) \leq \sum_i \lambda_i = \sum_i \frac{\pi_i}{\pi_k} = \frac{1}{\pi_k} \sum_i \pi_i = \frac{1}{\pi_k}
+	\]
+	Hence \( \esub{k}{T_k} < \infty \), so \( k \) is positive recurrent.
+
+	For the last part, we know that \( P \) is recurrent and \( \lambda_i = \frac{\pi_i}{\pi_k} \) is an invariant measure with \( \lambda_k = 1 \).
+	From the previous theorem, \( \lambda_i = \nu_k(i) \).
+	Hence, \( \frac{\pi_i}{\pi_k} = \nu_k(i) \).
+	Taking the sum over all \( i \),
+	\[
+		\frac{1}{\pi_k} = \esub{k}{T_k}
+	\]
+	which proves the last part.
+\end{proof}
+\begin{corollary}
+	If \( P \) is irreducible and \( \pi \) is an invariant distribution, then for all \( x,y \), the expected number of visits to \( y \) starting from \( x \) is given by
+	\[
+		\nu_x(y) = \frac{\pi(y)}{\pi(x)}
+	\]
+\end{corollary}
+\begin{example}
+	Consider the simple symmetric random walk on \( \mathbb Z \).
+	We have proven that this is recurrent.
+	Suppose \( \pi \) is an invariant measure.
+	So \( \pi = \pi P \), giving
+	\[
+		\pi_i = \frac{1}{2} \pi_{i-1} + \frac{1}{2} \pi_{i+1}
+	\]
+	So \( \pi_i = 1 \) is an invariant measure.
+	So all invariant measures are multiples of this.
+	But since this is not normalisable, there exists no invariant distribution.
+	So this walk is null recurrent.
+\end{example}
+\begin{remark}
+	If \( I \) is finite, we can always normalise the distribution, since we have only a finite sum.
+\end{remark}
+\begin{remark}
+	Consider a simple random walk on \( \mathbb Z^3 \).
+	This is transient.
+	However, \( \lambda_i = 1 \) for all \( i \in \mathbb Z^3 \), this is clearly an invariant measure, so existence of an invariant measure does not imply recurrence.
+\end{remark}
+\begin{example}
+	Consider a random walk on \( \mathbb Z \) with transition probabilities \( P(i, i+1) = p, P(i, i-1) = q \) such that \( 1 > p > q > 0 \) and \( p + q = 1 \).
+	This random walk is transient.
+	Suppose there is an invariant distribution \( \pi \), so \( \pi = \pi P \).
+	Then
+	\[
+		\pi_i = \pi_{i-1} q + \pi_{i+1} p
+	\]
+	Solving the recursion gives
+	\[
+		\pi_i = a + b \qty(\frac{p}{q})^i
+	\]
+	This is not unique up to a multiplicative constant, due to the constant \( a \).
+\end{example}
+\begin{example}
+	Consider a random walk on \( \mathbb Z^+ \) with transition probabilities \( P(i, i+1) = p, P(i, i-1) = q, P(0, 0) = q \), and \( p < q \) so there is a drift towards zero.
+	We can check that this is recurrent.
+	We will look for a solution to \( \pi = \pi P \).
+	\[
+		\pi_0 = q \pi_0 + q \pi_1;\quad \pi_i = p \pi_{i-1} + q \pi_{i+1}
+	\]
+	Solving this system yields
+	\[
+		\pi_1 = \frac{p}{q} \pi_0;\quad \pi_i = \qty(\frac{p}{q})^i \pi_0
+	\]
+	This is unique up to a multiplicative constant.
+	Since \( p < q \), we can normalise this to reach an invariant distribution.
+	Let \( \pi_0 = 1 - \frac{p}{q} \).
+	Then,
+	\[
+		\pi_i = \qty(\frac{p}{q})^i \qty(1 - \frac{p}{q})
+	\]
+	Hence the walk is positive recurrent.
+\end{example}
+
+\subsection{Time reversibility}
+\begin{theorem}
+	Let \( P \) be irreducible, and \( \pi \) be an invariant distribution.
+	Let \( N \in \mathbb N \) and let \( Y_n = X_{N-n} \) for \( 0 \leq n \leq N \).
+	If \( X_0 \sim \pi \), then \( (Y_n)_{0 \leq n \leq N} \) is a Markov chain with transition matrix
+	\[
+		\hat P(x,y) = \frac{\pi(y)}{\pi(x)} P(y,x)
+	\]
+	and has invariant distribution \( \pi \), so \( \pi \hat P = \pi \).
+	Further, \( \hat P \) is also irreducible.
+\end{theorem}
+\begin{proof}
+	First, note that \( \hat P \) is stochastic.
+	Since \( \pi = \pi P \),
+	\[
+		\sum_y \hat P(x,y) = \sum_y \frac{\pi(y) P(y,x)}{\pi(x)} = \frac{\pi(x)}{\pi(x)} = 1
+	\]
+	Now we show \( Y \) is a Markov chain.
+	\begin{align*}
+		\prob{Y_0 = y_0, \dots, Y_N = y_N} & = \prob{X_N = y_0, \dots, X_0 = y_n}                                      \\
+		                                   & = \pi(y_N) P(y_N, y_{N-1}) \dots P(y_1, y_0)                              \\
+		                                   & = \hat P(y_{N-1}, y_N) \pi(y_{N-1}) P(y_{N-1}, y_{N-2}) \dots P(y_1, y_0) \\
+		                                   & = \dots                                                                   \\
+		                                   & = \pi(y_0) \hat P(y_0, y_1) \dots P(y_{N-1}, y_N)
+	\end{align*}
+	Hence \( Y \sim \Markov{\pi, \hat P} \).
+	Now, we must show \( \pi = \pi \hat P \).
+	\[
+		\sum_x \pi(x) \hat P(x,y) = \sum_x \pi(x) \frac{P(y,x) \pi(y)}{\pi(x)} = \pi(y) \sum_x P(y,x) = \pi(y)
+	\]
+	Hence \( \pi \) is invariant for \( \hat P \).
+	Now we show \( \hat P \) is irreducible.
+	Let \( x,y \in I \).
+	Then there exists \( x = x_0, x_1, \dots, x_k = y \) such that
+	\[
+		P(x_0, x_1) \dots P(x_{k-1}, x_k) > 0
+	\]
+	Hence
+	\[
+		\hat P(x_k, x_{k-1}) \dots \hat P(x_1, x_0) = \pi(x_0) P(x_0, x_1) \dots \frac{P(x_{k-1}, x_k)}{\pi(x_k)} > 0
+	\]
+	So \( \hat P \) is irreducible.
+\end{proof}
+\begin{definition}
+	A Markov chain \( X \) with transition matrix \( P \) and invariant distribution \( \pi \) is called \textit{reversible} or \text{time reversible} if \( \hat P = P \).
+	Equivalently, for all \( x, y \),
+	\[
+		\pi(x) P(x,y) = \pi(y) P(y,x)
+	\]
+	These equations are called the \textit{detailed balance equations}.
+	Equivalently, \( X \) is reversible if, for any fixed \( N \in \mathbb N \), \( X_0 \sim \pi \) implies
+	\[
+		(X_0, \dots, X_N) \overset{d}{=} (X_N, \dots, X_0)
+	\]
+	which means that they are equal in distribution.
+\end{definition}
+\begin{remark}
+	Intuitively, \( X \) is reversible if, starting from \( \pi \), we cannot tell if we are watching \( X \) evolve forwards in time or backwards in time.
+\end{remark}
+\begin{lemma}
+	Let \( P \) be a transition matrix, and \( \mu \) a distribution satisfying the detailed balance equations.
+	\[
+		\mu(x) P(x,y) = \mu(y) P(y,x)
+	\]
+	Then \( \mu \) is invariant for \( P \).
+\end{lemma}
+\begin{proof}
+	\[
+		\sum_x \mu(x) P(x,y) = \sum_x \mu(y) P(y,x) = \mu(y)
+	\]
+\end{proof}
+\begin{remark}
+	If we can find a solution to the detailed balance equations which is a distribution, it must be an invariant distribution.
+	It is simpler to solve this set of equations than to solve \( \pi = \pi P \).
+	If there is no solution to the detailed balance equations, then even if there exists an invariant distribution, the Markov chain is not reversible.
+\end{remark}
+\begin{example}
+	Consider a random walk on the integers modulo \( n \), with \( P(i, i+1) = \frac{2}{3} \) and \( P(i, i-1) = \frac{1}{3} \).
+	We can check \( \pi_i = \frac{1}{n} \) is an invariant distribution.
+	This does not satisfy the detailed balance equations.
+	Hence the Markov chain is not reversible.
+\end{example}
+\begin{example}
+	Consider a random walk on \( \qty{0, \dots, n-1} \) with \( P(i, i+1) = \frac{2}{3}, P(i, i-1) = \frac{1}{3} \) and \( P(0,0) = \frac{1}{3}, P(n-1, n-1) = \frac{2}{3} \).
+	This is an `opened up' version of the previous example; the circle is `cut' open into a line at zero.
+	The detailed balance equations give
+	\[
+		\pi_i P(i, i+1) = \pi_{i+1} P(i+1, i) \implies \pi_i = k 2^i
+	\]
+	We can normalise this by setting \( k \) such that \( \pi \) is a distribution.
+	Hence the chain is reversible.
+\end{example}
+\begin{example}
+	Consider a random walk on a graph.
+	Let \( G = (V, E) \) be a finite connected graph, where \( V \) is a set of vertices and \( E \) is a set of edges.
+	The simple random walk on \( G \) has the transition matrix
+	\[
+		P(x,y) = \begin{cases}
+			\frac{1}{d(x)} & (x,y) \in E     \\
+			0              & (x,y) \not\in E
+		\end{cases}
+	\]
+	where \( d(x) = \sum_y 1((x,y) \in E) \) is the degree of \( x \).
+	The detailed balance equations give, for \( (x,y) \in E \),
+	\[
+		\pi(x) P(x,y) = \pi(y) P(y,x) \implies \frac{\pi(x)}{d(x)} = \frac{\pi(y)}{d(y)}
+	\]
+	Let \( \pi(x) \propto d(x) \).
+	Then this is an invariant distribution with normalising constant \( \frac{1}{\sum_y d(y)} = \frac{1}{2\abs{E}} \).
+	So the simple random walk on a finite connected graph is always reversible.
+\end{example}
+
+\subsection{Aperiodicity}
+\begin{definition}
+	Let \( P \) be a transition matrix.
+	For all \( i \), we write
+	\[
+		d_i = \gcd\qty{n \geq 1 \colon P^n(i,i) > 0}
+	\]
+	This is called the \textit{period} of \( i \).
+	If \( d_i = 1 \), we say that \( i \) is aperiodic.
+\end{definition}
+\begin{lemma}
+	\( d_i = 1 \) if and only if \( P^n(i,i) > 0 \) for all \( n \) sufficiently large.
+	More rigorously, there exists \( n_0 \in \mathbb N \) such that for all \( n > n_0 \), \( P^n(i,i) > 0 \).
+\end{lemma}
+\begin{proof}
+	First, if \( P^n(i,i)>0 \) for all \( n \) sufficiently large, the greatest common divisor of all sufficiently large numbers is one so this direction is trivial.
+	Conversely, let \( D(i) = \qty{n \geq 1 \colon P^n(i,i) > 0} \).
+	Observe that if \( a, b \in D(i) \) then \( a + b \in D(i) \).
+
+	We claim that \( D(i) \) contains two consecutive integers.
+	Suppose that it does not, so for all \( a, b \in D(i) \) we must have \( \abs{a-b} > 1 \).
+	Let \( r \) be the minimal distance between two integers in \( D(i) \), so \( r \geq 2 \).
+	Let \( n, m \) be numbers in \( D(i) \) separated by \( r \), so \( n = m + r \).
+	Then we can show there exists \( k \in D(i) \) which can be written as \( \ell r + s \) with \( 0 < s < r \).
+	Indeed, if there were not such a \( k \), all elements of \( d_i = 1 \), since all elements would be multiples of \( r \).
+	Now, let \( a = (\ell + 1)n \) and \( b = (\ell+1)m + k \).
+	Then \( a, b \in D(i) \), and \( a-b = r-s < r \).
+	This is a contradiction, since we have found two points in \( D(i) \) with a distance smaller than the minimal distance.
+
+	Now, let \( n_1, n_1 + 1 \) be elements of \( D(i) \).
+	Then \( \qty{x n_1 + y(n_1 + 1) \colon x,y \in \mathbb N } \subseteq D(i) \).
+	It is then easy to check that \( D(i) \supseteq \qty{n \colon n \geq n_1^2} \).
+\end{proof}
+\begin{lemma}
+	Suppose \( P \) is irreducible and \( i \) is aperiodic.
+	Then for all \( j \in I \), \( j \) is aperiodic.
+	Hence, aperiodicity is a class property.
+\end{lemma}
+\begin{proof}
+	There exist \( n, m \) such that \( P^n(i,j) > 0, P^m(i,j) > 0 \).
+	Hence,
+	\[
+		P^{n+m+r}(j,j) \geq P^n(j,i) P^r(i,i) P^n(i,j)
+	\]
+	The first and last terms are positive, and the middle term is positive for sufficiently large \( r \).
+\end{proof}
+
+\subsection{Positive recurrent limiting behaviour}
+\begin{theorem}
+	Let \( P \) be irreducible and aperiodic with invariant distribution \( \pi \).
+	Let \( X \sim \Markov{\lambda, P} \).
+	Then for all \( y \in I \), \( \prob{X_n = y} \to \pi_y \) as \( n \to \infty \).
+	Taking \( \lambda = \delta_x \), we get \( p_{xy}(n) \to \pi(y) \) as \( n \to \infty \).
+\end{theorem}
+\begin{proof}
+	This proof will use the idea of `coupling' of Markov chains.
+	Let \( Y \sim \Markov{\pi, P} \) be independent of \( X \).
+	Consider the pair \( ((X_n, Y_n))_{n \geq 0} \).
+	This is a Markov chain on the state space \( I \times I \), because \( X \) and \( Y \) are independent.
+	The initial distribution is \( \lambda \times \pi \).
+	We have \( \prob{(X_0, Y_0) = (x,y)} = \lambda(x) \pi(y) \) and transition matrix \( \widetilde P \) given by
+	\[
+		\widetilde P((x,y), (x',y')) = P(x,x') P(y,y')
+	\]
+	This product chain has invariant distribution \( \widetilde \pi \) given by
+	\[
+		\widetilde \pi(x,y) = \pi(x) \pi(y)
+	\]
+	Let \( a \in I \), and let \( T = \inf{n \geq 1 \colon (X_n, Y_n) = (a,a)} \) be the hitting time of \( (a,a) \).
+
+	First, we want to show that \( \prob{T < \infty} = 1 \).
+	We show that \( \widetilde P \) is irreducible.
+	Let \( (x,y), (x',y') \in I \times I \).
+	By irreducibility of \( P \), there exist \( \ell, m \) such that \( P^\ell(x,x') > 0 \) and \( P^m(y,y') > 0 \).
+	Now,
+	\[
+		\widetilde P^{\ell + m + n}((x,y), (x', y')) = P^{\ell+m+n}(x,x')P^{\ell+m+n}(y,y')
+	\]
+	Note that
+	\[
+		P^{\ell+m+n}(x,x') \geq P^\ell(x,x') P^{m+n}(x',x')
+	\]
+	By taking \( n \) large, by aperiodicity the product is positive.
+	Therefore, for sufficiently large \( n \), \( P^n(x,x') > 0 \).
+	So \( \widetilde P \) is irreducible, and there exists an invariant distribution \( \widetilde \pi \).
+	Hence \( \widetilde P \) is positive recurrent.
+	So \( \prob{T < \infty} = 1 \).
+
+	Now, we define
+	\[
+		Z_n = \begin{cases}
+			X_n & n < T    \\
+			Y_n & n \geq T
+		\end{cases}
+	\]
+	We wish to show \( Z = (Z_n){n \geq 0} \) has the same distribution as \( X \), that is, \( Z \sim \Markov{\lambda, P} \).
+	Now,
+	\[
+		\prob{Z_0 = x} = \prob{X_0 = x} = \lambda(x)
+	\]
+	so the initial distribution is the same.
+	Now, we will check that \( Z \) evolves with transition matrix \( P \).
+	Let \( A = \qty{Z_{n-1} = z_{n-1}, \dots, Z_0 = z_0} \).
+	We need to show \( \prob{Z_{n+1} = y \mid Z_n = x, A} = P(x,y) \).
+	\begin{align*}
+		\prob{Z_{n+1} = y \mid Z_n = x, A} & = \prob{Z_{n+1} = y, T > n \mid Z_n = x, A} + \prob{Z_{n+1} = y, T \leq n \mid Z_n = x, A} \\
+		                                   & = \prob{X_{n+1} = y \mid T > n, Z_n = x, A} \prob{T > n \mid Z_n = x, A}                   \\
+		                                   & + \prob{Y_n+1 = y \mid T \leq n, Z_n = x, A} \prob{T \leq n \mid Z_n = x, A}
+	\end{align*}
+	Now,
+	\begin{align*}
+		 & \prob{X_{n+1} = y \mid T > n, Z_n = x, A}                                                       \\
+		 & = \sum_z \prob{X_{n+1} = y \mid T>n, Z_n = x, Y_n = z, A} \prob{Y_n = z \mid T > n, Z-n = x, A}
+	\end{align*}
+	Note, \( \qty{T > n} \) depends only on \( (X_0, Y_0), \dots, (X_n, Y_n) \) since it is the complement of \( \qty{T \leq n} \), so it is a stopping time.
+	Hence,
+	\[
+		\prob{X_{n+1} = y \mid T > n, Z_n = x, A} = \sum_z P(x,y) \prob{Y_n = z \mid T > n, Z-n = x, A} = P(x,y)
+	\]
+	Similarly,
+	\[
+		\prob{Y_{n+1} = y \mid T > n, Z_n = x, A} = P(x,y)
+	\]
+	Hence,
+	\begin{align*}
+		\prob{Z_{n+1} = y \mid Z_n = x, A} & = P(x,y) \prob{T > n \mid Z_n = x, A} + P(x,y) \prob{T \leq n \mid Z_n = x, A}  \\
+		                                   & = P(x,y) \qty[ \prob{T > n \mid Z_n = x, A} + \prob{T \leq n \mid Z_n = x, A} ] \\
+		                                   & = P(x,y)
+	\end{align*}
+	as required.
+	Hence \( Z \sim \Markov{\lambda, P} \).
+	Thus,
+	\begin{align*}
+		\abs{\prob{X_n = y} - \pi(y)} & = \abs{\prob{Z_n = y} - \prob{Y_n = y}}                           \\
+		                              & = \left| \prob{X_n = y, n < T} + \prob{Y_n = y, n \geq T} \right.
+		\\
+		                              & - \left.
+		{Y_n = y, n < T} - \prob{Y_n = y, n \geq T} \right|                                               \\
+		                              & = \abs{\prob{X_n = y, n < T} - \prob{Y_n = y, n < T}}             \\
+		                              & \leq \prob{n < T}
+	\end{align*}
+	As \( n \to \infty \), this upper bound becomes zero, since \( \prob{T < \infty} = 1 \).
+\end{proof}
+
+\subsection{Null recurrent limiting behaviour}
+\begin{theorem}
+	Let \( P \) be irreducible, aperiodic, and null recurrent.
+	Then, for all \( x, y \),
+	\[
+		\lim_{n \to \infty} P^n(x,y) = 0
+	\]
+\end{theorem}
+\begin{proof}
+	Let \( \widetilde P((x,y),(x',y')) = P(x,x')P(y,y') \) as before.
+	We have shown previously that \( \widetilde P \) is also irreducible.
+	Suppose first that \( \widetilde P \) is transient.
+	Then,
+	\[
+		\sum_n \widetilde P^n((x,y),(x,y)) < \infty
+	\]
+	This sum is equal to
+	\[
+		\sum_n (P^n(x,y))^2 < \infty
+	\]
+	Hence,
+	\[
+		P^n(x,y) \to 0
+	\]
+	Now, conversely suppose that \( \widetilde P \) is recurrent.
+	Let \( y \in I \).
+	Define as before
+	\[
+		\nu_y(x) = \esub{y}{\sum_{i=0}^{T_y - 1} 1(X_i = x)}
+	\]
+	This measure is invariant for \( P \) since \( P \) is recurrent.
+	Since \( P \) is null recurrent in particular, \( \esub{y}{T_y} = \infty \).
+	Hence,
+	\[
+		\nu_y(I) = \sum_{x \in I} \nu_y(x) = \esub{y}{\sum_{i=0}^{T_y - 1} 1} = \esub{y}{T_y} = \infty
+	\]
+	Because \( \nu_y(I) \) is infinite, for all \( M > 0 \) there exists a finite set \( A \subset I \) with \( \nu_y(A) > M \).
+	Now, we define a probability measure
+	\[
+		\mu(z) = \frac{\nu_y(z)}{\nu_y(A)} 1(z \in A)
+	\]
+	Now, for all \( z \in I \),
+	\[
+		\mu P^n(z) = \sum_x \mu(x) P^n(x,z) = \sum_x \frac{\nu_y(x)}{\nu_y(A)} 1(z \in A) P^n(x,z) \leq \frac{1}{\nu_y(A)} \sum_x \nu_y(x) P^n(x,z)
+	\]
+	Since \( \nu_y \) is invariant,
+	\[
+		\mu P^n(z) \leq \frac{1}{\nu_y(A)} \nu_y(z) = \frac{\nu_y(z)}{\nu_y(A)}
+	\]
+	Let \( (X, Y) \) be a Markov chain with matrix \( \widetilde P \), started according to \( \mu \times \delta_x \), so \( \prob{X_0 = z, Y_0 = w} = \mu(z) \delta_x(w) \).
+	Now, let
+	\[
+		T = \inf\qty{n \geq 1 \colon (X_n, Y_n) = (x,x)}
+	\]
+	Since \( \widetilde P \) is recurrent, \( T \) is finite with probability 1.
+	Let
+	\[
+		Z_n = \begin{cases}
+			X_n & n < T    \\
+			Y_n & n \geq T
+		\end{cases}
+	\]
+	We have already proven that \( Z \) is a Markov chain with transition matrix \( P \), started according to \( \mu \); it has the same distribution as \( X \).
+	Hence,
+	\[
+		\prob{Z_n = y} = \mu P^n(y) \leq \frac{\nu_y(y)}{\nu_y(A)} = \frac{1}{\nu_y(A)}
+	\]
+	Note,
+	\[
+		\psub{x}{Y_n = y} \leq \psub{x}{Y_n = y, n \geq T} + \psub{x}{T > n} = \psub{x}{Z_n = y} + \psub{x}{T > n}
+	\]
+	Hence,
+	\[
+		\limsup_{n \to \infty} \psub{x}{Y_n = y} \leq \frac{1}{M} + 0 = \frac{1}{M}
+	\]
+	Since this is true for all \( M \), \( P^n(x,y) \to 0 \) as \( n \to \infty \).
+\end{proof}

@@ -1,0 +1,348 @@
+\subsection{Well-posed Cauchy problems}
+Solving partial differential equations depends on the nature of the equations in combination with the boundary or initial data.
+A \textit{Cauchy problem} is the partial differential equation for some function \( \phi \) together with the auxiliary data (in \( \phi \) and its derivatives) specified on a surface (or a curve in two dimensions), which is called \textit{Cauchy data}.
+For a Cauchy problem to be \textit{well-posed}, we require that
+\begin{enumerate}[(i)]
+	\item a solution exists (we do not have excessive auxiliary data);
+	\item the solution is unique (we do not have insufficient auxiliary data); and
+	\item the solution depends continuously on the auxiliary data.
+\end{enumerate}
+
+\subsection{Method of characteristics}
+Consider a parametrised curve \( C \) given by Cartesian coordinates \( (x(s), y(s)) \).
+The tangent vector is
+\[
+	v = \qty(\dv{x(s)}{s}, \dv{y(s)}{s})
+\]
+We then define the directional derivative of a function \( \phi(x,y) \) by
+\[
+	\eval{\dv{\phi}{s}}_C = \dv{x(s)}{s} \pdv{\phi}{x} + \dv{y(s)}{s}\pdv{\phi}{y} = v \cdot \grad{\phi}
+\]
+Suppose \( v \cdot \grad{\phi} = 0 \) then \( \dv{\phi}{s} = 0 \) and hence \( \phi \) is constant along the curve.
+Suppose there exists a vector field
+\[
+	u = \qty(\alpha(x,y), \beta(x,y))
+\]
+with a family of non-intersecting integral curves \( C \) which fill the plane (or domain of the function more generally), such that at a point \( (x,y) \) the integral curve has tangent vector \( u(x,y) \).
+Now, define a curve \( B \) by \( (x(t), y(t)) \) such that \( B \) is transverse to \( u \); its tangent is nowhere parallel to \( u \).
+\[
+	w = \qty(\dv{x(t)}{t}, \dv{y(t)}{t}) \nparallel \qty(\alpha(x,y), \beta(x,y)) = u
+\]
+This can be used to parametrise the family of curves by labelling each curve \( C \) with the value of \( t \) at the intersection point between it and \( B \).
+Along the curve, we use \( s \) such that \( s = 0 \) at the intersection.
+The integral curves \( (x(s,t), y(s,t)) \) satisfy
+\[
+	\dv{x}{s} = \alpha(x,y);\quad \dv{y}{s} = \beta(x,y)
+\]
+We can solve these equations to find a family of characteristic curves, along which \( t \) remains constant.
+This yields a new coordinate system \( (s,t) \) associated with a differential equation we wish to solve.
+
+\subsection{Characteristics of a first order PDE}
+Consider
+\[
+	\alpha(x,y) \pdv{\phi}{x} + \beta(x,y) \pdv{\phi}{y} = 0
+\]
+with Cauchy data on an initial curve \( B \), defined by \( (x(t), y(t)) \):
+\[
+	\phi(x(t), y(t)) = f(t)
+\]
+Note,
+\[
+	\alpha \phi_x + \beta \phi_y = u \cdot \grad{\phi} = \eval{\dv{\phi}{s}}_C
+\]
+This is exactly the directional derivative along the integral curve \( C \), defined by \( u = (\alpha, \beta) \).
+Since \( \dv{\phi}{s} = \alpha \phi_x + \beta \phi_y = 0 \) from the original PDE, the function \( \phi(x,y) \) is constant along this curve \( C \).
+In other words, the Cauchy data \( f(t) \) defined on \( B \) at \( s = 0 \) is propagated constantly along the integral curves.
+This gives the solution
+\[
+	\phi(s,t) = \phi(x(s,t), y(s,t)) = f(t)
+\]
+To obtain \( \phi \) in the original coordinates, we need to transform from \( s,t \)-space into \( x,y \)-space.
+Provided that the Jacobian \( J = x_t y_s - x_s y_t \) is non-zero, we can invert the transformation and find \( s,t \) as functions of \( x,y \).
+This gives
+\[
+	\phi(x,y) = f(t(x,y))
+\]
+To solve such a PDE, we will typically use the following steps.
+\begin{enumerate}[(i)]
+	\item Find the characteristic equations \( \dv{x}{s} = \alpha, \dv{y}{s} = \beta \).
+	\item Parametrise the initial conditions on \( B \) by \( (x(t), y(t)) \).
+	\item Solve the characteristic equations to find \( x = x(s,t) \) and \( y = y(s,t) \) subject to the initial conditions at \( s = 0 \).
+	\item Solve the equation for \( \phi \) given by \( \dv{\phi}{s} = \alpha \phi_x + \beta \phi_y = 0 \), so \( \phi \) is constant along the integral curves, giving \( \phi(s,t) = f(t) \).
+	\item Invert the relations \( s = s(x,y) \) and \( t = t(x,y) \), then find \( \phi \) in terms of \( x,y \).
+\end{enumerate}
+\begin{example}
+	Consider the equation
+	\[
+		\dv{\phi(x,y)}{x} = 0
+	\]
+	such that
+	\[
+		\phi(0,y) = h(y)
+	\]
+	The characteristic equations are given by
+	\[
+		\dv{x}{s} = \alpha = 1;\quad \dv{y}{s} = \beta = 0
+	\]
+	The initial curve \( B \) is given by
+	\[
+		(x(t), y(t)) = (0,t)
+	\]
+	Solving the characteristic equations,
+	\[
+		x = s + c(t);\quad y = d(t)
+	\]
+	At \( x = 0 \), we must have \( s = 0 \), so \( c = 0 \).
+	Further, \( y = t \) hence \( d = t \).
+	Thus,
+	\[
+		x = s;\quad y = t
+	\]
+	Thus,
+	\[
+		\dv{\phi}{x} = 0 \implies \phi(s,t) = h(t) \implies \phi(x,y) = h(y)
+	\]
+\end{example}
+\begin{example}
+	Consider
+	\[
+		e^x \phi_x + \phi_y = 0;\quad \phi(x,0) = \cosh x
+	\]
+	The characteristic equations are
+	\[
+		\dv{x}{s} = e^x;\quad \dv{y}{s} = 1
+	\]
+	The initial conditions are
+	\[
+		x(t) = t;\quad y(t) = 0
+	\]
+	We solve the characteristic equation subject to these initial conditions, giving
+	\[
+		-e^{-x} = s + c(t);\quad y = s + d(t)
+	\]
+	\( s = 0 \) implies \( -e^{-t} = c(t) \) and \( y = 0 = d(t) \).
+	Hence
+	\[
+		e^{-x} = e^{-t} - s;\quad y = s
+	\]
+	Now,
+	\[
+		\dv{\phi}{s} = 0 \implies \phi(s,t) = \cosh t
+	\]
+	Since \( s = y, e^{-t} = y + e^{-x} \), we have \( t = -\log(y + e^{-x}) \).
+	Thus,
+	\[
+		\phi(x,y) = \cosh\qty[-\log(y + e^{-x})]
+	\]
+\end{example}
+
+\subsection{Inhomogeneous first order PDEs}
+Suppose we now wish to solve
+\[
+	\alpha(x,y) \phi_x + \beta(x,y) \phi_y = \gamma(x,y)
+\]
+with Cauchy data \( \phi(x(t), y(t)) = f(t) \) along a curve \( B \).
+The characteristic curves are the same as the homogeneous case.
+However, the directional derivative no longer vanishes:
+\[
+	\eval{\dv{\phi}{s}}_C = u \cdot \grad{\phi} = \gamma(x,y)
+\]
+where \( \phi = f(t) \) at \( s = 0 \) on \( B \).
+So \( f(t) \) is no longer propagated constantly across characteristic polynomials, but is instead propagated according to the ODE in \( s \) above.
+We must therefore solve this ODE along \( C \) before reverting to \( x,y \) coordinates.
+\begin{example}
+	Consider
+	\[
+		\phi_x + 2 \phi_y = ye^x;\quad \phi(x,x) = \sin x
+	\]
+	The characteristic equation is given by
+	\[
+		\dv{x}{s} = 1;\quad \dv{y}{s} = 2
+	\]
+	The initial conditions are
+	\[
+		x(t) = y(t) = t
+	\]
+	From the characteristic equations,
+	\[
+		x = s + c(t);\quad y = 2s + d(t)
+	\]
+	Thus,
+	\[
+		x = t = c(t);\quad y = t = d(t)
+	\]
+	So the solutions to the characteristics are
+	\[
+		x = s + t;\quad y = 2s + t
+	\]
+	Now we solve
+	\[
+		\dv{\phi}{s} = \gamma = y e^x = (2s+t)e^{s+t}
+	\]
+	Note that \( \dv{s} \qty(2se^s) = 2e^s + 2se^s \), so the solution is
+	\[
+		\phi(s,t) = (2s - 2 + t)e^{s+t} + c(s)
+	\]
+	for some constant term \( c(s) \).
+	But \( \phi(0,t) = \sin t \), hence
+	\[
+		\sin t = (t-2)e^t + c(s) \implies \phi(s,t) = (2s-2+t)e^{s+t} + \sin t - (2-t)e^t
+	\]
+	Inverting into \( x,y \) space,
+	\[
+		\phi(x,y) = (y-2)e^x + (y-2x+2)e^{2x-y} + \sin(2x-y)
+	\]
+\end{example}
+
+\subsection{Classication of second order PDEs}
+In two dimensions, the general second order PDE is
+\begin{align*}
+	\mathcal L \phi & \equiv a(x,y) \pdv[2]{\phi}{x} + 2 b(x,y) \pdv{\phi}{x}{y} + c(x,y) \pdv[2]{\phi}{y} \\
+	                & + d(x,y) \pdv{\phi}{x} + e(x,y) \pdv{\phi}{y} + f(x,y) \phi(x,y)
+\end{align*}
+The \textit{principal part} is given by
+\[
+	\sigma_P (x,y,k_x,k_y) \equiv k^\transpose A k = \begin{pmatrix}
+		k_x & k_y
+	\end{pmatrix} \begin{pmatrix}
+		a(x,y) & b(x,y) \\
+		b(x,y) & c(x,y)
+	\end{pmatrix} \begin{pmatrix}
+		k_x \\ k_y
+	\end{pmatrix}
+\]
+The PDE is classified by the properties of the eigenvalues of \( A \).
+\begin{enumerate}[(i)]
+	\item If \( b^2 - ac < 0 \), the equation is \textit{elliptic}.
+	      The eigenvalues have the same sign.
+	      An example is the Laplace equation.
+	\item If \( b^2 - ac > 0 \), the equation is \textit{hyperbolic}.
+	      The eigenvalues have opposite signs.
+	      An example is the wave equation.
+	\item If \( b^2 - ac = 0 \), the equation is \textit{parabolic}, where at least one eigenvalue is zero.
+	      An example is the heat equation.
+\end{enumerate}
+Note that a differential equation may have different classifications at different points \( (x,y) \) in space.
+
+\subsection{Characteristic curves of second order PDEs}
+A curve defined by \( f(x,y) \) constant is a characteristic if
+\[
+	\begin{pmatrix}
+		f_x & f_y
+	\end{pmatrix} \begin{pmatrix}
+		a & b \\
+		b & c
+	\end{pmatrix} \begin{pmatrix}
+		f_x \\ f_y
+	\end{pmatrix} = 0
+\]
+This is a generalisation of the first order case \( u \cdot \grad{f} = 0 \) where \( u = (\alpha, \beta) \).
+The curve can be written as \( y = y(x) \) by the chain rule.
+\[
+	\pdv{f}{x} + \pdv{f}{y} \dv{y}{x} = 0 \implies \frac{f_x}{f_y} = -\dv{y}{x}
+\]
+Substituting into the quadratic form,
+\[
+	a \qty(\dv{y}{x})^2 - 2b \dv{y}{x} + c = 0
+\]
+for which we have a quadratic solution given by
+\[
+	\dv{y}{x} = \frac{b \pm \sqrt{b^2 - ac}}{a}
+\]
+\begin{enumerate}[(i)]
+	\item Hyperbolic equations have two such solutions, since \( b^2 - ac > 0 \).
+	\item Parabolic equations have one solution.
+	\item Elliptic equations have no real characteristics.
+\end{enumerate}
+
+\subsection{Characteristic coordinates}
+Transforming to characteristic coordinates \( u,v \) will set \( a = 0 \) and \( c = 0 \).
+Hence, the PDE will take the canonical form
+\[
+	\pdv{\phi}{u}{v} + \dots + = 0
+\]
+where the omitted terms are lower order.
+\begin{example}
+	Consider
+	\[
+		-y \phi_{xx} + \phi_{yy} = 0
+	\]
+	Here, \( a = -y, b = 0, c = 1 \) hence \( b^2 - ac = y \).
+	For \( y > 0 \), the equation is hyperbolic, for \( y < 0 \) it is elliptic, and for \( y = 0 \) it is parabolic.
+	Consider the characteristics for \( y > 0 \).
+	\[
+		\dv{y}{x} = \frac{b \pm \sqrt{b^2 - ac}}{a} = \pm \frac{1}{\sqrt{y}}
+	\]
+	Hence,
+	\[
+		\int \sqrt{y} \dd{y} = \pm \int \dd{x} \implies \frac{2}{3} y^{\frac{3}{2}} \pm x = C_\pm
+	\]
+	Therefore, the characteristic curves are
+	\[
+		u = \frac{2}{3} y^{\frac{3}{2}} + x;\quad v = \frac{2}{3} y^{\frac{3}{2}} - x
+	\]
+	Taking derivatives,
+	\[
+		u_x = 1;\quad u_y = \sqrt{y};\quad v_x = -1;\quad v_y = \sqrt{y}
+	\]
+	Hence,
+	\begin{align*}
+		\phi_x    & = \phi_u u_x + \phi_v v_x = \phi_u - \phi_v                                      \\
+		\phi_y    & = \sqrt{y} (\phi_u + \phi_v)                                                     \\
+		\phi_{xx} & = \phi_{uu} - 2 \phi_{uv} + \phi_{vv}                                            \\
+		\phi_{yy} & = y (\phi_{uu} + 2 \phi_{uv} + \phi_{vv}) + \frac{1}{2\sqrt{y}}(\phi_u + \phi_v)
+	\end{align*}
+	Substituting into the original PDE,
+	\[
+		-y \phi_{xx} + \phi_{yy} = y\qty(4 \phi_{uv} + \frac{1}{2y^{\frac{3}{2}}} (\phi_u + \phi_v) )
+	\]
+	Note, \( u + v = \frac{4}{3} y^{\frac{3}{2}} \), hence we have the canonical form
+	\[
+		4 \phi_{uv} + \frac{1}{6(u+v)} (\phi_u + \phi_v) = 0
+	\]
+\end{example}
+
+\subsection{General solution to wave equation}
+The wave equation is
+\[
+	\frac{1}{c^2} \pdv[2]{\phi}{t} - \pdv[2]{\phi}{x} = 0
+\]
+We wish to solve this with initial conditions \( \phi(x,0) = f(x) \), and \( \phi_t(x,0) = g(x) \).
+Here, \( a = \frac{1}{c^2}, b = 0, c = -1 \) hence \( b^2 - ac > 0 \).
+The characteristic equation is
+\[
+	\dv{x}{t} = \frac{0 \pm \sqrt{0 + \frac{1}{c^2}}}{\frac{1}{c^2}} = \pm c
+\]
+Hence the characteristic coordinates are
+\[
+	u = x - ct;\quad v = x + ct
+\]
+This yields the canonical form
+\[
+	\pdv{\phi}{u}{v} = 0
+\]
+This may be integrated directly to find
+\[
+	\pdv{\phi}{v} = F(v) \implies \phi = G(u) + \int^v F(y) \dd{y} = G(u) + H(v)
+\]
+Imposing the initial conditions at \( t = 0 \), we find
+\[
+	G(x) + H(x) = f(x);\quad -cG'(x) + cH'(x) = g(x)
+\]
+Differentiating the first equation, we find
+\[
+	G'(x) + H'(x) = f'(x)
+\]
+We can combine this with the second equation to give
+\[
+	H'(x) = \frac{1}{2} \qty(f'(x) + \frac{1}{c}g(x)) \implies H(x) = \frac{1}{2} \qty(f(x) - f(0)) + \frac{1}{2c}\int_0^x g(y) \dd{y}
+\]
+Similarly,
+\[
+	G'(x) = \frac{1}{2} \qty(f'(x) - \frac{1}{c}g(x)) \implies G(x) = \frac{1}{2} \qty(f(x) - f(0)) - \frac{1}{2c}\int_0^x g(y) \dd{y}
+\]
+The final solution is therefore
+\[
+	\phi(x,t) = G(x-ct) + H(x+ct) = \frac{1}{2}\qty(f(x-ct) + f(x+ct)) + \frac{1}{2c} \int_{x-ct}^{x+ct} g(y) \dd{y}
+\]
+Waves propagate at a velocity \( c \), hence \( \phi(x,t) \) is fully determined by values of \( f, g \) in the interval \( [x-ct, x+ct] \).

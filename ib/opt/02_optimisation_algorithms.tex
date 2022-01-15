@@ -1,0 +1,333 @@
+\subsection{Gradient descent}
+Consider minimising \(f(x)\) such that \(f \colon \mathbb R^n \to \mathbb R\) is a convex function.
+Recall that a local minimum of \(f\) is also the global minimum.
+Consider the following `greedy' method:
+\begin{itemize}
+	\item Start at a point \(\vb x_0\).
+	\item Search for close points around \(\vb x_0\) whose values of \(f\) are smaller than \(f(\vb x_0)\).
+	      \begin{itemize}
+		      \item If such a point exists, let this be \(\vb x_1\).
+		            Repeat the algorithm.
+		      \item If such a point does not exist, we have found a local minimum, which is the global minimum.
+	      \end{itemize}
+\end{itemize}
+We can find such \(\vb x_1\) points by considering the Taylor series expansion of \(f\) around a point.
+\[
+	f(\vb x - \varepsilon\grad{f(\vb x)}) \approx f(\vb x) - \varepsilon \grad{f(\vb x)}^\transpose \cdot \grad{f(\vb x)} = f(\vb x) - \varepsilon\norm{\grad{f(\vb x)}}^2 \leq f(\vb x)
+\]
+Hence \(-\grad{f(\vb x)}\) is called a descending direction.
+Although the gradient of the function is the most natural way of decreasing a function, any \(\vb v\) with \(f(\vb x) \cdot \vb v < 0\) is a descending direction.
+This gives us the \textit{gradient descent} algorithm.
+
+\begin{algorithm*}[H]
+	\SetAlgoLined{}
+	\KwResult{Global minimum of \(f(\vb x)\)}
+	start at a point \(\vb x_0\)\;
+	\(t \leftarrow 0\)\;
+	\Repeat{\(\grad{f(\vb x)} = 0\) or \(t\) is large enough}{
+		find a descending direction \(\vb v_t\), e.g.\ \(-\grad{f(\vb x)}\)\;
+		choose a step size \(\eta_t\)\;
+		\(\vb x_{t+1} \leftarrow \vb x_t + \eta_t \vb v_t\)\;
+	}
+	\caption{Gradient Descent Algorithm}
+\end{algorithm*}
+
+\noindent Different choices of \(\vb v_t\) and \(\eta_t\) give rise to many different qualities of algorithm.
+
+\subsection{Smoothness assumption}
+Some restrictions must be applied to a function to let us prove that gradient descent works.
+\begin{definition}
+	A continuously differentiable function \(f \colon \mathbb R^n \to \mathbb R\) is \textit{\(\beta\)-smooth} if \(\grad{f}\) is a \(\beta\)-Lipschitz function:
+	\[
+		\norm{\grad{f(\vb x) - \grad{f(\vb y)}}} \leq \beta \norm{\vb x - \vb y}
+	\]
+\end{definition}
+\noindent In the following sections, we assume all functions \(f\) are \(\beta\)-smooth.
+Further, if \(f\) is twice differentiable (i.e.\ the Hessian exists everywhere), then the \(\beta\)-smoothness assumption is equivalent to
+\[
+	\laplacian{f(\vb x)} \preceq \beta I
+\]
+so all eigenvalues of \(\laplacian{f(\vb x)}\) have \(\lambda \leq \beta\).
+Also,
+\[
+	\vb u^\transpose \laplacian{f(\vb x)} \vb u \leq \vb u^\transpose (\beta I) \vb u = \beta \norm{\vb u}^2
+\]
+\begin{definition}
+	The \textit{linear approximation} to \(f\) at \(\vb x\) is
+	\[
+		f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x)
+	\]
+\end{definition}
+\noindent We might assume that the linear approximation is close to the actual function in a small neighbourhood around \(x\).
+\begin{claim}
+	If \(f\) is \(\beta\)-smooth, then
+	\[
+		f(\vb y) \leq f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{\beta}{2}\norm{\vb y - \vb x}^2
+	\]
+\end{claim}
+\noindent Note that
+\[
+	f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) \leq f(\vb y)
+\]
+since \(f\) is convex, so this claim would show that \(f\) really is close to the actual function, deviating by an arbitrarily small amount as we let \(\vb x\) approach \(\vb y\).
+\begin{proof}
+	By Taylor's theorem,
+	\begin{align*}
+		f(\vb y) & = f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{1}{2}(\vb y - \vb x)^\transpose \laplacian{f(\vb z)}(\vb y - \vb x) \\
+		         & \leq f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{1}{2}(\vb y - \vb x)^\transpose (\beta I) (\vb y - \vb x)        \\
+		         & = f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{\beta}{2}\norm{\vb y - \vb x}^2                                     \\
+	\end{align*}
+\end{proof}
+\begin{corollary}
+	If we move by a step size of \(\frac{1}{\beta}\), we will descend by at least \(\frac{1}{2\beta}\norm{\grad{f(x)}}^2\).
+	\[
+		f\qty(\vb x - \frac{1}{\beta}\grad{f(\vb x)}) \leq f(\vb x) - \frac{1}{2\beta}\norm{\grad{f(x)}}^2
+	\]
+\end{corollary}
+\begin{proof}
+	Consider
+	\[
+		f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{\beta}{2}\norm{\vb y - \vb x}^2
+	\]
+	as a function of \(\vb y\), and try to minimise it for a fixed \(\vb x\).
+	\[
+		\nabla_{\vb y} \qty(f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{\beta}{2}\norm{\vb y - \vb x}^2) = \grad{f(\vb x)} + \beta(\vb y - \vb x) = 0
+	\]
+	Hence,
+	\begin{align*}
+		\frac{\grad{f(\vb x)}}{\beta} & = \vb x - \vb y                          \\
+		\vb y                         & = \vb x - \frac{1}{\beta}\grad{f(\vb x)}
+	\end{align*}
+	Substituting into the claim above, we have
+	\begin{align*}
+		f\qty(x - \frac{1}{\beta}\grad{f(\vb x)}) & \leq f(\vb x) + \grad{f(\vb x)}^\transpose \qty(\frac{-1}{\beta}\grad{f(\vb x)}) + \frac{\beta}{2}\norm{\frac{1}{\beta}\grad{f(\vb x)}}^2 \\
+		                                          & = f(\vb x) - \frac{1}{\beta}\norm{\grad{f(\vb x)}}^2 + \frac{1}{2\beta}\norm{\grad{f(\vb x)}}^2                                           \\
+		                                          & = f(\vb x) - \frac{1}{2\beta}\norm{\grad{f(\vb x)}}^2                                                                                     \\
+	\end{align*}
+\end{proof}
+
+\begin{claim}[Improved first order condition]
+	\[
+		f(\vb y) \geq f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{1}{2\beta} \norm{\grad{f(\vb x) - \grad{f(\vb y)}}}^2
+	\]
+\end{claim}
+\begin{proof}
+	For any \(\vb z\), by the standard first order condition and the corollary above we have
+	\[
+		f(\vb x) + \grad{f(\vb x)}^\transpose (\vb z - \vb x) \leq f(\vb z) \leq f(\vb y) + \grad{f(\vb y)}^\transpose (\vb z - \vb y) + \frac{\beta}{2}\norm{\vb z - \vb y}^2
+	\]
+	This then implies
+	\[
+		f(\vb x) - f(\vb y) \leq \grad{f(\vb x)}^\transpose (\vb x - \vb z) + \grad{f(\vb y)}^\transpose (\vb z - \vb y) + \frac{\beta}{2}\norm{\vb z - \vb y}^2
+	\]
+	The left hand side is not dependent on \(\vb z\), so by minimising \(\vb z\) we get the best bound for the left hand side.
+	We set the gradient of \(\vb z\) to zero.
+	\begin{align*}
+		-\grad{f(\vb x)} + \grad{f(y)} + \beta (\vb z - \vb y) & = 0 \\
+		\implies \vb z = \frac{\grad{f(\vb x) - \grad{f(\vb y)}}}{\beta} + \vb y
+	\end{align*}
+	Substituting back, we have
+	\[
+		f(\vb x) - f(\vb y) \leq \grad{f(\vb x)}^\transpose (\vb x - \vb y) - \frac{1}{2\beta} \norm{\grad{f(\vb x) - \grad{f(\vb y)}}}^2
+	\]
+\end{proof}
+
+\subsection{Strong convexity assumption}
+In general, a small gradient does not imply that we are close to the optimum value of the function.
+We must therefore add an additional assumption in order to justify gradient descent.
+\begin{definition}
+	A function \(f \colon \mathbb R^n \to \mathbb R\) is called \textit{\(\alpha\)-strongly convex} if
+	\[
+		f(\vb y) \geq f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{\alpha}{2}\norm{\vb y - \vb x}^2
+	\]
+\end{definition}
+\noindent If \(f\) is twice differentiable, then its Hessian satisfies
+\[
+	\laplacian{f(\vb x)} \succeq \alpha I
+\]
+for all \(\vb x\).
+\begin{claim}
+	Let \(f\) be \(\alpha\)-strongly convex.
+	Let \(p^\star\) be the optimal cost; i.e.\ the minimum value of \(f\).
+	Then for any \(\vb x\) we have
+	\[
+		p^\star \geq f(\vb x) - \frac{1}{2\alpha}\norm{\grad{f(\vb x)}}^2
+	\]
+\end{claim}
+\begin{remark}
+	If \(\norm{\grad{f(\vb x)}} \leq \sqrt{2\alpha\varepsilon}\), then
+	\[
+		p^\star \leq f(\vb x) \leq p^\star + \varepsilon
+	\]
+	So a small gradient means we are close to the optimum.
+\end{remark}
+\begin{proof}
+	The \(\alpha\)-strong convexity assumption gives
+	\[
+		f(\vb y) \geq f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{\alpha}{2}\norm{\vb y - \vb x}^2
+	\]
+	Taking the minimum over \(\vb y\) of both sides, the left hand side becomes \(p^\star\).
+	Setting the gradient of the right hand side to zero,
+	\begin{align*}
+		\grad{f(\vb x)} - \alpha (\vb x - \vb y) & = 0               \\
+		\frac{\grad{f(\vb x)}}{\alpha}           & = (\vb x - \vb y) \\
+	\end{align*}
+	This gives
+	\begin{align*}
+		p^\star & \geq f(\vb x) + \grad{f(\vb x)}^\transpose \qty(-\frac{\grad{f(\vb x)}}{\alpha}) + \frac{\alpha}{2}\norm{\frac{\grad{f(\vb x)}}{\alpha}}^2 \\
+		        & = f(\vb x) - \frac{\norm{\grad{f(\vb x)}}^2}{\alpha} + \frac{\norm{\grad{f(\vb x)}}^2}{2\alpha}                                            \\
+		        & = f(\vb x) - \frac{\norm{\grad{f(\vb x)}}^2}{2\alpha}
+	\end{align*}
+\end{proof}
+\begin{claim}
+	Let \(\vb x^\star\) be the minimising value, i.e.\ \(f(\vb x^\star) = p^\star\).
+	Then
+	\[
+		\norm{\vb x - \vb x^\star} \leq \frac{2}{\alpha} \norm{\grad(\vb x)}
+	\]
+	So if a function is strongly convex, we can find a region in which we know the global maximum lies.
+\end{claim}
+\begin{proof}
+	By the Cauchy-Schwarz inequality,
+	\begin{align*}
+		f(\vb x^\star) & \geq f(\vb x) + \grad{f(\vb x)}^\transpose (\vb x^\star - \vb x) + \frac{\alpha}{2}\norm{\vb x^\star - \vb x}^2  \\
+		               & \geq f(\vb x) - \norm{\grad{f(\vb x)}} \norm{\vb x^\star - \vb x} + \frac{\alpha}{2}\norm{\vb x^\star - \vb x}^2
+	\end{align*}
+	Since \(f(\vb x^\star) \leq f(\vb x)\), we have
+	\[
+		0 \geq f(\vb x^\star) - f(\vb x) \geq - \norm{\grad{f(\vb x)}} \norm{\vb x^\star - \vb x} + \frac{\alpha}{2}\norm{\vb x^\star - \vb x}^2
+	\]
+	Hence,
+	\begin{align*}
+		\norm{\grad{f(\vb x)}} \norm{\vb x^\star - \vb x} & \geq \frac{\alpha}{2}\norm{\vb x^\star - \vb x}^2 \\
+		\norm{\grad{f(\vb x)}}                            & \geq \frac{\alpha}{2}\norm{\vb x^\star - \vb x}   \\
+	\end{align*}
+\end{proof}
+
+\subsection{Proving gradient descent}
+Let \(f\) be a \(\beta\)-smooth and \(\alpha\)-strongly convex, where \(0 < \alpha < \beta\).
+Then
+\[
+	\alpha I \leq \laplacian{f(\vb x)} \leq \beta I
+\]
+\begin{theorem}
+	Gradient descent with step size \(\frac{1}{\beta}\) satisfies
+	\begin{align*}
+		f(\vb x_T) - f(\vb x^\star) & \leq \qty(1 - \frac{\alpha}{\beta})^T \qty(f(\vb x_0) - f(\vb x^\star)) \\&\leq e^{-\frac{\alpha T}{\beta}} \qty(f(\vb x_0) - f(\vb x^\star)) \\&\leq e^{-\frac{\alpha T}{\beta}} \frac{\beta}{2} \norm{\vb x^\star - \vb x_0}^2
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		f(\vb x_{t+1}) - f(\vb x^\star) & \leq f(\vb x_t) - f(\vb x^\star) - \frac{1}{2\beta} \norm{\grad{f(\vb x_t)}}^2            \\
+		                                & \leq f(\vb x_t) - f(\vb x^\star) - \frac{\alpha}{\beta} \qty(f(\vb x_t) - f(\vb x^\star)) \\
+		                                & \leq \qty(1 - \frac{\alpha}{\beta}) \qty(f(\vb x_t) - f(\vb x^\star))
+	\end{align*}
+	Hence by induction,
+	\[
+		f(\vb x_T) - f(\vb x^\star) \leq \qty(1 - \frac{\alpha}{\beta})^T \qty(f(\vb x_0) - f(\vb x^\star))
+	\]
+	The second line of the theorem is a consequence of the properties of the exponential function.
+	The last inequality in the theorem can be shown by \(\beta\)-smoothness.
+	\begin{align*}
+		f(\vb x_0)                  & \leq f(\vb x^\star) + \grad{f(\vb x^\star)}^\transpose (\vb x_0 - \vb x^\star) + \frac{\beta}{2}\norm{\vb x_0 - \vb x^\star}^2 \\
+		f(\vb x_0) - f(\vb x^\star) & \leq \frac{\beta}{2}\norm{\vb x_0 - \vb x^\star}^2                                                                             \\
+	\end{align*}
+\end{proof}
+
+\subsection{Rate of convergence}
+For example, suppose that we would like \(f(\vb x_T)  - f(\vb x^\star) \leq 0.1\), and it takes \(k\) steps to reach this tolerance.
+Then, it would take around \(2k\) steps to reach a tolerance of \(0.01\), since the \(\qty(1 - \frac{\alpha}{\beta})^T\) power might increase by a factor of 2.
+In general, the number of steps needed to ensure that the error is less than \(\varepsilon\) is
+\[
+	T = \frac{\beta}{\alpha} \log(\frac{f(\vb x_0) - f(\vb x^\star)}{\varepsilon})
+\]
+This \(\log(1/\varepsilon)\) term is called `linear convergence', since for each extra order of magnitude of accuracy, we need a linear amount of computation steps.
+Linear convergence is very fast, and such algorithms are very useful.
+
+\subsection{Condition numbers and oscillation}
+Note that
+\[
+	1 - \frac{\alpha}{\beta}
+\]
+is the term which controls the convergence of gradient descent.
+We call \(\beta/\alpha\) the \textit{condition number} of \(f\).
+Such a number is always greater than 1.
+If the condition number is very close to 1, the convergence is fast.
+Consider the function
+\[
+	f(x_1, x_2) = \frac{1}{2}(x_1^2 + 100x_2^2)
+\]
+The Hessian of \(f\) at any point is
+\[
+	\laplacian{f(x_1, x_2)} = \begin{pmatrix}
+		1 & 0 \\ 0 & 100
+	\end{pmatrix}
+\]
+Hence, \(\alpha = 1, \beta = 100\) giving a condition number of 100.
+This function would optimise very slowly, and we may continually overshoot in the \(x_2\) direction since the gradient points so strongly in this direction.
+We may like to prevent this oscillation between over-guessing and under-guessing certain coordinate components.
+
+\subsection{Newton's method}
+In gradient descent, we have
+\[
+	\vb x_{t+1} = \vb x_t - \eta_t \grad{f(\vb x_t)}
+\]
+In Newton's method, we replace this formula with
+\[
+	\vb x_{t+1} = \vb x_t - \qty(\laplacian{f(\vb x)})^{-1} \grad{f(\vb x_t)}
+\]
+Note that the second order approximation for \(f\) is
+\[
+	f(\vb x) \approx f(\vb x_t) + \grad{f(\vb x_t)}^\transpose + \frac{1}{2}(\vb x - \vb x_t)^\transpose \laplacian{f(\vb x_t)}(\vb x - \vb x_t)
+\]
+So if we instead try to minimise the right hand side of the second-order approximation with respect to \(\vb x\), we have
+\[
+	\vb x_{t+1} = \vb x_t - \qty(\laplacian{f(\vb x)})^{-1} \grad{f(\vb x_t)}
+\]
+as given by Newton's method.
+This ideally allows us to deal with `badly-proportioned' coordinates independently, by scaling each coordinate using the Hessian rather than by a constant.
+Essentially, Newton's method iteratively approximates the function with a parabola, and then moves to the minimum point of this parabola.
+We can show that Newton's method converges according to
+\[
+	\norm{\vb x_{t+1} - \vb x^\star} \leq c \norm{\vb x_{t} - \vb x^\star}^2
+\]
+when \(\vb x_t - \vb x^\star\) is small enough.
+We can see here that the squared term provides very fast convergence once we are in the neighbourhood of the optimum.
+Newton's method can also be used to find a root of a function.
+Suppose \(f \colon \mathbb R \to \mathbb R\), and define \(f' = g\).
+\[
+	x_{t+1} = x_t - \frac{f'(x_t)}{f''(x_t)} = x_t - \frac{g(x_t)}{g'(x_t)}
+\]
+So we can find the root of \(g\) by computing the stationary point of \(f\).
+We are essentially taking a linear approximation at a point, and setting this linear approximation to zero.
+
+\subsection{Barrier methods}
+Suppose we impose a constraint on an optimisation problem, for instance minimising \(f(\vb x)\) such that \(f_i(\vb x) \leq 0\) for \(1 \leq i \leq m\).
+We can transform such a constrained problem into an unconstrained problem.
+Let us minimise
+\[
+	f(\vb x) + \sum_{i=1}^m \phi(f_i(\vb x))
+\]
+where \(\phi(y_i) = +\infty\) outside the feasible set, and \(\phi(y_i) = 0\) inside the feasible set.
+However, this \(\phi\) function is not differentiable, so this introduces even more problems.
+We instead consider a \textit{logarithmic barrier function}.
+Let us minimise the unconstrained problem
+\[
+	tf(\vb x) - \sum_{i=1}^m \log(-f_i(\vb x)) \implies \phi(x) = -\log (-x)
+\]
+This barrier function is infinite for negative \(x\), and gradually rises as \(x \to 0\).
+When \(t\) is chosen to be very large, the optimum of this problem is very close to the optimum of the original problem.
+
+\begin{algorithm*}[H]
+	\SetAlgoLined{}
+	\KwResult{Global minimum of \(f(\vb x)\)}
+	start at a point \(\vb x\) inside the feasible set\;
+	set \(t\) to be a positive real number\;
+	\Repeat{\(t\) is large enough}{
+		solve the minimiser of \( tf(\vb x) - \sum_{i=1}^m \log(-f_i(\vb x)) \) with \(\vb x\) as the initial point using Newton's method giving \(\vb x^\star\)\;
+		\( \vb x \leftarrow \vb x^\star \)\;
+		\( t \leftarrow \alpha t \) for some fixed \(\alpha > 1\)\;
+	}
+	\caption{Barrier Method}
+\end{algorithm*}

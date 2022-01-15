@@ -1,0 +1,290 @@
+\subsection{Standardising normal distributions}
+Suppose \(X \sim \mathrm{N}(\mu, \sigma^2)\).
+Let \(a \neq 0, b \in \mathbb R\), and let \(g(x) = ax+b\).
+We define \(Y = g(X) = aX+b\).
+We can find the density \(f_Y\) of \(Y\), by noting that \(g\) is a monotonic function and the inverse has a derivative.
+We can then use the theorem in the last lecture to show that
+\begin{align*}
+	f_Y(y) & = f_X(g^{-1}(y)) \cdot \abs{\dv{y} g^{-1}(y)}                                                       \\
+	       & = \frac{1}{\sqrt{2\pi\sigma^2}} \exp(-\frac{(\frac{y-b}{a} - \mu)^2}{2\sigma^2}) \cdot \frac{1}{2a} \\
+	       & =\frac{1}{\sqrt{2\pi a^2\sigma^2}} \exp(-\frac{(y - a\mu + b)^2}{2 a^2 \sigma^2})
+\end{align*}
+Hence \(Y \sim \mathrm{N}(a \mu + b, a^2 \sigma^2)\).
+In particular, \(\frac{X-\mu}{\sigma}\) is exactly the standard normal distribution.
+\begin{definition}
+	Suppose \(X\) is a continuous random variable.
+	Then the median of \(X\), denoted by \(m\), is the number satisfying
+	\[
+		\prob{X \leq m} = \prob{X \geq m} = \frac{1}{2}
+	\]
+\end{definition}
+\noindent If \(X \sim \mathrm{N}(\mu, \sigma^2)\), then \(\prob{X \leq \mu} = \Phi(0) = \frac{1}{2}\) hence \(\mu\) is the median of the normal distribution.
+
+\subsection{Multivariate density functions}
+Suppose \(X = (X_1, \dots, X_n) \in \mathbb R^n\) is a random variable.
+We say that \(X\) has density \(f\) if
+\[
+	\prob{X_1 \leq x_1, \dots, X_n \leq x_n} = \int_{-\infty}^{x_1} \dots \int_{-\infty}^{x_n}  f(y_1, \dots, y_n) \dd{y_1} \dots \dd{y_n}
+\]
+Then,
+\[
+	f(x_1, \dots, x_n) = \frac{\partial^n}{\partial x_1 \dots \partial x_n} F(x_1, \dots, x_n)
+\]
+This generalises the fact that for all (reasonable) \(B \subseteq \mathbb R^n\),
+\[
+	\prob{(X_1, \dots, X_n) \in B} = \int_B f(y_1, \dots, y_n) \dd{y_1}\dots\dd{y_n}
+\]
+
+\subsection{Independence of events}
+In the continuous case, we can no longer use the definition \(\prob{X = a, Y = b} = \prob{X = a}\prob{Y = b}\), since the probability of a random variable being a specific value is always zero.
+Instead, we define that \(X_1, \dots X_n\) are independent if for all \(x_1, \dots, x_n \in \mathbb R\),
+\[
+	\prob{X_1 \leq x_1, \dots, X_n \leq x_n} = \prob{X_1 \leq x_1}\cdots\prob{X_n \leq x_n}
+\]
+\begin{theorem}
+	Suppose \(X = (X_1, \dots, X_n)\) has density \(f\).
+	\begin{enumerate}[(a)]
+		\item Suppose \(X_1, \dots, X_n\) are independent with densities \(f_1, \dots, f_n\).
+		      Then \(f(x_1, \dots, x_n) = f_1(x_1)\cdots f_n(x_n)\).
+		\item Suppose that \(f\) factorises as \(f(x_1, \dots, x_n) = f_1(x_1)\cdots f_n(x_n)\) for some non-negative functions \(f_1, \dots, f_n\).
+		      Then \(X_1, \dots, X_n\) are independent with densities proportional to \(f_1, \dots, f_n\).
+		      (In order to have a density function, we require that it integrates to 1, so we choose a scaling factor such that this requirement holds.)
+	\end{enumerate}
+	In other words, \(f\) factorises if and only if it is comprised of independent events.
+\end{theorem}
+\begin{proof}
+	\begin{enumerate}[(a)]
+		\item We know that
+		      \begin{align*}
+			      \prob{X_1 \leq x_1, \dots, X_n \leq x_n} & = \prob{X_1 \leq x_1}\cdots\prob{X_n \leq x_n}                                       \\
+			                                               & = \int_{-\infty}^{x_1} f_1(y_1)\dd{y_1} \cdots \int_{-\infty}^{x_n} f_n(y_n)\dd{y_n} \\
+			                                               & = \int_{-\infty}^{x_1} \dots \int_{-\infty}^{x_n} \prod_{i=1}^n f_i(y_i) \dd{y_i}
+		      \end{align*}
+		      So the density of \((X_1, \dots, X_n)\) is the product of the \((f_i)\).
+		\item Suppose \(f\) factorises.
+		      Let \(B_1, \dots, B_n \subseteq \mathbb R\).
+		      Then
+		      \[
+			      \prob{X_1 \in B_1, \dots, X_n \in B_n} = \int_{B_1} \cdots \int_{B_n} f_1(x_1)\cdots f_n(x_n) \dd{y_1} \cdots \dd{y_n}
+		      \]
+		      Now, let \(B_j = \mathbb R\) for all \(j \neq i\).
+		      Then
+		      \[
+			      \prob{X_i \in B_i} = \prob{X_i \in B_i, X_j \in B_j \;\forall j \neq i} = \int_{B_i} f_i(y_i) \dd{y_i} \cdot \prod_{j \neq 1} \int_{B_j} f_j(x_j)\dd{y_j}
+		      \]
+		      Since \(f\) is a density function,
+		      \[
+			      \int_{-\infty}^\infty \cdots \int_{-\infty}^\infty f(x_1, \dots, x_n) \dd{x_1} \cdots \dd{x_n} = 1
+		      \]
+		      But \(f\) is the product of the \(f_i\), so
+		      \[
+			      \prod_j \int_{-\infty}^\infty f_j(y) \dd{y} = 1 \implies \prod_{j \neq i} \int_{-\infty}^\infty f_j(y) \dd{y} = \frac{1}{\int_{-\infty}^\infty f_i(y) \dd{y}}
+		      \]
+		      Hence,
+		      \[
+			      \prob{X_i \in B_i} = \frac{\int_{B_i} f_i(y) \dd{y}}{\int_{-\infty}^\infty f_i(y) \dd{y}}
+		      \]
+		      This shows that the density of \(X_i\) is
+		      \[
+			      \frac{f_i}{\int_{-\infty}^\infty f_i(y) \dd{y}}
+		      \]
+		      The \(X_i\) are independent, since
+		      \begin{align*}
+			      \prob{X_1 \leq x_1, \dots, X_n \leq x_n} & = \frac{\int_{-\infty}^{x_1} f_1(y_1)\dd{y_1} \cdots \int_{-\infty}^{x_n} f_n(y_n) \dd{y_n}}{\int_{-\infty}^\infty f_1(y_1)\dd{y_1} \cdots \int_{-\infty}^\infty f_n(y_n) \dd{y_n}} \\
+			                                               & = \prob{X_1 \leq x_1}\cdots\prob{X_n \leq x_n}
+		      \end{align*}
+	\end{enumerate}
+\end{proof}
+
+\subsection{Marginal density}
+Suppose that \((X_1, \dots, X_n)\) has density \(f\).
+Now we can compute the marginal density as follows.
+\begin{align*}
+	\prob{X_1 \leq x} & = \prob{X_1 \leq x, X_2 \in \mathbb R, \dots, X_n \in \mathbb R}                                                                                                                        \\
+	                  & = \int_{-\infty}^x \int_{-\infty}^\infty \cdots \int_{-\infty}^\infty f(x_1, \dots, x_n) \dd{x_1}\cdots \dd{x_n}                                                                        \\
+	                  & = \int_{-\infty}^x \dd{x_1} \underbrace{\left( \int_{-\infty}^\infty \cdots \int_{-\infty}^\infty f(x_1, \dots, x_n) \dd{x_2}\cdots \dd{x_n} \right)}_{\text{marginal density of } X_1} \\
+\end{align*}
+
+\subsection{Sum of random variables}
+Recall that in the discrete case, for independent random variables \(X\) and \(Y\) we have
+\[
+	\prob{X+Y = z} = \sum_y \prob{X+Y = z, Y=y} = \sum_y \prob{X = z-y} \prob{Y = y} = \sum_y p_x(z-y) p_y(y)
+\]
+which was called the convolution.
+In the continuous case,
+\begin{align*}
+	\prob{X+Y \leq z} & = \iint_{\{ x+y \leq z \}} f_{X, Y}(x, y) \dd{x}\dd{y}                                                                   \\
+	                  & = \int_{-\infty}^\infty \int_{-\infty}^{z-x} f_X(x)f_Y(y) \dd{x}\dd{y}                                                   \\
+	                  & = \int_{-\infty}^\infty \left( \int_{-\infty}^{z} f_X(x)f_Y(y-x) \dd{y} \right) \dd{x}\; (\text{using } y \mapsto y + x) \\
+	                  & = \int_{-\infty}^z \dd{y} \underbrace{\left( \int_{-\infty}^\infty f_Y(y-x) f_X(x) \dd{x} \right)}_{g(y)}
+\end{align*}
+Hence the density of \(X+Y\) is \(g(y)\), where
+\[
+	g(y) = \int_{-\infty}^\infty f_Y(y-x) f_X(x) \dd{x}
+\]
+\begin{definition}
+	Let \(f, g\) be density functions.
+	Then the convolution of \(f\) and \(g\) is
+	\[
+		(f \star g)(y) = \int_{-\infty}^\infty f_Y(y-x) f_X(x) \dd{x}
+	\]
+\end{definition}
+\noindent Here is a non-rigorous argument, which can be used as a heuristic.
+\begin{align*}
+	\prob{X + Y \leq z}        & = \int_{-\infty}^\infty \prob{X + Y \leq z, Y \in \dd{y}}      \\
+	                           & = \int_{-\infty}^\infty \prob{X + Y \leq z, Y \in \dd{y}}      \\
+	                           & = \int_{-\infty}^\infty \prob{X \leq z - y}\prob{Y \in \dd{y}} \\
+	                           & = \int_{-\infty}^\infty \prob{X \leq z - y}f_Y(y)\dd{y}        \\
+	                           & = \int_{-\infty}^\infty F_X(z - y)f_Y(y)\dd{y}                 \\
+	\dv{z} \prob{X + Y \leq z} & = \int_{-\infty}^\infty \dv{z} F_X(z - y)f_Y(y)\dd{y}          \\
+	                           & = \int_{-\infty}^\infty f_X(z - y)f_Y(y)\dd{y}                 \\
+\end{align*}
+
+\subsection{Conditional density}
+We will now define the conditional density of a continuous random variable, given the value of another continuous random variable.
+Let \(X\) and \(Y\) be continuous random variables with joint density \(f_{X, Y}\) and marginal densities \(f_X\) and \(f_Y\).
+Then we define the conditional density of \(X\) given that \(Y = y\) is defined as
+\[
+	f_{X \mid Y}(x \mid y) = \frac{f_{X, Y}(x, y)}{f_Y(y)}
+\]
+Then we can find the law of total probability in the continuous case.
+\begin{align*}
+	f_X(x) & = \int_{-\infty}^\infty f_{XY}(x, y) \dd{y}                 \\
+	       & = \int_{-\infty}^\infty f_{X \mid Y}(x \mid y)f_Y(y) \dd{y}
+\end{align*}
+
+\subsection{Conditional expectation}
+We want to define \(\expect{X \mid Y}\) to be some function \(g(Y)\) for some function \(g\).
+We will define
+\[
+	g(y) = \int_{-\infty}^\infty xf_{X \mid Y}(x \mid y) \dd{x}
+\]
+which is the analogous expression to \(\expect{X \mid Y = y}\) from the discrete case.
+Then we just set \(\expect{X \mid Y} = g(Y)\) to be the conditional expectation.
+
+\subsection{Transformations of multidimensional random variables}
+\begin{theorem}
+	Let \(X\) be a continuous random variable with values in \(D \subseteq \mathbb R^d\), with density \(f_X\).
+	Now, let \(g\) be a bijection \(D\) to \(g(D)\) which has a continuous derivative, and \(\det g'(x) \neq 0\) for all \(x \in D\).
+	Then the random variable \(Y = g(X)\) has density
+	\[
+		f_Y(y) = f_X(x) \cdot \abs{J} \text{ where } x = g^{-1}(y)
+	\]
+	where \(J\) is the Jacobian
+	\[
+		J = \det \left( \left( \pdv{x_i}{y_j} \right)_{i, j = 1}^d \right)
+	\]
+\end{theorem}
+\noindent No proof will be given for this theorem.
+As an example, let \(X\) and \(Y\) be independent continuous random variables with the standard normal distribution.
+The point \((X, Y)\) in \(\mathbb R^2\) has polar coordinates \((R, \Theta)\).
+What are the densities of \(R\) and \(\Theta\)?
+We have \(X = R\cos\Theta\) and \(Y = R\sin\Theta\).
+The Jacobian is
+\[
+	J = \det\begin{pmatrix}
+		\cos\theta & -r\sin\theta \\
+		\sin\theta & r\cos\theta
+	\end{pmatrix} = r
+\]
+Hence,
+\begin{align*}
+	f_{R, \Theta}(r, \theta) & = f_{X, Y}(r\cos\theta, r\sin\theta) \abs{J}                                                                            \\
+	                         & = f_{X, Y}(r\cos\theta, r\sin\theta) r                                                                                  \\
+	                         & = f_X(r\cos\theta) f_Y(r\sin\theta) r                                                                                   \\
+	                         & = \frac{1}{\sqrt{2\pi}}e^{-\frac{r^2\cos^2\theta}{2}} \cdot \frac{1}{\sqrt{2\pi}}e^{-\frac{r^2\sin^2\theta}{2}} \cdot r \\
+	                         & = \frac{1}{2\pi}e^{-\frac{r^2}{2}} \cdot r
+\end{align*}
+for all \(r > 0\) and \(\theta \in [0, 2\pi]\).
+Note that the joint density factorises into marginal densities:
+\[
+	f_{R, \Theta}(r, \theta) = \underbrace{\frac{1}{2\pi}}_{f_\Theta} \underbrace{re^{-\frac{r^2}{2}}}_{f_R}
+\]
+so the random variables \(R\) and \(\Theta\) are independent, where \(\Theta \sim U[0, 2\pi]\) and \(R\) has density \(re^{\frac{-r^2}{2}}\) on \((0, \infty)\).
+
+\subsection{Ordered statistics of a random sample}
+Let \(X_1, \dots, X_n\) be independent and identically distributed random variables with distribution function \(F\) and density function \(f\).
+We can put them in increasing order:
+\[
+	X_{(1)} \leq X_{(2)} \leq \dots \leq X_{(n)}
+\]
+and let \(Y_i = X_{(i)}\).
+The \((Y_i)\) are the order statistics.
+\begin{align*}
+	\prob{Y_1 \leq x} & = \prob{\min(X_1, \dots, X_n) \leq x}    \\
+	                  & = 1 - \prob{\min(X_1, \dots, X_n) > x}   \\
+	                  & = 1 - \prob{X_1 > x}\cdots\prob{X_n > x} \\
+	                  & = 1 - (1 - F(x))^n
+\end{align*}
+Further,
+\begin{align*}
+	f_{Y_1}(x) & = \dv{x}\left( 1 - (1 - F(x))^n \right) \\
+	           & = n (1 - F(x))^{n-1} f(x)
+\end{align*}
+We can compute an analogous result for the maximum.
+\begin{align*}
+	\prob{Y_n \leq x} & = (F(x))^n           \\
+	f_{Y_n}(x)        & = n(F(x))^{n-1} f(x)
+\end{align*}
+What are the densities of the other random variables?
+First, let \(x_1 < x_2 < \dots < x_n\).
+Then, we can first find the joint distribution \(\prob{Y_1 \leq x_1, \dots, Y_n \leq x_n}\).
+Note that this is simply the sum over all possible permutations of the \((X_i)\) of \(\prob{X_1 \leq x_1, \dots, X_n \leq x_n}\).
+But since the variables are independent and identically distributed, these probabilities are the same.
+Hence,
+\begin{align*}
+	\prob{Y_1 \leq x_1, \dots, Y_n \leq x_n}        & = n!
+	\cdot \prob{X_1 \leq x_1, \dots, X_n \leq x_n, X_1 < \dots < X_n}                                               \\
+	                                                & = n!
+	\int_{-\infty}^{x_1} \int_{u_1}^{x_2} \cdots \int_{u_{n-1}}^{x_n} f(u_1) \cdots f(u_n) \dd{u_1} \cdots \dd{u_n} \\
+	\therefore f_{Y_1, \dots, Y_n}(x_1, \dots, x_n) & = n!
+	f(x_1) \cdots f(x_n)
+\end{align*}
+when \(x_1 < x_2 < \dots < x_n\), and the joint density is zero otherwise.
+Note that this joint density does not factorise as a product of densities, since we must always consider the indicator function that \(x_1 < x_2 < \dots < x_n\).
+
+\subsection{Ordered statistics on exponential distribution}
+Let \(X \sim \mathrm{Exp}(\lambda)\), \(Y \sim \mathrm{Exp}(\mu)\) be independent continuous random variables.
+Let \(Z = \min(X, Y)\).
+\[
+	\prob{Z \geq z} = \prob{X \geq z, Y \geq z} = \prob{X \geq z} \prob{Y \geq z} = e^{-\lambda z} \cdot e^{-\mu z} = e^{-(\lambda + \mu)z}
+\]
+Hence \(Z\) has the exponential distribution with parameter \(\lambda+\mu\).
+More generally, if \(X_1, \dots, X_n\) are independent continuous random variables with \(X_i \sim \mathrm{Exp}(\lambda_i)\), then \(Z = \min(X_1, \dots, X_n)\) has distribution \(\mathrm{Exp}\left( \sum_{i=1}^n \lambda_i \right)\).
+Now, let \(X_1, \dots, X_n\) be independent identically distributed random variables with distribution \(\mathrm{Exp}(\lambda)\), and let \(Y_i\) be their order statistics.
+Then
+\[
+	Z_1 = Y_1;\quad Z_2 = Y_2 - Y_1;\quad Z_i = Y_i - Y_{i-1}
+\]
+So the \(Z_i\) are the `durations between consecutive results' from the \(X_i\).
+What is the density of these \(Z_i\)?
+First, note that
+\[
+	Z = \begin{pmatrix}
+		Z_1 \\ \vdots \\ Z_n
+	\end{pmatrix} = A \begin{pmatrix}
+		Y_1 \\ \vdots \\ Y_n
+	\end{pmatrix};\quad A = \begin{pmatrix}
+		1      & 0      & 0      & \cdots & 0      \\
+		-1     & 1      & 0      & \cdots & 0      \\
+		0      & -1     & 1      & \cdots & 0      \\
+		\vdots & \vdots & \vdots & \ddots & \vdots \\
+		0      & 0      & 0      & \cdots & 1
+	\end{pmatrix}
+\]
+Note that \(\det A = 1\), and \(Z = AY\), and note further that
+\[
+	y_j = \sum_{i=1}^j z_i
+\]
+Now,
+\begin{align*}
+	f_{(Z_1, \dots, Z_n)}(z_1, \dots, z_n) & = f_{(Y_1, \dots, Y_n)}(y_1, \dots, y_n) \underbrace{\abs{A}}_{=1} \\
+	                                       & = n!
+	f(y_1) \cdots f(y_n)                                                                                        \\
+	                                       & = n!
+	(\lambda e^{-\lambda y_1}) \cdots (\lambda e^{-\lambda y_n})                                                \\
+	                                       & = n!
+	\lambda^n e^{-\lambda(nz_1 + (n-1)z_2 + \dots + z_n)}                                                       \\
+	                                       & = \prod_{i=1}^n (n-i+1) \lambda e^{-\lambda (n-i+1)z_i}
+\end{align*}
+The density function of the vector \(Z\) factorises into functions of the \(z_i\), so \(Z_1, \dots, Z_n\) are independent and \(Z_i \sim \mathrm{Exp}(\lambda(n-i+1))\).

@@ -1,0 +1,162 @@
+\subsection{Definitions}
+\begin{definition}
+	Let \( X \) be a Markov chain, and let \( i \in I \).
+	\( i \) is called \textit{recurrent} if
+	\[
+		\psub{i}{X_n = i \text{ for infinitely many } n} = 1
+	\]
+	\( i \) is called \textit{transient} if
+	\[
+		\psub{i}{X_n = i \text{ for infinitely many } n} = 0
+	\]
+\end{definition}
+\noindent We will prove that any \( i \) is either recurrent or transient.
+
+\subsection{Probability of visits}
+\begin{definition}
+	Let \( T_i^{(0)} = 0 \) and inductively define
+	\[
+		T_i^{(r+1)} = \inf \qty{n \geq T_i^{(r)} + 1 \colon X_n = i}
+	\]
+	We write \( T_i^{(1)} = T_i \), called the first return time (or first passage time) to \( i \).
+	Further, let
+	\[
+		f_i = \psub{i}{T_i < \infty}
+	\]
+	and let the number of visits to \( i \) be defined by
+	\[
+		V_i = \sum_{n=0}^\infty 1(X_n = i)
+	\]
+\end{definition}
+\begin{lemma}
+	For all \( r \in \mathbb N, i \in I \), \( \psub{i}{V_i > r} = f_i^r \).
+\end{lemma}
+\begin{proof}
+	For \( r = 0 \), this is trivially true.
+	Now, suppose that the statement is true for \( r \), and we will show that it is true for \( r + 1 \).
+	\begin{align*}
+		\psub{i}{V_i > r+1} & = \psub{i}{T_i^{(r+1)} < \infty}                                                      \\
+		                    & = \psub{i}{T_i^{(r+1)} < \infty, T_i^{(r)} < \infty}                                  \\
+		                    & = \psub{i}{T_i^{(r+1)} < \infty \mid T_i^{(r)} < \infty} \psub{i}{T_i^{(r)} < \infty} \\
+		                    & = \psub{i}{T_i^{(r+1)} < \infty \mid T_i^{(r)} < \infty} \psub{i}{V_i > r}            \\
+		                    & = \psub{i}{T_i^{(r+1)} < \infty \mid T_i^{(r)} < \infty} f_i^r                        \\
+		\intertext{By the strong Markov property applied to the stopping time \( T_i^{(r)} \),}
+		                    & = \psub{i}{T_i < \infty} f_i^r                                                        \\
+		                    & = f_i f_i^r                                                                           \\
+		                    & = f_i^{r+1}
+	\end{align*}
+\end{proof}
+
+\subsection{Duality of transience and recurrence}
+\begin{theorem}
+	Let \( X \) be a Markov chain with transition matrix \( P \), and let \( i \in I \).
+	Then, exactly one of the following is true.
+	\begin{enumerate}[(i)]
+		\item If \( \psub{i}{T_i < \infty} = 1 \), then \( i \) is recurrent, and
+		      \[
+			      \sum_{n=0}^\infty p_{ii}(n) = \infty
+		      \]
+		\item If \( \psub{i}{T_i < \infty} < 1 \), then \( i \) is transient, and
+		      \[
+			      \sum_{n=0}^\infty p_{ii}(n) < \infty
+		      \]
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	\begin{align*}
+		\esub{i}{V_i} & = \esub{i}{\sum_{n=0}^\infty 1(X_n = i)} \\
+		              & = \sum_{n=0}^\infty \esub{i}{1(X_n = i)} \\
+		              & = \sum_{n=0}^\infty \psub{i}{X_n = i}    \\
+		              & = \sum_{n=0}^\infty p_{ii}(n)
+	\end{align*}
+	First, suppose \( \psub{i}{T_i < \infty} = 1 \).
+	Then, for all \( r \), \( \psub{i}{V_i > r} = 1 \), so \( \psub{i}{V_i = \infty} = 1 \).
+	Hence, \( i \) is recurrent.
+	Further, \( \esub{i}{V_i} = \infty \) so \( \sum_{n=0}^\infty p_{ii}(n) = \infty \).
+
+	Now, if \( f_i < 1 \), by the previous lemma we see that \( \esub{i}{V_i} = \frac{1}{1-f_i} < \infty \) hence \( \psub{i}{V_i < \infty} = 1 \).
+	Thus, \( i \) is transient.
+	Further, \( \esub{i}{V_i} < \infty \) so \( \sum_{n=0}^\infty p_{ii}(n) < \infty \).
+\end{proof}
+\begin{theorem}
+	Let \( x, y \) be states that communicate.
+	Then, either \( x \) and \( y \) are both recurrent, or they are both transient.
+\end{theorem}
+\begin{proof}
+	Suppose \( x \) is recurrent.
+	Then, since \( x \) and \( y \) communicate, \( \exists m, \ell \in \mathbb N \) such that
+	\[
+		p_{xy}(m) > 0;\quad p_{yx}(\ell) > 0
+	\]
+	Note, \( \sum_n p_{xx}(n) = \infty \).
+	Then,
+	\[
+		p_{yy}(n) \geq \sum_n p_{yy}(n+m+\ell) \geq \sum_n p_{yx}(\ell) p_{xx}(n) p_{xy}(m) \geq p_{yx}(\ell) p_{xy}(m) p_{xx}(n) = \infty
+	\]
+\end{proof}
+\begin{corollary}
+	Either all states in a communicating class are recurrent or they are all transient.
+\end{corollary}
+
+\subsection{Recurrent communicating classes}
+\begin{theorem}
+	Any recurrent communicating class is closed.
+\end{theorem}
+\begin{proof}
+	Suppose a communicating class \( C \) is not closed.
+	Then there exists \( x \in C \) and \( y \not\in C \) such that \( x \to y \).
+	Let \( m \) be such that \( p_{xy}(m) > 0 \).
+	If, starting from \( x \), we hit \( y \) which is outside the communicating class, then we can never return to the communicating class (including \( x \)) again.
+	In particular,
+	\[
+		\psub{x}{V_x < \infty} \geq \psub{x}{X_m = y} = p_{xy}(m) > 0
+	\]
+	Hence \( x \) is not recurrent, which is a contradiction.
+\end{proof}
+\begin{theorem}
+	Any finite closed communicating class is recurrent.
+\end{theorem}
+\begin{proof}
+	Let \( C \) be a finite closed communicating class.
+	Let \( x \in C \).
+	Then, by the pigeonhole principle, there must exist \( y \in C \) such that
+	\[
+		\psubx{X_n = y \text{ for infinitely many } n} > 0
+	\]
+	Since \( x \) and \( y \) communicate, there exists \( m \in \mathbb N \) such that \( p_{yx}(m) > 0 \).
+	Now,
+	\begin{align*}
+		\psub{y}{X_m = y \text{ for infinitely many } n} & \geq \psubx{X_m = x, X_n = y \text{ for infinitely many } n \geq m}                   \\
+		                                                 & =\psubx{X_n = y \text{ for infinitely many } n \geq m \mid X_m = x} \psub{y}{X_m = x} \\
+		                                                 & =\psubx{X_n = y \text{ for infinitely many } n} \psub{y}{X_m = x} > 0
+	\end{align*}
+	Thus \( y \) is recurrent.
+	Since recurrence is a class property, \( C \) is recurrent.
+\end{proof}
+\begin{theorem}
+	Let \( P \) be irreducible and recurrent.
+	Then, for all \( x, y \),
+	\[
+		\psub{x}{T_y < \infty} = 1
+	\]
+\end{theorem}
+\begin{proof}
+	Since \( y \) is recurrent,
+	\[
+		1 = \psub{y}{X_n = y \text{ for infinitely many } n}
+	\]
+	Let \( m \) such that \( p_{yx}(m) > 0 \).
+	Now,
+	\begin{align*}
+		1 & = \psub{y}{X_n = y \text{ infinitely often}}                                                       \\
+		  & = \sum_z \psub{y}{X_m = z, X_n = y \text{ for infinitely many } n \geq m}                          \\
+		  & = \sum_z \psub{y}{X_n = y \text{ for infinitely many } n \geq m \mid X_m = z} \psub{y}{X_m = z}    \\
+		  & = \sum_z \psub{z}{X_n = y \text{ for infinitely many } n} \psub{y}{X_m = z}                        \\
+		\intertext{By the strong Markov property,}
+		  & = \sum_z \psub{z}{T_y < \infty} \psub{y}{X_n = y \text{ for infinitely many } n} \psub{y}{X_m = z} \\
+		\intertext{Since \( y \) is recurrent,}
+		  & = \sum_z \psub{z}{T_y < \infty} \psub{y}{X_m = z}                                                  \\
+		  & = \sum_z \psub{z}{T_y < \infty} p_{yz}(m)
+	\end{align*}
+	Since \( p_{yz}(m) > 0 \) and \( \sum_z p_{yz}(m) = 1 \), \( \psub{x}{T_y < \infty} = 1 \).
+\end{proof}

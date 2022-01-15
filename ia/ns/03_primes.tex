@@ -1,0 +1,219 @@
+\subsection{Products of primes}
+\begin{proposition}
+	Every \(n \geq 2\) is expressible as a product of primes.
+\end{proposition}
+\begin{proof}
+	We use induction on an integer \(n\), starting at 2, a trivial case.
+	Given \(n > 2\), we have two cases:
+	\begin{itemize}
+		\item \(n\) is prime.
+		      Therefore, \(n\) is a product of primes as required.
+		\item \(n\) is composite.
+		      We know that \(n\) can be split into two factors, denoted here as \(a\), \(b\).
+		      Using (strong) induction, we know that because both \(a\) and \(b\) are smaller than \(n\), they are expressible as a product of primes.
+		      We simply multiply these products together to express \(n\) as a product of primes.
+	\end{itemize}
+\end{proof}
+
+\subsection{Infinite primes}
+\begin{proposition}
+	There are infinitely many primes.
+\end{proposition}
+\begin{proof}
+	Assume there exists a largest prime.
+	Then, the list of primes is \(p_1, p_2 \cdots p_k\).
+	Let \(n=p_1 p_2 \cdots p_k + 1\).
+	Then \(n\) has no prime factor.
+	This is a contradiction immediately because we know that every number greater than two has a factorisation, but this doesn't.
+\end{proof}
+
+We want to prove that prime factorisation is unique (up to the ordering).
+We need that \(p \mid ab \implies p \mid a \lor p \mid b\).
+However, this is hard to answer --- \(p\) is defined in terms of what divides it, not what it divides.
+This is the reverse of its definition, so we need to prove it in a more round-about way.
+
+\subsection{Highest common factors}
+For \(a, b \in \mathbb N\), a number \(c \in \mathbb N\) is defined to be the highest common factor if:
+\begin{itemize}
+	\item \(c \mid a\) and \(c \mid b\), and
+	\item For all other factors \(d\) (\(d \mid a\) and \(d \mid b\)), we have that \(d \mid c\).
+\end{itemize}
+The second point implies that it is the \textit{highest} common factor, but it is actually slightly stronger.
+Note that, for example, if a pair's common factors were 1, 2, 3, 4, 6 then the numbers would not have a highest common factor, because 4 does not divide 6.
+
+\subsection{Division algorithm}
+The Division Algorithm allows us to write any number \(n \in \mathbb N\) as a multiple \(q\in\mathbb N\) of \(k\in \mathbb N\) with some remainder \(r\in\mathbb N\) such that \(0 \leq r < k\); this can be shortened to \(n = qk + r\).
+We begin by writing 1 in this form: \(1 = 0k + 1\).
+Inductively, \(n\) can be written as:
+\[
+	n = (n-1) + 1 = q_0 k + r_0 + 1
+\]
+where \(q_0\) and \(r_0\) are the results of \(q\) and \(r\) for \(n-1\).
+Note that we have two cases:
+\begin{itemize}
+	\item If \(r_0 + 1 < k\): the result is simply \(n = q_0k + (r_0+1)\)
+	\item Else (\(r_0 + 1 = k\)): the result is \(n = (q_0 + 1)k + 0\)
+\end{itemize}
+
+\subsection{Euclid's algorithm}
+We can find the highest common factor of two natural numbers \(a\) and \(b\) (without loss of generality, we assume that \(a \leq b\)).
+\begin{itemize}
+	\item Write \(a\) as some multiple \(q_1\) of \(b\), with remainder \(r_1\).
+	\item Write \(b\) as some multiple \(q_2\) of \(r_1\), with remainder \(r_2\).
+	\item Write \(r_1\) as some multiple \(q_3\) of \(r_2\), with remainder \(r_3\).
+	\item Continue until \(r_{n+1}=0\).
+	      Then, \(r_n\) is the highest common factor of \(a\) and \(b\).
+	      We know that the algorithm terminates because \(r_k < r_{k-1}\) so it will terminate in at most \(b\) steps.
+\end{itemize}
+We now prove that the algorithm works.
+\begin{proof}
+	We need to prove that it is a common factor and then that it divides all other common factors.
+	\begin{itemize}
+		\item On the last line of the algorithm, we have \(r_{n-1} = q_{n+1} r_n + 0\), so we know that \(r_n \mid r_{n-1}\).
+		      On the second last line, we have \(r_{n-2} = q_n r_{n-1} + r_n\), but \(r_n\) divides \(r_{n-1}\), so \(r_n\) must divide \(r_{n-2}\).
+		      We can continue this logic up to the start of the algorithm, where we can see that \(r_n \mid a\) and \(r_n \mid b\).
+		      So \(r_n\) is a common factor of \(a\) and \(b\).
+		\item Given some other common factor \(d \neq r_n\), we can look at the first line of the algorithm to see that \(d \mid r_1\).
+		      Using this, we can use the next line to see that \(d \mid r_2\).
+		      Continuing to the last line, we have \(d \mid r_n\).
+	\end{itemize}
+	So \(r_n\) is the highest common factor of \(a\) and \(b\).
+	Therefore, the highest common factor exists and is unique for any natural numbers \(a\) and \(b\).
+\end{proof}
+
+\subsection{Linear combinations}
+Consider running Euclid's algorithm on the numbers 87 and 52.
+\begin{align*}
+	87 & = 1 \cdot 52 + 35 \\
+	52 & = 1 \cdot 35 + 17 \\
+	35 & = 2 \cdot 17 + 1  \\
+	17 & = 17 \cdot 1 + 0
+\end{align*}
+1 is the highest common factor of 87 and 52.
+Now, we can write 1 as a linear combination of 87 and 52 by looking at each line of this algorithm in the reverse direction (ignoring the bottom line).
+\begin{align*}
+	1 & = 35 - 2 \cdot 17                         \\
+	  & = 35 - 2 \cdot (52 - 1 \cdot 35)          \\
+	  & = -2 \cdot 52 + 3 \cdot 35                \\
+	  & = -2 \cdot 52 + 3 \cdot (87 - 1 \cdot 52) \\
+	  & = 3 \cdot 87 - 5 \cdot 52
+\end{align*}
+Each two lines of this equation represents one line on Euclid's algorithm.
+We end up with a linear combination of the two input numbers.
+We can prove that this linear combination exists in the general case.
+\begin{theorem}
+	Let \(a, b \in \mathbb N\).
+	Then there exist some \(x, y \in \mathbb Z\) such that \(xa + yb = \HCF(a, b)\).
+\end{theorem}
+\begin{proof}
+	Run Euclid's algorithm on \(a\) and \(b\), and let the output be \(r_n\).
+	Then we have \(r_n = x r_{n-1} + y r_{n-2}\) for some \(x, y \in \mathbb Z\).
+	So, \(r_n\) can be written as a linear combination of \(r_{n-1}\) and \(r_{n-2}\).
+	Also, from the previous line we know that \(r_{n-1} = x r_{n-2} + y r_{n-3}\) for some other \(x\) and \(y\).
+	So we can rewrite \(r_{n}\) as a linear combination of \(r_{n-2}\) and \(r_{n-3}\).
+	Inductively, we can rewrite \(r_n\) as a linear combination of \(a\) and \(b\) by moving up the lines of the algorithm.
+\end{proof}
+We can also make an alternate proof without using Euclid's algorithm.
+Note that this algorithm does not show how to generate this linear combination, it just shows that one exists.
+\begin{proof}[Alternate Proof]
+	Let \(h\) be the least positive linear combination of \(a\) and \(b\).
+	We want to prove that \(h = \HCF (a, b)\).
+	\begin{itemize}
+		\item Assume that there exists some common factor \(d\) of \(a\) and \(b\), so that \(d\mid a\) and \(d\mid b\).
+		      Then for some \(x\) and \(y\), \(d \mid (xa + yb)\).
+		      So \(d \mid h\).
+		\item Suppose \(h\) does not divide \(a\).
+		      Then \(a = qh + r\) where \(q\) is the quotient and \(r\) is the remainder (\(r \neq 0\)).
+		      Then \(r = a - qh = a - q(xa + yb)\) for some integers \(x\) and \(y\).
+		      So \(r\) is a linear combination of \(a\) and \(b\).
+		      But this is a contradiction because we said that \(h\) was the smallest one.
+		      So \(h\) divides \(a\).
+	\end{itemize}
+	Therefore \(h\) is the highest common factor.
+\end{proof}
+
+\subsection{Linear diophantine equations}
+Suppose \(a\), \(b\) and \(c\) are natural numbers.
+When can we solve \(ax + by = c\) for \(x, y \in \mathbb Z\)?
+Well, by looking at the previous theorem, we might guess that \(c\) must be some multiple of the highest common factor of \(a\) and \(b\).
+This can be proven in the general case.
+\begin{corollary}[Bezout's Theorem]
+	Let \(a, b, c \in \mathbb N\).
+	Then \(ax + by = c\) where \(x, y \in \mathbb Z\) has a solution if and only if \(\HCF(a, b) \mid c\).
+\end{corollary}
+\begin{proof}
+	Let \(h = \HCF(a, b)\).
+	We must prove this bi-implication in both directions.
+	\begin{itemize}
+		\item First, let us assume that \(ax+by=c\) has a solution for some integers \(x\) and \(y\).
+		      Since \(h \mid a\) and \(h \mid b\) then \(h \mid (ax+by)\) so \(h \mid c\).
+		\item Conversely, we know that \(h = ax + by\) for some \(x\) and \(y\) by the above theorem.
+		      We can multiply both sides by the integer \(c/h\) (this is an integer because \(h \mid c\)).
+		      Then we have an expression for \(c\) as a linear combination of \(a\) and \(b\) as required.
+	\end{itemize}
+\end{proof}
+
+\subsection{Fundamental theorem of arithmetic}
+\begin{lemma}
+	Let \(p\) be a prime, let \(a, b \in \mathbb N\).
+	Then \(p \mid ab\) implies \(p \mid a\) or \(p \mid b\).
+\end{lemma}
+\begin{proof}
+	Let \(p \mid ab\).
+	Then we have two cases, either \(p\) divides \(a\) or it does not divide \(a\).
+	If it does, our statement is trivially true.
+	Otherwise, we want to prove that \(p\) divides \(b\).
+
+	Now \(\HCF(p, a)=1\) as \(p\) is a prime, and it does not divide \(a\).
+	So 1 can be written as some linear combination of \(p\) and \(a\): \(px + ay = 1\) for some \(x, y \in \mathbb Z\).
+
+	Now we can multiply both sides by \(b\), giving \(pbx + aby = b\).
+	Since \(p\) divides \(ab\), \(p\) must divide the left hand side.
+	So \(p\) divides \(b\).
+\end{proof}
+Note that we started with a kind of `negative' statement: `\(p\) does not divide \(a\)'; this told us that we cannot do something (namely, factorise it).
+We turned it into a `positive' statement: `\(px + ay = 1\)'; this allows us to rearrange to find out information about these variables.
+Converting `negative' statements to `positive' statements is a useful tool in making proofs.
+
+\begin{theorem}[Fundamental Theorem of Arithmetic]
+	Every \(n \in \mathbb N\) is uniquely expressible as a product of primes.
+\end{theorem}
+\begin{proof}
+	Note that we have already proven that a prime factorisation is possible in Section 3.4; we just need to prove uniqueness of a factorisation (at least, down to its order).
+	We will use induction on some integer \(n\) that we wish to factorise.
+	Clearly the theorem is true for \(n=1\) (assuming empty products are valid) and \(n=2\).
+
+	So given that \(n > 2\) we suppose that there exist two possible factorisations:
+	\[
+		n = p_1 p_2 \cdots p_k = q_1 q_2 \cdots q_l
+	\]
+	We want to prove that \(k=l\) and that (after reordering) \(p_i = q_i\) for all valid \(i\).
+
+	We know that \(p_1 \mid n\), so \(p_1 \mid (q_1 \cdots q_l)\).
+	So there must exist some \(i\) where \(p_1 \mid q_i\).
+	But since \(q_i\) is prime, \(p_1 = q_i\).
+	Let us reorder the list such that \(q_i\) is moved to the front, so that \(p_1 = q_1\).
+	\[
+		n = p_1 p_2 \cdots p_k = p_1 q_2 \cdots q_l
+	\]
+	Now, we divide the entire equation by \(p_1\) to give
+	\[
+		\frac{n}{p_1} = p_2 \cdots p_k = q_2 \cdots q_l
+	\]
+	The integer \(\frac{n}{p_1}\) is smaller than \(n\), so we can use induction to assume that its factorisation is unique.
+	Therefore
+	\[
+		[p_2, p_3 \cdots p_k] = [q_2, q_3 \cdots q_l]
+	\]
+	So the prime factorisation of \(n\) is unique.
+\end{proof}
+
+\subsection{Highest common factor}
+The common factors of two numbers \(m = p_1^{a_1} \cdots p_k^{a_k}\) and \(n = p_1^{b_1} \cdots p_k^{b_k}\) where \(a\) and \(b\) are zero or above is given by \(p_1^{c_1} \cdots p_k^{c_k}\) where \(c_i \leq \min(a_i, b_i)\) So the highest common factor is given by \(c_i = \min(a_i, b_i)\).
+
+\subsection{Lowest common multiple}
+The common multiples of those two numbers is given by \(d_i \geq \max(a_i, b_i)\).
+So analogously the lowest common multiple is given by \(d_i = \max(a_i, b_i)\).
+
+We have an interesting property that \(\HCF(m, n) \LCM(m, n) = mn\).
+This is true because any term \(p_i\) is given by \(p_i^{\min(a_i, b_i)}p_i^{\max(a_i, b_i)} = p_i^{a_i + b_i}\).

@@ -1,0 +1,258 @@
+Throughout this section on tensors, we deal exclusively with Cartesian coordinate systems.
+\subsection{Intuitive description of vectors and changes of basis}
+Consider a right-handed orthonormal basis \(\{ \vb e_i \}\) for \(\mathbb R^3\), with respect to some fixed Cartesian coordinate axes.
+We can write a vector using this basis as
+\[
+	\vb x = x_i \vb e_i
+\]
+Note that the vector \(\vb x\) and the components \(x_i\) are not the same; the components only give the vector when in combination with the given basis vectors \(\{ \vb e_i \}\).
+If we instead use \(\{ \vb e'_i \}\), then the same position vector \(\vb x\) would be written as a linear combination \(x'_i \vb e'_i\).
+Hence,
+\begin{equation}
+	x_j \vb e_j = x'_j \vb e'_j
+	\tag{\(\ast\)}
+\end{equation}
+Since the \(\{ \vb e_j \}\) and \(\{ \vb e'_j \}\) are orthonormal,
+\[
+	\vb e_i \cdot \vb e_j = \delta_{ij};\quad \vb e'_i \cdot \vb e'_j = \delta_{ij}
+\]
+From \((\ast)\),
+\[
+	x_i' = \delta_{ij} x_j' = (\vb e_i' \cdot \vb e_j') x_j' = \vb e_i' \cdot (\vb e_j' x_j') = \vb e_i' \cdot (\vb e_j x_j) = (\vb e_i' \cdot \vb e_j) x_j
+\]
+So let
+\[
+	R_{ij} = \vb e_i' \cdot \vb e_j
+\]
+Then
+\[
+	x_i' = R_{ij} x_j
+\]
+Alternatively,
+\[
+	x_i = \delta_{ij} x_j = (\vb e_i \cdot \vb e_j) x_j = \vb e_i \cdot (\vb e_j x_j) = \vb e_i \cdot (\vb e_j' x_j') = (\vb e_i \cdot \vb e_j') x_j'
+\]
+And therefore, we get
+\[
+	x_i = R_{ji} x_j' = R_{ki} x_k' \implies x_j = R_{kj} x_k'
+\]
+Combining the two results, we have
+\[
+	x_i' R_{ij} x_j = R_{ij} R_{kj} x_k'
+\]
+Therefore,
+\[
+	(\delta_{ik} - R_{ij}R_{kj}) x_k' = 0
+\]
+Since this is true for all vectors \(\vb x\), we get
+\[
+	R_{ij}R_{kj} = \delta_{ik}
+\]
+So if \(R\) is a matrix with entries \(R_{ij}\), then
+\[
+	R R^\transpose = I
+\]
+So the \(R_{ij}\) are the components of an orthogonal matrix.
+Further, since
+\[
+	x_j \vb e_j = x_i' \vb e_i' = R_{ij} x_j \vb e_i'
+\]
+holds for all \(x_j\), we also have
+\[
+	\vb e_j = R_{ij} \vb e_i'
+\]
+and since both \(\{ \vb e_i \}\) and \(\{ \vb e_i' \}\) are right handed, we have
+\[
+	1 = \vb e_1 \cdot (\vb e_2 \times \vb e_3) = R_{i1} R_{j2} R_{k3} \vb e_i' \cdot (\vb e_j' \times \vb e_k') = R_{i1} R_{j2} R_{k3} \varepsilon_{ijk} = \det R
+\]
+Hence \(R\) is orthogonal, and has determinant 1.
+Hence \(R\) is a rotation matrix.
+If we transform from a right-handed orthonormal set of basis vectors \(\{ \vb e_i \}\) to another basis \(\{ \vb e_i' \}\), then the components of a vector \(\vb v\) transform according to \(v_i' = R_{ij} v_j\).
+We call objects whose components transform in this way `rank 1 tensors', or more commonly, `vectors'.
+The basis vectors themselves transform according to \(\vb e_j' = R_{ij} \vb e_i\).
+
+\subsection{Intuitive description of scalars and scalar products}
+Consider the dot product between two vectors, \(\sigma = \vb a \cdot \vb b\).
+This should ideally be independent of the set of basis vectors chosen to describe \(\vb a\) and \(\vb b\).
+So with a basis \(\{ \vb e_i \}\), we have
+\[
+	\sigma = a_i b_j \delta_{ij} = a_i b_i
+\]
+If instead we use a different set of basis vectors \(\{ \vb e_j \}\), we define
+\[
+	\sigma' = a_i' b_i'
+\]
+We can use \(a_i' = R_{ip} a_p\) and \(b_i' = R_{iq} b_q\) to give
+\[
+	\sigma' = R_{ip} R_{iq} a_p b_q = \delta_{pq} a_p b_q = a_i b_i = \sigma
+\]
+Since the sets of basis vectors are related by \(R\), \(\sigma\) is unchanged under changes of coordinates.
+We call objects which are invariant under transformations like this `rank 0 tensors', or `scalars'.
+
+\subsection{Intuitive description of linear maps}
+Let \(\vb n \in \mathbb R^3\) be a fixed unit vector, and we define a linear map
+\[
+	T \colon \vb x \to \vb y = T(\vb x) = \vb x - (\vb x \cdot \vb n) \vb n
+\]
+This \(T\) is the orthogonal projection into the plane normal to \(\vb n\).
+Using a set of basis vectors \(\{ \vb e_i \}\), we get
+\[
+	y_i \vb e_i = T(x_j \vb e_j) = x_j T(\vb e_j) = x_j (\vb e_j - n_i n_j \vb e_i) = (\delta_{ij} - n_i n_j) x_j \vb e_i
+\]
+Hence,
+\[
+	y_i = (\delta_{ij} - n_i n_j) x_j
+\]
+So we will set
+\[
+	T_{ij} = \delta_{ij} - n_i n_j \implies y_i = T_{ij} x_j
+\]
+We call the \(T_{ij}\) the \textit{components} of the linear map \(T\) with respect to the basis vectors \(\vb e_i\).
+Consider a different set of basis vectors \(\{ \vb e_i' \}\).
+\[
+	y_i' = (\delta_{ij} - n_i' n_j') x_j';\quad T_{ij}' = \delta_{ij} - n_i' n_j'
+\]
+Using \(n_i' = R_{ij} n_j\), noting that \(R\) is orthogonal, we have
+\[
+	T_{ij}' = \delta_{ij} - R_{ip} n_j R_{jq} n_q = R_{ip} R_{jq} (\delta_{pq} - n_p n_q) = R_{ip} R_{jq} T_{pq}
+\]
+So the components of a linear map transform according to two multiplications:
+\[
+	T_{ij}' = R_{ip} R_{jq} T_{pq}
+\]
+We call such objects `rank 2 tensors'.
+
+\subsection{Definition}
+\begin{definition}
+	An object whose components \(T_{ij\dots k}\) transform according to
+	\[
+		T_{ij\dots k}' = R_{ip}R_{jq}\dots R_{kr} T_{pq\dots r}
+	\]
+	is called a (Cartesian) tensor of rank \(n\) if \(T\) has \(n\) indices, where \(R_{ij} = \vb e_i' \cdot \vb e_j\) are the components of an orthogonal matrix, so \(R_{ip} R_{jp} = \delta_{ij}\).
+\end{definition}
+\noindent For example, if \(u_i, v_j, w_k\) are the components of \(n\) vectors, then
+\[
+	T_{ij\dots k} = u_i v_j \dots w_k
+\]
+define the components of a tensor of rank \(n\).
+\begin{proof}
+	We can transform each vector individually.
+	\[
+		T_{ij\dots k}' = u_i' v_j' \dots w_k' = R_{ip}u_p R_{jq}v_q \dots R_{kr}w_r = R_{ip}R_{jq}R_{kr} T_{ij\dots k}
+	\]
+	as expected.
+\end{proof}
+
+\subsection{Kronecker delta and Levi-Civita epsilon}
+As another example, consider the Kronecker \(\delta\).
+It was previously defined without reference to any basis by
+\[
+	\delta_{ij} = \begin{cases}
+		1 & i = j    \\
+		0 & i \neq j
+	\end{cases}
+\]
+So \(\delta_{ij}' = \delta_{ij}\) by definition.
+Note that
+\[
+	R_{ip}R_{jq} \delta_{pq} = R_{iq}R_{jq} = \delta_{ij} = \delta_{ij}'
+\]
+hence \(\delta\) transforms like a rank 2 tensor, so it is indeed a rank 2 tensor.
+Now, consider the Levi-Civita symbol \(\varepsilon\).
+It is defined without reference to any basis as
+\[
+	\varepsilon_{ijk} = \begin{cases}
+		+1 & (i\ j\ k) \text{ even} \\
+		-1 & (i\ j\ k) \text{ odd}  \\
+		0  & \text{otherwise}
+	\end{cases}
+\]
+Note that \(\varepsilon_{ijk}' = \varepsilon_{ijk}\), and
+\[
+	R_{ip}R_{jq}R_{kr} \varepsilon_{pqr} = \det R \cdot \varepsilon_{ijk} = \varepsilon_{ijk}
+\]
+Hence \(\varepsilon\) is a rank 3 tensor.
+
+\subsection{Electrical conductivity tensor}
+Experiments suggest that there is a linear relationship between the current \(\vb J\) produced in a conductive medium and the electric field \(\vb E\) that it is exposed to.
+Hence \(\vb J = \sigma \vb E\), or \(J_i = \sigma_{ij} E_j\).
+\(\sigma_{ij}\) is called the `electrical conductivity tensor'.
+It really is a rank 2 tensor, indeed
+\begin{align*}
+	J_i'                 & = \sigma'_{ij} E_j' \\
+	R_{ip}J_p            & = \sigma'_{ij} E_j' \\
+	R_{ip}\sigma_{pq}E_q & = \sigma'_{ij} E_j'
+\end{align*}
+Since \(R\) is orthogonal,
+\[
+	E_j' = R_{jq}E_q \iff E_q = R_{jq}E_j'
+\]
+Hence,
+\[
+	R_{ip}R_{jq}\sigma_{pq}E_j' = \sigma_{ij}'E_j'
+\]
+Since this is true for all choices of \(E_j\),
+\[
+	R_{ip}R_{jq}\sigma_{pq} = \sigma_{ij}'
+\]
+So it really is a rank 2 tensor.
+
+\subsection{Indexed objects without tensor transformation properties}
+It is possible to construct objects with indices that do not transform as tensors.
+For example, given a Cartesian right handed basis \(\{ \vb e_i \}\), we can define an arbitrary array of numbers with components \(A_{ij}\), and set \(A_{ij}' = 0\) in all other bases \(\{ \vb e_i' \}\).
+Clearly this array of numbers does not transform like a tensor.
+
+\subsection{Operations on tensors}
+Let \(A_{ij\dots k}, B_{ij\dots k}\) be rank \(n\) tensors, we define
+\[
+	(A + B)_{ij \dots k} = A_{ij\dots k} + B_{ij\dots k}
+\]
+\(A + B\) is also a rank \(n\) tensor, by linearity.
+Further,
+\[
+	(\alpha A)_{ij\dots k} = \alpha A_{ij\dots k}
+\]
+\(\alpha A\) is also a rank \(n\) tensor.
+We also define the \textit{tensor product} between a rank \(m\) tensor \(U_{ij\dots k}\) and a rank \(n\) tensor \(V_{pq \dots r}\) as
+\[
+	(U \otimes V)_{ij\dots kpq\dots r} = U_{ij\dots k}V_{pq \dots r}
+\]
+Now, \(U \otimes V\) is a rank \(m+n\) tensor.
+Indeed,
+\[
+	(U \otimes V)_{i \dots j p\dots q} = U_{i\dots j}' V_{p\dots q}' = R_{ia} \dots R_{jb} U_{a \dots b} R_{pc} \dots R_{qd} V_{c \dots d} = R_{ia} \dots R_{jb} R_{pc} \dots R_{qd} (U \otimes V)_{a \dots b c\dots d}
+\]
+Further, given a rank \(n\geq 2\) tensor \(T_{ijk\dots \ell}\), we can define a tensor of rank \(n-2\) by \textit{contracting} on a pair of indices.
+For instance, contracting on \(i\) and \(j\) is defined by
+\[
+	\delta_{ij} T_{ijk\dots \ell} = T_{iik\dots \ell}
+\]
+This is really a tensor of rank \(n-2\):
+\[
+	T'_{iik\dots \ell} = R_{ip}R_{iq}R_{kr}\dots R_{\ell s} T_{pqr\dots s} = \delta_{pq}R_{kr}\dots R_{\ell s} T_{pqr\dots s} = R_{kr}\dots R_{\ell s} T_{ppr\dots s}
+\]
+
+\subsection{Symmetric and antisymmetric tensors}
+We say that \(T_{ij\dots k}\) is symmetric in \((i, j)\) if
+\[
+	T_{ij\dots k} = T_{ji\dots k}
+\]
+This really is a well-defined property of the \textit{tensor}, not its coordinates.
+In a different coordinate frame,
+\[
+	T_{ij\dots k}' = R_{ip}R_{jq}\dots R_{kr} T_{pq\dots r} = R_{ip}R_{jq}\dots R_{kr} T_{qp\dots r} = T_{ji\dots k}'
+\]
+Similarly, we say that \(A_{ij\dots k}\) is antisymmetric in \((i, j)\) if
+\[
+	A_{ij\dots k} = -A_{ji\dots k}
+\]
+which similarly is invariant of the choice of basis.
+We say that a tensor is \textit{totally} (anti-) symmetric if it is (anti-) symmetric in all pairs of indices.
+For example, the \(\delta_{ij}\) rank 2 tensor and \(a_i a_j a_k\) rank 3 tensor (where \(\vb a\) is a vector) are totally symmetric tensors.
+The Levi-Civita alternating tensor \(\varepsilon\) is totally antisymmetric.
+
+In fact, in three dimensions, \(\varepsilon\) is the only totally antisymmetric tensor (up to scaling), and there are no non-zero higher-rank antisymmetric tensors.
+Indeed, if \(T_{ij\dots k}\) is totally antisymmetric and has rank \(n\), then \(T_{ij\dots k} = 0\) if any two indices are the same.
+But if we have more than three indices, by the pigeonhole principle we must have two matching indices (provided we are working in three dimensions).
+If \(n=3\), then there are only \(3!
+= 6\) choices of components that give a non-zero value of \(T_{ijk}\), and by antisymmetry, \(T_{123} = T_{231} = T_{312} = \lambda\) and by antisymmetry \(T_{213} = T_{132} = T_{321} = -\lambda\) which defines the \(\varepsilon\) symbol.

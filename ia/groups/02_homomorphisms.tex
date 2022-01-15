@@ -1,0 +1,159 @@
+\subsection{Definition and elementary properties}
+\begin{definition}
+	Let \((G, \ast_G)\), \((H, \ast_H)\) be groups.
+	A function \(\varphi: H \to G\) is a homomorphism if
+	\[
+		\forall a, b \in H,\quad \varphi(a \ast_H b) = \varphi(a) \ast_G \varphi(b)
+	\]
+\end{definition}
+A homomorphism \(\varphi: H \to G\) may have the following descriptions:
+\begin{itemize}
+	\item injective, if \(\varphi(a) = \varphi(b) \implies a = b\);
+	\item surjective, if \(\forall g \in G, \exists h \in H \st \varphi(h) = g\); and
+	\item bijective, if it is both injective and surjective.
+\end{itemize}
+A more intuitive interpretation of the descriptions is:
+\begin{itemize}
+	\item A function is injective if the outputs are unique;
+	\item A function is surjective if all outputs are used;
+	\item A function is bijective if there is a one-to-one relation between every element in the input and output sets.
+\end{itemize}
+Here are some examples, without proofs.
+\begin{enumerate}
+	\setcounter{enumi}{-1}
+	\item Given any two groups \(G\) and \(H\), \(\varphi: H \to G\) defined by \(\varphi(h) = e_G\) is a homomorphism.
+	\item The inclusion function \(\iota: H \to G\) where \(H \leq G\) is an injective homomorphism.
+	      The inclusion function is defined as the identity function, simply transferring elements from a subgroup into the supergroup.
+	\item \(\varphi: \mathbb Z \to \mathbb Z_n\) given that \(\varphi(k) = k \mod n\) is a surjective homomorphism.
+	\item \(\varphi: (\mathbb R, +) \to (\mathbb R_{>0}, \cdot)\) where \(R_{>0} = \{r \in \mathbb R : r > 0\}\) and \(\varphi(x) = e^x\) is a bijective homomorphism, otherwise known as an isomorphism.
+	\item \(\det : GL_2(\mathbb R) \to (\mathbb R^*, \cdot)\) is a surjective homomorphism.
+\end{enumerate}
+
+\begin{proposition}
+	Let \(\varphi: H \to G\) be a homomorphism.
+	Then, for all \(h \in H\):
+	\begin{enumerate}[i.]
+		\item \(\varphi(e_H) = e_G\)
+		\item \(\varphi(h^{-1}) = \varphi(h)^{-1}\)
+		\item Given another homomorphism \(\psi: G \to K\), \(\psi \circ \varphi: H \to K\) is a homomorphism.
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	We prove each result in order.
+	\begin{enumerate}[i.]
+		\item Given the identity element of \(H\) is \(e_H\) and similarly for \(G\),
+		      \begin{align*}
+			      \varphi(e_H \ast e_H) & = \varphi(e_H) \ast \varphi(e_H) \\
+			      \implies \varphi(e_H) & = \varphi(e_H) \ast \varphi(e_H) \\
+			      e_G                   & = \varphi(e_H)
+		      \end{align*}
+		\item Consider \(\varphi(h) \ast \varphi(h^{-1}) = \varphi(h \ast h^{-1}) = \varphi(e_H) = e_G\) which is the defining property of the inverse.
+		\item For all \(a, b \in H\):
+		      \begin{align*}
+			      (\psi \circ \varphi) (a \ast b) & = \psi(\varphi(a \ast b))                           \\
+			                                      & = \psi(\varphi(a) + \varphi(b))                     \\
+			                                      & = \psi(\varphi(a)) + \psi(\varphi(b))               \\
+			                                      & = (\psi \circ \varphi)(a) + (\psi \circ \varphi)(b)
+		      \end{align*}
+	\end{enumerate}
+\end{proof}
+
+\subsection{Isomorphisms}
+A bijective homomorphism is called an isomorphism.
+If there exists an isomorphism \(\varphi: H \to G\), we say that \(H\) is isomorphic to \(G\), or \(H \cong G\).
+\begin{enumerate}
+	\item Consider a group \(G\) defined as \(\{ e^{\frac{2 \pi i k}{n}} : k \in \mathbb Z_n \}\) under multiplication.
+	      Then, \((G, \cdot) \cong (\mathbb Z_n, +)\) where \(\varphi: \mathbb Z_n \to G\) is defined as \(\varphi(k) = e^{\frac{2\pi i k}{n}}\).
+	\item \(\varphi: \mathbb Z \to n\mathbb Z\) for \(n \in \mathbb N\) given by \(\varphi(k) = nk\).
+	      Note that all non-trivial subgroups of \(\mathbb Z\) are isomorphic to \(\mathbb Z\).
+\end{enumerate}
+
+\begin{proposition}
+	Let \(\varphi: H \to G\) be an isomorphism.
+	Then \(\varphi^{-1}: G \to H\) is an isomorphism.
+\end{proposition}
+\begin{proof}
+	For all \(a, b \in G\),
+	\begin{align*}
+		\varphi^{-1}(a \ast b) & = \varphi^{-1}\left[ \varphi(\varphi^{-1}(a)) \ast \varphi(\varphi^{-1}(b)) \right] \\
+		                       & = \varphi^{-1}\left[ \varphi(\varphi^{-1}(a) \ast \varphi^{-1}(b)) \right]          \\
+		                       & = \varphi^{-1}(a) \ast \varphi^{-1}(b)
+	\end{align*}
+	So \(\varphi^{-1}\) is a homomorphism.
+	But since \(\varphi\) is bijective, so is \(\varphi^{-1}\).
+	So \(\varphi^{-1}\) is an isomorphism.
+\end{proof}
+
+\subsection{Images and kernels}
+\begin{definition}
+	Let \(\varphi: H \to G\) be a homomorphism.
+	Then the image of \(\varphi\), denoted \(\Im \varphi\), is defined as \(\{ g \in G : g = \varphi(h) \text{ for some } h \in H \}\).
+	The kernel of \(\varphi\), denoted \(\ker \varphi\), is defined as \(\{ h \in H : \varphi(h) = e_G \}\).
+\end{definition}
+Informally, we can say:
+\begin{itemize}
+	\item The image of \(\varphi\) is the set of outputs of \(\varphi\).
+	\item The kernel of \(\varphi\) is the set of inputs that map to the identity element.
+\end{itemize}
+\begin{proposition}
+	\(\Im \varphi \leq G\) and \(\ker \varphi \leq H\).
+\end{proposition}
+\begin{proof}
+	To prove that \(\Im \varphi \leq G\), we check the group axioms (apart from associativity, since this is implicit).
+	\begin{itemize}
+		\item (closure) If \(a, b \in \Im \varphi\) then there exist some \(x, y \in H\) such that \(\varphi(x) = a\) and \(\varphi(y) = b\).
+		      Therefore, \(\varphi(x)\varphi(y)=\varphi(xy)\) which is in the image by definition.
+		\item (identity) \(\varphi(e_H) = e_G\)
+		\item (inverses) Let \(x \in H\) such that \(\varphi(x) = a\).
+		      Then, because \(x^{-1}\in H\), we know that \(\varphi(x^{-1}) = \varphi(x)^{-1} \in \Im H\) as required.
+	\end{itemize}
+	Now we prove a similar result for the kernel.
+	\begin{itemize}
+		\item (closure) If \(x, y \in \ker H\) then \(\varphi(xy) = \varphi(x) \varphi(y) = e_G e_G = e_G\), which is the requirement for being in the kernel, so \(xy \in \ker \varphi\).
+		\item (identity) \(\varphi(e_H) = e_G\) so the identity element \(e_H\) is in the kernel.
+		\item (inverses) \(\varphi(x^{-1}) = \varphi(x)^{-1}\).
+		      So if \(x \in \ker \varphi\) then \(\varphi(x^{-1}) = e_G^{-1} = e_G\) so \(\varphi^{-1}\) is also in the kernel.
+	\end{itemize}
+\end{proof}
+Here are a few examples of kernels and images of homomorphisms.
+\begin{enumerate}
+	\setcounter{enumi}{-1}
+	\item If \(\varphi: H \to G\) is the trivial homomorphism (mapping every element to the identity) then:
+	      \[
+		      \Im \varphi = \{ e_G \};\quad \ker \varphi = H
+	      \]
+	\item If \(H \leq G\) then the inclusion homomorphism \(\iota: H \to G\) has
+	      \[
+		      \Im \iota = H;\quad \ker \iota = e_H
+	      \]
+	\item \(\varphi: \mathbb Z \to \mathbb Z_n\) where operations are performed modulo \(n\) has
+	      \[
+		      \Im \varphi = \mathbb Z_n;\quad \ker \varphi = n\mathbb Z
+	      \]
+\end{enumerate}
+
+\begin{proposition}
+	Let \(\varphi: H \to G\) be a homomorphism.
+	Then
+	\begin{itemize}
+		\item \(\varphi\) is surjective if and only if \(\Im \varphi = G\); and
+		\item \(\varphi\) is injective if and only if \(\ker \varphi = \{ e_H \}\).
+	\end{itemize}
+\end{proposition}
+\begin{proof}
+	The first case is trivial.
+	After all, the definition of surjectivity is that all outputs are mapped onto by something, which means that image is equal to this output set.
+	Now, let us prove the injectivity part.
+	We start in the forward direction, then we prove the converse.
+
+	Suppose that \(\varphi\) is injective.
+	Then \(\varphi(a) = \varphi(b) \implies a = b\).
+	We have that \(\varphi(e_H) = e_G\), so \(e_H\) must be the only element sent to \(e_G\).
+	Therefore the kernel is simply \(\{ e_H \}\).
+
+	Conversely, suppose that the kernel of \(\varphi\) is simply the identity element.
+	Then, let us suppose there are two elements \(a, b\) in \(H\) such that \(\varphi(a) = \varphi(b)\).
+	Then, \(\varphi(a b^{-1})=\varphi(a)\varphi(b)^{-1} = \varphi(b)\varphi(b)^{-1} = e_G\).
+	Therefore, \(ab^{-1} = e_H\), so \(a = b\).
+	So \(\varphi\) is injective.
+\end{proof}

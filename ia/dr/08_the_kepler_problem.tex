@@ -1,0 +1,147 @@
+\subsection{Solving the orbit equation}
+The Kepler problem is the orbit problem, specialised to the case of a gravitational central force.
+The force is
+\[
+	F(r) = \frac{-mk}{r^2}
+\]
+where the constant \(k\) is equivalent to \(GM\).
+Hence,
+\[
+	\dv[2]{u}{\theta} + u = \frac{-1}{mh^2u^2} \cdot -mku^2 = \frac{k}{h^2}
+\]
+This gives us a linear equation in \(u\), which is promising for solving this equation.
+The solution is
+\[
+	u = \frac{k}{h^2} + A\cos(\theta - \theta_0)
+\]
+where \(A\) and \(\theta_0\) are specified by the initial conditions.
+Without loss of generality we can let \(A \geq 0\).
+If \(A = 0\), then \(u = \frac{k}{h^2}\) giving a circular orbit.
+If \(A > 0\), then \(u\) is maximised (at periapsis) when \(\theta = \theta_0\), and \(u\) is minimised (at apoapsis) where \(\theta = \theta_0 + \pi\).
+We will choose that \(\theta_0 = 0\) for convenience; we will simply need to change the origin of our coordinate system if this does not hold.
+We will redefine other constants for convenience:
+\[
+	r = \frac{1}{u} = \frac{\ell}{1 + e\cos \theta};\quad \ell = \frac{h^2}{k};\quad e = A\frac{h^2}{k}
+\]
+This is the equation of a conic section.
+Here, \(e\) is the eccentricity of the curve.
+We can rewrite this in Cartesian form:
+\begin{align}
+	r(1 + e\cos \theta)         & = \ell \notag              \\
+	r                           & = \ell - ex \notag         \\
+	x^2 + y^2                   & = (\ell - ex)^2 \notag     \\
+	(1-e^2)x^2 + y^2 + 2e\ell x & = \ell^2 \tag{\(\dagger\)}
+\end{align}
+By inspection we can see that the value of \((1-e^2)\) determines the shape of the conic section.
+\begin{itemize}
+	\item \((0 \leq e < 1)\) This forms an ellipse; the orbit is bounded by \(\frac{\ell}{1+e} \leq r \leq \frac{\ell}{1 - e}\).
+	      We can rewrite \((\dagger)\) as
+	      \[
+		      \frac{(x+ea)^2}{a^2} + \frac{y^2}{b^2} = 1
+	      \]
+	      where \(a = \frac{\ell}{1 - e^2}\) and \(b = \frac{\ell}{\sqrt{1-e^2}}\), and therefore clearly \(b \leq a\).
+	      Note that \(e=0\) is the special case of a circle.
+	      The origin lies at one of the foci of the ellipse.
+	\item \((e > 1)\) This forms a hyperbola.
+	      This is an unbounded orbit, since there exists a value \(\alpha\) such that as \(\theta \to \alpha\), we have \(r \to \infty\).
+	      Note that \(\alpha = \arccos(\frac{-1}{e}) \in \left(\frac{\pi}{2}, \pi\right)\) We can transform \((\dagger)\) as before:
+	      \[
+		      \frac{(x-ea)^2}{a^2} - \frac{y^2}{b^2} = 1
+	      \]
+	      where \(a = \frac{\ell}{e^2 - 1}\) and \(b = \frac{\ell}{\sqrt{e^2 - 1}}\).
+	      This hyperbolic orbit represents an incoming body with large velocity, which is deflected by the gravitational force.
+	      The asymptotes are
+	      \[
+		      y = \pm \frac{b}{a}(x-ea)
+	      \]
+	      In other words,
+	      \[
+		      bx \mp ay = eab
+	      \]
+	      The normal vectors to the asymptotes are
+	      \[
+		      \nhat = \frac{(b, \pm a)}{\sqrt{a^2 + b^2}}
+	      \]
+	      The (asymptotic) perpendicular distance between the incoming particle and the central mass (the origin) is given by
+	      \[
+		      \vb r \cdot \nhat = (x, y) \cdot \frac{(b, \pm a)}{\sqrt{a^2 + b^2}} = \frac{bx \mp ay}{\sqrt{a^2 + b^2}} = \frac{eab}{\sqrt{a^2 + b^2}} = b
+	      \]
+	      This is sometimes called the impact parameter, since it is the distance away from impacting the central mass.
+	\item \((e = 1)\) This is the form of a parabola.
+	      This can be seen as the `transitional' case between the ellipse and the hyperbola.
+	      \[
+		      r = \frac{\ell}{1 + \cos\theta}
+	      \]
+	      Hence, \(r \to \infty\) as \(\theta \to \pm \pi\).
+	      In Cartesian coordinates,
+	      \[
+		      y^2 = \ell(\ell-2x)
+	      \]
+\end{itemize}
+The other variables have very useful geometric interpretations; review diagrams of conic sections for more information.
+
+\subsection{Energy and eccentricity}
+Recall that
+\[
+	E = \frac{1}{2}m\left( \dot r^2 + r^2 \dot\theta^2 \right) - \frac{mk}{r}
+\]
+We can rewrite this in terms of \(u\), using \(\dot r = -h\dv{u}{\theta}\):
+\begin{align*}
+	E & = \frac{1}{2}mh^2\left( \left( \dv{u}{\theta} \right)^2 + u^2 \right) - mku                                      \\
+	  & = \frac{1}{2}mh^2\left( e^2\sin^2\theta + (1+e\cos\theta)^2 \right)\frac{1}{e^2} - \frac{mk}{\ell}(1+\cos\theta) \\
+	  & = \frac{mk}{2\ell}(e^2 - 1)
+\end{align*}
+So the energy is positive (unbounded orbits) if \(\abs{e} > 1\), and negative (bounded orbits) if \(\abs{e} < 1\).
+The marginal case is at \(e = 1\), and \(E = 0\).
+
+\subsection{Kepler's laws of planetary motion}
+Kepler's Laws state:
+\begin{enumerate}
+	\item The orbit of a planet is an ellipse, with the sun at one focus.
+	\item The line between a planet and the sun sweeps out equal area in equal times.
+	\item The period \(P\) and the semi-major axis \(a\) are related: \(P^2 \propto a^3\).
+\end{enumerate}
+Note that the first law is consistent with our solution of the orbit equation for bound orbits.
+The second law can be rewritten as approximating the sector area with \(\frac{1}{2}r^2\delta\theta\), giving a rate of change with respect to time of \(\frac{1}{2}r^2\dot\theta\), which is half of the angular momentum \(h\).
+So this law can be seen as stating that the angular momentum is constant.
+Using dimensional analysis, we can get close to the third law, but we need to be a little more precise to verify it completely.
+The area of the ellipse is \(\pi a b = \frac{h}{2}P\) since in one period the line sweeps out the entire area of the ellipse.
+We can then derive that \(P^2 = \frac{4\pi^2}{k}a^3\).
+Note that two ellipses with equal semi-major but differing semi-minor axes have the same period.
+
+\subsection{Rutherford scattering}
+Consider a positive charge fired towards another, fixed, positive charge.
+The particle will be deflected by the electrostatic force between the two particles.
+What is the angle \(\beta\) by which the particle is deflected?
+This is motion under a repulsive inverse square law force.
+\[
+	V(r) = \frac{mk}{r};\quad F(r) = \frac{mk}{r^2}
+\]
+We have already solved this problem for an attractive inverse square law force; this was the orbit equation.
+We can replace \(k\) with \(-k\) to model a repulsive force.
+\[
+	u = \frac{-k}{h^2} + A\cos(\theta - \theta_0);\quad \theta_0 = 0, A \geq 0
+\]
+We can rewrite this as
+\[
+	r = \frac{\ell}{e\cos\theta - 1};\quad \ell = \frac{h^2}{k}, e = \frac{Ah^2}{k}
+\]
+Since we want \(r > 0\), we need \(e > 1\) such that for some \(\theta\), \(r > 0\).
+Then, \(r \to \infty\) as \(\theta \to \pm \alpha\), with \(\arccos(e^{-1}) \in \left(0, \frac{\pi}{2}\right)\).
+This gives a hyperbolic orbit.
+We find
+\[
+	\frac{(x - ea)^2}{a^2} - \frac{y^2}{b^2} = 1;\quad a = \frac{\ell}{e^2 - 1}, b = \frac{\ell}{\sqrt{e^2 - 1}}
+\]
+\(h\) is given by \(\abs{\vb r \times \dot{\vb r}}\).
+\(b\), the impact parameter, is the asymptotic distance of the moving particle from impacting the fixed particle.
+On the incoming asymptote, \(\dot {\vb r} \approx v\vb e_\parallel\), and \(\vb r \approx b\vb e_\perp + z\vb e_\parallel\) for some \(z\).
+Hence, \(h=bv\).
+Since \(\tan \alpha = \sqrt{e^2 - 1}\), we have
+\[
+	b = \frac{\ell}{\tan \alpha} = \frac{\ell}{\tan\left( \frac{\pi}{2} - \beta \right)} = \frac{h^2}{k}\tan\left( \frac{\beta}{2} \right) = \frac{v^2b^2}{k}\tan\left( \frac{\beta}{2} \right)
+\]
+Hence
+\[
+	\beta = 2\arctan\left( \frac{k}{bv^2} \right)
+\]

@@ -1,0 +1,141 @@
+\subsection{Diagonalisability and similarity}
+\begin{proposition}
+	For an \(n \times n\) matrix \(A\) acting on \(V = \mathbb R^n\) or \(\mathbb C^n\), the following conditions are equivalent:
+	\begin{enumerate}[(i)]
+		\item there exists a basis of eigenvectors of \(A\) for \(V\), named \(\vb v_1, \vb v_2, \dots, \vb v_n\) which \(A\vb v_i = \lambda_i\vb v_i\) for each \(i\); and
+		\item there exists an \(n \times n\) invertible matrix \(P\) with the property that
+		      \[
+			      P^{-1}AP = D = \begin{pmatrix}
+				      \lambda_1 & 0         & \cdots & 0         \\
+				      0         & \lambda_2 & \cdots & 0         \\
+				      \vdots    & \vdots    & \ddots & \vdots    \\
+				      0         & 0         & \cdots & \lambda_n
+			      \end{pmatrix}
+		      \]
+	\end{enumerate}
+	If either of these conditions hold, then \(A\) is diagonalisable.
+\end{proposition}
+\begin{proof}
+	Note that for any matrix \(P\), \(AP\) has columns \(A\vb C_i(P)\), and \(PD\) has columns \(\lambda_i \vb C_i(P)\).
+	Then (i) and (ii) are related by choosing \(\vb v_i = \vb C_i(P)\).
+	Then \(P^{-1}AP = D \iff AP = PD \iff A\vb v_i = \lambda_i\vb v_i\).
+
+	In essence, given a basis of eigenvectors as in (i), the relation above defines \(P\), and if the eigenvectors are linearly independent then \(P\) is invertible.
+	Conversely, given a matrix \(P\) as in (ii), its columns are a basis of eigenvectors.
+\end{proof}
+Let's try some examples.
+\begin{enumerate}[(i)]
+	\item Let
+	      \[
+		      A = \begin{pmatrix}
+			      1 & 1 \\ 0 & 1
+		      \end{pmatrix} \implies E_1 = \left\{ \alpha\begin{pmatrix}
+			      1 \\ 0
+		      \end{pmatrix} \right\}
+	      \]
+	      This is a single eigenvalue \(\lambda = 1\) with one linearly independent eigenvector.
+	      So there is no basis of eigenvectors for \(\mathbb R^2\) or \(\mathbb C^2\), so \(A\) is not diagonalisable.
+	\item Let
+	      \[
+		      U = \begin{pmatrix}
+			      \cos \theta & -\sin \theta \\
+			      \sin \theta & \cos \theta
+		      \end{pmatrix} \implies E_{e^{i\theta}} = \left\{ \alpha\begin{pmatrix}
+			      1 \\ -i
+		      \end{pmatrix} \right\};\quad E_{e^{-i\theta}} = \left\{ \beta\begin{pmatrix}
+			      1 \\ i
+		      \end{pmatrix} \right\}
+	      \]
+	      which are two linearly independent complex eigenvectors.
+	      So,
+	      \[
+		      P = \begin{pmatrix}
+			      1 & 1 \\ -i & i
+		      \end{pmatrix};\quad P^{-1} = \frac{1}{2}\begin{pmatrix}
+			      1 & i \\ 1 & -i
+		      \end{pmatrix};\quad P^{-1}UP = \begin{pmatrix}
+			      e^{i\theta} & 0 \\ 0 & e^{i\theta}
+		      \end{pmatrix}
+	      \]
+	      So \(U\) is diagonalisable over \(\mathbb C^2\) but not over \(\mathbb R^2\).
+\end{enumerate}
+
+\subsection{Criteria for diagonalisability}
+\begin{proposition}
+	Consider an \(n \times n\) matrix \(A\).
+	\begin{enumerate}[(i)]
+		\item \(A\) is diagonalisable if it has \(n\) distinct eigenvalues (sufficient condition).
+		\item \(A\) is diagonalisable if and only if for every eigenvalue \(\lambda\), \(M_\lambda = m_\lambda\) (necessary and sufficient condition).
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	Use the proposition and corollary above.
+	\begin{enumerate}[(i)]
+		\item If we have \(n\) distinct eigenvalues, then we have \(n\) linearly independent eigenvectors.
+		      Hence they form a basis.
+		\item If \(\lambda_i\) are all the distinct eigenvalues, then \(\mathcal B_{\lambda_1} \cup \dots \cup \mathcal B_{\lambda_r}\) are linearly independent.
+		      The number of elements in this new basis is \(\sum_{i} m_{\lambda_i} = \sum_{i} M_{\lambda_i} = n\) which is the degree of the characteristic polynomial.
+		      So we have a basis.
+	\end{enumerate}
+	Note that case (i) is just a specialisation of case (ii) where both multiplicities are 1.
+\end{proof}
+Let us consider some examples.
+\begin{enumerate}[(i)]
+	\item Let
+	      \[
+		      A = \begin{pmatrix}
+			      -2 & 2 & -3 \\ 2 & 1 & -6 \\ -1 & -2 & 0
+		      \end{pmatrix} \implies \lambda = 5, -3;\quad M_5=m_5=1;\quad M_{-3}=m_{-3}=2
+	      \]
+	      So \(A\) is diagonalisable by case (ii) above, and moreover
+	      \[
+		      P = \begin{pmatrix}
+			      1  & -2 & 3 \\
+			      2  & 1  & 0 \\
+			      -1 & 0  & 1
+		      \end{pmatrix};\quad P^{-1} = \frac{1}{8}\begin{pmatrix}
+			      1  & 2 & -3 \\
+			      -2 & 4 & 6  \\
+			      1  & 2 & 5
+		      \end{pmatrix} \implies P^{-1}AP = \begin{pmatrix}
+			      5 & 0  & 0  \\
+			      0 & -3 & 0  \\
+			      0 & 0  & -3
+		      \end{pmatrix}
+	      \]
+	\item Let
+	      \[
+		      A = \begin{pmatrix}
+			      -3 & -1 & 1 \\
+			      -1 & -3 & 1 \\
+			      -2 & 2  & 0
+		      \end{pmatrix} \implies \lambda = -2;\quad M_{-2}=3 > m_{-2} = 2
+	      \]
+	      So \(A\) is not diagonalisable.
+	      As a check, if it were diagonalisable, then there would be some matrix \(P\) such that \(P^{-1}AP = -2I \implies A = P(-2I)P^{-1} = -2I\) \contradiction.
+\end{enumerate}
+
+\subsection{Similarity}
+Matrices \(A\) and \(B\) (both \(n \times n\)) are similar if \(B = P^{-1}AP\) for some invertible \(n\times n\) matrix \(P\).
+This is an equivalence relation.
+\begin{proposition}
+	If \(A\) and \(B\) are similar, then
+	\begin{enumerate}[(i)]
+		\item \(\tr B = \tr A\)
+		\item \(\det B = \det A\)
+		\item \(\chi_B = \chi_A\)
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	\begin{enumerate}[(i)]
+		\item \begin{align*}
+			      \tr B & = \tr (P^{-1}AP) \\&= \tr(APP^{-1}) \\&= \tr A
+		      \end{align*}
+		\item \begin{align*}
+			      \det B & = \det (P^{-1}AP) \\&= \det P^{-1} \det A \det P \\&= \det A
+		      \end{align*}
+		\item \begin{align*}
+			      \det(B - tI) & = \det(P^{-1}AP - tI) \\&= \det(P^{-1}AP - tP^{-1}P) \\&= \det(P^{-1}(A - tI)P) \\&= \det P^{-1} \det(A - tI) \det P \\&= \det(A - tI)
+		      \end{align*}
+	\end{enumerate}
+\end{proof}

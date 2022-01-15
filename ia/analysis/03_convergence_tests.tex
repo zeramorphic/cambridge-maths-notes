@@ -1,0 +1,183 @@
+\subsection{Comparison test}
+In this section, we will let \(a_n \in \mathbb R, a_n \geq 0\).
+In other words, all series contain only non-negative real terms.
+\begin{theorem}
+	Suppose \(0 \leq b_n \leq a_n\) for all \(n\).
+	If \(\sum_{j=1}^\infty a_j\) converges, then \(\sum_{j=1}^\infty b_j\) converges.
+\end{theorem}
+\begin{proof}
+	Let \(s_N\) be the \(N\)th partial sum over the \(a_n\), and let \(d_N\) be the \(N\)th partial sum over the \(b_n\).
+	Since \(b_n \leq a_n, d_N \leq s_N\).
+	But \(s_N \to s\), so \(d_N \leq s_N \leq s\).
+	So \(d_N\) is an increasing sequence that is bounded above by \(s\), so it converges.
+\end{proof}
+\noindent For example, let us analyse the behaviour of the sum of the sequence \(\frac{1}{n^2}\).
+Note that
+\[
+	\frac{1}{n^2} < \frac{1}{n(n-1)} = \frac{1}{n-1} - \frac{1}{n}
+\]
+for \(n \geq 2\).
+By the comparison test, it is sufficient to show that the series on the right hand side converges, in order to show that the original series converges.
+\[
+	\sum_{j=2}^N a_j = 1 - \frac{1}{N} \to 1
+\]
+as required.
+So the original series tends to some value less than or equal to 2.
+
+\subsection{Cauchy's root test}
+\begin{theorem}
+	Suppose we have a sequence of non-negative terms \(a_n\).
+	Suppose that \(a_n^{1/n} \to a\) as \(n \to \infty\).
+	Then if \(a < 1\), the series \(\sum a_n\) converges.
+	If \(a > 1\), the series \(\sum a_n\) diverges.
+\end{theorem}
+\begin{remark}
+	Nothing can be said if \(a=1\).
+	There is an example later of this fact.
+\end{remark}
+\begin{proof}
+	If \(a < 1\), let us choose an \(r\) such that \(a < r < 1\).
+	By the definition of the limit, \(\exists N\) such that \(\forall n \geq N\), \(a_n^{1/n} < r\).
+	This implies that \(a_n < r^n\).
+	The geometric series \(\sum r^n\) converges.
+	By comparison, the series \(a_n\) converges.
+
+	If \(a > 1\), for all \(n \geq N\), \(a_n^{1/n} > 1\) which implies \(a_n > 1\), thus \(\sum a_n\) diverges, since \(a_n\) does not tend to zero.
+\end{proof}
+
+\subsection{D'Alembert's ratio test}
+\begin{theorem}
+	Suppose \(a_n > 0\), and \(\frac{a_{n+1}}{a_n} \to \ell\).
+	If \(\ell < 1\), then the series \(\sum a_n\) converges.
+	If \(\ell > 1\), then the series \(\sum a_n\) diverges.
+\end{theorem}
+\begin{remark}
+	Like before, no conclusion can be drawn if \(\ell = 1\).
+\end{remark}
+\begin{proof}
+	Suppose \(\ell < 1\).
+	We can choose \(\ell < r < 1\), \(\exists N\) such that \(\forall n \geq N\), \(\frac{a_{n+1}}{a_n} < r\).
+	Therefore \(a_n < r^{n-N} a_N\).
+	Hence, \(a_n < k r^n\) where \(k\) is independent of \(n\).
+	Applying the comparison test, the series \(\sum a_n\) must converge.
+
+	If \(\ell > 1\), we can choose \(\ell > r > 1\).
+	Then \(\exists N\) such that \(\forall n \geq N\), \(\frac{a_{n+1}}{a_n} > r\).
+	As before, \(a_n > r^{n-N} a_N\).
+	But the \(r^{n-N}\) diverges, so the original series diverges.
+\end{proof}
+
+\subsection{Examples of ratio and root tests}
+Consider \(\sum_1^\infty \frac{n}{2^n}\).
+We have
+\[
+	\frac{a_{n+1}}{a_n} = \frac{(n+1)/2^{n+1}}{n/2^n} \to \frac{1}{2}
+\]
+So we have convergence, by the ratio test.
+Now, consider \(\sum_1^\infty \frac{1}{n}\) and \(\sum_1^\infty \frac{1}{n^2}\).
+In both cases, the ratio test gives limit 1.
+So the ratio test is inconclusive if the limit is 1.
+Since \(n^{1/n} \to 1\), the root test is also inconclusive when the limit is 1.
+To check this limit, we can write
+\[
+	n^{1/n} = 1 + \delta_n;\quad \delta_n > 0
+\]
+\[
+	n = (1 + \delta_n)^n > \frac{n(n-1)}{2}\delta_n^2
+\]
+using the binomial expansion.
+\[
+	\implies \delta_n^2 < \frac{2}{n-1} \implies \delta_n \to 0
+\]
+The root test is a good candidate for series that contain powers of \(n\), for example
+\[
+	\sum_1^\infty \left[ \frac{n+1}{3n+5} \right]^n
+\]
+In this instance, for example, we have convergence.
+
+\subsection{Cauchy's condensation test}
+\begin{theorem}
+	Let \(a_n\) be a decreasing sequence of positive terms.
+	Then \(\sum_1^\infty a_n\) converges if and only if \(\sum_1^\infty 2^n a_{2^n}\) converges.
+\end{theorem}
+\begin{proof}
+	First, note that if \(a_n\) is decreasing, then
+	\[
+		a_{2^k} \underset{(\ast)}{\leq} a_{2^{k-1} + i} \underset{(\dagger)}{\leq} a_{2^{k-1}};\quad 1 \leq i \leq 2^{k-1};\quad k \geq 1
+	\]
+	Now let us assume that \(\sum a_n\) converges to \(A \in \mathbb R\).
+	Then, by \((\ast)\),
+	\begin{align*}
+		2^{n-1} a_{2^n} & = a_{2^n} + a_{2^n} + \dots + a_{2^n}                \\
+		                & \leq a_{2^{n-1}+1} + a_{2^{n-1}+2} + \dots + a_{2^n} \\
+		                & = \sum_{m=2^{n-1}+1}^{2^n}a_m
+	\end{align*}
+	Thus,
+	\[
+		\sum_{n=1}^N 2^{n-1}a_{2^n} \leq \sum_{n=1}^N \sum_{m=2^{n-1}+1}^{2^n} a_m = \sum_{n=2}^{2^N} a_m
+	\]
+	Therefore,
+	\[
+		\sum_{n=1}^N 2^n a_{2^n} \leq 2 \sum_{n=2}^{2^N} a_m \leq 2(A-a_1)
+	\]
+	Thus \(\sum_{n=1}^N 2^n a_{2^n}\) converges, since it is increasing and bounded above.
+	For the converse, we will assume that \(\sum 2^n a_{2^n}\) converges to \(B\).
+	Using \((\dagger)\),
+	\begin{align*}
+		\sum_{m=2^{n-1}}^{2^n} a_m & = a_{2^{n-1}} + a_{2^{n-1}+1} + \dots + a_{2^n}      \\
+		                           & \leq a_{2^{n-1}} + a_{2^{n-1}} + \dots + a_{2^{n-1}} \\
+		                           & = 2^{n-1}a_{2^{n-1}}
+	\end{align*}
+	So we have
+	\[
+		\sum_{m=2}^{2^N} a_m = \sum_{n=1}^N \sum_{m=2^{n-1}+1}^{2^n} a_m \leq \sum_{n=1}^N 2^{n-1} a_{2^{n-1}} \leq \frac{1}{2} B
+	\]
+	Therefore, \(\sum_{m=1}^N a_m\) is a bounded, increasing sequence and hence converges.
+\end{proof}
+\noindent Let us consider an example of this test.
+Consider the series definition of the Riemann zeta function
+\[
+	\zeta(k) = \sum_{n=1}^\infty \frac{1}{n^k}
+\]
+For what \(k \in \mathbb R, k>0\) does this series converge?
+This is equivalent to asking if the following series converges.
+\[
+	\sum_{n=1}^\infty 2^n \left[ \frac{1}{2^n} \right]^k = \sum_{n=1}^\infty \left( 2^{1-k} \right)^n
+\]
+Hence it converges if and only if \(2^{1-k} < 1 \iff k > 1\).
+
+\subsection{Alternating series}
+An alternating series is a series where the sign on each term switches between positive and negative.
+\begin{theorem}[Alternating Series Test]
+	If \(a_n\) decreases and tends to zero as \(u \to \infty\), then the alternating series
+	\[
+		\sum_1^\infty (-1)^{n+1} a_n
+	\]
+	converges.
+\end{theorem}
+\begin{proof}
+	Let us consider the partial sum
+	\[
+		s_n = a_1 - a_2 + a_3 - a_4 + \dots + (-1)^{n+1}a_n
+	\]
+	In particular,
+	\[
+		s_{2n} = (a_1 - a_2) + (a_3 - a_4) + \dots + (a_{2n-1} - a_{2n})
+	\]
+	Since the sequence is decreasing, each parenthesised block is positive.
+	Then \(s_{2n} \geq s_{2n-2}\).
+	We can also write the partial sum as
+	\[
+		s_{2n} = a_1 - (a_2 - a_3) - (a_4 - a_5) - \dots - (a_{2n-2} - a_{2n-1}) - a_{2n}
+	\]
+	Each parenthesised block here is negative.
+	So \(s_{2n} \leq a_1\).
+	So \(s_{2n}\) is increasing and bounded above, so it must converge.
+	Now, note that
+	\[
+		s_{2n+1} = s_{2n} + a_{2n+1} \to s_{2n}
+	\]
+	since \(a_{2n+1} \to 0\).
+	So \(s_{2n+1}\) also converges, in fact to the same limit.
+	Hence \(s_n\) converges to this same limit.
+\end{proof}

@@ -1,0 +1,449 @@
+\subsection{Hermitian operators}
+\begin{definition}
+	The \textit{Hermitian conjugate} of an operator \( \hat A \) is written \( \hat A^\dagger \), and is defined such that
+	\[
+		\inner{\hat A^\dagger \psi_1, \psi_2} = \inner{\psi_1, \hat A \psi_2}
+	\]
+	where \( \psi_1, \psi_2 \in \mathcal H \).
+\end{definition}
+\noindent We can verify that for \( a_1, a_2 \in \mathbb C \),
+\begin{enumerate}[(i)]
+	\item \( (a_1 \hat A_1 + a_2 \hat A_2 )^\dagger = a_1^\star \hat A_1^\dagger + a_2^\star \hat A_2^\dagger \);
+	\item \( (\hat A \hat B)^\dagger = \hat B^\dagger \hat A^\dagger \)
+\end{enumerate}
+\begin{definition}
+	A \textit{Hermitian operator} is a linear operator \( \hat O \colon \mathcal H \to \mathcal H \) such that
+	\[
+		\hat A^\dagger = \hat A
+	\]
+	Equivalently,
+	\[
+		\inner{\hat A \psi_1, \psi_2} = \inner{\psi_1, \hat A \psi_2}
+	\]
+\end{definition}
+\begin{example}
+	The familiar operators \( \hat x, \hat p \) are Hermitian.
+	\begin{align*}
+		\inner{\hat x \psi_1, \psi_2} & = \int_{\mathbb R^3} (x \psi_1)^\star \psi_2 \dd{V} \\
+		                              & = \int_{\mathbb R^3} \psi_1^\star x \psi_2 \dd{V}   \\
+		                              & = \inner{\psi_1, \hat x \psi_2}
+	\end{align*}
+	For \( \hat p \), integrating by parts, we have
+	\begin{align*}
+		\inner{\hat p \psi_1, \psi_2} & = \int_{-\infty}^\infty \qty(-i\hbar \pdv{x} \psi_1)^\star \psi_2 \dd{x} \\
+		                              & = i \hbar \int_{-\infty}^\infty \pdv{\psi_1^\star}{x} \psi_2 \dd{x}      \\
+		                              & = -i\hbar \int_{-\infty}^\infty \psi_1^\star \pdv{\psi_2}{x} \dd{x}      \\
+		                              & = \inner{\psi_1, \hat p \psi_2}
+	\end{align*}
+\end{example}
+\begin{theorem}
+	The eigenvalues of a Hermitian operator are real.
+\end{theorem}
+\begin{proof}
+	Let \( \hat A \) be a Hermitian operator, and \( \psi \) a normalised eigenfunction with eigenvalue \( a \).
+	\[
+		\inner{\psi, \hat A \psi} = \inner{\psi, a \psi} = a \inner{\psi, \psi} = a
+	\]
+	Since \( \hat A \) is Hermitian,
+	\[
+		\inner{\psi, \hat A \psi} = \inner{\hat A \psi, \psi} = \inner{a \psi, \psi} = a^\star \inner{\psi, \psi} = a^\star
+	\]
+	Hence \( a = a^\star \) so \( a \in \mathbb R \).
+\end{proof}
+\begin{theorem}
+	Let \( \hat A \) be a Hermitian operator, and \( \psi_1, \psi_2 \) normalised eigenfunctions with distinct eigenvalues \( a_1, a_2 \).
+	Then \( \psi_1, \psi_2 \) are orthogonal.
+\end{theorem}
+\begin{proof}
+	We have \( \hat A \psi_1 = a_1 \psi_1 \) and \( \hat A \psi_2 = a_2 \psi_2 \).
+	Then,
+	\[
+		\inner{\hat A \psi_1, \psi_2} = a_1 \inner{\psi_1, \psi_2}
+	\]
+	But also,
+	\[
+		\inner{\psi_1, \hat A \psi_2} = a_2 \inner{\psi_1, \psi_2}
+	\]
+	These two values must be the same, so \( \inner{\psi_1, \psi_2} = 0 \).
+\end{proof}
+\begin{theorem}
+	The discrete and continuous set of eigenfunctions of any Hermitian operator form a complete orthogonal basis for the Hilbert space.
+	This theorem is stated without proof.
+\end{theorem}
+\begin{corollary}
+	Every solution of the time-dependent Schr\"odinger can be written as a superposition of stationary states.
+	\[
+		\psi(x, t) = \sum_{n=1}^\infty a_n \chi_n(x) e^{-iEnt/\hbar};\quad a_n = \inner{\chi_n, \psi}
+	\]
+	In the continuous case,
+	\[
+		\psi(x, t) = \int_{\Delta_\alpha} A(\alpha) \chi_\alpha(x) e^{-iEnt/\hbar} \dd{\alpha};\quad A(\alpha) = \inner{\chi_\alpha, \psi}
+	\]
+\end{corollary}
+
+\subsection{Postulates of quantum mechanics}
+The following postulates are used to interpret measurements in quantum systems.
+\begin{enumerate}[(i)]
+	\item Any observable \( O \) is represented by a Hermitian operator \( \hat O \).
+	\item The possible outcomes of \( O \) are the eigenvalues of \( \hat O \).
+	      Since \( \hat O \) is Hermitian, we can only ever observe real values.
+	\item Let \( \hat O \) have a discrete set of normalised eigenfunctions \( \qty{\psi_i} \) with distinct eigenvalues \( \qty{\lambda_i} \).
+	      Let \( \psi \) be a state, written in terms of the eigenfunctions of \( \hat O \).
+	      \[
+		      \psi = \sum a_i \psi_i
+	      \]
+	      Suppose we measure \( O \) on a particle in the state \( \psi \).
+	      Then, the probability that \( O \) takes value \( \lambda_i \) is
+	      \[
+		      \prob{O = \lambda_i} = \abs{a_i}^2 = a_i^\star a_i
+	      \]
+	\item The above postulate can be generalised to the case where \( \hat O \) has degenerate eigenvalues.
+	      Let \( \qty{\psi_i} \) be a discrete set of normalised eigenfunctions with not necessarily distinct eigenvalues \( \qty{\lambda_i} \).
+	      If \( \qty{\psi_i}_{i \in I} \) is a complete set of orthonormal eigenfunctions with the same eigenvalue \( \lambda \), then
+	      \[
+		      \prob{O = \lambda} = \sum_{i \in I} \abs{a_i}^2 = \sum_{i \in I} a^\star a
+	      \]
+	\item We can verify from the postulates above that the sum of all probabilities is unity.
+	      \[
+		      \sum_i \abs{a_i}^2 = \sum_i \inner{a_i \psi_i, a_i \psi_i} = \sum_i \sum_j \inner{a_i \psi_i, a_j \psi_j} = \inner{\psi, \psi} = 1
+	      \]
+	\item If \( O \) is measured on a state \( \psi \) at time \( t \), and the outcome is \( \lambda_i \), then the wavefunction instantaneously `collapses' into the measured state after the measurement.
+	      \[
+		      \psi \mapsto \psi_i
+	      \]
+	      This is called the \textit{projection postulate}.
+	\item If \( \hat O \) has degenerate eigenfunctions all with eigenvalue \( \lambda \), then instead we find
+	      \[
+		      \psi \mapsto \sum_{i \in I} a_i \psi_i
+	      \]
+	      So in this case, the wavefunction collapses to a linear combination of the eigenfunctions that give this eigenvalue.
+\end{enumerate}
+
+\subsection{Expectation of operators}
+\begin{definition}
+	\[
+		\psi = \sum_i a_i \psi_i = \sum_i \inner{\psi_i, \psi} \psi_i
+	\]
+	The \textit{projector} operator projects \( \psi \) onto a specific eigenfunction.
+	\[
+		\hat P \colon \psi \mapsto \inner{\psi_i, \psi} \psi_i
+	\]
+\end{definition}
+\begin{definition}
+	The expectation value of an observable \( \hat O \) on a state \( \psi \) is
+	\begin{align*}
+		\inner{O}_\psi & = \sum_i \lambda_i \prob{O = \lambda_i}                                                    \\
+		               & = \sum_i \lambda_i \abs{\inner{\psi_i, \psi}}^2                                            \\
+		               & = \inner{\sum_i \inner{\psi_i, \psi} \psi_i, \sum_j \lambda_j \inner{\psi_j, \psi} \psi_j} \\
+		               & = \inner{\psi, \hat O \psi}
+	\end{align*}
+\end{definition}
+
+\subsection{Commutators}
+\begin{definition}
+	The \textit{commutator} of two operators \( \hat A \) and \( \hat B \) is the operator given by
+	\[
+		\qty[\hat A, \hat B] = \hat A \hat B - \hat B \hat A
+	\]
+\end{definition}
+We observe the following properties of the commutator.
+\begin{enumerate}[(i)]
+	\item \( \qty[\hat A, \hat B] = -\qty[\hat B, \hat A] \);
+	\item \( \qty[\hat A, \hat A] = 0 \);
+	\item \( \qty[\hat A, \hat B \hat C] = \qty[\hat A, \hat B] \hat C + \hat B \qty[\hat A, \hat C] \);
+	\item \( \qty[\hat A \hat B, \hat C] = \hat A \qty[\hat B, \hat C] + \qty[\hat A, \hat C] \hat B \);
+\end{enumerate}
+\begin{example}
+	The commutator \( \qty[\hat x, \hat p] \) in one dimension is given by, for every \( \psi \in \mathcal H \),
+	\begin{align*}
+		\hat x \hat p \psi                   & = x \qty(-i\hbar \pdv{x}) \psi(x) = -i\hbar x \pdv{\psi}{x}                 \\
+		\hat p \hat x \psi                   & = \qty(-i\hbar \pdv{x}) x \psi(x) = -i \hbar \psi - i \hbar x \pdv{\psi}{x} \\
+		\therefore \qty[\hat x, \hat p] \psi & = i \hbar \psi
+	\end{align*}
+	Hence,
+	\[
+		\qty[\hat x, \hat p] = i \hbar \hat I
+	\]
+	where \( \hat I \) is the identity operator.
+	This specific commutator is known as the canonical commutator relation.
+\end{example}
+
+\subsection{Simultaneously diagonalisable operators}
+\begin{definition}
+	Hermitian operators \( \hat A \) and \( \hat B \) are said to be \textit{simultaneously diagonalisable} if there exists a complete basis of joint eigenfunctions \( \qty{\psi_i} \) such that \( \hat A \psi_i = \lambda_i \psi_i \) and \( \hat B \psi_i = \mu_i \psi_i \) for \( \lambda_i, \mu_i \in \mathbb R \).
+\end{definition}
+\begin{theorem}
+	Hermitian operators \( \hat A \) and \( \hat B \) are simultaneously diagonalisable if and only if \( \qty[\hat A, \hat B] = 0 \).
+\end{theorem}
+\begin{proof}
+	Suppose \( \hat A \) and \( \hat B \) are simultaneously diagonalisable.
+	Then, by definition, there exists a complete basis \( \qty{\psi_i} \) with eigenvalues \( \lambda_i, \mu_i \) for \( \hat A, \hat B \).
+	Now, for any element \( \psi_i \) of this basis, the commutator is
+	\[
+		\qty[\hat A, \hat B] \psi_i = \hat A \hat B \psi_i - \hat B \hat A \psi_i = \hat A \mu_i \psi_i - \hat B \lambda_i \psi_i = \mu_i \hat A \psi_i - \lambda_i \hat B \psi_i = \lambda_i \mu_i \psi_i - \mu_i \lambda_i \psi_i = 0
+	\]
+	Let \( \psi \) be an arbitrary function in the Hilbert space \( \mathcal H \).
+	Then by linearity,
+	\[
+		\qty[\hat A, \hat B] \psi = \sum_i c_i \qty[\hat A, \hat B]\psi_i = 0
+	\]
+	Conversely, suppose that the commutator is zero.
+	Let \( \psi_i \) be an eigenfunction of \( \hat A \) with eigenvalue \( \lambda_i \).
+	Then, since the commutator is zero, we have
+	\[
+		0 = \qty[\hat A, \hat B] \psi_i = \hat A \hat B \psi_i - \hat B \hat A \psi_i \implies \hat A\qty(\hat B \psi_i) = \lambda_i \qty(\hat B \psi_i)
+	\]
+	Hence, \( \hat B \) maps the eigenspace \( E_i \) of \( \hat A \) with eigenvalue \( \lambda_i \) into itself.
+	So \( \eval{\hat B}_{E_i} \) is a Hermitian operator on \( E_i \).
+	Since this holds for any eigenfunction and eigenvalue, we can find a complete basis of simultaneous eigenfunctions of \( \hat A \) and \( \hat B \).
+\end{proof}
+
+\subsection{Uncertainty}
+\begin{definition}
+	The \textit{uncertainty} in a measurement of an observable \( A \) on a state \( \psi \) is defined as
+	\[
+		\Delta_\psi A = \sqrt{\qty(\Delta_\psi A)^2}
+	\]
+	where
+	\[
+		\qty(\Delta_\psi A)^2 = \inner{\qty(\hat A - \inner{\hat A}_\psi \hat I)^2}_\psi = \inner{\hat A^2}_\psi - \qty(\inner{\hat A}_\psi)^2
+	\]
+	The two definitions are equivalent:
+	\begin{align*}
+		\inner{\qty(\hat A - \inner{\hat A}_\psi \hat I)^2}_\psi & = \int_{\mathbb R^3} \psi^\star \qty(\hat A - \inner{\hat A}_\psi \hat I)^2 \psi \dd{V}                                                                                                          \\
+		                                                         & = \int_{\mathbb R^3} \psi^\star \hat A^2 \psi \dd{V} + \qty(\inner{\hat A}_\psi)^2 \int_{\mathbb R^3} \psi^\star \psi \dd{V} - 2 \inner{\hat A}_\psi \int_{\mathbb R^3} \psi^\star A \psi \dd{V} \\
+		                                                         & = \inner{\hat A^2}_{\psi} + \qty(\inner{\hat A}_{\psi})^2 - 2\qty(\inner{\hat A}_\psi)^2                                                                                                         \\
+		                                                         & = \inner{\hat A^2}_{\psi} - \qty(\inner{\hat A}_{\psi})^2
+	\end{align*}
+\end{definition}
+\begin{lemma}
+	\( (\Delta_\psi A)^2 \geq 0 \), and \( \Delta_\psi A = 0 \) if and only if \( \psi \) is an eigenfunction of \( \hat A \).
+\end{lemma}
+\begin{proof}
+	Since \( \hat A \) is Hermitian,
+	\begin{align*}
+		(\Delta_\psi A)^2 & = \inner{\qty(\hat A - \inner{\hat A}_\psi \hat I)^2}_\psi                                              \\
+		                  & = \inner{\psi, \qty(\hat A - \inner{\hat A}_\psi \hat I)^2 \psi}                                        \\
+		                  & = \inner{\qty(\hat A - \inner{\hat A}_\psi \hat I)\psi, \qty(\hat A - \inner{\hat A}_\psi \hat I) \psi} \\
+		                  & = \norm{\qty(\hat A - \inner{\hat A}_\psi \hat I)\psi}
+	\end{align*}
+	Let \( \phi = \qty(\hat A - \inner{\hat A}_\psi \hat I)\psi \).
+	The norm of any function is non-negative, so the square uncertainty is non-negative.
+	Now, suppose this norm \( \norm{\phi} \) is zero.
+	Then, \( \phi = 0 \).
+	Hence,
+	\[
+		\hat A \psi = \inner{\hat A}_\psi \psi
+	\]
+	so it is an eigenfunction of \( \hat A \).
+	If \( \psi \) is conversely an eigenfunction of \( \hat A \) with eigenvalue \( a \), then
+	\[
+		\inner{\hat A}_\psi = \inner{\psi, \hat A \psi} = a \norm{\psi} = a
+	\]
+	Further,
+	\[
+		\inner{\hat A^2}_\psi = \inner{\psi, \hat A^2 \psi} = a^2
+	\]
+	Hence,
+	\[
+		\qty(\Delta_\psi A)^2 = a^2 - a^2 = 0
+	\]
+\end{proof}
+
+\subsection{Schwarz inequality}
+\begin{theorem}
+	Let \( \psi, \phi \in \mathcal H \).
+	Then,
+	\[
+		\abs{\inner{\psi, \phi}}^2 \leq \inner{\phi, \psi} \inner{\psi, \psi}
+	\]
+	and
+	\[
+		\abs{\inner{\psi, \phi}}^2 = \inner{\phi, \psi} \inner{\psi, \psi} \iff \exists a \in \mathbb C, \phi = a \psi
+	\]
+\end{theorem}
+\begin{proof}
+	For all \( a \in \mathbb C \), we have
+	\[
+		0 \leq \inner{\phi - a \psi, \phi - a \psi}
+	\]
+	In particular, let
+	\[
+		a = \frac{\inner{\psi, \phi}}{\inner{\psi, \psi}}
+	\]
+	Then,
+	\[
+		0 \leq \inner{\phi, \phi} - \frac{2 \abs{\inner{\psi, \phi}}^2}{\inner{\psi, \psi}} + \frac{\abs{\inner{\psi, \phi}}^2}{\inner{\psi, \psi}} = \inner{\phi, \phi} - \frac{\abs{\inner{\psi, \phi}}^2}{\inner{\psi, \psi}}
+	\]
+	Hence,
+	\[
+		\abs{\inner{\psi, \phi}}^2 \leq \inner{\psi, \psi} \inner{\phi, \phi}
+	\]
+	Equality holds if and only if \( \phi - a \psi = 0 \).
+\end{proof}
+
+\subsection{Generalised uncertainty theorem}
+\begin{theorem}
+	Let \( A \) and \( B \) be observables, and \( \psi \in \mathcal H \).
+	Then
+	\[
+		\qty(\Delta_\psi A)\qty(\Delta_\psi B) \geq \frac{1}{2} \abs{\inner{\psi, \qty[\hat A, \hat B]\psi}}
+	\]
+\end{theorem}
+\begin{proof}
+	\[
+		\qty(\Delta_\psi A)^2 = \inner{(\hat A - \inner{\hat A}_\psi \hat I) \psi, (\hat A - \inner{\hat A}_\psi \hat I) \psi}
+	\]
+	Defining \( \hat A' = \hat A - \inner{\hat A}_\psi \hat I \) and \( \hat B' = \hat B - \inner{\hat B}_\psi \hat I \),
+	\[
+		\qty(\Delta_\psi \hat A')^2 = \inner{\hat A' \psi, \hat A' \psi}
+	\]
+	and analogously for \( \hat B' \).
+	Now,
+	\[
+		\qty(\Delta_\psi \hat A')^2 \qty(\Delta_\psi \hat B')^2 = \inner{\hat A' \psi, \hat A' \psi} \inner{\hat B' \psi, \hat B' \psi} \geq \abs{\inner{\hat A' \psi, \hat B' \psi}}^2
+	\]
+	Since \( \hat A' \) is Hermitian,
+	\[
+		\qty(\Delta_\psi \hat A') \qty(\Delta_\psi \hat B') \geq \abs{\inner{\psi, \hat A' \hat B' \psi}}
+	\]
+	By definition, \( \qty[\hat A, \hat B] = \hat A \hat B - \hat B \hat A \) and let the anticommutator be \( \qty{\hat A, \hat B} = \hat A \hat B + \hat B \hat A \).
+	If \( \hat A' \) and \( \hat B' \) are Hermitian,
+	\[
+		\qty[\hat A', \hat B']^\dagger = - \qty[\hat A', \hat B']
+	\]
+	and
+	\[
+		\qty{\hat A', \hat B'}^\dagger = \qty{\hat A', \hat B'}
+	\]
+	So the anticommutator is Hermitian.
+	Now, we can write
+	\[
+		\hat A' \hat B' = \frac{1}{2} \qty[\hat A', \hat B'] + \frac{1}{2} \qty{\hat A', \hat B'}
+	\]
+	Hence,
+	\begin{align*}
+		\qty(\Delta_\psi \hat A') \qty(\Delta_\psi \hat B') & \geq \abs{\inner{\psi, \qty(\frac{1}{2} \qty[\hat A', \hat B'] + \frac{1}{2} \qty{\hat A', \hat B'}) \psi}}           \\
+		                                                    & = \abs{\inner{\psi, \frac{1}{2} \qty[\hat A', \hat B'] \psi} + \inner{\psi, \frac{1}{2} \qty{\hat A', \hat B'} \psi}}
+	\end{align*}
+	We can prove that \( \inner{\psi, \qty{\hat A', \hat B'} \psi} \in \mathbb R \).
+	Since the anticommutator is Hermitian,
+	\[
+		\inner{\psi, \qty{\hat A', \hat B'} \psi} = \inner{\qty{\hat A', \hat B'} \psi, \psi} = \inner{\psi, \qty{\hat A', \hat B'} \psi}^\star
+	\]
+	Analogously we can prove that \( \inner{\psi, \qty[\hat A', \hat B'] \psi} \in i\mathbb R \).
+	\[
+		\inner{\psi, \qty[\hat A', \hat B'] \psi} = \inner{\qty[\hat A', \hat B']^\star \psi, \psi} = -\inner{\psi, \qty[\hat A', \hat B'] \psi}^\star
+	\]
+	Hence,
+	\begin{align*}
+		\qty(\Delta_\psi \hat A')^2 \qty(\Delta_\psi \hat B')^2            & \geq \abs{\inner{\psi, \frac{1}{2} \qty[\hat A', \hat B'] \psi} + \inner{\psi, \frac{1}{2} \qty{\hat A', \hat B'} \psi}}^2     \\
+		                                                                   & = \frac{1}{4} \abs{\inner{\psi, \qty[\hat A', \hat B'] \psi}}^2 + \frac{1}{4} \abs{\inner{\psi, \qty{\hat A', \hat B'}\psi}}^2 \\
+		                                                                   & \geq \frac{1}{4} \abs{\inner{\psi, \qty{\hat A', \hat B'} \psi}}^2                                                             \\
+		\therefore \qty(\Delta_\psi \hat A')^2 \qty(\Delta_\psi \hat B')^2 & \geq \frac{1}{4} \abs{\inner{\psi, \qty{\hat A, \hat B} \psi}}^2
+	\end{align*}
+\end{proof}
+
+\subsection{Consequences of uncertainty relation}
+\begin{enumerate}[(i)]
+	\item \( \qty[\hat A, \hat B] = 0 \) implies that there exists a joint set of eigenfunctions which is a complete basis of \( \mathcal H \).
+	      In particular, \( \hat A \) and \( \hat B \) can be measured simulaneously with arbitrary precision.
+	      For instance, we can measure \( E \), \( \abs{\overline L} \) and \( L z \) simultaneously for an electron on a hydrogen atom.
+	\item We cannot simultaneously measure position and momentum of a particle with arbitrary precision.
+	      In particular,
+	      \[
+		      \Delta_\psi x \Delta_\psi p \geq \frac{\hbar}{2}
+	      \]
+	      This is Heisenberg's uncertainty principle.
+\end{enumerate}
+
+\subsection{States of minimal uncertainty}
+The Gaussian wavepacket was a state of minimal uncertainty:
+\[
+	\Delta_\psi x \Delta_\psi p = \frac{\hbar}{2}
+\]
+We would like to analyse the conditions for a state \( \psi \) to have minimal uncertainty.
+\begin{lemma}
+	\( \psi \) is a state of minimal uncertainty if and only if
+	\[
+		\hat x \psi = i a \hat p \psi
+	\]
+	for some \( a \in \mathbb R \).
+	A non-example is the De Broglie plane waves.
+\end{lemma}
+\begin{lemma}
+	The condition for the above lemma to hold is that
+	\[
+		\psi(x) = ce^{-bx^2};\quad b,c \in \mathbb R, b > 0, c \neq 0
+	\]
+	The Gaussian wavepacket is an example of this form.
+\end{lemma}
+
+\subsection{Ehrenfest theorem}
+\begin{theorem}
+	The time evolution of a Hermitian operator \( \hat A \) is governed by
+	\[
+		\dv{t} \inner{\hat A}_\psi = \frac{i}{\hbar} \inner{\qty[\hat H, \hat A]}_\psi + \inner{\pdv{\hat A}{t}}_\psi
+	\]
+	In this course, we will not see any operators with time dependence, so the last term will not be needed.
+\end{theorem}
+\begin{proof}
+	\begin{align*}
+		\dv{t} \inner{\hat A}_\psi & = \dv{t} \int_{-\infty}^\infty \psi^\star \hat A \psi \dd{x}                                                                              \\
+		                           & = \int_{-\infty}^\infty \pdv{t} \qty(\psi^\star \hat A \psi) \dd{x}                                                                       \\
+		                           & = \int_{-\infty}^\infty \qty[\pdv{\psi^\star}{t} \hat A \psi + \psi^\star \pdv{\hat A}{t} \psi + \psi^\star \hat A \pdv{\psi}{t} ] \dd{x}
+	\end{align*}
+	The time-dependent Schr\"odinger equation gives
+	\[
+		\qty(i \hbar \pdv{\psi}{t})^\star = \qty(\hat H \psi)^\star \implies -i\hbar \pdv{\psi^\star}{t} = \psi^\star \hat H^\star = \psi^\star \hat H
+	\]
+	Hence,
+	\begin{align*}
+		\dv{t} \inner{\hat A}_\psi & = \frac{i}{\hbar} \int_{-\infty}^\infty \qty[\psi^\star \hat H \hat A \psi - \psi^\star \hat A \hat H \psi] \dd{x} + \int_{-\infty}^\infty \psi^\star \pdv{\hat A}{t} \psi \dd{x} \\
+		                           & = \frac{i}{\hbar} \inner{\qty[\hat H, \hat A]}_\psi + \inner{\pdv{\hat A}{t}}_\psi
+	\end{align*}
+\end{proof}
+\begin{example}
+	Let \( \hat A = \hat H \).
+	Then,
+	\[
+		\dv{t} \inner{\hat H}_\psi = 0
+	\]
+	This corresponds to the classical notion of conservation of energy.
+\end{example}
+\begin{example}
+	Let \( \hat A = \hat p \).
+	First, note
+	\begin{align*}
+		\qty[\hat H, \hat p] \psi & = \qty[\frac{\hat p^2}{2m} + U(\hat x), \hat p] \psi               \\
+		                          & = \qty[U(\hat x), \hat p] \psi                                     \\
+		                          & = U(x) \qty(-i\hbar \pdv{x}) \psi - \qty(-i\hbar \pdv{x})U(x) \psi \\
+		                          & = i \hbar \pdv{U(x)}{x} \psi
+	\end{align*}
+	Hence,
+	\[
+		\dv{t}\inner{\hat p}_\psi = \frac{i}{\hbar} \inner{\qty[\hat H, \hat p]}_\psi = -\inner{\pdv{U}{x}}_\psi
+	\]
+	This corresponds exactly to Newton's second law,
+	\[
+		\dot p = -\dv{U}{x}
+	\]
+\end{example}
+\begin{example}
+	Let \( \hat A = \hat x \).
+	We have
+	\begin{align*}
+		\qty[\hat H, \hat x] \psi & = \qty[\frac{\hat p^2}{2m} + U(\hat x), \hat x] \psi                                 \\
+		                          & = \frac{1}{2m} \qty[\hat p^2, \hat x] \psi                                           \\
+		                          & = \frac{1}{2m} \qty( \hat p \qty[\hat p, \hat x] + \qty[\hat p, \hat x] \hat p) \psi \\
+		                          & = \frac{-i\hbar}{m}
+	\end{align*}
+	Hence,
+	\[
+		\dv{t}\inner{\hat x}_\psi = \frac{i}{\hbar} \inner{\qty[\hat H, \hat x]}_\psi = \frac{\inner{\hat p}_\psi}{m}
+	\]
+	which aligns with the classical equation
+	\[
+		\dot x = \frac{p}{m}
+	\]
+\end{example}

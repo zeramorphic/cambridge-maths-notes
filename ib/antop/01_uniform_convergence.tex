@@ -1,0 +1,403 @@
+\subsection{Definition}
+Recall that \( x_n \to x \) as \( n \to \infty \) (for \( x \in \mathbb R\) or \(\mathbb C\)) if
+\[
+	\forall \varepsilon > 0, \exists N \in \mathbb N, \forall n \geq N, \abs{x_n-x} < \varepsilon
+\]
+This is essentially considering the \( \varepsilon \)-neighbourhood of \( x \).
+We aim to define the same notion of convergence for functions, by defining an analogous concept of an \( \varepsilon \)-neighbourhood.
+In particular, each value on the domain should converge in its own \( \varepsilon \)-neighbourhood.
+\begin{definition}
+	Let \( S \) be a set, and \( f, f_n \colon S \to \mathbb R \), be functions.
+	We say that \( (f_n) \) converges to \( f \) uniformly on \( S \) if
+	\[
+		\forall \varepsilon > 0, \exists N \in \mathbb N, \forall n \geq N, \forall x \in S, \abs{f_n(x) - f(x)} < \varepsilon
+	\]
+\end{definition}
+\begin{note}
+	\( N \) depends only on \( \varepsilon \), \textit{not} on any \( x \).
+	Each \( x \) converges therefore at a `similar speed', hence the name `uniform convergence'.
+\end{note}
+\noindent Equivalently, we can write
+\[
+	\forall \varepsilon > 0, \exists N \in \mathbb N, \forall n \geq N, \sup_{x \in S} \abs{f_n(x) - f(x)} < \varepsilon
+\]
+The supremum condition is equivalent overall because the inequality on the right is weakened to a possible equality, but we can always decrease \( \varepsilon \) to retain the inequality.
+Alternatively, we could write
+\[
+	\lim_{n \to \infty} \sup_{x \in S} \abs{f_n - f} = 0
+\]
+For each \( x \in S \), \( (f_n(x))_{n=1}^\infty \to f(x) \).
+Hence, \( f \) is unique given \( (f_n) \), since limits are unique.
+We call \( f \) the \textit{uniform limit} of \( (f_n) \) on \( S \).
+
+\subsection{Pointwise convergence}
+\begin{definition}
+	\( (f_n) \) converges \textit{pointwise} to \( f \) on \( S \) if \( (f_n(x))_{n=1}^\infty \) converges to \( f(x) \) for every \( x \in S \).
+	In other words,
+	\[
+		\underbrace{\forall x \in S}_{\mathclap{\text{order rearranged}}}, \forall \varepsilon > 0, \exists N \in \mathbb N, \forall n \geq N, \abs{f_n(x) - f(x)} < \varepsilon
+	\]
+	Now, \( N \) depends both on \( \varepsilon \) and on \( x \).
+	Note that the pointwise limit of \( (f_n) \) on \( S \) is also unique since limits are unique.
+\end{definition}
+\begin{remark}
+	Uniform convergence implies pointwise convergence, and the uniform limit is the pointwise limit.
+\end{remark}
+
+\begin{example}
+	Let \( f_n(x) = x^2 e^{-nx} \) on \( [0, \infty), n \in \mathbb N \).
+	Does \( (f_n) \) converge uniformly on the domain?
+	First let us check pointwise convergence.
+	We have \( x^2 e^{-nx} \to 0 \) hence pointwise convergence to \( f(x) = 0 \) is satisfied.
+	Now, we need only check uniform convergence to the function \( f(x) = 0 \).
+	\[
+		\sup_{x \in [0, \infty)} \abs{f_n(x) - 0} = \sup_{x \in [0, \infty)} f_n(x)
+	\]
+	We could differentiate \( f_n \) and find the maximum if it exists, but we might not find the maximum if it is (for example) on the endpoints.
+	A much better method is to find an upper bound on \( \abs{f_n(x)-f(x)} \) (which, in this example, is \( f_n(x) \)) that does not depend on \( x \).
+	In this case, we can expand \( e^{nx} \) on the denominator and isolate a single term to get
+	\[
+		x^2 e^{-nx} = \frac{x^2}{e^{nx}} \leq \frac{2}{n^2};\quad \forall x
+	\]
+	Hence,
+	\[
+		\sup_{x \in [0, \infty)} \abs{f_n(x) - 0} \to 0
+	\]
+	and uniform convergence is satisfied.
+\end{example}
+\begin{example}
+	Consider \( f_n(x) = x^n \) on \( [0,1], n \in \mathbb N \).
+	A pointwise limit is reached by
+	\[
+		f(x) = \begin{cases}
+			1 & x = 1            \\
+			0 & \text{otherwise}
+		\end{cases}
+	\]
+	Consider \( \sup \abs{f_n(x) - f(x)} \) excluding 1 (since at 1 the supremum is zero).
+	Note \( f_n(x) \to 1 \) as \( x \to 1 \) from below, for all \( n \).
+	Hence the supremum is always 1 by choosing an \( x \) sufficiently close to 1.
+	So \( f_n \not\to f \) uniformly on \( [0,1] \), hence \( (f_n) \) does not converge at all uniformly on this domain.
+	Or,
+	\[
+		\sup f_n(x) \geq f_n\qty(\qty(\frac{1}{2})^{1/n}) = \frac{1}{2}
+	\]
+\end{example}
+
+\begin{remark}
+	If \(f_n \not\to f\) uniformly on S,
+	\[
+		\exists \varepsilon > 0, \forall N \in \mathbb N, \exists n \geq N, \exists x \in S, \abs{f_n(x) - f(x)} \geq \varepsilon
+	\]
+	In the above example, we proved something stronger:
+	\[
+		\forall n, \exists x \in S, f_n(x) \geq \frac{1}{2}
+	\]
+	We could have alternatively stated, for example, \( f_n(x) \) is continuous so there exists some subset of \( [0, 1] \) greater than \( \frac{1}{2} \) always.
+\end{remark}
+
+\begin{theorem}
+	Let \( S \subseteq \mathbb R, \mathbb C \).
+	Let \( (f_n), f \colon S \to \mathbb R \text{(or } \mathbb{C} \text{)} \), where \( f_n \) is continuous and \( (f_n) \to f \) uniformly on \( S \).
+	Then \( f \) is continuous.
+\end{theorem}
+\noindent Informally, the uniform limit of continuous functions is continuous.
+\begin{proof}
+	Fix some point \( a \in S \), \( \varepsilon > 0 \).
+	We seek \( \delta > 0 \) such that \( \forall x \in S, \abs{x - a} < \delta \implies \abs{f(x) - f(a)} < \varepsilon \).
+	We fix an \( n \in \mathbb N \) such that \( \forall x \in S, \abs{f_n(x) - f(x)} < \varepsilon \).
+	Since \( f_n \) is continuous, there exists \( \delta > 0 \) such that \( \forall x \in S, \abs{x - a} < \delta \implies \abs{f_n(x) - f_n(a)} < \varepsilon \).
+	So, \( \forall x \in S \),
+	\[
+		\abs{x - a} < \delta  \implies \abs{f(x) - f(a)} \leq \abs{f(x) - f_n(x)} + \abs{f_n(x) - f_n(a)} + \abs{f_n(a) - f(a)} < 3\varepsilon
+	\]
+\end{proof}
+\begin{remark}
+	The above proof is often called a \( 3\varepsilon \)-proof.
+	Note, the proof is not true for pointwise convergence; if \( f_n \to f \) pointwise and \( f_n \) continuous, \( f \) is not necessarily continuous.
+	Further, it is not true for differentiability; \( f_n \) differentiable does not imply \( f \) differentiable (see example sheet).
+	Another way to interpret the result of the above theorem is to swap limits:
+	\[
+		\lim_{x \to a} \lim_{n \to \infty} f_n(x) = \lim_{x \to a} f(x) = f(a) = \lim_{n \to \infty} f_n(a) = \lim_{n \to \infty} \lim_{x \to a} f_n(x)
+	\]
+\end{remark}
+
+\subsection{Uniform limit of bounded functions}
+\begin{lemma}
+	Let \( f_n \to f \) uniformly on \( S \).
+	If \( f_n \) is bounded for every \( n \), then so is \( f \).
+\end{lemma}
+\noindent In other words, the uniform limit of bounded functions is bounded.
+\begin{proof}
+	Fix some \( n \in \mathbb N \) such that \( \forall x \in S, \abs{f_n(x) - f(x)} < 1 \).
+	Since \( f_n \) is bounded, \( \exists M \in \mathbb R \) such that \( \forall x \in S, \abs{f_n(x)} < M \).
+	Hence, \( \forall x \in S, \abs{f(x)} \leq \abs{f(x) - f_n(x)} + \abs{f_n(x)} \leq 1 + M \).
+	So \( f \) is bounded.
+\end{proof}
+
+\subsection{Integrability}
+Let \( f \colon [a, b] \to \mathbb R \) be a bounded function.
+Recall that for a dissection \( \mathcal D \) of \( [a, b] \), we define the upper and lower sums of \( f \) with respect to \( \mathcal D \) by
+\[
+	U_{\mathcal D}(f) = \sum_{k=1}^n (x_k - x_{k-1}) \sup_{[x_{k-1}, x_k]} f(x)
+\]
+\[
+	L_{\mathcal D}(f) = \sum_{k=1}^n (x_k - x_{k-1}) \inf_{[x_{k-1}, x_k]} f(x)
+\]
+Riemann's integrability criterion states that \( f \) is integrable if and only if
+\[
+	\forall \varepsilon, \exists \mathcal D, U_{\mathcal D}(f) - L_{\mathcal D}(f) < \varepsilon
+\]
+Equivalently, % exercise
+for any \( I \subset [a, b] \), we have
+\[
+	\sup_I f - \inf_I f = \sup_{x,y \in I} \qty(f(x) - f(y)) = \sup_{x,y \in I} \abs{f(x) - f(y)}
+\]
+This is called the oscillation of \( f \) on \( I \).
+So an integrable function `doesn't oscillate too much'.
+
+\begin{theorem}
+	Let \( f_n \colon [a,b] \to \mathbb R \) be integrable for all \( n \).
+	If \( f_n \to f \) uniformly on \( [a,b] \), then \( f \) is integrable and
+	\[
+		\int_a^b f_n \to \int_a^b f
+	\]
+\end{theorem}
+\begin{proof}
+	First, we prove \( f \) to be bounded, then we will check Riemann's criterion.
+	We know \( f \) is bounded because each \( f_n \) is bounded, hence by the lemma above \( f \) is bounded.
+	Now fix \( \varepsilon > 0 \), and choose \( n \in \mathbb N \) such that \( \forall x \in [a,b], \abs{f_n(x) - f(x)} < \varepsilon \).
+	Since \( f_n \) is integrable, \( \exists \mathcal D \colon a = x_0 < x_1 < \dots < x_N = b \) of \( [a,b] \) such that \( U_{\mathcal D} - L_{\mathcal D} < \varepsilon \).
+	Now, we fix \( k \in \qty{1,\dots,N} \) and then for any \( x,y \in [x_{k-1}, x_k] \) we have
+	\[
+		\abs{f(x) - f(y)} \leq \abs{f(x) - f_n(x)} + \abs{f_n(x) - f_n(y)} + \abs{f_n(y) - f(y)} < 2\varepsilon + \abs{f_n(x) - f_n(y)}
+	\]
+	Taking the supremum,
+	\[
+		\sup_{x,y \in [x_{k-1},x_k]} \qty(f(x) - f(y)) \leq \sup_{x,y \in [x_{k-1},x_k]} \abs{f_n(x) - f_n(y)} + 2\varepsilon
+	\]
+	Multiplying by \( (x_k - x_{k-1}) \) and taking the sum over all \( k \),
+	\[
+		U(f) - L(f) \leq U(f_n) - L(f_n) + 2\varepsilon (b-a) \leq \varepsilon (2(b-a) + 1)
+	\]
+	Hence \( f \) is integrable.
+	We can now show that
+	\[
+		\abs{\int_a^b f_n - \int_a^b f} \leq \int_a^b \abs{f_n - f} \leq (b-a) \sup_{[a,b]} \abs{f_n - f} \to 0
+	\]
+\end{proof}
+\begin{remark}
+	We can interpret this as
+	\[
+		\int_a^b \lim_{n \to \infty} f_n(x) \dd{x} = \lim_{n \to \infty} \int_a^b f_n(x) \dd{x}
+	\]
+	This is another `allowed' way to swap limits.
+\end{remark}
+
+\begin{corollary}
+	Let \( f_n \colon [a,b] \to \mathbb R \) be integrable for all \( n \).
+	If \( \sum_{n=1}^\infty f_n(x) \) converges uniformly on \( [a,b] \), then
+	\[
+		F(x) = \sum_{n=1}^\infty f_n(x)
+	\]
+	is integrable, and
+	\[
+		\int_a^b \sum_{n=1}^\infty f_n(x) \dd{x} = \sum_{n=1}^\infty \int_a^b f_n(x) \dd{x}
+	\]
+\end{corollary}
+\begin{proof}
+	Let \( F_n(x) = \sum_{k=1}^n f_k(x) \).
+	By assumption, \( F_n \to F \) uniformly on \( [a,b] \).
+	\( F_n \) is integrable where the integral of \( F_n \) is the sum of the integrals:
+	\[
+		\int_a^b F_n = \sum_{k=1}^n \int_a^b f_k
+	\]
+	Then the result follows from the theorem above.
+\end{proof}
+
+\subsection{Differentiability}
+\begin{theorem}
+	Let \( f_n \colon [a,b] \to \mathbb R \) be continuously differentiable for all \( n \).
+	Suppse \( \sum_{k=1}^\infty f_k'(x) \) converges uniformly on \( [a,b] \), and that \( \exists c \in [a,b], \sum_{n-1}^\infty f_n(c) \) converges.
+	Then, \( \sum_{k=1}^\infty f_k(x) \) converges uniformly on \( [a,b] \) to a continuously differentiable function \( f \), and
+	\[
+		\dv{x} \qty(\sum_{k=1}^\infty f_k) = \sum_{k=1}^\infty \dv{x} f_k(x)
+	\]
+\end{theorem}
+\begin{proof}
+	Let \( g(x) = \sum_{k=1}^\infty f_k'(x) \), for \( x \in [a,b] \).
+	The general idea is that we want to solve the differential equation \( f' = g \) subject to the initial conditino \( f(c) = \sum_{n=1}^\infty f_n(c) \).
+	Let \( \lambda = \sum_{n=1}^\infty f_n(c) \) and define \( f \colon [a,b] \to \mathbb R \) by
+	\[
+		f(x) = \lambda + \int_c^x g(t) \dd{t}
+	\]
+	Note that \( g \) is integrable; \( \sum_{k=1}^\infty f_k'(x) \to g \) uniformly implies that \( g \) is continuous and hence integrable.
+	By the fundamental theorem of calculus, \( f' = g \) and \( f(c) = \lambda \).
+	So we have found such an \( f \) that satisfies the conditions set out.
+	All that remains is to prove uniform convergence of \( \sum_{k=1}^\infty f_k \to f \).
+	Also by the fundamental theorem, \( f_k(x) = f_k(c) + \int_c^x f_k'(t) \dd{t} \).
+	Let \( \varepsilon > 0 \).
+	There exists \( N \in \mathbb N \) such that \( \abs{\lambda - \sum_{k=1}^N f_k(c)} < \varepsilon \) and \( \abs{g(t) - \sum_{k=1}^N f_k'(t)} < \varepsilon \).
+	Now, for \( n \geq N \) we have
+	\begin{align*}
+		\abs{f(x) - \sum_{k=1}^n f_k(x)} & = \abs{\lambda + \int_c^x g(t) \dd{t} - \sum_{k=1}^n \qty(f_k(c) + \int_c^x f_k'(t) \dd{t})}       \\
+		                                 & \leq \abs{\lambda - \sum_{k=1}^n f_k(c)} + \abs{\int_c^x \qty(g(t) - \sum_{k-1}^n f_k'(t)) \dd{t}} \\
+		                                 & \leq \varepsilon + \abs{x-c} \varepsilon                                                           \\
+		                                 & \leq \varepsilon (b-a + 1)
+	\end{align*}
+\end{proof}
+
+\subsection{Conditions for uniform convergence}
+Recall that a scalar sequence \( x_n \) is Cauchy if
+\[
+	\forall \varepsilon > 0, \exists N \in \mathbb N, \forall m,n \geq N, \abs{x_m - x_n} < \varepsilon
+\]
+and that the general principle of convergence shows that any Cauchy sequence converges.
+
+\subsection{General principle of uniform convergence}
+\begin{definition}
+	A sequence \( (f_n) \) of scalar functions on a set \( S \) is called \textit{uniformly Cauchy} if
+	\[
+		\forall \varepsilon > 0, \exists N \in \mathbb N, \forall m, n \geq N, \forall x \in S, \abs{f_m(x) - f_n(x)} < \varepsilon
+	\]
+\end{definition}
+\begin{theorem}
+	A uniformly Cauchy sequence of functions is uniformly convergent.
+\end{theorem}
+\begin{proof}
+	Let \( x \in S \) and we will show that \( (f_n(x))_{n=1}^\infty \) converges.
+	Given \( \varepsilon > 0, \exists N \in \mathbb N, \forall m, n \geq N, \forall t \in S, \abs{f_m(t) - f_n(t)} < \varepsilon \).
+	In particular, \( \forall m,n \geq N, \abs{f_m(x) - f_n(x)} < \varepsilon \).
+	So certainly \( (f_n(x))_{n=1}^\infty \) is Cauchy and hence convergent by the general principle of convergence.
+	Therefore \( f_n \) converges pointwise.
+	Now, let \( f(x) \) be the limit \( f(x) = \lim_{n\to\infty} f_n(x) \).
+	Then \( f_n \to f \) pointwise on \( S \).
+	Now we must extend this to show \( f_n \to f \) uniformly on \( S \).
+	Given \( \varepsilon > 0 \), we know that \( \exists N \in \mathbb N, \forall m, n \geq N, \forall x \in S, \abs{f_m(x) - f_n(x)} < \varepsilon \).
+	Now, we must show \( \forall n \geq N, \forall x \in S, \abs{f_n(x) - f(x)} < 2 \varepsilon \), then we are done.
+	We will fix \( x \in S, n \geq N \).
+	Since \( f_n(x) \to f(x) \), we can choose \( m \in \mathbb N \) such that \( \abs{f_m(x) - f(x)} < \varepsilon \), and \( m \geq N \).
+	Note however that \( m \) depends on \( x \) in this statement, but this doesn't matter --- we have shown that
+	\[
+		\abs{f_n(x) - f(x)} \leq \abs{f_n(x) - f_m(x)} + \abs{f_m(x) - f(x)} \leq \varepsilon + \varepsilon = 2 \varepsilon
+	\]
+	which is a result that, in itself, does \textit{not} depend on \( x \).
+\end{proof}
+\begin{note}
+	Alternatively, we could end the proof as the following.
+	Fix \( x \in S, n \geq N \).
+	Then
+	\[
+		\forall m \geq N, \abs{f_n(x) - f_m(x)} < \varepsilon
+	\]
+	Then let \( m \to \infty \), and
+	\[
+		\abs{f_n(x) - f(x)} \leq \varepsilon
+	\]
+\end{note}
+
+\subsection{Weierstrass M-test}
+\begin{theorem}
+	Let \( (f_n) \) be a sequence of scalar functions on \( S \).
+	Assume that \( \forall n \in \mathbb N, \exists M_n \in \mathbb R^+, \forall x \in S, \abs{f_n(x)} \leq M_n \).
+	In other words, \( (f_n) \) is a sequence of bounded scalar functions.
+	Then,
+	\[
+		\sum_{n = 1}^\infty M_n < \infty \implies \sum_{n=1}^\infty f_n(x) \text{ is uniformly convergent on } S
+	\]
+\end{theorem}
+\begin{proof}
+	Let \( F_n(x) = \sum_{k=1}^\infty f_k(x) \) for \( x \in S, n \in \mathbb N \).
+	Then
+	\[
+		\abs{F_n(x) - F_m(x)} \leq \sum_{k=m+1}^n \abs{f_k(x)} \leq \sum_{k=m+1}^n M_k
+	\]
+	Hence, given \( \varepsilon > 0 \), we can choose \( N \in \mathbb N \) such that \( \sum_{k=N+1}^n M_k < \varepsilon \).
+	Thus, \( \forall x \in S, \forall n \geq m \geq N \), we have
+	\[
+		\abs{F_n(x) - F_m(x)} \leq \sum_{k=m+1}^n M_k < \varepsilon
+	\]
+	We have shown \( (F_n) \) is uniformly Cauchy on \( S \) and hence uniformly convergent on \( S \).
+\end{proof}
+
+\subsection{Power series}
+Consider the power series
+\[
+	\sum_{n=0}^\infty c_n (z-a)^n
+\]
+where \( c_n \in \mathbb C, a \in \mathbb C \) are constants, and \( z \in \mathbb C \).
+Let \( R \in [0, \infty] \) be the radius of convergence.
+Recall that
+\begin{align*}
+	\abs{z-a} < R & \implies \sum_{n = 0}^\infty c_n (z-a)^n \text{ converges absolutely}; \\
+	\abs{z-a} > R & \implies \sum_{n = 0}^\infty c_n (z-a)^n \text{ diverges}
+\end{align*}
+Let \( D(a, R) := \qty{z \in \mathbb C \mid \abs{z-a} < R} \) be the open disc centred on \( a \) with radius \( R \).
+Then we can create \( f \colon D(a, \mathbb R) \to \mathbb C \) to be defined by the power series, which is well-defined.
+\( f \) is the pointwise limit of the power series on \( D \).
+In general, the convergence of the power series is not uniformly convergent.
+\begin{example}
+	\( \sum_{n=1}^\infty \frac{z^n}{n^2} \) has \( R = 1 \).
+	Let \( f_n \colon D(0,1) \to \mathcal C \) be defined by \( f_n(z) = \frac{z^n}{n^2} \).
+	Then for every \( z \in D(0,1), \abs{z} \leq \frac{1}{n^2} \).
+	Since \( \sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6} < \infty \), by the Weierstrass M-test, the power series converges uniformly on the disc.
+\end{example}
+\begin{example}
+	Consider \( \sum_{n=0}^\infty z^n = \frac{1}{1-z} \) with \( R = 1 \).
+	Now,
+	\[
+		\forall z \in D(0,1), \abs{\sum_{n=0}^\infty z^n} \leq N + 1
+	\]
+	Therefore, the series does not converge uniformly on the disc since \( \frac{1}{1-z} \) is unbounded on the disc.
+	Alternatively, consider
+	\[
+		\sup_{\abs{z} < 1} \abs{\frac{1}{1-z} - \sum_{k=0}^n z_k} = \sup_{\abs{z} < 1} \abs{\frac{z^{n+1}}{1-z}} = \infty
+	\]
+	In some sense, the problem with uniform convergence here is that we are allowed to go too close too the boundary.
+\end{example}
+\begin{theorem}
+	Suppose the power series \( \sum_{n=0}^\infty c_n (z-a)^n \) has radius of convergence \( R \).
+	Then for all \( 0 < r < R \), the power series converges uniformly on \( D(a,r) \).
+\end{theorem}
+\begin{proof}
+	Let \( w \in \mathbb C \) such that \( r < \abs{w - a} < R \), for instance \( w = a + \frac{r + R}{2} \).
+	Now, let \( \rho = \frac{r}{\abs{w-a}} \in (0,1) \).
+	Since \( \sum_{n=0}^\infty c_n (w-a)^n \) converges, we have that \( c_n (w-a)^n \to 0 \) as \( n \to \infty \).
+	Therefore, \( \exists M \in \mathbb R+ \) such that \( \abs{c_n (w-a)^n} \leq M \) for all \( n \in \mathbb N \), since convergence implies boundedness.
+	Now, for \( z \in D(a,r), n \in \mathbb N \) we have
+	\[
+		\abs{c_n(z-a)^n} = \abs{c_n(w-a)^n} \qty(\frac{\abs{z-a}}{\abs{w-a}})^n \leq M \qty(\frac{r}{\abs{w-a}})^n = M\rho^n
+	\]
+	Since the sum \( \sum_{n=0}^\infty M \rho^n \) converges, the Weierstrass M-test shows us that \( \sum_{n=0}^\infty c_n (z-a)^n \) converges uniformly on \( D(a,r) \).
+\end{proof}
+\begin{remark}
+	\( f \colon D(a,R) \to \mathbb C \) defined by \( f(z) = \sum_{n=0}^\infty c_n (z-a)^n \) is the uniform limit on \( D(a,r) \) of polynomials for any \( r \) such that \( 0 < r < R \).
+	Hence \( f \) is continuous on \( D(a,r) \).
+	Since \( D(a,R) = \bigcup_{0 < r < R} D(a,r) \), it follows that \( f \) is continuous everywhere inside the radius of convergence.
+
+	Recall that the termwise derivative \( \sum_{n=1}^\infty c_n n(z-a)^{n-1} \) has the same radius of convergence.
+	This sequence therefore also converges uniformly on \( D(a,r) \) if \( 0 < r < R \).
+	Analogously to the previous result about interchanging derivatives and sums, we can show that \( \sum c_n (z-a)^n \) is complex differentiable on \( D(a,R) \) with derivative \( \sum_{n=1}^\infty c_n n(z-a)^{n-1} \).
+	This is seen in the IB Complex Analysis course.
+
+	Now, fix \( w \in D(a,R) \).
+	Then fix \( r \) such that \( \abs{w-a} < r < R \), and fix \( \delta > 0 \) such that \( \abs{w-a} + \delta < r \).
+	If \( \abs{z-w} < \delta \), then \( \abs{z-a} \leq \abs{z-w} + \abs{w-a} < \delta + \abs{w-a} < r \).
+	Therefore, geometrically, \( D(w,\delta) \subset D(a,r) \).
+	Hence, \( \sum_{n=0}^\infty c_n (z-a)^n \) converges uniformly on \( D(w,\delta) \).
+	This is known as local uniform convergence.
+\end{remark}
+\begin{definition}
+	\( U \subset \mathbb C \) is called open if \( \forall w \in W, \exists \delta > 0, D(w,\delta) \subset U \).
+\end{definition}
+\begin{definition}
+	Let \( U \) be an open subset of \( \mathbb C \), and \( f_n \) be a sequence of scalar functions on \( U \).
+	Then \( f_n \) converges locally uniformly on \( U \) if
+	\[
+		\forall w \in U, \exists \delta > 0, f_n \text{ converges uniformly on } D(w,\delta) \subset U
+	\]
+\end{definition}
+\begin{remark}
+	Above, we showed that power series always converge locally uniformly inside the radius of convergence, or equivalently inside the disc \( D(a,R) \).
+	We will return to this point about local uniform convergence when discussing compactness.
+\end{remark}

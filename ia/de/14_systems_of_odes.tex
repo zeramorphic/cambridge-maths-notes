@@ -1,0 +1,377 @@
+\subsection{Systems of linear ODEs}
+Consider two functions \(y_1(t), y_2(t)\) which satisfy
+\begin{align*}
+	\dot y_1 & = ay_1 + by_2 + f_1(t) \\
+	\dot y_2 & = cy_1 + dy_2 + f_2(t)
+\end{align*}
+This is a set of coupled differential equations which we must solve simultaneously.
+In vector form,
+\[
+	\dot{\vb Y} = M\vb Y + \vb F
+\]
+where
+\[
+	\vb Y = \begin{pmatrix}
+		y_1 \\ y_2
+	\end{pmatrix};\quad M = \begin{pmatrix}
+		a & b \\ c & d
+	\end{pmatrix};\quad \vb F = \begin{pmatrix}
+		f_1 \\ f_2
+	\end{pmatrix}
+\]
+Any \(n\)th order differential equation can be written as a system of \(n\) first order ODEs.
+For example, the standard form for a second order linear ODE is
+\[
+	\ddot y + a\dot y + by = f
+\]
+Let \(y_1 = y, y_2 = \dot y\).
+Then
+\[
+	\vb Y = \begin{pmatrix}
+		y \\ \dot y
+	\end{pmatrix}
+\]
+Hence our two equations are
+\[
+	\dot y_1 = y_2
+\]
+\[
+	\dot y_2 + ay_2 + by_1 = f \implies \dot y_2 = -ay_2 - by_1 + f
+\]
+And in vector form,
+\[
+	\dot{\vb Y} = \begin{pmatrix}
+		0  & 1  \\
+		-b & -a
+	\end{pmatrix} \vb Y + \begin{pmatrix}
+		0 \\ f
+	\end{pmatrix}
+\]
+
+\subsection{Matrix methods}
+To solve a system of \(n\) first-order linear ODEs,
+\begin{equation}\label{matrix1}
+	\dot {\vb Y} = M\vb Y + \vb F
+\end{equation}
+we need the following steps.
+\begin{enumerate}
+	\item Write \(\vb Y = \vb Y_c + \vb Y_p\) where \(\vb Y_c\) satisfies the homogeneous version of \eqref{matrix1}:
+	      \begin{equation}\label{matrix2}
+		      \dot {\vb Y}_c = M\vb Y_c
+	      \end{equation}
+	\item Seek solutions of \(\vb Y_c\) in the form \(\vb v e^{\lambda t}\).
+	      \[
+		      \eqref{matrix2} \implies \lambda \vb v = M\vb v
+	      \]
+	      So the vectors \(\vb v\) are the eigenvectors, with eigenvalues \(\lambda\).
+	\item Find \(\vb Y_p\) based on the form of \(\vb F\).
+\end{enumerate}
+As a quick example, let us consider
+\begin{equation}\label{matrixexample}
+	\dot {\vb Y} - \begin{pmatrix}
+		-4 & 24 \\ 1 & -2
+	\end{pmatrix}\vb Y = \begin{pmatrix}
+		4 \\ 1
+	\end{pmatrix}e^t
+\end{equation}
+We will try \(\vb Y_c = \vb v e^{\lambda t}\), and we can compute that the eigenvalues and eigenvectors are
+\[
+	\lambda_1 = 2, \vb v_1 = \begin{pmatrix}
+		4 \\ 1
+	\end{pmatrix};\quad \lambda_2 = -8, \vb v_2 = \begin{pmatrix}
+		-6 \\ 1
+	\end{pmatrix}
+\]
+Hence,
+\[
+	\vb Y_c = A\begin{pmatrix}
+		4 \\ 1
+	\end{pmatrix}e^{2t} + B\begin{pmatrix}
+		-6 \\ 1
+	\end{pmatrix}e^{-8t}
+\]
+Now, to solve the particular integral, we will try a \(\vb Y_p\) of the form
+\[
+	\vb Y_p = \begin{pmatrix}
+		u_1 \\ u_2
+	\end{pmatrix} e^t
+\]
+We have
+\begin{align*}
+	\eqref{matrixexample} \implies \begin{pmatrix}
+		                               u_1 \\ u_2
+	                               \end{pmatrix} - \begin{pmatrix}
+		                                               -4 & 24 \\ 1 & -2
+	                                               \end{pmatrix}\begin{pmatrix}
+		                                                            u_1 \\ u_2
+	                                                            \end{pmatrix} & = \begin{pmatrix}
+		                                                                              4 \\ 1
+	                                                                              \end{pmatrix} \\
+	I\begin{pmatrix}
+		 u_1 \\ u_2
+	 \end{pmatrix} - \begin{pmatrix}
+		                 -4 & 24 \\ 1 & -2
+	                 \end{pmatrix}\begin{pmatrix}
+		                              u_1 \\ u_2
+	                              \end{pmatrix}                & = \begin{pmatrix}
+		                                                               4 \\ 1
+	                                                               \end{pmatrix}                \\
+	\begin{pmatrix}
+		5 & -24 \\ -1 & 3
+	\end{pmatrix}\begin{pmatrix}
+		             u_1 \\ u_2
+	             \end{pmatrix}                   & = \begin{pmatrix}
+		                                                 4 \\ 1
+	                                                 \end{pmatrix}                              \\
+	\begin{pmatrix}
+		u_1 \\ u_2
+	\end{pmatrix}                                & = \begin{pmatrix}
+		                                                 -4 \\ -1
+	                                                 \end{pmatrix}
+\end{align*}
+So the general solution is
+\[
+	\vb Y = A\begin{pmatrix}
+		4 \\ 1
+	\end{pmatrix}e^{2t} + B\begin{pmatrix}
+		-6 \\ 1
+	\end{pmatrix}e^{-8t} - \begin{pmatrix}
+		4 \\ 1
+	\end{pmatrix}e^t
+\]
+If the forcing term matches one of the complementary functions, we would try \(\vb Y_p = \vb u te^{\lambda t}\).
+
+\subsection{Decoupling ODEs}
+From a linear system of \(n\) first order ODEs, we can construct \(n\) uncoupled \(n\)th order ODEs.
+For the above example \eqref{matrixexample},
+\begin{align}
+	\label{decouple1} \dot y_1 & = -4y_1 + 24y_2 + 4e^t \\
+	\label{decouple2} \dot y_2 & = y_1 - 2y_2 + e^t
+\end{align}
+We will create a linear equation for \(\ddot y\).
+First, we will take the derivative of \eqref{decouple1}.
+\[
+	\ddot y_1 = -4\dot y_1 + 24\dot y_2 + 4e^t
+\]
+Now we will substitute in \eqref{decouple2} for \(\dot y_2\).
+\[
+	\ddot y_1 = -4\dot y_1 + 24(y_1 - 2y_2 + e^t) + 4e^t
+\]
+Now we can substitute back in the original equation \eqref{decouple1} to remove the \(y_2\) term.
+\[
+	\ddot y_1 = -4\dot y_1 + 24\left(y_1 - \frac{1}{12}(\dot y_1 + 4y_1 - 4e^t) + e^t\right) + 4e^t
+\]
+\[
+	\ddot y_1 = -4\dot y_1 + 24y_1 - 2\dot y_1 - 8y_1 + 8e^t + 28e^t
+\]
+\[
+	\ddot y_1 + 6\dot y_1 - 16y_1 = 36e^t
+\]
+which we can solve as normal.
+The general solution matches the first component of the general solution vector from above.
+We can of course construct an analogous equation for \(y_2\), which would match the second component of the solution vector.
+
+\subsection{Phase portraits}
+For some complementary function \(\vb Y_c\) (or equivalently, a solution to a homogeneous system of linear first order ODEs) satisfying
+\begin{equation}\label{phasematrix}
+	\dot {\vb Y}_c = M\vb Y_c
+\end{equation}
+Therefore,
+\[
+	\vb Y_c = A\vb v_1 e^{\lambda_1 t} + B\vb v_2 e^{\lambda_2 t}
+\]
+Let us consider three cases.
+\begin{enumerate}
+	\item \(\lambda_1, \lambda_2\) real and opposite sign.
+	      Without loss of generality, let \(\lambda_1 > 0\).
+	      %TODO draw this phase portrait
+	      The origin here is known as a `saddle node' as the solution curves for \(A=0\) and \(B=0\) cross at the origin.
+	\item \(\lambda_1, \lambda_2\) real and same sign.
+	      let us say that without loss of generality that \(\abs{\lambda_1} > \abs{\lambda_2}\).
+	      If they are both negative, %TODO this portrait
+	      Here the origin is a stable node as all solution curves tend towards it.
+	      If \(\lambda_1, \lambda_2\) are both positive, %TODO this
+	      The origin here is an unstable node as the curves tend away from it.
+	\item \(\lambda_1, \lambda_2\) form a complex conjuate pair.
+	      If the real parts are negative, %TODO graph
+	      This is a stable spiral; the curves tend towards zero.
+	      If the real parts are positive we have an unstable spiral:
+	      %TODO graph
+	      If the real part is zero, the solution curves are circles.
+	      This is known as a centre.
+	      %TODO graph
+\end{enumerate}
+Note that to find the direction of rotations in these phase portraits, we would need to evaluate the system of equations at a given point to find the signs of the derivatives \(\dot y_1, \dot y_2\).
+
+\subsection{Nonlinear systems of ODEs}
+Consider an autonomous system of two nonlinear first order ODEs:
+\begin{align}
+	\label{nonlinear1} \dot x & = f(x, y) \\
+	\label{nonlinear2} \dot y & = g(x, y)
+\end{align}
+where `nonlinear' means that \(f\) and \(g\) are nonlinear functions of \(x\) and \(y\), and where `autonomous' means that the independent variable \(t\) does not explicitly show up in these equations.
+We will consider the equilibrium points, or fixed points.
+Let \((x_0, y_0)\) be a fixed point, i.e.
+\[
+	\dot x = \dot y = 0 \implies f(x_0, y_0) = g(x_0, y_0) = 0
+\]
+at this point.
+We may want to understand the stability of such fixed points by perturbation analysis, like before.
+Let us consider a small perturbation away from the fixed point.
+\[
+	(x, y) = (x_0 + \xi(t), y_0 + \eta(t))
+\]
+We have
+\[
+	\eqref{nonlinear1} \implies \dot \xi = f(x_0 + \xi, y_0 + \eta)
+\]
+We can expand this in a multivariate Taylor series, keeping the first three terms --- the constant term and the two linear terms.
+\begin{align*}
+	\dot \xi  & \approx f(x_0, y_0) + \xi f_x(x_0, y_0) + \eta f_y(x_0, y_0) \\
+	          & = \xi f_x(x_0, y_0) + \eta f_y(x_0, y_0)                     \\
+	\dot \eta & \approx g(x_0, y_0) + \xi g_x(x_0, y_0) + \eta g_y(x_0, y_0) \\
+	          & = \xi g_x(x_0, y_0) + \eta g_y(x_0, y_0)
+\end{align*}
+Hence,
+\[
+	\begin{pmatrix}
+		\dot \xi \\ \dot \eta
+	\end{pmatrix} = \eval{\begin{pmatrix}
+			f_x & f_y \\ g_x & g_y
+		\end{pmatrix}}_{x_0, y_0} \begin{pmatrix}
+		\xi \\ \eta
+	\end{pmatrix}
+\]
+This is a homogeneous linear system of ODEs.
+The eigenvalues of \(M\), which we will call \(\lambda_1, \lambda_2\), determine the stability and behaviour.
+This is just the same as the phase portrait analysis above to determine whether the perturbed point tends to the origin or not, and exactly how this movement happens.
+
+\subsection{Lotka-Volterra equations}
+This is a worked example of a coupled set of differential equations, which model a predator-prey system.
+Let the quantity of prey be represented by \(x\), and the quantity of the predator be \(y\).
+Then
+\begin{align*}
+	\dot x & = \alpha x - \beta xy = f(x, y) \\
+	\dot y & = \delta xy - \gamma y = g(x,y)
+\end{align*}
+where \(\alpha, \beta, \gamma, \delta\) are positive real constants.
+We will start by analysing the fixed points, where \(\dot x = \dot y = 0\).
+\[
+	\dot x = 0 \implies x=0 \text{ or } y = \frac{\alpha}{\beta}
+\]
+\[
+	\dot y = 0 \implies y=0 \text{ or } x = \frac{\gamma}{\delta}
+\]
+Therefore,
+\[
+	(x_0, y_0) = (0, 0), \left( \frac{\gamma}{\delta}, \frac{\alpha}{\beta} \right)
+\]
+Using matrix methods,
+\[
+	M = \begin{pmatrix}
+		f_x & f_y \\
+		g_x & g_y
+	\end{pmatrix} = \begin{pmatrix}
+		\alpha - \beta y & -\beta x          \\
+		\delta y         & \delta x - \gamma
+	\end{pmatrix}
+\]
+Now we can analyse the stability of these fixed points by perturbation analysis.
+\begin{itemize}
+	\item At the fixed point \((0, 0)\), we have
+	      \[
+		      \begin{pmatrix}
+			      \dot \xi \\
+			      \dot \eta
+		      \end{pmatrix} = \begin{pmatrix}
+			      \alpha & 0 \\ 0 & -\gamma
+		      \end{pmatrix} \begin{pmatrix}
+			      \xi \\ \eta
+		      \end{pmatrix}
+	      \]
+	      We can read off the eigenvalues to be \(\alpha\) and \(-\gamma\).
+	      This is a saddle node, since one direction will increase (\(x\)) and one will decrease (\(y\)).
+	\item At the fixed point \(\left( \frac{\gamma}{\delta}, \frac{\alpha}{\beta} \right)\), we have
+	      \[
+		      \begin{pmatrix}
+			      \dot \xi \\
+			      \dot \eta
+		      \end{pmatrix} = \begin{pmatrix}
+			      0 & -\beta\frac{\gamma}{\delta} \\ \delta\frac{\alpha}{\beta} & 0
+		      \end{pmatrix} \begin{pmatrix}
+			      \xi \\ \eta
+		      \end{pmatrix}
+	      \]
+	      The characteristic equation is \(\chi_M(\lambda) = \lambda^2 + \alpha\lambda = 0\), so \(\lambda = \pm \sqrt{-\alpha\gamma}\).
+	      Since \(\alpha\gamma > 0\), it is more convenient to write \(\lambda = \pm i\sqrt{\alpha\gamma}\).
+	      Since the real part is zero, this gives a centre node.
+	      To work out the direction of rotation, let us consider the \(x\) direction,
+	      \[
+		      \dot \xi = -\beta\frac{\gamma}{\delta}\eta
+	      \]
+	      If \(\eta > 0\), then \(\dot \xi < 0\), so we have anticlockwise rotation.
+\end{itemize}
+Now we can sketch a graph taking into account both of these fixed points, visually interpolating the values between them.
+% TODO do this graph
+
+\subsection{First order wave equation and method of characteristics}
+We will define a partial differential equation to be a differential equation with multiple independent variables.
+Here, we will consider three examples, starting with the first order wave equation.
+Consider a function \(y(x, t)\) where
+\begin{equation}\label{wave1}
+	\frac{\partial y}{\partial t} - c\frac{\partial y}{\partial x} = 0
+\end{equation}
+where \(c\) is a constant.
+We will solve this equation with the method of characteristics.
+%TODO random-looking graph
+Imagine moving a `probe' along a path \(x(t)\).
+Then \(y\) is a function \(y(x(t), t)\), where now the only independent variable is \(t\).
+Using the multivariate chain rule,
+\[
+	\frac{\dd{y}}{\dd{t}} = \frac{\partial y}{\partial t} + \frac{\partial y}{\partial x}\frac{\dd{x}}{\dd{t}}
+\]
+Comparing this with \eqref{wave1}, we note that if \(\frac{\dd{x}}{\dd{t}} = -c\), then \(\frac{\dd{y}}{\dd{t}} = 0\).
+So we have found a path along which the `probe' is at a constant height, i.e.\ along \(x(t) = x_0 - ct\), \(y\) is a constant.
+We can update our graph now showing the `characteristics' we have just shown to exist.
+%TODO graph
+If \(y(x, t = 0) = f(x)\), then \(y = f(x_0)\) along the characteristics.
+Hence, our general solution is
+\[
+	y = f(x+ct)
+\]
+Let us consider some examples of wave equations \(f\).
+\begin{enumerate}
+	\item (unforced wave equation) Let \(y(x,0) = x^2 - 3\) in \eqref{wave1}.
+	      Then
+	      \[
+		      y(x, t) = (x+ct)^2 - 3
+	      \]
+	\item (forced wave equation) Let
+	      \[
+		      \frac{\partial y}{\partial t} + 5\frac{\partial y}{\partial x} = e^{-t}
+	      \]
+	      and
+	      \[
+		      y(x, 0) = e^{-x^2}
+	      \]
+	      Then along paths with \(\frac{\dd{x}}{\dd{t}} = 5\) or \(x=x_0 + 5t\),
+	      \[
+		      \frac{\dd{y}}{\dd{t}} = e^{-t}
+	      \]
+	      So by integration,
+	      \[
+		      y = A-e^{-t}
+	      \]
+	      along these paths.
+	      Applying our initial condition at \(t=0\), our `probe' is at \(x_0\) and \(y(x, 0) = A - 1 = e^{-x_0^2}\).
+	      Hence, \(A = 1 + e^{-x_0^2}\).
+	      So
+	      \[
+		      y = 1 + e^{-x_0^2} - e^{-t}
+	      \]
+	      along the path given by \(x_0\).
+	      Substituting back for a general \(x\), we can create a formula for the general solution of \(y\) (not necessarily on a given path):
+	      \[
+		      y = 1 + e^{-(x-5t)^2} - e^{-t}
+	      \]
+\end{enumerate}

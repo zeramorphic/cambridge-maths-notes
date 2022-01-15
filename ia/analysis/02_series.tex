@@ -1,0 +1,87 @@
+\subsection{Definition}
+Let \(a_n\) be a real or complex sequence.
+We say that \(\sum_{j=1}^\infty a_j\) converges to \(s\) if the sequence of partial sums \(s_N\) converges to \(s\) as \(N \to \infty\), i.e.
+\[
+	s_N = \sum_{j=1}^N a_j \to s
+\]
+If the sequence of partial sums does not converge, then we say that the series diverges.
+Note that any problem on series can be turned into a problem on sequences, by considering their partial sums.
+\begin{lemma}
+	\begin{enumerate}[(i)]
+		\item If \(\sum_{j=1}^\infty a_j\) and \(\sum_{j=1}^\infty b_j\) converge, then so does \(\sum_{j=1}^\infty (\lambda a_j + \mu b_j)\), where \(\lambda, \mu \in \mathbb C\).
+		\item Suppose \(\exists N\) such that \(a_j = b_j\) for all \(j \geq N\).
+		      Then either \(\sum_{j=1}^\infty a_j\) and \(\sum_{j=1}^\infty b_j\) both converge, or they both diverge.
+		      In other words, the initial terms do not matter for considering convergence (but the sum will change).
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	\begin{enumerate}[(i)]
+		\item We have
+		      \begin{align*}
+			      s_N            & = \sum_{j=1}^N (\lambda a_j + \mu b_j)            \\
+			                     & = \sum_{j=1}^N \lambda a_j + \sum_{j=1}^N \mu b_j \\
+			                     & = \lambda c_N + \mu d_N                           \\
+			      \therefore s_N & \to \lambda c + \mu d
+		      \end{align*}
+		\item For any \(n \geq N\), we have
+		      \begin{align*}
+			      s_N & = \sum_{j=1}^n a_j = \sum_{j=1}^{N-1} a_j + \sum_{j=n}^N a_j \\
+			      d_N & = \sum_{j=1}^n b_j = \sum_{j=1}^{N-1} b_j + \sum_{j=n}^N b_j \\
+		      \end{align*}
+		      Taking the difference, we get
+		      \[
+			      s_N - d_N = \sum_{j=1}^{N-1} a_j - \sum_{j=1}^{N-1} b_j
+		      \]
+		      which is finite.
+		      So \(s_N\) converges if and only if \(d_N\) also converges.
+	\end{enumerate}
+\end{proof}
+
+\subsection{Geometric series}
+Let \(a_n = x^{n-1}\), where \(n \geq 1\).
+Then
+\[
+	s_n = \sum_{j=1}^n a_j = 1 + x + x^2 + \dots + x^{n-1}
+\]
+Then
+\[
+	s_n = \begin{cases}
+		\frac{1 - x^n}{1 - x} & \text{if } x \neq 1 \\
+		n                     & \text{if } x = 1
+	\end{cases}
+\]
+This can be shown by observing that
+\[
+	x s_n = x + x^2 + \dots + x^n = s_n - 1 + x^n \implies s_n(1-x) = 1-x^n
+\]
+If \(\abs{x} < 1\), then \(x^n \to 0\) as \(x \to \infty\).
+So \(s_n \to \frac{1}{1-x}\).
+If \(x > 1\), then \(x^n \to \infty\) and so \(s_n \to \infty\).
+If \(x < -1\), \(s_n\) oscillates.
+For completeness, if \(x=-1\), \(s_n\) oscillates between 0 and 1.
+
+Note that the statement \(s_n \to \infty\) means that given \(a \in \mathbb R\), \(\exists N\) such that \(s_n > a\) for all \(n \geq N\), and a similar statement holds for negative infinity (swapping the inequality).
+If \(s_n\) does not converge or tend to \(\pm \infty\), we say that \(s_n\) oscillates.
+
+Thus the geometric series converges if and only if \(\abs{x} < 1\).
+Note that to prove that \(x^n \to 0\) if \(\abs{x} < 1\), we can consider the case \(0 < x < 1\) and write \(1/x = 1 + \delta\) for some positive \(\delta\).
+Then \(x^n = \frac{1}{(1 + \delta)^n} \leq \frac{1}{1 + \delta n}\) from the binomial expansion, and this tends to zero as required.
+
+\begin{lemma}
+	If \(\sum_{j=1}^\infty a_j\) converges, then \(\lim_{j \to \infty} a_j = 0\).
+\end{lemma}
+\begin{proof}
+	Given \(s_n = \sum_{j=1}^n a_j\), we have \(a_n = s_n - s_{n-1}\).
+	If \(s_n \to a\), then \(a_n \to 0\) since \(s_{n-1}\) also tends to \(a\).
+\end{proof}
+\begin{remark}
+	The converse is not true.
+	For example, the harmonic series diverges, but the terms approach zero.
+	Consider
+	\begin{align*}
+		s_{2n} & = s_n + \frac{1}{n+1} + \frac{1}{n+2} + \dots + \frac{1}{2n} \\
+		       & > s_n + \frac{1}{2n} + \frac{1}{2n} + \dots + \frac{1}{2n}   \\
+		       & = s_n + \frac{1}{2}
+	\end{align*}
+	So as \(n \to \infty\), if the sequence is convergent then the sequences \(s_n\) and \(s_{2n}\) tend to the same limit, but they clearly do not.
+\end{remark}

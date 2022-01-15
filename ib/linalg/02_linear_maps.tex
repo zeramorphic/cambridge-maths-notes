@@ -1,0 +1,690 @@
+\subsection{Linear maps}
+\begin{definition}
+	If \( V, W \) are \( F \)-vector spaces, a map \( \alpha \colon V \to W \) is \textit{linear} if
+	\[
+		\forall \lambda_1, \lambda_2 \in F, \forall v_1, v_2 \in V, \alpha(\lambda_1 v_1 + \lambda_2 v_2) = \lambda_1 \alpha(v_1) + \lambda_2 \alpha(v_2)
+	\]
+\end{definition}
+\begin{example}
+	Let \( M \) be a matrix with \( n \) rows and \( m \) columns.
+	Then the map \( \alpha \colon \mathbb R^m \to \mathbb R^n \) defined by \( x \mapsto M x \) is a linear map.
+\end{example}
+\begin{example}
+	Let \( \alpha \colon \mathcal C([0,1], \mathbb R) \to \mathcal C([0,1], \mathbb R) \) defined by \( f \mapsto a(f)(x) = \int_0^x f(t) \dd{t} \).
+	This is linear.
+\end{example}
+\begin{example}
+	Let \( x \in [a,b] \).
+	Then \( \alpha \colon \mathcal C([a,b], \mathbb R) \to \mathbb R \) defined by \( f \mapsto f(x) \) is a linear map.
+\end{example}
+\begin{remark}
+	Let \( U, V, W \) be \( F \)-vector spaces.
+	Then,
+	\begin{enumerate}[(i)]
+		\item The identity function \( i_V \colon V \to V \) defined by \( x \mapsto x \) is linear.
+		\item If \( alpha \colon U \to V \) and \( \beta \colon V \to W \) are linear, then \( \beta \circ \alpha \) is linear.
+	\end{enumerate}
+\end{remark}
+\begin{lemma}
+	Let \( V, W \) be \( F \)-vector spaces.
+	Let \( B \) be a basis for \( V \).
+	If \( \alpha_0 \colon B \to V \) is \textit{any} map (not necessarily linear), then there exists a unique linear map \( \alpha \colon V \to W \) extending \( \alpha_0 \): \( \forall v \in B, \alpha_0(v) = \alpha(v) \).
+\end{lemma}
+\begin{proof}
+	Let \( v \in V \).
+	Then, given \( B = (v_1, \dots, v_n) \).
+	\[
+		v = \sum_{i=1}^n \lambda_i v_i
+	\]
+	By linearity,
+	\[
+		\alpha(v) = \alpha\qty(\sum_{i=1}^n \lambda_i v_i) = \sum_{i=1}^n \alpha(\lambda_i v_i) = \sum_{i=1}^n \alpha_0(\lambda_i v_i)
+	\]
+\end{proof}
+\begin{remark}
+	This lemma is also true in infinite-dimensional vector spaces.
+	Often, to define a linear map, we instead define its action on the basis vectors, and then we `extend by linearity' to construct the entire map.
+\end{remark}
+\begin{remark}
+	If \( \alpha_1, \alpha_2 \colon V \to W \) are linear maps, then if they agree on any basis of \( V \) then they are equal.
+\end{remark}
+
+\subsection{Isomorphism}
+\begin{definition}
+	Let \( V, W \) be \( F \)-vector spaces.
+	A map \( \alpha \colon V \to W \) is an \textit{isomorphism} if and only if
+	\begin{enumerate}[(i)]
+		\item \( \alpha \) is linear
+		\item \( \alpha \) is bijective
+	\end{enumerate}
+	If such an \( \alpha \) exists, we say that \( V \) and \( W \) are isomorphic, written \( V \simeq W \).
+\end{definition}
+\begin{remark}
+	If \( \alpha \) in the above definition is an isomorphism, then \( \alpha^{-1} \colon W \to V \) is linear.
+	Indeed, if \( w_1, w_2 \in W \) with \( w_1 = \alpha(v_1) \) and \( w_2 = \alpha(v_2) \),
+	\[
+		\alpha^{-1} (w_1 + w_2) = \alpha^{-1} (\alpha(v_1) + \alpha(v_2)) = \alpha^{-1} \alpha (v_1 + v_2) = v_1 + v_2 = \alpha^{-1}(w_1) + \alpha^{-1}(w_2)
+	\]
+	Similarly, for \( \lambda \in F, w \in W \),
+	\[
+		\alpha^{-1}(\lambda w) = \lambda \alpha^{-1}(w)
+	\]
+\end{remark}
+\begin{lemma}
+	Isomorphism is an equivalence relation on the class of all vector spaces over \( F \).
+\end{lemma}
+\begin{proof}
+	\begin{enumerate}[(i)]
+		\item \( i_V \colon V \to V \) is an isomorphism
+		\item If \( \alpha \colon V \to W \) is an isomorphism, \( \alpha^{-1} \colon W \to V \) is an isomorphism.
+		\item If \( \beta \colon U \to V, \alpha \colon V \to W \) are isomorphisms, then \( \alpha \circ \beta \colon U \to W \) is an isomorphism.
+	\end{enumerate}
+	The proofs of each part are left as an exercise.
+\end{proof}
+\begin{theorem}
+	If \( V \) is an \( F \)-vector space of dimension \( n \), then \( V \simeq F^n \).
+\end{theorem}
+\begin{proof}
+	Let \( B = (v_1, \dots, v_n) \) be a basis for \( V \).
+	Then, consider \( \alpha \colon V \to F^n \) defined by
+	\[
+		v = \sum_{i=1}^n \lambda_i v_i \mapsto \begin{pmatrix}\lambda_1 \\ \vdots \\ \lambda_n \end{pmatrix}
+	\]
+	We claim that this is an isomorphism.
+	This is left as an exercise.
+\end{proof}
+\begin{remark}
+	Choosing a basis for \( V \) is analogous to choosing an isomorphism from \( V \) to \( F^n \).
+\end{remark}
+\begin{theorem}
+	Let \( V, W \) be \( F \)-vector spaces with finite dimensions \( n, m \).
+	Then,
+	\[
+		V \simeq W \iff n = m
+	\]
+\end{theorem}
+\begin{proof}
+	If \( \dim V = \dim W = n \), then there exist isomorphisms from both \( V \) and \( W \) to \( F^n \).
+	By transitivity, therefore, there exists an isomorphism between \( V \) and \( W \).
+
+	Conversely, if \( V \simeq W \) then let \( \alpha \colon V \to W \) be an isomorphism.
+	Let \( B \) be a basis of \( V \), then we claim that \( \alpha(B) \) is a basis of \( W \).
+	Indeed, \( \alpha(B) \) spans \( W \) from the surjectivity of \( \alpha \), and \( \alpha(B) \) is free due to injectivity.
+\end{proof}
+
+\subsection{Kernel and image}
+\begin{definition}
+	Let \( V, W \) be \( F \)-vector spaces.
+	Let \( \alpha \colon V \to W \) be a linear map.
+	We define the kernel and image as follows.
+	\[
+		N(\alpha) = \ker\alpha = \qty{v \in V \colon \alpha(v) = 0}
+	\]
+	\[
+		\Im(\alpha) = \qty{w \in W \colon \exists v \in V, w = \alpha(v)}
+	\]
+\end{definition}
+\begin{lemma}
+	\( \ker \alpha \) is a subspace of \( V \), and \( \Im \alpha \) is a subspace of \( W \).
+\end{lemma}
+\begin{proof}
+	Let \( \lambda_1, \lambda_2 \in F \) and \( v_1, v_2 \in \ker \alpha \).
+	Then
+	\[
+		\alpha(\lambda_1 v_1 + \lambda_2 v_2) = \lambda_1 \alpha(v_1) + \lambda_2 \alpha(v_2) = 0
+	\]
+	Hence \( \lambda_1 v_1 + \lambda_2 v_2 \in \ker \alpha \).
+
+	Now, let \( \lambda_1, \lambda_2 \in F \), \( v_1, v_2 \in V \), and \( w_1 = \alpha(v_1), w_2 = \alpha(v_2) \).
+	Then
+	\[
+		\lambda_1 w_1 + \lambda_2 w_2 = \lambda_1 \alpha(v_1) + \lambda_2 \alpha(v_2) = \alpha(\lambda_1 v_1 + \lambda_2 v_2) \in \Im \alpha
+	\]
+\end{proof}
+\begin{remark}
+	\( \alpha \colon V \to W \) is injective if and only if \( \ker \alpha = \{ 0 \} \).
+	Further, \( \alpha \colon V \to W \) is surjective if and only if \( \Im \alpha = W \).
+\end{remark}
+\begin{theorem}
+	Let \( V, W \) be \( F \)-vector spaces.
+	Let \( \alpha \colon V \to W \) be a linear map.
+	Then \( \overline \alpha \colon V / \ker \alpha \to \Im \alpha \) defined by
+	\[
+		\overline \alpha (v + \ker \alpha) = \alpha(v)
+	\]
+	is an isomorphism.
+	\textit{This is the isomorphism theorem from IA Groups.}
+\end{theorem}
+\begin{proof}
+	First, note that \( \overline\alpha \) is well defined.
+	Suppose \( v + \ker \alpha = v' + \ker \alpha \).
+	Then \( v - v' \in \ker \alpha \), hence
+	\[
+		\alpha(v - v') = 0 \implies \alpha(v) - \alpha(v') = 0
+	\]
+	so \( \overline\alpha \) is indeed well defined.
+
+	Now, we show \( \overline\alpha \) is injective.
+	\[
+		\overline\alpha(v + \ker \alpha) = 0 \implies \alpha(v) = 0 \implies v \in \ker \alpha
+	\]
+	Hence, \( v + \ker \alpha = 0 + \ker \alpha \).
+
+	Further, \( \overline\alpha \) is surjective.
+	This follows from the definition the image.
+\end{proof}
+
+\subsection{Rank and nullity}
+\begin{definition}
+	The \textit{rank} of \( \alpha \) is
+	\[
+		r(\alpha) = \dim\Im \alpha
+	\]
+	The \textit{nullity} of \( \alpha \) is
+	\[
+		n(\alpha) = \dim\ker \alpha
+	\]
+\end{definition}
+\begin{theorem}[Rank-nullity theorem]
+	Let \( U, V \) be \( F \)-vector spaces such that the dimension of \( U \) is finite.
+	Let \( \alpha \colon U \to V \) be a linear map.
+	Then,
+	\[
+		\dim U = r(\alpha) + n(\alpha)
+	\]
+\end{theorem}
+\begin{proof}
+	We have proven that \( U / \ker \alpha \simeq \Im \alpha \).
+	Hence, the dimensions on the left and right match: \( \dim (U/\ker\alpha) = \dim \Im \alpha \).
+	\[
+		\dim U - \dim \ker \alpha = \dim \Im \alpha
+	\]
+	and the result follows.
+\end{proof}
+\begin{lemma}[Characterisation of isomorphisms]
+	Let \( V, W \) be \( F \)-vector spaces with equal, finite dimension.
+	Let \( \alpha \colon V \to W \) be a linear map.
+	Then, the following are equivalent.
+	\begin{enumerate}[(i)]
+		\item \( \alpha \) is injective.
+		\item \( \alpha \) is surjective.
+		\item \( \alpha \) is an isomorphism.
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	Clearly, (iii) follows from (i) and (ii) and vice versa.
+	The rest of the proof is left as an exercise, which follows from the rank-nullity theorem.
+\end{proof}
+
+\subsection{Space of linear maps}
+Let \( V \) and \( W \) be \( F \)-vector spaces.
+Consider the space of linear maps from \( V \) to \( W \).
+Then \( L(V,W) = \qty{\alpha \colon V \to W \text{ linear}} \).
+\begin{proposition}
+	\( L(V,W) \) is an \( F \)-vector space under the operation
+	\[
+		(\alpha_1 + \alpha_2)(v) = \alpha_1(v) + \alpha_2(v);
+	\]
+	\[
+		(\lambda \alpha)(v) = \lambda( \alpha(v) )
+	\]
+	Further, if \( V \) and \( W \) are finite-dimensional, then so is \( L(V,W) \) with
+	\[
+		\dim_F L(V,W) = \dim_F V \dim_F W
+	\]
+\end{proposition}
+\begin{proof}
+	Proving that \( L(V,W) \) is a vector space is left as an exercise.
+	The dimensionality part is proven later.
+\end{proof}
+
+\subsection{Matrices}
+\begin{definition}
+	An \( m \times n \) matrix over \( F \) is an array of \( m \) rows and \( n \) columns, with entries in \( F \).
+\end{definition}
+We write \( M_{m \times n}(F) \) for the set of \( m \times n \) matrices over \( F \).
+\begin{proposition}
+	\( M_{m \times n}(F) \) is an \( F \)-vector space under
+	\[
+		((a_{ij}) + (b_{ij})) = (a_{ij} + b_{ij});
+	\]
+	\[
+		\lambda (a_{ij}) = (\lambda a_{ij})
+	\]
+\end{proposition}
+\begin{proposition}
+	\( \dim_F M_{m,n}(F) = m n \).
+\end{proposition}
+\begin{proof}
+	Consider the basis defined by, the `elementary matrix' for all \( i,j \):
+	\[
+		e_{pq} = \delta_{ip}\delta_{jq}
+	\]
+	Then \( (e_{ij}) \) is a basis of \( M_{m \times n}(F) \), since it spans \( M_{m \times n}(F) \) and we can show that it is free.
+\end{proof}
+
+\subsection{Linear maps as matrices}
+Consider bases \( B \) of \( V \) and \( C \) of \( W \):
+\[
+	B = (v_1, \dots, v_n); C = (w_1, \dots, w_n)
+\]
+Then let \( v \in V \).
+We have
+\[
+	v = \sum_{j=1}^n \lambda_j v_j \equiv [v]_B = \begin{pmatrix}
+		\lambda_1 \\ \vdots \\ \lambda_n
+	\end{pmatrix} \in F^n
+\]
+where the vector given is the coordinates in basis \( B \).
+We can equivalently find \( [w]_C \), the coordinates of \( w \) in basis \( C \).
+We can now define a matrix of some linear map \( \alpha \) in the \( B, C \) basis.
+\begin{definition}
+	\[
+		[\alpha]_{B,C} = \begin{pmatrix}
+			[\alpha(v_1)]_C, \dots, [\alpha(v_n)]_C
+		\end{pmatrix} \in M_{m\times n}(F)
+	\]
+\end{definition}
+Note that if \( [\alpha]_{BC} = (a_{ij}) \), then by definition
+\[
+	\alpha (v_j) = \sum_{i=1}^n a_{ij} w_i
+\]
+\begin{lemma}
+	For all \( v \in V \),
+	\[
+		[\alpha(v)]_C = [\alpha]_{BC} \cdot [v]_{B}
+	\]
+\end{lemma}
+\begin{proof}
+	We have
+	\[
+		v = \sum_{i=1}^n \lambda_j v_j
+	\]
+	Hence
+	\[
+		\alpha\qty(\sum_{i=1}^n \lambda_j v_j) = \sum_{j=1}^n \lambda_j \alpha(v_j) = \sum_{j=1}^n \lambda_i \sum_{i=1}^m a_{ij} w_i = \sum_{i=1}^m \qty( \sum_{j=1}^n a_{ij} \lambda_j ) w_i
+	\]
+\end{proof}
+\begin{lemma}
+	Let \( \beta \colon U \to V \) and \( \alpha \colon V \to W \) bea linear.
+	Then, if \( A,B,C \) are bases of \( U,V,W \) respectively, then
+	\[
+		[\alpha \circ \beta]_{A,C} = [\alpha]_{B,C} \cdot [\beta]_{A,B}
+	\]
+\end{lemma}
+\begin{proof}
+	Consider \( u \in A \).
+	Then
+	\[
+		(\alpha \circ \beta)(u) = \alpha(\beta(u))
+	\]
+	giving
+	\[
+		\alpha\qty(\sum_j b_{jp} v_i) = \sum_j b_{jp} \alpha(v_j) = \sum_j b_{jp} \sum_i a_{ij} w_i = \sum_i ( \sum_j a_{ij} b_{jp} ) w_i
+	\]
+	where \( a_{ij} p_{jp} \) is the \( (i,j) \) element of \( AB \) by the definition of the product of matrices.
+\end{proof}
+\begin{proposition}
+	If \( V, W \) are \( F \)-vector spaces, and \( \dim V = n, \dim W = m \), then
+	\[
+		L(V,W) \simeq M_{m \times n}(F)
+	\]
+	which implies the dimensionailty of \( L(V,W) \) in \( F \) is \( m \times n \).
+\end{proposition}
+\begin{proof}
+	Consider two bases \( B, C \) of \( V, W \).
+	We claim that
+	\[
+		\theta \colon L(V,W) \to M_{m \times n}(F)
+	\]
+	defined by \( \theta(\alpha) = [\alpha]_{B,C} \).
+	is an isomorphism.
+	First, note that \( \theta \) is linear.
+	Then, \( \theta \) is surjective; consider any matrix \( A = (a_{ij}) \) and consider \( \alpha \colon v_j \mapsto \sum_{i=1}^m a_{ij} w_i \).
+	Then this is certainly a linear map which extends uniquely by linearity to \( A \), giving \( [\alpha]_{B,C} = (a_{ij}) = A \).
+	Now, \( \theta \) is injective since \( [\alpha]_{B,C} = 0 \implies \alpha = 0 \).
+\end{proof}
+\begin{remark}
+	If \( B,C \) are bases of \( V,W \) respectively, and \( \varepsilon_B \colon V \to F^n \) is defined by \( v \mapsto [v]_B \), and analogously for \( \varepsilon_C \), then
+	\[
+		[\alpha]_{B,C} \circ \varepsilon_B = \varepsilon_C \circ \alpha
+	\]
+	so the operations commute.
+\end{remark}
+\begin{example}
+	Let \( \alpha \colon V \to W \) be a linear map and \( Y \leq V \), where \( V, W \) are finite-dimensional.
+	Then let \( \alpha(Y) = Z \leq W \).
+	Consider a basis \( B \) of \( V \), such that \( B' = (v_1, \dots, v_k) \) is a basis of \( Y \) completed by \( B'' = (v_{k+1}, \dots, v_n) \) into \( B = B' \cup B'' \).
+	Then let \( C \) be a basis of W, such that \( C' = (w_1, \dots, w_\ell) \) is a basis of \( Z \) completed by \( C'' = (w_{\ell + 1}, \dots, w_m) \) into \( C = C' \cup C'' \).
+	Then
+	\[
+		[\alpha]_{B,C} = \begin{pmatrix}
+			\alpha(v_1) & \dots & \alpha(v_k) & \alpha(v_{k+1}) & \dots & \alpha(v_n)
+		\end{pmatrix}
+	\]
+	For \( 1 \leq i \leq k \), \( \alpha(v_i) \in Z \) since \( v_i \in Y, \alpha(Y) = Z \).
+	So the matrix has an upper-left \( \ell \times k \) block \( A \) which is \( \alpha \colon Y \to Z \) on the basis \( B', C' \).
+	We can show further that \( \alpha \) induces a map \( \overline{\alpha} \colon V / Y \to W / Z \) by \( v + Y \mapsto \alpha(v) + Z \).
+	This is well-defined; \( v_1 + Y = v_2 + Y \) implies \( v_1 - v_2 \in Y \) hence \( \alpha(v_1 - v_2) \in Z \) as required.
+	The bottom-right block is \( [\overline{\alpha}]_{B'', C''} \).
+\end{example}
+
+\subsection{Change of basis}
+Suppose we have two bases \( B = \qty{v_1, \dots, v_n}, B' = \qty{v_1', \dots, v_n'} \) of \( V \) and corresponding \( C, C' \) for \( W \).
+If we have a linear map \( [\alpha]_{B,C} \), we are interested in finding the components of this linear map in another basis, that is,
+\[
+	[\alpha]_{B,C} \mapsto [\alpha]_{B',C'}
+\]
+\begin{definition}
+	The \textit{change of basis} matrix \( P \) from \( B' \) to \( B \) is
+	\[
+		P = \begin{pmatrix}
+			[v_1']_B & \cdots & [v_n']_B
+		\end{pmatrix}
+	\]
+	which is the identity map in \( B' \), written
+	\[
+		P = [I]_{B', B}
+	\]
+\end{definition}
+\begin{lemma}
+	For a vector \( v \),
+	\[
+		[v]_B = P [v]_{B'}
+	\]
+\end{lemma}
+\begin{proof}
+	We have
+	\[
+		[\alpha(v)]_C = [\alpha]_{B,C} \cdot [v]_C
+	\]
+	Since \( P = [I]_{B', B} \),
+	\[
+		[I(v)]_B = [I]_{B', B} \cdot [v]_{B'} \implies [v]_B = P[v]_{B'}
+	\]
+	as required.
+\end{proof}
+\begin{remark}
+	\( P \) is an invertible \( n \times n \) square matrix.
+	In particular,
+	\[
+		P^{-1} = [I]_{B,B'}
+	\]
+	Indeed,
+	\[
+		I_n = [I \cdot I]_{B,B} = [I]_{B',B} \cdot [I]_{B',B}
+	\]
+	where \( I_n \) is the \( n \times n \) identity matrix.
+\end{remark}
+\begin{proposition}
+	If \( \alpha \) is a linear map from \( V \) to \( W \), and \( P = [I]_{B',B}, Q = [I]_{C',C} \), we have
+	\[
+		A' = [\alpha]_{B',C'} = [I]_{C,C'}[\alpha]_{B,C}[I]_{B,'B} = Q^{-1}AP
+	\]
+	where \( A = [\alpha]_{B,C}, A' = [\alpha]_{B',C'} \).
+\end{proposition}
+\begin{proof}
+	\begin{align*}
+		[\alpha(v)]_C                     & = Q [\alpha(v)]_{C'}          \\
+		                                  & = Q [\alpha]_{B',C'} [v]_{B'} \\
+		[\alpha(v)]_C                     & = [\alpha]_{B,C} [v]_B        \\
+		                                  & = AP[v]_{B'}                  \\
+		\therefore \forall v,\ QA[v]_{B'} & = AP[v]_{B'}                  \\
+		\therefore QA                     & = AP
+	\end{align*}
+	as required.
+\end{proof}
+
+\subsection{Equivalent matrices}
+\begin{definition}
+	Matrices \( A, A' \) are called \textit{equivalent} if
+	\[
+		A' = Q^{-1}AP
+	\]
+	for some invertible \( m \times m, n \times n \) matrices \( Q, P \).
+\end{definition}
+\begin{remark}
+	This defines an equivalence relation on \( M_{m,n}(F) \).
+	\begin{itemize}
+		\item \( A = I_m^{-1} A I_n \);
+		\item \( A' = Q^{-1} AP \implies A = Q A' P^{-1} \);
+		\item \( A' = Q^{-1}AP, A'' = (Q')^{-1}A'P' \implies A'' = (QQ')^{-1}A(PP') \).
+	\end{itemize}
+\end{remark}
+\begin{proposition}
+	Let \( \alpha \colon V \to W \) be a linear map.
+	Then there exists a basis \( B \) of \( V \) and a basis \( C \) of \( W \) such that
+	\[
+		[\alpha]_{B,C} = \begin{pmatrix}
+			I_r & 0 \\
+			0   & 0
+		\end{pmatrix}
+	\]
+	so the components of the matrix are exactly the identity matrix of size \( r \) in the top-left corner, and zeroes everywhere else.
+\end{proposition}
+\begin{proof}
+	We first fix \( r \in \mathbb N \) such that \( \dim \ker \alpha = n - r \).
+	Then we will construct a basis \( \qty{v_{r+1}, \dots, v_n} \) of the kernel.
+	We extend this to a basis of the entrety of \( V \), that is, \( \qty{v_1,\dots,v_n} \).
+	Then, we want to show that
+	\[
+		\qty{\alpha(v_1), \dots, \alpha(v_r)}
+	\]
+	is a basis of \( \Im \alpha \).
+	Indeed, it is a generating family:
+	\begin{align*}
+		v         & = \sum_{i=1}^n \lambda_i v_i         \\
+		\alpha(v) & = \sum_{i=1}^n \lambda_i \alpha(v_i) \\
+		          & = \sum_{i=1}^r \lambda_i \alpha(v_i) \\
+	\end{align*}
+	Then if \( y \in \Im \alpha \), there exists \( v \) such that \( \alpha(v) = y \).
+	Further, it is a free family:
+	\begin{align*}
+		\sum_{i=1}^r \lambda_i \alpha(v_i)                        & = 0                            \\
+		\alpha\qty(\sum_{i=1}^r \lambda_i v_i)                    & = 0                            \\
+		\sum_{i=1}^r \lambda_i v_i                                & \in \ker \alpha                \\
+		\sum_{i=1}^r \lambda_i v_i                                & = \sum_{i=r+1}^n \lambda_i v_i \\
+		\sum_{i=1}^r \lambda_i v_i - \sum_{i=r+1}^n \lambda_i v_i & = 0                            \\
+	\end{align*}
+	But since \( \qty{v_1, \dots, v_n} \) is a basis, \( \lambda_i = 0 \) for all \( i \).
+	Hence \( \qty{\alpha(v_i)} \) is a basis of \( \Im \alpha \).
+	Now, we wish to extend this basis to the whole of \( W \) to form
+	\[
+		\qty{\alpha(v_1), \dots, \alpha(v_r), w_{r+1}, \dots, w_n}
+	\]
+	Now,
+	\begin{align*}
+		[\alpha]_{BC} & = \begin{pmatrix}
+			                  \alpha(v_1) & \cdots & \alpha(v_r) & \alpha(v_{r+1}) & \cdots & \alpha(v_n)
+		                  \end{pmatrix} \\
+		              & = \begin{pmatrix}
+			                  I_r & 0 \\
+			                  0   & 0
+		                  \end{pmatrix}
+	\end{align*}
+\end{proof}
+\begin{remark}
+	This also proves the rank-nullity theorem:
+	\[
+		\rank \alpha + \null \alpha = n
+	\]
+\end{remark}
+\begin{corollary}
+	Any \( m \times n \) matrix \( A \) is equivalent to a matrix of the form
+	\[
+		\begin{pmatrix}
+			I_r & 0 \\
+			0   & 0
+		\end{pmatrix}
+	\]
+	where \( r = \rank A \).
+\end{corollary}
+
+\subsection{Rank}
+\begin{definition}
+	Let \( A \in M_{m,n}(F) \).
+	Then, the \textit{column rank} of \( A \), here denoted \( r_c(A) \), is the dimension of the subspace of \( F^n \) spaned by the column vectors.
+	\[
+		r_c(A) = \dim \vecspan \qty{c_1, \dots, c_n}
+	\]
+\end{definition}
+\begin{remark}
+	If \( \alpha \) is a linear map, represented in bases \( B, C \) by the matrix \( A \), then
+	\[
+		\rank \alpha = r_c(A)
+	\]
+\end{remark}
+\begin{proposition}
+	Two matrices are equivalent if they have the same column rank:
+	\[
+		r_c(A) = r_c(A')
+	\]
+\end{proposition}
+\begin{proof}
+	If the matrices are equivalent, then \( A = [\alpha]_{BC}, A' = [\alpha]_{B',C'} \).
+	Then
+	\[
+		r_c(A) = r_c(\alpha) = r_c(A')
+	\]
+	Conversely, if \( r_c(A) = r_c(A') = r \), then \( A, A' \) are equivalent to
+	\[
+		\begin{pmatrix}
+			I_r & 0 \\
+			0   & 0
+		\end{pmatrix}
+	\]
+	By transitivity, \( A, A' \) are equivalent.
+\end{proof}
+\begin{theorem}
+	Column rank \( r_c(A) \) and row rank \( r_c(A^\transpose) \) are equivalent.
+\end{theorem}
+\begin{proof}
+	Let \( r = r_C(A) \).
+	Then,
+	\[
+		Q^{-1}AP = \begin{pmatrix}
+			I_r & 0 \\
+			0   & 0
+		\end{pmatrix}_{m \times n}
+	\]
+	Then, consider
+	\[
+		P^\transpose A^\transpose \qty(Q^{-1})^\transpose = (Q^{-1}AP)^\transpose = \begin{pmatrix}
+			I_r & 0 \\
+			0   & 0
+		\end{pmatrix}_{m \times n}^\transpose = \begin{pmatrix}
+			I_r & 0 \\
+			0   & 0
+		\end{pmatrix}_{n \times m}
+	\]
+	Note that we can swap the transpose and inverse on \( Q \) because
+	\begin{align*}
+		(AB)^\transpose          & = B^\transpose A^\transpose           \\
+		\qty(QQ^{-1})^\transpose & = Q^\transpose \qty(Q^{-1})\transpose \\
+		I                        & = Q^\transpose \qty(Q^{-1})\transpose \\
+		\qty(Q^\transpose)^{-1}  & = \qty(Q^{-1})\transpose
+	\end{align*}
+	Then \( r_c(A) = \rank(A) = \rank(A^\transpose) = r_c(A^\transpose) \).
+\end{proof}
+\noindent So we can drop the concepts of column and row rank, and just talk about rank as a whole.
+
+\subsection{Conjugation and similarity}
+Consider the following special case of changing basis.
+If \( \alpha \colon V \to V \) is linear, \( \alpha \) is called an \textit{endomorphism}.
+If \( B = B', C = C' \) then the special case of the change of basis formula is
+\[
+	[\alpha]_{B',B'} = P^{-1} [\alpha]_{B,B} P
+\]
+Then, we say square matrices \( A, A' \) are \textit{similar} or \textit{conjugate} if there exists \( P \) such that \( A' = P^{-1} A P \).
+
+\subsection{Elementary operations}
+\begin{definition}
+	An \textit{elementary column operation} is
+	\begin{enumerate}[(i)]
+		\item swap columns \( i, j \)
+		\item replace column \( i \) by \( \lambda \) multiplied by the column
+		\item add \( \lambda \) multiplied by column \( i \) to column \( j \)
+	\end{enumerate}
+\end{definition}
+We define analogously the elementary row operations.
+Note that these elementary operations are invertible (for \( \lambda \neq 0 \)).
+These operations can be realised through the action of elementary matrices.
+For instance, the column swap operation can be realised using
+\[
+	T_{ij} = \begin{pmatrix}
+		I_n & 0 & 0   \\
+		0   & A & 0   \\
+		0   & 0 & I_m
+	\end{pmatrix};\quad A = \begin{pmatrix}
+		0 & 0   & 1 \\
+		0 & I_k & 0 \\
+		1 & 0   & 1
+	\end{pmatrix}
+\]
+To multiply a column by \( \lambda \),
+\[
+	n_{i,\lambda} = \begin{pmatrix}
+		I_n & 0       & 0   \\
+		0   & \lambda & 0   \\
+		0   & 0       & I_m
+	\end{pmatrix}
+\]
+To add a multiple of a column,
+\[
+	c_{ij,\lambda} = I + \lambda E_{ij}
+\]
+where \( E_{ij} \) is the matrix defined by elements \( (e_{ij})_{pq} = \delta_{ip} \delta_{jq} \).
+An elementary column (or row) operation can be performed by multiplying \( A \) by the corresponding elementary matrix from the right (on the left for row operations).
+This will essentially provide a constructive proof that any \( n \times n \) matrix is equivalent to
+\[
+	\begin{pmatrix} I_r & 0 \\ 0 & 0 \end{pmatrix}
+\]
+We will start with a matrix \( A \).
+If all entries are zero, we are done.
+So we will pick \( a_{ij} = \lambda \neq 0 \), and swap rows \( i,1 \) and columns \( j,0 \).
+This ensures that \( a_{11} = \lambda \neq 0 \).
+Now we multiply column 1 by \( \frac{1}{\lambda} \).
+Finally, we can clear out row 1 and column 1 by subtracting multiples of the first row or column.
+Then we can perform similar operations on the \( (n-1)\times(n-1) \) matrix in the bottom right block and inductively finish this process.
+
+\subsection{Gauss' pivot algorithm}
+If only row operations are used, we can reach the `row echelon' form of the matrix, a specific case of an upper triangular matrix.
+On each row, there are a number of zeroes until there is a one, called the pivot.
+First, we assume that \( a_{ij} \neq 0 \).
+We swap rows \( i, 1 \).
+Then divide the first row by \( \lambda = a_{i1} \) to get a one in the top left.
+We can use this one to clear the rest of the first column.
+Then, we can repeat on the next column, and iterate.
+This is a technique for solving a linear system of equations.
+
+\subsection{Representation of square invertible matrices}
+\begin{lemma}
+	If \( A \) is an \( n \times n \) square invertible matrix, then we can obtain \( I_n \) using only row elementary operations, or only column elementary operations.
+\end{lemma}
+\begin{proof}
+	We show an algorithm that constructs this \( I_n \).
+	This is exactly going to invert the matrix, since the resultant operations can be combined to get the inverse matrix.
+	We will show here the proof for column operations.
+	We argue by induction on the number of rows.
+	Suppose we can make the form
+	\[
+		\begin{pmatrix} I_k & 0 \\ A & B \end{pmatrix}
+	\]
+	We want to obtain the same structure with \( k+1 \) rows.
+	We claim that there exists \( j > k \) such that \( a_{k+1,j} \neq 0 \).
+	Indeed, otherwise we can show that the vector
+	\[
+		\begin{pmatrix} 0 \\ \vdots \\ 1 \\ \vdots \\ 0 \end{pmatrix} = \delta_{k+1,i}
+	\]
+	is not in the span of the column vectors of \( A \).
+	This contradicts the invertibility of the matrix.
+	Now, we will swap columns \( k+1, j \) and divide this column by \( \lambda \).
+	We can now use this 1 to clear the rest of the \( k+1 \) row.
+
+	Inductively, we have found \( A E_1 \dots E_n = I_n \) where \( E_n \) are elementary.
+	Thus, we can find \( A^{-1} \).
+\end{proof}
+\begin{proposition}
+	Any invertible square matrix is a product of elementary matrices.
+\end{proposition}
+The proof is exactly the proof of the lemma above.

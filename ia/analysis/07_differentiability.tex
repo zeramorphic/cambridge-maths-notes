@@ -1,0 +1,306 @@
+\subsection{Definitions}
+Let \(f \colon E \subseteq \mathbb C \to \mathbb C\).
+Mostly we will take \(E\) to be an interval in the real numbers, or a disc in the complex plane.
+\begin{definition}
+	Let \(x \in E\) be a point such that there exists a sequence \(x_n \in E\) with \(x_n \neq x\), but \(x_n \to x\), i.e.\ \(x\) is a limit point.
+	\(f\) is said to be differentiable at \(x\) with derivative \(f'(x)\) if
+	\[
+		\lim_{y \to x} \frac{f(y) - f(x)}{y - x} = f'(x)
+	\]
+\end{definition}
+\noindent If \(f\) is differentiable at each point in \(E\), we say that \(f\) is differentiable on \(E\).
+\begin{remark}
+	One interpretation of the definition is to write it in the form
+	\[
+		\varepsilon(h) := f(x+h) - f(x) - hf'(x);\quad \lim_{h \to 0} \frac{\varepsilon(h)}{h} = 0
+	\]
+	so \(\varepsilon\) is \(o(h)\).
+	Hence,
+	\[
+		f(x+h) = f(x) + hf'(x) + \varepsilon(h)
+	\]
+	We could have made an alternative definition for differentiability.
+	\(f\) is differentiable at \(x\) if there exists \(A\) and \(\varepsilon\) such that
+	\[
+		f(x+h) = f(x) + hA + \varepsilon(h) \text{ where } \lim_{h \to 0} \frac{\varepsilon(h)}{h} = 0
+	\]
+	If such an \(A\) exists, then it is unique, since \(A\) is the limit
+	\[
+		A = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h}
+	\]
+	We could have alternatively written the definition as
+	\[
+		f(x+h) = f(x) + hf'(x) + h\varepsilon_f(h) \text{ where } \lim_{h \to 0} \varepsilon_f(h) = 0
+	\]
+	or perhaps
+	\[
+		f(x) = f(a) + (x-a)f'(a) + (x-a)\varepsilon_f(x) \text{ where } \lim_{x \to a} \varepsilon_f(x) = 0
+	\]
+	Note further that if \(f\) is differentiable at \(x\), \(f\) is certainly continuous at \(x\).
+	This follows from the fact that \(\varepsilon(h) \to 0\), and hence \(f(x+h) \to f(x)\) as \(h \to 0\).
+\end{remark}
+\noindent As an example, let us consider \(f(x) = \abs{x}\) for \(f \colon \mathbb R \to \mathbb R\).
+Is the function at the point \(x=0\) differentiable?
+If \(x > 0\), we have \(f'(x) = 1\), but if \(x < 0\), we have \(f'(x) = -1\).
+These results can be checked directly using the definitions above.
+But we have produced two sequences for \(h \to 0\) which give different values, so the derivative is not defined here.
+
+\subsection{Differentiation of sums and products}
+\begin{proposition}
+	\begin{enumerate}[(i)]
+		\item If \(f(x) = c\) for all \(x \in E\), then \(f\) is differentiable with \(f'(x) = 0\).
+		\item If \(f\) and \(g\) are differentiable at \(x\), then so is \(f+g\), where \((f+g)'(x) = f'(x) + g'(x)\).
+		\item If \(f\) and \(g\) are differentiable at \(x\), then so is \(fg\), where \((fg)'(x) = f'(x)g(x) + g'(x)f(x)\).
+		\item If \(f\) is differentiable at \(x\) and \(f(x) \neq 0\), then so is \(\frac{1}{f}\), where \((\frac{1}{f})'(x) = \frac{-f'(x)}{(f(x))^2}\).
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	\begin{enumerate}[(i)]
+		\item \(\lim_{h \to 0} \frac{c-c}{h} = 0\) as required.
+		\item Since all relevant limits are well-defined,
+		      \[
+			      \lim_{h \to 0} \frac{f(x+h) + g(x+h) - f(x) - g(x)}{h} = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h} + \lim_{h \to 0} \frac{g(x+h) - g(x)}{h} = f'(x) + g'(x)
+		      \]
+		\item Let \(\phi(x) = f(x)g(x)\).
+		      Then, since \(f\) is continuous at \(x\),
+		      \begin{align*}
+			      \lim_{h \to 0} \frac{\phi(x+h) - \phi(x)}{h} & = \lim_{h \to 0} \frac{f(x+h)g(x+h) - f(x)g(x)}{h}                            \\
+			                                                   & = \lim_{h \to 0} f(x+h) \frac{g(x+h) - g(x)}{h} + g(x)\frac{f(x+h) - f(x)}{h} \\
+			                                                   & = \lim_{h \to 0} f(x) \frac{g(x+h) - g(x)}{h} + g(x)\frac{f(x+h) - f(x)}{h}   \\
+			                                                   & = f(x)g'(x) + g(x)f'(x)
+		      \end{align*}
+		\item Let \(\phi(x) = \frac{1}{f(x)}\).
+		      Then,
+		      \begin{align*}
+			      \lim_{h \to 0} \frac{\phi(x+h) - \phi(x)}{h} & = \lim_{h \to 0} \frac{\frac{1}{f(x+h)} - \frac{1}{f(x)}}{h} \\
+			                                                   & = \lim_{h \to 0} \frac{f(x) - f(x+h)}{hf(x)f(x+h)}           \\
+			                                                   & = \frac{-f'(x)}{f(x)f(x)}                                    \\
+		      \end{align*}
+	\end{enumerate}
+\end{proof}
+\begin{remark}
+	From (iii) and (iv), we can immediately find the quotient rule,
+	\[
+		\left( \frac{f(x)}{g(x)} \right)' = \frac{g(x)f'(x) - f(x)g'(x)}{(g(x))^2}
+	\]
+\end{remark}
+
+\subsection{Differentiating polynomial terms}
+As an example of the differentiability properties we saw last lecture, we can find the derivative of \(f(x) = x^n\) for \(n \in \mathbb Z\), \(n > 0\).
+If \(n=1\), clearly \(f'(x) = 1\).
+We can show inductively that \(f'(x) = nx^{n-1}\).
+Indeed,
+\begin{align*}
+	(x^n)' & = x \cdot (x^{n-1})' + (x)' \cdot x^{n-1} \\
+	       & = (n-1)x^{n-1} + x^{n-1}                  \\
+	       & = nx^{n-1}
+\end{align*}
+We can now take \(f(x) = x^{-n}\).
+Using the reciprocal law,
+\begin{align*}
+	f'(x) & = \frac{-(x^n)'}{(x^n)^2}  \\
+	      & = \frac{-nx^{n-1}}{x^{2n}} \\
+	      & = -nx^{-n-1}
+\end{align*}
+
+\subsection{Chain rule}
+\begin{theorem}
+	Let \(f \colon U \to \mathbb C\) be such that \(f(x) \in V\) for all \(x \in U\).
+	If \(f\) is differentiable at \(a \in U\), and \(g \colon V \to \mathbb C\) is differentiable at \(f(a) \in V\), then \(g \circ f\) is differentiable at \(a\) with
+	\[
+		gf'(a) = f'(a)g'(f(a))
+	\]
+\end{theorem}
+\begin{proof}
+	We know that we can write
+	\[
+		f(x) = f(a) + (x-a)f'(a) + \varepsilon_f(x)(x-a)
+	\]
+	where \(\lim_{x \to a} \varepsilon_f(x) = 0\).
+	Further,
+	\[
+		g(y) = g(b) + (y-b)g'(b) + \varepsilon_g(y)(y-b)
+	\]
+	where \(\lim_{y \to b} \varepsilon_g(y) = 0\), and \(b = f(a)\).
+	We will set \(\varepsilon_f(a) = 0\) and \(\varepsilon_g(b) = 0\), so they are continuous at \(x=a\) and \(y=b\), so that everything is well-defined when we begin to compose the functions.
+	Now, \(y=f(x)\), so
+	\begin{align*}
+		g(f(x)) & =  g(b) + (f(x) - b)g'(b) + \varepsilon_g(f(x))(f(x) - b)                                                                                                       \\
+		        & = g(f(a)) + \left[ (x-a)f'(a) + \varepsilon_f(x)(x-a) \right]\left[ g'(b) + \varepsilon_g(f(x)) \right]                                                         \\
+		        & = g(f(a)) + (x-a)f'(a)g'(b) + (x-a)\underbrace{\left[ \varepsilon_f(x) g'(b) + \varepsilon_g(f(x)) \left( f'(a) + \varepsilon_f(x) \right) \right]}_{\sigma(x)} \\
+	\end{align*}
+	Now, we just need to show that \(\lim_{x \to a} \sigma(x) = 0\) in order to prove the theorem.
+	Clearly
+	\[
+		\sigma(x) = \underbrace{\varepsilon_f(x)}_{\to 0} g'(b) + \underbrace{\varepsilon_g(f(x))}_{\to 0} \left( f'(a) + \varepsilon_f(x) \right)
+	\]
+	Hence \(\sigma(x) \to 0\) as required.
+\end{proof}
+
+\subsection{Rolle's theorem}
+\begin{theorem}
+	Let \(f \colon [a,b] \to \mathbb R\) be a continuous function on \([a,b]\) and differentiable on \((a, b)\).
+	If \(f(a) = f(b)\), then there exists \(c \in (a,b)\) such that \(f'(c) = 0\).
+\end{theorem}
+\begin{proof}
+	Let \(M\) be the maximum point and \(m\) be the minimum point of the function.
+	Recall that in Lecture 8 we proved that any function achieves its bounds.
+	Let \(k = f(a)\).
+	If \(M=m=k\), then \(f\) must be a constant, and clearly \(f'(c) = 0\) for every value \(c \in (a, b)\).
+	Otherwise, either \(M > k\) or \(m < k\).
+	Suppose \(M > k\) (the proof is very similar if \(m < k\)).
+	Then there exists some value \(c \in (a, b)\) such that \(f(c) = M\).
+	We would like to show that \(f'(c) = 0\), so let us suppose that \(f'(c) \neq 0\).
+	If \(f'(c) > 0\), then there are values \(d > c\) where \(f(d) > f(c)\).
+	Indeed,
+	\[
+		f(h+c) - f(c) = h\left[ f'(c) + \varepsilon(h) \right]
+	\]
+	For a small, positive \(h\), this value is positive.
+	This contradicts the fact that \(M\) is the maximum.
+	Similarly, if \(f'(c) < 0\) there are values \(d < c\) with \(f(d) > f(c)\).
+	Hence \(f'(c) = 0\).
+\end{proof}
+
+\subsection{Mean value theorem}
+We can make a small change to Rolle's theorem and obtain the mean value theorem.
+\begin{theorem}
+	Let \(f \colon [a,b] \to \mathbb R\) be a continuous function on \([a,b]\) and differentiable on \((a, b)\).
+	Then there exists \(c \in (a, b)\) such that
+	\[
+		f(b) - f(a) = f'(c)(b-a)
+	\]
+\end{theorem}
+\begin{proof}
+	Let \(\phi\) be a function defined by \(\phi(x) = f(x) - kx\), choosing a \(k\) such that \(\phi(a) = \phi(b)\).
+	We can find that
+	\[
+		f(b) - bk = f(a) - ak \implies k = \frac{f(b) - f(a)}{b - a}
+	\]
+	By Rolle's theorem, there exists \(c \in (a,b)\) such that \(\phi'(c) = 0\).
+	Now, note that \(f'(x) = \phi'(x) + k\), hence there exists \(c\) such that \(f'(c) = k\).
+\end{proof}
+\begin{remark}
+	We will often rewrite the mean value theorem as follows.
+	\[
+		f(a + h) = f(a) + hf'(a + \theta h)
+	\]
+	where \(\theta \in (0, 1)\).
+	Note, however, that \(\theta\) is a function of \(h\), so if we begin to shrink \(h\) then \(\theta\) may change.
+\end{remark}
+
+\subsection{Properties of a function from its derivative}
+We can deduce certain facts about a function by observing the properties its derivative exhibits.
+These results are mostly trivial corollaries to the mean value theorem, proven in the last lecture.
+\begin{corollary}
+	Let \(f \colon [a,b] \to \mathbb R\) be continuous, and differentiable on \((a, b)\).
+	Then we have
+	\begin{enumerate}[(i)]
+		\item If \(f'(x) > 0\) for all \(x \in (a, b)\), then \(f\) is strictly increasing on \([a, b]\);
+		\item If \(f'(x) \geq 0\) for all \(x \in (a, b)\), then \(f\) is increasing on \([a, b]\);
+		\item If \(f'(x) = 0\) for all \(x \in (a, b)\), then \(f\) is constant on \([a, b]\).
+	\end{enumerate}
+\end{corollary}
+\noindent Part (iii) of this corollary is essentially solving the most simple differential equation; we are showing that the only possible solutions to this equation are the constant functions.
+Note that similar statements about decreasing functions hold.
+\begin{proof}
+	\begin{enumerate}[(i)]
+		\item We have \(f(y) - f(x) = f'(c)(y-x)\) for some \(c \in (x, y)\).
+		      If \(f'(c) > 0\), then \(f(y) - f(x) > 0\).
+		\item Analogously to before, \(f(y) - f(x) = f'(c)(y-x)\) for some \(c \in (x, y)\).
+		      If \(f'(c) \geq 0\), then  \(f(y) - f(x) \geq 0\).
+		\item By the mean value theorem on \([a, x]\), if \(f'(c) = 0\), then \(f(x) - f(a) = 0\).
+	\end{enumerate}
+\end{proof}
+
+\subsection{Inverse function theorem}
+\begin{theorem}
+	Let \(f \colon [a, b] \to \mathbb R\) be a continuous function on \([a, b]\) and differentiable on \((a, b)\), with \(f'(x) > 0\) everywhere on \((a, b)\).
+	Let \(f(a) = c, f(b) = d\).
+	Then the function \(f \colon [a,b] \to [c,d]\) is bijective, and \(f^{-1} \colon [c,d] \to [a,b]\) is differentiable on \((c, d)\) with
+	\[
+		\left( f^{-1} \right)' (x) = \frac{1}{f'\left(f^{-1}(x)\right)}
+	\]
+\end{theorem}
+\noindent Note, in lecture 8 it was proven that a continuous strictly increasing function has a continous inverse.
+This strengthens that claim to include the differentiability property if the original function was differentiable.
+\begin{proof}
+	We know from lecture 8 that there exists \(g \colon [c,d] \to [a,b]\) which is a strictly increasing continuous function, which is the inverse of \(f\).
+	We must now show that \(g\) is differentiable and that its derivative has the required form as stated in the claim.
+	Now, let \(y = f(x)\).
+	Given \(k \neq 0\), let \(h\) be given by
+	\[
+		y + k = f(x+h)
+	\]
+	Alternatively, written in terms of \(g\),
+	\[
+		x + h = g(y + k)
+	\]
+	So clearly \(h \neq 0\).
+	Since \(g\) is continuous, if \(k \to 0\) then \(h \to 0\).
+	Then
+	\begin{align*}
+		\frac{g(y + k) - g(y)}{k}                           & = \frac{x + h - x}{f(x+h) - y}           \\
+		                                                    & = \frac{h}{f(x+h) - f(x)}                \\
+		\therefore \lim_{k \to 0} \frac{g(y + k) - g(y)}{k} & = \lim_{h \to 0} \frac{h}{f(x+h) - f(x)} \\
+		                                                    & = \frac{1}{f'(x)}
+	\end{align*}
+	as required.
+\end{proof}
+
+\subsection{Derivative of rational powers}
+First, let \(g(x) = x^{1/q}\) for some positive integer \(q\).
+We can find that \(f(x) = x^q\) has the derivative \(f'(x) = qx^{q-1}\).
+By the inverse function theorem, \(g'(x) = \frac{1}{q}x^{1/q - 1}\).
+Now, if \(g(x) = x^{p/q}\), where \(p\) is an integer and \(q\) is a positive integer, then by the chain rule \(g'(x) = \frac{p}{q}x^{p/q - 1}\) which matches the expected result.
+
+\subsection{Mean value theorem applied to limits}
+Suppose \(f, g \colon [a,b] \to \mathbb R\) are continuous, and differentiable on \((a, b)\).
+Suppose further that \(g(a) \neq g(b)\).
+The mean value theorem can be applied to both functions, and will give two points \(s, t \in (a, b)\) such that
+\[
+	\frac{f(b) - f(a)}{g(b) - g(a)} = \frac{(b-a)f'(s)}{(b-a)g'(t)} = \frac{f'(s)}{g'(t)}
+\]
+This gives us a way to simplify a limit of the form of the left hand side (as \(b \to a\)) by instead considering the right hand side.
+We can apply Cauchy's mean value theorem, seen in the next lecture.
+
+\subsection{Cauchy's mean value theorem}
+\begin{theorem}
+	If \(f, g \colon [a,b] \to \mathbb R\) are continuous, and differentiable on \((a, b)\), there exists \(t \in (a,b)\) such that
+	\[
+		(f(b) - f(a))g'(t) = f'(t)(g(b) - g(a))
+	\]
+\end{theorem}
+\noindent We can recover the normal mean value theorem from Cauchy's generalisation by taking \(g(x) = x\).
+\begin{proof}
+	Let
+	\[
+		\phi(x) = \begin{vmatrix}
+			1    & 1    & 1    \\
+			f(a) & f(x) & f(b) \\
+			g(a) & g(x) & g(b)
+		\end{vmatrix}
+	\]
+	Certainly \(\phi(x)\) is continuous on \([a,b]\) and differentiable on \((a, b)\), by using previous results.
+	Also, \(\phi(a) = \phi(b) = 0\) by observing the linear dependence of the columns.
+	By Rolle's theorem, there exists \(t \in (a, b)\) such that \(\phi'(t) = 0\).
+	We can expand \(\phi'(t)\) and this will show the required result.
+	\[
+		\phi'(x) = f'(x)g(b) - g'(x)f(b) + f(a)g'(x) - g(a)f'(x) = f'(x) [g(b) - g(a)] + g'(x) [f(a) - f(b)]
+	\]
+\end{proof}
+
+\subsection{Example of l'H\^opital's rule}
+The derivation of l'H\^opital's rule is on an example sheet, so in this subsection we will consider only a special case of it, using Cauchy's mean value theorem.
+\[
+	\ell = \lim_{x \to 0} \frac{e^x - 1}{\sin x}
+\]
+We can write
+\[
+	\ell = \lim_{x \to 0} \frac{e^x - e^0}{\sin x - \sin 0} = \frac{e^t}{\cos t}
+\]
+for some \(t \in (0, x)\).
+So as \(x \to 0\), \(t \to 0\) and hence
+\[
+	\frac{e^t}{\cos t} \to 1
+\]

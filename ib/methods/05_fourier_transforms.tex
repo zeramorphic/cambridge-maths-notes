@@ -1,0 +1,592 @@
+\subsection{Definitions}
+\begin{definition}
+	The \textit{Fourier transform} of a function \( f(x) \) is
+	\[
+		\widetilde f(k) = \mathcal F(f)(k) = \int_{-\infty}^\infty f(x) e^{-ikx} \dd{x}
+	\]
+	The \textit{inverse Fourier transform} is
+	\[
+		f(x) = \mathcal F^{-1}\qty(\widetilde f)(x) = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde f(k) e^{ikx} \dd{k}
+	\]
+	Different internally-consistent definitions exist, which distribute the multiplicative constants in different ways.
+\end{definition}
+\begin{theorem}[Fourier inversion theorem]
+	For a function \( f(x) \),
+	\[
+		\mathcal F^{-1} (\mathcal F (f))(x) = f(x)
+	\]
+	with a sufficient condition that \( f \) and \( \widetilde f \) are absolutely integrable, so
+	\[
+		\int_{-\infty}^\infty \abs{f(x)} \dd{x} = M < \infty
+	\]
+	In particular, \( f \to 0 \) as \( x \to \pm \infty \).
+\end{theorem}
+\begin{example}
+	Consider the Gaussian,
+	\[
+		f(x) = \frac{1}{\sigma \sqrt{\pi}} \exp[-\frac{x^2}{\sigma^2}]
+	\]
+	We wish to compute its Fourier transform.
+	Since \( i \sin kx \) is an odd function,
+	\[
+		\widetilde f(k) = \frac{1}{\sigma \sqrt{\pi}} \int_{-\infty}^\infty \exp[-\frac{x^2}{\sigma^2}] \exp[-ikx] \dd{x} = \frac{1}{\sigma \sqrt{\pi}} \int_{-\infty}^\infty \exp[-\frac{x^2}{\sigma^2}] \cos(kx) \dd{x}
+	\]
+	Consider, using Leibniz' rule,
+	\[
+		\dv{\widetilde f}{k} = \frac{-1}{\sigma \sqrt{\pi}} \int_{-\infty}^\infty x\exp[\frac{-x^2}{\sigma^2}] \sin kx \dd{x}
+	\]
+	Integrating by parts,
+	\begin{align*}
+		\dv{\widetilde f}{k} & = \frac{1}{\sigma \sqrt{\pi}} \qty[\frac{\sigma^2}{2} \exp[\frac{-x^2}{\sigma^2}] \sin kx]_{-\infty}^\infty - \frac{1}{\sigma \sqrt{\pi}} \int_{-\infty}^\infty \frac{k\sigma^2}{2} \exp[\frac{-x^2}{\sigma^2}] \cos kx \dd{x} \\
+		                     & = \frac{1}{\sigma \sqrt{\pi}} \int_{-\infty}^\infty \frac{k\sigma^2}{2} \exp[\frac{-x^2}{\sigma^2}] \cos kx \dd{x}                                                                                                             \\
+		                     & = -\frac{k\sigma^2}{2} \widetilde f(k)
+	\end{align*}
+	This is a differential equation for \( \widetilde f \), which gives
+	\[
+		\widetilde f(k) = C \exp[-\frac{k^2\sigma^2}{4}]
+	\]
+	Suppose \( k = 0 \).
+	Then, in the original expression for the Fourier transform, we can directly find \( \widetilde f(0) = 1 \).
+	Hence \( C \exp[-\frac{0^2\sigma^2}{4}] = 1 \implies C = 1 \).
+	Hence,
+	\[
+		\widetilde f(k) = \exp[-\frac{k^2\sigma^2}{4}]
+	\]
+	which is another Gaussian with the width parameter inverted.
+\end{example}
+
+\subsection{Converting Fourier series into Fourier transforms}
+Recall that the complex form of the Fourier series is
+\[
+	f(x) = \sum_{n=-\infty}^\infty c_n e^{ik_n x}
+\]
+where \( k_n = \frac{n\pi}{L} \).
+We can write in particular \( k_n = n \Delta k \) where \( \Delta k = \frac{\pi}{L} \).
+Then,
+\[
+	c_n = \frac{1}{2L} \int_{-L}^L f(x) e^{-ik_n x} \dd{x} = \frac{\Delta k}{2\pi} \int_{-L}^L f(x) e^{-ik_n x}\dd{x}
+\]
+Now, re-substituting into the Fourier series,
+\[
+	f(x) = \sum_{n=-\infty}^\infty \frac{\Delta k}{2\pi} e^{i k_n x} \int_{-L}^L f(x') e^{-ik_n x'} \dd{x'}
+\]
+Interpreting the sum multiplied by \( \Delta k \) as a Riemann integral,
+\[
+	f(x) \to \int_{-\infty}^\infty \frac{1}{2\pi} e^{i k_n x} \int_{-L}^L f(x') e^{-ik x'} \dd{x'} \dd{k}
+\]
+Taking the limit \( L \to \infty \),
+\[
+	f(x) = \frac{1}{2\pi} \int_{-\infty}^\infty \dd{k} e^{i k x} \int_{-\infty}^\infty \dd{x'} f(x') e^{-ik_n x'}
+\]
+which is the inverse Fourier transform of the Fourier transform of \( f \), which gives the Fourier inversion theorem.
+Note that when \( f(x) \) is discontinuous at \( x \), the Fourier transform gives
+\[
+	\mathcal F^{-1}(\mathcal F(f))(x) = \frac{1}{2}(f(x_-) + f(x_+))
+\]
+which is analogous to the result for Fourier series.
+
+\subsection{Properties of Fourier series}
+Recall the definition of the Fourier transform.
+\[
+	\widetilde f(k) = \int_{-\infty}^\infty f(x) e^{-ikx} \dd{x}
+\]
+The (inverse) Fourier transform is linear.
+\[
+	h(x) = \lambda f(x) + \mu g(x) \iff \widetilde h(k) = \lambda \widetilde f(k) + \mu \widetilde g(k)
+\]
+Translated functions transform to multiplicative factors.
+\[
+	h(x) = f(x - \lambda) \iff \widetilde h(k) = e^{-i\lambda k} \widetilde f(k)
+\]
+This is because
+\[
+	\widetilde h(k) = \int f(x - \lambda) e^{-ikx} \dd{x} = \int f(y) e^{-ik(y + \lambda)} \dd{y} = e^{-i\lambda k} \widetilde f(k)
+\]
+Frequency shifts transform to translations in frequency space.
+\[
+	h(x) = e^{i\lambda x}f(x) \implies \widetilde h(k) = \widetilde f(k - \lambda)
+\]
+A scalar multiple applied to the argument transforms into an inverse scalar multiple.
+\[
+	h(x) = f(\lambda x) \iff \widetilde h(k) = \frac{1}{\abs{\lambda}} \widetilde f\qty(\frac{k}{\lambda})
+\]
+Multiplication by \( x \) transforms into an imaginary derivative.
+\[
+	h(x) = xf(x) \iff \widetilde h(k) = i\widetilde f'(k)
+\]
+This is because
+\[
+	\int_{-\infty}^\infty f(x) e^{-ikx} \dd{x} = \frac{-1}{i} \dv{k} \int_{-\infty}^\infty f(x) e^{-ikx} \dd{x}
+\]
+Derivatives transform into a muliplication by \( ik \).
+\[
+	h(x) = f'(x) \iff \widetilde h(k) = ik \widetilde f(k)
+\]
+This is because we can integrate by parts and find
+\[
+	\widetilde h(k) = \int_{-\infty}^\infty f'(x) e^{-ikx} \dd{x} = \underbrace{\qty[f(x) e^{-ikx}]_{-\infty}^\infty}_{=0} + ik\int_{-\infty}^\infty f(x) e^{-ikx} \dd{x}
+\]
+The \textit{general duality} property states that by mapping \( x \mapsto -x \), we have
+\[
+	f(-x) = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde f(k) e^{-ikx} \dd{k}
+\]
+hence mapping \( k \leftrightarrow x \), treating \( \widetilde f \) now as a function in position space, we have
+\[
+	f(-k) = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde f(x) e^{-ikx} \dd{x}
+\]
+Thus
+\[
+	g(x) = \widetilde f(x) \iff \widetilde g(k) = 2\pi f(-k)
+\]
+We can then write the corollary that
+\[
+	f(-x) = \frac{1}{2\pi} \mathcal F(\mathcal F(f))(x)
+\]
+Finally,
+\[
+	\mathcal F^4(f)(x) = 4\pi^2 f(x)
+\]
+\begin{example}
+	Consider a function defined by
+	\[
+		f(x) = \begin{cases}
+			1 & \abs{x} \leq a   \\
+			0 & \text{otherwise}
+		\end{cases}
+	\]
+	for some \( a > 0 \).
+	By the definition of the Fourier transform,
+	\[
+		\widetilde f(k) = \int_{-\infty}^\infty f(x) e^{-ikx} \dd{x} = \int_{-a}^a e^{-ikx} \dd{x} = \int_{-a}^a \cos kx \dd{x} = \frac{2}{k} \sin ka
+	\]
+	By the Fourier inversion theorem,
+	\[
+		\frac{1}{\pi} \int_{-\infty}^\infty e^{ikx} \frac{1}{k} \sin ka \dd{k} = f(x)
+	\]
+	for \( x \neq a \).
+	Now, in this expression, let \( x = 0 \) and let \( k \mapsto x \).
+	We arrive at the Dirichlet discontinuous formula.
+	\[
+		\int_0^\infty \frac{\sin ax}{x} \dd{x} = \frac{\pi}{2} \sgn a = \begin{cases}
+			\frac{\pi}{2}  & a > 0 \\
+			0              & a = 0 \\
+			-\frac{\pi}{2} & a < 0
+		\end{cases}
+	\]
+\end{example}
+
+\subsection{Convolution theorem}
+We want to multiply Fourier transforms in the frequency domain (transformed space).
+This is useful for filtering or processing signals.
+\[
+	\widetilde h(k) = \widetilde f(k) \widetilde g(k)
+\]
+Consider the inverse.
+\begin{align*}
+	h(x) & = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde f(k) \widetilde g(k) e^{ikx} \dd{k}                                    \\
+	     & = \frac{1}{2\pi} \int_{-\infty}^\infty \qty(\int_{-\infty}^\infty f(y) e^{-iky} \dd{y}) \widetilde g(k) e^{ikx} \dd{k}   \\
+	     & = \int_{-\infty}^\infty f(y) \qty( \frac{1}{2\pi} \int_{-\infty}^\infty e^{-iky} \widetilde g(k) e^{ikx} \dd{k} ) \dd{y} \\
+	     & = \int_{-\infty}^\infty f(y) \qty( \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde g(k) e^{ik(x-y)} \dd{k} ) \dd{y}      \\
+	     & = \int_{-\infty}^\infty f(y) g(x-y) \dd{y}                                                                               \\
+	     & = (f \ast g)(x)
+\end{align*}
+where \( f \ast g \) is called the \textit{convolution} of \( f \) and \( g \).
+By duality, we also have
+\[
+	h(x) = f(x) g(x) \implies \widetilde h(k) = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde f(p) \widetilde g(k-p) \dd{p} = \frac{1}{2\pi}\qty(\widetilde f \ast \widetilde g)(k)
+\]
+
+\subsection{Parseval's theorem}
+Consider \( h(x) = g^\star(-x) \).
+Then, by letting \( x = -y \),
+\begin{align*}
+	\widetilde h(k) & = \int_{-\infty}^\infty g^\star(-x) e^{-ikx} \dd{x}      \\
+	                & = \qty[\int_{-\infty}^\infty g(-x) e^{ikx} \dd{x}]^\star \\
+	                & = \qty[\int_{-\infty}^\infty g(y) e^{-iky} \dd{y}]^\star \\
+	                & = \widetilde g^\star(k)
+\end{align*}
+Substituting this into the convolution theorem, with \( g(x) \mapsto g^\star(-x) \), we have
+\[
+	\int_{-\infty}^\infty f(y) g^\star(y-x) \dd{y} = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde f(k) \widetilde g^\star(k) e^{ikx} \dd{x}
+\]
+Taking \( x = 0 \) in this expression and mapping \( y \mapsto x \), we find
+\[
+	\int_{-\infty}^\infty f(x) g^\star(x) \dd{x} = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde f(k) \widetilde g^\star(k) \dd{x}
+\]
+Equivalently,
+\[
+	\inner{g,f} = \frac{1}{2\pi} \inner{\widetilde g, \widetilde f}
+\]
+So the inner product is conserved under the Fourier transform (up to a factor of \( 2 \pi \)).
+Now, by setting \( g^\star = f^\star \), we have
+\[
+	\int_{-\infty}^\infty \abs{f(x)}^2 \dd{x} = \frac{1}{2\pi} \int_{-\infty}^\infty \abs{\widetilde f(k)}^2 \dd{k}
+\]
+This is Parseval's theorem.
+
+\subsection{Fourier transforms of generalised functions}
+We can apply Fourier transforms to generalised functions by considering limiting distributions.
+Consider the inversion
+\begin{align*}
+	f(x) & = \mathcal F^{-1}(\mathcal F(f))(x)                                                                                                          \\
+	     & = \frac{1}{2\pi} \int_{-\infty}^\infty \qty[\int_{-\infty}^\infty f(u) e^{-iku} \dd{u}] e^{ikx} \dd{k}                                       \\
+	     & = \frac{1}{2\pi} \int_{-\infty}^\infty f(u) \underbrace{\qty[\frac{1}{2\pi} \int_{-\infty}^\infty e^{-ik(x-u)} \dd{k}]}_{\delta(x-u)} \dd{u}
+\end{align*}
+In order to reconstruct \( f(x) \) on the right hand side for any function \( f \), we must have that the bracketed term is \( \delta(x-u) \).
+So we identify
+\[
+	\delta(x-u) = \frac{1}{2\pi} \int_{-\infty}^\infty e^{ik(x-u)} \dd{k}
+\]
+If \( f(x) = \delta(x) \),
+\[
+	\widetilde f(k) = \int_{-\infty}^\infty \delta(x) e^{ikx} \dd{x} = 1
+\]
+This can be thought of as the Fourier transform of an infinitely thin Gaussian, which becomes an infinitely wide Gaussian (a constant).
+If \( f(x) = 1 \), then
+\[
+	\widetilde f(k) = \int_{-\infty}^\infty e^{-ikx}\dd{x} = 2\pi \delta(k)
+\]
+This can also be found by the duality formula.
+If \( f(x) = \delta(x - a) \), we have
+\[
+	\widetilde f(k) = e^{-ika}
+\]
+This is a translation of the original Fourier transform for the \( \delta \) function above.
+
+\subsection{Trigonometric functions}
+Let \( f(x) = \cos \omega x = \frac{1}{2} \qty(e^{ix} + e^{-ix}) \).
+Then,
+\[
+	\widetilde f(k) = \pi\qty(\delta(k+\omega) + \delta(k-\omega))
+\]
+For \( f(x) = \sin \omega x \), we have
+\[
+	\widetilde f(k) = i\pi\qty(\delta(k+\omega) - \delta(k-\omega))
+\]
+Using duality,
+\begin{align*}
+	f(x) & = \frac{1}{2}\qty(\delta(x+a) + \delta(x-a)) \implies \widetilde f(k) = \cos ka  \\
+	f(x) & = \frac{1}{2i}\qty(\delta(x+a) - \delta(x-a)) \implies \widetilde f(k) = \sin ka
+\end{align*}
+
+\subsection{Heaviside functions}
+Let \( H(x) \) be the Heaviside function, such that \( H(0) = \frac{1}{2} \).
+Then, \( H(x) + H(-x) = 1 \) for all \( x \).
+We can take the Fourier transform of this and find
+\[
+	\widetilde H(k) + \widetilde H(-k) = 2\pi \delta(k)
+\]
+Recall that \( H'(x) = \delta(x) \).
+Thus,
+\[
+	ik \widetilde H(x) = \widetilde \delta(k) = 1
+\]
+Since \( k \delta(k) = 0 \), the two equations for \( \widetilde H \) can be consistent if we take
+\[
+	\widetilde H(k) = \pi\delta(k) + \frac{1}{ik}
+\]
+
+\subsection{Dirichlet discontinuous formula}
+Recall the Dirichlet discontinuous formula:
+\[
+	\int_0^\infty \frac{\sin ax}{x} \dd{x} = \frac{\pi}{2} \sgn a = \begin{cases}
+		\frac{\pi}{2}  & a > 0 \\
+		0              & a = 0 \\
+		-\frac{\pi}{2} & a < 0
+	\end{cases}
+\]
+We can rewrite this as
+\[
+	\frac{1}{2} \sgn x = \frac{1}{2\pi} \int_{-\infty}^\infty \frac{e^{ikx}}{ik} \dd{k}
+\]
+since the cosine term divided by \( ik \) is odd.
+Hence,
+\[
+	f(x) = \frac{1}{2} \sgn x \iff \widetilde f(k) = \frac{1}{ik}
+\]
+This is the preferred form for a Heaviside-type function when used in Fourier transforms.
+
+\subsection{Solving ODEs for boundary value problems}
+Consider \( y'' - y = f(x) \) with homogeneous boundary conditions \( y \to 0 \) as \( x \to \pm \infty \).
+Taking the Fourier transform of this expression, we find
+\[
+	(-k^2 - 1) \widetilde y = \widetilde f
+\]
+Thus, the solution is
+\[
+	\widetilde y(k) = \frac{-\widetilde f(k)}{1+k^2} \equiv \widetilde f(k) \widetilde g(k)
+\]
+where \( \widetilde g(k) = \frac{-1}{1 + k^2} \).
+Note that \( \widetilde g(k) \) is the Fourier transform of \( g(x) = -\frac{1}{2} e^{-\abs{x}} \).
+Applying the convolution theorem,
+\begin{align*}
+	y(x) & = \int_{-\infty}^\infty f(u) g(x-u) \dd{u}                                                    \\
+	     & = -\frac{1}{2} \int_{-\infty}^\infty f(u) e^{-\abs{x-u}}\dd{u}                                \\
+	     & = -\frac{1}{2} \qty[ \int_{-\infty}^x f(u) e^{u-x}\dd{u} + \int_x^\infty f(u) e^{x-u}\dd{u} ]
+\end{align*}
+This is in the form of a boundary value problem Green's function.
+We can construct the same results by constructing the Green's function directly.
+
+\subsection{Signal processing}
+Suppose we have an input signal \( \mathcal I(t) \), which is acted on by some linear operator \( \mathcal L_{\text{in}} \) to yield an output \( \mathcal O(t) \).
+The Fourier transform of the input \( \widetilde{\mathcal I}(\omega) \) is called the \textit{resolution}.
+\[
+	\widetilde{\mathcal I}(\omega) = \int_{-\infty}^\infty \mathcal I(t) e^{-i\omega t} \dd{t}
+\]
+In the frequency domain, the action of \( \mathcal L_{\text{in}} \) on \( \mathcal I(t) \) means that \( \widetilde{\mathcal I}(\omega) \) is multiplied by a transfer function \( \widetilde{\mathcal R}(\omega) \).
+Thus,
+\[
+	\mathcal O(t) = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde{\mathcal R}(\omega) \widetilde{\mathcal I}(\omega) e^{i\omega t} \dd{\omega}
+\]
+The inverse Fourier transform of the transfer function, \( \mathcal R \), is called the \textit{response function}, which is given by
+\[
+	\mathcal R(t) = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde{\mathcal R}(\omega) e^{i \omega t}\dd{\omega}
+\]
+By the convolution theorem,
+\[
+	\mathcal O(t) = \int_{-\infty}^\infty \mathcal I(u) \mathcal R(t-u) \dd{u}
+\]
+Suppose there is no input (\( \mathcal I(t) = 0 \)) for \( t < 0 \).
+By causality, there should be zero output for the response function (\( \mathcal R(t) = 0 \)) for \( t < 0 \).
+Therefore, we require \( 0 < u < t \) and hence
+\[
+	\mathcal O(t) = \int_0^t \mathcal I(u) \mathcal R(t-u) \dd{u}
+\]
+which resembles an initial value problem Green's function.
+
+\subsection{General transfer functions for ODEs}
+Suppose an input-output relationship is given by a linear ODE.\@
+\[
+	\mathcal L \mathcal O(t) \equiv \qty(\sum_{i=0}^n a_i \dv[i]{x}) \mathcal O(t) \equiv \mathcal I(t)
+\]
+Here, \( \mathcal L_{\text{in}} = 1 \).
+We want to solve this ODE using a Fourier transform.
+\[
+	(a_0 + a_1 i\omega - a_2 \omega^2 - a_3 i\omega^3 + \dots + a_n (i \omega)^n) \widetilde{\mathcal O}(\omega) = \widetilde{\mathcal I}(\omega)
+\]
+We can solve this algebraically in Fourier transform space.
+The transfer function is
+\[
+	\widetilde{\mathcal R}(\omega) = \frac{1}{a_0 + \dots + a_n (i \omega)^n}
+\]
+We factorise the denominator to find partial fractions.
+Suppose there are \( J \) distinct roots \( (i \omega - c_j)^{k_j} \), where \( k_j \) is the algebraic multiplicity of the \( j \)th root, so \( \sum_{j=1}^J k_j = n \).
+So we can write
+\[
+	\widetilde{\mathcal R}(\omega) = \frac{1}{(i \omega - c_1)^{k_1} \dots (i \omega - c_J)^{k_J}}
+\]
+Expressing this as partial fractions,
+\[
+	\widetilde{\mathcal R}(\omega) = \sum_{j=1}^J \sum_{m=1}^{k_i} \frac{\Gamma_{jm}}{(i\omega - c_j)^m}
+\]
+The \( \Gamma_{jm} \) terms are constant.
+To solve this, we must find the inverse Fourier transform of \( (i\omega - a)^{-m} \).
+Recall that
+\[
+	\mathcal F^{-1}\qty(\frac{1}{i\omega - a}) = \begin{cases}
+		e^{at} & t > 0 \\
+		0      & t < 0
+	\end{cases}
+\]
+for \( \Re a < 0 \).
+So we will require \( \Re c_j < 0 \) for all \( j \) to eliminate exponentially growing solutions.
+Note that for \( n = 2 \),
+\[
+	i \dv{\omega} \qty(\frac{1}{(i \omega - a)^2})
+\]
+and recall that
+\[
+	\mathcal F (t f(t)) = i \mathcal F'(\omega)
+\]
+Hence,
+\[
+	\mathcal F^{-1}\qty(\frac{1}{(i \omega - a)^2}) = \begin{cases}
+		t e^{at} & t > 0 \\
+		0        & t < 0
+	\end{cases}
+\]
+Inductively, we arrive at
+\[
+	\mathcal F^{-1}\qty(\frac{1}{(i \omega - a)^m}) = \begin{cases}
+		\frac{t^{m-1}}{(m-1)!} e^{at} & t > 0 \\
+		0                             & t < 0
+	\end{cases}
+\]
+We can therefore invert any transfer function to obtain the response function.
+Thus the response function takes the form
+\[
+	\mathcal R(t) = \sum_{j=1}^J \sum_{m=1}^{k_i} \Gamma_{jm} \frac{t^{m-1}}{(m-1)!} e^{c_j t};\quad t > 0
+\]
+and zero for \( t < 0 \).
+We can now solve such differential equations in Green's function form, or directly invert \( \widetilde{\mathcal R}(\omega) \widetilde{\mathcal I}(\omega) \) for a polynomial \( \widetilde{\mathcal I}(\omega) \).
+
+\subsection{Damped oscillator}
+We can use the Fourier transform method to solve the differential equation
+\[
+	\mathcal L y \equiv y'' + 2py' + (p^2 + q^2)y = f(t)
+\]
+where \( p > 0 \).
+Consider homogeneous boundary conditions \( y(0) = y'(0) = 0 \).
+The Fourier transform is
+\[
+	(i\omega)^2 \widetilde y + 2 i p \omega \widetilde y + (p^2 + q^2) \widetilde y = \widetilde f
+\]
+Hence,
+\[
+	\widetilde y = \frac{\widetilde f}{-\omega^2 + 2ip\omega + p^2 + q^2} \equiv \widetilde R \widetilde f
+\]
+We can invert this using the convolution theorem by inverting \( \widetilde R \).
+\[
+	y(t) = \int_0^t \mathcal R(t-\tau) f(\tau) \dd{\tau}
+\]
+where the response function is
+\[
+	\mathcal R(t - \tau) = \frac{1}{2\pi} \int_{-\infty}^\infty \frac{e^{i\omega(t-\tau)}}{p^2 + q^2 + 2ip\omega - \omega^2} \dd{\omega}
+\]
+We can show that \( \mathcal L \mathcal R(t-\tau) = \delta(t-\tau) \); in other words, \( \mathcal R \) is the Green's function.
+
+\subsection{Discrete sampling and the Nyquist frequency}
+Suppose a signal \( h(t) \) is sampled at equal times \( t_n = n\Delta \) with a time step \( \Delta \) and values \( h_n = h(t_n) = h(n\Delta) \), for all \( n \in \mathbb Z \).
+The sampling frequency is therefore \( \Delta^{-1} \), so the sampling angular velocity is \( \omega_s = 2\pi f_s = \frac{2\pi}{\Delta} \).
+The Nyquist frequency is \( f_c = \frac{1}{2\Delta} \), which is the highest frequency actually sampled at \( \Delta \).
+Suppose we have a signal \( g_f \) with a given frequency \( f \).
+We will write
+\[
+	g_f(t) = A \cos(2\pi f t + \varphi) = \Re \qty(A e^{2 \pi i f t + \varphi}) = \frac{1}{2} \qty(A e^{2 \pi i f t + \varphi}) + \frac{1}{2} \qty(A e^{-2 \pi i f t + \varphi})
+\]
+where \( A \in \mathbb R \).
+Note that this signal has two `frequencies'; a positive and a negative frequency.
+The combination of these frequencies gives the full wave.
+Suppose we sample \( g_f(t) \) at the Nyquist frequency, so \( f = f_c \).
+Then,
+\begin{align*}
+	g_{f_c}(t_n) & = A \cos(2 \pi \frac{1}{2\Delta} n \Delta + \varphi) \\
+	             & = A \cos(\pi n + \varphi)                            \\
+	             & = A \cos \pi n \cos \phi + A \sin \pi n \sin \phi    \\
+	             & = A' \cos(2\pi f_c f_n)
+\end{align*}
+where \( A' = A \cos \phi \).
+This has removed half of the information about the wave; the ampliude and the phase have become degenerate.
+We can identify \( f_c \) with \( -f_c \) when considering the remaining information; we say that the two frequencies are \textit{aliased} together.
+Now, suppose we sample at greater than the Nyquist frequency, in particular \( f = f_c + \delta f > f_c \), where for simplicity we let \( \delta f < f_c \).
+We have
+\begin{align*}
+	g_f(t_n) & = A \cos(2\pi (f_c + \delta f)t_n + \varphi) \\
+	         & = A \cos(2\pi (f_c - \delta f)t_n - \varphi)
+\end{align*}
+So frequencies above the Nyquist frequency are reinterpreted after the sampling as a frequency lower than the Nyquist frequency.
+This aliases \( f_c + \delta f \) with \( f_c - \delta f \).
+
+\subsection{Nyquist-Shannon sampling theorem}
+\begin{definition}
+	A signal \( g(t) \) is \textit{bandwidth-limited} if it contains no frequencies above \( \omega_{\max} = 2\pi f_{\max} \).
+	In other words, \( \widetilde g(\omega) = 0 \) for all \( \abs{\omega} > \omega_{\max} \).
+	In this case,
+	\[
+		g(t) = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde g(\omega) e^{i\omega t} \dd{\omega} = \frac{1}{2\pi} \int_{-\omega_{\max}}^{\omega_{\max}} \widetilde g(\omega) e^{i\omega t} \dd{\omega}
+	\]
+\end{definition}
+\noindent Suppose we set the sampling rate to the Nyquist frequency, so \( \Delta = \frac{1}{2f_{\max}} \).
+Then,
+\[
+	g_n \equiv g(t_n) = \frac{1}{2\pi} \int_{-\omega_{\max}}^{\omega_{\max}} \widetilde g(\omega) e^{i\pi n \omega / \omega_{\max}} \dd{\omega}
+\]
+This is a complex Fourier series coefficient \( c_n \), multiplied by \( \frac{\omega_{\max}}{\pi} \).
+The Fourier series is periodic in \( \omega \) with period \( 2 \omega_{\max} \), not in space or time.
+\[
+	\widetilde g_\mathrm{per}(\omega) = \frac{\pi}{\omega_{\max}} \sum_{n=-\infty}^\infty g_n e^{-i \pi n \omega / \omega_{\max}}
+\]
+The actual Fourier transform \( \widetilde g \) is found by multiplying by a top hat window function
+\[
+	\widetilde h(\omega) = \begin{cases}
+		1 & \abs{\omega} \leq \omega_{\max} \\
+		0 & \text{otherwise}
+	\end{cases}
+\]
+Hence,
+\[
+	\widetilde g(\omega) = \widetilde g_\mathrm{per}(\omega) \widetilde h(\omega)
+\]
+Note that this relation is exact.
+Inverting this expression,
+\begin{align*}
+	g(t) & = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde g_\mathrm{per}(\omega) \widetilde h(\omega) e^{i \omega t} \dd{\omega}                                     \\
+	     & = \frac{1}{2\omega_{\max}} \sum_{n=-\infty}^\infty g_n \int_{-\omega_{\max}}^{\omega_{\max}} \exp(i \omega\qty(t - \frac{n \pi}{\omega_{\max}})) \dd{\omega}
+\end{align*}
+Only the cosine term is even, hence
+\[
+	g(t) = \frac{1}{2\omega_{\max}} \sum_{n=-\infty}^\infty g_n \frac{\sin(\omega_{\max} t - \pi n)}{\omega_{\max} t - \pi n}
+\]
+Hence, \( g(t) \) can be written \textit{exactly} as a combination of countably many discrete sample points.
+
+\subsection{Discrete Fourier transform}
+Suppose we have a finite number of samples \( h_m = h(t_m) \) for \( t_m = m \Delta \), where \( m = 0,\dots, N-1 \).
+We will approximate the Fourier transform for \( N \) frequencies within the Nyquist frequency \( f_c = \frac{1}{2\Delta} \), using equally-spaced frequencies, given by \( \Delta_f = \frac{1}{N\Delta} \) in the range \( -f_c \leq f \leq f_c \).
+We could take the convention \( f_n = n \Delta_f = \frac{n}{N\Delta} \) for \( n = -\frac{N}{2}, \dots, -\frac{N}{2} \).
+However, this overcounts the Nyquist frequency (which is aliased), giving \( N + 1 \) frequencies instead of the desired \( N \).
+Since frequencies above the Nyquist frequency are aliased to below it:
+\[
+	\qty(\frac{N}{2} + m) \Delta f = f_c + \delta f \mapsto \qty(\frac{N}{2} - m)\Delta f = -(f_c - \delta f)
+\]
+we can instead use the convention \( f_n = n \Delta_f = \frac{n}{N\Delta} \) for \( n = 0, \dots, N - 1 \).
+This counts the Nyquist frequency only once.
+The Fourier transform at a frequency \( f_n \) becomes
+\begin{align*}
+	\widetilde h(f_n) & = \int_{-\infty}^\infty h(t) e^{-2\pi if_n t} \dd{t}    \\
+	                  & \approx \Delta \sum_{m=0}^{N-1} h_m e^{-2\pi i f_n t_m} \\
+	                  & = \Delta \sum_{m=0}^{N-1} h_m e^{-2\pi i m n / N}       \\
+	                  & = \Delta \widetilde h_d(f_n)
+\end{align*}
+where the function \( \widetilde h_d(f_n) \) is the \textit{discrete Fourier transform}.
+The matrix \( [\mathrm{DFT}]_{mn} = e^{-2\pi i m n / N} \) defines the discrete Fourier transform for the vector \( h = \qty{h_m} \).
+The discrete Fourier transform is then
+\[
+	\widetilde h_d = [\mathrm{DFT}] h
+\]
+By inverting the discrete Fourier transform matrix, we find
+\[
+	h = [\mathrm{DFT}]^{-1} \widetilde h_d = \frac{1}{N} [\mathrm{DFT}]^\dagger \widetilde h_d
+\]
+since the inverse of the discrete Fourier transform matrix is its adjoint.
+The matrix is built from roots of unity \( \omega = e^{-2\pi i/N} \).
+So, for instance, \( n = 4 \) gives \( \omega = e^{-2\pi i/4} = -i \) giving
+\[
+	[\mathrm{DFT}] = \begin{pmatrix}
+		1 & 1  & 1  & 1  \\
+		1 & -i & -1 & i  \\
+		1 & -1 & 1  & -1 \\
+		1 & i  & -1 & -i
+	\end{pmatrix}
+\]
+The inverse discrete Fourier transform is
+\begin{align*}
+	h_m & = h(t_m)                                                                                  \\
+	    & = \frac{1}{2\pi} \int_{-\infty}^\infty \widetilde h(\omega) e^{i \omega t_m} \dd{\omega}  \\
+	    & = \int_{-\infty}^\infty \widetilde h(f) e^{2\pi i f t_m} \dd{f}                           \\
+	    & \approx \frac{1}{\Delta N} \sum_{n=0}^{N-1} \Delta \widetilde h_d(f_n) e^{2\pi i m n / N} \\
+	    & = \frac{1}{N} \sum_{n=0}^{N-1} \widetilde h_n e^{2\pi i m n / N}
+\end{align*}
+Hence, we can interpolate the initial function from its samples.
+\[
+	h(t) = \frac{1}{N} \sum_{n=0}^{N-1} \widetilde h_n e^{2\pi i n t / N}
+\]
+Parseval's theorem becomes
+\[
+	\sum_{m=0}^{N-1} \abs{h_m}^2 = \frac{1}{N} \sum_{n=0}^{N-1} \abs{\widetilde h_n}^2
+\]
+and the convolution theorem is
+\[
+	c_k = \sum_{m=0}^{N-1} g_m h_{k-m} \iff \widetilde c_k = \widetilde g_k \widetilde h_k
+\]
+
+\subsection{Fast Fourier transform (non-examinable)}
+While the discrete Fourier transform is an order \( O(N^2) \) operation, we can reduce this into an order \( O(n \log N) \) operation.
+Such a simplification is called the \textit{fast Fourier transform}.
+We can split the discrete Fourier transform into even and odd parts, noting that \( \omega_N = e^{-2\pi i / N} \) implies \( \omega_N^2 = e^{-2 \pi i / (N/2)} = \omega_{N/2} \)
+\begin{align*}
+	\widetilde h_k & = \sum_{n=0}^{N-1} h_n \omega_N^{nk}                                                                           \\
+	               & = \sum_{m=0}^{N/2-1} h_{2m} \omega_N^{2mk} + \sum_{m=0}^{N/2-1} h_{2m + 1} \omega_N^{(2m+1)k}                  \\
+	               & = \sum_{m=0}^{N/2-1} h_{2m} (\omega_N^2)^{mk} + \omega_N^k \sum_{m=0}^{N/2-1} h_{2m + 1} (\omega_N^2)^{mk}     \\
+	               & = \sum_{m=0}^{N/2-1} h_{2m} (\omega_{N/2})^{mk} + \omega_N^k \sum_{m=0}^{N/2-1} h_{2m + 1} (\omega_{N/2})^{mk} \\
+\end{align*}
+This algorithm iteratively reduces the Fourier transform's complexity by a factor of two, until the trivial case of finding the discrete Fourier transform of two data points.

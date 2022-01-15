@@ -1,0 +1,270 @@
+\subsection{Random variables}
+\begin{definition}
+	Consider the probability space \((\Omega, \mathcal F, \mathbb P)\).
+	A random variable \(X\) is a function \(X \colon \Omega \to \mathbb R\) satisfying
+	\[
+		\{ \omega \in \Omega \colon X(\omega) \leq x \} \in \mathcal F
+	\]
+	for any given \(x\).
+\end{definition}
+\noindent Suppose \(A \subseteq \mathbb R\).
+Then typically we write
+\[
+	\{ X \in A \} = \{ \omega \colon X(\omega) \in A \}
+\]
+as shorthand.
+Given \(A \in \mathcal F\), we define the indicator of \(A\) to be
+\[
+	1_A(\omega) = 1(\omega \in A) = \begin{cases}
+		1 & \text{if } \omega \in A \\
+		0 & \text{otherwise}
+	\end{cases}
+\]
+Because \(A \in \mathbb F\), \(1_A\) is a random variable.
+Suppose \(X\) is a random variable.
+We define probability distribution function of \(X\) to be
+\[
+	F_X \colon \mathbb R \to [0, 1];\quad F_X(x) = \prob{X \leq x}
+\]
+\begin{definition}
+	\((X_1, \dots, X_n)\) is called a random variable in \(\mathbb R^n\) if \((X_1, \dots, X_n) \colon \Omega \to \mathbb R^n\), and for all \(x_1, \dots, x_n \in \mathbb R\) we have
+	\[
+		\{ X_1 \leq x_1, \dots, X_n \leq x_n \} = \{ \omega \colon X_1(\omega) \leq x_1, \dots, X_n(\omega) \leq x_n \} \in \mathcal F
+	\]
+\end{definition}
+\noindent This definition is equivalent to saying that \(X_1, \dots, X_n\) are all random variables in \(\mathbb R\).
+Indeed,
+\[
+	\{ X_1 \leq x_1, \dots, X_n \leq x_n \} = \{ X_1 \leq x_1 \} \cap \dots \cap \{ X_n \leq x_n \}
+\]
+which, since \(\mathcal F\) is a \(\sigma\)-algebra, is an element of \(\mathcal F\).
+
+\begin{definition}
+	A random variable \(X\) is called discrete if it takes values in a countable set.
+	Suppose \(X\) takes values in the countable set \(S\).
+	For every \(x \in S\), we write
+	\[
+		p_x = \prob{X = x} = \prob{\{ \omega \colon X(\omega) = x \}}
+	\]
+	We call \((p_x)_{x \in S}\) the probability mass function of \(X\), or the distribution of \(X\).
+	If \((p_x)\) is Bernoulli for example, then we say that \(X\) is a Bernoulli (or such) random variable, or that \(X\) has the Bernoulli distribution.
+\end{definition}
+\begin{definition}
+	Suppose \(X_1, \dots, X_n\) are discrete random variables taking variables in \(S_1, \dots, S_n\).
+	We say that the random variables \(X_1, \dots, X_n\) are independent if
+	\[
+		\prob{X_1 = x_1, \dots, X_n = x_n} = \prob{X_1 = x_1} \cdots \prob{X_n = x_n}\quad \forall x_1 \in S_1, \dots, x_n \in S_n
+	\]
+\end{definition}
+\noindent As an example, suppose we toss a \(p\)-biased coin \(n\) times independently.
+Let \(\Omega = \{ 0, 1 \}^n\).
+For every \(\omega \in \Omega\),
+\[
+	p_\omega = \prod_{k=1}^n p^{\omega_k} (1-p)^{1-\omega_k};\quad \text{where we write } \omega = (\omega_1, \dots, \omega_n)
+\]
+We define a set of discrete random variables \(X_k(\omega) = \omega_k\).
+Then \(X_k\) gives the output of the \(k\)th toss.
+We have
+\[
+	\prob{X_k = 1} = \prob{\omega_k = 1} = p;\quad \prob{X_k = 0} = \prob{\omega_k = 0} = 1-p
+\]
+So \(X_k\) has the Bernoulli distribution with parameter \(p\).
+We can also show that the \(X_i\) are independent.
+Let \(x_1, \dots, x_n \in \{ 0, 1 \}\).
+Then
+\begin{align*}
+	\prob{X_1 = x_1, \dots, X_n = x_n} & = \prob{\omega = (x_1, \dots, x_n)}   \\
+	                                   & = p_{(x_1, \dots, x_n)}               \\
+	                                   & = \prod_{k=1}^N p^{x_k} (1-p)^{1-x_k} \\
+	                                   & = \prod_{k=1}^N \prob{X_k = x_k}
+\end{align*}
+as required.
+Now, we define \(S_n(\omega) = X_1(\omega) + \dots + X_n(\omega)\).
+This is the number of heads in \(N\) tosses.
+So \(S_n \colon \Omega \to \{ 0, \dots, N \}\), and
+\[
+	\prob{S_n = k} = \binom{n}{k} p^k (1-p)^{n-k}
+\]
+So \(S_n\) has the binomial distribution with parameters \(n\) and \(p\).
+
+\subsection{Expectation}
+Let \((\Omega, \mathcal F, \mathbb P)\) be a probability space such that \(\Omega\) is countable.
+Let \(X \colon \Omega \to \mathbb R\) be a random variable, which is necessarily discrete.
+We say that \(X\) is non-negative if \(X \geq 0\).
+We define the expectation of \(X\) to be
+\[
+	\expect{X} = \sum_\omega X(\omega) \cdot \prob{\{ \omega \}}
+\]
+We will write
+\[
+	\Omega_X = \{ X(\omega) \colon \omega \in \Omega \}
+\]
+So
+\[
+	\Omega = \bigcup_{x \in \Omega_X} \{ X = x \}
+\]
+So we have partitioned \(\Omega\) using \(X\).
+Note that
+\[
+	\expect{X} = \sum_\omega X(\omega) \prob{\{\omega\}} = \sum_{x \in \Omega_X} \sum_{\omega \in \{ X = x\}} X(\omega) \prob{\{\omega\}} = \sum_{x \in \Omega_X} \sum_{\omega \in \{ X = x\}} x \prob{\{\omega\}} = \sum_{x \in \Omega_X} x\prob{\{X = x \}}
+\]
+which matches the more familiar definition of the expectation; the average of the values taken by \(X\), weighted by the probability of the event occcuring.
+So
+\[
+	\expect{X} = \sum_{x \in \Omega_X} x p_x
+\]
+
+\subsection{Expectation of binomial distribution}
+Let \(X \sim \mathrm{Bin}(N, p)\).
+Then
+\[
+	\forall k = 0, \dots, N,\quad \prob{X = k} = \binom{N}{k} p^k (1-p)^{N-k}
+\]
+So using the second definition,
+\begin{align*}
+	\expect{X} & = \sum_{k=0}^N k \prob{X = k}                            \\
+	           & = \sum_{k=0}^N k \binom{n}{k} p^k (1-p)^{N-k}            \\
+	           & = \sum_{k=0}^N \frac{k \cdot N!}{k!
+	\cdot (N-k)!} p^k (1-p)^{N-k}                                         \\
+	           & = \sum_{k=1}^N \frac{(N-1)!
+		\cdot N \cdot p}{(k-1)!
+	\cdot (N-k)!} p^{k-1} (1-p)^{N-k}                                     \\
+	           & = Np \sum_{k=1}^N \binom{N-1}{k-1} p^{k-1} (1-p)^{N-k}   \\
+	           & = Np \sum_{k=0}^{N-1} \binom{N-1}{k} p^{k} (1-p)^{N-1-k} \\
+	           & = Np (p + 1 - p)^{N-1}                                   \\
+	           & = Np
+\end{align*}
+
+\subsection{Expectation of poisson distribution}
+Let \(X \sim \text{Poi}(\lambda)\), so
+\[
+	\prob{X = k} = e^{-\lambda} \frac{\lambda^k}{k!}
+\]
+Hence
+\begin{align*}
+	\expect{X} & = \sum_{k=0}^\infty k e^{-\lambda} \frac{\lambda^k}{k!}              \\
+	           & =\sum_{k=1}^\infty e^{-\lambda} \frac{\lambda^{k-1} \lambda}{(k-1)!} \\
+	           & = e^{-\lambda} \cdot e^{\lambda} \cdot \lambda                       \\
+	           & = \lambda
+\end{align*}
+
+\subsection{Expectation of a general random variable}
+Let \(X\) be a general (not necessarily non-negative) discrete random variable.
+Then we define
+\[
+	X^+ = \max(X, 0);\quad X^- = \max(-X, 0)
+\]
+Then \(X = X^+ - X^-\).
+Note that \(X^+\) and \(X^-\) are non-negative random variables, which has a well-defined expectation.
+So if at least one of \(\expect{X^+}, \expect{X^-}\) is finite, we define
+\[
+	\expect{X} = \expect{X^+} - \expect{X^-}
+\]
+If both are infinite, then we say that the expectation of \(X\) is not defined.
+Whenever we write \(\expect{X}\), it is assumed to be well-defined.
+If \(\expect{\abs{X}} < \infty\), we say that \(X\) is integrable.
+When \(\expect{X}\) is well-defined, we have again that
+\[
+	\expect{X} = \sum_{x \in \Omega_x} x \cdot \prob{X = x}
+\]
+
+\subsection{Properties of the expectation}
+The following properties follow immediately from the definition.
+\begin{enumerate}
+	\item If \(X \geq 0\), then \(\expect{X} \geq 0\).
+	\item If \(X \geq 0\) and \(\expect{X} = 0\), then \(\prob{X = 0} = 1\).
+	\item If \(c \in \mathbb R\), then \(\expect{cX} = c\expect{X}\), and \(\expect{c + X} = c + \expect{X}\).
+	\item If \(X\), \(Y\) are two integrable random variables, then \(\expect{X + Y} = \expect{X} + \expect{Y}\).
+	\item More generally, let \(c_1, \dots, c_n \in \mathbb R\) and \(X_1, \dots, X_n\) integrable random variables.
+	      Then
+	      \[
+		      \expect{c_1X_1 + \dots + c_n X_n} = c_1 \expect{X_1} + \dots + c_n \expect{X_n}
+	      \]
+	      So the expectation is a linear operator over finitely many inputs.
+\end{enumerate}
+
+\subsection{Countable additivity for the expectation}
+Suppose \(X_1, X_2, \dots\) are non-negative random variables.
+Then
+\[
+	\expect{\sum_n X_n} = \sum_n \expect{X_n}
+\]
+The non-negativity constraint allows us to guarantee that the sums are well-defined; they could be infinite, but at least their values are well-defined.
+We will construct a proof assuming that \(\Omega\) is countable, however the result holds regardless of the choice of \(\Omega\).
+\begin{proof}
+	\begin{align*}
+		\expect{\sum_n X_n} & = \sum_\omega \sum_n X_n(\omega) \prob{\{ \omega \}} \\
+		                    & = \sum_n \sum_\omega X_n(\omega) \prob{\{ \omega \}} \\
+		                    & = \sum_n \expect{X_n}
+	\end{align*}
+\end{proof}
+\noindent We are allowed to rearrange the sums since all relevant terms are non-negative.
+
+\subsection{Expectation of indicator function}
+If \(X = 1(A)\) where \(A \in \mathcal F\), then \(\expect{X} = \prob{A}\).
+This is obvious from the second definition of the expectation.
+
+\subsection{Expectation under function application}
+If \(g \colon \mathbb R \to \mathbb R\), we can define \(g(X)\) to be the random variable given by
+\[
+	g(X)(\omega) = g(X(\omega))
+\]
+Then
+\[
+	\expect{g(X)} = \sum_{x \in \Omega_X} g(x) \cdot \prob{X = x}
+\]
+\begin{proof}
+	Let \(Y = g(X)\).
+	Then
+	\[
+		\expect{Y} = \sum_{y \in \Omega_Y} y \cdot \prob{Y = y}
+	\]
+	Note that
+	\begin{align*}
+		\{ Y = y \} & = \{ \omega \colon Y(\omega) = y \}              \\
+		            & = \{ \omega \colon g(X(\omega)) = y \}           \\
+		            & = \{ \omega \colon X(\omega) \in g^{-1}(\{y\})\} \\
+		            & = \{ X \in g^{-1} (\{ y \}) \}
+	\end{align*}
+	where \(g^{-1}(\{ y \})\) is the set of all \(x\) such that \(g(x) \in \{ y \}\).
+	So
+	\begin{align*}
+		\expect{Y} & = \sum_{y \in \Omega_y} y \cdot \prob{X \in g^{-1}(\{ y \})}              \\
+		           & = \sum_{y \in \Omega_Y} y \cdot \sum_{x \in g^{-1}(\{ y \})} \prob{X = x} \\
+		           & = \sum_{y \in \Omega_Y} \sum_{x \in g^{-1}(\{y\})} g(x) \prob{X = x}      \\
+		           & = \sum_{x \in \Omega_X} g(x) \prob{X = x}
+	\end{align*}
+\end{proof}
+
+\subsection{Calculating expectation with cumulative probabilities}
+If \(X \geq 0\) and takes integer values, then
+\[
+	\expect{X} = \sum_{k=1}^\infty \prob{X \geq k} = \sum_{k=0}^\infty \prob{X > k}
+\]
+\begin{proof}
+	Since \(X\) takes non-negative integer values,
+	\[
+		X = \sum_{k=1}^\infty 1(X \geq k) = \sum_{k=0}^\infty 1(X > k)
+	\]
+	This represents the fact that any integer is the sum of that many ones, e.g.
+	\(4 = 1 + 1 + 1 + 1 + 0 + 0 + \dots\) to infinity.
+	Taking the expectation of the above formula, using that \(\expect{1(A)} = \prob{A}\) and countable additivity, we have the result as claimed.
+\end{proof}
+
+\subsection{Inclusion-exclusion formula with indicators}
+We can provide another proof of the inclusion-exclusion formula, using some basic properties of indicator functions.
+\begin{itemize}
+	\item \(1(\stcomp{A}) = 1 - 1(A)\)
+	\item \(1(A \cap B) = 1(A) \cdot 1(B)\)
+	\item Following from the above, \(1(A \cup B) = 1-(1-1(A))(1-1(B))\).
+\end{itemize}
+More generally,
+\[
+	1(A_1 \cup \dots \cup A_n) = 1-\prod_{i=1}^n(1-1(A_i))
+\]
+which gives the inclusion-exclusion formula.
+Taking the expectation of both sides, we can see that
+\[
+	\prob{A_1 \cup \dots \cup A_n} = \sum_{i=1}^n \prob{A_i} - \sum_{i_1 < i_2} \prob{A_{i_1} \cap A_{i_2}} + \dots + (-1)^{n+1}\prob{A_1 \cap \dots \cap A_n}
+\]
+which is the result as previously found.

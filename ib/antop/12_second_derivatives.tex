@@ -1,0 +1,209 @@
+\subsection{Definition}
+\begin{definition}
+	Let \( U \subset \mathbb R^m \) be an open set, and \( f \colon U \to \mathbb R^n \).
+	Let \( a \in U \).
+	Suppose that there exists an open neighbourhood \( V \) of \( a \) contained within \( U \), and \( f \) is differentiable on \( V \).
+	We say that \( f \) is \textit{twice differentiable} at \( a \) if \( f' \colon V \to L(\mathbb R^m \to \mathbb R^n) \) is differentiable at \( a \).
+	We write \( f''(a) \) for the derivative of \( f' \) at \( a \), called the \textit{second derivative} of \( f \) at \( a \).
+	Note that \( f''(a) \in L(\mathbb R^m, L(\mathbb R^m, \mathbb R^n)) \).
+\end{definition}
+\begin{remark}
+	We can visualise the second derivative as a bilinear map instead of a nested sequence of linear maps.
+	Note,
+	\[
+		L(\mathbb R^m, L(\mathbb R^m, \mathbb R^n)) \sim \mathrm{Bil}(\mathbb R^m \times \mathbb R^m, \mathbb R^n)
+	\]
+	where \( \mathrm{Bil}(X \times Y, Z) \) is the vector space of bilinear maps from \( X \times Y \) to \( Z \).
+	For \( h, k \in \mathbb R^m \), and \( T \) is the second derivative, we can say \( T(h)(k) = \widetilde T(h,k) \) where \( \widetilde T \) is a bilinear map.
+	From now on, this bilinear map notation will be used, and \( T \) and \( \widetilde T \) will be identified as the same.
+\end{remark}
+\begin{proposition}
+	Let \( U \subset \mathbb R^m \) be open, \( f \colon U \to \mathbb R^n \) be a function, and \( a \in U \).
+	Let \( f \) be differentiable on an open neighbourhood \( V \) of \( A \) contained in \( U \).
+	Then \( f \) is twice differentiable at \( a \) if and only if there exists a bilinear map \( T \in \mathrm{Bil}(\mathbb R^m \times \mathbb R^m, \mathbb R^n) \) such that for every \( k \in \mathbb R^m \), we have
+	\[
+		f'(a+h)(k) = f'(a)(k) + T(h,k) + o(\norm{h})
+	\]
+	Then \( T = f''(a) \).
+\end{proposition}
+\begin{proof}
+	Suppose \( f \) is twice differentiable at \( a \).
+	Then \( f' \) is differentiable at \( a \).
+	So,
+	\[
+		f'(a+h) = f'(a) + f''(a)(h) + \norm{h} \cdot \varepsilon(h)
+	\]
+	All terms are linear maps \( L(\mathbb R^m, \mathbb R^n) \).
+	In particular, \( \varepsilon \) is defined on \( V - a \to L(\mathbb R^m, \mathbb R^n) \) such that \( \varepsilon(0) = 0 \) and \( \varepsilon \) is continuous at zero.
+	If we evaluate this equation at a fixed \( k \in \mathbb R^m \),
+	\[
+		f'(a+h)(k) = f'(a)(k) + f''(a)(h,k) + \norm{h} \cdot \varepsilon(h)(k)
+	\]
+	Here, \( f''(a) \) is a bilinear map.
+	Further,
+	\[
+		\norm{\varepsilon(h)(k)} \leq \norm{\varepsilon(h)} \cdot \norm{k} \to 0
+	\]
+	Hence, \( \norm{h} \cdot \varepsilon(h)(k) = o\qty(\norm{h}) \).
+	Conversely, suppose \( T \) is a bilinear map and
+	\[
+		\frac{f'(a+h)(k) - f'(a)(k) - T(h,k)}{\norm{h}} \to 0
+	\]
+	for any fixed \( k \), as \( h \to 0 \).
+	We need to show that
+	\[
+		\varepsilon(h) = \frac{f'(a+h) - f'(a) - T(h)}{\norm{h}} \to 0
+	\]
+	in the space \( L(\mathbb R^m, \mathbb R^n) \).
+	We know that for a fixed \( k \in \mathbb R^m \), \( \varepsilon(h)(k) \to 0 \) in \( \mathbb R^n \) as \( h \to 0 \).
+	It then follows that
+	\[
+		\norm{\varepsilon(h)} = \sqrt{\sum_{i=1}^m \norm{\varepsilon(h)(e_i)}^2} \to 0
+	\]
+	since we are in a finite-dimensional vector space.
+\end{proof}
+\begin{example}
+	Let \( f \colon \mathbb R^m \to \mathbb R^n \) be linear.
+	Then \( f \) is differentiable on \( \mathbb R^m \) with \( f'(a) = f \) for all \( a \).
+	Hence \( f' \colon \mathbb R^m \to L(\mathbb R^m, \mathbb R^n) \) sends \( a \) to \( f \) for all \( a \).
+	So this is a constant function, so has derivative \( f''(a) = 0 \).
+\end{example}
+\begin{example}
+	Let \( f \colon \mathbb R^m \times \mathbb R^n \to \mathbb R^p \) be bilinear.
+	Then \( f \) is differentiable on \( \mathbb R^m \times \mathbb R^n \) and for all \( (a,b) \in \mathbb R^m \times \mathbb R^n \), we have
+	\[
+		f'(a,b)(h,k) = f(a,k) + f(h,b)
+	\]
+	Note that this is linear in \( (a,b) \) for a fixed \( (h,k) \).
+	Hence, \( f' \colon \mathbb R^m \times \mathbb R^n \to L(\mathbb R^m, \mathbb R^n, \mathbb R^p) \) is linear.
+	Hence this is differentiable, and its derivative is
+	\[
+		f''(a,b) = f' \in L(\mathbb R^m, \mathbb R^n, L(\mathbb R^m \times \mathbb R^n, \mathbb R^p)) \simeq \mathrm{Bil}((\mathbb R^m \times \mathbb R^n) \times (\mathbb R^m \times \mathbb R^n), \mathbb R^p)
+	\]
+\end{example}
+\begin{example}
+	Let \( f \colon M_n \to M_n \) be defined by \( f(A) = A^3 \).
+	Let \( A \) be fixed.
+	Then,
+	\begin{align*}
+		f(A+H) & = (A+H)^3 = A^3 + A^2 H + AHA + H A^2 + A H^2 + HAH + H^2 A + H^3 \\
+		       & = f(A) + (A^2 H + AHA + H A^2) + o\qty(\norm{H})
+	\end{align*}
+	Hence \( f \) is differentiable at \( A \) and
+	\[
+		f'(A)(H) = A^2 H + AHA + H A^2
+	\]
+	Thus, if \( n = 1 \), we have commutativity and hence \( f'(A) = 3A^2 \).
+	So \( f \) is differentiable on \( M_n \).
+	For a fixed \( A \) and fixed \( K \), the second derivative is given by
+	\begin{align*}
+		f'(A+H)(K) & = (A+H)^2 K + (A+H)K(A+H) + K (A+H)^2                        \\
+		           & = \underbrace{(A^2 K + AKA + K A^2)}_{f'(A)(K)}              \\
+		           & + (AHK + HAK + AKH + HKA + KAH + KHA) + (H^2 K + HKH + KH^2)
+	\end{align*}
+	The term \( T(H,K) = (AHK + HAK + AKH + HKA + KAH + KHA) \) is bilinear in \( H \) and \( K \) as required.
+	So the second derivative is \( T \).
+	In one dimension, this is equivalent to saying \( f''(A) = 6A \).
+\end{example}
+
+\subsection{Second derivatives and partial derivatives}
+Let \( U \) be open in \( \mathbb R^n \), let \( f \colon U \to \mathbb R^n \), and let \( a \in U \).
+Let \( f \) be twice differentiable at \( a \), so \( f \) is differentiable on some open neighbourhood \( V \) of \( a \) contained within \( U \), and \( f' \colon V \to L(\mathbb R^m, \mathbb R^n) \) is differentiable at \( a \).
+Recall that
+\[
+	f'(a+h) = f'(a) + f''(a)(h) + o\qty(\norm{h})
+\]
+Evaluating at a fixed \( k \),
+\[
+	f'(a+h)(k) = f'(a)(k) + f''(a)(h,k) + o\qty(\norm{h})
+\]
+Let \( u, v \in \mathbb R^m \setminus \qty{0} \) be directions.
+Let \( k = v \).
+Then,
+\[
+	f'(a+h)(v) = D_v f(a+h) = D_v f(a) + f''(a)(h,v) + o\qty(\norm{h})
+\]
+Hence, the map \( D_v f \colon V \to \mathbb R^n \) maps \( x \mapsto D_v f(x) = f'(x)(v) \).
+Then this map is differentiable at \( a \) and
+\[
+	(D_v f)'(a)(h) = f''(a)(h,v)
+\]
+Hence there exist directional derivatives.
+\[
+	D_u D_v f(a) \overset{\mathrm{def}}{=} D_u (D_v f)(a) = (D_v f)'(a)(u) = f''(a)(u,v)
+\]
+In particular, we have
+\[
+	D_i D_j f(a) = f''(a)(e_i, e_j)
+\]
+for \( 1 \leq i, j \leq m \).
+
+\subsection{Symmetry of mixed directional derivatives}
+\begin{theorem}
+	Let \( U \) be open in \( \mathbb R^n \), let \( f \colon U \to \mathbb R^n \), and let \( a \in U \).
+	Let \( f \) be twice differentiable on an open set \( V \) with \( a \in V \subset U \).
+	Let \( f'' \colon V \to \mathrm{Bil}(\mathbb R^m \times \mathbb R^m, \mathbb R^n) \) be continuous at \( a \).
+	Then, for all directions \( u,v \in \mathbb R^m \setminus \qty{0} \), we have
+	\[
+		D_u D_v f(a) = D_v D_u f(a)
+	\]
+	Equivalently,
+	\[
+		f''(a)(u,v) = f''(a)(v,u)
+	\]
+	In other words, \( f'' \) is a symmetric bilinear map.
+\end{theorem}
+\begin{proof}
+	Without loss of generality we can let \( n = 1 \).
+	Indeed, we have
+	\[
+		(D_u f)_j(x) = [D_u f(x)]_j = [f'(x)(u)]_j = f_j'(x)(u) = D_u f_j(x)
+	\]
+	Hence, \( (D_u f)_j = D_u f_j \).
+	For \( v \):
+	\[
+		(D_v D_u f)_j = D_v (D_u f)_j = D_v D_u f_j
+	\]
+	So it is sufficient to show that \( D_v D_u f_j(a) = D_u D_v f_j(a) \).
+	Now, consider
+	\[
+		\phi(s,t) = f(a+su+tv) - f(a+tv) - f(a+su) + f(a)
+	\]
+	for \( s, t \in \mathbb R \).
+	Let \( s, t \) be fixed, and consider
+	\[
+		\psi(y) = f(a+yu+tv) - f(a+yu)
+	\]
+	Note that \( \phi(s,t) \) can be written as
+	\[
+		\phi(s,t) = \psi(s) - \psi(0)
+	\]
+	The term \( \psi(s) - \psi(0) \) can be interpreted as \( (f(a+su+tv) - f(a+tv)) - (f(a+su) - f(a)) \), which is the second difference given by the function when traversing the parallelogram with sides \( su, tv \).
+	By the mean value theorem, there exists \( \alpha(s,t) \in (0,1) \) such that
+	\[
+		\phi(s,t) = \psi(s) - \psi(0) = s \psi'(\alpha s) = s \qty[ D_u f(a+\alpha s u+ tv) - D_u f(a + \alpha s u) ]
+	\]
+	Now, applying the mean value theorem to the function \( y \mapsto D_u f(a+\alpha s u + y v) \), we have
+	\[
+		\phi(s,t) = s t D_v D_u f (a+\alpha s u + \beta t v)
+	\]
+	for \( \beta(s,t) \in (0,1) \).
+	Now,
+	\[
+		\frac{\phi(s,t)}{st} = D_v D_u f(a+\alpha su + \beta tv) = f''(a+\alpha su + \beta tv)(u,v)
+	\]
+	Since \( f'' \) is continuous at \( a \), we can let \( s, t \to 0 \) and find
+	\[
+		\frac{\phi(s,t)}{st} \to f''(a)(u,v)
+	\]
+	Now, we can repeat the above using
+	\[
+		\psi(y) = f(a+su+yv) - f(a+yv)
+	\]
+	This calculates the second difference from above, but using the other path.
+	We can find
+	\[
+		\frac{\phi(s,t)}{st} \to f''(a)(v,u)
+	\]
+	as required.
+\end{proof}

@@ -1,0 +1,398 @@
+\subsection{Symmetry and antisymmetry}
+Observe for a rank 2 tensor that
+\[
+	T_{ij} = \frac{1}{2}\left( T_{ij} + T_{ji} \right) + \frac{1}{2}\left( T_{ij} - T{ji} \right) \equiv S_{ij} + A_{ij}
+\]
+where the \(S_{ij}\) are the symmetric components, and the \(A_{ij}\) are the antisymmetric components of the tensor.
+Note that the symmetric part \(S_{ij}\) has six independent components (the main diagonal and everything above it), and the antisymmetric part \(A_{ij}\) has three independent components (everything above the main diagonal) since the main diagonal is zero.
+So the number of independent components of the symmetric part and the antisymmetric part add up to the number of independent components of a general rank 2 tensor in \(\mathbb R^3\) (nine).
+Intuitively, we might think that the information contained in \(A_{ij}\) could be represented as some vector, since it has the same amount of independent components.
+\begin{proposition}
+	Every rank 2 tensor \(T_{ij}\) can be decomposed uniquely into
+	\[
+		T_{ij} = S_{ij} + \varepsilon_{ijk} \omega_k
+	\]
+	where
+	\[
+		\omega_i = \frac{1}{2}\varepsilon_{ijk} T_{jk}
+	\]
+	and \(S_{ij}\) is symmetric.
+\end{proposition}
+\begin{proof}
+	From above, we can find \(S_{ij} = \frac{1}{2}\left( T_{ij} + T_{ji} \right)\).
+	We now just need to show that
+	\[
+		\varepsilon_{ijk} \omega_k = \frac{1}{2}\left( T_{ij} - T{ji} \right)
+	\]
+	We can see that
+	\begin{align*}
+		\varepsilon_{ijk} \omega_k & = \frac{1}{2}\varepsilon_{ijk} \varepsilon_{k\ell m} T_{\ell m}                      \\
+		                           & = \frac{1}{2}\qty(\delta_{i\ell} \delta_{jm} - \delta_{im}\delta_{j\ell}) T_{\ell m} \\
+		                           & = \frac{1}{2}\qty(T_{ij} - T_{ji})
+	\end{align*}
+	To show uniqueness, we now suppose that
+	\[
+		T_{ij} = S_{ij} + A_{ij} = \widetilde{S}_{ij} + \widetilde{A}_{ij} = \widetilde{T}_{ij}
+	\]
+	If we take the symmetric part of both sides (i.e.\ \(T_{ij} + T_{ji} = \widetilde{T}_{ij} + \widetilde{T}_{ji}\)), we get \(S_{ij} = \widetilde{S}_{ij}\).
+	Likewise, we have \(A_{ij} = \widetilde{A}_{ij}\) by eliminating the equal symmetric parts.
+\end{proof}
+\noindent As an example, consider an elastic body.
+Each point \(\vb x\) in such a body will undergo a small displacement \(\vb u(\vb x)\) when applied to some force.
+Consider nearby points \(\vb x + \delta\vb x\) and \(\vb x\) that were initially separated by \(\delta x\).
+They will become separated by
+\[
+	(\vb x + \delta \vb x + \vb u(\vb x + \delta\vb x)) - (\vb x + \vb u(\vb x)) = \delta \vb x + \vb u(\vb x + \delta\vb x) - \vb u(\vb x)
+\]
+So the change in displacement is
+\[
+	\vb u(\vb x + \delta\vb x) - \vb u(\vb x)
+\]
+This value gives us an idea of how much deformation the body is subjected to.
+Assuming this is a smooth deformation, we have
+\[
+	u_i(\vb x + \delta\vb x) - u_i(\vb x) = \pdv{u_i}{x_j}\delta_{x_j} + o(\delta \vb x)
+\]
+We then decompose \(\pdv{u_i}{x_j}\) as follows.
+\[
+	\pdv{u_i}{x_j} = e_{ij} + \varepsilon_{ijk}\omega_k
+\]
+where the \(e_{ij}\) is the symmetric part, and the \(\varepsilon_{ijk}\omega_k\) is the antisymmetric part.
+In particular,
+\[
+	e_{ij} = \frac{1}{2}\qty(\pdv{u_i}{x_j} + \pdv{u_j}{x_i})
+\]
+is called the linear strain tensor.
+Considering the other tensor,
+\[
+	\omega_k = \frac{1}{2}\varepsilon_{ijk}\pdv{u_j}{x_k} = \frac{-1}{2}\qty(\curl{\vb u})_i
+\]
+Then,
+\[
+	u_i(\vb x + \delta \vb x) - u_i(\vb x) = e_{ij} \delta x_j + [\delta \vb x \times \vb \omega]_i + o(\delta \vb x)
+\]
+So the antisymmetric part corresponds to a rotation, and is irrelevant for describing the deformation of the internals of the body.
+So by separating the symmetric and antisymmetric parts, we can in fact remove the antisymmetric part from the equation in order to study just the linear strain.
+
+\begin{example}
+	As another example, let us consider the inertia tensor, which is a common rank 2 tensor.
+	Suppose a body with density \(\rho(\vb x)\) occupies a volume \(V \subset \mathbb R^3\), where each point in the body is rotating with constant angular velocity \(\vb\omega\) about an axis through the origin.
+	The velocity of a point \(\vb x \in V\) is given by \(\vb v = \vb \omega \times \vb x\).
+	Hence, the total angular momentum is
+	\begin{align*}
+		\vb L & = \int_V \rho(\vb x) (\vb x \times \vb v) \dd{V}                                         \\
+		      & = \int_V \rho(\vb x) (\vb x \times (\vb \omega \times \vb x)) \dd{V}                     \\
+		L_i   & = \int_{\mathcal V} \rho(\vb x) (x_k x_k \omega_i - x_i x_j \omega_j) \dd{V}             \\
+		      & = \int_{\mathcal V} \rho(\vb x) (x_k x_k \delta_{ij} \omega_j - x_i x_j \omega_j) \dd{V} \\
+		      & = I_{ij}\omega_j
+	\end{align*}
+	where \(I_{ij}\) is the inertia tensor defined by
+	\[
+		I_{ij} = \int_{\mathcal V} \rho(\vb x) (x_k x_k \delta_{ij} - x_i x_j) \dd{V}
+	\]
+	and where
+	\[
+		\mathcal V = \qty{ x_i \colon x_i \vb e_i \in V }
+	\]
+	If we had used a different basis, we would have found
+	\begin{align*}
+		I_{ij}' & = \int_{\mathcal V'} \rho(\vb x) (x_k' x_k' \delta_{ij} - x_i' x_j') \dd{V}          \\
+		        & = R_{ip} R_{jq} \int_{\mathcal V} \rho(\vb x) (x_k x_k \delta_{pq} - x_p x_q) \dd{V} \\
+		        & = R_{ip} R_{jq} I_{pq}
+	\end{align*}
+	So it really is a rank 2 tensor.
+	As an example, consider the ellipsoid
+	\[
+		V = \qty{ \vb x \colon \frac{x_1^2}{a^2} + \frac{x_2^2}{b^2} + \frac{x_3^2}{c^2} \leq 1 }
+	\]
+	with uniform density \(\rho_0\).
+	Then the mass is given by
+	\[
+		M = \frac{4}{3}\pi \rho_0 abc
+	\]
+	Then the inertia tensor with respect to this set of basis vectors is given by
+	\[
+		I_{ij} = \int_{\mathcal V} \rho(\vb x) (x_k x_k \delta_{ij} - x_i x_j) \dd{V}
+	\]
+	To help with these integrals, we make the following parametrisation into scaled spherical coordinates:
+	\[
+		\left\{ \begin{array}{l}
+			x_1 = ar\cos\phi\sin\theta \\
+			x_2 = br\sin\phi\sin\theta \\
+			x_3 = cr\cos\theta
+		\end{array} \right.\quad \phi\in[0, 2\pi),\theta\in[0, \pi], r \in[0, 1]
+	\]
+	Note that if \(i \neq j\), then by symmetry we have
+	\[
+		\int_V \rho_0 x_i x_j \dd{V} = 0
+	\]
+	Further,
+	\begin{align*}
+		I_{11} & = \rho_0 \int_V x_2^2 + x_3^2 \dd{V}                                                                                                                                  \\
+		       & = \rho_0 abc \int_{\phi = 0}^{2\pi} \dd{\phi} \int_{\theta = 0}^\pi \dd{\theta} \int_{r = 0}^1 \dd{r} r^2 (b^2\sin^2\phi\sin^2\theta + c^2\cos^2\theta) r^2\sin\theta \\
+		       & = \rho_0 \frac{abc}{5} \int_0^\pi (\pi b^2 \sin^2 \theta + 2\pi c^2\cos^2\theta) \sin\theta \dd{\theta}                                                               \\
+		       & = \frac{3M}{20} \int_0^\pi (b^2 \sin^2 \theta + (2c^2 - b^2)\cos^2\theta\sin\theta) \dd{\theta}                                                                       \\
+		       & = \frac{3M}{20} \qty(2b^2 + \frac{2}{3}\qty(2c^2 - b^2))                                                                                                              \\
+		       & = \frac{M}{5} (b^2 + c^2)
+	\end{align*}
+	So by symmetry,
+	\[
+		I_{22} = \frac{M}{5} (a^2 + c^2);\quad I_{33} = \frac{M}{5} (a^2 + b^2)
+	\]
+	Hence,
+	\[
+		I_{ij} = \frac{M}{5} \begin{pmatrix}
+			b^2 + c^2 & 0         & 0         \\
+			0         & a^2 + c^2 & 0         \\
+			0         & 0         & a^2 + b^2
+		\end{pmatrix}
+	\]
+	In particular, if \(a=b=c\),
+	\[
+		I_{ij} = \frac{2M}{5}\delta_{ij}
+	\]
+\end{example}
+\begin{proposition}
+	If \(T_{ij}\) is symmetric, then there exists a basis \(\{ \vb e_i \}\) for which \(T_{ij}\) only has non-zero entries on the diagonal.
+	The coordinate axes of this basis are called the principal axes of the tensor.
+\end{proposition}
+\begin{proof}
+	Recall that for a real symmetric matrix \(M\), we can diagonalise it using an orthogonal transformation with determinant 1.
+	The change of basis formula for a matrix is exactly that for a rank 2 tensor, so we can always choose such a change of basis to give a diagonal matrix.
+\end{proof}
+
+\subsection{Isotropic tensors}
+\begin{definition}
+	A tensor is isotropic if it is invariant under changes with respect to the choice of Cartesian coordinate axes.
+	\[
+		T_{ij\dots k}' = R_{ip} R_{jq} \dots R_{kr} T_{pq\dots r} = T_{ij\dots k}
+	\]
+	for any choice of rotation \(R\).
+\end{definition}
+\noindent Note that by definition, every scalar is isotropic.
+The Kronecker and Levi-Civita tensors are also isotropic, as we saw above.
+
+\subsection{Classifying isotropic tensors in three dimensions}
+\begin{proposition}
+	The isotropic tensors on \(\mathbb R^3\), ordered by rank, are exactly (up to the multiplication of a multiplicative scalar)
+	\begin{enumerate}[{Rank} 1:]
+		\setcounter{enumi}{-1}
+		\item all tensors
+		\item no non-zero tensors
+		\item the Kronecker \(\delta\)
+		\item the Levi-Civita \(\varepsilon\)
+		\item \(\alpha \delta_{ij} \delta_{k\ell} + \beta \delta_{ik} \delta_{j\ell} + \gamma \delta_{i\ell} \delta_{jk}\) where \(\alpha\), \(\beta\), \(\gamma\) are scalars
+	\end{enumerate}
+	and for ranks higher than 4, they are a linear combination of products of \(\delta\) and \(\varepsilon\) terms, for instance \(\delta_{ij}\varepsilon_{k\ell m}\).
+\end{proposition}
+\begin{proof}
+	This is a non-rigorous sketch proof.
+	\begin{enumerate}[{Rank} 1:]
+		\setcounter{enumi}{-1}
+		\item By definition, such tensors do not transform components under a change of basis.
+		\item Let \(v_i\) be the components of an isotropic vector of rank 1.
+		      Then, for any \(R\), we must have
+		      \[
+			      v_i = R_{ij} v_j
+		      \]
+		      Let \(R\) be a rotation by \(\pi\) about the \(z\) axis, so
+		      \[
+			      R = \begin{pmatrix}
+				      -1 & 0  & 0 \\
+				      0  & -1 & 0 \\
+				      0  & 0  & 1
+			      \end{pmatrix}
+		      \]
+		      Hence,
+		      \[
+			      v_1 = -v_1;\quad v_2 = -v_2;\quad v_3 = v_3
+		      \]
+		      Hence, \(v_1 = 0, v_2 = 0\).
+		      Alternatively, let
+		      \[
+			      R = \begin{pmatrix}
+				      1 & 0  & 0  \\
+				      0 & -1 & 0  \\
+				      0 & 0  & -1
+			      \end{pmatrix}
+		      \]
+		      Then clearly \(v_3 = -v_3 = 0\).
+		      Hence the only tensor with this property is the zero tensor.
+		\item If \(T_{ij}\) are the components of an isotropic tensor of rank 2, then for all choices of \(R\), we have
+		      \[
+			      T_{ij} = R_{ip} R_{jq} T_{pq}
+		      \]
+		      Let \(R\) be a rotation by \(\frac{\pi}{2}\) about each axis, so for example in the \(z\) direction,
+		      \[
+			      R = \begin{pmatrix}
+				      0  & 1 & 0 \\
+				      -1 & 0 & 0 \\
+				      0  & 0 & 1
+			      \end{pmatrix}
+		      \]
+		      So \(T_{13} = R_{1p} R_{3q} T_{pq} = R_{12} R_{33} T_{23} = T_{23}\).
+		      Analogously we find, \(T_{23} = -T_{13}\).
+		      Hence, \(T_{13} = T_{23} = 0\).
+		      Further, \(T_{11} = R_{1p} R_{1q} T_{pq} = R_{12} R_{12} T_{22} = T_{22}\).
+		      So by symmetry,
+		      \[
+			      T_{11} = T_{22} = T_{33};\quad T_{13} = T_{23} = T_{12} = T_{31} = T_{32} = T_{21} = 0
+		      \]
+		      which is exactly the \(\delta\) tensor, up to a scale factor.
+		\item For rank 3 tensors, we can use the same idea, but with more indices.
+	\end{enumerate}
+\end{proof}
+
+\subsection{Integrals with isotropic tensors}
+Consider an integral of the form
+\[
+	T_{ij\dots k} = \int_{\abs{\vb x} < R} f(r) x_i x_j \dots x_k \dd{V}
+\]
+where \(x_k x_k = r^2\), and \(\dd{V(x)} = \dd{x_1} \dd{x_2} \dd{x_3}\).
+Note that \(f(r)\) and \(\{ \vb x \colon \abs{\vb x} < R \}\) are invariant under rotation.
+Since \(\abs{J}\) under a rotation is 1, we have
+\begin{align*}
+	T_{ij\dots k}' & = \int_{\abs{\vb x} < R} f(r) x_i' x_j' \dots x_k' \dd{x_1'} \dd{x_2'} \dd{x_3'}                \\
+	               & = \int_{\abs{\vb x} < R} f(r) R_{ip} x_p R_{jq} x_q \dots R_{kr} x_r \dd{x_1} \dd{x_2} \dd{x_3}
+\end{align*}
+We will now make the substitution
+\[
+	y_i = R_{ij} x_j;\quad \dd{V} = \dd{y_1} \dd{y_2} \dd{y_3}
+\]
+Hence,
+\begin{align*}
+	T_{ij\dots k}' & = \int_{\abs{\vb x} < R} f(r) y_i y_j \dots y_k \dd{V(\vb y)} \\
+	               & = \int_{\abs{\vb x} < R} f(r) x_i x_j \dots x_k \dd{V(\vb x)} \\
+	               & = T_{ij\dots k}
+\end{align*}
+Hence such an integral always yields an isotropic tensor.
+If we take \(R \to \infty\), this corresponds to an integral over \(\mathbb R^3\).
+As an example, consider
+\[
+	T_{ij} = \int_{\mathbb R^3} e^{-r^5}x_i x_j \dd{V}
+\]
+Then \(T_{ij}\) is isotropic, hence \(T_{ij} = \alpha \delta_{ij}\).
+Contracting on \((i, j)\) to find \(\alpha\), we get
+\begin{align*}
+	\alpha \delta_{ii} & = 3\alpha                                      \\
+	                   & = \int_{\mathbb R^3} e^{-r^5} r^2 \dd{V}       \\
+	                   & = 4\pi \int_{0}^\infty e^{-r^5} r^2 r^2 \dd{r} \\
+	                   & = 4\pi \int_{0}^\infty e^{-r^5} r^4 \dd{r}     \\
+	                   & = \frac{4}{5}\pi
+\end{align*}
+Hence,
+\[
+	T_{ij} = \frac{4}{15}\pi\delta_{ij}
+\]
+As another example, consider the inertia tensor \(I_{ij}\) of a ball of radius \(R\), uniform density \(\rho_0\), and mass \(M = \frac{4\pi}{3}R^3 \rho_0\).
+Recall that
+\[
+	I_{ij} = \int_{\abs{\vb x} < R} \rho_0 (x_k x_k \delta_{ij} - x_i x_j) \dd{V}
+\]
+Both terms give an isotropic result, so the sum \(I_{ij}\) is isotropic.
+Contracting on \((i, j)\), we have
+\begin{align*}
+	\alpha \delta_{ii} & = 3\alpha                                                                  \\
+	                   & = \int_{\abs{\vb x} < R} \rho_0 (r^2 \delta_{ii} - x_i x_i) \dd{V}         \\
+	                   & = \int_{\abs{\vb x} < R} \rho_0 (3r^2 - r^2) \dd{V}                        \\
+	                   & = \int_{\abs{\vb x} < R} \rho_0 2r^2 \dd{V}                                \\
+	                   & = 4\pi \int_0^R \rho_0 2r^4 \dd{r}                                         \\
+	                   & = \frac{4\pi}{3}\rho_0 R^3 \qty(\frac{3}{R^3} \cdot 2 \cdot \frac{R^5}{5}) \\
+	                   & = \frac{6MR^2}{5}
+\end{align*}
+Hence,
+\[
+	I_{ij} = \frac{2MR^2}{5}\delta_{ij}
+\]
+
+\subsection{Bilinear and multilinear maps as tensors}
+For a tensor \(T_{ij}\), consider the bilinear map \(t \colon \mathbb R^3 \times \mathbb R^3 \to \mathbb R\) defined by
+\[
+	t(\vb a, \vb b) = T_{ij} a_i b_j
+\]
+The left hand side really is well defined, since the right hand side does not depend on the choice of basis vectors.
+Conversely, suppose we have a bilinear map \(t\).
+Then, for a given basis \(\{\vb e_i\}\), this defines an array \(T_{ij}\) by
+\[
+	t(\vb a, \vb b) = t(a_i \vb e_i, b_j \vb e_j) = a_i b_j t(\vb e_i, \vb e_j) = a_i b_j T_{ij}
+\]
+Changing basis with \(\vb e_i' = R_{ip} \vb e_p\), we find
+\[
+	T_{ij}' = t(\vb e_i', \vb e_j') = t(R_{ip} \vb e_p, R_{jq} \vb e_q) = R_{ip} R_{jq} t(\vb e_p, \vb e_q)
+\]
+hence this \(T_{ij}\) really is a rank 2 tensor.
+So there is a bijection between bilinear maps and rank 2 tensors.
+In particular, if the map
+\[
+	(\vb a, \vb b) \mapsto T_{ij} a_i b_j
+\]
+is a bilinear map, and independent of basis, then \(T_{ij}\) \textit{must} be the components of a rank 2 tensor.
+The same proof applies for higher-rank tensors.
+
+\subsection{Quotient theorem}
+Recall from earlier that the conductivity tensor \(\sigma_{ij}\) satisfying \(J_i = \sigma_{ij} E_j\) was really a tensor, by using the definitions.
+The quotient theorem allows us to deduce similar results more generally.
+The name originates from the apparent `quotient' of \(J_i\) by \(E_j\) to give \(\sigma_{ij}\).
+\begin{proposition}
+	Let \(T_{i\dots j p\dots q}\) be an array of numbers defined in each Cartesian coordinate system, such that
+	\[
+		v_{i\dots j} = T_{i\dots j p \dots q} u_{p\dots q}
+	\]
+	and that \(v_{i\dots j}\) is a tensor for all tensors \(u_{p\dots q}\).
+	Then \(T_{i\dots j p\dots q}\) is a tensor.
+\end{proposition}
+\begin{proof}
+	We will first consider the special case \(u_{p\dots q} = c_p \dots d_q\) for vectors \(\vb c, \dots, \vb d\).
+	Then by assumption,
+	\[
+		v_{i\dots j} = T_{i\dots j p \dots q} c_p \dots d_q
+	\]
+	is a tensor.
+	In particular,
+	\[
+		v_{i\dots j} a_i \dots b_j = T_{i\dots j p \dots q} a_i \dots b_j c_p \dots d_q
+	\]
+	is a scalar, since the left hand side is just a contraction over all indices.
+	Since the right hand side is invariant under a change in basis, this leads us to define the multilinear map
+	\[
+		t(\vb a, \dots, \vb b, \vb c, \dots, \vb d) = T_{i\dots j p \dots q} a_i \dots b_j c_p \dots d_q
+	\]
+	Hence \(T_{i\dots j p \dots q}\) really is a tensor.
+\end{proof}
+\noindent As an example, consider the linear strain tensor
+\[
+	e_{ij} = \frac{1}{2}\qty( \pdv{u_i}{x_j} + \pdv{u_j}{x_i} )
+\]
+where \(\vb u(\vb x)\) measures the change in displacement at \(\vb x\).
+Experiments suggest that the internal stress tensor \(\sigma_{ij}\) experienced by a body under a deformation \(\vb u(\vb x)\) depends linearly on the strain \(e_{ij}\) at each point.
+Hence we might assume that there exists some array \(c_{ijk\ell}\) such that
+\[
+	\sigma_{ij} = c_{ijk\ell} e_{k\ell}
+\]
+However, we can't actually apply the quotient theorem here, since \(e_{k\ell}\) cannot be \textit{any} tensor, it can only be any \textit{symmetric} tensor.
+See Example Sheet 4 for the resolution of this apparent problem: if \(c_{ijk\ell} = c_{ij\ell k}\), then we can apply the quotient theorem.
+We call \(c_{ijk\ell}\) the stiffness tensor, which is a property of the material being subjected to the force.
+Suppose that the material is isotropic, then we might guess that \(c_{ijk\ell}\) should be isotropic.
+Hence,
+\[
+	c_{ijk\ell} = \alpha \delta_{ij}\delta_{k\ell} + \beta \delta_{ik}\delta_{j\ell} + \gamma \delta_{i\ell}\delta_{jk}
+\]
+where \(\alpha, \beta, \gamma\) are scalars.
+Putting this into the relationship between \(\sigma\) and \(e\), we find
+\[
+	\sigma_{ij} = \alpha \delta_{ij}e_{kk} + \beta e_{ij} + \gamma e_{ji} = \lambda \delta_{ij} e_{kk} + 2\mu e_{ij}
+\]
+which is a higher-dimensional analogue of Hooke's Law.
+We can in fact invert this.
+By contracting on \((i, j)\) we find
+\[
+	\sigma_{ii} = 3\lambda e_{ii} + 2\mu e_{ii}
+\]
+Hence,
+\[
+	e_{kk} = \frac{\sigma_{kk}}{3\lambda + 2\mu}
+\]
+We then have
+\[
+	\sigma_{ij} = \lambda \delta_{ij} \frac{\sigma_{kk}}{3\lambda + 2\mu} + 2\mu e_{ij} \implies 2\mu e_{ij} = \sigma_{ij} - \sigma_{kk} \delta_{ij} \frac{\lambda}{3\lambda + 2\mu}
+\]

@@ -1,0 +1,338 @@
+\subsection{Change of basis formula}
+Recall that given a linear map \(T\colon V \to W\) where \(V\) and \(W\) are real or complex vector spaces, and choices of bases \(\{ \vb e_i \}\) for \(i = 1, \dots, n\) and \(\{\vb f_a \}\) for \(a = 1, \dots, m\), then the \(m \times n\) matrix \(A\) with respect to these bases is defined by
+\[
+	T(\vb e_i) = \sum_a \vb f_a A_{ai}
+\]
+So the entries in column \(i\) of \(A\) are the components of \(T(\vb e_i)\) with respect to the basis \(\{ \vb f_a \}\).
+This is chosen to ensure that the statement \(\vb y = T(\vb x)\) is equivalent to the statement that \(y_a = A_{ai}x_i\), where \(\vb y = \sum_a y_a \vb f_a\) and \(\vb x = \sum_i x_i \vb e_i\).
+This equivalence holds since
+\[
+	T\left(\sum_i x_i \vb e_i \right) = \sum_i x_i T(\vb e_i) = \sum_i x_i \left( \sum_a \vb f_a A_{ai} \right) = \sum_a \underbrace{\left( \sum_i A_{ai} x_i \right)}_{y_a} \vb f_a
+\]
+as required.
+For the same linear map \(T\), there is a different matrix representation \(A'\) with respect to different bases \(\{ \vb e'_i \}\) and \(\{ \vb f'_a \}\).
+To relate \(A\) with \(A'\), we need to understand how the new bases relate to the original bases.
+The change of base matrices \(P\) (\(n \times n\)) and \(Q\) (\(m \times m\)) are defined by
+\[
+	\vb e_i' = \sum_j \vb e_j P_{ji};\quad \vb f_a' = \sum_b \vb f_b Q_{ba}
+\]
+The entries in column \(i\) of \(P\) are the components of the new basis \(\vb e_i'\) in terms of the old basis vectors \(\{ \vb e_j \}\), and similarly for \(Q\).
+Note, \(P\) and \(Q\) are invertible, and in the relation above we could exchange the roles of \(\{ \vb e_i \}\) and \(\{ \vb e'_i \}\) by replacing \(P\) with \(P^{-1}\), and similarly for \(Q\).
+
+\begin{proposition}[Change of base formula for a linear map]
+	With the definitions above,
+	\[
+		A' = Q^{-1}AP
+	\]
+\end{proposition}
+\noindent First we will consider an example, then we will construct a proof.
+Let \(n=2, m=3\), and
+\begin{align*}
+	T(\vb e_1) & = \vb f_1 + 2\vb f_2 - \vb f_3 = \sum_a \vb f_a A_{a1}  \\
+	T(\vb e_2) & = -\vb f_1 + 2\vb f_2 + \vb f_3 = \sum_a \vb f_a A_{a2}
+\end{align*}
+Therefore,
+\[
+	A = \begin{pmatrix}
+		1 & -1 \\ 2 & 2 \\ -1 & 1
+	\end{pmatrix}
+\]
+Consider a new basis for \(V\), given by
+\begin{align*}
+	\vb e'_1 & = \vb e_1 - \vb e_2 = \sum_i \vb e_i P_{i1} \\
+	\vb e'_2 & = \vb e_1 + \vb e_2 = \sum_i \vb e_i P_{i2}
+\end{align*}
+\[
+	P = \begin{pmatrix}
+		1 & 1 \\ -1 & 1
+	\end{pmatrix}
+\]
+Consider further a new basis for \(W\), given by
+\begin{align*}
+	\vb f'_1 & = \vb f_1 - \vb f_3 = \sum_a \vb f_a Q_{a1} \\
+	\vb f'_2 & = \vb f_2 = \sum_a \vb f_a Q_{a2}           \\
+	\vb f'_3 & = \vb f_1 + \vb f_3 = \sum_a \vb f_a Q_{a3}
+\end{align*}
+\[
+	Q = \begin{pmatrix}
+		1  & 0 & 1 \\
+		0  & 1 & 0 \\
+		-1 & 0 & 1
+	\end{pmatrix}
+\]
+From the change of base formula,
+\begin{align*}
+	A' & = Q^{-1}AP                                 \\
+	   & = \begin{pmatrix}
+		       1/2 & 0 & -1/2 \\
+		       0   & 1 & 0    \\
+		       1/2 & 0 & 1/2
+	       \end{pmatrix}\begin{pmatrix}
+		                    1 & -1 \\ 2 & 2 \\ -1 & 1
+	                    \end{pmatrix}\begin{pmatrix}
+		                                 1 & 1 \\ -1 & 1
+	                                 \end{pmatrix} \\
+	   & = \begin{pmatrix}
+		       2 & 0 \\ 0 & 4 \\ 0 & 0
+	       \end{pmatrix}
+\end{align*}
+Now checking this result directly,
+\begin{align*}
+	T(\vb e'_1) & = 2\vb f_1 - 2\vb f_3 = 2\vb f_1' \\
+	T(\vb e'_2) & = 4\vb f_2 = 4\vb f_2'
+\end{align*}
+which matches the content of the matrix as required.
+Now, let us prove the proposition in general.
+\begin{proof}
+	\begin{align*}
+		T(\vb e'_i) & = T\left( \sum_j \vb e_j P_{ji} \right)              \\
+		            & = \sum_j T(\vb e_j) P_{ji}                           \\
+		            & = \sum_j \left( \sum_a \vb f_a A_{aj} \right) P_{ji} \\
+		            & = \sum_{ja} \vb f_a A_{aj} P_{ji}
+	\end{align*}
+	But on the other hand,
+	\begin{align*}
+		T(\vb e'_i) & = \sum_b \vb f'_b A'_{bi}                             \\
+		            & = \sum_b \left( \sum_a \vb f_a Q_{ab} \right) A'_{bi} \\
+		            & = \sum_{ab} \vb f_a Q_{ab} A'_{bi}
+	\end{align*}
+	which is a sum over the same set of basis vectors, so we may equate coefficients of \(\vb f_a\).
+	\begin{align*}
+		\sum_j A_{aj} P_{ji} & = \sum_b Q_{ab} A'_{bi} \\
+		(AP)_{ai}            & = (QA')_{ai}
+	\end{align*}
+	Therefore
+	\[
+		AP = QA' \implies A' = Q^{-1}AP
+	\]
+	as required.
+\end{proof}
+
+\subsection{Changing bases of vector components}
+Here is another way to arrive at the formula \(A' = Q^{-1}AP\).
+Consider changes in vector components
+\begin{align*}
+	\vb x        & = \sum_i x_i \vb e_i = \sum_j x_j' \vb e'_j       \\
+	             & = \sum_i\left( \sum_j P_{ij} x'_j \right) \vb e_i \\
+	\implies x_i & = P_{ij} x'_j
+\end{align*}
+We will write
+\[
+	X = \begin{pmatrix}
+		x_1 \\ \vdots \\ x_n
+	\end{pmatrix};\quad X' = \begin{pmatrix}
+		x'_1 \\ \vdots \\ x'_n
+	\end{pmatrix}
+\]
+Then \(X = PX'\) or \(X' = P^{-1}X\).
+Similarly,
+\begin{align*}
+	\vb y        & = \sum_a y_a \vb f_a = \sum_b y_b' \vb f'_b \\
+	\implies y_a & = Q_{ab} y'_b
+\end{align*}
+Then \(Y = QY'\) or \(Y' = Q^{-1}Y\).
+So the matrices are defined to ensure that
+\[
+	Y = AX;\quad Y' = A'X'
+\]
+Therefore,
+\[
+	QY' = APX' \implies Y' = (Q^{-1}AP)X' \implies A' = Q^{-1}AP
+\]
+
+\subsection{Specialisations of changes of basis}
+Now, let us consider some special cases (in increasing order of specialisation).
+\begin{enumerate}[(i)]
+	\item Let \(V=W\) with \(\vb e_i = \vb f_i\) and \(\vb e'_i = \vb f'_i\).
+	      So \(P=Q\) and the change of basis is
+	      \[
+		      A' = P^{-1}AP
+	      \]
+	      Matrices representing the same linear map but with respect to different bases are similar.
+	      Conversely, if \(A, A'\) are similar, then we can construct an invertible change of basis matrix \(P\) which relates them, so they can be regarded as representing the same linear map.
+	      In an earlier section we noted that \(\tr(A') = \tr(A)\), \(\det(A') = \det(A)\) and \(\chi_A(t) = \chi_{A'}(t)\).
+	      so these are intrinsic properties of the linear map, not just the particular matrix we choose to represent it.
+	\item Let \(V=W=\mathbb R^n\) or \(\mathbb C^n\) where \(\vb e_i\) is the standard basis, with respect to which, \(T\) has matrix \(A\).
+	      If there exists a basis of eigenvectors, \(\vb e'_i = \vb v_i\) with \(A\vb v_i = \lambda_i\vb v_i\).
+	      Then
+	      \[
+		      A' = P^{-1}AP = D = \begin{pmatrix}
+			      \lambda_1 & 0         & \cdots & 0         \\
+			      0         & \lambda_2 & \cdots & 0         \\
+			      \vdots    & \vdots    & \ddots & \vdots    \\
+			      0         & 0         & \cdots & \lambda_n
+		      \end{pmatrix}
+	      \]
+	      and
+	      \[
+		      \vb v_i = \sum_k \vb e_j P_{ji}
+	      \]
+	      so the eigenvectors are the columns of \(P\).
+	\item Let \(A\) be hermitian, i.e.\ \(A^\dagger = A\), then we always have a basis of orthonormal eigenvectors \(\vb e'_i = \vb u_i\).
+	      Then the relations in (ii) apply, and \(P\) is unitary, \(P^\dagger = P^{-1}\).
+\end{enumerate}
+
+\subsection{Jordan normal form}
+Also known as the (Jordan) Canonical Form, this result classifies \(n\times n\) complex matrices up to similarity.
+\begin{proposition}
+	Any \(2\times 2\) complex matrix \(A\) is similar to one of the following:
+	\begin{enumerate}[(i)]
+		\item \(A' = \begin{pmatrix}
+			      \lambda_1 & 0         \\
+			      0         & \lambda_2
+		      \end{pmatrix}\) with \(\lambda_1 \neq \lambda_2\), so \(\chi_A(t) = (t - \lambda_1)(t - \lambda_2)\).
+		\item \(A' = \begin{pmatrix}
+			      \lambda & 0       \\
+			      0       & \lambda
+		      \end{pmatrix}\), so \(\chi_A(t) = (t - \lambda)^2\).
+		\item \(A' = \begin{pmatrix}
+			      \lambda & 1       \\
+			      0       & \lambda
+		      \end{pmatrix}\), so \(\chi_A(t) = (t - \lambda)^2\) as in case (ii).
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	\(\chi_A(t)\) has two roots over \(\mathbb C\).
+	\begin{enumerate}[(i)]
+		\item For distinct roots \(\lambda_1, \lambda_2\), we have \(M_{\lambda_1} = m_{\lambda_1} = M_{\lambda_2} = m_{\lambda_2} = 1\).
+		      So the eigenvectors \(\vb v_1, \vb v_2\) provide a basis.
+		      Hence \(A' = P^{-1}AP\) with the eigenvectors as the columns of \(P\).
+		\item For a repeated root \(\lambda\) with \(M_\lambda = m_\lambda = 2\), the same argument applies.
+		\item For a repeated root \(\lambda\) with \(M_\lambda = 2\), \(m_\lambda = 1\), we do not have a basis of eigenvectors so we cannot diagonalise the matrix.
+		      We only have one linearly independent eigenvector, which we will call \(\vb v\).
+		      Let \(\vb w\) be any other vector such that \(\{ \vb v, \vb w \}\) are linearly indepdendent.
+		      Then
+		      \begin{align*}
+			      A\vb v & = \lambda \vb v              \\
+			      A\vb w & = \alpha \vb v + \beta \vb w
+		      \end{align*}
+		      The matrix representing this linear map with respect to the basis vectors \(\{ \vb v, \vb w \}\) is therefore
+		      \[
+			      \begin{pmatrix}
+				      \lambda & \alpha \\
+				      0       & \beta
+			      \end{pmatrix}
+		      \]
+		      Let us solve for some of these unknowns.
+		      We know that the characteristic polynomial of this matrix must be \((t - \lambda)^2\), so \(\beta = \lambda\).
+		      Also, \(\alpha \neq 0\), otherwise we have case (ii) above.
+		      So now we can set \(\vb u = \alpha \vb v\), so
+		      \begin{align*}
+			      A(\alpha \vb v) & = \lambda (\alpha \vb v)     \\
+			      A\vb w          & = \alpha \vb v + \beta \vb w
+		      \end{align*}
+		      So with respect to the basis \(\{ \vb u, \vb w \}\) we get the matrix \(A\) to be
+		      \[
+			      A' = \begin{pmatrix}
+				      \lambda & 1       \\
+				      0       & \lambda
+			      \end{pmatrix}
+		      \]
+	\end{enumerate}
+\end{proof}
+\begin{proof}[Alternative Proof]
+	Here is an alternative appproach for case (iii).
+	If \(A\) has characteristic polynomial
+	\[
+		\chi_A(t) = (t - \lambda)^2
+	\]
+	but \(A \neq \lambda I\), then there exists some vector \(\vb w\) for which \(\vb u = (A - \lambda I)\vb w \neq \vb 0\).
+	So \((A - \lambda I)\vb u = (A - \lambda I)^2 \vb w  = \vb 0\) by the Cayley-Hamilton theorem.
+	So
+	\begin{align*}
+		A\vb u & = \lambda \vb u         \\
+		A\vb w & = \vb u + \lambda \vb w
+	\end{align*}
+	So with basis \(\{ \vb u, \vb w \}\) we have the matrix
+	\[
+		A' = \begin{pmatrix}
+			\lambda & 1       \\
+			0       & \lambda
+		\end{pmatrix}
+	\]
+\end{proof}
+Here is a concrete example using this alternative proof method.
+\[
+	A = \begin{pmatrix}
+		1 & 4 \\ -1 & 5
+	\end{pmatrix} \implies \chi_A(t) = (t - 3)^2
+\]
+So
+\[
+	A - 3I = \begin{pmatrix}
+		-2 & 4 \\ -1 & 2
+	\end{pmatrix}
+\]
+We will choose \(\vb w = \begin{pmatrix}
+	1 \\ 0
+\end{pmatrix}\) and we find \(\vb u = (A - 3I)\vb w = \begin{pmatrix}
+	-2 \\ -1
+\end{pmatrix}\).
+\(\vb w\) is not an eigenvector, as required for the construction.
+By the reasoning in the alternative argument above, \(\vb u\) is an eigenvector by construction.
+\begin{align*}
+	A\vb u & = 3\vb u         \\
+	A\vb w & = \vb u + 3\vb w
+\end{align*}
+So
+\[
+	P = \begin{pmatrix}
+		-2 & 1 \\ -1 & 0
+	\end{pmatrix} \implies P^{-1} = \begin{pmatrix}
+		0 & -1 \\ 1 & -2
+	\end{pmatrix}
+\]
+and we can check that
+\[
+	P^{-1}AP = \begin{pmatrix}
+		3 & 1 \\ 0 & 3
+	\end{pmatrix} = A'
+\]
+
+\subsection{Jordan normal forms in \(n\) dimensions}
+To extend the arguments above to larger matrices, consider the \(n\times n\) matrix
+\[
+	N = \begin{pmatrix}
+		0      & 1      & 0      & \cdots & 0      \\
+		0      & 0      & 1      & \cdots & 0      \\
+		0      & 0      & 0      & \cdots & 0      \\
+		\vdots & \vdots & \vdots & \ddots & \vdots \\
+		0      & 0      & 0      & \cdots & 0
+	\end{pmatrix}
+\]
+When applied to the standard basis vectors in \(\mathbb C^n\), the action of this matrix sends \(\vb e_n \mapsto \vb e_{n-1} \mapsto \dots \mapsto \vb e_1 \mapsto \vb 0\).
+This is consistent with the property that \(N^n = 0\).
+The kernel of this matrix has dimension 1.
+Now consider the matrix \(J = \lambda I + N\), as follows:
+\[
+	N = \begin{pmatrix}
+		\lambda & 1       & 0       & \cdots & 0       \\
+		0       & \lambda & 1       & \cdots & 0       \\
+		0       & 0       & \lambda & \cdots & 0       \\
+		\vdots  & \vdots  & \vdots  & \ddots & \vdots  \\
+		0       & 0       & 0       & \cdots & \lambda
+	\end{pmatrix}
+\]
+This matrix has
+\[
+	\chi_J(t) = (\lambda - t)^n
+\]
+with \(M_\lambda = n\) and \(m_\lambda = 1\), since the kernel of \(J - \lambda I = N\) has dimension 1 as before.
+The general result is as follows.
+\begin{theorem}
+	Any \(n\times n\) complex matrix \(A\) is similar to a matrix of the form
+	\[
+		A' = \left( \begin{array}{c|c|c|c}
+				J_{n_1}(\lambda_1) & 0                  & \cdots & 0                  \\\hline
+				0                  & J_{n_2}(\lambda_2) & \cdots & 0                  \\\hline
+				\vdots             & \vdots             & \ddots & \vdots             \\\hline
+				0                  & 0                  & \cdots & J_{n_r}(\lambda_r)
+			\end{array} \right)
+	\]
+	where each diagonal block is a Jordan block \(J_{n_r}(\lambda_r)\) which is an \(n_r \times n_r\) matrix \(J\) with eigenvalue \(\lambda_r\).
+	\(\lambda_1, \dots, \lambda_r\) are eigenvalues of \(A\) and \(A'\), and the same eigenvalue may appear in different blocks.
+	Further, \(n_1 + n_2 + \dots + n_r = n\) so we end up with an \(n \times n\) matrix.
+	\(A\) is diagonalisable if and only if \(A'\) consists entirely of \(1 \times 1\) blocks.
+	The expression above is the Jordan Normal Form.
+\end{theorem}
+The proof is non-examinable and depends on the Part IB courses Linear Algebra, and Groups, Rings and Modules, so is not included here.

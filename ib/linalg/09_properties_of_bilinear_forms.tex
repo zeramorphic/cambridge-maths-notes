@@ -1,0 +1,475 @@
+\subsection{Changing basis}
+Let \( \phi \colon V \times V \to \mathbb F \) be a bilinear form.
+Let \( V \) be a finite-dimensional \( F \)-vector space.
+Let \( B \) be a basis of \( V \) and let \( [\phi]_B = [\phi]_{BB} \) be the matrix with entries \( \phi(e_i, e_j) \).
+\begin{lemma}
+	Let \( \phi \) be a bilinear form \( V \times V \to F \).
+	Then if \( B, B' \) are bases for \( V \), and \( P = [I]_{B', B} \) we have
+	\[
+		[\phi]_{B'} = P^\transpose \phi_B P
+	\]
+\end{lemma}
+\begin{proof}
+	This is a special case of the general change of basis formula.
+\end{proof}
+\begin{definition}
+	Let \( A, B \in M_n(F) \) be square matrices.
+	We say that \( A, B \) are \textit{congruent} if there exists \( P \in M_n(F) \) such that \( A = P^\transpose B P \).
+\end{definition}
+\begin{remark}
+	Congruence is an equivalence relation.
+\end{remark}
+\begin{definition}
+	A bilinear form \( \phi \) on \( V \) is \textit{symmetric} if, for all \( u, v \in V \), we have
+	\[
+		\phi(u,v) = \phi(v,u)
+	\]
+\end{definition}
+\begin{remark}
+	If \( A \) is a square matrix, we say \( A \) is symmetric if \( A = A^\transpose \).
+	Equivalently, \( A_{ij} = A_{ji} \) for all \( i, j \).
+	So \( \phi \) is symmetric if and only if \( [\phi]_B \) is symmetric for any basis \( B \).
+	Note further that to represent \( \phi \) by a diagonal matrix in some basis \( B \), it must necessarily be symmetric, since
+	\[
+		P^\transpose A P = D \implies D = D^\transpose = \qty(P^\transpose A P)^\transpose = P^\transpose A^\transpose P \implies A = A^\transpose
+	\]
+\end{remark}
+
+\subsection{Quadratic forms}
+\begin{definition}
+	A map \( Q \colon V \to F \) is a \textit{quadratic form} if there exists a bilinear form \( \phi \colon V \times V \to F \) such that, for all \( u \in V \),
+	\[
+		Q(u) = \phi(u,u)
+	\]
+	So a quadratic form is the restriction of a bilinear form to the diagonal.
+\end{definition}
+\begin{remark}
+	Let \( B = (e_i) \) be a basis of \( V \).
+	Let \( A = [\phi]_B = (\phi(e_i, e_j)) = (a_{ij}) \).
+	Then, for \( u = \sum_i x_i e_i \in V \),
+	\[
+		Q(u) = \phi(u,u) = \phi\qty(\sum_i x_i e_i, \sum_j x_j e_j) = \sum_i \sum_j x_i x_j \phi(e_i, e_j) = \sum_i \sum_j x_i x_j a_{ij}
+	\]
+	We can check that this is equal to
+	\[
+		Q(u) = x^\transpose A x
+	\]
+	where \( [u]_B = x \).
+	Note further that
+	\[
+		x^\transpose A x = \sum_i \sum_j a_{ij} x_i x_j = \sum_i \sum_j a_{ji} x_i x_j = \sum_i \sum_j \frac{a_{ij} + a_{ji}}{2} x_i x_j = x^\transpose \qty(\underbrace{\frac{A + A^\transpose}{2}}_{\mathclap{\text{symmetric}}}) x
+	\]
+	So we can always express the quadratic form as a symmetric matrix in any basis.
+\end{remark}
+\begin{proposition}
+	If \( Q \colon V \to F \) is a quadratic form, then there exists a unique symmetric bilinear form \( \phi \colon V \times V \to F \) such that \( Q(u) = \phi(u,u) \).
+\end{proposition}
+\begin{proof}
+	Let \( \psi \) be a bilinear form on \( V \) such that for all \( u \in V \), we have \( Q(u) = \psi(u,u) \).
+	Then, let
+	\[
+		\phi(u,v) = \frac{1}{2}\qty[\psi(u,v) + \psi(v,u)]
+	\]
+	Certainly \( \phi \) is a bilinear form and symmetric.
+	Further, \( \phi(u,u) = \psi(u,u) = Q(u) \).
+	So there exists a symmetric bilinear form \( \phi \) such that \( Q(u) = \phi(u,u) \), so it suffices to prove uniqueness.
+	Let \( \phi \) be a symmetric bilinear form such that for all \( u \in V \) we have \( Q(u) = \phi(u,u) \).
+	Then, we can find
+	\[
+		Q(u + v) = \phi(u + v, u + v) = \phi(u,u) + \phi(v,v) + 2\phi(u,v)
+	\]
+	Thus \( \phi(u,v) \) is defined uniquely by \( Q \), since
+	\[
+		2 \phi(u,v) = Q(u+v) - Q(u) - Q(v)
+	\]
+	So \( \phi \) is unique (when \( 2 \) is invertible in \( F \)).
+	This identity for \( \phi(u,v) \) is known as the polarisation identity.
+\end{proof}
+
+\subsection{Diagonalisation of symmetric bilinear forms}
+\begin{theorem}
+	Let \( \phi \colon V \times V \to F \) be a symmetric bilinear form, where \( V \) is finite-dimensional.
+	Then there exists a basis \( B \) of \( V \) such that \( [\phi]_B \) is diagonal.
+\end{theorem}
+\begin{proof}
+	By induction on the dimension, suppose the theorem holds for all dimensions less than \( n \) for \( n \geq 2 \).
+	If \( \phi(u,u) = 0 \) for all \( u \in V \), then \( \phi = 0 \) by the polarisation identity, which is diagonal.
+	Otherwise \( \phi(e_1, e_1) \neq 0 \) for some \( e_1 \in V \).
+	Let
+	\[
+		U = \qty(\genset{e_1})^\perp = \qty{v \in V \colon \phi(e_1, v) = 0}
+	\]
+	This is a vector subspace of \( V \), which is in particular
+	\[
+		\ker \qty{ \phi(e_1, \wildcard) \colon V \to F }
+	\]
+	By the rank-nullity theorem, \( \dim U = n - 1 \).
+	We now claim that \( U + \genset{e_1} \) is a direct sum.
+	Indeed, for \( v = \genset{e_1} \cap U \), we have \( v = \lambda e_1 \) and \( \phi(e_1, v) = 0 \).
+	Hence \( \lambda = 0 \), since by assumption \( \phi(e_1, e_1) \neq 0 \).
+	So we find a basis \( B' = (e_2, \dots, e_n) \) of \( U \), which we extend by \( e_1 \) to \( B = (e_1, e_2, \dots, e_n) \).
+	Since \( U \oplus \genset{e_1} \) has dimension \( n \), this is a basis of \( V \).
+	Under this basis, we find
+	\[
+		[\phi]_B = \begin{pmatrix}
+			\phi(e_1, e_1) & 0                          \\
+			0              & \qty[\eval{\phi}_{U}]_{B'}
+		\end{pmatrix}
+	\]
+	because
+	\[
+		\phi(e_1, e_j) = \phi(e_j, e_1) = 0
+	\]
+	for all \( j \geq 2 \).
+	By the inductive hypothesis we can take a basis \( B' \) such that the restricted \( \phi \) to be diagonal, so \( [\phi]_B \) is diagonal in this basis.
+\end{proof}
+\begin{example}
+	Let \( V = \mathbb R^3 \) and choose the canonical basis \( (e_i) \).
+	Let
+	\[
+		Q(x_1, x_2, x_3) = x_1^2 + x_2^2 + 2x_3^2 + 2x_1 x_2 + 2x_1 x_3 - 2x_2 x_3
+	\]
+	Then, if \( Q(x_1, x_2, x_3) = x^\transpose A x \), we have
+	\[
+		A = \begin{pmatrix}
+			1 & 1  & 1  \\
+			1 & 1  & -1 \\
+			1 & -1 & 2
+		\end{pmatrix}
+	\]
+	Note that the off-diagonal terms are halved from their coefficients since in the expansion of \( x^\transpose A x \) they are included twice.
+	Then, we can find a basis in which \( A \) is diagonal.
+	We could use the above algorithm to find a basis, or complete the square in each component.
+	We can write
+	\[
+		Q(x_1, x_2, x_3) = (x_1 + x_2 + x_3)^2 + x_3^2 - 4 x_2 x_3 = (x_1 + x_2 + x_3)^2 + (x_3 - 2x_2)^2 - (2x_2)^2
+	\]
+	This yields a new coordinate basis \( x_1', x_2', x_3' \).
+	Then \( P^{-1} A P \) is diagonal.
+	\( P \) is given by
+	\[
+		\begin{pmatrix} x_1' \\ x_2' \\ x_3' \end{pmatrix} = \underbrace{\begin{pmatrix} 1 & 1 & 1 \\ 0 & -2 & 1 \\ 0 & -2 & 0 \end{pmatrix}}_{P^{-1}} \begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix}
+	\]
+\end{example}
+
+\subsection{Sylvester's law}
+\begin{corollary}
+	If \( F = \mathbb C \), for any symmetric bilinear form \( \phi \) there exists a basis of \( V \) such that \( [\phi]_B \) is
+	\[
+		\begin{pmatrix}
+			I_r & 0 \\
+			0   & 0
+		\end{pmatrix}
+	\]
+\end{corollary}
+\begin{proof}
+	Since any symmetric bilinear form \( \phi \) in a finite-dimensional \( F \)-vector space \( V \) can be diagonalised, let \( E = (e_1, \dots, e_n) \) such that \( [\phi]_E \) is diagonal with diagonal entries \( a_i \).
+	Order the \( a_i \) such that \( a_i \) is nonzero for \( 1 \leq i \leq r \), and the remaining values (if any) are zero.
+	For \( i \leq r \), let \( \sqrt{a_i} \) be a choice of a complex root for \( a_i \).
+	Then \( v_i = \frac{e_i}{\sqrt{a_i}} \) for \( i \leq r \) and \( v_i = e_i \) for \( i > r \) gives the basis \( B \) as required.
+\end{proof}
+\begin{corollary}
+	Every symmetric matrix of \( M_n(\mathbb C) \) is congruent to a unique matrix of the form
+	\[
+		\begin{pmatrix}
+			I_r & 0 \\
+			0   & 0
+		\end{pmatrix}
+	\]
+	where \( r \) is the rank of the matrix.
+\end{corollary}
+\begin{corollary}
+	Let \( F = \mathbb R \), and let \( V \) be a finite-dimensional \( \mathbb R \)-vector space.
+	Let \( \phi \) be a symmetric bilinear form on \( V \).
+	Then there exists a basis \( B = (v_1, \dots, v_n) \) of \( V \) such that
+	\[
+		[\phi]_B = \begin{pmatrix}
+			I_p & 0    & 0 \\
+			0   & -I_q & 0 \\
+			0   & 0    & 0
+		\end{pmatrix}
+	\]
+	for some integers \( p, q \).
+\end{corollary}
+\begin{proof}
+	Since square roots do not necessarily exist in \( \mathbb R \), we cannot use the form above.
+	We first diagonalise the bilinear form in some basis \( E \).
+	Then, reorder and group the \( a_i \) into a positive group of size \( p \), a negative group of size \( q \), and a zero group.
+	Then,
+	\[
+		v_i = \begin{cases}
+			\frac{e_i}{\sqrt{a_i}}  & i \in \qty{1, \dots, p}     \\
+			\frac{e_i}{\sqrt{-a_i}} & i \in \qty{p+1, \dots, p+q} \\
+			e_i                     & i \in \qty{p+q+1, \dots, n}
+		\end{cases}
+	\]
+	This gives a new basis as required.
+\end{proof}
+\begin{definition}
+	Let \( F = \mathbb R \).
+	The \textit{signature} of a bilinear form \( \phi \) is
+	\[
+		s(\phi) = p - q
+	\]
+	where \( p \) and \( q \) are defined as in the corollary above.
+\end{definition}
+\begin{theorem}
+	Let \( F = \mathbb R \).
+	Let \( V \) be a finite-dimensional \( \mathbb R \)-vector space.
+	If a real symmetric bilinear form is represented by some matrix
+	\[
+		\begin{pmatrix}
+			I_p & 0    & 0 \\
+			0   & -I_q & 0 \\
+			0   & 0    & 0
+		\end{pmatrix}
+	\]
+	in some basis \( B \), and some other matrix
+	\[
+		\begin{pmatrix}
+			I_{p'} & 0       & 0 \\
+			0      & -I_{q'} & 0 \\
+			0      & 0       & 0
+		\end{pmatrix}
+	\]
+	in another basis \( B' \), then \( p = p' \) and \( q = q' \).
+	Thus, the signature of the matrix is well defined.
+\end{theorem}
+\begin{definition}
+	Let \( \phi \) be a symmetric bilinear form on a real vector space \( V \).
+	We say that
+	\begin{enumerate}[(i)]
+		\item \( \phi \) is \textit{positive definite} if \( \phi(u,u) > 0 \) for all nonzero \( u \in V \);
+		\item \( \phi \) is \textit{positive semidefinite} if \( \phi(u,u) \geq 0 \) for all \( u \in V \);
+		\item \( \phi \) is \textit{negative definite} or \textit{negative semidefinite} if \( \phi(u,u) < 0 \) or \( \phi(u,u) \leq 0 \) respectively for all nonzero \( u \in V \).
+	\end{enumerate}
+\end{definition}
+\begin{example}
+	The matrix
+	\[
+		\begin{pmatrix}
+			I_r & 0 \\
+			0   & 0
+		\end{pmatrix}
+	\]
+	is positive definite for \( r = n \), and positive semidefinite for \( r < n \).
+\end{example}
+\noindent We now prove Sylvester's law.
+\begin{proof}
+	In order to prove uniqueness of \( p \), we will characterise the matrix in a way that does not depend on the basis.
+	In particular, we will show that \( p \) is the largest dimension of a vector subspace of \( V \) such that the restriction of \( \phi \) on this subspace is positive definite.
+	Suppose we have \( B = (v_1, \dots, v_n) \) and
+	\[
+		[\phi]_B = \begin{pmatrix}
+			I_p & 0    & 0 \\
+			0   & -I_q & 0 \\
+			0   & 0    & 0
+		\end{pmatrix}
+	\]
+	We consider
+	\[
+		X = \genset{v_1, \dots, v_p}
+	\]
+	Then we can easily compute that \( \eval{\phi}_X \) is positive definite.
+	Let
+	\[
+		Y = \genset{v_{p+1}, \dots, v_n}
+	\]
+	Then, as above, \( \eval{\phi}_Y \) is negative semidefinite.
+	Suppose that \( \phi \) is positive definite on another subspace \( X' \).
+	In this case, \( Y \cap X' = \qty{0} \), since if \( y \in Y \cap X' \) we must have \( Q(y) \leq 0 \), but since \( y \in X' \) we have \( y = 0 \).
+	Thus, \( Y + X' = Y \oplus X' \), so \( n = \dim V \geq \dim Y + \dim X' \).
+	But \( \dim Y = n - p \), so \( \dim X' \leq p \).
+	The same argument can be executed for \( q \), hence both \( p \) and \( q \) are independent of basis.
+\end{proof}
+
+\subsection{Kernels of bilinear forms}
+\begin{definition}
+	Let \( K = \qty{ v \in V \colon \forall u \in V, \phi(u,v) = 0 } \).
+	This is the \textit{kernel} of the bilinear form.
+\end{definition}
+\begin{remark}
+	By the rank-nullity theorem,
+	\[
+		\dim K + \rank \phi = n
+	\]
+	Using the above notation, we can show that there exists a subspace \( T \) of dimension \( n - (p+q) + \min\qty{p,q} \) such that \( \eval{\phi}_T = 0 \).
+	Indeed, let \( B = (v_1, \dots, v_n) \) such that
+	\[
+		[\phi]_B = \begin{pmatrix}
+			I_p & 0    & 0 \\
+			0   & -I_q & 0 \\
+			0   & 0    & 0
+		\end{pmatrix}
+	\]
+	The quadratic form has a zero subspace of dimension \( n - (p+q) \) in the bottom right.
+	But by setting
+	\[
+		T = \qty{v_1 + v_{p+1}, \dots, v_q + v_{p+q}, v_{p+q+1}, \dots, v_n}
+	\]
+	we can combine the positive and negative blocks (assuming here that \( p \geq q \)) to produce more linearly independent elements of the kernel.
+	In particular, \( \dim T \) is the largest possible dimension of a subspace \( T' \) of \( V \) such that \( \eval{\phi}_{T'} = 0 \).
+\end{remark}
+
+\subsection{Sesquilinear forms}
+Let \( F = \mathbb C \).
+The standard inner product on \( \mathbb C^n \) is defined to be
+\[
+	\inner{\begin{pmatrix} x_1 \\ \vdots \\ v_n \end{pmatrix}, \begin{pmatrix} y_1 \\ \vdots \\ y_n \end{pmatrix}} = \sum_{i=1}^n x_i \overline y_i
+\]
+This is not a bilinear form on \( \mathbb C \) due to the complex conjugate, it is linear in the first entry.
+\begin{definition}
+	Let \( V, W \) be \( \mathbb C \)-vector spaces.
+	A form \( \phi \colon V \times W \to \mathbb C \) is called \textit{sesquilinear} if it is linear in the first entry, and
+	\[
+		\phi(v, \lambda_1 w_1 + \lambda_2 w_2) = \overline \lambda_1 \phi(v,w_1) + \overline \lambda_2 \phi(v,w_2)
+	\]
+	so it is antilinear with respect to the second entry.
+\end{definition}
+\begin{lemma}
+	Let \( B = (v_1, \dots, v_m) \) be a basis of \( V \) and \( C = (w_1, \dots, w_n) \) be a basis of \( W \).
+	Let \( [\phi]_{B,C} = \qty(\phi(v_i, w_j)) \).
+	Then,
+	\[
+		\phi(v,w) = [v]_B^\transpose [\phi]_{B,C} \overline{[w]_C}
+	\]
+\end{lemma}
+\begin{proof}
+	Let \( B, B' \) be bases of \( V \) and \( C, C' \) be bases of \( W \).
+	Let \( P = [I]_{B', B} \) and \( Q = [I]_{C', C} \).
+	Then
+	\[
+		[\phi]_{B', C'} = P^\transpose [\phi]_{B,C} \overline Q
+	\]
+\end{proof}
+
+\subsection{Hermitian forms}
+\begin{definition}
+	Let \( V \) be a finite-dimensional \( \mathbb C \)-vector space.
+	Let \( \phi \) be a sesquilinear form on \( V \).
+	Then \( \phi \) is \textit{Hermitian} if, for all \( u, v \in V \),
+	\[
+		\phi(u, v) = \overline{\phi(v,u)}
+	\]
+\end{definition}
+\begin{remark}
+	If \( \phi \) is Hermitian, then \( \phi(u,u) = \overline{\phi(u,u)} \in \mathbb R \).
+	Further, \( \phi(\lambda u, \lambda u) = \abs{\lambda}^2 \phi(u,u) \).
+	This allows us to define positive and negative definite Hermitian forms.
+\end{remark}
+\begin{lemma}
+	A sesquilinear form \( \phi \colon V \times V \to \mathbb C \) is Hermitian if and only if, for any basis \( B \) of \( V \),
+	\[
+		[\phi]_B = [\phi]_B^\dagger
+	\]
+\end{lemma}
+\begin{proof}
+	Let \( A = [\phi]_B = (a_{ij}) \).
+	Then \( a_{ij} = \phi(e_i, e_j) \), and \( a_{ji} = \phi(e_j, e_i) = \overline{\phi(e_i, e_j)} = \overline{a_{ij}} \).
+	So \( \overline A^\transpose = A \).
+	Conversely suppose that \( [\phi]_B = A = \overline A^\transpose \).
+	Now let
+	\[
+		u = \sum_{i=1}^n \lambda_i e_i;\quad v = \sum_{i=1}^n \mu_i e_i
+	\]
+	Then,
+	\[
+		\phi(u,v) = \phi\qty(\sum_{i=1}^n \lambda_i e_i, \sum_{i=1}^n \mu_i e_i) = \sum_{i=1}^n \sum_{j=1}^n \lambda_i \overline{\mu_j} a_{ij}
+	\]
+	Further,
+	\[
+		\overline{\phi(v,u)} = \overline{\phi\qty(\sum_{i=1}^n \mu_i e_i, \sum_{i=1}^n \lambda_i e_i)} = \sum_{i=1}^n \sum_{j=1}^n \overline{\mu_j \overline{\lambda_i}} \overline{a_{ij}}
+	\]
+	which is equivalent.
+	Hence \( \phi \) is Hermitian.
+\end{proof}
+
+\subsection{Polarisation identity}
+A Hermitian form \( \phi \) on a complex vector space \( V \) is entirely determined by a quadratic form \( Q \colon V \to \mathbb R \) such that \( v \mapsto \phi(v,v) \) by the formula
+\[
+	\phi(u,v) = \frac{1}{4} \qty[ Q(u+v) - Q(u-v) + iQ(u+iv) - iQ(u-iv) ]
+\]
+
+\subsection{Hermitian formulation of Sylvester's law}
+\begin{theorem}
+	Let \( V \) be a finite-dimensional \( \mathbb C \)-vector space.
+	Let \( \phi \colon V \times V \to \mathbb C \) be a Hermitian form on \( V \).
+	Then there exists a basis \( B = (v_1, \dots, v_n) \) of \( V \) such that
+	\[
+		[\phi]_B = \begin{pmatrix}
+			I_p & 0    & 0 \\
+			0   & -I_q & 0 \\
+			0   & 0    & 0
+		\end{pmatrix}
+	\]
+	where \( p, q \) depend only on \( \phi \) and not \( B \).
+\end{theorem}
+\begin{proof}
+	The following is a sketch proof; it is nearly identical to the case of real symmetric bilinear forms.
+	If \( \phi = 0 \), existence is trivial.
+	Otherwise, using the polarisation identity there exists \( e_1 \neq 0 \) such that \( \phi(e_1, e_1) \neq 0 \).
+	Let
+	\[
+		v_1 = \frac{e_1}{\sqrt{\abs{\phi(e_1, e_1)}}} \implies \phi(v_1, v_1) = \pm 1
+	\]
+	Consider the orthogonal space \( W = \qty{w \in V \colon \phi(v_1, w) = 0} \).
+	We can check, arguing analogously to the real case, that \( V = \genset{v_1} \oplus W \).
+	Hence, we can inductively diagonalise \( \phi \).
+
+	\( p, q \) are unique.
+	Indeed, we can prove that \( p \) is the maximal dimension of a subspace on which \( \phi \) is positive definite (which is well-defined since \( \phi(u,u) \in \mathbb R \)).
+	The geometric interpretation of \( q \) is similar.
+\end{proof}
+
+\subsection{Skew-symmetric forms}
+\begin{definition}
+	Let \( V \) be a finite-dimensional \( \mathbb R \)-vector space.
+	Let \( \phi \) be a bilinear form on \( V \).
+	Then \( \phi \) is \textit{skew-symmetric} if, for all \( u,v \in V \),
+	\[
+		\phi(u,v) = -\phi(v,u)
+	\]
+\end{definition}
+\begin{remark}
+	\( \phi(u,u) = -\phi(u,u) = 0 \).
+	Also, in any basis \( B \) of \( V \), we have \( [\phi]_B = -[\phi]_B^\transpose \).
+	Any real matrix can be decomposed as the sum
+	\[
+		A = \frac{1}{2}\qty(A + A^\transpose) + \frac{1}{2}\qty(A - A^\transpose)
+	\]
+	where the first summand is symmetric and the second is skew-symmetric.
+\end{remark}
+
+\subsection{Skew-symmetric formulation of Sylvester's law}
+\begin{theorem}
+	Let \( V \) be a finite-dimensional \( \mathbb R \)-vector space.
+	Let \( \phi \colon V \times V \to \mathbb R \) be a skew-symmetric form on \( V \).
+	Then there exists a basis
+	\[
+		B = (v_1, w_1, v_2, w_2, \dots, v_m, w_m, v_{2m+1}, v_{2m+2}, \dots, v_n)
+	\]
+	of \( V \) such that
+	\[
+		[\phi]_B = \begin{pmatrix}
+			0  & 1                       \\
+			-1 & 0                       \\
+			   &   & 0  & 1              \\
+			   &   & -1 & 0              \\
+			   &   &    &   & \ddots     \\
+			   &   &    &   &        & 0
+		\end{pmatrix}
+	\]
+\end{theorem}
+\begin{corollary}
+	Skew-symmetric matrices have an even rank.
+\end{corollary}
+\begin{proof}
+	This is again very similar to the previous case.
+	We will perform an inductive step on the dimension of \( V \).
+	If \( \phi \neq 0 \), there exist \( v_1, w_1 \) such that \( \phi_1(v_1, w_1) \neq 0 \).
+	After scaling one of the vectors, we can assume \( \phi(v_1, w_1) = 1 \).
+	Since \( \phi \) is skew-symmetric, \( \phi(w_1, v_1) = -1 \).
+	Then \( v_1, w_1 \) are linearly independent; if they were linearly dependent we would have \( \phi(v_1, w_1) = \phi(v_1, \lambda v_1) = 0 \).
+	Let \( U = \genset{v_1, w_1} \) and let \( W = \qty{v \in V \colon \phi(v_1, v) = \phi(w_1, v) = 0} \) and we can show \( V = U \oplus W \).
+	Then induction gives the required result.
+\end{proof}

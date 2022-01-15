@@ -1,0 +1,501 @@
+\subsection{The boundary value problem}
+Many problems in mathematical physics can be reduced to the form
+\[
+	\laplacian{\phi} = F
+\]
+This is called Poisson's equation.
+In the case that \(F \equiv 0\), this is called Laplace's equation.
+We are interested in solving this equation on \(\Omega \subseteq \mathbb R^n\) for \(n = 2, 3\).
+This is too general to solve at the moment, so we will need to supply boundary conditions, which are very common in physical problems.
+In other words, \(\phi\) will be known on \(\partial \Omega\), or as \(\abs{\vb x} \to \infty\) if \(\Omega = \mathbb R^n\).
+For instance, the Dirichlet problem is
+\[
+	\laplacian{\phi} = F \text{ inside } \Omega;\quad \phi = f \text{ on } \partial \Omega
+\]
+The Neumann problem is
+\[
+	\laplacian{\phi} = F \text{ inside } \Omega;\quad \pdv{\phi}{\vb n} = g \text{ on } \partial \Omega
+\]
+where \(\vb n\) is the normal to the surface, and \(\pdv{\phi}{\vb n} := \vb n \cdot \grad{\phi}\).
+As a further restriction, we must interpret the boundary conditions in an `appropriate' manner; we assume that \(\phi\) (or \(\pdv{\phi}{\vb n}\)) approaches the behaviour at the boundary continuously as \(\vb x \to \partial \Omega\).
+More precisely, \(\phi\) and \(\grad{\phi}\) are continuous on \(\Omega \cup \partial\Omega\).
+Note that if we are solving some equation \(\laplacian{\phi} = 0\) in \(\Omega\), we must be certain that \(\phi\) is actually well-defined on the entire set.
+As a worked example, consider
+\[
+	\laplacian{\phi} = r \text{ inside } \left\{ r < a \right\};\quad \phi = 1 \text{ on } \left\{ r = a \right\}
+\]
+We might guess that the solution is of the form \(\phi(r)\).
+We can use the formula
+\[
+	\laplacian{\phi} = \frac{1}{r^2} \dv{r}\left( r^2 \dv{\phi}{r} \right)
+\]
+to get
+\[
+	r^3 = \dv{r}\left( r^2 \dv{\phi}{r} \right) \text{ inside } \left\{ r < a \right\};\quad \phi(a) = 1
+\]
+The general solution to the first part is
+\[
+	\phi(r) = A + \frac{B}{r} + \frac{1}{12}r^3
+\]
+The \(\frac{B}{r}\) term is \textit{not} well-defined inside \(\left\{ r < a \right\}\), therefore \(B=0\) to eliminate the problematic term.
+By the second part, we can solve for \(A\):
+\[
+	1 = \phi(a) = A + \frac{1}{12}a^3 \implies A = 1 - \frac{1}{12}a^3
+\]
+Hence the solution is
+\[
+	\phi(r) = 1 + \frac{1}{12}\left(r^3 - a^3\right)
+\]
+
+\subsection{Uniqueness of solutions}
+When solving Poisson's or Laplace's equation, we want to ensure that the solution we find is unique.
+If it is unique, then we can apply similar logic to solving differential equations, where we can guess the form of an equation and then derive the solution from that, and we don't need to worry about solutions that do not have this form.
+Consider a generic linear problem
+\begin{equation}
+	L\phi = F \text{ in } \Omega;\quad B \phi = f \text{ on } \partial\Omega \tag{\(\dagger\)}
+\end{equation}
+where \(L\) and \(B\) are linear differential operators.
+If \(\phi_1\) and \(\phi_2\) are both solutions to \((\dagger)\), then consider \(\psi = \phi_1 - \phi_2\).
+By linearity,
+\[
+	L\psi = L\phi_1 - L\phi_2 = F - F = 0 \text{ in } \Omega
+\]
+and
+\[
+	B\psi = B\phi_1 - B\phi_2 = f - f = 0 \text{ on } \partial\Omega
+\]
+If we can show that the only solution to these new equations is \(\psi = 0\), we must conclude that \(\phi_1 = \phi_2\), which means that there is only one solution to \((\dagger)\).
+Hence the solution to a linear problem is unique if and only if the only solution to the homogeneous problem is zero.
+
+\begin{proposition}
+	The solution to the Dirichlet problem is unique.
+	The solution to the Neumann problem is unique up to the addition of an arbitrary constant.
+\end{proposition}
+\begin{proof}
+	Let \(\psi = \phi_1 - \phi_2\) be the difference between two solutions.
+	In the Dirichlet case, we want to show that \(\psi = 0\), and in the Neumann case, we want to show that \(\psi\) is an arbitrary constant.
+	We know that
+	\[
+		\laplacian{\psi} = 0 \text{ in } \Omega;\quad B\psi = 0 \text{ on } \partial\Omega
+	\]
+	where \(B\psi = \psi\) in the Dirichlet problem, or \(B\psi = \pdv{\psi}{\vb n}\) in the Neumann problem.
+	Consider the non-negative functional
+	\[
+		I[\psi] = \int_\Omega \abs{\grad{\psi}}^2 \dd{V} \geq 0
+	\]
+	Clearly,
+	\[
+		I[\psi] = 0 \iff \grad{\psi} = 0 \text{ everywhere in } \Omega
+	\]
+	Now, note that we can apply the divergence theorem to get
+	\begin{align*}
+		I[\psi] & = \int_\Omega \abs{\grad{\psi}}^2 \dd{V}                                          \\
+		        & = \int_\Omega \grad{\psi} \cdot \grad{\psi} \dd{V}                                \\
+		        & = \int_\Omega \left( \div(\psi \grad{\psi}) - \psi\laplacian{\psi} \right) \dd{V} \\
+		        & = \int_\Omega \div(\psi \grad{\psi}) \dd{V}                                       \\
+		        & = \int_{\partial\Omega} \psi \grad{\psi} \cdot\dd{\vb S}                          \\
+		        & = \int_{\partial\Omega} \psi \grad{\psi} \cdot \vb n \dd{S}                       \\
+		        & = \int_{\partial\Omega} \psi \dv{\psi}{\vb n} \dd{S}                              \\
+	\end{align*}
+	In the Dirichlet case, \(I[\psi] = 0\) since \(\psi = 0\) on the boundary.
+	In the Neumann case, \(I[\psi] = 0\) as well, since \(\dv{\psi}{\vb n} = 0\).
+	Hence, in either case, \(\grad{\psi} = 0\) everywhere in \(\Omega\).
+	Therefore, \(\psi\) is a constant throughout \(\Omega\).
+	In the Dirichlet case, we know that \(\psi = 0\) on the boundary, hence \(\psi = 0\) everywhere as it is continuous.
+	However, in the Neumann problem, no such deduction can be made.
+\end{proof}
+\begin{example}
+	Here is an example from electrostatics.
+	Consider the charge density \(\rho\) defined by
+	\[
+		\rho(\vb x) = \begin{cases}
+			0    & r < a    \\
+			F(r) & r \geq a
+		\end{cases}
+	\]
+	We can show that there is no electric field in the region \(r < a\).
+	We know that the electric potential \(\phi\) will satisfy
+	\[
+		\laplacian{\phi} = \frac{-\rho(\vb x)}{\varepsilon_0} = 0 \text{ if } r<a
+	\]
+	By symmetry, we will try a \(\phi\) of the form \(\phi(r)\).
+	Hence, \(\phi(a)\) is constant on the boundary \(r=a\).
+	Note that the unique solution to
+	\[
+		\laplacian{\phi} = 0 \text{ for } r<a;\quad \phi = \text{constant on } r = a
+	\]
+	is exactly that \(\phi\) is constant everywhere.
+	Hence
+	\[
+		\vb E = -\grad{\psi} = 0 \text{ throughout } r<a
+	\]
+	This can be viewed as a version of Newton's shell theorem.
+\end{example}
+
+\subsection{Gauss' flux method for spherically symmetric sources}
+Suppose the source term (the \(F\) on the right hand side of Poisson's equation) is spherically symmetric, so \(F\) is a function of \(r = \abs{\vb x}\).
+Assuming we are trying to solve the equation for \(\Omega = \mathbb R^3\), we can rewrite the problem as
+\begin{equation}
+	\div{\grad{\phi}} = F
+	\tag{\(\ast\)}
+\end{equation}
+Since the right hand side only depends on \(r\), the same is true of the left hand side.
+So we might guess a \(\phi\) of the form \(\phi(r)\).
+In which case, we can compute
+\[
+	\grad{\phi} = \phi'(r) \vb e_r
+\]
+Using Gauss' flux method, we will integrate \((\ast)\) over some spherical region \(\abs{\vb x} < R\), and use the divergence theorem.
+\[
+	\int_{\abs{\vb x} < R} \div{\grad{\phi}}\dd{V} = \int_{\abs{\vb x} = R} \grad{\phi} \cdot \dd{\vb S} = \int_{\abs{\vb x} < R} F(r) \dd{V}
+\]
+Thinking of the source term \(F\) as some kind of density, for instance charge density or mass density, the right hand side can be thought of as the total amount of charge or mass inside the ball.
+We will call this term \(Q(R)\).
+\[
+	\int_{\abs{\vb x} = R} \grad{\phi} \cdot \dd{\vb S} = Q(R)
+\]
+Recall that on a sphere of radius \(R\), \(\dd{\vb S} = \vb e_r R^2 \sin\theta \dd{\theta}\dd{\phi}\).
+Therefore, on the boundary \(\abs{\vb x} = R\),
+\[
+	\grad{\phi} \cdot \dd{\vb S} = \phi'(r) \vb e_r \cdot \vb e_r R^2 \sin\theta \dd{\theta}\dd{\phi} = \phi'(r) R^2 \sin\theta \dd{\theta}\dd{\phi} = \phi'(r) \dd{S}
+\]
+Hence,
+\[
+	Q(R) = \int_{\abs{\vb x} = R} \phi'(r) \dd{S}
+\]
+But \(\phi'(r)\) is a constant on the surface we are integrating over.
+Therefore,
+\[
+	Q(R) = \phi'(R) \int_{\abs{\vb x} = R} \dd{S} = 4\pi R^2 \phi'(R)
+\]
+In summary,
+\[
+	\phi'(R) = \frac{Q(R)}{4\pi R^2} \implies \grad{\phi} = \frac{Q(R)}{4\pi R^2} \vb e_r
+\]
+
+\begin{example}
+	Recall the first of Maxwell's equations:
+	\[
+		\div{\vb E} = \frac{\rho}{\varepsilon_0}
+	\]
+	If we are dealing with electrostatics, the curl of \(\vb E\) is zero.
+	Hence \(\vb E = -\grad{\phi}\), so
+	\[
+		\laplacian{\phi} = -\frac{\rho}{\varepsilon_0}
+	\]
+	Consider a charge density \(\rho\) of the form
+	\[
+		\rho(r) = \begin{cases}
+			\rho_0, & 0 \leq r \leq a \\
+			0,      & r > a
+		\end{cases}
+	\]
+	By the previous result,
+	\[
+		\phi'(r) = \frac{1}{4 \pi \varepsilon_0} \frac{Q(r)}{r^2}
+	\]
+	where
+	\[
+		Q(r) = \int_{\abs{\vb x} \leq R} \rho(r) \dd{V}
+	\]
+	Note, if \(R > a\) then \(Q(R) = Q(a)\), which we will denote \(Q\) for the total charge.
+	Hence, we have the following solution:
+	\[
+		\vb E(\vb x) = \begin{cases}
+			\frac{1}{4 \pi \varepsilon_0} \frac{Q(r)}{r^2}\vb e_r, & r \leq a \\
+			\frac{1}{4 \pi \varepsilon_0} \frac{Q}{r^2}\vb e_r,    & r > a
+		\end{cases}
+	\]
+	If we take \(a \to 0\), but keeping \(Q\) fixed, this represents a point charge.
+	Then
+	\[
+		\vb E(\vb x) = \frac{1}{4 \pi \varepsilon_0} \frac{Q}{r^2}\vb e_r
+	\]
+	In this case, the charge density \(\rho\) is
+	\[
+		\rho(\vb x) = Q\delta(\vb x)
+	\]
+	where \(\delta\) is the Dirac delta function.
+\end{example}
+
+\subsection{Cylindrical symmetry}
+Suppose instead that the source term \(F\) is cylindrically symmetric, so \(F\) is a function of \(\rho\), the distance from the \(z\) axis.
+Similarly as before, we can guess that \(\phi\) is a function only of \(\rho\).
+We can integrate \(\div{\grad{\phi}} = F(\rho)\) over a cylinder \(V\) of radius \(R\) and height \(a\).
+\[
+	\grad{\phi} = \phi'(\rho) \vb e_\rho
+\]
+Hence,
+\[
+	\int_{V} \div{\grad{\phi}} \dd{V} = \int_{V} F(\rho) \dd{V}
+\]
+The left hand side becomes
+\[
+	\int_{\partial V} \grad\phi \cdot \dd{\vb S}
+\]
+On the top circle, the normal \(\vb n\) would be in the \(\vb e_z\) direction, and on the bottom circle, \(\vb n\) would be in the \(-\vb e_z\) direction.
+On the curved surface, \(\vb n\) would be in the \(\vb e_\rho\) direction.
+Note that since \(\grad\phi\) only has a component in the \(\vb e_\rho\) direction, on both the top and bottom circles will provide no contribution to the final result for this boundary integral.
+\(\dd{\vb S} = R \dd{\phi} \dd{z} \vb e_\rho\), hence
+\[
+	\int_{\partial V} \grad\phi \cdot \dd{\vb S}
+	= \int_{\phi = 0}^{2 \pi} \int_{z = z_0}^{z_0 + a} \phi'(R) R \dd{\phi} \dd{z}
+	= 2\pi \int_{z = z_0}^{z_0 + a} \phi'(R) R \dd{z}
+	= 2\pi a R \phi'(R)
+\]
+Substituting into the above equation gives
+\[
+	\phi'(R) = \frac{1}{2\pi a R} \int_{V} F(\rho) \dd{V}
+\]
+Note that the integral \(\int_{V} F(\rho) \dd{V}\) is given by
+\[
+	\int_{V} F(\rho) \dd{V} = \int_{\phi = 0}^{2 \pi} \dd{\phi} \int_{z = z_0}^{z_0 + a} \dd{z} \int_{\rho = 0}^R \dd{\rho} F(\rho) \rho = 2 \pi a \int_0^R F(\rho) \rho \dd{\rho}
+\]
+In conclusion,
+\[
+	\phi'(\rho) = \frac{1}{\rho} \int_0^\rho sF(s) \dd{s}
+\]
+
+\begin{example}
+	Consider a line of charge density \(\lambda\) per unit length along an infinitesimally thick wire.
+	We could proceed analogously to the last example before, by considering a cylinder with positive radius \(a\), using Gauss' flux method, and then letting \(a \to 0\).
+	However, we will use a different method.
+	Let \(F(\rho)\) be the desired charge density.
+	So if we integrate \(F(\rho)\) over any cylinder \(C\) of length 1, we should retrieve the value \(\lambda\).
+	\begin{align*}
+		\lambda = \int_{C} F(\rho) \dd{V} & = \int_{z = z_0}^{z_0 + 1} \dd{z} \int_{\phi = 0}^{2 \pi} \dd{\phi} \int_{\rho = 0}^R \dd{\rho} \rho F(\rho) \\
+		                                  & = 2 \pi \int_{0}^R \dd{\rho} \rho F(\rho)
+	\end{align*}
+	By inspection, \(F\) must have the form of a delta function, so \(F(\rho) = \lambda \delta(\rho) \frac{1}{2 \pi \rho}\).
+	Hence the corresponding electric potential \(\phi\) is given by
+	\[
+		\phi'(\rho) = -\frac{1}{\varepsilon_0 \rho} \int_0^\rho \lambda \delta(s) \frac{1}{2 \pi} \dd{s} = \frac{-\lambda}{2\pi\varepsilon_0 \rho}
+	\]
+	Hence,
+	\[
+		E(\vb x) = \frac{1}{2 \pi \varepsilon_0} \frac{\vb e_\rho}{\rho}
+	\]
+\end{example}
+
+\subsection{Superposition principle}
+Consider a linear operator \(L\).
+If we have solutions \(L \psi_n = F_n\) for \(n = 1, 2, \dots\), then we have \(L\qty(\sum_n \psi_n) = \sum_n F_n\) by linearity.
+In other words, we can superimpose solutions.
+We can often break up a forcing term into several smaller, simpler components, and if \(L\) is a linear differential operator we can solve for these components separately.
+For example, we can consider the electric potential due to a pair of point charges \(Q_a\) at \(\vb x = \vb a\), and \(Q_b\) at \(\vb x = \vb b\).
+The charge density would be
+\[
+	\rho(\vb x) = Q_a \delta(\vb x - \vb a) + Q_b \delta(\vb x - \vb b)
+\]
+For one point charge, we know that the electric potential obeys
+\[
+	-\laplacian{\phi} = \frac{Q_a}{\varepsilon_0} \delta(\vb x - \vb a)
+\]
+Hence,
+\[
+	\phi(\vb x) = \frac{Q_a}{4\pi \varepsilon_0} \frac{1}{\abs{\vb x - \vb a}}
+\]
+Then by the superposition principle, for two particles,
+\[
+	\phi(\vb x) = \frac{Q_a}{4\pi \varepsilon_0} \frac{1}{\abs{\vb x - \vb a}} + \frac{Q_b}{4\pi \varepsilon_0} \frac{1}{\abs{\vb x - \vb b}}
+\]
+Now, consider the electric potential outside a ball of radius \(\abs{\vb x} < R\) of uniform charge density \(\rho_0\).
+Suppose that the ball has several balls removed from its interior.
+These `subtracted' balls have the form
+\[
+	\abs{\vb x - \vb a_i} < R_i;\quad i = 1, \dots, N
+\]
+We further require that the balls lay inside the main ball, and do not intersect:
+\[
+	\abs{\vb a_i} + R_i < R;\quad \abs{\vb a_i - \vb a_j} > R_i + R_j
+\]
+We can use the superposition principle to represent each hole as a ball of uniform charge density \(-\rho_0\).
+So the effective potential in \(\abs{\vb x} > R\) (outside the vall) from each hole is
+\[
+	\phi(x) = -\frac{Q_i}{4\pi\varepsilon_0} \frac{1}{\abs{\vb x - \vb a_i}};\quad Q_i = \frac{4}{3}\pi R_i^3 \rho_0
+\]
+Hence, the total potential from the ball and its holes is
+\[
+	\phi(x) = \frac{Q}{4\pi\varepsilon_0} \frac{1}{\abs{\vb x}} - \sum_i\frac{Q_i}{4\pi\varepsilon_0} \frac{1}{\abs{\vb x - \vb a_i}}
+\]
+
+\subsection{Integral solutions}
+We know that the electric potential due to a point charge at \(\vb a\) is proportional to the inverse of the distance to the particle.
+We can think of a generic distribution of charge density as an infinite collection of superimposed particles, which leads us to consider an integral form for a superposition.
+\[
+	\int_{\mathbb R^3} \frac{F(\vb y)}{\abs{\vb x - \vb y}} \dd{V(\vb y)}
+\]
+where \(F\) is the forcing term.
+\begin{proposition}
+	Suppose \(F \to 0\) `rapidly' as \(\abs{\vb x} \to \infty\).
+	The unique solution to the Dirichlet problem
+	\[
+		\begin{cases}
+			\laplacian{\phi} = F & \vb x \in \mathbb R^3   \\
+			\abs{\phi} \to 0     & \abs{\vb{x}} \to \infty
+		\end{cases}
+	\]
+	is given by
+	\[
+		\phi(\vb x) = -\frac{1}{4\pi}\int_{\mathbb R^3} \frac{F(\vb y)}{\abs{\vb x - \vb y}} \dd{V(\vb y)}
+	\]
+\end{proposition}
+\noindent This result is another way of saying that
+\[
+	\laplacian(\frac{-1}{4\pi\abs{\vb x}}) = \delta(\vb x)
+\]
+since by differentiating with respect to \(x\) under the integral sign,
+\begin{align*}
+	\laplacian(\frac{-1}{4\pi} \int_{\mathbb R^3} \frac{F(\vb y)}{\abs{\vb x - \vb y}} \dd{V(\vb y)}) & = \frac{-1}{4\pi} \int_{\mathbb R^3} F(\vb y) \laplacian(\frac{1}{\abs{\vb x - \vb y}}) \dd{V(\vb y)} \\
+	                                                                                                  & = \int_{\mathbb R^3} F(\vb y) \delta(\vb x - \vb y) \dd{V(\vb y)}                                     \\
+	                                                                                                  & = F(\vb x)
+\end{align*}
+\noindent so it is sufficient to prove that this Laplacian identity holds.
+A full proof will not be given here, but here is some intuition to guide the idea.
+Note that for \(r \neq 0\),
+\begin{align*}
+	\laplacian(\frac{1}{r}) & = \pdv{}{x_i}{x_i} \qty(\frac{1}{r})              \\
+	                        & = \pdv{x_i} \qty(\frac{-x_i}{r^3})                \\
+	                        & = \frac{-\delta_{ii}}{r^3} + \frac{3x_i x_i}{r^5} \\
+	                        & = \frac{-3}{r^3} + \frac{3r^2}{r^5}               \\
+	                        & = 0
+\end{align*}
+So certainly \(\laplacian(-\frac{1}{4\pi\abs{\vb x}}) = \delta(\vb x)\) for \(\vb x \neq 0\).
+Assuming that the divergence theorem holds for delta functions, for any ball \(\abs{\vb x} < R\) we would also have
+\begin{align*}
+	\int_{\abs{\vb x} < R} \laplacian(\frac{1}{\abs{\vb x}}) \dd{V} & = \int_{\abs{\vb x} = R} \grad(\frac{1}{\abs{\vb x}}) \cdot \dd{\vb S}                                                          \\
+	                                                                & = \int_{\theta = 0}^{\pi} \dd{\theta} \int_{\phi = 0}^{2 \pi} \dd{\phi} \qty(\frac{-\vb e_r}{R^2}) \cdot \vb e_r R^2 \sin\theta \\
+	                                                                & = \int_{\theta = 0}^{\pi} \dd{\theta} \int_{\phi = 0}^{2 \pi} \dd{\phi} \qty(\frac{-1}{R^2}) R^2 \sin\theta                     \\
+	                                                                & = -4\pi
+\end{align*}
+So for any \(R > 0\),
+\[
+	\int_{\abs{\vb x} < R} \laplacian(\frac{-1}{4\pi\abs{\vb x}}) \dd{V} = 1 = \int_{\abs{\vb x} < R} \delta(\vb x) \dd{V}
+\]
+So we might conclude that this Laplacian operator really does give the Dirac delta function.
+
+\subsection{Harmonic functions}
+Harmonic functions are solutions to Laplace's equation,
+\[
+	\laplacian{\phi} = 0
+\]
+\begin{proposition}
+	If \(\phi\) is harmonic on \(\Omega \subset \mathbb R^3\), then
+	\begin{equation}
+		\phi(\vb a) = \frac{1}{4 \pi r^2} \int_{\abs{\vb x - \vb a} = r} \phi(\vb x) \dd{S}\tag{\(\ast\)}
+	\end{equation}
+	for \(\vb a \in \Omega\), and \(r\) sufficiently small such that all \(\vb x\) are in \(\Omega\).
+\end{proposition}
+\noindent This is known as the `mean value' property; it essentially shows that the value of \(\phi\) at any given point \(\vb a\) is the average of \(\phi\) on the surface of any ball around \(\vb a\).
+\begin{proof}
+	Let \(F(r)\) denote the right hand side of \((\ast)\), \(\frac{1}{4 \pi r^2} \int_{\abs{\vb x - \vb a} = r} \phi(\vb x) \dd{S}\).
+	Then,
+	\[
+		F(r) = \frac{1}{4\pi r^2} \int_{\abs{\vb x} = r} \phi(\vb a + \vb x) \dd{S}
+	\]
+	We can parametrise this sphere using spherical polar coordinates, giving
+	\begin{align}
+		F(r) & = \frac{1}{4\pi r^2} \int_{\phi = 0}^{2 \pi} \left[ \int_{\theta = 0}^\pi \phi(\vb a + r\vb e_r) r^2 \sin \theta \dd{\theta} \right] \dd{\phi} \notag    \\
+		     & = \frac{1}{4\pi} \int_{\phi = 0}^{2 \pi} \left[ \int_{\theta = 0}^\pi \phi(\vb a + r\vb e_r) \sin \theta \dd{\theta} \right] \dd{\phi} \tag{\(\dagger\)}
+	\end{align}
+	Differentiating with respect to \(r\), using \(\dv{r}\phi(\vb a + r \vb e_r) = \vb e_r \cdot \grad\phi(\vb a + r \vb e_r)\),
+	\begin{align*}
+		F'(r) & = \frac{1}{4\pi} \int_{\phi = 0}^{2 \pi} \int_{\theta = 0}^\pi \vb e_r \cdot \grad\phi(\vb a + r\vb e_r) \sin \theta \dd{\theta} \dd{\phi}         \\
+		      & = \frac{1}{4\pi r^2} \int_{\phi = 0}^{2 \pi} \int_{\theta = 0}^\pi \vb e_r \cdot \grad\phi(\vb a + r\vb e_r) r^2 \sin \theta \dd{\theta} \dd{\phi} \\
+		      & = \frac{1}{4\pi r^2} \int_{\abs{\vb x} = r} \vb e_r \cdot \grad\phi(\vb a + r\vb e_r) \dd{S}                                                       \\
+		      & = \frac{1}{4\pi r^2} \int_{\abs{\vb x} = r} \grad\phi(\vb a + \vb x) \cdot \dd{\vb S}                                                              \\
+		      & = \frac{1}{4\pi r^2} \int_{\abs{\vb x - \vb a} = r} \grad\phi \cdot \dd{\vb S}                                                                     \\
+		      & = \frac{1}{4\pi r^2} \int_{\abs{\vb x - \vb a} < r} \div{\grad\phi} \dd{V}                                                                         \\
+		      & = \frac{1}{4\pi r^2} \int_{\abs{\vb x - \vb a} < r} \laplacian{\phi} \dd{V}                                                                        \\
+		      & = \frac{1}{4\pi r^2} \int_{\abs{\vb x - \vb a} < r} 0 \dd{V}                                                                                       \\
+		      & = 0
+	\end{align*}
+	Now, note from \((\dagger)\) that if \(r \to 0\), then \(F(r) \to \phi(\vb a)\), and the result follows.
+\end{proof}
+
+\subsection{Intuitive explanation of Laplacian}
+We can use the central idea of the above proof to examine what the Laplacian operator is really doing.
+\begin{proposition}
+	For any smooth function \(\phi \colon \mathbb R^3 \to \mathbb R\),
+	\[
+		\laplacian\phi(\vb a) = \lim_{r \to 0} \frac{6}{r^2} \left[ \frac{1}{4\pi r^2} \int_{\abs{\vb x - \vb a} = r} \phi(\vb x) \dd{S} \right] - \phi(\vb a)
+	\]
+	In particular, if \(\phi\) satisfies the mean value property, then it is harmonic.
+\end{proposition}
+\noindent In some sense, the Laplacian is measuring how the value of \(\phi\) at a point differs from its average over a small sphere centred at this point.
+\begin{proof}
+	Consider a function \(G(r)\) defined by
+	\[
+		G(r) = \frac{1}{4\pi r^2} \int_{\abs{\vb x - \vb a} = r} \phi(\vb x) \dd{S} - \phi(\vb a)
+	\]
+	\(G\) measures the extent to which \(\phi\) differs from its average.
+	From the previous proof,
+	\[
+		G(r) = F(a) - \phi(\vb a) \implies G'(r) = F'(r)
+	\]
+	So,
+	\[
+		G'(r) = \frac{1}{4\pi r^2} \int_{\abs{\vb x - \vb a} < r} \laplacian{\phi} \dd{V}
+	\]
+	Now, note that as \(r \to 0\),
+	\begin{align*}
+		\int_{\abs{\vb x - \vb a} < r} \laplacian \phi(\vb x) \dd{V} & = \laplacian\phi(\vb a) \int_{\abs{\vb x - \vb a} < r} \dd{V} + \int_{\abs{\vb x - \vb a} < r} \left( \laplacian\phi(\vb x) - \laplacian\phi(\vb a) \right) \dd{V} \\
+		                                                             & = \frac{4\pi}{3r^3} \laplacian\phi(\vb a) + o(r^3)
+	\end{align*}
+	Now, as \(r \to 0\),
+	\[
+		G'(r) = \frac{1}{4\pi r^2} \left[ \frac{4\pi}{3r^3} \laplacian\phi(\vb a) + o(r^3) \right] = \frac{r}{3}\laplacian\phi(\vb a) + o(r)
+	\]
+	Comparing this to the Taylor expansion,
+	\[
+		G'(r) = G'(0) + rG''(0) + o(r)
+	\]
+	So certainly, \(G'(0) = 0\) since there is no constant term in \(G'(r)\).
+	Further, \(G''(0) = \frac{1}{3}\laplacian\phi(\vb a)\).
+	Now,
+	\[
+		G(r) = G(0) + rG'(0) + \frac{r^2}{2}G''(0) + o(r^2)
+	\]
+	We know that \(G(0) = F(0) - \phi(\vb a) = 0\), hence
+	\[
+		G(r) = \frac{1}{6}\laplacian\phi(\vb a) r^2 + o(r^2) \implies \laplacian\phi(\vb a) = \lim_{r \to 0} \frac{6}{r^2}G(r)
+	\]
+	which gives the result as required.
+\end{proof}
+
+\subsection{Non-existence of maximum points}
+\begin{proposition}
+	If \(\phi\) is harmonic on some volume \(\Omega \subset \mathbb R^3\), then \(\phi\) cannot have a maximum point at any interior point on \(\Omega\), unless \(\phi\) is constant.
+\end{proposition}
+\begin{proof}
+	Suppose that there exists a maximum point at \(\vb a \in \Omega\).
+	Then \(\phi(\vb a) \geq \phi(\vb x)\) for all \(\vb x \in \Omega\).
+	Then,
+	\[
+		\phi(\vb a) \geq \phi(\vb x) \text{ on } \abs{\vb x - \vb a} \leq \varepsilon
+	\]
+	for some \(\varepsilon\) small enough such that the ball is inside \(\Omega\).
+	By the mean value property,
+	\[
+		\phi(\vb a) = \frac{1}{4\pi \varepsilon^2} \int_{\abs{\vb x - \vb a} = \varepsilon} \phi(\vb x) \dd{S}
+	\]
+	Hence,
+	\[
+		0 = \frac{1}{4\pi \varepsilon^2} \int_{\abs{\vb x - \vb a} = \varepsilon} \left( \phi(\vb a) - \phi(\vb x) \right) \dd{S}
+	\]
+	Note that the integrand is always non-negative, so in order for the integral to equal zero, the integrand must be zero everywhere on the ball.
+	So \(\phi(\vb a) = \phi(\vb x)\).
+	Since \(\varepsilon\) was arbitrary, we can shrink the ball to a smaller ball around the same point, so \(\phi(\vb a) = \phi(\vb x)\) for all \(\vb x\) such that \(\abs{\vb x - \vb a} \leq \varepsilon\).
+	Hence, \(\phi\) is locally constant.
+
+	Now, given any other point \(\vb y\), we can introduce a finite sequence of overlapping balls such that the centre of the \((n+1)\)th ball is contained inside the \(n\)th ball, and where the first ball is centred at \(\vb a\) and the last ball is centred at \(\vb y\).
+	Inductively, the function is constant on each such ball.
+	Hence \(\phi\) is actually constant everywhere, since \(\vb y\) was arbitrarily chosen.
+\end{proof}
+\begin{corollary}
+	If \(\phi\) is harmonic on \(\Omega\), then for \(\vb x \in \Omega\),
+	\[
+		\phi(\vb x) \leq \max_{\vb y \in \partial \Omega} \phi(\vb y)
+	\]
+	This is called the maximum principle.
+\end{corollary}
