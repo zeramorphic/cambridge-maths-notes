@@ -1,0 +1,81 @@
+\subsection{Basic notions}
+We use the following definitions.
+\begin{itemize}
+	\item The complex plane is denoted \( \mathbb C \).
+	\item The complex conjugate of a complex number \( z \) is denoted \( \overline z \).
+	\item The modulus is denoted \( \abs{z} \).
+	\item The function \( d(z,w) = \abs{z - w} \) is a metric on \( \mathbb C \).
+		All topological notions will be with respect to this metric.
+	\item We define the disk \( D(a,r) = \qty{z \in \mathbb C \colon \abs{z-a}<r} \) to be the open ball with centre \( a \) and radius \( r \).
+	\item A subset \( U \subset \mathbb C \) is said to be open if it is open with respect to the above metric.
+		In particular, by identifying \( \mathbb C \) with \( \mathbb R^2 \), we can see that \( U \subset C \) is open if and only if \( U \subset \mathbb R^2 \) is open with respect to the Euclidean metric.
+\end{itemize}
+The course concerns itself with complex-valued functions of a single complex variable.
+Identifying \( \mathbb C \) with \( \mathbb R^2 \) allows us to construct \( f(z) = u(x,y) + i v(x,y) \), where \( u,v \) are real-valued functions.
+We can denote these parts by \( u = \Re(f) \) and \( v = \Im(f) \).
+
+\subsection{Continuity and differentiability}
+The definition of continuity is carried over from metric spaces.
+That is, \( f \colon A \to \mathbb C \) is continuous at a point \( w \in A \) if
+\[ \forall \varepsilon > 0, \exists \delta > 0, \forall z \in A, \abs{z-w} < \delta \implies \abs{f(z) - f(w)} < \varepsilon \]
+Equivalently, the limit \( \lim_{z \to w} f(z) \) exists and takes the value \( f(w) \).
+We can easily check that \( f \) is continuous at \( w = c + id \in A \) if and only if \( u, v \) are continuous at \( (c,d) \) with respect to the Euclidean metric on \( A \subset \mathbb R^2 \).
+
+\begin{definition}
+	Let \( f \colon U \to \mathbb C \), where \( U \) is open in \( \mathbb C \).
+	\begin{enumerate}[(i)]
+		\item \( f \) is \textit{differentiable} at \( w \in U \) if the limit
+			\[ f'(w) = \lim_{z \to w} \frac{f(z) - f(w)}{z-w} \]
+			exists, and its value is complex.
+			We say that \( f'(w) \) is the derivative of \( f \) at \( w \).
+		\item \( f \) is \textit{holomorphic} at \( w \in U \) if there exists \( \varepsilon > 0 \) such that \( D(w, \varepsilon) \subset U \) and \( f \) is differentiable at every point in \( D(w, \varepsilon) \).
+		\item \( f \) is holomorphic in \( U \) if \( f \) is holomorphic at every point in \( U \), or equivalently, \( f \) is differentiable everywhere.
+	\end{enumerate}
+\end{definition}
+
+Differentiation of composite functions, sums, products and quotients can be computed in the complex case exactly as they are in the real case.
+
+\begin{example}
+	Polynomials \( p(z) \sum_{j=0}^n a_j z^j \) for complex coefficients \( a_j \) are holomorphic on \( \mathbb C \).
+	Further, if \( p, q \) are polynomials, \( \frac{p}{q} \) is holomorphic on \( \mathbb C \setminus \qty{z \colon q(z) = 0} \).
+\end{example}
+
+\begin{remark}
+	The differentiability of \( f \) at a point \( c + id \) is not equivalent to the differentiability of \( u, v \) at \( (c,d) \).
+	\( u \colon U \to \mathbb R \) is differentiable at \( (c,d) \in U \) if there is a `good' affine approximation of \( u \) at \( (c,d) \); there exists a linear transformation \( L \colon \mathbb R^2 \to \mathbb R \) such that
+	\[ \lim_{(x,y) \to (c,d)} \frac{u(x,y) - (u(c,d)-L(x-c,y-d))}{\sqrt{(x-c)^2+(y-d)^2}} = 0 \]
+	If \( u \) is differentiable at \( (c,d) \), then \( L \) is uniquely defined, and can be denoted \( L = D u(c,d) \).
+	\( L \) is given by the partial derivatives of \( u \), which are
+	\[ L(x,y) = \qty(\pdv{u}{x}\qty(c,d))x+\qty(\pdv{u}{y}\qty(c,d))y \]
+	This seems to imply that the differentiability of \( f \) requires more than the differentiability of \( u,v \).
+\end{remark}
+
+\subsection{Cauchy-Riemann equations}
+\begin{theorem}
+	\( f = u + iv \colon U \to \mathbb C \) is differentiable at \( w = c + id \in U \) if and only if \( u,v \colon U \to \mathbb R \) are differentiable at \( (c,d) \in U \) and \( u,v \) satisfy the Cauchy-Riemann equations at \( (c,d) \), which are
+	\[ \pdv{u}{x} = \pdv{v}{y};\quad \pdv{u}{y} = -\pdv{v}{x} \]
+	If \( f \) is differentiable at \( w = c + id \), then
+	\[ f'(w) = \pdv{u}{x}\qty(c,d) + i \pdv{v}{x}\qty(c,d) \]
+	and other expressions, which follow directly from the Cauchy-Riemann equations.
+\end{theorem}
+\begin{proof}
+	All of the following statements will be bi-implications.
+	Suppose \( f \) is differentiable at \( w \) with \( f'(w) = p+iq \), so
+	\begin{align*}
+		\lim_{z \to w} \frac{f(z) - f(w)}{z-w} &= p+iq \\
+		\lim_{z \to w} \frac{f(z) - f(w) - (z-w)(p+iq)}{\abs{z-w}} &= 0
+	\end{align*}
+	By separating real and imaginary parts, writing \( w = c + id \) we have
+	\[ \lim_{(x,y) \to (c,d)} \frac{u(x,y) - u(c,d) - p(x-c) + q(y-d)}{\sqrt{(x-c)^2 + (y-d)^2}} = 0;\quad \lim_{(x,y) \to (c,d)} \frac{v(x,y) - v(c,d) - q(x-c) - p(y-d)}{\sqrt{(x-c)^2 + (y-d)^2}} = 0 \]
+	Thus, \( u \) is differentiable at \( (c,d) \) with \( Du(c,d)(x,y) = px - qy \) and \( v \) is differentiable at \( (c,d) \) with \( Dv(c,d)(x,y) = qx + py \).
+	\[ u_x(c,d) = v_y(c,d) = p;\quad -u_y(c,d) = v_x(c,d) = q \]
+	Hence the Cauchy-Riemann equations hold at \( (c,d) \).
+	We also find that if \( f \) is differentiable at \( w \), we have \( f'(w) = u_x(c,d) + i v_x(c,d) \).
+\end{proof}
+\begin{remark}
+	If \( u,v \) simply satisfy the Cauchy-Riemann equations alone, that does not imply differentiability of \( f \).
+	\( u,v \) must also be differentiable.
+\end{remark}
+\begin{remark}
+	If we simply want to show that the differentiability of \( f \) implies that the Cauchy-Riemann equations hold, we can proceed in a simpler way.
+\end{remark}

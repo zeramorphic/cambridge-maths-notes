@@ -1,0 +1,60 @@
+\textit{This section contains material covered by IA Groups.}
+
+\subsection{Definitions}
+A \textit{group} is a pair \( (G, \cdot) \) where \( G \) is a set and \( \cdot \colon G \times G \to G \) is a binary operation on \( G \), satisfying
+\begin{itemize}
+	\item \( a \cdot (b \cdot c) = (a \cdot b) \cdot c \);
+	\item there exists \( e \in G \) such that for all \( g \in G \), we have \( g \cdot e = e \cdot g = g \); and
+	\item for all \( g \in G \), there exists an inverse \( h \in G \) such that \( g \cdot h = h \cdot g = e \).
+\end{itemize}
+\begin{remark}
+	\begin{enumerate}[(i)]
+		\item Sometimes, such as in IA Groups, a closure axiom is also specified.
+			However, this is implicit in the type definition of \( \cdot \).
+			In practice, this must normally be checked explicitly.
+		\item Additive and multiplicative notation will be used interchangeably.
+			For additive notation, the inverse of \( g \) is denoted \( -g \), and for multiplicative notation, the inverse is instead denoted \( g^{-1} \).
+			The identity element is sometimes denoted \( 0 \) in additive notation and \( 1 \) in multiplicative notation.
+	\end{enumerate}
+\end{remark}
+A subset \( H \subseteq G \) is a \textit{subgroup} of \( G \), written \( H \leq G \), if \( h \cdot h' \in H \) for all \( h, h' \in H \), and \( (H, \cdot) \) is a group.
+The closure axiom must be checked, since we are restricting the definition of \( \cdot \) to a smaller set.
+\begin{remark}
+	A non-empty subset \( H \subseteq G \) is a subgroup of \( G \) if and only if
+	\[ a, b \in H \implies a \cdot b^{-1} \in H \]
+\end{remark}
+An \textit{abelian} group is a group such that \( a \cdot b = b \cdot a \) for all \( a, b \) in the group.
+The \textit{direct product} of two groups \( G, H \), written \( G \times H \), is the group over the Cartesian product \( G \times H \) with operation \( \cdot \) defined such that \( (g_1, h_1) \cdot (g_2, h_2) = (g_1 \cdot_G g_2, h_1 \cdot_H h_2) \).
+
+\subsection{Cosets}
+Let \( H \leq G \).
+Then, the \textit{left cosets} of \( H \) in \( G \) are the sets \( gH \) for all \( g \in G \).
+The set of left cosets partitions \( G \).
+Each coset has the same cardinality as \( H \).
+Lagrange's theorem states that if \( G \) is a finite group and \( H \leq G \), we have \( \abs{G} = \abs{H} \cdot [G \colon H] \), where \( [G \colon H] \) is the number of left cosets of \( H \) in \( G \).
+\( [G \colon H] \) is known as the \textit{index} of \( H \) in \( G \).
+We can construct Lagrange's theorem analogously using right cosets.
+Hence, the index of a subgroup is independent of the choice of whether to use left or right cosets; the number of left cosets is equal to the number of right cosets.
+
+\subsection{Order}
+Let \( g \in G \).
+If there exists \( n \geq 1 \) such that \( g^n = 1 \), then the least such \( n \) is the \textit{order} of \( G \).
+If no such \( n \) exists, we say that \( g \) has infinite order.
+If \( g \) has order \( d \), then:
+\begin{enumerate}[(i)]
+	\item \( g^n = 1 \implies d \mid n \);
+	\item \( \genset{g} = \qty{1, g, \dots, g^{d-1}} \leq G \), and by Lagrange's theorem (if \( G \) is finite) \( d \mid \abs{G} \).
+\end{enumerate}
+
+\subsection{Normality and quotients}
+A subgroup \( H \leq G \) is \textit{normal}, written \( H \trianglelefteq G \), if \( g^{-1} H g = H \) for all \( g \in G \).
+In other words, \( H \) is preserved under conjugation over \( G \).
+If \( H \trianglelefteq G \), then the set \( G/H \) of left cosets of \( H \) in \( G \) forms the \textit{quotient group}.
+The group action is defined by \( g_1 H \cdot g_2 H = (g_1 \cdot g_2) H \).
+This can be shown to be well-defined.
+
+\subsection{Homomorphisms}
+Let \( G, H \) be groups.
+A function \( \phi \colon G \to H \) is a \textit{group homomorphism} if \( \phi(g_1 \cdot_G g_2) = \phi(g_1) \cdot_H \phi(g_2) \) for all \( g_1, g_2 \in G \).
+The \textit{kernel} of \( \phi \) is defined to be \( \ker \phi = \qty{g \in G \colon \phi(g) = 1} \), and the \textit{image} of \( \phi \) is \( \Im \phi = \qty{\phi(g) \colon g \in G} \).
+The kernel is a normal subgroup of \( G \), and the image is a subgroup of \( H \).

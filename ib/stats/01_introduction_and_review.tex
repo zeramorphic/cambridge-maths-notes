@@ -1,0 +1,88 @@
+\subsection{Introduction}
+Statistics can be defined as the science of making informed decisions.
+The field comprises, for example:
+\begin{itemize}
+	\item the design of experiments and studies;
+	\item visualisation of data;
+	\item formal statistical inference (which is the focus of this course);
+	\item communication of uncertainty and risk; and
+	\item formal decision theory.
+\end{itemize}
+This course concerns itself with \textit{parametric inference}.
+Let \( X_1, \dots, X_n \) be i.i.d.\ (independent and identically distributed) random variables, where we assume that the distribution of \( X_1 \) belongs to some family with parameter \( \theta \in \Theta \).
+For instance, let \( X_1 \sim \mathrm{Poisson}(\mu) \), where \( \theta = \mu \) and \( \Theta = (0, \infty) \).
+Another example is \( \( X_1 \sim N(\mu, \sigma^2) \), and \( \theta = (\mu, \sigma^2) \) and \( \Theta = \mathbb R \times (0, \infty) \).
+We use the observed \( X = (X_1, \dots, X_n) \) to make inferences about the parameter \( \theta \):
+\begin{enumerate}[(i)]
+	\item we can estimate the value of \( \theta \) using a \textit{point estimate} written \( \hat \theta(X) \);
+	\item we can make an \textit{interval estimate} of \( \theta \), written \( (\hat \theta_1(X), \hat \theta_2(X)) \);
+	\item hypotheses about \( \theta \) can be tested, for instance the hypothesis \( H_0 \colon \theta = 1 \), by checking whether there is evidence in the data \( X \) against the hypothesis \( H_0 \).
+\end{enumerate}
+\begin{remark}
+	In general, we will assume that the family of distributions of the observations \( X_i \) is known \textit{a priori}, and the parameter \( \theta \) is the only unknown.
+	There will, however, be some remarks later in the course where we can make weaker assumptions about the family.
+\end{remark}
+
+\subsection{Review of IA Probability}
+\textit{This subsection reviews material covered in the IA Probability course. Some keywords are measure-theoretic, and are not defined.}
+
+Let \( \Omega \) be the \textit{sample space} of outcomes in an experiment.
+A \textit{measurable} subset of \( \Omega \) is called an \textit{event}, and we denote the set of events by \( \mathcal F \).
+A \textit{probability measure} \( \mathbb P \colon \mathcal F \to [0,1] \) satisfies the following properties.
+\begin{enumerate}
+	\item \( \prob{\varnothing} = 0 \);
+	\item \( \prob{\mathcal F} = 1 \);
+	\item \( \prob{\bigcup_{i = 1}^\infty A_i} = \sum_{i=1}^\infty \prob{A_i} \) if \( (A_i) \) is a sequence of disjoint events.
+\end{enumerate}
+A \textit{random variable} is a \textit{measurable function} \( X \colon \Omega \to \mathbb R \).
+The \textit{distribution function} of a random variable \( X \) is the function \( F_X(x) = \prob{X \leq x} \).
+We say that a random variable is \textit{discrete} when it takes values in a countable set \( \mathcal X \subset \mathbb R \).
+The \textit{probability mass function} of a discrete random variable is the function \( p_X(x) = \prob{X = x} \).
+We say that \( X \) has a \textit{continuous distribution} if it has a \textit{probability density function} \( f_X(x) \) such that \( \prob{x \in A} = \int_A f_X(x) \dd{x} \) for `nice' sets \( A \).
+
+The \textit{expectation} of a random variable \( X \) is defined as
+\[ \expect{X} = \begin{cases}
+	\sum_{x \in X} x p_X(x) & \text{if } X \text{ discrete} \\
+	\int_{-\infty}^\infty x f_X(x) \dd{x} & \text{if } X \text{ continuous}
+\end{cases} \]
+If \( g \colon \mathbb R \to \mathbb R \), we define \( \expect{g(X)} \) by considering the fact that \( g(X) \) is also a random variable.
+For instance, in the continuous case,
+\[ \expect{g(X)} = \int_{-\infty}^\infty g(x) f_X(x) \dd{x} \]
+The \textit{variance} of a random variable \( X \) is defined as \( \expect{(X - \expect{X})^2} \).
+
+We say that a set of random variables \( X_1, \dots, X_n \) are \textit{independent} if, for all \( x_1, \dots, x_n \), we have
+\[ \prob{X_1 \leq x_1, \dots, X_n \leq x_n} = \prob{X_1 \leq x_1} \cdots \prob{X_n \leq x_n} \]
+If and only if \( X_1, \dots, X_n \) have probability density (or mass) functions \( f_1, \dots, f_n \), then the \textit{joint probability density (respectively mass) function} is
+\[ f_X(x) = \prod_{i = 1}^n f_{X_i}(x_i) \]
+
+If \( Y = \max\qty{X_1, \dots, X_n} \) where the \( X_i \) are independent, then the distribution function of \( Y \) is given by
+\[ \prob{Y \leq y} = \prob{X_1 \leq y} \cdots \prob{X_n \leq y} \]
+The probability density function of \( Y \) (if it exists) is obtained by the differentiating the above.
+
+Under a linear transformation, the expectation and variance have certain properties.
+Let \( a = (a_1, \dots, a_n)^\transpose \in \mathbb R^n \) be a constant in \( \mathbb R^n \).
+\[ \expect{a_1 X_1 + \dots + a_n X_n} = \expect{a^\transpose X} = a^\transpose \expect{X} \]
+where \( \expect{X} \) is defined componentwise.
+Note that independence of \( X_i \) is not required for linearity of the expectation to hold.
+Similarly,
+\[ \Var{a^\transpose X} = \sum_{i,j} a_i a_j \Cov{X_i, X_j} = a^\transpose \Var{X} a \]
+where we define \( \Cov{X, Y} \equiv \expect{(X - \expect{X})(Y - \expect{Y})} \), and \( \Var{X} \) is the \textit{variance-covariance matrix} with entries \( (\Var{X})_{ij} = \Cov{X_i, X_j} \).
+We can say that the variance is bilinear.
+
+\subsection{Standardised statistics}
+Suppose that \( X_1, \dots, X_n \) are i.i.d.\ and \( \expect{X_1} = \mu \), \( \Var{X_1} = \sigma^2 \).
+We define
+\[ S_n = \sum_i X_i;\quad \overline{X_n} = \frac{S_n}{n} \]
+where \( \overline{X_n} \) is called the \textit{sample mean}.
+By linearity of expectation and bilinearity of variance,
+\[ \expect{\overline{X_n}} = \mu;\quad \Var{\overline {X_n}} = \frac{\sigma^2}{n} \]
+We further define
+\[ Z_n = \frac{S_n - n\mu}{\sigma\sqrt{n}} = \sqrt{n} \frac{\overline X_n - \mu}{\sigma} \]
+which has the properties that
+\[ \expect{\overline Z_n} = 0;\quad \Var{Z_n} = 1 \]
+
+\subsection{Moment generating functions}
+The \textit{moment generating function} of a random variable \( X \) is the function \( M_X(t) = \expect{e^{tX}} \), provided that this function exists for \( t \) in some neighbourhood of zero,
+This can be thought of as the Laplace transform of the probability density function.
+Note that
+\[ \expect{X^n} = \dv[n]{t} \eval{M_X(t)}_{t = 0} \]
