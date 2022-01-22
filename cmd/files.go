@@ -21,6 +21,10 @@ var Files []TexFile = []TexFile{
 	{FilePath: "ib/methods", Name: "Methods"},
 	{FilePath: "ib/quantum", Name: "Quantum Mechanics"},
 	{FilePath: "ib/linalg", Name: "Linear Algebra"},
+	{FilePath: "ib/grm", Name: "Groups, Rings and Modules"},
+	{FilePath: "ib/ca", Name: "Complex Analysis"},
+	{FilePath: "ib/geom", Name: "Geometry"},
+	{FilePath: "ib/stats", Name: "Statistics"},
 }
 
 var FilesWithBook []TexFile
