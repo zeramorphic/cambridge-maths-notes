@@ -1,3 +1,10 @@
+\ProvidesPackage{util}
+
+\newif\if@compilingfullbook
+\DeclareOption{book}{\@compilingfullbooktrue}
+
+\ProcessOptions\relax
+
 \usepackage[UKenglish]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -41,8 +48,13 @@
 \usetikzlibrary{cd}
 \AtBeginEnvironment{tikzcd}{\tikzexternaldisable}
 \AtEndEnvironment{tikzcd}{\tikzexternalenable}
-\usepackage{../../tex_vendor/tikzit}
-\input{../../tex_vendor/style.tikzstyles}
+\if@compilingfullbook
+	\usepackage{tex_vendor/tikzit}
+	\input{tex_vendor/style.tikzstyles}
+\else
+	\usepackage{../../tex_vendor/tikzit}
+	\input{../../tex_vendor/style.tikzstyles}
+\fi
 
 \usepackage[pdfa]{hyperref}
 \hypersetup{

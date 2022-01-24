@@ -69,7 +69,7 @@ func html() {
 				fileString := string(rawFileContents)
 
 				// We can modify the contents of the file that pandoc sees here.
-				fileString = "\\input{../../util.tex}\\n" + fileString
+				fileString = "\\usepackage{../../util}\\n" + fileString
 
 				cmd := exec.Command(
 					"pandoc",
