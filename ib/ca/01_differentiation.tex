@@ -78,4 +78,98 @@ Differentiation of composite functions, sums, products and quotients can be comp
 \end{remark}
 \begin{remark}
 	If we simply want to show that the differentiability of \( f \) implies that the Cauchy-Riemann equations hold, we can proceed in a simpler way.
+	For \( t \in \mathbb R \),
+	\[ f'(w) = \lim_{t \to 0} \qty(\frac{u(c+t,d) - u(c,d)}{t} + i \frac{v(c+t,d) - v(c,d)}{t}) \]
+	Hence the real part and the complex part both exist, so \( u_x(c,d) \) and \( v_x(c,d) \) exist, and \( f'(w) = u_x(c,d) + i v_x(c,d) \).
+	If we instead considered a perturbation along the imaginary axis, we find \( f'(w) = v_y(c,d) - iu_y(c,d) \), giving the Cauchy-Riemann equations.
 \end{remark}
+\begin{example}
+	The complex conjugate function \( z \mapsto \overline z \) is not differentiable.
+	Here, \( u(x,y) = x \), and \( v(x,y) = -y \), so the Cauchy-Riemann equations do not hold.
+\end{example}
+\begin{corollary}
+	If \( u, v \) have continuous partial derivatives at \( (c,d) \) and satisfy the Cauchy-Riemann equations at \( (c,d) \), then \( f \) is differentiable at \( c + id \).
+	In particular, if \( u,v \) are \( C^1 \) functions on \( U \) (i.e.\ have continuous partial derivatives in \( U \)) satisfying the Cauchy-Riemann equations everywhere, then \( f \) is holomorphic (in \( U \)).
+\end{corollary}
+\begin{proof}
+	If \( u,v \) have continuous partial derivatives then \( u, v \) are differentiable at \( (c,d) \) by Analysis and Topology.
+\end{proof}
+
+\subsection{Curves and path-connectedness}
+\begin{definition}
+	A \textit{curve} is a continuous function \( \gamma \colon [a,b] \to \mathbb C \), where \( a,b \in \mathbb R \).
+	\( \gamma \) is a \( C^1 \) curve if \( \gamma' \) exists and is continuous on \( [a,b] \).
+	An open set \( U \subset \mathbb C \) is \textit{path connected} if for any two points \( z,w \in U \), there exists \( \gamma \colon [0,1] \to U \) such that \( \gamma(0) = z \) and \( \gamma(1) = w \).
+	A \textit{domain} is a non-empty, open, path connected subset of \( \mathbb C \).
+\end{definition}
+\begin{corollary}
+	Let \( U \) be a domain.
+	Let \( f \colon U \to \mathbb C \) be a holomorphic function with derivative zero everywhere.
+	Then \( f \) is constant on \( U \).
+\end{corollary}
+\begin{proof}
+	By the Cauchy-Riemann equations, \( f' = 0 \) implies that \( Du = Dv = 0 \) in \( U \).
+	By Analysis and Topology, the path-connectedness of \( U \) implies that \( u \) and \( v \) are constant functions.
+\end{proof}
+
+\subsection{Power series}
+Recall the following theorem from IA Analysis.
+\begin{theorem}
+	Let \( (c_n)_{n=0}^\infty \) be a sequence of complex numbers.
+	Then, the power series
+	\[ \sum_{n=0}^\infty c_n (z-a)^n \]
+	has a unique \textit{radius of convergence} \( R \in [0,\infty] \) such that the power series converges absolutely for \( \abs{z - a} < R \) and diverges if \( \abs{z - a} > R \).
+	Further, if \( 0 < r < R \), the series converges uniformly with respect to \( z \) on the compact disk \( D(a,r) \).
+\end{theorem}
+Note that
+\[ R = \sup\qty{r \geq 0 \colon \lim_{n \to \infty} \abs{c_n}r^n = 0};\quad \frac{1}{R} = \limsup_{n \to \infty} \abs{c_n}^{\frac{1}{n}} \]
+\begin{theorem}
+	Let the sequence \( (c_n) \) define a power series \( f \) centred around \( a \) with positive radius of convergence \( R \).
+	Then, the function \( f \colon D(a,R) \to \mathbb C \) satisfies
+	\begin{enumerate}[(i)]
+		\item \( f \) is holomorphic on \( D(a,R) \);
+		\item the term-by-term differentiated series \( \sum_{n=1}^\infty nc_n(z-a)^{n-1} \) also has radius of convergence equal to \( R \), and this series is exactly the value of \( f' \);
+		\item \( f \) has derivatives of all orders on \( D(a,R) \) and \( c_n = \frac{f^{(n)}(a)}{n!} \);
+		\item if \( f \) vanishes on \( D(a, \varepsilon) \) for any \( \varepsilon > 0 \), then \( f \equiv 0 \) on \( D(a,R) \).
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	\begin{enumerate}[(i)]
+		\item Without loss of generality, let \( a = 0 \).
+			\( \sum_{n=1}^\infty nc_n(z-a)^{n-1} \) has some radius of convergence \( R_1 \).
+
+			Let \( z \in D(0,R) \) and choose \( \rho \) such that \( \abs{z} < \rho < R \).
+			Then,
+			\[ n \abs{c_n}\abs{z}^{n-1} = n \abs{c_n} \abs{\frac{z}{\rho}}^{n-1} \rho^{n-1} \leq \abs{c_n} \rho^{n-1} \]
+			for sufficiently large \( n \), since \( n \abs{\frac{z}{\rho}}^{n-1} \to 0 \) as \( n \to \infty \).
+			Since \( \sum \abs{c_n} \rho^n \) converges, we must have that \( n \abs{c_n}\abs{z}^{n-1} \) converges.
+			Hence \( R_1 \geq R \).
+
+			Now, since
+			\[ \abs{c_n}\abs{z}^n \leq n \abs{c_n}\abs{z}^n = \abs{z}\qty(n \abs{c_n}\abs{z}^{n-1}) \]
+			If \( \sum n\abs{c_n}{z}^{n-1} \) converges then so does \( \sum \abs{c_n}\abs{z}^n \).
+			Hence \( R_1 \leq R \).
+			This leads us to conclude \( R_1 = R \).
+		\item Let \( z \in D(0,R) \).
+			The statement that \( f' \) is the above differentiated power series at \( z \) is equivalent to continuity at \( z \) of the function
+			\[ g \colon D(0,R) \to \mathbb C;\quad g(w) = \begin{cases}
+				\frac{f(w) - f(z)}{w - z} & w \neq z \\
+				\sum_{n=1}^\infty n c_n z^{n-1} & w = z
+			\end{cases} \]
+			Substituting for \( f \), we have \( g(w) = \sum_{n=1}^\infty h_n(w) \) for \( w \in D(0,R) \) where
+			\[ h_n(w) = \begin{cases}
+				\frac{c_n(w^n - z^n)}{w - z} & w \neq z \\
+				n c_n z^{n-1} & w = z
+			\end{cases} \]
+			Note that \( h_n \) is continuous on \( D(0,R) \).
+			Further, note that
+			\[ \frac{w^n - z^n}{w - z} = \sum_{j=0}^{n-1} z^j w^{n-1-j} \]
+			We have that for all \( r \) with \( \abs{z} < r < R \) and all \( w \in D(0,r) \), \( \abs{h_n}(w) \leq n \abs{c_n} r^{n-1} \equiv M_n \).
+			Since \( \sum M_n < \infty \), the Weierstrass \( M \) test shows that \( \sum h_n \) converges uniformly on \( D(0,r) \).
+			A uniform limit of continuous functions is continuous, hence \( g = \sum h_n \) is continuous in \( D(0,r) \) and in particular at \( z \).
+		\item Part (ii) can be applied inductively.
+			The equation \( c_n = \frac{f^{(n)}(a)}{n!} \) can be found by differentiating the series \( n \) times.
+		\item If \( f \equiv 0 \) in some disk \( D(a, \varepsilon) \), then \( f^{(n)}(a) = 0 \) for all \( n \).
+			Thus the powr series is identically zero.
+	\end{enumerate}
+\end{proof}

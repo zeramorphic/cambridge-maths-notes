@@ -77,5 +77,79 @@
 		If \( [p] \neq [q] \in \mathbb R \mathbb P^2 \), then \( \pm p, \pm q \in S^2 \) are distinct antipodal pairs.
 		We can therefore construct distinct open disks around \( p, q \) in \( S^2 \), and their antipodal images.
 		These uniquely define open neighbourhoods of \( [p], [q] \), which are disjoint.
+
+		Similarly, we can check that \( \mathbb R \mathbb P^2 \) is second countable.
+		We know that \( S^2 \) is second countable, so let \( \mathcal U \) be a countable base for the topology on \( S^2 \).
+		Without loss of generality, we can assert that for all sets \( U \in \mathcal U \), we have \( -U \in \mathcal U \).
+		Let \( \overline{\mathcal U} \) be the family of open sets in \( \mathbb R \mathbb P^2 \) of the form \( q(U) \cup q(-U) \) for \( U \in \mathcal U \), where \( q \) is the quotient map.
+		Now, if \( V \subseteq \mathbb R \mathbb P^2 \) is open, then by definition \( q^{-1}(V) \) is open in \( S^2 \) hence \( q^{-1}(V) \) contains some \( U \in \mathcal U \) and hence contains \( U \cup (-U) \).
+		Hence \( \overline{\mathcal U} \) is a countable base for the quotient topology on \( \mathbb R \mathbb P^2 \).
+
+		Finally, let \( p \in S^2 \) and \( [p] \in \mathbb R \mathbb P^2 \) its image.
+		Let \( \overline D \) be a small (contained in an open hemisphere) closed disk, which is a neighbourhood of \( p \in S^2 \).
+		The quotient map restricted to \( \overline D \), written \( \eval{q}_{\overline D} \colon \overline D \to q(\overline D) \subset \mathbb R \mathbb P^2 \), is a continuous function from a compact space to a Hausdorff space.
+		Further, \( q \) is injective on \( \overline D \) since the disk was contained entirely in a single hemisphere.
+		The topological inverse function theorem states that a continuous bijection from a compact space to a Hausdorff space is a homeomorphism.
+		So \( \eval{q}_{\overline D} \) is a homeomorphism from \( \overline D \) to \( q(\overline D) \).
+		This then induces the homeomorphism \( \eval{q}_{D} \) from the open disk \( D = {\overline D}^\circ \) to \( q(D) \).
+		So by construction, \( [p] \in q(D) \); it has an open neighbourhood in \( \mathbb R \mathbb P^2 \) which is homeomorphic to an open disk, concluding the proof.
 	\end{proof}
+\end{example}
+\begin{example}
+	Let \( S^1 \) be the unit circle in \( \mathbb C \), and then we define the torus to be the product space \( S^1 \times S^1 \), with the subspace topology from \( \mathbb C^2 \) (which is identical to the product topology).
+	\begin{lemma}
+		The torus is a topological surface.
+	\end{lemma}
+	\begin{proof}
+		% TODO: add commutativity diagrams
+		Consider the map \( e \colon \mathbb R^2 \to S^1 \times S^1 \) defined by
+		\[ (s,t) \mapsto \qty(e^{2\pi i s}, e^{2 \pi i t}) \]
+		Note that this induces a map \( \hat e \) from \( \mathbb R^2 / \mathbb Z^2 \), since \( e \) is constant under translations by \( \mathbb Z^2 \).
+		Under the quotient topology given by the quotient map \( q \), \( \mathbb R^2 / \mathbb Z^2 \) is a topological space.
+		The map \( [0,1]^2 \to \mathbb R^2 \to \mathbb R^2 / \mathbb Z^2 \) is surjective, so \( \mathbb R^2 / \mathbb Z^2 \) is compact.
+		So \( \hat e \) is a continuous map from a compact space to a Hausdorff space, and \( \hat e \) is bijective, so \( \hat e \) is a homeomorphism.
+		We already have that \( S^1 \times S^1 \) is compact and Hausdorff (as a closed and bounded set in \( \mathbb C^2 \)), so it suffices to show it is locally homeomorphic to \( \mathbb R^2 \).
+		Let \( [p] = q(p) \in S^1 \times S^1 \), then we can choose a small disk \( \overline D(p) \) such that \( \overline D(p) \cap \qty(\overline D(p) + (n,m)) = \varnothing \) for non-zero \( (n,m) \in \mathbb Z^2 \).
+		Hence \( \eval{e}_{\overline D(p)} \) is injective and \( \eval{q}_{\overline D(p)} \) is injective.
+		Now, restricting to the open disk as before, we can find an open disk neighbourhood of \( [p] \).
+		Since \( [p] \) was chosen arbitrarily, \( S^1 \times S^1 \) is a topological surface.
+	\end{proof}
+\end{example}
+\begin{example}
+	Let \( P \) be a planar Euclidean polygon, with oriented edges.
+	We will pair the edges, and without loss of generality we will assume that paired edges have the same Euclidean length.
+	\iffalse{}
+		 >>
+		^  ^
+		 >>
+
+		 >>
+		^  ^
+		 <<
+
+		    >
+		^>>   v>
+		v>    <<v
+		    >
+	\fi{}
+	We can assign letter names to each edge pair, and denote a polygon by the sequence of edges found when traversing in a clockwise orientation.
+	The edge pair name is inverted if the edge is traversed in the reverse direction.
+	For instance, the first shape could also be written \( a b a^{-1} b^{-1} \).
+	If two edges \( e, \hat e \) are paired, this defines a unique Euclidean isometry from \( e \) to \( \hat e \) respecting the orientation, which will be written \( f_{e\hat e} \colon e \to \hat e \).
+	The set of all such functions generate an equivalence relation on the polygon, identifying paired edges with each other.
+	\begin{lemma}
+		\( \frac{P}{\sim} \), with the quotient topology, is a topological surface.
+	\end{lemma}
+	\begin{example}
+		Consider the torus, defined here as \( [0,1]^2/\sim \).
+		Let \( P \) be the polygon \( [0,1]^2 \).
+		If \( p \) is in the interior of \( P \), then construct a sufficiently small disk that lies entirely within the interior.
+		The quotient map is injective on the closure of the disk and is a homeomorphism on its interior.
+
+		Let \( p \) be on an edge, but not a vertex.
+		Let us say without loss of generality that \( p = (0,y_0) \sim (1,y_0) \).
+		Let \( \delta \) be sufficiently small that the half-disks centred on \( p \) with radius \( \delta \) do not intersect any vertices.
+		Then we define a map from the union of the two half-disks to the disk \( B(0,\delta) \subseteq \mathbb R^2 \) via \( (x,y) \mapsto (x,y-y_0) \) or \( (x,y) \mapsto (x-1,y-y_0) \), which will be a bijective map.
+		Recall the gluing theorem from Analysis and Topology: that if \( X = A \cup B \) is a union of closed subspaces, and \( f \colon A \to Y \), \( g \colon B \to Y \) are continuous and \( \eval{f}_{A \cap B} = \eval{g}_{A \cap B} \), they define a continuous map on \( X \).
+	\end{example}
 \end{example}
