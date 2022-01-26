@@ -12,7 +12,7 @@
 	A space \( X \) is \textit{second countable} if it has a countable base; there exists a countable family of open sets \( U_i \), such that every open set is a union of some of the \( U_i \).
 
 	Note that subspaces of Hausdorff and second countable spaces are also Hausdorff and second countable.
-	In particular, Euclidean space \( \mathbb R^n \) is Hausdorff (as \( \mathbb R^n \) is a metic space) and second countable (consider the set of balls \( D(p,q) \) for points \( p \) with rational coordinates, and rational radii \( q \)).
+	In particular, Euclidean space \( \mathbb R^n \) is Hausdorff (as \( \mathbb R^n \) is a metric space) and second countable (consider the set of balls \( D(p,q) \) for points \( p \) with rational coordinates, and rational radii \( q \)).
 	Hence, any subspace of \( \mathbb R^n \) is implicitly Hausdorff and second countable.
 	These topological requirements are typically not the purpose of considering topological spaces, but they are occasionally technical requirements to prove interesting theorems.
 \end{remark}
@@ -142,15 +142,77 @@
 		\( \faktor{P}{\sim} \), with the quotient topology, is a topological surface.
 	\end{lemma}
 	\begin{example}
-		Consider the torus, defined here as \( \faktor{[0,1]^2}{\sim} \).
+		Consider the torus, defined here as \( T^2 = \faktor{[0,1]^2}{\sim} \).
 		Let \( P \) be the polygon \( [0,1]^2 \).
 		If \( p \) is in the interior of \( P \), then construct a sufficiently small disk that lies entirely within the interior.
 		The quotient map is injective on the closure of the disk and is a homeomorphism on its interior.
 
 		Let \( p \) be on an edge, but not a vertex.
 		Let us say without loss of generality that \( p = (0,y_0) \sim (1,y_0) \).
-		Let \( \delta \) be sufficiently small that the half-disks centred on \( p \) with radius \( \delta \) do not intersect any vertices.
+		Let \( \delta \) be sufficiently small that the closed half-disks \( U, V \) centred on \( p \) with radius \( \delta \) do not intersect any vertices.
 		Then we define a map from the union of the two half-disks to the disk \( B(0,\delta) \subseteq \mathbb R^2 \) via \( (x,y) \mapsto (x,y-y_0) \) or \( (x,y) \mapsto (x-1,y-y_0) \), which will be a bijective map.
 		Recall the gluing lemma from Analysis and Topology: that if \( X = A \cup B \) is a union of closed subspaces, and \( f \colon A \to Y \), \( g \colon B \to Y \) are continuous and \( \eval{f}_{A \cap B} = \eval{g}_{A \cap B} \), they define a continuous map on \( X \).
+		Let \( f_U, f_V \) be the maps on the half-disks \( U, V \).
+		By the definition of the quotient topology, \( q \circ f_U \) and \( q \circ f_V \) are also continuous.
+		On the overlapping area, the functions \( q \circ f_U \) and \( q \circ f_V \) agree.
+		Hence, by the gluing lemma, we can construct a function \( f \colon U \cup V \to B(0, \delta) \).
+		We can show that this is a homeomorphism using the usual process: pass to the closed disk, apply the topological inverse function theorem, then apply the result to the interior.
+		If \( [p] \in T^2 \) lies on the image of an edge in \( [0,1]^2 \), it has indeed a neighbourhood homeomorphic to a disk.
+
+		Now it suffices to consider points \( p \) on a vertex.
+		All four vertices of the square are identified to the same point in the torus.
+		A neighbourhood of each vertex can be identified with a quarter-disk in \( \mathbb R^2 \).
+		We can repeatedly apply the gluing lemma to construct the whole disk \( B(0,\delta) \subseteq \mathbb R^2 \) and complete the argument as before.
+
+		Thus, \( \faktor{[0,1]^2}{\sim} \) is a topological surface.
+	\end{example}
+	We can generalise this proof to an arbitrary planar Euclidean polygon \( P \), such as the hexagon above.
+	The equivalence relation \( x \sim f_{e \hat e}(x) \) induces an equivalence relation on the vertices of \( P \), by considering the images of the vertices under all \( f_{e\hat e} \).
+	However, it is not necessarily the case that an equivalence class of vertices contains exactly four vertices, so quarter-disks are not necessarily applicable.
+	Again, there are three types of point:
+	\begin{itemize}
+		\item interior points, for which a neighbourhood not intersecting the boundary is chosen;
+		\item points on edges, for which a corresponding point exists and two half-disks can be glued to form the neighbourhood; and
+		\item points on vertices.
+			For this case, all vertices of the polygon have a neighbourhood which is a sector of a circle.
+			Let there be \( r \) vertices in a given equivalence class.
+			Let \( \alpha \) be the sum of the angles of the sectors in a given class.
+			Any sector can be identified with a given sector in the disk \( B(0,\delta) \subseteq \mathbb R^2 \), which we will choose to have angle \( \alpha / r \).
+			Then, we can glue each sector together in \( \mathbb R^2 \), compatibly with the orientations of the edges and arrows, inducing a neighbourhood which is locally homeomorphic to a disk.
+			If \( r = 1 \), we have an equivalence class comprising a single vertex, which gives a single sector.
+			For \( r \) to be one, the two edges attached to this vertex must be paired and have the same direction (either both inwards or outwards from the vertex).
+			This quotient space is simply a cone, which is homeomorphic to a disk as required.
+	\end{itemize}
+	We can also show that the quotient space is Hausdorff and second countable.
+	By construction, two distinct points in the quotient space can be separated by open neighbourhoods by selecting a sufficiently small radius such that the disks considered in the derivation above are disjoint.
+	For second countability, consider
+	\begin{itemize}
+		\item disks in the interior of \( P \) with rational centres and radii;
+		\item for each edge of \( P \), consider an isometry \( e \to [0, \ell] \) where \( \ell \) is the length of \( e \), taking disks on \( e \) which are centred at rational values in \( [0,\ell] \); and
+		\item for each vertex, consider disks centred at these vertices with rational radii.
+	\end{itemize}
+\end{example}
+\begin{example}
+	Given topological surfaces \( \Sigma_1, \Sigma_2 \) we can remove an open disk from each and glue the resulting circles.
+	Explicitly, we form a quotient relation on the disjoint union of the surfaces with the disks removed.
+	This process is known as forming the \textit{connect sum} of the surfaces, written \( \Sigma_1 \connect \Sigma_2 \).
+	Typically, the information about where the disks were removed from is discarded when considering the connect sum.
+	The connect sum of two topological surfaces is a topological surface.
+	\begin{example}
+		Consider the following octagon.
+		\ctikzfig{double_torus_polygon}
+		The associated quotient space \( \faktor{P}{\sim} \) can be seen to be homeomorphic to a surface with two holes, known as a double torus.
+		All vertices are identified as the same vertex in the quotient space.
+		We can cut the octagon along a diagonal, leaving two topological surfaces which are homeomorphic to a torus.
+		Thus, the connect sum of the two half-octagons are the connect sum of two toruses.
+	\end{example}
+	\begin{example}
+		Consider the following square.
+		\ctikzfig{rp2_polygon}
+		This is homeomorphic to the real projective plane \( \mathbb R \mathbb P^2 \).
+		This is because we identify points on the boundary with their antipodes, when interpreting the square as the closed disk \( B(0,1) \).
+		The real projective plane was constructed by identifying points on the unit sphere with their antipodes.
+		Thus, we can construct a homeomorphism by considering only points in the upper hemisphere (taking antipodes as required), and then orthographically projecting onto the \( xy \) plane.
+		Under this transformation, points on the boundary are identified with their antipodes as required.
 	\end{example}
 \end{example}
