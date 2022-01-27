@@ -35,3 +35,107 @@ Let \( X = (X_1, \dots, X_n) \).
 \begin{remark}
 	Like the bias, the mean squared error is, in general, a function of the true parameter \( \theta \).
 \end{remark}
+
+\subsection{Bias-variance decomposition}
+The mean squared error can be written as
+\[ \mathrm{mse}\qty(\hat \theta) = \esub{\theta}{\qty(\hat \theta - \esub{\theta}{\hat\theta} + \esub{\theta}{\hat\theta} - \theta)^2} = \Varsub{\theta}\qty(\hat \theta) + \mathrm{bias}^2\qty(\hat\theta) \]
+Note that both the variance and bias squared terms are positive.
+This implies a tradeoff between bias and variance when minimising error.
+\begin{example}
+	Let \( X \sim \mathrm{Bin}(n, \theta) \) where \( n \) is known and \( \theta \) is an unknown probability.
+	Let \( T_U = X / n \).
+	This is the proportion of successes observed.
+	This is an unbiased estimator, since \( \esub{\theta}{T_U} = \esub{\theta}{X}/n = \theta \).
+	The mean squared error for the estimator is then
+	\[ \Varsub{\theta}\qty(T_n) = \Varsub{\theta}\qty(\frac{X}{n}) = \frac{\Varsub{\theta}(X)}{n^2} = \frac{\theta(1-\theta)}{n} \]
+	Now, consider an alternative estimator which has some bias:
+	\[ T_B = \frac{X+1}{n+2} = w \underbrace{\frac{X}{n}}_{T_U} + (1-w)\frac{1}{2};\quad w = \frac{n}{n+2} \]
+	This interpolates between the estimator \( T_U \) and the fixed estimator \( \frac{1}{2} \).
+	Here,
+	\[ \mathrm{bias}(T_B) = \esub{\theta}{T_B} - \theta = \frac{n}{n+2}\theta - frac{1}{n+2}\theta \]
+	The bias is nonzero for all but one value of \( \theta \).
+	Further,
+	\[ \Varsub{\theta}(T_B) = \frac{\Varsub{\theta}(X+1)}{(n+2)^2} = \frac{n\theta(1-\theta)}{(n+2)^2} \]
+	We can calculate
+	\[ \mathrm{mse}\qty(T_B) = (1-w)^2 \qty(\frac{1}{2} - \theta)^2 + w^2\underbrace{\frac{\theta(1-\theta)}{n}}_{\mathrm{mse}(T_U)} \]
+	There exists a range of \( \theta \) such that \( T_B \) has a lower mean squared error, and similarly there exists a range such that \( T_U \) has a lower error.
+	This indicates that prior judgement of the true value of \( \theta \) can be used to determine which estimator is better.
+\end{example}
+It is not necessarily desirable that an estimator is unbiased.
+\begin{example}
+	Suppose \( X \sim \mathrm{Poisson}(\lambda) \) and we wish to estimate \( \theta = \prob{X = 0}^2 = e^{-2\lambda} \).
+	For some estimator \( T(X) \) of \( \theta \) to be unbiased, we need that
+	\[ \esub{\lambda}{T(X)} = \sum_{x=0}^\infty T(x) \frac{\lambda^x e^{-lambda}}{x!} = e^{-2\lambda} \]
+	Hence,
+	\[ \sum_{x=0}^\infty T(x) \frac{\lambda^x}{x!} = e^{-\lambda} \]
+	But \( e^{-\lambda} \) has a known power series expansion, giving \( T(X) \equiv (-1)^X \) for all \( X \).
+	This is not a good estimator, for example because it often predicts negative numbers for a positive quantity.
+\end{example}
+
+\subsection{Sufficiency}
+\begin{definition}
+	A statistic \( T(X) \) is \textit{sufficient} for \( \theta \) if the conditional distribution of \( X \) given \( T(X) \) does not depend on \( \theta \).
+	Note that \( \theta \) and \( T(X) \) may be vector-valued, and need not have the same dimension.
+\end{definition}
+\begin{example}
+	Let \( X_1, \dots, X_n \) be i.i.d.\ Bernoulli random variables with parameter \( \theta \) where \( \theta \in [0,1] \).
+	The mass function is
+	\[ f_X(x \mid \theta) = \prod_{i=1}^n \theta^{x_i}(1-\theta)^{1-x_i} = \theta^{\sum x_i} (1-\theta)^{n - \sum x_i} \]
+	Note that this dependent only on \( x \) via the statistic \( T(X) = \sum_{n=1}^n x_i \).
+	Here,
+	\[ f_{X \mid T = t}(x \mid \theta) = \frac{\psub{\theta}{X = x, T(X) = t}}{\psub{\theta}{T(x) = t}} \]
+	If \( \sum x_i = t \), we have
+	\[ f_{X \mid T = t}(x \mid \theta) = \frac{\theta^{\sum x_i} (1-\theta)^{n-\sum x_i}}{\binom{n}{t} \theta^t (1-\theta)^{n-\sum x_i}} = \frac{1}{\binom{n}{t}} \]
+	Hence \( T(X) \) is sufficient for \( \theta \).
+\end{example}
+
+\subsection{Factorisation criterion}
+\begin{theorem}
+	\( T \) is sufficient for \( \theta \) if and only if
+	\[ f_X(x \mid \theta) = g(T(x), \theta) h(x) \]
+	for suitable functions \( g,h \).
+\end{theorem}
+\begin{proof}
+	This will be proven in the discrete case; the continuous case can be handled analogously.
+	Suppose that the factorisation criterion holds.
+	Then, if \( T(x) = t \),
+	\begin{align*}
+		f_{X \mid T = t}(x \mid T = t) &= \frac{\psub{\theta}(X = x, T(x) = t)}{\psub{\theta}{T(x) = t}} \\
+		&= \frac{g(T(x),\theta)h(x)}{\sum_{x' \colon T(x') = t} g(T(x'),\theta)h(x')} \\
+		&= \frac{h(x)}{\sum_{x' \colon T(x') = t} h(x')}
+	\end{align*}
+	which does not depend on \( \theta \).
+	By definition, \( T(X) \) is sufficient.
+
+	Conversely, suppose that \( T(X) \) is sufficient.
+	\begin{align*}
+		f_X(x \mid \theta) &= \psub{\theta}{X = x} \\
+		&= \psub{\theta}{X = x, T(X) = T(x)} \\
+		&= \underbrace{\psub{\theta}{X = x \mid T(X) = T(x)}}_{h(x)} \underbrace{\psub{\theta}{T(X) = T(x)}}_{g(T(X), \theta)}
+	\end{align*}
+\end{proof}
+\begin{example}
+	Consider the above example with \( n \) Bernoulli random variables with mass function
+	\[ f_X(x \mid \theta) = \theta^{\sum x_i} (1-\theta)^{n - \sum x_i} \]
+	Let \( T(X) = \sum x_i \), and then the above mass function is in the form of \( g(T(X), \theta) \) and we can set \( h(x) \equiv 1 \).
+	Hence \( T(X) \) is sufficient.
+\end{example}
+\begin{example}
+	Let \( X_1, \dots, X_n \) be i.i.d.\ from a uniform distribution on the interval \( [0,\theta] \) for some \( \theta > 0 \).
+	The mass function is
+	\[ f_X(x \mid \theta) = \prod_{i=1}^n \frac{1}{\theta} 1\qty{x_i \in [0,\theta]} = \qty(\frac{1}{\theta})^{n} 1\qty{\min_i x_i \geq 0} 1\qty{\max_i x_i \leq \theta} \]
+	Let \( T(X) = \max_i X_i \).
+	Then
+	\[ g(T(X), \theta) = \qty(\frac{1}{\theta})^n 1\qty{\max_i x_i \leq \theta};\quad h(x) \equiv 1\qty{\min_i x_i \geq 0} \]
+	We can then conclude that \( T(X) \) is sufficient for \( \theta \).
+\end{example}
+
+\subsection{Minimal sufficiency}
+Sufficient statistics are not unique.
+For instance, any bijection applied to a sufficient statistic is also sufficient.
+Further, \( T(X) = X \) is always sufficient.
+We instead seek statistics that maximally compress and summarise the relevant data in \( X \) and that discard extraneous data.
+\begin{definition}
+	A sufficient statistic \( T(X) \) for \( \theta \) is \textit{minimal} if it is a function of every other sufficient statistic.
+	More precisely, if \( T'(X) \) is sufficient, \( T'(x) = T'(y) \implies T(x) = T(y) \).
+\end{definition}
