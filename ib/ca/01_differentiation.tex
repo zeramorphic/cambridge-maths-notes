@@ -170,6 +170,135 @@ Note that
 		\item Part (ii) can be applied inductively.
 			The equation \( c_n = \frac{f^{(n)}(a)}{n!} \) can be found by differentiating the series \( n \) times.
 		\item If \( f \equiv 0 \) in some disk \( D(a, \varepsilon) \), then \( f^{(n)}(a) = 0 \) for all \( n \).
-			Thus the powr series is identically zero.
+			Thus the power series is identically zero.
 	\end{enumerate}
 \end{proof}
+
+\subsection{Exponentials}
+\begin{definition}
+	If \( f \colon \mathbb C \to \mathbb C \) is holomorphic on \( \mathbb C \), we say that \( f \) is \textit{entire}.
+\end{definition}
+\begin{definition}
+	The \textit{complex exponential function} is defined by
+	\[ e^z = \exp(z) = \sum_{n=0}^\infty \frac{z^n}{n!} \]
+\end{definition}
+\begin{proposition}
+	\begin{enumerate}[(i)]
+		\item \( e^z \) is entire, and \( (e^z)' = e^z \);
+		\item \( e^z \neq 0 \) and \( e^{z+w} = e^z e^w \) for all complex \( z, w \);
+		\item \( e^{x+iy} = e^x(\cos y + i \sin y) \) for real \( x, y \);
+		\item \( e^x = 1 \) if and only if \( z = 2 \pi i \) for an integer \( n \);
+		\item if \( z \in \mathbb C \), then there exists \( w \) such that \( e^w = z \) if and only if \( z \neq 0 \).
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	\begin{enumerate}[(i)]
+		\item We can show that the radius of convergence is infinite.
+			We can thus differentiate term by term and find \( (e^z)' = e^z \).
+		\item Let \( w \in \mathbb C \), and \( F(z) = e^{z+w} e^{-w} \).
+			Then we have
+			\[ F'(z) = -e^{z+w} e^{-z} + e^{z+w} e^{-z} = 0 \]
+			Hence \( F(z) \) is constant. But \( F(0) = e^w \), so \( F(z) = e^w \).
+			Taking \( w = 0 \), we have \( e^z e^{-z} = 1 \), so \( e^z \neq 0 \).
+			Further, \( e^{z+w} = e^z e^w \).
+		\item By part (ii), \( e^{x+iy} = e^x e^{iy} \).
+			Then, the series expansions of the sine and cosine functions can be used to finish the proof.
+	\end{enumerate}
+	The rest of the proof is left as an exercise, which follows from (iii).
+\end{proof}
+
+\subsection{Logarithms}
+\begin{definition}
+	Let \( z \in \mathbb C \).
+	Then, \( w \in \mathbb C \) is a \textit{logarithm} of \( z \) if \( e^w = z \).
+\end{definition}
+By part (v) above, \( z \) has a logarithm if and only if \( z \neq 0 \).
+In particular, \( z \neq 0 \) has infinitely many logarithms of the form \( w + 2 \pi i n \) for \( n \in \mathbb Z \).
+If \( w \) is a logarithm of \( z \), then \( e^{\Re w} = \abs{z} \), and hence \( \Re(w) = \ln \abs{z} \), where \( \ln \) here is the unique real logarithm.
+In particular, \( \Re(w) \) is uniquely determined by \( z \).
+\begin{definition}
+	Let \( U \subset \mathbb C \setminus \qty{0} \) be an open set.
+	A \textit{branch of logarithm} on \( U \) is a continuous function \( \lambda \colon U \to \mathbb C \) such that \( e^{\lambda(z)} = z \) for all \( z \in U \).
+\end{definition}
+\begin{remark}
+	Note that if \( \lambda \) is a branch of logarithm on \( U \) then \( \lambda \) is holomorphic in \( U \) with \( \lambda'(z) = \frac{1}{z} \).
+\end{remark}
+\begin{proof}
+	If \( w \in U \) we have
+	\begin{align*}
+		\lim_{z \to w} \frac{\lambda(z) - \lambda(w)}{z - w} &= \lim_{z \to w} \frac{\lambda(z) - \lambda(w)}{e^{\lambda(z)} - e^{\lambda(w)}} \\
+		&= \lim_{z \to w} \frac{1}{\qty(\frac{e^{\lambda(z)} - e^{\lambda(w)}}{\lambda(z) - \lambda(w)})} \\
+		&= \frac{1}{e^{\lambda(w)}} \lim_{z \to w} \frac{1}{\qty(\frac{e^{\lambda(z) - \lambda(w)} - 1}{\lambda(z) - \lambda(w)})} \\
+		&= \frac{1}{e^{\lambda(w)}} \lim_{h \to 0} \frac{1}{\qty(\frac{e^h - 1}{h})} \\
+		&= \frac{1}{e^{\lambda(w)}} \\
+		&= \frac{1}{w}
+	\end{align*}
+\end{proof}
+\begin{definition}
+	The \textit{principal branch of logarithm} is the function
+	\[ \Log \colon U_1 = \mathbb C \setminus \qty{x \in \mathbb R \colon x \leq 0} \to \mathbb C;\quad \Log(z) = \ln\abs{z} + i \arg(z) \]
+	where \( \arg(z) \) is the unique argument of \( z \in U_1 \) in \( (-\pi, \pi) \).
+\end{definition}
+This is a branch of logarithm.
+Indeed, to check continuity, note that \( z \mapsto \log\abs{z} \) is continuous on \( \mathbb C \setminus \qty{0} \), and \( z \mapsto \arg(z) \) is continuous since \( \theta \mapsto e^{i\theta} \) is a homeomorphism \( (-\pi, \pi) \to \mathbb S^1 \setminus \qty{-1} \), and \( z \mapsto \frac{z}{\abs{z}} \) is continuous on \( \mathbb C \setminus \qty{0} \).
+Further,
+\[ e^{\Log(z)} = e^{\ln\abs{z}} e^{i \arg(z)} = \abs{z} \qty(\cos \arg z + i \sin \arg z) = z \]
+Note that \( \Log \) cannot be continuously extended to \( \mathbb C \setminus \qty{0} \), since \( \arg z \to \pi \) as \( z \to -1 \) with \( \Im(z) > 0 \), and \( \arg z \to -\pi \) as \( z \to -1 \) with \( \Im(z) < 0 \).
+We will later prove that no branch of logarithm can extist on all of \( \mathbb C \setminus \qty{0} \).
+\begin{proposition}
+	\begin{enumerate}[(i)]
+		\item \( \Log \) is holomorphic on \( U_1 \) with \( (\Log z)' = \frac{1}{z} \); and
+		\item for \( \abs{z} < 1 \), we have
+			\[ \Log(1+z) = \sum_{n=1}^\infty \frac{(-1)^{n-1} z^n}{n} \]
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	Part (i) follows from the above.
+	The radius of convergence of the given series is one, and \( 1 + z \in U_1 \), so both sides of the equation are defined on the unit disk.
+	Then,
+	\[ F(z) = \Log(1+z) - \sum_{n=1}^\infty \frac{(-1)^{n-1}z^n}{n} \implies F'(z) = \frac{1}{1+z} - \sum_{n=1}^\infty (-z)^{n-1} = 0 \implies F(z) = F(0) = 0 \]
+\end{proof}
+We can now define the \textit{principal branch of \( z^\alpha \)} by
+\[ z^\alpha = e^{\alpha \Log(z)} \]
+Note that \( z^\alpha \) is holomorphic on \( U_1 \) with \( (z^\alpha)' = \alpha z^{\alpha - 1} \).
+We can use exponentials to define the trigonometric and hyperbolic functions, which are all entire functions with derivatives matching those of the real definitions of these functions.
+
+\subsection{Conformality}
+Let \( f \colon U \to \mathbb C \) be holomorphic, where \( U \) is an open set.
+Let \( w \in U \) and suppose that \( f'(w) \neq 0 \).
+Let \( \gamma_1, \gamma_2 \colon [-1, 1] \to U \) be \( C^1 \) curves, such that \( \gamma_i(0) = w \) and \( \gamma_i'(0) \neq 0 \).
+Then \( f \circ \gamma_i \) are \( C^1 \) curves passing through \( f(w) \).
+Further, \( (f \circ \gamma_i)'(0) = f'(w) \gamma_i'(0) \neq 0 \).
+Thus
+\[ \frac{(f \circ \gamma_1)'(0)}{(f \circ \gamma_2)'(0)} = \frac{\gamma_1'(0)}{\gamma_2'(0)} \]
+Hence,
+\[ \arg(f \circ \gamma_1)'(0) - \arg(f \circ \gamma_2)'(0) = \arg \gamma_1'(0) - \arg \gamma_2'(0) \]
+In other words, the angle that the curves make when they intersect at \( w \) is the same angle that their images \( f \circ \gamma_i \) make when they intersect at \( f(w) \), and the orientation also is preserved (clockwise or anticlockwise).
+Hence, \( f \) is angle-preserving at \( w \) whenever \( f'(w) \neq 0 \).
+In particular, if \( \gamma_i \) are tangential at \( w \), the curves \( f \circ \gamma_i \) are tangential at \( f(w) \).
+\begin{remark}
+	If \( f \) is \( C^1 \), then the converse holds. If \( w \in U \) and \( (f \circ \gamma)'(0) \neq 0 \) for any \( C^1 \) curve \( \gamma \) with \( \gamma(0) = w \) and \( \gamma'(0) \neq 0 \), and if \( f \) is angle-preserving at \( w \) in the above sense, then \( f'(w) \) exists and is non-zero.
+\end{remark}
+\begin{definition}
+	A holomorphic function \( f \colon U \to \mathbb C \) on an open set \( U \) is \textit{conformal} at \( w \in U \) if \( f'(w) \neq 0 \).
+\end{definition}
+\begin{definition}
+	Let \( U, \widetilde U \) be domains in \( \mathbb C \).
+	A map \( f \colon U \to \widetilde U \) is a \textit{conformal equivalence} between \( U, \widetilde U \) if \( f \) is a bijective holomorphic map with \( f'(z) \neq 0 \) for all \( z \in U \).
+\end{definition}
+\begin{remark}
+	We will prove later that if \( f \) is holomorphic and injective, then \( f'(z) \neq 0 \) for all \( z \).
+	Thus, in the above definition, the condition \( f'(z) \neq 0 \) is redundant.
+\end{remark}
+\begin{remark}
+	It is automatic that \( f^{-1} \colon \widetilde U \to U \) is holomorphic, which will follow from the holomorphic inverse function theorem.
+\end{remark}
+\begin{example}
+	M\"obius maps
+	\[ f(z) = \frac{az+b}{cz+d} \]
+	are conformal on \( \mathbb C \setminus \qty{-d/c} \) if \( c \neq 0 \), and conformal on \( \mathbb C \) if \( c = 0 \).
+	M\"obius maps are sometimes used as explicit conformal equivalences between subdomains of \( \mathbb C \).
+	For instance, let \( \mathbb H \) be the open upper half plane in \( \mathbb C \).
+	Then
+	\[ z \in \mathbb H \iff \abs{z - i} < \abs{z + i} \iff \abs{\frac{z - i}{z + i}} < 1 \]
+\end{example}

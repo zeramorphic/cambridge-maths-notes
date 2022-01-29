@@ -219,3 +219,68 @@
 		Under this transformation, points on the boundary are identified with their antipodes as required.
 	\end{example}
 \end{example}
+
+\subsection{Subdivisions}
+\begin{definition}
+	A \textit{subdivision} of a compact topological surface \( \Sigma \) comprises
+	\begin{enumerate}[(i)]
+		\item a finite subset \( V \subseteq \Sigma \) of vertices;
+		\item a finite subset \( E = \qty{e_i \colon [0,1] \to \Sigma} \) which are continuous injections and pairwise disjoint except perhaps at the endpoints, which are elements of \( e^{-1} V \);
+		\item such that each connected component of the complement of \( V \cup E \) in \( \Sigma \) is homeomorphic to an open disk, and each such component will be called a face.
+			In particular, the boundary of each face has boundary inside the union of the edges and the vertices.
+	\end{enumerate}
+	We say that a subdivision is a \textit{triangulation} if each closed face (closure of a face) contains exactly three edges, and two closed faces meet either at exactly one edge or not at any edges.
+\end{definition}
+\begin{example}
+	A cube displays a subdivision of \( S^2 \).
+	A tetrahedron displays a triangulation of \( S^2 \).
+\end{example}
+\begin{example}
+	We can display subdivisions of surfaces constructed from polygons.
+	\ctikzfig{torus_polygon}
+	This is a subdivision of a torus with one edge, two edges, and one face.
+	We can construct additional subdivisions of a torus, for example:
+	\begin{center}
+		\tikzfig{torus_polygon_subdivided} \quad \tikzfig{torus_polygon_triangulated}
+	\end{center}
+	The first of these examples is not a triangulation, since the two faces meet in more than one edge.
+	The second is a triangulation.
+\end{example}
+\begin{remark}
+	The following is a very degenerate subdivision of \( S_2 \).
+	\ctikzfig{s2_degenerate}
+	This has one vertex, no edges, and one face.
+\end{remark}
+
+\subsection{Euler classification}
+\begin{definition}
+	The \textit{Euler characteristic} of a subdivision is
+	\[ \# V - \# E + \# F \]
+\end{definition}
+\begin{theorem}
+	\begin{enumerate}[(i)]
+		\item Every compact topological surface has a subdivision (and indeed triangulations).
+		\item The Euler characteristic is invariant under choice of subdivision, and is topologically invariant.
+	\end{enumerate}
+	Hence, we might say that a surface has a particular Euler characteristic, without referring to subdivisions.
+	We write this \( \chi(\Sigma) \).
+\end{theorem}
+No proof will be given.
+\begin{example}
+	The Euler characteristic of \( S^2 \) is \( \chi(S^2) = 2 \).
+	For the torus, \( \chi(T^2) = 0 \).
+	If \( \Sigma_1, \Sigma_2 \) are compact surfaces, then the connect sum \( \Sigma_1 \connect \Sigma_2 \) can be constructed by removing a face of a triangulation, then gluing together the boundary circles (three edges) in a way that matches the edges.
+	Then the connect sum inherits a subdivision, and we can find that it has Euler characteristic \( \chi(\Sigma_1 \connect \Sigma_2) = \chi(\Sigma_1) + \chi(\Sigma_2) - 2 \), where the remaining term corresponds to the two faces that were removed; the changes of three vertices and three edges cancel each other.
+	In particular, a surface \( \Sigma_g \) with \( g \) holes can be written \( \bigconnect_{i=1}^g T_2 \), so \( \chi(\Sigma_g) = 2 - 2g \).
+	We call \( g \) the \textit{genus} of \( \Sigma \).
+\end{example}
+\begin{remark}
+	It is not trivial to prove part (i).
+	For part (ii), note that subdivisions can be converted into triangulation by constructing triangle fans.
+	\ctikzfig{triangle_fan}
+	Triangulations can be related by local moves, such as
+	\ctikzfig{triangulation_local_move}
+	It is easy to check that both of these moves do not change the Euler characteristic.
+	However, it is hard to make this argument rigorous, and it does not give much explanation for why the result is true.
+	In Part II Algebraic Topology, a more advanced definition of the Euler characteristic is given, which admits a more elegant proof.
+\end{remark}

@@ -136,6 +136,101 @@ For instance, any bijection applied to a sufficient statistic is also sufficient
 Further, \( T(X) = X \) is always sufficient.
 We instead seek statistics that maximally compress and summarise the relevant data in \( X \) and that discard extraneous data.
 \begin{definition}
-	A sufficient statistic \( T(X) \) for \( \theta \) is \textit{minimal} if it is a function of every other sufficient statistic.
+	A sufficient statistic \( T(X) \) for \( \theta \) is \textit{minimal} if it is a function of every other sufficient statistic for \( \theta \).
 	More precisely, if \( T'(X) \) is sufficient, \( T'(x) = T'(y) \implies T(x) = T(y) \).
 \end{definition}
+\begin{remark}
+	Any two minimal statistics \( S, T \) for the same \( \theta \) are bijections of each other.
+	That is, \( T(x) = T(y) \) if and only if \( S(x) = S(y) \).
+\end{remark}
+\begin{theorem}
+	Suppose that \( f_X(x \mid \theta)/f_X(y \mid \theta) \) is constant in \( \theta \) if and only if \( T(x) = T(y) \).
+	Then \( T \) is minimal sufficient.
+\end{theorem}
+\begin{remark}
+	This theorem essentially states the following.
+	Let \( x \overset{1}{\sim} y \) if the above ratio of probability density or mass functions is constant in \( \theta \).
+	This is an equivalence relation.
+	Similarly, we can define \( \overset{2}{\sim} y \) if \( T(x) = T(y) \).
+	This is also an equivalence relation.
+	The hypothesis in the theorem is that the equivalence classes of \( \overset{1}{\sim} \) and \( \overset{2}{\sim} \) are equal.
+	Further, we may always construct a minimal sufficient statistic for any parameter since we can use the construction \( \overset{1}{\sim} \) to create equivalence classes, and set \( T \) to be constant for all such equivalence classes.
+\end{remark}
+\begin{proof}
+	Let \( t \in \Im T \).
+	Then let \( z_t \) be a representative of the equivalence class \( \qty{x \colon T(x) = t} \).
+	Then
+	\[ f_X(x \mid \theta) = f_X(z_{T(x)} \mid \theta) \frac{f_X(x \mid \theta)}{f_X(z_{T(x)} \mid \theta)} \]
+	By the hypothesis, the ratio on the right hand side does not depend on \( \theta \), so let this ratio be \( h(x) \).
+	Further, the other term depends only on \( T(x) \), so it may be \( g(T(x), \theta) \).
+	Hence \( T \) is sufficient by the factorisation criterion.
+
+	To prove minimality, let \( S \) be any other sufficient statistic, and then by the factorisation criterion there exist \( g_S \) and \( h_S \) such that \( f_X(x \mid \theta) = g_S(S(x), \theta) h_S(x) \).
+	Now, suppose \( S(x) = S(y) \) for some \( x, y \).
+	Then,
+	\[ \frac{f_X(x \mid \theta)}{f_X(y \mid \theta)} = \frac{g_S(S(x), \theta) h_S(x)}{g_S(S(y), \theta) h_S(y)} = \frac{h_S(x)}{h_S(y)} \]
+	which is constant in \( \theta \).
+	Hence, \( x \overset{1}{\sim} y \).
+	By the hypothesis, we have \( x \overset{2}{\sim} y \), so \( T(x) = T(y) \), which is the requirement for minimality.
+\end{proof}
+\begin{example}
+	Let \( X_1, \dots, X_n \) be normal with unknown \( \mu, \sigma^2 \).
+	\[ \frac{f_X(x \mid \mu, \sigma^2)}{f_X(y \mid \mu, \sigma^2)} = \frac{(2 \pi \sigma^2)^{-n/2} \exp{-\frac{1}{2\sigma^2} \sum_i (x_i - \mu)^2}}{(2 \pi \sigma^2)^{-n/2} \exp{-\frac{1}{2\sigma^2 \sum_i (y_i - \mu)^2}}} = \exp{-\frac{1}{2\sigma^2} \qty(\sum_i x_i^2 - \sum_i y_i^2) + \frac{\mu}{\sigma^2} \qty(\sum_i x_i - \sum_i y_i)} \]
+	Hence, for minimality, this is constant in the parameters \( \mu, \sigma^2 \) if and only if \( \sum_i x_i^2 = \sum_i y_i^2 \) and \( \sum_i x_i = \sum_i y_i \).
+	Thus, a minimal sufficient statistic is \( \qty(\sum_i x_i^2, \sum_i x_i) \) is a minimal sufficient statistic.
+	A more common way of expressing the minimal sufficient statistic is
+	\[ S(x) = \qty(\overline X_n, S_{xx});\quad \overline X_n = \frac{1}{n} \sum_i x_i;\quad S_{xx} = \sum_i \qty(X_i - \overline X_n)^2 \]
+	which is a bijection of the above.
+\end{example}
+\begin{example}
+	\( \theta \) and a minimal statistic \( T \) need not have the same dimension.
+	Consider \( X_1, \dots, X_n \sim N(\mu, \mu^2) \).
+	Here, there is a single parameter \( \mu \) but the minimal sufficient statistic is still \( S(x) \) as defined above.
+\end{example}
+
+\subsection{Rao-Blackwell theorem}
+Previously, the notation \( \mathbb E_\theta \) and \( \mathbb P_\theta \) have been used to denote expectations and probabilities under the model where the observations are i.i.d.\ with p.d.f.\ or p.m.f.\ \( f_X \).
+From now, we omit this subscript, as it will be implied for much of the remainder of the course.
+\begin{theorem}
+	Let \( T \) be a sufficient statistic for \( \theta \), and define an estimator \( \widetilde \theta \) with \( \expect{{\widetilde \theta}^2} < \infty \) for all \( \theta \).
+	Now we define another estimator
+	\[ \hat \theta = \expect{\widetilde \theta \mid T(x)} \]
+	Then, for all values of \( \theta \), we have
+	\[ \expect{\qty(\hat \theta - \theta)^2} \leq \expect{\qty(\widetilde \theta - \theta)^2} \]
+	In other words, the mean squared error of \( \hat \theta \) is not greater than the mean squared error of \( \widetilde \theta \).
+	Further, the inequality is strict unless \( \widetilde \theta \) is a function of \( T \).
+\end{theorem}
+\begin{remark}
+	Starting from any estimator \( \widetilde \theta \), if we condition on the sufficient statistic \( T \) we obtain a `better' statistic \( \hat \theta \).
+	Note that \( T \) must be sufficient, otherwise \( \hat \theta \) may be a function of \( \theta \) and thus not an estimator:
+	\[ \hat \theta(X) = \hat \theta(T) = \int \hat \theta(x) \underbrace{f_{X \mid T}(x \mid T)}_{\mathclap{\text{does not depend on } \theta \text{ as } T \text{ is sufficient}}} \dd{x} \]
+\end{remark}
+\begin{proof}
+	By the tower property of the expectation, we can find
+	\[ \expect{\hat \theta} = \expect{\expect{\widetilde \theta \mid T(x)}} = \expect{\widetilde \theta} \]
+	Hence, subtracting \( \widetilde \theta \) from both sides, we find \( \mathrm{bias}\qty(\hat\theta) = \mathrm{bias}\qty(\widetilde\theta) \).
+	By the conditional variance formula,
+	\[ \Var\qty(\widetilde \theta) = \expect{\underbrace{\Var\qty(\widetilde \theta \mid T)}_{\geq 0}} + \underbrace{\Var\qty(\expect{\widetilde \theta \mid T})}_{\Var\qty(\hat\theta)} \geq \Var\qty(\hat \theta) \]
+	By the bias-variance decomposition, we know that \( \mathrm{mse}\qty(\widetilde \theta) \geq \mathrm{mse}\qty(\hat \theta) \).
+	The inequality is strict unless \( \Var\qty(\widetilde \theta \mid T) = 0 \) almost surely.
+	This requires that \( \widetilde \theta \) is a function of \( T \).
+\end{proof}
+\begin{example}
+	Let \( X_1, \dots, X_n \) be i.i.d.\ Poisson random variables with parameter \( \lambda \).
+	Then let \( \theta = \prob{X_1 = 0} = e^{-\lambda} \).
+	Here,
+	\[ f_X(x \mid \lambda) = \frac{e^{-n \lambda} \lambda^{\sum x_i}}{\prod x_i!} \implies f_X(x \mid \theta) = \frac{\theta^n (-\log \theta)^{\sum x_i}}{\prod x_i!} \]
+	Using the factorisation criterion, we find
+	\[ g(T(x), \theta) = g\qty(\sum x_i, \theta) = \theta^n (-\log\theta)^{\sum x_i};\quad h(x) = \frac{1}{\prod x_i!} \]
+	so \( T(x) = \sum x_i \) is sufficient.
+	Note that \( \sum X_i \) has a Poisson distribution with parameter \( n \lambda \).
+	Consider the estimator \( \widetilde \theta = 1\qty{X_1 = 0} \).
+	This depends only on \( X_1 \), hence it is a weak estimator.
+	However, it is unbiased, so when we apply the Rao-Blackwell theorem we will construct an unbiased \( \hat \theta \), which is precisely
+	\[ \hat \theta = \expect{\widetilde \theta \mid \sum X_i = t} = \prob{X_1 = 0 \mid \sum X_i = t} = \frac{\prob{X_1 = 0, \sum X_i = t}}{\prob{\sum X_i = t}} = \frac{\prob{X_1 = 0}\prob{\sum_{i=2}^n X_i = t}}{\prob{\sum_{i=1}^n X_i = t}} = \qty(\frac{n-1}{n})^t \]
+	This may also be written
+	\[ \hat \theta = \qty(1 - \frac{1}{n})^{\sum x_i} \]
+	which is an estimator with lower mean squared error than \( \widetilde 1 \) for all \( \theta \).
+	Note that \( \hat \theta = \qty(1 = \frac{1}{n})^{n \overline X_n} \) converges in the limit to \( e^{-\overline X_n} \).
+	By the strong law of large numbers, \( \overline X_n \to \expect{X_1} = \lambda \), so we arrive at \( \hat \theta \to e^{-\lambda} = \theta \) almost surely.
+\end{example}

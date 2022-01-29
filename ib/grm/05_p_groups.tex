@@ -1,0 +1,117 @@
+\subsection{\( p \)-groups}
+\begin{definition}
+	Let \( p \) be a prime.
+	A finite group \( G \) is a \textit{\( p \)-group} if \( \abs{G} = p^n \) for \( n \geq 1 \).
+\end{definition}
+\begin{theorem}
+	If \( G \) is a \( p \)-group, the centre \( Z(G) \) is non-trivial.
+\end{theorem}
+\begin{proof}
+	For \( g \in G \), due to the orbit-stabiliser theorem, \( \abs{\ccl(g)} \abs{C(g)} = p^n \).
+	In particular, \( \abs{\ccl(g)} \) divides \( p^n \), and they partition \( G \).
+	Since \( G \) is a disjoint union of conjugacy classes, modulo \( p \) we have
+	\[ \abs{G} \equiv \text{number of conjugacy classes of size } 1 \equiv \abs{Z(G)} \equiv 0 \]
+	Hence \( Z(G) \) has order zero modulo \( p \) so it cannot be trivial.
+	We can check this by noting that \( g \in Z(G) \iff x^{-1} g x = g \) for all \( x \), which is true if and only if \( \ccl_G(x) = \qty{g} \).
+\end{proof}
+\begin{corollary}
+	The only simple \( p \)-groups are the cyclic groups of order \( p \).
+\end{corollary}
+\begin{proof}
+	Let \( G \) be a simple \( p \)-group.
+	Since \( Z(G) \) is a normal subgroup of \( G \), we have \( Z(G) = 1 \) or \( Z(G) = G \).
+	But \( Z(G) \) may not be trivial, so \( Z(G) = G \).
+	This implies \( G \) is abelian.
+	The only abelian simple groups are cyclic of prime order, hence \( G \cong C_p \).
+\end{proof}
+\begin{corollary}
+	Let \( G \) be a \( p \)-group of order \( p^n \).
+	Then \( G \) has a subgroup of order \( p^r \) for all \( r \in \qty{0, \dots, n} \).
+\end{corollary}
+\begin{proof}
+	Recall that any group \( G \) has a composition series \( 1 = G_1 \triangleleft \dots \triangleleft G_N = G \) where each quotient \( \faktor{G_{i+1}}{G_i} \) is simple.
+	Since \( G \) is a \( p \)-group, \( \faktor{G_{i+1}}{G_i} \) is also a \( p \)-group.
+	Each successive quotient is an order \( p \) group by the previous corollary, so we have a composition series of nested subgroups of order \( p^r \) for all \( r \in \qty{0, \dots, n} \).
+\end{proof}
+\begin{lemma}
+	Let \( G \) be a group.
+	If \( \faktor{G}{Z(G)} \) is cyclic, then \( G \) is abelian.
+	This then implies that \( Z(G) = G \), so in particular \( \faktor{G}{Z(G)} = 1 \).
+\end{lemma}
+\begin{proof}
+	Let \( g Z(G) \) be a generator for \( \faktor{G}{Z(G)} \).
+	Then, each coset of \( Z(G) \) in \( G \) is of the form \( g^r Z(G) \) for some \( r \in \mathbb Z \).
+	Thus, \( G = \qty{g^r z \colon r \in \mathbb Z, z \in Z(G)} \).
+	Now, we multiply two elements of this group and find
+	\[ g^{r_1} z_1 g^{r_2} z_2 = g^{r_1 + r_2} z_1 z_2 = g^{r_1 + r_2} z_2 z_1 = z_2 z_1 g^{r_1 + r_2} = g^{r_2} z_2 g^{r_1} z_1 \]
+	So any two elements in \( G \) commute.
+\end{proof}
+\begin{corollary}
+	Any group of order \( p^2 \) is abelian.
+\end{corollary}
+\begin{proof}
+	Let \( G \) be a group of order \( p^2 \).
+	Then \( \abs{Z(G)} \in \qty{1, p, p^2} \).
+	The centre cannot be trivial as proven above, since \( G \) is a \( p \)-group.
+	If \( \abs{Z(G)} = p \), we have that \( \faktor{G}{Z(G)} \) is cyclic as it has order \( p \).
+	Applying the previous lemma, \( G \) is abelian.
+	However, this is a contradiction since the centre of an abelian group is the group itself.
+	If \( \abs{Z(G)} = p^2 \) then \( Z(G) = G \) and then \( G \) is clearly abelian.
+\end{proof}
+
+\subsection{Sylow theorems}
+\begin{theorem}
+	Let \( G \) be a finite group of order \( p^a m \) where \( p \) is a prime and \( p \) does not divide \( m \).
+	Then:
+	\begin{enumerate}[(i)]
+		\item The set \( \mathrm{Syl}_p(G) = \qty{P \leq G \colon \abs{P} = p^a} \) of Sylow \( p \)-subgroups is non-empty.
+		\item All Sylow \( p \)-subgroups are conjugate.
+		\item The amount of Sylow \( p \)-subgroups \( n_p = \abs{\mathrm{Syl}_p(G)} \) satisfies
+			\[ n_p \equiv 1 \mod p;\quad n_p \mid G \implies n_p \mid m \]
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	\begin{enumerate}[(i)]
+		\item Let \( \Omega \) be the set of all subsets of \( G \) of order \( p^a \).
+			We can directly find
+			\[ \abs{\Omega} = \binom{p^a m}{p^a} = \frac{p^a m}{p^a} \cdot \frac{p^a m - 1}{p^a - 1} \cdots \frac{p^a m - p^a + 1}{1} \]
+			Note that for \( 0 \leq p < p^a \), the numbers \( p^a m - k \) and \( p^a - k \) are divisible by the same power of \( p \).
+			In particular, \( \abs{\Omega} \) is coprime to \( p \).
+			
+			Let \( G \acts \Omega \) by left-multiplication, so \( g \ast X = \qty{gx \colon x \in X} \).
+			% TODO: continue proof from here
+	\end{enumerate}
+\end{proof}
+\begin{corollary}
+	If \( n_p = 1 \), then there is only one Sylow \( p \)-subgroup, and it is normal.
+\end{corollary}
+\begin{proof}
+	Let \( g \in G \) and \( P \in \mathrm{Syl}_p(G) \).
+	Then \( g P g^{-1} \) is a Sylow \( p \)-subgroup, hence \( g P g^{-1} = P \).
+	\( P \) is normal in \( G \).
+\end{proof}
+\begin{example}
+	Let \( G \) be a group with \( \abs{G} = 1000 = 2^3 \cdot 5^3 \).
+	Here, \( n_5 \equiv 1 \mod 5 \), and \( n_5 \mid 8 \), hence \( n_5 = 1 \).
+	Thus the unique Sylow 5-subgroup is normal.
+	Hence no group of order 1000 is simple.
+\end{example}
+\begin{example}
+	Let \( G \) be a group with \( \abs{G} = 132 = 2^2 \cdot 3 \cdot 11 \).
+	\( n_{11} \) satisfies \( n_{11} \equiv 1 \mod 11 \) and \( n_{11} \mid 12 \), thus \( n_{11} \in \qty{1, 12} \).
+	Suppose \( G \) is simple.
+	Then \( n_{11} = 12 \).
+	The amount of Sylow 3-subgroups satisfies \( n_3 \equiv 1 \mod 3 \) and \( n_3 \mid 44 \) so \( n_3 \in \qty{1, 4, 22} \).
+	Since \( G \) is simple, \( n_3 \in \qty{4, 22} \).
+
+	Suppose \( n_3 = 4 \).
+	Then \( G \acts \mathrm{Syl}_3(G) \) by conjugation, and this generates a group homomorphism \( \varphi \colon G \to S_4 \).
+	But the kernel of this homomorphism is a normal subgroup of \( G \), so \( \ker \varphi \) is trivial or \( G \) itself.
+	If \( \ker \varphi = G \), then \( \Im \varphi \) is trivial, contradicting Sylow's second theorem.
+	If \( \ker \varphi = 1 \), then \( \Im \varphi \) has order 132, which is impossible.
+
+	Thus \( n_3 = 22 \).
+	This means that \( G \) has \( 22 \cdot (3-1) = 44 \) elements of order 3, and further \( G \) has \( 12 \cdot (11 - 1) = 120 \) elements of order 11.
+	However, the sum of these two totals is more than the total of 132 elements, so this is a contradiction.
+	Hence \( G \) is not simple.
+\end{example}
