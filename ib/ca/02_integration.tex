@@ -1,0 +1,109 @@
+\subsection{Introduction}
+\begin{definition}
+	If \( f \colon [a,b] \subset \mathbb R \to \mathbb C \) is a complex function, and the real and imaginary parts of \( f \) are Riemann integrable, then we define
+	\[ \int_a^b f(t) \dd{t} = \int_a^b \Re(f(t)) \dd{t} + i \int_a^b \Im(f(t)) \dd{t} \]
+	In particular, for \( g \colon [a,b] \to \mathbb R \), we have
+	\[ \int_a^b ig(t) \dd{t} = i\int_a^b g(t) \dd{t} \]
+	Thus, for a complex constant \( w \in \mathbb C \), we can find
+	\[ \int_a^b wf(t) \dd{t} = w \int_a^b f(t) \dd{t} \]
+\end{definition}
+\begin{proposition}[basic estimate]
+	If \( f \colon [a,b] \to \mathbb C \) is continuous, then
+	\[ \abs{\int_a^b f(t) \dd{t}} \leq \int_a^b \abs{f(t)} \dd{t} \leq (b-a) \sup_{t \in [a,b]} \abs{f(t)} \]
+	Equality holds if and only if \( f \) is constant.
+\end{proposition}
+\begin{proof}
+	If \( \int_a^b f(t) \dd{t} = 0 \) then the proof is complete.
+	Otherwise, we can write the value of the integral as \( re^{i\theta} \) for \( \theta \in [0, 2\pi) \).
+	Let \( M = \sup_{t \in [a,b]} \abs{f(t)} \).
+	Then we have
+	\begin{align*}
+		\abs{\int_a^b f(t) \dd{t}} &= r \\
+		&= e^{-i\theta} \int_a^b f(t) \dd{t} \\
+		&= \int_a^b e^{-i\theta} f(t) \dd{t} \\
+		&= \int_a^b \Re(e^{-i\theta} f(t)) \dd{t} + i \int_a^b \Im(e^{-\theta f(t)}) \dd{t}
+	\end{align*}
+	Since the left hand side is real, the imaginary integral vanishes.
+	\begin{align*}
+		\abs{\int_a^b f(t) \dd{t}} &= \int_a^b \Re(e^{-i\theta} f(t)) \dd{t} \\
+		&\leq \int_a^b \abs{e^{-i\theta} f(t)} \dd{t} = \int_a^b \abs{f(t)} \dd{t} \\
+		&\leq (b-a)M
+	\end{align*}
+	Equality holds if and only if \( \abs{f(t)} = M \) and \( \Re(e^{-i\theta} f(t)) = M \) for all \( t \in [a,b] \), which is true only if \( \abs{f(t)} = M \) and \( \arg(f(t)) = \theta \) hence \( f = Me^{i\theta} \) for all \( t \).
+\end{proof}
+
+\subsection{Integrating along curves}
+\begin{definition}
+	Let \( U \subset \mathbb C \) be an open set and let \( f \colon U \to \mathbb C \) be continuous.
+	Let \( \gamma \colon [a,b] \to U \) be a \( C^1 \) curve.
+	Then the \textit{integral of \( f \) along \( \gamma \)} is
+	\[ \int_\gamma f(z) \dd{z} = \int_a^b f(\gamma(t)) \gamma'(t) \dd{t} \]
+\end{definition}
+This definition is consistent with the previous definition of the integral of a function \( f \) along the interval \( [a,b] \).
+The integral along a curve has various convenient properties.
+\begin{enumerate}[(i)]
+	\item It is invariant under the choice of parametrisation.
+		Let \( \varphi \colon [a_1, b_1] \to [a,b] \) be \( C^1 \) and injective with \( \varphi(a_1) = a \) and \( \varphi(b_1) = b \).
+		Let \( \delta = \gamma \circ \varphi \colon [a_1, b_1] \to U \).
+		Then
+		\[ \int_\delta f(z) \dd{z} = \int_\gamma f(z) \dd{z} \]
+		Indeed,
+		\begin{align*}
+			\int_\delta f(z) \dd{z} &= \int_{a_1}^{b_1} f(\gamma (\varphi(t))) \gamma'(\varphi(t)) \varphi'(t) \dd{t} \\
+			&= \int_a^b f(\gamma(s)) \gamma'(s) \dd{s} \\
+			&= \int_\gamma f(z) \dd{z}
+		\end{align*}
+	\item The integral is linear.
+		It is easy to check that
+		\[ \int_\gamma (\lambda f(z) + \mu g(z)) \dd{z} = \lambda \int_\gamma f(z) \dd{z} + \mu \int_\gamma g(z) \dd{z} \]
+		for complex constants \( \lambda, \mu \in \mathbb C \).
+	\item The additivity property states that if \( \gamma \colon[a,b] \to U \) is \( C^1 \) and \( a < c < b \), then
+		\[ \int_\gamma f(z) \dd{z} = \int_{\eval{\gamma}_{[a,c]}} f(z) \dd{z} + \int_{\eval{\gamma}_{c,b}} f(z) \dd{z} \]
+	\item We define the \textit{inverse path} \( (-\gamma) \colon [-b, -a] \to U \) by \( (-\gamma)(t) = \gamma(-t) \).
+		Then
+		\[ \int_{(-\gamma)} f(z) \dd{z} = \int_\gamma f(z) \dd{z} \]
+\end{enumerate}
+\begin{definition}
+	Let \( \gamma \colon [a,b] \to \mathbb C \) be a \( C^1 \) curve.
+	Then the \textit{length} of \( \gamma \) is
+	\[ \mathrm{length}(\gamma) = \int_a^b \abs{\gamma'(t)} \dd{t} \]
+\end{definition}
+\begin{definition}
+	A \textit{piecewise \( C^1 \) curve} is a continuous map \( \gamma \colon [a,b] \to \mathbb C \) such that there exists a finite subdivision
+	\[ a < a_0 < a_1 < \dots < a_n = b \]
+	such that each \( \gamma_j = \eval{\gamma}_{[a_{j-1}, a_j]} \) is \( C^1 \) for \( 1 \leq j \leq n \).
+	Then, for such a piecewise \( C^1 \) curve, we define
+	\[ \int_\gamma f(z) \dd{z} = \sum{j=1}^n \int_{\gamma_j} f(z) \dd{z} \]
+	and
+	\[ \mathrm{length}(\gamma) = \sum_{j=1}^n \mathrm{length}(\gamma_j) = \sum_{j=1}^n \int_{a_{j-1}}^{a_j} \abs{\gamma'(t)} \dd{t} \]
+	By the additivity property, both definitions are invariant under changing the subdivision.
+	From here, we will use `curve' to refer to `piecewise \( C^1 \) curve', unless stated otherwise.
+\end{definition}
+\begin{definition}
+	If \( \gamma_1 \colon [a,b] \to \mathbb C \) and \( \gamma_2 \colon [c,d] \) are curves with \( \gamma_1(b) = \gamma_2(c) \), we define the \textit{sum} of \( \gamma_1 \) and \( \gamma_2 \) to be the curve
+	\[ (\gamma_1 + \gamma_2) \colon [a,b+d-c] \to \mathbb C;\quad (\gamma_1 + \gamma_2)(t) = \begin{cases}
+		\gamma_1(t) & a \leq t \leq b \\
+		\gamma_2(t - b + c) & b \leq t \leq b + d - c
+	\end{cases} \]
+\end{definition}
+\begin{proposition}
+	Let \( f \colon U \to \mathbb C \) be continuous and \( \gamma \colon [a,b] \to \mathbb C \), we have
+	\[ \abs{\int_\gamma f(z) \dd{z}} \leq \mathrm{length}(\gamma) \sup_\gamma \abs{f} \]
+	where \( \sup_\gamma g \equiv \sup_{t \in [a,b]} g(\gamma(t)) \).
+\end{proposition}
+\begin{proof}
+	If \( \gamma \) is \( C^1 \), then
+	\[ \abs{\int_\gamma f(z) \dd{z}} = \abs{\int_a^b f(\gamma(t)) \gamma'(t) \dd{t}} \leq \int_a^b \abs{f(\gamma(t))} \cdot \abs{\gamma'(t)} \dd{t} \leq \sup_{t \in [a,b]} \abs{f(\gamma(t))} \mathrm{length}(\gamma) \]
+	If \( \gamma \) is piecewise \( C^1 \), then the result follows from the definition of a piecewise \( C^1 \) function and the above.
+\end{proof}
+\begin{theorem}[fundamental theorem of calculus]
+	Let \( f \colon U \to \mathbb C \) be continuous on an open set \( U \subset \mathbb C \).
+	Let \( F \colon U \to \mathbb C \) be a function such that \( F'(z) = f(z) \) for all \( z \in U \).
+	Then, for any curve \( \gamma \colon [a,b] \to U \), we have
+	\[ \int_\gamma f(z) \dd{z} = F(\gamma(b)) - F(\gamma(a)) \]
+	If \( \gamma \) is a closed curve, then \( \int_\gamma f(z) = 0 \).
+	Such a function \( F \) is known as an \textit{antiderivative} of \( f \).
+\end{theorem}
+\begin{proof}
+	\[ \int_\gamma f(z) \dd{z} = \int_a^b f(\gamma(t)) \gamma'(t) \dd{t} = \int_a^b \dv{t} F(\gamma(t)) \dd{t} = F(\gamma(b)) - F(\gamma(a)) \]
+\end{proof}
