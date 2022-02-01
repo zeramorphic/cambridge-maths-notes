@@ -67,7 +67,7 @@
 		\item The set \( \mathrm{Syl}_p(G) = \qty{P \leq G \colon \abs{P} = p^a} \) of Sylow \( p \)-subgroups is non-empty.
 		\item All Sylow \( p \)-subgroups are conjugate.
 		\item The amount of Sylow \( p \)-subgroups \( n_p = \abs{\mathrm{Syl}_p(G)} \) satisfies
-			\[ n_p \equiv 1 \mod p;\quad n_p \mid G \implies n_p \mid m \]
+			\[ n_p \equiv 1 \mod p;\quad n_p \mid \abs{G} \implies n_p \mid m \]
 	\end{enumerate}
 \end{theorem}
 \begin{proof}
@@ -77,9 +77,45 @@
 			\[ \abs{\Omega} = \binom{p^a m}{p^a} = \frac{p^a m}{p^a} \cdot \frac{p^a m - 1}{p^a - 1} \cdots \frac{p^a m - p^a + 1}{1} \]
 			Note that for \( 0 \leq p < p^a \), the numbers \( p^a m - k \) and \( p^a - k \) are divisible by the same power of \( p \).
 			In particular, \( \abs{\Omega} \) is coprime to \( p \).
-			
+
 			Let \( G \acts \Omega \) by left-multiplication, so \( g \ast X = \qty{gx \colon x \in X} \).
-			% TODO: continue proof from here
+			For any \( X \in \Omega \), the orbit-stabiliser theorem can be applied to show that
+			\[ \abs{G_X} \abs{\mathrm{orb}_G(X)} = \abs{G} = p^a m \]
+			By the above, there must exist an orbit with size coprime to \( p \), since orbits partition \( \Omega \).
+			For such an \( X \), \( p^a \mid \abs{G_X} \).
+
+			Conversely, note that if \( g \in G \) and \( x \in X \), then \( g \in (gx^{-1}) \ast X \).
+			Hence, we can consider
+			\[ G = \bigcup_{g \in G} g \ast X = \bigcup_{Y \in \mathrm{orb}_G(X)} Y \]
+			Thus \( \abs{G} \leq \abs{\mathrm{orb}_G(X)} \cdot \abs{X} \), giving \( \abs{G_X} = \frac{\abs{G}}{\abs{\mathrm{orb}_G(X)}} \leq \abs{X} = p^a \).
+
+			Combining wih the above, we must have \( \abs{G_X} = p^a \).
+			In other words, the stabiliser \( G_X \) is a Sylow \( p \)-subgroup of \( G \).
+		\item We will prove a stronger result for this part of the proof.
+			We claim that if \( P \) is a Sylow \( p \)-subgroup and \( Q \leq G \) is a \( p \)-subgroup, then \( Q \leq g P g^{-1} \) for some \( g \in G \).
+			Indeed, let \( Q \) act on the set of left cosets of \( P \) in \( G \) by left multiplication.
+			By the orbit-stabiliser theorem, each orbit has size which divides \( \abs{Q} = p^k \) for some \( k \).
+			Hence each orbit has size \( p^r \) for some \( r \).
+
+			Since \( \faktor{G}{P} \) has size \( m \), which is coprime to \( p \), there must exist an orbit of size 1.
+			Therefore there exists \( g \in G \) such that \( q \ast gP = gP \) for all \( q \in Q \).
+			Equivalently, \( g^{-1} q g \in P \) for all \( q \in Q \).
+			This implies that \( Q \leq gPg^{-1} \) as required.
+			This then weakens to the second part of the Sylow theorems.
+		\item Let \( G \) act on \( \mathrm{Syl}_p(G) \) by conjugation.
+			Part (ii) of the Sylow theorems implies that this action is transitive.
+			By the orbit-stabiliser theorem, \( n_p = \abs{\mathrm{Syl}_p(G)} \mid \abs{G} \).
+
+			Let \( P \in \mathrm{Syl}_p(G) \).
+			Then let \( P \) act on \( \mathrm{Syl}_p(G) \) by conjugation.
+			Since \( P \) is a Sylow \( p \)-subgroup, the orbits of this action have size dividing \( \abs{P} = p^a \), so the size is some power of \( p \).
+			To show \( n_p \equiv 1 \mod p \), it suffices to show that \( \qty{P} \) is the unique orbit of size 1.
+			Suppose \( \qty{Q} \) is another orbit of size 1, so \( Q \) is a Sylow \( p \)-subgroup which is preserved under conjugation by \( P \).
+			\( P \) normalises \( Q \), so \( P \leq N_G(Q) \).
+			Notice that \( P \) and \( Q \) are both Sylow \( p \)-subgroups of \( N_G(Q) \).
+			By (ii), \( P \) and \( Q \) are conjugate inside \( N_G(Q) \).
+			Hence \( P = Q \) since \( Q \trianglelefteq N_G(Q) \).
+			Thus, \( \abs{P} \) is the unique orbit of size 1, so \( n_p \equiv 1 \mod p \) as required.
 	\end{enumerate}
 \end{proof}
 \begin{corollary}
