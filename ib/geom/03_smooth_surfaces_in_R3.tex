@@ -23,7 +23,7 @@ Recall that if \( V \subseteq \mathbb R^n \) and \( V' \subseteq \mathbb R^m \),
 		\item \( \Sigma \) is locally cut out by a smooth function: for all \( p \in \Sigma \) there exists an open ball \( p \in B \subseteq \mathbb R^3 \) and a smooth function \( f \colon B \to \mathbb R \) such that
 			\[ \Sigma \cap B = f^{-1}(0);\quad D \eval{f}_x \neq 0 \]
 			for all \( x \in B \);
-		\item \( \Sigma \) is locally the image of an \textit{allowable} parametrisation: if \( p \in \Sigma \) there exists an open set \( p \in U \subseteq \mathbb R^3 \) and \( \sigma \colon V \to U \) where \( V \subseteq \mathbb R^2 \) is open and \( U \subseteq \Sigma \subseteq \mathbb R^3 \) is open in \( \Sigma \) such that \( \sigma \) is a homeomorphism and \( D \eval{\sigma}_x \) has rank 2 for all \( x \in V \).
+		\item \( \Sigma \) is locally the image of an \textit{allowable} parametrisation: if \( p \in \Sigma \) there exists an open set \( p \in U \subseteq \mathbb R^3 \) and \( \sigma \colon V \to U \) where \( V \subseteq \mathbb R^2 \) is open and \( U \subseteq \Sigma \subseteq \mathbb R^3 \) is open in \( \Sigma \) such that \( \sigma \) is a smooth homeomorphism and \( D \eval{\sigma}_x \) has rank 2 for all \( x \in V \).
 	\end{enumerate}
 \end{theorem}
 \begin{remark}
@@ -39,11 +39,106 @@ Recall that if \( V \subseteq \mathbb R^n \) and \( V' \subseteq \mathbb R^m \),
 \end{remark}
 Some of the relations given in the above theorem are easy to prove, but others come as a result of the inverse function theorem.
 
-\subsection{Inverse function theorem}
-\begin{theorem}
+\subsection{Inverse and implicit function theorems}
+\begin{theorem}[inverse function theorem]
 	Let \( U \subseteq \mathbb R^n \) be open, and \( f \colon U \to \mathbb R^n \) be continuously differentiable.
 	Let \( p \in U \) and \( f(p) = q \).
 	Suppose \( D\eval{f}_p \) is invertible.
 	Then there is an open neighbourhood \( V \) of \( q \) and a differentiable map \( g \colon V \to \mathbb R^n \) and \( g(q) = p \) with image an open neighbourhood \( U' \subseteq U \) of \( p \) such that \( f \circ g = \id_V \).
 	If \( f \) is smooth, then \( g \) is also.
 \end{theorem}
+\begin{remark}
+	The chain rule then implies that \( D\eval{g}_q = \qty(D\eval{f}_p)^{-1} \).
+	The inverse function theorem concerns functions \( \mathbb R^n \to \mathbb R^n \), where \( D\eval{f}_p \) is an isomorphism.
+	If we have a map \( \mathbb R^n \to \mathbb R^m \) for \( n > m \), then we can discuss the behaviour when \( D\eval{f}_p \) is surjective.
+	The derivative \( D\eval{f}_p \) is an \( n \times m \) matrix, so if it has full rank, up to the permutation of coordinates we have that the last \( m \) columns are linearly independent.
+\end{remark}
+\begin{theorem}[implicit function theorem]
+	Let \( p = (x_0, y_0) \) be a point in an open set \( U \subset \mathbb R^k \times \mathbb R^\ell \).
+	Let \( f \colon U \to \mathbb R^\ell \) such that \( p \mapsto 0 \) and \( \qty(\pdv{f_i}{y_j})_{\ell \times \ell} \) is an isomorphism.
+	Then there is an open neighbourhood \( V \) of \( x_0 \) in \( \mathbb R^k \) and a continuously differentiable map \( g \colon V \to \mathbb R^\ell \) with \( x_0 \mapsto y_0 \) such that if \( (x,y) \in U \cap (V \times \mathbb R^\ell) \), then \( f(x,y)=0\iff y=g(x) \).
+	If \( f \) is smooth, so is \( g \).
+\end{theorem}
+\begin{proof}
+	Let \( F \colon U \to \mathbb R^k \times \mathbb R^\ell \) be defined by \( (x,y) \mapsto (x,f(x,y)) \).
+	Then note that
+	\[ DF = \begin{pmatrix}
+		I & \ast \\
+		0 & \pdv{f_i}{y_j}
+	\end{pmatrix} \]
+	hence \( DF \) is an isomorphism at \( (x_0, y_0 \).
+	By the inverse function theorem, \( F \) is locally invertible near \( F(x_0,y_0) = (x_0,f(x_0,y_0)) = (x_0, 0) \).
+	Consider an open neighbourhood \( V \times V' \subseteq \mathbb R^k \times \mathbb R^\ell \) on which this continuously differentiable inverse \( G \colon V \times V' \to U' \subseteq U \subseteq \mathbb R^k \times \mathbb R^\ell \) exists, such that \( F \circ G = \id_{V \times V'} \).
+	Then,
+	\[ G(x,y) = (\varphi(x,y), \psi(x,y)) \implies F \circ G(x,y) = (\varphi(x,y), f(\varphi(x,y), \psi(x,y))) = (x,y) \]
+	Hence \( \varphi(x,y) = x \).
+	We have \( f(x,\psi(x,y)) = y \) when \( (x,y) \in V \times V' \).
+	This gives \( f(x,y) = 0 \iff y = \psi(x,0) \).
+	We then define \( g \colon V \to \mathbb R^\ell \) by \( x \mapsto \psi(x,0) \).
+\end{proof}
+\begin{example}
+	Let \( f \colon \mathbb R^2 \to \mathbb R \) be smooth and \( f(x_0, y_0) = 0 \), and suppose \( \pdv{f}{y} \neq 0 \) at \( (x_0, y_0) \).
+	Then there exists a smooth map \( g \colon (x_0 - \varepsilon, x_0 + \varepsilon) \to \mathbb R \) with \( g(x_0) = y_0 \) and \( f(x,y) = 0 \iff y = g(x) \) for \( (x,y) \) in some open neighbourhood of \( (x_0, y_0) \).
+	Since \( f(x,g(x)) = 0 \) in this open neighbourhood, we can differentiate that expression to find
+	\[ g'(x) = \frac{-f_x}{f_y} \]
+	noting that \( f_y \neq 0 \) in some neighbourhood near \( (x_0, y_0) \).
+	Note that the level set \( f(x,y) = 0 \) is implicitly defined by \( g \), which is a function for which we have an integral expression.
+\end{example}
+\begin{example}
+	Let \( f \colon \mathbb R^3 \to \mathbb R \) be a smooth map with \( f(x_0, y_0, z_0) = 0 \).
+	Consider the level set \( \Sigma = f^{-1}(0) \), assuming that \( Df \neq 0 \) at \( (x_0, y_0, z_0) \).
+	Permuting coordinates if necessary, we can assume \( \pdv{f}{z} \neq 0 \) at this point.
+	Then there exists an open neighbourhood \( V \) of \( (x_0, y_0) \) and a smooth function \( g \colon V \to \mathbb R \) such that \( (x_0, y_0) \mapsto z_0 \) with the property that for an open set \( (x_0, y_0, z_0) \in U \), the set \( f^{-1}(0) \cap U = \Sigma \cap U \) is the graph of the function \( g \), which is \( \qty{ (x,y,g(x,y)) \colon (x,y) \in V } \).
+\end{example}
+
+\subsection{Conditions for smoothness}
+We now prove the theorem stated above, relating equivalent conditions for smoothness of a surface \( \Sigma \).
+\begin{proof}
+	First, we show that (b) implies all of the other conditions.
+	If \( \Sigma \) is locally a graph \( \qty{(x,y,g(x,y))} \), we find a chart from the coordinate plane projection \( \pi_{xy} \) of that graph.
+	Since this projection is smooth and defined on an open neighbourhood of points of \( \Sigma \) in its domains, this shows that \( \Sigma \) is a smooth surface in \( \mathbb R^3 \) (a).
+	Further, since \( \Sigma \) is locally the given graph, it is cut out by the function \( f(x,y,z) = z - g(x,y) \) and \( \pdv{f}{z} \neq 0 \) (c).
+	Finally, the local parametrisation \( \sigma(x,y) = (x,y,g(x,y)) \) is allowable; \( g \) is smooth, the partial derivatives of \( \sigma \) are linearly independent by considering the \( x \) and \( y \) components, and \( \sigma \) is injective where required (d).
+
+	Now, we show (a) implies (d).
+	This is simply part of the definition of being a smooth surface in \( \mathbb R^3 \), being locally diffeomorphic to \( \mathbb R^2 \).
+	In particular, at \( p \in \Sigma \), \( \Sigma \) is locally diffeomorphic to \( \mathbb R^2 \) and the inverse of such a local diffeomorphism is an allowable parametrisation.
+
+	We have already shown (c) implies (b); this was the example of the implicit function theorem provided above.
+
+	Finally, we must prove (d) implies (a) and (b), and then the result will hold.
+	Let \( p \in \Sigma \) and \( V \) be an open set in \( \mathbb R^2 \) with an allowable parametrisation to \( \Sigma \) such that \( \sigma(0) = p \).
+	If \( \sigma = (\sigma_1(u,v), \sigma_2(u,v), \sigma_3(u,v)) \), we have
+	\[ D\sigma = \begin{pmatrix}
+		\pdv{\sigma_1}{u} & \pdv{\sigma_1}{v} \\
+		\pdv{\sigma_2}{u} & \pdv{\sigma_2}{v} \\
+		\pdv{\sigma_3}{u} & \pdv{\sigma_3}{v}
+	\end{pmatrix} \]
+	This has rank 2, hence there exist two rows defining an invertible matrix.
+	Suppose those are the first two rows, and let \( \mathrm{pr} = \pi_{xy} \) be the projection map.
+	Consider \( \mathrm{pr} \circ \sigma \colon V \to \mathbb R^2 \).
+	This has isomorphic derivative at zero, so we can apply the inverse function theorem.
+	Hence \( \Sigma \) is locally a graph over the \( xy \) coordinate plane, so (b) holds.
+	Moreover, let \( \varphi = \mathrm{pr} \circ \sigma \), and consider the open ball \( B(p, \delta) \subseteq \mathbb R^3 \) and a map such that \( (x,y,z) \mapsto \varphi^{-1}(x,y) \) in this ball.
+	Here, \( \varphi \colon W \to \Sigma \) where \( W \) is an open set in \( \mathrm{pr}(B(p, \delta)) \).
+	This is a locally defined map, which is smooth on an open set in \( \mathbb R^3 \), which is a smooth inverse to \( \sigma \).
+	Hence \( \Sigma \) is a smooth surface in \( \mathbb R^3 \), so (a) holds.
+\end{proof}
+\begin{example}
+	The unit sphere \( S^2 \) in \( \mathbb R^3 \) is \( f^{-1}(0) \) for \( f(x,y,z) = x^2 + y^2 + z^2 - 1 \).
+	For any point on \( S^2 \), \( Df \neq 0 \), so \( S^2 \) is a smooth surface.
+\end{example}
+\begin{example}
+	Let \( \gamma \colon [a,b] \to \mathbb R^3 \) be a smooth map with image in the \( xz \) plane, so
+	\[ \gamma(t) = (f(t), 0, g(t)) \]
+	such that \( \gamma \) is injective, \( \gamma' \neq 0 \), and \( f > 0 \).
+	The \textit{surface of revolution} of \( \gamma \) has allowable parametrisation
+	\[ \sigma(u,v) = (f(u)\cos v, f(u)\sin v, g(u)) \]
+	where \( (u,v) \in (a,b) \times (\theta, \theta + 2\pi) \) for a fixed \( \theta \).
+	Note that \( \sigma_u = (f_u \cos v, f_u \sin v, g_u) \) and \( \sigma_v = (-f\sin v, f \cos v, 0) \), and we can check \( \norm{\sigma_u \times \sigma_v} = f^2 ((f')^2 + (g')^2) \) which is nonzero on \( \gamma \), so this really is an allowable parametrisation.
+\end{example}
+\begin{example}
+	The orthogonal group \( O(3) \) acts on \( S^2 \) by diffeomorphisms.
+	Indeed, any \( A \in O(3) \) defines a linear (hence smooth) map \( \mathbb R^3 \to \mathbb R^3 \) preserving \( S^2 \).
+	Hence, the induced map on \( S^2 \) is by a homeomorphism which is smooth according to the above definition.
+\end{example}
