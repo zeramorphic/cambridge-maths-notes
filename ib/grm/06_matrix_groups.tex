@@ -4,7 +4,7 @@
 	Let \( GL_n(F) \) be set of \( n \times n \) invertible matrices over \( F \), which is called the \textit{general linear group}.
 	Let \( SL_n(F) \) be set of \( n \times n \) matrices with unit determinant over \( F \), which is called the \textit{special linear group}.
 	\( SL_n(F) \) is the kernel of the determinant homomorphism on \( GL_n(F) \), so \( SL_n(F) \triangleleft GL_n(F) \).
-	
+
 	Let \( Z \triangleleft GL_n(F) \) denote the subgroup of \textit{scalar matrices}, the group of non-zero multiples of the identity.
 	The group \( PGL_n(F) = \faktor{GL_n(F)}{Z} \) is called the \textit{projective general linear group}.
 	Let \( PSL_n(F) = \faktor{SL_n(F)}{Z \cap SL_n(F)} \).
@@ -44,3 +44,71 @@ We can represent \( \infty \) as an integer, say, \( p \), for the purposes of c
 
 	If \( p = 2 \) or \( p = 3 \) we can compute the orders of relevant groups manually and show that the permutation representation is an isomorphism.
 \end{proof}
+\begin{lemma}
+	Let \( p \) be an odd prime.
+	Then
+	\[ \abs{PSL_2\qty(\faktor{\mathbb Z}{p\mathbb Z})} = \frac{(p-1)p(p+1)}{2} \]
+\end{lemma}
+\begin{proof}
+	By the example above,
+	\[ \abs{GL_2\qty(\faktor{\mathbb Z}{p\mathbb Z})} = p(p^2 - 1)(p - 1) \]
+	The homomorphism \( GL_2\qty(\faktor{\mathbb Z}{p\mathbb Z}) \to \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \) given by the determinant is surjective.
+	Since \( SL_2\qty(\faktor{\mathbb Z}{p\mathbb Z}) \) is the kernel of this homomorphism, we have
+	\[ \abs{SL_2\qty(\faktor{\mathbb Z}{p\mathbb Z})} = p(p-1)(p+1) \]
+	Now, if \(
+	\begin{pmatrix}
+	\lambda & 0 \\ 0 & \lambda
+	\end{pmatrix}
+	\) is an element of the special linear group, then \( \lambda^2 \equiv 1 \mod p \).
+	Then, \( p \mid (\lambda - 1)(\lambda + 1) \) hence \( \lambda \equiv \pm 1 \mod p \).
+	Thus,
+	\[ Z \cap SL_2\qty(\faktor{\mathbb Z}{p\mathbb Z}) = \qty{\pm 1} \]
+	and the elements are distinct since \( p > 2 \).
+	Hence the order of the projective special linear group is half the order of the special linear group as required.
+\end{proof}
+\begin{example}
+	Let \( G = PSL_2\qty(\faktor{\mathbb Z}{5\mathbb Z}) \).
+	Then by the previous lemma, \( \abs{G} = 60 \).
+	Let \( G \acts \faktor{\mathbb Z}{5\mathbb Z} \cup \qty{\infty} \) by M\"obius transformations.
+	The permutation representation \( \varphi \colon G \to \Sym(\qty{0,1,2,3,4,\infty}) \) is injective, since the permutation representation of \( PGL_2\qty(\faktor{\mathbb Z}{p\mathbb Z}) \) is known to be injective by a previous lemma.
+
+	We claim that \( \Im \varphi \subseteq A_6 \).
+	Let \( \psi = \sgn \circ \varphi \).
+	If we can show \( \psi \) is trivial, \( \Im \varphi \subseteq A_6 \).
+	Let \( h\in G \), and suppose \( h \) has order \( 2^n m \) for odd \( m \).
+	If \( \psi(h^m) = 1 \), then since \( \psi \) is a group homomorphism we have \( \psi(h)^m = 1 \) giving \( \psi(h) \neq -1 \implies \psi(h) = 1 \).
+	So to show \( \psi \) is trivial, it suffices to show \( \psi(g) = 1 \) for all \( g \in G \) with order a power of 2.
+	By the second Sylow theorem, if \( g \) has order a power of 2, it is contained in a Sylow 2-subgroup.
+	Then it suffices to show that \( \psi(H) = 1 \) for all Sylow 2-subgroups \( H \).
+	But since \( \ker \psi \) is normal and all Sylow 2-subgroups are conjugate, it suffices to show \( \psi(H) = 1 \) for a single Sylow 2-subgroup \( H \).
+	The Sylow 2-subgroup must have order 4.
+	Hence consider
+	\[ H = \genset{ \begin{pmatrix}
+		2 & 0 \\
+		0 & 3
+	\end{pmatrix} \qty{\pm I}, \begin{pmatrix}
+		0 & 1 \\
+		-1 & 0
+	\end{pmatrix} \qty{\pm I} } \]
+	Both of these elements square to the identity element inside the projective special linear group.
+	This generates a group of order 4 which is necessarily a Sylow 2-subgroup.
+	We can explicitly compute the action of \( H \) on \( \qty{0,1,2,3,4,\infty} \).
+	\[ \varphi\qty(\begin{pmatrix}
+		2 & 0 \\
+		0 & 3
+	\end{pmatrix}) = (1\ 4)(2\ 3);\quad \varphi\qty(\begin{pmatrix}
+		0 & 1 \\
+		-1 & 0
+	\end{pmatrix}) = (0\ \infty)(1\ 4) \]
+	These are products of two transpositions, hence even permutations.
+	Thus \( \psi(H) = 1 \), proving the claim that \( G \leq A_6 \).
+	We can prove that for any \( G \leq A_6 \) of order 60, we have \( G \cong A_5 \); this is a question from the example sheets.
+\end{example}
+
+\subsection{Properties}
+The following properties will not be proven in this course.
+\begin{itemize}
+	\item \( PSL_n\qty(\faktor{\mathbb Z}{p\mathbb Z}) \) is simple for all \( n \geq 2 \) and \( p \) prime, except where \( n = 2 \) and \( p = 2, 3 \).
+		Such groups are called finite groups of \textit{Lie type}.
+	\item The smallest non-abelian simple groups are \( A_5 \cong PSL_2\qty(\faktor{\mathbb Z}{5\mathbb Z}) \), then \( PSL_2\qty(\faktor{\mathbb Z}{7\mathbb Z}) \cong GL_3\qty(\faktor{\mathbb Z}{2\mathbb Z}) \) which has order 168.
+\end{itemize}

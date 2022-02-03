@@ -234,3 +234,93 @@ From now, we omit this subscript, as it will be implied for much of the remainde
 	Note that \( \hat \theta = \qty(1 = \frac{1}{n})^{n \overline X_n} \) converges in the limit to \( e^{-\overline X_n} \).
 	By the strong law of large numbers, \( \overline X_n \to \expect{X_1} = \lambda \), so we arrive at \( \hat \theta \to e^{-\lambda} = \theta \) almost surely.
 \end{example}
+\begin{example}
+	Let \( X_1, \dots, X_n \) be i.i.d.\ uniform random variables in an interval \( [0, \theta] \).
+	We wish to estimate \( \theta > 0 \).
+	We observed that \( T = \max X_i \) is sufficient for \( \theta \).
+	Let \( \widetilde \theta = 2 X_1 \).
+	This is an unbiased estimator of \( \theta \).
+	Then the Rao-Blackwellised estimator \( \hat \theta \) is
+	\begin{align*}
+		\hat \theta &= \expect{\widetilde \theta \mid T = t} \\
+		&= 2 \expect{X_1 \mid \max X_i = t} \\
+		&= 2 \expect{X_1 \mid \max X_i = t, X_1 = \max X_i} \prob{X_1 = \max X_i \mid \max X_i = t} \\
+		&+ 2 \expect{X_1 \mid \max X_i = t, X_1 \neq \max X_i} \prob{X_1 \neq \max X_i \mid \max X_i = t} \\
+	\end{align*}
+	Since \( X_1, \dots, X_n \) are i.i.d., the conditional probability \( \prob{X_1 = \max X_i \mid \max X_i = t} \) can be reduced to \( \prob{X_1 = \max X_i} = \frac{1}{n} \).
+	The complementary event may be reduced in an analogous way.
+	The expectation \( \expect{X_1 \mid \max X_i = t, X_1 = \max X_i} \) can be reduced to \( t \).
+	\begin{align*}
+		\hat \theta &= \frac{2t}{n} + \frac{2(n-1)}{n} \expect{X_1 \mid X_1 < t, \max_{i=2}^n X_i = t} \\
+		&= \frac{2t}{n} + \frac{2(n-1)}{n} \expect{X_1 \mid X_1 < t} \\
+		&= \frac{2t}{n} + \frac{2(n-1)}{n} \frac{t}{2}
+		&= \frac{2t}{n} + \frac{t(n-1)}{n} = \frac{n+1}{n} \max_i X_i
+	\end{align*}
+	By the Rao-Blackwell theorem, the mean squared error of \( \hat \theta \) is not greater than the mean squared error of \( \widetilde \theta \).
+	This is also an unbiased estimator.
+\end{example}
+
+\subsection{Maximum likelihood estimation}
+Let \( X_1, \dots, X_n \) be i.i.d.\ random variables with mass or density function \( f_X(x \mid \theta) \).
+\begin{definition}
+	For fixed observations \( x \), the \textit{likelihood function} \( L \colon \Theta \to \mathbb R \) is given by
+	\[ L(\theta) = f_X(x \mid \theta) = \prod_{i=1}^n f_{X_i} (x_i \mid \theta) \]
+	We will denote the \textit{log-likelihood} by
+	\[ \ell(\theta) = \log L(\theta) = \sum_{i=1}^n \log f_{X_i} (x_i \mid \theta) \]
+\end{definition}
+\begin{definition}
+	A \textit{maximum likelihood estimator} is an estimator that maximises the likelihood function \( L \) over \( \Theta \).
+	Equivalently, the estimator maximises \( \ell \).
+\end{definition}
+\begin{example}
+	Let \( X_1, \dots, X_n \) be i.i.d.\ Bernoulli random variables with parameter \( p \).
+	The log-likelihood function is
+	\[ \ell(p) = \sum_{i=1}^n [X_i \log p + (1-X_i) \log (1-p)] = \log p + \sum X_i + \log(1-p) \qty(n - \sum X_i) \]
+	The derivative is
+	\[ \ell'(p) = \frac{\sum X_i}{p} + \frac{n - \sum X_i}{1-p} \]
+	which has a single stationary point at \( p = \frac{1}{n} \sum X_i = \overline X_n \).
+	We have \( \expect{\hat p} = p \), so the maximum likelihood estimator in this case is unbiased.
+\end{example}
+\begin{example}
+	Let \( X_1, \dots, X_n \) be i.i.d.\ normal random variables with unknown mean \( \mu \) and variance \( \sigma^2 \).
+	\[ \ell(\mu, \sigma^2) = -\frac{n}{2} \log(2\pi) - \frac{n}{2} \log \sigma^2 - \frac{1}{2\sigma^2} \sum (X_i - \mu)^2 \]
+	This function is concave in \( \mu \) and \( \sigma^2 \), so there exists a unique maximiser.
+	In particular, \( \ell \) is maximised when \( \pdv{\ell}{\mu} = \pdv{\ell}{\sigma^2} = 0 \).
+	\[ \pdv{\ell}{\mu} = -\frac{1}{\sigma^2} \sum (X_i - \mu) \]
+	This is zero if \( \mu = \overline X_n \).
+	Further,
+	\[ \pdv{\ell}{\sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4} \sum (X_i - \mu)^2 = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4} \sum (X_i - \overline X_n)^2 \]
+	This is zero if and only if
+	\[ \sigma^2 = \frac{1}{n} \sum (X_i - \overline X_n)^2 = \frac{S_{xx}}{n} \]
+	Hence, the maximum likelihood estimator is \( \qty(\hat mu, \hat \sigma^2) = \qty(\overline X_n, \frac{1}{n} S_{xx}) \).
+	We can show that \( \hat \mu \) is unbiased.
+	We will later prove that
+	\[ \frac{S_{xx}}{\sigma^2} = \frac{n\hat \sigma^2}{\sigma^2} \sim \chi_{n-1}^2 \]
+	Hence
+	\[ \expect{\hat \sigma^2} = \frac{\sigma^2}{n} \expect{\chi_{n-1}^2} = \sigma^2 \frac{n-1}{n} \]
+	This is therefore a biased estimator, but the bias converges to zero as \( n \to \infty \): \( \hat \sigma^2 \) is \textit{asymptotically unbiased}.
+\end{example}
+\begin{example}
+	Let \( X_1, \dots, X_n \) be i.i.d.\ uniform random variables on \( [0,\theta] \).
+	Here, we derived the unbiased estimator \( \hat \theta = \frac{n+1}{n} \max X_i \).
+	The likelihood is given by
+	\[ L(\theta) = \frac{1}{\theta^n} 1\qty{\max X_i \leq \theta} \]
+	This function is maximised at \( \hat \theta_{\mathrm{mle}} = \max X_i \).
+	By comparison to the \( \hat \theta \) derived from the Rao-Blackwell process, \( \hat \theta_{\mathrm{mle}} \) is biased.
+	In particular,
+	\[ \expect{\hat \theta_{\mathrm{mle}}} = \frac{n}{n+1} \expect{\hat \theta} = \frac{n}{n+1} \theta \]
+\end{example}
+\begin{remark}
+	If \( T \) is a sufficient statistic for \( \theta \), then the maximum likelihood estimator is a function of \( T \).
+	Indeed, since \( X \) and \( T \) are fixed, the maximiser of \( L(\theta) = g(T,\theta) h(X) \) depends on \( X \) only through \( T \).
+	If \( \varphi = H(\theta) \) for a bijection \( H \), then if \( \hat \theta \) is the maximum likelihood estimator for \( \theta \), we have that \( H(\hat \theta) \) is the maximum likelihood estimator for \( \varphi \).
+
+	Under some regularity conditions, as \( n \to \infty \) the statistic \( \sqrt{n} (\hat \theta - \theta \) is approximately normal with mean zero and covariance matrix \( \Sigma \).
+	More precisely, for `nice' sets \( A \), we have
+	\[ \prob{\sqrt{n} \qty(\hat \theta - \theta) \in A} \to \prob{Z \in A};\quad Z \sim N(0, \Sigma) \]
+	We say that the maximum likelihood estimator is \textit{asymptotically normal}.
+	The limiting covariance matrix \( \Sigma \) is a known function of \( \ell \), which will not be defined in this course.
+	In some sense, \( \Sigma \) is the smallest variance that any estimator can achieve asymptotically.
+
+	For practical purposes, this estimator can often be found numerically by maximising \( \ell \) or \( L \).
+\end{remark}
