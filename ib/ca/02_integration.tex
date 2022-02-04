@@ -96,6 +96,8 @@ The integral along a curve has various convenient properties.
 	\[ \abs{\int_\gamma f(z) \dd{z}} = \abs{\int_a^b f(\gamma(t)) \gamma'(t) \dd{t}} \leq \int_a^b \abs{f(\gamma(t))} \cdot \abs{\gamma'(t)} \dd{t} \leq \sup_{t \in [a,b]} \abs{f(\gamma(t))} \mathrm{length}(\gamma) \]
 	If \( \gamma \) is piecewise \( C^1 \), then the result follows from the definition of a piecewise \( C^1 \) function and the above.
 \end{proof}
+
+\subsection{Fundamental theorem of calculus}
 \begin{theorem}[fundamental theorem of calculus]
 	Let \( f \colon U \to \mathbb C \) be continuous on an open set \( U \subset \mathbb C \).
 	Let \( F \colon U \to \mathbb C \) be a function such that \( F'(z) = f(z) \) for all \( z \in U \).
@@ -106,4 +108,132 @@ The integral along a curve has various convenient properties.
 \end{theorem}
 \begin{proof}
 	\[ \int_\gamma f(z) \dd{z} = \int_a^b f(\gamma(t)) \gamma'(t) \dd{t} = \int_a^b \dv{t} F(\gamma(t)) \dd{t} = F(\gamma(b)) - F(\gamma(a)) \]
+\end{proof}
+\begin{remark}
+	Note that we assume that \( f \) exists such that \( F'(z) = f(z) \); such an \( f \) is not provided for by the theorem.
+	A function \( F \) satisfying these criteria is called an \textit{antiderivative} of \( f \).
+\end{remark}
+\begin{example}
+	For an integer \( n \) and the curve \( \gamma(t) = Re^{2\pi it} \) for \( t = [0,1] \), consider the integral \( \int_\gamma z^n \dd{z} \).
+	For \( n \neq -1 \), the function \( \frac{z^{n+1}}{n+1} \) is an antiderivative of \( z^n \).
+	Hence, \( \int_\gamma z^n \dd{z} = 0 \) since \( \gamma \) is a closed curve.
+	If \( n = -1 \), we can use the definition of the integral to find
+	\[ \int_\gamma \frac{1}{z} \dd{z} = \int_0^1 \frac{1}{\gamma(t)} \gamma'(t) \dd{t} = \int_0^1 \frac{1}{Re^{2\pi i t}}2\pi i R e^{2 \pi i t} \dd{t} = 2 \pi i \]
+	This is not zero, hence for all \( R > 0 \), \( \frac{1}{z} \) has no antiderivative in any open set containing the circle \( \abs{\abs{Z} = R} \).
+	In particular, for any branch of logarithm \( \lambda \), it has derivative \( \frac{1}{z} \), hence there exists no branch of logarithm on \( \mathbb C^\star = \mathbb C \setminus \qty{0} \).
+\end{example}
+\begin{theorem}[converse to fundamental theorem of calculus]
+	Let \( U \subset \mathbb C \) be a domain.
+	If \( f \colon U \to \mathbb C \) is continuous and if \( \int_\gamma f(z) \dd{z} \) for every closed curve \( \gamma \) in \( U \), then \( f \) has an antiderivative.
+	In other words, there exists a holomorphic function \( F \colon U \to \mathbb C \) such that \( F' = f \) in \( U \).
+\end{theorem}
+\begin{proof}
+	Let \( a_0 \in U \).
+	Then for \( w \in U \), we can define
+	\[ F(w) = \int_{\gamma_w} f(z) \dd{z} \]
+	where \( \gamma_w \colon [0,1] \to \mathbb C \) is a curve with \( \gamma_w(0) = a_0 \) and \( \gamma_w(1) = w \).
+
+	The definition of \( F \) is independent of the choice of \( \gamma_w \) is independent of the choice of \( \gamma_w \).
+	Indeed, suppose two paths \( \gamma_w, \gamma_w' \) exist.
+	Then the curve \( \gamma_w + (-\gamma_w') \) is a closed path, and by assumption the integral along this curve is zero.
+	Thus \( F \) is independent of the choice of path as claimed.
+	So \( F \) is a well-defined function.
+
+	Now, let \( w \in U \).
+	Since \( U \) is an open set, there exists \( r > 0 \) such that \( D(w,r) \subset U \).
+	For \( h \in \mathbb C \) with \( 0 < \abs{h} < r \), let \( \delta_h \) be the radial path \( t \mapsto w + th \) for \( t \in [0,1] \).
+	Now we define
+	\[ \gamma = \gamma_w + \delta_h + (-\gamma_{w+h}) \]
+	This is a closed curve contained within \( U \), hence \( \int_\gamma f(z) \dd{z} = 0 \).
+	Thus
+	\[ \int_{\gamma_{w+h}} f(z) \dd{z} = \int_{\gamma_w} f(z) \dd{z} + \int_{\delta_h} f(z) \dd{z} \]
+	Informally, the integral has an additivity property which is independent of the path taken.
+	Rewriting this using \( F \),
+	\begin{align*}
+		F(w+h) &= F(w) + \int_{\delta_h} f(z) \dd{z} \\
+		&= F(w) + \int_{\delta_h} (f(z) + f(w) - f(w)) \dd{z} \\
+		&= F(w) + hf(w) + \int_{\delta_h} (f(z) - f(w)) \dd{z}
+	\end{align*}
+	Hence, by continuity of \( f \),
+	\begin{align*}
+		\abs{\frac{F(w+h) - F(w)}{h} - f(w)} &= \frac{1}{\abs{h}} \abs{\int_{\delta_h} (f(z) - f(w)) \dd{z}} \\
+		&\leq \frac{1}{\abs{h}} \mathrm{length}(\delta_h) \sup_{z \in \Im \delta_h} \abs{f(z) - f(w)} \\
+		&= \sup_{z \in \Im \delta_h} \abs{f(z) - f(w)} \\
+		\therefore \lim_{h \to 0} \abs{\frac{F(w+h) - F(w)}{h} - f(w)} &= \lim_{h \to 0} \sup_{z \in \Im \delta_h} \abs{f(z) - f(w)} = 0
+	\end{align*}
+	Thus, \( F \) is differentiable at \( w \) with \( F'(w) = f(w) \).
+\end{proof}
+
+\subsection{Star-shaped domains}
+\begin{definition}
+	A domain \( U \) is \textit{star-shaped}, or a \textit{star domain}, if there exists a (not necessarily unique) centre \( a_0 \in U \) such that for all \( w \in U \), the straight line segment \( [a_0, w] \) is contained within \( U \).
+\end{definition}
+\begin{remark}
+	Any disk is convex; any convex domain is star-shaped; any star-shaped domain is path-connected.
+	The reverse implications are not true in general.
+\end{remark}
+\begin{definition}
+	A \textit{triangle} in \( \mathbb C \) is the \textit{convex hull} of three points in \( \mathbb C \).
+	The (closed) convex hull of a set \( S \) is the smallest (closed) convex set \( C \) such that \( S \subseteq C \).
+	In this case, if \( z_1, z_2, z_3 \in \mathbb C \), we have
+	\[ T = \qty{az_1 + bz_2 + cz_3 \colon 0 \leq a,b,c \leq 1, a+b+c=1} \]
+	When used as a curve, the boundary \( \partial T \) represents the piecewise affine closed curve \( \gamma = \gamma_1 + \gamma_2 + \gamma_3 \) where \( \gamma_i \) are affine functions parametrising the three line segments on the boundary of \( T \).
+\end{definition}
+\begin{corollary}
+	Let \( U \) be a star-shaped domain.
+	Let \( f \colon U \to \mathbb C \) be continuous and \( \int_{\partial T} f(z) \dd{z} = 0 \) for any triangle \( T \subset U \).
+	Then \( f \) has an antiderivative in \( U \).
+\end{corollary}
+\begin{remark}
+	This is a relaxation of the conditions from the previous theorem.
+\end{remark}
+\begin{proof}
+	Let \( a_0 \) be a centre for the domain \( U \).
+	Let \( w \) be an arbitrary point in \( U \).
+	Then let \( \gamma_w \) be the affine function parametrising the directed line segment \( [a_0,w] \), and let \( F(w) = \int_{\gamma_w} f(z) \dd{z} \).
+	Using \( h \) and \( \delta_h \) as above, by letting \( \gamma = \gamma_w + \delta_h + (-\gamma_{w+h}) \) we then have \( \int f(z) \dd{z} = \pm \int_{\partial T} f(z) \dd{z} \) for a triangle \( T \subset U \).
+	Since the integral around a triangle is zero by hypothesis, \( \int_\gamma f(z) \dd{z} = 0 \).
+	We then complete the proof in analogous way to the general case.
+\end{proof}
+\begin{theorem}[Cauchy's theorem for triangles]
+	Let \( U \subset \mathbb C \) be an open set and \( f \colon U \to \mathbb C \) be a holomorphic function.
+	Then \( \int_{\partial T} f(z) \dd{z} = 0 \) for all triangles \( T \subset U \).
+\end{theorem}
+\begin{proof}
+	Let \( \eta(t) = \int_{\partial T} f(z) \dd{z} \).
+	We will subdivide the triangle \( T \) into four smaller triangles \( T^{(1)}, T^{(2)}, T^{(3)}, T^{(4)} \).
+	The vertices of the inner triangle are the midpoints of the sides of \( T \), and the three other triangles are constructed to fill the remaining area of \( T \).
+	Thus,
+	\[ \eta(T) = \int_{\partial T^{(1)}} f(z) \dd{z} + \int_{\partial T^{(2)}} f(z) \dd{z} + \int_{\partial T^{(3)}} f(z) \dd{z} + \int_{\partial T^{(4)}} f(z) \dd{z} \]
+	Then, by the triangle inequality, there exists a triangle \( T^{(j)} \) such that
+	\[ \abs{\int_{\partial T^{(j)}} f(z) \dd{z}} \geq \frac{\abs{\eta(T)}}{4} \]
+	Let \( T_0 = T \), and \( T_1 = T^{(j)} \), so \( \abs{\eta(T_1)} \geq \frac{1}{4}\abs{\eta(T_0)} \).
+	We can show geometrically that for any choice of \( T_i \), \( \mathrm{length}(\partial T_1) = \frac{1}{2}\mathrm{length}(\partial T_0) \).
+	Inductively, we can subdivide \( T_i \) and produce \( T_{i+1} \), such that
+	\[ T_0 \supset T_1 \supset \cdots;\quad \abs{\eta(T_n)} \geq \frac{1}{4}\abs{\eta(T_{n-1})};\quad \mathrm{length}(\partial T_n) = \frac{1}{2} \mathrm{length}(\partial T_{n-1}) \]
+	Hence,
+	\[ \abs{\eta(T_n)} \geq \frac{1}{4^n}\abs{\eta(T_0)};\quad \mathrm{length}(\partial T_n) = \frac{1}{2^n} \mathrm{length}(\partial T_0) \]
+	Since \( T_n \) are non-empty, nested closed subsets with diameter converging to zero, we can show that \( \bigcap_{n=1}^\infty T_n = \qty{z_0} \) for some \( z_0 \in \mathbb C \).
+	Let \( \varepsilon > 0 \).
+	Since \( f \) is differentiable at \( z_0 \), there exists \( \delta > 0 \) such that
+	\begin{align*}
+		z \in U, \abs{z - z_0} < \delta &\implies \abs{\frac{f(z) - f(z_0)}{z - z_0} - f'(z_0)} \leq \varepsilon \\
+		&\implies \abs{f(z) - f(z_0) - f'(z_0)(z - z_0)} \leq \varepsilon \abs{z - z_0}
+	\end{align*}
+	Now, observe that for all \( n \),
+	\[ \int_{\partial T_n} f(z) \dd{z} = \int_{\partial T_n} (f(z) - f(z_0) - f'(z_0)(z - z_0)) \dd{z} \]
+	since \( \int_{\partial T_n} \dd{z} = \int_{\partial T_n} z \dd{z} = 0 \) by the fundamental theorem of calculus.
+	Let \( n \) such that \( T_n \subset D(z_0, \delta) \).
+	Hence,
+	\begin{align*}
+		\frac{1}{4^n} \abs{\eta(T_0)} &\leq \abs{\eta(T_n)} \\
+		&= \abs{\int_{\partial T_n} f(z) \dd{z}} \\
+		&= \abs{\int_{\partial T_n} (f(z) - f(z_0) - f'(z_0)(z - z_0)) \dd{z}} \\
+		&\leq \qty(\sup_{z \in \partial T_n} \abs{f(z) - f(z_0) - f'(z_0)(z-z_0)}) \mathrm{length}(\partial T_n) \\
+		&\leq \varepsilon \qty(\sup_{z \in \partial T_n} \abs{z - z_0}) \mathrm{length}(\partial T_n) \\
+		&\leq \varepsilon \mathrm{length}(\partial T_n)^2 \\
+		&\leq \frac{\varepsilon}{4^n} \mathrm{length}(\partial T_0)^2 \\
+		\therefore \abs{\eta(T_0)} &\leq \varepsilon \mathrm{length}(\partial T_0)^2
+	\end{align*}
+	\( \varepsilon \) was arbitrary, hence \( \eta(T_0) \) must be zero.
 \end{proof}
