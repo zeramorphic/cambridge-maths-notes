@@ -1,0 +1,102 @@
+\subsection{Definitions}
+\begin{definition}
+	A \textit{ring} is a triple \( (R, +, \cdot) \) where \( R \) is a set and \( +, \cdot \) are binary operations \( R \times R \to R \), satisfying the following axioms.
+	\begin{enumerate}[(i)]
+		\item \( (R, +) \) is an abelian group, and we will denote the identity element 0 and the inverse of \( x \) as \( -x \);
+		\item \( (R, \cdot) \) satisfies the group axioms except for the invertibility axiom, and we will denote the identity element 1 and the inverse of \( x \) as \( x^{-1} \);
+		\item for all \( x, y, z \in R \) we have \( x \cdot (y+z) = x\cdot y + x\cdot z \) and \( (y+z)\cdot x = y \cdot x + z \cdot x \).
+	\end{enumerate}
+	If multiplication is commutative, we say that \( R \) is a \textit{commutative} ring.
+	In this course, we will study only commutative rings.
+\end{definition}
+\begin{remark}
+	For all \( x \in R \),
+	\[ 0 \cdot x = (0+0) \cdot x = 0 \cdot x + 0 \cdot x \implies 0 \cdot x = 0 \]
+	Further,
+	\[ 0 = 0 \cdot x = (1 + -1) \cdot x = x + (-1 \cdot x) \implies -1 \cdot x = -x \]
+\end{remark}
+\begin{definition}
+	A subset \( S \subseteq R \) is a \textit{subring}, denoted \( S \leq R \), if \( (S, +, \cdot) \) is a ring with the same identity elements.
+\end{definition}
+\begin{remark}
+	It suffices to check the closure axioms for addition and multiplication; the other properties are inherited.
+\end{remark}
+\begin{example}
+	\( \mathbb Z \leq \mathbb Q \leq \mathbb R \leq \mathbb C \) are rings.
+	The set \( \mathbb Z[i] = \qty{a+bi \colon a,b\in\mathbb Z} \) is a subring of \( \mathbb C \).
+	This is known as the ring of Gaussian integers.
+	The set \( \mathbb Q[\sqrt{2}] = \qty{a+b\sqrt{2} \colon a,b \in\mathbb Q} \) is a subring of \( \mathbb R \).
+\end{example}
+\begin{example}
+	The set \( \faktor{\mathbb Z}{n\mathbb Z} \) is a ring.
+\end{example}
+\begin{example}
+	Let \( R, S \) be rings.
+	Then the \textit{product} \( R \times S \) is a ring under the binary operations
+	\[ (a,b) + (c,d) = (a+c,b+d);\quad (a,b) \cdot (c,d) = (a\cdot c,b\cdot d) \]
+	The additive identity is \( (0_R, 0_S) \) and the multiplicative identity is \( (1_R, 1_S) \).
+	Note that the subset \( R \times \qty{0} \) is preserved under addition and multiplication, so it is a ring, but it is not a subring because the multiplicative identity is different.
+\end{example}
+
+\subsection{Polynomials}
+\begin{definition}
+	Let \( R \) be a ring.
+	A \textit{polynomial} \( f \) over \( R \) is an expression
+	\[ f = a_0 + a_1 X + a_2 X^2 + \dots + a_n X^n \]
+	for \( a_i \in R \).
+	The term \( X \) is a formal symbol, no substitution of \( X \) for a value will be made.
+	We could alternatively define polynomials as finite sequences of terms in \( R \).
+	The \textit{degree} of a polynomial \( f \) is the largest \( n \) such that \( a_n \neq 0 \).
+	We write \( R[X] \) for the set of all such polynomials over \( R \).
+	Let \( g = b_0 + b_1 X + \dots + b_n X^n \).
+	Then we define
+	\[ f + g = (a_0 + b_0) + (a_1 + b_1) X + \dots + (a_n + b_n) X^n;\quad f \cdot g = \sum_i \qty(\sum_{j=0}^i a_j b_{i-j}) X^i \]
+	Then \( (R[X], +, \cdot) \) is a ring.
+	The identity elements are the constant polynomials \( 0 \) and \( 1 \).
+	We can identify the ring \( R \) with the subring of \( R[X] \) of constant polynomials.
+\end{definition}
+\begin{definition}
+	An element \( r \in R \) is a \textit{unit} if \( r \) has a multiplicative inverse.
+	The units in a ring, denoted \( R^\times \), form an abelian group under multiplication.
+	For instance, \( \mathbb Z^\times = \qty{\pm 1} \) and \( \mathbb Q^\times = \mathbb Q \setminus \qty{0} \).
+\end{definition}
+\begin{definition}
+	A \textit{field} is a ring where all nonzero elements are units and \( 0 \neq 1 \).
+\end{definition}
+\begin{example}
+	\( \faktor{\mathbb Z}{n\mathbb Z} \) is a field only if \( n \) is a prime.
+\end{example}
+\begin{remark}
+	If \( R \) is a ring such that \( 0 = 1 \), then every element in the ring is equal to zero.
+	Indeed, \( x = 1\cdot x = 0\cdot x = 0 \).
+	Thus, the exclusion of rings with \( 0 = 1 \) in the definition of a field simply excludes the trivial ring.
+\end{remark}
+\begin{proposition}
+	Let \( f, g \in R[X] \) such that the leading coefficient of \( g \) is a unit.
+	Then there exist polynomials \( q, r \in R[X] \) such that \( f = qg + r \), where the degree of \( r \) is less than the degree of \( g \).
+\end{proposition}
+\begin{remark}
+	This is the Euclidean algorithm for division, adapted to polynomial rings.
+\end{remark}
+\begin{proof}
+	Let \( n \) be the degree of \( f \) and \( m \) be the degree of \( g \), so
+	\[ f = a_n X^n + \dots + a_0;\quad g = b_m X^m + \dots + b_0 \]
+	By assumption, \( b_m \in R^\times \).
+	If \( n < m \) then let \( q = 0 \) and \( r = f \).
+	Conversely, we have \( n \geq m \).
+	Consider the polynomial \( f_1 = f - a_n b_m^{-1} g X^{n-m} \).
+	This has degree at most \( n - 1 \).
+	Hence, we can use induction on \( n \) to decompose \( f_1 \) as \( f_1 = q_1 g + r \).
+	Thus \( f = (q_1 + a_n b_m^{-1} X^{n-m}) g + r \) as required.
+\end{proof}
+\begin{remark}
+	If \( R \) is a field, then every nonzero element of \( R \) is a unit.
+	Therefore, the above algorithm can be applied for all polynomials \( g \) unless \( g \) is the constant polynomial zero.
+\end{remark}
+\begin{example}
+	Let \( R \) be a ring and \( X \) be a set.
+	Then the set of functions \( X \to R \) is a ring under
+	\[ (f + g)(x) = f(x) + g(x);\quad (f \cdot g)(x) = f(x) \cdot g(x) \]
+	The set of continuous functions \( \mathbb R \to \mathbb R \) is a subring of the ring of all functions \( \mathbb R \to \mathbb R \), since they are closed under addition and multiplication.
+	The set of polynomial functions \( \mathbb R \to \mathbb R \) is also a subring, and we can identify this with the ring \( \mathbb R[X] \).
+\end{example}
