@@ -1,0 +1,47 @@
+\subsection{Length}
+Let \( \gamma \colon (a,b) \to \mathbb R^3 \) be smooth.
+The \textit{length} of \( \gamma \) is
+\[ L(\gamma) = \int_a^b \norm{\gamma'(t)} \dd{t} \]
+This result is independent of the choice of parametrisation.
+Let \( s \colon (A,B) \to (a,b) \) be a monotonically increasing function, and let \( \tau(t) = \gamma(s(t)) \).
+Then
+\[ L(\tau) = \int_A^B \norm{\tau'(t)} \dd{t} = \int_A^B \norm{\gamma(s(t))} \abs{s'(t)} \dd{t} = \int_a^b \norm{\gamma(t')} \dd{t'} = L(\gamma) \]
+\begin{lemma}
+	If \( \gamma \colon (a,b) \to \mathbb R^3 \) is continuously differentiable and \( \gamma'(t) \neq 0 \), then \( \gamma \) can be parametrised by arc length.
+\end{lemma}
+The proof is left as an exercise.
+Let \( \Sigma \) be a smooth surface in \( \mathbb R^3 \), and let \( \sigma \colon V \to U \subseteq \Sigma \) be an allowable parametrisation.
+If \( \gamma \colon (a,b) \to \mathbb R^3 \) is smooth and its image is contained within \( U \), then there exist functions \( (u(t), v(t)) \colon (a,b) \to V \) such that \( \gamma(t) = \sigma(u(t), v(t)) \).
+Hence \( \gamma'(t) = \sigma_u u'(t) + \sigma_v v'(t) \), giving
+\[ \norm{\gamma'(t)}^2 = E u'(t)^2 + 2F u'(t) v'(t) + G v'(t)^2 \]
+for functions
+\[ E = \inner{\sigma_u, \sigma_u};\quad F = \inner{\sigma_u, \sigma_v} = \inner{\sigma_v, \sigma_u};\quad G = \inner{\sigma_v, \sigma_v} \]
+where \( \inner{\wildcard,\wildcard} \) represents the usual Euclidean inner product.
+Note that \( E, F, G \) depend only on \( \sigma \) and not on \( \gamma \).
+\begin{definition}
+	The \textit{first fundamental form} of \( \Sigma \) in the parametrisation \( \sigma \) is the expression
+	\todo \dd[2]{u}?
+	\[ E \dd{u}^2 + 2F \dd{u} \dd{v} + G \dd{v}^2 \]
+	This notation is illustrative of the fact that if \( \gamma \) has image in the image of \( \sigma(v) \), we find
+	\[ L(\gamma) = \int_a^b \sqrt{E (u')^2 + 2F u'v' + G (v')^2} \dd{t} \]
+	where \( \gamma(t) = \sigma(u(t),v(t)) \).
+\end{definition}
+\begin{remark}
+	The Euclidean inner product on \( \mathbb R^3 \) provides an inner product on the subspace \( T_p \Sigma \).
+	Choosing a parametrisation \( \sigma \), we can say \( T_p \Sigma = \Im D \eval{\sigma}_0 = \vecspan{\qty{\sigma_u, \sigma_v}} \) where \( \sigma(0) = p \).
+	The first fundamental form is a symmetric bilinear form on the tangent spaces \( T_p \Sigma \), varying smoothly in \( p \).
+	However, we choose to express this in a basis coming from the parametrisation \( \sigma \).
+	In particular, we can think about the matrix expression
+	\[ \begin{pmatrix}
+		E & F \\
+		F & G
+	\end{pmatrix} \]
+\end{remark}
+\begin{example}
+	The plane \( \mathbb R^2_{xy} \subset \mathbb R^3 \) has the parametrisation \( (u,v) \mapsto (u,v,0) \).
+	Hence, \( \sigma_u = e_1 \) and \( \sigma_v = e_2 \), hence the first fundamental form is \( \dd{u}^2 + \dd{v}^2 \).
+	We could also use polar coordinates, using \( \sigma(r,\theta) = (r\cos\theta,r\sin\theta,0) \).
+	This parametrises the plane without the origin.
+	This gives \( \sigma_r = (\cos\theta,\sin\theta,0) \) and \( \sigma_\theta = (-r\sin\theta, r\cos\theta,0) \).
+	The first fundamental form is \( \dd{r}^2 + r^2 \dd{\theta}^2 \).
+\end{example}

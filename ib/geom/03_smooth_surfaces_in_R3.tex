@@ -236,3 +236,62 @@ Recall that an \textit{affine} subspace of a vector space is a translate of a li
 \begin{definition}
 	A smooth surface in \( \mathbb R^3 \) is \textit{two-sided} if it admits a continuous global choice of unit normal vector.
 \end{definition}
+\begin{lemma}
+	A smooth surface in \( \mathbb R^3 \) is orientable (as an abstract smooth surface) if and only if it is two-sided (as a smooth surface in \( \mathbb R^3 \)).
+\end{lemma}
+\begin{proof}
+	Let \( \sigma \colon V \to U \subseteq \Sigma \) be an allowable parametrisation.
+	Let \( \sigma(0) = p \).
+	We will define the positive unit normal with respect to \( \sigma \) at \( p \) to be the normal vector \( n_\sigma(p) \) with the property that \( \qty{\sigma_u, \sigma_v, n_\sigma(p)} \) and \( \qty{e_1, e_2, e_3} \) are related by a positive determinant change of basis matrix, where \( \qty{e_1, e_2, e_3} \) are the standard basis vectors.
+	In other words,
+	\[ n_\sigma(p) = \frac{\sigma_u \times \sigma_v}{\norm{\sigma_u \times \sigma_v}} \]
+	Consider an alternative parametrisation \( \widetilde \sigma \colon \widetilde V \to \widetilde U \), where \( \widetilde \sigma(0) = p \), such that \( \widetilde \sigma \) belongs to the same oriented and smooth atlas as \( \sigma \).
+	Hence, \( \sigma = \widetilde \sigma \circ \varphi \) for some transition map \( \varphi \).
+	Let
+	\[ D \eval{\varphi}_0 = \begin{pmatrix}
+		\alpha & \beta \\
+		\gamma & \delta
+	\end{pmatrix} \]
+	Hence,
+	\[ \sigma_u = \alpha \widetilde \sigma_u + \gamma \widetilde \sigma_v;\quad \sigma_v = \beta \widetilde \sigma_u + \delta \widetilde \sigma_v \]
+	This gives
+	\begin{equation}
+		\sigma_u \times \sigma_v = \det\qty(D \eval{\varphi}_0) \widetilde \sigma_u \times \widetilde \sigma_v \tag{\(\dagger\)}
+	\end{equation}
+	The determinant here is positive since the charts in question belong to an oriented atlas.
+	Thus, the positive normal depends on the orientation of \( \Sigma \), but does not depend on the choice of parametrisation.
+	The expression for \( n_\sigma(p) \) is continuous since the cross product is continuous, hence \( \Sigma \) is two-sided.
+
+	Conversely, if \( \Sigma \) is two-sided and there exists a global continuous choice of normal vector, we can consider the subatlas of the natural smooth atlas with the property that we allow \( (U,\varphi) \) if the associated parametrisation \( \sigma = \varphi^{-1} \) satisfies \( \qty{\sigma_u, \sigma_v, n} \) is a positive basis for \( \mathbb R^3 \), where \( n \) is the given choice of normal.
+	By (\(\dagger\)), the transition maps between such charts are orientation-preserving.
+	Hence \( \Sigma \) is orientable.
+\end{proof}
+\begin{lemma}
+	If \( \Sigma \) is a smooth surface in \( \mathbb R^3 \) and \( A \colon \mathbb R^3 \to \mathbb R^3 \) is a smooth map which preserves \( \Sigma \) setwise, then \( D\eval{A}_\rho \in L(\mathbb R^3, \mathbb R^3) \) maps \( T_p \Sigma \) to \( T_{A(p)} \Sigma \) for \( p \in \Sigma \).
+\end{lemma}
+\begin{proof}
+	Let \( \gamma \colon (-\varepsilon, \varepsilon) \to \mathbb R^3 \) be a smooth map such that its image lies on \( \Sigma \), and \( \gamma(0) = p \).
+	Recall that \( T_p \Sigma \) is spanned by \( \gamma'(0) \) for such curves \( \gamma \).
+	Now, consider \( A \circ \gamma \colon (-\varepsilon, \varepsilon) \to \mathbb R^3 \), which also has image \( \Sigma \), and
+	\[ D \eval{A}_{\gamma(0)} \circ D \eval{\gamma}_0 = D \eval{A}_p \qty(\gamma'(0)) = D \eval{(A \circ \gamma)}_0 \in T_{A(p)} \Sigma \]
+\end{proof}
+\begin{example}
+	Let \( S^2 \) be the unit sphere.
+	The normal vector at \( p \) is the line through the origin and \( p \); indeed, since \( SO_3 \) acts transitively on \( S^2 \), it suffices to check at one point, such as the north pole.
+	We can choose the outward-facing normal vector to be the positive normal, denoted \( n(p) \).
+	\( S^2 \) is two-sided by the construction of this normal vector, hence \( S^2 \) is orientable.
+\end{example}
+\begin{example}
+	One embedding of the M\"obius band in \( \mathbb R^3 \) is
+	\[ \sigma(t,\theta) = \qty(\qty(1 - t \sin \frac{\theta}{2})\cos \theta, \qty(1 - t \sin \frac{\theta}{2})\sin \theta, t \cos \frac{\theta}{2}) \]
+	where \( (t,\theta) \in V_1 = \qty{t \in \qty(-\frac{1}{2}, \frac{1}{2}), \theta \in (0,2\pi)} \) or \( (t,\theta) \in V_2 = \qty{t \in \qty(-\frac{1}{2}, \frac{1}{2}), \theta \in (-\pi, \pi)} \).
+	We begin with the unit circle \( x^2 + y^2 = 1 \), for \( t = 0 \).
+	Then, at each point on the circle, we consider an open interval of unit length, which will rotate as we move around the circle, such that at the point \( \theta \) on the circle it has rotated by \( \frac{\theta}{2} \).
+	We can check that if \( \sigma_i \) is \( \sigma \) on \( V_i \), then \( \sigma_i \) is allowable.
+	Further,
+	\[ \sigma_t \times \sigma_\theta = \qty(-\cos\theta \cos\frac{\theta}{2}, -\sin\theta \cos\frac{\theta}{2}, -\sin\frac{\theta}{2}) \equiv n_\theta \]
+	which is already normalised.
+	As \( \theta \to 0 \) from above, \( n_\theta \to (-1,0,0) \).
+	As \( \theta \to 2\pi \) from below, \( n_\theta \to (1,0,0) \).
+	Hence, the surface is not two-sided.
+\end{example}

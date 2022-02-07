@@ -119,7 +119,7 @@ The integral along a curve has various convenient properties.
 	Hence, \( \int_\gamma z^n \dd{z} = 0 \) since \( \gamma \) is a closed curve.
 	If \( n = -1 \), we can use the definition of the integral to find
 	\[ \int_\gamma \frac{1}{z} \dd{z} = \int_0^1 \frac{1}{\gamma(t)} \gamma'(t) \dd{t} = \int_0^1 \frac{1}{Re^{2\pi i t}}2\pi i R e^{2 \pi i t} \dd{t} = 2 \pi i \]
-	This is not zero, hence for all \( R > 0 \), \( \frac{1}{z} \) has no antiderivative in any open set containing the circle \( \abs{\abs{Z} = R} \).
+	This is not zero, hence for all \( R > 0 \), \( \frac{1}{z} \) has no antiderivative in any open set containing the circle \( \qty{\abs{z} = R} \).
 	In particular, for any branch of logarithm \( \lambda \), it has derivative \( \frac{1}{z} \), hence there exists no branch of logarithm on \( \mathbb C^\star = \mathbb C \setminus \qty{0} \).
 \end{example}
 \begin{theorem}[converse to fundamental theorem of calculus]
@@ -237,3 +237,144 @@ The integral along a curve has various convenient properties.
 	\end{align*}
 	\( \varepsilon \) was arbitrary, hence \( \eta(T_0) \) must be zero.
 \end{proof}
+We can generalise the above theorem for functions that are holomorphic except at a finite number of points.
+\begin{theorem}
+	Let \( U \subset \mathbb C \) be an open set and \( f \colon U to \mathbb C \) be a continuous function.
+	Let \( S \subset U \) be a finite set and suppose that \( f \) is holomorphic on \( U \setminus S \).
+	Then \( \int_{\partial T} f(z) \dd{z} = 0 \) for all triangles \( T \subset U \).
+\end{theorem}
+\begin{proof}
+	By the procedure above, we can subdivide \( T \) into a total of \( 4^n \) smaller triangles; at each step we join the midpoints of the sides of the triangles of the previous step.
+	We will keep all of the smaller triangles, and let the sequence of such smaller triangles be denoted \( T_1, \dots, T_N \).
+	Then, since the integrals along the sides of the smaller triangles that are interior to \( T \) cancel, we have
+	\[ \int_{\partial T} f(z) \dd{z} = \sum_{j=1}^N \int_{\partial T_j} f(z) \dd{z} \]
+	By the previous theorem, \( \int_{\partial T_j} f(z) \dd{z} = 0 \) unless \( T_j \) intersects with \( S \).
+	So by letting \( I = \qty{j \colon T_j \cap S \neq \varnothing} \), we have
+	\[ \int_{\partial T} f(z) \dd{z} = \sum_{j \in I} \int_{\partial T_j} f(z) \dd{z} \]
+	Since any point may be in at most six of the smaller triangles, and \( \mathrm{length}(\partial T_j) = \frac{1}{2^n} \mathrm{length}(\partial T) \), we find
+	\[ \abs{\int_{\partial T} f(z) \dd{z}} \leq 6\abs{S} \qty(\sup_{z \in T} \abs{f(z)}) \frac{\mathrm{length}(\partial T)}{2^n} \]
+	Then let \( n \to \infty \) and the result then holds as rqeuired.
+\end{proof}
+We can now prove the `convex Cauchy' theorem.
+\begin{corollary}[Cauchy's theorem for convex sets]
+	Let \( U \subset \mathbb C \) be convex, or more generally, a star domain.
+	Let \( f \colon U \to \mathbb C \) be continuous, and holomorphic in \( U \setminus S \) where \( S \) is a finite set.
+	Then \( \int_\gamma f(z) \dd{z} = 0 \) for any closed curve \( \gamma \) in \( U \).
+\end{corollary}
+\begin{proof}
+	By the theorems above, \( \int_{\partial T} f(z) \dd{z} = 0 \) for any triangle \( T \subset U \).
+	Since \( U \) is a star domain and \( f \) is continuous, this means that \( f \) has an antiderivative in \( U \).
+	The result then follows from the fundamental theorem of calculus.
+\end{proof}
+\begin{remark}
+	We will soon show that if \( f \colon U \to \mathbb C \) is continuous and holomorphic in \( U \setminus S \) where \( S \) is finite, then \( f \) is holomorphic in \( U \).
+\end{remark}
+
+\subsection{Cauchy's integral formula}
+For a disk \( D(a,\rho) \) we will write \( \int_{\partial D(a,\rho)} f(z) \dd{z} \) to mean \( \int_\gamma f(z) \dd{z} \) where \( \gamma \colon [0,1] \to \mathbb C \) is the curve \( \gamma(t) = a+\rhoe^{2\pi i t} \).
+\begin{theorem}[Cauchy's integral formula for a disk]
+	Let \( D = D(a,r) \) and let \( f \colon D \to \mathbb C \) be holomorphic.
+	Then, for any \( \rho \) with \( 0 < \rho < r \) and any \( w \in D(a,\rho) \), we have
+	\[ f(w) = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-w} \]
+	In particular, taking \( w = a \),
+	\[ f(a) = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-a} = \int_0^1 f(a+\rho e^{2\pi i t}) \dd{t} \]
+	This final equation is called the \textit{mean value property} for holomorphic functions.
+\end{theorem}
+We first need the following lemma.
+\begin{lemma}
+	If \( \gamma \colon [a,b] \to \mathbb C \) is a curve and \( (f_n) \) is a sequence of continuous complex functions on \( \Im \gamma \) converging uniformly to \( f \) on \( \Im\gamma \), then \( \int_\gamma f_n(z) \dd{z} \to \int_\gamma f(z) \dd{z} \).
+\end{lemma}
+\begin{proof}
+	We have
+	\[ \abs{\int_\gamma f_n(z) \dd{z} - \int_\gamma f(z) \dd{z}} = \abs{\int_\gamma (f_n(z) - f(z)) \dd{z}} \leq \sup_{z \in \Im \gamma} \abs{f_n(z) - f(z)} \mathrm{length}(\gamma) \]
+\end{proof}
+We can now prove Cauchy's integral formula for a disk.
+\begin{proof}
+	Let \( w \in D(a,\rho) \) be fixed, and define \( h \colon D \to \mathbb C \) by
+	\[ h(z) = \begin{cases}
+		\frac{f(z) - f(w)}{z - w} & \text{if } z \neq w \\
+		f'(w) & \text{if } z = w
+	\end{cases} \]
+	Then \( h \) is continuous on \( D \) and holomorphic in \( D \setminus \qty{w} \).
+	By Cauchy's theorem for convex sets,
+	\[ \int_{\partial D(a,\rho)} h(z) \dd{z} = 0 \]
+	Substituting for \( h \), we find
+	\[ f(w) \int_{\partial D(a,\rho)} \frac{\dd{z}}{z-w} = \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-w} \]
+	It now suffices to prove that
+	\[ \int_{\partial D(a,\rho)} \frac{\dd{z}}{z-w} = 2 \pi i \]
+	Note that
+	\[ \frac{1}{z-w} = \frac{1}{z-a+a-w} = \frac{1}{\qty(z-a)\qty(1 - \frac{w-a}{z-a})} = \sum_{j=0}^\infty \frac{(w-a)^j}{(z-a)^{j+1}} \]
+	where the convergence is uniform for \( z \in \partial D(a,\rho) \) by the Weierstrass \( M \)-test.
+	Therefore, by the above lemma, we interchange summation and integration to find
+	\[ \int_{\partial D(a,\rho)} \frac{\dd{z}}{z-w} = \sum_{j=0}^\infty (w-a)^j \int_{\partial D(a,\rho)} \frac{\dd{z}}{(z-a)^{j+1}} \]
+	For \( j \geq 1 \), the function \( \frac{1}{(z-a)^{j+1}} \) has an antiderivative in a neighbourhood of \( \partial D(a,\rho) \), hence all integrals on the right hand side for \( j \geq 1 \) vanish.
+	For \( j = 0 \), we can compute directly that \( \int_{\partial D(a,\rho)} \frac{\dd{z}}{z-a} = 2 \pi i \).
+	Hence, \( \int_{\partial D(a,\rho)} \frac{\dd{z}}{z-w} = 2 \pi i \), proving Cauchy's intgeral formula.
+
+	Now, taking \( w = a \) in Cauchy's integral formula, we find
+	\[ f(a) = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-a} \]
+	By direct computation using the parametrisation \( t \mapsto a + \rho e^{2\pi i t} \) for \( t \in [0,1] \), we find
+	\[ f(a) = \int_0^1 f(a+\rho e^{2 \pi i t}) \dd{t} \]
+	as required.
+\end{proof}
+
+\subsection{Liouville's theorem}
+\begin{theorem}
+	Let \( f \colon \mathbb C \to \mathbb C \) be entire and bounded.
+	Then \( f \) is constant.
+	More generally, if \( f \) is entire with sublinear growth (there exist \( K \geq 0 \) and \( \alpha < 1 \) such that \( \abs{f(z)} \leq K(1+\abs{z}^\alpha) \) for all \( z \in \mathbb C \)) then \( f \) is constant.
+\end{theorem}
+\begin{proof}
+	Let \( w \in \mathbb C \) and \( \rho > \abs{w} \).
+	By Cauchy's integral formula, we have
+	\[ f(w) = \frac{1}{2 \pi i} \int_{\partial D(0,\rho)} \frac{f(z)\dd{z}}{z-w};\quad f(0) = \frac{1}{2 \pi i} \int_{\partial D(0,\rho)} \frac{f(z) \dd{z}}{z} \]
+	Thus,
+	\begin{align*}
+		\abs{f(w) - f(0)} &= \frac{1}{2\pi} \abs{\int_{\partial D(0,\rho)} \frac{wf(z) \dd{z}}{z(z-w)}} \\
+		&\leq \frac{\abs{w}}{2 \pi} \sup_{z \in \partial D(0,\rho)} \frac{\abs{f(z)}}{\abs{z} \cdot \abs{\abs{z} - \abs{w}}} \mathrm{length}(\partial D(0,\rho)) \\
+		&\leq \frac{\abs{w} K(1+\rho^\alpha)}{2\pi \rho(\rho - \abs{w})} 2 \pi \rho \\
+		&= \frac{\abs{w}K(1+\rho^\alpha)}{\rho - \abs{w}}
+	\end{align*}
+	By letting \( \rho \to \infty \), we can conclude \( f(w) = f(0 )\).
+\end{proof}
+\begin{theorem}[fundamental theorem of algebra]
+	Every non-constant polynomial with complex coefficients has a complex root.
+\end{theorem}
+\begin{proof}
+	Let \( p(z) = a_n z^n + \dots + a_0 \) be a complex polynomial of degree \( n \geq 1 \).
+	Then \( a_n \neq 0 \), and for \( z \neq 0 \) we can write
+	\[ p(z) = z^n \qty(a_n + \frac{a_{n-1}}{z} + \dots + \frac{a_0}{z^n} ) \]
+	By the triangle inequality,
+	\[ \abs{p(z)} \geq \abs{z}^n \qty(\abs{a_n} - \frac{\abs{a_{n-1}}}{\abs{z}} - \dots - \frac{\abs{a_0}}{\abs{z}^n} \]
+	Hence, there exists \( R > 0 \) such that \( \abs{p(z)} \geq 1 \) for \( \abs{z} > R \).
+
+	Now, if \( p(z) \neq 0 \) for all \( z \), then \( g(z) = \frac{1}{p(z)} \) is entire.
+	By the above, \( \abs{g(z)} \leq 1 \) for \( \abs{z} > R \).
+	By continuity of \( g \), we have further that \( \abs{g(z)} \) is bounded from above on the compact set \( \qty{\abs{z} \leq R} \).
+	Hence, \( g \) is a bounded entire function.
+	By Liouville's theorem, \( g \) is constant.
+	Since \( p \) is non-constant, this is a contradiction.
+	Hence \( p \) has a zero.
+\end{proof}
+\begin{theorem}[local maximum modulus principle]
+	Let \( f \colon D(a,R) \to \mathbb C \) be holomorphic, and \( \abs{f(z)} \leq \abs{f(a)} \) for all \( z \in D(a,R) \).
+	Then \( f \) is constant.
+\end{theorem}
+\begin{proof}
+	By the mean value property,
+	\[ f(a) = \int_0^1 f(a+\rho e^{2 \pi i t}) \dd{t} \]
+	Therefore,
+	\[ \abs{f(a)} = \abs{\int_0^1 f(a + \rho e^{2 \pi i t}) \dd{t}} \leq \sup_{t \in [0,1]} \abs{f(a+\rho e^{2 \pi i t})} \leq \abs{f(a)} \]
+	where the last inequality is by hypothesis.
+	Therefore, both inequalities must be equalities.
+	Equality in the first inequality implies that \( f(a+\rho e^{2 \pi i t}) = c_\rho \) for some constant \( c_\rho \) and all \( t \in [0,1] \).
+	Then, by the first equality, \( \abs{c_\rho} = \abs{f(a)} \) for all \( \rho \in (0,R) \).
+	Thus, \( \abs{f(a+\rho e^{2 \pi i t})} \) is constant for all \( \rho \in (0,R) \) and \( t \in [0,1] \).
+	Hence \( \abs{f(z)} \) is constant on \( D(a,R) \).
+	By the Cauchy-Riemann equations, \( f \) must be constant.
+\end{proof}
+
+\subsection{Taylor series}
+\begin{theorem}
+
+\end{theorem}
