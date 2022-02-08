@@ -213,9 +213,9 @@ From now, we omit this subscript, as it will be implied for much of the remainde
 	\[ \expect{\hat \theta} = \expect{\expect{\widetilde \theta \mid T(x)}} = \expect{\widetilde \theta} \]
 	Hence, subtracting \( \widetilde \theta \) from both sides, we find \( \mathrm{bias}\qty(\hat\theta) = \mathrm{bias}\qty(\widetilde\theta) \).
 	By the conditional variance formula,
-	\[ \Var\qty(\widetilde \theta) = \expect{\underbrace{\Var\qty(\widetilde \theta \mid T)}_{\geq 0}} + \underbrace{\Var\qty(\expect{\widetilde \theta \mid T})}_{\Var\qty(\hat\theta)} \geq \Var\qty(\hat \theta) \]
+	\[ \Var{\widetilde \theta} = \expect{\underbrace{\Var{\widetilde \theta \mid T}}_{\geq 0}} + \underbrace{\Var{\expect{\widetilde \theta \mid T}}}_{\Var{\hat\theta}} \geq \Var{hat \theta} \]
 	By the bias-variance decomposition, we know that \( \mathrm{mse}\qty(\widetilde \theta) \geq \mathrm{mse}\qty(\hat \theta) \).
-	The inequality is strict unless \( \Var\qty(\widetilde \theta \mid T) = 0 \) almost surely.
+	The inequality is strict unless \( \Var{\widetilde \theta \mid T} = 0 \) almost surely.
 	This requires that \( \widetilde \theta \) is a function of \( T \).
 \end{proof}
 \begin{example}
@@ -230,7 +230,12 @@ From now, we omit this subscript, as it will be implied for much of the remainde
 	Consider the estimator \( \widetilde \theta = 1\qty{X_1 = 0} \).
 	This depends only on \( X_1 \), hence it is a weak estimator.
 	However, it is unbiased, so when we apply the Rao-Blackwell theorem we will construct an unbiased \( \hat \theta \), which is precisely
-	\[ \hat \theta = \expect{\widetilde \theta \mid \sum X_i = t} = \prob{X_1 = 0 \mid \sum X_i = t} = \frac{\prob{X_1 = 0, \sum X_i = t}}{\prob{\sum X_i = t}} = \frac{\prob{X_1 = 0}\prob{\sum_{i=2}^n X_i = t}}{\prob{\sum_{i=1}^n X_i = t}} = \qty(\frac{n-1}{n})^t \]
+	\begin{align*}
+		\hat \theta = \expect{\widetilde \theta \mid \sum X_i = t} &= \prob{X_1 = 0 \mid \sum X_i = t} \\
+		&= \frac{\prob{X_1 = 0, \sum X_i = t}}{\prob{\sum X_i = t}} \\
+		&= \frac{\prob{X_1 = 0}\prob{\sum_{i=2}^n X_i = t}}{\prob{\sum_{i=1}^n X_i = t}} \\
+		&= \qty(\frac{n-1}{n})^t
+	\end{align*}
 	This may also be written
 	\[ \hat \theta = \qty(1 - \frac{1}{n})^{\sum x_i} \]
 	which is an estimator with lower mean squared error than \( \widetilde 1 \) for all \( \theta \).
@@ -256,7 +261,7 @@ From now, we omit this subscript, as it will be implied for much of the remainde
 	\begin{align*}
 		\hat \theta &= \frac{2t}{n} + \frac{2(n-1)}{n} \expect{X_1 \mid X_1 < t, \max_{i=2}^n X_i = t} \\
 		&= \frac{2t}{n} + \frac{2(n-1)}{n} \expect{X_1 \mid X_1 < t} \\
-		&= \frac{2t}{n} + \frac{2(n-1)}{n} \frac{t}{2}
+		&= \frac{2t}{n} + \frac{2(n-1)}{n} \frac{t}{2} \\
 		&= \frac{2t}{n} + \frac{t(n-1)}{n} = \frac{n+1}{n} \max_i X_i
 	\end{align*}
 	By the Rao-Blackwell theorem, the mean squared error of \( \hat \theta \) is not greater than the mean squared error of \( \widetilde \theta \).
