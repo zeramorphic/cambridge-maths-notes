@@ -44,3 +44,114 @@ Note that \( E, F, G \) depend only on \( \sigma \) and not on \( \gamma \).
 	This gives \( \sigma_r = (\cos\theta,\sin\theta,0) \) and \( \sigma_\theta = (-r\sin\theta, r\cos\theta,0) \).
 	The first fundamental form is \( \dd{r}^2 + r^2 \dd{\theta}^2 \).
 \end{example}
+\begin{definition}
+	Let \( \Sigma, \Sigma' \) be smooth surfaces in \( \mathbb R^3 \).
+	We say that they are \textit{isometric} if there exists a diffeomorphism \( f\colon \Sigma \to \Sigma' \) that preserves the lengths of all curves.
+	More formally, for every smooth curve \( \gamma \colon (a,b) \to \Sigma \), the length of \( \gamma \) is the same as the length of \( f \circ \gamma \).
+\end{definition}
+\begin{example}
+	Let \( \Sigma' = f(\Sigma) \) where \( f \colon \mathbb R^3 \to \mathbb R^3 \) is a global isometry, or rigid motion, of \( \mathbb R^3 \); that is, \( v \mapsto Av+b \) for an orthogonal matrix \( A \).
+	These isometries preserve the Eucliean inner product on \( \mathbb R^3 \), hence \( f \) preserves length.
+	However, in the definition, we need not map all of \( \mathbb R^3 \) to itself, just \( \Sigma \to \Sigma' \).
+\end{example}
+\begin{definition}
+	We say that \( \Sigma \) and \( \Sigma' \) are \textit{locally isometric} near points \( p \in \Sigma \) and \( q \in \Sigma' \) if there exist open neighbourhoods \( U \) of \( p \) and \( V \) of \( q \) such that \( U \) and \( V \) are isometric.
+	We can also say that \( \Sigma \) and \( \Sigma' \) are locally isometric if they are locally isometric at all points.
+	% TODO: does this mean "locally isometric for p arbitrary and q fixed given p" or "p arbitrary, q arbitrary"?
+\end{definition}
+\begin{lemma}
+	Smooth surfaces \( \Sigma, \Sigma' \) in \( \mathbb R^3 \) are locally isometric near \( p \in \Sigma \) and \( q \in \Sigma' \) if and only if there exist allowable parametrisations \( \sigma \colon V \to U \subseteq \Sigma \) and \( \sigma' \colon V \to U' \subseteq \Sigma' \) such that the first fundamental forms are equivalent.
+\end{lemma}
+\begin{proof}
+	By definition, the first fundamental form of \( \Sigma \) determines the lengths of all curves on \( \Sigma \) that lie in \( U \).
+	We will now show that lengths of curves determine the first fundamental form of a parametrisation.
+	Given \( \sigma \colon V \to U \), without loss of generality let \( V = B(0,\delta) \) for some \( \delta > 0 \), where \( \sigma(0) = p \).
+	Consider, for all \( \varepsilon < \delta \), the curve
+	\[ \gamma_\varepsilon \colon [0,\varepsilon] \to U;\quad t \mapsto \sigma(t,0) \]
+	Then,
+	\[ \dv{\varepsilon} L(\gamma_\varepsilon) = \dv{\varepsilon} \int_0^\varepsilon \sqrt{E(t,0)} \dd{t} = \sqrt{E(\varepsilon,0)} \]
+	Hence,
+	\[ \eval{\dv{\varepsilon}}_{\varepsilon = 0} L(\gamma_\varepsilon) = \sqrt{E(0,0)} \]
+	So we can determine \( E \) at \( p \) by looking at lengths of curves.
+	We can similarly consider
+	\[ \chi_\varepsilon \colon [0,\varepsilon] \to U;\quad t \mapsto \sigma(0,t) \]
+	which determines \( G \).
+	Finally, consider
+	\[ \lambda_\varepsilon \colon [0,\varepsilon] \to U;\quad t \mapsto \sigma(t,t) \]
+	which determines \( \sqrt{(E+2F+G)(0,0)} \) which gives \( F \) implicitly.
+\end{proof}
+\begin{example}
+	The sphere of radius \( a \), given by \( \qty{x^2 + y^2 + z^2 = a^2} \), has an open set with allowable parametrisation
+	\[ \sigma(u,v) = (a\cos u \cos v, a \cos u \sin v, a \sin u) \]
+	where \( u \in (-\pi, \pi) \) and \( v \in (0,2\pi) \).
+	This parametrises the complement of a half great circle.
+	Here,
+	\[ \sigma_u = (-a \sin u \cos v, -a \sin u \sin v, a \cos u);\quad \sigma_v = (-a \cos u \sin v, a \cos u \cos v, 0) \]
+	Hence,
+	\[ E = a^2; \quad F = 0;\quad G = a^2 \cos^2 u \]
+	which gives the first fundamental form as
+	\[ a^2 \dd{u}^2 + a^2 \cos^2 u \dd{v}^2 \]
+\end{example}
+\begin{example}
+	Consider the surface of revolution given by a curve
+	\[ \eta(t) = (f(t),0,g(t)) \]
+	rotated about the \( z \) axis.
+	The resulting surface has parametrisation
+	\[ \sigma(u,v) = (f(u) \cos v, f(u) \sin v, g(u)) \]
+	Hence,
+	\[ \sigma_u = (f_u \cos v, f_u \sin v, g_u);\quad \sigma_v = (-f \sin v, f \cos v, 0) \]
+	which gives
+	\[ (f_u^2 + g_u^2) \dd{u}^2 + f^2 \dd{v}^2 \]
+\end{example}
+\begin{example}
+	Consider the cone with angle \( \arctan a \) to the vertical.
+	For \( u > 0 \) and \( v \in (0,2\pi) \), we define
+	\[ \sigma(u,v) = (au\cos v, au\sin v, u) \]
+	The first fundamental form is
+	\[ (1+a^2)\dd{u}^2 + a^2 u^2 \dd{v}^2 \]
+	Consider cutting the cone along the line \( v = 0 \) and flattening it into a plane sector.
+	The circumference of the sector is \( 2 \pi a \) and the radius is \( \sqrt{1+a^2} \), hence the angle traced out by the sector is \( \theta_0 = \frac{2 \pi a}{\sqrt{1+a^2}} \).
+	We can parametrise this subset of the plane by
+	\[ \sigma(r,\theta) = \qty(\sqrt{1+a^2} r\cos\qty(\frac{a\theta}{\sqrt{1+a^2}}), \sqrt{1+a^2} r\sin\qty(\frac{a\theta}{\sqrt{1+a^2}}), 0) \]
+	for \( r > 0 \) and \( \theta \in (0,\theta_0) \).
+	We can then check that the first fundamental form here is
+	\[ (1+a^2) \dd{r}^2 + r^2 a^2 \dd{\theta}^2 \]
+	which matches the first fundamental form for the cone itself.
+	Hence the cone and the plane are locally isometric.
+	However, the cone and plane are not globally isometric, since the two topological spaces are not homeomorphic, so no diffeomorphism that preserves lengths can be constructed.
+\end{example}
+\begin{lemma}
+	Let \( \Sigma \) be a smooth surface in \( \mathbb R^3 \), and let \( p \in \Sigma \).
+	Suppose we have two allowable parametrisations \( \sigma \colon V \to U \) and \( \sigma' \colon V' \to U \) for the same open neighbourhood of \( p \).
+	The two parametrisations differ by a transition map \( F = {\sigma'}^{-1} \circ \sigma \) which is a diffeomorphism of open subsets of \( \mathbb R^2 \).
+	There exist first fundamental forms for both parametrisations.
+	Then,
+	\[ \begin{pmatrix}
+		E & F \\
+		F & G
+	\end{pmatrix} = (DF)^\transpose \begin{pmatrix}
+		E' & F' \\
+		F' & G'
+	\end{pmatrix} (DF) \]
+\end{lemma}
+\begin{proof}
+	By definition,
+	\[ \begin{pmatrix}
+		E & F \\
+		F & G
+	\end{pmatrix} = \begin{pmatrix}
+		\sigma_u \cdot \sigma_u & \sigma_u \cdot \sigma_v \\
+		\sigma_v \cdot \sigma_u & \sigma_v \cdot \sigma_v
+	\end{pmatrix} = (D\sigma)^\transpose (D\sigma) \]
+	Now, \( \sigma = \sigma' \circ F \) hence the result follows.
+\end{proof}
+If \( v,w \in \mathbb R^3 \), we have \( v \cdot w = \abs{v} \cdot \abs{w} \cdot \cos\theta \).
+This allows us to deduce the angle \( \theta \) between two vectors given their dot product and lengths.
+This can also be done when \( v,w \) are in the tangent plane \( T_p \Sigma \), and then we can express the angle in terms of the first fundamental form.
+Let \( \sigma \) be an allowable parametrisation for \( \Sigma \) near \( p \), such that \( D\eval{\sigma}_0 \) evaluates to \( v \) at \( v_0 \) and \( w \) at \( w_0 \).
+\[ \cos \theta = \frac{v \cdot w}{\abs{v} \cdot \abs{w}} = \frac{I(v_0, w_0)}{\sqrt{I(v_0,v_0)} \sqrt{I(w_0,w_0)}} \]
+where \( I \) denotes the first fundamental form of \( \sigma \) at zero.
+\begin{lemma}
+	Let \( \Sigma \) be a smooth surface in \( \mathbb R^3 \), and let \( \sigma \colon V \to U \) be an allowable parametrisation of \( \Sigma \) near \( p \).
+	Then \( \Sigma \) is \textit{conformal} if \( E = G \) and \( F = 0 \) in the first fundamental form.
+\end{lemma}
