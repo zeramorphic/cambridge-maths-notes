@@ -1,0 +1,94 @@
+\subsection{Bayesian analysis}
+Frequentist analysis considers the value \( \theta \) to be fixed, and then we can make inferential statements about \( \theta \) in the context of repeated experiments on a random variable \( X \).
+Bayesian analysis is an alternative to frequentist analysis, where \( \theta \) is itself treated as a random variable taking values in the parameter space \( \Theta \).
+We say that the \textit{prior} distribution \( \pi(\theta) \) is a distribution representing the beliefs of the investigator about \( \theta \) before observing data.
+The data \( X \) has a p.d.f.\ or p.m.f.\ conditional on \( \theta \) given by \( f_X(\wildcard \mid \theta) \).
+Having observed \( X \), we can combine this information with the prior distribution to form the \textit{posterior} distribution \( \pi(\theta \mid X) \), which is the conditional distribution of \( \theta \) given \( X \).
+This contains updated information about the value of \( \theta \).
+By Bayes' rule,
+\[ \pi(\theta \mid x) = \frac{\pi(\theta) f_X(x \mid \theta)}{f_X(x)} \]
+where \( f_X(x) \) is the marginal distribution of \( X \), defined by
+\[ f_X(x) = \begin{cases}
+	\int_\Theta f_X(x\mid\theta) \pi(\theta) \dd{\theta} & \theta \text{ continuous} \\
+	\sum_\Theta f_X(x\mid\theta) \pi(\theta) & \theta \text{ discrete}
+\end{cases} \]
+More simply,
+\[ \pi(\theta \mid X) \propto \pi(\theta) \cdot f_X(X \mid \theta) \]
+The proportionality here is with respect to \( \theta \).
+So the posterior is proportional to the prior multiplied by the likelihood.
+It is often easy to recognise that the right hand side of this expression is in some family of distributions, such as \( N \) or \( \Gamma \), up to some normalising constant.
+\begin{remark}
+	By the factorisation criterion, if \( T \) is a sufficient statistic for \( \theta \), the posterior \( \pi(\theta \mid x) \) depends on \( X \) only through \( T \).
+	More precisely,
+	\[ \pi(\theta \mid X) \propto \pi(\theta) g(T(X),\theta) h(X) \propto \pi(\theta) g(T(C),\theta) \]
+\end{remark}
+\begin{example}
+	Consider a patient who we will test for the presence of a disease, where we have no information about the health or lifestyle of the patient.
+	Let \( \theta \) take the value 1 if the patient is infected and 0 otherwise.
+	We have a random variable \( X \) which takes the value 1 if a given test returns a positive result and 0 if the test is negative.
+	We know the \textit{sensitivity} of the test \( f_X(X=1\mid \theta=1 \), and the \textit{specificity} of the test \( f_X(X=0\mid \theta=0) \).
+	This fully specifies the likelihood function.
+
+	We now must choose a prior distribution.
+	For example, let \( \pi(\theta = 1) \) be the estimated proportion of the general population that have the given disease.
+	The posterior is the probability of an infection given the test result.
+	\[ \pi(\theta = 1 \mid X = 1) = \frac{\pi(\theta = 1) f_X(X = 1 \mid \theta = 1)}{\pi(\theta = 1) f_X(X = 1 \mid \theta = 1) + \pi(\theta = 0) f_X(X = 1 \mid \theta = 0)} \]
+	Even with a positive test result, the posterior distribution may still yield a low probability for \( \theta \), which may happen if \( \pi(\theta = 1) \ll \pi(\theta = 0) \).
+\end{example}
+\begin{example}
+	Let \( \theta \) be the mortality rate of a particular surgery, which will take values in \( [0,1] \).
+	In the first ten operations, we observed that none of the patients died.
+	We will model \( X \sim B(10,\theta) \) and observe \( X = 0 \).
+
+	We must choose a prior.
+	Suppose that we have data from other hospitals that suggests that the mortality for the surgery ranges from 3\% to 20\%, with an average of 10\%.
+	We can choose the prior to be the beta distribution, \( \pi(\theta) \sim \mathrm{Beta}(a,b) \), since the value of \( \theta \) should range between zero and one.
+	Let \( a = 3 \) and \( b = 27 \), which will give \( \expect{\theta} = 0.1 \) and \( \prob{0.03 < \theta < 0.2} \approx 0.9 \).
+	In this case, the posterior is
+	\[ \pi(\theta \mid X) \propto \pi(\theta) f_X(x = 0 \mid \theta) \propto \theta^{a-1} (1-\theta)^{b-1} \theta^x (1-\theta)^{n-x} = \theta^{x+a-1} (1-\theta)^{b-n-x-1} \]
+	This is again a beta distribution with parameters \( x+a \) and \( n-x+b \).
+	The normalising constant does not need to be explicitly calculated since the form of the distribution can be recognised.
+
+	With the above data, we obtain \( \pi(\theta \mid x = 0) \sim \mathrm{Beta}(3,37) \).
+	This posterior has a smaller variance than the prior, and a smaller expectation due to observing no deaths.
+	In this case, the prior and posterior have the same distribution.
+	This is known as \textit{conjugacy}.
+\end{example}
+
+\subsection{Inference from the posterior}
+The posterior distribution \( \pi(\theta \mid x) \) represents information about \( \theta \) after having observed some data \( X \).
+This can be used to make decisions under uncertainty.
+\begin{enumerate}[(i)]
+	\item We first choose some decision \( \delta \in \Delta \).
+		For instance, in the first example, a decision could be to ask the patient to isolate from others to reduce transmission.
+	\item We define a \textit{loss function} \( L(\theta,\delta) \), which defines what loss is incurred by making decision \( \delta \) given the true value of \( \theta \).
+		In the above example, \( L(\theta = 1, \delta = 1) \) is the loss incurred by asking the patient to isolate given that they have the disease.
+	\item We can now choose the decision \( \delta \) that minimises
+		\[ \int_\Theta L(\theta, \delta) \pi(\theta \mid x) \dd{\theta} \]
+		which is the posterior expectation of the loss.
+\end{enumerate}
+
+\subsection{Point estimation}
+We can use Bayesian analysis to represent an estimate for the value of \( \theta \) as a decision.
+\begin{definition}
+	The \textit{Bayes estimator} \( \hat \theta^{(B)} \) minimises
+	\[ h(\delta) = \int_\Theta L(\theta, \delta) \pi(\theta \mid x) \dd{\theta} \]
+\end{definition}
+\begin{example}
+	Suppose the loss function is quadratic, given by \( L(\theta, \delta) = (\theta-\delta)^2 \).
+	Here,
+	\[ h(\delta) = \int_\Theta (\theta - \delta)^2 \pi(\theta \mid x) \dd{\theta} \]
+	Thus, \( h(\delta) = 0 \) if
+	\[ \int_\Theta (\theta - \delta) \pi(\theta \mid x) \dd{\theta} = 0 \iff \delta = \int_\Theta \theta \pi(\theta \mid x) \dd{x} \]
+	Under the quadratic loss function, \( \hat \theta^{(B)} \) can be described as the expectation of \( \theta \) under the posterior distribution.
+\end{example}
+\begin{example}
+	Consider the absolute error loss, given by \( L(\theta, \delta) = \abs{\theta - \delta} \).
+	In this case we have
+	\[ h(\delta) = \int_\Theta \abs{\theta - \delta} \pi(\theta \mid x) \dd{\theta} = \int_{-\infty}^\delta -(\theta-\delta)\pi(\theta \mid x)\dd{\theta} + \int_\delta^\infty (\theta-\delta)\pi(\theta \mid x)\dd{\theta} \]
+	We can differentiate, using the fundamental theorem of calculus, to find
+	\[ h'(\delta) = \int_{-\infty}^\delta \pi(\theta\mid x) \dd{\theta} - \int_\delta^\infty \pi(\theta \mid x)\dd{\theta} \]
+	This is zero if and only if
+	\[ \int_{-\infty}^\delta \pi(\theta\mid x) \dd{\theta} = \int_\delta^{\infty} \pi(\theta \mid x) \dd{\theta} \]
+	This yields the median of the posterior distribution.
+\end{example}

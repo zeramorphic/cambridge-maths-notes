@@ -241,3 +241,113 @@
 	\end{align*}
 	Thus \( \faktor{\mathbb R[X]}{(X^2 + 1)} \cong \mathbb C \).
 \end{example}
+
+\subsection{Isomorphism theorems}
+\begin{theorem}[first isomorphism theorem]
+	Let \( \varphi \colon R \to S \) be a ring homomorphism.
+	Then,
+	\[ \ker \varphi \triangleleft R;\quad \Im \varphi \leq S;\quad \faktor{R}{\ker \varphi} \cong \Im \varphi \]
+\end{theorem}
+\begin{proof}
+	We have \( \ker \varphi \triangleleft R \) from above.
+	We know that \( \Im \varphi \leq (S, +) \).
+	Now we show that \( \Im \varphi \) is closed under multiplication.
+	\[ \varphi(r_1) \varphi(r_2) = \varphi(r_1 r_2) \in \Im \varphi \]
+	Finally,
+	\[ 1_S = \varphi(1_R) \in \Im \varphi \]
+	Hence \( \Im \varphi \) is a subring of \( S \).
+	Let \( K = \ker \varphi \).
+	Then, we define \( \Phi \colon \faktor{R}{K} \to \Im \varphi \) by \( r+K \mapsto r \).
+	By appealing to the first isomorphism theorem from groups, this is well-defined, a bijection, and a group homomorphism under addition.
+	It therefore suffices to show that \( \Phi \) preserves multiplication and maps the multiplicative identities to each other.
+	\[ \Phi(1_R + K) = \varphi(1_R) = 1_S;\quad \Phi((r_1+K)(r_2+K)) = \Phi(r_1 r_2 +K) = \varphi(r_1 r_2) = \varphi(r_1) \varphi(r_2) \]
+	The result follows as required.
+\end{proof}
+\begin{theorem}[second isomorphism theorem]
+	Let \( R \leq S \) and \( J \triangleleft S \).
+	Then,
+	\[ R \cap J \triangleleft R;\quad R + J = \qty{r+a \colon r\in R, a \in J} \leq S;\quad \faktor{R}{R \cap J} \cong \faktor{R+J}{J} \leq \faktor{S}{J} \]
+\end{theorem}
+\begin{proof}
+	By the second isomorphism theorem for groups, \( R+J \leq (S, +) \).
+	Further, \( 1_S = 1_S + 0_S \), and since \( R \) is a subring, \( 1_S + 0_S \in R + J \) hence \( 1_S \in R \cap J \).
+	If \( r_1, r_2 \in R \) and \( a_1, a_2 \in J \), we have
+	\[ (r_1 + a_1)(r_2 + a_2) = \underbrace{r_1 r_2}_{\in R} + \underbrace{r_1 a_2}_{\in J} + \underbrace{r_2 a_1}_{\in J} + \underbrace{r_2 a_2}_{\in J} \in R + J \]
+	Hence \( R+J \) is closed under multiplication, giving \( R+J \leq S \).
+
+	Let \( \varphi \colon R \to \faktor{S}{J} \) be defined by \( r \mapsto r + J \).
+	This is a ring homomorphism, since it is the composite of the inclusion homomorphism \( R \subseteq S \) and the quotient map \( S \to \faktor{S}{J} \).
+	The kernel of \( \varphi \) is the set \( \qty{r \in R \colon r+J = J} = R \cap J \).
+	Since this is the kernel of a ring homomorphism, \( R \cap J \) is an ideal in \( R \).
+	The image of \( \varphi \) is \( \qty{r+J \mid r \in R} = \faktor{R+J}{J} \leq \faktor{S}{J} \).
+	By the first isomorphism theorem, \( \faktor{R}{R \cap J} \cong \faktor{R+J}{J} \) as required.
+\end{proof}
+\begin{remark}
+	If \( I \triangleleft R \), there exists a bijection between ideals in \( \faktor{R}{I} \) and the ideals of \( R \) containing \( I \).
+	Explicitly,
+	\[ K \mapsto \qty{r \in R \mid r + I \in K};\quad J \mapsto \faktor{J}{I} \]
+\end{remark}
+\begin{theorem}[third isomorphism theorem]
+	Let \( I \triangleleft R \) and \( J \triangleleft R \) with \( I \subseteq J \).
+	Then,
+	\[ \faktor{J}{I} \triangleleft \faktor{R}{I};\quad \faktor{R/I}{J/I} \cong \faktor{R}{J} \]
+\end{theorem}
+\begin{proof}
+	Let \( \varphi \colon \faktor{R}{I} \to \faktor{R}{J} \) defined by \( r+I \mapsto r+J \).
+	We can check that this is a surjective ring homomorphism by considering the third isomorphism theorem for groups.
+	Its kernel is \( \qty{r + I \colon r \in J} = \faktor{J}{I} \), which is an ideal in \( \faktor{R}{I} \), and we conclude by use of the first isomorphism theorem.
+\end{proof}
+% TODO: note: J/I is not a quotient ring structure, it's a set of cosets
+\begin{example}
+	Consider the surjective ring homomorphism \( \varphi \colon \mathbb R[X] \to \mathbb C \) which is defined by
+	\[ f = \sum_n a_n X^n \mapsto f(i) = \sum_n a_n i^n \]
+	Its kernel can be found by the Euclidean algorithm, yielding \( \ker \varphi = (X^2 + 1) \).
+	Applying the first isomorphism theorem, we immediately find \( \faktor{\mathbb R[X]}{(X^2 + 1)} \cong \mathbb C \).
+\end{example}
+\begin{example}
+	Let \( R \) be a ring.
+	Then there exists a unique ring homomorphism \( i \colon \mathbb Z \to R \).
+	Indeed, we must have
+	\[ 0_{\mathbb Z} \mapsto 0_R;\quad 1_{\mathbb Z} \mapsto 1_R \]
+	This inductively defines
+	\[ n \mapsto \underbrace{1_R + \dots + 1_R}_{n \text{ times}} \]
+	The negative integers are also uniquely defined, since any ring homomorphism is a group homomorphism.
+	\[ -n \mapsto -(\underbrace{1_R + \dots + 1_R}_{n \text{ times}}) \]
+	We can show that any such construction is a ring homomorphism as required.
+	Then, the kernel of the ring homomorphism is an ideal of \( \mathbb Z \), hence it is \( n\mathbb Z \) for some \( n \).
+	Hence, by the first isomorphism theorem, any ring contains a copy of \( \faktor{\mathbb Z}{n\mathbb Z} \), since it is isomorphic to the image of \( i \).
+	If \( n = 0 \), then the ring contains a copy of \( \mathbb Z \) itself, and if \( n = 1 \), then the ring is trivial since \( 0 = 1 \).
+	The number \( n \) is known as the \textit{characteristic} of \( R \).
+
+	For example, \( \mathbb Z, \mathbb Q, \mathbb R, \mathbb C \) have characteristic zero.
+	The rings \( \faktor{\mathbb Z}{p \mathbb Z}, \faktor{\mathbb Z}{p \mathbb Z}[X] \) have characteric \( p \).
+\end{example}
+
+\subsection{Integral domains}
+\begin{definition}
+	An \textit{integral domain} is a ring \( R \) with \( 0 \neq 1 \) such that for all \( a, b \in R \), we have \( a b = 0 \) implies \( a = 0 \) or \( b = 0 \).
+	A \textit{zero divisor} in a ring \( R \) is a nonzero element \( a \in R \) such that there exists \( b \in R \) for some nonzero \( b \in R \).
+	A ring is an integral domain if and only if it has no zero divisors.
+\end{definition}
+\begin{example}
+	All fields are integral domains.
+	Any subring of an integral domain is an integral domain.
+	For instance, \( \mathbb Z[i] \leq \mathbb C \) is an integral domain.
+\end{example}
+\begin{example}
+	The ring \( \mathbb Z \times \mathbb Z \) is not an integral domain.
+	Indeed, \( (1,0) \cdot (0,1) = (0,0) \).
+\end{example}
+\begin{lemma}
+	Let \( R \) be an integral domain.
+	Then \( R[X] \) is an integral domain.
+\end{lemma}
+\begin{proof}
+	We will show that any two nonzero elements produce a nonzero element.
+	In particular, let
+	\[ f = \sum_n a_n X^n;\quad g = \sum_n b_n X^n \]
+	Since these are nonzero, the leading coefficients \( a_n \) and \( b_m \) are nonzero.
+	Here, the leading term of the product \( fg \) has form \( a_n b_m X^{n+m} \).
+	Since \( R \) is an integral domain, \( a_n b_m \neq 0 \), so \( fg \) is nonzero.
+	Further, the degree of \( fg \) is \( n + m \), the sum of the degrees of \( f \) and \( g \).
+\end{proof}
