@@ -1,4 +1,4 @@
-\subsection{Length}
+\subsection{First fundamental form}
 Let \( \gamma \colon (a,b) \to \mathbb R^3 \) be smooth.
 The \textit{length} of \( \gamma \) is
 \[ L(\gamma) = \int_a^b \norm{\gamma'(t)} \dd{t} \]
@@ -83,7 +83,7 @@ Note that \( E, F, G \) depend only on \( \sigma \) and not on \( \gamma \).
 \begin{example}
 	The sphere of radius \( a \), given by \( \qty{x^2 + y^2 + z^2 = a^2} \), has an open set with allowable parametrisation
 	\[ \sigma(u,v) = (a\cos u \cos v, a \cos u \sin v, a \sin u) \]
-	where \( u \in (-\pi, \pi) \) and \( v \in (0,2\pi) \).
+	where \( u \in \qty(-\frac{\pi}{2}, \frac{\pi}{2}) \) and \( v \in (0,2\pi) \).
 	This parametrises the complement of a half great circle.
 	Here,
 	\[ \sigma_u = (-a \sin u \cos v, -a \sin u \sin v, a \cos u);\quad \sigma_v = (-a \cos u \sin v, a \cos u \cos v, 0) \]
@@ -113,7 +113,7 @@ Note that \( E, F, G \) depend only on \( \sigma \) and not on \( \gamma \).
 	The circumference of the sector is \( 2 \pi a \) and the radius is \( \sqrt{1+a^2} \), hence the angle traced out by the sector is \( \theta_0 = \frac{2 \pi a}{\sqrt{1+a^2}} \).
 	We can parametrise this subset of the plane by
 	\[ \sigma(r,\theta) = \qty(\sqrt{1+a^2} r\cos\qty(\frac{a\theta}{\sqrt{1+a^2}}), \sqrt{1+a^2} r\sin\qty(\frac{a\theta}{\sqrt{1+a^2}}), 0) \]
-	for \( r > 0 \) and \( \theta \in (0,\theta_0) \).
+	for \( r > 0 \) and \( \theta \in (0,2\pi) \).
 	We can then check that the first fundamental form here is
 	\[ (1+a^2) \dd{r}^2 + r^2 a^2 \dd{\theta}^2 \]
 	which matches the first fundamental form for the cone itself.
@@ -145,6 +145,8 @@ Note that \( E, F, G \) depend only on \( \sigma \) and not on \( \gamma \).
 	\end{pmatrix} = (D\sigma)^\transpose (D\sigma) \]
 	Now, \( \sigma = \sigma' \circ F \) hence the result follows.
 \end{proof}
+
+\subsection{Conformality}
 If \( v,w \in \mathbb R^3 \), we have \( v \cdot w = \abs{v} \cdot \abs{w} \cdot \cos\theta \).
 This allows us to deduce the angle \( \theta \) between two vectors given their dot product and lengths.
 This can also be done when \( v,w \) are in the tangent plane \( T_p \Sigma \), and then we can express the angle in terms of the first fundamental form.
@@ -153,5 +155,99 @@ Let \( \sigma \) be an allowable parametrisation for \( \Sigma \) near \( p \), 
 where \( I \) denotes the first fundamental form of \( \sigma \) at zero.
 \begin{lemma}
 	Let \( \Sigma \) be a smooth surface in \( \mathbb R^3 \), and let \( \sigma \colon V \to U \) be an allowable parametrisation of \( \Sigma \) near \( p \).
-	Then \( \Sigma \) is \textit{conformal} if \( E = G \) and \( F = 0 \) in the first fundamental form.
+	Then \( \sigma \) is \textit{conformal} if \( E = G \) and \( F = 0 \) in the first fundamental form.
 \end{lemma}
+\begin{proof}
+	Consider curves \( \gamma \colon t \mapsto (u(t), v(t)) \) and \( \widetilde \gamma \colon t \mapsto (\widetilde u(t), \widetilde v(t)) \) in \( V \), where \( \gamma(0) = \widetilde \gamma(0) = 0 \in V \).
+	Let \( \sigma \) be a parametrisation \( V \to U \subseteq \Sigma \) such that \( \sigma(0) = p \in \Sigma \).
+	Then the curves \( \sigma \circ \gamma \) and \( \sigma \circ \widetilde \gamma \) meet at angle \( \theta \) on \( \Sigma \), where
+	\[ \cos \theta = \frac{E \dot u \dot {\widetilde u} + F \qty(\dot u \dot{\widetilde v} + \dot v \dot{\widetilde u}) + G \dot v \dot{\widetilde v}}{\sqrt{E \dot u^2 + 2F \dot u \dot v + G \dot v^2} \sqrt{E \dot{\widetilde u}^2 + 2F \dot{\widetilde u} \dot {\widetilde v} + G \dot{\widetilde v}^2}} \]
+	In particular, if \( \sigma \) is conformal, suppose \( \gamma(t) = (t,0) \) and \( \widetilde \gamma(t) = (0,t) \).
+	Then, we have that the curves meet at \( \frac{\pi}{2} \) in \( V \), so they meet at \( \frac{\pi}{2} \) in \( \Sigma \), so we find that \( \cos \theta = 0 \implies F = 0 \).
+	Similarly, if \( \gamma(t) = (t,t) \) and \( \widetilde \gamma(t) = (t,-t) \), we find \( \cos \theta = 0 \implies E = G \).
+
+	Conversely, suppose there exists a parametrisation \( \sigma \) such that \( E = G \) and \( F = 0 \).
+	Then, in this parametrisation, the first fundamental form is of the form \( \rho \qty(\dd{u}^2 + \dd{v}^2) \) for \( \rho = E \colon V \to \mathbb R \).
+	Hence, the first fundamental form is a pointwise rescaling of the Euclidean fundamental form \( \dd{u}^2 + \dd{v}^2 \).
+	Rescaling the plane does not change angles, so \( \sigma \) is conformal as required.
+\end{proof}
+\begin{remark}
+	Conformality in charts is historically important for cartography.
+	The existence of conformal charts is closely connected to Riemann surfaces, which are topological surfaces locally modelled on \( \mathbb C \) instead of \( \mathbb R^2 \).
+\end{remark}
+
+\subsection{Area}
+Recall that a parallelogram spanned by vectors \( v, w \) has area \( \abs{v \times w} = \inner{v,v}\inner{w,w} - \inner{v,w}^2 \), where \( \times \) denotes the cross product.
+Let \( \sigma \colon V \to U \subseteq \Sigma \) be an allowable parametrisation with \( \sigma(0) = p \), and consider \( \sigma_u, \sigma_v \in T_p \Sigma \).
+The area of the infinitesimal parallelogram spanned by \( \sigma_u, \sigma_v \) is given by
+\[ \inner{\sigma_u, \sigma_u}\inner{\sigma_v, \sigma_v} - \inner{\sigma_u, \sigma_v}^2 = EG - F^2 \]
+\begin{definition}
+	Let \( \Sigma \) be a smooth surface in \( \mathbb R^3 \), and \( \sigma \colon V \to U \subseteq \Sigma \) an allowable parametrisation.
+	Then,
+	\[ \mathrm{area}(U) = \int_V \sqrt{EG - F^2} \dd{u}\dd{v} \]
+\end{definition}
+\begin{remark}
+	This is independent of parametrisation.
+	Indeed, suppose \( \sigma \colon V \to U \) and \( \widetilde \sigma \colon \widetilde V \to U \) are allowable.
+	Then \( \widetilde \sigma = \sigma \circ \varphi \) for some transition map \( \varphi \colon \widetilde V \to V \).
+	We know then that
+	\[ \begin{pmatrix}
+		\widetilde E & \widetilde F \\
+		\widetilde F & \widetilde G
+	\end{pmatrix} = (D\widetilde \sigma)^\transpose (D\widetilde \sigma) = (D\varphi)^\transpose \begin{pmatrix}
+		E & F \\
+		F & G
+	\end{pmatrix} (D\varphi) \]
+	Hence,
+	\[ \sqrt{\widetilde E \widetilde G - \widetilde F^2} = \abs{\det(D\varphi)} \sqrt{EG - F^2} \]
+	The usual change of variables formula for integration, combined with the fact that \( \varphi \) is a diffeomorphism, gives
+	\[ \int_V \sqrt{EG - F^2} \dd{u}\dd{v} = \int_{\widetilde V} \sqrt{\widetilde E \widetilde G - \widetilde F^2} \dd{u}\dd{v} \]
+	Note, we can compute the area of \( U \) for any open set \( U \subseteq \Sigma \), not necessarily lying in a single parametrisation, by covering the set by a finite amount of open subsets which lie in single charts.
+	For instance, if \( \Sigma \) is compact, we can compute the area of \( \Sigma \) itself.
+\end{remark}
+\begin{example}
+	Consider the graph \( \Sigma = \qty{(u,v,f(u,v)) \colon (u,v) \in \mathbb R^2} \), where \( f \colon \mathbb R^2 \to \mathbb R \) is a smooth function.
+	This has a global parametrisation \( \sigma(u,v) = (u,v,f(u,v)) \).
+	Here, \( \sigma_u = (1,0,f_u) \) and \( \sigma_v = (0,1,f_v) \), hence
+	\[ \sqrt{EG - F^2} = \sqrt{1+f_u^2+f_v^2} \]
+	Let \( U_R \subseteq \Sigma \) be the part of the graph lying inside the disk \( B(0,R) \subseteq \mathbb R^2 \).
+	Then
+	\[ \mathrm{area}(U_R) = \int_{B(0,R)} \sqrt{1+f_u^2+f_v^2} \dd{u}\dd{v} \geq \pi R^2 \]
+	with equality exactly when \( f_u = f_v = 0 \), so \( f \) is constant and \( U_R \) is contained inside a plane perpendicular to the \( z \) axis.
+	Hence, the projection from \( \Sigma \) to \( \mathbb R^2_{xy} \) is not area-preserving, unless \( \Sigma \) is a plane perpendicular to the \( z \) axis.
+\end{example}
+\begin{example}
+	Consider the sphere enclosed exactly by a cylinder.
+	The cylindrically radial projection from the sphere to the cylinder is area-preserving.
+	This is explored further in the example sheets.
+\end{example}
+
+\subsection{Second fundamental form}
+Let \( \sigma \colon V \to U \subseteq \Sigma \) be allowable.
+By using Taylor's theorem, we can write
+\[ \sigma(u+h,v+\ell) = \sigma(u,v) + h \sigma_u(u,v) + \ell \sigma_v(u,v) + \frac{1}{2} \qty(h^2 \sigma_{uu}(u,v) + 2h\ell \sigma_{uv}(u,v) + \ell^2 \sigma_{vv}(u,v)) + O(h^3,\ell^3) \]
+where \( h,\ell \) are small, and \( (u+h,v+\ell) \in V \).
+Recall that if \( p = \sigma(u,v) \), we have \( T_p \Sigma = \genset{\qty{\sigma_u,\sigma_v}} \).
+Hence, the orthogonal distance from \( \sigma(u+h,v+\ell) \) to the affine tangent plane \( T_p \Sigma + p \) is given by projection to the normal direction.
+\[ \inner{n,\sigma(u+h,v+\ell) - \sigma(u,v)} = \frac{1}{2} \qty(\inner{n,\sigma_{uu}} h^2 + 2\inner{n,\sigma_{uv}} h\ell + \inner{n,\sigma_{vv}}\ell^2) + O(h^3,\ell^3) \]
+\begin{definition}
+	The \textit{second fundamental form} of \( \Sigma \) in the allowable parametrisation \( \sigma \) is the quadratic form
+	\[ L \dd{u}^2 + 2 M \dd{u} \dd{v} + N \dd{v}^2 \]
+	where
+	\[ L = \inner{n,\sigma_{uu}};\quad M = \inner{n,\sigma_{uv}};\quad N = \inner{n,\sigma_{vv}} \]
+	and
+	\[ n = \frac{\sigma_u \times \sigma_v}{\norm{\sigma_u \times \sigma_v}} \]
+	We can write this as the matrix
+	\[ \begin{pmatrix}
+		L & M \\
+		M & N
+	\end{pmatrix} \]
+	which defined a quadratic form on \( T_p \Sigma \) which varies smoothly in \( p \).
+\end{definition}
+\begin{lemma}
+	Let \( V \) be connected and \( \sigma \colon V \to U \subseteq \Sigma \) be an allowable parametrisation such that the second fundamental form vanishes identically with respect to \( \sigma \).
+	Then \( U \) lies in an affine plane.
+\end{lemma}
+\begin{remark}
+	The first fundamental form is a non-degenerate symmetric bilinear form on \( T_p \Sigma \), whereas the second fundamental form may be degenerate, and it is a quadratic form on \( T_p \Sigma \).
+\end{remark}

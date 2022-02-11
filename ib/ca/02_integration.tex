@@ -376,5 +376,123 @@ We can now prove Cauchy's integral formula for a disk.
 
 \subsection{Taylor series}
 \begin{theorem}
-
+	Let \( f \colon D(a,R) \to \mathbb C \) be holomorphic.
+	Then \( f \) has a convergent power series representation on \( D(a,R) \).
+	More precisely, there exists a sequence of complex numbers \( c_0, c_1, \dots \) such that
+	\[ f(w) = \sum_{n=0}^\infty c_n (w-a)^n \]
+	The coefficient \( c_n \) is given by
+	\[ c_n = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z]}}{(z-a)^{n+1}} \]
+	for any \( \rho \in (0,R) \).
 \end{theorem}
+\begin{proof}
+	Let \( 0 < \rho < R \).
+	Then, for any \( w \in D(0,\rho) \), we have by Cauchy's integral formula that
+	\begin{align*}
+		f(w) &= \frac{1}{2\pi i}\int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-w} \\
+		&= \frac{1}{2\pi i}\int_{\partial D(a,\rho)} f(z) \sum_{n=0}^\infty \frac{(w-a)^n}{(z-a)^{n+1}} \dd{z} \\
+		&= \sum_{n=0}^\infty \qty( \frac{1}{2\pi i}\int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-a)^{n+1}} ) (w-a)^n \\
+	\end{align*}
+	The last equality holds since the series under the integral converges uniformly for all \( z \in \partial D(a,\rho) \).
+	Let
+	\[ c_n(\rho) = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-a)^{n+1}} \]
+	Then we have shown that \( f(w) = \sum_{n=0}^\infty c_n(\rho)(w-a)^{n+1} \) for all \( w \in D(a,\rho) \).
+	By a previous theorem, the function \( f \) has derivatives of all orders in \( D(a,\rho) \) and hence \( c_n(\rho) = \frac{f^{(n)}(a)}{n!} \), which is independent of \( \rho \), so we can let \( c_n = c_n(\rho) \) for an arbitrary \( \rho \).
+\end{proof}
+\begin{corollary}
+	If \( f \) is holomorphic on an open set \( U \subset \mathbb C \), then \( f \) has derivatives of all orders in \( U \), and those derivatives are holomorphic on \( U \).
+\end{corollary}
+\begin{proof}
+	We have a power series representation for \( f \) near every points, so its derivatives of all orders exist everywhere.
+	Hence, the derivatives of all orders are holomorphic.
+\end{proof}
+\begin{remark}
+	We can explicitly compute from the \( c_n \) above that
+	\[ f^{(n)}(a) = \frac{n!}{2\pi i}\int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-a)^{n+1}} \]
+	This is a special case of a Cauchy integral formula for derivatives.
+
+	Note also that by taking \( n = 1 \), we can apply the estimate for the integral to find
+	\[ \abs{f'(a)} \leq \frac{1}{\rho}\qty(\sup_{z \in \partial D(a,\rho)} \abs{f(z)}) \]
+	This can be thought of as a localised version of Liouville's theorem, and it directly implies Liouville's theorem.
+	Indeed, if \( f \) is entire and bounded, let \( a \in \mathbb C \) and by applying the estimate and letting \( \rho \to \infty \) we can conclude \( f' = 0 \) on \( \mathbb C \), giving that \( f \) is constant.
+\end{remark}
+\begin{definition}
+	A function \( f \) is \textit{analytic} at a point \( a \in \mathbb C \) (or \( \mathbb R \)) if there exists a neighbourhood of \( a \) such that \( f \) is given by a convergent power series about \( a \).
+\end{definition}
+\begin{remark}
+	If \( f \) is analytic at \( a \), we must have derivatives of all orders of \( f \) near \( a \).
+	The above corollary implies that if \( f \) is complex, the following are equivalent.
+	\begin{enumerate}[(i)]
+		\item \( f \) is analytic at \( a \)
+		\item \( f \) has complex derivatives of all orders in a neighbourhood of \( a \)
+		\item \( f \) is complex differentiable once in a neighbourhood in a neighbourhood of \( a \) (so \( f \) is holomorphic at \( a \))
+	\end{enumerate}
+	For real functions, this is not the case.
+	For example, consider \( f \colon \mathbb R \to \mathbb R \) defined by \( f(x) = \exp(-x^{-2}) \).
+	This has \( f^{(n)}(0) = 0 \) for all \( n \), so \( f \) is not given by a convergent power series near zero.
+
+	Let \( U \subset \mathbb C \) be an open set.
+	Now, we have that \( f = u+iv \) is holomorphic in \( U \) if and only if \( u \) and \( v \) have continuous partial derivatives in \( U \), and that \( u.v \) satisfy the Cauchy-Riemann equations.
+	Further, the corollary above implies that \( u, v \) are \( C^2 \) functions.
+	This shows that \( u \) and \( v \) are harmonic.
+\end{remark}
+\begin{theorem}[Morera's theorem]
+	Let \( U \subseteq \mathbb C \) be open, and \( f \colon U \to \mathbb C \) be a continuous function such that \( \int_\gamma f(z) \dd{z} = 0 \) for all closed curves \( \gamma \) in \( U \).
+	Then \( f \) is holomorphic in \( U \).
+\end{theorem}
+\begin{remark}
+	This can be thought of as a converse to Cauchy's theorem.
+\end{remark}
+\begin{proof}
+	We know that \( f \) has a holomorphic antiderivative \( F \) on \( U \).
+	Then, we know that \( F \) is twice differentiable in \( U \).
+	Since \( F' = f \), \( f \) is holomorphic.
+\end{proof}
+\begin{corollary}
+	Let \( U \subseteq \mathbb C \) be an open set.
+	Let \( f \colon U \to \mathbb C \) be a continuous function and holomorphic in \( U \setminus S \), where \( S \) is a finite set.
+	Then \( f \) is holomorphic in \( U \).
+\end{corollary}
+\begin{proof}
+	For all \( a \in U \), there exists \( r > 0 \) such that \( D = D(a,r) \subset U \).
+	Since \( D \) is convex, we can apply Cauchy's formula for convex sets to observe that \( \int_\gamma f(z) \dd{z} = 0 \) for all closed curves in \( D \).
+	Then by Morera's theorem, \( f \) is holomorphic.
+\end{proof}
+
+\subsection{Zeroes of holomorphic functions}
+\begin{definition}
+	Let \( f \) be a holomorphic function on a disk \( D = D(a,R) \).
+	By the Taylor series theorem, there exist constants \( c_n \) such that
+	\[ f(z) = \sum_{n=0}^\infty c_n (z-a)^n \]
+	for all \( z \in D \).
+	Then if \( f \) is not identically zero, there exists \( n \) such that \( c_n \neq 0 \).
+	Let \( m = \min \qty{ n \colon c_n \neq 0 } \).
+	Then,
+	\[ f(z) = (z-a)^m g(z);\quad g(z) = \sum_{n=m}^\infty c_n (z-a)^{n-m} \]
+	Note that \( g \) is holomorphic on \( D \), and \( g(a) = c_m \neq 0 \).
+
+	If \( m \neq 0 \), we say that \( f \) has a \textit{zero of order \( m \) at \( z = a \)}.
+	Hence \( m \) is the smallest natural number \( n \) such that \( f^{(n)}(a) \neq 0 \).
+	If \( S \subseteq \mathbb C \), then a point \( w \in S \) is an \textit{isolated point} of \( S \) if there exists \( r > 0 \) such that \( S \cap D(w,r) = \qty{w} \).
+\end{definition}
+\begin{theorem}[principle of isolated zeroes]
+	Let \( f \colon D(a,R) \to \mathbb C \) be holomorphic and not identically zero.
+	Then there exists \( r \in (0,R) \) such that \( f(z) \neq 0 \) whenever \( 0 < \abs{z-a} < r \).
+\end{theorem}
+\begin{remark}
+	If \( f(a) = 0 \), then \( \qty{z \colon f(z) = 0} \) intersects \( D(a,r) \) only at \( a \).
+	Hence, \( a \) is an isolated point of the set of zeroes.
+	For instance, there exists no non-zero holomorphic function that vanishes on a line segment or a disk.
+
+	We can show that certain identities from real analysis hold for complex functions.
+	For instance, consider the function \( g(z) = \sin^2 z + \cos^2 z - 1 \).
+	Since this \( g \) is holomorphic and vanishes on the real line, \( g \) must be identically zero in the complex plane.
+
+	The zero set may have an \textit{accumulation point} on the boundary of the domain of \( f \).
+	Consider \( f(z) = \sin \frac{1}{z} \) for \( z \in D(1,1) \).
+	Here, if \( a_n = \frac{1}{2n \pi} \), then \( a_n \in D(1,1) \) and \( f(a_n) = 0 \) and \( a_n \to 0 \in \partial D(1,1) \).
+\end{remark}
+\begin{proof}
+	If \( f(a) \neq 0 \), then by continuity of \( f \) there exists \( r > 0 \) such that \( f(z) \neq 0 \) for all \( z \in D(a,r) \).
+	If \( f(a) = 0 \), then there exists an integer \( m \geq 1 \) such that \( f(z) = (z-a)^m g(z) \) for \( z \in D(a,R) \), where \( g \) is holomorphic with \( g(a) \neq 0 \).
+	In this case, we find that there exists \( r > 0 \) such that \( g(z) \neq 0 \) for \( z \in D(a,r) \) and hence \( f(z) \neq 0 \) for \( z \in D(a,r) \setminus \qty{a} \).
+\end{proof}
