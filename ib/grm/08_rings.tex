@@ -47,6 +47,7 @@
 	The term \( X \) is a formal symbol, no substitution of \( X \) for a value will be made.
 	We could alternatively define polynomials as finite sequences of terms in \( R \).
 	The \textit{degree} of a polynomial \( f \) is the largest \( n \) such that \( a_n \neq 0 \).
+	A degree-n polynomial is \textit{monic} if \( a_n = 1 \).
 	We write \( R[X] \) for the set of all such polynomials over \( R \).
 	Let \( g = b_0 + b_1 X + \dots + b_n X^n \).
 	Then we define
@@ -320,7 +321,7 @@
 	The number \( n \) is known as the \textit{characteristic} of \( R \).
 
 	For example, \( \mathbb Z, \mathbb Q, \mathbb R, \mathbb C \) have characteristic zero.
-	The rings \( \faktor{\mathbb Z}{p \mathbb Z}, \faktor{\mathbb Z}{p \mathbb Z}[X] \) have characteric \( p \).
+	The rings \( \faktor{\mathbb Z}{p \mathbb Z}, \faktor{\mathbb Z}{p \mathbb Z}[X] \) have characteristic \( p \).
 \end{example}
 
 \subsection{Integral domains}
@@ -351,3 +352,122 @@
 	Since \( R \) is an integral domain, \( a_n b_m \neq 0 \), so \( fg \) is nonzero.
 	Further, the degree of \( fg \) is \( n + m \), the sum of the degrees of \( f \) and \( g \).
 \end{proof}
+\begin{lemma}
+	Let \( R \) be an integral domain, and \( f \neq 0 \) be a nonzero polynomial in \( R[X] \).
+	We define \( \mathrm{roots}(f) = \qty{a \in R \colon f(a) = 0} \).
+	Then \( \abs{\mathrm{roots}(f)} \leq \mathrm{deg}(f) \).
+\end{lemma}
+\begin{proof}
+	Exercise on the example sheets.
+\end{proof}
+\begin{theorem}
+	Let \( F \) be a field.
+	Then any finite subgroup \( G \) of \( (F^\times, \cdot) \) is cyclic.
+\end{theorem}
+\begin{proof}
+	\( G \) is a finite abelian group.
+	If \( G \) is not cyclic, we can apply a previous structure theorem for finite abelian groups to show that there exists \( H \leq G \) such that \( H \cong C_{d_1} \times C_{d_1} \) for some integer \( d_1 \geq 2 \).
+	The polynomial \( f(X) = X^{d_1} - 1 \in F[X] \) has degree \( d_1 \), but has at least \( d_1^2 \) roots, since any element of \( H \) is a root.
+	This contradict the previous lemma.
+\end{proof}
+\begin{example}
+	\( \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \) is cyclic.
+\end{example}
+\begin{proposition}
+	Any finite integral domain is a field.
+\end{proposition}
+\begin{proof}
+	Let \( 0 \neq a \in R \), where \( R \) is an integral domain.
+	Consider the map \( \varphi \colon R \to R \) given by \( x \mapsto ax \).
+	If \( \varphi(x) = \varphi(y) \), then \( a(x-y) = 0 \).
+	But \( a \neq 0 \), hence \( x - y = 0 \).
+	Hence \( \varphi \) is injective.
+	Since \( R \) is finite, \( \varphi \) is a bijection, hence it has an inverse \( \varphi^{-1} \), which yields the multiplicative inverse of \( a \) by considering \( \varphi^{-1}(a) \).
+	This may be repeated for all \( a \).
+\end{proof}
+\begin{theorem}
+	Any integral domain \( R \) is a subring of a field \( F \), and every element of \( F \) can be written in the form \( ab^{-1} \) where \( a, b \in R \) and \( b \neq 0 \).
+	Such a field \( F \) is called the \textit{field of fractions} of \( R \).
+\end{theorem}
+\begin{proof}
+	Consider the set \( S = \qty{(a,b) \in R \colon b \neq 0} \).
+	We can define an equivalence relation
+	\[ (a,b) \sim (c,d) \iff ad = bc \]
+	This is reflexive and commutative.
+	We can show directly that it is transitive.
+	\[ (a,b) \sim (c,d) \sim (e,f) \implies ad = bc; cf = de \implies adf = bcf = bde \implies af = be \implies (a,b) \sim (e,f) \]
+	Hence \( \sim \) is indeed an equivalence relation.
+	Now, let \( F = \faktor{S}{\sim} \), and we write \( \frac{a}{b} \) for the class \( [(a,b)] \).
+	We define the ring operations
+	\[ \frac{a}{b} + \frac{c}{d} = \frac{ad + bc}{bd};\quad \frac{a}{b} + \frac{c}{d} = \frac{ac}{bd} \]
+	These can be shown to be well-defined.
+	Thus, \( F \) is a ring with identities \( 0_F = \frac{0_R}{1_R} \) and \( 1_F = \frac{1_R}{1_R} \).
+	If \( \frac{a}{b} \neq 0_F \), then \( a \neq 0 \).
+	Thus, \( \frac{b}{a} \) exists, and \( \frac{a}{b} \cdot \frac{b}{a} = 0 \).
+	Hence \( F \) is a field.
+
+	We can identify \( R \) with the subring of \( F \) given by \( \frac{r}{1} \) for all \( r \in R \).
+	This is clearly isomorphic to \( R \).
+	Further, any element of \( F \) can be written as \( \frac{a}{b} = ab^{-1} \) as required.
+\end{proof}
+This is analogous to the construction of the rationals using the integers.
+\begin{example}
+	Consider \( \mathbb C[X] \).
+	This has field of fractions \( \mathbb C(X) \), called the field of \textit{rational functions} in \( X \).
+\end{example}
+
+\subsection{Maximal ideals}
+\begin{definition}
+	An ideal \( I \triangleleft R \) is \textit{maximal} if \( I \neq R \) and, if \( I \subseteq J \triangleleft R \), we have \( J = I \) or \( J = R \).
+\end{definition}
+\begin{lemma}
+	A nonzero ring \( R \) is a field if and only if its only ideals are zero or \( R \).
+\end{lemma}
+\begin{proof}
+	Suppose \( R \) is a field.
+	If \( 0 \neq I \triangleleft R \), then \( I \) contains a nonzero element, which is a unit since \( R \) is a field.
+	Hence \( I = R \).
+
+	Now, suppose a ring \( R \) has ideals that are only zero or \( R \).
+	If \( 0 \neq x \in R \), consider \( (x) \).
+	This is nonzero since it contains \( x \).
+	By assumption, \( (x) = R \).
+	Thus, the element 1 lies in \( R \).
+	Hence, there exists \( y \in R \) such that \( xy = 1 \), and hence this \( y \) is the multiplicative inverse as required.
+\end{proof}
+\begin{proposition}
+	Let \( I \triangleleft R \).
+	Then \( I \) is maximal if and only if \( \faktor{R}{I} \) is a field.
+\end{proposition}
+\begin{proof}
+	\( \faktor{R}{I} \) is a field if and only if its ideals are either zero, denoted \( \faktor{I}{I} \), or \( \faktor{R}{I} \) itself.
+	By the correspondence theorem, \( I \) and \( R \) are the only ideals in \( R \) which contain \( I \).
+	Equivalently, \( I \triangleleft R \) is maximal.
+\end{proof}
+
+\subsection{Prime ideals}
+\begin{definition}
+	An ideal \( I \triangleleft R \) is \textit{prime} if \( I \neq R \) and, for all \( a,b \in R \) such that \( ab \in I \), we have \( a \in I \) or \( b \in I \).
+\end{definition}
+\begin{example}
+	The ideals in the integers are \( (n) \) for some \( n \geq 0 \).
+	\( n\mathbb Z \) is a prime ideal if and only if \( n \) is prime or zero.
+	The case for \( n = 0 \) is trivial.
+	If \( n \neq 0 \) we can use the property that \( p \mid ab \) implies either \( p \mid a \) or \( p \mid b \).
+	Conversely, if \( n \) is composite, we can write \( n = uv \) for \( u, v > 1 \).
+	Then \( uv \in n\mathbb Z \) but \( u,v \not\in n\mathbb Z \).
+\end{example}
+\begin{proposition}
+	Let \( I \triangleleft R \).
+	Then \( I \) is prime if and only if \( \faktor{R}{I} \) is an integral domain.
+\end{proposition}
+\begin{proof}
+	If \( I \) is prime, then for all \( a,b \in I \) we have \( a \in I \) or \( b \in I \).
+	Equivalently, for all \( a + I, b + I \in \faktor{R}{I} \), we have \( (a+I)(b+I) = 0+I \) if \( a+I = 0+I \) or \( b+I = 0+I \).
+	This is the definition of an integral domain.
+\end{proof}
+\begin{remark}
+	If \( I \) is a maximal ideal, then \( \faktor{R}{I} \) is a field.
+	A field is an integral domain.
+	Hence any maximal ideal is prime.
+\end{remark}

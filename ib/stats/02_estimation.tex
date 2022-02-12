@@ -25,7 +25,7 @@ Let \( X = (X_1, \dots, X_n) \).
 \end{definition}
 \begin{example}
 	The estimator \( \hat \mu \) in the above example is unbiased, since
-	\[ \esub{\mu}{\hat \mu} = \exp_\mu(\overline X_n) = \mu \]
+	\[ \esub{\mu}{\hat \mu} = \esub{\mu}{\overline X_n} = \mu \]
 	for all \( \mu \in \mathbb R \).
 \end{example}
 \begin{definition}
@@ -38,7 +38,7 @@ Let \( X = (X_1, \dots, X_n) \).
 
 \subsection{Bias-variance decomposition}
 The mean squared error can be written as
-\[ \mathrm{mse}\qty(\hat \theta) = \esub{\theta}{\qty(\hat \theta - \esub{\theta}{\hat\theta} + \esub{\theta}{\hat\theta} - \theta)^2} = \Varsub{\theta}\qty(\hat \theta) + \mathrm{bias}^2\qty(\hat\theta) \]
+\[ \mathrm{mse}\qty(\hat \theta) = \esub{\theta}{\qty(\hat \theta - \esub{\theta}{\hat\theta} + \esub{\theta}{\hat\theta} - \theta)^2} = \Varsub{\theta}{\hat \theta} + \mathrm{bias}^2\qty(\hat\theta) \]
 Note that both the variance and bias squared terms are positive.
 This implies a tradeoff between bias and variance when minimising error.
 \begin{example}
@@ -47,17 +47,17 @@ This implies a tradeoff between bias and variance when minimising error.
 	This is the proportion of successes observed.
 	This is an unbiased estimator, since \( \esub{\theta}{T_U} = \esub{\theta}{X}/n = \theta \).
 	The mean squared error for the estimator is then
-	\[ \Varsub{\theta}\qty(T_n) = \Varsub{\theta}\qty(\frac{X}{n}) = \frac{\Varsub{\theta}(X)}{n^2} = \frac{\theta(1-\theta)}{n} \]
+	\[ \Varsub{\theta}{T_n} = \Varsub{\theta}{\frac{X}{n}} = \frac{\Varsub{\theta}{X}}{n^2} = \frac{\theta(1-\theta)}{n} \]
 	Now, consider an alternative estimator which has some bias:
 	\[ T_B = \frac{X+1}{n+2} = w \underbrace{\frac{X}{n}}_{T_U} + (1-w)\frac{1}{2};\quad w = \frac{n}{n+2} \]
 	This interpolates between the estimator \( T_U \) and the fixed estimator \( \frac{1}{2} \).
 	Here,
-	\[ \mathrm{bias}(T_B) = \esub{\theta}{T_B} - \theta = \frac{n}{n+2}\theta - frac{1}{n+2}\theta \]
+	\[ \mathrm{bias}(T_B) = \esub{\theta}{T_B} - \theta = \frac{n}{n+2}\theta - \frac{1}{n+2}\theta \]
 	The bias is nonzero for all but one value of \( \theta \).
 	Further,
-	\[ \Varsub{\theta}(T_B) = \frac{\Varsub{\theta}(X+1)}{(n+2)^2} = \frac{n\theta(1-\theta)}{(n+2)^2} \]
+	\[ \Varsub{\theta}{T_B} = \frac{\Varsub{\theta}{X+1}}{(n+2)^2} = \frac{n\theta(1-\theta)}{(n+2)^2} \]
 	We can calculate
-	\[ \mathrm{mse}\qty(T_B) = (1-w)^2 \qty(\frac{1}{2} - \theta)^2 + w^2\underbrace{\frac{\theta(1-\theta)}{n}}_{\mathrm{mse}(T_U)} \]
+	\[ \mathrm{mse}(T_B) = (1-w)^2 \qty(\frac{1}{2} - \theta)^2 + w^2\underbrace{\frac{\theta(1-\theta)}{n}}_{\mathrm{mse}(T_U)} \]
 	There exists a range of \( \theta \) such that \( T_B \) has a lower mean squared error, and similarly there exists a range such that \( T_U \) has a lower error.
 	This indicates that prior judgement of the true value of \( \theta \) can be used to determine which estimator is better.
 \end{example}
@@ -65,7 +65,7 @@ It is not necessarily desirable that an estimator is unbiased.
 \begin{example}
 	Suppose \( X \sim \mathrm{Poisson}(\lambda) \) and we wish to estimate \( \theta = \prob{X = 0}^2 = e^{-2\lambda} \).
 	For some estimator \( T(X) \) of \( \theta \) to be unbiased, we need that
-	\[ \esub{\lambda}{T(X)} = \sum_{x=0}^\infty T(x) \frac{\lambda^x e^{-lambda}}{x!} = e^{-2\lambda} \]
+	\[ \esub{\lambda}{T(X)} = \sum_{x=0}^\infty T(x) \frac{\lambda^x e^{-\lambda}}{x!} = e^{-2\lambda} \]
 	Hence,
 	\[ \sum_{x=0}^\infty T(x) \frac{\lambda^x}{x!} = e^{-\lambda} \]
 	But \( e^{-\lambda} \) has a known power series expansion, giving \( T(X) \equiv (-1)^X \) for all \( X \).
@@ -323,7 +323,7 @@ Let \( X_1, \dots, X_n \) be i.i.d.\ random variables with mass or density funct
 	Indeed, since \( X \) and \( T \) are fixed, the maximiser of \( L(\theta) = g(T,\theta) h(X) \) depends on \( X \) only through \( T \).
 	If \( \varphi = H(\theta) \) for a bijection \( H \), then if \( \hat \theta \) is the maximum likelihood estimator for \( \theta \), we have that \( H(\hat \theta) \) is the maximum likelihood estimator for \( \varphi \).
 
-	Under some regularity conditions, as \( n \to \infty \) the statistic \( \sqrt{n} (\hat \theta - \theta \) is approximately normal with mean zero and covariance matrix \( \Sigma \).
+	Under some regularity conditions, as \( n \to \infty \) the statistic \( \sqrt{n} (\hat \theta - \theta) \) is approximately normal with mean zero and covariance matrix \( \Sigma \).
 	More precisely, for `nice' sets \( A \), we have
 	\[ \prob{\sqrt{n} \qty(\hat \theta - \theta) \in A} \to \prob{Z \in A};\quad Z \sim N(0, \Sigma) \]
 	We say that the maximum likelihood estimator is \textit{asymptotically normal}.
