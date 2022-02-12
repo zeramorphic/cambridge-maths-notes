@@ -44,10 +44,17 @@
 \usepackage{etoolbox}
 \usepackage{tikz-cd}
 \usetikzlibrary{external}
-\tikzexternalize[prefix=tikz/]
 \usetikzlibrary{cd}
-\AtBeginEnvironment{tikzcd}{\tikzexternaldisable}
-\AtEndEnvironment{tikzcd}{\tikzexternalenable}
+
+% for some reason, externalising when compiling the book takes forever, it's probably just too big a project
+% todo: re-enable this when the book has been separated into parts IA and IB
+\if@compilingfullbook
+\else
+	\tikzexternalize[prefix=tikz/]
+	\AtBeginEnvironment{tikzcd}{\tikzexternaldisable}
+	\AtEndEnvironment{tikzcd}{\tikzexternalenable}
+\fi
+
 \if@compilingfullbook
 	\usepackage{tex_vendor/tikzit}
 	\input{tex_vendor/style.tikzstyles}
