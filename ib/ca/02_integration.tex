@@ -496,3 +496,105 @@ We can now prove Cauchy's integral formula for a disk.
 	If \( f(a) = 0 \), then there exists an integer \( m \geq 1 \) such that \( f(z) = (z-a)^m g(z) \) for \( z \in D(a,R) \), where \( g \) is holomorphic with \( g(a) \neq 0 \).
 	In this case, we find that there exists \( r > 0 \) such that \( g(z) \neq 0 \) for \( z \in D(a,r) \) and hence \( f(z) \neq 0 \) for \( z \in D(a,r) \setminus \qty{a} \).
 \end{proof}
+
+\subsection{Analytic continuation}
+\begin{theorem}
+	Let \( U \subset V \) be domains.
+	If \( g_1, g_2 \colon V \to \mathbb C \) are analytic and \( g_1 = g_2 \) on \( U \), then \( g_1 = g_2 \) on \( V \).
+	Equivalently, if \( f \colon U \to \mathbb C \) is analytic, then there is at most one analytic function \( g \colon V \to \mathbb C \) such that \( g = f \) on \( U \).
+	We say that \( g \) is the \textit{analytic continuation} of \( f \) to \( V \), if it exists.
+\end{theorem}
+\begin{proof}
+	Let \( g_1, g_2 \colon V \to \mathbb C \) be analytic with \( \eval{g_1}_U = \eval{g_2}_U \).
+	Then, \( h = g_1 - g_2 \colon V \to \mathbb C \) is analytic, and \( \eval{h}_U \equiv 0 \).
+	We want to show that \( h \equiv 0 \).
+	Let
+	\[ V_0 = \qty{z \in V \colon \exists r > 0, \eval{h}_{D(z,r)} \equiv 0} \]
+	and
+	\[ V_1 = \qty{z \in V \colon \exists n \geq 0, h^{(n)}(z) \neq 0} \]
+	Let \( z \in V \) and suppose that \( z \not\in V_0 \).
+	Then for any disk \( D = D(z,r) \subset V \), we have \( h \not\equiv 0 \) in \( D \).
+	Hence, by Taylor series, \( h^{(n)}(z) \neq 0 \) for some \( n \), so \( z \in V_1 \).
+	Thus, \( V = V_0 \cup V_1 \).
+	We also know that \( V_0 \cap V_1 = \varnothing \).
+
+	Note that \( V_0 \) is open by definition, and \( V_1 \) is continuity of the derivatives \( h^{(n)} \).
+	By connectedness of the domain \( V \), either \( V_0 \) or \( V_1 \) is empty.
+	Since \( U \subset V_0 \), we must have \( V_1 = \varnothing \).
+	Thus, \( V = V_0 \) so \( h \equiv 0 \).
+\end{proof}
+\begin{remark}
+	The above proof does not rely on holomorphicity but on analyticity.
+	Thus, the theorem holds for real analytic functions.
+	For example, due to \textit{elliptic regularity} (see Part II Analysis of Functions), we can show that harmonic functions are real analytic, and hence have a unique analytic continuation if one exists.
+\end{remark}
+Given a holomorphic function \( f \) defined on a disk, we can compute the largest domain containing the disk to which there exists an analytic continuation of \( f \).
+This is nontrivial to answer in general.
+\begin{example}
+	Let \( f(z) = \sum_{n=0}^\infty z^n \).
+	The radius of convergence of this series is 1, so \( f \) is analytic in \( D(0,1) \), and there is no larger \textit{disk} \( D(0,r) \supset D(0,1) \) such that \( g \) has an analytic continuation to \( D(0,r) \).
+	However, since \( f(z) = \frac{1}{1-z} \) for \( z \in D(0,1) \) and the function \( \frac{1}{1-z} \) is analytic in \( \mathbb C \setminus \qty{1} \), \( f \) indeed has an analytic continuation to the larger domain \( \mathbb C \setminus \qty{1} \).
+\end{example}
+\begin{example}
+	Let \( f(z) = \sum_{n=1}^\infty \frac{(-1)^{n+1} z^n}{n} \).
+	This function also has a radius of convergence of 1, so \( f \) is analytic on \( D(0,1) \).
+	It has analytic continuation \( \Log(1+z) \) to the domain \( \mathbb C \setminus \qty{x \in \mathbb R \colon x \leq -1} \) containing \( D(0,1) \).
+\end{example}
+\begin{example}
+	Let \( f(z) = \sum_{n=0}^\infty z^{n!} \).
+	This has radius of convergence 1, so \( f \) is analytic in \( D(0,1) \).
+	However, \( f \) has no analytic continuation to any larger domain containing \( D(0,1) \).
+	The boundary \( \partial D(0,1) \) is known as the \textit{natural boundary} of \( f \).
+\end{example}
+We can find in fact that for any given domain \( U \subset \mathbb C \), there exists a holomorphic function \( f \colon U \to \mathbb C \) which has no analytic continuation to a domain properly containing \( U \).
+
+The failure of analytic continuation in some cases can be explained as the result of loss of a regularity condition, such as boundedness, continuity, differentiability, or so on.
+However, this is not always the reason, and analytic continuation may remain impossible even when regularity conditions are all satisfied.
+\begin{example}
+	Let \( f(z) = \sum_{n=0}^\infty \exp(-2^{n/2}) z^{2^n} \), which has unit radius of convergence.
+	\( f \), and its derivatives of any order, are uniformly continuous on the closed disk \( \overline{D(0,1)} \).
+	However, we can prove that it has natural boundary \( \partial D(0,1) \), using the following theorem which will not be proven.
+	\begin{theorem}[Ostrowski-Hadamard gap theorem]
+		Let \( (p_n) \) be a sequence of positive integers such that \( p_{n+1} > (1+\delta)p_n \) for all \( n \) and some fixed \( \delta > 0 \).
+		If \( (c_n) \) is a sequence of complex numbers such that \( f(z) = \sum_{n=0}^\infty c_n z^{p_n} \) has unit radius of convergence, then \( \partial D(0,1) \) is the natural boundary of \( f \).
+	\end{theorem}
+\end{example}
+\begin{corollary}[identity principle]
+	Let \( f, g \colon U \to \mathbb C \) be holomorphic functions in a domain \( U \).
+	If the set \( S = \qty{z \in U \colon f(z) = g(z)} \) contains a non-isolated point, then \( f = g \) in \( U \).
+\end{corollary}
+\begin{proof}
+	Let \( h = f - g \), so \( S = \qty{z \in U \colon h(z) = 0} \).
+	Suppose that \( S \) has a non-isolated point \( w \).
+	If there exists \( r > 0 \) such that \( h \not\equiv 0 \) in \( D(w,r) \), then by the principle of isolated zeroes, we can find \( \varepsilon > 0 \) such that \( f(z) \neq 0 \) whenever \( 0 < \abs{z-w} < \varepsilon \).
+	However, this contradicts the assumption that \( w \) is a non-isolated point of \( S \).
+	Thus, \( h \equiv 0 \) on \( D(w,r) \) for all \( D(w,r) \subset U \).
+	Thus, \( h \equiv 0 \) on \( U \), so \( f = g \) on \( U \).
+\end{proof}
+\begin{corollary}[global maximum principle]
+	Let \( U \) be a bounded open set.
+	Suppose \( f \colon \overline U \to \mathbb C \) is a continuous function such that \( f \) is holomorphic in \( U \).
+	Then \( \abs{f} \) attains its maximum on \( \partial U \).
+\end{corollary}
+\begin{proof}
+	\( \overline U \) is compact, and \( \abs{f} \) is continuous on \( \overline U \).
+	Hence, it attains its maximum; there exists \( w \in \overline U \) such that \( \abs{f(w)} = \max_{z \in \overline U} \abs{f(z)} \).
+	If \( w \not\in U \), then \( w \in \partial U \) as required.
+	Otherwise, let \( D = D(w,r) \subset U \).
+	Since \( \abs{f(z)} \leq \abs{f(w)} \) for all \( z \in D \), the local maximum principle implies that \( f \) is constant on \( D \).
+	Hence, by the identity principle, \( f \) is constant on the connected component of \( U \) containing \( D \), which will be written \( U' \).
+	By continuity, \( f \) is constant on the closure of this connected component \( \overline{U'} \).
+	In particular, \( \abs{f(z)} = \abs{f(w)} \) for all \( z \in \partial U' \subseteq \partial U \) as required.
+\end{proof}
+\begin{theorem}[Cauchy's integral formula for derivatives]
+	Let \( f \colon D(a,R) \to \mathbb C \) be holomorphic.
+	For any \( \rho \in (0,R) \) and \( w \in D(a,\rho) \), we have
+	\[ f^{(n)}(w) = \frac{n!}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-w)^{n+1}} \]
+\end{theorem}
+\begin{remark}
+	Directly applying Cauchy's integral formula to \( f^{(n)} \), we find a formula for \( f^{(n)}(w) \) in terms of an integral involving \( f^{(n)} \).
+	The significance of the above theorem is that the integral involves \( f \) alone, and not its derivatives.
+
+	Note that we have already observed the special case \( w = a \).
+	This was proven during the discussion on Taylor series.
+\end{remark}
