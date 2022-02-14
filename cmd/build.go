@@ -54,7 +54,7 @@ func build(compileBook bool, singleThreaded bool) {
 			defer wg.Done()
 
 			// Compile the file.
-			cmd := exec.Command("latexmk", "--shell-escape", "-pdf", "-cd", "-output-directory=build", "-file-line-error", "-halt-on-error", "-interaction=nonstopmode", file.FilePath+"/main.tex")
+			cmd := exec.Command("latexmk", "--shell-escape", "-pdflatex=xelatex", "-pdf", "-cd", "-output-directory=build", "-file-line-error", "-halt-on-error", "-interaction=nonstopmode", file.FilePath+"/main.tex")
 			out, err := cmd.CombinedOutput()
 			if err != nil {
 				errorChan <- string(out)
@@ -74,7 +74,7 @@ func build(compileBook bool, singleThreaded bool) {
 			defer wg.Done()
 
 			// Compile the file.
-			cmd := exec.Command("latexmk", "--shell-escape", "-pdf", "-cd", "-output-directory=build", "-file-line-error", "-halt-on-error", "-interaction=nonstopmode", "book.tex")
+			cmd := exec.Command("latexmk", "--shell-escape", "-pdflatex=xelatex", "-pdf", "-cd", "-output-directory=build", "-file-line-error", "-halt-on-error", "-interaction=nonstopmode", "book.tex")
 			cmd.Start()
 			cmd.Wait()
 			bar.Add(1)
