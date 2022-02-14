@@ -179,7 +179,7 @@ where \( I \) denotes the first fundamental form of \( \sigma \) at zero.
 \subsection{Area}
 Recall that a parallelogram spanned by vectors \( v, w \) has area \( \abs{v \times w} = \inner{v,v}\inner{w,w} - \inner{v,w}^2 \), where \( \times \) denotes the cross product.
 Let \( \sigma \colon V \to U \subseteq \Sigma \) be an allowable parametrisation with \( \sigma(0) = p \), and consider \( \sigma_u, \sigma_v \in T_p \Sigma \).
-The area of the infinitesimal parallelogram spanned by \( \sigma_u, \sigma_v \) is given by
+The square of the area of the infinitesimal parallelogram spanned by \( \sigma_u, \sigma_v \) is given by
 \[ \inner{\sigma_u, \sigma_u}\inner{\sigma_v, \sigma_v} - \inner{\sigma_u, \sigma_v}^2 = EG - F^2 \]
 \begin{definition}
 	Let \( \Sigma \) be a smooth surface in \( \mathbb R^3 \), and \( \sigma \colon V \to U \subseteq \Sigma \) an allowable parametrisation.
@@ -249,5 +249,129 @@ Hence, the orthogonal distance from \( \sigma(u+h,v+\ell) \) to the affine tange
 	Then \( U \) lies in an affine plane.
 \end{lemma}
 \begin{remark}
-	The first fundamental form is a non-degenerate symmetric bilinear form on \( T_p \Sigma \), whereas the second fundamental form may be degenerate, and it is a quadratic form on \( T_p \Sigma \).
+	The first fundamental form is a non-degenerate symmetric bilinear form on \( T_p \Sigma \), whereas the second fundamental form may be degenerate.
+\end{remark}
+\begin{proof}
+	By definition,
+	\[ \inner{n,\sigma_u} = 0 = \inner{n,\sigma_v} \]
+	Hence, by differentiating, we find
+	\[ 0 = \inner{n_u, \sigma_u} + \inner{n, \sigma_{uu}} = \inner{n_v, \sigma_v} + \inner{n, \sigma_{vv}} = \inner{n_v, \sigma_u} + \inner{n,\sigma_{uv}} \]
+	Some of these terms appear in the definition of the second fundamental form:
+	\[ L = \inner{n,\sigma_{uu}} = -\inner{n_u, \sigma_u};\quad M = \inner{n,\sigma_{uv}} = -\inner{n_v, \sigma_u} = -\inner{n_u, \sigma_v};\quad N = \inner{n,\sigma_{vv}} = -\inner{n_v, \sigma_v} \]
+	If the second fundamental form vanishes, then \( n_u \) is orthogonal to \( \sigma_u \), \( \sigma_v \), and \( n \) itself.
+	Since \( \sigma_u, \sigma_v, n \) form a basis for \( \mathbb R^3 \), we have \( n_u = 0 \).
+	Similarly, \( n_v = 0 \), hence \( n \) is constant by the mean value theorem.
+\end{proof}
+\begin{remark}
+	The first fundamental form in parametrisation \( \sigma \) can be written \( (D \sigma)^\transpose (D \sigma) \).
+	We can similarly write the second fundamental form as
+	\[ -(Dn)^\transpose (D\sigma) = \begin{pmatrix}
+		L & M \\
+		M & N
+	\end{pmatrix} = -\begin{pmatrix}
+		n_u \cdot \sigma_u & n_u \cdot \sigma_v \\
+		n_v \cdot \sigma_u & n_v \cdot \sigma_v
+	\end{pmatrix} \]
+	Hence, if \( \sigma \colon V \to \Sigma \) and \( \widetilde \sigma \colon \widetilde V \to \Sigma \) are allowable parametrisations for an open set \( U \subseteq \Sigma \) with transition map \( \varphi \colon \widetilde V \to V \) given by \( \varphi = \sigma^{-1} \circ \widetilde \sigma \), we can use the above expression to find
+	\[ \begin{pmatrix}
+		\widetilde L & \widetilde M \\
+		\widetilde M & \widetilde N
+	\end{pmatrix} = \pm (D\varphi)^\transpose \begin{pmatrix}
+		L & M \\
+		M & N
+	\end{pmatrix} (D\varphi) \]
+	The change in sign depends on whether the transition map preserves or reverses orientation.
+	If the normal vectors agree, there is no negative sign.
+	\[ \eval{n_{\sigma \circ \varphi}}_{(\widetilde u, \widetilde v)} = \pm \eval{n_\sigma}_{\varphi(\widetilde u, \widetilde v)} \]
+	for \( (\widetilde u, \widetilde v) \in \widetilde V \).
+	In particular, if \( \det (D \varphi) < 0 \), we arrive at a negative sign.
+	If we assume that \( V, \widetilde V \) are connected, the determinant \( \det (D \varphi) \) does not change sign.
+\end{remark}
+\begin{example}
+	Consider the cylinder with allowable parametrisation
+	\[ \sigma(u,v) = (a \cos u, a \sin u, v) \]
+	where \( u \in (0,2\pi), v \in \mathbb R \).
+	Note that \( \sigma_{uv} = \sigma_{vv} = 0 \), hence \( M = N = 0 \).
+	We can show that the second fundamental form is given by
+	\[ \begin{pmatrix}
+		-a & 0 \\
+		0 & 0
+	\end{pmatrix};\quad -a \dd{u}^2 \]
+\end{example}
+
+\subsection{Gauss maps}
+\begin{definition}
+	Let \( \Sigma \) be a smooth oriented surface in \( \mathbb R^3 \).
+	The \textit{Gauss map} \( n \colon \Sigma \to \mathbb S^2 \) is the map \( p \mapsto n(p) \), where the normal vector is normalised and hence lies in the unit sphere.
+\end{definition}
+\begin{lemma}
+	The Gauss map is smooth.
+\end{lemma}
+\begin{proof}
+	Since smoothness is a local property, it suffices to check the smoothness of the map on an arbitrary parametrised part of \( \Sigma \).
+	Let \( \sigma \colon V \to U \subseteq \Sigma \) be allowable and compatible with a chosen orientation.
+	Then
+	\[ n(p) = \frac{\sigma_u \times \sigma_v}{\norm{\sigma_u \times \sigma_v}} \]
+	Since \( \sigma \) is allowable, the denominator is non-vanishing.
+	Hence, \( n(p) \) is smooth as required.
+\end{proof}
+\begin{remark}
+	If \( \Sigma = F^{-1}(0) \) for some function \( F \colon \mathbb R^3 \to \mathbb R \) with nonzero derivative \( DF \) at all points \( x \in \Sigma \) (which was required for \( \Sigma \) to be a smooth surface in \( \mathbb R^3 \)), then we can explicitly calculate the Gauss map to be
+	\[ n(p) = \frac{\grad F}{\norm{\grad F}} \]
+	Note that,
+	\[ T_p \Sigma = T_{n(p)} S^2 = (n(p))^\perp \]
+	since the two planes are orthogonal to the same vector.
+	More concretely, if \( v \in T_p \Sigma \) is \( \gamma'(0) \) where \( \gamma \colon (-\varepsilon, \varepsilon) \to \Sigma \), \( \gamma(0) = p \) for a smooth curve \( \gamma \), we can apply the Gauss map to \( \gamma \) and find
+	\[ n \circ \gamma \colon (-\varepsilon, \varepsilon) \to S^2;\quad (n \circ \gamma)(0) = n(p) \]
+	Then, by the chain rule,
+	\[ D\eval{n}_p(v) = (n \circ \gamma)'(0) \in T_{n(p)} S^2 = T_p \Sigma \]
+	Thus, the derivative of the Gauss map is \( D\eval{n}_p \colon T_p \Sigma \to T_p \Sigma \).
+	This can be viewed as an endomorphism of a fixed (with respect to parametrisation choice) two-dimensional subspace of \( \mathbb R^3 \).
+
+	To summarise, let \( \Sigma \) be an oriented smooth surface in \( \mathbb R^3 \).
+	Then,
+	\begin{enumerate}[(i)]
+		\item The first fundamental form is a symmetric bilinear form \( \inner{\wildcard,\wildcard} = I_p \colon T_p \Sigma \times T_p \Sigma \to \mathbb R \), which is the restriction of the Euclidean inner product to this space \( T_p \Sigma \).
+			We can write \( I_p(v,w) \), where \( v, w \in T_p \Sigma \).
+		\item The second fundamental form is also a symmetric bilinear form \( II_p \colon T_p \Sigma \times T_p \Sigma \to \mathbb R \), given by
+			\[ II_p(v,w) = I_p(-D\eval{n}_p(v), w) \]
+			where \( n \) is the Gauss map.
+	\end{enumerate}
+	If we choose an allowable parametrisation (which for the second fundamental form must be correctly oriented) \( \sigma \colon V \to U \subseteq \Sigma \) near \( p \in \Sigma \), and if
+	\[ D \eval{\sigma}_0(\hat v) = v;\quad D \eval{\sigma}_0(\hat w) = w;\quad \sigma(0) = p \]
+	Then,
+	\[ I_p(v,w) = {\hat v}^\transpose \begin{pmatrix}
+		E & F \\
+		F & G
+	\end{pmatrix} \hat v;\quad II_p(v,w) = {\hat v}^\transpose \begin{pmatrix}
+		L & M \\
+		M & N
+	\end{pmatrix} \]
+	where \( E, F, G, L, M, N \) depend on the choice of \( \sigma \).
+	Note that the functions \( I_p \) and \( II_p \) are independent of \( \sigma \).
+\end{remark}
+\begin{lemma}
+	The derivative of the Gauss map is self-adjoint.
+	More precisely, viewing \( D \eval{n}_p \colon T_p \Sigma \to T_p \Sigma \) as an endomorphism over the inner product space with the first fundamental form, this linear map satisfies
+	\[ I_p(D \eval{n}_p(v), w) = I_p(v, D \eval{n}_p(w)) \]
+	for all \( v, w \in T_p \Sigma \).
+\end{lemma}
+\begin{proof}
+	From expressions for local parametrisations, we can show that \( I_p \) and \( II_p \) are symmetric.
+	Hence,
+	\[ I_p(D\eval{n}_p(v),w) = -II_p(v,w) = -II_p(w,v) = I_p(D \eval{n}_p(w),v) = I_p(v,D\eval{n}_p(w)) \]
+\end{proof}
+\begin{remark}
+	The \textit{fundamental theorem of surfaces in \( \mathbb R^3 \)} states that a smooth oriented connected surface in \( \mathbb R^3 \) is determined completely, up to rigid motion, by the two fundamental forms.
+\end{remark}
+
+\subsection{Gauss curvature}
+\begin{definition}
+	Let \( \Sigma \) be a smooth surface in \( \mathbb R^3 \).
+	The \textit{Gauss curvature} \( \kappa \colon \Sigma \to \mathbb R \) of \( \Sigma \) is the function defined by
+	\[ \kappa(p) = \det(D \eval{n}_p) \]
+\end{definition}
+\begin{remark}
+	This is always well-defined, even if \( \Sigma \) is not oriented.
+	This is because in two dimensions, \( \det(-A) = \det(A) \).
 \end{remark}
