@@ -1,0 +1,106 @@
+In this section, let \( R \) be an integral domain.
+
+\subsection{Prime and irreducible elements}
+Recall that an element \( a \in R \) is a unit if it has a multiplicative inverse in \( R \).
+Equivalently, an element \( a \) is a unit if and only if \( (a) = R \).
+Indeed, if \( (a) = R \), then \( 1 \in (a) \) hence there exists a multiple of \( a \) equal to 1.
+We denote the set of units in \( R \) by \( R^\times \).
+\begin{definition}
+    An element \( a \in R \) \textit{divides} \( b \in R \), written \( a \mid b \), if there exists \( c \in R \) such that \( b = ac \).
+    Equivalently, \( (b) \subseteq (a) \).
+
+    Two elements \( a, b \in R \) are \textit{associates} if \( a = bc \) where \( c \) is a unit.
+    Informally, the two elements differ by multiplication by a unit.
+    Equivalently, \( (a) = (b) \).
+\end{definition}
+\begin{definition}
+    An element \( r \in R \) is \textit{irreducible} if \( r \) is not zero or a unit, and \( r = ab \) implies \( a = 1 \) or \( b = 1 \).
+    An element \( r \in R \) is \textit{prime} if \( r \) is not zero or a unit, and \( r \mid ab \) implies \( r \mid a \) or \( r \mid b \).
+\end{definition}
+\begin{remark}
+    These properties depend on the ambient ring \( R \); for instance, 2 is prime and irreducible in \( \mathbb Z \), but neither prime nor irreducible in \( \mathbb Q \).
+    The polynomial \( 2X \) is irreducible in \( \mathbb Q[X] \), but not in \( \mathbb Z[X] \).
+\end{remark}
+\begin{lemma}
+    \( (r) \triangleleft R \) is a prime ideal if and only if \( r = 0 \) or \( r \) is prime.
+\end{lemma}
+\begin{proof}
+    Suppose \( (r) \) is a prime ideal with \( r \neq 0 \).
+    Since prime ideals are proper, \( r \) cannot be a unit.
+    Suppose \( r \mid ab \), or equivalently, \( ab \in (r) \).
+    By the definition of a prime ideal, \( a \in (r) \) or \( b \in (r) \).
+    Hence, \( r \mid a \) or \( r \mid b \).
+    By definition of a prime element, \( r \) is prime.
+
+    Conversely, first note that the zero ideal \( (0) = \qty{0} \) is a prime ideal, since \( R \) is an integral domain.
+    Suppose \( r \) is prime.
+    We know \( (r) \neq R \) since \( r \) is not a unit.
+    If \( ab \in (r) \), then \( r \mid ab \), so \( r \mid a \) or \( r \mid b \), giving \( a \in (r) \) or \( b \in (r) \) as required for \( (r) \) to be a prime ideal.
+\end{proof}
+\begin{lemma}
+    Prime elements are irreducible.
+\end{lemma}
+\begin{proof}
+    Let \( r \) be prime.
+    Then \( r \) is nonzero and not a unit.
+    Suppose \( r = ab \).
+    Then, in particular, \( r \mid ab \), so \( r \mid a \) or \( r \mid b \) by primality.
+    Let \( r \mid a \) without loss of generality.
+    Hence \( a = rc \) for some element \( c \in R \).
+    Then, \( r = ab = rcb \), so \( r(1-cb) = 0 \).
+    Since \( R \) is an integral domain, and \( r \neq 0 \), we have \( cb = 1 \), so \( b \) is a unit.
+\end{proof}
+\begin{example}
+    The converse does not hold in general.
+    Let
+    \[ R = \mathbb Z[\sqrt{-5}] = \qty{a+b\sqrt{-5} \colon a,b \in \mathbb Z} \leq \mathbb C;\quad R \cong \faktor{\mathbb Z[X]}{(X^2 + 5)} \]
+    Since \( R \) is a subring of the field \( \mathbb C \), it is an integral domain.
+    We can define the \textit{norm} \( N \colon R \to \mathbb Z \) by \( N(a+b\sqrt{-5}) = a^2 + 5b^2 \geq 0 \).
+    Note that this norm is multiplicative: \( N(z_1 z_2) = N(z_1) N(z_2) \).
+
+    We claim that the units are exactly \( \pm 1 \).
+    Indeed, if \( r \in R^\times \), then \( rs = 1 \) for some element \( s \in R \).
+    Then, \( N(r) N(s) = N(1) = 1 \), so \( N(r) = N(s) = 1 \).
+    But the only elements \( r \in R \) with \( N(r) = 1 \) are \( r = \pm 1 \).
+
+    We will now show that the element \( 2 \in R \) is irreducible.
+    Suppose \( 2 = rs \) for \( r,s \in R \).
+    By the multiplicative property of \( N \), \( N(2) = 4 = N(r) N(s) \) can only be satisfied by \( N(r), N(s) \in \qty{1,2,4} \).
+    Since \( a^2 + 5b^2 = 2 \) has no integer solutions, \( R \) has no elements of norm 2.
+    Hence, either \( r \) or \( s \) has unit norm and is thus a unit by the above discussion.
+    We can show similarly that \( 3, 1 + \sqrt{-5}, 1 - \sqrt{-5} \) are irreducible, as there exist no elements of norm 3.
+
+    We can now compute directly that \( (1 + \sqrt{-5})(1-\sqrt{-5}) = 6 = 2 \cdot 3 \), hence \( 2 \mid (1 + \sqrt{-5})(1-\sqrt{-5}) \).
+    But \( 2 \nmid (1 + \sqrt{-5}) \) and \( 2 \nmid (1 - \sqrt{-5}) \), which can be checked by taking norms.
+    Hence, 2 is irreducible but not a prime.
+
+    In order to construct this example, we have exhibited two factorisations of 6 into irreducibles: \( (1 + \sqrt{-5})(1-\sqrt{-5}) = 6 = 2 \cdot 3 \).
+    Since \( R^\times = \pm 1 \), these irreducibles in the factorisations are not associates.
+\end{example}
+
+\subsection{Principal ideal domains}
+\begin{definition}
+    An integral domain \( R \) is a \textit{principal ideal domain} if all ideals are principal ideals.
+    In other words, for all ideals \( I \), there exists an element \( r \) such that \( I = (r) \).
+\end{definition}
+\begin{example}
+    \( \mathbb Z \) is a principal ideal domain.
+\end{example}
+\begin{proposition}
+    In a principal ideal domain, all irreducible elements are prime.
+\end{proposition}
+\begin{proof}
+    Let \( r \in R \) be irreducible, and suppose \( r \mid ab \).
+    If \( r \mid a \), the proof is complete, so suppose \( r \nmid a \).
+    Since \( R \) is a principal ideal domain, the ideal \( (a,r) \) is generated by a single element \( d \in R \).
+    In particular, since \( r \in (d) \), we have \( d \mid r \) so \( r = cd \) for some \( c \in R \).
+
+    Since \( r \) is irreducible, either \( c \) or \( d \) is a unit.
+    If \( c \) is a unit, \( (a,r) = (r) \), so in particular \( r \mid a \), which contradicts the assumption that \( r \nmid a \), so \( c \) cannot be a unit.
+    Thus, \( d \) is a unit.
+    In this case, \( (a,r) = R \).
+    By definition of \( (a,r) \), there exist \( s, t \in R \) such that \( 1 = sa + tr \).
+    Then, \( b = sab + trb \).
+    We have \( r \mid sab \) since \( r \mid ab \), and we know \( r \mid trb \).
+    Hence \( r \mid b \) as required.
+\end{proof}
