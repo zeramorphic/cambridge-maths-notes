@@ -373,5 +373,90 @@ Hence, the orthogonal distance from \( \sigma(u+h,v+\ell) \) to the affine tange
 \end{definition}
 \begin{remark}
 	This is always well-defined, even if \( \Sigma \) is not oriented.
-	This is because in two dimensions, \( \det(-A) = \det(A) \).
+	This is because \( \Sigma \) is always locally orientable, and the two normals differ by sign.
+	In two dimensions, \( \det(-A) = \det(A) \), so the determinant is invariant.
+\end{remark}
+We can compute \( \kappa \) directly.
+Let \( \Sigma \) be a smooth surface in \( \mathbb R^3 \), and \( \sigma \) an allowable parametrisation for an open neighbourhood of a point \( p \).
+Recall that
+\[ \Iff_p \colon T_p \Sigma \to T_p \Sigma;\quad (v,w) \mapsto \inner{v,w};\quad \IIff_p \colon T_p \Sigma \to T_p \Sigma;\quad (v,w) \mapsto \Iff_p(-\eval{Dn}_p(v), w) \]
+and \( \eval{Dn}_p \colon T_p \Sigma \to T_p \Sigma \).
+The choice of parametrisation \( \sigma \) for an open neighbourhood \( U \) of \( p \) provides a preferred basis \( \qty{\sigma_u, \sigma_v} \) for \( T_p \Sigma \).
+We can therefore write the fundamental forms as matrices with respect to this basis.
+Let \( A = \Iff_p, B = \IIff_p, \mathbb S = \eval{Dn}_p \) in this basis.
+In matrix form, we can write \( \IIff_p = \Iff_p(-\eval{Dn}_p(v),w) \) as
+\[ B = -\mathbb S^\transpose A \implies \kappa(p) = \det(\mathbb S) = \det(-A^{-1}B) = \frac{LN-M^2}{EG-F^2} \]
+If \( \sigma, \widetilde \sigma \) are allowable and \( \varphi = \sigma^{-1} \circ \sigma \) is a transition map, then
+\[ \widetilde A = (D\varphi)^\transpose A (D \varphi);\quad \widetilde B = \pm (D\varphi)^\transpose B (D \varphi) \]
+Since the sign vanishes under taking determinants, \( \kappa \) is intrinsic and does not depend on the choice of parametrisation.
+\begin{example}
+	For a cylinder \( \qty{x^2 + y^2 = 1} \) the Gauss map \( n \colon \Sigma \to S^2 \) has image which lies in the equator.
+	Its derivative \( \eval{Dn}_p \colon T_p \Sigma \to T_p \Sigma \) has one-dimensional image, since any \( \gamma \colon (-\varepsilon, \varepsilon) \to \Sigma \) has \( n \circ \gamma \subseteq S_1 \).
+	Hence its Gauss curvature is zero.
+\end{example}
+\begin{definition}
+	A smooth surface in \( \mathbb R^3 \) with vanishing Gauss curvature everywhere is \textit{flat}.
+\end{definition}
+\begin{remark}
+	If \( \sigma\colon V \to U \) is allowable, and \( n_\sigma \) is defined to be \( n \circ \sigma \colon V \to S^2 \), then
+	\[ \eval{Dn_\sigma}_0 \colon \sigma_u \mapsto (n_\sigma)_u;\quad \sigma_v \mapsto (n_\sigma)_v \]
+	In particular, \( \kappa(p) = \kappa(\sigma(0)) \) vanishes if and only if \( (n_\sigma)_u \times (n_\sigma)_v = 0 \).
+	Usually, we will write \( n \) to denote \( n_\sigma \).
+	In this case, the condition for flatness is that \( n_u \times n_v = 0 \).
+\end{remark}
+\begin{example}
+	If \( \Sigma \) is the graph of a smooth function \( f \), then on the example sheets we show that
+	\[ \kappa = \frac{f_{uu} f_{vv} - f_{uv}^2}{(1+f_u^2 + f_v^2)^2} \]
+	Hence, the curvature depends on the derivative and the Hessian of \( f \).
+	For instance, let \( f(u,v) = \sqrt{r^2 - u^2 - v^2} \).
+	Here, the graph is a piece of a sphere of radius \( r \).
+	We can find
+	\[ \eval{f_{uu}}_0 = \eval{f_{vv}}_0 = \frac{-1}{r};\quad \eval{f_{uv}}_0 = 0 \implies \kappa(0,0,r) = \frac{1}{r^2} \]
+	Since \( O(3) \) acts transitively on \( S^2 \), and the fundamental forms are preserved by such global isometries, \( \kappa = \frac{1}{r^2} \) everywhere on the sphere of radius \( r \).
+\end{example}
+\begin{example}
+	Let \( \Sigma \) be the smooth surface given by \( \qty{z = x^2 + y^2} \).
+	We claim that, for the inward facing choice of orientation, the image of the Gauss map is the open northern hemisphere.
+	Note that \( \Sigma \) is invariant under rotations about the \( z \) axis.
+	Also, we can show that if \( R \) is a rotation, \( n \circ R = R \circ n \).
+	Therefore, it suffices to consider an arbitrary point with \( y = 0 \).
+
+	Here, \( \Sigma = F^{-1}(0) \) for the function \( F(x,y,z) = z - x^2 - y^2 \), which has nonvanishing derivative at the points \( p \in \Sigma \).
+	Hence, at \( p = (x,0,x^2) \), we have
+	\[ n(p) = \frac{\grad{F}}{\norm{\grad{F}}} = \frac{(-2x,0,1)}{\sqrt{1+4x^2}} \]
+	We can check explicitly that this map has image which an arc lying in the open northern hemisphere.
+\end{example}
+
+\subsection{Elliptic, hyperbolic, and parabolic points}
+\begin{definition}
+	Let \( \Sigma \) be a smooth surface in \( \mathbb R^3 \) and \( p \in \Sigma \).
+	We say that \( p \) is
+	\begin{enumerate}[(i)]
+		\item \textit{elliptic} if \( \kappa(p) > 0 \);
+		\item \textit{hyperbolic} if \( \kappa(p) < 0 \);
+		\item \textit{parabolic} if \( \kappa(p) = 0 \).
+	\end{enumerate}
+\end{definition}
+\begin{lemma}
+	In a sufficiently small neighbourhood of an elliptic point \( p \), \( \Sigma \) lies entirely on one side of \( p + T_p \Sigma \).
+	If \( p \) is hyperbolic, \( \Sigma \) lies on both sides of \( p + T_p \Sigma \).
+\end{lemma}
+\begin{proof}
+	Let \( \sigma \) be a local parametrisation near \( p \).
+	Here,
+	\[ \kappa = \frac{LN-M^2}{EG-F^2} \]
+	The denominator is always positive, since it is the determinant of a positive definite symmetric bilinear form \( \Iff_p \).
+	Hence, the sign of \( \kappa \) depends on the sign of \( LN-M^2 \).
+	If \( w = h \sigma_u + \ell \sigma_v \in T_p \Sigma \), then \( \frac{1}{2} \IIff_p(w,w) \) measures the signed distance from \( \sigma(h,l) \) to \( p + T_p \Sigma \).
+	If \( p \) is elliptic, then \( \IIff_p \) has eigenvalues of the same sign, so it is either positive or negative definite at \( p \).
+	Since \( \IIff_p \) varies smoothly in \( p \), it remains positive or negative definite in a small neighbourhood of \( p \).
+	Hence, in such a neighbourhood, the signed distance has the same sign as required.
+	Conversely, if \( p \) is hyperbolic, \( \IIff_p(w,w) \) takes both signs in a neighbourhood of \( p \).
+\end{proof}
+\begin{remark}
+	We cannot conclude anything about parabolic points \textit{a priori}.
+	For instance, the cylinder is flat (all points are parabolic), and the surface lies on one side of the tangent plane at every point.
+	Consider also
+	\[ \sigma(u,v) = (u,v,u^3 - 3v^2 u) \]
+	which has a parabolic point at the origin, but \( \Sigma \) lies on both sides of the tangent plane in every open neighbourhood of the origin.
 \end{remark}
