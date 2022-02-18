@@ -68,4 +68,81 @@ The \textit{likelihood ratio test} is a test that rejects \( H_0 \) when \( \Lam
 	Suppose \( \alpha^\star \leq \alpha \).
 	Then, we will show \( \beta \leq \beta^\star \).
 	\[ \beta - \beta^\star = \int_{\overline C} f_1(x) \dd{x} - \int_{\overline{C^\star}} f_1(x) \dd{x} \]
+	By cancelling the integrals on the intersection, and using the definition of \( C \),
+	\begin{align*}
+		\beta - \beta^\star &= \int_{\overline C \cap C^\star} f_1(x) \dd{x} - \int_{\overline{C^\star} \cap C} f_1(x) \dd{x} \\
+		&= \int_{\overline C \cap C^\star} \underbrace{\frac{f_1(x)}{f_0(x)}}_{\leq k} f_0(x) \dd{x} - \int_{\overline{C^\star} \cap C} \underbrace{\frac{f_1(x)}{f_0(x)}}_{\geq k} f_0(x) \dd{x} \\
+		&\leq k \qty[ \int_{\overline C \cap C^\star} f_0(x) \dd{x} - \int_{\overline C^\star \cap C} f_0(x) \dd{x} ] \\
+		&= k \qty[ \int_{\overline C \cap C^\star} f_0(x) \dd{x} + \int_{C \cap C^\star} f_0(x) \dd{x} - \int_{C \cap C^\star} f_0(x) \dd{x} - \int_{\overline C^\star \cap C} f_0(x) \dd{x} ] \\
+		&= k \qty[ \int_{\cap C^\star} f_0(x) \dd{x} - \int_{C} f_0(x) \dd{x} ] \\
+		&= k \qty[ \alpha^\star - \alpha ] \\
+		&\leq 0
+	\end{align*}
 \end{proof}
+\begin{example}
+	Let \( X_1, \dots, X_n \sim N(\mu, \sigma_0^2) \) be i.i.d., where \( \sigma_0^2 \) is known and \( \mu \) is an unknown.
+	We wish to find the most powerful test of fixed size \( \alpha \) for the hypotheses \( H_0 \colon \mu = \mu_0 \) and \( H_1 \colon \mu = \mu_1 > \mu_0 \).
+	The likelihood ratio is
+	\begin{align*}
+		\Lambda_x(H_0;H_1) &= \frac{(2\pi \sigma_0^2)^{-n/2} \exp{\frac{-1}{2\sigma_0^2} \sum (x_i - \mu_0)^2}}{(2\pi \sigma_0^2)^{-n/2} \exp{\frac{-1}{2\sigma_0^2} \sum (x_i - \mu_1)^2}} \\
+		&= \exp{\underbrace{\frac{\mu_1 - \mu_0}{\sigma_0^2}}_{\geq 0} n \overline X + \frac{n(\mu_0 - \mu_1)^2}{2\sigma_0^2}}
+	\end{align*}
+	which depends only on \( \overline X \), and is monotonically increasing with respect to the sample mean \( \overline X \).
+	Therefore, this is also monotonically increasing with respect to the statistic
+	\[ Z = \sqrt{n}\frac{\overline X - \mu_0}{\sigma_0} \]
+	Thus, \( \Lambda_x > k \) if and only if \( Z > k' \) for some \( k' \).
+	Hence, the likelihood ratio test has critical region \( \qty{x\colon Z(x) > k'} \) for some \( k' \).
+	It thus suffices to find a critical region of \( Z \) with size \( \alpha \) in order to construct the most powerful test of this size.
+	Under \( H_0 \), \( Z \sim N(0,1) \).
+	Hence, the critical region is given by \( k' = \Phi^{-1}(1-\alpha) \).
+	This is known as a \textit{\( Z \)-test}, since we are using the \( Z \) statistic.
+\end{example}
+
+\subsection{\( p \)-values}
+\begin{definition}
+	Let \( C \) be a critical region of the form \( \qty{ x: T(x) > k } \) for some test statistic \( T \).
+	Let \( x^\star \) denote the observed data.
+	Then, the \textit{\( p \)-value} is
+	\[ \psub{H_0}{T(X) > T(x^\star)) \]
+\end{definition}
+Typically, when reporting the results of a test, we describe the conclusion of the test as well as the \( p \)-value.
+In the example above, suppose \( \mu_0 = 5 \), \( \mu_1 = 6 \), \( \alpha = 0.05 \), and \( x^\star = (5.1, 5.5, 4.9, 5.3) \).
+Here, \( \overline{x^\star} = 5.2 \) and \( z^\star = 0.4 \).
+The likelihood ratio test has critical region \( \qty{x: Z(x) > \Phi^{-1}(0.95) \approx 1.645} \)
+The conclusion of the test here is to not reject \( H_0 \).
+The \( p \)-value is \( 1 - \Phi(z^\star) \approx 0.35 \).
+\begin{proposition}
+	Under the null hypothesis \( H_0 \), the \( p \)-value is a uniform random variable in \( [0,1] \).
+\end{proposition}
+\begin{proof}
+	Let \( F \) be the distribution of the test statistic \( T \), which we will assume for this proof is continuous.
+	Then,
+	\[ \psub{H_0}{p < u} = \psub{H_0}{1 - F(T) < u} = \psub{H_0}{F(T) > 1-u} = \psub{H_0}{T > F^{-1}(1-u)} = 1 - F(F^{-1}(1-u)) = u \]
+\end{proof}
+
+\subsection{Composite hypotheses}
+Let \( X \sim f_X(\wildcard \mid \theta) \) where \( \theta \in \Theta \).
+Let \( H_0 = \theta \in \Theta_0 \subset \Theta \) and \( H_1 = \theta \in \Theta_1 \subseteq \Theta \).
+The probabilities of type I and type II error are now dependent on the precise value of \( \theta \), rather than simply on which hypothesis is taken.
+\begin{definition}
+	The \textit{power function} for a test \( C \) is
+	\[ W(\theta) = \psub{\theta}{X \in C} \]
+	The \textit{size} of a test \( C \) is
+	\[ \alpha = \sup_{\theta \in \Theta_0} W(\theta) \]
+	A test is \textit{uniformly most powerful} if, for any test \( C^\star \) with power function \( W^\star \) and size upper bounded by \( \alpha \), for all \( \theta \in \Theta_1 \) we have \( W(\theta) \geq W^\star(\theta) \).
+	Such tests need not exist.
+	In simple models, many likelihood ratio tests are uniformly most powerful.
+\end{definition}
+\begin{example}[one-sided test for normal location]
+	Let \( X_1, \dots, X_n \sim N(\mu, \sigma_0^2) \) be i.i.d.\ where \( \sigma_0^2 \) is known and \( \mu \) is unknown.
+	Let \( H_0 \colon \mu \leq \mu_0 \) and \( H_1 \colon \mu > \mu_0 \) for some fixed \( \mu_0 \).
+	We claim that the simple hypothesis test given by \( H_0' \colon \mu = \mu_0 \) and \( H_1' \colon \mu = \mu_1 > \mu_0 \) is uniformly most powerful in the composite case.
+	The power function is
+	\begin{align*}
+		W(\mu) &= \psub{\mu}{\frac{\sqrt{n}(\overline X-\mu_0)}{\sigma_0} = Z < z_\alpha = \Phi^{-1}(1-\alpha)} \\
+		&= \psub{\mu}{\frac{\sqrt{n}(\overline X - \mu)}{\sigma_0} > z_\alpha + \frac{\sqrt{n}(\mu_0 - \mu)}{\sigma_0}} \\
+		&= 1 - \Phi(x_\alpha + \sqrt{n} \frac{\mu_0 - \mu}{\sigma_0})
+	\end{align*}
+	The test has size \( \alpha \) since \( \sup_{w \in \Theta_0} W(\mu) = \alpha \).
+	It remains to show that this power function dominates all other power functions of size \( \alpha \) in the alternative space \( \Theta_1 \).
+\end{example}
