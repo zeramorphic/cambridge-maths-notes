@@ -589,7 +589,11 @@ However, this is not always the reason, and analytic continuation may remain imp
 \begin{theorem}[Cauchy's integral formula for derivatives]
 	Let \( f \colon D(a,R) \to \mathbb C \) be holomorphic.
 	For any \( \rho \in (0,R) \) and \( w \in D(a,\rho) \), we have
-	\[ f^{(n)}(w) = \frac{n!}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-w)^{n+1}} \]
+	\[ f^{(k)}(w) = \frac{k!}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-w)^{k+1}} \]
+	Further,
+	\[ \sup_{z \in D(a,R/2)} \abs{f^{(k)}(z)} \leq \frac{C}{R^k} \sup_{z \in D(a,R)} \abs{f(z)} \]
+	where \( C = k! 2^{k+1} \) is a constant which depends only on \( k \).
+	This final result is called a Cauchy estimate for the \( k \)th derivative.
 \end{theorem}
 \begin{remark}
 	Directly applying Cauchy's integral formula to \( f^{(n)} \), we find a formula for \( f^{(n)}(w) \) in terms of an integral involving \( f^{(n)} \).
@@ -597,4 +601,100 @@ However, this is not always the reason, and analytic continuation may remain imp
 
 	Note that we have already observed the special case \( w = a \).
 	This was proven during the discussion on Taylor series.
+\end{remark}
+\begin{proof}
+	If \( k = 0 \), we have the usual Cauchy integral formula.
+	For \( k = 1 \), let \( g(z) = \frac{f(z)}{z-w} \), which is holomorphic in \( D(a,R) \setminus \qty{w} \), with derivative
+	\[ g'(z) = \frac{f'(z)}{z-w} - \frac{f(z)}{(z-w)^2} \]
+	Since \( \partial D(a,\rho) \subset D(a,R) \setminus \qty{w} \), we know that \( \int_{\partial D(a,\rho)} g'(z) \dd{z} = 0 \) by the fundamental theorem of calculus.
+	Applying the usual Cauchy integral formula to \( f' \),
+	\[ f'(w) = \frac{1}{2\pi i}\int_{\partial D(a,rho)} \frac{f'(z) \dd{z}}{z-w} \]
+	Combining these results give the result for \( k = 1 \).
+	For higher derivatives, we can proceed by induction.
+	Let \( k \geq 2 \), and then suppose the fomula holds for this value of \( k \), for all holomorphic functions \( D(a,R) \to \mathbb C \).
+	For any holomorphic function \( f \colon D(a,R) \to \mathbb C \), consider
+	\[ g(z) = \frac{f(z)}{(z-w)^{k+1}} \implies g'(z) = \frac{f'(z)}{(z-w^{k+1})} - \frac{(k+1)f(z)}{(z-w)^{k+2}} \]
+	which is defined in \( D(a,R) \setminus \qty{w} \).
+	Then, since \( \int_{\partial D(a,\rho)} g'(z) \dd{z} = 0 \), we find
+	\[ \int_{\partial D(a,\rho)} \frac{f'(z) \dd{z}}{(z-w)^{k+1}} = (k+1) \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-w)^{k+2}} \]
+	By substituting \( f' \) into the induction hypothesis,
+	\[ f^{(k+1)}(w) = \frac{k!}{2\pi i} \int_{\partial D(a,\rho)} \frac{f'(z) \dd{z}}{(z-w)^{k+1}} \]
+	We can then combine the previous two expressions to find
+	\[ f^{(k+1)}(w) = \frac{(k+1)!}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-w)^{k+2}} \]
+	as required.
+
+	For the second part, let \( \sup_{z \in D(a,R)} \abs{f(z)} < \infty \) without loss of generality.
+	Let \( \rho \in (R/2, R) \).
+	Then, by the first part, for all \( w \in D(a,R/2) \) we have
+	\[ \abs{f^{(k)}(w)} \leq \frac{k!}{2\pi} \qty(\sup_{z \in \partial D(a,\rho)} \frac{\abs{f(z)}}{\abs{z-w}^{k+1}}) \mathrm{length}(\partial D(a,\rho)) \]
+	As \( \abs{z-w} \geq \rho - R/2 \) for all \( z \in \partial D(a,\rho) \) and all \( w \in D(a,R/2) \), this implies
+	\[ \sup_{w \in D(a,R/2)} \abs{f^{(k)}(w)} \leq \frac{k!\rho}{(\rho - R/2)^{k+1}} \sup_{z \in D(a,R)} \abs{f(z)} \]
+	Now, as \( \rho \to R \), the result follows.
+\end{proof}
+
+\subsection{Uniform limits of holomorphic functions}
+\begin{definition}
+	Let \( U \subseteq \mathbb C \) be open, and let \( f_n \colon U \to \mathbb C \) be a sequence of functions.
+	We say that \( (f_n) \) converges \textit{locally uniformly} on \( U \) if, for all \( a \in U \), there exists \( r > 0 \) such that \( (f_n) \) converges uniformly on \( D(a,r) \).
+\end{definition}
+\begin{example}
+	Let \( f_n(z) = z^n \).
+	Then \( f_n \to 0 \) locally uniformly, but not uniformly.
+\end{example}
+\begin{proposition}
+	\( (f_n) \) converges locally uniformly on an open set \( U \subseteq \mathbb C \) if and only if \( (f_n) \) converges uniformly on each compact subset \( K \subseteq U \).
+\end{proposition}
+\begin{proof}
+	The forward implication is simple, due to the definition of compactness.
+	The converse follows since for all \( a \in U \), there exists a compact disk \( \overline{D(a,r)} \subset U \).
+\end{proof}
+\begin{theorem}[uniform limits of holomorphic functions]
+	Let \( U \subseteq \mathbb C \) be open, and \( f_n \colon U \to \mathbb C \) be holomorphic for each \( n \in \mathbb N \).
+	If \( (f_n) \) converges locally uniformly on \( U \) to some function \( f \colon U \to \mathbb C \), then \( f \) is holomorphic.
+
+	Further, \( f_n; \to f' \) locally uniformly on \( U \), and by induction, for each \( k \) we have \( f_n^{(k)} \to f^{(k)} \) locally uniformly on \( U \) as \( n \to \infty \).
+\end{theorem}
+\begin{remark}
+	This is not true for real analytic functions.
+	The \textit{Weierstrass approximation theorem} states the following.
+	Let \( f \colon [a,b] \to \mathbb R \) be a continuous function on a compact interval \( [a,b] \subset \mathbb R \).
+	Then, there exists a sequence of polynomials \( (p_n) \) converging uniformly to \( f \) on \( [a,b] \).
+
+	There exist continuous, nowhere differentiable functions \( f \colon [a,b] \to \mathbb R \).
+	Applying the Weierstrass approximation theorem to such functions \( f \) shows that the uniform limit of real analytic functions need not have a single point of differentiability.
+\end{remark}
+\begin{proof}
+	Let \( a \in U \) and choose \( r > 0 \) such that \( \overline{D(a,r)} \subset U \) and \( f_n \to f \) uniformly on \( \overline{D(a,r)} \).
+	Since the \( f_n \) are continuous, by a result from Analysis and Topology we have that \( f \) is continuous in \( \overline{D(a,r)} \).
+
+	Let \( \gamma \) be a closed curve in \( D(a,r) \).
+	Since \( D(a,r) \) is convex, by the convex Cauchy theorem we have \( \int_\gamma f_n(z) \dd{z} = 0 \).
+	Since \( f_n \to f \) uniformly on \( D(a,r) \), it follows that
+	\[ \int_\gamma f(z) \dd{z} = \lim_{z \to \infty} \int_\gamma f_n(z) \dd{z} = 0 \]
+	By Morera's theorem, \( f \) is holomorphic in \( D(a,r) \).
+	Since \( a \) is arbitrary, \( f \) is holomorphic on all of \( U \).
+
+	Now, let \( a \in U \) be arbtirary and let \( D(a,r) \) be as above.
+	We can apply the Cauchy estimate for \( k = 1 \), \( R = r \), applied to the function \( f_n - f \).
+	This gives
+	\[ \sup_{z \in D(a,r/2)} \abs{f_n'(z) - f'(z)} \leq \frac{4}{r} \sup_{z \in D(a,r)} \abs{f_n(z) - f(z)} \]
+	Since the right hand side converges to zero as \( n \to \infty \), the claim follows.
+\end{proof}
+\begin{remark}
+	Many of the key results proven for holomorphic functions have analogues for real harmonic functions on domains not just in \( \mathbb R^2 \) but in \( \mathbb R^n \) for any \( n \).
+	For instance:
+	\begin{enumerate}[(i)]
+		\item (Liouville's theorem) if \( u \colon \mathbb R^n \to \mathbb R \) is a bounded harmonic function then \( u \) is constant;
+		\item (local maximum principle) if \( u \colon D(a,r) \) is a \( C^2 \) harmonic function on an open ball \( D(a,r) \) in \( \mathbb R^n \), and if \( u(x) \leq u(a) \) for all \( x \in D(a,r) \), then \( u \) is constant;
+		\item (global maximum principle) a harmonic function on a bounded open set \( U \) that is continuous on \( \overline U \) attains its maximum on \( \partial U \);
+		\item harmonic functions are real analytic;
+		\item the unique analytic continuation principle holds;
+		\item uniform limits of harmonic functions are harmonic;
+		\item derivative estimates hold: if \( u \colon D(a,R) \subseteq \mathbb R^n \to \mathbb R \) is harmonic, then
+		\[ \sup_{D(a,R/2)} \abs{D^k u} \leq CR^{-k} \sup_{D(a,R)} \abs{u};\quad C = C(n,k) \]
+	\end{enumerate}
+	For the case \( n = 2 \), the result for harmonic functions can often be deduced directly from the corresponding results for holomorphic functions.
+	For instance, for Liouville's theorem, given that \( u \) is a harmonic function on \( \mathbb R^2 \), we find a function \( v \) such that \( u + iv \) is holomorphic on \( \mathbb C \) (which is always possible in a simply connected domain).
+	Then \( g = e^f \) is holomorphic with \( \abs{g} = e^u \), so if \( u \) is bounded then \( g \) is bounded.
+	By Liouville's theorem for holomorphic functions, \( g \) and hence \( f \) is constant.
 \end{remark}

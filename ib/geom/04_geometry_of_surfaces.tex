@@ -456,7 +456,79 @@ Since the sign vanishes under taking determinants, \( \kappa \) is intrinsic and
 \begin{remark}
 	We cannot conclude anything about parabolic points \textit{a priori}.
 	For instance, the cylinder is flat (all points are parabolic), and the surface lies on one side of the tangent plane at every point.
-	Consider also
+	Consider also the \textit{monkey saddle} defined by
 	\[ \sigma(u,v) = (u,v,u^3 - 3v^2 u) \]
 	which has a parabolic point at the origin, but \( \Sigma \) lies on both sides of the tangent plane in every open neighbourhood of the origin.
+	At \( p = \sigma(0,0) \), the Gauss curvature vanishes, but the surface lies locally on both sies of the tangent plane.
 \end{remark}
+\begin{proposition}
+	Let \( \Sigma \) be a compact smooth surface in \( \mathbb R^3 \).
+	Then \( \Sigma \) has an elliptic point.
+\end{proposition}
+\begin{proof}
+	Since \( \Sigma \) is compact, it is closed and bounded as a subset of \( \mathbb R^3 \).
+	Hence, for \( R' \) sufficiently large, \( \Sigma \) lies entirely within \( \overline{B(0,R')} \).
+	Let \( R \) be the minimal such \( R' \).
+	Up to a global isometry of \( \mathbb R^3 \), there exists a point \( p = (0,0,R) \in \Sigma \) on the sphere \( S^2(R) \) of radius \( R \).
+	Here, \( T_p \Sigma = T_p S^2 \).
+	Hence, locally near \( p \), we can view \( \Sigma \) as the graph of a smooth function \( f \colon V \to \mathbb R^3 \) on the \( x, y \) coordinates with the property that \( f - \sqrt{R^2 - u^2 - v^2} \leq 0 \).
+	This expresses the fact that \( \Sigma \) lies underneath the sphere of radius \( R \).
+
+	We can now consider the Taylor series of \( f \).
+	Note that \( (0,0) \) is a maximum point of \( f \), hence \( f_u = f_v = 0 \) at \( 0 \).
+	Thus, for sufficiently small \( u,v \),
+	\[ \frac{1}{2} \qty(f_{uu} u^2 + 2f_{uv} uv + f_{vv} v^2) + \frac{1}{2R} (u^2 + v^2) \leq 0 \]
+	Hence, the second fundamental form is locally negative definite near \( (0,0) \).
+	Hence, \( \kappa(p) > 0 \), so \( p \) is elliptic as required.
+	In particular, the curvature at this point is greater than that of the sphere.
+\end{proof}
+\begin{theorem}
+	Let \( \Sigma \) be a smooth surface in \( \mathbb R^3 \), and let \( p \in \Sigma \) such that \( \kappa(p) \neq 0 \).
+	Let \( U \) be an open neighbourhood of \( p \), and a decreasing sequence \( A_i \subseteq U \) of neighbourhoods that `shrink to \( p \)', in the sense that for all \( \varepsilon > 0 \), \( A_i \subseteq B(p,\varepsilon) \) for sufficiently large \( i \).
+	Then,
+	\[ \abs{\kappa(p)} = \lim_{i \to \infty} \frac{\mathrm{area}_{S^2} (n(A_i))}{\mathrm{area}_{\Sigma} (A_i)} \]
+	In other words, the Gauss curvature is an infinitesimal measure of how much the Gauss map \( n \) distorts area.
+\end{theorem}
+\begin{remark}
+	Around hyperbolic points, the signed area of \( n(A_i) \) is reversed, since curves \( \gamma \) reverse direction under \( n \).
+	We can alternatively define the \textit{signed area} of \( n(A_i) \) to be the area of \( n(A_i) \) if \( \kappa > 0 \) and the negation of this area if \( \kappa < 0 \).
+	The above theorem holds when \( \kappa = 0 \), but this will not be proven.
+\end{remark}
+\begin{proof}
+	Let \( \sigma \) be an allowable parametrisation near \( p \in \Sigma \).
+	Using \( \sigma \), we can define the open sets \( \sigma^{-1}(A_i) = V_i \subset V \).
+	Since the \( A_i \) shrink to \( p \), we have that \( \bigcap V_i = \qty{(0,0)} \).
+	We have
+	\[ \mathrm{area}_\Sigma(A_i) = \int_{V_1} \sqrt{EG - F^2} \dd{u} \dd{v} = \int_{V_i} \norm{\sigma_u \times \sigma_v} \dd{u}\dd{v} \]
+	Recall from the chain rule applied to \( n \circ \gamma \) that
+	\[ \eval{Dn}_{(u,v)}(\sigma_u) = n_u;\quad \eval{Dn}_{(u,v)}(\sigma_v) = n_v \]
+	Since \( \kappa(p) = \kappa(\sigma(0,0)) \neq 0 \), \( n \circ \sigma \colon V \to S^2 \) has derivative of rank 2.
+	This defines an allowable parametrisation for an open neighbourhood of \( n((0,0)) \) by the inverse function theorem.
+	Therefore,
+	\[ \mathrm{area}_{S^2}(n(A_i)) = \int_{V_i} \norm{n_u \times n_v} \dd{u} \dd{v} \]
+	for sufficiently large \( i \) such that \( \sigma^{-1} A_i = V_i \) lies in the open neighbourhood of \( (0,0) \) where \( n \circ \sigma \) is a diffeomorphism.
+	\begin{align*}
+		\int_{V_i} \norm{n_u \times n_v} \dd{u} \dd{v} &= \int_{V_i} \norm{Dn(\sigma_u) \times Dn(\sigma_v)} \dd{u} \dd{v} \\
+		&= \int_{V_i} \abs{\det (D\sigma)} \cdot \norm{\sigma_u \times \sigma_v} \dd{u} \dd{v} \\
+		&= \int_{V_i} \abs{\kappa(u,v)} \cdot \norm{\sigma_u \times \sigma_v} \dd{u}\dd{v}
+	\end{align*}
+	As \( \kappa \) is continuous, given \( \varepsilon > 0 \) there exists \( \delta > 0 \) such that \( \abs{\kappa(u,v) - \kappa(0,0)} < \varepsilon \) for all \( (u,v) \in B((0,0), \delta) \).
+	In particular, for sufficiently large \( i \), we have
+	\[ \abs{\kappa(u,v)} \in \qty(\abs{\kappa(p)}-\varepsilon, \abs{\kappa(p)}+\varepsilon) \]
+	Hence,
+	\[ \qty(\abs{\kappa(p)}-\varepsilon) \int_{V_i} \norm{\sigma_u \times \sigma_v} \dd{u}\dd{v} \leq \int_{V_i} \abs{\kappa(u,v)} \cdot \norm{\sigma_u \times \sigma_v} \dd{u}\dd{v} \leq \qty(\abs{\kappa(p)}+\varepsilon) \int_{V_i} \norm{\sigma_u \times \sigma_v} \dd{u}\dd{v} \]
+	In other words,
+	\[ \abs{\kappa(p)}-\varepsilon \leq \frac{\mathrm{area}_{S^2} (n(A_i))}{\mathrm{area}_{\Sigma} (A_i)} \leq \abs{\kappa(p)} + \varepsilon \]
+	Letting \( i \to \infty \) gives the result as required.
+\end{proof}
+\begin{theorem}[theorema egregium]
+	The Gauss curvature of a smooth surface in \( \mathbb R^3 \) is isometry invariant.
+	In other words, if \( f \colon \Sigma_1 \to \Sigma_2 \) is a diffeomorphism of surfaces in \( \mathbb R^3 \) which is an isometry, then \( \kappa(p) = \kappa(f(p)) \) for all \( p \).
+\end{theorem}
+\begin{remark}
+	Isometries rely on only the first fundamental form, but Gauss curvature is defined using both fundamental forms.
+\end{remark}
+\begin{theorem}[Gauss-Bonnet theorem]
+	If \( \Sigma \) is a compact smooth surface in \( \mathbb R^3 \), then
+	\[ \int_\Sigma \kappa \dd{A_\Sigma} = 2 \pi \chi(\Sigma) \]
+\end{theorem}
