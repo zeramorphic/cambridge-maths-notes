@@ -129,14 +129,14 @@ The probabilities of type I and type II error are now dependent on the precise v
 	\[ W(\theta) = \psub{\theta}{X \in C} \]
 	The \textit{size} of a test \( C \) is
 	\[ \alpha = \sup_{\theta \in \Theta_0} W(\theta) \]
-	A test is \textit{uniformly most powerful} if, for any test \( C^\star \) with power function \( W^\star \) and size upper bounded by \( \alpha \), for all \( \theta \in \Theta_1 \) we have \( W(\theta) \geq W^\star(\theta) \).
+	A test is \textit{uniformly most powerful} of size \( \alpha \) if, for any test \( C^\star \) with power function \( W^\star \) and size upper bounded by \( \alpha \), for all \( \theta \in \Theta_1 \) we have \( W(\theta) \geq W^\star(\theta) \).
 	Such tests need not exist.
 	In simple models, many likelihood ratio tests are uniformly most powerful.
 \end{definition}
 \begin{example}[one-sided test for normal location]
 	Let \( X_1, \dots, X_n \sim N(\mu, \sigma_0^2) \) be i.i.d.\ where \( \sigma_0^2 \) is known and \( \mu \) is unknown.
 	Let \( H_0 \colon \mu \leq \mu_0 \) and \( H_1 \colon \mu > \mu_0 \) for some fixed \( \mu_0 \).
-	We claim that the simple hypothesis test given by \( H_0' \colon \mu = \mu_0 \) and \( H_1' \colon \mu = \mu_1 > \mu_0 \) is uniformly most powerful in the composite case.
+	We claim that the simple hypothesis test given by \( H_0' \colon \mu = \mu_0 \) and \( H_1' \colon \mu = \mu_1 > \mu_0 \) is uniformly most powerful for \( H_0 \) and \( H_1 \).
 	The power function is
 	\begin{align*}
 		W(\mu) &= \psub{\mu}{\frac{\sqrt{n}(\overline X-\mu_0)}{\sigma_0} = Z < z_\alpha = \Phi^{-1}(1-\alpha)} \\
@@ -144,5 +144,86 @@ The probabilities of type I and type II error are now dependent on the precise v
 		&= 1 - \Phi\qty(x_\alpha + \sqrt{n} \frac{\mu_0 - \mu}{\sigma_0})
 	\end{align*}
 	The test has size \( \alpha \) since \( \sup_{w \in \Theta_0} W(\mu) = \alpha \).
-	It remains to show that this power function dominates all other power functions of size \( \alpha \) in the alternative space \( \Theta_1 \).
+	It remains to show that this power function dominates all other power functions \( W^\star \) of size \( \alpha \) in the alternative space \( \Theta_1 \).
+	First, observe that the critical region depends only on \( \mu_0 \), and not on \( \mu_1 \).
+	In particular, for any \( \mu_1 > \mu_0 \), we have that the critical region \( C \) is the likelihood ratio test for the simple hypothesis test \( H_0' \colon \mu = \mu_0 \) and \( H_1' \colon \mu = \mu_1 \).
+	We can also see \( C^\star \) as a test of \( H_0' \) versus \( H_1' \), and for these simple hypotheses, \( C^\star \) has size
+	\[ W^\star(\mu_0) \leq \sup_{\mu < \mu_0} W^\star(\mu) \leq \alpha \]
+	By the Neyman-Pearson lemma, \( C \) has power no smaller than \( C^\star \) for \( H_0' \) against \( H_1' \):
+	\[ W(\mu_1) \geq W^\star(\mu_1) \]
+	Since this is true for all \( \mu_1 > \mu_0 \), the result holds, and the test \( C \) satisfies the property for being uniformly most powerful.
 \end{example}
+
+\subsection{Generalised likelihood ratio test}
+\begin{definition}
+	Suppose we have \textit{nested hypotheses}, i.e.\ \( H_0 \colon \theta \in \Theta_0 \) and \( H_1 \colon \theta \in \Theta_1 \), where \( \Theta_0 \subset \Theta_1 \).
+	The \textit{generalised likelihood ratio} is given by
+	\[ \Lambda_x(H_0; H_1) = \frac{\sup_{\theta \in \Theta_1} f_X(x \mid \theta)}{\sup_{\theta \in \Theta_0} f_X(x \mid \theta)} \]
+	Large values indicate a better fit under the alternative hypothesis.
+	The \textit{generalised likelihood ratio test} rejects the null hypothesis when \( \Lambda_x \) is sufficiently large.
+\end{definition}
+\begin{example}[two-sided test for normal location]
+	Let \( X_1, \dots, X_n \sim N(\mu, \sigma_0^2) \) be i.i.d.\ where \( \sigma_0^2 \) is known and \( \mu \) is unknown.
+	Let \( H_0 \colon \mu = \mu_0 \) and \( H_1 \colon \mu \in \mathbb R \) for some fixed \( \mu_0 \).
+	In this model, the generalised likelihood ratio is
+	\begin{align*}
+		\Lambda_x(H_0; H_1) &= \frac{(2 \pi \sigma_0^2)^{n/2} \exp{\frac{-1}{\sigma_0^2} \Sigma_{i=1}^n (x_i - \overline X)^2}}{(2 \pi \sigma_0^2)^{n/2} \exp{\frac{-1}{\sigma_0^2} \Sigma_{i=1}^n (x_i - \mu_0)^2}} \\
+		2\log \Lambda_x &= \frac{n}{\sigma_0^2}(\overline X - \mu_0)^2
+	\end{align*}
+	Under \( H_0 \), \( \sqrt{n} \frac{\overline X - \mu_0}{\sigma_0} \sim N(0,1) \).
+	Hence, \( 2 \log \Lambda_x \sim \chi_1^2 \).
+	Therefore, the critical region of this generalised likelihood ratio test is
+	\[ C = \qty{x \colon \frac{n}{\sigma_0^2}(\overline X - \mu_0)^2 > \chi_1^2(\alpha)} \]
+	where \( \chi_1^2(\alpha) \) is the upper \( \alpha \) point of \( \chi_1^2 \).
+	This is called a \textit{two-sided test} since there are two tails on the critical region, plotting with respect to \( \sqrt{n} \frac{\overline X - \mu_0}{\sigma_0} \).
+\end{example}
+
+\subsection{Wilks' theorem}
+\begin{definition}
+	The \textit{dimension} of a hypothesis \( H_0 \colon \theta \in \Theta_0 \) is the number of `free parameters' in this space.
+\end{definition}
+\begin{example}
+	If \( \Theta_0 = \qty{\theta \in \mathbb R^k \colon \theta_1 = \dots = \theta_p = 0 } \), then the dimension of \( H_0 \) is \( k - p \).
+
+	Let \( A \in \mathbb R^{p \times k} \) be a \( p \times k \) matrix with linearly independent rows.
+	Let \( b \in \mathbb R^p \) for \( p < k \), then we define \( \Theta_0 = \qty{\theta \in \mathbb R^k \colon A\theta = b} \).
+	Then the dimension of \( \theta \) is \( k - p \).
+
+	Let \( \Theta_0 \) be a Riemannian manifold.
+	We use differential geometry to deduce the dimensionality of such a manifold.
+\end{example}
+\begin{theorem}
+	Suppose \( \Theta_0 \subset \Theta_1 \), and \( \dim \Theta_1 - \dim \Theta_0 = p \).
+	Let \( X = (X_1, \dots, X_n) \) be i.i.d.\ random variables under \( f_x(\wildcard\mid\theta) \) where \( \theta = \Theta_0^\circ \).
+	Then, under some regularity conditions, as \( n \to \infty \) we have
+	\[ 2\log\Lambda_x \sim \chi_p^2 \]
+	More precisely, for all \( \ell \in \mathbb R_+ \),
+	\[ \lim_{n \to \infty} \psub{\theta}{2\log \Lambda_x \leq \ell} = \prob{\Xi \leq \ell};\quad \Xi \sim \chi_p^2 \]
+\end{theorem}
+\begin{remark}
+	If \( n \) is large, this theorem allows us to implement a generalised likelihood ratio test even if we cannot find the exact distribution of \( 2 \log \Lambda_x \).
+	Frequentist guarantees obtained from such a test will be approximate.
+\end{remark}
+\begin{example}
+	In the two-sided test for normal location, \( \dim \Theta_1 = 1 \) and \( \dim \Theta_0 = 0 \) hence the difference in dimensions is 1.
+	Then, Wilks' theorem implies that \( 2 \log \Lambda_x \) is approximately distributed according to \( \chi_1^2 \), although the result is exact in this particular case.
+\end{example}
+
+\subsection{Goodness of fit}
+Let \( X_1, \dots, X_n \) be i.i.d.\ samples taking values in \( \qty{1, \dots, k} \).
+Let \( p_i = \prob{X_1 = i} \), and let \( N_i \) be the number of samples equal to \( i \), so \( \sum_i p_i = 1\) and \( \sum_i N_i = n \).
+The parameters here are \( p = (p_1, \dots, p_k) \), which has \( k - 1 \) dimensions.
+A \textit{goodness of fit test} has a null hypothesis of the form \( H_0 \colon p_i = \widetilde p_i \) for all \( i \), for a fixed \( \widetilde p = (\widetilde p_1, \dots, \widetilde p_k) \).
+The alternative hypothesis \( H_1 \) does not constrain \( p \).
+
+The model is \( (N_1, \dots, N_k) \sim \mathrm{Multi}(n; p_1, \dots, p_k) \).
+The likelihood function is
+\[ L(p) \propto p_1^{N_1} \cdots p_k^{N_k} \implies \ell(p) = \text{constant} + \sum_i N_i \log p_i \]
+The generalised likelihood ratio is
+\[ 2 \log \Lambda_x = 2\qty(\sup_{p \in \Theta_1} \ell(p) - \sup_{p \in \Theta_0} \ell(p)) = 2\qty(\ell(\hat p) - \ell(\widetilde p)) \]
+where \( \hat p \) is the maximum likelihood estimator under \( H_1 \).
+To find \( \hat p \), we typically use the method of Lagrange multipliers.
+\[ \mathcal L(p, \lambda) = \sum_i N_i \log p_i - \lambda \qty(\sum p_i - 1) \]
+We can compute that
+\[ \hat p_i = \frac{N_i}{n} \]
+Thus,

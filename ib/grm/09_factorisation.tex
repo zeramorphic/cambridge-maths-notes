@@ -118,7 +118,7 @@ We denote the set of units in \( R \) by \( R^\times \).
 	But if \( a \) is a unit, we have \( J = R \).
 	If \( b \) is a unit, then \( a \) and \( r \) are associates so they generate the same ideal.
 	Hence, \( (r) \) is maximal.
-	
+
 	Conversely, suppose \( (r) \) is maximal.
 	Note that \( r \) is not a unit, since \( (r) \neq R \).
 	Suppose \( r = ab \).
@@ -210,3 +210,124 @@ We denote the set of units in \( R \) by \( R^\times \).
 	So we have constructed a field of order 8.
 	This technique will be explored further in Part II Galois Theory.
 \end{example}
+\begin{example}
+	The ring \( \mathbb Z[X] \) is not a principal ideal domain.
+	Consider the ideal \( I = (2, X) \triangleleft \mathbb Z[X] \).
+	We can write
+	\[ I = \qty{2f_1(X) + Xf_2(X) \colon f_1, f_2 \in \mathbb Z[X]} = \qty{f \in \mathbb Z[X] \colon 2\mid f(0)} \]
+	Suppose \( I = (f) \) for some element \( f \).
+	Since \( 2 \in I \), we must have \( 2 = fg \) for some polynomial \( g \).
+	By comparing degrees, the degrees of \( f \) and \( g \) must be zero, since \( \mathbb Z \) is an integral domain.
+	Hence \( f \) is an integer, so \( f = \pm 1 \) or \( f = \pm 2 \).
+	If \( f = \pm 1 \) then \( I = \mathbb Z[X] \), and if \( f = \pm 2 \) then \( I = 2\mathbb Z[X] \).
+	These both lead to contradictions, since \( 1 \not\in I \) and \( X \in I \).
+\end{example}
+
+\subsection{Unique factorisation domains}
+\begin{definition}
+	An integral domain is a \textit{unique factorisation domain} if
+	\begin{enumerate}[(i)]
+		\item every nonzero, non-unit element is a product of irreducibles;
+		\item if \( p_1 \cdots p_m = q_1 \cdots q_n \) where \( p_i, q_i \) are irreducible, then \( m = n \), and \( p_i, q_i \) are associates, up to reordering.
+	\end{enumerate}
+\end{definition}
+\begin{proposition}
+	Let \( R \) be an integral satisfying property (i) above (every nonzero, non-unit element is a product of irreducibles).
+	Then \( R \) is a unique factorisation domain if and only if every irreducible is prime.
+\end{proposition}
+\begin{proof}
+	Suppose \( R \) is a unique factorisation domain.
+	Let \( p \in R \) be irreducible, and \( p \mid ab \).
+	Then \( ab = pc \) for some \( c \in R \).
+	Writing \( a, b, c \) as products of irreducibles, it follows from uniqueness of factorisation that \( p \mid a \) or \( p \mid b \).
+	Hence \( p \) is prime.
+
+	Conversely, suppose every irreducible is prime.
+	Suppose \( p_1 \cdots p_m = q_1 \cdots q_n \) where \( p_i, q_i \) are irreducible and hence prime.
+	Since \( p_1 \mid q_1 \cdots q_n \), we have \( p_1 \mid q_i \) for some \( i \).
+	After reordering, we may assume that \( p_1 \mid q_1 \), so \( p_1 u = q_1 \) for \( u \in R \).
+	Since \( q_1 \) is irreducible, \( u \) is a unit since \( p_1 \) cannot be a unit.
+	Hence \( p_1, q_1 \) are associates.
+	Cancelling \( p_1 \) from both sides, we find \( p_2 \cdots p_m = u q_2 \cdots q_n \).
+	We may absorb this unit into \( q_2 \) without loss of generality.
+	Inductively, all \( p_i \) and \( q_i \) are associates, for each \( i \).
+	Hence \( R \) is a unique factorisation domain.
+\end{proof}
+\begin{definition}
+	Let \( R \) be a ring.
+	Suppose, for all nested sequences of ideals in \( R \) written \( I_1 \subseteq I_2 \subseteq \cdots \), there exists \( N \) such that \( I_n = I_{n+1} \) for all \( n \geq N \).
+	Then, we say that \( R \) is a \textit{Noetherian} ring.
+\end{definition}
+This condition is known as the `ascending chain condition'.
+In other words, we cannot infinitely nest distinct ideals in a Noetherian ring.
+\begin{lemma}
+	Principal ideal domains are Noetherian rings.
+\end{lemma}
+\begin{proof}
+	Let \( I = \bigcup_{i=1}^\infty I_i \).
+	Then, \( I \) is an ideal in \( R \).
+	Since \( R \) is a principal ideal domain, \( I = (a) \) for some \( a \in R \).
+	Then \( a \in \bigcup_{i=i}^\infty I_i \), so in particular \( a \in I_N \) for some \( N \).
+	But then for all \( n \geq N \), \( (a) \subseteq I_N \subseteq I_{n} \subseteq I_{n+1} \subseteq I = (a) \).
+	So all inclusions are equalities, so in particular \( I_n = I_{n+1} \).
+\end{proof}
+\begin{theorem}
+	If \( R \) is a principal ideal domain, then it is a unique factorisation domain.
+\end{theorem}
+\begin{proof}
+	First, we verify property (i), that every nonzero, non-unit element is a product of irreducibles.
+	Let \( x \neq 0 \) be an element of \( R \) which is not a unit.
+	Suppose \( x \) does not factor as a product of irreducibles.
+	This implies in particular that \( x \) is not irreducible.
+	By definition, we can write \( x \) as the product of two elements \( x_1, y_1 \) where \( x_1, y_1 \) are not units.
+	Then either \( x_1 \) or \( y_1 \) is not a product of irreducibles, so without loss of generality we can suppose \( x_1 \) is not a product of irreducibles.
+	We have \( (x) \subset (x_1) \).
+	This inclusion is strict, since \( y_1 \) is not a unit.
+	Now, we can write \( x_1 = x_2 y_2 \) where \( x_2 \) is not a unit, and inductively we can create \( (x) \subset (x_1) \subset (x_2) \subset \cdots \).
+	But \( R \) is Noetherian, so this is a contradiction.
+	So every nonzero, non-unit element is indeed a product of irreducibles.
+
+	By the proposition above, it suffices to show that every irreducible is prime.
+	This has already been shown previously.
+	Hence \( R \) is a unique factorisation domain.
+\end{proof}
+\begin{example}
+	We have shown that all Euclidean domains are principal ideal domains, and all principal ideal domains are unique factorisation domains, and all unique factorisation domains are integral domains.
+	We now provide examples for counterexamples to the converses.
+
+	The ring \( \faktor{\mathbb Z}{4\mathbb Z} \) is not an integral domain since \( 2 \) is a zero divisor.
+
+	The ring \( \mathbb Z[\sqrt{-5}] \leq \mathbb C \) is integral, but not a unique factorisation domain.
+
+	The ring \( \mathbb Z[X] \) has been shown to be not a principal ideal domain. We can show using later results that this is a unique factorisation domain.
+
+	We can construct the ring \( \mathbb Z\qty[\frac{1+\sqrt{-19}}{2}] \), which can be shown to be not a Euclidean domain, but is a principal ideal domain.
+	This proof is beyond the scope of Part IB Groups, Rings and Modules, but will be proved in Part II Number Fields.
+
+	Finally, \( \mathbb Z[i] \) is a Euclidean domain, and is hence a principal ideal domain, a unqiue factorisation domain, and an integral domain.
+\end{example}
+\begin{definition}
+	Let \( R \) be an integral domain.
+	\begin{enumerate}[(i)]
+		\item \( d \in R \) is a \textit{common divisor} of \( a_1, \dots, a_n \in R \) if \( d \mid a_i \) for all \( i \);
+		\item \( d \in R \) is a \textit{greatest common divisor} of \( a_1, \dots, a_n \) if for all common divisors \( d' \), we have \( d' \mid d \);
+		\item \( m \in R \) is a \textit{common multiple} of \( a_1, \dots, a_n \) if \( a_1 \mid m \) for all \( i \);
+		\item \( m \in R \) is a \textit{least common multiple} of \( a_1, \dots, a_n \) if for all common multiples \( m' \), we have \( m \mid m' \).
+	\end{enumerate}
+\end{definition}
+\begin{remark}
+	Greatest common divisors and lowest common multiples are unique up to associates, if they exist.
+\end{remark}
+\begin{proposition}
+	In unique factorisation domains, greatest common divisors and least common multiples always exist.
+\end{proposition}
+\begin{proof}
+	Let \( a_i = u_i \prod_j p_j^{n_{ij}} \) where the \( p_j \) are irreducible and pairwise non-associate, \( u_i \) is a unit, and \( n_{ij} \in \mathbb Z_{\geq 0} \).
+	We claim that \( d = \prod_j p_j^{m_j} \), where \( m_j = \min_{1 \leq i \leq n} n_{ij} \), is the greatest common divisor.
+	Certainly \( d \) is a common divisor.
+	If \( d' \) is a common divisor, then \( d' \) can be written as a product of irreducibles, which will be denoted \( d' = w \prod_j p_i^{t_j} \).
+	We can see that \( t_j \leq n_{ij} \) for all \( i \), so in particular, \( t_j \leq m_j \).
+	This implies \( d' \mid d \).
+	Hence \( d \) is a greatest common divisor.
+	The argument for the least common multiple is similar, replacing minima with maxima.
+\end{proof}
