@@ -1,0 +1,104 @@
+\subsection{Definitions}
+Recall that we defined, for a smooth curve \( \gamma \colon [a,b] \to \mathbb R^3 \),
+\[ \mathrm{length}(\gamma) = \int_a^b \norm{\gamma'(t)} \dd{t} \]
+\begin{definition}
+	The \textit{energy} of \( \gamma \) is given by
+	\[ E(\gamma) = \int_a^b \norm{\gamma'(t)}^2 \dd{t} \]
+\end{definition}
+\begin{definition}
+	Let \( \gamma \colon [a,b] \to \Sigma \), where \( \Sigma \) is a smooth surface in \( \mathbb R^3 \).
+	A \textit{one-parameter variation} (with fixed endpoints) of \( \gamma \) is a smooth map \( \Gamma \colon (-\varepsilon, \varepsilon) \times [a,b] \to \Sigma \), such that if \( \gamma_s = \Gamma(s,\wildcard) \), then
+	\( \gamma_0(t) = \gamma(t) \), and \( \gamma_s(a) \) and \( \gamma_s(b) \) are independent of \( s \).
+\end{definition}
+\begin{definition}
+	A smooth curve \( \gamma \colon [a,b] \to \Sigma \) is a \textit{geodesic} if, for every variation \( (\gamma_s) \) of \( \gamma \) with fixed endpoints as above, we have \( \eval{\dv{s}}_{s=0} E(\gamma_s) = 0 \).
+	Alternatively, \( \gamma \) is a critical point of the energy functional on curves from \( \gamma(a) \) to \( \gamma(b) \).
+\end{definition}
+
+\subsection{The geodesic equations}
+Let \( \gamma \) have image contained within the image of an allowable parametrisation \( \sigma \colon V \to U \).
+Then, for sufficiently small \( s \), we can write \( \gamma_s(t) = \sigma(u(s,t), v(s,t)) \).
+Suppose that the first fundamental form, with respect to \( \sigma \), is
+\[ E \dd{u}^2 + 2F \dd{u} \dd{v} + G \dd{v}^2 \]
+Let
+\[ R = E \dot u^2 + 2F \dot u \dot v + G \dot v^2 \]
+By definition,
+\[ E(\gamma_s) = \int_a^b R \dd{t} \]
+where \( R \) depends on \( s \).
+Hence,
+\begin{align*}
+	\pdv{R}{s} &= \qty(E_u \dot u^2 + 2F_u \dot u \dot v + G_u \dot v^2) \pdv{u}{s} + \qty(E_v \dot v^2 + 2F_v \dot u \dot v + G_v \dot v^2) \pdv{v}{s} \\
+	&+ 2 (E \dot u + F \dot v) \pdv{\dot u}{s} + 2(F \dot u + G \dot v) \pdv{\dot v}{s}
+\end{align*}
+This gives
+\[ \dv{s} E(\gamma_s) = \int_a^b \pdv{R}{s} \dd{t} \]
+We can integrate by parts.
+Note that \( \pdv{u}{s} \) and \( \pdv{v}{s} \) vanish at \( a,b \).
+Hence,
+\[ \eval{dv{s}}_{s=0} E(\gamma_s) = \int_a^b \qty(A \pdv{u}{s} + B \pdv{v}{s}) \dd{t} \]
+where
+\begin{align*}
+	A &= E_u \dot u^2 + 2F_u \dot u \dot v + G_u \dot v^2 - 2 \pdv{t} \qty(E \dot u + F \dot v) \\
+	B &= E_v \dot u^2 + 2F_v \dot u \dot v + G_v \dot v^2 - 2 \pdv{t} \qty(F \dot u + G \dot v)
+\end{align*}
+\begin{corollary}
+	A smooth curve \( \gamma \colon [a,b] \to \Sigma \) with image in \( \Im \sigma \) is a geodesic if and only if it satisfies the \textit{geodesic equations}:
+	\begin{align*}
+		\dv{t} \qty(E \dot u + F \dot v) &= \frac{1}{2} \qty( E_u \dot u^2 + 2F_u \dot u \dot v + G_u \dot v^2 ) \\
+		\dv{t} \qty(F \dot u + G \dot v) &= \frac{1}{2} \qty( E_v \dot u^2 + 2F_v \dot u \dot v + G_v \dot v^2 )
+	\end{align*}
+	Note that these equations are evaluated at \( s = 0 \), so no choice of variation is required.
+\end{corollary}
+\begin{remark}
+	Solving a differential equation is a local procedure.
+	The original definition of the geodesic seems to be a global property.
+	However, we can always consider a sub-curve of \( \gamma \) to also be a geodesic, since its variations are variations of \( \gamma \).
+	So the definition can be thought of as local.
+
+	Energy is sensitive to reparametrisation.
+	If \( f, g \colon [a,b] \to \mathbb R \) are smooth, the Cauchy-Schwarz inequality gives that
+	\[ \qty(\int_a^b fg \dd{t})^2 \leq \int_a^b f^2 \dd{t} \cdot \int_a^b g^2 \dd{t} \]
+	Let us apply this to \( f = \sqrt{R} \), \( g = 1 \) to find
+	\[ \mathrm{length}(\gamma)^2 \leq E(\gamma)(b-a) \]
+	Since equality holds only when the two functions are proportional, we must have that \( \norm{\gamma'(t)} \) is constant for the equality to hold.
+	In other words, \( \gamma \) must be parametrised proportional to arc length.
+\end{remark}
+\begin{corollary}
+	If \( \gamma \) has constant speed and locally minimises length, then it is a geodesic.
+	Further, if \( \gamma \) globally minimises energy, then it must globally minimise length, and is parametrised with constant speed.
+\end{corollary}
+\begin{remark}
+	We would like geodesics to be a local property, but not necessarily global length minimisers.
+	For example, all arcs of great circles will be shown to be geodesics, even if large arcs are not global length minimisers between fixed endpoints.
+\end{remark}
+
+\subsection{Geodesics on the plane}
+The plane \( \mathbb R^2 \) has parametrisation \( \sigma(u,v) = (u,v,0) \) and first fundamental form \( \dd{u}^2 + \dd{v}^2 \).
+The geodesic equations here are
+\[ \ddot u = 0;\quad \ddot v = 0 \]
+In particular, the geodesics on the plane are given by
+\[ u(t) = \alpha t + \beta;\quad v(t) = \gamma t + \delta \]
+This is a straight line, parametrised at constant speed.
+
+\subsection{Geodesics on the sphere}
+Consider the unit sphere with parametrisation
+\[ \sigma(u,v) = (\cos u \cos v, \cos u \sin v, \sin u);\quad u \in \qty(-\frac{\pi}{2});\quad v \in \qty(0, 2 \pi) \]
+This has first fundamental form
+\[ \dd{u}^2 + \cos^2 u \dd{v}^2 \implies E = 1;\quad F = 0;\quad G = \cos^2 u \]
+The geodesic equations give
+\[ \dv{t} \qty(\dot u) = \frac{1}{2} 2\cos u \sin u \dot v^2;\quad \dv{t} \qty(\cos^2 u \dot v) = 0 \]
+This gives
+\[ \ddot u + \sin u \cos u \dot v^2 = 0;\quad \ddot v - 2 \tan u \dot u \dot v = 0 \]
+Since geodesics are parametrised at constant speed, we can assume that it is parametrised at unit speed without loss of generality.
+\[ \norm{\gamma'(t)} = 1 \implies \dot u + \cos^2 u \dot v^2 = 1 \]
+Hence,
+\[ \frac{\ddot v}{\dot v} = 2 \tan u \dot u \implies \ln \dot v = -2 \ln \cos u + \text{constant} \implies \dot v = \frac{C}{\cos^2 u} \]
+Substituting into the unit speed equation,
+\[ \dot u^2 = 1 - \frac{C}{\cos^2 u} \implies \dot u = \sqrt{\frac{\cos^2 u - C^2}{\cos^2 u}} \]
+Then,
+\[ \frac{\dot v}{\dot u} = \dv{v}{u} = \frac{C}{\cos u \sqrt{\cos^2 u - C^2}} \]
+Hence,
+\[ v = \int \dv{v}{u} \dd{u} = \int \frac{C \sec^2 u}{\sqrt{1-C^2 sec^2 u}} \dd{u} \]
+Using the substitution \( w = \frac{C \tan u}{\sqrt{1-C^2}} \), we find
+\[ v = \int \frac{w}{1-w^2} \dd{w} = \arcsin w + \text{constant} = \arcsin(\lambda \tan u) + \delta \]
+for some constants \( \lambda, \delta \).

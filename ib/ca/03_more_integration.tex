@@ -1,0 +1,121 @@
+\subsection{Winding numbers}
+Let \( \gamma \colon [a,b] \to \mathbb C \) be a closed, piecewise \( C^1 \) curve, and let \( w \not\in \Im \gamma \).
+For all \( t \), there exists \( r(t) > 0 \) and \( \theta(t) \in \mathbb R \) such that \( \gamma(t) = w + r(t) e^{i\theta(t)} \).
+Then, the function \( r \colon [a,b] \to \mathbb R \) is given by \( r(t) = \abs{\gamma(t) - w} \), so it is uniquely determined and piecewise \( C^1 \).
+\begin{definition}
+	If we have a continuous choice of \( \theta \colon [a,b] \to \mathbb R \) such that \( \gamma(t) = w + r(t) = e^{i\theta(t)} \), then we define the \textit{winding number} or the \textit{index} of \( \gamma \) about \( w \) as
+	\[ I(\gamma; w) = \frac{\theta(b) - \theta(a)}{2\pi} \]
+\end{definition}
+If \( \gamma \) is a closed curve, \( I(\gamma;w) \) is an integer.
+This is because \( \gamma(a) = \gamma(b) \) implies \( \exp(i\theta(b) - i\theta(a)) = 1 \).
+If \( \theta_1 \colon [a,b] \to \mathbb C \) is also continuous such that \( \gamma(t) = w + re^{i\theta_1(t)} \), then \( \exp(i\theta(t) - i\theta_1(t)) = 1 \), so \( \frac{\theta_1(t) - \theta(t)}{2\pi} \in \mathbb Z \).
+Since \( \theta_1 - \theta \) is continuous, this quotient must be a constant.
+Hence, \( I(\gamma;w) \) is well-defined and independent of the (continuous) choice of \( \theta \).
+\begin{lemma}
+	Let \( w \in \mathbb C \) and \( \gamma \colon [a,b] \colon \mathbb C \setminus \qty{w} \), where \( \gamma \) is piecewise \( C^1 \).
+	Then, there exists a piecewise \( C^1 \) function \( \theta \colon [a,b] \to \mathbb R \) such that \( \gamma(t) = w + r(t) e^{i\theta(t)} \), where \( r(t) = \abs{\gamma(t) - w} \).
+	If \( \gamma \) is closed, then we also have
+	\[ I(\gamma; w) = \frac{1}{2\pi i} \int_\gamma \frac{\dd{z}}{z-w} \]
+\end{lemma}
+\begin{remark}
+	If \( \gamma \) is \( C^1 \), and there is a \( C^1 \) function \( \theta \) such that \( \gamma(t) = w + r(t) e^{i\theta(t)} \), then
+	\[ \gamma'(t) = (r'(t) + ir(t) \theta'(t))e^{i\theta(t)} = \qty(\frac{r'(t)}{r(t)} + i\theta'(t)) r(t) e^{i\theta(t)} = \qty(\frac{r'(t)}{r(t)} + i\theta'(t))(\gamma(t) - w) \]
+	Hence,
+	\[ \theta'(t) = \Im \frac{\gamma'(t)}{\gamma(t) - w} \implies \theta(t) = \theta(a) + \Im \int_a^t \frac{\gamma'(s) \dd{s}}{\gamma(s) - w} \]
+\end{remark}
+\begin{proof}
+	Let \( h(t) = \int_a^t \frac{\gamma'(s)}{\gamma(s) - w} \dd{s} \).
+	The integrand is bounded on \( [a,b] \), and is continuous except at the finite number of points at which \( \gamma' \) may be discontinuous.
+	Hence, \( h \colon [a,b] \to \mathbb C \) is continuous.
+	Further, \( h \) is differentiable with \( h'(t) = \frac{\gamma'(t)}{\gamma(t) - w} \) at each \( t \) where \( \gamma' \) is continuous.
+	Hence, \( h \) is piecewise \( C^1 \).
+	This induces an ordinary differential equation for \( \gamma(t) - w \).
+	\[ (\gamma(t) - w)' - (\gamma(t) - w)h'(t) = 0 \]
+	which is true for all \( t \in [a,b] \) except possibly for a finite set.
+	Hence,
+	\[ \dv{t} \qty((\gamma(t) - w) e^{-h(t)}) = \gamma'(t) e^{-h(t)} - (\gamma(t) - w)e^{-h(t)} h'(t) = 0 \]
+	except for finitely many \( t \).
+	Since \( (\gamma(t) - w)e^{-h(t)} \) is continuous, it must be constant, and equal to its value at \( t = a \).
+	Hence
+	\[ \gamma(t) - w = (\gamma(a) - w)e^{h(t)} = (\gamma(a) - w)e^{\Re h(t)} e^{i\Im h(t)} = \abs{\gamma(a)-w} e^{\Re h(t)} e^{i(\alpha + \Im h(t)} \]
+	for \( \alpha \) such that \( e^{i\alpha} = \frac{\gamma(a) - w}{\abs{\gamma(a) - w}} \).
+	Hence, we can set \( \theta(t) = \alpha + \Im h(t) \).
+
+	For the second part, note that
+	\[ I(\gamma;w) = \frac{\theta(b) - \theta(a)}{2\pi} = \frac{\Im(h(b) - h(a))}{2\pi} = \frac{\Im h(b)}{2\pi} \]
+	Since \( \gamma(t) - w = (\gamma(a) - w)e^{h(t)} \) and \( \gamma(b) = \gamma(a) \), we have \( e^{h(b)} = 1 \), so \( \Re h(b) = 0 \) and \( \Im h(b) = -i h(b) \).
+	Thus,
+	\[ I(\gamma;w) = \frac{1}{2\pi i} h(b) = \frac{1}{2\pi i} \int_a^b \frac{\gamma'(s)}{\gamma(s) - w} \dd{s} = \int_\gamma \frac{\dd{z}}{z-w} \]
+\end{proof}
+\begin{remark}
+	It is also true that \( \theta \) exists and is continuous if \( \gamma \) is merely continuous, but the formula for the winding number is not useful, so we omit this proof.
+\end{remark}
+\begin{proposition}
+	If \( \gamma \colon [a,b] \to \mathbb C \) is a closed curve, then the function \( w \mapsto I(\gamma;w) \) is continuous on \( \mathbb C \setminus \Im \gamma \).
+	Since \( I(\gamma;w) \) is integer-valued, \( I(\gamma;w) \) is locally constant.
+	So \( I(\gamma;w) \) is constant for each connected component of the open set \( \mathbb C \setminus \Im \gamma \).
+\end{proposition}
+\begin{proof}
+	Exercise.
+\end{proof}
+\begin{proposition}
+	If \( \gamma \colon [a,b] \to D(z_0, R) \) is a closed curve, then \( I(\gamma;w) = 0 \) for all \( w \in \mathbb C \setminus D(z_0,R) \).
+
+	If \( \gamma \colon [a,b] \to \mathbb C \) is a closed curve, then there exists a unique unbounded connected component \( \Omega \) of \( \mathbb C \setminus \gamma([a,b]) \), and \( I(\gamma;w) = 0 \) for all \( w \in \Omega \).
+\end{proposition}
+\begin{proof}
+	For the first part, if \( w \in \mathbb C \setminus D(z_0, R) \), then the function \( f(z) = \frac{1}{z-w} \) is holomorphic in \( D(z_0,R) \).
+	Hence \( I(\gamma;w) = 0 \) by the convex version of Cauchy's theorem.
+
+	For the second part, since \( \gamma([a,b]) \) is compact (by continuity of \( \gamma \)), there exists \( R > 0 \) such that \( \gamma([a,b]) \subset D(0,R) \).
+	Since \( \mathbb C \setminus D(0,R) \) is a connected subset of \( \mathbb C \setminus \gamma([a,b]) \), there exists a connected component \( \Omega \) of \( \mathbb C \setminus \gamma([a,b]) \) such that \( \mathbb C \setminus D(0,R) \subseteq \Omega \).
+	This component is unbounded.
+	Any other component is disjoint from \( \mathbb C \setminus D(0,R) \), so is contained within \( D(0,R) \) and is hence bounded.
+	So the unbounded component is unique.
+	Since \( I(\gamma;w) \) is locally constant and zero on \( \mathbb C \setminus D(0,R) \), it is zero on \( \Omega \).
+\end{proof}
+
+\subsection{???}
+\begin{lemma}
+	Let \( f \colon U \to \mathbb C \) be holomorphic, and define \( g \colon U \times U \to \mathbb C \) by
+	\[ g(z,w) = \begin{cases}
+		\frac{f(z) - f(w)}{z-w} & \text{if } z \neq w \\
+		f'(w) & \text{if } z = w
+	\end{cases} \]
+	Then \( g \) is continuous.
+	Moreover, if \( \gamma \) is a closed curve in \( U \), then the function \( h(w) = \int_\gamma g(z,w) \dd{z} \) is holomorphic on \( U \).
+\end{lemma}
+\begin{proof}
+	It is clear that \( g \) is continuous at \( (z,w) \) if \( z \neq w \).
+	To check continuity at a point \( (a,a) \in U \times U \), let \( \varepsilon > 0 \) and choose \( \delta > 0 \) such that \( D(a,\delta) \subseteq U \) and \( \abs{f'(z) - f'(a)} < \varepsilon \) for all \( z \in D(a,\delta) \).
+	This is always possible since \( f' \) is continuous.
+
+	Let \( z,w \in D(a,\delta) \).
+	If \( z = w \), then \( \abs{g(z,w) - g(a,a)} = \abs{f'(z) - f'(a)} < \varepsilon \).
+	If \( z \neq w \), we have \( tz + (1-t)w \in D(a,\delta) \) for \( t \in [0,1] \).
+	Hence
+	\[ f(z) - f(w) = \int_0^1 \dv{t} f(tz+(1-t)w) \dd{t} = \int_0^1 f'(tz+(1-t)w)(z-w) \dd{t} = (z-w) \int_0^1 f'(tz+(1-t)w) \dd{t} \]
+	Thus,
+	\[ \abs{g(z,w) - g(a,a)} = \abs{\frac{f(z) - f(w)}{z-w} - f'(a)} = \abs{\int_0^1 \qty[f'(tz+(1-t)w) - f'(a)] \dd{t}} \leq \sup_{t \in [0,1]} \abs{f'(tz+(1-t)w) - f'(a)} < \varepsilon \]
+	Hence \( \abs{(z,w) - (a,a)} < \delta \) implies \( \abs{g(z,w) - g(a,a)} < \varepsilon \), so \( g \) is continuous at \( (a,a) \).
+
+	To show \( h \) is holomorphic, we must first check that \( h \) is continuous.
+	Let \( w_0 \in W \), and suppose \( w_n \to w_0 \).
+	Let \( \delta > 0 \) such that \( \overline{D(w_0, \delta)} \subset U \).
+	The function \( g \) is continuous on \( U \times U \), so it is uniformly continuous on the compact subset \( \Im \gamma \times \overline{D(w_0,\delta)} \subset U \times U \).
+	Thus, if we let \( g_n(z) = g(z,w_n) \) and \( g_0(z) = g(z,w_0) \) for \( z \in \Im \gamma \), then \( g_n \to g_0 \) uniformly on \( \Im \gamma \).
+	Hence \( \int_\gamma g_n(z) \dd{z} \to \int_\gamma g_0(z) \dd{z} \).
+	In other words, \( h(w_n) \to h(w_0) \).
+	Thus, \( h \) is continuous.
+
+	Now, we can use the convex Cauchy's theorem and Morera's theorem to show \( h \) is holomorphic on \( U \).
+	For \( w_0 \in U \), we can choose a disk \( D(w_0, \delta) \subset U \).
+	SUppose that \( \gamma \) is parametrised over \( [a,b] \), and let \( \beta \colon [c,d] \to D(w_0,\delta) \) be any closed curve.
+	Then \( h(w) = \int_\gamma g(z,w) \dd{z} = \int_a^b g(\gamma(t),w) \gamma'(t) \dd{t} \), hence
+	\[ \int_\beta h(w) \dd{w} = \int_c^d \qty(\int_a^b g(\gamma(t),\beta(s))\gamma'(t)\beta'(s) \dd{t})\dd{s} = \int_a^b \qty(\int_c^d g(\gamma(t),\beta(s))\gamma'(t)\beta'(s) \dd{s})\dd{t} = \int_\gamma \qty(\int_\beta g(z,w) \dd{w}) \dd{z} \]
+	by Fubini's theorem, which will be proven below.
+	By a previous theorem, for all \( z \in U \), the function \( w \mapsto g(z,w) \) is holomorphic in \( D(w_0, \delta) \) (and hence in \( U \)), since it is continuous in \( U \) and holomorphic except at a single point \( z \).
+	Hence, by the convex version of Cauchy's theorem, \( \int_\beta g(z,w) \dd{w} = 0 \).
+	Hence, \( \int_\beta h(w) \dd{w} = 0 \).
+	By Morera's theorem, \( h \) is holomorphic in \( D(w_0, \delta) \) and hence on \( U \).
+\end{proof}
