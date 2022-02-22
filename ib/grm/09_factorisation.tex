@@ -331,3 +331,129 @@ In other words, we cannot infinitely nest distinct ideals in a Noetherian ring.
 	Hence \( d \) is a greatest common divisor.
 	The argument for the least common multiple is similar, replacing minima with maxima.
 \end{proof}
+
+\subsection{Factorisation in polynomial rings}
+\begin{theorem}
+	Let \( R \) be a unique factorisation domain.
+	Then \( R[X] \) is also a unique factorisation domain.
+\end{theorem}
+The proof for this theorem will require a number of key lemmas.
+In this subsection, \( R \) will denote a unique factorisation domain, with field of fractions \( F \).
+We have \( R[X] \leq F[X] \).
+Since polynomial rings over fields are Euclidean domains, \( F[X] \) is a principal ideal domain, and hence a unique factorisation domain.
+This does not immediately imply that \( R[X] \) is a unique factorisation domain, however.
+\begin{definition}
+	The \textit{content} of a polynomial \( f = \sum_{i=0}^n a_i X^i \in R[X] \) is \( c(f) = \mathrm{gcd}\qty{a_0, \dots, a_n} \).
+	This is well-defined up to multiplication by a unit.
+
+	We say that \( f \) is \textit{primitive} if \( c(f) \) is a unit.
+\end{definition}
+\begin{lemma}
+	The product of primitive polynomials is primitive.
+	Further, for \( f, g \in R[X] \), we have \( c(fg) \sim c(f)c(g) \), where the equivalence relation is defined up to associates.
+\end{lemma}
+\begin{proof}
+	Let \( f = \sum_{i=0}^n a_i X^i \) and \( g = \sum_{i=0}^m b_i X^i \).
+	Suppose \( fg \) is not primitive, so \( c(fg) \) is not a unit.
+	This implies that there exists a prime \( p \) such that \( p \mid c(fg) \).
+	Since \( f, g \) are primitive, \( p \nmid c(f) \) and \( p \nmid c(g) \).
+
+	Suppose \( p \) does not divide all of the \( a_k \) or the \( b_\ell \).
+	Let \( k, \ell \) be the smallest values such that \( p \nmid a_k \) and \( p \nmid b_\ell \).
+	Then, the coefficient of \( X^{k+\ell} \) in \( fg \) is given by
+	\[ \sum_{i+j=k+\ell} a_i b_j = \underbrace{\cdots + a_{k-1} b_{\ell+1}}_{\text{divisible by } p} + a_k b_\ell + \underbrace{a_{k+1} b_{\ell - 1} + \cdots}_{\text{divisible by } p} \]
+	Thus \( p \mid a_k b_\ell \).
+	This is a contradiction as we have \( p \mid a_k \) or \( p \mid b_\ell \).
+
+	To prove the second part, let \( f = c(f) f_0 \) for some \( f_0 \in R[X] \).
+	Here, \( f_0 \) is primitive.
+	Similarly, \( g = c(g) g_0 \) for a primitive \( g_0 \).
+	Thus \( fg = c(f) c(g) f_0 g_0 \).
+	The expression \( f_0 g_0 \) is a primitive polynomial by the first part, so \( c(fg) \) is equal to \( c(f) c(g) \) up to associates.
+\end{proof}
+\begin{corollary}
+	If \( p \in R \) is prime in \( R \), then \( p \) is prime in \( R[X] \).
+\end{corollary}
+\begin{proof}
+	Since \( R \) is an integral domain, we have \( R[X]^\times = R^\times \), so \( p \) is not a unit.
+	Let \( f \in R[X] \).
+	Then \( p \mid f \) in \( R[X] \) if and only if \( p \mid c(f) \) in \( R \).
+	Thus, if \( p \mid gh \) in \( R[X] \), we have \( p \mid c(gh) = c(g) c(h) \).
+	In particular, since \( p \) is prime in \( R \), we have \( p \mid c(g) \) or \( p \mid c(h) \), so \( p \mid g \) or \( p \mid h \).
+	So \( p \) is prime in \( R[X] \).
+\end{proof}
+\begin{lemma}
+	Let \( f,g \in R[X] \), where \( g \) is primitive.
+	Then if \( g \mid f \) in \( F[X] \), then \( g \mid f \) in \( R[X] \).
+\end{lemma}
+\begin{proof}
+	Let \( f = gh \), where \( h \in F[X] \).
+	We can find a nonzero \( a \in R \), such that \( ah \in R[X] \).
+	In particular, we can multiply the denominators of the coefficients of \( h \) to form \( a \).
+	Now, \( ah = c(ah) h_0 \) where \( h_0 \) is primitive.
+	Then \( af = c(ah) h_0 g \).
+	Since \( h_0 \) and \( g \) are primitive, so is \( h_0 g \).
+	Thus, taking contents, \( a \mid c(ah) \).
+	This implies \( h \in R[X] \).
+	Hence \( g \mid f \) in \( R[X] \).
+\end{proof}
+\begin{lemma}[Gauss' lemma]
+	Let \( f \in R[X] \) be primitive.
+	Then if \( f \) is irreducible in \( R[X] \), we have that \( f \) is irreducible in \( F[X] \).
+\end{lemma}
+\begin{proof}
+	Since \( f \in R[X] \) is irreducible and primitive, its degree must be larger than zero.
+	Hence \( f \) is not a unit in \( F[X] \).
+	Suppose \( f \) is not irreducible in \( F[X] \), so \( f = gh \) for \( g,h \in F[X] \) with degree larger than zero.
+	Let \( \lambda \in F^\times \) such that \( \lambda^{-1} g \in R[X] \) is primitive.
+	For example, let \( b \in R \) such that \( bg \in R[X] \) to clear denominators, then \( bg = c(bg) g_0 \), giving \( \lambda = c(bg) b^{-1} \).
+	Replacing \( g \) by \( \lambda^{-1} g \) and \( h \) by \( \lambda h \), we still have a factorisation of \( f \).
+	Hence, we may assume without loss of generality that \( g \in R[X] \) and is primitive.
+	By the previous lemma, we have that \( h \in R[X] \), with degrees larger than zero.
+	This contradicts irreducibility.
+\end{proof}
+\begin{remark}
+	We will see that the reverse implication in Gauss' lemma also holds.
+\end{remark}
+\begin{lemma}
+	Let \( g \in R[X] \) be primitive.
+	If \( g \) is prime in \( F[X] \), then \( g \) is prime in \( R[X] \).
+\end{lemma}
+\begin{proof}
+	It suffices to show that if \( f_1, f_2 \in R[X] \), then \( g \mid f_1 f_2 \) implies \( g \mid f_1 \) or \( g \mid f_2 \).
+	Since \( g \) is prime in \( F[X] \), \( g \mid f_1 \) or \( g \mid f_2 \) in \( F[X] \).
+	By the previous lemma, \( g \mid f_1 \) or \( g \mid f_2 \) in \( R[X] \) as required.
+\end{proof}
+We can now prove the first theorem of this subsection, that polynomial rings over unique factorisation domains are unique factorisation domains.
+\begin{proof}
+	Let \( f \in R[X] \).
+	Then, \( f = c(f) f_0 \) for \( f_0 \) primitive in \( R[X] \).
+	Since \( R \) is a unique factorisation domain, \( c(f) \) is a product of irreducibles in \( R \).
+	If an element of \( R \) is irreducible, it is irreducible as an element of \( R[X] \).
+	Hence, it suffices to find a factorisation of \( f_0 \).
+	
+	Suppose \( f_0 \) is not irreducible, so \( f_0 = gh \) for \( g,h \in R[X] \).
+	Since \( f_0 \) is primitive, \( g \) and \( h \) are primitive, and the degrees of \( g, h \) are larger than zero.
+	By induction on the degree, we can factor \( f_0 \) as a product of primitive irreducibles in \( R[X] \).
+
+	It now suffices to show uniqueness of the factorisation.
+	By a previous proposition, it in fact suffices to show that every irreducible element of \( R[X] \) is prime.
+	Let \( f \) be irreducible.
+	Write \( f = c(f) f_0 \), where \( f_0 \) is primitive.
+	Since \( f \) is irreducible, \( f \) must be constant or primitive.
+
+	Suppose \( f \) is constant.
+	Since \( f \) is irreducible in \( R[X] \), it must be irreducible in \( R \).
+	As \( R \) is a unique factorisation domain, \( f \) is prime in \( R \).
+	By a previous corollary, \( f \) is prime in \( R[X] \).
+
+	Now, suppose \( f \) is primitive.
+	Since \( f \) is irreducible in \( R[X] \), we can use Gauss' lemma to show that \( f \) is irreducible in \( F[X] \).
+	Thus, \( f \) is prime in \( F[X] \), as \( F[X] \) is a unique factorisation domain.
+	Finally, we can see that \( f \) is prime in \( R[X] \) by the previous lemma.
+\end{proof}
+\begin{remark}
+	We know that the prime elements in an integral domain are irreducible.
+	This implies that the implications in the last paragraph above are in fact equivalences.
+	In particular, in Gauss' lemma, the implication is an equivalence.
+\end{remark}
