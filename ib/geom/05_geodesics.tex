@@ -84,7 +84,7 @@ This is a straight line, parametrised at constant speed.
 Consider the unit sphere with parametrisation
 \[ \sigma(u,v) = (\cos u \cos v, \cos u \sin v, \sin u);\quad u \in \qty(-\frac{\pi}{2});\quad v \in \qty(0, 2 \pi) \]
 This has first fundamental form
-\[ \dd{u}^2 + \cos^2 u \dd{v}^2 \implies E = 1;\quad F = 0;\quad G = \cos^2 u \]
+\[ \dd{u}^2 + \cos^2 u \dd{v}^2 \implies E = 1;\; F = 0;\; G = \cos^2 u \]
 The geodesic equations give
 \[ \dv{t} \qty(\dot u) = \frac{1}{2} 2\cos u \sin u \dot v^2;\quad \dv{t} \qty(\cos^2 u \dot v) = 0 \]
 This gives
@@ -94,7 +94,7 @@ Since geodesics are parametrised at constant speed, we can assume that it is par
 Hence,
 \[ \frac{\ddot v}{\dot v} = 2 \tan u \dot u \implies \ln \dot v = -2 \ln \cos u + \text{constant} \implies \dot v = \frac{C}{\cos^2 u} \]
 Substituting into the unit speed equation,
-\[ \dot u^2 = 1 - \frac{C}{\cos^2 u} \implies \dot u = \sqrt{\frac{\cos^2 u - C^2}{\cos^2 u}} \]
+\[ \dot u^2 = 1 - \frac{C^2}{\cos^2 u} \implies \dot u = \sqrt{\frac{\cos^2 u - C^2}{\cos^2 u}} \]
 Then,
 \[ \frac{\dot v}{\dot u} = \dv{v}{u} = \frac{C}{\cos u \sqrt{\cos^2 u - C^2}} \]
 Hence,
@@ -102,3 +102,89 @@ Hence,
 Using the substitution \( w = \frac{C \tan u}{\sqrt{1-C^2}} \), we find
 \[ v = \int \frac{w}{1-w^2} \dd{w} = \arcsin w + \text{constant} = \arcsin(\lambda \tan u) + \delta \]
 for some constants \( \lambda, \delta \).
+Hence,
+\[ \sin (v - \delta) = \lambda \tan u \]
+Rewriting using the angle addition formula,
+\[ \underbrace{(\sin v \cos u)}_{x}\cos \delta - \underbrace{(\cos v \cos u)}_{y}\sin \delta - \lambda \underbrace{\sin u}_z = 0 \]
+Hence, the geodesic \( \gamma \) lies on a plane through the origin, since this is a linear equation in \( x, y, z \).
+Such planes intersect the sphere in great circles.
+
+\subsection{Geodesics on the torus}
+Consider the surface of revolution of a circle in the \( xz \)-plane centred at \( (a,0,0) \) about the \( z \) axis, giving a torus.
+An allowable parametrisation for this surface is
+\[ \sigma(u,v) = ((a+\cos u)\cos v, (a+\cos u)\sin v, \sin u) \]
+The first fundamental form is
+\[ \dd{u}^2 + (a+\cos u)^2 \dd{v}^2 \implies E = 1;\;F = 0;\;G = (a+\cos u)^2 \]
+Note that if we were to take \( a = 0 \), we would arrive at the unit sphere and its first fundamental form.
+We can follow the same procedure as above with the sphere, or formally replace \( \cos u \) with \( a+\cos u \) in the result.
+\[ \dv{v}{u} = \frac{C}{(a+\cos u)\sqrt{(a+\cos u)^2 - C^2}} \]
+which cannot be integrated using classical functions.
+This leads to the study of elliptic functions.
+
+\subsection{Equivalent characterisation of geodesics}
+We have so far restricted our analysis to the first fundamental form, without considering its embedding in \( \mathbb R^3 \).
+Intuitively, we know that straight lines in \( \mathbb R^2 \) are not just locally shortest but also locally straightest.
+We would expect this to hold for other surfaces as well.
+We can charaterise this notion via stating that the change in the tangent vector to a curve is as small as it could be, subject to the constraint that it lies on the surface.
+
+\begin{proposition}
+	Let \( \Sigma \) be a smooth surface in \( \mathbb R^3 \).
+	A smooth curve \( \gamma \colon [a,b] \to \Sigma \) is a geodesic if and only if \( \ddot \gamma(t) \) is everywhere normal to the surface \( \Sigma \).
+\end{proposition}
+\begin{remark}
+	This proposition makes use of the tangent plane, a notion that exists only because we have an embedding in \( \mathbb R^3 \).
+	Note that
+	\[ \dd{t} \inner{\dot \gamma, \dot \gamma} = 2 \inner{\underbrace{\dot \gamma}_{\text{tangent to } \Sigma}, \underbrace{\ddot \gamma}_{\text{normal to } \Sigma}} = 0 \]
+	Hence, \( \inner{\dot \gamma, \dot \gamma} \) is constant, giving that geodesics are parametrised proportional to arc length.
+\end{remark}
+\begin{proof}
+	The property of being a geodesic as we previously defined is a local property, and so is the condition in the proposition.
+	Hence, we may work entirely within an allowable parametrisation \( \sigma \colon V \to U \).
+	Suppose \( \gamma(t) = \sigma(u(t), v(t)) \).
+	Hence,
+	\[ \dot \gamma = \sigma_u \dot u + \sigma_v \dot v \]
+	\( \ddot \gamma \) is normal to \( \Sigma \) when it is orthogonal to the tangent plane, which is spanned by \( \sigma_u, \sigma_v \).
+	This is true if and only if
+	\[ \inner{ \dv{t} \qty(\sigma_u \dot u + \sigma_v \dot v), \sigma_u } = 0 = \inner{ \dv{t} \qty(\sigma_u \dot u + \sigma_v \dot v), \sigma_v } \]
+	We will prove the first equality.
+	This can be rewritten
+	\[ \dv{t} \inner{\sigma_u \dot u + \sigma_v \dot v, \sigma_u} - \inner{\sigma_u \dot u + \sigma_v \dot v, \dv{t} \sigma_u} = 0 \]
+	Note that \( \inner{\sigma_u, \sigma_u} = E \) and \( \inner{\sigma_u, \sigma_v} = F \).
+	\[ \dv{t} (E \dot u + F \dot v) - \inner{\sigma_u \dot u + \sigma_v \dot v, \sigma_{uu} \dot u + \sigma_{uv} \dot v} = 0 \]
+	Hence,
+	\[ \dv{t} (E \dot u + F \dot v) - \qty[ \dot u^2 \inner{\sigma_u, \sigma_{uu}} + \dot u \dot v \qty(\inner{\sigma_u, \sigma_{uv}} + \inner{\sigma_v, \sigma_{uu}}) + \dot v^2 \inner{\sigma_v \sigma_{uv}} ] = 0 \]
+	Note that \( E_u = 2 \inner{\sigma_u, \sigma_{uu}} \), \( F_u = \inner{\sigma_u, \sigma_{uv}} + \inner{\sigma_v, \sigma_{uu}} \), and \( G_u = 2\inner{\sigma_v, \sigma_{uv}} \).
+	This gives
+	\[ \dv{t} (E \dot u + F \dot v) = \frac{1}{2} \qty(E_u \dot u^2 + 2 F_u \dot u \dot v + G_u \dot v^2) \]
+	which is the first of the geodesic equations.
+	By symmetry, we find the second geodesic equation similarly.
+\end{proof}
+
+\subsection{Planes of symmetry}
+Let \( \Sigma \) be a smooth surface in \( \mathbb R^3 \) such that there exists a plane \( \pi \subseteq \mathbb R^3 \) such that \( \pi \cap \Sigma \) is a smooth embedded curve \( C \subseteq \Sigma \), and \( \Sigma \) is setwise preserved by reflection in the plane \( \pi \).
+We will show that \( C \) is a geodesic when parametrised at constant speed.
+Consider a point \( p \) on \( C \).
+We can think of \( \mathbb R^3 = \pi \oplus \pi^\perp \), where we change coordinates such that \( p \) is the origin.
+We can also write \( \mathbb R^3 = T_p \Sigma \oplus \mathbb R n_p \), where \( \mathbb R n_p \) is the vector subspace of \( \mathbb R^3 \) generated by \( n_p \).
+Clearly, reflection in \( \pi \) acts on \( \pi \) by the identity, and on \( \pi^\perp \) by \( -1 \).
+Since reflection in \( \pi \) fixes \( \Sigma \) setwise and fixes \( p \), it must also preserve the subspace \( T_p \Sigma \).
+Hence it also preserves \( \mathbb R n_p \), so \( \mathbb R n_p \subseteq \pi \), since \( \pi \) is not the identity on \( T_p \Sigma \).
+Now, let us parametrise \( C \) locally near \( p \) using \( t \mapsto \gamma(t) \in C \) at constant speed.
+Since \( \gamma(t) \subseteq \pi \), we have \( \dot \gamma(t), \ddot \gamma(t) \in \pi \).
+\( \gamma \) has constant speed, so \( \inner{\dot \gamma, \ddot \gamma} = 0 \).
+Hence \( \dot \gamma \) lies in \( \pi \cap T_p \Sigma \) and \( \ddot \gamma \) is orthogonal to this and lies in \( \pi \), so lies in \( \mathbb R n_p \subseteq \pi \).
+Hence \( \gamma \) is indeed a geodesic.
+
+In particular, arcs of great circles are geodesics, since they lie in planes of symmetry.
+
+\subsection{Surfaces of revolution}
+Consider the surface of revolution given by \( \eta(u) = (f(u), 0, g(u)) \) where \( \eta \) is smooth and injective, and \( f(u) > 0 \), rotated about the \( z \) axis.
+\begin{definition}
+	A circle obtained by rotating a point of \( \eta \) is called a \textit{parallel}.
+	A curve optained by rotating \( \eta \) itself by a fixed angle about the \( z \) axis is called a \textit{meridian}.
+\end{definition}
+A plane in \( \mathbb R^3 \) containing the \( z \) axis is a plane of symmetry, hence meridians are geodesics by the previous discussion.
+Not all parallels are geodesics.
+\begin{lemma}
+	A parallel given by \( u = u_0 \) is a geodesic when parametrised at constant speed if and only if \( f'(u_0) = 0 \).
+\end{lemma}
