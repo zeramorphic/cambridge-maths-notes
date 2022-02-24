@@ -431,7 +431,7 @@ We can now prove the first theorem of this subsection, that polynomial rings ove
 	Since \( R \) is a unique factorisation domain, \( c(f) \) is a product of irreducibles in \( R \).
 	If an element of \( R \) is irreducible, it is irreducible as an element of \( R[X] \).
 	Hence, it suffices to find a factorisation of \( f_0 \).
-	
+
 	Suppose \( f_0 \) is not irreducible, so \( f_0 = gh \) for \( g,h \in R[X] \).
 	Since \( f_0 \) is primitive, \( g \) and \( h \) are primitive, and the degrees of \( g, h \) are larger than zero.
 	By induction on the degree, we can factor \( f_0 \) as a product of primitive irreducibles in \( R[X] \).
@@ -457,3 +457,61 @@ We can now prove the first theorem of this subsection, that polynomial rings ove
 	This implies that the implications in the last paragraph above are in fact equivalences.
 	In particular, in Gauss' lemma, the implication is an equivalence.
 \end{remark}
+\begin{example}
+    The above theorem implies that \( \mathbb Z[X] \) is a unique factorisation domain.
+
+    Let \( R[X_1, \dots, X_n] \) be the ring of polynomials in \( n \) variables.
+    We can rewrite this as \( R[X_1]\dots[X_n] \), so by induction this is a unique factorisation domain if \( R \) is.
+\end{example}
+
+\subsection{Eisenstein's criterion}
+\begin{proposition}
+    Let \( R \) be a unique factorisation domain, and \( f(X) = \sum_{i=0}^n a_i X^i \in R[X] \) be a primitive polynomial.
+    Let \( p \in R \) be irreducible (or, equivalently, prime) such that
+    \begin{enumerate}
+        \item \( p \nmid a_n \);
+        \item \( p \mid a_i \) for all \( i < n \); and
+        \item \( p^2 \nmid a_0 \).
+    \end{enumerate}
+    Then \( f \) is irreducible in \( R[X] \).
+\end{proposition}
+\begin{proof}
+    Suppose \( f = gh \) for \( g,h \in R[X] \) not units.
+    Since \( f \) is primitive, \( g, h \) must have positive degree.
+    Let \( g(X) = \sum_{i=0}^k r_i X^i \) and \( h(X) = \sum_{i=0}^\ell s_i X^i \), so \( k + \ell = n \).
+    Then \( p \nmid a_n = r_k s_\ell \), so \( p \nmid r_k \) and \( p \nmid s_\ell \).
+    Further, \( p \mid a_0 = r_0 s_0 \) so \( p \mid r_0 \) or \( p \mid s_0 \).
+    Without loss of generality, we may assume \( p \mid r_0 \).
+    There exists a minimal \( j \leq k \) such that \( p \mid r_i \) for all \( i < j \) but \( p \nmid r_j \).
+    \[ a_j = r_0 s_j + r_1 s_{j-1} + \dots + r_{j-1} s_1 + r_j s_0 \]
+    By assumption, \( a_j \) is divisible by \( p \) since \( j < n \).
+    Further, the first \( j \) terms in the expansion are divisible by \( p \).
+    Thus, \( p \mid r_j s_0 \).
+    By assumption, \( p \nmid r_j \), so \( p \mid s_0 \).
+    In particular, \( p^2 \mid r_0 s_0 = a_0 \), contradicting the third criterion.
+\end{proof}
+\begin{example}
+    Let \( f(X) = X^3 + 2X + 5 \in \mathbb Z[X] \).
+    We will show this is irreducible as a polynomial over \( \mathbb Q \).
+    If \( f \) is not irreducible in \( \mathbb Z[X] \), then it factorises as \( f(X) = (X+a)(X^2 + bX + c) \) up to multiplication by units.
+    Here, \( ac = 5 \).
+    But \( \pm 1, \pm 5 \) are not roots of \( f \), so this is irreducible in \( \mathbb Z[X] \).
+    By Gauss' lemma, \( f \) is irreducible in \( \mathbb Q[X] \), since \( \mathbb Q \) is the field of fractions of \( \mathbb Z \).
+    In particular, \( \faktor{\mathbb Q[X]}{(f)} \) is a field, since the ideal \( (f) \) is maximal.
+\end{example}
+\begin{example}
+    Let \( p \in \mathbb Z \) be a prime, and let \( f(X) = X^n - p \).
+    By Eisenstein's criterion, \( f \) is irreducible in \( \mathbb Z[X] \).
+    It is then irreducible in \( \mathbb Q[X] \) by Gauss' lemma.
+\end{example}
+\begin{example}
+    Consider \( f(X) = X^{p-1} + X^{p-2} + \dots + X + 1 in \mathbb Z[X] \), where \( p \) is prime.
+    Eisenstein's criterion does not apply directly.
+    Consider
+    \[ f(X) = \frac{X^p - 1}{X - 1};\quad Y = X - 1 \]
+    By using this substitution of \( Y \),
+    \[ f(Y+1) = \frac{(Y+1)^p - 1}{Y-1 + 1} = Y^{p-1} + \binom{p}{1} Y^{p-2} + \dots + \binom{p}{p-2} Y + \binom{p}{p-1} \]
+    We can apply Eisenstein's criterion to this new polynomial, since \( p \mid \binom{p}{i} \) for all \( 1 \leq i \leq p - 1 \), and \( p^2 \nmid \binom{p}{p-1} = p \).
+    Thus, \( f(Y+1) \) is irreducible in \( \mathbb Z[Y] \), so \( f(X) \) is irreducible in \( \mathbb Z[X] \).
+    Of course, \( f(X) \) is therefore irreducible in \( \mathbb Q[X] \) as before.
+\end{example}

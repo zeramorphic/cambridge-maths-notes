@@ -226,4 +226,79 @@ To find \( \hat p \), we typically use the method of Lagrange multipliers.
 \[ \mathcal L(p, \lambda) = \sum_i N_i \log p_i - \lambda \qty(\sum p_i - 1) \]
 We can compute that
 \[ \hat p_i = \frac{N_i}{n} \]
-Thus,
+This is simply the fraction of observed samples of type \( i \).
+
+\subsection{Pearson statistic}
+Let \( o_i = N_i \) be the observed number of samples of type \( i \), and \( e_i = n \widetilde p_i \) be the expected value under the null hypothesis of the number of samples of type \( i \).
+Here, we can write
+\[ 2 \log \Lambda = 2 \sum_i o_i \log \frac{o_i}{e_i} \]
+Let \( \delta_i = o_i - e_i \).
+Then
+\[ 2 \log \Lambda = 2 \sum_i (e_i + \delta_i) \log\qty(1 + \underbrace{\frac{\delta_i}{e_i}}_{\text{small when } n \text{ large}}) \]
+By taking the Taylor expansion, we arrive at
+\[ 2 \sum_i \qty(\delta_i + \frac{\delta_i^2}{e_i} - \frac{\delta_i^2}{2e_i}) \]
+Note that \( \sum_i \delta_i = \sum_i (o_i - e_i) = n - n = 0 \), so we can simplify and find
+\[ \sum_i \frac{\delta_i^2}{e_i} = \sum_i \frac{(o_i - e_i)^2}{e_i} \]
+This is \textit{Pearson's \( \chi^2 \) statistic}.
+This is also referred to as a \( \chi^2_{k-1} \) when performing a hypothesis test.
+\begin{example}
+	Mendel performed an experiment in which 556 different pea plants were created from a small set of ancestors.
+	Each descendent was either yellow or green, and either wrinkled or smooth, giving four possibilities in total.
+	The observed result was
+	\[ N = \qty(\underbrace{315}_{SG}, \underbrace{108}_{SY}, \underbrace{102}_{WG}, \underbrace{31}_{WY}) \]
+	Mendel's theory gives a null hypothesis \( H_0 \colon p = \widetilde p = \qty(\frac{9}{16}, \frac{3}{16}, \frac{3}{16}, \frac{1}{16}) \).
+	Here,
+	\[ 2 \log \Lambda = 0.618;\quad \sum_i \frac{(o_i - e_i)^2}{e_i} = 0.604 \]
+	These are referred to as a \( \chi^2_3 \) distribution.
+	We observe that \( \chi^2_3(0.05) = 7.815 \), so we fail to reject the null hypothesis with a test of size \( 5\% \).
+	We can compute that the \( p \)-value is \( \prob{\chi^2_3 > 0.6} \approx 0.96 \), so there is a very high probability of observing a more extreme value than observed.
+\end{example}
+
+\subsection{Goodness of fit for composite null}
+Suppose \( H_0 \colon p_i = p_i(\theta) \) for some \( \theta \in \Theta_0 \), and \( H_1 \colon p \) has any distribution on \( \qty{1, \dots, k} \).
+We can compute
+\[ 2 \log \Lambda = 2 \qty( \sup_p \ell(p) - \sup_{\theta \in \Theta} \ell(p(\theta)) ) \]
+We can sometimes compute these quantities explicitly, and hence find a test which refers this test statistic to a \( \chi^2_p \) distribution where \( p = \dim \Theta_1 - \dim \Theta_0 = (k-1) - \dim \Theta_0 \).
+\begin{example}
+	Consider a population of individuals who may have one of three genotypes, which occur with probabilities \( (p_1, p_2, p_3) = (\theta^2, 2\theta(1-\theta), (1-\theta)^2) \).
+	In this case, we can find the maximum likelihood estimator under the null hypothesis to be
+	\[ \hat \theta = \frac{2N_1 + N_2}{2n} \]
+	Hence,
+	\[ 2 \log \Lambda = 2(\ell(\hat p) - \ell(\hat \theta)) \]
+	where \( \hat p_i = \frac{N_1}{n} \) as found previously.
+	This can be computed explicitly and referred to a \( \chi^2_1 \) distribution.
+	We can check that, in this model,
+	\[ 2 \log \Lambda = \sum_i o_i \log \frac{o_i}{e_i} \]
+	where \( o_i = N_i \) and \( e_i = n p_i(\hat \theta) \).
+	We can approximate this using the Pearson statistic, \( \sum_i \frac{(o_i - e_i)^2}{e_i} \).
+\end{example}
+
+\subsection{Testing independence in contingency tables}
+Suppose we have observations \( (X_1, Y_1), \dots, (X_n, Y_n) \) which are i.i.d., where the \( X_i \) take values in \( 1, \dots, r \) and the \( Y_i \) take values in \( 1, \dots, c \).
+We wish to test whether the \( X_i \) and \( Y_i \) are independent.
+We will summarise this data into a sufficient statistic known as a \textit{contingency table} \( N \), given by
+\[ N_{ij} = \abs{ \qty{\ell \colon 1 \leq \ell \leq n, (X_\ell, Y_\ell) = (i,j)} } \]
+So \( N_{ij} \) is the number of samples of type \( (i,j) \).
+\begin{example}
+	Suppose we observe \( n \) samples, and each sample has probability \( p_{ij} \) of being of type \( (i,j) \).
+	Flattening \( (N_{ij}) \) into a vector, this has a multinomial distribution with parameters \( (p_{ij}) \) (also flattened into a vector).
+	The null hypothesis is \( H_0 \colon p_{ij} = p_{i+} p_{+j} \) where \( p_{i+} = \sum_j p_{ij} \) and \( p_{+j} = \sum_i p_{ij} \).
+	The alternative hypothesis places no restrictions on the \( p_{ij} \) apart from that it sums to 1 and has nonnegative entries.
+	We find
+	\[ 2 \log \Lambda = 2\sum_{i=1}^r \sum_{j=1}^c N_{ij} \log \frac{\hat p_{ij}}{\hat p_{i+} \hat p_{+j}} \]
+	where \( \hat p_{ij} \) is the maximum likelihood estimator under \( H_1 \), and where \( \hat p_{i+} \) and \( \hat p_{+j} \) are the maximum likelihood estimators under \( H_0 \).
+	These can be found using the method of Lagrange multipliers.
+	In particular,
+	\[ \hat p_{ij} = \frac{N_{ij}}{n};\quad \hat p_{i+} = \frac{N_{i+}}{n} = \frac{1}{n} \sum_{j=1}^c N_{ij};\quad \hat p_{+j} = \frac{N_{+j}}{n} = \frac{1}{n} \sum_{i=1}^r N_{ij} \]
+	Writing \( o_{ij} = N_{ij} \) and \( e_{ij} = n \hat p_{i+} \hat p_{+j} \),
+	\[ 2 \log \Lambda = \sum_{i,j} o_{ij} \log \frac{o_{ij}}{e_{ij}} \approx \sum_{i,j} \frac{(o_{ij} - e_{ij})^2}{e_{ij}} \]
+	By Wilks' theorem, these test statistics have an approximate \( \chi^2_p \) distribution, where \( p = \dim \Theta_1 - \dim \Theta_0 = (rc-1) - (r-1 + c-1) = (r-1)(c-1) \).
+\end{example}
+The \( \chi^2 \) test for independence has a number of weaknesses.
+\begin{enumerate}
+	\item The \( \chi^2 \) approximation requires \( n \) to be large.
+		A reasonable heuristic is to require \( N_{ij} \geq 5 \) for \textit{all} \( i,j \).
+		If this is not possible, we can perform an \textit{exact test} (which is non-examinable).
+	\item The \( \chi^2 \) test often has a low power.
+		Heuristically, this is because the alternative space \( \Theta_1 \) is too large, and there are many possible models that lie in this space.
+\end{enumerate}
