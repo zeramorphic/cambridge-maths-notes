@@ -188,3 +188,105 @@ Not all parallels are geodesics.
 \begin{lemma}
 	A parallel given by \( u = u_0 \) is a geodesic when parametrised at constant speed if and only if \( f'(u_0) = 0 \).
 \end{lemma}
+\begin{proof}
+	Consider the allowable parametrisation
+	\[ \sigma(u,v) = (f(u) \cos v, f(u) \sin v, g(u)) \]
+	where \( u \in (a,b) \) and \( v \in (0,2\pi) \).
+	The first fundamental form is
+	\[ \qty[ (f')^2 + (g')^2 ] \dd{u}^2 + f^2 \dd{v}^2 \]
+	If without loss of generality we choose to parametrise \( \eta \) by arc length, this becomes
+	\[ \dd{u}^2 + f^2 \dd{v}^2 \implies E = 1;\;F = 0;\;G = f^2 \]
+	The geodesic equations are
+	\[ \dv{t} \dot u = \ddot u = f f_u \dot v^2;\quad \dv{t} \qty(f^2 \dot v) = 0 \]
+	and \( \dot u^2 + f^2 \dot v^2 \) is a nonzero constant.
+	Given that we want to only consider parallels of the surface of revolution, we can impose the constraint that \( u = u_0 \) is constant.
+	Hence, the constant speed condition gives that
+	\[ \dot v = \frac{\text{constant}}{f(u_0)} = \text{constant} \]
+	The second equation holds automatically.
+	The first equation is
+	\[ 0 = f(u_0) f_u(u_0) \cdot \text{constant} \]
+	So this holds exactly when \( f_u(u_0) = 0 \).
+\end{proof}
+Consider a curve \( \gamma(t) \) on \( \Sigma \), making angle \( \theta \) with the parallel of radius \( \rho = f \).
+\begin{proposition}[Clairaut's relation]
+	If \( \gamma \) is a geodesic, then \( \rho \cos \theta \) is constant along \( \gamma \).
+\end{proposition}
+\begin{proof}
+	Let \( \gamma(t) = \sigma(u(t),v(t)) \), so \( \dot\gamma = \sigma_u \dot u + \sigma_v \dot v \).
+	The tangent vector to the parallel is \( \sigma_v \).
+	By the earlier discussion on angles in terms of the first fundamental form,
+	\[ \cos \theta = \frac{\inner{\sigma_v, \sigma_u \dot u + \sigma_v \dot v}}{\norm{\sigma_v} \cdot \norm{\sigma_u \dot u + \sigma_v \dot v}} \]
+	If \( \gamma \) is parametrised by arc length, \( \norm{\dot \gamma} = 1 \), so \( \norm{\sigma_u \dot u + \sigma_v \dot v} = 1 \).
+	So, using our values for \( F, G \) above,
+	\[ \cos \theta = \abs{f(u) \dot v} = \rho \dot v \]
+	The second geodesic equation is exactly
+	\[ \rho \cos \theta = \text{constant} \]
+\end{proof}
+\begin{example}
+	Usually, for a surface of revolution, we take the assumption that \( \eta \) never intersects the \( z \)-axis, or that \( f \) is positive.
+	This ensures that all points on the surface are locally smooth.
+	However, we can allow \( \eta \) to meet the \( z \)-axis orthogonally, as in the ellipsoid or sphere.
+
+	Consider an ellipsoid of revolution.
+	\( \rho \cos \theta \) is constant along a geodesic \( \gamma \).
+	Suppose that at some point \( \gamma \) intersects a parallel of radius \( \rho_0 \) at angle \( \theta_0 \), and that \( \gamma \) is not a meridian (so \( \cos \theta \neq 0 \)).
+	Hence \( \theta_0 \in \left[0, \frac{\pi}{2}\right) \).
+	In particular, for \( \rho \cos \theta \) to be constant, we must have that \( \rho \) is bounded below.
+	A geodesic which is not a meridian is therefore `trapped' between parallels corresponding to the bound on the size of \( \rho \).
+	In particular, any geodesic through a pole is a meridian.
+\end{example}
+
+\subsection{Local existence of geodesics}
+It is difficult to solve the geodesic equations globally.
+We can often intead prove local results about any geodesics that may arise.
+
+Recall Picard's theorem from Analysis and Topology.
+Let \( I = [t_0 - a, t_0 + a] \subseteq \mathbb R \), \( B = \qty{x \colon \norm{x-x_0} \leq b} \subseteq \mathbb R^n \), and \( f \colon I \times B \to \mathbb R^n \) that is continuous, and Lipschitz in the second variable.
+\[ \norm{f(t,x_1) - f(t,x_2)} \leq N \norm{x_1-x_2} \]
+Then the differential equation \( \dv{x}{t} = f(t,x) \) with \( x(t_0) = x_0 \) has a unique solution for some time interval \( \abs{t-t_0} < h \), where \( h = \min\qty{a,\frac{b}{s}} \) where \( s = \sup \norm{f} \).
+Further, if \( f \) is smooth in all parameters, then the solution to the differential equation is smooth and depends smoothly on the initial condition.
+
+Recall the geodesic equations:
+\begin{align*}
+	\dv{t} \qty(E \dot u + F \dot v) &= \frac{1}{2} \qty( E_u \dot u^2 + 2F_u \dot u \dot v + G_u \dot v^2 ) \\
+	\dv{t} \qty(F \dot u + G \dot v) &= \frac{1}{2} \qty( E_v \dot u^2 + 2F_v \dot u \dot v + G_v \dot v^2 )
+\end{align*}
+We can write this as
+\[ \begin{pmatrix}
+	E & F \\
+	F & G
+\end{pmatrix} \begin{pmatrix}
+	\ddot u \\
+	\ddot v
+\end{pmatrix}= R \]
+where \( R \) is composed of smooth functions of \( u,v \).
+The matrix on the left hand side is invertible, and the inverse map \( A \mapsto A^{-1} \) on matrices is smooth.
+Hence, we can write the geodesic equations in the form
+\[ \ddot u = A(u, v, \dot u, \dot v);\quad \ddot v = B(u, v, \dot u, \dot v) \]
+In the usual way we can turn second-order equations into first-order equations by introducing \( p = \dot u, q = \dot v \), and we find
+\[ \dot u = p;\quad \dot v = q;\quad \dot p = A(u,v,p,q);\quad \dot q = B(u,v,p,q) \]
+This is a system of first-order ordinary differential equations as governed by Picard's theorem.
+Since \( A, B \) are smooth, a local bound on \( \norm{DA} \) and \( \norm{DB} \) will give the required Lipschitz condition.
+\begin{corollary}
+	Let \( \Sigma \) be a smooth surface in \( \mathbb R^3 \).
+	For \( p \in \Sigma \) and \( v \in T_p \Sigma \) nonzero, then there exists \( \varepsilon > 0 \) and a geodesic \( \gamma \colon [0,\varepsilon) \to \Sigma \) such that
+	\[ \gamma(0) = p;\quad \dot \gamma(0) = v \]
+	Moreover, this geodesic depends smoothly on \( p,v \).
+\end{corollary}
+The local existence of geodesics gives rise to allowable parametrisations of \( \Sigma \) with `nice' properties in terms of the first fundamental form.
+Let \( p \in \Sigma \), and consider a geodesic arc \( \gamma \) starting at \( p \) and parametrised by arc length.
+At each point \( \gamma(t) \) for small \( t > 0 \), we can consider a geodesic arc \( \gamma_t \) starting at \( \gamma(t) \), and \( \gamma_t'(0) \) is orthogonal to \( \gamma'(t) \), and also parametrised by arc length.
+Now, we define \( \sigma(u,v) = \gamma_v(u) \), which is defined for \( u \in [0,\varepsilon) \) and \( v \in [0,\delta) \).
+\begin{lemma}
+	For \( \varepsilon, \delta \) sufficiently small, \( \sigma \colon (u,v) \mapsto \gamma_v(u) \) defines an allowable parametrisation of an open set in \( \Sigma \), taking the interior of the domain.
+\end{lemma}
+\begin{proof}
+	Smoothness follows from the addendum to Picard's theorem above.
+	At the origin \( (0,0) \), by construction we have \( \sigma_u, \sigma_v \) orthogonal.
+	Hence, they stay linearly independent for sufficiently small \( \varepsilon, \delta \).
+	So \( D\sigma \) has full rank, and (on a smaller set if necessary) \( \sigma \) is injective.
+	So \( \sigma \) is allowable.
+\end{proof}
+\begin{corollary}
+	Any smooth surface \( \Sigma \) in \( \mathbb R^3 \) admits local parametrisations for which the first fundamental form has form \( \dd{u}^2 + G(u,v) \dd{v}^2 \), so \( E = 1 \) and \( F = 0 \).
+\end{corollary}

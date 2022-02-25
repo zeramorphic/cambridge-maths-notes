@@ -131,3 +131,122 @@ Hence, \( I(\gamma;w) \) is well-defined and independent of the (continuous) cho
 	Hence, \( \int_\beta h(w) \dd{w} = 0 \).
 	By Morera's theorem, \( h \) is holomorphic in \( D(w_0, \delta) \) and hence on \( U \).
 \end{proof}
+\begin{lemma}[Fubini's theorem]
+	If \( \varphi \colon [a,b] \times [c,d] \to \mathbb R \) is continuous, then \( f_1 \colon s \mapsto \int_c^d \varphi(s,t) \dd{t} \) is continuous on \( [a,b] \), the function \( f_2 \colon t \mapsto \int_a^b \varphi(s,t) \dd{t} \) is continuous on \( [c,d] \), and
+	\[ \int_a^b \qty( \int_c^d \varphi(s,t) \dd{t} ) \dd{s} = \int_c^d \qty( \int_a^b \varphi(s,t) \dd{s} ) \dd{t} \]
+\end{lemma}
+\begin{proof}
+	Since \( \varphi \) is continuous on the compact set \( [a,b] \times [c,d] \), it is uniformly continuous.
+	Hence, given \( \varepsilon > 0 \), there exists \( \delta > 0 \) such that \( \abs{s_1 - s_2} < \delta \implies \abs{\varphi(s_1, t) - \varphi(s_2, t)} < \varepsilon \) for all \( t \in [c,d] \), so \( \abs{f_1(s_1) - f_1(s_2)} < (d-c) \varepsilon \), so \( f_1 \) is continuous.
+	Similarly, \( f_2 \) is continuous.
+	Note that since \( \varphi \) is uniformly continuous, it is the uniform limit of a sequence of step functions of the form \( g(x,y) = \sum_{j=1}^N \alpha_j \chi_{R_j}(x,y) \) where \( \alpha_j \) are constants, and \( R_j \) are sub-rectangles of the form \( R_j = [a_j, b_j) \times [c_j, d_j) \) such that \( \bigcup R_j \) is a finite partition of \( [a,b) \times [c,d) \), and \( \chi_{R_j} \) is the characteristic function of \( R_j \)
+	For such step functions, we can easily check the interchangability of the integrals.
+\end{proof}
+\begin{definition}
+	Let \( U \subseteq \mathbb C \) be open.
+	A closed curve \( \gamma \colon [a,b] \to U \) is said to be \textitt{homologous to zero} in \( U \) if \( I(\gamma; w) = 0 \) for all \( w \in \mathbb C \setminus U \).
+\end{definition}
+
+\subsection{General Cauchy theorem and Cauchy integral formula}
+\begin{theorem}
+	Let \( U \) be a non-empty open subset of \( \mathbb C \), and \( \gamma \) be a closed curve in \( U \) homologous to zero in \( U \).
+	Then,
+	\[ I(\gamma;w) f(w) = \frac{1}{2\pi i} \int_\gamma \frac{f(z) \dd{z}}{z-w} \]
+	for every holomorphic function \( f \colon U \to \mathbb C \) and every \( w \in U \setminus \Im \gamma \).
+	Further,
+	\[ \int_\gamma \f(z) \dd{z} = 0 \]
+	for every holomorphic \( f \colon U \to \mathbb C \).
+\end{theorem}
+\begin{remark}
+	Cauchy's theorem states that if \( \int_\gamma f(z) \dd{z} \) for a specific family of holomorphic functions on \( U \), namely for \( f_w(z) = \frac{1}{z-w} \) where \( w \in \mathbb C \setminus U \), then \( \int_\gamma f(z) \dd{z} = 0 \) for any holomorphic function \( f \colon U \to \mathbb C \).
+	
+	The first and second parts as statements are equivalent.
+	Indeed, if we assume the Cauchy integral formula holds, simply apply the formula with \( F(z) = (z-w)f(z) \).
+	Since \( F(w) = 0 \), we have \( \int_\gamma f(z) \dd{z} = 0 \).
+	If we assume Cauchy's theorem, for any \( w \in U \), the function
+	\[ g(z) = \begin{cases}
+		\frac{f(z) - f(w)}{z-w} & \text{if } z \neq w \\
+		f'(w) & \text{if } z = w
+	\end{cases} \]
+	is holomorphic in \( U \) as seen above.
+	Hence \( \int_\gamma g(z) \dd{z} = 0 \), so \( \frac{1}{2\pi i} \int_\gamma \frac{f(z) \dd{z}}{z-w} = I(\gamma;w) f(w) \) for all \( w \not\in \Im \gamma \).
+
+	Note that the statement that \( \gamma \) is homologous to zero is equivalent to Cauchy's theorem being valid for all \( f \).
+	For example, given \( w \in \mathbb C \setminus U \), we can apply Cauchy's theorem to \( f(z) = \frac{1}{z-w} \) to get \( I(\gamma;w) = 0 \).
+	The converse is proven in the theorem following this proof.
+	This is also equivalent to Cauchy's integral formula being valid for all \( f \).
+\end{remark}
+\begin{proof}
+	It suffices to prove part (i).
+	Equivalently, for all \( w \in U \setminus \Im \gamma \),
+	\[ \int_\gamma \frac{f(z) - f(w)}{z-w} \dd{z} = 0 \iff \int_\gamma g(z,w) \dd{z} = 0 \]
+	where
+	\[ g(z,w) = \begin{cases}
+		\frac{f(z) - f(w)}{z-w} & \text{if } z \neq w \\
+		f'(w) & \text{if } z = w \\
+	\end{cases} \]
+	Now, define
+	\[ h \colon U \to \mathbb C;\quad h(w) = \int_\gamma g(z,w) \dd{z} \]
+	By the above lemma, this is holomorphic on \( U \).
+	We will show that \( h = 0 \).
+	We will extend \( h \) to a holomorphic function \( H \colon \mathbb C \to \mathbb C \) and prove that \( H(w) \to 0 \) as \( w \to \infty \), then we can apply Liouville's theorem.
+
+	To extend \( h \) into an entire function \( H \), by definition of \( \gamma \) being homologous to zero in \( U \), we have \( \mathbb C \setminus U \subseteq V \equiv \qty{w \in \mathbb C \setminus \Im \gamma \colon I(\gamma;w) = 0 } \).
+	So \( \mathbb C = U \cup V \), and \( V \) is open since \( I(\gamma;\wildcard) \) is locally constant.
+	For \( w \in U \cap V \), we have
+	\[ h(w) = \int_\gamma \frac{f(z) - f(w)}{z-w} \dd{z} = \int_\gamma \frac{f(z) \dd{z}}{z-w} \]
+	since \( \int_\gamma \frac{\dd{z}}{z-w} = 2\pi i \cdot I(\gamma;w) = 0 \) as \( w \in V \).
+	Hence, on \( U \cap V \), the function \( h \) agrees with
+	\[ h_1 \colon V \to \mathbb C;\quad h_1(w) = \int_\gamma \frac{f(z) \dd{z}}{z-w} \]
+	We know that \( h_1 \) is holomorphic on \( V \).
+	Hence, the function \( H \colon \mathbb C \to \mathbb C \) defined by
+	\[ H(w) = \begin{cases}
+		h(w) & w \in U \\
+		h_1(w) & w \in V
+	\end{cases} \]
+	is well-defined and holomorphic.
+
+	Now, we will show \( H(w) \to 0 \) as \( \abs{w} \to \infty \).
+	Let \( R > 0 \) such that \( \Im \gamma \subset D(0,R) \), which is possible since \( \Im \gamma \) is compact.
+	Hence, \( \mathbb C \setminus D(0,R) \subseteq V \).
+	If \( \abs{w} > R \),
+	\[ \abs{H(w)} = \abs{h_1(w)} = \abs{\int_\gamma \frac{f(z) \dd{z}}{z-w}} \leq \frac{1}{\abs{w} - R} \qty( \sup_{z \in \Im \gamma} \abs{f(z)} \) \mathrm{length}(\gamma) \]
+	Hence, \( H(w) \to 0 \) as \( \abs{w} \to \infty \), as claimed.
+	Hence \( H \) is bounded, since \( H \) is continuous, and \( \abs{H(w)} \leq 1 \) outside some closed disk \( \overline{D(0,R_1)} \).
+	By Liouville's theorem, \( H \) is constant, and by the claim, \( H = 0 \).
+	In particular, \( h = 0 \).
+\end{proof}
+\begin{corollary}
+	Let \( U \subset \mathbb C \) be open and \( \gamma_1, \dots, \gamma_n \) be closed curves in \( U \) such that \( \sum_{j=1}^n I(\gamma_j;w) = 0 \) for all \( w \in \mathbb C \setminus U \).
+	Then, for any holomorphic \( f \colon U \to \mathbb C \), we have
+	\[ f(w) \sum_{j=1}^n I(\gamma_j;w) = \sum_{j=1}^n \frac{1}{2\pi i} \int_{\gamma_j} \frac{f(z) \dd{z}}{z-w} \]
+	for all \( w \in U \setminus \bigcup_{j=1}^n \Im \gamma_j \), and
+	\[ \sum_{j=1}^n \int_{\gamma_j} f(z) \dd{z} = 0 \]
+\end{corollary}
+\begin{proof}
+	For the first part, define \( g(z,w) \) as before, but let
+	\[ V = \qty{w \in \mathbb C \setminus \bigcup_{j=1}^n \Im \gamma_j \colon \sum_{j=1}^n I(\gamma_j;w) = 0} \]
+	In the definitions of \( h \) and \( h_1 \), use the sum of the integrals over \( \gamma_j \).
+	Then we can proceed as above.
+	The second part follows from the first as before.
+\end{proof}
+\begin{corollary}
+	Let \( U \subset \mathbb C \) be open and let \( \beta_1, \beta_2 \) be closed curves in \( U \) such that \( I(\beta_1;w) = I(\beta_2;w) \) for all \( w \in \mathbb C \setminus U \).
+	Then
+	\[ \int_{\beta_1} f(z) \dd{z} = \int_{\beta_2} f(z) \dd{z} \]
+	for all holomorphic functions \( f \colon U \to \mathbb C \).
+\end{corollary}
+\begin{proof}
+	We can apply the second part of the previous corollary with \( \gamma_1 = \beta_1 \) and \( \gamma_2 = -\beta_2 \), noting that \( I(-\beta_2;w) = -I(\beta_2;w) \) for any \( w \not\in \Im \beta_2 \).
+\end{proof}
+
+\subsection{Null-homotopy}
+The set of closed curves in \( U \) such that Cauchy's theorem is valid is the set of holomorphic functions homologous to zero.
+We will now construct a more restrictive condition, the condition of being \textit{null-homotopic}.
+\begin{definition}
+	Let \( U \subseteq \mathbb C \) be a domain, and let \( \gamma_0, \gamma_1 \colon [a,b] \to U \) be closed curves.
+	We say that \( \gamma_0 \) is \textit{homotopic to \( \gamma_1 \) in \( U \)} if there exists a continuous map \( H \colon [0,1] \to [a,b] \to U \) such that for all \( s \in [0,1] \), \( t \in [a,b] \),
+	\[ H(0,t) = \gamma_0(t);\quad H(1,t) = \gamma_1(t);\quad H(s,a) = H(s,b) \]
+	Such a map is called a \textit{homotopy} between \( \gamma_0, \gamma_1 \).
+\end{definition}
+For \( 0 \leq s \leq 1 \), if we let \( \gamma_s\colon [a,b] \to U \) be defined by \( \gamma_s(t) = H(s,t) \) for \( t \in [a,b] \), then the above conditions imply that \( \qty{\gamma_s \colon s \in [0,1]} \) is a family of continuous closed curves in \( U \) which deform \( \gamma_0 \) to \( \gamma_1 \) continuously without leaving \( U \).
