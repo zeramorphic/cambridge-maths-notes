@@ -108,7 +108,8 @@ The \textit{likelihood ratio test} is a test that rejects \( H_0 \) when \( \Lam
 Typically, when reporting the results of a test, we describe the conclusion of the test as well as the \( p \)-value.
 In the example above, suppose \( \mu_0 = 5 \), \( \mu_1 = 6 \), \( \alpha = 0.05 \), and \( x^\star = (5.1, 5.5, 4.9, 5.3) \).
 Here, \( \overline{x^\star} = 5.2 \) and \( z^\star = 0.4 \).
-The likelihood ratio test has critical region \( \qty{x: Z(x) > \Phi^{-1}(0.95) \approx 1.645} \)
+The likelihood ratio test has critical region
+\[ \qty{x: Z(x) > \Phi^{-1}(0.95) \approx 1.645} \]
 The conclusion of the test here is to not reject \( H_0 \).
 The \( p \)-value is \( 1 - \Phi(z^\star) \approx 0.35 \).
 \begin{proposition}
@@ -117,7 +118,12 @@ The \( p \)-value is \( 1 - \Phi(z^\star) \approx 0.35 \).
 \begin{proof}
 	Let \( F \) be the distribution of the test statistic \( T \), which we will assume for this proof is continuous.
 	Then,
-	\[ \psub{H_0}{p < u} = \psub{H_0}{1 - F(T) < u} = \psub{H_0}{F(T) > 1-u} = \psub{H_0}{T > F^{-1}(1-u)} = 1 - F(F^{-1}(1-u)) = u \]
+	\begin{align*}
+		\psub{H_0}{p < u} &= \psub{H_0}{1 - F(T) < u} \\
+		&= \psub{H_0}{F(T) > 1-u} \\
+		&= \psub{H_0}{T > F^{-1}(1-u)} \\
+		&= 1 - F(F^{-1}(1-u)) = u
+	\end{align*}
 \end{proof}
 
 \subsection{Composite hypotheses}
@@ -167,7 +173,7 @@ The probabilities of type I and type II error are now dependent on the precise v
 	Let \( H_0 \colon \mu = \mu_0 \) and \( H_1 \colon \mu \in \mathbb R \) for some fixed \( \mu_0 \).
 	In this model, the generalised likelihood ratio is
 	\begin{align*}
-		\Lambda_x(H_0; H_1) &= \frac{(2 \pi \sigma_0^2)^{n/2} \exp{\frac{-1}{\sigma_0^2} \Sigma_{i=1}^n (x_i - \overline X)^2}}{(2 \pi \sigma_0^2)^{n/2} \exp{\frac{-1}{\sigma_0^2} \Sigma_{i=1}^n (x_i - \mu_0)^2}} \\
+		\Lambda_x(H_0; H_1) &= \frac{(2 \pi \sigma_0^2)^{n/2} \exp{\frac{-1}{2\sigma_0^2} \Sigma_{i=1}^n (x_i - \overline X)^2}}{(2 \pi \sigma_0^2)^{n/2} \exp{\frac{-1}{2\sigma_0^2} \Sigma_{i=1}^n (x_i - \mu_0)^2}} \\
 		2\log \Lambda_x &= \frac{n}{\sigma_0^2}(\overline X - \mu_0)^2
 	\end{align*}
 	Under \( H_0 \), \( \sqrt{n} \frac{\overline X - \mu_0}{\sigma_0} \sim N(0,1) \).
@@ -194,7 +200,7 @@ The probabilities of type I and type II error are now dependent on the precise v
 \end{example}
 \begin{theorem}
 	Suppose \( \Theta_0 \subset \Theta_1 \), and \( \dim \Theta_1 - \dim \Theta_0 = p \).
-	Let \( X = (X_1, \dots, X_n) \) be i.i.d.\ random variables under \( f_x(\wildcard\mid\theta) \) where \( \theta = \Theta_0^\circ \).
+	Let \( X = (X_1, \dots, X_n) \) be i.i.d.\ random variables under \( f_x(\wildcard\mid\theta) \) where \( \theta \in \Theta_0^\circ \).
 	Then, under some regularity conditions, as \( n \to \infty \) we have
 	\[ 2\log\Lambda_x \sim \chi_p^2 \]
 	More precisely, for all \( \ell \in \mathbb R_+ \),
@@ -240,7 +246,7 @@ By taking the Taylor expansion, we arrive at
 Note that \( \sum_i \delta_i = \sum_i (o_i - e_i) = n - n = 0 \), so we can simplify and find
 \[ \sum_i \frac{\delta_i^2}{e_i} = \sum_i \frac{(o_i - e_i)^2}{e_i} \]
 This is \textit{Pearson's \( \chi^2 \) statistic}.
-This is also referred to as a \( \chi^2_{k-1} \) when performing a hypothesis test.
+This is also referred to a \( \chi^2_{k-1} \) when performing a hypothesis test.
 \begin{example}
 	Mendel performed an experiment in which 556 different pea plants were created from a small set of ancestors.
 	Each descendent was either yellow or green, and either wrinkled or smooth, giving four possibilities in total.
@@ -249,7 +255,7 @@ This is also referred to as a \( \chi^2_{k-1} \) when performing a hypothesis te
 	Mendel's theory gives a null hypothesis \( H_0 \colon p = \widetilde p = \qty(\frac{9}{16}, \frac{3}{16}, \frac{3}{16}, \frac{1}{16}) \).
 	Here,
 	\[ 2 \log \Lambda = 0.618;\quad \sum_i \frac{(o_i - e_i)^2}{e_i} = 0.604 \]
-	These are referred to as a \( \chi^2_3 \) distribution.
+	These are referred to a \( \chi^2_3 \) distribution.
 	We observe that \( \chi^2_3(0.05) = 7.815 \), so we fail to reject the null hypothesis with a test of size \( 5\% \).
 	We can compute that the \( p \)-value is \( \prob{\chi^2_3 > 0.6} \approx 0.96 \), so there is a very high probability of observing a more extreme value than observed.
 \end{example}

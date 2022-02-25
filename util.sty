@@ -66,16 +66,18 @@
 	\input{../../tex_vendor/style.tikzstyles}
 \fi
 
-\usepackage[pdfa]{hyperref}
-\hypersetup{
-	colorlinks=true,
-	linktoc=all,
-	linkcolor=black,
-}
 \usepackage{minitoc}
 \usepackage{faktor} % TODO: convert group quotients to this style
 \usepackage{scalerel}
 \usepackage{microtype}
+\usepackage[breakable]{tcolorbox}
+
+\usepackage[pdfa]{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linktoc=all,
+	linkcolor=green!40!black,
+}
 
 \numberwithin{equation}{section} % make equations be numbered 1.1 not 1
 
@@ -100,6 +102,19 @@
 \theoremstyle{remark}
 \newtheorem*{note}{Note}
 \newtheorem*{remark}{Remark}
+
+\definecolor{lemma_col}{RGB}{194, 237, 255}
+\definecolor{thm_col}{RGB}{255, 194, 215}
+\definecolor{def_col}{RGB}{158, 232, 190}
+
+% we don't have `frame hidden` since we can't use `skins` from tcolorbox withou compile errors
+\tcolorboxenvironment{definition}{colback=def_col!30,colframe=white,breakable,arc=0mm}
+\tcolorboxenvironment{claim}{colback=lemma_col!30,colframe=white,breakable,arc=0mm}
+\tcolorboxenvironment{proposition}{colback=lemma_col!30,colframe=white,breakable,arc=0mm}
+\tcolorboxenvironment{lemma}{colback=lemma_col!30,colframe=white,breakable,arc=0mm}
+\tcolorboxenvironment{corollary}{colback=lemma_col!30,colframe=white,breakable,arc=0mm}
+%\tcolorboxenvironment{example}{colback=green!10,colframe=white,breakable,arc=0mm}
+\tcolorboxenvironment{theorem}{colback=thm_col!30,colframe=white,breakable,arc=0mm}
 
 \newcommand{\ddempty}{\mathrm{d}}
 \newcommand{\dn}[2]{\mathrm{d}^#1#2}
