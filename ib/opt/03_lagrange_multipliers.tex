@@ -2,14 +2,14 @@
 Consider minimising \(f(\vb x)\) subject to \(\vb x \in \mathcal X\), \(h(\vb x) = \vb b\) where \(h \colon \mathbb R^n \to \mathbb R^m\).
 The \textit{Lagrangian} associated with this problem is
 \[
-	L(\vb x, \vb \lambda) = f(\vb x) - \vb \lambda^\transpose(h(\vb x) - \vb b)
+	L(\vb x, \bm \lambda) = f(\vb x) - \bm \lambda^\transpose(h(\vb x) - \vb b)
 \]
-where \(\vb\lambda \in \mathbb R^m\) is the vector of Lagrange multipliers.
-We want to instead minimise \(L(\vb x, \vb \lambda), x \in \mathcal X\).
+where \(\bm\lambda \in \mathbb R^m\) is the vector of Lagrange multipliers.
+We want to instead minimise \(L(\vb x, \bm \lambda), x \in \mathcal X\).
 \begin{theorem}[Lagrange Sufficiency]
-	Suppose we can find a \(\vb \lambda^\star\) such that
+	Suppose we can find a \(\bm \lambda^\star\) such that
 	\begin{enumerate}[(i)]
-		\item \(\min_{\vb x \in \mathcal X} L(\vb x, \vb \lambda^\star) = L(\vb x^\star, \vb\lambda^\star)\)
+		\item \(\min_{\vb x \in \mathcal X} L(\vb x, \bm \lambda^\star) = L(\vb x^\star, \bm\lambda^\star)\)
 		\item \(\vb x^\star \in \mathcal X(\vb b) = \qty{\vb x \colon \vb x \in \mathcal X, h(\vb x) = \vb b}\)
 	\end{enumerate}
 	Then \(\vb x^\star\) is optimal for the original constrained problem, i.e.
@@ -21,11 +21,11 @@ We want to instead minimise \(L(\vb x, \vb \lambda), x \in \mathcal X\).
 	First, note that condition (ii) states that \(f(\vb x^\star) \geq \min_{\vb x \in \mathcal X(\vb b)}f(\vb x)\), because \(\vb x^\star\) is feasible.
 	Then,
 	\begin{align*}
-		\min_{\vb x \in \mathcal X(\vb b)}f(\vb x) & = \min_{\vb x \in \mathcal X(\vb b)} f(\vb x) - \underbrace{(\vb\lambda^\star)^\transpose (h(\vb x) - \vb b)}_{0 \text{ when } \vb x \in \mathcal X(\vb b)} \\
-		                                           & \geq \min_{\vb x \in \mathcal X} f(\vb x) - (\vb\lambda^\star)^\transpose (h(\vb x) - \vb b)                                                                \\
-		                                           & = \min_{\vb x \in \mathcal X} L(\vb x, \vb \lambda)                                                                                                         \\
-		                                           & = L(\vb x^\star, \vb \lambda^\star)                                                                                                                         \\
-		                                           & = f(\vb x^\star) - (\vb\lambda^\star)^\transpose (h(\vb x^\star) - \vb b)                                                                                   \\
+		\min_{\vb x \in \mathcal X(\vb b)}f(\vb x) & = \min_{\vb x \in \mathcal X(\vb b)} f(\vb x) - \underbrace{(\bm\lambda^\star)^\transpose (h(\vb x) - \vb b)}_{0 \text{ when } \vb x \in \mathcal X(\vb b)} \\
+		                                           & \geq \min_{\vb x \in \mathcal X} f(\vb x) - (\bm\lambda^\star)^\transpose (h(\vb x) - \vb b)                                                                \\
+		                                           & = \min_{\vb x \in \mathcal X} L(\vb x, \bm \lambda)                                                                                                         \\
+		                                           & = L(\vb x^\star, \bm \lambda^\star)                                                                                                                         \\
+		                                           & = f(\vb x^\star) - (\bm\lambda^\star)^\transpose (h(\vb x^\star) - \vb b)                                                                                   \\
 		                                           & = f(\vb x^\star)
 	\end{align*}
 \end{proof}
@@ -46,10 +46,10 @@ We want to instead minimise \(L(\vb x, \vb \lambda), x \in \mathcal X\).
 	\]
 	Taking Lagrange multipliers, we have
 	\begin{align*}
-		L(\vb x, \vb\lambda) & = (-x_1 - x_2 + x_3) - \lambda_1 (x_1^2 + x_2^2 - 4) - \lambda_2(x_1+x_2 + x_3 - 1)                                               \\
+		L(\vb x, \bm\lambda) & = (-x_1 - x_2 + x_3) - \lambda_1 (x_1^2 + x_2^2 - 4) - \lambda_2(x_1+x_2 + x_3 - 1)                                               \\
 		                     & = (-(1+\lambda_2) x_1 - \lambda_1 x_1^2) + (-(1 + \lambda_2)x_2 - \lambda_1 x_2^2) + (1 - \lambda_2)x_3 + 4 \lambda_1 + \lambda_2
 	\end{align*}
-	We want to fix a value of \(\vb \lambda\) and minimise \(L\), only considering solutions such that \(\vb x^\star\) is finite.
+	We want to fix a value of \(\bm \lambda\) and minimise \(L\), only considering solutions such that \(\vb x^\star\) is finite.
 	Note that if \(\lambda_1 > 0\), then the first bracket can be made as small as we like by picking very small values of \(x_1\); this bracket would diverge to negative infinity so we cannot choose such a \(\lambda_1\).
 	If \(\lambda_2 \neq 1\), the infimum is also negative infinity by considering the \(x_3\) term.
 	So let us consider \(\lambda_1 \leq 0, \lambda_2 = 1\).
@@ -90,40 +90,40 @@ We can solve this problem using the following steps.
 	      \end{alignat*}
 	\item Calculate the Lagrangian,
 	      \[
-		      L(\vb x, \vb \lambda, \vb s) = f(\vb x) - \vb \lambda^\transpose (h(\vb x) + \vb s - \vb b)
+		      L(\vb x, \bm \lambda, \vb s) = f(\vb x) - \bm \lambda^\transpose (h(\vb x) + \vb s - \vb b)
 	      \]
 	\item Let
 	      \[
-		      \vb \Lambda = \qty{\vb \lambda \colon \inf_{\vb x \in \mathcal X;\; \vb s \geq 0} L(\vb x, \vb s, \vb \lambda) > -\infty}
+		      \bm \Lambda = \qty{\bm \lambda \colon \inf_{\vb x \in \mathcal X;\; \vb s \geq 0} L(\vb x, \vb s, \bm \lambda) > -\infty}
 	      \]
-	\item For each \(\vb\lambda \in \vb\Lambda\), find \(\vb x^\star(\vb \lambda), \vb s^\star(\vb \lambda)\) such that
+	\item For each \(\bm\lambda \in \bm\Lambda\), find \(\vb x^\star(\bm \lambda), \vb s^\star(\bm \lambda)\) such that
 	      \[
-		      \min_{\vb x \in \mathcal X;\; \vb s \geq 0} L(\vb x, \vb s, \vb \lambda) = L(\vb x^\star(\vb \lambda), \vb s^\star(\vb \lambda), \vb \lambda)
+		      \min_{\vb x \in \mathcal X;\; \vb s \geq 0} L(\vb x, \vb s, \bm \lambda) = L(\vb x^\star(\bm \lambda), \vb s^\star(\bm \lambda), \bm \lambda)
 	      \]
-	\item Find \(\vb\lambda^\star \in \vb\Lambda\) such that \((\vb x^\star(\vb \lambda), \vb s^\star(\vb \lambda))\) is feasible, i.e.
+	\item Find \(\bm\lambda^\star \in \bm\Lambda\) such that \((\vb x^\star(\bm \lambda), \vb s^\star(\bm \lambda))\) is feasible, i.e.
 	      \[
-		      h(\vb x^\star(\vb \lambda^\star)) = \vb b;\quad \vb s^\star (\vb \lambda^\star) \geq 0
+		      h(\vb x^\star(\bm \lambda^\star)) = \vb b;\quad \vb s^\star (\bm \lambda^\star) \geq 0
 	      \]
 \end{enumerate}
 
 \subsection{Complementary slackness}
 In step (4) above, we want to minimise the Lagrangian, i.e.
 \begin{alignat*}{2}
-	 & \underset{\vb x \in \mathcal X}{\text{minimise}} & \qquad & f(\vb x) - \vb \lambda^\transpose (h(\vb x) - \vb b) - \vb \lambda^\transpose \vb s \\
+	 & \underset{\vb x \in \mathcal X}{\text{minimise}} & \qquad & f(\vb x) - \bm \lambda^\transpose (h(\vb x) - \vb b) - \bm \lambda^\transpose \vb s \\
 	 & \text{subject to}                                &        & \vb s \geq 0
 \end{alignat*}
-Suppose, for a particular value of \(\vb \lambda\), that we solve this problem and arrive at \(\vb x^\star(\vb \lambda), \vb s^\star(\vb \lambda)\).
+Suppose, for a particular value of \(\bm \lambda\), that we solve this problem and arrive at \(\vb x^\star(\bm \lambda), \vb s^\star(\bm \lambda)\).
 Let
 \[
-	\vb \lambda = \begin{pmatrix}
+	\bm \lambda = \begin{pmatrix}
 		\lambda_1 \\ \vdots \\ \lambda_m
 	\end{pmatrix}
 \]
-If \(\lambda_i > 0\), then for some large \(\vb s\) we can make \(f \to -\infty\), hence \(\vb \lambda \notin \vb \Lambda\).
-Hence, given \(\vb \lambda \in \vb \Lambda\), we must have \(\lambda_i \leq 0\).
+If \(\lambda_i > 0\), then for some large \(\vb s\) we can make \(f \to -\infty\), hence \(\bm \lambda \notin \bm \Lambda\).
+Hence, given \(\bm \lambda \in \bm \Lambda\), we must have \(\lambda_i \leq 0\).
 Now, if \(\lambda_i < 0\) for some \(i\), we would want to choose \(s_i = 0\) to minimise the increase to the function caused by the slack variable.
 If \(\lambda_i = 0\), then \(s_i\) can be chosen arbitrarily since it will have no increase on the value of \(f\).
-With these choices of \(s_i\), we can make \(\vb \lambda^\transpose \vb s = 0\), thus making the slack variable not impact the value of \(f\).
+With these choices of \(s_i\), we can make \(\bm \lambda^\transpose \vb s = 0\), thus making the slack variable not impact the value of \(f\).
 So either
 \begin{itemize}
 	\item \(h(\vb x)_i = b_i\) and \(\lambda_i \leq 0\), or
@@ -152,7 +152,7 @@ In other words, either the constraint inequality is tight (defined by an equalit
 	\end{alignat*}
 	Taking the Lagrangian,
 	\begin{align*}
-		L(\vb x, \vb s, \vb \lambda) & = (x_1 - 3x_2) - x_1(x_1^2 + x_2^2 + s_1 - 4) - \lambda_2(x_1 + x_2 + s_2 - 2)                                                                       \\
+		L(\vb x, \vb s, \bm \lambda) & = (x_1 - 3x_2) - x_1(x_1^2 + x_2^2 + s_1 - 4) - \lambda_2(x_1 + x_2 + s_2 - 2)                                                                       \\
 		                             & = \qty((1 - \lambda_2)x_1 - \lambda_1 x_1^2) + \qty((-3-\lambda_2)x_2 - \lambda_1 x_2^2) - \lambda_1 s_1 - \lambda_2 s_2 + (4\lambda_1 + 2\lambda_2)
 	\end{align*}
 	We must have \(\lambda_1, \lambda_2 \leq 0\) by considering the slack variable.
@@ -212,39 +212,39 @@ We would like to solve a problem
 \end{alignat*}
 by constructing the Lagrangian
 \[
-	L(\vb x, \vb \lambda) = f(\vb x) - \vb\lambda^\transpose (h(\vb x) - \vb b)
+	L(\vb x, \bm \lambda) = f(\vb x) - \bm\lambda^\transpose (h(\vb x) - \vb b)
 \]
 We now define the quantity
 \[
-	g(\vb \lambda) = \inf_{\vb x \in \mathcal X} L(\vb x, \vb \lambda)
+	g(\bm \lambda) = \inf_{\vb x \in \mathcal X} L(\vb x, \bm \lambda)
 \]
 \begin{theorem}[Weak duality theorem]
-	If \( \vb x \in \mathcal X(\vb b) \) and \( \vb\lambda \in \vb\Lambda \), then \( f(\vb x) \geq g(\lambda) \).
+	If \( \vb x \in \mathcal X(\vb b) \) and \( \bm\lambda \in \bm\Lambda \), then \( f(\vb x) \geq g(\lambda) \).
 	In particular,
 	\[
-		\inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) \geq \sup_{\vb \lambda \in \vb \Lambda} g(\vb \lambda)
+		\inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) \geq \sup_{\bm \lambda \in \bm \Lambda} g(\bm \lambda)
 	\]
 \end{theorem}
 \begin{proof}
 	\begin{align*}
-		\inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) & = \inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) - \vb \lambda^\transpose (h(\vb x) - \vb b) \\
-		                                            & \geq \inf_{\vb x \in \mathcal X} f(\vb x) - \vb \lambda^\transpose (h(\vb x) - \vb b)     \\
-		                                            & = \inf_{\vb x \in \mathcal X} L(\vb x, \vb \lambda)                                       \\
-		                                            & = g(\vb\lambda)
+		\inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) & = \inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) - \bm \lambda^\transpose (h(\vb x) - \vb b) \\
+		                                            & \geq \inf_{\vb x \in \mathcal X} f(\vb x) - \bm \lambda^\transpose (h(\vb x) - \vb b)     \\
+		                                            & = \inf_{\vb x \in \mathcal X} L(\vb x, \bm \lambda)                                       \\
+		                                            & = g(\bm\lambda)
 	\end{align*}
 \end{proof}
-Using this weak duality property, if \( \inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) \) is difficult to solve, we can first attempt \( \sup_{\vb \lambda \in \vb \Lambda} g(\vb \lambda) \).
+Using this weak duality property, if \( \inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) \) is difficult to solve, we can first attempt \( \sup_{\bm \lambda \in \bm \Lambda} g(\bm \lambda) \).
 The problem
 \begin{alignat*}{2}
-	 & \text{maximise}   & \qquad & g(\vb \lambda)              \\
-	 & \text{subject to} &        & \vb \lambda \in \vb \Lambda
+	 & \text{maximise}   & \qquad & g(\bm \lambda)              \\
+	 & \text{subject to} &        & \bm \lambda \in \bm \Lambda
 \end{alignat*}
 is called the \textit{dual problem}.
 The original is called the \textit{primal problem}.
 The optimal cost of the primal problem is always greater than or equal to the optimal cost of the dual problem.
 The \textit{duality gap} is the difference:
 \[
-	\inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) - \sup_{\vb \lambda \in \vb \Lambda} g(\vb \lambda)
+	\inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) - \sup_{\bm \lambda \in \bm \Lambda} g(\bm \lambda)
 \]
 If the duality gap is zero, then we say that \textit{strong duality} holds.
 This strengthens the inequality into an equality.
@@ -252,23 +252,23 @@ This strengthens the inequality into an equality.
 \subsection{Strong duality and the Lagrange method}
 If the Lagrange method works, then we know that
 \[
-	\inf_{\vb x \in \mathcal X} L(\vb x, \vb \lambda) = \inf_{\vb x \in \mathcal X(\vb b)} L(\vb x, \vb \lambda)
+	\inf_{\vb x \in \mathcal X} L(\vb x, \bm \lambda) = \inf_{\vb x \in \mathcal X(\vb b)} L(\vb x, \bm \lambda)
 \]
-So, taking such a \( \vb \lambda \) in the proof above, we have equality instead of inequality.
+So, taking such a \( \bm \lambda \) in the proof above, we have equality instead of inequality.
 Hence the problem has strong duality.
-Conversely, if the duality gap is zero, then there exists a \( \vb \lambda \) such that the inequality above is an equality.
-Hence, for this \( \vb \lambda \),
+Conversely, if the duality gap is zero, then there exists a \( \bm \lambda \) such that the inequality above is an equality.
+Hence, for this \( \bm \lambda \),
 \[
-	\inf_{\vb x \in \mathcal X} L(\vb x, \vb \lambda) = \inf_{\vb x \in \mathcal X(\vb b)} L(\vb x, \vb \lambda)
+	\inf_{\vb x \in \mathcal X} L(\vb x, \bm \lambda) = \inf_{\vb x \in \mathcal X(\vb b)} L(\vb x, \bm \lambda)
 \]
-Hence this is the \( \vb \lambda \) which will solve the Lagrange method.
+Hence this is the \( \bm \lambda \) which will solve the Lagrange method.
 In summary, strong duality holds exactly when the Lagrange method works.
 
 \subsection{Hyperplane condition for strong duality}
 \begin{definition}
-	A function \( \phi \colon \mathbb R^m \to \mathbb R \) is said to have a \textit{supporting hyperplane} at a point \( \vb b \) if there exists \( \vb \lambda \in \mathbb R^m \) such that for all \( \vb c \in \mathbb R^m \),
+	A function \( \phi \colon \mathbb R^m \to \mathbb R \) is said to have a \textit{supporting hyperplane} at a point \( \vb b \) if there exists \( \bm \lambda \in \mathbb R^m \) such that for all \( \vb c \in \mathbb R^m \),
 	\[
-		\phi(\vb c) \geq \phi(\vb b) + \vb\lambda^\transpose (\vb c - \vb b)
+		\phi(\vb c) \geq \phi(\vb b) + \bm\lambda^\transpose (\vb c - \vb b)
 	\]
 \end{definition}
 \noindent Pictorially, \( \phi \) has a supporting hyperplane if there is a plane passing through \( (\vb b, \phi(\vb b)) \), where \( \phi \) is always above the plane.
@@ -290,29 +290,29 @@ This could be, for example, a tangent plane at \( \vb b \).
 \end{theorem}
 \begin{proof}
 	First, we show that a separating hyperplane implies strong duality.
-	We have \( \vb \lambda \) such that
+	We have \( \bm \lambda \) such that
 	\[
-		\phi(\vb c) \geq \phi(\vb b) + \vb\lambda^\transpose (\vb c - \vb b)
+		\phi(\vb c) \geq \phi(\vb b) + \bm\lambda^\transpose (\vb c - \vb b)
 	\]
 	Then, we have
 	\begin{align*}
-		g(\vb \lambda) & = \inf_{\vb x \in \mathcal X} f(\vb x) - \vb\lambda^\transpose (h(\vb x) - \vb b)                                                                                                                           \\
-		               & = \inf_{\vb c} \inf_{\vb x \in \mathcal X(\vb c)} f(\vb x) - \underbrace{\vb\lambda^\transpose (h(\vb x) - \vb c)}_{\mathclap{\text{zero since we are extremising}}} - \vb\lambda^\transpose(\vb c - \vb b) \\
-		               & = \inf_{\vb c} \phi(\vb c) - \vb\lambda^\transpose(\vb c - \vb b)                                                                                                                                           \\
+		g(\bm \lambda) & = \inf_{\vb x \in \mathcal X} f(\vb x) - \bm\lambda^\transpose (h(\vb x) - \vb b)                                                                                                                           \\
+		               & = \inf_{\vb c} \inf_{\vb x \in \mathcal X(\vb c)} f(\vb x) - \underbrace{\bm\lambda^\transpose (h(\vb x) - \vb c)}_{\mathclap{\text{zero since we are extremising}}} - \bm\lambda^\transpose(\vb c - \vb b) \\
+		               & = \inf_{\vb c} \phi(\vb c) - \bm\lambda^\transpose(\vb c - \vb b)                                                                                                                                           \\
 		               & \geq \phi(\vb b)
 	\end{align*}
-	By weak duality, we also have the reverse direction: \( g(\vb \lambda) \leq \phi(\vb b) \)
-	Hence, \( g(\vb \lambda) = \phi(\vb b) \) and strong duality holds.
+	By weak duality, we also have the reverse direction: \( g(\bm \lambda) \leq \phi(\vb b) \)
+	Hence, \( g(\bm \lambda) = \phi(\vb b) \) and strong duality holds.
 	Conversely, if strong duality holds, we want to show the existence of such a hyperplane.
-	We have We have \( \vb \lambda \) such that \( g(\vb \lambda) = \phi(\vb b) \).
-	For such a \( \vb \lambda \), we have
+	We have We have \( \bm \lambda \) such that \( g(\bm \lambda) = \phi(\vb b) \).
+	For such a \( \bm \lambda \), we have
 	\begin{align*}
-		\phi(\vb b) = g(\vb \lambda) & = \inf_{\vb x \in \mathcal X} f(\vb x) - \vb\lambda^\transpose (h(\vb x) - \vb b)                                        \\
-		                             & = \inf_{\vb x \in \mathcal X} f(\vb x) - \vb\lambda^\transpose (h(\vb x) - \vb c) - \vb\lambda^\transpose(\vb c - \vb b) \\
-		                             & \leq \phi(\vb c) - \vb\lambda^\transpose(\vb c - \vb b)
+		\phi(\vb b) = g(\bm \lambda) & = \inf_{\vb x \in \mathcal X} f(\vb x) - \bm\lambda^\transpose (h(\vb x) - \vb b)                                        \\
+		                             & = \inf_{\vb x \in \mathcal X} f(\vb x) - \bm\lambda^\transpose (h(\vb x) - \vb c) - \bm\lambda^\transpose(\vb c - \vb b) \\
+		                             & \leq \phi(\vb c) - \bm\lambda^\transpose(\vb c - \vb b)
 	\end{align*}
 	The last inequality holds due to weak duality.
-	So \( \vb \lambda \) gives a supporting hyperplane.
+	So \( \bm \lambda \) gives a supporting hyperplane.
 \end{proof}
 
 \subsection{Strong duality and convex functions}
@@ -356,24 +356,24 @@ The quantity \( \pdv{\phi}{b_j}(\vb b) \) is the price of material \( j \), and 
 These are called the `shadow prices'; they are hidden to the outside world but depend on the internal state of the factory.
 
 \begin{theorem}
-	If \( \phi \) is differentiable at \( \vb b \) and has a separating hyperplane given by \( \vb \lambda \), then
+	If \( \phi \) is differentiable at \( \vb b \) and has a separating hyperplane given by \( \bm \lambda \), then
 	\[
-		\vb \lambda = \grad{\phi}(\vb b)
+		\bm \lambda = \grad{\phi}(\vb b)
 	\]
 \end{theorem}
 \begin{proof}
 	Let \( \vb a = (a_1, a_2, \dots, a_m) \) be an arbitrary vector.
 	Then from the supporting hyperplane condition, for some small \( \delta > 0 \) we have
 	\[
-		\frac{\phi(\vb b + \delta\vb a)}{\delta} \geq \vb \lambda^\transpose \vb a
+		\frac{\phi(\vb b + \delta\vb a)}{\delta} \geq \bm \lambda^\transpose \vb a
 	\]
 	Since \( \phi \) is differentiable, the limit can be taken to give
 	\[
-		\grad{\phi}(\vb b) \cdot \vb a \geq \vb \lambda^\transpose \vb a
+		\grad{\phi}(\vb b) \cdot \vb a \geq \bm \lambda^\transpose \vb a
 	\]
 	But \( \vb a \) was arbitrary.
-	This can only hold if \( \vb \lambda = \grad{\phi}(\vb b) \) as required.
-	So the Lagrange multiplier \( \vb \lambda \) at \( \vb b \) is equal to the gradient vector of \( \phi \) which is the gradient of partial derivatives and also the vector of shadow prices.
+	This can only hold if \( \bm \lambda = \grad{\phi}(\vb b) \) as required.
+	So the Lagrange multiplier \( \bm \lambda \) at \( \vb b \) is equal to the gradient vector of \( \phi \) which is the gradient of partial derivatives and also the vector of shadow prices.
 \end{proof}
 
 \noindent Suppose that a particular raw material was not used up.
@@ -385,12 +385,12 @@ This is exactly the complementary slackness property seen earlier.
 
 There is also an economics interpretation of the dual problem.
 Such a problem can be seen from the perspective of the raw material seller.
-This seller charges a certain price \( \vb \lambda \) for their raw materials, and then buys the finished product from the factory.
+This seller charges a certain price \( \bm \lambda \) for their raw materials, and then buys the finished product from the factory.
 The profit of the raw material seller is
 \[
-	\underbrace{\vb\lambda^\transpose (h(\vb x) - \vb b)}_{\text{cost of materials}} - \underbrace{f(\vb x)}_{\text{buying products}}
+	\underbrace{\bm\lambda^\transpose (h(\vb x) - \vb b)}_{\text{cost of materials}} - \underbrace{f(\vb x)}_{\text{buying products}}
 \]
-For every choice of \( \vb\lambda \), the factory owner will try to maximise their profit, that is, find an \( \vb x^\star \) such that we maximise
+For every choice of \( \bm\lambda \), the factory owner will try to maximise their profit, that is, find an \( \vb x^\star \) such that we maximise
 \[
-	\underbrace{f(\vb x)}_{\text{selling products}} - \underbrace{\vb\lambda^\transpose (h(\vb x) - \vb b)}_{\text{cost of materials}}
+	\underbrace{f(\vb x)}_{\text{selling products}} - \underbrace{\bm\lambda^\transpose (h(\vb x) - \vb b)}_{\text{cost of materials}}
 \]
