@@ -94,13 +94,13 @@ We can solve this problem using the following steps.
 	      \]
 	\item Let
 	      \[
-		      \bm \lambda = \qty{\bm \lambda \colon \inf_{\vb x \in \mathcal X;\; \vb s \geq 0} L(\vb x, \vb s, \bm \lambda) > -\infty}
+		      \bm \Lambda = \qty{\bm \lambda \colon \inf_{\vb x \in \mathcal X;\; \vb s \geq 0} L(\vb x, \vb s, \bm \lambda) > -\infty}
 	      \]
-	\item For each \(\bm\lambda \in \bm\lambda\), find \(\vb x^\star(\bm \lambda), \vb s^\star(\bm \lambda)\) such that
+	\item For each \(\bm\lambda \in \bm\Lambda\), find \(\vb x^\star(\bm \lambda), \vb s^\star(\bm \lambda)\) such that
 	      \[
 		      \min_{\vb x \in \mathcal X;\; \vb s \geq 0} L(\vb x, \vb s, \bm \lambda) = L(\vb x^\star(\bm \lambda), \vb s^\star(\bm \lambda), \bm \lambda)
 	      \]
-	\item Find \(\bm\lambda^\star \in \bm\lambda\) such that \((\vb x^\star(\bm \lambda), \vb s^\star(\bm \lambda))\) is feasible, i.e.
+	\item Find \(\bm\lambda^\star \in \bm\Lambda\) such that \((\vb x^\star(\bm \lambda), \vb s^\star(\bm \lambda))\) is feasible, i.e.
 	      \[
 		      h(\vb x^\star(\bm \lambda^\star)) = \vb b;\quad \vb s^\star (\bm \lambda^\star) \geq 0
 	      \]
@@ -119,8 +119,8 @@ Let
 		\lambda_1 \\ \vdots \\ \lambda_m
 	\end{pmatrix}
 \]
-If \(\lambda_i > 0\), then for some large \(\vb s\) we can make \(f \to -\infty\), hence \(\bm \lambda \notin \bm \lambda\).
-Hence, given \(\bm \lambda \in \bm \lambda\), we must have \(\lambda_i \leq 0\).
+If \(\lambda_i > 0\), then for some large \(\vb s\) we can make \(f \to -\infty\), hence \(\bm \lambda \notin \bm \Lambda\).
+Hence, given \(\bm \lambda \in \bm \Lambda\), we must have \(\lambda_i \leq 0\).
 Now, if \(\lambda_i < 0\) for some \(i\), we would want to choose \(s_i = 0\) to minimise the increase to the function caused by the slack variable.
 If \(\lambda_i = 0\), then \(s_i\) can be chosen arbitrarily since it will have no increase on the value of \(f\).
 With these choices of \(s_i\), we can make \(\bm \lambda^\transpose \vb s = 0\), thus making the slack variable not impact the value of \(f\).
@@ -219,10 +219,10 @@ We now define the quantity
 	g(\bm \lambda) = \inf_{\vb x \in \mathcal X} L(\vb x, \bm \lambda)
 \]
 \begin{theorem}[Weak duality theorem]
-	If \( \vb x \in \mathcal X(\vb b) \) and \( \bm\lambda \in \bm\lambda \), then \( f(\vb x) \geq g(\lambda) \).
+	If \( \vb x \in \mathcal X(\vb b) \) and \( \bm\lambda \in \bm\Lambda \), then \( f(\vb x) \geq g(\lambda) \).
 	In particular,
 	\[
-		\inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) \geq \sup_{\bm \lambda \in \bm \lambda} g(\bm \lambda)
+		\inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) \geq \sup_{\bm \lambda \in \bm \Lambda} g(\bm \lambda)
 	\]
 \end{theorem}
 \begin{proof}
@@ -233,18 +233,18 @@ We now define the quantity
 		                                            & = g(\bm\lambda)
 	\end{align*}
 \end{proof}
-Using this weak duality property, if \( \inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) \) is difficult to solve, we can first attempt \( \sup_{\bm \lambda \in \bm \lambda} g(\bm \lambda) \).
+Using this weak duality property, if \( \inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) \) is difficult to solve, we can first attempt \( \sup_{\bm \lambda \in \bm \Lambda} g(\bm \lambda) \).
 The problem
 \begin{alignat*}{2}
 	 & \text{maximise}   & \qquad & g(\bm \lambda)              \\
-	 & \text{subject to} &        & \bm \lambda \in \bm \lambda
+	 & \text{subject to} &        & \bm \lambda \in \bm \Lambda
 \end{alignat*}
 is called the \textit{dual problem}.
 The original is called the \textit{primal problem}.
 The optimal cost of the primal problem is always greater than or equal to the optimal cost of the dual problem.
 The \textit{duality gap} is the difference:
 \[
-	\inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) - \sup_{\bm \lambda \in \bm \lambda} g(\bm \lambda)
+	\inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) - \sup_{\bm \lambda \in \bm \Lambda} g(\bm \lambda)
 \]
 If the duality gap is zero, then we say that \textit{strong duality} holds.
 This strengthens the inequality into an equality.
