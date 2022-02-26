@@ -308,3 +308,90 @@ The \( \chi^2 \) test for independence has a number of weaknesses.
 	\item The \( \chi^2 \) test often has a low power.
 		Heuristically, this is because the alternative space \( \Theta_1 \) is too large, and there are many possible models that lie in this space.
 \end{enumerate}
+Note that this test also applies when \( n \) is a random variable with a Poisson distribution.
+This is often the case when we do not fix the number of samples.
+The proof is not provided in this course.
+
+\subsection{Testing homogeneity in contingency tables}
+\begin{example}
+	Suppose we perform a clinical trial on 150 patients, who are randomly assigned to one of three groups of equal size.
+	The first two sets take a drug with different doses, and the third set takes a placebo.
+
+	\begin{center}
+		\begin{tabular}{c | c c c | c}
+			& improved & no difference & worse & \\\hline
+			placebo & 18 & 17 & 15 & 50 \\
+			half dose & 20 & 10 & 20 & 50 \\
+			full dose & 25 & 13 & 12 & 50
+		\end{tabular}
+	\end{center}
+
+	In the previous section, we fixed the total number of samples.
+	Here, we fix the total number of samples, and the total number of samples in each row.
+	We suppose
+	\[ N_{i1}, \dots, N_{ic} \sim \mathrm{Multinomial}(n_{i+}; p_{i1}, \dots, p_{ic}) \]
+	which are independent for each row \( i \) of the table.
+	The null hypothesis for homogeneity is that \( p_{1j} = p_{2j} = \dots = p_{rj} \) for all \( j \).
+	The alternative hypothesis assumes that \( p_{i1}, \dots, p_{ic} \) is any arbitrary probability vector for each row \( i \).
+	Under the alternative hypothesis,
+	\[ L(p) = \prod_{i=1}^r \frac{n_{i+}!}{N_{i1}! \cdots N_{ic}!} p_{i1}^{N_{i1}} \cdots p_{ic}^{N_{ic}} \]
+	Hence,
+	\[ \ell(p) = \text{constant} + \sum_{i,j} N_{ij} \log p_{ij} \]
+	This is the same likelihood as the independence test above.
+	To define the maximum likelihood estimator we can again use the method of Lagrange multipliers with constraints \( \sum_j p_{ij} = 1 \) for each \( i \).
+	We find
+	\[ \hat p_{ij} = \frac{N_{ij}}{n_{i+}} \]
+	Under the null hypothesis, we let \( p_j = p_{ij} \) for any \( i \).
+	\[ \ell(p) = \text{constant} + \sum_{i,j} N_{ij} \log p_j = \sum_j N_{+j} \log p_j \]
+	We have the constraint \( \sum_j p_j = 1 \).
+	Using the method of Lagrange multipliers,
+	\[ \hat p_j = \frac{N_{+j}}{n_{++}} \]
+	Hence,
+	\[ 2 \log \Lambda = 2 \sum_{i,j} N_{ij} \log \frac{\hat p_{ij}}{\hat p_j} = 2 \sum_{i,j} N_{ij} \log \frac{N_{ij}}{n_{i+} N_{+j} / n_{++}} \]
+	This is precisely the same test statistic as the test for independence above.
+	The only difference is that \( n_{i+} \) is fixed in this model.
+	Further, if \( o_{ij} = N_{ij} \) and \( e_{ij} = n_{i+} \hat p_j = \frac{n_{i+} N_{+j}}{n_{++}} \), we have
+	\[ 2 \log \Lambda = 2 \sum_{i,j} o_{ij} \log \frac{o_{ij}}{e_{ij}} \approx \sum_{i,j} \frac{(o_{ij} - e_{ij})^2}{e_{ij}} \]
+	By Wilks' theorem, this is asymptotically a \( \chi^2_p \) distribution.
+	Here,
+	\[ p = \dim \Theta_1 - \dim \Theta_0 = r(c-1) - (c-1) = (r-1)(c-1) \]
+	This is again exactly the same as in the \( \chi^2 \) test for independence.
+	Operationally, the tests for homogeneity and independence are therefore completely identical; we reject the null hypothesis for one test if and only if we reject the null for the other.
+	In the example above,
+	\[ 2 \log \Lambda = 5.129;\quad \sum_{i,j} \frac{(o_{ij} - e_{ij})^2}{e_{ij}} = 5.173 \]
+	Referring this to a \( \chi^2_4 \) distribution, the upper \( 0.05 \)-point is \( 9.488 \).
+	Hence, we do not reject the null hypothesis at the 5\% significance level.
+\end{example}
+
+\subsection{Tests and confidence sets}
+\begin{definition}
+	The \textit{acceptance region} \( A \) of a test is the complement of the critical region.
+\end{definition}
+\begin{theorem}
+	Let \( X \sim f_X(\wildcard\mid\theta) \) for some \( \theta \in \Theta \).
+	Suppose that for each \( \theta_0 \in \Theta \), there exists a test of size \( \alpha \) with acceptance region \( A(\theta_0) \) for the  null hypothesis \( \theta = \theta_0 \).
+	Then
+	\[ I(X) = \qty{\theta \colon X \in A(\theta)} \]
+	is a \( 100(1-\alpha)\% \) confidence set.
+
+	Now suppose there exists a set \( I(X) \) which is a \( 100(1-\alpha)\% \) confidence set for \( \theta \).
+	Then
+	\[ A(\theta_0) = \qty{x \colon \theta_0 \in I(x)} \]
+	is the acceptance region of a test of size \( \alpha \) for the hypothesis \( \theta = \theta_0 \).
+\end{theorem}
+\begin{proof}
+	Observe that for both parts of the theorem,
+	\[ \theta_0 \in I(X) \iff X \in A(\theta_0) \iff \text{fail to reject } H_0 \text{ with data } X \]
+	For the first part, we assume that \( \psub{\theta}{\text{fail to reject } H_0 \text{ with data } X} = 1 - \alpha \), and we want to show \( \psub{\theta}{\theta_0 \in I(X)} = 1 - \alpha \).
+	The second part is the converse.
+\end{proof}
+\begin{example}
+	Let \( X_1, \dots, X_n \sim N(\mu, \sigma_0^2) \) be i.i.d.\ with \( \sigma_0^2 \) known and \( \mu \) unknown.
+	We found that a \( 100(1-\alpha)\% \) confidence interval for \( \mu \) is
+	\[ I(X) = \qty(\overline X \pm \frac{Z_{\alpha/2}\sigma_0}{\sqrt{n}}) \]
+	Hence, by the second part of the theorem above, we can find a test for \( H_0 \colon \mu = \mu_0 \) with size \( \alpha \) by
+	\[ A(\mu_0) = \qty{ x \colon \mu_0 \in I(x) } = \qty{ x \colon \mu_0 \in \qty[\overline x \pm \frac{Z_{\alpha/2} \sigma_0}{\sqrt{n}}] } \]
+	This is equivalent to rejecting \( H_0 \) when
+	\[ \abs{\sqrt{n} \frac{\mu_0 - \overline X}{\sigma_0}} > Z_{\alpha/2} \]
+	This is a two-sided test for normal location.
+\end{example}

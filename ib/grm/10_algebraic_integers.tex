@@ -51,7 +51,7 @@ The units in \( \mathbb Z[i] \) are \( \pm 1, \pm i \), since they are the only 
 \begin{theorem}
     The primes in \( \mathbb Z[i] \) are, up to associates,
     \begin{enumerate}
-        \item \( a + bi \), where \( a, b \in mathbb Z \) and \( a^2 + b^2 = p \) is a prime in \( \mathbb Z \) with \( p = 2 \) or \( p \equiv 1 \mod 4 \); and
+        \item \( a + bi \), where \( a, b \in \mathbb Z \) and \( a^2 + b^2 = p \) is a prime in \( \mathbb Z \) with \( p = 2 \) or \( p \equiv 1 \mod 4 \); and
         \item the primes \( p \) in \( \mathbb Z \) satisfying \( p \equiv 3 \mod 4 \).
     \end{enumerate}
 \end{theorem}
@@ -64,5 +64,92 @@ The units in \( \mathbb Z[i] \) are \( \pm 1, \pm i \), since they are the only 
     Let \( z \) be prime in \( \mathbb Z[i] \).
     We note that \( \overline z \) is also irreducible.
     Now, \( N(z) = z\overline z \), which is a factorisation of the norm into irreducibles.
-    % TODO: finish this proof
+	So \( (a+bi)(a-bi) \mid z \overline z \), so \( z \) is an associate of \( a+bi \) or \( a-bi \) by uniqueness of factorisation.
+\end{proof}
+\begin{remark}
+	In the above theorem, if \( p = a^2 = b^2 \), \( a+bi \) and \( a-bi \) are not associate unless \( p = 2 \).
+\end{remark}
+\begin{corollary}
+	An integer \( n \geq 1 \) is the sum of two squares if and only if every prime factor \( p \) of \( n \) with \( p \equiv 3 \mod 4 \) divides \( n \) to an even power.
+\end{corollary}
+\begin{proof}
+	Suppose \( n = a^2 + b^2 \).
+	So \( n = N(a+bi) \).
+	Hence \( n \) is a product of norms of primes in the Gaussian integers.
+	By the classification above, those norms are
+	\begin{enumerate}[(i)]
+		\item the primes \( p \in \mathbb Z \) with \( p \not\equiv 3 \mod 4 \); and
+		\item squares of primes \( p \in \mathbb Z \) with \( p \equiv 3 \mod 4 \).
+	\end{enumerate}
+	The result follows.
+\end{proof}
+\begin{example}
+	We can write \( 65 = 5 \cdot 13 \) as the sum of two primes since \( 5, 13 \equiv 1 \mod 4 \).
+	We first factorise 5 and 13 into primes in the Gaussian integers.
+	\[ 5 = (2+i)(2-i);\quad 13 = (2+3i)(2-3i) \]
+	Thus, the factorisation of 65 into irreducibles in \( \mathbb Z[i] \) is
+	\[ 65 = (2+3i)(2+i)(2-3i)(2-i) = [(2+3i)(2+i)]\overline{[(2+3i)(2+i)]} = N((2+3i)(2-i)) = N(1+8i) = 1^2 + 8^2 \]
+	This was dependent on the choice of grouping of terms.
+	Alternatively,
+	\[ 65 = N((2+i)(2-3i)) = N(7+4i) = 7^2 + 4^2 \]
+\end{example}
+
+\subsection{Algebraic integers}
+\begin{definition}
+	A number \( \alpha \in \mathbb C \) is \textit{algebraic} if \( \alpha \) is a root of some nonzero polynomial \( f \in \mathbb Q[X] \).
+	\( \alpha \) is an \textit{algebraic integer} if it is a root of some monic polynomial \( f \in \mathbb Z[X] \).
+\end{definition}
+Let \( R \leq S \), and \( \alpha \in S \).
+We write \( R[\alpha] \) to denote the smallest subring of \( S \) containing \( R \) and \( \alpha \).
+Alternatively, \( R[\alpha] \) is the intersection of all subrings of \( S \) containing \( R \) and \( \alpha \).
+Further, \( R[\alpha] = \Im \varphi \) where \( \varphi \colon R[X] \to S \) is the homomorphism \( g(X) \mapsto g(\alpha) \).
+\begin{definition}
+	Let \( \alpha \) be an algebraic number.
+	Consider the homomorphism \( \varphi \colon \mathbb Q[X] \to \mathbb C \) where \( g(X) \mapsto g(\alpha) \).
+	Since \( \mathbb Q[X] \) is a a principal ideal domain, \( \ker \varphi = (f) \) for some \( f \in \mathbb Q[X] \).
+	This ideal contains a nonzero element since \( \alpha \) is an algebraic number, hence \( f \) is nonzero.
+	Multiplying \( f \) by a unit, we may assume \( f \) is monic without loss of generality.
+	This unique \( f \) is known as the \textit{minimal polynomial} of \( \alpha \).
+\end{definition}
+\begin{corollary}
+	All minimal polynomials are irreducible.
+	By the isomorphism theorem, \( \faktor{\mathbb Q[X]}{(f)} \sim \mathbb Q[\alpha] \leq \mathbb C \).
+	Any subring of a field is an integral domain.
+	Hence \( (f) \) is a prime ideal in \( \mathbb Q[X] \), and hence \( f \) is irreducible.
+	In particular, this implies that \( \mathbb Q[\alpha] \) is a field.
+\end{corollary}
+\begin{proposition}
+	Let \( \alpha \) be an algebraic integer, and \( f \in \mathbb Q[X] \) be its minimal polynomial.
+	Then \( f \in \mathbb Z[X] \), and \( (f) = \ker \theta \triangleleft \mathbb Z[X] \) where \( \theta \colon \mathbb Z[X] \to \mathbb C \) is given by \( g(X) \mapsto g(\alpha) \).
+\end{proposition}
+\begin{remark}
+	If \( \alpha \) is an algebraic integer, then the polynomial in the definition can be taken to be minimal without loss of generality.
+	\( \mathbb Z[X] \) is not a principal ideal domain, so the above argument cannot work verbatim.
+\end{remark}
+\begin{proof}
+	Let \( f \) be the minimal polynomial of \( \alpha \).
+	Let \( \lambda \in \mathbb Q^\times \) such that \( \lambda f \) has coefficients in \( \mathbb Z \) and is primitive.
+	Then \( \lambda f(\alpha) = 0 \), so \( \lambda f \in \ker \theta \).
+
+	Let \( g \in \ker \theta \), so in particular \( g \in \mathbb Z[X] \).
+	Then \( g \in \ker \varphi \), and hence \( \lambda f \mid g \) in \( \mathbb Q[X] \).
+	By a previous lemma, \( \lambda f \mid g \) in \( \mathbb Z[X] \).
+	Thus, \( \ker \theta = (\lambda f) \).
+
+	Now, since \( \alpha \) is an algebraic integer, we know that there exists a monic polynomial \( g \in \ker \theta \) such that \( g(\alpha) = 0 \).
+	Then \( \lambda f \mid g \) in \( \mathbb Z[X] \), so \( \lambda = \pm 1 \) as both \( f, g \) are monic.
+	Hence, \( f \in \mathbb Z[X] \), and \( (\lambda f) = (f) = \ker \theta \).
+\end{proof}
+Let \( \alpha \in \mathbb C \) be an algebraic integer.
+Then, applying the isomorphism theorem to \( \theta \), \( \faktor{\mathbb Z[X]}{(f)} \cong \mathbb Z[\alpha] \).
+For example:
+\[ \faktor{\mathbb Z[X]}{(X^2 + 1)} \cong \mathbb Z[i];\quad \faktor{\mathbb Z[X]}{(X^2 - 2)} \cong \mathbb Z\qty[\sqrt{2}];\quad \faktor{\mathbb Z[X]}{(X^2 + X + 1)} \cong \mathbb Z\qty[\frac{-1+\sqrt{-3}}{2}];\quad \faktor{\mathbb Z[X]}{(X^n - p} \cong \mathbb Z\qty[\sqrt[n]{p}] \]
+\begin{corollary}
+	If \( \alpha \) is an algebraic integer, and \( \alpha \in \mathbb Q \), then \( \alpha \in \mathbb Z \).
+\end{corollary}
+\begin{proof}
+	Let \( \alpha \neq 0 \), since the case where \( \alpha = 0 \) is trivial.
+	Then the minimal polynomial of \( \alpha \) has coefficients in \( \mathbb Z \).
+	Since \( \alpha \) is rational, the minimal polynomial is \( X - \alpha \).
+	Hence \( \alpha \in \mathbb Z \) as it is a coefficient of the minimal polynomial.
 \end{proof}
