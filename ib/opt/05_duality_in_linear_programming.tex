@@ -15,24 +15,24 @@ Consider a linear program in standard form:
 \end{alignat*}
 The dual problem is therefore
 \begin{alignat*}{2}
-	 & \text{maximise}   & \qquad & g(\vb \lambda) = \inf_{\vb x in \mathcal X} L(\vb x, \vb \lambda) \\
-	 & \text{subject to} &        & \vb \lambda \in \vb \Lambda                                       \\
+	 & \text{maximise}   & \qquad & g(\bm \lambda) = \inf_{\vb x in \mathcal X} L(\vb x, \bm \lambda) \\
+	 & \text{subject to} &        & \bm \lambda \in \bm \lambda                                       \\
 \end{alignat*}
 The function \( g \) is given by
 \begin{align*}
-	g(\vb \lambda) & = \inf_{\vb x \geq 0} \vb c^\transpose \vb x - \vb \lambda^\transpose (A \vb x - \vb b)                 \\
-	               & = \inf_{\vb x \geq 0} (\vb c^\transpose - \vb \lambda^\transpose A)\vb x + \vb \lambda^\transpose \vb b
+	g(\bm \lambda) & = \inf_{\vb x \geq 0} \vb c^\transpose \vb x - \bm \lambda^\transpose (A \vb x - \vb b)                 \\
+	               & = \inf_{\vb x \geq 0} (\vb c^\transpose - \bm \lambda^\transpose A)\vb x + \bm \lambda^\transpose \vb b
 \end{align*}
-This is only bounded below where \( \vb c^\transpose - \vb \lambda^\transpose A \geq 0 \).
+This is only bounded below where \( \vb c^\transpose - \bm \lambda^\transpose A \geq 0 \).
 Hence
 \[
-	\vb \Lambda = \qty{\vb \lambda \colon \vb \lambda^\transpose A \leq \vb c^\transpose}
+	\bm \lambda = \qty{\bm \lambda \colon \bm \lambda^\transpose A \leq \vb c^\transpose}
 \]
-Further, the minimum value of \( g \) for \( \vb \lambda \in \vb \Lambda \) is \( \vb \lambda^\transpose \vb b \).
+Further, the minimum value of \( g \) for \( \bm \lambda \in \bm \lambda \) is \( \bm \lambda^\transpose \vb b \).
 Therefore, the dual problem is
 \begin{alignat*}{2}
-	 & \text{maximise}   & \qquad & \vb \lambda^\transpose \vb b                   \\
-	 & \text{subject to} &        & \vb \lambda^\transpose A \leq \vb c^\transpose \\
+	 & \text{maximise}   & \qquad & \bm \lambda^\transpose \vb b                   \\
+	 & \text{subject to} &        & \bm \lambda^\transpose A \leq \vb c^\transpose \\
 \end{alignat*}
 The dual of a linear program in standard form is a linear problem, but no longer in standard form.
 
@@ -48,19 +48,19 @@ We can introduce a slack variable \( \vb s \) and write equivalently
 	 & \text{subject to} &        & A \vb x - \vb s = \vb b \\
 	 &                   &        & \vb s \geq 0
 \end{alignat*}
-To calculate the dual, we need to calculate \( g(\vb \lambda) \).
+To calculate the dual, we need to calculate \( g(\bm \lambda) \).
 \begin{align*}
-	g(\vb \lambda) & = \inf_{\vb x, \vb s \geq 0} \vb c^\transpose \vb x - \vb \lambda^\transpose (A \vb x - \vb s - \vb b)                                         \\
-	               & = \inf_{\vb x, \vb s \geq 0} (\vb c^\transpose - \vb \lambda^\transpose A) \vb x + \vb \lambda^\transpose \vb s + \vb \lambda^\transpose \vb b \\
+	g(\bm \lambda) & = \inf_{\vb x, \vb s \geq 0} \vb c^\transpose \vb x - \bm \lambda^\transpose (A \vb x - \vb s - \vb b)                                         \\
+	               & = \inf_{\vb x, \vb s \geq 0} (\vb c^\transpose - \bm \lambda^\transpose A) \vb x + \bm \lambda^\transpose \vb s + \bm \lambda^\transpose \vb b \\
 \end{align*}
-In this case, since \( \vb x \) may be any value, we must have \( \vb c^\transpose - \vb \lambda^\transpose A = 0 \).
-Further, since the slack variable can be any positive value, \( \vb \lambda^\transpose \geq 0 \).
-The infimum is \( \vb \lambda^\transpose \vb b \) since \( \vb s \) may be set to zero.
+In this case, since \( \vb x \) may be any value, we must have \( \vb c^\transpose - \bm \lambda^\transpose A = 0 \).
+Further, since the slack variable can be any positive value, \( \bm \lambda^\transpose \geq 0 \).
+The infimum is \( \bm \lambda^\transpose \vb b \) since \( \vb s \) may be set to zero.
 Thus, the dual is
 \begin{alignat*}{2}
-	 & \text{maximise}   & \qquad & \vb \lambda^\transpose \vb b                \\
-	 & \text{subject to} &        & \vb \lambda^\transpose A = \vb c^\transpose \\
-	 &                   &        & \vb \lambda \geq 0
+	 & \text{maximise}   & \qquad & \bm \lambda^\transpose \vb b                \\
+	 & \text{subject to} &        & \bm \lambda^\transpose A = \vb c^\transpose \\
+	 &                   &        & \bm \lambda \geq 0
 \end{alignat*}
 The dual of a general linear program is a linear program in standard form.
 
@@ -74,18 +74,18 @@ Suppose the primal problem is in standard form:
 \end{alignat*}
 We know the dual is
 \begin{alignat*}{2}
-	 & \text{maximise}   & \qquad & \vb \lambda^\transpose \vb b                   \\
-	 & \text{subject to} &        & \vb \lambda^\transpose A \leq \vb c^\transpose \\
+	 & \text{maximise}   & \qquad & \bm \lambda^\transpose \vb b                   \\
+	 & \text{subject to} &        & \bm \lambda^\transpose A \leq \vb c^\transpose \\
 \end{alignat*}
 Equivalently,
 \begin{alignat*}{2}
-	 & -\text{ minimise} & \qquad & -\vb \lambda^\transpose \vb b                    \\
-	 & \text{subject to} &        & -\vb \lambda^\transpose A \geq -\vb c^\transpose \\
+	 & -\text{ minimise} & \qquad & -\bm \lambda^\transpose \vb b                    \\
+	 & \text{subject to} &        & -\bm \lambda^\transpose A \geq -\vb c^\transpose \\
 \end{alignat*}
-Definining \( \widetilde{\vb \lambda} = -\vb\lambda^\transpose \), we have
+Definining \( \widetilde{\bm \lambda} = -\bm\lambda^\transpose \), we have
 \begin{alignat*}{2}
-	 & -\text{ minimise} & \qquad & \widetilde{\vb \lambda} \vb b                    \\
-	 & \text{subject to} &        & \widetilde{\vb \lambda} A \geq -\vb c^\transpose \\
+	 & -\text{ minimise} & \qquad & \widetilde{\bm \lambda} \vb b                    \\
+	 & \text{subject to} &        & \widetilde{\bm \lambda} A \geq -\vb c^\transpose \\
 \end{alignat*}
 We can find the dual of this problem using the solution above.
 \begin{alignat*}{2}
