@@ -290,3 +290,57 @@ Now, we define \( \sigma(u,v) = \gamma_v(u) \), which is defined for \( u \in [0
 \begin{corollary}
 	Any smooth surface \( \Sigma \) in \( \mathbb R^3 \) admits local parametrisations for which the first fundamental form has form \( \dd{u}^2 + G(u,v) \dd{v}^2 \), so \( E = 1 \) and \( F = 0 \).
 \end{corollary}
+\begin{proof}
+	Consider the parametrisation \( \sigma(u,v) = \gamma_v(u) \).
+	For \( v_0 \) fixed, the curve \( u \mapsto \gamma_{v_0}(u) \) is a geodesic parametrised at unit speed, so \( E = 1 \).
+	One of the geodesic equations is
+	\[ \dv{t} \qty(F \dot u + G \dot v) = \frac{1}{2} \qty(E_v \dot u^2 + 2F_v \dot u \dot v + G_v \dot v^2) \]
+	and consider \( v(t) = v_0 \), \( u(t) = t \).
+	\( E_v = \dot v = 0 \) and \( \dot u = 1 \), so
+	\[ \dv{t} F = 0 \implies F_u \dot u = 0 \implies F_u = 0 \]
+	So \( F \) is independent of \( u \).
+	At \( u = 0 \), then by construction of \( \gamma_v \) as being orthogonal to \( \gamma \) at \( \gamma(v) \), we see \( F = 0 \).
+\end{proof}
+These coordinates are called \textit{geodesic normal coordinates}.
+Note that by fixing \( u \) and letting \( v \) vary, the curve obtained is typically not a geodesic, except for \( u = 0 \) which is \( \gamma \) itself.
+In these coordinates, we can also find
+\[ G(0,v) = 1;\quad G_u(0,v) = 0 \]
+The first result holds since \( \sigma_v \) has unit length at \( u = 0 \).
+The second result holds because \( u = 0 \) yields a geodesic with arc length parametrisation, and then we can use one of the geodesic equations to find
+\[ \dv{t} \qty(E \dot u + F \dot v) = \frac{1}{2}\qty(E_u \dot u^2 + 2F_u \dot u \dot v + G_u \dot v^2) \implies 0 = \frac{1}{2} G_u(0,v) \]
+
+\subsection{Surfaces of constant curvature}
+In the example sheets, we show that for a smooth surface \( \Sigma \) in \( \mathbb R^3 \) with allowable parametrisation for which \( E = 1 \) and \( F = 0 \), we have the following result for the Gauss curvature.
+\[ \kappa = \frac{-\qty(sqrt{G})_{uu}}{\sqrt{G}} \]
+If \( a \colon \mathbb R^3 \to \mathbb R^3 \) is a dilation \( a(x,y,z) = (ax,ay,az) \), then
+\[ \kappa_{a(\Sigma)} = \frac{1}{a^2} \kappa_\Sigma \]
+since \( E, F, G \) rescale by \( a^2 \), and \( L, N, M \) rescale by \( a \).
+This matches the results previously found for spheres of varying radii.
+By dilating, to understand surfaces of constant curvature it suffices to consider surfaces with constant curvature \( \pm 1 \) or 0.
+\begin{proposition}
+	Let \( \Sigma \) be a smooth surface in \( \mathbb R^3 \).
+	Then,
+	\begin{enumerate}[(i)]
+		\item if \( \kappa \equiv 0 \), then \( \Sigma \) is locally isometric to \( (\mathbb R^2, \dd{u^2} + \dd{v}^2) \);
+		\item if \( \kappa \equiv 1 \), then \( \Sigma \) is locally isometric to \( (S^2, \dd{u}^2 + \cos^2 u \dd{v}^2) \).
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	\( \Sigma \) admits an allowable parametrisation with \( E = 1 \) and \( F = 0 \) by using geodesic normal coordinates, so
+	\[ \kappa = \frac{-\sqrt{G}_{uu}}{\sqrt{G}};\quad G(0,v) = 1;\quad G_u(0,v) = 1 \]
+	If \( \kappa \equiv 0 \), we have \( \sqrt{G}_{uu} = 0 \), so \( \sqrt{G} = A(v) u + B(v) \), and the boundary conditions give \( A \equiv 0, B \equiv 1 \).
+	In particular, \( G \equiv 1 \).
+	The fundamental form then is \( \dd{u}^2 + \dd{v}^2 \), which is that of \( \mathbb R^2 \).
+
+	If \( \kappa \equiv 1 \), we find \( \sqrt{G}_{uu} + \sqrt{G} = 0 \) so \( \sqrt{G} = A(v) \sin u + B(v) \cos u \).
+	The boundary conditions then imply that \( A \equiv 0, B \equiv 1 \) and hence the fundamental form is \( \dd{u}^2 + \cos^2 u \dd{v}^2 \).
+	This matches the first fundamental form of a sphere with parametrisation
+	\[ \sigma(u,v) = (\cos u \cos v, \cos u \sin v, \sin u) \]
+\end{proof}
+\begin{remark}
+	If \( \kappa \equiv -1 \), we will find the first fundamental form \( \dd{u}^2 + \cosh^2 u \dd{v}^2 \).
+	There exists an object known as the tractoid, which is a smooth surface in \( \mathbb R^3 \), and has this first fundamental form.
+	We could alternatively choose not to embed this surface in \( \mathbb R^3 \).
+
+	In fact, the change of variables \( v = e^v \tanh u, w = e^v \sech u \) turns the fundamental form \( \dd{u}^2 + \cosh^2 u \dd{v}^2 \) into \( \frac{\dd{V}^2 + \dd{W}^2}{W^2} \), which is a `standard' presentation of the first fundamental form, which we will see more of later.
+\end{remark}
