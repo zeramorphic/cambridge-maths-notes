@@ -1,4 +1,4 @@
-\subsection{???}
+\subsection{Definition}
 Recall the definition of a Noetherian ring.
 \begin{definition}
 	A ring \( R \) is \textit{Noetherian} if, for all sequences of nested ideals \( I_1 \subseteq I_2 \subseteq \cdots \), there exists \( N \in \mathbb N \) such that for all \( n > N \), \( I_n = I_{n+1} \).
@@ -27,3 +27,68 @@ This now will immediately follow from the lemma.
 	We can therefore choose \( a_2 \in J \setminus (a_1) \), and then \( (a_1) \subset (a_1, a_2) \subset J \).
 	Continuing inductively, we contradict the ascending chain condition.
 \end{proof}
+
+\subsection{Hilbert's basis theorem}
+\begin{theorem}
+	Let \( R \) be a Noetherian ring.
+	Then \( R[X] \) is Noetherian.
+\end{theorem}
+\begin{proof}
+	Suppose there exists an ideal \( J \) that is not finitely generated.
+	Let \( f_1 \in J \) be an element of minimal degree.
+	Then \( (f_1) \subset J \).
+	So we can choose \( f_2 \in J \setminus (f_1) \), which is also of minimal degree.
+	Inductively we can construct a sequence \( f_1, f_2, \dots \), where the degrees are non-decreasing.
+	Let \( a_i \) be the leading coefficient of \( f_i \), for all \( i \).
+	We then obtain a sequence of ideals \( (a_1) \subseteq (a_1, a_2) \subseteq (a_1, a_2, a_3) \subseteq \cdots \) in \( R \).
+	Since \( R \) is Noetherian, there exists \( m \in \mathbb N \) such that for all \( n \geq m \), we have \( a_{n} \in (a_1, \dots, a_m) \).
+	Let \( a_{m+1} = \sum_i \lambda_{i=1}^m a_i \), since \( a_{m+1} \) lies in the ideal \( (a_1, \dots, a_m) \).
+	Now we define
+	\[ g(X) = \sum \lambda_{i=1}^m X^{\deg (f_{m+1} - f_i)} f_i \]
+	The degree of \( g \) is equal to the degree of \( f_{m+1} \), and they have the same leading coefficient \( a_{m+1} \).
+	Then, consider \( f_{m+1} - g \in J \) and \( \deg (f_{m+1} - g) < \deg f_{m+1} \).
+	By minimality of the degree of \( f_{m+1} \), \( f_{m+1} - g \in (f_1, \dots, f_m) \), hence \( f_{m+1} \in (f_1, \dots, f_m) \).
+	This contradicts the choice of \( f_{m+1} \), so \( J \) is in fact finitely generated.
+\end{proof}
+\begin{corollary}
+	\( \mathbb Z[X_1, \dots, X_n] \) is Noetherian.
+	Similarly, \( F[X_1, \dots, X_n] \) is Noetherian for any field \( F \), since fields satisfy the ascending chain condition.
+\end{corollary}
+\begin{example}
+	Let \( R = \mathbb C[X_1, \dots, X_n] \).
+	Let \( V \subseteq \mathbb C^n \) be a subset of the form
+	\[ V = \qty{(a_1, \dots, a_n) \in \mathbb C^n \colon f(a_1, \dots, a_n) = 0,\,\forall f \in \mathscr F} \]
+	where \( \mathscr F \subseteq R \) is a (possibly infinite) set of polynomials.
+	Such a set is referred to as an \textit{algebraic variety}.
+	Let
+	\[ I = \qty{\sum_{i=1}^m \lambda_i f_i \colon m \in \mathbb N,\, \lambda_i \in R_i,\, f_i \in \mathscr F} \]
+	We can check that \( I \triangleleft R \).
+	Since \( R \) is Noetherian, \( I = (g_1, \dots, g_r) \).
+	Hence
+	\[ V = \qty{(a_1, \dots, a_n) \in \mathbb C^n \colon g(a_1, \dots, a_n) = 0,\,\forall g \in I} \]
+\end{example}
+\begin{lemma}
+	Let \( R \) be a Noetherian ring, and \( I \triangleleft R \).
+	Then \( \faktor{R}{I} \) is Noetherian.
+\end{lemma}
+\begin{proof}
+	Let \( J_1' \subseteq J_2' \subseteq \cdots \) be a chain of ideals in \( \faktor{R}{I} \).
+	By the ideal correspondence, \( J_i' \) corresponds to an ideal \( J_i \) that contains \( I \), so \( J_i' = \faktor{J_i}{I} \).
+	So \( J_1 \subseteq J_2 \subseteq \cdots \) is a chain of ideals in \( R \).
+	Since \( R \) is Noetherian, there exists \( N \in \mathbb N \) such that for all \( n \geq N \), we have \( J_N = J_n \), and so \( J_N' = J_n' \).
+	Hence \( \faktor{R}{I} \) satisfies the ascending chain condition.
+\end{proof}
+\begin{example}
+	The ring of Gaussian integers \( \faktor{\mathbb Z}{(X^2 + 1)} \) is Noetherian.
+	If \( R[X] \) is Noetherian, then \( \faktor{R[X]}{(X)} \cong R \) is Noetherian.
+	This is a converse to the Hilbert basis theorem.
+
+	The ring of polynomials in countably many variables is not Noetherian.
+	\[ \mathbb Z[X_1, X_2, \dots] = \bigcup_{n \in \mathbb N} \mathbb Z[X_1, \dots, X_n] \]
+	In particular, consider the ascending chain \( (X_1) \subset (X_1, X_2) \subset (X_1, X_2, X_3) \subset \cdots \).
+
+	Let \( R = \qty{f \in \mathbb Q[X] \colon f(0) \in \mathbb Z} \leq \mathbb Q[X] \).
+	Even though \( \mathbb Q[X] \) is Noetherian, \( R \) is not.
+	Indeed, consider \( (X) \subset \qty(\frac{1}{2} X) \subset \qty(\frac{1}{4}X) \subset \qty(\frac{1}{8}X) \subset \cdots \).
+	These inclusions are strict, since \( 2 \in R \) is not a unit.
+\end{example}
