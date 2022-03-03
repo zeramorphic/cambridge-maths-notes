@@ -30,4 +30,151 @@ where \( A \in \mathbb R^{k \times n}, b \in \mathbb R^k \) are constant.
     Let \( X_1, X_2 \) be multivariate normal vectors with the same mean \( \mu \) and the same covariance matrix \( \Sigma \).
     We will show that these two random variables have the same moment generating function, and hence the same distribution.
     \[ M_{X_1}(t) = \expect{ e^{1 \cdot t^\transpose X_1} } \]
+    \todo
 \end{proof}
+
+\subsection{Orthogonal projections}
+\begin{definition}
+	A matrix \( P \in \mathbb R^{n \times n} \) is an \textit{orthogonal projection} onto its column space \( \mathrm{col}(P) \) if, for all \( v \in \mathrm{col}(P) \), we have \( Pv = v \), and for all \( w \in \mathrm{col}(P)^\perp \), we have \( Pw = 0 \).
+\end{definition}
+\begin{proposition}
+	\( P \) is an orthogonal projection if and only if it is idempotent and symmetric.
+\end{proposition}
+\begin{proof}
+	If \( P \) is idempotent and symmetric, let \( v \in \mathrm{col}(P) \), so \( v = Pa \) for some \( a \in \mathbb R^n \).
+	Then, \( Pv = PPa = Pa = v \).
+	Now, let \( w \in \mathrm{col}(P)^\perp \).
+	By definition, \( P^\transpose w = 0 \).
+	By symmetry, \( Pw = 0 \).
+
+	Now, suppose \( P \) is an orthogonal projection.
+	Any vector \( a \in \mathbb R^n \) can be uniquely written as \( a = v + w \) where \( v \in \mathrm{col}(P) \) and \( w \in \mathrm{col}(P)^\perp \).
+	Then \( PPa = PPv + PPw = Pv = P(v+w) = Pa \).
+	As this holds for all \( a \), we have that \( P \) is idempotent.
+	Let \( u_1, u_2 \in \mathbb R^n \), and note \( (P u_1) \cdot ((I-P) u_2) = 0 \), as \( P u_1 \in \mathrm{col}(P) \) and \( (I-P) u_2 \in \mathrm{col}(P)^\perp \).
+	We have \( u_1^\transpose P^\transpose (I-P) u_2 = 0 \).
+	Since this holds for all \( u_1, u_2 \), \( P^\transpose (I-P) = 0 \) so \( P^\transpose = P^\transpose P \).
+	Note that \( P^\transpose P \) is symmetric, so \( P^\transpose \) is symmetric, and hence \( P \) is symmetric.
+\end{proof}
+\begin{corollary}
+	Let \( P \) be an orthogonal projection matrix.
+	Then \( I-P \) is also an orthogonal projection matrix.
+\end{corollary}
+\begin{proof}
+	Clearly, if \( P \) is symmetric, so is \( I-P \), so it suffices to prove idempotence.
+	We have \( (I-P)(I-P) = I - 2P + P^2 = I - 2P + P = I - P \) as required.
+\end{proof}
+\begin{proposition}
+	If \( P \) is an orthogonal projection, then \( P = UU^\transpose \) where the columns of \( U \) are an orthonormal basis for the column space of \( P \).
+\end{proposition}
+\begin{proof}
+	First, we show that \( UU^\transpose \) is an orthogonal projection.
+	This is clearly symmetric.
+	It is idempotent: \( U U^\transpose U U^\transpose = U U^\transpose \) since \( U^\transpose U = I \), as the columns of \( U \) form an orthonormal basis for the column space of \( P \).
+	Further, the column space of \( P \) is exactly the column space of \( U U^\transpose \).
+\end{proof}
+\begin{proposition}
+	The rank of an orthogonal projection matrix is equal to its trace.
+\end{proposition}
+\begin{proof}
+	The rank is the dimension of the column space, which is \( \rank P = \rank(U^\transpose U) = \tr(U^\transpose U) = \tr(U U^\transpose) = \tr P \).
+\end{proof}
+\begin{theorem}
+	Let \( X \) be multivariate normal, where \( X \sim N(0,\sigma^2 I) \), and let \( P \) be an orthogonal projection.
+	Then
+	\begin{enumerate}[(i)]
+		\item \( PX \sim N(0,\sigma^2 P) \), and \( (I-P)X \sim N(0,\sigma^2(I-P)) \), and these two random variables are independent;
+		\item \( \frac{\norm{PX}^2}{\sigma^2} \sim \chi^2_{\rank P} \).
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	The vector \( (P, I-P)^\transpose X \) is multivariate normal, since it is a linear function of \( X \).
+	This distribution is fully specified by its mean and variance.
+	\[ \expect{\begin{pmatrix}
+		PX \\
+		(I-P)X
+	\end{pmatrix}} = \begin{pmatrix}
+		P \\
+		I-P
+	\end{pmatrix} \expect{X} = 0 \]
+	Further,
+	\[ \Var{\begin{pmatrix}
+		PX \\
+		(I-P)X
+	\end{pmatrix}} = \begin{pmatrix}
+		P \\
+		I - P
+	\end{pmatrix} \sigma^2 I \begin{pmatrix}
+		P \\
+		I - P
+	\end{pmatrix} = \sigma^2 \begin{pmatrix}
+		P^2 & P(I-P) \\
+		P(I-P) & (I-P)^2
+	\end{pmatrix} = \sigma^2 \begin{pmatrix}
+		P & 0 \\
+		0 & I-P
+	\end{pmatrix} \]
+	Now we must show that the variables \( PX, (I-P)X \) are independent.
+	Let \( Z \sim N(0,\sigma^2 P), Z' \sim N(0,\sigma^2(I-P)) \) be independent.
+	Then we can see that \( (Z, Z')^\transpose \) is multivariate normal with
+	\[ \mu = 0;\quad \Sigma = \begin{pmatrix}
+		P & 0 \\
+		0 & I - P
+	\end{pmatrix} \]
+	Hence \( (PX, (1-P)X)^\transpose \) is equal in distribution to \( (Z, Z')^\transpose \).
+	So \( PX \) is independent of \( (I-P)X \).
+
+	We must show that \( \frac{\norm{PX}^2}{\sigma^2} \sim \chi^2_{\rank P} \).
+	Note that
+	\[ \frac{\norm{PX}^2}{\sigma^2} = \frac{X^\transpose P^\transpose P X}{\sigma^2} = \frac{X^\transpose \qty(U U^\transpose)^\transpose U U^\transpose}{\sigma^2} = \frac{\norm{U^\transpose X}^2}{\sigma^2} \]
+	Note, \( U^\transpose X \sim N(0,\sigma^2 U^\transpose U) = N(0,\sigma^2 I_{\rank P}) \).
+	So
+	\[ \frac{(U^\transpose X)_i}{\sigma} \overset{\text{iid}}{\sim} N(0,1) \]
+	for \( i = 1, \dots, \rank P \).
+	Hence
+	\[ \frac{\norm{PX}^2}{\sigma^2} = \sum_{i=1}^{\rank P} \qty(\frac{(U^\transpose X)_i}{\sigma})^2 \sim \chi^2_{\rank P} \]
+\end{proof}
+\begin{theorem}
+	Let \( X_1, \dots, X_n \overset{\text{iid}}{\sim} N(\mu,\sigma^2) \) for some unknown \( \mu \in \mathbb R \) and \( \sigma^2 > 0 \).
+	The maximum likelihood estimators for \( \mu \) and \( \sigma \) are
+	\[ \hat \mu = \overline X = \frac{1}{n} \sum_i X_i;\quad \hat \sigma^2 = \frac{S_{xx}}{n} = \frac{\sum_i \qty(X_i - \overline X)^2}{n} \]
+	Further,
+	\begin{enumerate}[(i)]
+		\item \( \overline X \sim N\qty(\mu, \frac{\sigma^2}{n}) \);
+		\item \( \frac{S_{xx}}{\sigma^2} \sim \chi^2_{n-1} \);
+		\item \( \overline X, S_{xx} \) are independent.
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	Let \( P \) be the square \( n \times n \) matrix with all entries \( \frac{1}{n} \).
+	This is an orthogonal projection matrix, as it is symmetric and idempotent.
+	Note that
+	\[ PX = \begin{pmatrix}
+		\overline X \\
+		\vdots \\
+		\overline X
+	\end{pmatrix} \]
+	We will write the observations \( X \) as
+	\[ X = \underbrace{\begin{pmatrix}
+		\mu \\
+		\vdots \\
+		\mu
+	\end{pmatrix}}_{M} + \varepsilon;\quad \varepsilon \sim N(0,\sigma^2 I) \]
+	Note that \( \overline X \) is a function of \( P \varepsilon \), since \( \overline X = (PX)_1 = (PM + P\varepsilon)_1 \).
+	Further,
+	\[ S_{xx} = \sum_i \frac{\qty(X_i - \overline X)^2}{n} = \norm{X - PX}^2 = \norm{(I-P)X}^2 = \norm{(I-P)\varepsilon}^2 \]
+	Hence \( S_{xx} \) is a function of \( (I-P)\varepsilon \).
+	Since \( P\varepsilon \) and \( (I-P)\varepsilon \) are independent, \( \overline X \) and \( S_{xx} \) are independent.
+	Since \( I-P \) is a projection with rank equal to its trace \( n-1 \), we apply the previous theorem to obtain
+	\[ S_{xx} = \norm{(I-P)\varepsilon}^2 \chi^2_{n-1} \]
+\end{proof}
+
+\subsection{Linear model}
+Suppose we have data in pairs \( (x_1, Y_1), \dots, (x_n, Y_n) \), where \( Y_i \in \mathbb R, x_i \in \mathbb R^p \).
+The \( Y_i \) are known as the \textit{response} variables, or the \textit{dependent} variables.
+The \( x_{i1}, x_{ip} \) are the \textit{predictors}, or \textit{independent} variables.
+We will model the expectation of the response \( Y_i \) as a linear function of the predictors \( (x_{i1}, \dots, x_{ip}) \).
+\begin{example}
+	Let \( Y_i \) be the number of insurance claims that driver \( i \) makes in a given year, and \( x_{i1}, \dots, x_{ip} \) is a set of variables about the specific driver.
+	Predictors include age, the number of years they have held their license, and the number of points on their license, for instance.
+\end{example}
