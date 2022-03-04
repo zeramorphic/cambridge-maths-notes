@@ -9,7 +9,7 @@ For example, consider \( g(z) = e^{z^{-1}} \) for \( U = \mathbb C \) and \( a =
 Note that \( zg(z) = ze^{z^{-1}} \) is not continuous at \( z = 0 \), so it is certainly not holomorphic.
 This leads us to the study of singularities, and to eventually prove the residue theorem.
 
-\subsection{Isolated singularities}
+\subsection{Removable singularities}
 \begin{definition}
 	Let \( U \subseteq \mathbb C \) be open.
 	If \( a \in U \) and \( f \colon U \setminus \qty{a} \to \mathbb C \) is holomorphic, we say that \( f \) has an \textit{isolated singularity} at \( a \).
@@ -27,3 +27,157 @@ This leads us to the study of singularities, and to eventually prove the residue
 		\item \( \lim_{z \to a} (z-a) f(z) = 0 \).
 	\end{enumerate}
 \end{proposition}
+\begin{proof}
+	We can see that (i) implies (ii).
+	If \( a \) is a removable singularity of \( f \), then by definition there is a holomorphic function \( g \colon U \to \mathbb C \) such that \( f(z) = g(z) \) for all \( z \in U \setminus \qty{a} \).
+	Then \( \lim_{z \to a} f(z) = \lim_{z \to a} g(z) = g(a) \in \mathbb C \).
+	Similarly, (ii) implies (iii) and (iii) implies (iv) are clear.
+
+	It suffices to check (iv) implies (i).
+	Consider the function
+	\[ h(z) = \begin{cases}
+		(z-a)^2 f(z) & \text{if } z \neq a \\
+		0 & \text{if } a = a
+	\end{cases} \]
+	We have
+	\[ \lim_{z \to a} \frac{h(z) - h(a)}{z-a} = \lim_{z \to a} (z-a) f(z) = 0 \]
+	Hence \( h \) is differentiable at \( a \) with \( h'(a) = 0 \).
+	Since \( h \) is differentiable in \( U \setminus \qty{a} \), we must have that \( h \) is holomorphic in \( U \).
+	Since \( h(a) = h'(a) = 0 \), we can find \( r > 0 \) and a holomorphic \( g \colon D(a,r) \to \mathbb C \) such that \( h(z) = (z-a)^2 g(z) \) for \( z \in D(a,r) \).
+	Comparing this to the definition of \( h \), we have that \( f(z) = g(z) \) for \( D(a,r) \setminus \qty{a} \).
+	By defining \( f(a) = g(a) \), we have that \( f \) is differentiable at \( a \) with \( f'(a) = g'(a) \).
+	So \( a \) is a removable singularity of \( f \).
+\end{proof}
+\begin{example}
+	Consider \( f(z) = \frac{e^z - 1}{z} \).
+	Certainly \( f \) is holomorphic on \( \mathbb C \setminus \qty{0} \), and \( \lim_{z \to 0} zf(z) = 0 \).
+	So \( z = 0 \) is a removable singularity.
+	We can also see directly by the Taylor series of \( e^z \) at \( z = 0 \) that \( f(z) = \sum_{k=1}^\infty \frac{z^{k-1}}{k!} \) for \( z \neq 0 \), and the series on the right hand side defines an entire function.
+\end{example}
+\begin{remark}
+	If \( u \colon D(0,1) \setminus \qty{0} \to \mathbb R \) is a \( C^2 \) harmonic function, when can we say that \( z = 0 \) is a removable singularity, i.e.\ that \( u \) extends to \( z = 0 \) as a harmonic function?
+	We can relate this to the study of holomorphic functions.
+	However, unlike with previous cases, the analogy is more subtle in this case.
+	We cannot necessarily construct a harmonic conjugate \( v \) such that \( u + iv \) is holomorphic in \( D(0,1) \setminus\qty{0} \), because \( U \) is not simply connected.
+
+	There is a similar result, however.
+	If \( \lim_{z \to 0} u(z) \) exists, then the extended function is in fact \( C^2 \) and harmonic.
+	More generally, if \( u \) is bounded near \( z = 0 \), there exists a harmonic extension.
+	We can also consider the case \( \lim_{z \to 0} \abs{z} \abs{u(z)} = 0 \); this is explored on the example sheets.
+\end{remark}
+
+\subsection{Poles}
+Note, if a holomorphic function \( f \) has a non-removable singularity, \( f \) is not bounded in \( D(a,r) \setminus \qty{a} \) for any \( r > 0 \).
+\begin{definition}
+	If \( a \in U \) is an isolated singularity of \( f \), then \( a \) is a \textit{pole} of \( f \) if
+	\[ \lim_{z \to a} \abs{f(z)} = \infty \]
+\end{definition}
+\begin{example}
+	\( f(z) = (z-a)^{-k} \) for \( k \in \mathbb N \) has a pole at \( a \).
+\end{example}
+\begin{definition}
+	If \( a \in U \) is an isolated singularity of \( f \) that is not removable or a pole, it is an \textit{essential singularity}.
+\end{definition}
+\begin{remark}
+	An equivalent characterisation for \( a \) to be an essential singularity is that \( \lim_{z \to a} \abs{f(z)} \) does not exist.
+	This follows from the previous proposition and the definition of a pole.
+\end{remark}
+\begin{example}
+	\( f(z) = e^{\frac{1}{z}} \) has \( \abs{f(iy)} = 1 \) for all \( y \in \mathbb R \setminus \qty{0} \) and \( \lim_{x \to 0^+} f(x) = \infty \).
+	So \( z = 0 \) is an essential singularity of \( f \).
+\end{example}
+\begin{proposition}
+	Let \( f \colon U \setminus \qty{a} \to \mathbb C \) be holomorphic.
+	The following are equivalent.
+	\begin{enumerate}[(i)]
+		\item \( f \) has a pole at \( a \);
+		\item there exists \( \varepsilon > 0 \) and a holomorphic function \( h \colon D(a,\varepsilon) \to \mathbb C \) with \( h(a) = 0 \) and \( h(z) \neq 0 \) for all \( z \neq a \) such that \( f(z) = \frac{1}{h(z)} \) for \( z \in D(a,\varepsilon) \setminus \qty{a} \);
+		\item there exists a unique integer \( k \geq 1 \) and a unique holomorphic function \( g \colon U \to \mathbb C \) with \( g(a) \neq 0 \) such that \( f(z) = (z-a)^{-k} g(z) \) for \( z \in U \setminus \qty{a} \).
+	\end{enumerate}
+\end{proposition}
+\begin{remark}
+	Since (i) implies (iii), there exists no holomorphic function on a punctured disk \( f \colon D(a,R) \setminus \qty{a} \to \mathbb C \) such that \( \abs{f(z)} \to \infty \) as \( z \to a \) at the rate of a negative non-integer power of \( \abs{z-a} \), i.e.\ with \( c\abs{z-a}^{-s} \leq \abs{f(z)} \leq C\abs{z-a}^{-s} \) for some constants \( s \in (0,\infty) \setminus \mathbb N \), \( c > 0 \), \( C > 0 \), and all \( z \in D(a,R) \setminus \qty{a} \).
+\end{remark}
+\begin{proof}
+	We show (i) implies (ii).
+	Since \( \lim_{z \to a} \abs{f(z)} = \infty \), there exists \( \varepsilon > 0 \) such that \( \abs{f(z)} \geq 1 \) for all \( 0 < \abs{z-a} < \varepsilon \).
+	Hence \( \frac{1}{f(z)} \) is holomorphic and bounded in \( D(a,\varepsilon) \setminus \qty{a} \).
+	By the above proposition, \( \frac{1}{f} \) has a removable singularity at \( a \), so there exists a holomorphic function \( h \colon D(a,\varepsilon) \to \mathbb C \) such that \( \frac{1}{f} = h \), or equivalently, \( f = \frac{1}{h} \), for \( z \in D(a,\varepsilon) \setminus \qty{a} \).
+	Since \( \abs{f(z)} \to \infty \) as \( z \to a \), we have that \( h(a) = 0 \).
+
+	Now we show (ii) implies (iii)
+	Let \( \varepsilon \) and \( h \) be as in the definition of (ii).
+	By Taylor series, there exists \( k \geq 1 \) and a holomorphic function \( h_1 \colon D(a,\varepsilon) \to \mathbb C \) with \( h_1(z) \neq 0 \) for all \( z \in D(a,\varepsilon) \) such that \( h(z) = (z-a)^k h_1(z) \).
+	If \( g_1 = \frac{1}{h_1} \), then \( g_1 \) is holomorphic in \( D(a,\varepsilon) \), \( g_1 \neq 0 \) in \( D(a,\varepsilon) \), and \( f(z) = (z-a)^{-k} g_1(z) \) in \( D(a,\varepsilon) \setminus \qty{a} \).
+
+	We can now define \( g \colon U \to \mathbb C \) by \( g(z) = g_1(z) \) for \( z \in D(a,\varepsilon) \), and \( g(z) = (z-a)^k f(z) \) for \( z \in U \setminus \qty{a} \).
+	Since \( f(z) = (z-a)^{-k} g_1(z) \), the definitions agree on \( D(a,\varepsilon) \setminus \qty{a} \), so \( g \) is well-defined and holomorphic in \( U \), and \( g(a) = g_1(a) \neq 0 \).
+	This proves the existence of an integer \( k \geq 1 \) and a holomorphic \( g \colon U \to \mathbb C \) with \( g(a) \neq 0 \) such that \( f(z) = (z-a)^{-k} g(z) \) for all \( z \in U \setminus \qty{a} \).
+
+	To prove uniqueness of \( k \) and \( g \), suppose there exists \( \widetilde k \geq 1 \) and a holomorphic \( \widetilde g \colon U \to \mathbb C \) with \( \widetilde g(a) \neq 0 \) such that \( f(z) = (z-a)^{-\widetilde k} \widetilde g(z) \) for all \( z \in U \setminus \qty{a} \).
+	Then we have \( g(z) = (z-a)^{k - \widetilde k} \widetilde g(z) \) for \( z \in U \setminus \qty{a} \).
+	Since \( g, \widetilde g \) are holomorphic with \( g(a) \neq 0 \) and \( \widetilde g(a) \neq 0 \), this can only be true if \( k = \widetilde k \), and hence \( g = \widetilde g \) on \( U \setminus \qty{a} \), and then at \( a \) by continuity.
+
+	It is clear that (iii) implies (i).
+\end{proof}
+\begin{definition}
+	If \( f \) has a pole at \( z = a \), then the unique positive integer \( k \) given by the above proposition is the \textit{order} of the pole at \( a \).
+	If \( k = 1 \), we say that \( f \) has a \textit{simple pole} at \( a \).
+
+	Let \( U \) be open and \( S \setminus U \) be a discrete subset of \( U \), so all points of \( S \) are isolated.
+	If \( f \colon U \setminus S \to \mathbb C \) is holomorphic and each \( a \in S \) is either a removable singularity or a pole of \( f \), then \( f \) is a \textit{meromorphic} function on \( U \).
+	In particular, if \( S = \varnothing \), \( f \) is holomorphic.
+\end{definition}
+\begin{remark}
+	If \( f \colon U \setminus \qty{a} \to \mathbb C \) is holomorphic and the singularity \( z = a \) is a pole of \( f \), we can regard \( f \) as a continuous mapping onto the Riemann sphere \( f \colon U \to \mathbb C \cup \qty{\infty} \), by setting \( f(a) = \infty \).
+	Here, \( f \) is holomorphic on \( U \).
+	Holomorphicity of the extended map near the pole \( a \) follows from the fact that in a punctured disk about \( a \), \( \frac{1}{f} \) has the form \( \frac{(z-a)^k}{g(z)} \) for some holomorphic \( g \) with \( g(z) \neq 0 \) near \( a \); and the fact that any function \( h \) defined in a neighbourhood of \( \infty \) in the Riemann sphere is holomorphic, by definition, if the function \( \widetilde h(z) = h\qty(\frac{1}{z}) \) if \( z \neq 0 \), \( \widetilde h(0) = h(\infty) \) is holomorphic near zero.
+	Hence \( h \circ f = \widetilde h \circ \qty(\frac{1}{f}) \) is holomorphic near \( a \) for all holomorphic \( h \) in a neighbourhood of \( \infty \) in the Riemann sphere.
+
+	Hence, any meromorphic function \( f \colon U \setminus S \to \mathbb C \) can be viewed as a holomorphic function \( U \to \mathbb C \cup \qty{\infty} \).
+	Geometrically, therefore, poles are not `real' singularities, and the only true isolated singularities are the essential singularities.
+	This is explored further in Part II Riemann Surfaces.
+\end{remark}
+
+\subsection{Essential singularities}
+\begin{remark}
+	Suppose \( z = a \) is an essential singularity of a holomorphic \( f \colon U \setminus \qty{a} \to \mathbb C \).
+	Then there exists a sequence of points \( a_n \in U \setminus \qty{a} \), \( a_n \to a \), such that \( f(a_n) \to \infty \).
+	This is because \( a \) is not removable.
+	There is also another sequence of points \( b_n \in U \setminus \qty{a} \), \( b_n \to a \) such that \( (f(b_n)) \) is bounded.
+	This is because \( a \) is not a pole.
+	We can generalise this further.
+\end{remark}
+\begin{theorem}[Casorati-Weierstrass theorem]
+	If \( f \colon U \setminus \qty{a} \to \mathbb C \) is holomorphic and \( a \in U \) is an essential singularity of \( f \), then for any \( \varepsilon > 0 \), the set \( f(D(a,\varepsilon) \setminus \qty{a}) \) is dense in \( \mathbb C \).
+\end{theorem}
+The proof is an exercise on the second example sheet.
+\begin{theorem}[Picard's theorem]
+	If \( f \colon U \setminus \qty{a} \to \mathbb C \) is holomorphic and \( a \in U \) is an essential singularity of \( f \), then there exists \( w \in \mathbb C \) such that for any \( \varepsilon > 0 \), \( \mathbb C \setminus \qty{w} \subseteq f(D(a,\varepsilon) \setminus \qty{a}) \).
+	In other words, in any neighbourhood \( D(a,\varepsilon) \setminus \qty{a} \), \( f \) attains all complex numbers except possibly one.
+\end{theorem}
+The proof is omitted.
+
+\subsection{Laurent sreies}
+If \( z = a \) is a removable singularity of \( f \), then for some \( R > 0 \), \( f \) is given by a power series \( \sum_{n = 0}^\infty c_n(z-a)^n \), which is the Taylor series of the holomorphic extension of \( f \) to \( D(a,R) \), for all \( z \in D(a,R) \setminus \qty{a} \).
+If \( a \) is a pole of some order \( k \geq 1 \), then for some \( R > 0 \) we have \( f(z) = (z-a)^{-k} g(z) \) for some holomorphic \( g \colon D(a,R) \to \mathbb C \) and all \( z \in D(a,R) \setminus \qty{a} \), so using the Taylor seires of \( g \), we find a series of the form \( f(z) = \sum_{n=-k}^\infty c_n (z-a)^n \), for \( z \in D(a,R) \setminus \qty{a} \).
+When \( a \) is an essential singularity, we can still obtain an analogous series expansion with infinitely many terms with negative powers.
+More generally, we have the following.
+\begin{theorem}[Laurent expansion]
+	Let \( f \) be holomorphic on an annulus \( A = \qty{z \in \mathbb C \colon r < \abs{z-a} < R} \) for \( 0 \leq r < R \leq \infty \).
+	Then:
+	\begin{enumerate}[(i)]
+		\item \( f \) has a unique convergent series expansion
+			\[ f(z) = \sum_{n = -\infty}^\infty c_n (z-a)^n \equiv \sum_{n=1}^\infty c_{-n} (z-a)^{-n} + \sum_{n=0}^\infty c_n (z-a)^n \]
+			where the \( c_n \) are constants;
+		\item for any \( \rho \in (r,R) \), the coefficient \( c_n \) is given by
+			\[ c_n = \frac{1}{2 \pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-a)^{n+1}} \]
+		\item if \( r < \rho' \leq \rho < R \), then the series in (i) converges uniformly (i.e.\ the two series separately converge uniformly) on the set
+			\[ \qty{z \in \mathbb C \colon \rho' \leq \abs{z-a} \leq \rho} \]
+	\end{enumerate}
+\end{theorem}
+\begin{remark}
+	If \( f \) is the restriction of \( A \) of a holomorphic function \( g \) on the full disk \( D(a,R) \), then by the formula in part (ii), we have for any negative \( n = -m \), \( m \geq 1 \), the coefficient \( c_{-m} \) is zero by Cauchy's theorem.
+	In this case, the Laurent sreies of \( f \) is the Taylor series of \( g \) restricted to \( A \).
+	The new content of the theorem is simply when \( f \) has no holomorphic extension to \( D(a,R) \).
+\end{remark}
