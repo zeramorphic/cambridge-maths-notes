@@ -181,3 +181,134 @@ We will model the expectation of the response \( Y_i \) as a linear function of 
 	Let \( Y_i \) be the number of insurance claims that driver \( i \) makes in a given year, and \( x_{i1}, \dots, x_{ip} \) is a set of variables about the specific driver.
 	Predictors include age, the number of years they have held their license, and the number of points on their license, for instance.
 \end{example}
+We assume that
+\[ Y_i = \alpha + \beta_1 x_{i1} + \dots + \beta_p x_{ip} + \varepsilon_i \]
+where \( \alpha \in \mathbb R \) is an \textit{intercept}, \( \beta_i \) are the \textit{coefficients}, and \( \varepsilon \) is a \textit{noise vector}, which is a random variable.
+The intercept and coefficients are the parameters of interest.
+We will often eliminate the intercept by making one of the predictors \( x_{i1} = 1 \) for all \( i \), so \( \beta_1 \) plays the role of the intercept.
+
+Note that we can use a linear model to model nonlinear relationships.
+For example, suppose \( Y_i = a + bz_i + cz_i^2 + \varepsilon_i \).
+We can rephrase this as a linear model with \( x_i = (1, z_i, z_i^2) \).
+
+The coefficient \( \beta_j \) can be interpreted as the effect on \( Y_i \) of increasing \( x_{ij} \) by one, while keeping all other predictors fixed.
+This cannot be interpreted as a causal relationship, unless this is a randomised control experiment.
+
+\subsection{Matrix formulation}
+Let
+\[ Y = \begin{pmatrix}
+	Y_1 \\
+	\vdots \\
+	Y_n
+\end{pmatrix};\quad X = \begin{pmatrix}
+	x_{11} & \cdots & x_{1p} \\
+	\vdots & \ddots & \vdots \\
+	x_{n1} & \cdots & x_{np}
+\end{pmatrix};\quad \beta = \begin{pmatrix}
+	\beta_1 \\
+	\vdots \\
+	\beta_p
+\end{pmatrix};\quad \varepsilon = \begin{pmatrix}
+	\varepsilon_1 \\
+	\vdots \\
+	\varepsilon_n
+\end{pmatrix} \]
+We call \( X \) the \textit{design matrix}.
+The linear model is that
+\[ Y = X\beta + \varepsilon \]
+\( X\beta \) is considered fixed.
+Since \( \varepsilon \) is random, this makes \( Y \) into a random variable.
+
+\subsection{Assumptions}
+We make a number of \textit{moment assumptions} on the noise vector \( \varepsilon \).
+This allows us to deduce more results about the linear model.
+\begin{enumerate}[(i)]
+	\item \( \expect{\varepsilon} = 0 \implies \expect{Y_i} x_i^\transpose \beta \);
+	\item \( \Var \varepsilon = \sigma^2 \) (this property is known as homoskedasticity), which is equivalent to both \( \Var \varepsilon_i = \sigma^2 \) and \( \Cov{\varepsilon_i, \varepsilon_j} \).
+\end{enumerate}
+We will always assume that the design matrix \( X \) has full rank \( p \), or equivalently, that it has linearly independent columns.
+Since \( X \in \mathbb R^{n \times p} \), this requires that \( n \geq p \), so we need at least as many samples as we have predictors.
+
+\subsection{Least squares estimation}
+\begin{definition}
+	The \textit{least squares estimator} \( \hat \beta \) minimises the \textit{residual sum of squares}, which is
+	\[ S(\beta) = \norm{Y-X\beta}^2 = \sum_i \qty(Y_i - x_i^\transpose \beta)^2 \]
+	The term \( Y_i - x_i^\transpose \beta \) is called the \text{\( i \)th residual}.
+\end{definition}
+Since \( S(\beta) \) is a positive definite quadratic in \( \beta \), it is minimised at the stationary point.
+\[ \eval{\pdv{S(\beta)}{\beta_k}}_{\beta = \hat \beta} = 0 \iff \forall k,\;-2\sum_{i=1}^n x_{ik} \qty(Y_i - \sum_k x_{ij} \hat \beta_j) = 0 \iff X^\transpose X \hat \beta = X^\transpose T \]
+As \( X \) has full column rank, \( X^\transpose X \) is invertible.
+\[ \hat \beta = (X^\transpose X)^{-1} X^\transpose Y \]
+This is notably a linear function of \( Y \), given fixed \( X \).
+Note that
+\[ \expect{\hat \beta} = (X^\transpose X)^{-1} X^\transpose \expect{Y} = (X^\transpose X)^{-1} X^\transpose X\beta = \beta \]
+So \( \hat \beta \) is an unbiased estimator.
+Further,
+\begin{align*}
+	\Var{\hat \beta} &= (X^\transpose X)^{-1} X^\transpose \Var Y \qty[(X^\transpose X)^{-1} X^\transpose]^\transpose \\
+	&= (X^\transpose X)^{-1} X^\transpose \sigma^2 I \qty[(X^\transpose X)^{-1} X^\transpose]^\transpose \\
+	&= \sigma^2 (X^\transpose X)^{-1}
+\end{align*}
+\begin{theorem}[Gauss-Markov theorem]
+	Let an estimator \( \beta^\star \) of \( \beta \) be unbiased and a linear function of \( Y \), so \( \beta^\star = CY \).
+	Then, for any fixed \( t \in \mathbb R^p \), we have
+	\[ \Var{t^\transpose \hat \beta} \leq \Var{t^\transpose \beta\star} \]
+	where \( \hat \beta \) is the least squares estimator.
+	We say that \( \hat \beta \) is the best linear unbiased estimator (BLUE).
+\end{theorem}
+\begin{remark}
+	We can think of \( t \in \mathbb R^p \) as a vector of predictors for a new sample.
+	Then \( t^\transpose \hat \beta \) is the prediction for \( \expect{Y_i} \) for this new sample, using the least squares estimator.
+	\( t^\transpose \beta^\star \) is the prediction with \( \beta^\star \).
+	In both cases, the prediction is unbiased.
+\end{remark}
+\begin{proof}
+	Note that
+	\[ \Var{t^\transpose \beta^\star} - \Var{t^\transpose \hat \beta} = t^\transpose \qty[\Var{\beta^\star} - \Var{\hat\beta}] t \]
+	To prove that this quantity is always non-negative, we must show that \( \Var{\beta^\star} - \Var{\hat\beta} \) is positive semidefinite.
+	Let \( A = C - (X^\transpose X)^{-1} X^\transpose \).
+	Note that \( \expect{AY} = \expect{\beta^\star} - \expect{\hat\beta} = 0 \).
+	Also, \( \expect{AY} = A \expect{Y} = AX\beta \).
+	This holds for all \( \beta \), so \( AX = 0 \).
+	Now, since \( X^\transpose X \) is symmetric,
+	\begin{align*}
+		\Var{\beta^\star} &= \Var{CY} \\
+		&= \Var{(A+(X^\transpose X)^{-1} X^\transpose)Y} \\
+		&= A+(X^\transpose X)^{-1} X^\transpose \Var Y \qty[A+(X^\transpose X)^{-1} X^\transpose]^\transpose \\
+		&= A+(X^\transpose X)^{-1} X^\transpose \sigma^2 I \qty[A+(X^\transpose X)^{-1} X^\transpose]^\transpose \\
+		&= \sigma^2 \qty(A A^\transpose + (X^\transpose X)^{-1} + AX(X^\transpose X)^{-1} + (X^\transpose X)^{-1} X^\transpose A^\transpose) \\
+		&= \sigma^2 AA^\transpose + \Var{\hat \beta} \\
+		\Var{\beta^\star} - \Var{\hat\beta} &= \sigma^2 AA^\transpose
+	\end{align*}
+	Note that the outer product \( A A^\transpose \) is always positive semidefinite.
+\end{proof}
+
+\subsection{Fitted values and residuals}
+\begin{definition}
+	The \textit{fitted values} are \( \hat Y = X \hat \beta = X(X^\transpose X)^{-1} X^\transpose Y \), where \( P = X (X^\transpose X)^{-1} X^\transpose \) is the \textit{hat matrix}.
+	The \textit{residuals} are \( Y - \hat Y = (I-P)Y \).
+\end{definition}
+\begin{proposition}
+	\( P \) is the orthogonal projection onto the column space of the design matrix.
+\end{proposition}
+\begin{proof}
+	If \( v \) is in the column space of \( X \), then \( v = Xb \) for some \( b \).
+	Hence
+	\[ Pv = X(X^\transpose X)^{-1} X^\transpose X b = Xb = v \]
+	If \( w \) is in the orthogonal complement, then
+	\[ Pw = X(X^\transpose X)^{-1} \underbrace{X^\transpose w}_{0} = 0 \]
+\end{proof}
+\begin{corollary}
+	The fitted values are an orthogonal projection of the response variables to the column space of the design matrix.
+	The residuals are orthogonal to the column space.
+\end{corollary}
+
+\subsection{Normal linear model}
+The normal linear model is a linear model under the assumption that \( \varepsilon \sim N(0,\sigma^2 I) \), where \( \sigma^2 \) is unknown.
+The parameters in the model are now \( (\beta, \sigma^2) \).
+The likelihood function in the normal linear model is
+\[ L(\beta, \sigma^2) = f_Y(y\mid \beta,\sigma^2) = (2\pi \sigma^2)^{-\frac{n}{2}} \exp{-\frac{1}{2\sigma^2} \sum_i (Y_i - x_i^\transpose \beta)^2} \]
+The log-likelihood is
+\[ \ell(\beta,\sigma^2) = \text{constant} - \frac{n}{2}\log \sigma^2 - \frac{1}{2\sigma^2} \norm{Y-X\beta}^2 \]
+To maximise this as a function of \( \beta \) for any fixed \( \sigma^2 \), we must minimise the residual sum of squares \( S(\beta) = \norm{Y-X\beta}^2 \).
+So \( \hat \beta = (X^\transpose X)^{-1} X^\transpose Y \) is the maximum likelihood estimator of \( \beta \).
