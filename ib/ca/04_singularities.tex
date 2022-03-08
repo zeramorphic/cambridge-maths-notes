@@ -158,7 +158,7 @@ The proof is an exercise on the second example sheet.
 \end{theorem}
 The proof is omitted.
 
-\subsection{Laurent sreies}
+\subsection{Laurent series}
 If \( z = a \) is a removable singularity of \( f \), then for some \( R > 0 \), \( f \) is given by a power series \( \sum_{n = 0}^\infty c_n(z-a)^n \), which is the Taylor series of the holomorphic extension of \( f \) to \( D(a,R) \), for all \( z \in D(a,R) \setminus \qty{a} \).
 If \( a \) is a pole of some order \( k \geq 1 \), then for some \( R > 0 \) we have \( f(z) = (z-a)^{-k} g(z) \) for some holomorphic \( g \colon D(a,R) \to \mathbb C \) and all \( z \in D(a,R) \setminus \qty{a} \), so using the Taylor seires of \( g \), we find a series of the form \( f(z) = \sum_{n=-k}^\infty c_n (z-a)^n \), for \( z \in D(a,R) \setminus \qty{a} \).
 When \( a \) is an essential singularity, we can still obtain an analogous series expansion with infinitely many terms with negative powers.
@@ -172,12 +172,141 @@ More generally, we have the following.
 			where the \( c_n \) are constants;
 		\item for any \( \rho \in (r,R) \), the coefficient \( c_n \) is given by
 			\[ c_n = \frac{1}{2 \pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-a)^{n+1}} \]
-		\item if \( r < \rho' \leq \rho < R \), then the series in (i) converges uniformly (i.e.\ the two series separately converge uniformly) on the set
+		\item if \( r < \rho' \leq \rho < R \), then the two series in (i) separately converge uniformly on the set
 			\[ \qty{z \in \mathbb C \colon \rho' \leq \abs{z-a} \leq \rho} \]
 	\end{enumerate}
 \end{theorem}
 \begin{remark}
 	If \( f \) is the restriction of \( A \) of a holomorphic function \( g \) on the full disk \( D(a,R) \), then by the formula in part (ii), we have for any negative \( n = -m \), \( m \geq 1 \), the coefficient \( c_{-m} \) is zero by Cauchy's theorem.
-	In this case, the Laurent sreies of \( f \) is the Taylor series of \( g \) restricted to \( A \).
+	In this case, the Laurent series of \( f \) is the Taylor series of \( g \) restricted to \( A \).
 	The new content of the theorem is simply when \( f \) has no holomorphic extension to \( D(a,R) \).
 \end{remark}
+\begin{proof}
+	Let \( w \in A \) and consider the function
+	\[ g(z) = \begin{cases}
+		\frac{f(z) - f(w)}{z-w} & \text{if } z \neq w \\
+		f'(w) & \text{if } z = w
+	\end{cases} \]
+	This \( g \) is continuous in \( A \) and holomorphic in \( A \setminus \qty{w} \).
+	Hence, this is holomorphic in \( A \) since this is a removable singularity.
+	Let \( \rho_1, \rho_2 \) such that \( r < \rho_1 < \abs{w - a} < \rho_2 < R \).
+	The two positively oriented curves \( \partial D(a,\rho_1) \) and \( \partial D(a,\rho_2) \) are homotopic in \( A \).
+	Hence,
+	\[ \int_{\partial D(a,\rho_1)} g(z) \dd{z} = \int_{\partial D(a,\rho_2)} g(z) \dd{z} \]
+	Substituting for \( g \),
+	\[ \int_{\partial D(a,\rho_1)} \frac{f(z) \dd{z}}{z-w} - 2\pi i \cdot I(\partial D(a,\rho_1);w) f(w) = \int_{\partial D(a,\rho_2)} \frac{f(z) \dd{z}}{z-w} - 2\pi i \cdot I(\partial D(a,\rho_2);w) f(w) \]
+	We have
+	\[ I(\partial D(a,\rho_1);w) = 0;\quad I(\partial D(a,\rho_2);w) = I(\partial D(a,\rho_2);a) = 1 \]
+	Hence,
+	\[ f(w) = \frac{1}{2\pi i} \int_{\partial D(a,\rho_2)} \frac{f(z) \dd{z}}{z-w} - \frac{1}{2\pi i}\int_{\partial D(a,\rho_1)} \frac{f(z) \dd{z}}{z-w} \]
+	This is an analogue of Cauchy's integral formula for annular domains.
+	We can now proceed as before when proving the Taylor series expansion for holomorphic functions.
+
+	For the first integral, consider the expansion
+	\[ \frac{1}{z-w} = \frac{1}{z-a-(w-a)} = \sum_{n=0}^\infty \frac{(w-a)^n}{(z-a)^{n+1}} \]
+	This series converges uniformly over \( z \in \partial D(a,\rho_2) \), since \( \abs{\frac{w-a}{z-a}} < 1 \).
+	For the second integral, consider
+	\[ \frac{1}{z-w} = \frac{1}{z-a-(w-a)} = -\frac{1}{(w-a)\qty(1-\frac{z-a}{w-a})} = -\sum_{n=0}^\infty \frac{(z-a)^n}{(w-a)^{n+1}} \]
+	Likewise, this series converges uniformly over \( z \in \partial D(a,\rho_1) \), since \( \abs{\frac{z-a}{w-a}} < 1 \) in this disk.
+	Substituting these into the representation formula, we can switch integration and summation due to uniform convergence.
+	This gives
+	\[ f(w) = \sum_{n=0}^\infty c_n (w-a)^n + \sum_{n=1}^\infty c_{-n} (w-a)^{-n} \]
+	where
+	\[ c_n = \frac{1}{2\pi i} \int_{\partial D(a,\rho_2)} \frac{f(z) \dd{z}}{z-a} \]
+	for \( n \geq 0 \), and
+	\[ c_n = \frac{1}{2\pi i} \int_{\partial D(a,\rho_1)} \frac{f(z) \dd{z}}{z-a} \]
+	for \( n \leq -1 \).
+	Since \( \partial D(a,\rho_1) \) and \( \partial D(a,\rho_2) \) are homotopic in \( A \) to \( \partial D(a,\rho) \) for any \( \rho \in (r,R) \), we have that
+	\[ c_n = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-a} \]
+	for any \( \rho \in (r,R) \) and \( n \in \mathbb Z \), so (i) and the formula (ii) both hold.
+
+	To show (iii) and uniqueness, suppose there exist constants \( c_n \) such that, for all \( z \in A \), we have
+	\begin{equation}
+		f(z) = \sum_{n=-\infty}^\infty c_n (z-a)^n \tag{\(\ast\)}
+	\end{equation}
+	Let \( r < \rho' \leq \rho < R \).
+	Then the power series \( \sum_{n=0}^\infty c_n (z-a)^n \) converges for \( z \in A \), so it has radius of convergence at least \( R \), and converges uniformly for \( \abs{z-a} \leq \rho \).
+	Further, the series \( \sum_{n=1}^\infty c_{-n} (z-a)^{-n} \) converges on \( A \).
+	Let \( \zeta = (z-a)^{-1} \).
+	Then the power series \( \sum_{n=1}^\infty c_{-n} \zeta^n \) converges for \( \frac{1}{R} < \abs{\zeta} < \frac{1}{r} \) so it has radius of convergence at least \( \frac{1}{r} \) and converges uniformly for \( \abs{\zeta} \leq \frac{1}{\rho'} \).
+	Thus, the series \( \sum_{n=1}^\infty c_{-n} (z-a)^{-n} \) converges uniformly for \( \abs{z-a} \geq \rho' \).
+	Hence (\(\ast\)) converges uniformly in \( \rho' \leq \abs{z-a} \leq \rho \).
+	Hence, for any \( m \in \mathbb Z \), we have
+	\[ \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-a)^{m+1}} = \sum_{n=-\infty}^\infty c_n \int_{\partial D(a,\rho)} (z-a)^{n-m-1} \dd{z} \]
+	By the fundamental theorem of calculus, the only non-zero integral on the right hand side occurs when \( n - m - 1 = -1 \), which occurs for \( n = m \) only.
+	This integral gives
+	\[ c_m = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-a)^{m+1}} \]
+	for all \( \rho \in (r,R) \).
+	This formula also implies the uniqueness of the \( c_n \) for which the series expansion is valid.
+\end{proof}
+\begin{remark}
+	The above proof shows that if \( f \colon A \equiv D(a,R)\setminus \overline{D(a,r)} \to \mathbb C \) is holomorphic, then there is a holomorphic function \( f_1 \colon D(a,R) \to \mathbb C \) and a holomorphic function \( f_2 \colon \mathbb C \setminus \overline{D(a,r)} \to \mathbb C \) such that \( f = f_1 + f_2 \) on \( A \).
+	This decomposition is not unique, since we can take \( f_1 \mapsto f_1 + g \) and \( f_2 \mapsto f_2 - g \) for an entire function \( g \).
+	However, if we also require \( f_2(z) \to 0 \) as \( z \to \infty \), the decomposition into two series given in (ii) above is unique.
+\end{remark}
+
+\subsection{Coefficients of Laurent series}
+Let \( f \colon D(a,R) \setminus \qty{a} \to \mathbb C \) be holomorphic, so \( z = a \) is an isolated singularity of \( f \).
+Then, by the Laurent series with \( r = 0 \), we have a unique set of complex numbers \( c_n \) such that
+\[ f(z) = \sum_{n=-\infty}^\infty c_n (z-a)^n \]
+Then,
+\begin{enumerate}[(i)]
+	\item If \( c_n = 0 \) for all \( n < 0 \), we have \( f(z) = \sum_{n=0}^\infty c_n (z-a)^n \equiv g(z) \) on \( D(a,R) \setminus \qty{a} \).
+	Since \( g \) is holomorphic on \( D(a,R) \), \( z = a \) is a removable singularity.
+	\item If \( c_{-k} \neq 0 \) for some \( k \geq 1 \) and \( c_{-n} = 0 \) for all \( n \geq k + 1 \), we have
+	\[ f(z) = \frac{c_{-k}}{(z-a)^k} + \frac{c_{-k+1}}{(z-a)^{k+1}} + \dots + \frac{c_{-1}}{z-a} + \sum_{n=0}^\infty c_n (z-a)^n \]
+	Hence, \( f(z) = (z-a)^{-k} g(z) \) for a function \( g \) which is holomorphic on \( D(a,R) \), and where \( g(a) = c_{-k} \neq 0 \).
+	Equivalently, \( z = a \) is a pole of order \( k \).
+	\item If \( c_n \neq 0 \) for infinitely many \( n < 0 \), \( z = a \) is an essential singularity.
+	This holds since the above two parts were all bidirectional implications.
+\end{enumerate}
+
+\subsection{Residues}
+\begin{definition}
+	Let \( f \colon D(a,R) \setminus \qty{a} \to \mathbb C \) be holomorphic.
+	The coefficient \( c_{-1} \) of the Laurent series of \( f \) in \( D(a,R) \setminus \qty{a} \) is called the \textit{residue of \( f \) at \( a \)}, denoted \( \Res_f(a) \).
+	The series
+	\[ f_P = \sum_{n=1} c_{-n} (z-a)^{-n} \]
+	is known as the \textit{principal part of \( f \) at \( a \)}.
+\end{definition}
+We know that \( f_P \) is holomorphic on \( \mathbb C \setminus \qty{a} \), with the series defining \( f_P \) converging uniformly on compact subsets of \( \mathbb C \setminus \qty{a} \).
+By the Laurent series, \( f = f_P + h \) on \( D(a,R) \setminus \qty{a} \), where \( h \) is holomorphic on \( D(a,R) \).
+Let \( \gamma \) be a closed curve in \( D(a,R) \) with \( a \not\in \Im \gamma \).
+Then \( \int_\gamma h(z) \dd{z} = 0 \) by Cauchy's theorem, and hence \( \int_\gamma f(z) \dd{z} = \int_\gamma f_P(z) \dd{z} = 2\pi i \cdot I(\gamma;a) \Res_f(a) \), where the last inequality holds by uniform convergence of the series for \( f_P \) and the fundamental theorem of calculus.
+This reasoning can be extended to the case of more then one isolated singularity.
+\begin{theorem}[residue theorem]
+	Let \( U \) be an open set, \( \qty{a_1, \dots, a_k} \subset U \) be finite, and \( f \colon U \setminus \qty{a_1, \dots, a_k} \to \mathbb C \) be holomorphic.
+	If \( \gamma \) is a closed curve in \( U \) homologous to zero in \( U \), and if \( a_j \not\in \Im \gamma \) for each \( j \), then
+	\[ \frac{1}{2\pi i} \int_\gamma f(z) \dd{z} = \sum_{j=1}^k I(\gamma;a_j) \Res_f(a_j) \]
+\end{theorem}
+This is a generalisation of Cauchy's integral formula.
+\begin{proof}
+	Let \( f_P^{(j)} = \sum_{n=1}^\infty c_{-n}^{(j)} (z-a_j)^{-n} \) be the principal part of \( f \) at \( a_j \).
+	Then \( f_P^{(j)} \) is holomorphic in \( \mathbb C \setminus \qty{a_j} \), and hence is holomorphic in \( \mathbb C \setminus \qty{a_1, \dots, a_k} \).
+	Let
+	\[ h \equiv f - \qty(f_P^{(1)} + \dots + f_P^{(k)}) \]
+	This \( h \) is holomorphic in \( U \setminus \qty{a_1, \dots, a_k} \).
+	Let \( j \) be fixed.
+	Then \( f - f_P^{(j)} \) has a removable singularity at \( z = a_j \).
+	For all \( \ell \neq j \), \( f_P^{(\ell)} \) is holomorphic at \( a_j \).
+	Hence \( h \) has a removable singularity at \( a_j \).
+	This is true for all \( j \), so \( h \) extends to all of \( U \) as a holomorphic function.
+	By Cauchy's theorem, \( \int_\gamma h(z) \dd{z} = 0 \).
+	Hence
+	\[ \frac{1}{2\pi i} \int_\gamma f(z) \dd{z} = \sum_{j=1}^k \frac{1}{2\pi i} \int_\gamma f_P^{(j)}(z) \dd{z} \]
+	By termwise integration of the series for \( f_P^{(j)} \), which converges uniformly on compact subsets of \( \mathbb C \setminus \qty{a_j} \), we have
+	\[ \frac{1}{2\pi i} \int_\gamma f_P^{(j)}(z) \dd{z} = I(\gamma;a_j) \Res_f(a_j) \]
+	as required.
+\end{proof}
+There are simple ways to calculate residues if we know information about the singularity in question.
+\begin{enumerate}
+	\item If \( f \) has a simple pole at \( z = a \), then
+	\[ \Res_f(a) = \lim_{z \to a} (z-a) f(z) \]
+	Indeed, near \( a \), we have \( f(z) = (z-a)^{-1} g(z) \) where \( g \) is holomorphic and \( g(a) \neq 0 \).
+	Hence, by the Taylor expansion of \( g \), we have that \( \Res_f(a) = g(a) \).
+	\item If \( f \) has a pole of order \( k \) at \( a \), then near \( a \) we have that \( f(z) = (z-a)^{-k} g(z) \) where \( g \) is holomorphic and \( g(a) \neq 0 \).
+	In this case, the residue \( \Res_f(a) \) is the coefficient of the \( (z-a)^{k-1} \) term of the Taylor series of \( g \) at \( a \), which is
+	\[ \Res_f(a) = \frac{g^{(k-1)}(a)}{(k-1)!} \]
+	\item If \( f = \frac{g}{h} \) where \( g \) and \( h \) are holomorphic at \( z = a \), such that \( g(a) \neq 0 \) and \( h \) has a simple zero at \( z = a \), then from (i) we have
+	\[ \Res_f(a) = \lim_{z \to a} \frac{(z-a)g(z)}{h(z)} = \lim_{z \to a} \frac{g(z)}{\frac{h(z) - h(a)}{z-a}} = \frac{g(a)}{h'(a)} \]
+\end{enumerate}
