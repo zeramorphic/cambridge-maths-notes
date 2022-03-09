@@ -50,10 +50,6 @@ func optimise() {
 				// Compile the file.
 				output := file.FilePath + "/build/main_opt.pdf"
 				input := file.FilePath + "/build/main.pdf"
-				if file.FilePath == "book" {
-					output = "build/book_opt.pdf"
-					input = "build/book.pdf"
-				}
 				cmd := exec.Command("gs", "-sDEVICE=pdfwrite", "-dCompatibilityLevel=1.4", "-dNOPAUSE", "-dQUIET", "-dBATCH", "-sOutputFile="+output, input)
 				cmd.Start()
 				cmd.Wait()
