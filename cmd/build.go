@@ -47,7 +47,15 @@ func build(compileBook bool, singleThreaded bool) {
 		size++
 	}
 	bar := progressbar.Default(size)
-	for _, file := range Files {
+
+	var fs []TexFile
+	if compileBook {
+		fs = FilesWithBook
+	} else {
+		fs = Files
+	}
+
+	for _, file := range fs {
 		wg.Add(1)
 		file := file
 		f := func() {
@@ -60,23 +68,6 @@ func build(compileBook bool, singleThreaded bool) {
 				errorChan <- string(out)
 				bar.Set(bar.GetMax())
 			}
-			bar.Add(1)
-		}
-		if singleThreaded {
-			f()
-		} else {
-			go f()
-		}
-	}
-	if compileBook {
-		wg.Add(1)
-		f := func() {
-			defer wg.Done()
-
-			// Compile the file.
-			cmd := exec.Command("latexmk", "--shell-escape", "-pdflatex=xelatex", "-pdf", "-cd", "-output-directory=build", "-file-line-error", "-halt-on-error", "-interaction=nonstopmode", "book.tex")
-			cmd.Start()
-			cmd.Wait()
 			bar.Add(1)
 		}
 		if singleThreaded {

@@ -27,10 +27,15 @@ var Files []TexFile = []TexFile{
 	{FilePath: "ib/stats", Name: "Statistics"},
 }
 
+var BookFiles []TexFile = []TexFile{
+	{FilePath: "ia/book", Name: "IA Book"},
+	{FilePath: "ib/book", Name: "IB Book"},
+}
+
 var FilesWithBook []TexFile
 
 func init() {
 	FilesWithBook = make([]TexFile, len(Files))
 	copy(FilesWithBook, Files)
-	FilesWithBook = append(FilesWithBook, TexFile{FilePath: "book", Name: "Book"})
+	FilesWithBook = append(FilesWithBook, BookFiles...)
 }
