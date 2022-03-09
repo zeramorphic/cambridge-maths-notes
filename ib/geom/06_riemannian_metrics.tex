@@ -329,7 +329,7 @@ In the upper half-plane model of hyperbolic space,
 	c & d
 \end{pmatrix}} \in GL(2,\mathbb R);\quad d_{\text{hyp}} = 2 \artanh \abs{\frac{b - a}{b - \overline a}} \]
 
-\subsection{Characterising isometries and lines}
+\subsection{Hyperbolic triangles}
 \begin{definition}
 	Let \( \alpha \) be an orientation-preserving isometry of \( \mathbb H \), which is equivalently an element of \( \Mob(\mathbb H) \).
 	Suppose \( \alpha \) is not the identity map.
@@ -350,9 +350,106 @@ In the upper half-plane model of hyperbolic space,
 		\item \textit{intersecting}, if they meet in \( \mathbb H \).
 	\end{enumerate}
 	All pairs of hyperbolic lines are either parallel, ultra-parallel, or intersecting.
-\end{definition}
-\begin{definition}
 	A \textit{hyperbolic triangle} is a region bound by three geodesics, no two of which are ultra-parallel.
 	Vertices that lie `at infinity` (on \( \partial \mathbb H \)) are called \textit{ideal vertices}.
 \end{definition}
 Note that the points in \( \partial \mathbb H \) are not contained within the hyperbolic plane, so in particular the ideal vertices are not points in \( \mathbb H \).
+We typically denote side lengths by \( A, B, C \), and denote the angles opposite these sides by \( \alpha, \beta, \gamma \).
+The vertices at \( \alpha, \beta, \gamma \) are denoted \( a, b, c \).
+The hyperbolic metric is conformal, since \( E = G \) and \( F = 0 \).
+Hence, we can use Euclidean angles in place of hyperbolic angles.
+
+\begin{proposition}[hyperbolic cosine formula]
+	For a hyperbolic triangle,
+	\[ \cosh C = \cosh A \cosh B - \sinh A \sinh B \cos \gamma \]
+\end{proposition}
+\begin{proof}
+	To simplify, by an isometry we can let the vertex \( c \) at \( \gamma \) be placed at \( 0 \in D \), and the vertex \( b \) at \( \beta \) be placed at \( \mathbb R_+ \cap D \).
+	Hence, the sides \( A, B \) are straight Euclidean line segments in \( D \), and the angle between them is \( \gamma \).
+	We have
+	\[ d_{\text{hyp}}(0,a) = 2 \artanh a \implies a = \tanh \frac{A}{2};\quad b = e^{i\gamma} \tanh \frac{B}{2};\quad \abs{\frac{b-a}{1-\overline a b}} = \tanh \frac{C}{2} \]
+	Recall that
+	\[ t = \tanh \frac{\lambda}{2} \implies \cosh \lambda = \frac{1+t^2}{1-t^2};\quad \sinh \lambda = \frac{2t}{1-t^2} \]
+	Hence,
+	\[ \cosh A = \frac{1 + \abs{a}^2}{1 - \abs{a}^2};\quad \cosh B = \frac{1 + \abs{b}^2}{1 - \abs{b}^2}; \]
+	\[ \cosh C = \frac{\abs{1-\overline a b}^2 + \abs{b-a}^2}{\abs{1-\overline a b}^2 - \abs{b-a}^2} = \frac{\qty(1+\abs{s}^2)\qty(1+\abs{b}^2) - 2\qty(\overline a b + a \overline b)}{\qty(1 - \abs{a}^2)\qty(1 - \abs{b}^2)} \]
+	Note that \( a \in \mathbb R \) and \( b + \overline b = 2 \Re b = 2b \cos \gamma \), so
+	\[ \cosh C = \cosh A \cosh B - \sinh A \sinh B \cos \gamma \]
+	as required.
+\end{proof}
+\begin{remark}
+	If \( A, B, C \) are small, the standard approximations to the hyperbolic sine and cosine functions give
+	\[ C^2 \approx A^2 + B^2 - 2AB \cos \gamma \]
+	which is the Euclidean cosine formula.
+	Since a dilation of a surface in \( \mathbb R^3 \) rescales curvature, at small scales we can treat any abstract smooth surface with a Riemannian metric as flat.
+
+	Since \( \cos \gamma \geq -1 \), we have that
+	\[ \cosh C \leq \cosh A \cosh B + \sinh A \sinh B = \cosh(A+B) \]
+	The hyperbolic cosine is increasing, so \( C \leq A + B \).
+	This is a more precise variant of the hyperbolic triangle inequality.
+\end{remark}
+
+\subsection{Area of triangles}
+\begin{theorem}
+	Let \( T \subseteq \mathbb H^2 \) be a hyperbolic triangle with internal angles \( \alpha, \beta, \gamma \) defined as before.
+	The area of \( T \) is
+	\[ \mathrm{area}_{\text{hyp}}(T) = \pi - \alpha - \beta - \gamma \]
+	Note that \( \alpha, \beta, \gamma \) may be zero, so \( T \) may have ideal vertices, and the internal angle is zero for such vertices.
+\end{theorem}
+This is a version of the Gauss-Bonnet theorem for hyperbolic triangles.
+\begin{proof}
+	The M\"obius group \( \Mob(\mathbb H^2) \) acts transitively on triples of points in the boundary with the correct cycle order.
+	In particular, there exists a single ideal triangle (with all vertices at infinity) up to isometry.
+	Consider the ideal triangle in the hyperbolic upper half-plane with vertices \( -1, +1, \infty \).
+	Its area is
+	\[ \mathrm{area}_{\text{hyp}}(T) = \int_{-1}^1 \int_{\sqrt{1-x^2}}^\infty \frac{1}{y^2} \dd{y} \dd{x} \]
+	since \( \sqrt{EG - F^2} = \frac{1}{y^2} \).
+	We can compute this explicitly as
+	\[ \mathrm{area}_{\text{hyp}}(T) = \int_{-1}^1 \frac{\dd{x}}{\sqrt{1-x^2}} = \pi \]
+	Now, let \( A(\alpha) \) be the area of a triangle with angles \( 0, 0, \alpha \).
+	We can see that \( A(\alpha) \) is decreasing in \( \alpha \) and continuous in \( \alpha \), by fixing two ideal vertices in the hyperbolic disk and translating the third vertex.
+	\begin{center}
+		\tikzfig{hyperbolic_slide}
+		\quad
+		\tikzfig{hyperbolic_triangle_sum}
+		\quad
+		\tikzfig{hyperbolic_angles_at_centre}
+	\end{center}
+	The first diagram shows that by moving the vertex \( \alpha \) on the real line, the area must increase, since the triangle with angle \( \alpha' < \alpha \) contains the triangle with angle \( \alpha \).
+	From the second diagram, we see that \( A(\alpha) + A(\beta) = A(\alpha + \beta) + \pi \) by comparing the different areas of triangles formed from hyperbolic lines in the diagram.
+	By letting \( F(\alpha) = \pi - A(\alpha) \), we have \( F(\alpha) + F(\beta) = F(\alpha + \beta) \).
+	Since \( F \) is continuous and increasing, we have that \( F(\alpha) = \lambda \alpha \) for some fixed \( \lambda > 0 \).
+	In particular, \( A(\alpha) = \pi - \lambda \alpha \).
+	Now, by considering the angles in the third diagram, we see that \( A(\alpha) + A(\pi - \alpha) = \pi \).
+	Hence, \( \lambda = 1 \), and so \( A(\alpha) = \pi - \alpha \).
+
+	Finally, we consider the general case.
+	\begin{center}
+		\tikzfig{hyperbolic_general_triangle}
+	\end{center}
+	By writing \( ABC \) for \( \mathrm{area}_{\text{hyp}}(T) \) where \( T \) is the triangle with vertices \( A, B, C \), we can see that
+	\[ ABC + A'CB' + A'B'C' =  \text{area of interior of diagram} = AB'C' + A'BC' \]
+	Equivalently,
+	\[ ABC + \pi - (\pi - \gamma) + \pi = (\pi - \alpha) + (\pi - \beta) \implies ABC = \pi - \alpha - \gamma - \beta \]
+	as required.
+\end{proof}
+Note that if \( G \) is a hyperbolic \( n \)-gon, so it is a region bound by \( n \) hyperbolic geodesics, it may be decomposed into a union of hyperbolic triangles.
+Since any two points in \( \mathbb H^2 \) are joined by a unique geodesic, the area of \( G \) is given by
+\[ \mathrm{area}_{\text{hyp}}(G) = (n-2)\pi - \sum_{i=1}^n \alpha_i \]
+\begin{lemma}
+	If \( g \geq 2 \), then there exists a regular \( 4g \)-gon in \( \mathbb H^2 \) with internal angle \( \frac{2\pi}{4g} = \frac{\pi}{2g} \).
+\end{lemma}
+\begin{proof}
+	Consider an ideal \( 4g \)-gon, whose vertices all lie at infinity, in the disk model of hyperbolic space.
+	The ideal vertices can be placed at the \( 4g \)-th roots of unity, such that this polygon is invariant under a rotational symmetry.
+	By sliding each vertex radially inwards in \( \mathbb R^2 \), we obtain a continuous family of regular \( 4g \)-gons, with areas which vary monotonically from \( (4g-2)\pi \) to zero.
+	The internal angle of the polygon therefore varies continuously from zero to \( \beta_{\min} \) such that \( (4g-2)\pi = 4g \beta_{\min} \).
+	It therefore suffices to check that \( \frac{\pi}{2g} \) lies in this interval \( \qty(0,\beta_{\min}) \).
+\end{proof}
+
+\subsection{Surfaces of constant negative curvature}
+\begin{theorem}
+	For each \( g \geq 2 \), there exists an abstract Riemannian metric on the compact surface of genus \( g \) with curvature \( \kappa \equiv -1 \) and locally isometric to \( \mathbb H^2 \).
+\end{theorem}
+Recall the the Euler characteristic of a surface of genus \( g \) is exactly \( 2 - 2g \).
+Note, if \( g = 0 \) we have \( \kappa \equiv +1 \) since this is the sphere, and if \( g = 1 \) we have \( \kappa \equiv 0 \) since this is the torus as a quotient \( \faktor{\mathbb R^2}{\mathbb Z^2} \).
