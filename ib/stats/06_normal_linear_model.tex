@@ -236,7 +236,7 @@ Since \( X \in \mathbb R^{n \times p} \), this requires that \( n \geq p \), so 
 	The term \( Y_i - x_i^\transpose \beta \) is called the \text{\( i \)th residual}.
 \end{definition}
 Since \( S(\beta) \) is a positive definite quadratic in \( \beta \), it is minimised at the stationary point.
-\[ \eval{\pdv{S(\beta)}{\beta_k}}_{\beta = \hat \beta} = 0 \iff \forall k,\;-2\sum_{i=1}^n x_{ik} \qty(Y_i - \sum_k x_{ij} \hat \beta_j) = 0 \iff X^\transpose X \hat \beta = X^\transpose T \]
+\[ \eval{\pdv{S(\beta)}{\beta_k}}_{\beta = \hat \beta} = 0 \iff \forall k,\;-2\sum_{i=1}^n x_{ik} \qty(Y_i - \sum_k x_{ij} \hat \beta_j) = 0 \iff X^\transpose X \hat \beta = X^\transpose Y \]
 As \( X \) has full column rank, \( X^\transpose X \) is invertible.
 \[ \hat \beta = (X^\transpose X)^{-1} X^\transpose Y \]
 This is notably a linear function of \( Y \), given fixed \( X \).
@@ -274,8 +274,8 @@ Further,
 	\begin{align*}
 		\Var{\beta^\star} &= \Var{CY} \\
 		&= \Var{(A+(X^\transpose X)^{-1} X^\transpose)Y} \\
-		&= A+(X^\transpose X)^{-1} X^\transpose \Var Y \qty[A+(X^\transpose X)^{-1} X^\transpose]^\transpose \\
-		&= A+(X^\transpose X)^{-1} X^\transpose \sigma^2 I \qty[A+(X^\transpose X)^{-1} X^\transpose]^\transpose \\
+		&= \qty[A+(X^\transpose X)^{-1} X^\transpose] \Var Y \qty[A+(X^\transpose X)^{-1} X^\transpose]^\transpose \\
+		&= \qty[A+(X^\transpose X)^{-1} X^\transpose] \sigma^2 I \qty[A+(X^\transpose X)^{-1} X^\transpose]^\transpose \\
 		&= \sigma^2 \qty(A A^\transpose + (X^\transpose X)^{-1} + AX(X^\transpose X)^{-1} + (X^\transpose X)^{-1} X^\transpose A^\transpose) \\
 		&= \sigma^2 AA^\transpose + \Var{\hat \beta} \\
 		\Var{\beta^\star} - \Var{\hat\beta} &= \sigma^2 AA^\transpose
@@ -312,3 +312,121 @@ The log-likelihood is
 \[ \ell(\beta,\sigma^2) = \text{constant} - \frac{n}{2}\log \sigma^2 - \frac{1}{2\sigma^2} \norm{Y-X\beta}^2 \]
 To maximise this as a function of \( \beta \) for any fixed \( \sigma^2 \), we must minimise the residual sum of squares \( S(\beta) = \norm{Y-X\beta}^2 \).
 So \( \hat \beta = (X^\transpose X)^{-1} X^\transpose Y \) is the maximum likelihood estimator of \( \beta \).
+Further, \( \hat \sigma^2 = n^{-1} \norm{Y-X\hat\beta}^2 = n^{-1} \norm{\hat Y - Y}^2 = n^{-1} \norm{(I-P)Y}^2 \).
+\begin{theorem}
+	In the normal linear model,
+	\begin{enumerate}[(i)]
+		\item \( \hat \beta \sim N(\beta,\sigma^2(X^\transpose X^{-1})) \);
+		\item \( n\frac{\hat\sigma^2}{\sigma^2} \sim \chi^2_{n-p} \);
+		\item \( \hat \beta, \hat \sigma^2 \) are independent.
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	We prove each part separately.
+	\begin{enumerate}[(i)]
+		\item We already know that \( \expect{\hat \beta} = \beta \), and \( \Var{\hat \beta} = \sigma^2 (X^\transpose X)^{-1} \).
+			So it suffices to show that \( \hat \beta \) is a normal vector.
+			Since \( \hat \beta = (X^\transpose X)^{-1} X^\transpose Y \), it is a linear function of a normal vector, so is a normal vector.
+		\item Observe that
+			\[ n\frac{\hat\sigma^2}{\sigma^2} = \frac{\norm{(I-P)Y}^2}{\sigma^2} = \frac{\norm{(I-P)(X\beta+\varepsilon)}^2}{\sigma^2} \]
+			Since \( (I-P)X = 0 \) as \( P \) is the orthogonal projection onto the column space of \( X \),
+			\[ n\frac{\hat\sigma^2}{\sigma^2} = \frac{\norm{(I-P)\varepsilon}^2}{\sigma^2} \sim \chi^2_{\tr (I-P)} \]
+			where \( \tr (I-P) = \tr I - \tr P = n - p \) since \( X \in \mathbb R^{n \times p} \) is assumed to have full rank.
+		\item Note that \( \hat \sigma^2 \) is a function of \( (I-P)\varepsilon \), and
+			\begin{align*}
+				\hat\beta &= (X^\transpose X)^{-1} X^\transpose Y \\
+				&= (X^\transpose X)^{-1} X^\transpose (X\beta+\varepsilon) \\
+				&= \beta + (X^\transpose X)^{-1} X^\transpose \varepsilon \\
+				&= \beta + (X^\transpose X)^{-1} X^\transpose P\varepsilon
+			\end{align*}
+			is a function of \( P\varepsilon \).
+			Since \( (I-P)\varepsilon \) and \( P \varepsilon \) are independent, so are \( \hat \beta, \hat \sigma^2 \).
+	\end{enumerate}
+\end{proof}
+Note,
+\[ \expect{\frac{n\hat\sigma^2}{\sigma^2}} = \expect{\chi^2_{n-p}} = n-p \implies \expect{\hat\sigma^2} = \sigma^2 \cdot \frac{n-p}{n} < \sigma^2 \]
+Hence this \( \hat \sigma^2 \) is a biased estimator, but asymptotically unbiased.
+
+\subsection{Inference}
+\begin{definition}
+	Let \( U \sim N(0,1) \) and \( V \sim \chi^2_n \) be independent random variables.
+	Then
+	\[ T = \frac{U}{\sqrt{\frac{V}{n}}} \]
+	has a \textit{\( t_n \) distribution}.
+\end{definition}
+As \( n \to \infty \), this approaches the standard normal distribution.
+\begin{definition}
+	Let \( V \sim \chi^2_n \) and \( W \sim \chi^2_m \) be independent random variables.
+	Then
+	\[ F = \frac{V/n}{W/m} \]
+	has an \textit{\( F_{n,m} \)-distribution}.
+\end{definition}
+\begin{example}
+	We consider a \( 100(1-\alpha)\% \) confidence interval for one of the coefficients \( \beta \) in the normal linear model \( Y = X\beta + \varepsilon \).
+	Without loss of generality, we will consider \( \beta_1 \).
+
+	We begin by finding a \textit{pivot}, which is a distribution that does not depend on the parameters of the model.
+	By standardising the above form of \( \hat \beta \),
+	\[ \frac{\beta_1 - \hat \beta_1}{\sqrt{\sigma^2(X^\transpose X)^{-1}_{11}}} \sim N(0,1) \]
+	where \( M^{-1}_{11} \) is the top left entry in the matrix \( M^{-1} \).
+	This random variable is independent from \( \frac{n\hat \sigma^2}{\sigma^2} \sim \chi^2_{n-p} \).
+	Now, to construct a pivot, we find
+	\[ \frac{\frac{\beta_1 - \hat \beta_1}{\sqrt{\sigma^2(X^\transpose X)^{-1}_{11}}}}{\sqrt{\frac{\hat \sigma^2}{\sigma^2} \cdot \frac{n}{n-p}}} \sim \frac{U}{\sqrt{\frac{V}{n}}} \sim t_{n-p} \]
+	The \( \sigma^2 \) terms cancel, so the statistic is a function only of \( \beta_1 \) and functions of the data.
+	Then,
+	\[ \psub{\beta,\sigma^2}{ -t_{n-p}\qty(\frac{\alpha}{2}) \leq \frac{\hat \beta_1 - \beta_1}{\sqrt{(X^\transpose X)^{-1}_{11}}} \sqrt{\frac{n-p}{n\hat\sigma^2}} \leq t_{n-p}\qty(\frac{\alpha}{2}) } = 1-\alpha \]
+	since the \( t \) distribution is symmetric about zero.
+	Rearranging to find an interval for \( \beta_1 \),
+	\[ \psub{\beta,\sigma^2}{
+		\hat \beta_1 - t_{n-p}\qty(\frac{\alpha}{2}) \frac{\sqrt{(X^\transpose X)^{-1}_{11} \hat\sigma^2}}{\sqrt{(n-p)/n}}
+		\leq \beta_1 \leq
+		\hat \beta_1 + t_{n-p}\qty(\frac{\alpha}{2}) \frac{\sqrt{(X^\transpose X)^{-1}_{11} \hat\sigma^2}}{\sqrt{(n-p)/n}}
+		} = 1-\alpha \]
+	Hence,
+	\[ I = \qty[\hat \beta_1 \pm t_{n-p}\qty(\frac{\alpha}{2}) \frac{\sqrt{(X^\transpose X)^{-1}_{11} \hat \sigma^2}}{\sqrt{(n-p)/n}} ] \]
+	is a \( 100(1-\alpha)\% \) confidence interval for \( \beta_1 \).
+
+	Consider a test for \( H_0 \colon \beta_1 = 0 \), \( H_1 \colon \beta_1 \neq 0 \).
+	By connecting tests and confidence intervals, we can test \( H_0 \) with size \( \alpha \) by rejecting this null hypothesis when zero is not contained within the confidence interval \( I \).
+
+	Consider a special case where \( Y_1, \dots, Y_n \overset{\text{iid}}{\sim} N(\mu,\sigma^2) \) where \( \mu, \sigma^2 \) are unknown, and we want to infer results about \( \mu \).
+	Note that this is a special case of the normal linear model where
+	\[ X = \begin{pmatrix}
+		1 \\
+		\vdots \\
+		1
+	\end{pmatrix};\quad \beta = \begin{pmatrix}
+		\mu
+	\end{pmatrix} \]
+	So we can infer a confidence interval for \( \mu \) using the above statistic.
+\end{example}
+\begin{example}
+	Consider a \( 100(1-\alpha)\% \) confidence set for \( \beta \) as a whole.
+	Note that
+	\[ \hat \beta - \beta \sim N(0,\sigma^2 (X^\transpose X)^{-1}) \]
+	Then,
+	\[ (X^\transpose X)^{1/2} (\hat \beta - \beta) \sim N(0,\sigma^2(X^\transpose X)^{1/2} (X^\transpose X)^{-1} (X^\transpose X)^{1/2}) \sim N(0,\sigma^2 I) \]
+	where \( (X^\transpose X)^{1/2} \) is obtained using the eigendecomposition of the positive definite matrix \( X^\transpose X \).
+	Hence,
+	\[ \frac{\norm{(X^\transpose X)^{1/2} (\hat \beta - \beta)}^2}{\sigma^2} \sim \chi^2_p \]
+	We can also write this as
+	\[ \frac{\norm{(X^\transpose X)^{1/2} (\hat \beta - \beta)}^2}{\sigma^2} = \frac{\norm{X(\hat \beta - \beta)}^2}{\sigma^2} \]
+	Since this is a function of \( \hat \beta \), this is independent of any function of \( \hat \sigma^2 \).
+	In particular, it is independent of \( \frac{n\hat\sigma^2}{\sigma^2} \sim \chi^2_{n-p} \).
+	Thus, we can form a pivot by
+	\[ \frac{\norm{X(\hat \beta - \beta)}^2 / (\sigma^2 p)}{\hat\sigma^2 n / (\sigma^2(n-p))} \sim \frac{\chi^2_p / p}{\chi^2_{n-p} / (n-p)} \sim F_{p,n-p} \]
+	This does not depend on \( \sigma^2 \).
+	For all \( \beta, \sigma^2 \),
+	\[ \psub{\beta,\sigma^2}{
+	\frac{\norm{X(\hat \beta - \beta)}^2 / p}{\hat\sigma^2 n / (n-p)}
+	\leq F_{p,n-p}(\alpha)} = 1-\alpha \]
+	because the \( F \) distribution has support only on the positive real line.
+	It is nontrivial to express this as a region for \( \beta \) since it is vector-valued.
+	We can say, however, that
+	\[ \qty{\beta' \in \mathbb R^p \colon \frac{\norm{X(\hat \beta - \beta)}^2/p}{\hat \sigma^2 n/(n-p)} \leq F_{p,n-p}(\alpha)} \]
+	is a \( 100(1-\alpha)\% \) confidence set for \( \beta \).
+
+	This set is an ellipsoid centred at \( \hat \beta \).
+	The shape of the ellipsoid depends on the design matrix \( X \); the principal axes are given by eigenvectors of \( X^\transpose X \).
+\end{example}
+The above two results are exact; no approximations were made.
