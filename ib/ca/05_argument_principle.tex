@@ -1,0 +1,65 @@
+\subsection{The argument principle}
+\begin{proposition}
+	If \( f \) has a zero (or pole) of order \( k \geq 1 \) at \( z = a \), then \( \frac{f'}{f} \) has a simple pole at \( z = a \) with residue \( k \) (or \( -k \), respectively).
+\end{proposition}
+\begin{proof}
+	If \( z = a \) is a zero of order \( k \), there is a disk \( D(a,r) \) such that \( f(z) = (z-a)^k g(z) \) for \( z \in D(a,r) \) where \( g \colon D(a,r) \to \mathbb C \) is holomorphic with \( g(z) \neq 0 \) for all \( z \in D(a,r) \).
+	Hence,
+	\[ f'(z) = k(z-a)^{k-1} g(z) + (z-a)^k g'(z) \]
+	and
+	\[ \frac{f'(z)}{f(z)} = \frac{k}{z-a} + \frac{g'(z)}{g(z) \]
+	for all \( z \in D(a,r) \setminus \qty{a} \).
+	Since \( \frac{g'}{g} \) is holomorphic in \( D(a,R) \), the claim follows.
+	A similar argument holds for poles.
+\end{proof}
+\begin{definition}
+	The order of a zero or pole \( a \) of a holomorphic function \( f \) is denoted \( \ord_f(a) \).
+\end{definition}
+\begin{theorem}[the argument principle]
+	Let \( f \) be a meromorphic function on a domain \( U \) with finitely many zeroes \( a_1, \dots, a_k \) and finitely many poles \( b_1, \dots, b_\ell \).
+	If \( \gamma \) is a closed curve in \( U \) homologous to zero in \( U \), and if \( a_i, b_j \not\in \Im \gamma \) for all \( i,j \), then
+	\[ \frac{1}{2\pi i} \int_\gamma \frac{f'(z)}{f(z)} \dd{z} = \sum_{i=1}^k I(\gamma;a_i) \ord_f(a_i) - \sum_{j=1}^\ell I(\gamma;b_j) \ord_f(b_j) \]
+\end{theorem}
+\begin{proof}
+	Apply the residue theorem to \( g = \frac{f'}{f} \).
+	If \( z_0 \in U \) is not a pole of \( f \), then \( f \) and hence \( f' \) are holomorphic near \( z_0 \).
+	If additionally \( z_0 \) is not a zero of \( f \), \( g \) is holomorphic near \( z_0 \).
+	So the set of singularities of \( g \) is precisely \( \qty{a_1, \dots, a_k} \cup \qty{b_1, \dots, b_\ell} \).
+	By the previous proposition, their residues are known, and the result follows.
+\end{proof}
+\begin{remark}
+	Let \( f, \gamma \) be as in the theorem, and let \( \Gamma(t) = f(\gamma(t)) \).
+	Then \( \Gamma(t) \) is a closed curve with image \( \Im \Gamma \subset \mathbb C \setminus \qty{0} \), since no zeroes or poles of \( f \) are in \( \Im \gamma \).
+	Moreover, if \( [a,b] \) is the domain of \( \gamma \), we have
+	\[ I(\gamma;0) = \frac{1}{2\pi i} \int_\Gamma \frac{\dd{z}}{z} = \frac{1}{2\pi i} \int_a^b \frac{\Gamma'(t)}{\Gamma(t)} \dd{t} = \frac{1}{2\pi i} \int_a^b \frac{f'(\gamma(t)) \gamma'(t)}{f(\gamma(t))} \dd{t} = \frac{1}{2 \pi i} \int_\gamma \frac{f'(z)}{f(z)} \dd{z} \]
+	Thus, \( \frac{1}{2 \pi i} \int_\gamma \frac{f'(z)}{f(z)} \) is the number of times the image curve \( f \circ \gamma \) winds around zero as we move along \( \gamma \).
+\end{remark}
+\begin{definition}
+	Let \( \Omega \) be a domain, and let \( \gamma \) be a closed curve in \( \mathbb C \).
+	We say that \( \gamma \) \textit{bounds} \( \Omega \) if \( I(\gamma;w) = 1 \) for all \( w \in \Omega \), and \( I(\gamma;w) = 0 \) for all \( w \in \mathbb C \setminus \qty(\Omega \cup \Im \gamma) \).
+\end{definition}
+\begin{example}
+	\( \partial D(0,1) \) bounds \( D(0,1) \), but does not bound \( D(0,1) \setminus \qty{0} \).
+\end{example}
+\begin{remark}
+	If \( \gamma \) bounds \( \Omega \), then
+	\begin{enumerate}[(i)]
+		\item \( \Omega \) is bounded.
+			Indeed, let \( D(a,R) \) such that \( \Im \gamma \subseteq D(a,R) \).
+			Then \( I(\gamma;w) = 0 \) for \( w \in \mathbb C \setminus D(a,R) \).
+			Since \( I(\gamma;w) = 1 \) for all \( w \in \Omega \), we must have \( \Omega \subset D(a,R) \).
+		\item the topological boundary \( \partial \Omega \) is contained within \( \Im \gamma \), but it need not be the case that \( \partial \Omega = \Im \gamma \).
+	\end{enumerate}
+	There is a large class of closed curves that bound domains, namely, \textit{simple closed curves}, which are curves \( \gamma \colon [a,b] \to \mathbb C \) with \( \gamma(a) = \gamma(b) \), and such that \( \gamma(t_1) = \gamma(t_2) \) implies \( t_1 = t_2 \) or \( t_1, t_2 \in \qty{a,b} \).
+	That a simple closed curve bounds a domain is a highly non-trivial fact guaranteed by the Jordan curve theorem: if \( \gamma \) is a simple closed curve, then \( \mathbb C \setminus \Im \gamma \) consists precisely of two connected components, one of which is bounded and the other unbounded, and moreover, \( \gamma \) (or \( -\gamma \)) bounds the bounded component, and \( \Im \gamma \) is the boundary of each of the two components.
+	Thus, if \( \Omega_1 \) is the bounded component and \( \Omega_2 \) is the unbounded component, then after possibly changing the orientation of \( \gamma \), we have \( I(\gamma;w) = 1 \) for \( w \in \Omega_1 \), and \( I(\gamma;w) = 0 \) for \( w \in \Omega_2 \).
+	This last assertion is simply that for any disk \( D(a,R) \supset \Im \gamma \), we have \( I(\gamma;w) = 0 \) for all \( w \in \mathbb C \setminus D(a,R) \).
+\end{remark}
+For a domain bounded by a closed curve, the argument principle gives the following.
+\begin{corollary}
+	Let \( \gamma \) be a closed curve bounding a domain \( \Omega \), and let \( f \) be meromorphic in an open set \( U \) with \( \Omega \cup \Im \gamma \subseteq U \).
+	Suppose that \( f \) has no zeroes or poles on \( \Im \gamma \), and precisely \( N \) zeroes and \( P \) poles in \( \Omega \), both counted with multiplicity.
+	Then \( N \) and \( P \) are finite, and
+	\[ N - P = \frac{1}{2 \pi i} \int_\gamma \frac{f'(z)}{f(z)} \dd{z} = I(\Gamma;0) \]
+	where \( \Gamma = f \circ \gamma \).
+\end{corollary}

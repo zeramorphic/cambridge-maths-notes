@@ -310,3 +310,92 @@ There are simple ways to calculate residues if we know information about the sin
 	\item If \( f = \frac{g}{h} \) where \( g \) and \( h \) are holomorphic at \( z = a \), such that \( g(a) \neq 0 \) and \( h \) has a simple zero at \( z = a \), then from (i) we have
 	\[ \Res_f(a) = \lim_{z \to a} \frac{(z-a)g(z)}{h(z)} = \lim_{z \to a} \frac{g(z)}{\frac{h(z) - h(a)}{z-a}} = \frac{g(a)}{h'(a)} \]
 \end{enumerate}
+
+\subsection{Jordan's lemma}
+\begin{lemma}
+	Let \( f \) be a continuous complex-valued function on the semicircle \( C_R^+ = \Im \gamma_R^+ \) in the upper half-plane, where \( R > 0 \) and \( \gamma_R^+(t) = Re^{it} \) for \( 0 \leq t \leq \pi \).
+	Then, for \( \alpha > 0 \),
+	\[ \abs{\int_{\gamma_R^+} f(z) e^{i\alpha z} \dd{z}} \leq \frac{\pi}{\alpha} \sup_{z \in C_R^+} \abs{f(z)} \]
+	In particular, if \( f \) is continuous in \( H^+ \setminus D(0,R_0) \) for \( R_0 > 0 \) where \( H^+ = \qty{z \colon \Im z \geq 0} \) and if \( \sup_{z \in C_R^+} \abs{f(z)} \to 0 \) as \( R \to \infty \), then for each \( \alpha > 0 \), we have
+	\[ \int_{\gamma_R^+} f(z) e^{i\alpha z} \dd{z} \to 0 \]
+	as \( R \to \infty \).
+\end{lemma}
+A similar statement holds for \( \alpha < 0 \) and the semicircle \( C_R^- = \Im \gamma_R^- \) in the lower half-plane where \( \gamma_R^-(t) = -Re^{it} \) for \( R > 0 \) and \( 0 \leq t \leq \pi \).
+\begin{proof}
+	Let \( M_R = \sup_{z \in C_R^+} \abs{f(z)} \).
+	Then,
+	\[ \abs{\int_{\gamma_R^+} f(z) e^{i\alpha z} \dd{z}} = \abs{\int_0^\pi f(Re^{it}) e^{-\alpha R \sin t + i\alpha R \cos t}iRe^{it} \dd{t}}
+	\leq RM_R \int_0^\pi e^{-\alpha R \sin t} \dd{t}
+	= RM_R \qty( \int_0^{\frac{\pi}{2}} e^{-\alpha R \sin t} \dd{t} + \int_{\frac{\pi}{2}}^\pi e^{-\alpha R \sin t} \dd{t} )
+	= 2RM_R \int_0^{\frac{\pi}{2}} e^{-\alpha R \sin t} \dd{t}
+	\leq 2 RM_R \int_0^{\frac{\pi}{2}} e^{\frac{-2\alpha R t}{\pi}} \dd{t}
+	= \frac{\pi M_R}{\alpha} \qty(1 - e^{-2\alpha R}) \leq \frac{\pi M_R}{\alpha}
+	\]
+	where we have usedthe fact that for \( t \in (0,\frac{\pi}{2}] \), \( \varphi(t) \equiv \frac{\sin t}{t} \geq \frac{2}{\pi} \) since \( \varphi(\frac{\pi}{2}) = \frac{2}{\pi} \) and \( \varphi'(t) \keq 0 \) on \( [0,\frac{\pi}{2}] \).
+\end{proof}
+\begin{lemma}[integrals on small circular arcs]
+	Let \( f \) be holomorphic in \( D(a,R) \setminus \qty{a} \) with a simple pole at \( z = a \).
+	Let \( \gamma_\varepsilon \colon [\alpha,\beta] \to \mathbb C \) be the circular arc \( \gamma_\varepsilon(t) = a + \varepsilon e^{it} \).
+	Then
+	\[ \lim_{\varepsilon \to 0^+} \int_{\gamma_\varepsilon} f(z) \dd{z} = (\beta - \alpha) i \Res_f(a)\]
+\end{lemma}
+\begin{proof}
+	Let \( f(z) = \frac{c}{z-a} + g(z) \) where \( g \) is holomorphic in \( D(a,R) \) and \( c = \Res_f(a) \).
+	Then
+	\[ \abs{\int_{\gamma_\varepsilon} g(z) \dd{z}} = \abs{\int_\alpha^\beta g(a+\varepsilon e^{it}) \varepsilon i e^{it}} \leq \varepsilon (\beta - \alpha) \sup_{t \in [\alpha,\beta]} \abs{g(a+\varepsilon e^{it})} \to 0 \]
+	as \( \varepsilon \to 0^+ \).
+	By direct calculation,
+	\[ \int_{\gamma_\varepsilon} \frac{c}{z-a} \dd{z} = (\beta-\alpha)i\Res_f(a) \]
+	Hence the claim follows.
+\end{proof}
+\begin{example}
+	Consider \( \int_0^\infty \frac{\sin x}{x} \dd{x} \).
+	Let \( f(z) = \frac{e^{iz}}{z} \).
+	Consider the integral \( \int_\gamma f(z) \dd{z} \) over the curve \( \gamma = \gamma_R + \gamma_1 + \gamma_\varepsilon + \gamma_2 \) where
+	\begin{enumerate}[(i)]
+		\item \( \gamma_R(t) = Re^{it} \) for \( 0 \leq t \leq \pi \);
+		\item \( \gamma_1(t) = t \) for \( -R \leq t \leq \varepsilon \);
+		\item \( \gamma_\varepsilon(t) = \varepsilon e^{-it} \) for \( -\pi \leq t \leq 0 \);
+		\item \( \gamma_2(t) \) for \( \varepsilon \leq t \leq R \).
+	\end{enumerate}
+	By Jordan's lemma ,\( \int_{\gamma_R} f(z) \dd{z} \to 0 \) as \( R \to \infty \).
+	\( f \) has a simple pole at \( z = 0 \) with \( \Res_f(0) = \lim_{z \to 0} z f(z) = 1 \).
+	By the above lemma, \( \int_{-\gamma_\varepsilon} f(z) \dd{z} \to \pi i \) as \( \varepsilon \to 0^+ \).
+
+	Since \( f \) is holomorphic in \( U = \mathbb C \setminus \qty{0} \) and \( \gamma \) is homologous to zero in \( U \), Cauchy's theorem gives that
+	\[ \int_\gamma f(z) \dd{z} = 0 \implies \int_{\gamma_R} f(z) \dd{z} + \int_{-R}^{-\varepsilon} \frac{e^{it}}{t} \dd{t} + \int_{\gamma_\varepsilon} f(z) \dd{z} + \int_{\varepsilon}^R \frac{e^{it}}{t} \dd{t} = 0 \]
+	Combining the two integrals on the real axis under a change of variables,
+	\[ \int_{\varepsilon}^R \frac{e^{it} - e^{-it}}{t} \dd{t} + \int_{\gamma_R} f(z) \dd{z} + \int_{\gamma_{\varepsilon}} f(z) \dd{z} = 0 \]
+	Letting \( R \to \infty \) and \( \varepsilon \to 0^+ \), we have
+	\[ \int_0^\infty \frac{\sin t}{t} \dd{t} = \frac{\pi}{2} \]
+\end{example}
+\begin{example}
+	We prove that \( \sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6} \).
+	Consider the function
+	\[ f(z) = \frac{\pi \cot(\pi z)}{z^2} = \frac{\pi \cos(\pi z)}{z^2 \sin(\pi z)} \]
+	This is holomorphic in \( \mathbb C \) except for simple poles at each point in \( \mathbb Z \setminus \qty{0} \), and an order 3 pole at zero.
+	Near \( n \in \mathbb Z \setminus \qty{0} \), we have \( f(z) = \frac{g(z)}{h(z)} \) where \( g(n) \neq 0 \) and \( h \) has a simple zero at \( n \), and so
+	\[ \Res_f(n) = \frac{g(n)}{h'(n)} = \frac{1}{n^2} \]
+	To compute the residue at zero, consider
+	\[ \cot z = \frac{\cos z}{\sin z} = \qty(1 - \frac{z^2}{2} + O(z^4)) \qty(z - \frac{z^3}{6} + O(z^5))^{-1} = \frac{1}{z} - \frac{z}{3} + O(z^2) \]
+	Hence,
+	\[ \frac{\pi \cot(\pi z)}{z^2} = \frac{1}{z^3} - \frac{\pi^2}{3z} + \dots \]
+	This shows that \( \Res_f(0) = -\frac{\pi^2}{3} \).
+	For \( N \in \mathbb N \), let \( \gamma_N \) be the positively oriented boundary of the square defined by the lines \( x = \pm (N + \frac{1}{2}) \) and \( y = \pm i(N + \frac{1}{2} \).
+	By the residue theorem,
+	\begin{equation}
+		\int_{\gamma_N} f(z) \dd{z} = 2\pi i \qty[2\qty(\sum_{n=1}^N \frac{1}{n^2}) - \frac{\pi^2}{3}] \tag{\(\ast\)}
+	\end{equation}
+	Since \( \length(\gamma_N) = 4(2N + 1) \), we have
+	\begin{align*}
+		\abs{\int_{\gamma_N} f(z) \dd{z}} &\leq \sup_{\gamma_N} \abs{\frac{\pi \cot(\pi z)}{z^2}} \cdot 4(2N + 1) \\
+		\leq \sup_{\gamma_N} \abs{\cot(\pi z)} \cdot \frac{4(2N + 1)\pi}{(N+\frac{1}{2})^2} \\
+		&= \frac{16 \pi}{2N+1} \cdot \sup_{\gamma_N} \abs{\cot(\pi z)}
+	\end{align*}
+	On \( \gamma_N \), it is possible to show that \( \cot(\pi z) \) is bounded independently of \( N \).
+	Hence,
+	\[ \int_{\gamma_N} f(z) \dd{z} \to 0 \]
+	as \( N \to \infty \).
+	Letting \( N \to \infty \) in (\(\ast\)), we find
+	\[ \sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6} \]
+\end{example}
