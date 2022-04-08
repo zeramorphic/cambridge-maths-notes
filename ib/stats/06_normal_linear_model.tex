@@ -430,3 +430,107 @@ As \( n \to \infty \), this approaches the standard normal distribution.
 	The shape of the ellipsoid depends on the design matrix \( X \); the principal axes are given by eigenvectors of \( X^\transpose X \).
 \end{example}
 The above two results are exact; no approximations were made.
+
+\subsection{F-tests}
+We wish to test whether a collection of predictors \( \beta_i \) are equal to zero.
+Without loss of generality, we will take the first \( p_0 \leq p \) predictors.
+We have \( H_0 \colon \beta_1 = \dots = \beta_{p_0} = 0 \), and \( H_1 = \beta \in \mathbb R^p \).
+We denote \( X = (X_0, X_1) \) as a block matrix with \( X_0 \in \mathbb R^{n \times p_0} \) and \( X_1 \in \mathbb R^{n \times (p-p_0)} \), and we denote \( \beta = (\beta^0, \beta^1)^\transpose \) similarly.
+The null model has \( \beta^0 = 0 \).
+This is a linear model \( Y = X\beta + \varepsilon = X_1 \beta^1 + \varepsilon \).
+We will write \( P = X(X^\transpose X)^{-1} X^\transpose \) and \( P_1 = X_1 (X_1^\transpose X_1)^{-1} X_1^\transpose \).
+Note that as \( X \) and \( P \) have full rank, so must \( X_1, P_1 \).
+\begin{lemma}
+	\( (I-P)(P - P_1) = 0 \), and \( P - P_1 \) is an orthogonal projection with rank \( p_0 \).
+\end{lemma}
+\begin{proof}
+	\( P - P_1 \) is symmetric since \( P \) and \( P_1 \) are symmetric.
+	It is also idempotent, since
+	\[ (P-P_1)(P-P_1) = P^2 - P_1 P - P P_1 + P_1^2 = P - P_1 - P_1 + P_1 = P - P_1 \]
+	since \( P_1 \) projects onto the column space of \( X_1 \).
+	Hence \( P - P_1 \) is indeed an orthogonal projection matrix.
+	The rank is \( \rank(P - P_1) = \tr(P - P_1) = \tr P - \tr P_1 = p - (p - p_0) = p_0 \).
+	Also,
+	\[ (I-P)(P-P_1) = P-P_1 - P + PP_1 = P-P_1 - P + P_1 = 0 \]
+\end{proof}
+Recall that the maximum log-likelihood in the normal linear model is given by
+\[ \ell(\hat \beta, \hat \sigma^2) = \frac{-n}{2} \log \hat\sigma^2 - \frac{n}{2} \cdot \text{constant} = \frac{-n}{2} \log \frac{\norm{(I-P)Y}^2}{n} + \text{constant} \]
+The generalised likelihood ratio statistic is
+\begin{align*}
+	2 \log \Lambda &= 2 \sup_{\beta \in \mathbb R^p,\sigma^2>0} \ell(\beta, \sigma^2) - 2 \sup_{\beta_0 = 0, \beta_1 \in \mathbb R^{p-p_0},\sigma^2>0} \ell(\beta, \sigma^2) \\
+	&= n \qty[ -\log \frac{\norm{(I-P)Y}^2}{n} + \log \frac{\norm{(I-P_1)Y}^2}{n} ]
+\end{align*}
+Wilks' theorem applies here, showing that \( 2 \log \Lambda \sim \chi^2_{p_0} \) asymptotically as \( n \to \infty \) with \( p, p_0 \) fixed.
+However, we can find an exact test, so using Wilks' theorem will not be necessary.
+\( 2 \log \Lambda \) is monotone in
+\begin{align*}
+	\frac{\norm{(I-P_1)Y}^2}{\norm{(I-P)Y}^2} &= \frac{\norm{(I-P+P-P_1)Y}^2}{\norm{(I-P)Y}^2} \\
+	&= \frac{\norm{(I-P)Y}^2 + \norm{(P-P_1)Y}^2 + 2Y^\transpose (I-P)(P-P_1)}{\norm{(I-P)Y}^2 }\\
+	&= \frac{\norm{(I-P)Y}^2 + \norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2} \\
+	&= 1 + \frac{\norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2}
+\end{align*}
+The generalised likelihood ratio test rejects when the \( F \)-statistic
+\[ F = \frac{\norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2} \cdot \frac{1/p_0}{1/(n-p)} \]
+is large.
+\begin{theorem}
+	Under \( H_0 \), \( F \sim F_{p_0,n-p} \).
+\end{theorem}
+\begin{proof}
+	Recall that
+	\[ \norm{(I-P)Y} = \norm{(I-P)\varepsilon}^2 \sim \chi^2_{n-p} \cdot \sigma^2 \]
+	Therefore it suffices to show that \( \norm{(P-P_1)Y}^2 \) is an independent \( \chi^2_{p_0} \cdot \sigma^2 \) random variable.
+	Under \( H_0 \), we have that
+	\[ (P-P_1)Y = (P-P_1)(X\beta+\varepsilon) = (P-P_1)(X_1 \beta^1 + \varepsilon) = (P-P_1)\varepsilon \]
+	since \( P, P_1 \) preserve \( X_1 \).
+	Hence, \( \norm{(P-P_1)Y}^2 = \norm{(P-P_1)\varepsilon}^2 \sim \chi^2_{\rank (P-P_1)} \cdot \sigma^2 = \chi^2_{p_0} \cdot \sigma^2 \).
+	We must now show independence between \( (I-P)Y \) and \( (P-P_1)Y \).
+	The vectors \( (I-P)\varepsilon, (P-P_1)\varepsilon \) are independent; indeed,
+	\[ E = \begin{pmatrix}
+		(I-P)\varepsilon \\
+		(P-P_1)\varepsilon
+	\end{pmatrix} \]
+	is a multivariate normal vector, and
+	\[ \expect{E} = 0;\quad \Var E = \begin{pmatrix}
+		I-P & (I-P)(P-P_1) \\
+		(I-P)(P-P_1) & P-P_1
+	\end{pmatrix} = \begin{pmatrix}
+		I-P & 0 \\
+		0 & P-P_1
+	\end{pmatrix} \]
+	and since \( (I-P)\varepsilon \) and \( (P-P_1)\varepsilon \) are elements of a multivariate normal vector and are uncorrelated, they are independent as required.
+\end{proof}
+The generalised likelihood ratio test of size \( \alpha \) rejects \( H_0 \) when \( F > F^{-1}_{p_0,n-p}(\alpha) \).
+This is an exact test for all \( n, p, p_0 \).
+Previously, we found a test for \( H_0\colon \beta_1 = 0 \) against \( H_1 \colon \beta_1 \neq 0 \).
+This is a special case of the \( F \)-test derived above, where \( p_0 = 1 \).
+The previous test of size \( \alpha \) rejects \( H_0 \) when
+\[ \abs{\hat\beta} > t_{n-p}\qty(\frac{\alpha}{2}) \sqrt{\frac{\hat\sigma^2 n (X^\transpose X)^{-1}_{11}}{n-p}} \]
+We will show that these two tests are equivalent; they reject \( H_0 \) in the same critical region.
+The \( t \)-test rejects if and only if
+\[ \hat \beta_1^2 > t_{n-p}\qty(\frac{\alpha}{2})^2 \frac{\hat\sigma^2 n (X^\transpose X)^{-1}_{11}}{n-p} \]
+Note that \( t_{n-p}\qty(\frac{\alpha}{2})^2 = F_{1,n-p}(\alpha) \), since
+\[ U \sim N(0,1);\;W \sin \chi^2_n \implies T = \frac{U}{\sqrt{W/n}} \implies T^2 = \frac{U^2}{W/n} = \frac{V/1}{W/n} \sim F_{1,n} \]
+where \( V \sim \chi^2_1 \).
+Hence,
+\[ \frac{\hat \beta_1/(X^\transpose X)^{-1}_{11}}{\hat\sigma^2 n/(n-p)} > F_{1,n-p}(\alpha) \]
+It suffices to show that
+\[ \frac{\hat \beta_1}{(X^\transpose X)^{-1}_{11}} = \frac{\norm{(P-P_1)Y}^2}{\underbrace{p_0}_{=1}};\quad \frac{\hat \sigma^2 n}{n-p} = \frac{\norm{(I-P)Y}^2}{n-p} \]
+We have already shown the latter part.
+For \( \hat \beta_1 \), note that in this case, \( P - P_1 \) is a projection of rank 1 onto the one-dimensional subspace spanned by the vector \( v = (I-P)X^0 \) where \( X^0 \) is the first column in the matrix \( X \).
+Then, since \( (I-P_1) = (I-P_1)P \),
+\begin{align*}
+	\norm{(P-P_1)Y}^2 &= \norm{\frac{v}{\norm{v}} \qty(\frac{v}{\norm{v}})^\transpose Y}^2 \\
+	&= \frac{(v^\transpose Y)^2}{\norm{v}^2} = \frac{(X_0^\transpose (I-P_1) Y)^2}{\norm{(I-P_1) X_0}^2} \\
+	&= \frac{(X_0^\transpose (I-P_1) P Y)^2}{\norm{(I-P_1) X_0}^2} \\
+	&= \frac{(X_0^\transpose (I-P_1) X \hat\beta)^2}{\norm{(I-P_1) X_0}^2}
+\end{align*}
+Note that \( (I-P_1) X = [(I-P_1)X_0, 0, \dots, 0] \).
+Hence,
+\begin{align*}
+	\norm{(P-P_1)Y}^2 &= \frac{\norm{(I-P_1)X_0}^4 \hat \beta_1}{\norm{(I-P_1)X_0}^2} \\
+	&= \norm{(I-P_1)X_0}^2 \hat \beta_1
+\end{align*}
+Finally, we show that
+\[ (X^\transpose X)^{-1}_{11} = \frac{1}{\norm{(I-P_1)X_0}^2} \]
+using the Woodbury identity for blockwise matrix inversion.
+\todo add notes from online

@@ -460,6 +460,8 @@ We can define elementary column operations in an analogous way, using right-mult
 	Hence,
 	\[ G \cong \faktor{\mathbb Z \oplus \mathbb Z}{\mathbb Z \oplus 5 \mathbb Z} \cong \faktor{\mathbb Z}{5\mathbb Z} \]
 \end{example}
+
+\subsection{Primary decomposition theorem}
 More generally, applying the structure theorem to \( \mathbb Z \)-modules, we obtain the structure theorem for finitely generated abelian groups:
 \begin{theorem}
 	Let \( G \) be a finitely generated abelian group.
@@ -492,4 +494,248 @@ There is an analogous result for principal ideal domains.
 	If \( x \in \ker \psi \), then \( x \in (a) \) and \( x \in (b) \), so \( x \in (a) \cap (b) \).
 	Since \( x = x(ra+sb) = r(ax) + s(bx) \), we must have that \( s(bx) \in (a) \) and \( r(ax) \in (b) \), so \( x \in (ab) \).
 	Hence \( \ker \psi = (ab) \), and the result follows from the first isomorphism theorem for modules.
+\end{proof}
+\begin{lemma}[primary decomposition theorem]
+	Let \( R \) be a Euclidean domain and \( M \) a finitely generated \( R \)-module.
+	Then
+	\[ M \cong \faktor{R}{(p_1^{n_1})} \oplus \dots \oplus \faktor{R}{(p_k^{n_k})} \oplus R^m \]
+	where the quotients are considered as \( R \)-modules, where \( p_i \) are primes in \( R \), which are not necessarily distinct, and where \( m \geq 0 \).
+\end{lemma}
+\begin{proof}
+	By the structure theorem,
+	\[ M \cong \faktor{R}{(d_1)} \oplus \dots \oplus \faktor{R}{(d_t)} \oplus \underbrace{R \oplus \dots \oplus R}_{k \text{ copies}} \cong \faktor{R}{(d_1)} \oplus \dots \oplus \faktor{R}{(d_t)} \oplus R^m \]
+	where \( d_1 \mid \dots \mid d_t \).
+	So it suffices to show that each \( \faktor{R}{(d_i)} \) can be written as a product of factors of the form \( \faktor{R}{(p_j^{n_j})} \).
+	Since \( R \) is a unique factorisation domain and a principal ideal domain, \( d_i \) can be written as a product \( u p_1^{\alpha_1} \cdots p_r^{\alpha_r} \) where \( u \) is a unit and the \( p_j \) are pairwise non-associate primes.
+	By the previous lemma,
+	\[ \faktor{R}{(d_i)} \cong \faktor{R}{(p_1^{\alpha_1})} \oplus \dots \faktor{R}{(p_r^{\alpha_r})} \]
+\end{proof}
+
+\subsection{Rational canonical form}
+Let \( V \) be a vector space over a field \( F \), and \( \alpha \colon V \to V \) be a linear map.
+Let \( V_\alpha \) denote the \( F[X] \)-module \( V \) where scalar multiplication is defined by \( f(X) \cdot v = f(\alpha)(v) \).
+\begin{lemma}
+	If \( V \) is finite-dimensional as a vector space, then \( V_\alpha \) is finitely generated as an \( F[X] \)-module.
+\end{lemma}
+\begin{proof}
+	Consider a basis \( v_1, \dots, v_n \) of \( V \), so \( v_1, \dots, v_n \) generate \( V \) as an \( F \)-vector space.
+	Then, these vectors generate \( V_\alpha \) as an \( F[X] \)-module, since \( F \leq F[X] \).
+\end{proof}
+\begin{example}
+	Suppose \( V_\alpha \cong \faktor{F[X]}{(X^n)} \) as an \( F[X] \)-module.
+	Then, \( 1, X, X^2, \dots, X^{n-1} \) is a basis for \( \faktor{F[X]}{(X^n)} \) as an \( F \)-vector space.
+	With respect to this basis, \( \alpha \) has the matrix form
+	\begin{equation}
+		\begin{pmatrix}
+			0 & 0 & 0 & \cdots & 0 & 0 \\
+			1 & 0 & 0 & \cdots & 0 & 0 \\
+			0 & 1 & 0 & \cdots & 0 & 0 \\
+			0 & 0 & 1 & \cdots & 0 & 0 \\
+			\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+			0 & 0 & 0 & \cdots & 1 & 0
+		\end{pmatrix}
+		\tag{\(\ast\)}
+	\end{equation}
+\end{example}
+\begin{example}
+	Suppose \( V_\alpha \cong \faktor{F[X]}{(X-\lambda)^n} \) as an \( F[X] \)-module.
+	Consider the basis \( 1, X-\lambda, (X-\lambda)^2, \dots, (X-\lambda)^{n-1} \) for \( \faktor{F[X]}{(X-\lambda)^n} \) as an \( F \)-vector space.
+	Here, \( \alpha - \lambda \id \) has matrix (\(\ast\)) from the previous example.
+	Hence, \( \alpha \) has matrix \( (\ast) + \lambda I \).
+\end{example}
+\begin{example}
+	Suppose \( V_\alpha \cong \faktor{F[X]}{(f)} \) where \( f \in F[X] \) as an \( F[X] \)-module, such that \( f \) is monic.
+	Let
+	\[ f(X) = X^n + a_{n-1} X^{n-1} + \dots + a_0 \]
+	With respect to basis \( 1, X, \dots, X^{n-1} \), \( \alpha \) has matrix
+	\[
+		C(f) =
+		\begin{pmatrix}
+			0 & 0 & 0 & \cdots & 0 & -a_0 \\
+			1 & 0 & 0 & \cdots & 0 & -a_1 \\
+			0 & 1 & 0 & \cdots & 0 & -a_2 \\
+			0 & 0 & 1 & \cdots & 0 & -a_3 \\
+			\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+			0 & 0 & 0 & \cdots & 1 & -a_{n-1}
+		\end{pmatrix}
+	\]
+	since \( f \) is monic and the last column represents \( X^n \).
+	The above matrix is known as the \textit{companion matrix} of the monic polynomial.
+\end{example}
+\begin{theorem}[Rational canonical form]
+	Let \( F \) be a field, \( V \) be a finite-dimensional \( F \)-vector space, and \( \alpha \colon V \to V \) be a linear map.
+	Then the \( F[X] \)-module \( V_\alpha \) decomposes as
+	\[ V_\alpha \cong \faktor{F[X]}{(f_1)} \oplus \dots \oplus \faktor{F[X]}{(f_t)} \]
+	for some monic polynomials \( f_i \in F[X] \), and \( f_1 \mid \dots \mid f_t \).
+	Moreover, with respect to a suitable basis, \( \alpha \) has matrix
+	\begin{equation}
+		\begin{pmatrix}
+			c(f_1) \\
+			& c(f_2) \\
+			&& \ddots \\
+			&&& c(f_t)
+		\end{pmatrix}
+		\tag{\(\ast\ast\)}
+	\end{equation}
+\end{theorem}
+\begin{proof}
+	We know that \( V_\alpha \) is finitely generated as an \( F[X] \)-module, since \( V \) is finite-dimensional.
+	Since \( F[X] \) is a Euclidean domain, the structure theorem applies, and
+	\[ V_\alpha \cong \faktor{F[X]}{(f_1)} \oplus \dots \oplus \faktor{F[X]}{(f_t)} \oplus F[X]^m \]
+	for some \( m \), where \( f_1 \mid \dots \mid f_t \).
+	Since \( V \) is finite-dimensional, \( m = 0 \).
+	As \( F \) is a field, without loss of generality we may multiply each \( f_i \) by a unit to ensure that they are monic.
+	Then, using the previous example, we can construct the companion matrices for each polynomial and obtain the matrix as required.
+\end{proof}
+\begin{remark}
+	If \( \alpha \) is represented by an \( n \times n \) matrix \( A \), there exists a change of basis matrix \( P \) such that \( PAP^{-1} \) has form (\(\ast\)) as stated in the theorem, so \( A \) is similar to such a block diagonal matrix of companion matrices.
+	Note further that (\(\ast\ast\)) can be used to find the minimal and characteristic polynomials of \( \alpha \); the minimal polynomial is \( f_t \), and the characteristic polynomial is \( f_1 \cdots f_t \).
+	In particular, the minimal polynomial divides the characteristic polynomial, and this implies the Cayley-Hamilton theorem.
+\end{remark}
+\begin{example}
+	Consider \( \dim V = 2 \).
+	Here, \( \sum \deg f_i = 2 \), so there are two cases: one polynomial of degree two, or two polynomials of degree one.
+	Consider \( V_\alpha \cong \faktor{F[X]}{(X-\lambda)} \oplus \faktor{F[X]}{(X-\mu)} \).
+	Since one of the \( f_i \) must divide the other, we have \( \lambda = \mu \).
+	If we have one polynomial of degree two, we have \( V_\alpha \cong \faktor{F[X]}{(f)} \), where \( f \) is the characteristic polynomial of \( \alpha \).
+\end{example}
+\begin{corollary}
+	Let \( A, B \) be invertible \( 2 \times 2 \) non-scalar matrices over a field \( F \).
+	Then \( A, B \) are similar if and only if their characteristic polynomials are equal.
+\end{corollary}
+\begin{proof}
+	Certainly if \( A, B \) are similar they have the same characteristic polynomial, which is proven in Part IB Linear Algebra.
+	Conversely, if the matrices are non-scalar, the modules \( V_\alpha, V_\beta \) are of the form \( \faktor{F[X]}{(f)} \) by the previous example, so they are both similar to the companion matrix of \( f \), where \( f \) is the characteristic polynomial of \( A \) or \( B \).
+\end{proof}
+\begin{definition}
+	The \textit{annihilator} of an \( R \)-module \( M \) is
+	\[ \mathrm{Ann}_R(M) = \qty{r \in R \colon \forall m \in M,\, rm = 0} \triangleleft R \]
+\end{definition}
+\begin{example}
+	Let \( I \triangleleft R \).
+	Then the annihilator of \( \faktor{R}{I} \) is \( \mathrm{Ann}_R\qty(\faktor{R}{I}) = I \).
+
+	Let \( A \) be a finite abelian group.
+	Then, considering \( A \) as a \( \mathbb Z \)-module, \( \mathrm{Ann}_{\mathbb Z}(A) = (e) \) where \( e \) is the \textit{exponent} of the group, which is the lowest common multiple of the orders of elements in the group.
+
+	Let \( V_\alpha \) be as above.
+	Then \( \mathrm{Ann}_{F[X]}(V_\alpha) = (f) \) where \( f \) is the minimal polynomial of \( \alpha \).
+\end{example}
+
+\subsection{Jordan normal form}
+Jordan normal form concerns matrix similarity in \( \mathbb C \).
+The following results are therefore restricted to this particular field.
+\begin{lemma}
+	The primes (or equivalently, irreducibles) in \( \mathbb C[X] \) are the polynomials \( X - \lambda \) for \( \lambda \in \mathbb C \), up to associates.
+\end{lemma}
+\begin{proof}
+	By the fundamental theorem of algebra, any non-constant polynomial with complex coefficients has a complex root.
+	By the Euclidean algorithm, we can show that having a root \( \lambda \) is equivalent to having a linear factor \( X - \lambda \).
+	Hence the irreducibles have degree one, and thus are \( X - \lambda \) exactly, up to associates.
+\end{proof}
+\begin{theorem}
+	Let \( \alpha \colon V \to V \) be an endomorphism of a finite-dimensional \( \mathbb C \)-vector space \( V \).
+	Let \( V_\alpha \) be the set \( V \) as a \( \mathbb C[X] \)-module, where scalar multiplication is defined by \( f\cdot v = f(\alpha)(v) \).
+	Then, there exists an isomorphism of \( \mathbb C[X] \)-modules
+	\[ V_\alpha \cong \faktor{\mathbb C[X]}{\qty((X-\lambda_1)^{n_1})} \oplus \dots \oplus \faktor{\mathbb C[X]}{\qty((X-\lambda_t)^{n_t})} \]
+	where \( \lambda_i \in \mathbb C \) are not necessarily distinct.
+	In particular, there exists a basis for this vector space such that \( \alpha \) has matrix in block diagonal form
+	\[ \begin{pmatrix}
+		J_{n_1}(\lambda_1) \\
+		& J_{n_2}(\lambda_2) \\
+		&& \ddots \\
+		&&& J_{n_t}(\lambda_t)
+	\end{pmatrix} \]
+	where each block is a Jordan block of the form
+	\[ J_{n_i}(\lambda_i) \begin{pmatrix}
+		\lambda_i & 0 & 0 & \cdots & 0 \\
+		1 & \lambda_i & 0 & \cdots & 0 \\
+		0 & 1 & \lambda_i & \cdots & 0 \\
+		\vdots & \vdots & \vdots & \ddots & \vdots \\
+		0 & 0 & 0 & \cdots & 1
+	\end{pmatrix} \]
+\end{theorem}
+\begin{proof}
+	Note \( \mathbb C[X] \) is a Euclidean domain using the degree function, and \( V_\alpha \) is finitely generated as a \( \mathbb C[X] \)-module.
+	These are the assumptions of the primary decomposition theorem.
+	Applying this, we find the module decomposition as required, noting that the primes in \( \mathbb C[X] \) are the linear polynomials.
+	Note that the free factor \( \mathbb C[X] \) cannot appear in the decomposition since \( V \) is finite-dimensional.
+
+	We have already seen that for a module \( W_\alpha \cong \faktor{F[X]}{\qty((X-\lambda)^n)} \), multiplication by \( X \) is represented by the matrix \( J_n(\lambda) \) with respect to the basis \( 1, (X-\lambda), \dots, (X-\lambda)^{n-1} \).
+	Hence the result follows by considering the union of these bases.
+\end{proof}
+\begin{remark}
+	If \( \alpha \) is represented by a matrix \( A \), then \( A \) is similar to a matrix in Jordan normal form.
+	This is the form of the result often used in linear algebra.
+
+	The Jordan blocks are uniquely determined up to reordering.
+	This can be proven by considering the dimensions of the \textit{generalised eigenspaces}, which are \( \ker\qty((\alpha - \lambda \id)^m) \) for some \( m \in \mathbb N \).
+
+	The minimal polynomial of \( \alpha \) is \( \prod_{\lambda} (X-\lambda)^{c_\lambda} \) where \( c_\lambda \) is the size of the largest \( \lambda \)-block.
+	The characteristic polynomial of \( \alpha \) is \( \prod_{\lambda} (X-\lambda)^{a_\lambda} \) where \( a_\lambda \) is the sum of the sizes of the \( \lambda \)-blocks.
+
+	The number of \( \lambda \)-blocks is the dimension of the eigenspace of \( \lambda \).
+\end{remark}
+
+\subsection{Modules over principal ideal domains (non-examinable)}
+The structure theorem above was proven for Euclidean domains.
+This also holds for principal ideal domains.
+Some of the ideas relevant to this proof are illustrated in this subsection.
+\begin{theorem}
+	Let \( R \) be a principal ideal domain.
+	Then any finitely generated torsion-free \( R \)-module is free.
+\end{theorem}
+If \( R \) is a Euclidean domain, this was proven as a corollary to the structure theorem.
+\begin{lemma}
+	Let \( R \) be a principal ideal domain and \( M \) be an \( R \)-module.
+	Let \( r_1, r_2 \in R \) be not both zero, and let \( d \) be their greatest common divisor.
+	Then,
+	\begin{enumerate}[(i)]
+		\item there exists \( A \in SL_2(R) \) such that
+			\[ A \begin{pmatrix}
+				r_1 \\
+				r_2
+			\end{pmatrix} = \begin{pmatrix}
+				d \\
+				0
+			\end{pmatrix} \]
+		\item if \( x_1, x_2 \in M \), then there exist \( x_1', x_2' \in M \) such that \( Rx_1 + Rx_2 = Rx_1' + Rx_2' \), and \( r_1 x_1 + r_2 x_2  = d x_1' + 0 \cdot x_2' \).
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	Since \( R \) is a principal ideal domain, \( (r_1, r_2) = (d) \).
+	Hence, by definition, \( d = \alpha r_1 + \beta r_2 \) for some \( \alpha, \beta \in R \).
+	Let \( r_1 = s_1 d \) and \( r_2 = s_2 d \).
+	Then \( \alpha s_1 + \beta s_2 = 1 \).
+	Now, let
+	\[ A = \begin{pmatrix}
+		\alpha & \beta \\
+		-s_2 & s_1
+	\end{pmatrix} \implies \det A = 1;\quad A \begin{pmatrix}
+		r_1 \\
+		r_2
+	\end{pmatrix} = \begin{pmatrix}
+		d \\
+		0
+	\end{pmatrix} \]
+	as required.
+
+	For the second part, let \( x_1' = s_1 x_1 + s_2 x_2 \) and \( x_2' = -\beta x_1 + \alpha x_2 \).
+	Then \( Rx_1' + Rx_2' \subseteq Rx_1 + Rx_2 \).
+	The matrix defining \( x_1', x_2' \) in terms of \( x_1, x_2 \) is invertible since its determinant is a unit; we can solve for \( x_1, x_2 \) in terms of \( x_1', x_2' \).
+	So \( Rx_1' + Rx_2' = Rx_1 + Rx_2 \).
+	Then by direct computation we can see that \( r_1 x_2 + r_2 x_2 = d x_1' + 0 \cdot x_2' \).
+\end{proof}
+The structure theorem for principal ideal domains follows the same method; it is deduced for Smith normal form.
+That theorem also holds for principal ideal domains.
+The above lemma allows one to prove Smith normal form for principal ideal domains.
+In a Euclidean domain, we used the Euclidean function for a notion of size in order to perform induction; in a principal ideal domain we can count the irreducibles in a factorisation.
+\begin{proof}[Proof of theorem]
+	Let \( M = Rx_1 + \dots + Rx_n \) where \( n \) is minimal.
+	If \( x_1, \dots, x_n \) are independent, then \( M \) is free as required.
+	Suppose that the \( x_i \) are not independent, so there exists \( r_i \) such that \( \sum r_i x_i = 0 \) but not all of the \( r_i \) are zero.
+	By reordering, we can suppose that \( r_1 \neq 0 \).
+	By using part (ii) of the previous lemma, after replacing \( x_1 \) and \( x_2 \) by suitable \( x_1', x_2' \), we may assume that \( r_1 \neq 0 \) and \( r_2 = 0 \).
+	By repeating this process with \( x_1 \) and \( x_i \) for all \( i \geq 2 \), we obtain \( r_1 \neq 0 \) and \( r_2 = \dots = r_n = 0 \), so \( r_1 x_1'' = 0 \) for some nonzero \( x_1'' \in M \).
+	But \( M \) is torsion-free, so \( r_1 \) must be zero, and this is a contradiction.
 \end{proof}

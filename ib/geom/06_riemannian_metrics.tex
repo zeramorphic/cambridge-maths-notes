@@ -526,6 +526,170 @@ Locally near \( \ell_\alpha \), for instance, we arrive at a closed circle of le
 Since the hexagons were right-angled, we have constructed a hyperbolic pair of pants.
 The boundary circles are geodesics in the sense that, for any point on such a circle, the local neighbourhood is a point on a geodesic on a polygon in \( \mathbb H \).
 
-We now present an alternate construction for \( \Sigma_g \).
+We will now construct \( \Sigma_g \) using a more flexible approach.
 \begin{proof}
-	We will construct metrics on \( \Sigma_g \), which start from polygons but are more flexible.
+	If \( P_1, P_2 \) are two hyperbolic `surfaces' with geodesic boundaries, and if \( \gamma_1 \subset P_1 \) and \( \gamma_2 \subset P_2 \) are boundary circles of the same length (in the hyperbolic metric), we can glue \( P_1 \) and \( P_2 \) together along this common-length circle.
+	\( P_1 \) and \( P_2 \) may be glued by any isometry of \( \gamma_1, \gamma_2 \).
+	The result \( P_1 \cup_{\gamma_1 \sim \gamma_2} P_2 \) has a hyperbolic metric.
+	For any point \( p \in P_i \) not on the boundary \( \gamma_i \), it already has a suitable open neighbourhood since \( P_i \) is hyperbolic.
+	For any point \( p \in \gamma_1 \sim \gamma_2 \), we have a chart to a small disc in \( \mathbb H \) using the fact that the boundary circles are geodesics.
+	These charts are constructed analogously to the charts for points on edges of hyperbolic polygons under appropriate side identifications as seen above.
+	Any compact surface of genus \( g \geq 2 \) can be built from glued pairs of pants, not necessarily uniquely.
+
+	Under this construction, we have many choices.
+	For example, the lengths of circles in the original hyperbolic hexagons are now arbitrary.
+	Also, the choice of `pants decomposition' of a given surface is not unique, and the different possibilities are topologically different.
+\end{proof}
+
+\subsection{Gauss-Bonnet theorem}
+Recall that in a spherical triangle with internal angles \( \alpha, \beta, \gamma \), we have seen in the example sheets that this has area \( \alpha + \beta + \gamma - \pi \), and that a hyperbolic triangle with the same internal angles has area \( \pi - \alpha - \beta - \gamma \).
+We have seen the convex Gauss-Bonnet theorem, which states
+\[ \int_\Sigma \kappa \dd{A} = 4\pi \]
+where \( \Sigma \) bounds a convex region in \( \mathbb R^3 \) and \( \kappa_\Sigma > 0 \).
+These are special cases of a pair of theorems as shown below.
+\begin{theorem}[local Gauss-Bonnet theorem]
+	Let \( \Sigma \) be an abstract smooth surface with abstract Riemannian metric \( g \).
+	Let \( R \) be an \( n \)-sided \textit{geodesic polygon} on \( \Sigma \), which is a smooth disk with boundary decomposed into \( n \) geodesic arcs.
+	Then
+	\[ \int_{R \subseteq \Sigma} \kappa_\Sigma \dd{A} = \sum_{i=1}^n \alpha_i - (n-2)\pi \]
+	where the \( \alpha_i \) are the internal angles of the polygon.
+\end{theorem}
+It is important that \( \gamma_i \) be geodesics that cut out a disk; \( R \) must be homeomorphic to \( \mathbb R^2 \), and it cannot (for example) contain any holes.
+\begin{theorem}[global Gauss-Bonnet theorem]
+	Let \( \Sigma \) be a compact smooth surface with abstract Riemannian metric \( g \).
+	Then
+	\[ \int_\Sigma \kappa_\Sigma \dd{A} = 2\pi \chi(\Sigma) \]
+\end{theorem}
+\begin{remark}
+	Gauss curvature can be defined using only the first fundamental form, or equivalently an abstract Riemannian metric.
+	
+	For hyperbolic surfaces, we can construct \( \Sigma_g \) from a \( 4g \)-gon with internal angles \( \frac{\pi}{2g} \) in such a way that the total area of \( \Sigma \) is exactly the area of the polygon, so
+	\[ \int_\Sigma 1 \dd{A} = \mathrm{area}(\mathrm{polygon}) = (4g-2)\pi - \sum_{1}^{4g} \frac{\pi}{2g} = (4g-4)\pi \]
+	Since \( \kappa \equiv -1 \) and \( \chi(\Sigma_g) = 2-2g \), this agrees with the Gauss-Bonnet theorem.
+
+	A right-angled hyperbolic hexagon has area
+	\[ 4\pi - \sum_{1}^6 \frac{\pi}{2} = \pi \]
+	Each pair of pants was constructed from two such polygons, and to construct a genus \( g \) surface we required \( 2g-2 \) pairs of pants.
+	So the total area is \( 4g-4\pi \), which agrees with the theorem.
+
+	The Gauss-Bonnet theorem also shows that the Euler characteristic does not depend on the choice of triangulation of \( \Sigma \).
+
+	Suppose \( \Sigma \) is a flat surface and \( \gamma \) is a closed geodesic, so \( \gamma \colon \mathbb R \to \Sigma \) and is periodic with some period \( T \).
+	Then \( \gamma \) cannot bound a smooth disk in \( \Sigma \).
+	Conversely, on \( S^2 \), the great circle is a closed geodesic, and bounds a hemisphere.
+	For instance, for the flat torus \( \faktor{\mathbb R^2}{\mathbb Z^2} \), if \( \gamma \) is a closed curve on this torus bounding a closed disk \( R \) it is not a geodesic.
+	Indeed, if we formally add two vertices to such a geodesic, we find a geodesic 2-gon with two internal angles \( \pi \), but by the Gauss-Bonnet theorem we expect
+	\[ 0 = \int_R \kappa_\Sigma \dd{A} = \sum_1^2 \alpha_i - (n-2)\pi = 2\pi \]
+\end{remark}
+We can in fact deduce the global Gauss-Bonnet theorem from the local Gauss-Bonnet theorem, utilising the following lemma.
+\begin{lemma}
+	A compact smooth surface admits subdivisions into geodesic polygons.
+\end{lemma}
+The proof of this lemma considers the exponential map, discussed in Part II.
+Given such a subdivision on \( \Sigma \), we can find
+\[ \sum_{\text{polygons } P} \int_P \kappa_\Sigma \dd{A} = \int_\Sigma \kappa_\Sigma \dd{A} \]
+By the local Gauss-Bonnet theorem, the left hand side is equal to
+\[ \sum_n \sum_{n\text{-gons } P} \qty(\sum_{i=1}^n \alpha_i(P) - (n-2)\pi) \]
+Since the angles at each point add to \( 2\pi \), and each \( n \)-gon contains two edges which each separate two polygons, this is equal to \( 2\pi V + 2 \pi F - 2\pi E = 2\pi\chi(\Sigma) \) as required.
+
+\subsection{Green's theorem (non-examinable)}
+The local Gauss-Bonnet theorem is very closely related to Green's theorem in \( \mathbb R^2 \).
+This discussion is non-examinable.
+\begin{theorem}
+	Let \( R \subseteq \mathbb R^2 \) be a region bound by a piecewise smooth curve \( \gamma \), and \( P, Q \) be smooth real-valued functions defined on an open set \( V \supset R \).
+	Then
+	\[ \int_\gamma P \dd{u}+ Q \dd{v} = \int_R \qty(Q_u - P_v) \dd{u} \dd{v} \]
+\end{theorem}
+We will consider a geodesic polygon on \( \Sigma \) which lies in the domain of some local parametrisation defined on \( V \subseteq \mathbb R^2 \).
+Consider an orthonormal basis for \( \mathbb R^2 \) which varies from point to point, defined by \( e = \sigma_u, f = \sigma_v/\sqrt{G} \) where we use geodesic normal coordinates \( u,v \) to give \( E = 1, F = 0 \).
+Then \( T_p \Sigma = \vecspan(e,f) \) if \( p \in \Im \sigma \).
+We parametrise \( \gamma \) by arc length and consider
+\[ I = \int_\gamma \inner{e,\dot f} \dd{t} \]
+We will compute this in two ways.
+Note that
+\[ \dot f = f_u \dot u + f_v \dot v \]
+Let \( P = \inner{e,f_u} \) and \( Q = \inner{e,f_v} \).
+Then
+\todo correct this
+\[ Q_u - P_v = \inner{e_u, f_v} - \inner{f_v, e_u} + \inner{e, f_{uv}} - \inner{e,f_{uv}} = \inner{e_u, f_v} - \inner{f_v, e_u} \]
+which we can show to be equal to \( -\qty(\sqrt{G})_{uu} = \kappa \sqrt{G} \).
+But \( \sqrt{G} \) is the area element \( \sqrt{EG-F^2} \), so
+\[ \int_R (Q_u - P_v) \dd{u} \dd{v} = \int_R \kappa_\Sigma \dd{A} \]
+Let \( \theta(t) \) be the angle between \( \dot\gamma(t) \) and \( e(t) \), which is a function of \( t \) in the domain of \( \gamma \).
+More precisely,
+\[ \dot \gamma = e \cos \theta(t) + f \sin \theta(t) \]
+Thus
+\[ \ddot \gamma = \dot e \cos \theta + \dot f \sin \theta + \eta \dot \theta;\quad \eta = -e\sin \theta + f \cos \theta \]
+\( \gamma \) is a piecewise geodesic, so if \( \Sigma \subseteq \mathbb R^3 \) was smooth, \( \ddot \gamma \) is orthogonal to \( T_p \Sigma = \vecspan{e,f} \).
+But \( \eta \in \genset{e,f} \), so \( \ddot \gamma \) is orthogonal to \( \eta \).
+By expanding,
+\[ \inner{\dot e \cos \theta + \dot f \sin \theta + \eta \dot \theta, -e\sin\theta + f\cos \theta} = 0\]
+Since \( e, f \) are orthogonal unit vectors, we have \( \inner{e,\dot e} = 0 = \inner{f,\dot f} \) and \( \inner{e,\dot f} = 0 = \inner{\dot e, f} \), so we can expand to find
+\[ \inner{\ddot \gamma,\eta} = 0 \implies \dot \theta = \inner{e,\dot f} \]
+Thus,
+\[ I = \int_\gamma \inner{e,\dot f} \dd{t} = \int_\gamma \dot \theta(t) \dd{t} = 2\pi - \sum(\text{external angles of } R) \]
+since \( \gamma \) is composed of straight lines.
+Since external angles and internal angles sum to \( \pi \), this is exactly the local Gauss-Bonnet theorem.
+Green's theorem suggests the study of non-geodesic polygons.
+
+\subsection{Alternate flat toruses}
+We have constructed a flat metric on the torus, viewed as \( \faktor{\mathbb R^2}{\mathbb Z^2} \), or as \( \faktor{[0,1]^2}{\sim} \) for a suitably defined equivalence relation.
+Importantly, opposite sides of the square \( [0,1]^2 \) were identified by translation, which allowed us to find a smooth atlas where transition maps preserve the usual Euclidean metric on \( \mathbb R^2 \).
+This construction is valid for any parallelogram; any such shape \( Q \subseteq \mathbb R^2 \) defines a flat metric \( g_Q \) on \( T^2 \).
+If one vertex is set to zero in \( \mathbb R^2 \) and the edges of this vertex are labelled by their endpoints \( v_1, v_2 \), then \( (T^2, g_Q) = \faktor{\mathbb R^2}{\mathbb Z v_1 \oplus \mathbb Z v_2} \) where \( \mathbb Z v_1 \oplus \mathbb Z v_2 \) is a viewed as a subgroup of the group \( \mathbb R^2 \) of translations.
+
+The area with respect to \( g_Q \) of \( T^2 \) is the Euclidean area of the parallelogram \( Q \).
+In particular, if two parallelograms have different areas, the two metrics cannot be globally isometric.
+However, this is not the only restriction for global isometries.
+\begin{lemma}
+	Consider the torus based on \( Q = [0,1]^2 \) and the torus based on \( \hat Q = [0,10] \times \qty[0,\frac{1}{10}] \).
+	The metrics \( g_Q, g_{\hat Q} \) are not isometric, but both have unit total area.
+\end{lemma}
+\begin{proof}
+	Recall that geodesics in a flat torus correspond to straight lines in \( \mathbb R^2 \).
+	By Picard's theorem, there exists a unique geodesic from a given point \( p \) for each direction in \( T_p \Sigma \).
+	We can therefore see that all geodesics through \( p \) are the images of straight lines in \( \mathbb R^2 \).
+
+	Recall that a \textit{closed geodesic} is defined on \( \mathbb R \) and is periodic.
+	We can see that geodesics in \( \mathbb R^2 \) through \( \hat p \in q^{-1}(p) \) define a closed geodesic if and only if they pass through another lift \( \hat p' \in q^{-1}(p) \) of \( p \); that is, the line has rational gradient.
+	The shortest closed geodesic on the surface in metric \( Q \) is of unit length, but the shortest closed geodesic with metric \( \hat Q \) is \( \frac{1}{10} \).
+	So the surfaces are not globally isometric.
+\end{proof}
+We would like to understand all possible flat metrics on the torus \( T^2 \), up to global dilation and Euclidean isometries of \( Q \), which lead to essentially the same geometry on the quotient torus.
+Given any parallelogram, we can set one vertex at zero and another at \( (1,0) = 1 \in \mathbb R^2 \) by performing dilation and a Euclidean isometry, and then the third lies at \( \tau \) and the fourth at \( 1 + \tau \), where \( \tau \) has positive \( y \)-coordinate.
+This provides a metric on the torus, and now the only degree of freedom is \( \tau \).
+Hence, this defines a map from the upper half-plane to the set of flat metrics on \( T^2 \) up to dilation.
+
+We can pull back metrics by diffeomorphisms.
+Metrics allow us to measure lengths of curves by integrating lengths of tangent vectors, so a metric can be viewed as an inner product on the tangent space at each point.
+If \( f \colon \Sigma \to \Sigma' \) and \( p \in \Sigma \), then for two small curves \( \gamma_1, \gamma_2 \) through \( p \), the pullback metric \( f^\star g \) was defined such that
+\[ \inner{\dot \gamma_1, \dot \gamma_2}_{p, f^\star g} = \inner{f \circ \dot \gamma_1, f \circ \dot \gamma_2}_{f(p), g} \]
+\( SL(2,\mathbb Z) \) acts on \( \mathbb R^2 \) preserving \( \mathbb Z^2 \), so it acts on \( \faktor{\mathbb R^2}{\mathbb Z^2} = T^2 \).
+\begin{lemma}
+	\( SL(2,\mathbb Z) \) acts by diffeomorphisms on \( T^2 \).
+\end{lemma}
+\begin{proof}
+	Clearly \( A \in SL(2,\mathbb Z) \) acts smoothly (indeed, linearly) on \( \mathbb R^2 \), and the charts for the smooth atlas are such that \( A \) then acts smoothly with respect to these.
+\end{proof}
+Also, \( SL(2,\mathbb Z) \subseteq SL(2,\mathbb R) \) acts on the upper half-plane by M\"obius maps.
+\begin{theorem}
+	The map from the upper half-plane \( h \) to the set of flat metrics on \( T^2 \) modulo dilation induces a map from \( \faktor{h}{SL(2,\mathbb Z)} \) to the set of flat metrics on \( T^2 \) modulo dilation and diffeomorphism.
+	This resulting map is a bijection.
+	We say that \( \faktor{h}{SL(2,\mathbb Z)} \) is the \textit{moduli space} of flat metrics on \( T^2 \).
+\end{theorem}
+In the above theorem, `diffeomorphism' is taken to mean `orientation-preserving diffeomorphism'.
+\begin{remark}
+	The left-hand side \( \faktor{h}{SL(2,\mathbb Z)} \) is an object of hyperbolic geometry, yet the right-hand side is entirely concerned with flat metrics.
+	
+	Similar results can be shown for surfaces of higher genus.
+	The moduli space of hyperbolic metrics on \( \Sigma_g \) where \( g \geq 2 \) is perhaps the most studied space in all of geometry.
+\end{remark}
+
+\subsection{Further courses}
+There are four Part II courses that extend this course.
+\begin{enumerate}[(i)]
+	\item Algebraic Topology. Spaces are studied through algebraic invariants, such as the Euler characteristic, and covering maps of surfaces like \( S^2 \to \mathbb R \mathbb P^2 \) or \( \mathbb R^2 to T^2 \).
+	\item Differential Geometry. While in IB Geometry the Gauss curvature \( \kappa = \det (DN) \) is discussed, the trace \( \tr (DN) \) is the \textit{mean curvature}, discussed heavily in this course.
+	\item Riemann Surfaces. This course studies the fact that if \( f \colon \mathbb C \to \mathbb C \) is holomorphic (or, indeed, entire) and \( w \in \mathbb C \), then \( f(z+w) \) is holomorphic, and if \( f \colon D \to D \) is holomorphic and \( A \in \Mob(D) \), then \( f \circ A \) is holomorphic.
+	\item General Relativity. This is the theory of light as geodesics.
+\end{enumerate}

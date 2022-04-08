@@ -63,3 +63,140 @@ For a domain bounded by a closed curve, the argument principle gives the followi
 	\[ N - P = \frac{1}{2 \pi i} \int_\gamma \frac{f'(z)}{f(z)} \dd{z} = I(\Gamma;0) \]
 	where \( \Gamma = f \circ \gamma \).
 \end{corollary}
+\begin{proof}
+	Since \( f \) is meromorphic in \( U \), its singularities form a discrete set \( S \subset U \) consisting of poles or removable singularities.
+	Since \( \gamma \) bounds \( \Omega \), we have that \( \Omega \) is bounded and hence \( \overline \Omega \) is compact.
+	Also, \( \overline \Omega \subseteq \Omega \cup \Im \gamma \subseteq U \).
+	If \( \overline \Omega \cap S \) is infinite, then by compactness of \( \overline \Omega \), there exists a point \( w \in \overline \Omega \) and distinct points \( w_j \in \overline \Omega \cap S \) such that \( w_j \to w \).
+	If \( w \not\in S \), then \( f \) is defined and holomorphic near \( w \) which is impossible since \( w_j \in S \) and \( w_j \to w \).
+	So \( w \in S \), but this is impossible since \( S \) is a discrete set.
+	So \( \overline \Omega \cap S \) is finite, and in particular \( P \) is finite.
+
+	If \( f \) has infinitely many zeroes in \( \Omega \), then by compactness there exists \( z \in \overline \Omega \subset U \) and distinct zeroes \( z_j \in \Omega \) such that \( z_j \to z \).
+	Then either \( z \in U \setminus S \), or (if \( z \in S \)) \( z \) is a removable singularity, since otherwise \( z \) would be a pole and hence \( \abs{f(\zeta)} \to \infty \) as \( \zeta \to z \) which is impossible since \( z_j \to z \) and \( f(z_j) = 0 \).
+	In either case, by the principle of isolated zeroes, \( f \) must be identically zero in \( D(z,\rho) \setminus \qty{z} \) for some \( \rho > 0 \).
+	Since \( f \) is holomorphic in \( \Omega \setminus S \) which is connected (since \( \Omega \cap S \) is finite and \( \Omega \)) is connected, it follows from the unique continuation principle that \( f \equiv 0 \) in \( \Omega \).
+	This is impossible since \( f \) has no zeroes in \( \Im \gamma \), so \( N \) must be finite.
+
+	By the definition of \( \gamma \) bounding \( \Omega \), we have that \( I(\gamma;w) = 1 \) for all \( w \in \Omega \), and \( I(\gamma;w) = 0 \) for all \( w \in \mathbb C \setminus \qty(\Omega \cup \Im \gamma) \).
+	In particular, \( \gamma \) is homologous to zero in \( U \).
+	The final conclusion then follows from the fact that \( \Gamma \) is a closed curve in \( \mathbb C \setminus \qty{0} \) and \( I(\gamma;0) = \frac{1}{2\pi i} \int_\gamma \frac{f'(z)}{f(z)} \dd{z} \) as proven above.
+\end{proof}
+
+\subsection{Local degree theorem}
+\begin{definition}
+	Let \( f \) be a holomorphic function on a disk \( D(a,R) \) that is not constant.
+	Then the \textit{local degree of \( f \) at \( a \)}, denoted \( \deg_f(a) \), is the order of the zero of \( f(z) - f(a) \) at \( z = a \).
+	This is a finite positive integer.
+\end{definition}
+\begin{example}
+	If \( f(z) = (z-1)^4 + 1 \) has \( \deg_f(1) = 4 \).
+\end{example}
+\begin{theorem}
+	Let \( f \colon D(a,R) \to \mathbb C \) be holomorphic and non-constant, with \( \deg_f(a) = d \).
+	Then there exists \( r_0 > 0 \) such that for any \( r \in (0,r_0] \), there exists \( \varepsilon > 0 \) such that for all \( w \) with \( 0 < \abs{f(a) - w} < \varepsilon \), the equation \( f(z) = w \) has precisely \( d \) distinct roots in \( D(a,r) \setminus \qty{a} \).
+\end{theorem}
+\begin{proof}
+	Let \( g(z) = f(z) - f(a) \).
+	Since \( g \) is non-constant, \( g' \not\equiv 0 \) in \( D(a,R) \).
+	Applying the principle of isolated zeroes to \( g \) and \( g' \), there exists \( r_0 \in (0,R) \) such that \( g(z) \neq 0 \) and \( g'(z) \neq 0 \) for \( z \in \overline{D(a,r_0)} \setminus \qty{a} \).
+
+	We will show that the conclusion holds for this choice of \( r_0 \).
+	Let \( r \in (0,r_0] \), and for \( t \in [0,1] \), let \( \gamma(t) = a + re^{2\pi i t} \) and \( \Gamma(t) = g(\gamma(t)) \).
+	Note that \( \Im \Gamma \) is compact and hence closed in \( \mathbb C \), and \( 0 \not\in \Im \Gamma \) since \( g \neq 0 \) on \( \partial D(a,r) \).
+	Hence there exists \( \varepsilon > 0 \) such that \( D(0,\varepsilon) \subseteq \mathbb C \setminus \Im \Gamma \).
+
+	We now show that this \( \varepsilon \) satisfies the conditions in the theorem for this \( r \).
+	Let \( w \) such that \( 0 < \abs{w-f(a)} < \varepsilon \).
+	Then \( w-f(a) \in D(0,\varepsilon) \subseteq \mathbb C \setminus \Im \Gamma \).
+	Since \( z \mapsto I(\Gamma;z) \) is locally constant, it is constant on \( D(0,\varepsilon) \), so in particular \( I(\Gamma;w-f(a)) = I(\Gamma;0) \).
+
+	By direct calculation,
+	\[ I(\Gamma;w-f(a)) = \frac{1}{2\pi i} \int_0^1 \frac{g'(\gamma(t)) \gamma'(t)}{g(\gamma(t)) - (w-f(a))} \dd{t} = \frac{1}{2\pi i} \int_{\partial D(a,r)} \frac{f'(z)}{f(z) - w} \dd{z} \]
+	By the argument principle, \( I(\Gamma;0) = d \), since \( I(\Gamma;0) \) is the number of zeroes of \( g \) in \( D(a,r) \) counted with multiplicity; the zero of \( g \) at \( z = a \) has order \( d \), and it is the only zero in \( D(a,r) \).
+	Hence,
+	\[ \frac{1}{2\pi i} \int_{\partial D(a,r)} \frac{f'(z)}{f(z) - w} \dd{z} = d \]
+	Again, the argument principle shows that the number of zeroes of \( f(z) - w \) in \( D(a,r) \) is \( d \), counted with multiplicity.
+	None of these zeroes is equal to \( a \) since \( w \neq f(a) \).
+	Since \( f'(z) = g'(z) \neq 0 \) in \( D(a,r) \setminus \qty{a} \), it follows from the Taylor series that these zeroes are simple.
+	Thus \( f(z) - w \) has \( d \) distinct zeroes in \( D(a,r) \setminus \qty{a} \).
+\end{proof}
+
+\subsection{Open mapping theorem}
+\begin{corollary}
+	A non-constant holomorphic function maps open sets to open sets.
+	That is, non-constant holomorphic functions are open maps.
+\end{corollary}
+\begin{proof}
+	Let \( f \colon U \to \mathbb C \) be holomorphic and non-constant, and let \( V \subseteq U \) be an open set.
+	Let \( b \in f(V) \).
+	Then \( b = f(a) \) for some \( a \in V \).
+	Since \( V \) is open, there exists \( r > 0 \) such that \( D(a,r) \subseteq V \).
+	By the local degree theorem, if \( r \) is sufficiently small, there exists \( \varepsilon > 0 \) such that \( w \in D(f(a), \varepsilon) \setminus \qty{f(a)} \implies w = f(z) \) for some \( z \in D(a,r) \setminus \qty{a} \), hence \( D(f(a),\varepsilon) \setminus \qty{f(a)} \subseteq f(D(a,r) \setminus \qty{a}) \).
+	Hence \( D(b,\varepsilon) = D(f(a), \varepsilon) \subseteq f(D(a,r)) \subseteq f(V) \).
+	Thus, for all \( b \in f(V) \), there exists a disk \( D(b,\varepsilon) \subseteq f(V) \), so \( f(V) \) is open.
+\end{proof}
+
+\subsection{Rouch\'e's theorem}
+\begin{theorem}
+	Let \( \gamma \) be a closed curve bounding a domain \( \Omega \), and let \( f,g \) be holomorphic functions on an open set \( U \) containing \( \Omega \cup \Im \gamma \).
+	If \( \abs{f(z) - g(z)} < \abs{g(z)} \) for all \( z \in \Im \gamma \), then \( f \) and \( g \) have the same number of zeroes in \( \Omega \), counted with multiplicity.
+\end{theorem}
+\begin{proof}
+	The strict inequality \( \abs{f-g} < \abs{g} \) on \( \Im \gamma \) implies that \( f,g \) are never zero on \( \Im \gamma \) and hence never zero on some open set \( V \) containing \( \Im \gamma \).
+	So \( h = \frac{f}{g} \) is holomorphic and nonzero in \( V \).
+	In particular, \( g \) is not identically zero in \( \Omega \), and hence the zeroes of \( g \) in \( \Omega \cup V \) are isolated.
+	Hence \( h \) is meromorphic in \( \Omega \cup V \), and \( h \) has no zeroes or poles on \( \Im \gamma \).
+	Also, \( f, g \) have finitely many zeroes in \( \Omega \).
+
+	Now, \( \abs{h(z) - 1} < 1 \) for all \( z \in \Im \gamma \).
+	Hence, the curve \( \Gamma = h \circ \gamma \) has image contained within \( D(1,1) \).
+	Since zero is outside this disk, \( I(\Gamma;0) = 0 \), and so by the argument principle,
+	\[ \sum_{w \in \mathcal P} \ord_h(w) = \sum_{w \in \mathcal Z} \ord_h(w) \]
+	where \( \mathcal P \) and \( \mathcal Z \) denote the sets of distinct poles and zeroes of \( h \) respectively, and the sums are finite.
+	Now, \( \mathcal P = \mathcal P_1 + \mathcal P_2 \) and \( \mathcal Z = \mathcal Z_1 \cup \mathcal Z_2 \), where
+	\begin{align*}
+		\mathcal P_1 &= \qty{w \in \Omega \colon g(w) = 0; f(w) \neq 0}; \\
+		\mathcal P_2 &= \qty{w \in \Omega \colon g(w) = f(w) = 0; \ord_g(w) > \ord_f(w)}; \\
+		\mathcal Z_1 &= \qty{w \in \Omega \colon f(w) = 0; g(w) \neq 0}; \\
+		\mathcal Z_2 &= \qty{w \in \Omega \colon f(w) = g(w) = 0; \ord_f(w) > \ord_g(w)}
+	\end{align*}
+	Hence,
+	\[ \sum_{w \in \mathcal P_1} \ord_g(w) + \sum_{w \in \mathcal P_2} \qty(\ord_g(w) - \ord_f(w)) = \sum_{w \in \mathcal Z_1} \ord_f(w) + \sum_{w \in \mathcal Z_2} \qty(\ord_f(w) - \ord_g(w)) \]
+	Equivalently,
+	\[ \sum_{w \in \mathcal P_1} \ord_g(w) + \sum_{w \in \mathcal P_2} \ord_g(w) + \sum_{w \in \mathcal Z_2} \ord_g(w) =
+	\sum_{w \in \mathcal Z_1} \ord_f(w) + \sum_{w \in \mathcal Z_2} \ord_f(w) + \sum_{w \in \mathcal P_2} \ord_f(w) \]
+	Adding \( \sum_{w \in \mathcal R} \ord_g(w) \) to the left hand side and the equal number \( \sum_{w \in \mathcal R} \ord_f(w) \) to the right hand side, where
+	\[ R = \qty{w \in \Omega \colon f(w) = g(w) = 0; \ord_f(w) = \ord_g(w)} \]
+	we have
+	\[ \sum_{w \in \Omega \colon g(w) = 0} \ord_g(w) = \sum_{w \in \Omega \colon f(w) = 0} \ord_f(w) \]
+	as required.
+\end{proof}
+\begin{example}
+	\( z^4 + 6z + 3 \) has three roots counted with multiplicity in \( \qty{1 < \abs{z} < 2} \).
+	Let \( f(z) = z^4 + 6z + 3 \).
+
+	On \( \abs{z} = 2 \) we have \( \abs{z^4} = 16 \) and \( \abs{6z+3} \leq 6\abs{z} + 3 = 15 \), so \( \abs{z}^4 > \abs{6z+3} \).
+	By Rouch\'e's theorem, \( f \) has the same number of roots inside \( \qty{\abs{z} < 2} \) as \( z^4 \), counting with multiplicity.
+	Thus, all roots of \( z^4 + 6z + 3 \) lie inside \( \qty{\abs{z}<2} \); this is all of the roots since \( f \) is a polynomial with degree 4.
+
+	On \( \abs{z} = 1 \), we have \( \abs{6z} = 6 \) and \( \abs{z^4 + 3} \leq \abs{z}^4 + 3 \leq 4 \).
+	Again by Rouch\'e's theorem, \( f \) has one root inside \( \qty{\abs{z} < 1} \), as \( 6z \) has one root in this region.
+	From the strict inequalities, no roots lie on \( \qty{\abs{z} = 2} \) or \( \qty{\abs{z} = 1} \).
+	Hence three roots of \( f \) lie in \( \abs{z \in \mathbb C \colon 1 < \abs{z} < 2} \).
+\end{example}
+
+TODO: Move this to residue theorem section
+\begin{example}
+	For \( 0 < \alpha < 1 \), we will show that
+	\[ \int_0^\infty \frac{x^{-\alpha}}{1+x} \dd{x} = \frac{\pi}{\sin \pi \alpha} \]
+	Let \( g(z) = z^{-\alpha} \) be the branch of \( z^{-\alpha} \) defined by \( g(z) = e^{-\alpha \ell(z)} \), where \( \ell(z) \) is the holomorphic branch of logarithm on \( U = \mathbb C \setminus \qty{x \in \mathbb R \colon x \geq 0} \). given by \( \ell(z) = \log \abs{z} + i \arg z \) where \( \arg(z) \) takes values in \( (0,2\pi) \).
+	Let \( f(z) = \frac{g(z)}{1+z} \).
+	Then
+	\[ f(z) = \frac{\abs{z}^{-\alpha} e^{-i\alpha \arg z}}{1+z} \]
+	and \( f \) is holomorphic in \( U \setminus \qty{-1} \) where \( z = -1 \) is a simple pole with \( \Res_f(-1) = \lim_{z \to -1}(z+1)f(z) = e^{-i\pi \alpha} \).
+
+	Let \( \varepsilon, R \) be such that \( 0 < \varepsilon < 1 < R \) and \( \theta > 0 \) be small.
+	Let \( \gamma \) be the positively-oriented `keyhole countour' determined by the two circular arcs \( \gamma_R \colon [\theta,2\pi-\theta] \to U \) and the two line segments \( \gamma_1, \gamma_2 \colon [\varepsilon, R] \) given by
+	\[ \gamma_R(t) = Re^{it};\quad \gamma_\varepsilon(t) = \varepsilon e^{i(2\pi - t)}; \gamma_1(t) = ...
+	TODO Complete this
