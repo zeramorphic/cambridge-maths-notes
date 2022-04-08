@@ -310,6 +310,42 @@ There are simple ways to calculate residues if we know information about the sin
 	\item If \( f = \frac{g}{h} \) where \( g \) and \( h \) are holomorphic at \( z = a \), such that \( g(a) \neq 0 \) and \( h \) has a simple zero at \( z = a \), then from (i) we have
 	\[ \Res_f(a) = \lim_{z \to a} \frac{(z-a)g(z)}{h(z)} = \lim_{z \to a} \frac{g(z)}{\frac{h(z) - h(a)}{z-a}} = \frac{g(a)}{h'(a)} \]
 \end{enumerate}
+\begin{example}
+	For \( 0 < \alpha < 1 \), we will show that
+	\[ \int_0^\infty \frac{x^{-\alpha}}{1+x} \dd{x} = \frac{\pi}{\sin \pi \alpha} \]
+	Let \( g(z) = z^{-\alpha} \) be the branch of \( z^{-\alpha} \) defined by \( g(z) = e^{-\alpha \ell(z)} \), where \( \ell(z) \) is the holomorphic branch of logarithm on \( U = \mathbb C \setminus \qty{x \in \mathbb R \colon x \geq 0} \). given by \( \ell(z) = \log \abs{z} + i \arg z \) where \( \arg(z) \) takes values in \( (0,2\pi) \).
+	Let \( f(z) = \frac{g(z)}{1+z} \).
+	Then
+	\[ f(z) = \frac{\abs{z}^{-\alpha} e^{-i\alpha \arg z}}{1+z} \]
+	and \( f \) is holomorphic in \( U \setminus \qty{-1} \) where \( z = -1 \) is a simple pole with \( \Res_f(-1) = \lim_{z \to -1}(z+1)f(z) = e^{-i\pi \alpha} \).
+
+	Let \( \varepsilon, R \) be such that \( 0 < \varepsilon < 1 < R \) and \( \theta > 0 \) be small.
+	Let \( \gamma \) be the positively-oriented `keyhole countour' determined by the two circular arcs \( \gamma_R \colon [\theta,2\pi-\theta] \to U \) and the two line segments \( \gamma_1, \gamma_2 \colon [\varepsilon, R] \to U \) given by
+	\[ \gamma_R(t) = Re^{it};\quad \gamma_\varepsilon(t) = \varepsilon e^{i(2\pi - t)};\quad \gamma_1(t) = te^{i\theta};\quad \gamma_2(t) = te^{i(2\pi - \theta)} \]
+	The domain \( U \) is star shaped and hence simply connected, and so \( \gamma \) is homologous to zero in \( U \).
+	Directly from the definitions of \( \gamma \) and the winding number, we can show that \( I(\gamma; -1) = 1 \).
+
+	By the residue theorem, we find \( \int_\gamma f(z) \dd{z} = 2\pi i e^{-i\pi \alpha} \).
+	Now,
+	\[ \int_{\gamma_1} f(z) \dd{z} = \int_\varepsilon^R f(te^{i\theta}) e^{i\theta} \dd{t} = \int_\varepsilon^R \frac{t^{-\alpha} e^{i(1-\alpha)\theta}}{1+te^{i\theta}} \dd{t} \]
+	and
+	\[ \int_{\gamma_2} f(z) \dd{z} = \int_\varepsilon^R f(te^{i(2\pi - \theta)}) e^{i(2\pi - \theta)} \dd{t} = \int_\varepsilon^R \frac{t^{-\alpha} e^{i(1-\alpha)(2\pi - \theta)}}{1 + te^{i(2\pi - \theta)}} \dd{t} \]
+	As \( \theta \to 0^+ \), we can show that the integrands converge uniformly on \( [\varepsilon, R] \) to \( \frac{t^{-\alpha}}{1+t} \) and \( \frac{e^{-2i\pi \alpha}t^{-\alpha}}{1+t} \) respectively.
+	Hence,
+	\[ \lim_{\theta \to 0^+} \qty[ \int_{\gamma_1} f(z) \dd{z} + \int_{(-\gamma_2)} f(z) \dd{z} ] = \qty(1 - e^{-2i\pi \alpha}) \int_\varepsilon^R \frac{t^{-\alpha}}{1+t} \dd{t} \]
+	For all \( z \in \Im \gamma_R \), we have \( \abs{f(z)} \leq \frac{R^{-\alpha}}{R-1} \); and for all \( z \in \Im \gamma_\varepsilon \), we have \( \abs{f(z)} \leq \frac{\varepsilon^{-\alpha}}{1-\varepsilon} \).
+	Hence,
+	\[ \abs{\int_{\gamma_R} f(z) \dd{z} + \int_{\gamma_\varepsilon} f(z) \dd{z}} \leq \frac{2\pi R^{1-\alpha}}{R - 1} + \frac{2\pi \varepsilon^{1-\alpha}}{1-\varepsilon} \]
+	Note that the right hand side is independent of \( \theta \), even though \( \gamma_R \) and \( \gamma_\varepsilon \) depend on \( \theta \).
+	Since
+	\[ \int_\gamma f(z) \dd{z} - \qty(\int_{\gamma_1} f(z) \dd{z} + \int_{(-\gamma_2)} f(z) \dd{z}) = \int_{\gamma_R} f(z) \dd{z} + \int_{\gamma_\varepsilon} f(z) \dd{z} \]
+	we then have that
+	\[ \abs{2\pi i e^{-i\pi \alpha} - \qty(\int_{\gamma_1} f(z) \dd{z} + \int_{(-\gamma_2)} f(z) \dd{z}) } \leq \frac{2\pi R^{1-\alpha}}{R-1} + \frac{2\pi \varepsilon^{1-\alpha}}{1-\varepsilon} \]
+	First letting \( \theta \to 0^+ \) in this, and then letting \( \varepsilon \to 0^+ \) and \( R \to \infty \), we conclude
+	\[ \qty(1-e^{-2\pi i \alpha}) \int_0^\infty \frac{t^{-\alpha}}{1+t} \dd{t} = 2\pi i e^{-i\pi\alpha} \]
+	or,
+	\[ \int_0^\infty \frac{t^{-\alpha}}{1+t} \dd{t} = \frac{\pi}{\sin \pi \alpha} \]
+\end{example}
 
 \subsection{Jordan's lemma}
 \begin{lemma}
@@ -331,7 +367,7 @@ A similar statement holds for \( \alpha < 0 \) and the semicircle \( C_R^- = \Im
 	\leq 2 RM_R \int_0^{\frac{\pi}{2}} e^{\frac{-2\alpha R t}{\pi}} \dd{t}
 	= \frac{\pi M_R}{\alpha} \qty(1 - e^{-2\alpha R}) \leq \frac{\pi M_R}{\alpha}
 	\]
-	where we have usedthe fact that for \( t \in (0,\frac{\pi}{2}] \), \( \varphi(t) \equiv \frac{\sin t}{t} \geq \frac{2}{\pi} \) since \( \varphi(\frac{\pi}{2}) = \frac{2}{\pi} \) and \( \varphi'(t) \keq 0 \) on \( [0,\frac{\pi}{2}] \).
+	where we have usedthe fact that for \( t \in (0,\frac{\pi}{2}] \), \( \varphi(t) \equiv \frac{\sin t}{t} \geq \frac{2}{\pi} \) since \( \varphi(\frac{\pi}{2}) = \frac{2}{\pi} \) and \( \varphi'(t) \leq 0 \) on \( [0,\frac{\pi}{2}] \).
 \end{proof}
 \begin{lemma}[integrals on small circular arcs]
 	Let \( f \) be holomorphic in \( D(a,R) \setminus \qty{a} \) with a simple pole at \( z = a \).
@@ -381,12 +417,12 @@ A similar statement holds for \( \alpha < 0 \) and the semicircle \( C_R^- = \Im
 	Hence,
 	\[ \frac{\pi \cot(\pi z)}{z^2} = \frac{1}{z^3} - \frac{\pi^2}{3z} + \dots \]
 	This shows that \( \Res_f(0) = -\frac{\pi^2}{3} \).
-	For \( N \in \mathbb N \), let \( \gamma_N \) be the positively oriented boundary of the square defined by the lines \( x = \pm (N + \frac{1}{2}) \) and \( y = \pm i(N + \frac{1}{2} \).
+	For \( N \in \mathbb N \), let \( \gamma_N \) be the positively oriented boundary of the square defined by the lines \( x = \pm (N + \frac{1}{2}) \) and \( y = \pm (N + \frac{1}{2}) \).
 	By the residue theorem,
 	\begin{equation}
 		\int_{\gamma_N} f(z) \dd{z} = 2\pi i \qty[2\qty(\sum_{n=1}^N \frac{1}{n^2}) - \frac{\pi^2}{3}] \tag{\(\ast\)}
 	\end{equation}
-	Since \( \length(\gamma_N) = 4(2N + 1) \), we have
+	Since \( \mathrm{length}(\gamma_N) = 4(2N + 1) \), we have
 	\begin{align*}
 		\abs{\int_{\gamma_N} f(z) \dd{z}} &\leq \sup_{\gamma_N} \abs{\frac{\pi \cot(\pi z)}{z^2}} \cdot 4(2N + 1) \\
 		\leq \sup_{\gamma_N} \abs{\cot(\pi z)} \cdot \frac{4(2N + 1)\pi}{(N+\frac{1}{2})^2} \\
