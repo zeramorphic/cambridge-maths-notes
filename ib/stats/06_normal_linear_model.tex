@@ -473,7 +473,8 @@ The generalised likelihood ratio test rejects when the \( F \)-statistic
 \[ F = \frac{\norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2} \cdot \frac{1/p_0}{1/(n-p)} \]
 is large.
 \begin{theorem}
-	Under \( H_0 \), \( F \sim F_{p_0,n-p} \).
+	Under \( H_0\colon \beta_1 = \dots = \beta_{p_0} = 0 \), in the normal linear model,
+	\[ F = \frac{\norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2} \cdot \frac{1/p_0}{1/(n-p)} \sim F_{p_0,n-p} \]
 \end{theorem}
 \begin{proof}
 	Recall that
@@ -539,4 +540,84 @@ Hence,
 \[ \frac{\hat\beta_1^2}{(X^\transpose X)^{-1}_{11}} = \norm{(P-P_1) Y}^2 \]
 as required.
 
-% TODO: add last year's lecture 16 notes
+\subsection{Analysis of variance}
+Suppose we investigate responses of patients after receiving one of three treatments, including a control, which will be given index 1.
+We will consider only one predictor, denoting which treatment a given patient received.
+Consider the linear model
+\[ Y_{ij} = \alpha + \mu_j + \varepsilon_{ij} \]
+where \( j = 1, 2, 3 \) is the treatment index, and \( i = 1, \dots, N \) is the index of a patient in a given group.
+Let \( (\varepsilon_{ij}) \sim N(0, \sigma^2) \) be independent.
+Without loss of generality, we can set \( \mu_1 = 0 \), since we have an additional parameter \( \alpha \); this is known as a \textit{corner point} constraint.
+Then, \( \mu_j \) should be interpreted as the effect of treatment \( j \) relative to treatment 1, which in this case is the control.
+
+\begin{definition}
+	The \textit{analysis of variance (ANOVA)} test on the linear model
+	\[ Y_{ij} = \alpha + \mu_j + \varepsilon_{ij} \]
+	where \( \mu_1 = 0 \) is given by
+	\[ H_0 \colon \mu_2 = \mu_3 = \dots = 0;\quad H_1 \colon \mu_2, \mu_3, \dots \in \mathbb R \]
+	In particular, \( H_0 \) gives \( \expect{Y_{ij}} = \alpha \).
+\end{definition}
+
+In our example, \( H_0 \colon \mu_2 = \mu_3 = 0 \) and \( H_1 \colon \mu_2, \mu_3 \in \mathbb R \).
+This is a special case of the \( F \)-test, since we are testing whether the coefficients \( \mu_i \) are equal to zero.
+\[ X = \begin{pmatrix}
+	1 & 0 & 0 \\
+	1 & 0 & 0 \\
+	\vdots & \vdots & \vdots \\
+	1 & 1 & 0 \\
+	1 & 1 & 0 \\
+	\vdots & \vdots & \vdots \\
+	1 & 0 & 1 \\
+	1 & 0 & 1
+\end{pmatrix} = \begin{pmatrix}
+	X_1 & X_0
+\end{pmatrix} \]
+The first column of \( X \), denoted \( X_1 \), represents \( \alpha \), and the other columns, denoted \( X_0 \), represent \( \mu_2, \mu_3 \).
+\( X_0 \) is eliminated under the null hypothesis.
+The predictor can be called \textit{categorical}; it is discrete, and entirely dependent on which treatment category a given patient is placed in.
+Note that \( X \) has \( 3N \) rows, where each block of \( N \) consecutive rows is identical.
+Recall that the \( F \)-test uses the test statistic
+\[ F = \frac{\norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2} \cdot \frac{1/p_0}{1/(n-p)} \sim F_{p_0,n-p} \]
+For this test, \( P \) projects onto the space of vectors in \( \mathbb R^{3N} \) which are constant over treatment groups.
+In other words, let
+\[ \overline Y_j = \frac{1}{N} \sum_{i=1}^N Y_{ij} \]
+Then,
+\[ P Y = \qty( \underbrace{\overline Y_1, \dots, \overline Y_1}_{N \text{ entries}}, \underbrace{\overline Y_2, \dots, \overline Y_2}_{N \text{ entries}}, \underbrace{\overline Y_3, \dots, \overline Y_3}_{N \text{ entries}} )^\transpose \]
+\( P_1 \) projects onto the subspace of constant vectors in \( \mathbb R^{3N} \), so
+\[ \overline Y = \frac{1}{3N} \sum_{i=1}^N \sum_{j=1}^3 Y_{ij} \implies P_1 Y = \qty( \underbrace{\overline Y, \dots, \overline Y}_{3N \text{ entries}} )^\transpose \]
+Hence, we can write the \( F \) statistic as
+\[ F = \frac{\sum_{j=1}^3 N \qty(\overline Y_j - \overline Y)^2 / 2}{\sum_{i=1}^N \sum_{j=1}^3 \qty(Y_{ij} - \overline Y_j)^2 / (3N-3)} \]
+We can generatlise this to the case where there are \( J > 3 \) treatment groups:
+\[ F = \frac{\sum_{j=1}^J N \qty(\overline Y_j - \overline Y)^2 / (J-1)}{\sum_{i=1}^N \sum_{j=1}^J \qty(Y_{ij} - \overline Y_j)^2 / (JN-J)} = \frac{\text{variance between treatments}}{\text{variance within treatments}} \]
+\begin{remark}
+	This test is sometimes called \textit{one-way} analysis of variance.
+	\textit{Two-way} analysis of variance is a similar analysis in an experiment where groups are defined according to two variables.
+	For instance, the response could be a student's performance in an exam, where the treatments are
+	\begin{enumerate}[(i)]
+		\item completion of supervisions (zero representing not complete, one representing complete); and
+		\item whether a monetary incentive was given (zero representing no incentive, one representing an incentive).
+	\end{enumerate}
+	Here, we would have the result \( Y_{ijk} \) as the number of marks of student \( i \) in group \( (j,k) \).
+	The model would be
+	\[ Y_{ijk} = \alpha + \mu_j + \lambda_k + \varepsilon_{ijk} \]
+	with a constraint without loss of generality that \( \mu_0 = \lambda_0 = 0 \).
+	The two-way analysis of variance test is then
+	\[ H_0 \colon \mu_1 = \lambda_1 = 0;\quad H_1 \colon \mu_1, \lambda_1 \in \mathbb R \]
+\end{remark}
+
+\subsection{Simple linear regression}
+In a linear regression model, we often centre predictors to simplify certain expressions.
+\[ Y_i = \alpha + \beta (x - \overline x) + \varepsilon_i \]
+where \( \overline x = \frac{1}{n} \sum_{i=1}^n x_i \), and the \( \varepsilon_i \) independently have the usual \( N(0, \sigma^2) \) distribution.
+In this case, the maximum likelihood estimator \( (\hat \alpha, \hat \beta) \) takes a simple form.
+Recall that \( (\hat \alpha, \hat \beta) \) minimises
+\[ S(\alpha, \beta) = \sum_{i=1}^n \qty(Y_i - \alpha - \beta(x_i - \overline x))^2 \]
+Hence,
+\[ \pdv{S(\alpha, \beta)}{\alpha} = \sum_{i=1}^n -2\qty(Y_i - \alpha - \beta(x_i - \overline x)) = \sum_{i=1}^n -2\qty(Y_i - \alpha) \]
+This gives the simple expression
+\[ \alpha = \frac{\sum_{i=1}^n Y_i}{n} = \overline Y \]
+Now,
+\[ \eval{\pdv{S(\alpha, \beta)}{\beta}}_{\alpha = \hat \alpha} = \sum_{i=1}^n -2\qty(Y_i - \overline Y - \beta(x_i - \overline x))(x_i - \overline x) \]
+This vanishes when
+\[ \hat \beta = \frac{\sum_{i=1}^n \qty(Y_i - \overline Y)(x_i - \overline x)}{\sum_{i=1}^n (x_i - \overline x)^2} = \frac{S_{xy}}{S_{xx}} \]
+Note that \( \frac{S_{xy}}{n} \) is the sample covariance of \( X \) and \( Y \), and \( \frac{S_{xx}}{n} \) is the sample variance of \( X \).
