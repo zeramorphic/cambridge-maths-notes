@@ -14,7 +14,9 @@ Let \( X = (X_1, \dots, X_n) \).
 \end{example}
 \begin{definition}
 	The \textit{bias} of \( \hat \theta \) is
-	\[ \mathrm{bias}\qty(\hat \theta) = \esub{\theta}{\hat \theta} - \theta \]
+	\[
+		\mathrm{bias}\qty(\hat \theta) = \esub{\theta}{\hat \theta} - \theta
+	\]
 	Note that \( \hat \theta \) is a function only of \( X_1, \dots, X_n \), and the expectation operator \( \mathbb E_\theta \) assumes that the true value of the parameter is \( \theta \).
 \end{definition}
 \begin{remark}
@@ -25,12 +27,16 @@ Let \( X = (X_1, \dots, X_n) \).
 \end{definition}
 \begin{example}
 	The estimator \( \hat \mu \) in the above example is unbiased, since
-	\[ \esub{\mu}{\hat \mu} = \esub{\mu}{\overline X_n} = \mu \]
+	\[
+		\esub{\mu}{\hat \mu} = \esub{\mu}{\overline X_n} = \mu
+	\]
 	for all \( \mu \in \mathbb R \).
 \end{example}
 \begin{definition}
 	The \textit{mean squared error} of \( \theta \) is defined as
-	\[ \mathrm{mse}\qty(\hat \theta) = \esub{\theta}{\qty(\hat \theta - \theta)^2} \]
+	\[
+		\mathrm{mse}\qty(\hat \theta) = \esub{\theta}{\qty(\hat \theta - \theta)^2}
+	\]
 \end{definition}
 \begin{remark}
 	Like the bias, the mean squared error is, in general, a function of the true parameter \( \theta \).
@@ -38,7 +44,9 @@ Let \( X = (X_1, \dots, X_n) \).
 
 \subsection{Bias-variance decomposition}
 The mean squared error can be written as
-\[ \mathrm{mse}\qty(\hat \theta) = \esub{\theta}{\qty(\hat \theta - \esub{\theta}{\hat\theta} + \esub{\theta}{\hat\theta} - \theta)^2} = \Varsub{\theta}{\hat \theta} + \mathrm{bias}^2\qty(\hat\theta) \]
+\[
+	\mathrm{mse}\qty(\hat \theta) = \esub{\theta}{\qty(\hat \theta - \esub{\theta}{\hat\theta} + \esub{\theta}{\hat\theta} - \theta)^2} = \Varsub{\theta}{\hat \theta} + \mathrm{bias}^2\qty(\hat\theta)
+\]
 Note that both the variance and bias squared terms are positive.
 This implies a tradeoff between bias and variance when minimising error.
 \begin{example}
@@ -47,17 +55,27 @@ This implies a tradeoff between bias and variance when minimising error.
 	This is the proportion of successes observed.
 	This is an unbiased estimator, since \( \esub{\theta}{T_U} = \esub{\theta}{X}/n = \theta \).
 	The mean squared error for the estimator is then
-	\[ \Varsub{\theta}{T_n} = \Varsub{\theta}{\frac{X}{n}} = \frac{\Varsub{\theta}{X}}{n^2} = \frac{\theta(1-\theta)}{n} \]
+	\[
+		\Varsub{\theta}{T_n} = \Varsub{\theta}{\frac{X}{n}} = \frac{\Varsub{\theta}{X}}{n^2} = \frac{\theta(1-\theta)}{n}
+	\]
 	Now, consider an alternative estimator which has some bias:
-	\[ T_B = \frac{X+1}{n+2} = w \underbrace{\frac{X}{n}}_{T_U} + (1-w)\frac{1}{2};\quad w = \frac{n}{n+2} \]
+	\[
+		T_B = \frac{X+1}{n+2} = w \underbrace{\frac{X}{n}}_{T_U} + (1-w)\frac{1}{2};\quad w = \frac{n}{n+2}
+	\]
 	This interpolates between the estimator \( T_U \) and the fixed estimator \( \frac{1}{2} \).
 	Here,
-	\[ \mathrm{bias}(T_B) = \esub{\theta}{T_B} - \theta = \frac{n}{n+2}\theta - \frac{1}{n+2}\theta \]
+	\[
+		\mathrm{bias}(T_B) = \esub{\theta}{T_B} - \theta = \frac{n}{n+2}\theta - \frac{1}{n+2}\theta
+	\]
 	The bias is nonzero for all but one value of \( \theta \).
 	Further,
-	\[ \Varsub{\theta}{T_B} = \frac{\Varsub{\theta}{X+1}}{(n+2)^2} = \frac{n\theta(1-\theta)}{(n+2)^2} \]
+	\[
+		\Varsub{\theta}{T_B} = \frac{\Varsub{\theta}{X+1}}{(n+2)^2} = \frac{n\theta(1-\theta)}{(n+2)^2}
+	\]
 	We can calculate
-	\[ \mathrm{mse}(T_B) = (1-w)^2 \qty(\frac{1}{2} - \theta)^2 + w^2\underbrace{\frac{\theta(1-\theta)}{n}}_{\mathrm{mse}(T_U)} \]
+	\[
+		\mathrm{mse}(T_B) = (1-w)^2 \qty(\frac{1}{2} - \theta)^2 + w^2\underbrace{\frac{\theta(1-\theta)}{n}}_{\mathrm{mse}(T_U)}
+	\]
 	There exists a range of \( \theta \) such that \( T_B \) has a lower mean squared error, and similarly there exists a range such that \( T_U \) has a lower error.
 	This indicates that prior judgement of the true value of \( \theta \) can be used to determine which estimator is better.
 \end{example}
@@ -65,9 +83,13 @@ It is not necessarily desirable that an estimator is unbiased.
 \begin{example}
 	Suppose \( X \sim \mathrm{Poisson}(\lambda) \) and we wish to estimate \( \theta = \prob{X = 0}^2 = e^{-2\lambda} \).
 	For some estimator \( T(X) \) of \( \theta \) to be unbiased, we need that
-	\[ \esub{\lambda}{T(X)} = \sum_{x=0}^\infty T(x) \frac{\lambda^x e^{-\lambda}}{x!} = e^{-2\lambda} \]
+	\[
+		\esub{\lambda}{T(X)} = \sum_{x=0}^\infty T(x) \frac{\lambda^x e^{-\lambda}}{x!} = e^{-2\lambda}
+	\]
 	Hence,
-	\[ \sum_{x=0}^\infty T(x) \frac{\lambda^x}{x!} = e^{-\lambda} \]
+	\[
+		\sum_{x=0}^\infty T(x) \frac{\lambda^x}{x!} = e^{-\lambda}
+	\]
 	But \( e^{-\lambda} \) has a known power series expansion, giving \( T(X) \equiv (-1)^X \) for all \( X \).
 	This is not a good estimator, for example because it often predicts negative numbers for a positive quantity.
 \end{example}
@@ -80,19 +102,27 @@ It is not necessarily desirable that an estimator is unbiased.
 \begin{example}
 	Let \( X_1, \dots, X_n \) be i.i.d.\ Bernoulli random variables with parameter \( \theta \) where \( \theta \in [0,1] \).
 	The mass function is
-	\[ f_X(x \mid \theta) = \prod_{i=1}^n \theta^{x_i}(1-\theta)^{1-x_i} = \theta^{\sum x_i} (1-\theta)^{n - \sum x_i} \]
+	\[
+		f_X(x \mid \theta) = \prod_{i=1}^n \theta^{x_i}(1-\theta)^{1-x_i} = \theta^{\sum x_i} (1-\theta)^{n - \sum x_i}
+	\]
 	Note that this dependent only on \( x \) via the statistic \( T(X) = \sum_{n=1}^n x_i \).
 	Here,
-	\[ f_{X \mid T = t}(x \mid \theta) = \frac{\psub{\theta}{X = x, T(X) = t}}{\psub{\theta}{T(x) = t}} \]
+	\[
+		f_{X \mid T = t}(x \mid \theta) = \frac{\psub{\theta}{X = x, T(X) = t}}{\psub{\theta}{T(x) = t}}
+	\]
 	If \( \sum x_i = t \), we have
-	\[ f_{X \mid T = t}(x \mid \theta) = \frac{\theta^{\sum x_i} (1-\theta)^{n-\sum x_i}}{\binom{n}{t} \theta^t (1-\theta)^{n-\sum x_i}} = \frac{1}{\binom{n}{t}} \]
+	\[
+		f_{X \mid T = t}(x \mid \theta) = \frac{\theta^{\sum x_i} (1-\theta)^{n-\sum x_i}}{\binom{n}{t} \theta^t (1-\theta)^{n-\sum x_i}} = \frac{1}{\binom{n}{t}}
+	\]
 	Hence \( T(X) \) is sufficient for \( \theta \).
 \end{example}
 
 \subsection{Factorisation criterion}
 \begin{theorem}
 	\( T \) is sufficient for \( \theta \) if and only if
-	\[ f_X(x \mid \theta) = g(T(x), \theta) h(x) \]
+	\[
+		f_X(x \mid \theta) = g(T(x), \theta) h(x)
+	\]
 	for suitable functions \( g,h \).
 \end{theorem}
 \begin{proof}
@@ -100,33 +130,39 @@ It is not necessarily desirable that an estimator is unbiased.
 	Suppose that the factorisation criterion holds.
 	Then, if \( T(x) = t \),
 	\begin{align*}
-		f_{X \mid T = t}(x \mid T = t) &= \frac{\psub{\theta}{X = x, T(x) = t}}{\psub{\theta}{T(x) = t}} \\
-		&= \frac{g(T(x),\theta)h(x)}{\sum_{x' \colon T(x') = t} g(T(x'),\theta)h(x')} \\
-		&= \frac{h(x)}{\sum_{x' \colon T(x') = t} h(x')}
+		f_{X \mid T = t}(x \mid T = t) & = \frac{\psub{\theta}{X = x, T(x) = t}}{\psub{\theta}{T(x) = t}}             \\
+		                               & = \frac{g(T(x),\theta)h(x)}{\sum_{x' \colon T(x') = t} g(T(x'),\theta)h(x')} \\
+		                               & = \frac{h(x)}{\sum_{x' \colon T(x') = t} h(x')}
 	\end{align*}
 	which does not depend on \( \theta \).
 	By definition, \( T(X) \) is sufficient.
 
 	Conversely, suppose that \( T(X) \) is sufficient.
 	\begin{align*}
-		f_X(x \mid \theta) &= \psub{\theta}{X = x} \\
-		&= \psub{\theta}{X = x, T(X) = T(x)} \\
-		&= \underbrace{\psub{\theta}{X = x \mid T(X) = T(x)}}_{h(x)} \underbrace{\psub{\theta}{T(X) = T(x)}}_{g(T(X), \theta)}
+		f_X(x \mid \theta) & = \psub{\theta}{X = x}                                                                                                \\
+		                   & = \psub{\theta}{X = x, T(X) = T(x)}                                                                                   \\
+		                   & = \underbrace{\psub{\theta}{X = x \mid T(X) = T(x)}}_{h(x)} \underbrace{\psub{\theta}{T(X) = T(x)}}_{g(T(X), \theta)}
 	\end{align*}
 \end{proof}
 \begin{example}
 	Consider the above example with \( n \) Bernoulli random variables with mass function
-	\[ f_X(x \mid \theta) = \theta^{\sum x_i} (1-\theta)^{n - \sum x_i} \]
+	\[
+		f_X(x \mid \theta) = \theta^{\sum x_i} (1-\theta)^{n - \sum x_i}
+	\]
 	Let \( T(X) = \sum x_i \), and then the above mass function is in the form of \( g(T(X), \theta) \) and we can set \( h(x) \equiv 1 \).
 	Hence \( T(X) \) is sufficient.
 \end{example}
 \begin{example}
 	Let \( X_1, \dots, X_n \) be i.i.d.\ from a uniform distribution on the interval \( [0,\theta] \) for some \( \theta > 0 \).
 	The mass function is
-	\[ f_X(x \mid \theta) = \prod_{i=1}^n \frac{1}{\theta} 1\qty{x_i \in [0,\theta]} = \qty(\frac{1}{\theta})^{n} 1\qty{\min_i x_i \geq 0} 1\qty{\max_i x_i \leq \theta} \]
+	\[
+		f_X(x \mid \theta) = \prod_{i=1}^n \frac{1}{\theta} 1\qty{x_i \in [0,\theta]} = \qty(\frac{1}{\theta})^{n} 1\qty{\min_i x_i \geq 0} 1\qty{\max_i x_i \leq \theta}
+	\]
 	Let \( T(X) = \max_i X_i \).
 	Then
-	\[ g(T(X), \theta) = \qty(\frac{1}{\theta})^n 1\qty{\max_i x_i \leq \theta};\quad h(x) \equiv 1\qty{\min_i x_i \geq 0} \]
+	\[
+		g(T(X), \theta) = \qty(\frac{1}{\theta})^n 1\qty{\max_i x_i \leq \theta};\quad h(x) \equiv 1\qty{\min_i x_i \geq 0}
+	\]
 	We can then conclude that \( T(X) \) is sufficient for \( \theta \).
 \end{example}
 
@@ -160,7 +196,9 @@ We instead seek statistics that maximally compress and summarise the relevant da
 	Let \( t \in \Im T \).
 	Then let \( z_t \) be a representative of the equivalence class \( \qty{x \colon T(x) = t} \).
 	Then
-	\[ f_X(x \mid \theta) = f_X(z_{T(x)} \mid \theta) \frac{f_X(x \mid \theta)}{f_X(z_{T(x)} \mid \theta)} \]
+	\[
+		f_X(x \mid \theta) = f_X(z_{T(x)} \mid \theta) \frac{f_X(x \mid \theta)}{f_X(z_{T(x)} \mid \theta)}
+	\]
 	By the hypothesis, the ratio on the right hand side does not depend on \( \theta \), so let this ratio be \( h(x) \).
 	Further, the other term depends only on \( T(x) \), so it may be \( g(T(x), \theta) \).
 	Hence \( T \) is sufficient by the factorisation criterion.
@@ -168,7 +206,9 @@ We instead seek statistics that maximally compress and summarise the relevant da
 	To prove minimality, let \( S \) be any other sufficient statistic, and then by the factorisation criterion there exist \( g_S \) and \( h_S \) such that \( f_X(x \mid \theta) = g_S(S(x), \theta) h_S(x) \).
 	Now, suppose \( S(x) = S(y) \) for some \( x, y \).
 	Then,
-	\[ \frac{f_X(x \mid \theta)}{f_X(y \mid \theta)} = \frac{g_S(S(x), \theta) h_S(x)}{g_S(S(y), \theta) h_S(y)} = \frac{h_S(x)}{h_S(y)} \]
+	\[
+		\frac{f_X(x \mid \theta)}{f_X(y \mid \theta)} = \frac{g_S(S(x), \theta) h_S(x)}{g_S(S(y), \theta) h_S(y)} = \frac{h_S(x)}{h_S(y)}
+	\]
 	which is constant in \( \theta \).
 	Hence, \( x \overset{1}{\sim} y \).
 	By the hypothesis, we have \( x \overset{2}{\sim} y \), so \( T(x) = T(y) \), which is the requirement for minimality.
@@ -176,13 +216,15 @@ We instead seek statistics that maximally compress and summarise the relevant da
 \begin{example}
 	Let \( X_1, \dots, X_n \) be normal with unknown \( \mu, \sigma^2 \).
 	\begin{align*}
-		\frac{f_X(x \mid \mu, \sigma^2)}{f_X(y \mid \mu, \sigma^2)} &= \frac{(2 \pi \sigma^2)^{-n/2} \exp{-\frac{1}{2\sigma^2} \sum_i (x_i - \mu)^2}}{(2 \pi \sigma^2)^{-n/2} \exp{-\frac{1}{2\sigma^2 \sum_i (y_i - \mu)^2}}} \\
-		&= \exp{-\frac{1}{2\sigma^2} \qty(\sum_i x_i^2 - \sum_i y_i^2) + \frac{\mu}{\sigma^2} \qty(\sum_i x_i - \sum_i y_i)}
+		\frac{f_X(x \mid \mu, \sigma^2)}{f_X(y \mid \mu, \sigma^2)} & = \frac{(2 \pi \sigma^2)^{-n/2} \exp{-\frac{1}{2\sigma^2} \sum_i (x_i - \mu)^2}}{(2 \pi \sigma^2)^{-n/2} \exp{-\frac{1}{2\sigma^2 \sum_i (y_i - \mu)^2}}} \\
+		                                                            & = \exp{-\frac{1}{2\sigma^2} \qty(\sum_i x_i^2 - \sum_i y_i^2) + \frac{\mu}{\sigma^2} \qty(\sum_i x_i - \sum_i y_i)}
 	\end{align*}
 	Hence, for minimality, this is constant in the parameters \( \mu, \sigma^2 \) if and only if \( \sum_i x_i^2 = \sum_i y_i^2 \) and \( \sum_i x_i = \sum_i y_i \).
 	Thus, a minimal sufficient statistic is \( \qty(\sum_i x_i^2, \sum_i x_i) \) is a minimal sufficient statistic.
 	A more common way of expressing the minimal sufficient statistic is
-	\[ S(x) = \qty(\overline X_n, S_{xx});\quad \overline X_n = \frac{1}{n} \sum_i x_i;\quad S_{xx} = \sum_i \qty(X_i - \overline X_n)^2 \]
+	\[
+		S(x) = \qty(\overline X_n, S_{xx});\quad \overline X_n = \frac{1}{n} \sum_i x_i;\quad S_{xx} = \sum_i \qty(X_i - \overline X_n)^2
+	\]
 	which is a bijection of the above.
 \end{example}
 \begin{example}
@@ -197,23 +239,33 @@ From now, we omit this subscript, as it will be implied for much of the remainde
 \begin{theorem}
 	Let \( T \) be a sufficient statistic for \( \theta \), and define an estimator \( \widetilde \theta \) with \( \expect{{\widetilde \theta}^2} < \infty \) for all \( \theta \).
 	Now we define another estimator
-	\[ \hat \theta = \expect{\widetilde \theta \mid T(x)} \]
+	\[
+		\hat \theta = \expect{\widetilde \theta \mid T(x)}
+	\]
 	Then, for all values of \( \theta \), we have
-	\[ \expect{\qty(\hat \theta - \theta)^2} \leq \expect{\qty(\widetilde \theta - \theta)^2} \]
+	\[
+		\expect{\qty(\hat \theta - \theta)^2} \leq \expect{\qty(\widetilde \theta - \theta)^2}
+	\]
 	In other words, the mean squared error of \( \hat \theta \) is not greater than the mean squared error of \( \widetilde \theta \).
 	Further, the inequality is strict unless \( \widetilde \theta \) is a function of \( T \).
 \end{theorem}
 \begin{remark}
 	Starting from any estimator \( \widetilde \theta \), if we condition on the sufficient statistic \( T \) we obtain a `better' statistic \( \hat \theta \).
 	Note that \( T \) must be sufficient, otherwise \( \hat \theta \) may be a function of \( \theta \) and thus not an estimator:
-	\[ \hat \theta(X) = \hat \theta(T) = \int \hat \theta(x) \underbrace{f_{X \mid T}(x \mid T)}_{\mathclap{\text{does not depend on } \theta \text{ as } T \text{ is sufficient}}} \dd{x} \]
+	\[
+		\hat \theta(X) = \hat \theta(T) = \int \hat \theta(x) \underbrace{f_{X \mid T}(x \mid T)}_{\mathclap{\text{does not depend on } \theta \text{ as } T \text{ is sufficient}}} \dd{x}
+	\]
 \end{remark}
 \begin{proof}
 	By the tower property of the expectation, we can find
-	\[ \expect{\hat \theta} = \expect{\expect{\widetilde \theta \mid T(x)}} = \expect{\widetilde \theta} \]
+	\[
+		\expect{\hat \theta} = \expect{\expect{\widetilde \theta \mid T(x)}} = \expect{\widetilde \theta}
+	\]
 	Hence, subtracting \( \widetilde \theta \) from both sides, we find \( \mathrm{bias}\qty(\hat\theta) = \mathrm{bias}\qty(\widetilde\theta) \).
 	By the conditional variance formula,
-	\[ \Var{\widetilde \theta} = \expect{\underbrace{\Var{\widetilde \theta \mid T}}_{\geq 0}} + \underbrace{\Var{\expect{\widetilde \theta \mid T}}}_{\Var{\hat\theta}} \geq \Var{hat \theta} \]
+	\[
+		\Var{\widetilde \theta} = \expect{\underbrace{\Var{\widetilde \theta \mid T}}_{\geq 0}} + \underbrace{\Var{\expect{\widetilde \theta \mid T}}}_{\Var{\hat\theta}} \geq \Var{hat \theta}
+	\]
 	By the bias-variance decomposition, we know that \( \mathrm{mse}\qty(\widetilde \theta) \geq \mathrm{mse}\qty(\hat \theta) \).
 	The inequality is strict unless \( \Var{\widetilde \theta \mid T} = 0 \) almost surely.
 	This requires that \( \widetilde \theta \) is a function of \( T \).
@@ -222,22 +274,28 @@ From now, we omit this subscript, as it will be implied for much of the remainde
 	Let \( X_1, \dots, X_n \) be i.i.d.\ Poisson random variables with parameter \( \lambda \).
 	Then let \( \theta = \prob{X_1 = 0} = e^{-\lambda} \).
 	Here,
-	\[ f_X(x \mid \lambda) = \frac{e^{-n \lambda} \lambda^{\sum x_i}}{\prod x_i!} \implies f_X(x \mid \theta) = \frac{\theta^n (-\log \theta)^{\sum x_i}}{\prod x_i!} \]
+	\[
+		f_X(x \mid \lambda) = \frac{e^{-n \lambda} \lambda^{\sum x_i}}{\prod x_i!} \implies f_X(x \mid \theta) = \frac{\theta^n (-\log \theta)^{\sum x_i}}{\prod x_i!}
+	\]
 	Using the factorisation criterion, we find
-	\[ g(T(x), \theta) = g\qty(\sum x_i, \theta) = \theta^n (-\log\theta)^{\sum x_i};\quad h(x) = \frac{1}{\prod x_i!} \]
+	\[
+		g(T(x), \theta) = g\qty(\sum x_i, \theta) = \theta^n (-\log\theta)^{\sum x_i};\quad h(x) = \frac{1}{\prod x_i!}
+	\]
 	so \( T(x) = \sum x_i \) is sufficient.
 	Note that \( \sum X_i \) has a Poisson distribution with parameter \( n \lambda \).
 	Consider the estimator \( \widetilde \theta = 1\qty{X_1 = 0} \).
 	This depends only on \( X_1 \), hence it is a weak estimator.
 	However, it is unbiased, so when we apply the Rao-Blackwell theorem we will construct an unbiased \( \hat \theta \), which is precisely
 	\begin{align*}
-		\hat \theta = \expect{\widetilde \theta \mid \sum X_i = t} &= \prob{X_1 = 0 \mid \sum X_i = t} \\
-		&= \frac{\prob{X_1 = 0, \sum X_i = t}}{\prob{\sum X_i = t}} \\
-		&= \frac{\prob{X_1 = 0}\prob{\sum_{i=2}^n X_i = t}}{\prob{\sum_{i=1}^n X_i = t}} \\
-		&= \qty(\frac{n-1}{n})^t
+		\hat \theta = \expect{\widetilde \theta \mid \sum X_i = t} & = \prob{X_1 = 0 \mid \sum X_i = t}                                              \\
+		                                                           & = \frac{\prob{X_1 = 0, \sum X_i = t}}{\prob{\sum X_i = t}}                      \\
+		                                                           & = \frac{\prob{X_1 = 0}\prob{\sum_{i=2}^n X_i = t}}{\prob{\sum_{i=1}^n X_i = t}} \\
+		                                                           & = \qty(\frac{n-1}{n})^t
 	\end{align*}
 	This may also be written
-	\[ \hat \theta = \qty(1 - \frac{1}{n})^{\sum x_i} \]
+	\[
+		\hat \theta = \qty(1 - \frac{1}{n})^{\sum x_i}
+	\]
 	which is an estimator with lower mean squared error than \( \widetilde 1 \) for all \( \theta \).
 	Note that \( \hat \theta = \qty(1 = \frac{1}{n})^{n \overline X_n} \) converges in the limit to \( e^{-\overline X_n} \).
 	By the strong law of large numbers, \( \overline X_n \to \expect{X_1} = \lambda \), so we arrive at \( \hat \theta \to e^{-\lambda} = \theta \) almost surely.
@@ -250,19 +308,19 @@ From now, we omit this subscript, as it will be implied for much of the remainde
 	This is an unbiased estimator of \( \theta \).
 	Then the Rao-Blackwellised estimator \( \hat \theta \) is
 	\begin{align*}
-		\hat \theta &= \expect{\widetilde \theta \mid T = t} \\
-		&= 2 \expect{X_1 \mid \max X_i = t} \\
-		&= 2 \expect{X_1 \mid \max X_i = t, X_1 = \max X_i} \prob{X_1 = \max X_i \mid \max X_i = t} \\
-		&+ 2 \expect{X_1 \mid \max X_i = t, X_1 \neq \max X_i} \prob{X_1 \neq \max X_i \mid \max X_i = t} \\
+		\hat \theta & = \expect{\widetilde \theta \mid T = t}                                                          \\
+		            & = 2 \expect{X_1 \mid \max X_i = t}                                                               \\
+		            & = 2 \expect{X_1 \mid \max X_i = t, X_1 = \max X_i} \prob{X_1 = \max X_i \mid \max X_i = t}       \\
+		            & + 2 \expect{X_1 \mid \max X_i = t, X_1 \neq \max X_i} \prob{X_1 \neq \max X_i \mid \max X_i = t} \\
 	\end{align*}
 	Since \( X_1, \dots, X_n \) are i.i.d., the conditional probability \( \prob{X_1 = \max X_i \mid \max X_i = t} \) can be reduced to \( \prob{X_1 = \max X_i} = \frac{1}{n} \).
 	The complementary event may be reduced in an analogous way.
 	The expectation \( \expect{X_1 \mid \max X_i = t, X_1 = \max X_i} \) can be reduced to \( t \).
 	\begin{align*}
-		\hat \theta &= \frac{2t}{n} + \frac{2(n-1)}{n} \expect{X_1 \mid X_1 < t, \max_{i=2}^n X_i = t} \\
-		&= \frac{2t}{n} + \frac{2(n-1)}{n} \expect{X_1 \mid X_1 < t} \\
-		&= \frac{2t}{n} + \frac{2(n-1)}{n} \frac{t}{2} \\
-		&= \frac{2t}{n} + \frac{t(n-1)}{n} = \frac{n+1}{n} \max_i X_i
+		\hat \theta & = \frac{2t}{n} + \frac{2(n-1)}{n} \expect{X_1 \mid X_1 < t, \max_{i=2}^n X_i = t} \\
+		            & = \frac{2t}{n} + \frac{2(n-1)}{n} \expect{X_1 \mid X_1 < t}                       \\
+		            & = \frac{2t}{n} + \frac{2(n-1)}{n} \frac{t}{2}                                     \\
+		            & = \frac{2t}{n} + \frac{t(n-1)}{n} = \frac{n+1}{n} \max_i X_i
 	\end{align*}
 	By the Rao-Blackwell theorem, the mean squared error of \( \hat \theta \) is not greater than the mean squared error of \( \widetilde \theta \).
 	This is also an unbiased estimator.
@@ -272,9 +330,13 @@ From now, we omit this subscript, as it will be implied for much of the remainde
 Let \( X_1, \dots, X_n \) be i.i.d.\ random variables with mass or density function \( f_X(x \mid \theta) \).
 \begin{definition}
 	For fixed observations \( x \), the \textit{likelihood function} \( L \colon \Theta \to \mathbb R \) is given by
-	\[ L(\theta) = f_X(x \mid \theta) = \prod_{i=1}^n f_{X_i} (x_i \mid \theta) \]
+	\[
+		L(\theta) = f_X(x \mid \theta) = \prod_{i=1}^n f_{X_i} (x_i \mid \theta)
+	\]
 	We will denote the \textit{log-likelihood} by
-	\[ \ell(\theta) = \log L(\theta) = \sum_{i=1}^n \log f_{X_i} (x_i \mid \theta) \]
+	\[
+		\ell(\theta) = \log L(\theta) = \sum_{i=1}^n \log f_{X_i} (x_i \mid \theta)
+	\]
 \end{definition}
 \begin{definition}
 	A \textit{maximum likelihood estimator} is an estimator that maximises the likelihood function \( L \) over \( \Theta \).
@@ -283,40 +345,60 @@ Let \( X_1, \dots, X_n \) be i.i.d.\ random variables with mass or density funct
 \begin{example}
 	Let \( X_1, \dots, X_n \) be i.i.d.\ Bernoulli random variables with parameter \( p \).
 	The log-likelihood function is
-	\[ \ell(p) = \sum_{i=1}^n [X_i \log p + (1-X_i) \log (1-p)] = \log p + \sum X_i + \log(1-p) \qty(n - \sum X_i) \]
+	\[
+		\ell(p) = \sum_{i=1}^n [X_i \log p + (1-X_i) \log (1-p)] = \log p + \sum X_i + \log(1-p) \qty(n - \sum X_i)
+	\]
 	The derivative is
-	\[ \ell'(p) = \frac{\sum X_i}{p} + \frac{n - \sum X_i}{1-p} \]
+	\[
+		\ell'(p) = \frac{\sum X_i}{p} + \frac{n - \sum X_i}{1-p}
+	\]
 	which has a single stationary point at \( p = \frac{1}{n} \sum X_i = \overline X_n \).
 	We have \( \expect{\hat p} = p \), so the maximum likelihood estimator in this case is unbiased.
 \end{example}
 \begin{example}
 	Let \( X_1, \dots, X_n \) be i.i.d.\ normal random variables with unknown mean \( \mu \) and variance \( \sigma^2 \).
-	\[ \ell(\mu, \sigma^2) = -\frac{n}{2} \log(2\pi) - \frac{n}{2} \log \sigma^2 - \frac{1}{2\sigma^2} \sum (X_i - \mu)^2 \]
+	\[
+		\ell(\mu, \sigma^2) = -\frac{n}{2} \log(2\pi) - \frac{n}{2} \log \sigma^2 - \frac{1}{2\sigma^2} \sum (X_i - \mu)^2
+	\]
 	This function is concave in \( \mu \) and \( \sigma^2 \), so there exists a unique maximiser.
 	In particular, \( \ell \) is maximised when \( \pdv{\ell}{\mu} = \pdv{\ell}{\sigma^2} = 0 \).
-	\[ \pdv{\ell}{\mu} = -\frac{1}{\sigma^2} \sum (X_i - \mu) \]
+	\[
+		\pdv{\ell}{\mu} = -\frac{1}{\sigma^2} \sum (X_i - \mu)
+	\]
 	This is zero if \( \mu = \overline X_n \).
 	Further,
-	\[ \pdv{\ell}{\sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4} \sum (X_i - \mu)^2 = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4} \sum (X_i - \overline X_n)^2 \]
+	\[
+		\pdv{\ell}{\sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4} \sum (X_i - \mu)^2 = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4} \sum (X_i - \overline X_n)^2
+	\]
 	This is zero if and only if
-	\[ \sigma^2 = \frac{1}{n} \sum (X_i - \overline X_n)^2 = \frac{S_{xx}}{n} \]
+	\[
+		\sigma^2 = \frac{1}{n} \sum (X_i - \overline X_n)^2 = \frac{S_{xx}}{n}
+	\]
 	Hence, the maximum likelihood estimator is \( \qty(\hat \mu, \hat \sigma^2) = \qty(\overline X_n, \frac{1}{n} S_{xx}) \).
 	We can show that \( \hat \mu \) is unbiased.
 	We will later prove that
-	\[ \frac{S_{xx}}{\sigma^2} = \frac{n\hat \sigma^2}{\sigma^2} \sim \chi_{n-1}^2 \]
+	\[
+		\frac{S_{xx}}{\sigma^2} = \frac{n\hat \sigma^2}{\sigma^2} \sim \chi_{n-1}^2
+	\]
 	Hence
-	\[ \expect{\hat \sigma^2} = \frac{\sigma^2}{n} \expect{\chi_{n-1}^2} = \sigma^2 \frac{n-1}{n} \]
+	\[
+		\expect{\hat \sigma^2} = \frac{\sigma^2}{n} \expect{\chi_{n-1}^2} = \sigma^2 \frac{n-1}{n}
+	\]
 	This is therefore a biased estimator, but the bias converges to zero as \( n \to \infty \): \( \hat \sigma^2 \) is \textit{asymptotically unbiased}.
 \end{example}
 \begin{example}
 	Let \( X_1, \dots, X_n \) be i.i.d.\ uniform random variables on \( [0,\theta] \).
 	Here, we derived the unbiased estimator \( \hat \theta = \frac{n+1}{n} \max X_i \).
 	The likelihood is given by
-	\[ L(\theta) = \frac{1}{\theta^n} 1\qty{\max X_i \leq \theta} \]
+	\[
+		L(\theta) = \frac{1}{\theta^n} 1\qty{\max X_i \leq \theta}
+	\]
 	This function is maximised at \( \hat \theta_{\mathrm{mle}} = \max X_i \).
 	By comparison to the \( \hat \theta \) derived from the Rao-Blackwell process, \( \hat \theta_{\mathrm{mle}} \) is biased.
 	In particular,
-	\[ \expect{\hat \theta_{\mathrm{mle}}} = \frac{n}{n+1} \expect{\hat \theta} = \frac{n}{n+1} \theta \]
+	\[
+		\expect{\hat \theta_{\mathrm{mle}}} = \frac{n}{n+1} \expect{\hat \theta} = \frac{n}{n+1} \theta
+	\]
 \end{example}
 \begin{remark}
 	If \( T \) is a sufficient statistic for \( \theta \), then the maximum likelihood estimator is a function of \( T \).
@@ -325,7 +407,9 @@ Let \( X_1, \dots, X_n \) be i.i.d.\ random variables with mass or density funct
 
 	Under some regularity conditions, as \( n \to \infty \) the statistic \( \sqrt{n} (\hat \theta - \theta) \) is approximately normal with mean zero and covariance matrix \( \Sigma \).
 	More precisely, for `nice' sets \( A \), we have
-	\[ \prob{\sqrt{n} \qty(\hat \theta - \theta) \in A} \to \prob{Z \in A};\quad Z \sim N(0, \Sigma) \]
+	\[
+		\prob{\sqrt{n} \qty(\hat \theta - \theta) \in A} \to \prob{Z \in A};\quad Z \sim N(0, \Sigma)
+	\]
 	We say that the maximum likelihood estimator is \textit{asymptotically normal}.
 	The limiting covariance matrix \( \Sigma \) is a known function of \( \ell \), which will not be defined in this course.
 	In some sense, \( \Sigma \) is the smallest variance that any estimator can achieve asymptotically.

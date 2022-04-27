@@ -24,7 +24,8 @@ We use the observed \( X = (X_1, \dots, X_n) \) to make inferences about the par
 \end{remark}
 
 \subsection{Review of IA Probability}
-\textit{This subsection reviews material covered in the IA Probability course. Some keywords are measure-theoretic, and are not defined.}
+\textit{This subsection reviews material covered in the IA Probability course.
+	Some keywords are measure-theoretic, and are not defined.}
 
 Let \( \Omega \) be the \textit{sample space} of outcomes in an experiment.
 A \textit{measurable} subset of \( \Omega \) is called an \textit{event}, and we denote the set of events by \( \mathcal F \).
@@ -41,59 +42,87 @@ The \textit{probability mass function} of a discrete random variable is the func
 We say that \( X \) has a \textit{continuous distribution} if it has a \textit{probability density function} \( f_X(x) \) such that \( \prob{x \in A} = \int_A f_X(x) \dd{x} \) for `nice' sets \( A \).
 
 The \textit{expectation} of a random variable \( X \) is defined as
-\[ \expect{X} = \begin{cases}
-	\sum_{x \in X} x p_X(x) & \text{if } X \text{ discrete} \\
-	\int_{-\infty}^\infty x f_X(x) \dd{x} & \text{if } X \text{ continuous}
-\end{cases} \]
+\[
+	\expect{X} = \begin{cases}
+		\sum_{x \in X} x p_X(x)               & \text{if } X \text{ discrete}   \\
+		\int_{-\infty}^\infty x f_X(x) \dd{x} & \text{if } X \text{ continuous}
+	\end{cases}
+\]
 If \( g \colon \mathbb R \to \mathbb R \), we define \( \expect{g(X)} \) by considering the fact that \( g(X) \) is also a random variable.
 For instance, in the continuous case,
-\[ \expect{g(X)} = \int_{-\infty}^\infty g(x) f_X(x) \dd{x} \]
+\[
+	\expect{g(X)} = \int_{-\infty}^\infty g(x) f_X(x) \dd{x}
+\]
 The \textit{variance} of a random variable \( X \) is defined as \( \expect{(X - \expect{X})^2} \).
 
 We say that a set of random variables \( X_1, \dots, X_n \) are \textit{independent} if, for all \( x_1, \dots, x_n \), we have
-\[ \prob{X_1 \leq x_1, \dots, X_n \leq x_n} = \prob{X_1 \leq x_1} \cdots \prob{X_n \leq x_n} \]
+\[
+	\prob{X_1 \leq x_1, \dots, X_n \leq x_n} = \prob{X_1 \leq x_1} \cdots \prob{X_n \leq x_n}
+\]
 If and only if \( X_1, \dots, X_n \) have probability density (or mass) functions \( f_1, \dots, f_n \), then the \textit{joint probability density (respectively mass) function} is
-\[ f_X(x) = \prod_{i = 1}^n f_{X_i}(x_i) \]
+\[
+	f_X(x) = \prod_{i = 1}^n f_{X_i}(x_i)
+\]
 
 If \( Y = \max\qty{X_1, \dots, X_n} \) where the \( X_i \) are independent, then the distribution function of \( Y \) is given by
-\[ \prob{Y \leq y} = \prob{X_1 \leq y} \cdots \prob{X_n \leq y} \]
+\[
+	\prob{Y \leq y} = \prob{X_1 \leq y} \cdots \prob{X_n \leq y}
+\]
 The probability density function of \( Y \) (if it exists) is obtained by the differentiating the above.
 
 Under a linear transformation, the expectation and variance have certain properties.
 Let \( a = (a_1, \dots, a_n)^\transpose \in \mathbb R^n \) be a constant in \( \mathbb R^n \).
-\[ \expect{a_1 X_1 + \dots + a_n X_n} = \expect{a^\transpose X} = a^\transpose \expect{X} \]
+\[
+	\expect{a_1 X_1 + \dots + a_n X_n} = \expect{a^\transpose X} = a^\transpose \expect{X}
+\]
 where \( \expect{X} \) is defined componentwise.
 Note that independence of \( X_i \) is not required for linearity of the expectation to hold.
 Similarly,
-\[ \Var{a^\transpose X} = \sum_{i,j} a_i a_j \Cov{X_i, X_j} = a^\transpose \Var{X} a \]
+\[
+	\Var{a^\transpose X} = \sum_{i,j} a_i a_j \Cov{X_i, X_j} = a^\transpose \Var{X} a
+\]
 where we define \( \Cov{X, Y} \equiv \expect{(X - \expect{X})(Y - \expect{Y})} \), and \( \Var{X} \) is the \textit{variance-covariance matrix} with entries \( (\Var{X})_{ij} = \Cov{X_i, X_j} \).
 We can say that the variance is bilinear.
 
 \subsection{Standardised statistics}
 Suppose that \( X_1, \dots, X_n \) are i.i.d.\ and \( \expect{X_1} = \mu \), \( \Var{X_1} = \sigma^2 \).
 We define
-\[ S_n = \sum_i X_i;\quad \overline{X_n} = \frac{S_n}{n} \]
+\[
+	S_n = \sum_i X_i;\quad \overline{X_n} = \frac{S_n}{n}
+\]
 where \( \overline{X_n} \) is called the \textit{sample mean}.
 By linearity of expectation and bilinearity of variance,
-\[ \expect{\overline{X_n}} = \mu;\quad \Var{\overline {X_n}} = \frac{\sigma^2}{n} \]
+\[
+	\expect{\overline{X_n}} = \mu;\quad \Var{\overline {X_n}} = \frac{\sigma^2}{n}
+\]
 We further define
-\[ Z_n = \frac{S_n - n\mu}{\sigma\sqrt{n}} = \sqrt{n} \frac{\overline X_n - \mu}{\sigma} \]
+\[
+	Z_n = \frac{S_n - n\mu}{\sigma\sqrt{n}} = \sqrt{n} \frac{\overline X_n - \mu}{\sigma}
+\]
 which has the properties that
-\[ \expect{\overline Z_n} = 0;\quad \Var{Z_n} = 1 \]
+\[
+	\expect{\overline Z_n} = 0;\quad \Var{Z_n} = 1
+\]
 
 \subsection{Moment generating functions}
 The \textit{moment generating function} of a random variable \( X \) is the function \( M_X(t) = \expect{e^{tX}} \), provided that this function exists for \( t \) in some neighbourhood of zero,
 This can be thought of as the Laplace transform of the probability density function.
 Note that
-\[ \expect{X^n} = \dv[n]{t} \eval{M_X(t)}_{t = 0} \]
+\[
+	\expect{X^n} = \dv[n]{t} \eval{M_X(t)}_{t = 0}
+\]
 Under broad conditions, moment generating functions uniquely define a distribution function of a random variable.
 In other words, the Laplace transform is invertible.
 They are also useful for finding the distribution of sums of independent random variables.
 For instance, let \( X_1, \dots, X_n \) be i.i.d.\ Poisson random variables with parameter \( \mu \).
 Then, the moment generating function of \( X_i \) is
-\[ M_{X_1}(t) = \expect{e^{tX_i}} = \sum_{x = 0}^\infty e^{tx} e^{-\mu} \frac{\mu^x}{x!} = e^{-\mu} \sum_{x=0}^\infty \frac{(e^t \mu)^x}{x!} = e^{-\mu} e^{\mu e^t} = e^{-\mu(1-e^t)} \]
+\[
+	M_{X_1}(t) = \expect{e^{tX_i}} = \sum_{x = 0}^\infty e^{tx} e^{-\mu} \frac{\mu^x}{x!} = e^{-\mu} \sum_{x=0}^\infty \frac{(e^t \mu)^x}{x!} = e^{-\mu} e^{\mu e^t} = e^{-\mu(1-e^t)}
+\]
 Now,
-\[ M_{S_n}(t) = \expect{e^{tS_n}} = \prod_{i=1}^n \expect{e^{tX_i}} = e^{-n\mu(1-e^t)} \]
+\[
+	M_{S_n}(t) = \expect{e^{tS_n}} = \prod_{i=1}^n \expect{e^{tX_i}} = e^{-n\mu(1-e^t)}
+\]
 This defines a Poisson distribution with parameter \( n \mu \) by inspection.
 
 \subsection{Limit theorems}
@@ -108,34 +137,50 @@ More precisely, \( \prob{Z_n \leq z} \to \Phi(z) \) for all \( z \in \mathbb R \
 
 \subsection{Conditional probability}
 If \( X, Y \) are discrete random variables, we can define the conditional probability mass function to be
-\[ p_{X \mid Y}(x \mid y) = \frac{\prob{X = x, Y = y}}{\prob{Y = y}} \]
+\[
+	p_{X \mid Y}(x \mid y) = \frac{\prob{X = x, Y = y}}{\prob{Y = y}}
+\]
 when \( \prob{Y = y} \neq 0 \).
 If \( X, Y \) are continuous, we define the joint probability density function to be \( f_{X, Y}(x,y) \) such that
-\[ \prob{X \leq x, Y \leq y} = \int_{-\infty}^x \int_{-\infty}^y f(x',y') \dd{y'}\dd{x'} \]
+\[
+	\prob{X \leq x, Y \leq y} = \int_{-\infty}^x \int_{-\infty}^y f(x',y') \dd{y'}\dd{x'}
+\]
 The conditional probability density function is
-\[ f_{X \mid Y}(x \mid y) = \frac{f_{X, Y}(x,y)}{\int_{-\infty}^\infty f_{X,Y}(x,y) \dd{x}} \]
+\[
+	f_{X \mid Y}(x \mid y) = \frac{f_{X, Y}(x,y)}{\int_{-\infty}^\infty f_{X,Y}(x,y) \dd{x}}
+\]
 The denominator is sometimes referred to as the \textit{marginal probability density function} of \( Y \), written \( f_Y(y) \).
 Now, we can define the conditional expectation by
-\[ \expect{X \mid Y} = \begin{cases}
-	\sum_x x p_{X \mid Y}(x \mid Y) & \text{if } X \text{ discrete} \\
-	\int_x x f_{X \mid Y}(x \mid Y) \dd{x} & \text{if } X \text{ continuous}
-\end{cases} \]
+\[
+	\expect{X \mid Y} = \begin{cases}
+		\sum_x x p_{X \mid Y}(x \mid Y)        & \text{if } X \text{ discrete}   \\
+		\int_x x f_{X \mid Y}(x \mid Y) \dd{x} & \text{if } X \text{ continuous}
+	\end{cases}
+\]
 The conditional expectation is itself a random variable, as it is a function of the random variable \( Y \).
 The conditional variance is defined similarly, and is a random variable.
 The \textit{tower property} is that
-\[ \expect{\expect{X \mid Y}} = \expect{X} \]
+\[
+	\expect{\expect{X \mid Y}} = \expect{X}
+\]
 The \textit{law of total variance} is that
-\[ \Var{X} = \expect{\Var{X \mid Y}} + \Var{\expect{X \mid Y}} \]
+\[
+	\Var{X} = \expect{\Var{X \mid Y}} + \Var{\expect{X \mid Y}}
+\]
 
 \subsection{Change of variables in two dimensions}
 Suppose that \( (x, y) \mapsto (u,v) \) is a differentiable bijection from \( \mathbb R^2 \) to itself.
 Then, the joint probability density function of \( U,V \) can be written as
-\[ f_{U,V}(u,v) = f_{X,Y}(x(u,v), y(u,v)) \abs{\det J} \]
+\[
+	f_{U,V}(u,v) = f_{X,Y}(x(u,v), y(u,v)) \abs{\det J}
+\]
 where \( J \) is the Jacobian matrix,
-\[ J = \pdv{(x,y)}{(u,v)} = \begin{pmatrix}
-	\pdv*{x}{u} & \pdv*{x}{v} \\
-	\pdv*{y}{u} & \pdv*{y}{v}
-\end{pmatrix} \]
+\[
+	J = \pdv{(x,y)}{(u,v)} = \begin{pmatrix}
+		\pdv*{x}{u} & \pdv*{x}{v} \\
+		\pdv*{y}{u} & \pdv*{y}{v}
+	\end{pmatrix}
+\]
 
 \subsection{Common distributions}
 \( X \) has the binomial distribution with parameters \( n, p \) if \( X \) represents the number of successes in \( n \) independent Bernoulli trials with parameter \( p \).
@@ -151,7 +196,9 @@ The Poisson distribution with parameter \( \lambda \) is the limit of the distri
 
 If \( X_i \sim \Gamma(\alpha_i, \lambda) \) for \( i = 1, \dots, n \) with \( X_1, \dots, X_n \) independent, then the distribution of \( S_n \) is given by the product of the moment generating functions.
 By inspection,
-\[ M_{S_n}(t) = \qty(\frac{\lambda}{\lambda - t})^{\sum_i \alpha_i} \]
+\[
+	M_{S_n}(t) = \qty(\frac{\lambda}{\lambda - t})^{\sum_i \alpha_i}
+\]
 or \( \infty \) if \( t \geq \lambda \).
 Hence the sum of these random variables is \( S_n \sim \Gamma\qty(\sum_{i} \alpha_i, \lambda) \), where the shape parameter \( \alpha \) is constructed from the sum of the shape parameters of the original functions.
 We call \( \lambda \) the rate parameter, and \( \lambda^{-1} \) is called the scale parameter.

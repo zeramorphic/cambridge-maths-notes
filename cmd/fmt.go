@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"strings"
 	"sync"
 
 	"github.com/fatih/color"
@@ -131,6 +132,16 @@ func format() {
 						color.HiRed("Latexindent failed on file %v", file)
 					}
 					bar.Add(1)
+
+					// Then convert CRLF to LF again, just in case.
+					fileContents, err = os.ReadFile(input)
+					if err != nil {
+						color.HiRed("File %v did not exist, %v", file, err)
+						bar.Add(1)
+						continue
+					}
+
+					os.WriteFile(input, []byte(strings.ReplaceAll(string(fileContents), "\r\n", "\n")), 0)
 
 				default:
 					// Check if the progress bar is full.

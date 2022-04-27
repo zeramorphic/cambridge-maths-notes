@@ -1,38 +1,48 @@
 \subsection{Multivariate normal distribution}
 Let \( X = (X_1, \dots, X_n) \) be a vector of random variables.
 Then we define
-\[ \expect{X} = \begin{pmatrix}
-    \expect{X_1} \\
-    \vdots \\
-    \expect{X_n}
-\end{pmatrix};\quad \Var{X} = \qty( \expect{\qty(X_i - \expect{X_i})\qty(X_j - \expect{X_j})} )_{i,j} \]
+\[
+	\expect{X} = \begin{pmatrix}
+		\expect{X_1} \\
+		\vdots       \\
+		\expect{X_n}
+	\end{pmatrix};\quad \Var{X} = \qty( \expect{\qty(X_i - \expect{X_i})\qty(X_j - \expect{X_j})} )_{i,j}
+\]
 The familiar linearity results are
-\[ \expect{AX+b} = A\expect{X} + b;\quad A \Var{X} A^\transpose \]
+\[
+	\expect{AX+b} = A\expect{X} + b;\quad A \Var{X} A^\transpose
+\]
 where \( A \in \mathbb R^{k \times n}, b \in \mathbb R^k \) are constant.
 \begin{definition}
-    We say that \( X \) has a \textit{multivariate normal distribution} if, for any fixed \( t \in \mathbb R^n \), we have \( t^\transpose X \sim N(\mu, \sigma^2) \) for some parameters \( \mu, \sigma^2 \).
+	We say that \( X \) has a \textit{multivariate normal distribution} if, for any fixed \( t \in \mathbb R^n \), we have \( t^\transpose X \sim N(\mu, \sigma^2) \) for some parameters \( \mu, \sigma^2 \).
 \end{definition}
 \begin{proposition}
-    Let \( X \) be multivariate normal.
-    Then \( AX+b \) is multivariate normal, where \( A \in \mathbb R^{k \times n}, b \in \mathbb R^k \) are constant.
+	Let \( X \) be multivariate normal.
+	Then \( AX+b \) is multivariate normal, where \( A \in \mathbb R^{k \times n}, b \in \mathbb R^k \) are constant.
 \end{proposition}
 \begin{proof}
-    Let \( t \in \mathbb R^k \).
-    Then,
-    \[ t^\transpose (Ax+b) = \underbrace{(A^\transpose t)^\transpose X}_{\sim N(\mu, \sigma^2)} + t^\transpose b \]
-    which is the sum of a normal random variable and a constant.
-    So this is \( N(\mu + t^\transpose b, \sigma^2) \).
+	Let \( t \in \mathbb R^k \).
+	Then,
+	\[
+		t^\transpose (Ax+b) = \underbrace{(A^\transpose t)^\transpose X}_{\sim N(\mu, \sigma^2)} + t^\transpose b
+	\]
+	which is the sum of a normal random variable and a constant.
+	So this is \( N(\mu + t^\transpose b, \sigma^2) \).
 \end{proof}
 \begin{proposition}
-    A multivariate normal distribution is fully specified by its mean and covariance matrix.
+	A multivariate normal distribution is fully specified by its mean and covariance matrix.
 \end{proposition}
 \begin{proof}
-    Let \( X_1, X_2 \) be multivariate normal vectors with the same mean \( \mu \) and the same covariance matrix \( \Sigma \).
-    We will show that these two random variables have the same moment generating function, and hence the same distribution.
-    \[ M_{X_1}(t) = \expect{ e^{1 \cdot t^\transpose X_1} } \]
+	Let \( X_1, X_2 \) be multivariate normal vectors with the same mean \( \mu \) and the same covariance matrix \( \Sigma \).
+	We will show that these two random variables have the same moment generating function, and hence the same distribution.
+	\[
+		M_{X_1}(t) = \expect{ e^{1 \cdot t^\transpose X_1} }
+	\]
 	Note that \( t^\transpose X_1 \) is univariate normal.
 	Hence, this is equal to
-	\[ M_{X_1}(t) = \exp(1 \cdot \expect{t^\transpose X_1} + \frac{1}{2} \Var{t^\transpose X_1} \cdot 1^2) = \exp(t^\transpose \mu + \frac{1}{2} t^\transpose \Sigma t) \]
+	\[
+		M_{X_1}(t) = \exp(1 \cdot \expect{t^\transpose X_1} + \frac{1}{2} \Var{t^\transpose X_1} \cdot 1^2) = \exp(t^\transpose \mu + \frac{1}{2} t^\transpose \Sigma t)
+	\]
 	This depends only on \( \mu \) and \( \Sigma \), and we obtain the same moment generating function for \( X_2 \).
 \end{proof}
 
@@ -93,54 +103,68 @@ where \( A \in \mathbb R^{k \times n}, b \in \mathbb R^k \) are constant.
 \begin{proof}
 	The vector \( (P, I-P)^\transpose X \) is multivariate normal, since it is a linear function of \( X \).
 	This distribution is fully specified by its mean and variance.
-	\[ \expect{\begin{pmatrix}
-		PX \\
-		(I-P)X
-	\end{pmatrix}} = \begin{pmatrix}
-		P \\
-		I-P
-	\end{pmatrix} \expect{X} = 0 \]
+	\[
+		\expect{\begin{pmatrix}
+				PX \\
+				(I-P)X
+			\end{pmatrix}} = \begin{pmatrix}
+			P \\
+			I-P
+		\end{pmatrix} \expect{X} = 0
+	\]
 	Further,
-	\[ \Var{\begin{pmatrix}
-		PX \\
-		(I-P)X
-	\end{pmatrix}} = \begin{pmatrix}
-		P \\
-		I - P
-	\end{pmatrix} \sigma^2 I \begin{pmatrix}
-		P \\
-		I - P
-	\end{pmatrix} = \sigma^2 \begin{pmatrix}
-		P^2 & P(I-P) \\
-		P(I-P) & (I-P)^2
-	\end{pmatrix} = \sigma^2 \begin{pmatrix}
-		P & 0 \\
-		0 & I-P
-	\end{pmatrix} \]
+	\[
+		\Var{\begin{pmatrix}
+				PX \\
+				(I-P)X
+			\end{pmatrix}} = \begin{pmatrix}
+			P \\
+			I - P
+		\end{pmatrix} \sigma^2 I \begin{pmatrix}
+			P \\
+			I - P
+		\end{pmatrix} = \sigma^2 \begin{pmatrix}
+			P^2    & P(I-P)  \\
+			P(I-P) & (I-P)^2
+		\end{pmatrix} = \sigma^2 \begin{pmatrix}
+			P & 0   \\
+			0 & I-P
+		\end{pmatrix}
+	\]
 	Now we must show that the variables \( PX, (I-P)X \) are independent.
 	Let \( Z \sim N(0,\sigma^2 P), Z' \sim N(0,\sigma^2(I-P)) \) be independent.
 	Then we can see that \( (Z, Z')^\transpose \) is multivariate normal with
-	\[ \mu = 0;\quad \Sigma = \begin{pmatrix}
-		P & 0 \\
-		0 & I - P
-	\end{pmatrix} \]
+	\[
+		\mu = 0;\quad \Sigma = \begin{pmatrix}
+			P & 0     \\
+			0 & I - P
+		\end{pmatrix}
+	\]
 	Hence \( (PX, (1-P)X)^\transpose \) is equal in distribution to \( (Z, Z')^\transpose \).
 	So \( PX \) is independent of \( (I-P)X \).
 
 	We must show that \( \frac{\norm{PX}^2}{\sigma^2} \sim \chi^2_{\rank P} \).
 	Note that
-	\[ \frac{\norm{PX}^2}{\sigma^2} = \frac{X^\transpose P^\transpose P X}{\sigma^2} = \frac{X^\transpose \qty(U U^\transpose)^\transpose U U^\transpose}{\sigma^2} = \frac{\norm{U^\transpose X}^2}{\sigma^2} \]
+	\[
+		\frac{\norm{PX}^2}{\sigma^2} = \frac{X^\transpose P^\transpose P X}{\sigma^2} = \frac{X^\transpose \qty(U U^\transpose)^\transpose U U^\transpose}{\sigma^2} = \frac{\norm{U^\transpose X}^2}{\sigma^2}
+	\]
 	Note, \( U^\transpose X \sim N(0,\sigma^2 U^\transpose U) = N(0,\sigma^2 I_{\rank P}) \).
 	So
-	\[ \frac{(U^\transpose X)_i}{\sigma} \overset{\text{iid}}{\sim} N(0,1) \]
+	\[
+		\frac{(U^\transpose X)_i}{\sigma} \overset{\text{iid}}{\sim} N(0,1)
+	\]
 	for \( i = 1, \dots, \rank P \).
 	Hence
-	\[ \frac{\norm{PX}^2}{\sigma^2} = \sum_{i=1}^{\rank P} \qty(\frac{(U^\transpose X)_i}{\sigma})^2 \sim \chi^2_{\rank P} \]
+	\[
+		\frac{\norm{PX}^2}{\sigma^2} = \sum_{i=1}^{\rank P} \qty(\frac{(U^\transpose X)_i}{\sigma})^2 \sim \chi^2_{\rank P}
+	\]
 \end{proof}
 \begin{theorem}
 	Let \( X_1, \dots, X_n \overset{\text{iid}}{\sim} N(\mu,\sigma^2) \) for some unknown \( \mu \in \mathbb R \) and \( \sigma^2 > 0 \).
 	The maximum likelihood estimators for \( \mu \) and \( \sigma \) are
-	\[ \hat \mu = \overline X = \frac{1}{n} \sum_i X_i;\quad \hat \sigma^2 = \frac{S_{xx}}{n} = \frac{\sum_i \qty(X_i - \overline X)^2}{n} \]
+	\[
+		\hat \mu = \overline X = \frac{1}{n} \sum_i X_i;\quad \hat \sigma^2 = \frac{S_{xx}}{n} = \frac{\sum_i \qty(X_i - \overline X)^2}{n}
+	\]
 	Further,
 	\begin{enumerate}
 		\item \( \overline X \sim N\qty(\mu, \frac{\sigma^2}{n}) \);
@@ -152,24 +176,32 @@ where \( A \in \mathbb R^{k \times n}, b \in \mathbb R^k \) are constant.
 	Let \( P \) be the square \( n \times n \) matrix with all entries \( \frac{1}{n} \).
 	This is an orthogonal projection matrix, as it is symmetric and idempotent.
 	Note that
-	\[ PX = \begin{pmatrix}
-		\overline X \\
-		\vdots \\
-		\overline X
-	\end{pmatrix} \]
+	\[
+		PX = \begin{pmatrix}
+			\overline X \\
+			\vdots      \\
+			\overline X
+		\end{pmatrix}
+	\]
 	We will write the observations \( X \) as
-	\[ X = \underbrace{\begin{pmatrix}
-		\mu \\
-		\vdots \\
-		\mu
-	\end{pmatrix}}_{M} + \varepsilon;\quad \varepsilon \sim N(0,\sigma^2 I) \]
+	\[
+		X = \underbrace{\begin{pmatrix}
+				\mu    \\
+				\vdots \\
+				\mu
+			\end{pmatrix}}_{M} + \varepsilon;\quad \varepsilon \sim N(0,\sigma^2 I)
+	\]
 	Note that \( \overline X \) is a function of \( P \varepsilon \), since \( \overline X = (PX)_1 = (PM + P\varepsilon)_1 \).
 	Further,
-	\[ S_{xx} = \sum_i \frac{\qty(X_i - \overline X)^2}{n} = \norm{X - PX}^2 = \norm{(I-P)X}^2 = \norm{(I-P)\varepsilon}^2 \]
+	\[
+		S_{xx} = \sum_i \frac{\qty(X_i - \overline X)^2}{n} = \norm{X - PX}^2 = \norm{(I-P)X}^2 = \norm{(I-P)\varepsilon}^2
+	\]
 	Hence \( S_{xx} \) is a function of \( (I-P)\varepsilon \).
 	Since \( P\varepsilon \) and \( (I-P)\varepsilon \) are independent, \( \overline X \) and \( S_{xx} \) are independent.
 	Since \( I-P \) is a projection with rank equal to its trace \( n-1 \), we apply the previous theorem to obtain
-	\[ S_{xx} = \norm{(I-P)\varepsilon}^2 \chi^2_{n-1} \]
+	\[
+		S_{xx} = \norm{(I-P)\varepsilon}^2 \chi^2_{n-1}
+	\]
 \end{proof}
 
 \subsection{Linear model}
@@ -182,7 +214,9 @@ We will model the expectation of the response \( Y_i \) as a linear function of 
 	Predictors include age, the number of years they have held their license, and the number of points on their license, for instance.
 \end{example}
 We assume that
-\[ Y_i = \alpha + \beta_1 x_{i1} + \dots + \beta_p x_{ip} + \varepsilon_i \]
+\[
+	Y_i = \alpha + \beta_1 x_{i1} + \dots + \beta_p x_{ip} + \varepsilon_i
+\]
 where \( \alpha \in \mathbb R \) is an \textit{intercept}, \( \beta_i \) are the \textit{coefficients}, and \( \varepsilon \) is a \textit{noise vector}, which is a random variable.
 The intercept and coefficients are the parameters of interest.
 We will often eliminate the intercept by making one of the predictors \( x_{i1} = 1 \) for all \( i \), so \( \beta_1 \) plays the role of the intercept.
@@ -196,26 +230,30 @@ This cannot be interpreted as a causal relationship, unless this is a randomised
 
 \subsection{Matrix formulation}
 Let
-\[ Y = \begin{pmatrix}
-	Y_1 \\
-	\vdots \\
-	Y_n
-\end{pmatrix};\quad X = \begin{pmatrix}
-	x_{11} & \cdots & x_{1p} \\
-	\vdots & \ddots & \vdots \\
-	x_{n1} & \cdots & x_{np}
-\end{pmatrix};\quad \beta = \begin{pmatrix}
-	\beta_1 \\
-	\vdots \\
-	\beta_p
-\end{pmatrix};\quad \varepsilon = \begin{pmatrix}
-	\varepsilon_1 \\
-	\vdots \\
-	\varepsilon_n
-\end{pmatrix} \]
+\[
+	Y = \begin{pmatrix}
+		Y_1    \\
+		\vdots \\
+		Y_n
+	\end{pmatrix};\quad X = \begin{pmatrix}
+		x_{11} & \cdots & x_{1p} \\
+		\vdots & \ddots & \vdots \\
+		x_{n1} & \cdots & x_{np}
+	\end{pmatrix};\quad \beta = \begin{pmatrix}
+		\beta_1 \\
+		\vdots  \\
+		\beta_p
+	\end{pmatrix};\quad \varepsilon = \begin{pmatrix}
+		\varepsilon_1 \\
+		\vdots        \\
+		\varepsilon_n
+	\end{pmatrix}
+\]
 We call \( X \) the \textit{design matrix}.
 The linear model is that
-\[ Y = X\beta + \varepsilon \]
+\[
+	Y = X\beta + \varepsilon
+\]
 \( X\beta \) is considered fixed.
 Since \( \varepsilon \) is random, this makes \( Y \) into a random variable.
 
@@ -224,7 +262,8 @@ We make a number of \textit{moment assumptions} on the noise vector \( \varepsil
 This allows us to deduce more results about the linear model.
 \begin{enumerate}
 	\item \( \expect{\varepsilon} = 0 \implies \expect{Y_i} x_i^\transpose \beta \);
-	\item \( \Var \varepsilon = \sigma^2 I \), which is equivalent to both \( \Var \varepsilon_i = \sigma^2 \) and \( \Cov{\varepsilon_i, \varepsilon_j} = 0 \) for all \( i \neq j \). This property is known as \textit{homoscedasticity}.
+	\item \( \Var \varepsilon = \sigma^2 I \), which is equivalent to both \( \Var \varepsilon_i = \sigma^2 \) and \( \Cov{\varepsilon_i, \varepsilon_j} = 0 \) for all \( i \neq j \).
+	      This property is known as \textit{homoscedasticity}.
 \end{enumerate}
 We will always assume that the design matrix \( X \) has full rank \( p \), or equivalently, that it has linearly independent columns.
 Since \( X \in \mathbb R^{n \times p} \), this requires that \( n \geq p \), so we need at least as many samples as we have predictors.
@@ -232,27 +271,37 @@ Since \( X \in \mathbb R^{n \times p} \), this requires that \( n \geq p \), so 
 \subsection{Least squares estimation}
 \begin{definition}
 	The \textit{least squares estimator} \( \hat \beta \) minimises the \textit{residual sum of squares}, which is
-	\[ S(\beta) = \norm{Y-X\beta}^2 = \sum_i \qty(Y_i - x_i^\transpose \beta)^2 \]
+	\[
+		S(\beta) = \norm{Y-X\beta}^2 = \sum_i \qty(Y_i - x_i^\transpose \beta)^2
+	\]
 	The term \( Y_i - x_i^\transpose \beta \) is called the \text{\( i \)th residual}.
 \end{definition}
 Since \( S(\beta) \) is a positive definite quadratic in \( \beta \), it is minimised at the stationary point.
-\[ \eval{\pdv{S(\beta)}{\beta_k}}_{\beta = \hat \beta} = 0 \iff \forall k,\;-2\sum_{i=1}^n x_{ik} \qty(Y_i - \sum_k x_{ij} \hat \beta_j) = 0 \iff X^\transpose X \hat \beta = X^\transpose Y \]
+\[
+	\eval{\pdv{S(\beta)}{\beta_k}}_{\beta = \hat \beta} = 0 \iff \forall k,\;-2\sum_{i=1}^n x_{ik} \qty(Y_i - \sum_k x_{ij} \hat \beta_j) = 0 \iff X^\transpose X \hat \beta = X^\transpose Y
+\]
 As \( X \) has full column rank, \( X^\transpose X \) is invertible.
-\[ \hat \beta = (X^\transpose X)^{-1} X^\transpose Y \]
+\[
+	\hat \beta = (X^\transpose X)^{-1} X^\transpose Y
+\]
 This is notably a linear function of \( Y \), given fixed \( X \).
 Note that
-\[ \expect{\hat \beta} = (X^\transpose X)^{-1} X^\transpose \expect{Y} = (X^\transpose X)^{-1} X^\transpose X\beta = \beta \]
+\[
+	\expect{\hat \beta} = (X^\transpose X)^{-1} X^\transpose \expect{Y} = (X^\transpose X)^{-1} X^\transpose X\beta = \beta
+\]
 So \( \hat \beta \) is an unbiased estimator.
 Further,
 \begin{align*}
-	\Var{\hat \beta} &= (X^\transpose X)^{-1} X^\transpose \Var Y \qty[(X^\transpose X)^{-1} X^\transpose]^\transpose \\
-	&= (X^\transpose X)^{-1} X^\transpose \sigma^2 I \qty[(X^\transpose X)^{-1} X^\transpose]^\transpose \\
-	&= \sigma^2 (X^\transpose X)^{-1}
+	\Var{\hat \beta} & = (X^\transpose X)^{-1} X^\transpose \Var Y \qty[(X^\transpose X)^{-1} X^\transpose]^\transpose     \\
+	                 & = (X^\transpose X)^{-1} X^\transpose \sigma^2 I \qty[(X^\transpose X)^{-1} X^\transpose]^\transpose \\
+	                 & = \sigma^2 (X^\transpose X)^{-1}
 \end{align*}
 \begin{theorem}[Gauss-Markov theorem]
 	Let an estimator \( \beta^\star \) of \( \beta \) be unbiased and a linear function of \( Y \), so \( \beta^\star = CY \).
 	Then, for any fixed \( t \in \mathbb R^p \), we have
-	\[ \Var{t^\transpose \hat \beta} \leq \Var{t^\transpose \beta^\star} \]
+	\[
+		\Var{t^\transpose \hat \beta} \leq \Var{t^\transpose \beta^\star}
+	\]
 	where \( \hat \beta \) is the least squares estimator.
 	We say that \( \hat \beta \) is the best linear unbiased estimator (BLUE).
 \end{theorem}
@@ -264,7 +313,9 @@ Further,
 \end{remark}
 \begin{proof}
 	Note that
-	\[ \Var{t^\transpose \beta^\star} - \Var{t^\transpose \hat \beta} = t^\transpose \qty[\Var{\beta^\star} - \Var{\hat\beta}] t \]
+	\[
+		\Var{t^\transpose \beta^\star} - \Var{t^\transpose \hat \beta} = t^\transpose \qty[\Var{\beta^\star} - \Var{\hat\beta}] t
+	\]
 	To prove that this quantity is always non-negative, we must show that \( \Var{\beta^\star} - \Var{\hat\beta} \) is positive semidefinite.
 	Let \( A = C - (X^\transpose X)^{-1} X^\transpose \).
 	Note that \( \expect{AY} = \expect{\beta^\star} - \expect{\hat\beta} = 0 \).
@@ -272,13 +323,13 @@ Further,
 	This holds for all \( \beta \), so \( AX = 0 \).
 	Now, since \( X^\transpose X \) is symmetric,
 	\begin{align*}
-		\Var{\beta^\star} &= \Var{CY} \\
-		&= \Var{(A+(X^\transpose X)^{-1} X^\transpose)Y} \\
-		&= \qty[A+(X^\transpose X)^{-1} X^\transpose] \Var Y \qty[A+(X^\transpose X)^{-1} X^\transpose]^\transpose \\
-		&= \qty[A+(X^\transpose X)^{-1} X^\transpose] \sigma^2 I \qty[A+(X^\transpose X)^{-1} X^\transpose]^\transpose \\
-		&= \sigma^2 \qty(A A^\transpose + (X^\transpose X)^{-1} + AX(X^\transpose X)^{-1} + (X^\transpose X)^{-1} X^\transpose A^\transpose) \\
-		&= \sigma^2 AA^\transpose + \Var{\hat \beta} \\
-		\Var{\beta^\star} - \Var{\hat\beta} &= \sigma^2 AA^\transpose
+		\Var{\beta^\star}                   & = \Var{CY}                                                                                                                          \\
+		                                    & = \Var{(A+(X^\transpose X)^{-1} X^\transpose)Y}                                                                                     \\
+		                                    & = \qty[A+(X^\transpose X)^{-1} X^\transpose] \Var Y \qty[A+(X^\transpose X)^{-1} X^\transpose]^\transpose                           \\
+		                                    & = \qty[A+(X^\transpose X)^{-1} X^\transpose] \sigma^2 I \qty[A+(X^\transpose X)^{-1} X^\transpose]^\transpose                       \\
+		                                    & = \sigma^2 \qty(A A^\transpose + (X^\transpose X)^{-1} + AX(X^\transpose X)^{-1} + (X^\transpose X)^{-1} X^\transpose A^\transpose) \\
+		                                    & = \sigma^2 AA^\transpose + \Var{\hat \beta}                                                                                         \\
+		\Var{\beta^\star} - \Var{\hat\beta} & = \sigma^2 AA^\transpose
 	\end{align*}
 	Note that the outer product \( A A^\transpose \) is always positive semidefinite.
 \end{proof}
@@ -294,9 +345,13 @@ Further,
 \begin{proof}
 	If \( v \) is in the column space of \( X \), then \( v = Xb \) for some \( b \).
 	Hence
-	\[ Pv = X(X^\transpose X)^{-1} X^\transpose X b = Xb = v \]
+	\[
+		Pv = X(X^\transpose X)^{-1} X^\transpose X b = Xb = v
+	\]
 	If \( w \) is in the orthogonal complement, then
-	\[ Pw = X(X^\transpose X)^{-1} \underbrace{X^\transpose w}_{0} = 0 \]
+	\[
+		Pw = X(X^\transpose X)^{-1} \underbrace{X^\transpose w}_{0} = 0
+	\]
 \end{proof}
 \begin{corollary}
 	The fitted values are an orthogonal projection of the response variables to the column space of the design matrix.
@@ -307,9 +362,13 @@ Further,
 The normal linear model is a linear model under the assumption that \( \varepsilon \sim N(0,\sigma^2 I) \), where \( \sigma^2 \) is unknown.
 The parameters in the model are now \( (\beta, \sigma^2) \).
 The likelihood function in the normal linear model is
-\[ L(\beta, \sigma^2) = f_Y(y\mid \beta,\sigma^2) = (2\pi \sigma^2)^{-\frac{n}{2}} \exp{-\frac{1}{2\sigma^2} \sum_i (Y_i - x_i^\transpose \beta)^2} \]
+\[
+	L(\beta, \sigma^2) = f_Y(y\mid \beta,\sigma^2) = (2\pi \sigma^2)^{-\frac{n}{2}} \exp{-\frac{1}{2\sigma^2} \sum_i (Y_i - x_i^\transpose \beta)^2}
+\]
 The log-likelihood is
-\[ \ell(\beta,\sigma^2) = \text{constant} - \frac{n}{2}\log \sigma^2 - \frac{1}{2\sigma^2} \norm{Y-X\beta}^2 \]
+\[
+	\ell(\beta,\sigma^2) = \text{constant} - \frac{n}{2}\log \sigma^2 - \frac{1}{2\sigma^2} \norm{Y-X\beta}^2
+\]
 To maximise this as a function of \( \beta \) for any fixed \( \sigma^2 \), we must minimise the residual sum of squares \( S(\beta) = \norm{Y-X\beta}^2 \).
 So \( \hat \beta = (X^\transpose X)^{-1} X^\transpose Y \) is the maximum likelihood estimator of \( \beta \).
 Further, \( \hat \sigma^2 = n^{-1} \norm{Y-X\hat\beta}^2 = n^{-1} \norm{\hat Y - Y}^2 = n^{-1} \norm{(I-P)Y}^2 \).
@@ -325,40 +384,50 @@ Further, \( \hat \sigma^2 = n^{-1} \norm{Y-X\hat\beta}^2 = n^{-1} \norm{\hat Y -
 	We prove each part separately.
 	\begin{enumerate}
 		\item We already know that \( \expect{\hat \beta} = \beta \), and \( \Var{\hat \beta} = \sigma^2 (X^\transpose X)^{-1} \).
-			So it suffices to show that \( \hat \beta \) is a normal vector.
-			Since \( \hat \beta = (X^\transpose X)^{-1} X^\transpose Y \), it is a linear function of a normal vector, so is a normal vector.
+		      So it suffices to show that \( \hat \beta \) is a normal vector.
+		      Since \( \hat \beta = (X^\transpose X)^{-1} X^\transpose Y \), it is a linear function of a normal vector, so is a normal vector.
 		\item Observe that
-			\[ n\frac{\hat\sigma^2}{\sigma^2} = \frac{\norm{(I-P)Y}^2}{\sigma^2} = \frac{\norm{(I-P)(X\beta+\varepsilon)}^2}{\sigma^2} \]
-			Since \( (I-P)X = 0 \) as \( P \) is the orthogonal projection onto the column space of \( X \),
-			\[ n\frac{\hat\sigma^2}{\sigma^2} = \frac{\norm{(I-P)\varepsilon}^2}{\sigma^2} \sim \chi^2_{\tr (I-P)} \]
-			where \( \tr (I-P) = \tr I - \tr P = n - p \) since \( X \in \mathbb R^{n \times p} \) is assumed to have full rank.
+		      \[
+			      n\frac{\hat\sigma^2}{\sigma^2} = \frac{\norm{(I-P)Y}^2}{\sigma^2} = \frac{\norm{(I-P)(X\beta+\varepsilon)}^2}{\sigma^2}
+		      \]
+		      Since \( (I-P)X = 0 \) as \( P \) is the orthogonal projection onto the column space of \( X \),
+		      \[
+			      n\frac{\hat\sigma^2}{\sigma^2} = \frac{\norm{(I-P)\varepsilon}^2}{\sigma^2} \sim \chi^2_{\tr (I-P)}
+		      \]
+		      where \( \tr (I-P) = \tr I - \tr P = n - p \) since \( X \in \mathbb R^{n \times p} \) is assumed to have full rank.
 		\item Note that \( \hat \sigma^2 \) is a function of \( (I-P)\varepsilon \), and
-			\begin{align*}
-				\hat\beta &= (X^\transpose X)^{-1} X^\transpose Y \\
-				&= (X^\transpose X)^{-1} X^\transpose (X\beta+\varepsilon) \\
-				&= \beta + (X^\transpose X)^{-1} X^\transpose \varepsilon \\
-				&= \beta + (X^\transpose X)^{-1} X^\transpose P\varepsilon
-			\end{align*}
-			is a function of \( P\varepsilon \).
-			Since \( (I-P)\varepsilon \) and \( P \varepsilon \) are independent, so are \( \hat \beta, \hat \sigma^2 \).
+		      \begin{align*}
+			      \hat\beta & = (X^\transpose X)^{-1} X^\transpose Y                    \\
+			                & = (X^\transpose X)^{-1} X^\transpose (X\beta+\varepsilon) \\
+			                & = \beta + (X^\transpose X)^{-1} X^\transpose \varepsilon  \\
+			                & = \beta + (X^\transpose X)^{-1} X^\transpose P\varepsilon
+		      \end{align*}
+		      is a function of \( P\varepsilon \).
+		      Since \( (I-P)\varepsilon \) and \( P \varepsilon \) are independent, so are \( \hat \beta, \hat \sigma^2 \).
 	\end{enumerate}
 \end{proof}
 Note,
-\[ \expect{\frac{n\hat\sigma^2}{\sigma^2}} = \expect{\chi^2_{n-p}} = n-p \implies \expect{\hat\sigma^2} = \sigma^2 \cdot \frac{n-p}{n} < \sigma^2 \]
+\[
+	\expect{\frac{n\hat\sigma^2}{\sigma^2}} = \expect{\chi^2_{n-p}} = n-p \implies \expect{\hat\sigma^2} = \sigma^2 \cdot \frac{n-p}{n} < \sigma^2
+\]
 Hence this \( \hat \sigma^2 \) is a biased estimator, but asymptotically unbiased.
 
 \subsection{Inference}
 \begin{definition}
 	Let \( U \sim N(0,1) \) and \( V \sim \chi^2_n \) be independent random variables.
 	Then
-	\[ T = \frac{U}{\sqrt{\frac{V}{n}}} \]
+	\[
+		T = \frac{U}{\sqrt{\frac{V}{n}}}
+	\]
 	has a \textit{\( t_n \)-distribution}.
 \end{definition}
 As \( n \to \infty \), this approaches the standard normal distribution.
 \begin{definition}
 	Let \( V \sim \chi^2_n \) and \( W \sim \chi^2_m \) be independent random variables.
 	Then
-	\[ F = \frac{V/n}{W/m} \]
+	\[
+		F = \frac{V/n}{W/m}
+	\]
 	has an \textit{\( F_{n,m} \)-distribution}.
 \end{definition}
 \begin{example}
@@ -367,23 +436,33 @@ As \( n \to \infty \), this approaches the standard normal distribution.
 
 	We begin by finding a \textit{pivot}, which is a distribution that does not depend on the parameters of the model.
 	By standardising the above form of \( \hat \beta \),
-	\[ \frac{\beta_1 - \hat \beta_1}{\sqrt{\sigma^2(X^\transpose X)^{-1}_{11}}} \sim N(0,1) \]
+	\[
+		\frac{\beta_1 - \hat \beta_1}{\sqrt{\sigma^2(X^\transpose X)^{-1}_{11}}} \sim N(0,1)
+	\]
 	where \( M^{-1}_{11} \) is the top left entry in the matrix \( M^{-1} \).
 	This random variable is independent from \( \frac{n\hat \sigma^2}{\sigma^2} \sim \chi^2_{n-p} \).
 	Now, to construct a pivot, we find
-	\[ \frac{\frac{\beta_1 - \hat \beta_1}{\sqrt{\sigma^2(X^\transpose X)^{-1}_{11}}}}{\sqrt{\frac{\hat \sigma^2}{\sigma^2} \cdot \frac{n}{n-p}}} \sim \frac{U}{\sqrt{\frac{V}{n}}} \sim t_{n-p} \]
+	\[
+		\frac{\frac{\beta_1 - \hat \beta_1}{\sqrt{\sigma^2(X^\transpose X)^{-1}_{11}}}}{\sqrt{\frac{\hat \sigma^2}{\sigma^2} \cdot \frac{n}{n-p}}} \sim \frac{U}{\sqrt{\frac{V}{n}}} \sim t_{n-p}
+	\]
 	The \( \sigma^2 \) terms cancel, so the statistic is a function only of \( \beta_1 \) and functions of the data.
 	Then,
-	\[ \psub{\beta,\sigma^2}{ -t_{n-p}\qty(\frac{\alpha}{2}) \leq \frac{\hat \beta_1 - \beta_1}{\sqrt{(X^\transpose X)^{-1}_{11}}} \sqrt{\frac{n-p}{n\hat\sigma^2}} \leq t_{n-p}\qty(\frac{\alpha}{2}) } = 1-\alpha \]
+	\[
+		\psub{\beta,\sigma^2}{ -t_{n-p}\qty(\frac{\alpha}{2}) \leq \frac{\hat \beta_1 - \beta_1}{\sqrt{(X^\transpose X)^{-1}_{11}}} \sqrt{\frac{n-p}{n\hat\sigma^2}} \leq t_{n-p}\qty(\frac{\alpha}{2}) } = 1-\alpha
+	\]
 	since the \( t \) distribution is symmetric about zero.
 	Rearranging to find an interval for \( \beta_1 \),
-	\[ \psub{\beta,\sigma^2}{
-		\hat \beta_1 - t_{n-p}\qty(\frac{\alpha}{2}) \frac{\sqrt{(X^\transpose X)^{-1}_{11} \hat\sigma^2}}{\sqrt{(n-p)/n}}
-		\leq \beta_1 \leq
-		\hat \beta_1 + t_{n-p}\qty(\frac{\alpha}{2}) \frac{\sqrt{(X^\transpose X)^{-1}_{11} \hat\sigma^2}}{\sqrt{(n-p)/n}}
-		} = 1-\alpha \]
+	\[
+		\psub{\beta,\sigma^2}{
+			\hat \beta_1 - t_{n-p}\qty(\frac{\alpha}{2}) \frac{\sqrt{(X^\transpose X)^{-1}_{11} \hat\sigma^2}}{\sqrt{(n-p)/n}}
+			\leq \beta_1 \leq
+			\hat \beta_1 + t_{n-p}\qty(\frac{\alpha}{2}) \frac{\sqrt{(X^\transpose X)^{-1}_{11} \hat\sigma^2}}{\sqrt{(n-p)/n}}
+		} = 1-\alpha
+	\]
 	Hence,
-	\[ I = \qty[\hat \beta_1 \pm t_{n-p}\qty(\frac{\alpha}{2}) \frac{\sqrt{(X^\transpose X)^{-1}_{11} \hat \sigma^2}}{\sqrt{(n-p)/n}} ] \]
+	\[
+		I = \qty[\hat \beta_1 \pm t_{n-p}\qty(\frac{\alpha}{2}) \frac{\sqrt{(X^\transpose X)^{-1}_{11} \hat \sigma^2}}{\sqrt{(n-p)/n}} ]
+	\]
 	is a \( 100(1-\alpha)\% \) confidence interval for \( \beta_1 \).
 
 	Consider a test for \( H_0 \colon \beta_1 = 0 \), \( H_1 \colon \beta_1 \neq 0 \).
@@ -391,39 +470,55 @@ As \( n \to \infty \), this approaches the standard normal distribution.
 
 	Consider a special case where \( Y_1, \dots, Y_n \overset{\text{iid}}{\sim} N(\mu,\sigma^2) \) where \( \mu, \sigma^2 \) are unknown, and we want to infer results about \( \mu \).
 	Note that this is a special case of the normal linear model where
-	\[ X = \begin{pmatrix}
-		1 \\
-		\vdots \\
-		1
-	\end{pmatrix};\quad \beta = \begin{pmatrix}
-		\mu
-	\end{pmatrix} \]
+	\[
+		X = \begin{pmatrix}
+			1      \\
+			\vdots \\
+			1
+		\end{pmatrix};\quad \beta = \begin{pmatrix}
+			\mu
+		\end{pmatrix}
+	\]
 	So we can infer a confidence interval for \( \mu \) using the above statistic.
 \end{example}
 \begin{example}
 	Consider a \( 100(1-\alpha)\% \) confidence set for \( \beta \) as a whole.
 	Note that
-	\[ \hat \beta - \beta \sim N(0,\sigma^2 (X^\transpose X)^{-1}) \]
+	\[
+		\hat \beta - \beta \sim N(0,\sigma^2 (X^\transpose X)^{-1})
+	\]
 	Then,
-	\[ (X^\transpose X)^{1/2} (\hat \beta - \beta) \sim N(0,\sigma^2(X^\transpose X)^{1/2} (X^\transpose X)^{-1} (X^\transpose X)^{1/2}) \sim N(0,\sigma^2 I) \]
+	\[
+		(X^\transpose X)^{1/2} (\hat \beta - \beta) \sim N(0,\sigma^2(X^\transpose X)^{1/2} (X^\transpose X)^{-1} (X^\transpose X)^{1/2}) \sim N(0,\sigma^2 I)
+	\]
 	where \( (X^\transpose X)^{1/2} \) is obtained using the eigendecomposition of the positive definite matrix \( X^\transpose X \).
 	Hence,
-	\[ \frac{\norm{(X^\transpose X)^{1/2} (\hat \beta - \beta)}^2}{\sigma^2} \sim \chi^2_p \]
+	\[
+		\frac{\norm{(X^\transpose X)^{1/2} (\hat \beta - \beta)}^2}{\sigma^2} \sim \chi^2_p
+	\]
 	We can also write this as
-	\[ \frac{\norm{(X^\transpose X)^{1/2} (\hat \beta - \beta)}^2}{\sigma^2} = \frac{\norm{X(\hat \beta - \beta)}^2}{\sigma^2} \]
+	\[
+		\frac{\norm{(X^\transpose X)^{1/2} (\hat \beta - \beta)}^2}{\sigma^2} = \frac{\norm{X(\hat \beta - \beta)}^2}{\sigma^2}
+	\]
 	Since this is a function of \( \hat \beta \), this is independent of any function of \( \hat \sigma^2 \).
 	In particular, it is independent of \( \frac{n\hat\sigma^2}{\sigma^2} \sim \chi^2_{n-p} \).
 	Thus, we can form a pivot by
-	\[ \frac{\norm{X(\hat \beta - \beta)}^2 / (\sigma^2 p)}{\hat\sigma^2 n / (\sigma^2(n-p))} \sim \frac{\chi^2_p / p}{\chi^2_{n-p} / (n-p)} \sim F_{p,n-p} \]
+	\[
+		\frac{\norm{X(\hat \beta - \beta)}^2 / (\sigma^2 p)}{\hat\sigma^2 n / (\sigma^2(n-p))} \sim \frac{\chi^2_p / p}{\chi^2_{n-p} / (n-p)} \sim F_{p,n-p}
+	\]
 	This does not depend on \( \sigma^2 \).
 	For all \( \beta, \sigma^2 \),
-	\[ \psub{\beta,\sigma^2}{
-	\frac{\norm{X(\hat \beta - \beta)}^2 / p}{\hat\sigma^2 n / (n-p)}
-	\leq F_{p,n-p}(\alpha)} = 1-\alpha \]
+	\[
+		\psub{\beta,\sigma^2}{
+			\frac{\norm{X(\hat \beta - \beta)}^2 / p}{\hat\sigma^2 n / (n-p)}
+			\leq F_{p,n-p}(\alpha)} = 1-\alpha
+	\]
 	because the \( F \) distribution has support only on the positive real line.
 	It is nontrivial to express this as a region for \( \beta \) since it is vector-valued.
 	We can say, however, that
-	\[ \qty{\beta' \in \mathbb R^p \colon \frac{\norm{X(\hat \beta - \beta)}^2/p}{\hat \sigma^2 n/(n-p)} \leq F_{p,n-p}(\alpha)} \]
+	\[
+		\qty{\beta' \in \mathbb R^p \colon \frac{\norm{X(\hat \beta - \beta)}^2/p}{\hat \sigma^2 n/(n-p)} \leq F_{p,n-p}(\alpha)}
+	\]
 	is a \( 100(1-\alpha)\% \) confidence set for \( \beta \).
 
 	This set is an ellipsoid centred at \( \hat \beta \).
@@ -446,58 +541,76 @@ Note that as \( X \) and \( P \) have full rank, so must \( X_1, P_1 \).
 \begin{proof}
 	\( P - P_1 \) is symmetric since \( P \) and \( P_1 \) are symmetric.
 	It is also idempotent, since
-	\[ (P-P_1)(P-P_1) = P^2 - P_1 P - P P_1 + P_1^2 = P - P_1 - P_1 + P_1 = P - P_1 \]
+	\[
+		(P-P_1)(P-P_1) = P^2 - P_1 P - P P_1 + P_1^2 = P - P_1 - P_1 + P_1 = P - P_1
+	\]
 	since \( P_1 \) projects onto the column space of \( X_1 \).
 	Hence \( P - P_1 \) is indeed an orthogonal projection matrix.
 	The rank is \( \rank(P - P_1) = \tr(P - P_1) = \tr P - \tr P_1 = p - (p - p_0) = p_0 \).
 	Also,
-	\[ (I-P)(P-P_1) = P-P_1 - P + PP_1 = P-P_1 - P + P_1 = 0 \]
+	\[
+		(I-P)(P-P_1) = P-P_1 - P + PP_1 = P-P_1 - P + P_1 = 0
+	\]
 \end{proof}
 Recall that the maximum log-likelihood in the normal linear model is given by
-\[ \ell(\hat \beta, \hat \sigma^2) = \frac{-n}{2} \log \hat\sigma^2 - \frac{n}{2} \cdot \text{constant} = \frac{-n}{2} \log \frac{\norm{(I-P)Y}^2}{n} + \text{constant} \]
+\[
+	\ell(\hat \beta, \hat \sigma^2) = \frac{-n}{2} \log \hat\sigma^2 - \frac{n}{2} \cdot \text{constant} = \frac{-n}{2} \log \frac{\norm{(I-P)Y}^2}{n} + \text{constant}
+\]
 The generalised likelihood ratio statistic is
 \begin{align*}
-	2 \log \Lambda &= 2 \sup_{\beta \in \mathbb R^p,\sigma^2>0} \ell(\beta, \sigma^2) - 2 \sup_{\beta_0 = 0, \beta_1 \in \mathbb R^{p-p_0},\sigma^2>0} \ell(\beta, \sigma^2) \\
-	&= n \qty[ -\log \frac{\norm{(I-P)Y}^2}{n} + \log \frac{\norm{(I-P_1)Y}^2}{n} ]
+	2 \log \Lambda & = 2 \sup_{\beta \in \mathbb R^p,\sigma^2>0} \ell(\beta, \sigma^2) - 2 \sup_{\beta_0 = 0, \beta_1 \in \mathbb R^{p-p_0},\sigma^2>0} \ell(\beta, \sigma^2) \\
+	               & = n \qty[ -\log \frac{\norm{(I-P)Y}^2}{n} + \log \frac{\norm{(I-P_1)Y}^2}{n} ]
 \end{align*}
 Wilks' theorem applies here, showing that \( 2 \log \Lambda \sim \chi^2_{p_0} \) asymptotically as \( n \to \infty \) with \( p, p_0 \) fixed.
 However, we can find an exact test, so using Wilks' theorem will not be necessary.
 \( 2 \log \Lambda \) is monotone in
 \begin{align*}
-	\frac{\norm{(I-P_1)Y}^2}{\norm{(I-P)Y}^2} &= \frac{\norm{(I-P+P-P_1)Y}^2}{\norm{(I-P)Y}^2} \\
-	&= \frac{\norm{(I-P)Y}^2 + \norm{(P-P_1)Y}^2 + 2Y^\transpose (I-P)(P-P_1)}{\norm{(I-P)Y}^2 }\\
-	&= \frac{\norm{(I-P)Y}^2 + \norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2} \\
-	&= 1 + \frac{\norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2}
+	\frac{\norm{(I-P_1)Y}^2}{\norm{(I-P)Y}^2} & = \frac{\norm{(I-P+P-P_1)Y}^2}{\norm{(I-P)Y}^2}                                             \\
+	                                          & = \frac{\norm{(I-P)Y}^2 + \norm{(P-P_1)Y}^2 + 2Y^\transpose (I-P)(P-P_1)}{\norm{(I-P)Y}^2 } \\
+	                                          & = \frac{\norm{(I-P)Y}^2 + \norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2}                               \\
+	                                          & = 1 + \frac{\norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2}
 \end{align*}
 The generalised likelihood ratio test rejects when the \( F \)-statistic
-\[ F = \frac{\norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2} \cdot \frac{1/p_0}{1/(n-p)} \]
+\[
+	F = \frac{\norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2} \cdot \frac{1/p_0}{1/(n-p)}
+\]
 is large.
 \begin{theorem}
 	Under \( H_0\colon \beta_1 = \dots = \beta_{p_0} = 0 \), in the normal linear model,
-	\[ F = \frac{\norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2} \cdot \frac{1/p_0}{1/(n-p)} \sim F_{p_0,n-p} \]
+	\[
+		F = \frac{\norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2} \cdot \frac{1/p_0}{1/(n-p)} \sim F_{p_0,n-p}
+	\]
 \end{theorem}
 \begin{proof}
 	Recall that
-	\[ \norm{(I-P)Y} = \norm{(I-P)\varepsilon}^2 \sim \chi^2_{n-p} \cdot \sigma^2 \]
+	\[
+		\norm{(I-P)Y} = \norm{(I-P)\varepsilon}^2 \sim \chi^2_{n-p} \cdot \sigma^2
+	\]
 	Therefore it suffices to show that \( \norm{(P-P_1)Y}^2 \) is an independent \( \chi^2_{p_0} \cdot \sigma^2 \) random variable.
 	Under \( H_0 \), we have that
-	\[ (P-P_1)Y = (P-P_1)(X\beta+\varepsilon) = (P-P_1)(X_1 \beta^1 + \varepsilon) = (P-P_1)\varepsilon \]
+	\[
+		(P-P_1)Y = (P-P_1)(X\beta+\varepsilon) = (P-P_1)(X_1 \beta^1 + \varepsilon) = (P-P_1)\varepsilon
+	\]
 	since \( P, P_1 \) preserve \( X_1 \).
 	Hence, \( \norm{(P-P_1)Y}^2 = \norm{(P-P_1)\varepsilon}^2 \sim \chi^2_{\rank (P-P_1)} \cdot \sigma^2 = \chi^2_{p_0} \cdot \sigma^2 \).
 	We must now show independence between \( (I-P)Y \) and \( (P-P_1)Y \).
 	The vectors \( (I-P)\varepsilon, (P-P_1)\varepsilon \) are independent; indeed,
-	\[ E = \begin{pmatrix}
-		(I-P)\varepsilon \\
-		(P-P_1)\varepsilon
-	\end{pmatrix} \]
+	\[
+		E = \begin{pmatrix}
+			(I-P)\varepsilon \\
+			(P-P_1)\varepsilon
+		\end{pmatrix}
+	\]
 	is a multivariate normal vector, and
-	\[ \expect{E} = 0;\quad \Var E = \begin{pmatrix}
-		I-P & (I-P)(P-P_1) \\
-		(I-P)(P-P_1) & P-P_1
-	\end{pmatrix} = \begin{pmatrix}
-		I-P & 0 \\
-		0 & P-P_1
-	\end{pmatrix} \]
+	\[
+		\expect{E} = 0;\quad \Var E = \begin{pmatrix}
+			I-P          & (I-P)(P-P_1) \\
+			(I-P)(P-P_1) & P-P_1
+		\end{pmatrix} = \begin{pmatrix}
+			I-P & 0     \\
+			0   & P-P_1
+		\end{pmatrix}
+	\]
 	and since \( (I-P)\varepsilon \) and \( (P-P_1)\varepsilon \) are elements of a multivariate normal vector and are uncorrelated, they are independent as required.
 \end{proof}
 The generalised likelihood ratio test of size \( \alpha \) rejects \( H_0 \) when \( F > F^{-1}_{p_0,n-p}(\alpha) \).
@@ -505,46 +618,64 @@ This is an exact test for all \( n, p, p_0 \).
 Previously, we found a test for \( H_0\colon \beta_1 = 0 \) against \( H_1 \colon \beta_1 \neq 0 \).
 This is a special case of the \( F \)-test derived above, where \( p_0 = 1 \).
 The previous test of size \( \alpha \) rejects \( H_0 \) when
-\[ \abs{\hat\beta} > t_{n-p}\qty(\frac{\alpha}{2}) \sqrt{\frac{\hat\sigma^2 n (X^\transpose X)^{-1}_{11}}{n-p}} \]
+\[
+	\abs{\hat\beta} > t_{n-p}\qty(\frac{\alpha}{2}) \sqrt{\frac{\hat\sigma^2 n (X^\transpose X)^{-1}_{11}}{n-p}}
+\]
 We will show that these two tests are equivalent; they reject \( H_0 \) in the same critical region.
 The \( t \)-test rejects if and only if
-\[ \hat \beta_1^2 > t_{n-p}\qty(\frac{\alpha}{2})^2 \frac{\hat\sigma^2 n (X^\transpose X)^{-1}_{11}}{n-p} \]
+\[
+	\hat \beta_1^2 > t_{n-p}\qty(\frac{\alpha}{2})^2 \frac{\hat\sigma^2 n (X^\transpose X)^{-1}_{11}}{n-p}
+\]
 Note that \( t_{n-p}\qty(\frac{\alpha}{2})^2 = F_{1,n-p}(\alpha) \), since
-\[ U \sim N(0,1);\;W \sin \chi^2_n \implies T = \frac{U}{\sqrt{W/n}} \implies T^2 = \frac{U^2}{W/n} = \frac{V/1}{W/n} \sim F_{1,n} \]
+\[
+	U \sim N(0,1);\;W \sin \chi^2_n \implies T = \frac{U}{\sqrt{W/n}} \implies T^2 = \frac{U^2}{W/n} = \frac{V/1}{W/n} \sim F_{1,n}
+\]
 where \( V \sim \chi^2_1 \).
 Hence,
-\[ \frac{\hat \beta_1/(X^\transpose X)^{-1}_{11}}{\hat\sigma^2 n/(n-p)} > F_{1,n-p}(\alpha) \]
+\[
+	\frac{\hat \beta_1/(X^\transpose X)^{-1}_{11}}{\hat\sigma^2 n/(n-p)} > F_{1,n-p}(\alpha)
+\]
 It suffices to show that
-\[ \frac{\hat \beta_1}{(X^\transpose X)^{-1}_{11}} = \frac{\norm{(P-P_1)Y}^2}{\underbrace{p_0}_{=1}};\quad \frac{\hat \sigma^2 n}{n-p} = \frac{\norm{(I-P)Y}^2}{n-p} \]
+\[
+	\frac{\hat \beta_1}{(X^\transpose X)^{-1}_{11}} = \frac{\norm{(P-P_1)Y}^2}{\underbrace{p_0}_{=1}};\quad \frac{\hat \sigma^2 n}{n-p} = \frac{\norm{(I-P)Y}^2}{n-p}
+\]
 We have already shown the latter part.
 For \( \hat \beta_1 \), note that in this case, \( P - P_1 \) is a projection of rank 1 onto the one-dimensional subspace spanned by the vector \( v = (I-P)X^0 \) where \( X^0 \) is the first column in the matrix \( X \).
 First, note the following identity.
-\[ X_0^\transpose (I - P_1) = v^\transpose = v^\transpose (P-P_1) = X_0^\transpose (I-P_1)(P-P_1) = X_0^\transpose (I-P_1)P \]
+\[
+	X_0^\transpose (I - P_1) = v^\transpose = v^\transpose (P-P_1) = X_0^\transpose (I-P_1)(P-P_1) = X_0^\transpose (I-P_1)P
+\]
 Then,
 \begin{align*}
-	\norm{(P-P_1)Y}^2 &= \norm{\frac{v}{\norm{v}} \qty(\frac{v}{\norm{v}})^\transpose Y}^2 \\
-	&= \frac{(v^\transpose Y)^2}{\norm{v}^2} = \frac{(X_0^\transpose (I-P_1) Y)^2}{\norm{(I-P_1) X_0}^2} \\
-	&= \frac{(X_0^\transpose (I-P_1) P Y)^2}{\norm{(I-P_1) X_0}^2} \\
-	&= \frac{(X_0^\transpose (I-P_1) X \hat\beta)^2}{\norm{(I-P_1) X_0}^2}
+	\norm{(P-P_1)Y}^2 & = \norm{\frac{v}{\norm{v}} \qty(\frac{v}{\norm{v}})^\transpose Y}^2                                 \\
+	                  & = \frac{(v^\transpose Y)^2}{\norm{v}^2} = \frac{(X_0^\transpose (I-P_1) Y)^2}{\norm{(I-P_1) X_0}^2} \\
+	                  & = \frac{(X_0^\transpose (I-P_1) P Y)^2}{\norm{(I-P_1) X_0}^2}                                       \\
+	                  & = \frac{(X_0^\transpose (I-P_1) X \hat\beta)^2}{\norm{(I-P_1) X_0}^2}
 \end{align*}
 Note that \( (I-P_1) X = [(I-P_1)X_0, 0, \dots, 0] \).
 Hence,
 \begin{align*}
-	\norm{(P-P_1)Y}^2 &= \frac{\norm{(I-P_1)X_0}^4 \hat \beta_1}{\norm{(I-P_1)X_0}^2} \\
-	&= \norm{(I-P_1)X_0}^2 \hat \beta_1
+	\norm{(P-P_1)Y}^2 & = \frac{\norm{(I-P_1)X_0}^4 \hat \beta_1}{\norm{(I-P_1)X_0}^2} \\
+	                  & = \norm{(I-P_1)X_0}^2 \hat \beta_1
 \end{align*}
 Finally, we show that
-\[ (X^\transpose X)^{-1}_{11} = \frac{1}{\norm{(I-P_1)X_0}^2} \]
+\[
+	(X^\transpose X)^{-1}_{11} = \frac{1}{\norm{(I-P_1)X_0}^2}
+\]
 using the Woodbury identity for blockwise matrix inversion.
 Hence,
-\[ \frac{\hat\beta_1^2}{(X^\transpose X)^{-1}_{11}} = \norm{(P-P_1) Y}^2 \]
+\[
+	\frac{\hat\beta_1^2}{(X^\transpose X)^{-1}_{11}} = \norm{(P-P_1) Y}^2
+\]
 as required.
 
 \subsection{Analysis of variance}
 Suppose we investigate responses of patients after receiving one of three treatments, including a control, which will be given index 1.
 We will consider only one predictor, denoting which treatment a given patient received.
 Consider the linear model
-\[ Y_{ij} = \alpha + \mu_j + \varepsilon_{ij} \]
+\[
+	Y_{ij} = \alpha + \mu_j + \varepsilon_{ij}
+\]
 where \( j = 1, 2, 3 \) is the treatment index, and \( i = 1, \dots, N \) is the index of a patient in a given group.
 Let \( (\varepsilon_{ij}) \sim N(0, \sigma^2) \) be independent.
 Without loss of generality, we can set \( \mu_1 = 0 \), since we have an additional parameter \( \alpha \); this is known as a \textit{corner point} constraint.
@@ -552,43 +683,61 @@ Then, \( \mu_j \) should be interpreted as the effect of treatment \( j \) relat
 
 \begin{definition}
 	The \textit{analysis of variance (ANOVA)} test on the linear model
-	\[ Y_{ij} = \alpha + \mu_j + \varepsilon_{ij} \]
+	\[
+		Y_{ij} = \alpha + \mu_j + \varepsilon_{ij}
+	\]
 	where \( \mu_1 = 0 \) is given by
-	\[ H_0 \colon \mu_2 = \mu_3 = \dots = 0;\quad H_1 \colon \mu_2, \mu_3, \dots \in \mathbb R \]
+	\[
+		H_0 \colon \mu_2 = \mu_3 = \dots = 0;\quad H_1 \colon \mu_2, \mu_3, \dots \in \mathbb R
+	\]
 	In particular, \( H_0 \) gives \( \expect{Y_{ij}} = \alpha \).
 \end{definition}
 
 In our example, \( H_0 \colon \mu_2 = \mu_3 = 0 \) and \( H_1 \colon \mu_2, \mu_3 \in \mathbb R \).
 This is a special case of the \( F \)-test, since we are testing whether the coefficients \( \mu_i \) are equal to zero.
-\[ X = \begin{pmatrix}
-	1 & 0 & 0 \\
-	1 & 0 & 0 \\
-	\vdots & \vdots & \vdots \\
-	1 & 1 & 0 \\
-	1 & 1 & 0 \\
-	\vdots & \vdots & \vdots \\
-	1 & 0 & 1 \\
-	1 & 0 & 1
-\end{pmatrix} = \begin{pmatrix}
-	X_1 & X_0
-\end{pmatrix} \]
+\[
+	X = \begin{pmatrix}
+		1      & 0      & 0      \\
+		1      & 0      & 0      \\
+		\vdots & \vdots & \vdots \\
+		1      & 1      & 0      \\
+		1      & 1      & 0      \\
+		\vdots & \vdots & \vdots \\
+		1      & 0      & 1      \\
+		1      & 0      & 1
+	\end{pmatrix} = \begin{pmatrix}
+		X_1 & X_0
+	\end{pmatrix}
+\]
 The first column of \( X \), denoted \( X_1 \), represents \( \alpha \), and the other columns, denoted \( X_0 \), represent \( \mu_2, \mu_3 \).
 \( X_0 \) is eliminated under the null hypothesis.
 The predictor can be called \textit{categorical}; it is discrete, and entirely dependent on which treatment category a given patient is placed in.
 Note that \( X \) has \( 3N \) rows, where each block of \( N \) consecutive rows is identical.
 Recall that the \( F \)-test uses the test statistic
-\[ F = \frac{\norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2} \cdot \frac{1/p_0}{1/(n-p)} \sim F_{p_0,n-p} \]
+\[
+	F = \frac{\norm{(P-P_1)Y}^2}{\norm{(I-P)Y}^2} \cdot \frac{1/p_0}{1/(n-p)} \sim F_{p_0,n-p}
+\]
 For this test, \( P \) projects onto the space of vectors in \( \mathbb R^{3N} \) which are constant over treatment groups.
 In other words, let
-\[ \overline Y_j = \frac{1}{N} \sum_{i=1}^N Y_{ij} \]
+\[
+	\overline Y_j = \frac{1}{N} \sum_{i=1}^N Y_{ij}
+\]
 Then,
-\[ P Y = \qty( \underbrace{\overline Y_1, \dots, \overline Y_1}_{N \text{ entries}}, \underbrace{\overline Y_2, \dots, \overline Y_2}_{N \text{ entries}}, \underbrace{\overline Y_3, \dots, \overline Y_3}_{N \text{ entries}} )^\transpose \]
+\[
+	P Y = \qty( \underbrace{\overline Y_1, \dots, \overline Y_1}_{N \text{ entries}}, \underbrace{\overline Y_2, \dots, \overline Y_2}_{N \text{ entries}}, \underbrace{\overline Y_3, \dots, \overline Y_3}_{N \text{ entries}} )^\transpose
+\]
 \( P_1 \) projects onto the subspace of constant vectors in \( \mathbb R^{3N} \), so
-\[ \overline Y = \frac{1}{3N} \sum_{i=1}^N \sum_{j=1}^3 Y_{ij} \implies P_1 Y = \qty( \underbrace{\overline Y, \dots, \overline Y}_{3N \text{ entries}} )^\transpose \]
+\[
+	\overline Y = \frac{1}{3N} \sum_{i=1}^N \sum_{j=1}^3 Y_{ij} \implies P_1 Y = \qty( \underbrace{\overline Y, \dots, \overline Y}_{3N \text{ entries}} )^\transpose
+\]
 Hence, we can write the \( F \) statistic as
-\[ F = \frac{\sum_{j=1}^3 N \qty(\overline Y_j - \overline Y)^2 / 2}{\sum_{i=1}^N \sum_{j=1}^3 \qty(Y_{ij} - \overline Y_j)^2 / (3N-3)} \]
+\[
+	F = \frac{\sum_{j=1}^3 N \qty(\overline Y_j - \overline Y)^2 / 2}{\sum_{i=1}^N \sum_{j=1}^3 \qty(Y_{ij} - \overline Y_j)^2 / (3N-3)}
+\]
 We can generatlise this to the case where there are \( J > 3 \) treatment groups:
-\[ F = \frac{\sum_{j=1}^J N \qty(\overline Y_j - \overline Y)^2 / (J-1)}{\sum_{i=1}^N \sum_{j=1}^J \qty(Y_{ij} - \overline Y_j)^2 / (JN-J)} = \frac{\text{variance between treatments}}{\text{variance within treatments}} \]
+\[
+	F = \frac{\sum_{j=1}^J N \qty(\overline Y_j - \overline Y)^2 / (J-1)}{\sum_{i=1}^N \sum_{j=1}^J \qty(Y_{ij} - \overline Y_j)^2 / (JN-J)} = \frac{\text{variance between treatments}}{\text{variance within treatments}}
+\]
 \begin{remark}
 	This test is sometimes called \textit{one-way} analysis of variance.
 	\textit{Two-way} analysis of variance is a similar analysis in an experiment where groups are defined according to two variables.
@@ -599,25 +748,41 @@ We can generatlise this to the case where there are \( J > 3 \) treatment groups
 	\end{enumerate}
 	Here, we would have the result \( Y_{ijk} \) as the number of marks of student \( i \) in group \( (j,k) \).
 	The model would be
-	\[ Y_{ijk} = \alpha + \mu_j + \lambda_k + \varepsilon_{ijk} \]
+	\[
+		Y_{ijk} = \alpha + \mu_j + \lambda_k + \varepsilon_{ijk}
+	\]
 	with a constraint without loss of generality that \( \mu_0 = \lambda_0 = 0 \).
 	The two-way analysis of variance test is then
-	\[ H_0 \colon \mu_1 = \lambda_1 = 0;\quad H_1 \colon \mu_1, \lambda_1 \in \mathbb R \]
+	\[
+		H_0 \colon \mu_1 = \lambda_1 = 0;\quad H_1 \colon \mu_1, \lambda_1 \in \mathbb R
+	\]
 \end{remark}
 
 \subsection{Simple linear regression}
 In a linear regression model, we often centre predictors to simplify certain expressions.
-\[ Y_i = \alpha + \beta (x - \overline x) + \varepsilon_i \]
+\[
+	Y_i = \alpha + \beta (x - \overline x) + \varepsilon_i
+\]
 where \( \overline x = \frac{1}{n} \sum_{i=1}^n x_i \), and the \( \varepsilon_i \) independently have the usual \( N(0, \sigma^2) \) distribution.
 In this case, the maximum likelihood estimator \( (\hat \alpha, \hat \beta) \) takes a simple form.
 Recall that \( (\hat \alpha, \hat \beta) \) minimises
-\[ S(\alpha, \beta) = \sum_{i=1}^n \qty(Y_i - \alpha - \beta(x_i - \overline x))^2 \]
+\[
+	S(\alpha, \beta) = \sum_{i=1}^n \qty(Y_i - \alpha - \beta(x_i - \overline x))^2
+\]
 Hence,
-\[ \pdv{S(\alpha, \beta)}{\alpha} = \sum_{i=1}^n -2\qty(Y_i - \alpha - \beta(x_i - \overline x)) = \sum_{i=1}^n -2\qty(Y_i - \alpha) \]
+\[
+	\pdv{S(\alpha, \beta)}{\alpha} = \sum_{i=1}^n -2\qty(Y_i - \alpha - \beta(x_i - \overline x)) = \sum_{i=1}^n -2\qty(Y_i - \alpha)
+\]
 This gives the simple expression
-\[ \alpha = \frac{\sum_{i=1}^n Y_i}{n} = \overline Y \]
+\[
+	\alpha = \frac{\sum_{i=1}^n Y_i}{n} = \overline Y
+\]
 Now,
-\[ \eval{\pdv{S(\alpha, \beta)}{\beta}}_{\alpha = \hat \alpha} = \sum_{i=1}^n -2\qty(Y_i - \overline Y - \beta(x_i - \overline x))(x_i - \overline x) \]
+\[
+	\eval{\pdv{S(\alpha, \beta)}{\beta}}_{\alpha = \hat \alpha} = \sum_{i=1}^n -2\qty(Y_i - \overline Y - \beta(x_i - \overline x))(x_i - \overline x)
+\]
 This vanishes when
-\[ \hat \beta = \frac{\sum_{i=1}^n \qty(Y_i - \overline Y)(x_i - \overline x)}{\sum_{i=1}^n (x_i - \overline x)^2} = \frac{S_{xy}}{S_{xx}} \]
+\[
+	\hat \beta = \frac{\sum_{i=1}^n \qty(Y_i - \overline Y)(x_i - \overline x)}{\sum_{i=1}^n (x_i - \overline x)^2} = \frac{S_{xy}}{S_{xx}}
+\]
 Note that \( \frac{S_{xy}}{n} \) is the sample covariance of \( X \) and \( Y \), and \( \frac{S_{xx}}{n} \) is the sample variance of \( X \).

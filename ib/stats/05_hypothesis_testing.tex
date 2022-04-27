@@ -35,7 +35,9 @@
 	A \textit{type I} error, or a \textit{false positive}, is the error made by rejecting the null hypothesis when it is true.
 	A \textit{type II} error, or a \textit{false negative}, is the error made by failing to reject the null hypothesis when it is not true.
 	When \( H_0, H_1 \) are simple, we define
-	\[ \alpha = \psub{H_0}{H_0 \text{ is rejected}} = \psub{H_0}{X \in C};\quad \beta = \psub{H_1}{H_0 \text{ is not rejected}} = \psub{H_1}{X \not\in C} \]
+	\[
+		\alpha = \psub{H_0}{H_0 \text{ is rejected}} = \psub{H_0}{X \in C};\quad \beta = \psub{H_1}{H_0 \text{ is not rejected}} = \psub{H_1}{X \not\in C}
+	\]
 	The \textit{size} of a test is \( \alpha \), which is the probability of a type I error.
 	The \textit{power} of a test is \( 1 - \beta \), which is the probability of not finding a type II error.
 
@@ -47,7 +49,9 @@
 \subsection{Neyman-Pearson lemma}
 Let \( H_0 \) and \( H_1 \) be simple, and let \( X \) have a p.d.f.\ or p.m.f.\ \( f_i \) under \( H_i \).
 The \textit{likelihood ratio statistic} is defined by
-\[ \Lambda_x(H_0; H_1) = \frac{f_1(x)}{f_0(x)} \]
+\[
+	\Lambda_x(H_0; H_1) = \frac{f_1(x)}{f_0(x)}
+\]
 The \textit{likelihood ratio test} is a test that rejects \( H_0 \) when \( \Lambda_x \) exceeds a set value \( k \), or more formally, \( C = \qty{ x \colon \Lambda_x(H_0; H_1) > k } \).
 \begin{lemma}
 	Suppose that \( f_0, f_1 \) are nonzero on the same set, and suppose that there exists \( k > 0 \) such that the likelihood ratio test with critical region \( C = \qty{x \colon \Lambda_x(H_0; H_1) > k} \) has size \( \alpha \).
@@ -61,22 +65,28 @@ The \textit{likelihood ratio test} is a test that rejects \( H_0 \) when \( \Lam
 \begin{proof}
 	Let \( \overline C \) be the complement of \( C \) in \( \mathcal X \).
 	Then, the likelihood ratio test has
-	\[ \alpha = \int_C f_0(x) \dd{x};\quad \beta = \int_{\overline C} f_1(x) \dd{x} \]
+	\[
+		\alpha = \int_C f_0(x) \dd{x};\quad \beta = \int_{\overline C} f_1(x) \dd{x}
+	\]
 	Let \( C^\star \) be a critical region for a different test, with type I and II error probabilities \( \alpha^\star, \beta^\star \).
 	Here,
-	\[ \alpha^\star = \int_{C^\star} f_0(x) \dd{x};\quad \beta^\star = \int_{\overline {C^\star}} f_1(x) \dd{x} \]
+	\[
+		\alpha^\star = \int_{C^\star} f_0(x) \dd{x};\quad \beta^\star = \int_{\overline {C^\star}} f_1(x) \dd{x}
+	\]
 	Suppose \( \alpha^\star \leq \alpha \).
 	Then, we will show \( \beta \leq \beta^\star \).
-	\[ \beta - \beta^\star = \int_{\overline C} f_1(x) \dd{x} - \int_{\overline{C^\star}} f_1(x) \dd{x} \]
+	\[
+		\beta - \beta^\star = \int_{\overline C} f_1(x) \dd{x} - \int_{\overline{C^\star}} f_1(x) \dd{x}
+	\]
 	By cancelling the integrals on the intersection, and using the definition of \( C \),
 	\begin{align*}
-		\beta - \beta^\star &= \int_{\overline C \cap C^\star} f_1(x) \dd{x} - \int_{\overline{C^\star} \cap C} f_1(x) \dd{x} \\
-		&= \int_{\overline C \cap C^\star} \underbrace{\frac{f_1(x)}{f_0(x)}}_{\leq k} f_0(x) \dd{x} - \int_{\overline{C^\star} \cap C} \underbrace{\frac{f_1(x)}{f_0(x)}}_{\geq k} f_0(x) \dd{x} \\
-		&\leq k \qty[ \int_{\overline C \cap C^\star} f_0(x) \dd{x} - \int_{\overline C^\star \cap C} f_0(x) \dd{x} ] \\
-		&= k \qty[ \int_{\overline C \cap C^\star} f_0(x) \dd{x} + \int_{C \cap C^\star} f_0(x) \dd{x} - \int_{C \cap C^\star} f_0(x) \dd{x} - \int_{\overline C^\star \cap C} f_0(x) \dd{x} ] \\
-		&= k \qty[ \int_{\cap C^\star} f_0(x) \dd{x} - \int_{C} f_0(x) \dd{x} ] \\
-		&= k \qty[ \alpha^\star - \alpha ] \\
-		&\leq 0
+		\beta - \beta^\star & = \int_{\overline C \cap C^\star} f_1(x) \dd{x} - \int_{\overline{C^\star} \cap C} f_1(x) \dd{x}                                                                                         \\
+		                    & = \int_{\overline C \cap C^\star} \underbrace{\frac{f_1(x)}{f_0(x)}}_{\leq k} f_0(x) \dd{x} - \int_{\overline{C^\star} \cap C} \underbrace{\frac{f_1(x)}{f_0(x)}}_{\geq k} f_0(x) \dd{x} \\
+		                    & \leq k \qty[ \int_{\overline C \cap C^\star} f_0(x) \dd{x} - \int_{\overline C^\star \cap C} f_0(x) \dd{x} ]                                                                             \\
+		                    & = k \qty[ \int_{\overline C \cap C^\star} f_0(x) \dd{x} + \int_{C \cap C^\star} f_0(x) \dd{x} - \int_{C \cap C^\star} f_0(x) \dd{x} - \int_{\overline C^\star \cap C} f_0(x) \dd{x} ]    \\
+		                    & = k \qty[ \int_{\cap C^\star} f_0(x) \dd{x} - \int_{C} f_0(x) \dd{x} ]                                                                                                                   \\
+		                    & = k \qty[ \alpha^\star - \alpha ]                                                                                                                                                        \\
+		                    & \leq 0
 	\end{align*}
 \end{proof}
 \begin{example}
@@ -84,12 +94,14 @@ The \textit{likelihood ratio test} is a test that rejects \( H_0 \) when \( \Lam
 	We wish to find the most powerful test of fixed size \( \alpha \) for the hypotheses \( H_0 \colon \mu = \mu_0 \) and \( H_1 \colon \mu = \mu_1 > \mu_0 \).
 	The likelihood ratio is
 	\begin{align*}
-		\Lambda_x(H_0;H_1) &= \frac{(2\pi \sigma_0^2)^{-n/2} \exp{\frac{-1}{2\sigma_0^2} \sum (x_i - \mu_0)^2}}{(2\pi \sigma_0^2)^{-n/2} \exp{\frac{-1}{2\sigma_0^2} \sum (x_i - \mu_1)^2}} \\
-		&= \exp{\underbrace{\frac{\mu_1 - \mu_0}{\sigma_0^2}}_{\geq 0} n \overline X + \frac{n(\mu_0 - \mu_1)^2}{2\sigma_0^2}}
+		\Lambda_x(H_0;H_1) & = \frac{(2\pi \sigma_0^2)^{-n/2} \exp{\frac{-1}{2\sigma_0^2} \sum (x_i - \mu_0)^2}}{(2\pi \sigma_0^2)^{-n/2} \exp{\frac{-1}{2\sigma_0^2} \sum (x_i - \mu_1)^2}} \\
+		                   & = \exp{\underbrace{\frac{\mu_1 - \mu_0}{\sigma_0^2}}_{\geq 0} n \overline X + \frac{n(\mu_0 - \mu_1)^2}{2\sigma_0^2}}
 	\end{align*}
 	which depends only on \( \overline X \), and is monotonically increasing with respect to the sample mean \( \overline X \).
 	Therefore, this is also monotonically increasing with respect to the statistic
-	\[ Z = \sqrt{n}\frac{\overline X - \mu_0}{\sigma_0} \]
+	\[
+		Z = \sqrt{n}\frac{\overline X - \mu_0}{\sigma_0}
+	\]
 	Thus, \( \Lambda_x > k \) if and only if \( Z > k' \) for some \( k' \).
 	Hence, the likelihood ratio test has critical region \( \qty{x\colon Z(x) > k'} \) for some \( k' \).
 	It thus suffices to find a critical region of \( Z \) with size \( \alpha \) in order to construct the most powerful test of this size.
@@ -103,13 +115,17 @@ The \textit{likelihood ratio test} is a test that rejects \( H_0 \) when \( \Lam
 	Let \( C \) be a critical region of the form \( \qty{ x: T(x) > k } \) for some test statistic \( T \).
 	Let \( x^\star \) denote the observed data.
 	Then, the \textit{\( p \)-value} is
-	\[ \psub{H_0}{T(X) > T(x^\star)} \]
+	\[
+		\psub{H_0}{T(X) > T(x^\star)}
+	\]
 \end{definition}
 Typically, when reporting the results of a test, we describe the conclusion of the test as well as the \( p \)-value.
 In the example above, suppose \( \mu_0 = 5 \), \( \mu_1 = 6 \), \( \alpha = 0.05 \), and \( x^\star = (5.1, 5.5, 4.9, 5.3) \).
 Here, \( \overline{x^\star} = 5.2 \) and \( z^\star = 0.4 \).
 The likelihood ratio test has critical region
-\[ \qty{x: Z(x) > \Phi^{-1}(0.95) \approx 1.645} \]
+\[
+	\qty{x: Z(x) > \Phi^{-1}(0.95) \approx 1.645}
+\]
 The conclusion of the test here is to not reject \( H_0 \).
 The \( p \)-value is \( 1 - \Phi(z^\star) \approx 0.35 \).
 \begin{proposition}
@@ -119,10 +135,10 @@ The \( p \)-value is \( 1 - \Phi(z^\star) \approx 0.35 \).
 	Let \( F \) be the distribution of the test statistic \( T \), which we will assume for this proof is continuous.
 	Then,
 	\begin{align*}
-		\psub{H_0}{p < u} &= \psub{H_0}{1 - F(T) < u} \\
-		&= \psub{H_0}{F(T) > 1-u} \\
-		&= \psub{H_0}{T > F^{-1}(1-u)} \\
-		&= 1 - F(F^{-1}(1-u)) = u
+		\psub{H_0}{p < u} & = \psub{H_0}{1 - F(T) < u}    \\
+		                  & = \psub{H_0}{F(T) > 1-u}      \\
+		                  & = \psub{H_0}{T > F^{-1}(1-u)} \\
+		                  & = 1 - F(F^{-1}(1-u)) = u
 	\end{align*}
 \end{proof}
 
@@ -132,9 +148,13 @@ Let \( H_0 = \theta \in \Theta_0 \subset \Theta \) and \( H_1 = \theta \in \Thet
 The probabilities of type I and type II error are now dependent on the precise value of \( \theta \), rather than simply on which hypothesis is taken.
 \begin{definition}
 	The \textit{power function} for a test \( C \) is
-	\[ W(\theta) = \psub{\theta}{X \in C} \]
+	\[
+		W(\theta) = \psub{\theta}{X \in C}
+	\]
 	The \textit{size} of a test \( C \) is
-	\[ \alpha = \sup_{\theta \in \Theta_0} W(\theta) \]
+	\[
+		\alpha = \sup_{\theta \in \Theta_0} W(\theta)
+	\]
 	A test is \textit{uniformly most powerful} of size \( \alpha \) if, for any test \( C^\star \) with power function \( W^\star \) and size upper bounded by \( \alpha \), for all \( \theta \in \Theta_1 \) we have \( W(\theta) \geq W^\star(\theta) \).
 	Such tests need not exist.
 	In simple models, many likelihood ratio tests are uniformly most powerful.
@@ -145,18 +165,22 @@ The probabilities of type I and type II error are now dependent on the precise v
 	We claim that the simple hypothesis test given by \( H_0' \colon \mu = \mu_0 \) and \( H_1' \colon \mu = \mu_1 > \mu_0 \) is uniformly most powerful for \( H_0 \) and \( H_1 \).
 	The power function is
 	\begin{align*}
-		W(\mu) &= \psub{\mu}{\frac{\sqrt{n}(\overline X-\mu_0)}{\sigma_0} = Z < z_\alpha = \Phi^{-1}(1-\alpha)} \\
-		&= \psub{\mu}{\frac{\sqrt{n}(\overline X - \mu)}{\sigma_0} > z_\alpha + \frac{\sqrt{n}(\mu_0 - \mu)}{\sigma_0}} \\
-		&= 1 - \Phi\qty(x_\alpha + \sqrt{n} \frac{\mu_0 - \mu}{\sigma_0})
+		W(\mu) & = \psub{\mu}{\frac{\sqrt{n}(\overline X-\mu_0)}{\sigma_0} = Z < z_\alpha = \Phi^{-1}(1-\alpha)}                \\
+		       & = \psub{\mu}{\frac{\sqrt{n}(\overline X - \mu)}{\sigma_0} > z_\alpha + \frac{\sqrt{n}(\mu_0 - \mu)}{\sigma_0}} \\
+		       & = 1 - \Phi\qty(x_\alpha + \sqrt{n} \frac{\mu_0 - \mu}{\sigma_0})
 	\end{align*}
 	The test has size \( \alpha \) since \( \sup_{w \in \Theta_0} W(\mu) = \alpha \).
 	It remains to show that this power function dominates all other power functions \( W^\star \) of size \( \alpha \) in the alternative space \( \Theta_1 \).
 	First, observe that the critical region depends only on \( \mu_0 \), and not on \( \mu_1 \).
 	In particular, for any \( \mu_1 > \mu_0 \), we have that the critical region \( C \) is the likelihood ratio test for the simple hypothesis test \( H_0' \colon \mu = \mu_0 \) and \( H_1' \colon \mu = \mu_1 \).
 	We can also see \( C^\star \) as a test of \( H_0' \) versus \( H_1' \), and for these simple hypotheses, \( C^\star \) has size
-	\[ W^\star(\mu_0) \leq \sup_{\mu < \mu_0} W^\star(\mu) \leq \alpha \]
+	\[
+		W^\star(\mu_0) \leq \sup_{\mu < \mu_0} W^\star(\mu) \leq \alpha
+	\]
 	By the Neyman-Pearson lemma, \( C \) has power no smaller than \( C^\star \) for \( H_0' \) against \( H_1' \):
-	\[ W(\mu_1) \geq W^\star(\mu_1) \]
+	\[
+		W(\mu_1) \geq W^\star(\mu_1)
+	\]
 	Since this is true for all \( \mu_1 > \mu_0 \), the result holds, and the test \( C \) satisfies the property for being uniformly most powerful.
 \end{example}
 
@@ -164,7 +188,9 @@ The probabilities of type I and type II error are now dependent on the precise v
 \begin{definition}
 	Suppose we have \textit{nested hypotheses}, i.e.\ \( H_0 \colon \theta \in \Theta_0 \) and \( H_1 \colon \theta \in \Theta_1 \), where \( \Theta_0 \subset \Theta_1 \).
 	The \textit{generalised likelihood ratio} is given by
-	\[ \Lambda_x(H_0; H_1) = \frac{\sup_{\theta \in \Theta_1} f_X(x \mid \theta)}{\sup_{\theta \in \Theta_0} f_X(x \mid \theta)} \]
+	\[
+		\Lambda_x(H_0; H_1) = \frac{\sup_{\theta \in \Theta_1} f_X(x \mid \theta)}{\sup_{\theta \in \Theta_0} f_X(x \mid \theta)}
+	\]
 	Large values indicate a better fit under the alternative hypothesis.
 	The \textit{generalised likelihood ratio test} rejects the null hypothesis when \( \Lambda_x \) is sufficiently large.
 \end{definition}
@@ -173,13 +199,15 @@ The probabilities of type I and type II error are now dependent on the precise v
 	Let \( H_0 \colon \mu = \mu_0 \) and \( H_1 \colon \mu \in \mathbb R \) for some fixed \( \mu_0 \).
 	In this model, the generalised likelihood ratio is
 	\begin{align*}
-		\Lambda_x(H_0; H_1) &= \frac{(2 \pi \sigma_0^2)^{-n/2} \exp{\frac{-1}{2\sigma_0^2} \Sigma_{i=1}^n (x_i - \overline X)^2}}{(2 \pi \sigma_0^2)^{-n/2} \exp{\frac{-1}{2\sigma_0^2} \Sigma_{i=1}^n (x_i - \mu_0)^2}} \\
-		2\log \Lambda_x &= \frac{n}{\sigma_0^2}(\overline X - \mu_0)^2
+		\Lambda_x(H_0; H_1) & = \frac{(2 \pi \sigma_0^2)^{-n/2} \exp{\frac{-1}{2\sigma_0^2} \Sigma_{i=1}^n (x_i - \overline X)^2}}{(2 \pi \sigma_0^2)^{-n/2} \exp{\frac{-1}{2\sigma_0^2} \Sigma_{i=1}^n (x_i - \mu_0)^2}} \\
+		2\log \Lambda_x     & = \frac{n}{\sigma_0^2}(\overline X - \mu_0)^2
 	\end{align*}
 	Under \( H_0 \), \( \sqrt{n} \frac{\overline X - \mu_0}{\sigma_0} \sim N(0,1) \).
 	Hence, \( 2 \log \Lambda_x \sim \chi_1^2 \).
 	Therefore, the critical region of this generalised likelihood ratio test is
-	\[ C = \qty{x \colon \frac{n}{\sigma_0^2}(\overline X - \mu_0)^2 > \chi_1^2(\alpha)} \]
+	\[
+		C = \qty{x \colon \frac{n}{\sigma_0^2}(\overline X - \mu_0)^2 > \chi_1^2(\alpha)}
+	\]
 	where \( \chi_1^2(\alpha) \) is the upper \( \alpha \) point of \( \chi_1^2 \).
 	This is called a \textit{two-sided test} since there are two tails on the critical region, plotting with respect to \( \sqrt{n} \frac{\overline X - \mu_0}{\sigma_0} \).
 \end{example}
@@ -202,9 +230,13 @@ The probabilities of type I and type II error are now dependent on the precise v
 	Suppose \( \Theta_0 \subset \Theta_1 \), and \( \dim \Theta_1 - \dim \Theta_0 = p \).
 	Let \( X = (X_1, \dots, X_n) \) be i.i.d.\ random variables under \( f_x(\wildcard\mid\theta) \) where \( \theta \in \Theta_0^\circ \).
 	Then, under some regularity conditions, as \( n \to \infty \) we have
-	\[ 2\log\Lambda_x \sim \chi_p^2 \]
+	\[
+		2\log\Lambda_x \sim \chi_p^2
+	\]
 	More precisely, for all \( \ell \in \mathbb R_+ \),
-	\[ \lim_{n \to \infty} \psub{\theta}{2\log \Lambda_x \leq \ell} = \prob{\Xi \leq \ell};\quad \Xi \sim \chi_p^2 \]
+	\[
+		\lim_{n \to \infty} \psub{\theta}{2\log \Lambda_x \leq \ell} = \prob{\Xi \leq \ell};\quad \Xi \sim \chi_p^2
+	\]
 \end{theorem}
 \begin{remark}
 	If \( n \) is large, this theorem allows us to implement a generalised likelihood ratio test even if we cannot find the exact distribution of \( 2 \log \Lambda_x \).
@@ -224,37 +256,57 @@ The alternative hypothesis \( H_1 \) does not constrain \( p \).
 
 The model is \( (N_1, \dots, N_k) \sim \mathrm{Multi}(n; p_1, \dots, p_k) \).
 The likelihood function is
-\[ L(p) \propto p_1^{N_1} \cdots p_k^{N_k} \implies \ell(p) = \text{constant} + \sum_i N_i \log p_i \]
+\[
+	L(p) \propto p_1^{N_1} \cdots p_k^{N_k} \implies \ell(p) = \text{constant} + \sum_i N_i \log p_i
+\]
 The generalised likelihood ratio is
-\[ 2 \log \Lambda_x = 2\qty(\sup_{p \in \Theta_1} \ell(p) - \sup_{p \in \Theta_0} \ell(p)) = 2\qty(\ell(\hat p) - \ell(\widetilde p)) \]
+\[
+	2 \log \Lambda_x = 2\qty(\sup_{p \in \Theta_1} \ell(p) - \sup_{p \in \Theta_0} \ell(p)) = 2\qty(\ell(\hat p) - \ell(\widetilde p))
+\]
 where \( \hat p \) is the maximum likelihood estimator under \( H_1 \).
 To find \( \hat p \), we typically use the method of Lagrange multipliers.
-\[ \mathcal L(p, \lambda) = \sum_i N_i \log p_i - \lambda \qty(\sum p_i - 1) \]
+\[
+	\mathcal L(p, \lambda) = \sum_i N_i \log p_i - \lambda \qty(\sum p_i - 1)
+\]
 We can compute that
-\[ \hat p_i = \frac{N_i}{n} \]
+\[
+	\hat p_i = \frac{N_i}{n}
+\]
 This is simply the fraction of observed samples of type \( i \).
 
 \subsection{Pearson statistic}
 Let \( o_i = N_i \) be the observed number of samples of type \( i \), and \( e_i = n \widetilde p_i \) be the expected value under the null hypothesis of the number of samples of type \( i \).
 Here, we can write
-\[ 2 \log \Lambda = 2 \sum_i o_i \log \frac{o_i}{e_i} \]
+\[
+	2 \log \Lambda = 2 \sum_i o_i \log \frac{o_i}{e_i}
+\]
 Let \( \delta_i = o_i - e_i \).
 Then
-\[ 2 \log \Lambda = 2 \sum_i (e_i + \delta_i) \log\qty(1 + \underbrace{\frac{\delta_i}{e_i}}_{\text{small when } n \text{ large}}) \]
+\[
+	2 \log \Lambda = 2 \sum_i (e_i + \delta_i) \log\qty(1 + \underbrace{\frac{\delta_i}{e_i}}_{\text{small when } n \text{ large}})
+\]
 By taking the Taylor expansion, we arrive at
-\[ 2 \sum_i \qty(\delta_i + \frac{\delta_i^2}{e_i} - \frac{\delta_i^2}{2e_i}) \]
+\[
+	2 \sum_i \qty(\delta_i + \frac{\delta_i^2}{e_i} - \frac{\delta_i^2}{2e_i})
+\]
 Note that \( \sum_i \delta_i = \sum_i (o_i - e_i) = n - n = 0 \), so we can simplify and find
-\[ \sum_i \frac{\delta_i^2}{e_i} = \sum_i \frac{(o_i - e_i)^2}{e_i} \]
+\[
+	\sum_i \frac{\delta_i^2}{e_i} = \sum_i \frac{(o_i - e_i)^2}{e_i}
+\]
 This is \textit{Pearson's \( \chi^2 \) statistic}.
 This is also referred to a \( \chi^2_{k-1} \) when performing a hypothesis test.
 \begin{example}
 	Mendel performed an experiment in which 556 different pea plants were created from a small set of ancestors.
 	Each descendent was either yellow or green, and either wrinkled or smooth, giving four possibilities in total.
 	The observed result was
-	\[ N = \qty(\underbrace{315}_{SG}, \underbrace{108}_{SY}, \underbrace{102}_{WG}, \underbrace{31}_{WY}) \]
+	\[
+		N = \qty(\underbrace{315}_{SG}, \underbrace{108}_{SY}, \underbrace{102}_{WG}, \underbrace{31}_{WY})
+	\]
 	Mendel's theory gives a null hypothesis \( H_0 \colon p = \widetilde p = \qty(\frac{9}{16}, \frac{3}{16}, \frac{3}{16}, \frac{1}{16}) \).
 	Here,
-	\[ 2 \log \Lambda = 0.618;\quad \sum_i \frac{(o_i - e_i)^2}{e_i} = 0.604 \]
+	\[
+		2 \log \Lambda = 0.618;\quad \sum_i \frac{(o_i - e_i)^2}{e_i} = 0.604
+	\]
 	These are referred to a \( \chi^2_3 \) distribution.
 	We observe that \( \chi^2_3(0.05) = 7.815 \), so we fail to reject the null hypothesis with a test of size \( 5\% \).
 	We can compute that the \( p \)-value is \( \prob{\chi^2_3 > 0.6} \approx 0.96 \), so there is a very high probability of observing a more extreme value than observed.
@@ -263,18 +315,26 @@ This is also referred to a \( \chi^2_{k-1} \) when performing a hypothesis test.
 \subsection{Goodness of fit for composite null}
 Suppose \( H_0 \colon p_i = p_i(\theta) \) for some \( \theta \in \Theta_0 \), and \( H_1 \colon p \) has any distribution on \( \qty{1, \dots, k} \).
 We can compute
-\[ 2 \log \Lambda = 2 \qty( \sup_p \ell(p) - \sup_{\theta \in \Theta} \ell(p(\theta)) ) \]
+\[
+	2 \log \Lambda = 2 \qty( \sup_p \ell(p) - \sup_{\theta \in \Theta} \ell(p(\theta)) )
+\]
 We can sometimes compute these quantities explicitly, and hence find a test which refers this test statistic to a \( \chi^2_p \) distribution where \( p = \dim \Theta_1 - \dim \Theta_0 = (k-1) - \dim \Theta_0 \).
 \begin{example}
 	Consider a population of individuals who may have one of three genotypes, which occur with probabilities \( (p_1, p_2, p_3) = (\theta^2, 2\theta(1-\theta), (1-\theta)^2) \).
 	In this case, we can find the maximum likelihood estimator under the null hypothesis to be
-	\[ \hat \theta = \frac{2N_1 + N_2}{2n} \]
+	\[
+		\hat \theta = \frac{2N_1 + N_2}{2n}
+	\]
 	Hence,
-	\[ 2 \log \Lambda = 2(\ell(\hat p) - \ell(\hat \theta)) \]
+	\[
+		2 \log \Lambda = 2(\ell(\hat p) - \ell(\hat \theta))
+	\]
 	where \( \hat p_i = \frac{N_1}{n} \) as found previously.
 	This can be computed explicitly and referred to a \( \chi^2_1 \) distribution.
 	We can check that, in this model,
-	\[ 2 \log \Lambda = \sum_i o_i \log \frac{o_i}{e_i} \]
+	\[
+		2 \log \Lambda = \sum_i o_i \log \frac{o_i}{e_i}
+	\]
 	where \( o_i = N_i \) and \( e_i = n p_i(\hat \theta) \).
 	We can approximate this using the Pearson statistic, \( \sum_i \frac{(o_i - e_i)^2}{e_i} \).
 \end{example}
@@ -283,7 +343,9 @@ We can sometimes compute these quantities explicitly, and hence find a test whic
 Suppose we have observations \( (X_1, Y_1), \dots, (X_n, Y_n) \) which are i.i.d., where the \( X_i \) take values in \( 1, \dots, r \) and the \( Y_i \) take values in \( 1, \dots, c \).
 We wish to test whether the \( X_i \) and \( Y_i \) are independent.
 We will summarise this data into a sufficient statistic known as a \textit{contingency table} \( N \), given by
-\[ N_{ij} = \abs{ \qty{\ell \colon 1 \leq \ell \leq n, (X_\ell, Y_\ell) = (i,j)} } \]
+\[
+	N_{ij} = \abs{ \qty{\ell \colon 1 \leq \ell \leq n, (X_\ell, Y_\ell) = (i,j)} }
+\]
 So \( N_{ij} \) is the number of samples of type \( (i,j) \).
 \begin{example}
 	Suppose we observe \( n \) samples, and each sample has probability \( p_{ij} \) of being of type \( (i,j) \).
@@ -291,22 +353,28 @@ So \( N_{ij} \) is the number of samples of type \( (i,j) \).
 	The null hypothesis is \( H_0 \colon p_{ij} = p_{i+} p_{+j} \) where \( p_{i+} = \sum_j p_{ij} \) and \( p_{+j} = \sum_i p_{ij} \).
 	The alternative hypothesis places no restrictions on the \( p_{ij} \) apart from that it sums to 1 and has nonnegative entries.
 	We find
-	\[ 2 \log \Lambda = 2\sum_{i=1}^r \sum_{j=1}^c N_{ij} \log \frac{\hat p_{ij}}{\hat p_{i+} \hat p_{+j}} \]
+	\[
+		2 \log \Lambda = 2\sum_{i=1}^r \sum_{j=1}^c N_{ij} \log \frac{\hat p_{ij}}{\hat p_{i+} \hat p_{+j}}
+	\]
 	where \( \hat p_{ij} \) is the maximum likelihood estimator under \( H_1 \), and where \( \hat p_{i+} \) and \( \hat p_{+j} \) are the maximum likelihood estimators under \( H_0 \).
 	These can be found using the method of Lagrange multipliers.
 	In particular,
-	\[ \hat p_{ij} = \frac{N_{ij}}{n};\quad \hat p_{i+} = \frac{N_{i+}}{n} = \frac{1}{n} \sum_{j=1}^c N_{ij};\quad \hat p_{+j} = \frac{N_{+j}}{n} = \frac{1}{n} \sum_{i=1}^r N_{ij} \]
+	\[
+		\hat p_{ij} = \frac{N_{ij}}{n};\quad \hat p_{i+} = \frac{N_{i+}}{n} = \frac{1}{n} \sum_{j=1}^c N_{ij};\quad \hat p_{+j} = \frac{N_{+j}}{n} = \frac{1}{n} \sum_{i=1}^r N_{ij}
+	\]
 	Writing \( o_{ij} = N_{ij} \) and \( e_{ij} = n \hat p_{i+} \hat p_{+j} \),
-	\[ 2 \log \Lambda = \sum_{i,j} o_{ij} \log \frac{o_{ij}}{e_{ij}} \approx \sum_{i,j} \frac{(o_{ij} - e_{ij})^2}{e_{ij}} \]
+	\[
+		2 \log \Lambda = \sum_{i,j} o_{ij} \log \frac{o_{ij}}{e_{ij}} \approx \sum_{i,j} \frac{(o_{ij} - e_{ij})^2}{e_{ij}}
+	\]
 	By Wilks' theorem, these test statistics have an approximate \( \chi^2_p \) distribution, where \( p = \dim \Theta_1 - \dim \Theta_0 = (rc-1) - (r-1 + c-1) = (r-1)(c-1) \).
 \end{example}
 The \( \chi^2 \) test for independence has a number of weaknesses.
 \begin{enumerate}
 	\item The \( \chi^2 \) approximation requires \( n \) to be large.
-		A reasonable heuristic is to require \( N_{ij} \geq 5 \) for \textit{all} \( i,j \).
-		If this is not possible, we can perform an \textit{exact test} (which is non-examinable).
+	      A reasonable heuristic is to require \( N_{ij} \geq 5 \) for \textit{all} \( i,j \).
+	      If this is not possible, we can perform an \textit{exact test} (which is non-examinable).
 	\item The \( \chi^2 \) test often has a low power.
-		Heuristically, this is because the alternative space \( \Theta_1 \) is too large, and there are many possible models that lie in this space.
+	      Heuristically, this is because the alternative space \( \Theta_1 \) is too large, and there are many possible models that lie in this space.
 \end{enumerate}
 Note that this test also applies when \( n \) is a random variable with a Poisson distribution.
 This is often the case when we do not fix the number of samples.
@@ -319,46 +387,67 @@ The proof is not provided in this course.
 
 	\begin{center}
 		\begin{tabular}{c | c c c | c}
-			& improved & no difference & worse & \\\hline
-			placebo & 18 & 17 & 15 & 50 \\
-			half dose & 20 & 10 & 20 & 50 \\
-			full dose & 25 & 13 & 12 & 50
+			          & improved & no difference & worse &    \\\hline
+			placebo   & 18       & 17            & 15    & 50 \\
+			half dose & 20       & 10            & 20    & 50 \\
+			full dose & 25       & 13            & 12    & 50
 		\end{tabular}
 	\end{center}
 
 	In the previous section, we fixed the total number of samples.
 	Here, we fix the total number of samples, and the total number of samples in each row.
 	We suppose
-	\[ N_{i1}, \dots, N_{ic} \sim \mathrm{Multinomial}(n_{i+}; p_{i1}, \dots, p_{ic}) \]
+	\[
+		N_{i1}, \dots, N_{ic} \sim \mathrm{Multinomial}(n_{i+}; p_{i1}, \dots, p_{ic})
+	\]
 	which are independent for each row \( i \) of the table.
 	The null hypothesis for homogeneity is that \( p_{1j} = p_{2j} = \dots = p_{rj} \) for all \( j \).
 	The alternative hypothesis assumes that \( p_{i1}, \dots, p_{ic} \) is any arbitrary probability vector for each row \( i \).
 	Under the alternative hypothesis,
-	\[ L(p) = \prod_{i=1}^r \frac{n_{i+}!}{N_{i1}! \cdots N_{ic}!} p_{i1}^{N_{i1}} \cdots p_{ic}^{N_{ic}} \]
+	\[
+		L(p) = \prod_{i=1}^r \frac{n_{i+}!}{N_{i1}!
+			\cdots N_{ic}!} p_{i1}^{N_{i1}} \cdots p_{ic}^{N_{ic}}
+	\]
 	Hence,
-	\[ \ell(p) = \text{constant} + \sum_{i,j} N_{ij} \log p_{ij} \]
+	\[
+		\ell(p) = \text{constant} + \sum_{i,j} N_{ij} \log p_{ij}
+	\]
 	This is the same likelihood as the independence test above.
 	To define the maximum likelihood estimator we can again use the method of Lagrange multipliers with constraints \( \sum_j p_{ij} = 1 \) for each \( i \).
 	We find
-	\[ \hat p_{ij} = \frac{N_{ij}}{n_{i+}} \]
+	\[
+		\hat p_{ij} = \frac{N_{ij}}{n_{i+}}
+	\]
 	Under the null hypothesis, we let \( p_j = p_{ij} \) for any \( i \).
-	\[ \ell(p) = \text{constant} + \sum_{i,j} N_{ij} \log p_j = \sum_j N_{+j} \log p_j \]
+	\[
+		\ell(p) = \text{constant} + \sum_{i,j} N_{ij} \log p_j = \sum_j N_{+j} \log p_j
+	\]
 	We have the constraint \( \sum_j p_j = 1 \).
 	Using the method of Lagrange multipliers,
-	\[ \hat p_j = \frac{N_{+j}}{n_{++}} \]
+	\[
+		\hat p_j = \frac{N_{+j}}{n_{++}}
+	\]
 	Hence,
-	\[ 2 \log \Lambda = 2 \sum_{i,j} N_{ij} \log \frac{\hat p_{ij}}{\hat p_j} = 2 \sum_{i,j} N_{ij} \log \frac{N_{ij}}{n_{i+} N_{+j} / n_{++}} \]
+	\[
+		2 \log \Lambda = 2 \sum_{i,j} N_{ij} \log \frac{\hat p_{ij}}{\hat p_j} = 2 \sum_{i,j} N_{ij} \log \frac{N_{ij}}{n_{i+} N_{+j} / n_{++}}
+	\]
 	This is precisely the same test statistic as the test for independence above.
 	The only difference is that \( n_{i+} \) is fixed in this model.
 	Further, if \( o_{ij} = N_{ij} \) and \( e_{ij} = n_{i+} \hat p_j = \frac{n_{i+} N_{+j}}{n_{++}} \), we have
-	\[ 2 \log \Lambda = 2 \sum_{i,j} o_{ij} \log \frac{o_{ij}}{e_{ij}} \approx \sum_{i,j} \frac{(o_{ij} - e_{ij})^2}{e_{ij}} \]
+	\[
+		2 \log \Lambda = 2 \sum_{i,j} o_{ij} \log \frac{o_{ij}}{e_{ij}} \approx \sum_{i,j} \frac{(o_{ij} - e_{ij})^2}{e_{ij}}
+	\]
 	By Wilks' theorem, this is asymptotically a \( \chi^2_p \) distribution.
 	Here,
-	\[ p = \dim \Theta_1 - \dim \Theta_0 = r(c-1) - (c-1) = (r-1)(c-1) \]
+	\[
+		p = \dim \Theta_1 - \dim \Theta_0 = r(c-1) - (c-1) = (r-1)(c-1)
+	\]
 	This is again exactly the same as in the \( \chi^2 \) test for independence.
 	Operationally, the tests for homogeneity and independence are therefore completely identical; we reject the null hypothesis for one test if and only if we reject the null for the other.
 	In the example above,
-	\[ 2 \log \Lambda = 5.129;\quad \sum_{i,j} \frac{(o_{ij} - e_{ij})^2}{e_{ij}} = 5.173 \]
+	\[
+		2 \log \Lambda = 5.129;\quad \sum_{i,j} \frac{(o_{ij} - e_{ij})^2}{e_{ij}} = 5.173
+	\]
 	Referring this to a \( \chi^2_4 \) distribution, the upper \( 0.05 \)-point is \( 9.488 \).
 	Hence, we do not reject the null hypothesis at the 5\% significance level.
 \end{example}
@@ -371,27 +460,39 @@ The proof is not provided in this course.
 	Let \( X \sim f_X(\wildcard\mid\theta) \) for some \( \theta \in \Theta \).
 	Suppose that for each \( \theta_0 \in \Theta \), there exists a test of size \( \alpha \) with acceptance region \( A(\theta_0) \) for the  null hypothesis \( \theta = \theta_0 \).
 	Then
-	\[ I(X) = \qty{\theta \colon X \in A(\theta)} \]
+	\[
+		I(X) = \qty{\theta \colon X \in A(\theta)}
+	\]
 	is a \( 100(1-\alpha)\% \) confidence set.
 
 	Now suppose there exists a set \( I(X) \) which is a \( 100(1-\alpha)\% \) confidence set for \( \theta \).
 	Then
-	\[ A(\theta_0) = \qty{x \colon \theta_0 \in I(x)} \]
+	\[
+		A(\theta_0) = \qty{x \colon \theta_0 \in I(x)}
+	\]
 	is the acceptance region of a test of size \( \alpha \) for the hypothesis \( \theta = \theta_0 \).
 \end{theorem}
 \begin{proof}
 	Observe that for both parts of the theorem,
-	\[ \theta_0 \in I(X) \iff X \in A(\theta_0) \iff \text{fail to reject } H_0 \text{ with data } X \]
+	\[
+		\theta_0 \in I(X) \iff X \in A(\theta_0) \iff \text{fail to reject } H_0 \text{ with data } X
+	\]
 	For the first part, we assume that \( \psub{\theta}{\text{fail to reject } H_0 \text{ with data } X} = 1 - \alpha \), and we want to show \( \psub{\theta}{\theta_0 \in I(X)} = 1 - \alpha \).
 	The second part is the converse.
 \end{proof}
 \begin{example}
 	Let \( X_1, \dots, X_n \sim N(\mu, \sigma_0^2) \) be i.i.d.\ with \( \sigma_0^2 \) known and \( \mu \) unknown.
 	We found that a \( 100(1-\alpha)\% \) confidence interval for \( \mu \) is
-	\[ I(X) = \qty(\overline X \pm \frac{Z_{\alpha/2}\sigma_0}{\sqrt{n}}) \]
+	\[
+		I(X) = \qty(\overline X \pm \frac{Z_{\alpha/2}\sigma_0}{\sqrt{n}})
+	\]
 	Hence, by the second part of the theorem above, we can find a test for \( H_0 \colon \mu = \mu_0 \) with size \( \alpha \) by
-	\[ A(\mu_0) = \qty{ x \colon \mu_0 \in I(x) } = \qty{ x \colon \mu_0 \in \qty[\overline x \pm \frac{Z_{\alpha/2} \sigma_0}{\sqrt{n}}] } \]
+	\[
+		A(\mu_0) = \qty{ x \colon \mu_0 \in I(x) } = \qty{ x \colon \mu_0 \in \qty[\overline x \pm \frac{Z_{\alpha/2} \sigma_0}{\sqrt{n}}] }
+	\]
 	This is equivalent to rejecting \( H_0 \) when
-	\[ \abs{\sqrt{n} \frac{\mu_0 - \overline X}{\sigma_0}} > Z_{\alpha/2} \]
+	\[
+		\abs{\sqrt{n} \frac{\mu_0 - \overline X}{\sigma_0}} > Z_{\alpha/2}
+	\]
 	This is a two-sided test for normal location.
 \end{example}

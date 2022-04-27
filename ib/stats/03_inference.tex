@@ -16,10 +16,14 @@
 	Let \( X_1, \dots, X_n \) be i.i.d.\ normal random variables with unit variance.
 	We will find the 95\% confidence interval for \( \mu = \theta \).
 	We have
-	\[ \overline X = \frac{1}{n} \sum_{i=1}^n X_i \sim N\qty(\theta, \frac{1}{n});\quad Z = \sqrt{n}\qty(\overline X - \theta) \sim N(0,1) \]
+	\[
+		\overline X = \frac{1}{n} \sum_{i=1}^n X_i \sim N\qty(\theta, \frac{1}{n});\quad Z = \sqrt{n}\qty(\overline X - \theta) \sim N(0,1)
+	\]
 	Let \( a, b \) be numbers such that \( \Phi(b) - \Phi(a) = 0.95 \).
 	Then
-	\[ \prob{a \leq \sqrt{n} \qty(\overline X - \theta) \leq b} = 0.95 \implies \prob{\overline X - \frac{b}{\sqrt{n}} \leq \theta \leq \overline X - \frac{a}{\sqrt{n}}} = 0.95 \]
+	\[
+		\prob{a \leq \sqrt{n} \qty(\overline X - \theta) \leq b} = 0.95 \implies \prob{\overline X - \frac{b}{\sqrt{n}} \leq \theta \leq \overline X - \frac{a}{\sqrt{n}}} = 0.95
+	\]
 	Hence, \( \qty(\overline X - \frac{b}{\sqrt{n}}, \overline X - \frac{a}{\sqrt{n}}) \) is a 95\% confidence interval for \( \theta \).
 	Typically, we wish to centre the interval around some estimator \( \hat\theta \) such that its range is minimised for a given \( \gamma \).
 	In this case, we want to set \( -a = b = z_{0.025} \approx 1.96 \), where \( z_\alpha = \Phi^{-1}(1-\alpha) \).
@@ -29,10 +33,10 @@
 	In general, to find a confidence interval:
 	\begin{enumerate}
 		\item Find a quantity \( R(X,\theta) \) where the distribution \( \mathbb P_\theta \) does not depend on \( \theta \).
-			This is known as a \textit{pivot}.
-			In the example above, \( R(X,\theta) = \sqrt{n}\qty(\overline X - \theta) \).
+		      This is known as a \textit{pivot}.
+		      In the example above, \( R(X,\theta) = \sqrt{n}\qty(\overline X - \theta) \).
 		\item Consider \( \prob{c_1 \leq R(X,\theta) \leq c_2} = \gamma \).
-			Given some desired level of confidence \( \gamma \), find \( c_1 \) and \( c_2 \) using the distribution function of the pivot.
+		      Given some desired level of confidence \( \gamma \), find \( c_1 \) and \( c_2 \) using the distribution function of the pivot.
 		\item Rearrange such that \( \prob{A(X) \leq \theta \leq B(X)} = \gamma \), then \( (A(X), B(X)) \) is the confidence interval as required.
 	\end{enumerate}
 \end{remark}
@@ -49,11 +53,17 @@
 	We will find a 95\% confidence interval for \( \sigma^2 \).
 	Note that \( \frac{X_1}{\sigma} \sim N(0,1) \) is a valid pivot, but it considers only one data point.
 	We will instead consider
-	\[ R(X, \sigma^2) = \sum_i \frac{X_i^2}{\sigma^2} \sim \chi^2_n \]
+	\[
+		R(X, \sigma^2) = \sum_i \frac{X_i^2}{\sigma^2} \sim \chi^2_n
+	\]
 	Now, we can define \( c_1 = F_{\chi^2_n}^{-1}(0.025) \) and \( c_2 = F_{\chi^2_n}^{-1}(0.975) \), giving
-	\[ \prob{c_1 \leq \sum_{i=1}^n \frac{X_i^2}{\sigma^2} \leq c^2} = 0.95 \]
+	\[
+		\prob{c_1 \leq \sum_{i=1}^n \frac{X_i^2}{\sigma^2} \leq c^2} = 0.95
+	\]
 	Rearranging, we have
-	\[ \prob{\frac{\sum X_i^2}{c_2} \leq \sigma^2 \leq \frac{\sum X_i^2}{c_1}} = 0.95 \]
+	\[
+		\prob{\frac{\sum X_i^2}{c_2} \leq \sigma^2 \leq \frac{\sum X_i^2}{c_1}} = 0.95
+	\]
 	Hence, the interval \( \sum_{i=1}^n X_i^2 \qty(\frac{1}{c_2}, \frac{1}{c_1}) \) is a 95\% confidence interval for \( \sigma^2 \).
 \end{example}
 \begin{example}
@@ -61,18 +71,28 @@
 	Suppose \( n \) is large.
 	We will find an approximate 95\% confidence interval for \( p \).
 	The maximum likelihood estimator is
-	\[ \hat p = \overline X = \frac{1}{n} \sum_{i=1}^n X_i \]
+	\[
+		\hat p = \overline X = \frac{1}{n} \sum_{i=1}^n X_i
+	\]
 	By the central limit theorem, \( \hat p \) is asymptotically distributed according to \( N\qty(p, \frac{p(1-p)}{n}) \).
 	Hence,
-	\[ \sqrt{n}\frac{\hat p - p}{\sqrt{p(1-p)}} \]
+	\[
+		\sqrt{n}\frac{\hat p - p}{\sqrt{p(1-p)}}
+	\]
 	has approximately a standard normal distribution.
 	We have
-	\[ \prob{-z_{0.025} \leq \sqrt{n}\frac{\hat p - p}{\sqrt{p(1-p)}} \leq z_{0.025}} \approx 0.95 \]
+	\[
+		\prob{-z_{0.025} \leq \sqrt{n}\frac{\hat p - p}{\sqrt{p(1-p)}} \leq z_{0.025}} \approx 0.95
+	\]
 	Instead of directly rearranging the inequalities, we will make an approximation for the denominator of the central term, letting \( \sqrt{p(1-p)} \mapsto \sqrt{\hat p\qty(1-\hat p)} \).
 	When \( n \) is large, this approximation becomes more accurate.
-	\[ \prob{-z_{0.025} \leq \sqrt{n}\frac{\hat p - p}{\sqrt{\hat p\qty(1-\hat p)}} \leq z_{0.025}} \approx 0.95 \]
+	\[
+		\prob{-z_{0.025} \leq \sqrt{n}\frac{\hat p - p}{\sqrt{\hat p\qty(1-\hat p)}} \leq z_{0.025}} \approx 0.95
+	\]
 	This is much easier to rearrange, leading to
-	\[ \prob{\hat p - z_{0.025}\frac{\sqrt{\hat p\qty(1-\hat p)}}{\sqrt{n}} \leq p \leq \hat p + z_{0.025}\frac{\sqrt{\hat p\qty(1-\hat p)}}{\sqrt{n}}} \approx 0.95 \]
+	\[
+		\prob{\hat p - z_{0.025}\frac{\sqrt{\hat p\qty(1-\hat p)}}{\sqrt{n}} \leq p \leq \hat p + z_{0.025}\frac{\sqrt{\hat p\qty(1-\hat p)}}{\sqrt{n}}} \approx 0.95
+	\]
 	This gives the approximate 95\% confidence interval as required.
 \end{example}
 \begin{remark}
@@ -85,7 +105,9 @@
 	Let \( X_1, X_2 \) be i.i.d.\ uniform random variables in \( \qty(\theta - \frac{1}{2}, \theta + \frac{1}{2}) \).
 	We wish to estimate the value of \( \theta \) with a 50\% confidence interval.
 	Observe that
-	\[ \prob{\theta \in (\min X_i, \max X_i)} = \prob{X_1 \leq \theta \leq X_2} + \prob{X_2 \leq \theta \leq X_1} = \frac{1}{2} \]
+	\[
+		\prob{\theta \in (\min X_i, \max X_i)} = \prob{X_1 \leq \theta \leq X_2} + \prob{X_2 \leq \theta \leq X_1} = \frac{1}{2}
+	\]
 	Hence, \( (\min X_1, \max X_i) \) is a 50\% confidence interval for \( \theta \).
 	The frequentist interpretation is exactly correct; 50\% of the time, \( \theta \) will lie between \( X_1 \) and \( X_2 \).
 	However, suppose that \( \abs{X_1 - X_2} > \frac{1}{2} \).

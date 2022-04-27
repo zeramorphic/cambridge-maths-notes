@@ -1,15 +1,23 @@
 \subsection{Introduction}
 \begin{definition}
 	If \( f \colon [a,b] \subset \mathbb R \to \mathbb C \) is a complex function, and the real and imaginary parts of \( f \) are Riemann integrable, then we define
-	\[ \int_a^b f(t) \dd{t} = \int_a^b \Re(f(t)) \dd{t} + i \int_a^b \Im(f(t)) \dd{t} \]
+	\[
+		\int_a^b f(t) \dd{t} = \int_a^b \Re(f(t)) \dd{t} + i \int_a^b \Im(f(t)) \dd{t}
+	\]
 	In particular, for \( g \colon [a,b] \to \mathbb R \), we have
-	\[ \int_a^b ig(t) \dd{t} = i\int_a^b g(t) \dd{t} \]
+	\[
+		\int_a^b ig(t) \dd{t} = i\int_a^b g(t) \dd{t}
+	\]
 	Thus, for a complex constant \( w \in \mathbb C \), we can find
-	\[ \int_a^b wf(t) \dd{t} = w \int_a^b f(t) \dd{t} \]
+	\[
+		\int_a^b wf(t) \dd{t} = w \int_a^b f(t) \dd{t}
+	\]
 \end{definition}
 \begin{proposition}[basic estimate]
 	If \( f \colon [a,b] \to \mathbb C \) is continuous, then
-	\[ \abs{\int_a^b f(t) \dd{t}} \leq \int_a^b \abs{f(t)} \dd{t} \leq (b-a) \sup_{t \in [a,b]} \abs{f(t)} \]
+	\[
+		\abs{\int_a^b f(t) \dd{t}} \leq \int_a^b \abs{f(t)} \dd{t} \leq (b-a) \sup_{t \in [a,b]} \abs{f(t)}
+	\]
 	Equality holds if and only if \( f \) is constant.
 \end{proposition}
 \begin{proof}
@@ -18,16 +26,16 @@
 	Let \( M = \sup_{t \in [a,b]} \abs{f(t)} \).
 	Then we have
 	\begin{align*}
-		\abs{\int_a^b f(t) \dd{t}} &= r \\
-		&= e^{-i\theta} \int_a^b f(t) \dd{t} \\
-		&= \int_a^b e^{-i\theta} f(t) \dd{t} \\
-		&= \int_a^b \Re(e^{-i\theta} f(t)) \dd{t} + i \int_a^b \Im(e^{-\theta f(t)}) \dd{t}
+		\abs{\int_a^b f(t) \dd{t}} & = r                                                                                \\
+		                           & = e^{-i\theta} \int_a^b f(t) \dd{t}                                                \\
+		                           & = \int_a^b e^{-i\theta} f(t) \dd{t}                                                \\
+		                           & = \int_a^b \Re(e^{-i\theta} f(t)) \dd{t} + i \int_a^b \Im(e^{-\theta f(t)}) \dd{t}
 	\end{align*}
 	Since the left hand side is real, the imaginary integral vanishes.
 	\begin{align*}
-		\abs{\int_a^b f(t) \dd{t}} &= \int_a^b \Re(e^{-i\theta} f(t)) \dd{t} \\
-		&\leq \int_a^b \abs{e^{-i\theta} f(t)} \dd{t} = \int_a^b \abs{f(t)} \dd{t} \\
-		&\leq (b-a)M
+		\abs{\int_a^b f(t) \dd{t}} & = \int_a^b \Re(e^{-i\theta} f(t)) \dd{t}                                  \\
+		                           & \leq \int_a^b \abs{e^{-i\theta} f(t)} \dd{t} = \int_a^b \abs{f(t)} \dd{t} \\
+		                           & \leq (b-a)M
 	\end{align*}
 	Equality holds if and only if \( \abs{f(t)} = M \) and \( \Re(e^{-i\theta} f(t)) = M \) for all \( t \in [a,b] \), which is true only if \( \abs{f(t)} = M \) and \( \arg(f(t)) = \theta \) hence \( f = Me^{i\theta} \) for all \( t \).
 \end{proof}
@@ -37,63 +45,87 @@
 	Let \( U \subset \mathbb C \) be an open set and let \( f \colon U \to \mathbb C \) be continuous.
 	Let \( \gamma \colon [a,b] \to U \) be a \( C^1 \) curve.
 	Then the \textit{integral of \( f \) along \( \gamma \)} is
-	\[ \int_\gamma f(z) \dd{z} = \int_a^b f(\gamma(t)) \gamma'(t) \dd{t} \]
+	\[
+		\int_\gamma f(z) \dd{z} = \int_a^b f(\gamma(t)) \gamma'(t) \dd{t}
+	\]
 \end{definition}
 This definition is consistent with the previous definition of the integral of a function \( f \) along the interval \( [a,b] \).
 The integral along a curve has various convenient properties.
 \begin{enumerate}
 	\item It is invariant under the choice of parametrisation.
-		Let \( \varphi \colon [a_1, b_1] \to [a,b] \) be \( C^1 \) and injective with \( \varphi(a_1) = a \) and \( \varphi(b_1) = b \).
-		Let \( \delta = \gamma \circ \varphi \colon [a_1, b_1] \to U \).
-		Then
-		\[ \int_\delta f(z) \dd{z} = \int_\gamma f(z) \dd{z} \]
-		Indeed,
-		\begin{align*}
-			\int_\delta f(z) \dd{z} &= \int_{a_1}^{b_1} f(\gamma (\varphi(t))) \gamma'(\varphi(t)) \varphi'(t) \dd{t} \\
-			&= \int_a^b f(\gamma(s)) \gamma'(s) \dd{s} \\
-			&= \int_\gamma f(z) \dd{z}
-		\end{align*}
+	      Let \( \varphi \colon [a_1, b_1] \to [a,b] \) be \( C^1 \) and injective with \( \varphi(a_1) = a \) and \( \varphi(b_1) = b \).
+	      Let \( \delta = \gamma \circ \varphi \colon [a_1, b_1] \to U \).
+	      Then
+	      \[
+		      \int_\delta f(z) \dd{z} = \int_\gamma f(z) \dd{z}
+	      \]
+	      Indeed,
+	      \begin{align*}
+		      \int_\delta f(z) \dd{z} & = \int_{a_1}^{b_1} f(\gamma (\varphi(t))) \gamma'(\varphi(t)) \varphi'(t) \dd{t} \\
+		                              & = \int_a^b f(\gamma(s)) \gamma'(s) \dd{s}                                        \\
+		                              & = \int_\gamma f(z) \dd{z}
+	      \end{align*}
 	\item The integral is linear.
-		It is easy to check that
-		\[ \int_\gamma (\lambda f(z) + \mu g(z)) \dd{z} = \lambda \int_\gamma f(z) \dd{z} + \mu \int_\gamma g(z) \dd{z} \]
-		for complex constants \( \lambda, \mu \in \mathbb C \).
+	      It is easy to check that
+	      \[
+		      \int_\gamma (\lambda f(z) + \mu g(z)) \dd{z} = \lambda \int_\gamma f(z) \dd{z} + \mu \int_\gamma g(z) \dd{z}
+	      \]
+	      for complex constants \( \lambda, \mu \in \mathbb C \).
 	\item The additivity property states that if \( \gamma \colon[a,b] \to U \) is \( C^1 \) and \( a < c < b \), then
-		\[ \int_\gamma f(z) \dd{z} = \int_{\eval{\gamma}_{[a,c]}} f(z) \dd{z} + \int_{\eval{\gamma}_{c,b}} f(z) \dd{z} \]
+	      \[
+		      \int_\gamma f(z) \dd{z} = \int_{\eval{\gamma}_{[a,c]}} f(z) \dd{z} + \int_{\eval{\gamma}_{c,b}} f(z) \dd{z}
+	      \]
 	\item We define the \textit{inverse path} \( (-\gamma) \colon [-b, -a] \to U \) by \( (-\gamma)(t) = \gamma(-t) \).
-		Then
-		\[ \int_{(-\gamma)} f(z) \dd{z} = \int_\gamma f(z) \dd{z} \]
+	      Then
+	      \[
+		      \int_{(-\gamma)} f(z) \dd{z} = \int_\gamma f(z) \dd{z}
+	      \]
 \end{enumerate}
 \begin{definition}
 	Let \( \gamma \colon [a,b] \to \mathbb C \) be a \( C^1 \) curve.
 	Then the \textit{length} of \( \gamma \) is
-	\[ \mathrm{length}(\gamma) = \int_a^b \abs{\gamma'(t)} \dd{t} \]
+	\[
+		\mathrm{length}(\gamma) = \int_a^b \abs{\gamma'(t)} \dd{t}
+	\]
 \end{definition}
 \begin{definition}
 	A \textit{piecewise \( C^1 \) curve} is a continuous map \( \gamma \colon [a,b] \to \mathbb C \) such that there exists a finite subdivision
-	\[ a < a_0 < a_1 < \dots < a_n = b \]
+	\[
+		a < a_0 < a_1 < \dots < a_n = b
+	\]
 	such that each \( \gamma_j = \eval{\gamma}_{[a_{j-1}, a_j]} \) is \( C^1 \) for \( 1 \leq j \leq n \).
 	Then, for such a piecewise \( C^1 \) curve, we define
-	\[ \int_\gamma f(z) \dd{z} = \sum_{j=1}^n \int_{\gamma_j} f(z) \dd{z} \]
+	\[
+		\int_\gamma f(z) \dd{z} = \sum_{j=1}^n \int_{\gamma_j} f(z) \dd{z}
+	\]
 	and
-	\[ \mathrm{length}(\gamma) = \sum_{j=1}^n \mathrm{length}(\gamma_j) = \sum_{j=1}^n \int_{a_{j-1}}^{a_j} \abs{\gamma'(t)} \dd{t} \]
+	\[
+		\mathrm{length}(\gamma) = \sum_{j=1}^n \mathrm{length}(\gamma_j) = \sum_{j=1}^n \int_{a_{j-1}}^{a_j} \abs{\gamma'(t)} \dd{t}
+	\]
 	By the additivity property, both definitions are invariant under changing the subdivision.
 	From here, we will use `curve' to refer to `piecewise \( C^1 \) curve', unless stated otherwise.
 \end{definition}
 \begin{definition}
 	If \( \gamma_1 \colon [a,b] \to \mathbb C \) and \( \gamma_2 \colon [c,d] \) are curves with \( \gamma_1(b) = \gamma_2(c) \), we define the \textit{sum} of \( \gamma_1 \) and \( \gamma_2 \) to be the curve
-	\[ (\gamma_1 + \gamma_2) \colon [a,b+d-c] \to \mathbb C;\quad (\gamma_1 + \gamma_2)(t) = \begin{cases}
-		\gamma_1(t) & a \leq t \leq b \\
-		\gamma_2(t - b + c) & b \leq t \leq b + d - c
-	\end{cases} \]
+	\[
+		(\gamma_1 + \gamma_2) \colon [a,b+d-c] \to \mathbb C;\quad (\gamma_1 + \gamma_2)(t) = \begin{cases}
+			\gamma_1(t)         & a \leq t \leq b         \\
+			\gamma_2(t - b + c) & b \leq t \leq b + d - c
+		\end{cases}
+	\]
 \end{definition}
 \begin{proposition}
 	Let \( f \colon U \to \mathbb C \) be continuous and \( \gamma \colon [a,b] \to \mathbb C \), we have
-	\[ \abs{\int_\gamma f(z) \dd{z}} \leq \mathrm{length}(\gamma) \sup_\gamma \abs{f} \]
+	\[
+		\abs{\int_\gamma f(z) \dd{z}} \leq \mathrm{length}(\gamma) \sup_\gamma \abs{f}
+	\]
 	where \( \sup_\gamma g \equiv \sup_{t \in [a,b]} g(\gamma(t)) \).
 \end{proposition}
 \begin{proof}
 	If \( \gamma \) is \( C^1 \), then
-	\[ \abs{\int_\gamma f(z) \dd{z}} = \abs{\int_a^b f(\gamma(t)) \gamma'(t) \dd{t}} \leq \int_a^b \abs{f(\gamma(t))} \cdot \abs{\gamma'(t)} \dd{t} \leq \sup_{t \in [a,b]} \abs{f(\gamma(t))} \mathrm{length}(\gamma) \]
+	\[
+		\abs{\int_\gamma f(z) \dd{z}} = \abs{\int_a^b f(\gamma(t)) \gamma'(t) \dd{t}} \leq \int_a^b \abs{f(\gamma(t))} \cdot \abs{\gamma'(t)} \dd{t} \leq \sup_{t \in [a,b]} \abs{f(\gamma(t))} \mathrm{length}(\gamma)
+	\]
 	If \( \gamma \) is piecewise \( C^1 \), then the result follows from the definition of a piecewise \( C^1 \) function and the above.
 \end{proof}
 
@@ -102,12 +134,16 @@ The integral along a curve has various convenient properties.
 	Let \( f \colon U \to \mathbb C \) be continuous on an open set \( U \subset \mathbb C \).
 	Let \( F \colon U \to \mathbb C \) be a function such that \( F'(z) = f(z) \) for all \( z \in U \).
 	Then, for any curve \( \gamma \colon [a,b] \to U \), we have
-	\[ \int_\gamma f(z) \dd{z} = F(\gamma(b)) - F(\gamma(a)) \]
+	\[
+		\int_\gamma f(z) \dd{z} = F(\gamma(b)) - F(\gamma(a))
+	\]
 	If \( \gamma \) is a closed curve, then \( \int_\gamma f(z) = 0 \).
 	Such a function \( F \) is known as an \textit{antiderivative} of \( f \).
 \end{theorem}
 \begin{proof}
-	\[ \int_\gamma f(z) \dd{z} = \int_a^b f(\gamma(t)) \gamma'(t) \dd{t} = \int_a^b \dv{t} F(\gamma(t)) \dd{t} = F(\gamma(b)) - F(\gamma(a)) \]
+	\[
+		\int_\gamma f(z) \dd{z} = \int_a^b f(\gamma(t)) \gamma'(t) \dd{t} = \int_a^b \dv{t} F(\gamma(t)) \dd{t} = F(\gamma(b)) - F(\gamma(a))
+	\]
 \end{proof}
 \begin{remark}
 	Note that we assume that \( f \) exists such that \( F'(z) = f(z) \); such an \( f \) is not provided for by the theorem.
@@ -117,7 +153,9 @@ The integral along a curve has various convenient properties.
 	For \( n \neq -1 \), the function \( \frac{z^{n+1}}{n+1} \) is an antiderivative of \( z^n \).
 	Hence, \( \int_\gamma z^n \dd{z} = 0 \) since \( \gamma \) is a closed curve.
 	If \( n = -1 \), we can use the definition of the integral to find
-	\[ \int_\gamma \frac{1}{z} \dd{z} = \int_0^1 \frac{1}{\gamma(t)} \gamma'(t) \dd{t} = \int_0^1 \frac{1}{Re^{2\pi i t}}2\pi i R e^{2 \pi i t} \dd{t} = 2 \pi i \]
+	\[
+		\int_\gamma \frac{1}{z} \dd{z} = \int_0^1 \frac{1}{\gamma(t)} \gamma'(t) \dd{t} = \int_0^1 \frac{1}{Re^{2\pi i t}}2\pi i R e^{2 \pi i t} \dd{t} = 2 \pi i
+	\]
 	This is not zero, hence for all \( R > 0 \), \( \frac{1}{z} \) has no antiderivative in any open set containing the circle \( \qty{\abs{z} = R} \).
 	In particular, for any branch of logarithm \( \lambda \), it has derivative \( \frac{1}{z} \), hence there exists no branch of logarithm on \( \mathbb C^\star = \mathbb C \setminus \qty{0} \).
 \end{example}
@@ -129,7 +167,9 @@ The integral along a curve has various convenient properties.
 \begin{proof}
 	Let \( a_0 \in U \).
 	Then for \( w \in U \), we can define
-	\[ F(w) = \int_{\gamma_w} f(z) \dd{z} \]
+	\[
+		F(w) = \int_{\gamma_w} f(z) \dd{z}
+	\]
 	where \( \gamma_w \colon [0,1] \to \mathbb C \) is a curve with \( \gamma_w(0) = a_0 \) and \( \gamma_w(1) = w \).
 
 	The definition of \( F \) is independent of the choice of \( \gamma_w \) is independent of the choice of \( \gamma_w \).
@@ -142,23 +182,27 @@ The integral along a curve has various convenient properties.
 	Since \( U \) is an open set, there exists \( r > 0 \) such that \( D(w,r) \subset U \).
 	For \( h \in \mathbb C \) with \( 0 < \abs{h} < r \), let \( \delta_h \) be the radial path \( t \mapsto w + th \) for \( t \in [0,1] \).
 	Now we define
-	\[ \gamma = \gamma_w + \delta_h + (-\gamma_{w+h}) \]
+	\[
+		\gamma = \gamma_w + \delta_h + (-\gamma_{w+h})
+	\]
 	This is a closed curve contained within \( U \), hence \( \int_\gamma f(z) \dd{z} = 0 \).
 	Thus
-	\[ \int_{\gamma_{w+h}} f(z) \dd{z} = \int_{\gamma_w} f(z) \dd{z} + \int_{\delta_h} f(z) \dd{z} \]
+	\[
+		\int_{\gamma_{w+h}} f(z) \dd{z} = \int_{\gamma_w} f(z) \dd{z} + \int_{\delta_h} f(z) \dd{z}
+	\]
 	Informally, the integral has an additivity property which is independent of the path taken.
 	Rewriting this using \( F \),
 	\begin{align*}
-		F(w+h) &= F(w) + \int_{\delta_h} f(z) \dd{z} \\
-		&= F(w) + \int_{\delta_h} (f(z) + f(w) - f(w)) \dd{z} \\
-		&= F(w) + hf(w) + \int_{\delta_h} (f(z) - f(w)) \dd{z}
+		F(w+h) & = F(w) + \int_{\delta_h} f(z) \dd{z}                  \\
+		       & = F(w) + \int_{\delta_h} (f(z) + f(w) - f(w)) \dd{z}  \\
+		       & = F(w) + hf(w) + \int_{\delta_h} (f(z) - f(w)) \dd{z}
 	\end{align*}
 	Hence, by continuity of \( f \),
 	\begin{align*}
-		\abs{\frac{F(w+h) - F(w)}{h} - f(w)} &= \frac{1}{\abs{h}} \abs{\int_{\delta_h} (f(z) - f(w)) \dd{z}} \\
-		&\leq \frac{1}{\abs{h}} \mathrm{length}(\delta_h) \sup_{z \in \Im \delta_h} \abs{f(z) - f(w)} \\
-		&= \sup_{z \in \Im \delta_h} \abs{f(z) - f(w)} \\
-		\therefore \lim_{h \to 0} \abs{\frac{F(w+h) - F(w)}{h} - f(w)} &= \lim_{h \to 0} \sup_{z \in \Im \delta_h} \abs{f(z) - f(w)} = 0
+		\abs{\frac{F(w+h) - F(w)}{h} - f(w)}                           & = \frac{1}{\abs{h}} \abs{\int_{\delta_h} (f(z) - f(w)) \dd{z}}                               \\
+		                                                               & \leq \frac{1}{\abs{h}} \mathrm{length}(\delta_h) \sup_{z \in \Im \delta_h} \abs{f(z) - f(w)} \\
+		                                                               & = \sup_{z \in \Im \delta_h} \abs{f(z) - f(w)}                                                \\
+		\therefore \lim_{h \to 0} \abs{\frac{F(w+h) - F(w)}{h} - f(w)} & = \lim_{h \to 0} \sup_{z \in \Im \delta_h} \abs{f(z) - f(w)} = 0
 	\end{align*}
 	Thus, \( F \) is differentiable at \( w \) with \( F'(w) = f(w) \).
 \end{proof}
@@ -175,7 +219,9 @@ The integral along a curve has various convenient properties.
 	A \textit{triangle} in \( \mathbb C \) is the \textit{convex hull} of three points in \( \mathbb C \).
 	The (closed) convex hull of a set \( S \) is the smallest (closed) convex set \( C \) such that \( S \subseteq C \).
 	In this case, if \( z_1, z_2, z_3 \in \mathbb C \), we have
-	\[ T = \qty{az_1 + bz_2 + cz_3 \colon 0 \leq a,b,c \leq 1, a+b+c=1} \]
+	\[
+		T = \qty{az_1 + bz_2 + cz_3 \colon 0 \leq a,b,c \leq 1, a+b+c=1}
+	\]
 	When used as a curve, the boundary \( \partial T \) represents the piecewise affine closed curve \( \gamma = \gamma_1 + \gamma_2 + \gamma_3 \) where \( \gamma_i \) are affine functions parametrising the three line segments on the boundary of \( T \).
 \end{definition}
 \begin{corollary}
@@ -203,36 +249,46 @@ The integral along a curve has various convenient properties.
 	We will subdivide the triangle \( T \) into four smaller triangles \( T^{(1)}, T^{(2)}, T^{(3)}, T^{(4)} \).
 	The vertices of the inner triangle are the midpoints of the sides of \( T \), and the three other triangles are constructed to fill the remaining area of \( T \).
 	Thus,
-	\[ \eta(T) = \int_{\partial T^{(1)}} f(z) \dd{z} + \int_{\partial T^{(2)}} f(z) \dd{z} + \int_{\partial T^{(3)}} f(z) \dd{z} + \int_{\partial T^{(4)}} f(z) \dd{z} \]
+	\[
+		\eta(T) = \int_{\partial T^{(1)}} f(z) \dd{z} + \int_{\partial T^{(2)}} f(z) \dd{z} + \int_{\partial T^{(3)}} f(z) \dd{z} + \int_{\partial T^{(4)}} f(z) \dd{z}
+	\]
 	Then, by the triangle inequality, there exists a triangle \( T^{(j)} \) such that
-	\[ \abs{\int_{\partial T^{(j)}} f(z) \dd{z}} \geq \frac{\abs{\eta(T)}}{4} \]
+	\[
+		\abs{\int_{\partial T^{(j)}} f(z) \dd{z}} \geq \frac{\abs{\eta(T)}}{4}
+	\]
 	Let \( T_0 = T \), and \( T_1 = T^{(j)} \), so \( \abs{\eta(T_1)} \geq \frac{1}{4}\abs{\eta(T_0)} \).
 	We can show geometrically that for any choice of \( T_i \), \( \mathrm{length}(\partial T_1) = \frac{1}{2}\mathrm{length}(\partial T_0) \).
 	Inductively, we can subdivide \( T_i \) and produce \( T_{i+1} \), such that
-	\[ T_0 \supset T_1 \supset \cdots;\quad \abs{\eta(T_n)} \geq \frac{1}{4}\abs{\eta(T_{n-1})};\quad \mathrm{length}(\partial T_n) = \frac{1}{2} \mathrm{length}(\partial T_{n-1}) \]
+	\[
+		T_0 \supset T_1 \supset \cdots;\quad \abs{\eta(T_n)} \geq \frac{1}{4}\abs{\eta(T_{n-1})};\quad \mathrm{length}(\partial T_n) = \frac{1}{2} \mathrm{length}(\partial T_{n-1})
+	\]
 	Hence,
-	\[ \abs{\eta(T_n)} \geq \frac{1}{4^n}\abs{\eta(T_0)};\quad \mathrm{length}(\partial T_n) = \frac{1}{2^n} \mathrm{length}(\partial T_0) \]
+	\[
+		\abs{\eta(T_n)} \geq \frac{1}{4^n}\abs{\eta(T_0)};\quad \mathrm{length}(\partial T_n) = \frac{1}{2^n} \mathrm{length}(\partial T_0)
+	\]
 	Since \( T_n \) are non-empty, nested closed subsets with diameter converging to zero, we can show that \( \bigcap_{n=1}^\infty T_n = \qty{z_0} \) for some \( z_0 \in \mathbb C \).
 	Let \( \varepsilon > 0 \).
 	Since \( f \) is differentiable at \( z_0 \), there exists \( \delta > 0 \) such that
 	\begin{align*}
-		z \in U, \abs{z - z_0} < \delta &\implies \abs{\frac{f(z) - f(z_0)}{z - z_0} - f'(z_0)} \leq \varepsilon \\
-		&\implies \abs{f(z) - f(z_0) - f'(z_0)(z - z_0)} \leq \varepsilon \abs{z - z_0}
+		z \in U, \abs{z - z_0} < \delta & \implies \abs{\frac{f(z) - f(z_0)}{z - z_0} - f'(z_0)} \leq \varepsilon        \\
+		                                & \implies \abs{f(z) - f(z_0) - f'(z_0)(z - z_0)} \leq \varepsilon \abs{z - z_0}
 	\end{align*}
 	Now, observe that for all \( n \),
-	\[ \int_{\partial T_n} f(z) \dd{z} = \int_{\partial T_n} (f(z) - f(z_0) - f'(z_0)(z - z_0)) \dd{z} \]
+	\[
+		\int_{\partial T_n} f(z) \dd{z} = \int_{\partial T_n} (f(z) - f(z_0) - f'(z_0)(z - z_0)) \dd{z}
+	\]
 	since \( \int_{\partial T_n} \dd{z} = \int_{\partial T_n} z \dd{z} = 0 \) by the fundamental theorem of calculus.
 	Let \( n \) such that \( T_n \subset D(z_0, \delta) \).
 	Hence,
 	\begin{align*}
-		\frac{1}{4^n} \abs{\eta(T_0)} &\leq \abs{\eta(T_n)} \\
-		&= \abs{\int_{\partial T_n} f(z) \dd{z}} \\
-		&= \abs{\int_{\partial T_n} (f(z) - f(z_0) - f'(z_0)(z - z_0)) \dd{z}} \\
-		&\leq \qty(\sup_{z \in \partial T_n} \abs{f(z) - f(z_0) - f'(z_0)(z-z_0)}) \mathrm{length}(\partial T_n) \\
-		&\leq \varepsilon \qty(\sup_{z \in \partial T_n} \abs{z - z_0}) \mathrm{length}(\partial T_n) \\
-		&\leq \varepsilon \cdot \mathrm{length}(\partial T_n)^2 \\
-		&= \frac{\varepsilon}{4^n} \mathrm{length}(\partial T_0)^2 \\
-		\therefore \abs{\eta(T_0)} &\leq \varepsilon \cdot \mathrm{length}(\partial T_0)^2
+		\frac{1}{4^n} \abs{\eta(T_0)} & \leq \abs{\eta(T_n)}                                                                                    \\
+		                              & = \abs{\int_{\partial T_n} f(z) \dd{z}}                                                                 \\
+		                              & = \abs{\int_{\partial T_n} (f(z) - f(z_0) - f'(z_0)(z - z_0)) \dd{z}}                                   \\
+		                              & \leq \qty(\sup_{z \in \partial T_n} \abs{f(z) - f(z_0) - f'(z_0)(z-z_0)}) \mathrm{length}(\partial T_n) \\
+		                              & \leq \varepsilon \qty(\sup_{z \in \partial T_n} \abs{z - z_0}) \mathrm{length}(\partial T_n)            \\
+		                              & \leq \varepsilon \cdot \mathrm{length}(\partial T_n)^2                                                  \\
+		                              & = \frac{\varepsilon}{4^n} \mathrm{length}(\partial T_0)^2                                               \\
+		\therefore \abs{\eta(T_0)}    & \leq \varepsilon \cdot \mathrm{length}(\partial T_0)^2
 	\end{align*}
 	\( \varepsilon \) was arbitrary, hence \( \eta(T_0) \) must be zero.
 \end{proof}
@@ -246,12 +302,18 @@ We can generalise the above theorem for functions that are holomorphic except at
 	By the procedure above, we can subdivide \( T \) into a total of \( 4^n \) smaller triangles; at each step we join the midpoints of the sides of the triangles of the previous step.
 	We will keep all of the smaller triangles, and let the sequence of such smaller triangles be denoted \( T_1, \dots, T_N \).
 	Then, since the integrals along the sides of the smaller triangles that are interior to \( T \) cancel, we have
-	\[ \int_{\partial T} f(z) \dd{z} = \sum_{j=1}^N \int_{\partial T_j} f(z) \dd{z} \]
+	\[
+		\int_{\partial T} f(z) \dd{z} = \sum_{j=1}^N \int_{\partial T_j} f(z) \dd{z}
+	\]
 	By the previous theorem, \( \int_{\partial T_j} f(z) \dd{z} = 0 \) unless \( T_j \) intersects with \( S \).
 	So by letting \( I = \qty{j \colon T_j \cap S \neq \varnothing} \), we have
-	\[ \int_{\partial T} f(z) \dd{z} = \sum_{j \in I} \int_{\partial T_j} f(z) \dd{z} \]
+	\[
+		\int_{\partial T} f(z) \dd{z} = \sum_{j \in I} \int_{\partial T_j} f(z) \dd{z}
+	\]
 	Since any point may be in at most six of the smaller triangles, and \( \mathrm{length}(\partial T_j) = \frac{1}{2^n} \mathrm{length}(\partial T) \), we find
-	\[ \abs{\int_{\partial T} f(z) \dd{z}} \leq 6\abs{S} \qty(\sup_{z \in T} \abs{f(z)}) \frac{\mathrm{length}(\partial T)}{2^n} \]
+	\[
+		\abs{\int_{\partial T} f(z) \dd{z}} \leq 6\abs{S} \qty(\sup_{z \in T} \abs{f(z)}) \frac{\mathrm{length}(\partial T)}{2^n}
+	\]
 	Then let \( n \to \infty \) and the result then holds as rqeuired.
 \end{proof}
 We can now prove the `convex Cauchy' theorem.
@@ -274,9 +336,13 @@ For a disk \( D(a,\rho) \) we will write \( \int_{\partial D(a,\rho)} f(z) \dd{z
 \begin{theorem}[Cauchy's integral formula for a disk]
 	Let \( D = D(a,r) \) and let \( f \colon D \to \mathbb C \) be holomorphic.
 	Then, for any \( \rho \) with \( 0 < \rho < r \) and any \( w \in D(a,\rho) \), we have
-	\[ f(w) = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-w} \]
+	\[
+		f(w) = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-w}
+	\]
 	In particular, taking \( w = a \),
-	\[ f(a) = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-a} = \int_0^1 f(a+\rho e^{2\pi i t}) \dd{t} \]
+	\[
+		f(a) = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-a} = \int_0^1 f(a+\rho e^{2\pi i t}) \dd{t}
+	\]
 	This final equation is called the \textit{mean value property} for holomorphic functions.
 \end{theorem}
 We first need the following lemma.
@@ -285,35 +351,53 @@ We first need the following lemma.
 \end{lemma}
 \begin{proof}
 	We have
-	\[ \abs{\int_\gamma f_n(z) \dd{z} - \int_\gamma f(z) \dd{z}} = \abs{\int_\gamma (f_n(z) - f(z)) \dd{z}} \leq \sup_{z \in \Im \gamma} \abs{f_n(z) - f(z)} \mathrm{length}(\gamma) \]
+	\[
+		\abs{\int_\gamma f_n(z) \dd{z} - \int_\gamma f(z) \dd{z}} = \abs{\int_\gamma (f_n(z) - f(z)) \dd{z}} \leq \sup_{z \in \Im \gamma} \abs{f_n(z) - f(z)} \mathrm{length}(\gamma)
+	\]
 \end{proof}
 We can now prove Cauchy's integral formula for a disk.
 \begin{proof}
 	Let \( w \in D(a,\rho) \) be fixed, and define \( h \colon D \to \mathbb C \) by
-	\[ h(z) = \begin{cases}
-		\frac{f(z) - f(w)}{z - w} & \text{if } z \neq w \\
-		f'(w) & \text{if } z = w
-	\end{cases} \]
+	\[
+		h(z) = \begin{cases}
+			\frac{f(z) - f(w)}{z - w} & \text{if } z \neq w \\
+			f'(w)                     & \text{if } z = w
+		\end{cases}
+	\]
 	Then \( h \) is continuous on \( D \) and holomorphic in \( D \setminus \qty{w} \).
 	By Cauchy's theorem for convex sets,
-	\[ \int_{\partial D(a,\rho)} h(z) \dd{z} = 0 \]
+	\[
+		\int_{\partial D(a,\rho)} h(z) \dd{z} = 0
+	\]
 	Substituting for \( h \), we find
-	\[ f(w) \int_{\partial D(a,\rho)} \frac{\dd{z}}{z-w} = \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-w} \]
+	\[
+		f(w) \int_{\partial D(a,\rho)} \frac{\dd{z}}{z-w} = \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-w}
+	\]
 	It now suffices to prove that
-	\[ \int_{\partial D(a,\rho)} \frac{\dd{z}}{z-w} = 2 \pi i \]
+	\[
+		\int_{\partial D(a,\rho)} \frac{\dd{z}}{z-w} = 2 \pi i
+	\]
 	Note that
-	\[ \frac{1}{z-w} = \frac{1}{z-a+a-w} = \frac{1}{\qty(z-a)\qty(1 - \frac{w-a}{z-a})} = \sum_{j=0}^\infty \frac{(w-a)^j}{(z-a)^{j+1}} \]
+	\[
+		\frac{1}{z-w} = \frac{1}{z-a+a-w} = \frac{1}{\qty(z-a)\qty(1 - \frac{w-a}{z-a})} = \sum_{j=0}^\infty \frac{(w-a)^j}{(z-a)^{j+1}}
+	\]
 	where the convergence is uniform for \( z \in \partial D(a,\rho) \) by the Weierstrass \( M \)-test.
 	Therefore, by the above lemma, we interchange summation and integration to find
-	\[ \int_{\partial D(a,\rho)} \frac{\dd{z}}{z-w} = \sum_{j=0}^\infty (w-a)^j \int_{\partial D(a,\rho)} \frac{\dd{z}}{(z-a)^{j+1}} \]
+	\[
+		\int_{\partial D(a,\rho)} \frac{\dd{z}}{z-w} = \sum_{j=0}^\infty (w-a)^j \int_{\partial D(a,\rho)} \frac{\dd{z}}{(z-a)^{j+1}}
+	\]
 	For \( j \geq 1 \), the function \( \frac{1}{(z-a)^{j+1}} \) has an antiderivative in a neighbourhood of \( \partial D(a,\rho) \), hence all integrals on the right hand side for \( j \geq 1 \) vanish.
 	For \( j = 0 \), we can compute directly that \( \int_{\partial D(a,\rho)} \frac{\dd{z}}{z-a} = 2 \pi i \).
 	Hence, \( \int_{\partial D(a,\rho)} \frac{\dd{z}}{z-w} = 2 \pi i \), proving Cauchy's intgeral formula.
 
 	Now, taking \( w = a \) in Cauchy's integral formula, we find
-	\[ f(a) = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-a} \]
+	\[
+		f(a) = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-a}
+	\]
 	By direct computation using the parametrisation \( t \mapsto a + \rho e^{2\pi i t} \) for \( t \in [0,1] \), we find
-	\[ f(a) = \int_0^1 f(a+\rho e^{2 \pi i t}) \dd{t} \]
+	\[
+		f(a) = \int_0^1 f(a+\rho e^{2 \pi i t}) \dd{t}
+	\]
 	as required.
 \end{proof}
 
@@ -326,13 +410,15 @@ We can now prove Cauchy's integral formula for a disk.
 \begin{proof}
 	Let \( w \in \mathbb C \) and \( \rho > \abs{w} \).
 	By Cauchy's integral formula, we have
-	\[ f(w) = \frac{1}{2 \pi i} \int_{\partial D(0,\rho)} \frac{f(z)\dd{z}}{z-w};\quad f(0) = \frac{1}{2 \pi i} \int_{\partial D(0,\rho)} \frac{f(z) \dd{z}}{z} \]
+	\[
+		f(w) = \frac{1}{2 \pi i} \int_{\partial D(0,\rho)} \frac{f(z)\dd{z}}{z-w};\quad f(0) = \frac{1}{2 \pi i} \int_{\partial D(0,\rho)} \frac{f(z) \dd{z}}{z}
+	\]
 	Thus,
 	\begin{align*}
-		\abs{f(w) - f(0)} &= \frac{1}{2\pi} \abs{\int_{\partial D(0,\rho)} \frac{wf(z) \dd{z}}{z(z-w)}} \\
-		&\leq \frac{\abs{w}}{2 \pi} \sup_{z \in \partial D(0,\rho)} \frac{\abs{f(z)}}{\abs{z} \cdot \abs{\abs{z} - \abs{w}}} \mathrm{length}(\partial D(0,\rho)) \\
-		&\leq \frac{\abs{w} K(1+\rho^\alpha)}{2\pi \rho(\rho - \abs{w})} 2 \pi \rho \\
-		&= \frac{\abs{w}K(1+\rho^\alpha)}{\rho - \abs{w}}
+		\abs{f(w) - f(0)} & = \frac{1}{2\pi} \abs{\int_{\partial D(0,\rho)} \frac{wf(z) \dd{z}}{z(z-w)}}                                                                            \\
+		                  & \leq \frac{\abs{w}}{2 \pi} \sup_{z \in \partial D(0,\rho)} \frac{\abs{f(z)}}{\abs{z} \cdot \abs{\abs{z} - \abs{w}}} \mathrm{length}(\partial D(0,\rho)) \\
+		                  & \leq \frac{\abs{w} K(1+\rho^\alpha)}{2\pi \rho(\rho - \abs{w})} 2 \pi \rho                                                                              \\
+		                  & = \frac{\abs{w}K(1+\rho^\alpha)}{\rho - \abs{w}}
 	\end{align*}
 	By letting \( \rho \to \infty \), we can conclude \( f(w) = f(0 )\).
 \end{proof}
@@ -342,9 +428,13 @@ We can now prove Cauchy's integral formula for a disk.
 \begin{proof}
 	Let \( p(z) = a_n z^n + \dots + a_0 \) be a complex polynomial of degree \( n \geq 1 \).
 	Then \( a_n \neq 0 \), and for \( z \neq 0 \) we can write
-	\[ p(z) = z^n \qty(a_n + \frac{a_{n-1}}{z} + \dots + \frac{a_0}{z^n} ) \]
+	\[
+		p(z) = z^n \qty(a_n + \frac{a_{n-1}}{z} + \dots + \frac{a_0}{z^n} )
+	\]
 	By the triangle inequality,
-	\[ \abs{p(z)} \geq \abs{z}^n \qty(\abs{a_n} - \frac{\abs{a_{n-1}}}{\abs{z}} - \dots - \frac{\abs{a_0}}{\abs{z}^n}) \]
+	\[
+		\abs{p(z)} \geq \abs{z}^n \qty(\abs{a_n} - \frac{\abs{a_{n-1}}}{\abs{z}} - \dots - \frac{\abs{a_0}}{\abs{z}^n})
+	\]
 	Hence, there exists \( R > 0 \) such that \( \abs{p(z)} \geq 1 \) for \( \abs{z} > R \).
 
 	Now, if \( p(z) \neq 0 \) for all \( z \), then \( g(z) = \frac{1}{p(z)} \) is entire.
@@ -361,9 +451,13 @@ We can now prove Cauchy's integral formula for a disk.
 \end{theorem}
 \begin{proof}
 	By the mean value property,
-	\[ f(a) = \int_0^1 f(a+\rho e^{2 \pi i t}) \dd{t} \]
+	\[
+		f(a) = \int_0^1 f(a+\rho e^{2 \pi i t}) \dd{t}
+	\]
 	Therefore,
-	\[ \abs{f(a)} = \abs{\int_0^1 f(a + \rho e^{2 \pi i t}) \dd{t}} \leq \sup_{t \in [0,1]} \abs{f(a+\rho e^{2 \pi i t})} \leq \abs{f(a)} \]
+	\[
+		\abs{f(a)} = \abs{\int_0^1 f(a + \rho e^{2 \pi i t}) \dd{t}} \leq \sup_{t \in [0,1]} \abs{f(a+\rho e^{2 \pi i t})} \leq \abs{f(a)}
+	\]
 	where the last inequality is by hypothesis.
 	Therefore, both inequalities must be equalities.
 	Equality in the first inequality implies that \( f(a+\rho e^{2 \pi i t}) = c_\rho \) for some constant \( c_\rho \) and all \( t \in [0,1] \).
@@ -378,22 +472,28 @@ We can now prove Cauchy's integral formula for a disk.
 	Let \( f \colon D(a,R) \to \mathbb C \) be holomorphic.
 	Then \( f \) has a convergent power series representation on \( D(a,R) \).
 	More precisely, there exists a sequence of complex numbers \( c_0, c_1, \dots \) such that
-	\[ f(w) = \sum_{n=0}^\infty c_n (w-a)^n \]
+	\[
+		f(w) = \sum_{n=0}^\infty c_n (w-a)^n
+	\]
 	The coefficient \( c_n \) is given by
-	\[ c_n = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z]}}{(z-a)^{n+1}} \]
+	\[
+		c_n = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z]}}{(z-a)^{n+1}}
+	\]
 	for any \( \rho \in (0,R) \).
 \end{theorem}
 \begin{proof}
 	Let \( 0 < \rho < R \).
 	Then, for any \( w \in D(0,\rho) \), we have by Cauchy's integral formula that
 	\begin{align*}
-		f(w) &= \frac{1}{2\pi i}\int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-w} \\
-		&= \frac{1}{2\pi i}\int_{\partial D(a,\rho)} f(z) \sum_{n=0}^\infty \frac{(w-a)^n}{(z-a)^{n+1}} \dd{z} \\
-		&= \sum_{n=0}^\infty \qty( \frac{1}{2\pi i}\int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-a)^{n+1}} ) (w-a)^n \\
+		f(w) & = \frac{1}{2\pi i}\int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{z-w}                                           \\
+		     & = \frac{1}{2\pi i}\int_{\partial D(a,\rho)} f(z) \sum_{n=0}^\infty \frac{(w-a)^n}{(z-a)^{n+1}} \dd{z}         \\
+		     & = \sum_{n=0}^\infty \qty( \frac{1}{2\pi i}\int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-a)^{n+1}} ) (w-a)^n \\
 	\end{align*}
 	The last equality holds since the series under the integral converges uniformly for all \( z \in \partial D(a,\rho) \).
 	Let
-	\[ c_n(\rho) = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-a)^{n+1}} \]
+	\[
+		c_n(\rho) = \frac{1}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-a)^{n+1}}
+	\]
 	Then we have shown that \( f(w) = \sum_{n=0}^\infty c_n(\rho)(w-a)^{n+1} \) for all \( w \in D(a,\rho) \).
 	By a previous theorem, the function \( f \) has derivatives of all orders in \( D(a,\rho) \) and hence \( c_n(\rho) = \frac{f^{(n)}(a)}{n!} \), which is independent of \( \rho \), so we can let \( c_n = c_n(\rho) \) for an arbitrary \( \rho \).
 \end{proof}
@@ -406,11 +506,15 @@ We can now prove Cauchy's integral formula for a disk.
 \end{proof}
 \begin{remark}
 	We can explicitly compute from the \( c_n \) above that
-	\[ f^{(n)}(a) = \frac{n!}{2\pi i}\int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-a)^{n+1}} \]
+	\[
+		f^{(n)}(a) = \frac{n!}{2\pi i}\int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-a)^{n+1}}
+	\]
 	This is a special case of a Cauchy integral formula for derivatives.
 
 	Note also that by taking \( n = 1 \), we can apply the estimate for the integral to find
-	\[ \abs{f'(a)} \leq \frac{1}{\rho}\qty(\sup_{z \in \partial D(a,\rho)} \abs{f(z)}) \]
+	\[
+		\abs{f'(a)} \leq \frac{1}{\rho}\qty(\sup_{z \in \partial D(a,\rho)} \abs{f(z)})
+	\]
 	This can be thought of as a localised version of Liouville's theorem, and it directly implies Liouville's theorem.
 	Indeed, if \( f \) is entire and bounded, let \( a \in \mathbb C \) and by applying the estimate and letting \( \rho \to \infty \) we can conclude \( f' = 0 \) on \( \mathbb C \), giving that \( f \) is constant.
 \end{remark}
@@ -461,12 +565,16 @@ We can now prove Cauchy's integral formula for a disk.
 \begin{definition}
 	Let \( f \) be a holomorphic function on a disk \( D = D(a,R) \).
 	By the Taylor series theorem, there exist constants \( c_n \) such that
-	\[ f(z) = \sum_{n=0}^\infty c_n (z-a)^n \]
+	\[
+		f(z) = \sum_{n=0}^\infty c_n (z-a)^n
+	\]
 	for all \( z \in D \).
 	Then if \( f \) is not identically zero, there exists \( n \) such that \( c_n \neq 0 \).
 	Let \( m = \min \qty{ n \colon c_n \neq 0 } \).
 	Then,
-	\[ f(z) = (z-a)^m g(z);\quad g(z) = \sum_{n=m}^\infty c_n (z-a)^{n-m} \]
+	\[
+		f(z) = (z-a)^m g(z);\quad g(z) = \sum_{n=m}^\infty c_n (z-a)^{n-m}
+	\]
 	Note that \( g \) is holomorphic on \( D \), and \( g(a) = c_m \neq 0 \).
 
 	If \( m \neq 0 \), we say that \( f \) has a \textit{zero of order \( m \) at \( z = a \)}.
@@ -508,9 +616,13 @@ We can now prove Cauchy's integral formula for a disk.
 	Then, \( h = g_1 - g_2 \colon V \to \mathbb C \) is analytic, and \( \eval{h}_U \equiv 0 \).
 	We want to show that \( h \equiv 0 \).
 	Let
-	\[ V_0 = \qty{z \in V \colon \exists r > 0, \eval{h}_{D(z,r)} \equiv 0} \]
+	\[
+		V_0 = \qty{z \in V \colon \exists r > 0, \eval{h}_{D(z,r)} \equiv 0}
+	\]
 	and
-	\[ V_1 = \qty{z \in V \colon \exists n \geq 0, h^{(n)}(z) \neq 0} \]
+	\[
+		V_1 = \qty{z \in V \colon \exists n \geq 0, h^{(n)}(z) \neq 0}
+	\]
 	Let \( z \in V \) and suppose that \( z \not\in V_0 \).
 	Then for any disk \( D = D(z,r) \subset V \), we have \( h \not\equiv 0 \) in \( D \).
 	Hence, by Taylor series, \( h^{(n)}(z) \neq 0 \) for some \( n \), so \( z \in V_1 \).
@@ -588,10 +700,15 @@ However, this is not always the reason, and analytic continuation may remain imp
 \begin{theorem}[Cauchy's integral formula for derivatives]
 	Let \( f \colon D(a,R) \to \mathbb C \) be holomorphic.
 	For any \( \rho \in (0,R) \) and \( w \in D(a,\rho) \), we have
-	\[ f^{(k)}(w) = \frac{k!}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-w)^{k+1}} \]
+	\[
+		f^{(k)}(w) = \frac{k!}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-w)^{k+1}}
+	\]
 	Further,
-	\[ \sup_{z \in D(a,R/2)} \abs{f^{(k)}(z)} \leq \frac{C}{R^k} \sup_{z \in D(a,R)} \abs{f(z)} \]
-	where \( C = k! 2^{k+1} \) is a constant which depends only on \( k \).
+	\[
+		\sup_{z \in D(a,R/2)} \abs{f^{(k)}(z)} \leq \frac{C}{R^k} \sup_{z \in D(a,R)} \abs{f(z)}
+	\]
+	where \( C = k!
+	2^{k+1} \) is a constant which depends only on \( k \).
 	This final result is called a Cauchy estimate for the \( k \)th derivative.
 \end{theorem}
 \begin{remark}
@@ -604,30 +721,46 @@ However, this is not always the reason, and analytic continuation may remain imp
 \begin{proof}
 	If \( k = 0 \), we have the usual Cauchy integral formula.
 	For \( k = 1 \), let \( g(z) = \frac{f(z)}{z-w} \), which is holomorphic in \( D(a,R) \setminus \qty{w} \), with derivative
-	\[ g'(z) = \frac{f'(z)}{z-w} - \frac{f(z)}{(z-w)^2} \]
+	\[
+		g'(z) = \frac{f'(z)}{z-w} - \frac{f(z)}{(z-w)^2}
+	\]
 	Since \( \partial D(a,\rho) \subset D(a,R) \setminus \qty{w} \), we know that \( \int_{\partial D(a,\rho)} g'(z) \dd{z} = 0 \) by the fundamental theorem of calculus.
 	Applying the usual Cauchy integral formula to \( f' \),
-	\[ f'(w) = \frac{1}{2\pi i}\int_{\partial D(a,\rho)} \frac{f'(z) \dd{z}}{z-w} \]
+	\[
+		f'(w) = \frac{1}{2\pi i}\int_{\partial D(a,\rho)} \frac{f'(z) \dd{z}}{z-w}
+	\]
 	Combining these results give the result for \( k = 1 \).
 	For higher derivatives, we can proceed by induction.
 	Let \( k \geq 2 \), and then suppose the fomula holds for this value of \( k \), for all holomorphic functions \( D(a,R) \to \mathbb C \).
 	For any holomorphic function \( f \colon D(a,R) \to \mathbb C \), consider
-	\[ g(z) = \frac{f(z)}{(z-w)^{k+1}} \implies g'(z) = \frac{f'(z)}{(z-w^{k+1})} - \frac{(k+1)f(z)}{(z-w)^{k+2}} \]
+	\[
+		g(z) = \frac{f(z)}{(z-w)^{k+1}} \implies g'(z) = \frac{f'(z)}{(z-w^{k+1})} - \frac{(k+1)f(z)}{(z-w)^{k+2}}
+	\]
 	which is defined in \( D(a,R) \setminus \qty{w} \).
 	Then, since \( \int_{\partial D(a,\rho)} g'(z) \dd{z} = 0 \), we find
-	\[ \int_{\partial D(a,\rho)} \frac{f'(z) \dd{z}}{(z-w)^{k+1}} = (k+1) \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-w)^{k+2}} \]
+	\[
+		\int_{\partial D(a,\rho)} \frac{f'(z) \dd{z}}{(z-w)^{k+1}} = (k+1) \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-w)^{k+2}}
+	\]
 	By substituting \( f' \) into the induction hypothesis,
-	\[ f^{(k+1)}(w) = \frac{k!}{2\pi i} \int_{\partial D(a,\rho)} \frac{f'(z) \dd{z}}{(z-w)^{k+1}} \]
+	\[
+		f^{(k+1)}(w) = \frac{k!}{2\pi i} \int_{\partial D(a,\rho)} \frac{f'(z) \dd{z}}{(z-w)^{k+1}}
+	\]
 	We can then combine the previous two expressions to find
-	\[ f^{(k+1)}(w) = \frac{(k+1)!}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-w)^{k+2}} \]
+	\[
+		f^{(k+1)}(w) = \frac{(k+1)!}{2\pi i} \int_{\partial D(a,\rho)} \frac{f(z) \dd{z}}{(z-w)^{k+2}}
+	\]
 	as required.
 
 	For the second part, let \( \sup_{z \in D(a,R)} \abs{f(z)} < \infty \) without loss of generality.
 	Let \( \rho \in (R/2, R) \).
 	Then, by the first part, for all \( w \in D(a,R/2) \) we have
-	\[ \abs{f^{(k)}(w)} \leq \frac{k!}{2\pi} \qty(\sup_{z \in \partial D(a,\rho)} \frac{\abs{f(z)}}{\abs{z-w}^{k+1}}) \mathrm{length}(\partial D(a,\rho)) \]
+	\[
+		\abs{f^{(k)}(w)} \leq \frac{k!}{2\pi} \qty(\sup_{z \in \partial D(a,\rho)} \frac{\abs{f(z)}}{\abs{z-w}^{k+1}}) \mathrm{length}(\partial D(a,\rho))
+	\]
 	As \( \abs{z-w} \geq \rho - R/2 \) for all \( z \in \partial D(a,\rho) \) and all \( w \in D(a,R/2) \), this implies
-	\[ \sup_{w \in D(a,R/2)} \abs{f^{(k)}(w)} \leq \frac{k!\rho}{(\rho - R/2)^{k+1}} \sup_{z \in D(a,R)} \abs{f(z)} \]
+	\[
+		\sup_{w \in D(a,R/2)} \abs{f^{(k)}(w)} \leq \frac{k!\rho}{(\rho - R/2)^{k+1}} \sup_{z \in D(a,R)} \abs{f(z)}
+	\]
 	Now, as \( \rho \to R \), the result follows.
 \end{proof}
 
@@ -669,14 +802,18 @@ However, this is not always the reason, and analytic continuation may remain imp
 	Let \( \gamma \) be a closed curve in \( D(a,r) \).
 	Since \( D(a,r) \) is convex, by the convex Cauchy theorem we have \( \int_\gamma f_n(z) \dd{z} = 0 \).
 	Since \( f_n \to f \) uniformly on \( D(a,r) \), it follows that
-	\[ \int_\gamma f(z) \dd{z} = \lim_{z \to \infty} \int_\gamma f_n(z) \dd{z} = 0 \]
+	\[
+		\int_\gamma f(z) \dd{z} = \lim_{z \to \infty} \int_\gamma f_n(z) \dd{z} = 0
+	\]
 	By Morera's theorem, \( f \) is holomorphic in \( D(a,r) \).
 	Since \( a \) is arbitrary, \( f \) is holomorphic on all of \( U \).
 
 	Now, let \( a \in U \) be arbitrary and let \( D(a,r) \) be as above.
 	We can apply the Cauchy estimate for \( k = 1 \), \( R = r \), applied to the function \( f_n - f \).
 	This gives
-	\[ \sup_{z \in D(a,r/2)} \abs{f_n'(z) - f'(z)} \leq \frac{4}{r} \sup_{z \in D(a,r)} \abs{f_n(z) - f(z)} \]
+	\[
+		\sup_{z \in D(a,r/2)} \abs{f_n'(z) - f'(z)} \leq \frac{4}{r} \sup_{z \in D(a,r)} \abs{f_n(z) - f(z)}
+	\]
 	Since the right hand side converges to zero as \( n \to \infty \), the claim follows.
 \end{proof}
 \begin{remark}
@@ -690,7 +827,9 @@ However, this is not always the reason, and analytic continuation may remain imp
 		\item the unique analytic continuation principle holds;
 		\item uniform limits of harmonic functions are harmonic;
 		\item derivative estimates hold: if \( u \colon D(a,R) \subseteq \mathbb R^n \to \mathbb R \) is harmonic, then
-		\[ \sup_{D(a,R/2)} \abs{D^k u} \leq CR^{-k} \sup_{D(a,R)} \abs{u};\quad C = C(n,k) \]
+		      \[
+			      \sup_{D(a,R/2)} \abs{D^k u} \leq CR^{-k} \sup_{D(a,R)} \abs{u};\quad C = C(n,k)
+		      \]
 	\end{enumerate}
 	For the case \( n = 2 \), the result for harmonic functions can often be deduced directly from the corresponding results for holomorphic functions.
 	For instance, for Liouville's theorem, given that \( u \) is a harmonic function on \( \mathbb R^2 \), we find a function \( v \) such that \( u + iv \) is holomorphic on \( \mathbb C \) (which is always possible in a simply connected domain).
