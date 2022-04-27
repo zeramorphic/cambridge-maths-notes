@@ -31,7 +31,7 @@ We can convert an inequality constraint into an equality constraint with a regio
 
 \subsection{Convexity}
 \begin{definition}
-	A set \(S \subseteq \mathbb R^n\) is \textit{convex} if for all \(\vb x, \vb y \in S\), the line segment from \(x\) to \(y\) lies entirely inside \(S\).
+	A set \(S \subseteq \mathbb R^n\) is \textit{convex} if for all \(\vb x, \vb y \in S\), the line segment from \(\vb x\) to \(\vb y\) lies entirely inside \(S\).
 	In other words, for all \(\lambda \in [0, 1]\), \(\vb x(1-\lambda) + \vb y(\lambda) \in S\).
 \end{definition}
 
@@ -102,7 +102,7 @@ In higher dimensions, we might guess that
 		g(1)     & \geq g(0) + g'(0) (1-0)                               \\
 		f(\vb y) & \geq f(\vb x) + \grad{f(\vb x)} \cdot (\vb y - \vb x)
 	\end{align*}
-	Now we must prove the converse; if the first-order condition hold, then \(f\) is convex.
+	Now we must prove the converse; if the first-order condition holds, then \(f\) is convex.
 	Let
 	\[
 		\vb x_\lambda = (1-\lambda)\vb x + \lambda \vb y
@@ -128,10 +128,10 @@ When \(n = 1\), we suspect that \(f''(x) \geq 0\) is the condition for convexity
 In higher dimensions, the analogous operator to the double derivative is the Hessian matrix.
 \[
 	\laplacian{f(\vb x)} = \vb H_f = \begin{pmatrix}
-		\pdv{f(\vb x)}{x_1^2}    & \pdv{f(\vb x)}{x_1}{x_2} & \cdots & \pdv{f(\vb x)}{x_1}{x_n} \\
-		\pdv{f(\vb x)}{x_2}{x_1} & \pdv{f(\vb x)}{x_2^2}    & \cdots & \pdv{f(\vb x)}{x_2}{x_n} \\
+		\pdv[2]{f(\vb x)}{x_1}   & \pdv{f(\vb x)}{x_1}{x_2} & \cdots & \pdv{f(\vb x)}{x_1}{x_n} \\
+		\pdv{f(\vb x)}{x_2}{x_1} & \pdv[2]{f(\vb x)}{x_2}   & \cdots & \pdv{f(\vb x)}{x_2}{x_n} \\
 		\vdots                   & \vdots                   & \ddots & \vdots                   \\
-		\pdv{f(\vb x)}{x_n}{x_1} & \pdv{f(\vb x)}{x_n}{x_2} & \cdots & \pdv{f(\vb x)}{x_n^2}    \\
+		\pdv{f(\vb x)}{x_n}{x_1} & \pdv{f(\vb x)}{x_n}{x_2} & \cdots & \pdv[2]{f(\vb x)}{x_n}   \\
 	\end{pmatrix}
 \]
 \begin{definition}
@@ -141,7 +141,7 @@ In higher dimensions, the analogous operator to the double derivative is the Hes
 \end{definition}
 Note that the higher-dimensional analogue of the Taylor expansion of \(f(\vb y)\) is
 \[
-	f(\vb y) = f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{1}{2}(\vb y - \vb x)^\transpose \laplacian{f(\vb x)} (\vb y - \vb x) + \dots
+	f(\vb y) = f(\vb x) + \grad{f(\vb x)}^\transpose (\vb y - \vb x) + \frac{1}{2}(\vb y - \vb x)^\transpose \laplacian{f(\vb x)} (\vb y - \vb x) + \cdots
 \]
 \begin{theorem}
 	A twice-differentiable function \(f \colon \mathbb R^n \to \mathbb R\) is convex if \(\laplacian{f(\vb x)} \succeq 0\) at all \(\vb x\).
