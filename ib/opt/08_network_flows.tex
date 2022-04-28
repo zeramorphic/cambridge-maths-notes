@@ -11,7 +11,7 @@
 	The collection \( x \) of \( x_{ij} \) is called the \textit{flow}.
 	The flow \( x \) is affected by
 	\begin{enumerate}
-		\item A vector \( b \in \mathbb R^n \), where \( b_i \) is the amount of flow entering vertex \( i \) from outside the graph.
+		\item A vector \( \vb b \in \mathbb R^n \), where \( b_i \) is the amount of flow entering vertex \( i \) from outside the graph.
 		      If \( b_i > 0 \), then vertex \( i \) is called a \textit{source}.
 		      If \( b_i < 0 \), then vertex \( i \) is called a \textit{sink}.
 		\item The cost matrix \( c \in \mathbb R^{n \times n} \), which gives the cost \( c_{ij} \) per unit of flow on \( (i,j) \in E \).
@@ -78,16 +78,16 @@ which is a special case of the minimum flow problem.
 	If all the costs are non-negative and a particular capacity is infinite, then we can replace that capacity by a large number e.g.\ \( \sum \abs{b_i} \),
 	which is the maximum amount of flow that could possibly travel along this edge.
 	This transformation does not change the optimal solution.
-	We have now reduced to the cost where all capacities are finite.
+	We have now reduced to the case where all capacities are finite.
 
-	\medskip\noindent Now, for each such minimum cost flow problem, we will construct an equivalent transport problem that has the same feasible solutions and the same costs.
+	Now, for each such minimum cost flow problem, we will construct an equivalent transport problem that has the same feasible solutions and the same costs.
 	For each vertex \( i \), we create a consumer with demand \( \sum_{(i,j) \in E} \overline m_{ik} - b_i \).
 	For every edge \( (i,j) \), we create a supplier with supply \( \overline m_{ij} \).
 	The total supply and the total demand are equal, since \( \sum_i b_i = 0 \).
 	We now define the cost of moving from \( (i,j) \to i \) is zero.
 	We further define the cost of moving from \( (i,j) \to j \) is \( c_{ij} \).
 
-	\medskip\noindent Now, suppose \( x_{ij} \) flows from \( (i,j) \to j \).
+	Now, suppose \( x_{ij} \) flows from \( (i,j) \to j \).
 	Then \( \overline m_{ij} - x_{ij} \) flows from \( (i,j) \to i \), since the total incoming and outgoing flow from \( (i,j) \) must balance.
 	Then, since the demand at \( i \) is \( \sum_{(i,j) \in E} \overline m_{ik} - b_i \), the total flow into \( i \) satisfies
 	\[
@@ -97,7 +97,7 @@ which is a special case of the minimum flow problem.
 	We can easily check that \( 0 \leq x_{ij} \leq \overline m_{ij} \).
 	So this mapping between the minimum cost flow problem and the transport problem preserves feasibility of solutions.
 
-	\medskip\noindent It now suffices to show that the costs of the two feasible solutions for the two problems are the same; since then we will have demonstrated a mapping between the two problems.
+	It now suffices to show that the costs of the two feasible solutions for the two problems are the same; since then we will have demonstrated a mapping between the two problems.
 	The cost in the transport problem is \( \sum_{(i,j) \in E} x_{ij} c_{ij} \) since the edge from \( (i,j) \) to \( i \) has zero cost.
 	This is identical to the cost in the minimum cost flow problem.
 \end{proof}

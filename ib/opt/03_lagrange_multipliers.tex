@@ -137,14 +137,14 @@ In other words, either the constraint inequality is tight (defined by an equalit
 
 \begin{example}
 	\begin{alignat*}{2}
-		 & \underset{\vb x \in \mathbb R^2}{\text{minimise}} & \qquad & x_2 - 3x_2           \\
+		 & \underset{\vb x \in \mathbb R^2}{\text{minimise}} & \qquad & x_1 - 3x_2           \\
 		 & \text{subject to}                                 &        & x_1^2 + x_2^2 \leq 4 \\
 		 &                                                   &        & x_1 + x_2 \leq 2
 	\end{alignat*}
 	Adding slack variables, we have
 
 	\begin{alignat*}{2}
-		 & \underset{\vb x \in \mathbb R^2}{\text{minimise}} & \qquad & x_2 - 3x_2              \\
+		 & \underset{\vb x \in \mathbb R^2}{\text{minimise}} & \qquad & x_1 - 3x_2              \\
 		 & \text{subject to}                                 &        & x_1^2 + x_2^2 + s_1 = 4 \\
 		 &                                                   &        & x_1 + x_2 + s_2 = 2     \\
 		 &                                                   &        & s_1 \geq 0              \\
@@ -219,7 +219,7 @@ We now define the quantity
 	g(\bm \lambda) = \inf_{\vb x \in \mathcal X} L(\vb x, \bm \lambda)
 \]
 \begin{theorem}[Weak duality theorem]
-	If \( \vb x \in \mathcal X(\vb b) \) and \( \bm\lambda \in \bm\Lambda \), then \( f(\vb x) \geq g(\lambda) \).
+	If \( \vb x \in \mathcal X(\vb b) \) and \( \bm\lambda \in \bm\Lambda \), then \( f(\vb x) \geq g(\bm \lambda) \).
 	In particular,
 	\[
 		\inf_{\vb x \in \mathcal X(\vb b)} f(\vb x) \geq \sup_{\bm \lambda \in \bm \Lambda} g(\bm \lambda)
@@ -273,11 +273,9 @@ In summary, strong duality holds exactly when the Lagrange method works.
 \end{definition}
 \noindent Pictorially, \( \phi \) has a supporting hyperplane if there is a plane passing through \( (\vb b, \phi(\vb b)) \), where \( \phi \) is always above the plane.
 This could be, for example, a tangent plane at \( \vb b \).
-% A \textit{separating} hyperplane is a plane where the inequality could be reversed, so the plane would be above all other values of \( \phi \).
-% Not sure if this is relevant?
 
 \begin{definition}
-	A function \( \phi \colon \mathbb R^m \to \mathbb R \) associated with the primal problem by
+	We define a function \( \phi \colon \mathbb R^m \to \mathbb R \) associated with the primal problem by
 	\[
 		\phi(\vb c) = \inf_{\vb x \in \mathcal X(\vb c)} f(\vb x)
 	\]
@@ -286,10 +284,10 @@ This could be, for example, a tangent plane at \( \vb b \).
 \end{definition}
 
 \begin{theorem}[Strong duality theorem]
-	Strong duality holds if and only if the value function \( \phi \) has a separating hyperplane at \( \vb b \).
+	Strong duality holds if and only if the value function \( \phi \) has a supporting hyperplane at \( \vb b \).
 \end{theorem}
 \begin{proof}
-	First, we show that a separating hyperplane implies strong duality.
+	First, we show that a supporting hyperplane implies strong duality.
 	We have \( \bm \lambda \) such that
 	\[
 		\phi(\vb c) \geq \phi(\vb b) + \bm\lambda^\transpose (\vb c - \vb b)
@@ -316,10 +314,10 @@ This could be, for example, a tangent plane at \( \vb b \).
 \end{proof}
 
 \subsection{Strong duality and convex functions}
-We would now like to consider for which problems \( \phi(\vb b) \) has a separating hyperplane.
+We would now like to consider for which problems \( \phi(\vb b) \) has a supporting hyperplane.
 The following theorem is stated without proof.
 \begin{theorem}
-	A function \( \phi \colon \mathbb R^m \to \mathbb R \) is convex if and only if every point \( \vb b \in \mathbb R^m \) has a separating hyperplane.
+	A function \( \phi \colon \mathbb R^m \to \mathbb R \) is convex if and only if every point \( \vb b \in \mathbb R^m \) has a supporting hyperplane.
 \end{theorem}
 Now, for which problems do we have a convex value function?
 \begin{theorem}
@@ -356,7 +354,7 @@ The quantity \( \pdv{\phi}{b_j}(\vb b) \) is the price of material \( j \), and 
 These are called the `shadow prices'; they are hidden to the outside world but depend on the internal state of the factory.
 
 \begin{theorem}
-	If \( \phi \) is differentiable at \( \vb b \) and has a separating hyperplane given by \( \bm \lambda \), then
+	If \( \phi \) is differentiable at \( \vb b \) and has a supporting hyperplane given by \( \bm \lambda \), then
 	\[
 		\bm \lambda = \grad{\phi}(\vb b)
 	\]
