@@ -18,7 +18,9 @@ var buildCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		compileBook, _ := cmd.Flags().GetBool("book")
 		singleThreaded, _ := cmd.Flags().GetBool("single-threaded")
-		build(compileBook, singleThreaded)
+		hideProofs, _ := cmd.Flags().GetBool("hide-proofs")
+		goMode, _ := cmd.Flags().GetBool("go")
+		build(compileBook, singleThreaded, hideProofs, goMode)
 	},
 }
 
@@ -35,9 +37,11 @@ func init() {
 	// is called directly, e.g.:
 	buildCmd.Flags().BoolP("book", "b", false, "Compile the book as well as the individual courses")
 	buildCmd.Flags().BoolP("single-threaded", "s", false, "Compile only one file at once")
+	buildCmd.Flags().BoolP("hide-proofs", "p", false, "Hide all instances of the proof environment")
+	buildCmd.Flags().BoolP("go", "g", false, "Force latexmk to process document, even if it can't detect changes (useful when enabling or disabling -p)")
 }
 
-func build(compileBook bool, singleThreaded bool) {
+func build(compileBook bool, singleThreaded bool, hideProofs bool, goMode bool) {
 	fmt.Println("Building...")
 	var wg sync.WaitGroup
 
@@ -62,7 +66,14 @@ func build(compileBook bool, singleThreaded bool) {
 			defer wg.Done()
 
 			// Compile the file.
-			cmd := exec.Command("latexmk", "--shell-escape", "-pdflatex=xelatex", "-pdf", "-cd", "-output-directory=build", "-file-line-error", "-halt-on-error", "-interaction=nonstopmode", file.FilePath+"/main.tex")
+			cmd := exec.Command("latexmk", "--shell-escape", "-pdflatex=xelatex", "-pdf", "-cd", "-output-directory=build", "-file-line-error", "-halt-on-error", "-interaction=nonstopmode")
+			if hideProofs {
+				cmd.Args = append(cmd.Args, `-usepretex="\\def\\hideproofs{}"`)
+			}
+			if goMode {
+				cmd.Args = append(cmd.Args, "-g")
+			}
+			cmd.Args = append(cmd.Args, file.FilePath+"/main.tex")
 			out, err := cmd.CombinedOutput()
 			if err != nil {
 				errorChan <- string(out)
