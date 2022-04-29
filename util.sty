@@ -183,7 +183,21 @@
 
 \ifdefined\hideproofs
 \usepackage{environ}
-\NewEnviron{killcontents}{\textit{Proof hidden.\\}}
-\let\proof\killcontents
-\let\endproof\endkillcontents
+\usepackage{calc}
+\usepackage{pgf}
+\newlength{\parline}
+\newlength{\paroutindent}
+\newlength{\lineheight}
+\setlength{\lineheight}{\heightof{abcdefghijklmnoprstuvwxyz}}
+\NewEnviron{killproof}{%
+\setlength{\paroutindent}{\expandafter\parindent}%
+\setlength{\parline}{\heightof{\noindent\begin{minipage}{\linewidth}%
+			\setlength{\parindent}{\paroutindent}%
+			\BODY%
+		\end{minipage}}}%
+\pgfmathparse{int(round(\parline / (0.9*\lineheight)))}%
+\textit{Proof hidden (approx.\ \pgfmathresult{} lines).\\}
+}
+\let\proof\killproof
+\let\endproof\endkillproof
 \fi
