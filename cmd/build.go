@@ -68,7 +68,7 @@ func build(compileBook bool, singleThreaded bool, hideProofs bool, goMode bool) 
 			// Compile the file.
 			cmd := exec.Command("latexmk", "--shell-escape", "-pdflatex=xelatex", "-pdf", "-cd", "-output-directory=build", "-file-line-error", "-halt-on-error", "-interaction=nonstopmode")
 			if hideProofs {
-				cmd.Args = append(cmd.Args, `-usepretex="\\def\\hideproofs{}"`)
+				cmd.Args = append(cmd.Args, `-usepretex="\\let\\hideproofs 1"`)
 			}
 			if goMode {
 				cmd.Args = append(cmd.Args, "-g")
