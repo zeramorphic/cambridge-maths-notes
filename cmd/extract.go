@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"os"
+	"regexp"
 	"strings"
 
 	"github.com/fatih/color"
@@ -34,9 +35,21 @@ func init() {
 	// optimiseCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
+/// Converts a string to a usable format in a CSV file.
+func toCsv(text string) string {
+	text = strings.TrimSpace(text)
+	bigFormulae, _ := regexp.Compile(`(?sU)(\\\[.*\\\])`)
+	text = bigFormulae.ReplaceAllStringFunc(text, func(s string) string { return strings.ReplaceAll(s, "\n", " ") })
+	text = strings.ReplaceAll(text, "\n", "<br>")
+	removeSpaces, _ := regexp.Compile(`[\s]+`)
+	text = removeSpaces.ReplaceAllString(text, " ")
+	return text
+}
+
 func extract(course string) {
 	files, _ := walkMatch(course, "*.tex")
-	result := ""
+	definitions := ""
+	theorems := ""
 	for _, v := range files {
 		contentsBytes, _ := os.ReadFile(v)
 		contents := string(contentsBytes)
@@ -70,9 +83,32 @@ func extract(course string) {
 				def = def[:i2] + "<i>" + def[i2+len(`\textit{`):i2+j2] + "</i>" + def[i2+j2+1:]
 			}
 
-			result += guessedDefName + "\t" + def + "\n"
+			definitions += guessedDefName + "\t" + def + "\n"
+		}
+
+		// Now do theorems.
+		contents = string(contentsBytes)
+		alts := "theorem|lemma|proposition|claim|corollary"
+		thm, e := regexp.Compile(`\\begin{(` + alts + `)}(?:\[(.*)\])?(?sU)(.*)\\end{(?:` + alts + `)}(?:.*)\\begin{proof}(.*)\\end{proof}`)
+		if e != nil {
+			println(e)
+			return
+		}
+		thms := thm.FindAllStringSubmatch(contents, -1)
+		for _, val := range thms {
+			// 0 = entire theorem
+			// 1 = theorem/lemma etc
+			// 2 = name of result
+			// 3 = content of the theorem
+			// 4 = proof of the theorem
+			name := strings.Title(val[1])
+			if val[2] != "" {
+				name += " (" + val[2] + ")"
+			}
+			theorems += name + ". " + toCsv(val[3]) + "\t" + toCsv(val[4]) + "\n"
 		}
 	}
-	os.WriteFile("definitions.txt", []byte(result), 0644)
+	os.WriteFile("definitions.csv", []byte(definitions), 0644)
+	os.WriteFile(strings.ReplaceAll(course, "/", "_") + "_theorems.csv", []byte(theorems), 0644)
 	color.HiGreen("Done!")
 }
