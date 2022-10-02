@@ -25,11 +25,17 @@ var Files []TexFile = []TexFile{
 	{FilePath: "ib/ca", Name: "Complex Analysis"},
 	{FilePath: "ib/geom", Name: "Geometry"},
 	{FilePath: "ib/stats", Name: "Statistics"},
+	{FilePath: "ii/algtop", Name: "Algebraic Topology"},
+	{FilePath: "ii/pm", Name: "Probability and Measure"},
+	{FilePath: "ii/graph", Name: "Graph Theory"},
+	{FilePath: "ii/afl", Name: "Automata and Formal Languages"},
+	{FilePath: "ii/galois", Name: "Galois Theory"},
 }
 
 var BookFiles []TexFile = []TexFile{
 	{FilePath: "ia/book", Name: "IA Book"},
 	{FilePath: "ib/book", Name: "IB Book"},
+	{FilePath: "ii/book", Name: "II Book"},
 }
 
 var FilesWithBook []TexFile
