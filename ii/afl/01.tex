@@ -1,0 +1,71 @@
+\subsection{Exposition}
+Computation, or computability, is central to modern mathematics.
+However, we very rarely think about the precise definition of what it means for something to be `computable'.
+There is an important difference between existence and algorithmic access to a witness.
+Contrast the statements `every polynomial of order \( n \) has a root', and `there is an algorithm that, given a polynomial of order \( n \), we can find a root'.
+In many cases, there is an existence proof but no algorithm to construct the relevant object.
+
+In 1900, Hilbert gave a talk in Paris known as \emph{Mathematical Problems}, in which he described a list of 100 problems to be worked on in the coming 100 years.
+One of these problems, the tenth, relates to an algorithm to determine whether solutions of Diophantine equations, those in \( \mathbb Z[X] \), exist.
+In 1928, Ackermann wrote the book \emph{Grundz\"uge der theoretischen Logik}, in which he described the famous \emph{Entscheidungsproblem}: given a formula \( \varphi \), determine whether \( \varphi \) is a tautology (true regardless of how the variables are interpreted).
+
+In both cases, Hilbert expected that solutions to these questions exist.
+Positive solutions to such problems do not require a definition of words like `algorithm' or `procedure', because we can agree on what an algorithm is when we see an example.
+However, to disprove such statements, we need to rigorously define what an algorithm is, in order to rule all possible algorithms out.
+
+\subsection{Basic definitions}
+To talk about computation, we must first define the objects on which computation takes place.
+Naturally, one would assume the objects to be some kind of number, but even the above two examples do not have inputs as numbers; instead, we see polynomials and formulas.
+Modern computation relies on encodings of complicated objects as strings of a finite set of symbols, such as the bits \( 0 \) and \( 1 \).
+We use a similar approach, using a set \( \Omega \), which is usually assumed to be finite, called the set of \emph{symbols}, and then we define \( \Omega^\star \) to be the set of finite sequences of objects of \( \Omega \), called the set of \( \Omega \)\emph{-strings}.
+
+\subsection{Revisiting Numbers and Sets}
+Recall that a set \( X \) is called \emph{countable} if there is a surjection \( \mathbb N \to X \), and that \( X \) is called \emph{infinite} if there is an injection \( \mathbb N \to X \).
+\begin{proposition}
+	If \( X \) is nonempty and countable, then \( X^\star \) is infinite and countable.
+\end{proposition}
+\begin{proof}
+	Since \( X \neq \varnothing \), there exists \( x \in X \).
+	\( X^\star \) is infinite, as the function mapping \( n \in \mathbb N \) to \( \underbrace{xx\dots x}_{n \text{ times}} \) is injective.
+	Because \( X \) is countable, there exists a surjection \( \pi : \mathbb N \to X \).
+	Each natural \( k \in \mathbb N \) has a unique prime number decomposition \( \prod_{i \in \mathbb N} p_i^{k_i} \) where \( p_0 = 2, p_1 = 3, p_2 = 5, \dots \) are the primes indexed by the naturals.
+	We will interpret the \( k_i \) as encoding a sequence of elements of \( X \), taking care to preserve the relevance of zero.
+	Reading \( k_0 \) as the length of a sequence, the sequence \( (k_1, \dots, k_{k_0}) \) is a sequence of naturals.
+	We then obtain the sequence \( (\pi(k_1), \dots, \pi(k_{k_0})) \) in \( X^\star \).
+	By surjectivity of \( \pi \), the function we have constructed \( k \mapsto (\pi(k_1), \dots, \pi(k_{k_0})) \) is also surjective.
+\end{proof}
+\begin{theorem}[Cantor's theorem]
+	Let \( X \) be infinite. Then its power set \( \mathcal P(X) \) is uncountable.
+\end{theorem}
+\begin{proof}
+	A simple diagonalisation argument shows there is no surjection from the naturals to the power set \( \mathcal P(X) \).
+\end{proof}
+\begin{proposition}
+	If \( X \) is countable, then the set \( \mathrm{Fin}(X) \subseteq \mathcal P(X) \) of all finite subsets of \( X \) is countable.
+\end{proposition}
+\begin{proof}
+	We construct a surjection from \( X^\star \) to \( \mathsf{Fin}(X) \); then by composition with the surjection obtained in the first proposition we construct a surjection \( \mathbb N \to \mathrm{Fin}(X) \).
+	Consider the forgetful function \( f \colon X^\star \to \mathsf{Fin}(X) \), mapping \( (x_1, \dots, x_n) \) to \( \qty{x_1, \dots, x_n} \).
+	Since \( X \) is countable, \( \pi \colon \mathbb N \to X \) is surjective, hence for \( x \in X \), \( \pi^{-1}(x) \subseteq \mathbb N \) is a nonempty set of naturals.
+	Therefore, let \( n_x \) be the least element of \( \pi^{-1}(x) \).
+	Then, given \( F \in \mathrm{Fin}(X) \), consider the set \( \qty{n_x \mid x \in F} \), order it in the usual way, and represent this as a sequence.
+	This is a sequence of naturals with \( \abs{F} \) elements, and its \( \pi \)-image is exactly \( F \).
+\end{proof}
+
+\subsection{Notation}
+We will use the following notational conventions.
+\begin{itemize}
+	\item The natural numbers \( \mathbb N \) are defined as \( \qty{0, 1, 2, \dots} \).
+	\item We use the standard set-theoretic construction of naturals as Von Neumann ordinals, \( n = \qty{0, 1, \dots, n-1} \). Therefore, a natural is the set of all lower naturals.
+	\item \( X^n \) is the set of sequence of \( X \)-strings of length \( n \), defined as \( X^n = n \to X \), treating \( n \) as a set as above.
+	\item We write \( \abs{\alpha} = \mathrm{domain}(\alpha) \) for the length of a sequence.
+	\item \( X^0 = 0 \to X \) is a type with only one element \( \varepsilon \), which is the empty sequence.
+	\item We can write \( X^\star = \bigcup_{n \in \mathbb N} X^n \).
+	\item Truncation of a sequence \( \alpha \in X^n \) to the length \( k \leq n \) is exactly \( \eval{\alpha}_k \): the unique sequence of length \( k \) such that \( \eval{\alpha}_k \subseteq \alpha \).
+	\item Concatenation of sequences \( \alpha, \beta \in X^\star \) where \( \abs{\alpha} = m, \abs{\beta} = n \), is denoted \( \alpha\beta \in X^{m + n} \), defined piecewise in the natural way.
+	\item By recursion, we define \( \alpha^0 = \varepsilon \) and \( \alpha^{n+1} = \alpha \alpha^n \).
+	\item We identify the sequence of length one with its entry: \( x \in X \) can represent the sequence \( (x) \in X^1 \).
+	\item If \( Y, Z \subseteq X^\star \), we write \( YZ = \qty{\alpha\beta \mid \alpha \in Y, \beta \in Z} \).
+	\item Similarly, if \( Y = \qty{\alpha} \), we can write \( \alpha Z = \qty{\alpha\beta \mid \beta \in Z} \).
+	\item If \( f \colon X \to Y \), we can lift this function to the space \( X^\star \to Y^\star \) functorially to the function \( \hat f \). Often, the hat is omitted.
+\end{itemize}
