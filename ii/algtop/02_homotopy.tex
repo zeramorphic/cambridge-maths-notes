@@ -1,0 +1,83 @@
+\subsection{Definition}
+\begin{definition}
+	Let \( f_0, f_1 \colon X \to Y \) be continuous.
+	We say \( f_0 \) is \emph{homotopic to} \( f_1 \), written \( f_0 \sim f_1 \), if there exists a continuous \( H \colon X \times I \to Y \) with \( H(x,0) = f_0(x) \) and \( H(x,1) = f_1(x) \).
+\end{definition}
+We can think of \( H \) as a path from \( f_0 \) to \( f_1 \) in the set \( \mathrm{Hom}(X,Y) \) of functions \( X \to Y \), that is continuous under a topology that will not be defined here.
+\begin{lemma}[Gluing lemma]
+	Let \( X = C_1 \cup C_2 \), where \( C_1, C_2 \) are closed in \( X \).
+	Let \( f \colon X \to Y \) be a function (that may be not continuous), such that \( \eval{f}_{C_1} \) and \( \eval{f}_{C_2} \) are continuous.
+	Then \( f \) is continuous.
+\end{lemma}
+\begin{proof}
+	It suffices to show that the preimage of a closed set is closed.
+	Let \( K \subseteq Y \) be closed.
+	Then \( K_i = f^{-1}(K) \cap C_i = \qty(\eval{f}_{C_i})^{-1}(K) \) is a closed set in \( C_i \) and so is closed in \( X \) because \( C_i \) is closed.
+	Since \( K = K_1 \cup K_2 \), \( K \) is also closed in \( X \).
+\end{proof}
+\begin{lemma}
+	Homotopy is an equivalence relation.
+\end{lemma}
+\begin{proof}
+	Reflexivity is trivial, because \( H(x,t) = f(x) \) is continuous, as \( H = f \circ \pi_1 \) is the composition of continuous maps.
+	Symmetry holds because if \( H(x,t) \) is continuous, \( H(x,1-t) \) is continuous as the composition of continuous maps.
+	For transitivity, if \( f_0 \sim f_1 \) via \( H \) and \( f_1 \sim f_2 \) via \( H' \), we define
+	\[ H''(x,t) = \begin{cases}
+		H(x,2t) & t < \frac{1}{2} \\
+		H'(x,2t-1) & t \geq \frac{1}{2}
+	\end{cases} \]
+	and this is continuous by the gluing lemma.
+\end{proof}
+Note that we sometimes write \( f_t(x) \) for a homotopy between \( f_0 \) and \( f_1 \).
+\begin{example}
+	Let \( f_1 \colon X \to \mathbb R^n \) be a map. Then \( f_0 \colon X \to \mathbb R^n \) defined by \( c_{X,0} \) has \( f_1 \sim f_0 \) via the homotopy \( H(x,t) = t f_1(x) \).
+\end{example}
+\begin{example}
+	Let \( f_1 \colon S^1 \to S^2 \) be defined by \( f_1(x,y) = (x,y,0) \): the inclusion map from the circle to the equator in the unit 2-sphere.
+	Let \( f_0 \colon S^1 \to S^2 \) be the constant map \( f_0(x,y) = (0,0,1) \).
+	Then \( f_0 \sim f_1 \) via the homotopy \( f_t(x,y) = (x\sin \frac{\pi t}{2}, y \sin \frac{\pi t}{2}, \cos \frac{\pi t}{2}) \).
+\end{example}
+\begin{lemma}
+	If \( f_0, f_1 \colon X \to Y \) are homotopic via \( f_t \), and \( g_0, g_1 \colon Y \to Z \) are homotopic via \( g_t \), then the map \( H \colon X \times I \to Z \) defined by \( H(x,t) = g_t(f_t(x)) \), also denoted \( g_t \circ f_t \) is a homotopy for \( g_0 \circ f_0 \sim g_1 \circ f_1 \).
+\end{lemma}
+\begin{proof}
+	This is a composition of continuous maps and hence continuous.
+\end{proof}
+
+\subsection{Contractible spaces}
+\begin{definition}
+	A space \( Y \) is \emph{contractible} if \( \mathrm{id}_Y \sim c_{Y,p} \) for some \( p \in Y \).
+\end{definition}
+\begin{example}
+	If \( Y \subseteq \mathbb R^n \) is convex and nonempty, \( Y \) is contractible via the homotopy \( H(y,t) = (1-t)y + tp \) for some \( p \in Y \).
+\end{example}
+\begin{proposition}
+	Let \( Y \) be contractible.
+	Then \( f_0 \sim f_1 \) for any maps \( f_0, f_1 \colon X \to Y \).
+\end{proposition}
+\begin{proof}
+	We have \( f_0 = \mathrm{id}_Y \circ f_0 \sim c_{Y,p} \circ f_0 = c_{X,p} \), and similarly \( f_1 \sim c_{X,p} \).
+	By transitivity, \( f_0 \sim f_1 \).
+\end{proof}
+\begin{corollary}
+	Let \( Y \) be contractible.
+	Then \( Y \) is path-connected.
+\end{corollary}
+\begin{proof}
+	If \( Y \) is contractible, and \( p, q \in Y \), then \( c_{\qty{\bullet},p} \sim c_{\qty{\bullet},q} \) via \( H \colon \qty{\bullet} \times I \to Y \).
+	Then define \( \gamma(t) = H(\bullet,t) \) is a path from \( p \) to \( q \) in \( Y \).
+\end{proof}
+\begin{example}
+	\( \mathbb R \setminus \qty{0} \) is not contractible.
+\end{example}
+We will later prove that \( \mathbb R^n \setminus \qty{0} \) is not contractible for any \( n \geq 1 \), but we require some more theory before this can be proven.
+\begin{definition}
+	Spaces \( X, Y \) are \emph{homotopy equivalent}, denoted \( X \sim Y \), if there exist maps \( f \colon X \to Y \) and \( g \colon Y \to X \) such that \( f \circ g \sim \mathrm{id}_Y \) and \( g \circ f \sim \mathrm{id}_X \).
+\end{definition}
+\begin{example}
+	If \( X \simeq Y \), \( X \) and \( Y \) are homotopy equivalent.
+	Note that the definition of homotopy equivalence is simply the definition of homeomorphism, except that the requirement that \( f \circ g \) and \( g \circ f \) \emph{equal} to the identity is relaxed into simply being \emph{homotopic} to the identity.
+\end{example}
+\begin{proposition}
+	\( X \) is contractible if and only if \( X \sim \qty{\bullet} \).
+\end{proposition}

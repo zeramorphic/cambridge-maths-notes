@@ -1,0 +1,64 @@
+\subsection{Definitions}
+We use the notation \( [n] \) for \( \qty{1, \dots,n} \).
+For a set \( X \) and \( k \in \mathbb N \), we define \( X^{(k)} = \qty{Y \subseteq X \mid \abs{Y} = k} \).
+\begin{definition}
+	A \emph{graph} is a pair \( (V, E) \), where \( V \) is a set of \emph{vertices} and \( E \) is a set of \emph{edges} where \( E \subseteq V^{(2)} \).
+	We use the notation \( V(G) \) to denote the set of vertices and \( E(G) \) to denote the set of edges, where \( G = (V, E) \) is a graph.
+	We define \( \abs{G} = \abs{V(G)} \), and \( e(G) = \abs{E(G)} \).
+\end{definition}
+\begin{example}
+	The complete graph on \( n \) vertices, denoted \( K_n \), is the graph with \( V = [n] \) and \( E = V^{(2)} \).
+\end{example}
+Note that we sometimes use juxtaposition of names of vertices to denote an edge between them, so \( 13 \) represents the edge \( \qty{1, 3} \).
+\begin{remark}
+	Edges are undirected. There are no edges from a vertex to itself. Edges between vertices are unique if they exist.
+	Most of the graphs covered in this course are finite.
+\end{remark}
+\begin{example}
+	The empty graph on \( n \) vertices, denoted \( \overline K_n \), is the graph with vertex set \( V = [n] \) and \( E = \varnothing \).
+\end{example}
+\begin{example}
+	The path of length \( n \), denoted \( P_n \), is the graph with \( V = [n+1] \) and \( E = \qty{\qty{1,2},\dots,\qty{n,n+1}} \).
+\end{example}
+\begin{example}
+	The cycle of length \( n \), denoted \( C_n \), is the graph with \( V = [n] \) and \( E = \qty{\qty{1,2}, \dots, \qty{n-1,n}, \qty{n,1}} \).
+\end{example}
+\begin{definition}
+	Let \( G \) be a graph, \( x \in V(G) \).
+	The \emph{neighbourhood} of \( x \) in \( G \) is
+	\[ N_G(x) = \qty{y \in V(G) \mid \qty{x,y} \in E(G)} \]
+	If \( y \) is a neighbour of \( x \), we write \( x \sim y \).
+\end{definition}
+Note that \( \sim \) is irreflexive and not transitive in general.
+\begin{definition}
+	The \emph{degree} of a vertex \( x \in V(G) \) is defined as \( \deg x = \abs{N(x)} \).
+\end{definition}
+\begin{definition}
+	Let \( G, H \) be graphs.
+	A \emph{graph isomorphism} is a bijection \( \varphi \colon V(G) \to V(H) \) such that \( \qty{u,v} \in E(G) \iff \qty{\varphi(u),\varphi(v)} \in E(H) \).
+\end{definition}
+\begin{definition}
+	We say \( H \) is a \emph{subgraph} of \( G \) if \( V(H) \subseteq V(G) \) and \( E(H) \subseteq E(G) \).
+\end{definition}
+If \( G \) is a graph, and \( xy \in E(G) \), we define \( G - xy \) to be the graph \( (V(G), E(G)\setminus \qty{xy}) \).
+Similarly, for \( x, y \in V(G) \), we define \( G + xy \) to be the graph \( (V(G), E(G) \cup \qty{xy}) \).
+\begin{definition}
+	Let \( x, y \in V(G) \).
+	A \emph{walk} from \( x \) to \( y \) in \( G \) is a sequence of vertices \( (x, \dots, y) \) such that each consecutive pair of elements of the sequence is connected by an edge in \( G \).
+	A \emph{path} from \( x \) to \( y \) in \( G \) is a walk where all the vertices are disjoint.
+\end{definition}
+\begin{definition}
+	A graph is \emph{connected} if every pair of vertices is connected with a path.
+\end{definition}
+The concatenation of two paths or walks \( P \) and \( P' \) is written \( PP' \).
+\begin{remark}
+	The concatenation of two walks is a walk.
+	The concatenation of two paths is not necessarily a path, if the two paths share a vertex.
+\end{remark}
+\begin{proposition}
+	If \( W \) is a \( x \)--\( y \) walk for \( x \neq y \), \( W \) contains a \( x \)--\( y \) path, where `contains' denotes a subsequence.
+\end{proposition}
+\begin{proof}
+	Let \( W' \) be the minimal \( x \)--\( y \) walk in \( W \).
+	This is a path, because if there were a repeated vertex, we could find a shorter path by eliminating the detour.
+\end{proof}
