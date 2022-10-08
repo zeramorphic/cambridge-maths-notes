@@ -1,0 +1,92 @@
+\subsection{Definitions}
+\begin{definition}
+	Let \( \Omega \) be a finite set of symbols, and let \( \Omega^\star \) be the set of \( \Omega \)-strings.
+	We call elements of \( \Omega^\star \times \Omega^\star \) \emph{rewrite rules} or \emph{production rules}.
+	Such elements \( (\alpha, \beta) \) are written \( \alpha \to \beta \).
+\end{definition}
+Informally, we interpret a rewrite rule \( \alpha \to \beta \) as a procedure that replaces an occurence of \( \alpha \) in a string with \( \beta \).
+\begin{definition}
+	A pair \( R = (\Omega, P) \) is called a \emph{rewrite system} if \( P \) is a finite set of rewrite rules.
+\end{definition}
+\begin{proposition}
+	If \( \Omega \) is finite, there are only countably many rewrite systems on \( \Omega \).
+\end{proposition}
+\begin{proof}
+	\( \Omega^\star \) is countable, so \( \Omega^\star \times \Omega^\star \) is countable.
+	Every \( P \) is an element of \( \mathrm{Fin}(\Omega^\star \times \Omega^\star) \), hence this is countable.
+\end{proof}
+\begin{definition}
+	% TODO: make a good xrightarrow system for this
+	If \( R = (\Omega, P) \) is a rewrite system, and \( \sigma, \tau \in \Omega^\star \), we write \( \sigma \to^R_1 \tau \), pronounced `\( \sigma \) is rewritten to \( \tau \) in one step' or `\( R \) producees \( \tau \) from \( \sigma \) in one step', if there exist \( \alpha, \beta, \gamma, \delta \in \Omega^\star \) such that \( \sigma = \alpha \gamma \beta \), \( \tau = \alpha \delta \beta \), and \( \gamma \to \delta \in P \).
+
+	The relation \( \to^R \) is the reflexive and transitive closure of \( \to^R_1 \).
+	The sequence \( \sigma_0 \to^R_1 \sigma_1 \to^R_1 \dots \to^R_1 \sigma_n \) is called a \emph{\( R \)-derivation of length \( n \)} of \( \sigma_n \) from \( \sigma_0 \).
+	We write \( \mathcal D(R, \sigma) = \qty{\tau \in \Omega^\star \mid \sigma \to^R \tau} \) for the set of strings that can be rewritten, produced, or derived from \( \sigma \).
+\end{definition}
+
+\subsection{Relation to languages}
+In language, we can think of \( \Omega \) as representing letters, and \( \Omega^\star \) representing words.
+We could alternatively consider \( \Omega \) to represent words, and \( \Omega^\star \) to represent sentences.
+Further, \( \Omega \) could represent sentences, and then \( \Omega^\star \) would represent texts.
+
+However, not all elements of \( \Omega^\star \) in each level is a valid word, sentence, or text.
+We therefore would like to describe which elements of \( \Omega^\star \) are \emph{well-formed}.
+Natural languages spoken by humans are finite, and normally the way we determine whether a string is a word is by consulting a dictionary, which at its core is a lookup table that determines whether any given string is or is not a word.
+
+Even though in practice languages are finite, Chomsky realised that it makes more sense to model them as infinite sets, due to a property known as \emph{linguistic recursion} that seems to be an important feature of human language.
+Linguistic recursion can be seen through the following example: when \( X \) is a sentence in English, `\( E \) observes that \( X \)' is also a grammatical sentence in English.
+If we define an upper sentence length in English, we have to arbitrarily define an upper limit on this form of recursion.
+
+There is a difference between a sentence being grammatical and being meaningful.
+One notable example is the grammatically correct `colourless green ideas sleep furiously' that does not have meaning, to contrast with `furiously sleep ideas green colourless' which is neither grammatically correct or meaningful.
+We can use grammar to distinguish these two sentences, but we cannot distinguish algebraically whether a sentence has meaning.
+
+\begin{example}
+	Consider the following \emph{generative grammar} of rewrite rules for English.
+	\begin{align*}
+		S &\to \text{NP VP} \\
+		\text{NP} &\to \text{Adj NP} \\
+		\text{NP} &\to \text{Noun} \\
+		\text{VP} &\to \text{Verb} \\
+		\text{VP} &\to \text{Verb Adv}
+	\end{align*}
+	This rewrite system allows us to derive the sentence `colourless green ideas sleep furiously' from \( S \).
+\end{example}
+
+\subsection{Grammars}
+\begin{definition}
+	Let \( \Sigma \) be an \emph{alphabet} of \emph{letters} or \emph{terminal symbols}, and let \( V \) be a set of \emph{variables} or \emph{nonterminal symbols}, such that \( \Sigma, V \) are nonempty and disjoint.
+	Let \( \Omega = \Sigma \cup V \).
+	\( a, b, c, \dots \) refer to letters and \( A, B, C, \dots \) refer to variables.
+	Elements of \( \mathbb W = \Sigma^\star \subseteq \Omega^\star \) are called \emph{words}.
+	\( u, v, w, \dots \) refer to words.
+	We denote \( \mathbb W^+ = \Sigma^\star \setminus \qty{\varepsilon} \) for the set of nonempty words.
+	A subset of \( \mathbb W \) is called a \emph{language}.
+\end{definition}
+Note that there are uncountably many languages over any nonempty alphabet.
+\begin{definition}
+	A tuple \( G = (\Sigma, V, P, S) \) is called a \emph{grammar} if \( \Sigma, V \) are nonempty and disjoint denoting \( \Omega = \Sigma \cup V \), such that \( R = (\Omega, P) \) is a rewrite system, and \( S \in V \) is the \emph{start symbol}.
+	Since grammars give rise to a natural rewrite system, our notation for rewrite systems may also be used for grammars.
+	For example,
+	\[ \mathcal D(G, \sigma) = \mathcal D(R, \sigma);\quad \sigma \to^G_{(1)} \tau \iff \sigma \to^R_{(1)} \tau \]
+	We define the \emph{language generated by the grammar} to be
+	\[ \mathcal L(G) = \mathcal D(G,S) \cap \mathbb W \]
+\end{definition}
+\begin{example}
+	If there is no rule of the form \( S \to \alpha \) in \( P \), then \( \mathcal D(G,S) = \qty{S} \) and thus \( \mathcal L(G) = \varnothing \) because the start symbol is not a word.
+	Likewise, if there is no rule of the form \( \alpha \to w \) for \( w \in \mathbb W \) in \( P \), then \( \mathcal D(G,S) \) contains no words, so \( \mathcal L(G) = \varnothing \).
+\end{example}
+\begin{example}
+	Let \( \Sigma = \qty{a} \), \( V = \qty{S} \), \( P_0 = \qty{S \to aaS, S \to a} \), \( G_0 = (\Sigma, V, P, S) \).
+	We will show \( \mathcal L(G_0) = \qty{a^{2n+1} \mid n \in \mathbb N} \).
+	First, every element of \( \mathcal D(G,S) \) that is produced by \( G_0 \) is of odd length, which can be seen by induction on the length of the derivation, since each production rule preserves parity of length.
+	Conversely, each \( a^{2n+1} \) can be produced by the rewrite rules, by applying \( S \to aaS \) a total of \( n \) times, and then applying \( S \to a \).
+
+	Note that the only requirement of the proof was that odd length is preserved. Thus, the following sets of production rules also produce the same language.
+	\begin{align*}
+	\item \( P_1 = \qty{S \to aSa, S \to a} \)
+	\item \( P_2 = \qty{S \to Saa, S \to a} \)
+	\item \( P_3 = \qty{S \to aaS, S \to aaSaa, S \to a} \)
+	\end{align*}
+	This notion is called \emph{equivalence of grammars}.
+\end{example}

@@ -1,0 +1,149 @@
+\subsection{Definitions}
+In this course, \emph{ring} means a commutative nonzero ring.
+If \( R \) is a ring, \( R[X] \) denotes the ring of polynomials with elements \( \sum_{i=0}^n a_i X^i \), and the usual operations of addition and multiplication.
+A polynomial \( f \in R[X] \) can be interpreted as a function \( f \colon R \to R \), given by \( x \mapsto \sum_{i=0}^n a_i x^i \).
+It is, however, important to distinguish the polynomial and its associated function; the polynomial is not in general uniquely determined by the function.
+For example, let \( R = \faktor{\mathbb Z}{p\mathbb Z} \), so for all \( a \in R \), we have \( a^p = a \), and hence \( X^p \) and \( X \) are different polynomials yet represent the same function.
+
+Recall from Groups, Rings and Modules that if \( R = K \) is a field, \( K[X] \) is a Euclidean domain (and hence is a unique factorisation domain, a Noetherian ring, a principal ideal domain, and an integral domain).
+Hence, there is a division algorithm: for polynomials \( f, g \in K[X] \), there exists a unique \( q, r \in K[X] \) such that \( f = gq + r \) and \( \deg r < \deg g \), where we denote \( \deg 0 = -\infty \).
+If \( g = X - a \) is linear, \( f = (X-a)q + r \) where \( r = f(a) \in K \); this is the familiar remainder theorem.
+Note that every polynomial \( f \in K[X] \) is a product of irreducible polynomials since \( K[X] \) is a unique factorisation domain, and there are greatest common divisors which can be computed using Euclid's algorithm in the usual way.
+
+\begin{proposition}
+	Let \( K \) be a field, and \( 0 \neq f \in K[X] \).
+	Then, \( f \) has at most \( \deg f \) roots in \( K \).
+\end{proposition}
+\begin{proof}
+	If \( f \) has no roots, the proof is complete.
+	If \( f \) has a root \( a \), consider \( f = (X - a)q + f(0) = (X - a)q \).
+	For a root \( b \) of \( f \), either \( b = a \) or \( q(b) = 0 \).
+	By induction, \( q \) has at most \( \deg q \) roots, since \( \deg q < \deg f \).
+	Then \( \deg q + 1 \leq \deg f \) as required.
+\end{proof}
+
+\subsection{Symmetric polynomials}
+\begin{definition}
+	Let \( R \) be a ring, and let \( n \geq 1 \).
+	A polynomial \( f \in R[X_1, \dots, X_n] \) is \emph{symmetric} if, for every permutation \( \sigma \in S_n \), we have \( f(X_{\sigma(1)}, \dots, X_{\sigma(n)}) = f(X_1, \dots, X_n) \), where \( S_n \) is the symmetric group of degree \( n \).
+\end{definition}
+Note that constant polynomials are symmetric, and the property of symmetry is closed under addition and multiplication.
+Hence, the set of symmetric polynomials is a subring of \( R[X_1, \dots, X_n] \).
+\begin{example}
+	\( X_1 + \dots + X_n \) is symmetric.
+	More generally, \( p_k = X_1^k + \dots + X_n^k \) is symmetric.
+\end{example}
+\begin{proposition}
+	Let \( f \sigma(X) = f(X_{\sigma(1)}, \dots, X_{\sigma(n)}) \).
+	This gives an action (on the right) of the group \( S_n \) on \( R[X_1, \dots, X_n] \).
+	A polynomial \( f \in R[X_1, \dots, X_n] \) is symmetric if and only if \( f \) is fixed under the action of \( S_n \); in other words, \( f\sigma = f \) for all \( \sigma \in S_n \).
+\end{proposition}
+\begin{definition}
+	The \emph{elementary symmetric functions} or \emph{elementary symmetric polynomials} are
+	\[ s_r(X_1, \dots, X_n) = \sum_{i_1 < \dots < i_r} X_{i_1} X_{i_2} \cdots X_{i_r} \]
+	For instance,
+	\[ s_2(X_1, X_2, X_3) = X_1 X_2 + X_1 X_3 + X_2 X_3 \]
+	It is clear that these are symmetric polynomials.
+\end{definition}
+\begin{definition}
+	A \emph{monomial} is an expression of the form \( X_I = X_1^{I_1} \cdots X_n^{I_n} \) for \( I \in \mathbb N^n \).
+	The \emph{(total) degree} of a monomial is \( \sum_{i=1}^n I_i \).
+	A \emph{term} is a scalar multiple of a monomial.
+	A polynomial is uniquely characterised by a sum of terms.
+	The total degree of a polynomial is the maximum total degree of its terms.
+
+	Monomials are equipped with a \emph{lexicographic ordering}, where we say monomials \( X_I > X_J \) if either \( I_1 > J_1 \) or \( I_1 = J_1 \) and for some \( r \in \qty{1, \dots, n-1} \) we have \( I_1 = J_1, \dots, I_r = J_r, I_{r+1} > J_{r+1} \).
+	This is a total order.
+\end{definition}
+\begin{theorem}
+	Every symmetric polynomial in \( n \) variables over a ring \( R \) can be expressed as a polynomial in the \( s_r \) for \( 1 \leq r \leq n \), with coefficients in \( R \).
+	Further, there are no non-trivial relations between the \( s_r \).
+\end{theorem}
+\begin{remark}
+	Consider the ring homomorphism \( \theta \colon R[Y_1, \dots, Y_n] \to R[X_1, \dots, X_n] \) given by \( \theta(Y_r) = s_r \) and \( \theta(r) = r \) for \( r \in R \).
+	The first part of the above theorem stipulates that \( \Im \theta \) is the set of symmetric polynomials.
+	The second part implies that \( \theta \) is injective, since any element of \( \ker \theta \) is a polynomial between the \( s_r \) that evaluates to zero.
+
+	Note that we can equivalently define the \( s_r \) as
+	\[ \prod_{i=1}^n (T + X_i) = T^n + s_1 T^{n-1} + \dots + s_{n-1} T + s_n \]
+	If we need to specify the number of variables, we use \( s_{r,n} \) instead of \( s_r \).
+\end{remark}
+\begin{proof}
+	Let \( d \) be the total degree of a symmetric polynomial \( f \).
+	Let \( X_I \) be the largest (in lexicographic order) monomial which occurs in \( f \) with coefficient \( c \).
+	Since \( f \) is symmetric, any permutation of the \( X_i \) yields another monomial that occurs in \( f \).
+	Hence, \( I_1 \geq I_2 \geq \dots \geq I_n \), because otherwise the rearranged monomial that satisfies this will be a strictly larger monomial in \( f \).
+	We can therefore write
+	\[ X_I = X_1^{I_1 - I_2}(X_1 X_2)^{I_2 - I_3} \cdots (X_1 \dots X_n)^{I_n} \]
+	Consider
+	\[ g = s_1^{I_1 - I_2} s_2^{I_2 - I_3} \cdots s_n^{I_n} \]
+	By construction, the largest monomial in \( g \) is \( X_I \).
+	Since \( g \) is symmetric, \( cg \) is symmetric.
+	By induction, we may assume \( f - cg \) is symmetric as it has total degree no larger than \( d \), its leading monomial term is smaller than \( X_I \), and there are only finitely many monomials of degree at most \( d \).
+	Hence \( f \) is symmetric as required.
+
+	Now we proce uniqueness by induction on \( n \).
+	Let \( G \in R[Y_1, \dots, Y_n] \) such that \( G(s_{1,n}, \dots, s_{n,n}) = 0 \).
+	We want to show that \( G \) is the zero polynomial.
+	If \( n = 1 \), the result is trivial as \( s_{1,1} = X_1 \).
+	If \( G = Y^k_n H \) with \( Y_n \) not dividing \( H \), then \( s_{n,n}^k H(s_{1,n}, \dots, s_{n,n}) = 0 \).
+	Since \( s_{n,n} = X_1 \dots X_n \), it is not a zero divisor in \( R[X_1, \dots, X_n] \).
+	Hence \( H(s_{1,n}, \dots, s_{n,n}) = 0 \).
+	Without loss of generality, we can assume that \( G \) is not divisible by \( Y_n \).
+	Now, replacing \( X_n \) with zero, \( s_{k,n} \) is mapped to \( s_{k,n-1} \) for \( k \neq n \), and \( s_{n,n} \) is mapped to zero.
+	Hence, \( G(s_{1,n-1}, \dots, s_{n-1,n-1}, 0) = 0 \).
+	By induction, \( G(Y_1, \dots, Y_{n-1}, 0) = 0 \).
+	Hence \( Y_n \mid G \), contradicting our assumption.
+\end{proof}
+\begin{example}
+	Consider, for \( n \geq 3 \),
+	\[ f = \sum_{i\neq j} X_i^2 X_j \]
+	The leading term is \( X_1^2 X_2 = X_1 (X_1 X_2) \), so we consider
+	\begin{align*}
+		f - s_1 s_2 &= \qty(\sum_{i \neq j} X_i^2 X_j) - \sum_i \sum_{j < k} X_i X_j X_k \\
+		&= \qty(\sum_{i \neq j} X_i^2 X_j) - \qty(\sum_{i \neq j} X_i^2 X_j + 3 \sum_{i < j < k} X_i X_j X_k) \\
+		&= -3 \sum_{i < j < k} X_i X_j X_k \\
+		&= -3s_3
+	\end{align*}
+	Hence \( f = s_1 s_2 - 3 s_3 \).
+\end{example}
+Consider \( f = p_5 = \sum_i X_i^5 \).
+Computing this in terms of elementary symmetric polynomials by hand is somewhat tedious, but there are various formulae, known as Newton's formulae, which can help in simplifying such expressions.
+\begin{theorem}[Newton's formulae]
+	Let \( n \geq 1 \).
+	Then for all \( k \geq 1 \),
+	\[ p_k - s_1 p_{k-1} + \dots + (-1)^{k-1} s_{k-1} p_1 + (-1)^k k s_k = 0 \]
+	By convention, let \( s_0 = 1 \) and \( s_r = 0 \) if \( r > n \).
+\end{theorem}
+\begin{proof}
+	It suffices to consider \( R = \mathbb Z \) (or, for example, \( R = \mathbb R \)).
+	Consider the generating function
+	\[ F(T) = \prod_{i=1}^n (1 - X_i T) = \sum_{r=0}^n (-1)^r s_r T^r \]
+	Then, taking the logarithmic derivative with respect to \( T \),
+	\[ \frac{F'(T)}{F(T)} = \sum_{i=1}^n \frac{X_i}{1 - X_i T} = \frac{-1}{T} \sum_{i=1}^n \sum_{r=1}^\infty X_i^r T^r = \frac{-1}{T} \sum_{r=1}^\infty p_r T^r \]
+	Hence,
+	\[ -TF'(T) = s_1 T - 2s_2 T^2 + \dots + (-1)^{n-1} n s_n T^n \]
+	but also
+	\[ -TF'(T) = F(T) \sum_{r=1}^\infty p_r T_r = \qty(s_0 - s_1 T + \dots + (-1)^n s_n T^n) \qty(p_1 T + p_2 T^2 + \dots) \]
+	Equating the coefficients of powers of \( T \), we find the identity as required by the theorem.
+\end{proof}
+\begin{example}
+	The \emph{discriminant polynomial} is
+	\[ D(X_1, \dots, X_n) = \Delta(X_1, \dots, X_n)^2 \]
+	where
+	\[ \Delta(X_1, \dots, X_n) = \prod_{i < j} (X_i - X_j) \]
+	This is used in defining the sign of a permutation: applying a permutation \( \sigma \) to \( \Delta \) multiplies \( \Delta \) by the sign of \( \sigma \).
+	Hence \( D \) is symmetric.
+	Therefore, \( D \) can be written in terms of the symmetric polynomials.
+	\[ D(X_1, \dots, X_n) = d(s_1, \dots, s_n) \]
+	where \( d \) has integer coefficients.
+	For example, \( n = 2 \) gives \( D = (X_1 - X_2)^2 = s_1^2 - 4s_2 \).
+\end{example}
+\begin{definition}
+	Let \( f = T^n + \sum_{i=0}^{n-1} a_{n-1} T^i \) be a monic polynomial in \( R[T] \).
+	Its discriminant is
+	\[ \mathrm{Disc}(f) = d(-a_1, a_2, -a_3, \dots, (-1)^n a_n) \in R \]
+\end{definition}
+Observe that if \( f \) is a product of linear polynomials \( f = \prod_{i=1}^n (T - x_i) \), then \( a_r = (-1)^r s_r(x_1, \dots, x_n) \), giving \( \mathrm{Disc}(f) = \prod_{i < j} (x_i - x_j)^2 = D(x_1, \dots, x_n) \).
+In particular, if \( R = K \) is a field, \( \mathrm{Disc}(f) = 0 \) if and only if \( f \) has a repeated root.
+For example, \( \mathrm{Disc}(T^2 + bT + c) = b^2 - 4c \).
