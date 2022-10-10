@@ -1,0 +1,114 @@
+\subsection{Homotopy relative to a set}
+\begin{definition}
+	Let \( A \subseteq X \).
+	We say \( f_0, f_1 \colon X \to Y \) are \emph{homotopic relative to \( A \)}, written \( f_0 \sim f_1 \text{ rel } A \), if \( f_0 \sim f_1 \) via some homotopy \( H \colon X \times I \to Y \) that fixes \( A \), so \( H(a,t) = f_0(a) = f_1(a) \) for all \( a \in A \).
+\end{definition}
+\begin{lemma}
+	Homotopy relative to \( A \) is an equivalence relation.
+\end{lemma}
+\begin{lemma}
+	If \( f_0, f_1 \colon X \to Y \) and \( f_0 \sim f_1 \text{ rel } A \), and \( g_0, g_1 \colon Y \to Z \) and \( g_0 \sim g_1 \text{ rel } f(A) \), then \( g_0 \circ f_0 \sim g_1 \circ f_1 \text{ rel } A \).
+\end{lemma}
+If \( \gamma_0, \gamma_1 \colon I \to X \) are two homotopic paths relative to their endpoints, so \( \gamma_0 \sim \gamma_1 \text{ rel } \qty{0,1} \), we write \( \gamma_0 \sim_e \gamma_1 \).
+\begin{lemma}
+	Let \( f_0, f_1 \colon I \to I \), where \( f_0(0) = f_1(0) \) and \( f_0(1) = f_1(1) \).
+	Then \( f_0 \sim_e f_1 \).
+\end{lemma}
+\begin{proof}
+	\( I \) is convex, hence \( H(x,t) = (1-t)f_0(x) + tf_1(x) \) is a homotopy that preserves endpoints as required.
+\end{proof}
+\begin{corollary}
+	Suppose \( f \colon I \to I \), \( \gamma \colon I \to X \).
+	Then if \( f(0) = 0 \) and \( f(1) = 1 \), \( \gamma \circ f \sim_e \gamma \).
+	Further, if \( f(0) = 0 \) and \( f(1) = 0 \), we have \( \gamma \circ f \sim_e c_{I,\gamma(0)} \).
+\end{corollary}
+\begin{proof}
+	We have \( f(0) = \mathrm{id}_I(0) \) and \( f(1) = \mathrm{id}_I(1) \).
+	Hence \( f \sim_e \mathrm{id}_I \).
+	Therefore, \( \gamma \circ f \sim_e \gamma \circ \mathrm{id}_I = \gamma \).
+
+	For the second claim, \( f(0) = c_{I,0}(0) \) and \( f(1) = c_{I,0}(1) \), hence \( f \sim_e c_{I,0} \) giving \( \gamma \circ f \sim_e \gamma \circ c_{I,0} = c_{I,\gamma(0)} \).
+\end{proof}
+\begin{definition}
+	Let \( X \) be a space, and \( p, q \in X \).
+	Let \( \Omega(X,p,q) = \qty{\gamma \colon I \to X \mid \gamma \text{ continuous}, \gamma(0) = p, \gamma(1) = q} \) be the set of paths from \( p \) to \( q \).
+	Let \( \Omega(X,p) = \Omega(X,p,p) \) be the set of loops based at \( p \).
+\end{definition}
+\begin{definition}
+	Let \( \gamma \in \Omega(X,p,q), \gamma' \in \Omega(X,q,r) \).
+	Then their composition \( \gamma \gamma' \in \Omega(X,p,r) \) is given by
+	\[ (\gamma\gamma')(t) = \begin{cases}
+		\gamma(2t) & t \in \qty[0,\frac 12] \\
+		\gamma'(2t-1) & t \in \qty[\frac 12, 1]
+	\end{cases} \]
+	\( \gamma\gamma' \) is continuous by the gluing lemma.
+\end{definition}
+\begin{lemma}
+	Let \( \gamma_0, \gamma_1 \in \Omega(X,p,q) \) and \( \gamma_0', \gamma_1' \in \Omega(X,q,r) \), so \( \gamma_0 \sim_e \gamma_1 \) via \( H \colon I \times I \to X \) and \( \gamma_0' \sim_e \gamma_1' \) via \( H' \colon I \times I \to X \).
+	Then \( \gamma_0 \gamma_0' \sim_e \gamma_1 \gamma_1' \).
+\end{lemma}
+\begin{proof}
+	The homotopy required is
+	\[ \overline H(x,t) = \begin{cases}
+		H(2x,t) & x \in \qty[0,\frac 12] \\
+		H'(2x-1,t) & x \in \qty[\frac 12, 1]
+	\end{cases} \]
+\end{proof}
+\begin{definition}
+	Let \( \gamma \in \Omega(X,p,q) \).
+	Then \( \gamma^{-1} \in \Omega(X,q,p) \) is the \emph{reverse} of \( \gamma \), given by
+	\[ \gamma^{-1}(t) = \gamma(1-t) \]
+\end{definition}
+\begin{proposition}
+	\begin{enumerate}
+		\item Let \( \gamma \in \Omega(X,p,q) \).
+			Then \( c_{I,p} \gamma \sim_e \gamma \sim_e \gamma c_{I,q} \).
+		\item \( \gamma \gamma^{-1} \sim_e c_{I,p} \) and \( \gamma^{-1} \gamma \sim_e c_{I,q} \).
+		\item If \( \gamma(1) = \gamma'(0) \) and \( \gamma'(1) = \gamma''(0) \), we have
+			\[ \gamma (\gamma' \gamma'') \sim_e (\gamma \gamma') \gamma'' \]
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	\begin{enumerate}
+		\item The composition \( c_{I,p} \gamma \) has \( c_{I,p} \gamma (t) = \gamma(f(t)) \) where \( f \colon I \to I \) defined by
+			\[ f(t) = \begin{cases}
+				0 & t \in \qty[0,\frac 12] \\
+				2t - 1 & t \in \qty[\frac 12, 1]
+			\end{cases} \]
+			Since \( f(0) = 0 \) and \( f(1) = 1 \), \( \gamma \circ f \sim_e \gamma \).
+			Similarly, \( \gamma c_{I,q} (t) = \gamma(g(t)) \) where
+			\[ g(t) = \begin{cases}
+				2t & t \in \qty[0,\frac 12] \\
+				1 & t \in \qty[\frac 12, 1]
+			\end{cases} \]
+		\item \( \gamma\gamma^{-1}(t) = \gamma(f(t)) \) where
+			\[ f(t) = \begin{cases}
+				2t & t \in \qty[0,\frac 12] \\
+				1 - 2t & t \in \qty[\frac 12, 1]
+			\end{cases} \]
+			Further, \( \gamma^{-1}\gamma(t) = \gamma(g(t)) \) where
+			\[ g(t) = \begin{cases}
+				1 - 2t & t \in \qty[0,\frac 12] \\
+				2t - 1 & t \in \qty[\frac 12, 1]
+			\end{cases} \]
+		\item We can write \( \gamma(\gamma'\gamma'')(t) = (\gamma\gamma')\gamma(f(t)) \) where \( f \colon I \to I \) is the continuous function defined by
+			\[ f(t) = \begin{cases}
+				\frac t2 & t \in \qty[0,\frac 12] \\
+				t + \frac 14 & t \in \qty[\frac 12 \frac 34] \\
+				2t - 1 & t \in \qty[\frac 34, 1]
+			\end{cases} \]
+			noting that \( f(0) = 0 \) and \( f(1) = 1 \).
+			Hence \( \gamma(\gamma'\gamma'') \sim_e = (\gamma\gamma')\gamma'' \).
+	\end{enumerate}
+\end{proof}
+\begin{definition}
+	Let \( X \) be a space and \( x_0 \in X \).
+	We define the \emph{fundamental group} or \emph{first homotopy group} of \( X \) based at \( x_0 \) by
+	\[ \pi_1(X,x_0) = \faktor{\Omega(X,x_0)}{\sim_e} \]
+	We say \( x_0 \) is the \emph{basepoint}.
+	If \( \gamma \in \Omega(X,x_0) \), we write \( [\gamma] \) for its image in \( \pi_1(X,x_0) \), its equivalence class.
+
+	Multiplication in this group is given by \( [\gamma] \ast [\gamma'] = [\gamma \gamma'] \).
+	The identity is \( [c_{I,x_0}] \).
+	The inverse is given by \( [\gamma]^{-1} = [\gamma^{-1}] \).
+\end{definition}

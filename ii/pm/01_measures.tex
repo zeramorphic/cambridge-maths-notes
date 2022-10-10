@@ -78,6 +78,88 @@ We will later prove that this extended measure is unique.
 	\[ \mu^\star(B) = \inf \qty{\sum_{n \in \mathbb N} \mu(A_n), A_n \in \mathcal A, B \subseteq \bigcup_{n \in \mathbb N} A_n} \]
 	If there is no sequence \( A_n \) such that \( B \subseteq \bigcup_{n \in \mathbb N} A_n \), we declare the outer measure \( \mu^\star(B) \) to be \( \infty \).
 	We define the class
-	\[ \mathcal M = \qty{A \subseteq E \mid \forall B \subseteq E.\,\mu^\star(A) = \mu^\star(A \cap B) + \mu^\star(A \cap B^c)} \]
+	\[ \mathcal M = \qty{A \subseteq E \mid \forall B \subseteq E.\,\mu^\star(B) = \mu^\star(B \cap A) + \mu^\star(B \cap A^c)} \]
 	This is the class of \emph{\( \mu^\star \)-measurable sets}.
+
+	\emph{Step 1.} \( \mu^\star \) is countably sub-additive on \( \mathcal P(E) \).
+	It suffices to prove that for \( B \subseteq E \) and \( B_n \subseteq E \) such that \( B \subseteq \bigcup_n B_n \) we have
+	\begin{equation}
+		\mu^\star(B) \leq \sum_n \mu^\star(B_n)
+		\tag{\(\dagger\)}
+	\end{equation}
+	We can assume without loss of generality that \( \mu^\star(B_n) < \infty \) for all \( n \), otherwise there is nothing to prove.
+	For all \( \varepsilon > 0 \) there exists a collection \( A_{n,m} \) such that \( B_n \subseteq \bigcup_m A_{n,m} \) and
+	\[ \mu^\star(B_n) + \frac{\varepsilon}{2^n} \geq \sum_n \mu(A_{n,m} \]
+	Now, since \( \mu^\star \) is increasing, and \( B \subseteq \bigcup_n B_n \subseteq \bigcup_n \bigcup_m A_{n,m} \), we have
+	\[ \mu^\star(B) \leq \mu^\star\qty(\bigcup_{n,m} A_{n,m}) \leq \sum_{n,m} \mu(A_{n,m}) \leq \sum_n \mu^\star(B_n) + \sum_n \frac{\varepsilon}{2^n} = \sum_n \mu^\star(B_n) + \varepsilon \]
+	Since \( \varepsilon) \) was arbitrary in the construction, \( (\dagger) \) follows by construction.
+
+	\emph{Step 2.} \( \mu^\star \) extends \( \mu \).
+	Let \( A \in \mathcal A \), and we want to show \( \mu^\star(A) = \mu(A) \).
+	We can write \( A = A \cup \varnothing \cup \dots \), hence \( \mu^\star(A) \leq \mu(A) + 0 + \dots = \mu(A) \) by definition of \( \mu^\star \).
+	We need to prove the converse, that \( \mu(A) \leq \mu^\star(A) \).
+	If \( \mu^\star \) is infinite, there is nothing to prove.
+	For the finite case, suppose there is a sequence \( A_n \) where \( \mu(A_n) < \infty \) and \( A \subseteq \bigcup_n A_n \).
+	Then, \( A = \bigcup_n (A \cap A_n) \), which is a union of elements of the ring \( \mathcal A \).
+	Since \( \mu \) is a countably additive set function on \( \mathcal A \), it is countably subadditive.
+	Hence \( \mu(A) \leq \sum_n \mu(A \cap A_n) \leq \sum_n \mu(A_n) \).
+	Since the \( A_n \) were arbitrary, we have \( \mu(A) \leq \mu^\star(A) \) as required.
+
+	\emph{Step 3.} \( \mathcal M \supseteq \mathcal A \).
+	Let \( A \in \mathcal A \).
+	We must show that for all \( B \subseteq E \), \( \mu^\star(B) = \mu^\star(B \cap A) + \mu^\star(B \cap A^c) \).
+	We have \( B \subseteq (B \cap A) \cup (B \cap A^c) \cup \varnothing \cup \dots \), hence by countable subadditivity \( (\dagger) \), \( \mu^\star(B) \leq \mu^\star(B \cap A) + \mu^\star(B \cap A^c) \).
+	It now suffices to prove the converse, that \( \mu^\star(B) \geq \mu^\star(B \cap A) + \mu^\star(B \cap A^c) \).
+	We can assume \( \mu^\star(B) \) is finite, and assume there exists \( A_n \in \mathcal A \) such that \( B \subseteq \bigcup_n A_n \) and \( \mu^\star(B) + \varepsilon \geq \sum_n \mu(A_n) \).
+	Now, \( B \cap A \subseteq \bigcup_n (A_n \cap A) \), and \( B \cap A^c \subseteq \bigcup_n (A_n \cap A^c) \).
+	All of the members of these two unions are elements of \( \mathcal A \), since \( A_n \cap A^c = A_n \setminus A \).
+	Therefore,
+	\begin{align*}
+		\mu^\star(B \cap A) + \mu^\star(B \cap A^c) &\leq \sum_n \mu(A_n \cap A) + \sum_n \mu(A_n \cap A^c) \\
+		&\leq \sum_n \qty[ \mu(A_n \cap A) + \mu(A_n \cap A^c) ] \\
+		&\leq \sum_n \mu(A_n) \leq \mu^\star(B) + \varepsilon
+	\end{align*}
+	Since \( \varepsilon \) was arbitrary, \( \mu^\star(B) = \mu^\star(B \cap A) + \mu^\star(B \cap A^c) \) as required.
+
+	\emph{Step 4.} \( \mathcal M \) is an algebra.
+	Clearly \( \varnothing \) lies in \( \mathcal M \), and by the symmetry in the definition of \( \mathcal M \), complements lie in \( \mathcal M \).
+	We need to check \( \mathcal M \) is stable under finite intersections.
+	Let \( A_1, A_2 \in \mathcal M \) and let \( B \subseteq E \).
+	We have
+	\[ \mu^\star(B) = \mu^\star(B \cap A_1) + \mu^\star(B \cap A_1^c) = \mu^\star(B \cap A_1 \cap A_2) + \mu^\star(B \cap A_1 \cap A_2^c) + \mu^\star(B \cap A_1^c) \]
+	We can write \( A_1 \cap A_2^c = (A_1 \cap A_2^c)^c \cap A_1 \), and \( A_1^c = (A_1 \cap A_2)^c \cap A_1^c \).
+	Hence
+	\begin{align*}
+		\mu^\star(B) &= \mu^\star(B \cap A_1 \cap A_2) + \mu^\star(B \cap (A_1 \cap A_2)^c \cap A_1) + \mu^\star(B \cap (A_1 \cap A_2)^c \cap A_1^c) \\
+		&= \mu^\star(B \cap A_1 \cap A_2) + \mu^\star(B \cap (A_1 \cap A_2)^c)
+	\end{align*}
+	which is the requirement for \( A_1 \cap A_2 \) to lie in \( \mathcal M \).
+
+	\emph{Step 5.} \( \mathcal M \) is a \( \sigma \)-algebra and \( \mu^\star \) is a measure on \( \mathcal M \).
+	It suffices now to show that \( \mathcal M \) has countable unions and the measure respects these countable unions.
+	Let \( A = \bigcup_n A_n \) for \( A_n \in \mathcal M \).
+	Without loss of generality, let the \( A_n \) be disjoint.
+	We want to show \( A \in \mathcal M \), and that \( \mu^\star(A) = \sum_n \mu^\star(A_n) \).
+	By \( (\dagger) \), we have \( \mu^\star(B) \leq \mu^\star(B \cap A) + \mu^\star(B \cap A^c) + 0 + \dots \) so we need to check only the converse of this inequality.
+	Also, \( \mu^\star(A) \leq \sum_n \mu^\star(A_n) \), so we need only check the converse of this inequality as well.
+	Similarly to before,
+	\begin{align*}
+		\mu^\star(B) &= \mu^\star(B \cap A_1) + \mu^\star(B \cap A_1^c) \\
+		&= \mu^\star(B \cap A_1) + \mu^\star(B \cap A_1^c \cap A_2) + \mu^\star(B \cap A_1^c \cap A_2^c) \\
+		&= \mu^\star(B \cap A_1) + \mu^\star(B \cap A_2) + \mu^\star(B \cap A_1^c \cap A_2^c) \\
+		&= \mu^\star(B \cap A_1) + \mu^\star(B \cap A_2) + \mu^\star(B \cap A_1^c \cap A_2^c \cap A_3) + \mu^\star(B \cap A_1^c \cap A_2^c \cap A_3^c) \\
+		&= \mu^\star(B \cap A_1) + \mu^\star(B \cap A_2) + \mu^\star(B \cap A_3) + \mu^\star(B \cap A_1^c \cap A_2^c \cap A_3^c) \\
+		&= \cdots \\
+		&= \sum_{n \leq N} \mu^\star(B \cap A_n) + \mu^\star(B \cap A_1^c \cap \dots \cap A_N^c)
+	\end{align*}
+	Since \( \bigcup_{n \leq N} A_n \subseteq A \), we have \( \bigcap_{n \leq N} A_n^c \supseteq A^c \).
+	\( \mu^\star \) is increasing, hence, taking limits,
+	\[ \mu^\star(B) \geq \sum_{n=1}^\infty \mu^\star(B \cap A_n) + \mu^\star(B \cap A^c) \]
+	By \( (\dagger) \),
+	\[ \mu^\star(B) \geq \mu^\star(B \cap A) + \mu^\star(B \cap A^c) \]
+	as required.
+	Hence \( \mathcal M \) is a \( \sigma \)-algebra.
+	For the other inequality, we take the above result for \( B = A \).
+	\[ \mu^\star(A) \geq \sum_{n=1}^\infty \mu^\star(A \cap A_n) + \mu^\star(A \cap A^c) = \sum_{n=1}^\infty \mu^\star(A_n) \]
+	So \( \mu^\star \) is countably additive on \( \mathcal M \) and is hence a measure on \( \mathcal M \).
 \end{proof}

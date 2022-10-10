@@ -62,3 +62,122 @@ The concatenation of two paths or walks \( P \) and \( P' \) is written \( PP' \
 	Let \( W' \) be the minimal \( x \)--\( y \) walk in \( W \).
 	This is a path, because if there were a repeated vertex, we could find a shorter path by eliminating the detour.
 \end{proof}
+\begin{definition}
+	We define the \emph{distance} between two vertices, denoted \( d(x,y) \), to be the shortest length of a path between \( x \) and \( y \).
+	If \( G \) is connected, this turns \( G \) into a metric space on its vertices.
+\end{definition}
+
+\subsection{Trees}
+\begin{definition}
+	A graph \( G \) is a \emph{acyclic} if it does not contain a cycle \( C_k \) as a subgraph.
+	A graph \( G \) is a \emph{tree} if it is acyclic and connected.
+\end{definition}
+\begin{proposition}
+	The following are equivalent.
+	\begin{enumerate}
+		\item \( G \) is a tree (acyclic and connected).
+		\item \( G \) is \emph{minimally connected}: \( G \) is connected and for all \( xy \in E(G) \), \( G - xy \) is not connected.
+		\item \( G \) is maximally acyclic: \( G \) is acyclic and for all \( xy \not\in E(G) \), \( G + xy \) contains a cycle.
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	\emph{(i) implies (ii).}
+	Let \( xy \in E(G) \).
+	Suppose \( G - xy \) were connected.
+	Then there exists an \( x \)--\( y \) path \( P \) in \( G - xy \).
+	We can then close up the path \( P \) into a cycle in \( G \) by adding the edge \( xy \).
+	This contradicts the fact that \( G \) is acyclic.
+
+	\emph{(ii) implies (i).}
+	Suppose \( G \) has a cycle \( C \).
+	Let \( xy \in E(C) \) be an edge in the cycle.
+	We claim that \( G - xy \) is connected.
+	Let \( P \) be a \( u \)--\( v \) path in \( G \).
+	If \( P \) contains the edge \( xy \), replace the use of this edge with the remainder of the cycle, traversed in the opposite direction.
+	This yields a \( u \)--\( v \) walk in \( G - xy \) which contains a \( u \)--\( v \) path.
+
+	\emph{(i) implies (iii).}
+	Let \( xy \not\in E(G) \).
+	By connectedness, there exists an \( x \)--\( y \) path \( P \) in \( G \).
+	Hence, adding \( xy \) to \( E(G) \), we obtain a cycle by concatenating \( P \) with \( xy \).
+
+	\emph{(iii) implies (i).}
+	Suppose \( G \) is not connected.
+	Then there exist \( x \neq y \) such that there is no \( x \)--\( y \) path in \( G \).
+	Hence, adding \( xy \) to \( E(G) \) cannot yield a cycle.
+\end{proof}
+\begin{definition}
+	Let \( T \) be a tree.
+	A \emph{leaf} of \( T \) is a vertex \( v \in V(T) \) where \( \mathrm{deg}(v) = 1 \).
+\end{definition}
+\begin{definition}
+	Let \( G \) be a graph, and \( X \subseteq V(G) \).
+	Then the \emph{graph induced on \( X \)}, denoted \( G[X] \) is the graph \( (X, \qty{xy \in E(G) \mid x \in X, y \in X}) \).
+	If \( x \in G \), we define \( G - x \) to be the graph \( G[V(G) \setminus \qty{x}] \).
+\end{definition}
+\begin{proposition}
+	Let \( T \) be a tree where \( \abs{T} \geq 2 \).
+	Then \( T \) has a leaf.
+\end{proposition}
+\begin{proof}
+	Let \( P = x_1, \dots, x_k \) be a longest possible path in \( T \).
+	\( N(x_k) \subseteq \qty{x_1, \dots, x_{k-1}} \) by maximality of \( P \).
+	If \( x_i \sim x_k \) for any \( 1 \leq i \leq k - 2 \), we have a cycle, which is a contradiction.
+	Hence \( N(x_k) = \qty{x_{k-1}} \), so \( x_k \) is a leaf.
+\end{proof}
+\begin{remark}
+	This proof actually demonstrates that any tree has at least two leaves, by considering \( x_1 \).
+	We could alternatively have proven the lemma by taking a non-backtracking walk in \( G \), which exists assuming no leaf exists; then, since \( V(G) \) is finite, we must return to a point somewhere on the graph.
+\end{remark}
+\begin{proposition}
+	Let \( T \) be a tree with \( n \geq 1 \) vertices.
+	Then \( \abs{E(T)} = e(t) = n - 1 \).
+\end{proposition}
+\begin{proof}
+	We prove this by induction on \( n \).
+	The \( n = 1 \) case is trivial.
+	Now, assume that all trees with \( n \) vertices have \( n - 1 \) edges, and suppose \( T \) has \( n + 1 \) vertices.
+	\( T \) has a leaf \( x \).
+	Then \( T - x \) is a tree with \( n \) vertices since it is still connected, and hence has \( n - 1 \) edges.
+	Since \( T \) has one more edge than \( T - x \), namely the edge connecting the leaf \( x \) to \( T - x \), \( T \) has \( n \) edges as required.
+\end{proof}
+\begin{definition}
+	Let \( G \) be a connected graph.
+	Then a subgraph \( T \) of \( G \) is a \emph{spanning tree} if \( V(T) = V(G) \) and \( T \) is a tree.
+\end{definition}
+\begin{proposition}
+	Every connected graph has a spanning tree.
+\end{proposition}
+\begin{proof}
+	Begin with \( G \) and remove edges of \( E(G) \) such that the graph stays connected.
+	When we can no longer remove edges, we must have a minimally connected subgraph of \( G \), and hence a tree.
+\end{proof}
+
+\subsection{Bipartite graphs}
+\begin{definition}
+	Let \( G = (V, E) \) be a graph.
+	\( G \) is \emph{bipartite} if \( V = A \cup B \) where \( A \cap B = \varnothing \), such that all edges \( (x,y) \in E \) satisfy \( x \in A, y \in B \) or \( x \in B, y \in A \).
+
+	The \emph{complete bipartite graph} on \( n \) and \( m \) vertices, denoted \( K_{n,m} \), is the bipartite graph with \( \abs{A} = n \), \( \abs{B} = m \) and with all possible edges.
+\end{definition}
+\begin{remark}
+	Even cycles \( C_{2n} \) are bipartite, and odd cycles \( C_{2n+1} \) are not bipartite.
+\end{remark}
+\begin{definition}
+	A \emph{circuit} is a sequence \( x_1, x_2, \dots, x_\ell, x_{\ell + 1} \) where \( x_i x_{i+1} \in E \) and \( x_{\ell + 1} = x_1 \).
+	In other words, a circuit is a closed walk.
+	The \emph{length} of this circuit is \( \ell \).
+	A circuit is odd if its length is odd; a circuit is even if its length is even.
+\end{definition}
+\begin{proposition}
+	Let \( C \) be an odd circuit in a graph \( G \).
+	Then \( C \) contains an odd cycle.
+\end{proposition}
+\begin{theorem}
+	Let \( G \) be a graph.
+	Then \( G \) is bipartite if and only if \( G \) does not contain an odd cycle.
+\end{theorem}
+\begin{proof}
+	If \( G \) contains an odd cycle, \( G \) is not bipartite because there exists a subgraph that is not bipartite.
+	Suppose now that \( G \) contains no odd cycles.
+\end{proof}
