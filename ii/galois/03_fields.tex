@@ -1,0 +1,129 @@
+\subsection{Definition}
+\begin{definition}
+	A \emph{field} is a commutative nonzero ring \( K \) with a \( 1 \), in which every nonzero element is invertible.
+	The set of nonzero elements in \( K \) is therefore a group under multiplication, known as the multiplicative group of \( K \), denoted \( K^\times \).
+\end{definition}
+\begin{definition}
+	The \emph{characteristic} of a field \( K \) is the least positive integer \( p \) such that \( p \cdot 1 = 0 \); or if such an integer does not exist, its characteristic is zero.
+\end{definition}
+\begin{example}
+	\( \mathbb Q \) has characteristic zero.
+	\( \mathbb F_p = \faktor{\mathbb Z}{p\mathbb Z} \) has characteristic \( p \), when \( p \) is prime.
+\end{example}
+\begin{remark}
+	The characteristic of a field is always prime or zero.
+\end{remark}
+\begin{definition}
+	The \emph{prime subfield} of a field \( K \) is the smallest subfield of \( K \), which is isomorphic to \( \mathbb F_p \) (if its characteristic is a prime \( p \)) or \( \mathbb Q \) (if its characteristic is zero).
+\end{definition}
+\begin{proposition}
+	A function \( \varphi \colon K \to L \) be a field homomorphism.
+	Then \( \phi \) is an injection.
+\end{proposition}
+\begin{proof}
+	We have \( \varphi(1_K) = 1_L \neq 0_L \) by the definition of a ring homomorphism.
+	Then \( \ker \varphi \) is a proper ideal of \( K \).
+	But the only proper ideal of a field is the zero ideal, so \( \ker \varphi = (0) \).
+\end{proof}
+
+\subsection{Field extensions}
+\begin{definition}
+	Let \( K \subset L \) be fields (implicitly assuming that the field operations and identity elements on \( K \) and \( L \) are the same).
+	We say \( K \) is a subfield of \( L \), and \( L \) is a \emph{field extension} of \( K \), denoted \( L / K \) (read `\( L \) over \( K \)').
+	If \( i \colon K \to L \) is a field homomorphism, we say that \( i \) is an isomorphism of \( K \) with the subfield \( i(K) \subset L \); in this case, we identify \( K \) with \( i(K) \) and say \( L \) is a field extension of \( K \).
+\end{definition}
+\begin{remark}
+	The notation \( L / K \) is not related to quotients or division.
+\end{remark}
+\begin{example}
+	\begin{enumerate}
+		\item \( \mathbb C / \mathbb R / \mathbb Q \).
+		\item \( \mathbb Q(i) = \qty{a + bi \mid a,b \in \mathbb Q} / \mathbb Q \).
+	\end{enumerate}
+\end{example}
+\begin{definition}
+	Let \( K \subset L \), and \( x \in L \).
+	We define \( K[x] = \qty{p(x) \mid p \in K[T]} \), the ring of polynomial expressions in \( x \).
+	This is a subring of \( L \), but is not in general a field.
+	We further define \( K(x) = \qty{\frac{p(x)}{q(x)} \mid p,q \in K[T], q(x) \neq 0} \) to be the field of fractions of \( K[x] \), which is the field of rational expressions in \( x \).
+	This is a subfield of \( L \), usually read `\( K \) adjoin \( x \)'.
+	For \( x_1, \dots, x_n \in L \), we define \( K[x_1, \dots, x_n] = \qty{p(x_1, \dots, x_n) \mid p \in K[T_1, \dots, T_n]} \) and \( K(x_1, \dots, x_n) = \qty{\frac{p(x_1, \dots, x_n)}{q(x_1, \dots, x_n)} \mid p,q \in K[T_1, \dots, T_n], q(x_1, \dots, x_n) \neq 0} \).
+\end{definition}
+\begin{remark}
+	One can check that \( K(x_1, \dots, x_{n-1})(x_n) = K(x_1, \dots, x_n) \) and similarly for \( K[x_1, \dots, x_n] \).
+\end{remark}
+
+\subsection{Field extensions as vector spaces}
+\begin{remark}
+	A field extension \( L / K \) turns \( L \) into a \( K \)-vector space by forgetting the multiplication between elements of \( L \).
+\end{remark}
+\begin{definition}
+	A field extension \( L / K \) is called a \emph{finite extension} if \( L \) is a finite-dimensional \( K \)-vector space.
+	In this case, we write \( [L:K] = \dim_K L \) for the dimension of this vector space, known as the \emph{degree} of the extension.
+	Otherwise, we say \( L / K \) is an \emph{infinite extension}, and write \( [L:K] = \infty \).
+\end{definition}
+\begin{remark}
+	\( [L:L] = \dim_L L = 1 \).
+	As a \( K \)-vector space, \( L \cong K^{[L:K]} \).
+\end{remark}
+\begin{example}
+	\( \mathbb C / \mathbb R \) is a finite extension of degree two.
+
+	If \( K \) is any field, the extension \( K(X) / K \) is an infinite extension, where \( K(X) \) is the field of rational functions, the field of fractions of the polynomial ring \( K[X] \).
+	This is because \( 1, X, X^2, \dots \) are linearly independent.
+
+	\( \mathbb R / \mathbb Q \) is an infinite extension.
+	This follows by a countability argument.
+	If \( \mathbb R / \mathbb Q \) were a finite extension of degree \( n \), we would have \( \mathbb R \cong \mathbb Q^n \), but the left hand side is uncountable and the right hand side is countable.
+\end{example}
+This course is largely concerned with properties and symmetries of finite field extensions.
+\begin{definition}
+	An extension is \emph{quadratic}, \emph{cubic}, etc.\ if its degree is 2, 3, etc.
+\end{definition}
+\begin{proposition}
+	Suppose \( K \) is a finite field (necessarily of characteristic \( p \) for \( p \neq 0 \) a prime).
+	Then \( \abs{K} \) is a power of \( p \).
+\end{proposition}
+\begin{proof}
+	Note that \( K / \mathbb F_p \) is a finite extension, and so \( K \cong \mathbb F_p^n \), giving \( \abs{K} = p^n \).
+\end{proof}
+We will later show that for all prime powers \( q = p^n \), there exists a finite field \( \mathbb F_q \) with \( q \) elements.
+\begin{theorem}[Short tower law]
+	Let \( M / L \), \( L / K \) be a pair of field extensions.
+	Then \( M / K \) is a finite extension if and only if \( M / L \) and \( L / K \) are finite.
+	If so, we have \( [M:L][L:K] = [M:K] \).
+\end{theorem}
+It is easier to prove a more general statement.
+\begin{theorem}
+	Let \( L / K \) and \( V \) is an \( L \)-vector space.
+	Then \( V \) is a \( K \)-vector space, and \( \dim_K V = [L:K] \dim_L V \) (with the obvious meaning if any of these expressions are infinite).
+\end{theorem}
+Taking \( V = M \) proves the short tower law as required.
+\begin{proof}
+	Let \( \dim_L V = d < \infty \).
+	Then \( V \cong L \oplus \dots \oplus L = L^d \) as an \( L \)-vector space, so this also holds as a \( K \)-vector space.
+	But since \( L \cong K^{[L:K]} \) as a \( K \)-vector space, we have \( V \cong (K^{[L:K]})^d \cong K^{d[L:K]} \) as a \( K \)-vector space.
+
+	If \( V \) is finite-dimensional over \( K \), then a \( K \)-basis for \( V \) will span \( V \) over \( L \), so \( V \) is finite-dimensional over \( L \).
+	Thus if \( V \) is infinite-dimensional over \( L \), it is infinite-dimensional over \( K \).
+
+	Likewise, if \( [L:K] = \infty \) and \( V \neq 0 \), then \( V \) has an infinite set of linearly independent vectors as a \( K \)-vector space, so \( \dim_K V = \infty \).
+\end{proof}
+\begin{proposition}
+	Let \( K \) be a field, and \( G \subset K^\times \) be a finite subgroup of the multiplicative group.
+	Then \( G \) is cyclic.
+	In particular, if \( K \) is finite, \( K^\times \) is cyclic.
+\end{proposition}
+\begin{proof}
+	We can find \( m_i \) such that
+	\[ G \cong \faktor{\mathbb Z}{m_1\mathbb Z} \times \dots \times \faktor{\mathbb Z}{m_k \mathbb Z} \]
+	where \( 1 < m_1 \mid m_2 \mid \dots \mid m_k = m \) by the structure theorem for abelian groups.
+	Then, every element of \( G \) satisfies \( x^m = 1 \).
+	Since \( K \) is a field, the polynomial \( T^m - 1 \) has at most \( m \) roots.
+	Every element of \( G \) is a root of this polynomial, so \( \abs{G} \leq m \).
+	This can only happen when \( k = 1 \), so \( G = \faktor{\mathbb Z}{m\mathbb Z} \).
+\end{proof}
+\begin{remark}
+	If \( K = \mathbb F_p = \faktor{\mathbb Z}{p\mathbb Z} \), there exists \( a \in \qty{1, \dots, p-1} \) such that \( \faktor{\mathbb Z}{p\mathbb Z} = \qty{1, a, a^2, \dots, a^{p-1}} \).
+	Such an \( a \) is called a \emph{primitive root} mod \( p \).
+\end{remark}

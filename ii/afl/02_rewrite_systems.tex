@@ -89,3 +89,91 @@ Note that there are uncountably many languages over any nonempty alphabet.
 	\end{itemize}
 	This notion is called \emph{equivalence of grammars}.
 \end{example}
+
+\subsection{Equivalent grammars}
+\begin{definition}
+	Grammars \( G, G' \) are \emph{equivalent} if \( \mathcal L(G) = \mathcal L(G') \).
+\end{definition}
+We intend to show that for a fixed finite set \( \Sigma \), there are only countably many languages of the form \( \mathcal L(G) \) for a grammar \( G \) (which may have arbitrary variable sets \( V \)).
+\begin{definition}
+	Let \( G = (\Sigma, V, P, S), G' = (\Sigma, V', P', S') \) be grammars on the same alphabet \( \Sigma \).
+	A function \( f \colon \Omega \to \Omega' = \Sigma \cup V \to \Sigma \cup V' \) is called an \emph{isomorphism} if
+	\begin{enumerate}
+		\item \( \eval{f}_\Sigma = \mathrm{id} \);
+		\item \( f(S) = S' \);
+		\item \( \eval{f}_V \) is a bijection from \( V \) to \( V' \);
+		\item \( \alpha \to \beta \in P \iff f(\alpha) \to f(\beta) \in P' \).
+	\end{enumerate}
+	Note that here, since \( \alpha, \beta \in \Omega^\star \), \( f(\alpha) = \hat f(\alpha) \) is the extension of \( f \) to \( \Omega^\star \).
+\end{definition}
+\begin{proposition}
+	Isomorphic grammars are equivalent.
+\end{proposition}
+\begin{proof}
+	If \( f \) is an isomorphism from \( G \) to \( G' \), \( f^{-1} \) is an isomorphism from \( G' \) to \( G \).
+	Thus, by antisymmetry of \( \subseteq \), it suffices to show that \( \mathcal L(G) \subseteq \mathcal L(G') \).
+	Let \( w \in \mathcal L(G) \).
+	Then there is a derivation in \( G \) of \( w \) from \( S \):
+	\[ S = \sigma_0 \xrightarrow G_1 \sigma_1 \xrightarrow G_1 \dots \xrightarrow G_1 \sigma_n = w \]
+	Applying \( f \) to each element of this sequence,
+	\[ S' = f(\sigma_0) \xrightarrow {G'}_1 f(\sigma_1) \xrightarrow {G'}_1 \dots \xrightarrow {G'}_1 f(\sigma_n) = w \]
+	The start and end symbols take these values due to property (i) and (ii).
+	Each arrow holds by property (iv).
+	This is a derivation of \( w \) from \( S' \) in \( G \).
+	Hence \( w \in \mathcal L(G') \).
+\end{proof}
+\begin{proposition}
+	If \( G = (\Sigma, V, P, S) \) and \( V' \) is such that \( \abs{V} = \abs{V'} \), then there exist \( P', S' \) such that \( \mathcal L(G) = \mathcal L(G') \) with \( G' = (\Sigma, V', P', S') \).
+\end{proposition}
+\begin{proof}
+	Since \( \abs{V} = \abs{V'} \), there exists a bijection \( f \colon V \to V' \).
+	Then, extending this to \( \Omega = \Sigma \cup V \) by letting \( f(a) = a \) for all \( a \in \Sigma \), this satisfies properties (i) and (iii) of the definition of an isomorphism.
+	Define \( S' = f(S) \) and \( P' = \qty{f(\alpha) \to f(\beta) \mid \alpha \to \beta \in P} \), so that properties (ii) and (iv) are satisfied.
+	Then \( (\Sigma, V, P, S) \) is isomorphic to \( (\Sigma, V', P', S') \) and thus they have the same language.
+\end{proof}
+\begin{proposition}
+	Up to equivalence, there are only countably many languages of the form \( \mathcal L(G) \) for some grammar \( G \) on a fixed alphabet \( \Sigma \).
+\end{proposition}
+\begin{proof}
+	Let \( \mathcal L \) be the set of all such languages.
+	For a fixed \( V \), there are only countably many rewrite systems with this choice of \( \Sigma \) and \( V \).
+	Hence, the set \( \mathcal G_V \) of all grammars with fixed \( V \) is a finite union (over all start symbols) of countable sets.
+	Therefore \( \mathcal L_V = \qty{\mathcal L(G) \mid G \in \mathcal G_V} \) is also countable.
+
+	By the previous result, we can define \( \mathcal L_n = \mathcal L_V \) for some \( n \)-element set \( V \).
+	Now, \( \mathcal L = \bigcup_{n > 0} \mathcal L_n \), which is a countable union of countable sets and is thus countable.
+\end{proof}
+\begin{remark}
+	The set of languages produced by grammars is countable, but the set of all languages \( \mathcal P(\mathbb W) \) is uncountable.
+\end{remark}
+
+\subsection{The Chomsky hierarchy}
+Production rules may have certain properties.
+\begin{definition}
+	Let \( \alpha \to \beta \) be a production rule.
+	We call this rule:
+	\begin{enumerate}
+		\item \emph{noncontracting}, if \( \abs{\alpha} \leq \abs{\beta} \);
+		\item \emph{context-sensitive}, if \( \exists A \in V.\, \exists \gamma,\delta \in \Omega^\star.\, \exists \eta \in \Omega^+.\, \alpha = \gamma A \delta, \beta = \gamma \eta \delta \);
+		\item \emph{context-free}, if \( \alpha = A \in V \) and \( \abs{\beta} > 0 \);
+		\item \emph{regular}, if \( \alpha = A \in V \) and \( \beta \) is either \( a \in \Sigma \) or \( aB \in \Sigma V \).
+	\end{enumerate}
+	Regular implies context-free, context-free implies context-sensitive, context-sensitive implies noncontracting.
+	Let \( \mathbb Q \) be any of the above four properties.
+	We say that a grammar is \( \mathbb Q \) if all its production rules are \( \mathbb Q \).
+	A language is \( \mathbb Q \) if it admits a grammar which is \( \mathbb Q \).
+\end{definition}
+\begin{theorem}[Chomsky]
+	A language is noncontracting if and only if it is context-sensitive.
+\end{theorem}
+Chomsky used the following notation: a language \( \mathcal L \) is
+\begin{itemize}
+	\item \emph{type 0}, if it is of the form \( \mathcal L(G) \) for some \( G \);
+	\item \emph{type 1}, if it is of the form \( \mathcal L(G) \) for some \( G \) context-sensitive;
+	\item \emph{type 2}, if it is of the form \( \mathcal L(G) \) for some \( G \) context-free;
+	\item \emph{type 3}, if it is of the form \( \mathcal L(G) \) for some \( G \) regular.
+\end{itemize}
+We can easily find production rules that are context-sensitive but not context-free, for example.
+However, it is less obvious to show that there is a \emph{language} that can be defined using a context-sensitive grammar but no context-free grammar.
+% TODO: add examples from lecture notes
+One thing motivating our work will be the development of techniques to distinguish the different classes of languages in the Chomsky hierarchy.
