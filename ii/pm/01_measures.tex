@@ -163,3 +163,89 @@ We will later prove that this extended measure is unique.
 	\[ \mu^\star(A) \geq \sum_{n=1}^\infty \mu^\star(A \cap A_n) + \mu^\star(A \cap A^c) = \sum_{n=1}^\infty \mu^\star(A_n) \]
 	So \( \mu^\star \) is countably additive on \( \mathcal M \) and is hence a measure on \( \mathcal M \).
 \end{proof}
+
+\subsection{Uniqueness of extension}
+\begin{definition}
+	A collection \( \mathcal A \) of subsets of \( E \) is called a \emph{\( \pi \)-system} if \( \varnothing \in \mathcal A \) and \( A, B \in \mathcal A \implies A \cap B \in \mathcal A \).
+\end{definition}
+\begin{definition}
+	A collection \( \mathcal A \) of subsets of \( E \) is called a \emph{\( d \)-system} if \( E \in \mathcal A \), and if \( B_1 \subset B_2 \) are elements of \( \mathcal A \), we have \( B_2 \setminus B_1 \in \mathcal A \), and if \( A_n \in \mathcal A \) and \( A_n \) is an increasing sequence of sets, we have \( \bigcup_n A_n \in \mathcal A \).
+\end{definition}
+\begin{proposition}
+	A \( d \)-system which is also a \( \pi \)-system is a \( \sigma \)-algebra.
+\end{proposition}
+\begin{proof}
+	Refer to the first example sheet.
+\end{proof}
+\begin{lemma}[Dynkin]
+	Let \( \mathcal A \) be a \( \pi \)-system.
+	Then any \( d \)-system that contains \( \mathcal A \) also contains \( \sigma(A) \).
+\end{lemma}
+\begin{proof}
+	We define
+	\[ \mathcal D = \bigcap_{\mathcal D' \text{ is a } d \text{-system}; D \supseteq A} \mathcal D' \]
+	We can show this is a \( d \)-system.
+	It suffices to prove that \( \mathcal D \) is a \( \pi \)-system, because this is then a \( \sigma \)-algebra.
+	We now define
+	\[ \mathcal D' = \qty{B \in \mathcal D \mid \forall A \in \mathcal A, B \cap A \in \mathcal D} \]
+	We can see that \( \mathcal D' \supseteq \mathcal A \), as \( \mathcal A \) is a \( \pi \)-system.
+	We now show that \( \mathcal D' \) is a \( d \)-system.
+	Clearly \( E \cap A = A \in \mathcal A \subseteq \mathcal D' \) hence \( E \in \mathcal D' \).
+	Let \( B_1, B_2 \in \mathcal D' \) such that \( B_1 \subseteq B_2 \).
+	Then \( (B_2 \setminus B_1) \cap A = (B_2 \cap A) \setminus (B_1 \cap A) \), and since \( B_i \cap A \in \mathcal D \) this difference also lies in \( \mathcal D \), so \( B_2 \setminus B_1 \in \mathcal D' \).
+	Now, suppose \( B_n \) is an increasing sequence converging to \( B \), and \( B_n \in \mathcal D' \).
+	Then \( B_n \cap A \in \mathcal D \), and \( \mathcal D \) is a \( d \)-system, we have \( B \cap A \in \mathcal D \), so \( B \in \mathcal D' \).
+
+	Hence \( \mathcal D' \) is a \( d \)-system that contains \( \mathcal A \), so \( \mathcal D \subseteq \mathcal D' \), and \( \mathcal D \subseteq D' \) by construction of \( \mathcal D' \), giving \( \mathcal D = \mathcal D' \).
+	We then define
+	\[ \mathcal D'' = \qty{B \in \mathcal D \mid \forall A \in \mathcal D, B \cap A \in \mathcal D} \]
+	Note that \( \mathcal A \subseteq \mathcal D'' \), because \( \mathcal D' = \mathcal D \supseteq A \).
+	Running the same argument as before, we can show that \( \mathcal D'' = \mathcal D \), and so \( \mathcal D'' = \mathcal D \) is a \( \pi \)-system.
+\end{proof}
+\begin{theorem}[Uniqueness of extension]
+	Let \( \mu_1, \mu_2 \) be measures on a measurable space \( (E, \mathcal E) \), such that \( \mu_1(E) = \mu_2(E) < \infty \).
+	Suppose that \( \mu_1 \) and \( \mu_2 \) coincide on a \( \pi \)-system \( \mathcal A \), such that \( \mathcal E \subseteq \sigma(A) \).
+	Then \( \mu_1 = \mu_2 \) on \( \mathcal E \), and hence on \( \sigma(A) \).
+\end{theorem}
+\begin{proof}
+	We define
+	\[ \mathcal D = \qty{A \in \mathcal E \mid \mu_1(A) = \mu_2(A)} \]
+	This collection contains \( \mathcal A \) by assumption.
+	By Dynkin's lemma, it suffices to prove \( \mathcal D \) is a \( d \)-system, because then \( \mathcal D \supseteq \sigma(A) \supseteq \mathcal E \) giving \( \mathcal D = \mathcal E \).
+	Note that \( E \in \mathcal D \) by assumption.
+	By additivity and finiteness of \( \mu_i \), for \( B_1 \subseteq B_2 \) elements of \( \mathcal D \), we have \( \mu_1(B_2 \setminus B_1) = \mu_1(B_2) - \mu_1(B_1) = \mu_2(B_2) - \mu_2(B_1) = \mu_2(B_2 \setminus B_1) \), where the subtractions are valid by finiteness of \( \mu \), so set differences lie in \( \mathcal D \).
+
+	Now suppose \( B_n \) is an increasing sequence converging to \( B \) for \( B_n \in \mathcal D \).
+	This implies that \( B \setminus B_n \) is a decreasing sequence converging to \( \varnothing \), and by a result from the first example sheet we have \( \mu_i(B \setminus B_n) \to \mu(\varnothing) = 0 \).
+	Since \( \mu_i \) are finite, \( \mu_i(B_n) \to \mu_i(B) \) as \( n \to \infty \).
+	Then, \( \mu_1(B) = \lim_{n \in \mathbb N} \mu_1(B_n) = \lim_{n \in \mathbb N} \mu_2(B_n) = \mu_2(B) \), so \( \mathcal D \) is closed under increasing sequences and hence is a \( d \) system.
+\end{proof}
+\begin{remark}
+	The above theorem applies to finite measures (\( \mu \) such that \( \mu(E) < \infty \)) only.
+	However, the theorem will be extended to measures that are \( \sigma \)-finite, for which \( E = \bigcup_{n \in \mathbb N} E_n \) where \( \mu(E_n) < \infty \).
+\end{remark}
+
+\subsection{Borel measures}
+\begin{definition}
+	Let \( (E, \tau) \) be a Hausdorff topological space.
+	The \( \sigma \)-algebra generated by the open sets of \( E \) is called the \emph{Borel-\( \sigma \)-algebra} on \( E \), denoted \( \mathcal B(E) = \sigma(\tau) \).
+	We write \( \mathcal B = \mathcal B(\mathbb R) \).
+	Members of \( \mathcal B(E) \) are called \emph{Borel sets}.
+	A measure \( \mu \) on \( (E, \mathcal B(E)) \) is called a \emph{Borel measure on \( E \)}.
+	A \emph{Radon measure} is a Borel measure \( \mu \) on \( E \) such that \( \mu(K) < \infty \) for all \( K \subseteq E \) compact.
+	Note that in a Hausdorff space, compact sets are closed and hence measurable.
+\end{definition}
+
+\subsection{Lebesgue measure}
+We will construct a unique Borel measure \( \mu \) on \( \mathbb R^d \) such that
+\[ \mu\qty(\prod_{i=1}^d [a_i, b_i]) = \prod_{i=1}^d \abs{b_i - a_i} \]
+Initially, we will perform this construction for \( d = 1 \), and later we will consider product measures to extend this to higher dimensions.
+\begin{theorem}[Construction of the Lebesgue measure]
+	There exists a unique Borel measure \( \mu \) on \( \mathbb R \) such that
+	\[ b < a \implies \mu((a,b]) = b - a \]
+\end{theorem}
+\begin{proof}
+	Consider the subsets of \( \mathbb R \) of the form
+	\[ A = (a_1,b_1] \cup \dots \cup (a_n,b_n] \]
+	which form a ring and a \( \pi \)-system of Borel sets.
+\end{proof}

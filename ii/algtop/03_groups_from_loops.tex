@@ -107,8 +107,136 @@ If \( \gamma_0, \gamma_1 \colon I \to X \) are two homotopic paths relative to t
 	\[ \pi_1(X,x_0) = \faktor{\Omega(X,x_0)}{\sim_e} \]
 	We say \( x_0 \) is the \emph{basepoint}.
 	If \( \gamma \in \Omega(X,x_0) \), we write \( [\gamma] \) for its image in \( \pi_1(X,x_0) \), its equivalence class.
-
-	Multiplication in this group is given by \( [\gamma] \ast [\gamma'] = [\gamma \gamma'] \).
-	The identity is \( [c_{I,x_0}] \).
-	The inverse is given by \( [\gamma]^{-1} = [\gamma^{-1}] \).
 \end{definition}
+\begin{theorem}
+	We define multiplication in \( \pi_1 \) by \( [\gamma] \ast [\gamma'] = [\gamma \gamma'] \).
+	The identity is \( 1 = [c_{I,x_0}] \).
+	The inverse is given by \( [\gamma]^{-1} = [\gamma^{-1}] \).
+	These operations form a group.
+\end{theorem}
+\begin{proof}
+	Using the above lemma we explicitly check the gruop axioms.
+	Identity:
+	\[ 1 [\gamma] = [c_{I,x_0}\gamma] = [\gamma];\quad [\gamma] 1 = [\gamma c_{I,x_0}] = [\gamma] \]
+	Inverses:
+	\[ [\gamma] [\gamma]^{-1} = [\gamma \gamma^{-1}] = [c_{I,x_0}] = 1 \]
+	Associativity:
+	\[ ([\gamma][\gamma'])[\gamma''] = [\gamma\gamma'][\gamma''] = [(\gamma\gamma')\gamma''] = [\gamma(\gamma'\gamma'')] = [\gamma][\gamma'\gamma''] = [\gamma]([\gamma'][\gamma'']) \]
+\end{proof}
+
+\subsection{Induced maps}
+\begin{definition}
+	Let \( f \colon X \to Y \) be a continuous map, and \( f(x_0) = y_0 \).
+	Then we have a map \( \Omega(X,x_0) \to \Omega(Y,y_0) \) defined by \( \gamma \mapsto f \circ \gamma \).
+	Note that if \( \gamma_0 \sim_e \gamma_1 \), we have \( f \circ \gamma_0 \sim_e f \circ \gamma_1 \).
+	Thus, this map descends to the \emph{induced homomorphism} \( f_\star \colon \pi_1(X, x_0) \to \pi_1(Y,y_0) \) defined by \( [\gamma] \mapsto [f \circ \gamma] \).
+\end{definition}
+\begin{definition}
+	A \emph{pointed space} \( (X, x_0) \) is a pair where \( X \) is a space and \( x_0 \in X \).
+	We write \( f \colon (X, x_0) \to (Y, y_0) \) to denote a map \( f \colon X \to Y \) where \( f(x_0) = y_0 \).
+	In particular, for \( f \colon (X,x_0) \to (Y,y_0) \) there is an induced map \( f_\star \colon \pi_1(X,x_0) \to \pi_1(Y,y_0) \).
+\end{definition}
+\begin{proposition}
+	Let \( f \colon (X, x_0) \to (Y, y_0) \).
+	Then,
+	\begin{enumerate}
+		\item The induced map \( f_\star \colon \pi_1(X, x_0) \to \pi_1(Y, y_0) \) is a group homomorphism.
+		\item \( \qty(\mathrm{id}_{(X, x_0)})_\star = \mathrm{id}_{\pi_1(X,x_0)} \).
+		\item If \( g \colon (Y, y_0) \to (Z, z_0) \), we have \( (g \circ f)_\star = g_\star \circ f_\star \).
+		\item If \( f_0, f_1 \colon (X, x_0) \to (Y, y_0) \) with \( f_0 \sim f_1 \text{ rel } x_0 \), then \( (f_0)_\star = (f_1)_\star \) (\emph{homotopy invariance}).
+	\end{enumerate}
+\end{proposition}
+\begin{remark}
+	The action of taking the fundamental group of a pointed space thus yields a functor \( \pi_1 \colon \mathbf{Top}_\bullet \to \mathbf{Grp} \).
+\end{remark}
+\begin{proof}
+	\begin{enumerate}
+		\item This follows from the fact that
+			\[ f \circ (\gamma\gamma')(t) = \begin{cases}
+				f \circ \gamma(2t) & t \in \qty[0,\frac 12] \\
+				f \circ \gamma'(2t-1) & t \in \qty[\frac 12, 1]
+			\end{cases} = (f \circ \gamma)(f \circ \gamma')(t) \]
+			Hence,
+			\[ f_\star([\gamma][\gamma']) = [f\circ(\gamma\gamma')] = [(f\circ \gamma)(f \circ \gamma')] = [f \circ \gamma][f \circ \gamma'] = f_\star([\gamma]) f_\star([\gamma']) \]
+		\item \( \mathrm{id}_\star([\gamma]) = [\mathrm{id}_X\circ \gamma] = [\gamma] \).
+		\item \( (f \circ g)_\star([\gamma]) = [f \circ g \circ \gamma] = f_\star[g \circ \gamma] = f_\star(g_\star([\gamma])) \).
+		\item \( f_0 \sim f_1 \text{ rel } x_0 \) and \( \gamma(0) = \gamma(1) = x_0 \) implies \( f_0 \circ \gamma \sim_e f_1 \circ \gamma \), so \( (f_0)_\star[\gamma] = (f_1)_\star([\gamma]) \).
+	\end{enumerate}
+\end{proof}
+\begin{example}
+	Let \( f \colon X \to Y \) be a homeomorphism, and let \( y_0 = f(x_0) \).
+	Then \( f \colon (X, x_0) \to (Y, y_0) \) and \( f^{-1} \colon (Y, y_0) \to (X, x_0) \) are inverses.
+	Thus, \( f_\star \colon \pi_1(X, x_0) \to \pi_1(Y, y_0) \) and \( f^{-1}_\star \colon \pi_1(Y, y_0) \to \pi_1(X, x_0) \) are inverses.
+	Since \( f_\star \circ f^{-1}_\star = (f \circ f^{-1})_\star = \mathrm{id}_{\pi_1(Y,y_0)} \) and \( f^{-1}_\star \circ f_\star = \mathrm{id}_{\pi_1(X,x_0)} \), we have that \( f_\star \) is a group isomorphism, and \( \pi_1 \) is a topological invariant.
+\end{example}
+
+\subsection{Retractions}
+\begin{definition}
+	Let \( A \subset X \), where \( \iota \colon A \to X \) is the inclusion map.
+	Then \( p \colon X \to A \) is a \emph{retraction} if \( p \circ \iota = \mathrm{id}_A \).
+	\( p \colon X \to A \) is a \emph{strong deformation retraction}, or \emph{s.d.r.}, if \( p \circ \iota = \mathrm{id}_A \) and \( \iota \circ p \sim \mathrm{id}_X \text{ rel } A \).
+\end{definition}
+\begin{remark}
+	In either case, if \( a_0 \in A \), \( \iota \colon (A, a_0) \to (X, a_0) \) and \( p \colon (X, a_0) \to (A, a_0) \).
+	If \( p \) is a retraction, \( p_\star \circ \iota_\star = (p \circ \iota)_\star = (\mathrm{id}_A)_\star = \mathrm{id}_{\pi_1(A,a_0)} \), so \( \iota_\star \colon \pi_1(A, a_0) \to \pi_1(X, a_0) \) is injective, and \( p_\star \colon \pi_1(X, a_0) \to \pi_1(A, a_0) \) is surjective.
+	If \( p \) is a strong deformation retraction, \( \iota_\star \circ p_\star = (\iota \circ p)_\star = (\mathrm{id}_X)_\star = \mathrm{id}_{\pi_1(X,a_0)} \), so \( p_\star \) and \( \iota_\star \) are isomorphisms.
+\end{remark}
+\begin{remark}
+	If \( p \colon X \to A \) is a strong deformation retraction, then \( A \sim X \).
+\end{remark}
+\begin{example}
+	\( p \colon \mathbb R^{n+1} \setminus \qty{0} \to S^n \) given by \( v \mapsto \frac{v}{\norm{v}} \) is a strong deformation retraction.
+\end{example}
+\begin{example}
+	\( \mathbb R^2 \setminus \qty{0,1} \) has \( A, B \) as strong deformation retractions, where \( A \) is a figure-eight with one loop surrounding each hole, and \( B \) is a rectangle surrounding each hole with a vertical line connecting the top and bottom edges through \( \qty(\frac 12, 0) \).
+	This can be a useful trick to show \( A \sim B \).
+\end{example}
+
+\subsection{Null-homotopy and extensions}
+\begin{definition}
+	We say \( f \colon X \to Y \) is \emph{null-homotopic} if \( f \sim c_{X,p} \) for \( p \in Y \).
+\end{definition}
+\begin{example}
+	If \( X \) is contractible, then \( \mathrm{id}_X \sim c_{X,q} \), so \( f = f \circ \mathrm{id}_X \sim f \circ c_{X,q} = f(q) \).
+	So any \( f \colon X \to Y \) is null-homotopic.
+	If \( f_0 \sim f_1 \), then \( f_0 \) is null-homotopic if and only if \( f_1 \) is null-homotopic.
+\end{example}
+\begin{definition}
+	Let \( A \subset X \) and \( f \colon A \to Y \).
+	We say a continuous map \( F \colon X \to Y \) is an \emph{extension} of \( f \) if \( \eval{F}_A = f \).
+	If such a map exists, we say \( f \) \emph{extends} to \( X \).
+\end{definition}
+\begin{lemma}
+	\( f \colon S^1 \to Y \) extends to \( D^2 \) if and only if \( f \) is null-homotopic.
+\end{lemma}
+\begin{proof}
+	If \( F \) is an extension of \( f \) to \( D^2 \), we define \( H(v,t) = F(tv) \).
+	Then \( H \) is a homotopy from \( f \) to \( c_{S^1, F(0)} \).
+	So \( f \) is null-homotopic.
+
+	Conversely, if \( f \) is null-homotopic, let \( H \colon S^1 \times I \to Y \) be a homotopy for \( c_{S^1, p} \sim f \).
+	Then we define
+	\[ F(v) = \begin{cases}
+		H\qty(\frac{v}{\norm{v}}, \norm{v}) & v \neq 0 \\
+		p & v = 0
+	\end{cases} \]
+	One can check that this is indeed a continuous extension.
+\end{proof}
+\begin{definition}
+	Let \( \gamma \in \Omega(X,x_0) \).
+	We define \( \overline \gamma \colon S^1 \to X \) by \( \overline\gamma(e^{2\pi i t}) = \gamma(t) \).
+	This is well-defined since \( \gamma(0) = \gamma(1) \), and it is continuous because \( \faktor{I}{\qty{0,1}} \simeq S^1 \).
+\end{definition}
+\begin{lemma}
+	\begin{enumerate}
+		\item If \( \gamma_0 \sim_e \gamma_1 \) via \( H(x,t) \), we have \( \overline \gamma_0 \sim \overline \gamma_1 \) via \( \overline H \colon S^1 \times I \to Y \) given by \( \overline H(e^{2\pi i x}, t) = H(x,t) \).
+		\item \( \overline{\gamma \gamma'} \sim \overline{\gamma'\gamma} \).
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	\begin{enumerate}
+		\item Note that \( \overline H \) is well-defined since \( H(0,t) = H(1,t) = x_0 \).
+		\item We have \( \overline{\gamma\gamma'}(v) = \overline{\gamma'\gamma}(-v) \), hence \( \overline{\gamma\gamma'} = \overline{\gamma'\gamma} \circ a \) where \( a \colon S^1 \to S^1 \) is the antipodal map.
+			Since \( a \sim \mathrm{id}_{S^1} \), we have \( \overline{\gamma\gamma'} \sim \overline{\gamma'\gamma} \).
+	\end{enumerate}
+\end{proof}

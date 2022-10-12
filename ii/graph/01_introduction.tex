@@ -173,6 +173,13 @@ The concatenation of two paths or walks \( P \) and \( P' \) is written \( PP' \
 	Let \( C \) be an odd circuit in a graph \( G \).
 	Then \( C \) contains an odd cycle.
 \end{proposition}
+\begin{proof}
+	Let \( x_1, \dots, x_\ell, x_1 \) be an odd circuit.
+	Either this is an odd cycle, or \( x_i = x_j \) for \( i < j \).
+	Then \( x_i, \dots, x_j \) is a circuit and \( x_j, \dots, x_\ell, x_1, \dots, x_i \) is a circuit.
+	Their lengths sum to \( \ell \), so one of them is odd.
+	By induction, we can assume the odd circuit contains an odd cycle as required.
+\end{proof}
 \begin{theorem}
 	Let \( G \) be a graph.
 	Then \( G \) is bipartite if and only if \( G \) does not contain an odd cycle.
@@ -180,4 +187,76 @@ The concatenation of two paths or walks \( P \) and \( P' \) is written \( PP' \
 \begin{proof}
 	If \( G \) contains an odd cycle, \( G \) is not bipartite because there exists a subgraph that is not bipartite.
 	Suppose now that \( G \) contains no odd cycles.
+	We may assume \( G \) is connected, because unions of disconnected bipartite graphs are bipartite.
+	Let \( x_0 \in V(G) \).
+	Let \( V_0 = \qty{x \in V(G) \mid d(x,x_0) \equiv 0 \mod 2} \) and \( V_1 = \qty{x \in V(G) \mid d(x,x_0) \equiv 1 \mod 2} \).
+	We show that this is a bipartition as required.
+	Suppose \( u, v \in V_i \) are connected.
+	Then, \( u \) and \( v \) admit even (resp.\ odd) paths to \( x_0 \), so the circuit defined by the concatenation of these paths with the edge \( uv \) is an odd circuit, and hence contains an odd cycle.
+	This contradicts our assumption.
+\end{proof}
+
+\subsection{Planar graphs}
+\begin{definition}
+	A \emph{plane graph} is a drawing of a graph in the plane, representing edges as piecewise linear functions, without edge crossings.
+\end{definition}
+\begin{definition}
+	A graph \( G \) is \emph{planar} if it can be drawn in the plane \( \mathbb R^2 \) with no edges crossing, so a graph is planar if it admits a plane graph representation.
+\end{definition}
+\begin{example}
+	\( K_1, K_2, K_3, K_4 \) are planar.
+	\( P_n \) is planar for \( n \in \mathbb N \).
+	\( K_{n,2} \) is planar, by placing the vertices in the two-vertex set on either side of the other set.
+\end{example}
+\begin{definition}
+	Let \( G \) be a plane graph.
+	One of the finitely many connected components of \( \mathbb R^2 \setminus G \) is called a \emph{face}.
+	The boundary of a face \( F \) is the collection of vertices and edges in \( \partial f \).
+	Therefore, the boundary of any face in \( G \) is a subgraph of \( G \).
+\end{definition}
+\begin{remark}
+	The boundary of a face need not be (or contain) a cycle, and need not be connected.
+	Two drawings of a graph can be fundamentally different.
+\end{remark}
+\begin{theorem}[Euler]
+	Let \( G \) be a connected plane graph with \( F \) faces.
+	Then \( \abs{V(G)} - \abs{E(G)} + F = 2 \).
+\end{theorem}
+\begin{remark}
+	The number of faces is uniquely determined by intrinsic properties of a graph, its number of vertices and edges.
+\end{remark}
+\begin{proof}
+	We work by induction on the number of edges \( E(G) \).
+	In the case where \( E(G) = 0 \), we must have \( V(G) = 1 \) and \( F = 1 \) by connectedness.
+	Suppose \( G \) is acyclic.
+	Then by connectedness, \( G \) is a tree, so \( V(G) = E(G) + 1 \) and \( F = 1 \), satisfying Euler's formula.
+	Now suppose \( G \) contains a cycle, and \( E \) be an edge in the cycle.
+	Removing this edge, \( G - E \) is connected, and has \( \abs{V(G)} \) vertices, \( \abs{E(G)} - 1 \) edges, and \( F - 1 \) faces.
+	By induction, Euler's formula holds in this case.
+\end{proof}
+\begin{corollary}
+	Let \( G \) be a planar graph where \( \abs{G} \geq 3 \).
+	Then \( e(G) \leq 3\abs{G} - 6 \).
+\end{corollary}
+\begin{proof}
+	Consider a planar drawing of \( G \).
+	We may assume \( G \) is connected without loss of generality.
+	Let \( F \) be a face, and let \( \deg F \) be the number of edges that meet at \( F \).
+	Note that the degree of any face is at least 3, since \( \abs{G} \geq 3 \).
+	Since each edge occurs in at most two faces, \( \sum_F \deg F \leq 2e(G) \).
+	Hence, \( 3f \leq 2e(G) \), where \( f \) is the amount of faces.
+	Using Euler's formula, \( \abs{G} - e(G) + f = 2 \implies 2(\abs{G} - 2) \geq e(G) \).
+\end{proof}
+\begin{remark}
+	\( K_5 \) is not planar, because \( e(K_5) = 10 \) and \( 3 \abs{K_5} - 6 = 9 \).
+	\( K_{3,3} \) does not violate this bound, but is not planar.
+\end{remark}
+\begin{corollary}
+	Let \( G \) be a planar graph, \( \abs{G} \geq 4 \) and there is no cycle of length 3.
+	Then \( e(G) \leq 2(\abs{G} - 2) \).
+\end{corollary}
+This shows that \( K_{3,3} \) is not planar.
+\begin{proof}
+	The minimal degree of a face is 4, because a degree of 3 would imply there is a triangle since there are at least four vertices in the graph.
+	Running the same argument, our bound becomes \( e(G) \leq 2(\abs{G} - 2) \),
 \end{proof}
