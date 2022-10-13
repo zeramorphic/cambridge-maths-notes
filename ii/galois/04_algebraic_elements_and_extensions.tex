@@ -1,0 +1,83 @@
+\subsection{Algebraic elements and minimal polynomials}
+\begin{definition}
+	Let \( L / K \) be an extension and \( x \in L \).
+	\( x \) is \emph{algebraic over \( K \)} if there exists a nonzero polynomial \( f \in K[T] \) such that \( f(x) = 0 \).
+	Otherwise, we say \( x \) is \emph{transcendental over \( K \)}.
+\end{definition}
+For \( f \in K[T] \), we have \( f(x) \in L \).
+Varying \( f \), this gives a map \( \mathrm{ev}_x \colon K[T] \to L \) defined by \( f \mapsto f(x) \).
+This is a ring homomorphism.
+
+The kernel \( I = \ker(\mathrm{ev}_x) \subset K[T] \) is an ideal, the set of polynomials which vanish at \( x \).
+As \( \Im(\mathrm{ev}_x) \) is a subring of \( L \) which is a field, it is an integral domain.
+In particular, \( I \) is a prime ideal, so either \( I = 0 \), in which case \( x \) is transcendental over \( K \), or there exists a unique monic irreducible polynomial \( 0 \neq g \in K[T] \) such that \( I = (g) \), in which case \( x \) is algebraic and we say \( g \) is the \emph{minimal polynomial} of \( x \) over \( K \).
+In this case, \( f(x) = 0 \) if and only if \( g \mid f \).
+We write \( m_{x,K} \) for the minimal polynomial of \( x \) over \( K \).
+Note that \( m_{x,K} \) is the monic polynomial in \( K \) of least degree with \( x \) as a root.
+
+\begin{example}
+	If \( x \in K \), \( m_{x,K} = T - x \).
+	If \( p \) is prime and \( d \geq 1 \), \( T^d - p \in \mathbb Q[T] \) is irreducible by Eisenstein's criterion, so it is the minimal polynomial of \( \sqrt[d]{p} \in \mathbb R \) over \( \mathbb Q \).
+	If \( p \) is prime, \( z = e^{\frac{2\pi i}{p}} \) is a root of \( T^p - 1 = (T-1)(T^{p-1} + T^{p-2} + \dots + 1) = (T-1)g(T) \), which is a product of irreducibles as
+	\[ g(T+1) = \binom p p T^{p-1} + \binom p {p-1} T^{p-2} + \dots + \binom p 2 T + \binom p 1 \]
+	This is irreducible by Eisenstein's criterion, so \( g \) is minimal for \( z \) over \( \mathbb Q \).
+\end{example}
+
+We say the degree of an algebraic element \( x \) over \( K \) is the degree of its minimal polynomial, written \( \deg_K x = \deg(x/K) \).
+
+\begin{proposition}
+	Let \( L / K \) and \( x \in L \).
+	Then, the following are equivalent.
+	\begin{enumerate}
+		\item \( x \) is algebraic over \( K \).
+		\item \( [K(x):K] \) is finite.
+		\item \( K[x] \) is finite-dimensional as a \( K \)-vector space.
+		\item \( K[x] = K(x) \).
+		\item \( K[x] \) is a field.
+	\end{enumerate}
+	If these hold, \( \deg x = [K(x):K] \).
+\end{proposition}
+\begin{proof}
+	\emph{(ii) implies (iii).} This follows since \( K[x] \subseteq K(x) \).
+
+	\emph{(iv) is equivalent to (v)} is trivial.
+
+	\emph{(iii) implies (v) and (ii).}
+	Let \( 0 \neq y = g(x) \in K[x] \).
+	Consider the map \( K[x] \to K[x] \) given by \( z \mapsto yz \).
+	This is a \( K \)-linear transformation, and since \( y \neq 0 \) this is injective.
+	Because \( \dim K[x] \) is finite, this injective map must be a bijection.
+	Therefore there exists \( z \) such that \( yz = 1 \), so \( y \) is invertible.
+	Hence (v) holds.
+	Since (v) implies (iv), \( [K(x):K] = \dim_K K[x] < \infty \) as required for (ii).
+
+	\emph{(v) implies (i).}
+	If \( x = 0 \), the proof is complete, so assume \( x \neq 0 \).
+	Then \( x^{-1} = a_0 + a_1 x + \dots + a_n x^n \in K[x] \).
+	Therefore, \( a_n x^{n+1} + \dots + a_0 x - 1 = 0 \), so \( x \) is algebraic over \( K \).
+
+	\emph{(i) implies (iii) and the degree formula.}
+	The image of \( \mathrm{ev}_x \colon K[T] \to L \) is the subring \( K[x] \subset L \).
+	If \( x \) is algebraic over \( K \), \( \ker(\mathrm{ev}_x) = (m_{x,K}) \) is a maximal ideal by irreducibility of \( m_{x,K} \).
+	By the first isomorphism theorem, \( \faktor{K[T]}{(m_{x,K})} \cong K[x] \).
+	But quotients by maximal ideals are fields, so \( K[x] \) is a field, proving (v).
+	This polynomial is monic of degree \( d = \deg_K x \).
+	Hence \( \faktor{K[T]}{(m_{x,K})} \) has a \( K \)-basis \( 1, T, \dots, T^{d-1} \).
+	Thus, \( \dim_K K[x] = d = [K(x):K] < \infty \), proving (iii) and the degree formula.
+\end{proof}
+\begin{corollary}
+	\( x_1, \dots, x_n \) are algebraic over \( K \) if and only if \( L = K(x_1, \dots, x_n) \) is finite over \( K \).
+	If so, every element of \( K(x_1, \dots, x_n) \) is algebraic over \( K \).
+
+	If \( x, y \) are algebraic over \( K \), then so are \( x \pm y \), \( xy \), and \( x^{-1} \) if \( x \) is nonzero.
+	If \( L / K \) is a field extension, the set of algebraic elements of \( L \) forms a subfield of \( L \).
+\end{corollary}
+\begin{proof}
+	If \( x_n \) is algebraic over \( K \), then it is also algebraic over \( K(x_1, \dots, x_{n-1}) \).
+	Hence \( L / K(x_1, \dots, x_{n-1}) \) is finite.
+	By induction on \( n \), the tower law gives the required result.
+	Conversely, if \( L \) is finite over \( K \), the subfield \( K(y) \) is finite over \( K \) for all \( y \in L \), so \( y \) is algebraic over \( K \).
+
+	Suppose \( x, y \) are algebraic over \( K \).
+	Then \( x \pm y, xy, x^{-1} \in K(x,y) \), which is finite over \( K \) as required.
+\end{proof}
