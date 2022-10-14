@@ -1,0 +1,60 @@
+\subsection{Matching in bipartite graphs}
+\begin{definition}
+	Let \( G = (X \sqcup Y, E) \) be a bipartite graph.
+	A \emph{matching from \( X \) to \( Y \)} is a set of edges \( E' \subseteq \qty{xy_x \mid x \in X, y_x \in Y} = E \) such that the map \( x \mapsto y_x \) is injective.
+\end{definition}
+\begin{definition}
+	Let \( G \) be a graph, \( A \subseteq V(G) \).
+	We define \( N_G(A) = \qty{\bigcup_{x \in A} N(x)} \).
+\end{definition}
+\begin{theorem}[Hall]
+	Let \( G = (X \sqcup Y, E) \) be a bipartite graph.
+	There exists a matching from \( X \) to \( Y \) if and only if \emph{Hall's criterion} holds: that \( \abs{A} \leq \abs{N(A)} \) for all \( A \subseteq X \).
+\end{theorem}
+\begin{proof}
+	The forward direction is simple, by considering the image of the injective map \( x \mapsto y_x : A \to N(A) \) for each subset \( A \subseteq X \).
+	Conversely, suppose Hall's criterion is satisfied.
+	We apply induction on \( \abs{X} \).
+	If \( \abs{X} = 1 \), \( N(X) \) is nonempty and so the proof is complete.
+
+	If there does not exist \( \varnothing \neq A \subsetneq X \) such that \( \abs{N(A)} = \abs{A} \), we have \( \abs{A} < \abs{N(A)} \) for all \( \varnothing \neq A \neq X \).
+	Let \( xy \in E \), and let \( G' = G[X \setminus \qty{x} \sqcup Y \setminus \qty{y}] \).
+	By induction, it suffices to show Hall's criterion holds for \( G' \).
+	If \( B \subseteq X \setminus \qty{x} \), we have
+	\[ \abs{N_{G'}(B)} \geq \abs{N_G(B)} - 1 \geq \abs{B} \]
+	as required.
+
+	However, suppose there exists such a set \( \varnothing A \subsetneq X \) with \( \abs{A} = \abs{N(A)} \).
+	Let \( G_1 = G[A \sqcup N(A)] \) and \( G_2 = G[X \setminus A \sqcup Y \setminus N(A)] \).
+	\( G_1 \) satisfies Hall's criterion.
+	Indeed, for \( B \subseteq A \), \( N_{G_1}(B) = N_G(B) \) as required.
+	\( G_2 \) also satisfies Hall's criterion.
+	Suppose \( B \subseteq X \setminus A \), and consider \( N_G(A \cup B) \).
+	We have
+	\[ \abs{A} + \abs{B} \leq \abs{N_G(A \cup B)} = \abs{N_G(A)} + \abs{N_{G_2}(B)} \implies \abs{B} \leq \abs{N_{G_2}(B)} \]
+	Hence Hall's criterion is satisfied.
+
+	Then by induction on \( G_1 \) and \( G_2 \), the proof is complete.
+\end{proof}
+\begin{definition}
+	A \emph{matching of deficiency \( d \) from \( X \) to \( Y \)} is a matching from \( X' \subseteq X \) to \( Y \) where \( \abs{X'} + d = \abs{X} \).
+\end{definition}
+\begin{theorem}[defect Hall]
+	Let \( G = (X \sqcup Y, E) \) be a bipartite graph.
+	\( G \) contains a matching of deficiency \( d \leq \abs{X} \) if and only if \( \abs{A} \leq \abs{N(A)} + d \) for all \( A \subseteq X \).
+\end{theorem}
+\begin{proof}
+	The forward direction is again a simple proof.
+	Let \( G = (X \sqcup Y, E) \) be a graph such that \( \abs{A} \leq \abs{N(A)} + d \) for all \( A \subseteq X \).
+	Let \( G' = (X \sqcup (Y \cup \qty{z_1, \dots, z_d}), E \cup E') \) where \( E' = \qty{xz_i \mid x \in X, i \in \qty{1, \dots, d}} \).
+	Hall's criterion on \( G' \) is satisfied, so there exists a matching.
+	Deleting these new vertices \( \qty{z_1, \dots, z_d} \) and the edge set \( E' \), we construct a matching from \( X \) to \( Y \) of deficiency at most \( d \).
+	To construct a matching of deficiency precisely \( d \), we can delete extra edges as required.
+\end{proof}
+\begin{definition}
+	The \emph{maximum degree} \( \Delta(G) \) (resp.\ \emph{minimum degree} \( \delta(G) \)) of a graph \( G \) is the maximum (resp.\ minimum) degree of a vertex in \( G \).
+\end{definition}
+\begin{definition}
+	A graph is \emph{regular} if all vertices have the same degree, or equivalently, \( \delta(G) = \Delta(G) \).
+	A graph is \emph{\( k \)-regular} if \( \delta(G) = \Delta(G) = k \).
+\end{definition}
