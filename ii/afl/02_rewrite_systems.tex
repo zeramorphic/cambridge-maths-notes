@@ -229,7 +229,7 @@ Note that some closure properties imply others; for instance, closure under comp
 	Then \( H = (\Sigma, V \cup V' \cup \qty{T}, P^\star, T) \) is called the \emph{concatenation grammar}, where \( T \) is a new variable, and
 	\[ P^\star = P \cup P' \cup \qty{T \to SS'} \]
 	\( H = (\Sigma, V \cup V' \cup \qty{T}, P^{\star\star}, T) \) is called the \emph{union grammar}, where \( T \) is a new variable, and
-	\[ P^{\star\star} = P \cup P' \qty{T \to S, T \to S'} \]
+	\[ P^{\star\star} = P \cup P' \cup \qty{T \to S, T \to S'} \]
 \end{definition}
 \begin{remark}
 	\( \mathcal L(G)\mathcal L(G') \subseteq \mathcal L(H) \) by construction, and \( \mathcal L(G) \cup \mathcal L(G') \subseteq \mathcal L(H') \), but it is not true \emph{a priori} that the converse holds, because \( P \) and \( P' \) could share some variables.
@@ -254,11 +254,11 @@ Note that some closure properties imply others; for instance, closure under comp
 	Then \( X \) extends in the natural way to a map \( X \colon \Omega^\star \to \Omega^\star \).
 	We can map each production rule in \( G \) to a version that uses only variables and no letters by applying \( X \) to both sides.
 	Hence, we define \( P' = \qty{X(\alpha) \to X(\beta) \mid \alpha \to \beta \in P} \).
-	Then, defining \( P'' = \qty{V_\alpha \to \alpha \mid \alpha \in \Sigma} \), let \( G' = (\Sigma, V \cup \qty{X_a \mid a \in \Sigma}, P' \cup P'', S) \).
+	Then, defining \( P'' = \qty{X_a \to a \mid a \in \Sigma} \), let \( G' = (\Sigma, V \cup \qty{X_a \mid a \in \Sigma}, P' \cup P'', S) \).
 	This grammar is variable-based and so it suffices to show that it defines the same language as \( G \).
 
 	Any \( G \)-derivation of \( w \) is transformed into a \( G' \)-derivation of \( X(w) \) by the operation \( \alpha \to X(\alpha) \).
-	Similarly, if we have a \( G' \)-derivation that contains no letters anywhere, all strings occuring are of the form \( X(alpha) \) for some \( \alpha \in \Omega^\star \), and the operation of replacing all occurences of \( X_a \) with \( a \) transforms that derivation into a \( G \)-derivation.
+	Similarly, if we have a \( G' \)-derivation that contains no letters anywhere, all strings occuring are of the form \( X(\alpha) \) for some \( \alpha \in \Omega^\star \), and the operation of replacing all occurences of \( X_a \) with \( a \) transforms that derivation into a \( G \)-derivation.
 	Thus, \( w \in \mathcal L(G) \) if and only if \( X(w) \in \mathcal D(G', S) \).
 
 	If \( X(w) \in \mathcal D(G', S) \) then, by applying rules of the form \( X_a \to a \) as needed, we have \( w \in \mathcal L(G') \).
