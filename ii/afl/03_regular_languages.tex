@@ -1,0 +1,106 @@
+\subsection{Regular derivations}
+\begin{definition}
+	A rule of the form \( A \to a \) is called a \emph{terminal rule}.
+	A rule of the form \( A \to aB \) is called a \emph{nonterminal rule}.
+\end{definition}
+\begin{lemma}
+	Let \( G \) be a regular grammar.
+	If \( S \xrightarrow G \alpha \), then \( \alpha \in \mathbb W \cup \mathbb W V \).
+\end{lemma}
+\begin{proof}
+	This is shown by induction on the length of the derivation.
+	The length-zero derivation gives \( \alpha = S = \varepsilon S \in \mathbb W V \).
+	Suppose \( S \xrightarrow G \beta \xrightarrow G_1 \alpha \) where \( \beta \in \mathbb W \cup \mathbb W V \).
+	If \( \beta \in \mathbb W \), \( \beta \) contains no variables, but all rules rewrite a variable.
+	This contradicts that \( \beta \xrightarrow G_1 \alpha \).
+	So suppose \( \beta = wA \) for \( w \in \mathbb W \), \( A \in V \).
+	Then the rule must be of the form \( A \to a \) or \( A \to aB \).
+	Hence \( \beta = wa \) or \( \beta = waB \).
+	In either case, the required invariant holds.
+\end{proof}
+\begin{lemma}
+	If \( S \xrightarrow G w \) for \( w \in \mathbb W \), then the derivation has length \( \abs{w} \) and consists of precisely \( \abs{w}-1 \) nonterminal rules and one final terminal rule.
+\end{lemma}
+\begin{proof}
+	Terminal rules preserve the length of a string, and decrement the amount of variables.
+	Nonterminal rules increment the length of a string, and preserve the amount of variables.
+	Given that \( S \) is a string of length one with one variable, we must apply \( \abs{w}-1 \) nonterminal rules to increment the length of the string \( \abs{w}-1 \) times.
+	By the previous lemma, the number of variables in each derived string is always 0 or 1.
+	If the number ever reaches zero, nothing can be rewritten.
+	Given \( w \in \mathbb W \), the number must reach zero, so a single terminal rule must be applied at the end.
+\end{proof}
+Note that the derivation is not uniquely determined.
+\begin{lemma}
+	Regular languages are closed under concatenation.
+\end{lemma}
+\begin{proof}
+	Let \( G = (\Sigma, V, P, S), G' = (\Sigma, V', P', S') \), where without loss of generality \( V \cap V' = \varnothing \).
+	Let \( P^\star \) be the set of production rules given by \( P \), but for each terminal rule \( A \to a \) in \( P \), replace it with a nonterminal rule \( A \to aS' \).
+	Then let \( H = (\Sigma, V \cup V', P^\star \cup P', S) \).
+	We claim \( \mathcal L(H) = \mathcal L(G)\mathcal L(G') \).
+
+	Suppose \( S \xrightarrow G v \) and \( S' \xrightarrow {G'} w \).
+	Then \( S \xrightarrow H vS' \), and so \( S \xrightarrow H vw \) as required.
+
+	Conversely, suppose \( S \xrightarrow u \) for \( u \in \mathbb W \).
+	By the above lemma, the derivation is of the form
+	\[ S = \sigma_0 \xrightarrow H_1 \dots \xrightarrow H_1 \sigma_n = u \]
+	where \( \sigma_i = w_i X_i \) for some \( w_i \in \mathbb W, X_i \in V \).
+	An initial segment of the \( X_i \) belongs to \( V \), until rewritten as \( S' \) by a rule added into \( P^\star \).
+	Then, the rest of the \( X_i \) belong to \( V' \), because only the new rules in \( P^\star \) map variables between \( V \) and \( V' \).
+	Hence the derivation splits into two halves, \( u = vw \) where \( S \xrightarrow G v, S' \xrightarrow {G'} w \), giving the concatenation as required.
+\end{proof}
+
+\subsection{Deterministic automata}
+\begin{definition}
+	Let \( \Sigma \) be an alphabet.
+	Then a \emph{deterministic automaton} is a tuple of the form \( D = (\Sigma, Q, \delta, q_0, F) \) where \( Q \) is a finite set of \emph{states}, \( q_0 \in Q \) is the \emph{start state}, \( F \subseteq Q \setminus \qty{q_0} \) is the \emph{accept states}, and \( \delta \colon Q \times \Sigma \to Q \) is the \emph{transition function}.
+\end{definition}
+We graphically represent deterministic automata using labelled directed graphs.
+The nodes are elements of \( Q \), circled twice for accept states and circled once for other states.
+Each node has \( \abs{\Sigma} \)-many outgoing arrows labelled with the corresponding letter.
+
+\begin{center}
+	\begin{tikzpicture}[shorten >=1pt, node distance=2cm, on grid, auto]
+		\node[state, initial] (q_0) {\( q_0 \)};
+		\node[state, accepting] (q_1) [above right=of q_0] {\( q_1 \)};
+		\node[state] (q_2) [right=of q_0] {\( q_2 \)};
+
+		\path[->]
+			(q_0) edge node {0} (q_1)
+			(q_0) edge node [swap] {1} (q_2)
+			(q_2) edge node [swap] {0} (q_1)
+			(q_2) edge [loop below] node {1} ()
+			(q_1) edge [loop above] node {0,1} ()
+		;
+	\end{tikzpicture}
+\end{center}
+
+We intuitively interpret a deterministic automaton as a machine that starts at \( q_0 \) and reads a word \( w \in \mathbb W \) symbol-by-symbol, transitioning to a new state according to \( \delta \) at each step.
+After all symbols in the word are parsed, we check whether the machine lies in an accept state or not.
+We say the automaton \emph{accepts} \( w \) if the final state is an accept state; otherwise, it \emph{rejects} \( w \).
+\begin{definition}
+	We define by recursion a function \( \hat\delta \colon Q \times \mathbb W \to Q \) by \( \hat\delta(q,\varepsilon) = q \) and \( \hat\delta(q,aw) = \hat\delta(\delta(q,a),w) \).
+	The \emph{language accepted by \( D \)} is
+	\[ \mathcal L(D) = \qty{w \mid \hat \delta(q_0, w) \in F} \]
+	The sequence of states produced from \( q_0 \) and reading \( w \) is uniquely determined and of length \( \abs{w} + 1 \), known as the \emph{state sequence} of the computation.
+\end{definition}
+We claim that in the example above, \( \mathcal L(D) = \qty{w \mid w \text{ contains at least one } 0} \).
+Note that \( \hat\delta(q_0,w) = q_0 \) if and only if \( w = \varepsilon \).
+There are three transitions in the diagram for the letter 0, but all such 0-transitions lead to \( q_1 \) hence every string with a zero goes to \( q_1 \).
+All transitions from \( q_1 \) go back to \( q_1 \), so any string containing a zero must end at \( q_1 \).
+All other strings are of the form \( 1111\dots 1 \), which ends at \( q_2 \).
+\begin{definition}
+	Let \( D = (\Sigma, Q, \delta, q_0, F), D' = (\Sigma, Q', \delta', q_0', F') \) be deterministic automata.
+	Then a map \( f \colon Q \to Q' \) is called a \emph{homomorphism} from \( D \) to \( D' \) if
+	\begin{enumerate}
+		\item for all \( q \in Q \) and \( a \in \Sigma \), we have \( \delta'(f(q),a) = f(\delta(q,a)) \);
+		\item \( f(q_0) = q_0' \);
+		\item \( q \in F \) implies \( f(q) \in F' \).
+	\end{enumerate}
+\end{definition}
+\begin{proposition}
+	Let \( f \) be a homomorphism from \( D \) to \( D' \).
+	Then \( \mathcal L(D) \subseteq \mathcal L(D') \).
+	In particular, if \( f \) is bijective, so is an \emph{isomorphism}, \( \mathcal L(D) = \mathcal L(D') \).
+\end{proposition}

@@ -81,3 +81,73 @@ We say the degree of an algebraic element \( x \) over \( K \) is the degree of 
 	Suppose \( x, y \) are algebraic over \( K \).
 	Then \( x \pm y, xy, x^{-1} \in K(x,y) \), which is finite over \( K \) as required.
 \end{proof}
+\begin{example}
+	Consider \( z = e^{2\pi i/p} \in \mathbb C \) where \( p \) is an odd prime.
+	This has degree \( p - 1 \) as discussed above.
+	Now consider \( z = 2\cos \frac{2\pi}{p} = z + \frac 1z \in \mathbb Q(z) \).
+	This is algebraic over \( \mathbb Q \) because it belongs to this finite extension.
+	Note that \( \mathbb Q(z) \supset \mathbb Q(x) \supset \mathbb Q \), and \( z^2 - xz + 1 = 0 \).
+	Hence the degree of \( z \) over \( \mathbb Q(x) \) is at most 2.
+	But \( [\mathbb Q(z):\mathbb Q(x)] \neq 1 \) because \( z \in \mathbb C \setminus \mathbb R \).
+	By the tower law, we must have \( [\mathbb Q(z):\mathbb Q] = \frac{p-1}{2} \).
+
+	We can now derive the minimal polynomial by considering \( z^{\frac{p-1}{2}} + z^{\frac{p-3}{2}} + \dots + z^{\frac{-p-1}{2}} = 0 \).
+	Since \( z + z^{-1} = x \), we can express this as a polynomial in \( x \) of degree \( \frac{p-1}{2} \).
+\end{example}
+\begin{example}
+	Let \( x = \sqrt m + \sqrt n \) where \( m, n \) are integers, and \( m, n, mn \) are not squares.
+	We know that \( n = (x-\sqrt m)^2 = x^2 - 2x\sqrt m + m \), so \( [\mathbb Q(x):\mathbb Q(\sqrt m)] \leq 2 \).
+	By symmetry, \( [\mathbb Q(x):\mathbb Q(\sqrt n)] \leq 2 \).
+	Note that \( \sqrt m \in \mathbb Q(x) \) because \( \frac{x^2 + m - n}{2x} = \sqrt m \).
+
+	\( m, n \) are not squares, so \( [\mathbb Q(\sqrt m):\mathbb Q] = 2 \).
+	By the tower law we have \( [\mathbb Q(x):\mathbb Q] \in \qty{2,4} \).
+	If \( [\mathbb Q(x):\mathbb Q] = 2 \), we have \( \mathbb Q(x) = \mathbb Q(\sqrt m) = \mathbb Q(\sqrt n) \).
+	In this case, \( \sqrt m = a + b \sqrt n \implies m = a^2 + b^2 n + 2ab \sqrt n \), but \( n \) is not a square, so by rationality, \( ab = 0 \).
+	But if \( b = 0 \), \( m \) is a square, and if \( a = 0 \), \( mn = b^2 n^2 \) is a square.
+	Hence the degree of the field extension is 4.
+\end{example}
+\begin{definition}
+	An extension \( L / K \) is \emph{algebraic} if all elements of \( L \) are algebraic over \( K \).
+\end{definition}
+\begin{lemma}
+	Let \( M / L / K \), where \( L / K \) is algebraic.
+	Suppose \( x \) is algebraic over \( L \).
+	Then \( x \) is algebraic over \( K \).
+\end{lemma}
+\begin{proof}
+	There exists \( f = T^n + a_{n-1} T^{n-1} + \dots + a_0 \in L[T] \) where \( f \neq 0 \) and \( f(x) = 0 \).
+	Let \( L_0 = K(a_0, \dots, a_{n-1}) \).
+	As each \( a_i \in L \) is algebraic over \( K \), we must have that \( [L_0 : K] \) is finite.
+	As \( f \in L_0[T] \), \( x \) is algebraic over \( L_0 \).
+	So \( [L_0(x):L_0] < \infty \implies [L_0(x):K] < \infty \).
+	Hence \( [K(x):K] < \infty \), so \( x \) is algebraic over \( K \).
+\end{proof}
+\begin{proposition}
+	\begin{enumerate}
+		\item Finite extensions are algebraic.
+		\item \( K(x) \) is algebraic over \( K \) if and only if \( x \) is algebraic over \( K \).
+		\item If \( M / L / K \), we have \( M / K \) is algebraic if and only if \( M / L \) and \( L / K \) are algebraic.
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	\begin{enumerate}
+		\item \( [L : K] < \infty \), so for all \( x \in L \), \( [K(x) : K] < \infty \), so \( x \) is algebraic.
+		\item Certainly if \( K(x) \) is algebraic over \( K \), we have that \( x \) is algebraic over \( K \).
+			Conversely, if \( x \) is algebraic over \( K \), \( [K(x) : K] \) is finite, so it is algebraic by part (i).
+		\item Suppose \( M / K \) is algebraic.
+			Then for all \( x \in M \), we have that \( x \) is algebraic over \( K \), so it satisfies a polynomial \( f \in K[T] \).
+			Hence \( f \in L[T] \) is another polynomial that \( x \) satisfies, so \( M / L \) is algebraic.
+			\( L / K \) is clearly algebraic because it is contained within \( M \).
+
+			Conversely, suppose \( M / L \) and \( L / K \) are algebraic.
+			Let \( x \in M \).
+			Then by the previous lemma, \( x \) is algebraic over \( K \) as required.
+	\end{enumerate}
+\end{proof}
+\begin{example}
+	Let \( K = \mathbb Q \) and \( L = \qty{x \in \mathbb C \mid x \text{ is algebraic over } \mathbb Q} = \overline{\mathbb Q} \).
+	This extension \( \overline{\mathbb Q}/Q \) is algebraic, but not finite.
+	Indeed, for every \( n \geq 1 \), \( \sqrt[n]{2} \in L \), and \( [\mathbb Q(\sqrt[n]{2}):\mathbb Q] = n \) by irreducibility of \( T^n - 2 \).
+	In particular, \( L \) contains subfields of arbitrarily large degree, so cannot be a finite extension.
+\end{example}
