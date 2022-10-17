@@ -58,3 +58,59 @@
 	A graph is \emph{regular} if all vertices have the same degree, or equivalently, \( \delta(G) = \Delta(G) \).
 	A graph is \emph{\( k \)-regular} if \( \delta(G) = \Delta(G) = k \).
 \end{definition}
+\begin{corollary}
+	Let \( G = (X \sqcup Y, E) \) be a \( k \)-regular bipartite graph and \( k \geq 1 \).
+	Then there exists a matching from \( X \) to \( Y \).
+\end{corollary}
+\begin{proof}
+	It suffices to show Hall's criterion holds.
+	Let \( A \subseteq X \).
+	Then
+	\[ e(G[A \cup N(A)]) = \sum_{x \in A} \deg x = k \abs{A};\quad e(G[A \cup N(A)]) = \sum_{x \in N(A)} \deg v \leq k \abs{N(A)} \]
+	Hence \( \abs{A} \leq \abs{N(A)} \).
+\end{proof}
+\begin{example}
+	Let \( \Gamma \) be a finite group, and let \( H \leq \Gamma \).
+	Let \( L_1, \dots, L_n \) be the left cosets, and \( R_1, \dots, R_n \) be the right cosets.
+	We want to find \( g_1, \dots, g_n \) such that \( g_1 H, \dots, g_n H \) are the left cosets and \( H g_1, \dots, H g_n \) are the right cosets.
+
+	Consider the graph \( G = (\qty{L_1, \dots, L_n} \sqcup \qty{R_1, \dots, R_n}, E) \) where an edge lies between \( L_i \) and \( R_j \) if \( L_i \cap R_j \neq \varnothing \).
+	It suffices to find a matching in this graph, because then each edge in the matching implies the existence of a representative for both cosets.
+	Let \( A \subseteq \qty{L_1, \dots, L_n} \), so \( A = \qty{L_{i_1}, \dots, L_{i,k}} \).
+	Consider \( \abs{\bigcup_{j=1}^k L_{ij}} = k \abs{H} \), but since \( R_1, \dots, R_n \) partition \( \Gamma \) and have size \( \abs{H} \), at least \( k \) right cosets of \( H \) must intersect \( \bigcup R_{ij} \).
+	Hence Hall's criterion is satisfied.
+\end{example}
+
+\subsection{Connectivity}
+Let \( S \subseteq V(G) \).
+Then we define \( G - S = G[V(G) \setminus S] \).
+\begin{definition}
+	Let \( G \) be a graph, and \( \abs{G} \geq 1 \).
+	Then we define the \emph{connectivity parameter} \( \kappa \) of \( G \) is
+	\[ \kappa = \min{\abs{S} \mid S \subseteq V(G), G - S \text{ is disconnected or a single vertex}} \]
+	We say that \( G \) is \( k \)-connected if \( k \leq \kappa \).
+	Hence \( G \) is \( k \)-connected if and only if for all sets \( S \) of at most \( k-1 \) vertices, \( G - S \) is connected and not a single vertex.
+\end{definition}
+\begin{example}
+	\( \kappa(\text{Petersen graph}) = 3 \), because deleting any two vertices leaves the graph connected, but deleting the neighbourhood of any vertex disconnects the graph.
+	\( \kappa(G) = 1 \) if \( G \) is a tree.
+	\( \kappa(C_n) = 2 \) for \( n \geq 3 \).
+	\( \kappa(K_n) = n - 1 \).
+\end{example}
+\begin{definition}
+	Let \( G \) be a graph, and \( a, b \in V(G) \).
+	We say that the \( a \)--\( b \) paths \( P_1, \dots, P_k \) are \emph{disjoint} if \( P_i \cap P_j = \qty{a, b} \) for \( i \neq j \).
+\end{definition}
+Note that \( \delta(G) \geq \kappa(G) \).
+This follows because removing the neighbours of the vertex of minimum degree disconnects the graph or leaves it a single vertex.
+Also, we can easily see that \( \kappa(G - x) \geq \kappa(G) - 1 \).
+Note that we can have \( \kappa(G-x) > \kappa(G) \) by considering a \( 2 \)-connected graph with an additional leaf.
+\begin{definition}
+	Let \( G \) be a graph and \( a \neq b \in V(G) \), where \( a \not\sim b \).
+	We say that \( S \subseteq V(G) \setminus \qty{a,b} \) is a \emph{\( a \)--\( b \) separator} if \( G - S \) disconnects \( a \) and \( b \).
+\end{definition}
+\begin{theorem}[Menger, form 1]
+	Let \( G \) be a graph and \( a \neq b \in V(G) \), where \( a \not\sim b \).
+	The minimum size of an \( a \)--\( b \) separator is the maximum number of disjoint paths from \( a \) to \( b \).
+	Equivalently, if all \( a \)--\( b \) separators have size at least \( k \), then there exists \( P_1, \dots, P_k \) disjoint \( a \)--\( b \) paths.
+\end{theorem}
