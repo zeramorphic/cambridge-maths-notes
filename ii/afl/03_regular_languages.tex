@@ -96,11 +96,103 @@ All other strings are of the form \( 1111\dots 1 \), which ends at \( q_2 \).
 	\begin{enumerate}
 		\item for all \( q \in Q \) and \( a \in \Sigma \), we have \( \delta'(f(q),a) = f(\delta(q,a)) \);
 		\item \( f(q_0) = q_0' \);
-		\item \( q \in F \) implies \( f(q) \in F' \).
+		\item \( q \in F \) if and only if \( f(q) \in F' \).
 	\end{enumerate}
 \end{definition}
+In particular, if \( f \) is bijective, it has an inverse and is called an \emph{isomorphism}.
+We can show by induction that \( \hat \delta'(f(q),w) = f(\hat\delta(q,w)) \).
+Note that if a homomorphism \( f \) is not surjective, the states not in its range are not \emph{accessible} from \( q_0' \).
+If \( f \) is not injective, so \( f(p) = f(q) \) for \( p \neq q \), then we have \( f(\hat\delta(p,w)) = \hat\delta'(f(p),w) = \hat\delta'(f(q),w) = f(\hat\delta(q,w)) \); we will say that such states \( p, q \) are \emph{indistinguishable}.
+We will observe that failure to be bijective only affects inaccessible states or pairs of indistinguishable states.
 \begin{proposition}
-	Let \( f \) be a homomorphism from \( D \) to \( D' \).
-	Then \( \mathcal L(D) \subseteq \mathcal L(D') \).
-	In particular, if \( f \) is bijective, so is an \emph{isomorphism}, \( \mathcal L(D) = \mathcal L(D') \).
+	Let \( f \) be a homomorphism (not \emph{a priori} an isomorphism) from \( D \) to \( D' \).
+	Then \( \mathcal L(D) = \mathcal L(D') \).
 \end{proposition}
+\begin{proof}
+	Let \( w \in \mathcal L(D) \), so \( \hat\delta(q_0,w) \in F \).
+	Applying \( f \), \( f(\hat\delta(q_0,w)) = \hat\delta'(f(q_0),w) = \hat\delta'(q_0',w) \in F' \) as required.
+	All implications are bi-implications, so the converse holds.
+\end{proof}
+\begin{theorem}
+	Any language of the form \( \mathcal L(D) \) for a deterministic automaton \( D \) is regular.
+\end{theorem}
+\begin{proof}
+	Let \( D = (\Sigma, Q, \delta, q_0, F) \), and define a grammar \( G = (\Sigma, V, P, S) \) by \( V = Q, S = q_0 \), and
+	\[ P = \qty{p \to aq \mid \delta(p, a) = q} \cup \qty{p \to a \mid \delta(p,a) \in F} \]
+	We will show \( \mathcal L(D) = \mathcal L(G) \).
+	Suppose \( w = a_0\dots a_n \in \mathcal L(D) \).
+	Then \( \hat \delta(q_0,w) \in F \), so there exist \( q_0, \dots, q_{n+1} \) such that \( q_{i+1} = \delta(q_i, a_i) \), and \( q_{n+1} \in F \).
+	By definition of \( G \), this holds if and only if there exist \( q_0, \dots, q_{n+1} \) such that \( q_i \to a_i q_{i+1} \in P \) and \( q_n \to a_n \in P \).
+	This holds if and only if there exists \( q_0, \dots, q_{n+1} \) such that \( q_0 \xrightarrow G_1 a_0 q_1 \xrightarrow G_1 \dots \xrightarrow G_1 a_0 \dots a_{n-1} q_n \xrightarrow G_1 w \), so there exists a derivation \( w \in \mathcal L(G) \).
+	By regularity of \( G \), all derivations are of this form, so we have bi-implications, and \( \mathcal L(D) = \mathcal L(G) \).
+\end{proof}
+We will show that if \( L \) is a regular language, we can find a deterministic automaton \( D \) such that \( L = \mathcal L(D) \).
+However, regular grammars can have multiple rules that may be used when reaching a single symbol, for instance \( p \to aq \) and \( p \to aq' \), so we cannot perform an obvious translation from this grammar into a deterministic automaton.
+To encapsulate this notion, we introduce nondeterministic automata.
+
+\subsection{Nondeterministic automata}
+\begin{definition}
+	A \emph{nondeterministic automaton} is a tuple of the form \( N = (\Sigma, Q, \delta, q_0, F) \) where \( Q \) is a finite set of states, \( q_0 \in Q \), \( F \in Q \setminus \qty{q_0} \), but in contrast with deterministic automata, we have \( \delta \colon Q \times \Sigma \to \mathcal P(Q) \).
+\end{definition}
+We interpret \( \delta(q,a) \) as the set of possible states that the machine can transition into when reading \( a \) from state \( q \).
+The graphical representation of such an automaton is the same.
+
+\begin{center}
+	\begin{tikzpicture}[shorten >=1pt, node distance=2cm, on grid, auto]
+		\node[state, initial] (q_0) {\( q_0 \)};
+		\node[state, accepting] (q_1) [right of=q_0] {\( q_1 \)};
+		\node[state] (q_2) [below=of q_1] {\( q_2 \)};
+
+		\path[->]
+			(q_0) edge node {\( a \)} (q_1)
+			(q_0) edge node {\( a \)} (q_2)
+		;
+	\end{tikzpicture}
+	% TODO continue this
+\end{center}
+Here, we define \( \hat \delta \colon Q \times \mathbb W \to \mathcal P(Q) \), by the equations \( \hat \delta(q, \varepsilon) = \qty{q} \), and \( \hat \delta(q, wa) = \bigcup_{p \in \hat\delta(q,w)} \delta(p,a) \).
+This produces a unique \emph{state set sequence}, not a deterministic state sequence.
+We define \( \mathcal L(N) = \qty{w \mid \hat\delta(q_0,w) \cap F \neq \varnothing} \).
+\begin{remark}
+	Deterministic automata can be seen as a special case of nondeterministic automata.
+\end{remark}
+\begin{theorem}
+	Let \( N \) be a nondeterministic automaton.
+	Then there exists a deterministic automaton \( D \) such that \( \mathcal L(N) = \mathcal L(D) \).
+\end{theorem}
+\begin{proof}[subset construction]
+	Let \( N = (\Sigma, Q, \delta, q_0, F) \).
+	We define \( D = (\Sigma, \mathcal P(Q), \Delta, \qty{q_0}, G) \), where
+	\[ \Delta(X, a) = \bigcup_{q \in X} \delta(q,a);\quad G = \qty{X \in \mathcal P(Q) \mid X \cap F \neq \varnothing} \]
+	We show that these two automata produce the same language.
+	Consider the state sequence of \( D \) on input \( w \).
+	\[ X_0 = \qty{q_0};\quad X_{i+1} = \bigcup_{q \in X_i} \delta(q,a_i) \]
+	The state set sequence of \( N \) on input \( w \) is
+	\[ Y_0 = \qty{q_0};\quad Y_{i+1} = \bigcup_{q \in Y_i} \delta(q,a_i) \]
+	Clearly, these exactly match, so \( X_i = Y_i \).
+	So \( w \) is accepted by \( D \) if and only if it is accepted by \( N \).
+\end{proof}
+\begin{remark}
+	Although this construction always works, we have transformed an automaton on \( n \) states into one on \( 2^n \) states.
+\end{remark}
+\begin{theorem}
+	Let \( G \) be a regular grammar.
+	Then there exists a nondeterministic automaton \( N \) such that \( \mathcal L(G) = \mathcal L(N) \).
+\end{theorem}
+\begin{proof}
+	Let \( G = (\Sigma, V, P, S) \).
+	Let \( H \not\in \Sigma \cup V \) be a new symbol, known as the \emph{halt state}.
+	Let \( Q = V \cup \qty{H} \).
+	Define \( N = (\Sigma, Q, \delta, S, \qty{H}) \) where
+	\[ \delta(A,a) = \begin{cases}
+		\qty{B \mid A \to aB \in P} & \text{if } A \to a \not\in P \\
+		\qty{B \mid A \to aB \in P} \cup \qty{H} & \text{if } A \to a \in P
+	\end{cases} \]
+	We claim that \( \mathcal L(G) = \mathcal L(N) \).
+	If \( w \in L(G) \), we have a sequence \( A_0, \dots, A_{n+1} \) of variables such that
+	\[ S = A_0 \xrightarrow G_1 \dots \xrightarrow G_1 a_0\dots a_{n+1} A_{n+1} \xrightarrow G_1 w \]
+	In particular, \( A_i \to a_i A_{i+1} \in P \) and \( A_{n+1} \to a_n \in P \).
+	By definition of \( \delta \), there exists a sequence \( A_1, \dots, A_{n+1} \) such that \( A_{i+1} \in \delta(A_i, a_i) \) and \( H \in \delta(A_n, a_n) \).
+	Hence \( H \in \hat\delta(S,w) \), so \( w \in \mathcal L(N) \).
+	All implications are bi-implications so the converse holds.
+\end{proof}
