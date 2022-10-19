@@ -51,6 +51,7 @@ In particular, the inclusions \( \iota_\alpha \colon U_\alpha \to \coprod_{\alph
 	Then there exists a unique lift \( \hat\gamma \colon [a,b] \to \hat X \) with \( \hat \gamma(a) = \hat x_0 \).
 \end{theorem}
 The proof will be given after some lemmas.
+We say \( f \colon Z \to X \) has the \emph{(unique) lifting property at \( z \in Z \)} if for any \( \hat x \in \hat X \) such that \( p(\hat x) = f(z) \), there exists a (unique) lift \( \hat f \colon Z \to \hat Z \) such that \( \hat f(z) = \hat x \).
 \begin{lemma}[Lebesgue covering lemma]
 	Let \( X \) be a compact metric space, and \( \qty{U_\alpha \mid \alpha \in A} \) is an open cover of \( X \).
 	Then there exists \( \delta > 0 \) such that for every \( x \in X \), the open ball \( B_\delta(x) \) is contained in \( U_\alpha \) for some \( \alpha \in A \).
@@ -67,7 +68,7 @@ The proof will be given after some lemmas.
 	Let \( p \colon (\hat X, \hat x_0) \to (X, x_0) \) be a covering map, and \( \gamma \colon [a,b] \to X \) be a path.
 	Let \( \gamma(a) = x_0 \) and \( p(\hat x_0) = \hat x_0 \).
 	Let \( \Im \gamma \subset U \) where \( U \subset X \) is evenly covered.
-	Then there exists a unique lift \( \hat\gamma \colon [a,b] \to \hat X \) with \( \hat \gamma(a) = \hat x_0 \).
+	Then \( \gamma \) has the unique lifting property.
 \end{lemma}
 Note that this is simply the above path lifting theorem with an additional hypothesis.
 \begin{proof}
@@ -81,4 +82,64 @@ Note that this is simply the above path lifting theorem with an additional hypot
 	Note that \( [a,b] \) is connected.
 	We have that if \( \hat\gamma \colon[a,b] \to \hat X \) with \( \hat \gamma(a) = \hat x_0 \) and \( p \circ \hat\gamma = \gamma \), then \( \Im \hat\gamma \subset p^{-1}(U) \) implies \( \Im \hat\gamma \subset U_{\alpha_0} \).
 	But \( \eval{p}_{U_{\alpha_0}} \) is a homeomorphism, so we must have \( \hat \gamma = \qty(p_\alpha)^{-1} \circ \gamma \).
+\end{proof}
+\begin{lemma}
+	Let \( \gamma \colon [a,b] \to X \) and \( a' \in [a,b] \).
+	If \( \eval{\gamma}_{[a,a']} \) has the unique lifting property at \( a \) and \( \eval{\gamma}_{[a',b]} \) has the unique lifting property at \( a' \), then \( \gamma \) has the unique lifting property at \( a \).
+\end{lemma}
+\begin{proof}
+	If \( p(\hat x) = \gamma(a) \), since \( \eval{\gamma}_{[a,a']} \) has the unique lifting property at \( a \), there exists a unique lift \( \hat\gamma_1 : [a,a'] \to \hat X \) such that \( \hat\gamma_1(a) = \hat x \).
+	Then \( \eval{\gamma}_{[a',b]} \) has the unique lifting property at \( a' \), so there exists a unique lift \( \hat\gamma_2 \colon [a',b] \to \hat X \) with \( \hat\gamma_2(a') = \hat\gamma_1(a') \).
+	Then the composition \( \hat\gamma=\hat\gamma_1\hat\gamma_2 \) is a lift of \( \gamma \), with \( \hat\gamma(a) = \hat x \).
+
+	For uniqueness, suppose \( \hat\gamma \) is a lift of \( \gamma \) with \( \hat\gamma(a) = \hat x \).
+	Then \( \eval{\hat\gamma}_{[a,a']} \) is a lift of \( \eval{\gamma}_{[a,a']} \), so by the unique lifting property, \( \eval{\hat\gamma}_{[a,a']} \) is uniquely determined such that \( \hat\gamma(a) = \hat x \).
+	Then by the unique lifting property again, \( \eval{\hat\gamma}_{[a',b]} \) is also uniquely determined such that \( \eval{\hat\gamma}_{[a',b]}(a') = \eval{\hat\gamma}_{[a,a']}(a') \).
+\end{proof}
+We can now prove the path lifting theorem: any \( \gamma \colon I \to X \) has the unique lifting property.
+\begin{proof}
+	Let \( p \colon \hat X \to X \) be a covering map.
+	Hence, for all \( x \in X \), there exists an open neighbourhood \( U_x \) which is evenly covered.
+	\( \qty{U_x \mid x \in X} \) is therefore an open cover of \( X \), and so \( \qty{\gamma^{-1}(U_x) \mid x \in X} \) is an open cover of \( I \).
+	Since \( I \) is compact, by the Lebesgue covering lemma, there exists \( \delta > 0 \) such that for all \( t \), \( B_\delta(t) \subseteq \gamma^{-1}(U_{x(t)}) \) for some \( x(t) \).
+	In other words, \( \gamma(B_\delta(t)) \subseteq U_{x(t)} \).
+
+	Let \( n \in \mathbb N \) such that \( \frac 1n < \delta \), and \( a_i = \frac{i}{n} \in I \).
+	Then \( [a_i, a_{i+1}] \subset B_\delta(a_i) \) for all \( i \).
+	Hence \( \gamma[a_i,a_{i+1}] \subseteq U_{x(a_i)} \).
+	Then \( [a_i,a_{i+1}] \) is connected, hence \( \gamma[a_i, a_{i+1}] \) is connected.
+	Since \( U_{x(a_i)} \) is evenly covered, \( \eval{\gamma}_{[a_i,a_{i+1}]} \) has the unique lifting property.
+	Then by induction on \( i \), we can see that \( \eval{\gamma}_{[0,a_i]} \) has the unique lifting property, and hence so does \( \gamma \) in its entirety.
+\end{proof}
+\begin{theorem}[Homotopy lifting]
+	Let \( p \colon (\hat X, \hat x_0) \to (X, x_0) \) be a covering map, and \( H \colon I \times I \to X \) be a homotopy.
+	Then \( H \) has the lifting property at \( (0,0) \).
+\end{theorem}
+It also has the unique lifting property, but this will be more easily proven later.
+\begin{proof}
+	\( I \) is compact and connected, so by Tychonoff's theorem, \( I \times I \) is compact and connected.
+	Suppose \( \qty{U_x \mid x \in X} \) is an open cover of \( X \) consisting of evenly covered neighbourhoods of points as before.
+	Then, since \( I \times I \) is compact, by the Lebesgue covering lemma there exists \( \delta > 0 \) such that for all \( v \in I \times I \), \( B_\delta(v) \subseteq H^{-1}(U_{x(v)}) \).
+	In particular, \( H(B_\delta(v)) \subseteq U_{x(v)} \).
+
+	Let \( n \in \mathbb N \) such that \( \frac{\sqrt 2}{n} < \delta \), dividing \( I \times I \) into squares of size \( \frac 1n \), ordered from left-to-right and then bottom-to-top.
+	Label each square with an index \( i \in \qty{1,\dots, n^2} \).
+	Let each square \( A_i \) have lower left-hand corner \( v_i \), for \( i \in \qty{1,\dots,n^2} \).
+	Note that \( H(A_i) \subseteq H(B_\delta(v_i)) \subseteq U_{x(v_i)} = U_i \) is evenly covered.
+
+	Let \( B_k = \bigcup_{i=1}^k A_i \).
+	Then \( A_i \simeq I \times I \) is connected, so \( \eval{H}_{A_i} \) has the lifting property at \( v_i \).
+
+	We show by induction that \( \eval{H}_{B_k} \) has the lifting property at \( (0,0) \).
+	For \( k = 1 \), \( B_1 = A_1 \) and \( (0,0) = v_1 \), so the result follows.
+
+	For other \( k \), suppose that \( \eval{H}_{B_k} \) has the lifting property at \( (0,0) \), so \( \hat H_k \colon B_k \to \hat X \) with \( \hat H_k(0,0) = \hat x \).
+	Then \( \eval{H}_{A_{k+1}} \) has the lifting property at \( v_i \), so choose a lift \( \hat h_k \colon A_{k+1} \to \hat X \) such that \( \hat h_k(v_{k+1}) = \hat H_k(v_{k+1}) \).
+	Note that \( p(\hat H_k(v_{k+1})) = H(v_{k+1}) \), so this exists by the lifting property.
+	Observe that \( A_{k+1} \cap B_k = I_k \cup I_k' \) is the union of (at most) two intervals with intersection at their endpoints, so is homeomorphic to \( I \).
+	Hence by uniqueness of path lifting, \( \eval{\hat H_k}_{I_k} = \eval{\hat h_k}_{I_k} \) since both are lifts of \( \eval{H}_{I_k} \) with \( v_{k+1} \mapsto \hat H_k(v_{k+1}) \).
+	Similarly, \( \eval{\hat H_k}_{I_k'} = \eval{\hat h_k}_{I_k'} \).
+	In other words, \( \eval{\hat H_k}_{A_{k+1} \cap B_k} = \eval{\hat h_k}_{A_{k+1} \cap B_k} \).
+	By the gluing lemma, we can construct the well-defined and continuous map \( \hat H_{k+1} \colon B_{k+1} \to X \) given by \( \hat H_k \) and \( \hat h_k \) on their domains.
+	Then \( \hat H_{k+1} \) is a lift of \( \eval{H}_{B_{k+1}} \).
 \end{proof}

@@ -86,7 +86,7 @@ Let \( S \subseteq V(G) \).
 Then we define \( G - S = G[V(G) \setminus S] \).
 \begin{definition}
 	Let \( G \) be a graph, and \( \abs{G} \geq 1 \).
-	Then we define the \emph{connectivity parameter} \( \kappa \) of \( G \) is
+	Then we define the \emph{connectivity parameter} \( \kappa \) of \( G \) by
 	\[ \kappa = \min{\abs{S} \mid S \subseteq V(G), G - S \text{ is disconnected or a single vertex}} \]
 	We say that \( G \) is \( k \)-connected if \( k \leq \kappa \).
 	Hence \( G \) is \( k \)-connected if and only if for all sets \( S \) of at most \( k-1 \) vertices, \( G - S \) is connected and not a single vertex.
@@ -110,7 +110,70 @@ Note that we can have \( \kappa(G-x) > \kappa(G) \) by considering a \( 2 \)-con
 	We say that \( S \subseteq V(G) \setminus \qty{a,b} \) is a \emph{\( a \)--\( b \) separator} if \( G - S \) disconnects \( a \) and \( b \).
 \end{definition}
 \begin{theorem}[Menger, form 1]
-	Let \( G \) be a graph and \( a \neq b \in V(G) \), where \( a \not\sim b \).
+	Let \( G \) be a connected graph and \( a \neq b \in V(G) \), where \( a \not\sim b \).
 	The minimum size of an \( a \)--\( b \) separator is the maximum number of disjoint paths from \( a \) to \( b \).
-	Equivalently, if all \( a \)--\( b \) separators have size at least \( k \), then there exists \( P_1, \dots, P_k \) disjoint \( a \)--\( b \) paths.
+	Equivalently, if all \( a \)--\( b \) separators have size at least \( k \), then there exist \( k \) disjoint \( a \)--\( b \) paths.
 \end{theorem}
+\begin{proof}
+	We write \( \kappa_{a,b}(G) \) for the minimum size of an \( a \)--\( b \) separator.
+	Note that \( \kappa(G - x) \geq \kappa(G) - 1 \), and \( \kappa(G - xy) \geq \kappa(G) - 1 \).
+	We also have the same properties for \( \kappa_{a,b} \).
+
+	Suppose the theorem does not hold, then there is a nonempty set of counterexamples.
+	Let \( \mathcal G \) be the set of counterexamples of smallest possible \( k \), and let \( G \) be an element of \( \mathcal G \) with the smallest possible amount of edges.
+	Let \( S \) be a minimal \( a \)--\( b \) separator in \( G \), so \( \abs{S} = k \).
+	Note that the theorem is true for \( k = 1 \), so we may assume \( k \geq 2 \).
+
+	If \( S \neq N(a) \) and \( S \neq N(b) \), consider \( G - S \).
+	Then \( a, b \) lie in different connected components.
+	Let \( A \) be the component containing \( a \), and \( B \) be the component containing \( b \).
+	Define \( G_a \) to be the graph \( G[A \cup S] \) together with a vertex \( c \) with edges to each \( s \in S \).
+	Similarly, define \( G_b \) to be the graph \( G[B \cup S] \) together with a vertex \( c \) with edges to each \( s \in S \).
+
+	Note that \( \kappa_{a,c}(G_a) \geq k \), because any \( a \)--\( c \) separator in \( G_a \) is an \( a \)--\( b \) separator in \( G \), and \( \kappa_{b,c}(G_b) \geq k \) by symmetry.
+	Note further that \( e(G_a), e(G_b) < e(G) \); because \( S \neq N(a) \) and \( S \neq N(b) \), the amount of newly added edges is smaller than the amount of edges that must have been removed in each induced graph.
+	Then by minimality of \( G \), the \( G_a \) and \( G_b \) are not counterexamples to the theorem.
+	Hence there exist disjoint \( a \)--\( c \) paths \( P_1, \dots, P_k \) in \( G_a \) and disjoint \( c \)--\( b \) paths \( Q_1, \dots, Q_k \) in \( G_b \).
+	Concatenating \( P_i \) with \( Q_i \), we obtain \( k \) disjoint \( a \)--\( b \) paths in \( G \).
+	Then \( G \) is not a counterexample.
+
+	Now, suppose \( S = N(a) \) without loss of generality.
+	We claim that \( N(a) \cap N(b) = \varnothing \).
+	If there exists \( x \in N(a) \cap N(b) \), then consider the graph \( G - x \).
+	We have \( \kappa_{a,b}(G - x) \geq k - 1 \), so by minimality, there exist disjoint \( a \)--\( b \) paths \( P_1, \dots, P_{k-1} \) in \( G - x \).
+	Adding the path \( a, x, b \), which is disjoint from all others, we obtain \( k \) disjoint \( a \)--\( b \) paths, contradicting the assumption.
+
+	Let \( a, x_1, \dots, x_\ell, b \) be a shortest \( a \)--\( b \) path.
+	Note that \( \ell \geq 2 \) since \( N(a) \cap N(b) = \varnothing \), and in particular, \( x_2 \neq b \).
+	Consider \( G - x_1x_2 \).
+	We must have that \( \kappa_{a,b}(G - x_1x_2) \leq k - 1 \), otherwise we have a smaller counterexample.
+	Hence \( \kappa_{a,b}(G - x_1x_2) = k - 1 \).
+	Therefore there is an \( a \)--\( b \) separator \( \widetilde S \) with \( \abs{\widetilde S} = k - 1 \) in \( G - x_1x_2 \).
+	We see that either \( \widetilde S \cup \qty{x_1} \) or \( \widetilde S \cup \qty{x_2} \) is a separator of size \( k \) in \( G \), which is not equal to either \( N(a) \) or \( N(b) \).
+	Then we can use the above construction to find the relevant contradiction.
+\end{proof}
+\begin{corollary}[Menger, form 2]
+	Let \( G \) be a connected graph with \( \abs{G} \geq 2 \).
+	Then \( G \) is \( k \)-connected if and only if all pairs of distinct vertices \( a,b \) admit \( k \) disjoint \( a \)--\( b \) paths.
+\end{corollary}
+\begin{proof}
+	Suppose all pairs of vertices \( a,b \) have \( k \) such paths.
+	Suppose \( G - S \) is disconnected, and \( a, b \) lie in different components of \( G - S \).
+	Note that \( a \not\sim b \), because there exists a separator for \( a \) and \( b \).
+	Then by assumption, there are \( k \) disjoint \( a \)--\( b \) paths, and so \( S \) must intersect each path.
+	Therefore, \( \abs{S} \geq k \).
+
+	Now suppose \( G \) is \( k \)-connected.
+	Let \( a, b \) be vertices in \( G \).
+	If \( a \not\sim b \), apply the first form of Menger's theorem.
+	Conversely, consider \( G - ab \).
+	This graph is \( k - 1 \)-connected, so there are \( k - 1 \) disjoint \( a \)--\( b \) by Menger's theorem.
+	Adding the additional path \( a, b \), we obtain \( k \) disjoint paths as required.
+\end{proof}
+
+\subsection{Edge connectivity}
+\begin{definition}
+	Let \( G \) be a graph.
+	Then \( \lambda(G) = \min\qty{\abs{W} \mid W \subseteq E(G), G - W \text{ disconnected}} \) is the smallest amount of edges that can be deleted to disconnect \( G \).	
+	We say that \( G \) is \emph{\( k \)-edge connected} if \( k \leq \lambda(G) \).
+\end{definition}

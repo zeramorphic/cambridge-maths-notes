@@ -1,0 +1,69 @@
+\subsection{Definition}
+\begin{definition}
+	Let \( (E, \mathcal E), (G, \mathcal G) \) be measurable spaces.
+	A function \( f \colon E \to G \) is called \emph{\( \mathcal E \)-\( \mathcal G \)-measurable} if when \( A \in \mathcal G \), we have \( f^{-1}(A) \in \mathcal E \).
+\end{definition}
+Informally, the preimage of a measurable set under a measurable function is measurable.
+
+If \( G = \mathbb R \) and \( \mathcal G = \mathcal B \), we can just say that \( f \colon (E, \mathcal E) \to G \) is measurable.
+Moreover, if \( E \) is a topological space and \( \mathcal E = \mathcal B(E) \), we say \( f \) is Borel measurable.
+
+Note that preimages \( f^{-1} \) commute with many set operations such as intersection, union, and complement.
+This implies that \( \qty{f^{-1}(A) \mid A \in \mathcal G} \) is a \( \sigma \)-algebra over \( E \), and likewise, \( \qty{A \mid f^{-1}(A) \in \mathcal E} \) is a \( \sigma \)-algebra over \( G \).
+Hence, if \( \mathcal A \) is a collection of subsets of \( G \) generating \( \mathcal G \) such that \( f^{-1}(A) \in \mathcal E \) for all \( A \in \mathcal A \), the class \( \qty{A \mid f^{-1} \in \mathcal E} \) is a \( \sigma \)-algebra that contains \( \mathcal A \) and hence that contains \( \mathcal G \).
+In particular, it suffices to check \( f^{-1}(A) \in \mathcal E \) for all elements of a generator to conclude that \( f \) is measurable.
+
+If \( f \colon (E, \mathcal E) \to \mathbb R \), the collection \( \mathcal A = \qty{(-\infty,y] \colon y \in \mathbb R} \) generates \( \mathcal B \) as is shown on the first example sheet.
+Hence \( f \) is measurable whenever \( f^{-1}((-\infty,y]) = \qty{x \in E \mid f(x) \leq y} \in \mathcal E \) for all \( y \in \mathbb R \).
+
+If \( E \) is a topological space and \( \mathcal E = \mathcal B(E) \), then if \( f \colon E \to \mathbb R \) is continuous, the preimages of open sets \( B \) are open, and hence Borel sets.
+The open sets in \( \mathbb R \) generate the \( \sigma \)-algebra \( \mathbb B \).
+Hence, continuous functions to the real line are measurable.
+\begin{example}
+	Consider the indicator function \( \mathbbm 1_A \) of a set \( A \).
+	This is measurable if and only if \( A \) is measurable, or equivalently \( A \in \mathcal E \).
+\end{example}
+\begin{example}
+	The composition of measurable functions is measurable.
+	Measurability is preserved under addition, multiplication, countable infimum, countable supremum, countable limit inferior, countable limit superior, and some other operations.
+	Note that given a collection of maps \( \qty{f_i \colon E \to (G,\mathcal G) \mid i \in I} \), we can make them all measurable by taking \( \mathcal E \) to be a large enough \( \sigma \)-algebra, for instance \( \sigma({f_i^{-1}(A) \mid A \in \mathcal G, i \in I}) \).
+\end{example}
+
+\subsection{Monotone class theorem}
+\begin{theorem}
+	Let \( \mathcal A \) be a \( \pi \)-system that generates the \( \sigma \)-algebra \( \mathcal E \) over \( E \).
+	Let \( \mathcal V \) be a vector space of bounded maps from \( E \) to \( \mathbb R \) such that
+	\begin{enumerate}
+		\item \( \mathbbm 1_E \in \mathcal V \);
+		\item \( \mathbbm 1_A \in \mathcal V \) for all \( A \in \mathcal A \);
+		\item if \( f \) is bounded and \( f_n \in \mathcal V \) are nonnegative functions that form an increasing sequence that converge pointwise to \( f \) on \( E \), then \( f \in \mathcal V \).
+	\end{enumerate}
+	Then \( \mathcal V \) contains all bounded measurable functions \( f \colon E \to \mathbb R \).
+\end{theorem}
+\begin{proof}
+	Define \( \mathcal D = \qty{A \in \mathcal E \mid \mathbbm 1_A \in \mathcal V} \).
+	This contains \( \mathcal A \) by hypothesis, as well as \( E \) itself.
+	We show \( \mathcal D \) is a \( d \)-system, so that by Dynkin's lemma, \( \mathcal E = \mathcal D \).
+	Indeed, \( E \in \mathcal D \) by assumption.
+	For \( A \subseteq B \) and \( A, B \in \mathcal D \), we have \( \mathbbm 1_{B \setminus A} = \mathbbm 1_B - \mathbbm 1_A \) which is well-defined and lies in \( \mathcal V \) as \( \mathcal V \) is a vector space.
+	Finally, if \( A_n \in \mathcal D \) increases to \( A \), we have \( \mathbbm 1_{A_n} \) increases pointwise to \( \mathbbm 1_A \), which lies in \( \mathcal V \) by the second hypothesis.
+	Hence \( \mathcal E = \mathcal D \).
+
+	Let \( f \colon E \to \mathbb R \) be a bounded measurable function, which we will assume at first is nonnegative.
+	We define
+	\[ f_n = \sum_{j=0}^{n2^n} \frac{j}{2^n} \mathbbm 1_{A_{n_j}};\quad A_{n_j} = \begin{cases}
+		\qty{x \in E \mid \frac{j}{2^n} < f(x) \leq \frac{j+1}{2^n}} = f^{-1}\Big(\Big(\frac{j}{2^n}, \frac{j+1}{2^n}\Big]\Big) \in \mathcal E & \text{if } j \neq n2^n \\
+		\qty{x \in E \mid n < f(x)} = f^{-1}((n,\infty)) & \text{if } j = n2^n
+	\end{cases} \]
+	Since \( f \) is bounded, for \( n > \norm{f}_{\infty} \), we have \( f_n \leq f \leq f_n + 2^{-n} \).
+	Hence \( \abs{f_n - f} \leq 2^{-n} \to 0 \).
+	By assumption, the limit of the \( f_n \), which is exactly \( f \), also lies in \( \mathcal V \).
+
+	Now, by separating any bounded measurable function \( f \) into its positive and negative parts, we find that these two parts lie in \( \mathcal V \), and so \( f \in \mathcal V \) as required.
+\end{proof}
+
+\subsection{Image measures}
+\begin{definition}
+	Let \( f \colon (E,\mathcal E) \to (G,\mathcal G) \) be a measurable function, and \( \mu \) is a measure on \( (E, \mathcal E) \).
+	Then the \emph{image measure} \( \nu = \mu \circ f^{-1} \) is obtained from assigning \( \nu(A) = \mu(f^{-1}(A)) \) for all \( A \in \mathcal G \).
+\end{definition}
