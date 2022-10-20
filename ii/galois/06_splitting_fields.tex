@@ -1,4 +1,4 @@
-\subsection{Definition}
+\subsection{Definition and uniqueness}
 Suppose \( K \) is a field and \( f \in K[T] \).
 We wish to find an extension \( L / K \) of degree as small as possible such that \( f \) is expressible as a product of linear factors in \( L[T] \).
 \begin{example}
@@ -12,7 +12,109 @@ We will later give another proof of the fundamental theorem of algebra using tec
 	Since there is no ambient field structure, explicitly finding \( L \) is more challenging.
 	We will first find an extension in which \( f \) has at least one root, and then use induction.
 \end{example}
-Suppose \( f \in K[T] \) is a (monic) irreducible polynomial.
-Then consider \( L_f = \faktor{K[T]}{(f)} \).
-Since \( f \) is irreducible, \( (f) \) is maximal, hence \( L_f \) is a field.
-Then, by construction, if \( x = T + (f) \), \( f(x) = 0 \) in \( L_f \).
+\begin{theorem}
+	Let \( f \) be a monic irreducible polynomial.
+	Let \( L_f = \faktor{K[T]}{(f)} \).
+	Since \( f \) is irreducible, \( (f) \) is maximal, hence \( L_f \) is a field.
+	Let \( t \in L_f \) be the residue class \( T \) modulo \( (f) \).
+	Then \( L_f/K \) is a finite field extension of degree \( \deg f \), and \( f \) is the minimal polynomial for \( t \).
+\end{theorem}
+
+\subsection{Uniqueness}
+We have thus constructed a field extension of \( K \) for which \( f \) has at least a single root.
+Recall that if \( x \) is algebraic over \( K \), then \( K(x) \cong \faktor{K[T]}{(f)} \) where \( f \) is minimal for \( x \).
+\begin{definition}
+	Let \( K \) be a field, and \( L / K, M / K \) are field extensions.
+	A \emph{\( K \)-homomorphism} or \emph{\( K \)-embedding} from \( L \) to \( M \) is a field homomorphism \( \sigma \colon L \to M \) such that \( \eval{\sigma}_K = \mathrm{id}_K \).
+\end{definition}
+The naming `\( K \)-embedding' is justified because any field homomorphism is injective.
+\begin{theorem}
+	Let \( f \in K[T] \) be irreducible, and \( L / K \) a field extension.
+	Then:
+	\begin{enumerate}
+		\item If \( x \in L \) is a root of \( f \), there exists a unique \( K \)-homomorphism \( \sigma \colon L_f = \faktor{K[T]}{(f)} \to L \) such that \( t = T + (f) \mapsto x \).
+		\item Every \( K \)-homomorphism \( \sigma \colon L_f \to L \) arises in this way.
+	\end{enumerate}
+	Hence, we have a bijection between \( K \)-homomorphisms \( \sigma \colon L_f \to L \) and the set of roots of \( f \) in \( L \).
+	In particular, there are at most \( \deg f \)-many \( K \)-homomorphisms.
+\end{theorem}
+\begin{proof}
+	Let \( x \in L \) be a root of \( f \).
+	Then \( f(x) = 0 \), so \( \mathrm{ev}_x(f) = 0 \) where \( \mathrm{ev}_x \colon K[T] \to L \) is the evaluation homomorphism \( g \mapsto g(x) \).
+	Equivalently, \( \ker \mathrm{ev}_x = (f) \).
+	Hence, by the isomorphism theorem, \( \mathrm{ev}_x \) comes from a homomorphism \( \sigma \colon \faktor{K[T]}{(f)} \to L \).
+	Since the evaluation map is an identity on \( K \), this is a \( K \)-homomorphism as required.
+\end{proof}
+\begin{corollary}
+	Let \( L = K(x) \) for some \( x \) algebraic over \( K \).
+	Then there exists a unique isomorphism \( \sigma \colon L_f \to K(x) \) such that \( \sigma(t) = x \), where \( f \) is minimal for \( x \) over \( K \).
+\end{corollary}
+\begin{definition}
+	Let \( x, y \) be algebraic over \( K \).
+	We say \( x, y \) are \emph{\( K \)-conjugate} if they have the same minimal polynomial over \( K \).
+\end{definition}
+By the corollary above, \( K(x) \) and \( K(y) \) are isomorphic to \( L_f \) where \( f \) is minimal for \( x \) and \( y \) over \( K \).
+\begin{corollary}
+	Algebraic elements \( x, y \) are \( K \)-conjugate if and only if there exists a \( K \)-isomorphism \( \sigma \colon K(x) \to K(y) \) such that \( \sigma(x) = y \).
+\end{corollary}
+\begin{proof}
+	The above corollary shows the forward direction.
+	Conversely, for all \( g \in K[T] \), we have \( \sigma(g(x)) = g(\sigma(x)) \) so they have the same minimal polynomial.
+\end{proof}
+Informally, the roots of an irreducible polynomial are algebraically indistinguishable.
+
+\subsection{?}
+It can be useful for inductive arguments to have a generalisation of the above theorem.
+\begin{definition}
+	Let \( L / K, L' / K' \) be field extensions, and let \( \sigma \colon K \to K' \) be a field homomorphism.
+	Let \( \tau \colon L \to L' \) be a field homomorphism such that \( \tau(x) = \sigma(x) \) for all \( x \in K \).
+	Then we say \( \tau \) is a \emph{\( \sigma \)-homomorphism} from \( L \) to \( L' \).
+	We also say \( \tau \) \emph{extends} \( \sigma \), or that \( \sigma \) is the \emph{restriction} of \( \tau \) to \( K \).
+\end{definition}
+We can now define the following variant of the previous theorem.
+\begin{theorem}
+	Let \( f \in K[T] \) be irreducible, and \( \sigma \colon K \to L \) be a field homomorphism.
+	Let \( \sigma f \) be the polynomial obtained by applying \( \sigma \) to the coefficients of \( f \).
+	\begin{enumerate}
+		\item If \( x \in L \) is a root of \( f \), there exists a unique \( \sigma \)-homomorphism \( \tau \colon L_f \to L \) such that \( \tau(t) = x \).
+		\item Every \( \sigma \)-homomorphism \( L_f \to L \) is of this form.
+	\end{enumerate}
+	Therefore there is a bijection between the \( \sigma \)-homomorphisms \( L_f \to L \) and the roots of \( f \) in \( L \).
+\end{theorem}
+\begin{example}
+	Let \( K = \mathbb Q(\sqrt 2) \subset \mathbb R \), and \( L = \mathbb C \).
+	Let \( \sigma \colon K \to L \) be the homomorphism such that \( \sigma(x+y\sqrt 2) = x-y\sqrt 2 \).
+	Then let \( f = T^2 - (1 + \sqrt 2) \).
+	Then the map \( \tau \colon L_f \to \mathbb C \) must satisfy \( \tau(t) = \pm \sqrt{1 - \sqrt 2} = \pm i \sqrt{\sqrt 2 - 1} \in \mathbb C \).
+	If instead we let \( \sigma(x+y\sqrt 2) = x+y\sqrt 2 \), we have \( \tau(t) = \pm\sqrt{\sqrt 2 + 1} \), which are both real.
+\end{example}
+
+\subsection{Splitting completely}
+\begin{definition}
+	Let \( f \in K[T] \) be a nonzero polynomial that is not necessarily irreducible.
+	We say that an extension \( L / K \) is a \emph{splitting field} for \( f \) over \( K \) if
+	\begin{enumerate}
+		\item \( f \) splits into linear factors in \( L[T] \);
+		\item \( L = K(x_1, \dots, x_n) \), where the \( x_i \) are the roots of \( f \) in \( L \).
+	\end{enumerate}
+\end{definition}
+\begin{remark}
+	The second criterion ensures that \( f \) does not split into linear factors in any proper subfield of \( L \).
+	Note that any splitting field is finite, because the adjoined elements are algebraic.
+\end{remark}
+\begin{theorem}
+	Every nonzero polynomial has a splitting field.
+\end{theorem}
+\begin{proof}
+	Let \( f \in K[T] \).
+	We prove this by induction on the degree of \( f \), but allow \( K \) to vary.
+	If \( f \) is constant, there is nothing to prove, since \( K \) is already a splitting field.
+	Suppose that for all fields \( K' \) and all polynomials in \( K'[T] \) of degree less than \( f \), there is a splitting field.
+	Consider an irreducible factor \( g \) of \( f \), and consider \( K' = L_g = \faktor{K[T]}{(g)} \).
+	Let \( x_1 = T + (g) \).
+	Then \( g(x_1) = 0 \), so \( f(x_1) = 0 \), hence \( f = (T - x_1)f_1 \), where \( f_1 \in K'[T] \).
+	By induction, there exists a splitting field \( L \) for \( f_1 \) over \( K' \) since \( \deg f_1 < \deg f \).
+	Let \( x_2, \dots, x_n \in L \) be the roots of \( f_1 \) in \( L \).
+	Then \( f \) splits into linear factors in \( L \) with roots \( \qty{x_1, x_2, \dots, x_n} \).
+	Because \( L \) is a splitting field for \( f_1 \) over \( K' \), we have \( L = K'(x_2, \dots, x_n) = K(x_1)(x_2, \dots, x_n) = K(x_1, \dots, x_n) \), so \( L \) is a splitting field for \( f \).
+\end{proof}

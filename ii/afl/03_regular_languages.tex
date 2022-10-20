@@ -198,3 +198,88 @@ We define \( \mathcal L(N) = \qty{w \mid \hat\delta(q_0,w) \cap F \neq \varnothi
 	Hence \( H \in \hat\delta(S,w) \), so \( w \in \mathcal L(N) \).
 	All implications are bi-implications so the converse holds.
 \end{proof}
+
+\subsection{The pumping lemma for regular languages}
+\begin{definition}
+	A language \( L \) \emph{satisfies the regular pumping lemma with pumping number \( n \)} if every word \( w \in L \) with length at least \( n \) can be split into three parts \( w = x y z \), such that \( \abs{y} > 0 \), \( \abs{xy} \leq n \) and for all \( k \in \mathbb N \), we have \( xy^kz \in L \).
+	We call \( y \) a \emph{pump} for the word \( x y z \).
+\end{definition}
+\begin{theorem}[regular pumping lemma]
+	Every regular language satisfies the pumping lemma.
+\end{theorem}
+\begin{remark}
+	If any word can be pumped, the language must be infinite.
+\end{remark}
+\begin{proof}
+	Let \( L \) be a regular language.
+	Then there exists a deterministic automaton \( D = (\Sigma, Q, \delta, q_0, F) \) such that \( L = \mathcal L(D) \).
+	We show that \( L \) has pumping number \( n = \abs{Q} \).
+	Let \( w \in L(D) \) be a word with \( \abs{w} \geq n \).
+	We can write \( w = a_0a_1 \dots a_{n-1} v \) where \( v \in \mathbb W \).
+
+	The state sequence of \( D \) reading \( a_0, \dots, a_{n-1} \) is \( q_0, \dots, q_n \); it has length \( n + 1 \) since there are \( n \) state transitions.
+	But there are only \( n \) states, so by the pigeonhole principle, one state must repeat.
+	Let \( i < j \leq n \) such that \( q_i = q_j \).
+	Let \( x = a_0 \dots a_{i-1}, y = a_i \dots a_{j-1}, z = a_j \dots a_{n-1} v \), so we have \( xyz = w \), \( \abs{y} > 0 \), \( \abs{xy} \leq n \) by construction.
+
+	We show that we can pump the word.
+	After reading \( x \), we have \( \hat\delta(q_0, x) = q_i \), and \( \hat\delta(q_i, y) = q_j = q_i \), and finally \( \hat\delta(q_i, z) = \hat\delta(q_j, z) \in F \).
+	Hence, \( \hat\delta(q_0, xy^k) = q_i \) by induction on \( k \).
+	In particular, \( \hat\delta(q_0, xy^kz) \in F \) as required.
+\end{proof}
+\begin{example}
+	Let \( L = \qty{0^k 1^k, k > 0} \).
+	We claim this is not a regular language.
+	Suppose \( L \) is regular, and has pumping number \( N \).
+	Consider the word \( 0^N 1^N \in L \); this word has more than \( N \) letters, so the word can be pumped.
+	The pump must lie in the first \( N \) letters, all of which are zeroes.
+	Pumping down, \( 0^{N-\ell} 1^N \in L \) where \( \ell \) is the length of the pump.
+	This is a contradiction since the length of the pump is nonzero.
+\end{example}
+\begin{example}
+	Let \( n > 0 \), and let \( L = \qty{0^n w, w \in \mathbb W} \).
+	We show this is regular, but any deterministic automaton \( D \) such that \( L = \mathcal L(D) \) has more than \( n \) states.
+	For regularity, we can simply write down a grammar.
+	\[ P = \qty{S \to 0X_0, X_0 \to 0X_1, \dots, X_{n-2} \to 0X_{n-1}, X_{n-2} \to 0, X_{n-1} \to 0, X_{n-1} \to 1, X_{n-1} \to 0X_{n-1}, X_{n-1} \to 1X_{n-1}} \]
+	This has exactly \( n + 1 \) states.
+	Suppose that an automaton with at most \( n \) states has the same language.
+	Then \( L \) satisfies the pumping lemma with pumping number \( n \).
+	In particular, we can pump down the word \( 0^n \), obtaining a word with fewer zeroes, and this is not in the language.
+\end{example}
+\begin{example}
+	Some non-regular languages also satisfy the pumping lemma.
+	Let \( \Sigma = \qty{0,1} \).
+	If a word \( w \in \mathbb W \) contains at least one zero, we say the \emph{tail} of the word is the number of ones that follow the last zero.
+	Let \( X \subseteq \mathbb N \) be an arbitrary set of naturals, and define \( L_X \) to be the set of words that contain no zeroes, or have a tail which lies in \( X \).
+	If \( X \neq Y \), we have \( L_X \neq L_Y \), so \( L \) is an injection from \( \mathcal P(\mathbb N) \) to the space of languages on \( \Sigma \).
+	Since there are uncountably many \( X \subseteq \mathbb N \), but there are only countably many regular languages, there must be some non-regular languages of the form \( L_X \).
+
+	We claim that all \( L_X \) satisfy the pumping lemma, so then there must be some \( L_X \) which are non-regular which satisfy the pumping lemma.
+	Let \( X \subseteq \mathbb N \); we claim this has pumping number 2.
+	Let \( w \in L_x \) such that \( \abs{w} \geq 2 \).
+
+	Suppose \( w \) starts with a zero, so \( w = 0z \).
+	Then let \( x = \varepsilon, y = 0 \), so \( w = xyz \).
+	Pumping up does not change the tail; pumping down either does not change the tail or there are now no zeroes, but in either case, the new word lies in the language.
+	
+	Conversely, suppose \( w \) starts with a one, so \( w = 1z \).
+	Let \( x = \varepsilon, y = 1 \), so \( w = xyz \) as before.
+	If \( z \) contains no zeroes, after pumping \( y \), there are still no zeroes, so the new word is in the language.
+	If \( z \) contains a zero, there is a tail, and pumping \( y \) does not influence the tail.
+	Hence, the pumping lemma is satisfied.
+\end{example}
+
+\subsection{Closure properties}
+We have already shown that regular languages are closed under concatenation and union.
+We will now show that they are closed under complementation, intersection, and difference.
+For this, it suffices to show they are closed under complementation, because intersection and difference can be expressed in terms of complement and union.
+
+Consider an automaton \( D = (\Sigma, Q, \delta, q_0, F) \).
+Without loss of generality, we can ensure that \( \delta(q_i,a) \neq q_0 \) for all \( i, a \).
+Now define \( D' = (\Sigma, Q, \delta, q_0, \mathbb Q \setminus (F \cup \qty{q_0})) \).
+Then, \( \mathcal L(D') = \mathbb W^+ \setminus \mathcal L(D) \).
+
+There is an alternative construction to obtain union and intersection, known as the \emph{product automaton} construction.
+Let \( D = (\Sigma, Q, \delta, q_0, F) \) and \( D' = (\Sigma, Q', \delta', q_0', F') \).
+We can define the pointwise product \( D'' = (\Sigma, Q \times Q', \delta \times \delta', (q_0, q_0'), F'') \), where \( (\delta \times \delta')((q,q'),a) = (\delta(q,a), \delta'(q',a)) \), and either \( F'' = \qty{(q,q') \mid q \in F, q' \in F'} \) or \( F'' = \qty{(q,q') \mid q \in F \text{ or } q' \in F'} \).
+We can see that the language generated by this new automaton is \( \mathcal L(D) \cap \mathcal L(D') \) or \( \mathcal L(D) \cup \mathcal L(D') \).
