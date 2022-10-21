@@ -1,0 +1,50 @@
+\subsection{Definition}
+\begin{definition}
+	A function \( c \colon V(G) \to \qty{1, \dots, k} \) is a \emph{(proper) \( k \)-colouring} of a graph if \( x \sim y \implies c(x) \neq c(y) \).
+	The \emph{chromatic number} of \( G \), denoted \( \chi(G) \), is the minimum \( k \) such that there exists a \( k \)-colouring of \( G \).
+\end{definition}
+\begin{example}
+	A path \( P_n \) has a 2-colouring.
+	More generally, a graph is bipartite if and only if it has a 2-colouring.
+	An even cycle has chromatic number 2, and an odd cycle has chromatic number 3.
+	A tree has chromatic number 2.
+	The complete graph on \( n \) vertices has chromatic number \( n \).
+\end{example}
+\begin{proposition}
+	Let \( G \) be a graph.
+	Then \( \chi(G) \leq \Delta(G) + 1 \).
+\end{proposition}
+\begin{proof}
+	Let \( x_1, \dots, x_n \) be an ordering of the vertices of \( G \).
+	We create a colouring of the vertices by induction.
+	Suppose \( x_1, \dots, x_i \) have already been coloured, and we want to colour \( x_{i+1} \).
+	Since \( x_{i+1} \) has at most \( \Delta(G) \) neighbours that have already been coloured, but we have \( \Delta(G) + 1 \) available colours, there is a free colour that does not match any previous neighbours.
+	Choose the smallest available colour.
+	By induction we can colour the entire graph.
+\end{proof}
+\begin{remark}
+	This is sometimes known as a \emph{greedy colouring}.
+	The greedy colouring may produce a colouring which is suboptimal for a given graph; consider the path \( P_4 \) on the vertex set \( \qty{1, 2, 3, 4} \) but with the ordering \( 1, 4, 2, 3 \): this gives a 3-colouring.
+	The proposition above is sharp: the chromatic number of the complete graph is \( n \), and its maximum degree is \( n - 1 \).
+\end{remark}
+
+\subsection{Colouring planar graphs}
+\begin{proposition}
+	Let \( G \) be planar.
+	Then \( \delta(G) \leq 5 \).
+\end{proposition}
+\begin{proof}
+	The average degree of \( G \), given by \( n^{-1} \sum_{v \in V(G)} \deg v \), is exactly \( 2 n^{-1} e(G) \).
+	Since \( e(G) \leq 3n - 6 \), the average degree at most \( 6 - \frac{12}{n} < 6 \), so \( \delta(G) \leq 5 \).
+\end{proof}
+\begin{proposition}[six-colour theorem]
+	Let \( G \) be planar.
+	Then \( G \) admits a 6-colouring.
+\end{proposition}
+\begin{proof}
+	Apply induction on \( \abs{G} \).
+	If \( \abs{G} \leq 6 \), there admits a trivial 6-colouring.
+	Let \( G \) be planar, and let \( x \in V(G) \) have degree at most 5.
+	By the inductive hypothesis, \( G - x \) admits a 6-colouring.
+	Since \( x \) has at most five neighbours, there is a free colour to use for \( x \).
+\end{proof}

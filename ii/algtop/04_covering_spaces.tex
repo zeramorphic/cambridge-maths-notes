@@ -143,3 +143,115 @@ It also has the unique lifting property, but this will be more easily proven lat
 	By the gluing lemma, we can construct the well-defined and continuous map \( \hat H_{k+1} \colon B_{k+1} \to X \) given by \( \hat H_k \) and \( \hat h_k \) on their domains.
 	Then \( \hat H_{k+1} \) is a lift of \( \eval{H}_{B_{k+1}} \).
 \end{proof}
+\begin{proposition}
+	Let \( p \colon (\hat X, \hat x_0) \to (X, x_0) \) be a covering map.
+	Let \( \gamma_0, \gamma_1 \in \Omega(X,x_0,x_1) \), and \( \gamma_0 \sim_e \gamma_1 \).
+	Let \( \hat\gamma_i \) be the lift of \( \gamma_i \) to \( \hat X \) with \( \hat\gamma_i(0) = \hat x_0 \), which exists by the path lifting property.
+	Then \( \hat\gamma_0 \sim_e \hat\gamma_1 \).
+\end{proposition}
+\begin{proof}
+	Let \( H \colon I \times I \to X \) be a homotopy between \( \gamma_0 \) and \( \gamma_1 \).
+	By the homotopy lifting property, there exists a lifted homotopy \( \hat H \colon I \times I \to \hat X \) such that \( \hat H(0,0) = \hat x_0 \).
+	Let \( \alpha_i(t) = \hat H(t,i) \) for \( i = 0, 1 \), and \( \beta_i(t) = \hat H(i,t) \) for \( i = 0, 1 \).
+	Applying the uniqueness of path lifting to the \( \alpha_i \) and the \( \beta_i \),
+	\begin{enumerate}
+		\item \( \alpha_0 \) is a lift of \( \gamma_0 \) with \( \alpha_0(0) = \hat x_0 \), so \( \alpha_0 = \hat\gamma_0 \);
+		\item \( \beta_0 \) is a lift of \( c_{I,x_0} \) with \( \beta_0(0) = \hat x_0 \), so \( \beta_0 = \hat c_{I,x_0} = c_{I,\hat x_0} \) by uniqueness, and in particular, \( \alpha_1(0) = \beta_0(1) = \hat x_0 \);
+		\item \( \alpha_1 \) is a lift of \( \gamma_1 \) with \( \alpha_1(0) = \hat x_0 \), so \( \alpha_1 = \hat\gamma_1 \);
+		\item let \( \hat x_1 = \hat \gamma_0(1) \), and then \( \beta_1 \) is a lift of \( c_{I,x_1} \), so \( \beta_1(0) = \hat x_1 \), so \( \beta_1 = c_{I,\hat x_1} \).
+	\end{enumerate}
+	Hence \( \hat \gamma_0 \sim_e \hat \gamma_1 \) via \( \hat H \).
+\end{proof}
+\begin{corollary}
+	Let \( p \colon (\hat X, \hat x_0) \to (X, x_0) \) be a covering map.
+	Let \( \gamma_0, \gamma_1 \in \Omega(X,x_0,x_1) \), and \( \gamma_0 \sim_e \gamma_1 \).
+	Then \( \hat \gamma_0(1) = \hat \gamma_1(1) \).
+\end{corollary}
+
+\subsection{Universal covers}
+Let \( p \colon (\hat X, \hat x_0) \to (X, x_0) \) be a covering map.
+If \( \gamma \in \Omega(X,x_0) \), let \( \hat \gamma \colon I \to \hat X \) be its unique lift such that \( \hat \gamma(0) = \hat x_0 \), which exists by the path lifting property.
+Then there is a map \( \varepsilon_p \colon \Omega(X,x_0) \to p^{-1}(x_0) \) by \( \gamma \mapsto \hat\gamma(1) \), since \( p(\hat\gamma(1)) = \gamma(1) = x_0 \).
+By the corollary above, if \( [\gamma_0] = [\gamma_1] \) in \( \pi_1 \), we have \( \varepsilon_p(\gamma_0) = \varepsilon_p(\gamma_1) \).
+In particular, \( \varepsilon_p \) descends to a well-defined map from \( \pi_1(X,x_0) \) to \( p^{-1}(x_0) \).
+\begin{definition}
+	A covering map \( p \colon \hat X \to X \) is a \emph{universal cover} if \( \hat X \) is simply connected.
+\end{definition}
+\begin{example}
+	\( p \colon \mathbb R \to S^1 \) defined by \( x \mapsto e^{2 \pi i x} \) is a universal cover of \( S^1 \), since \( \mathbb R \) is contractible.
+	\( p_2 \colon \mathbb R^2 \to S^1 \times S^1 = T^2 \) defined by \( p_2(x,y) = (p(x),p(y)) \) is a universal cover.
+\end{example}
+\begin{proposition}
+	If \( p \colon (\hat X, \hat x_0) \to (X, x_0) \) is a universal cover, then \( \varepsilon_p \colon \pi_1(X,x_0) \to p^{-1}(x_0) \) is a bijection of sets.
+\end{proposition}
+\begin{proof}
+	Suppose \( \varepsilon_p[\gamma_0] = \hat x_1 = \varepsilon_p[\gamma_1] \).
+	Then \( \hat \gamma_0 \) and \( \hat \gamma_1 \) are paths in \( \Omega(\hat X, \hat x_0, \hat x_1 \).
+	Since \( \hat X \) is simply connected, \( \hat \gamma_0 \sim_e \hat \gamma_1 \).
+	In particular, \( \gamma_0 = p \circ \hat \gamma_0 \sim_e p \circ \hat \gamma_1 = \gamma_1 \).
+	Hence \( [\gamma_0] = [\gamma_1] \), so \( \varepsilon_p \) is injective.
+
+	Given \( \hat x \in p^{-1}(x_0) \), \( \hat X \) is path-connected as it is simply connected, so there exists a path \( \eta \in \Omega(\hat X, \hat x_0, \hat x) \).
+	Since \( p(\hat x) = x_0 \), we find \( \gamma = p \circ \eta \in \Omega(X,x_0) \).
+	Then \( \eta = \hat\gamma \) is the unique lift of \( \gamma \).
+	In particular, \( \varepsilon_p(\gamma) = \eta(1) = \hat x \), so \( \varepsilon_p \) is surjective.
+\end{proof}
+\begin{example}
+	Let \( p \colon (\mathbb R, 0) \to (S^1, 1) \) be defined by \( x \mapsto e^{2 \pi i x} \).
+	We have \( p^{-1}(1) = \mathbb Z \).
+	Then, \( \varepsilon \colon \pi_1(S^1, 1) \to \mathbb Z \) is a bijection.
+\end{example}
+\begin{theorem}
+	\( \varepsilon_p \colon \pi_1(S^1, 1) \to \mathbb Z \) is an isomorphism of groups.
+\end{theorem}
+\begin{proof}
+	It is a bijection, so it suffices to check that it is a homomorphism.
+	Given \( n \in \mathbb Z \), we can define \( \varphi_n \colon \mathbb R \to \mathbb R \) by \( \varphi_n(x) = x + n \).
+	Then, \( p \circ \varphi_n = p \).
+	If \( \gamma \in \Omega(S^1, 1) \), we can find a lift \( \hat \gamma \) of \( \gamma \) with \( \hat \gamma(0) = 0 \).
+	Then \( p \circ \varphi_n \circ \hat \gamma = p \circ \hat \gamma = \gamma \), so \( \varphi_n \circ \hat \gamma \) is a lift of \( \gamma \) with \( \varphi_n \circ \hat \gamma(0) = n \).
+
+	Suppose \( \varepsilon_p[\gamma] = n \), and \( \varepsilon_p[\gamma'] = n' \).
+	Then \( \hat\gamma(1) = n \), \( \hat\gamma'(1) = n' \), so \( \varphi_n \circ \hat \gamma' \) is a lift of \( \gamma' \) that starts at \( n \).
+	Hence, \( \widehat{\gamma\gamma'} = \hat \gamma (\varphi_n \circ \hat \gamma') \) is a lift of the composition of paths.
+	Thus, \( \varepsilon[\gamma\gamma'] = \widehat{\gamma\gamma'}(1) = \varphi_n(\hat\gamma'(1)) = n + n' \).
+	So \( \varepsilon_p \) is a homomorphism.
+\end{proof}
+\begin{corollary}
+	\( S^1 \) is not contractible.
+\end{corollary}
+
+\subsection{Degree of maps on the circle}
+\begin{lemma}
+	Let \( z \in S^1 \), and \( u, v \in \Omega(S^1, z, 1) \).
+	Then we have isomorphisms \( u_\sharp, v_\sharp \colon \pi_1(S^1, z) \to \pi_1(S^1, 1) \).
+	Then \( u_\sharp = v_\sharp \).
+\end{lemma}
+\begin{proof}
+	Consider \( v_\sharp^{-1} \circ u_\sharp = (v^{-1})_\sharp \circ u_\sharp \).
+	Note, \( (v_\sharp^{-1} \circ u_\sharp)[\gamma] = [vu^{-1}\gamma uv^{-1}] \).
+	Since \( vu^{-1} \in \Omega(S^1, 1) \), we can write \( [vu^{-1}\gamma uv^{-1}] = [\eta][\gamma][\eta^{-1}] \) where \( \eta = vu^{-1} \).
+	But this is exactly \( [\gamma] \), since \( \pi_1(S^1,1) \cong \mathbb Z \) is abelian.
+	Hence \( v_\sharp^{-1} \circ u_\sharp = \mathrm{id} \), and symmetrically.
+\end{proof}
+\begin{definition}
+	Let \( f \colon S^1 \to S^1 \), \( f(1) = z \).
+	Then choose \( u \in \Omega(S^1, z, 1) \), then \( f_\star \colon \pi_1(S^1,1) \to \pi_1(S^1,z) \), giving \( u_\sharp \circ f_\star \colon \pi_1(S^1, 1) \to \pi_1(S^1, 1) \).
+	This is	a homomorphism \( \mathbb Z \to \mathbb Z \), so is uniquely determined by its action on 1.
+	We define the \emph{degree} of \( f \), written \( \deg f \), to be \( (u_\sharp \circ f_\star)(1) \).
+\end{definition}
+By the above lemma, this definition does not depend on the choice of path \( u \).
+\begin{example}
+	Let \( \gamma_n \in \Omega(S^1,1) \) be given by \( \gamma_n(t) = e^{2\pi i n t} \) for \( n \in \mathbb Z \).
+	Then \( \hat \gamma_n(t) = n t \), so \( \varepsilon_p[\gamma_n] = n \).
+	The integers \( n \) correspond to the classes \( [\gamma_n] \) in \( \pi_1(S^1,1) \).
+	
+	Let \( f_n = \overline \gamma_n \colon S^1 \to S^1 \), so \( f_n(z) = z^n \).
+	Then \( f_n \circ \gamma_1 = \gamma_n \), so \( f_{n\star}[\gamma_1] = [\gamma_n] \).
+	Hence the degree of \( f_n \) is \( n \).
+\end{example}
+\begin{proposition}
+	The degree of \( f_n \), defined as above, is \( n \).
+	If \( g_0, g_1 \colon S^1 \to S^1 \), then \( g_0 \sim g_1 \) if and only if \( \deg g_0 = \deg g_1 \).
+	\( g \colon S^1 \to S^1 \) extends to \( G \colon D^2 \to S^1 \) if and only if \( \deg g = 0 \).
+\end{proposition}

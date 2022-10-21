@@ -177,3 +177,38 @@ Note that we can have \( \kappa(G-x) > \kappa(G) \) by considering a \( 2 \)-con
 	Then \( \lambda(G) = \min\qty{\abs{W} \mid W \subseteq E(G), G - W \text{ disconnected}} \) is the smallest amount of edges that can be deleted to disconnect \( G \).	
 	We say that \( G \) is \emph{\( k \)-edge connected} if \( k \leq \lambda(G) \).
 \end{definition}
+\begin{example}
+	Let \( C_n \) be the cycle on \( n \) vertices.
+	The vertex connectivity \( \kappa \) and edge connectivity \( \lambda \) of this graph are both two.
+\end{example}
+\begin{example}
+	Consider a graph with two connected subgraphs \( K_n \), but with one vertex in the intersection between the two.
+	Then \( \kappa = 1 \) by deleting the intersection vertex, but \( \lambda(G) = n - 1 \).
+\end{example}
+\begin{definition}
+	Paths \( P_1, \dots, P_k \) are \emph{edge-disjoint} if the edge sets are disjoint.
+\end{definition}
+\begin{theorem}[Menger, edge version, form 1]
+	Let \( G \) be a connected graph, and \( a \neq b \) be vertices.
+	Then, if every \( W \subseteq E(G) \) that separates \( a \) from \( b \) has size at least \( k \), then there exist \( k \) edge-disjoint \( a \)--\( b \) paths.
+\end{theorem}
+\begin{definition}
+	Let \( G \) be a graph.
+	The \emph{line graph} of \( G \), denoted \( L(G) \), is the graph where \( V(L(G)) = E(G) \) and \( e,f \in E(G) \) are adjacent if they share an endpoint.
+\end{definition}
+\begin{proof}
+	Let \( G' \) be the line graph of \( G \), together with distinguished vertices \( a', b' \) that are connected to the edges incident to \( a \) and \( b \) respectively.
+	Note that there is an \( a \)--\( b \) path in \( G \) if and only if there is an \( a' \)--\( b' \) path in \( G' \).
+	Thus, \( W \subseteq V(G') \setminus \qty{a',b'} \) is an \( a',b' \) separator if and only if \( W \subseteq E(G) \) separates \( a \) from \( b \).
+	Therefore, \( \kappa_{a',b'}(G') \geq k \).
+	By the first form of Menger's theorem on \( G' \), we can find \( k \) disjoint \( a' \)--\( b' \) paths \( P_1, \dots, P_k \) in \( G' \).
+	These paths describe edge-disjoint \( a \)--\( b \) walks in \( G \), which yield edge-disjoint \( a \)--\( b \) paths.
+\end{proof}
+\begin{theorem}[Menger, edge version, form 2]
+	Let \( G \) be a connected graph.
+	Then \( \lambda(G) \geq k \) if and only if all all pairs of vertices \( a \neq b \) admit \( k \) edge-disjoint \( a \)--\( b \) paths.
+\end{theorem}
+\begin{proof}
+	If there exist \( k \) edge-disjoint paths between each pair of vertices, to separate any two vertices we must remove at least one edge from each of these \( k \) paths, so we must remove at least \( k \) edges.
+	Conversely, if \( \lambda(G) \geq k \), apply the above form of Menger's theorem.
+\end{proof}
