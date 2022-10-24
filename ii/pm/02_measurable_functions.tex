@@ -52,7 +52,7 @@ Hence, continuous functions to the real line are measurable.
 	Let \( f \colon E \to \mathbb R \) be a bounded measurable function, which we will assume at first is nonnegative.
 	We define
 	\[ f_n = \sum_{j=0}^{n2^n} \frac{j}{2^n} \mathbbm 1_{A_{n_j}};\quad A_{n_j} = \begin{cases}
-		\qty{x \in E \mid \frac{j}{2^n} < f(x) \leq \frac{j+1}{2^n}} = f^{-1}\Big(\Big(\frac{j}{2^n}, \frac{j+1}{2^n}\Big]\Big) \in \mathcal E & \text{if } j \neq n2^n \\
+		\qty{x \in E \mid \frac{j}{2^n} < f(x) \leq \frac{j+1}{2^n}} = f^{-1}\left(\left(\frac{j}{2^n}, \frac{j+1}{2^n}\right]\right) \in \mathcal E & \text{if } j \neq n2^n \\
 		\qty{x \in E \mid n < f(x)} = f^{-1}((n,\infty)) & \text{if } j = n2^n
 	\end{cases} \]
 	Since \( f \) is bounded, for \( n > \norm{f}_{\infty} \), we have \( f_n \leq f \leq f_n + 2^{-n} \).
@@ -124,7 +124,7 @@ Hence, continuous functions to the real line are measurable.
 		1 & \text{if } x \in A \\
 		0 & \text{otherwise}
 	\end{cases} \]
-	This has Stieltjes distribution \( g(x) = \mathbbm 1_{[x,infty)} \).
+	This has Stieltjes distribution \( g(x) = \mathbbm 1_{[x,\infty)} \).
 \end{example}
 
 \subsection{Random variables}
@@ -146,3 +146,71 @@ Using the properties of measures, we can show that any distribution function sat
 	\item \( \lim_{z \to \infty} F_X(z) = \mu_X(\mathbb R) = \prob{\Omega} = 1 \).
 \end{enumerate}
 Given any function \( F_X \) satisfying each property, we can obtain a random variable \( X \) on \( (\Omega, \mathcal F, \mathbb P) = ((0,1), \mathcal B((0,1)), \mu) \) by \( X(\omega) = \inf\qty{x \mid \omega \leq f(x)} \), and then \( F_X \) is the distribution function of \( X \).
+\begin{definition}
+	Consider a countable collection \( (X_i \colon (\Omega, \mathcal F, \mathbb P) \to (E, \mathcal E)) \) for \( i \in I \).
+	This collection of random variables is called \emph{independent} if the \( \sigma \)-algebras \( \sigma(X_i^{-1}(A) \colon A \in \mathcal E) \) are independent.
+\end{definition}
+For \( (E, \mathcal E) = (\mathbb R, \mathcal B) \) we show on the example sheet that this is equivalent \( I \) to the condition
+\[ \prob{X_1 \leq x_1, \dots, X_n \leq x_n} = \prob{X_1 \leq x_1} \dots \prob{X_n \leq x_n} \]
+for all finite sets \( X_1, \dots, X_n \).
+
+\subsection{Constructing independent random variables}
+We now construct an infinite sequence of independent random variables with prescribed distribution functions on \( (\Omega, \mathcal F, \mathbb P) = ((0,1), \mathcal B, \mu) \) with \( \mu \) the Lebesgue measure on \( (0,1) \).
+We start with Bernoulli random variables.
+
+Any \( \omega \in (0,1) \) has a binary representation given by \( (\omega_i) \in \qty{0,1}^{\mathbb N} \), which is unique if we exclude infinitely long tails of zeroes from the binary representation.
+We can then define the \emph{\( n \)th Rademacher function} \( R_n(\omega) = \omega_n \) which extracts the \( n \)th bit from the binary expansion.
+Since each \( R_n \) can be given as the sum of \( 2^{n-1} \) indicator functions on measurable sets, they are measurable functions and are hence random variables.
+Their distribution is given by \( \prob{R_n = 1} = \frac{1}{2} = \prob{R_n = 0} \), so we have constructed Bernoulli random variables with parameter \( \frac 12 \).
+We show they are independent.
+For a finite set \( (x_i)_{i=1}^n \),
+\[ \prob{R_1 = x_1, \dots, R_n = x_n} = 2^{-n} = \prob{R_1 = x_1} \dots \prob{R_n = x_n} \]
+Therefore, the \( R_n \) are all independent, so countable sequences of independent random variables indeed exist.
+Now, take a bijection \( m \colon \mathbb N^2 \to \mathbb N \) and define \( Y_{nk} = R_{m(n,k)} \), which are independent random variables.
+We can now define \( Y_n = \sum_k 2^{-k} Y_{nk} \).
+This converges for all \( \omega \in \Omega \) since \( \abs{Y_{nk}} \leq 1 \), and these are still independent.
+We show the \( Y_n \) are uniform random variables, by showing the distribution coincides with the uniform distribution on the \( \pi \)-system of intervals \( \left( \frac{i}{2^m}, \frac{i+1}{2^{m+1}} \right] \) for \( i = 0, \dots, 2^m - 1 \), which generates \( \mathcal B \).
+\[ \prob{Y_n \in \left( \frac{i}{2^m}, \frac{i+1}{2^m} \right]} = \prob{\frac{i}{2^m} < \sum_k 2^{-k} Y_{nk} \leq \frac{i+1}{2^n}} = 2^{-m} = \mu\left( \frac{i}{2^m}, \frac{i+1}{2^{m+1}} \right] \]
+Hence \( \mu_{Y_n} = \eval \mu_{(0,1)} \) by the uniqueness theorem, and so we have constructed an infinite sequence of independent uniform random variables \( Y_n \).
+If \( F_n \) are probability distribution functions, taking the generalised inverse, we see that the \( F_n^{-1}(Y_n) \) are independent and have distribution function \( F_n \).
+
+\subsection{Convergence of measurable functions}
+\begin{definition}
+	We say that a property defining a set \( A \in \mathcal E \) holds \emph{\( \mu \)-almost everywhere} if \( \mu(A^c) = 0 \) for a measure \( \mu \) on \( \mathcal E \).
+	If \( \mu = \mathbb P \), we say a property holds \emph{\( \mathbb P \)-almost surely} or \emph{with probability one}, if \( \mathbb P(A) = 1 \).
+
+	If \( f_n \) and \( f \) are measurable functions on \( (E,\mathcal E,\mu) \), we say \emph{\( f_n \) converges to \( f \) \( \mu \)-almost everywhere} if \( \mu(\qty{X \in E \mid f_n(x) \not\to f(x)}) = 0 \).
+	We say \emph{\( f_n \) converges to \( f \) in \( \mu \)-measure} if for all \( \varepsilon > 0 \), \( \mu(\qty{X \in E \mid \abs{f_n(x) - f(x)} > \varepsilon}) \to 0 \) as \( n \to \infty \).
+	For random variables, we say \( X_n \to X \) \emph{\( \mathbb P \)-almost surely} or \emph{in \( \mathbb P \)-probability}, written \( X_n \to^p X \), respectively.
+
+	If \( E = \mathbb R \), we say \( X_n \to X \) \emph{in distribution}, written \( X_n \to^d X \) if \( \prob{X_n \leq x} \to \prob{X \leq x} \) at all points \( x \) for which the limit \( x \mapsto \prob{X \leq x} \) is continuous.
+\end{definition}
+We can show that \( X_n \to^p X \implies X^n \to^d X \).
+\begin{theorem}
+	Let \( f_n \colon (E,\mathcal E,\mu) \to \mathbb R \) be measurable functions.
+	Then,
+	\begin{enumerate}
+		\item if \( \mu(E) < \infty \), then \( f_n \to 0 \) almost everywhere implies that \( f_n \to 0 \) in measure;
+		\item if \( f_n \to 0 \) in measure, \( f_{n_k} \to 0 \) almost everywhere on some subsequence.
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	Let \( \varepsilon > 0 \).
+	\[ \mu(\abs{f_n} < \varepsilon) \geq \mu\qty(\bigcap_{m \geq n} \qty{\abs{f_m} \leq \varepsilon}) \]
+	The sequence \( \qty(\bigcap_{m \geq n} \qty{\abs{f_m} \leq \varepsilon})_n \) increases to \( \bigcup_n \bigcap_{m \geq n} \qty{\abs{f_m} \leq \varepsilon} \).
+	So by countable additivity,
+	\begin{align*}
+		\mu\qty(\bigcap_{m \geq n} \qty{\abs{f_m} \leq \varepsilon}) &\to \mu\qty(\bigcup_n \bigcap_{m \geq n} \qty{\abs{f_m} \leq \varepsilon}) \\
+		&= \mu\qty(\abs{f_n} \leq \varepsilon \text{ eventually}) \\
+		&\geq \mu(\abs{f_n} \to 0) = \mu(E) - 0
+	\end{align*}
+	Hence,
+	\[ \liminf_n \mu(\abs{f_n} \leq \varepsilon) \geq \mu(E) \implies \limsup_n \mu(\abs{f_n} > \varepsilon) \leq 0 \implies \mu(\abs{f_n} > \varepsilon) \to 0 \]
+	For the second part, by hypothesis, we have \( \mu\qty(\abs{f_n} > \frac{1}{k}) < \varepsilon \) for sufficiently large \( n \).
+	So choosing \( \varepsilon = \frac{1}{k^2} \), we see that along some subsequence \( n_k \) we have \( \mu\qty(\abs{f_{n_k}} > \frac{1}{k}) \leq \frac{1}{k^2} \).
+	Hence, \( \sum_k \mu\qty(\abs{f_{n_k}} > \frac{1}{n}) < \infty \), and by the first Borel--Cantelli lemma, we have \( \mu\qty(\abs{f_{n_k}} > \frac{1}{k} \text{ infinitely often}) = 0 \), so \( f_{n_k} \to 0 \) almost everywhere.
+\end{proof}
+\begin{remark}
+	Condition (i) is false if \( \mu(E) \) is infinite: consider \( f_n = \mathbbm 1_{(n,\infty)} \) on \( (\mathbb R,\mathcal B,\mu) \), since \( f_n \to 0 \) almost everywhere but \( \mu(f_n) = \infty \).
+	Condition (ii) is false if we do not restrict to subsequences: consider independent events \( A_n \) such that \( \prob{A_n} = \frac{1}{n} \), then \( \mathbbm 1_{A_n} \to 0 \) in probability since \( \prob{\mathbbm 1_{A_n} > \varepsilon} = \prob{A_n} = \frac{1}{n} \to 0 \), but \( \sum_n \prob{A_n} = \infty \), and by the second Borel--Cantelli lemma, \( \prob{\mathbbm 1_{A_n} > \varepsilon \text{ infinitely often}} = 1 \), so \( \mathbbm 1_{A_n} \not\to 0 \) almost surely.
+\end{remark}
