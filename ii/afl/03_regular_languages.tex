@@ -371,3 +371,102 @@ This is an equivalence, but the converse (often called Kleene's algorithm) is no
 	Hence \( S \xrightarrow{G^+} w' \) with only one occurence of \( S \) at the start.
 	In particular none of our new rules were used, so \( S \xrightarrow G w' \), so \( w' \in \mathcal L(G)^+ \), hence \( w \in \mathcal L(G)^+ \).
 \end{proof}
+
+\subsection{Minimisation of deterministic automata}
+\begin{definition}
+	A state \( q \) is called \emph{accessible} if there is a word \( w \) such that \( q = \hat \delta(q_0, w) \).
+	A state that is not accessible is called \emph{inaccessible}.
+\end{definition}
+\begin{definition}
+	States \( q \) and \( q' \) are \emph{distinguished} by a word \( w \) if \( \hat \delta(q, w) \in F \) and \( \hat \delta(q', w) \not\in F \), or vice versa.
+	States that are distinguished by some word are called \emph{distinguishable}.
+	States that are not distinguished by any word are called \emph{indistinguishable}.
+\end{definition}
+Recall that if \( f \colon Q \to Q' \) is a homomorphism, then
+\begin{enumerate}
+	\item if \( p, q \) are distinguishable, \( f(p) \neq f(q) \);
+	\item if \( q' \in Q' \) is accessible, \( q' \) lies in the range of \( f \).
+\end{enumerate}
+In particular, if \( f \) is a homomorphism from \( D \) to \( D' \) and all pairs of nonequal states in \( D \) are distinguishable, \( f \) is injective; if all states in \( D' \) are accessible, \( f \) is surjective.
+\begin{definition}
+	An automaton \( D \) is called \emph{irreducible} if all pairs of nonequal states are distinguishable and all states are accessible.
+\end{definition}
+Hence, any homomorphism between irreducible automata is an isomorphism.
+
+Defining \( q \sim q' \) if \( q \) and \( q' \) are indistinguishable, \( \sim \) is an equivalence relation.
+As usual, we write \( [q] \) for the equivalence class of states indistinguishable from \( q \).
+We can therefore define the \emph{quotient automaton} by
+\[ \faktor{D}{\sim} = \qty(\Sigma, \faktor{Q}{\sim}, [\delta], [q_0], [F]);\quad [\delta]([q],a) = [\delta(q,a)];\quad [F] = \qty{[q] \mid q \in F} \]
+Note that if an equivalence class contains an accept state, the class is completely contained in \( F \), so being an accept state is a class property.
+The map \( [\delta] \) is well-defined: indeed, if \( q \sim q' \), we have \( \delta(q,a) \sim \delta(q',a) \), because if \( \delta(q,a) \not\sim \delta(q',a) \), there would exist a word \( w \) that distinguishes these two states, but then \( aw \) would distinguish \( q \) and \( q' \).
+
+If \( q \not\sim q' \), we can show the two states are distinguished in the quotient automaton.
+By induction, \( [\hat\delta]([q],w) = [\hat\delta(q,w)] \).
+Suppose without loss of generality that \( \hat\delta(q,w) \in F \), \( \hat\delta(q',w) \not\in F \).
+Then \( [\hat\delta]([q],w) \in [F] \), but \( [\hat\delta]([q'],w) \not\in [F] \).
+So \( w \) distinguishes \( [q] \) and \( [q'] \).
+In particular, each pair of nonequal states is distinguishable.
+
+Note further that \( \mathcal L(D) = \mathcal L\qty(\faktor{D}{\sim}) \), because the quotient map \( q \mapsto [q] \) is a homomorphism.
+If \( D \) had no inaccessible states, \( \faktor{D}{\sim} \) also has no inaccessible states, since the quotient map is surjective.
+\begin{theorem}
+	For every deterministic automaton, there is an irreducible deterministic automaton \( I \) such that \( \mathcal L(D) = \mathcal L(I) \).
+\end{theorem}
+\begin{proof}
+	Let \( A \subseteq Q \) be the set of accessible states in \( D \).
+	Let \( D^\star = \qty(\Sigma, A, \eval{\delta}_{A \times \Sigma}, q_0, F \cap A) \).
+	The identity map from \( D^\star \) to \( D \) is a homomorphism, so their languages are the same.
+	Now let \( I = \faktor{D^\star}{\sim} \).
+	By the above discussion, \( I \) is irreducible and has the same language as \( D^\star \).
+\end{proof}
+\begin{remark}
+	The number of states in \( I \) is at most the number of states in \( D \).
+\end{remark}
+\begin{theorem}
+	If \( I, I' \) are irreducible deterministic automata and \( \mathcal L(I) = \mathcal L(I') \), then \( I \) and \( I' \) are isomorphic.
+\end{theorem}
+\begin{proof}
+	It suffices to construct a homomorphism between the two automata, since any homomorphism between irreducible automata is an isomorphism.
+	Let \( I = (\Sigma, Q, \delta, q_0, F) \) and \( I' = (\Sigma, Q', \delta', q_0', F') \), and without loss of generality let \( Q \cap Q' = \varnothing \).
+	We can extend \( \sim \) to \( Q \cup Q' \), by defining \( q \sim q' \) if for all \( w \), \( \hat\delta(q,w) \in F \) if and only if \( \hat\delta'(q',w) \in F' \).
+	We know \( q_0 \sim q_0' \), because by assumption, the languages of the two automata are the same.
+
+	We show that for all \( q \in Q \), there exists \( q' \in Q' \) such that \( q \sim q' \).
+	Let \( \mathrm{sp}(q) \) be the length of the shortest path from \( q_0 \) to \( q \).
+	Since \( I \) is irreducible, this is well-defined and finite for all \( q \in Q \).
+	We prove this claim by induction on \( \mathrm{sp}(q) \).
+	The base case is \( \mathrm{sp}(q) = 0 \) so \( q = q_0 \), and we have already shown \( q_0 \sim q_0' \) as required.
+
+	Now suppose \( \mathrm{sp}(q) = k + 1 \).
+	Then there exists \( p \in Q \) and \( a \in \Sigma \) such that \( \delta(p,a) = q \) and \( \mathrm{sp}(p) = k \).
+	By the induction hypothesis, we can find \( p' \in Q' \) such that \( p \sim p' \).
+	Then let \( q' = \delta'(p',a) \), then \( q' \sim \delta(p,a) = q \).
+	Hence each \( q \in Q \) has a \( q' \in Q' \) such that \( q \sim q' \).
+
+	We now will show that if \( q' \sim q \sim p' \), we have \( q' = p' \).
+	By transitivity, \( q' \sim p' \), but by irreducibility of \( I' \), \( q' = p' \).
+
+	Because of the above results, we can construct a function \( f \colon Q \to Q' \) defined by \( q \mapsto q' \) where \( q \sim q' \).
+	This is well-defined and unique.
+	We now claim \( f \) is a homomorphism.
+	Since \( q_0 \sim q_0' \), we have \( f(q_0) = q_0' \).
+	The requirement \( q \in F \iff f(q) \in F' \) follows by definition of \( \sim \).
+	Now fix \( q \in Q \) and \( q' = f(q) \), so \( q \sim q' \).
+	Then, \( \delta(q,a) \sim \delta'(q',a) \), so \( f(\delta(q,a)) \sim \delta'(q',a) = \delta'(f(q),a) \).
+\end{proof}
+\begin{remark}
+	There is a unique (up to isomorphism) irreducible automaton that accepts a given regular language, and its size is smaller than all other automata that accept the same language.
+\end{remark}
+
+\subsection{Equivalence problem}
+We have already solved the word problem for noncontracting grammars and the emptiness problem for regular grammars.
+To solve the equivalence problem, we will construct minimal automata for two given regular grammars, and check whether they are isomorphic; if so, the languages are the same, and otherwise, the languages are different.
+We must check that this idea can be formulated into an algorithm which must complete in finitely many steps.
+\begin{proposition}
+	Let \( D \) be a deterministic automaton and \( q \in Q \) a state.
+	Then it is decidable whether \( q \) is accessible.
+\end{proposition}
+\begin{proof}
+	If there is a word \( w \) such that \( \hat\delta(q_0,w) = q \), then the shortest such word has length at most \( \abs{Q} \), which can be easily proven using the technique from the pumping lemma.
+	We can explicitly check each word of length at most \( \abs{Q} \).
+\end{proof}
