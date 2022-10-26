@@ -1,0 +1,40 @@
+\subsection{Notation}
+Let \( f \colon (E, \mathcal E, \mu) \to \mathbb R \) be an `integrable' function, a notion we will define.
+We will then define the integral with respect to \( \mu \), either written \( \mu(f) \) or \( \int_E f \dd{\mu} = \int_E f(x) \dd{\mu(x)} \).
+If \( X \) is a random variable, we will define its expectation \( \expect{X} = \int_\Omega X \dd{\mathbb P} = \int_\Omega X(\omega) \dd{\mathbb P(\omega)} \).
+
+\subsection{Definition}
+We say that a function \( f \colon (E,\mathcal E,\mu) \to \mathbb R \) is \emph{simple} if it is of the form
+\[ f = \sum_{k=1}^m a_k \mathbbm 1_{A_k};\quad a_k \geq 0;\quad A_k \in \mathcal E;\quad m \in \mathbb N \]
+\begin{definition}
+	The \emph{\( \mu \)-integral} of a simple function \( f \) defined as above is
+	\[ \mu(f) = \sum_{k=1}^m a_k \mu(A_k) \]
+	which is independent of the choice of representation of the simple function.
+\end{definition}
+\begin{remark}
+	We have \( \mu(\alpha f + \beta g) = \alpha \mu(f) + \beta \mu(g) \) for all nonnegative coefficients \( \alpha, \beta \) and simple functions \( f, g \).
+	If \( g \leq f \), \( \mu(g) \leq \mu(f) \), so \( \mu \) is increasing.
+	If \( f = 0 \) almost everywhere, \( \mu(f) = 0 \).
+\end{remark}
+For a general non-negative function \( f \colon (E,\mathcal E,\mu) \to \mathbb R \), we define its \( \mu \)-integral to be
+\[ \mu(f) = \sup\qty{\mu(g) \mid g \leq f, g \text{ simple}} \]
+which agrees with the above definition for simple functions.
+This operator takes values in the extended non-negative real line \( [0,\infty] \).
+Now, for \( f \colon (E,\mathcal E,\mu) \to \mathbb R \) measurable but not necessarily non-negative, we define \( f^+ = \max(f,0) \) and \( f^- = \max(-f,0) \), so that \( f = f^+ - f^- \) and \( \abs{f} = f^+ + f^- \).
+\begin{definition}
+	A measurable function \( f \colon (E,\mathcal E,\mu) \to \mathbb R \) is \emph{\( \mu \)-integrable} if \( \mu(\abs{f}) < \infty \).
+	In this case, we define its integral to be
+	\[ \mu(f) = \mu(f^+) - \mu(f^-) \]
+	which is a well-defined real number.
+\end{definition}
+
+\subsection{Monotone convergence theorem}
+\begin{theorem}
+	Let \( f_n, f \colon (E,\mathcal E,\mu) \to \mathbb R \) be measurable and non-negative such that \( f_n \) increases pointwise to \( f \), so \( f_n(x) \leq f_{n+1}(x) \leq x \) and \( f_n(x) \to f(x) \) as \( n \to \infty \).
+	Then, \( \mu(f_n) \to \mu(f) \) as \( n \to \infty \).
+\end{theorem}
+\begin{remark}
+	This is a theorem that allows us to interchange a pair of limits.
+	If we consider the approximating sequence \( \widetilde f_n = 2^{-n} \floor{2^n f} \), as defined in the monotone class theorem, then this is a non-negative sequence converging to \( f \).
+	So in particular, \( \mu(f) \) is equal to the limit of the integrals of these simple functions.
+\end{remark}

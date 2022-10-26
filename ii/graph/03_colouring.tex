@@ -124,4 +124,84 @@
 	By induction, we can colour \( C_i \cup \qty{x} \) for each \( i \); they cannot be complete, by counting the number of edges of \( x \) in this graph.
 	We can then permute the colours in each such colouring to make \( x \) the same colour.
 	Then we can combine each colouring to produce a colouring of the entire graph.
+
+	Finally, we will consider the case when \( \kappa(G) = 2 \).
+	Let \( S = \qty{x,y} \) be a separator for \( G \).
+	Let \( C_1, \dots, C_k \) be the components of \( G - S \).
+	Define the graphs \( G_i = G[C_i \cup S] + xy \) for \( i = 1, \dots, k \).
+
+	Suppose \( \delta(G_i) < \Delta(G) \) for all \( i \).
+	In this case, the \( G_i \) can be coloured by induction as they are not complete graphs.
+	Note that \( x, y \) get different colours since we have added the edge \( xy \).
+	Therefore, we can permute the colours, such that the colouring agrees on \( x,y \) for all \( G_i \).
+	These colourings can be combined into a \( \Delta(G) \)-colouring of \( G \).
+
+	Now suppose without loss of generality that \( \delta(G_1) = \Delta(G) \).
+	In this case, \( k = 2 \), and \( \abs{N(x) \cap C_1} = \Delta(G) - 1 = \abs{N(x) \cap C_1} \), and \( \abs{N(x) \cap C_2} = 1 = \abs{N(y) \cap C_2} \).
+	Let \( x', y' \) be the neighbours of \( x, y \) in \( C_2 \).
+	Now, note that \( \widetilde S = \qty{x,y'} \) is a separator, and now \( \delta(G_i) < \Delta(G) \) for all connected components, and we can use the proof from above.
 \end{proof}
+
+\subsection{Chromatic polynomial}
+\begin{definition}
+	Let \( G \) be a graph.
+	The \emph{chromatic polynomial} of \( G \) is \( P_G \colon \mathbb Z_{\geq 0} \to \mathbb Z_{\geq 0} \) where \( P_G(t) \) is the number of \( t \)-colourings of \( G \).
+\end{definition}
+\begin{remark}
+	The minimum \( t \) for which \( P_G(t) > 0 \) the chromatic number.
+\end{remark}
+\begin{example}
+	The chromatic polynomial on the empty graph on \( n \) vertices is given by \( P_G(t) = t^n \).
+
+	The chromatic polynomial on the complete graph on \( n \) vertices is \( P_G(t) = t(t-1)\dots(t-(n-1)) = \binom t n \).
+
+	For a path on \( n \) vertices, \( P_G(t) = t(t-1)^{n-1} \).
+	For any tree, colouring each leaf, removing it, then colouring the remainder inductively, \( P_G(t) = t(t-1)^{\abs{G} - 1} \).
+\end{example}
+\begin{definition}
+	Let \( G \) be a graph, and \( e = xy \in E(G) \).
+	The \emph{contraction} of \( G \) along \( e \), denoted \( G / e \), is the graph with vertices \( V(G) \setminus \qty{x, y} \cup \qty{a} \) for a new variable \( a \), and edges \( E(G[V\setminus\qty{x,y}]) \cup \qty{az \mid x \sim z} \cup \qty{az \mid y \sim z} \).
+\end{definition}
+\begin{proposition}
+	Let \( G \) be a graph and \( e \in E(G) \).
+	Then \( P_G(t) = P_{G - e}(t) - P_{G/e}(t) \).
+\end{proposition}
+\begin{proof}
+	Let \( e = xy \).
+	A \( t \)-colouring of \( G - e \) where \( x, y \) are assigned different colours corresponds to a \( t \)-colouring of \( G \), by simply adding the edge back.
+	A \( t \)-colouring of \( G - e \) where \( x, y \) are assigned the same colour corresponds to a \( t \)-colouring of \( G / e \), by contracting the edge.
+\end{proof}
+\begin{remark}
+	The above proposition is known as a `cut-fuse' relation.
+\end{remark}
+\begin{proposition}
+	Let \( G \) be a graph.
+	Then \( P_G(t) \) is indeed a polynomial with degree \( \abs{G} \).
+\end{proposition}
+\begin{proof}
+	We apply induction on \( e(G) \).
+	If there are no edges in the graph, the graph is empty, and has chromatic polynomial \( P_G(t) = t^{\abs{G}} \).
+	Otherwise, let \( e \in E(G) \).
+	By induction, \( P_{G - e}(t) \) is a polynomial of degree \( \abs{G - e} = \abs{G} \), and \( P_{G / e}(t) \) is a polynomial of degree \( \abs{G / e} = \abs{G} - 1 \).
+	Hence \( P_G(t) = P_{G - e}(t) - P_{G / e}(t) \) is indeed a polynomial of the required degree.
+\end{proof}
+\begin{proposition}
+	Let \( G \) be a graph with \( n \) vertices and \( m \) edges.
+	Then \( P_G(t) = t^n - mt^{n-1} + p(t) \) where \( p \) is a polynomial of degree at most \( n - 2 \).
+\end{proposition}
+\begin{proof}
+	We apply induction on \( e(G) \).
+	If there are no edges, we have the empty graph, which has the required form.
+	Otherwise, let \( e \in E(G) \).
+	Then
+	\[ P_G(t) = P_{G - e}(t) - P_{G/e}(t) = \qty(t^n - (m - 1)t^{n-1} + \dots) + \qty(t^{n-1} + \dots) = t^n - mt^{n-1} + \dots \]
+	as required.
+\end{proof}
+\begin{remark}
+	Other coefficients of the chromatic polynomial contain other information about the graph.
+	For example, the \( t^{n-2} \) coefficient is exactly \( \binom n 2 - \text{ number of triangles in } G \).
+
+	If \( G \) is planar, \( P_G(2+\frac{1+\sqrt{5}}{2}) \neq 0 \).
+
+	A result due to June Huh is that the coefficients \( c_0, \dots, c_n \) of \( P_G \) are \emph{log-concave}, so \( c_i^2 > c_{i-1}c_{i+1} \).
+\end{remark}
