@@ -129,3 +129,84 @@ Note that \( \gcd(f, g) \) is invariant under a field extension, because Euclid'
 	The number of \( K \)-homomorphisms from \( K(x) \) to \( L \) is the number of roots of \( m_{x,K} \) in \( L \).
 	This is equal to the degree of \( x \) if and only if \( x \) is separable.
 \end{proof}
+Let \( \mathrm{Hom}_K(L,M) \) be the set of \( K \)-homomorphisms from \( L \) to \( M \).
+Note that not all \( K \)-linear maps from \( L \) to \( M \) are \( K \)-homomorphisms.
+\begin{theorem}[counting embeddings]
+	Let \( L = K(x_1, \dots, x_k) \) be a finite extension of \( K \), so the \( x_i \) are algebraic.
+	Let \( M / K \) be any field extension.
+	Then \( \abs{\mathrm{Hom}_K(L,M)} \leq [L : K] \), with equality if and only if
+	\begin{enumerate}
+		\item for all \( i \), the minimal polynomial \( m_{x_i,K} \) splits into linear factors in \( M \);
+		\item all the \( x_i \) are separable over \( K \).
+	\end{enumerate}
+\end{theorem}
+\begin{remark}
+	The conditions (i) and (ii) are equivalent to the statement that \( m_{x_i,K} \) split into distinct linear factors over \( M \).
+	There is a variant of this theorem: let \( \sigma : K \to M \) be a field homomorphism, then \( \abs{\mathrm{Hom}_\sigma(L,M)} \leq \abs{L:K} \), and equality holds if and only if the \( \sigma m_{x_i,K} \) split over \( M \).
+\end{remark}
+\begin{proof}
+	We prove this by induction on \( k \).
+	The case \( k = 0 \) is trivial.
+	Let \( K_1 = K(x_1) \) and write \( d = \deg_K x_1 = [K_1 : K] \).
+	Then the number of \( K \)-homomorphisms from \( K_1 \) to \( M \), denoted \( e = \abs{\mathrm{Hom}_K(K_1,M)} \), is the number of roots of \( m_{x_1,K} \) in \( M \).
+	Let \( \sigma : K_1 \to M \) be a \( K \)-homomorphism.
+	By the inductive hypothesis, there exist at most \( [L : K_1] \) extensions of \( \sigma \) to a \( K \)-homomorphism \( L \to M \).
+	Hence the number of \( K \)-homomorphisms from \( L \) to \( M \) is at most \( e[L : K_1] \leq d[L : K_1] = [L : K] \).
+
+	If equality holds, then \( e = d \), and so \( m_{x_1,K} \) splits into \( d \) distinct linear factors in \( M \), so (i) and (ii) hold for \( x_1 \).
+	Replacing \( x_1 \) with an arbitrary \( x_i \), one implication follows.
+	Conversely, suppose conditions (i) and (ii) hold.
+	Then, by the previous theorem, there are \( d \) distinct homomorphisms from \( K_1 \) to \( M \).
+	Conditions (i) and (ii) still hold over \( K_1 \), then by induction, each \( \sigma \colon K_1 \to M \) has \( [L : K_1] \) extensions to a homomorphism \( L \to M \).
+	Hence \( \abs{\mathrm{Hom}_K(L,M)} = [L : K] \) as required.
+\end{proof}
+\begin{theorem}[separably generated implies separable]
+	Let \( L = K(x_1, \dots, x_k) \) be a finite extension of \( K \).
+	Then \( L / K \) is a separable extension if and only if each \( x_i \) is separable over \( K \).
+\end{theorem}
+\begin{proof}
+	If \( L / K \) is separable, the \( x_i \) are separable by definition.
+	Suppose the \( x_i \) are separable.
+	Let \( M \) be a normal closure of \( L / K \), so the splitting field of the product of the \( m_{x_i,K} \) over \( L \).
+	By the counting embeddings theorem, conditions (i) and (ii) are satisfied so \( \abs{\mathrm{Hom}_K(L,M)} = [L : K] \).
+	But if \( x \in L \), \( L = K(x, x_1, \dots, x_k) \), so \( x \) is separable.
+\end{proof}
+\begin{corollary}
+	Let \( x, y \in L \), and \( L / K \) a field extension.
+	If \( x, y \) are separable over \( K \), so are \( x + y, xy, x^{-1} \) for \( x \neq 0 \).
+\end{corollary}
+\begin{proof}
+	Consider the fields \( K(x,y) \) and \( K(x) \).
+	These are separable extensions of \( K \).
+	In particular, \( \qty{x \in L \mid x \text{ separable over } K} \) is a subfield of \( L \).
+\end{proof}
+\begin{theorem}[primitive element theorem for separable extensions]
+	Let \( K \) be an infinite field and \( L = K(x_1, \dots, x_k) \) be a finite separable extension.
+	Then there exists \( x \in L \) such that \( L = K(x) \).
+	In particular, \( x \) is separable over \( K \).
+\end{theorem}
+\begin{proof}
+	It suffices to consider the case when \( k = 2 \), because if we can turn \( K(x,y) \) into \( K(z) \) for \( z \in K(x,y) \), we can perform this inductively.
+	Let \( L = K(x,y) \) with \( x, y \) separable over \( K \).
+	Let \( n = [L : K] \), and let \( M \) be a normal closure for \( L / K \).
+	Then there exist \( n \) distinct \( K \)-homomorphisms \( \sigma_i \colon L \to M \).
+	Let \( a \in K \), and consider \( z = x + ay \).
+	We will choose \( a \) such that \( L = K(z) \).
+
+	Since \( L = K(x,y) \), we have \( \sigma_i(x) = \sigma_j(x) \) and \( \sigma_i(y) = \sigma_j(y) \) implies \( i = j \).
+	Consider \( \sigma_i(z) = \sigma_i(x) + a \sigma_i(y) \).
+	If \( \sigma_i(z) = \sigma_j(z) \), we must have \( \qty(\sigma_i(x) - \sigma_j(x)) + a \qty(\sigma_i(y) - \sigma_j(y)) = 0 \).
+	If \( i \neq j \), at least one of the parenthesised terms is nonzero.
+	Therefore there is at most one \( a \in K \) such that \( \sigma_i(z) = \sigma_j(z) \).
+	Since \( K \) is infinite, there exists \( a \in K \) such that all of the \( \sigma_i(z) \) are distinct.
+	But then \( \deg_K z = n \), so \( L = K(z) \).
+\end{proof}
+\begin{theorem}
+	Let \( L / K \) be an extension of finite fields.
+	Then \( L = K(x) \) for some \( x \in L \).
+\end{theorem}
+\begin{proof}
+	The multiplicative group \( L^\times \) is cyclic.
+	Let \( x \) be a generator of this group.
+	Then \( L = K(x) \), since every nonzero element is a power of \( x \).
+\end{proof}

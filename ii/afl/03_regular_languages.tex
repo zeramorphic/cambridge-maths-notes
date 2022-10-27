@@ -262,7 +262,7 @@ We define \( \mathcal L(N) = \qty{w \mid \hat\delta(q_0,w) \cap F \neq \varnothi
 	Suppose \( w \) starts with a zero, so \( w = 0z \).
 	Then let \( x = \varepsilon, y = 0 \), so \( w = xyz \).
 	Pumping up does not change the tail; pumping down either does not change the tail or there are now no zeroes, but in either case, the new word lies in the language.
-	
+
 	Conversely, suppose \( w \) starts with a one, so \( w = 1z \).
 	Let \( x = \varepsilon, y = 1 \), so \( w = xyz \) as before.
 	If \( z \) contains no zeroes, after pumping \( y \), there are still no zeroes, so the new word is in the language.
@@ -470,3 +470,64 @@ We must check that this idea can be formulated into an algorithm which must comp
 	If there is a word \( w \) such that \( \hat\delta(q_0,w) = q \), then the shortest such word has length at most \( \abs{Q} \), which can be easily proven using the technique from the pumping lemma.
 	We can explicitly check each word of length at most \( \abs{Q} \).
 \end{proof}
+\begin{theorem}[the table filling algorithm]
+	Let \( D \) be a deterministic automaton and \( q, q' \in Q \) states.
+	Then the proposition \( q \sim q' \) is decidable.
+\end{theorem}
+\begin{proof}
+	Form a matrix \( A \) with entries indexed by \( Q \times Q \).
+	The entry indexed by \( (q,q') \) contains information about distinguishability of \( q, q' \).
+	In particular, \( A_{q,q'} \) contains either nothing or a word \( w \) distinguishing \( q \) and \( q' \).
+	Since \( \sim \) is an equivalence relation, it suffices to consider the upper triangular part of the matrix, excluding the diagonal.
+	To initialise the matrix, if \( q \in F \) and \( q' \not\in F \) we set \( A_{q,q'} = \varepsilon \), since the empty word distinguishes \( q, q' \).
+
+	Then, for each \( q, q' \in Q \) that do not have a filled entry \( A_{q,q'} \) already, and for each \( a \in \Sigma \), we can check the entry indexed by \( (\delta(q,a), \delta(q',a)) \).
+	If these two states are distinguished by a word \( w \), \( q \) and \( q' \) are distinguished by \( aw \).
+	So we can set \( A_{q,q'} = aw \).
+	This single step will terminate in a finite amount of time, on the order of \( \abs{Q}^2 \abs{\Sigma} \)-many steps.
+
+	We then repeat this inductive step until no more assignments into the matrix can be made in an single iteration.
+	This will happen in finitely many steps.
+
+	We now must show that after this process completes, \( A_{q,q'} \) contains a word \( w \) if and only if \( q \) and \( q' \) are distinguishable, and in this case, \( w \) distinguishes \( q \) and \( q' \).
+	If \( A_{q,q'} \) contains a word \( w \), it is clear that \( w \) distinguishes \( q \) and \( q' \), since \( \hat\delta(q,w) \in F \) and \( \hat\delta(q',w) \not\in F \) or vice versa.
+	Now suppose there exists a word \( w \) that distinguishes some states \( q \) and \( q' \), but \( q, q' \) are unmarked in \( A \).
+	Let \( q, q' \) be a pair of states with a distinguishing word \( w \) of minimal length.
+
+	Either \( w = \varepsilon \) or \( w = av \).
+	If \( w = \varepsilon \), \( q \in F \) and \( q' \not\in F \) or vice versa, so \( A_{q,q'} \) is marked.
+	Otherwise, \( w = av \).
+	Since \( v \) is shorter than the smallest word that distinguishes two states that are not marked in \( A \), we must have that the entry \( (\delta(q,a), \delta(q',a)) \) is marked with some word in \( A \).
+	So at some step in the algorithm, this entry was added into \( A \).
+	But then the algorithm would mark \( q, q' \) with a word in the next step.
+\end{proof}
+\begin{example}
+	Consider the following automaton.
+	% TODO: Example
+	In step zero, we find
+	\begin{center}
+		\begin{tabular}{c|cccc}
+			& \( q_0 \) & \( q_1 \) & \( q_2 \) & \( q_3 \) \\\hline
+			\( q_0 \) & & & \( \varepsilon \) & \( \varepsilon \) \\
+			\( q_1 \) & & & \( \varepsilon \) & \( \varepsilon \) \\
+			\( q_2 \) \\
+			\( q_3 \)
+		\end{tabular}
+	\end{center}
+	In step one, checking \( \delta(q_0,a) \) and \( \delta(q_1,a) \), we arrive at
+	\begin{center}
+		\begin{tabular}{c|cccc}
+			& \( q_0 \) & \( q_1 \) & \( q_2 \) & \( q_3 \) \\\hline
+			\( q_0 \) & & \( a \) & \( \varepsilon \) & \( \varepsilon \) \\
+			\( q_1 \) & & & \( \varepsilon \) & \( \varepsilon \) \\
+			\( q_2 \) \\
+			\( q_3 \)
+		\end{tabular}
+	\end{center}
+	The only remaining entry is \( (q_2, q_3) \), and this is not filled in a single step.
+	Hence \( q_2 \sim q_3 \).
+\end{example}
+\begin{corollary}
+	The equivalence problem for regular grammars is decidable.
+\end{corollary}
+Hence, for regular grammars, all of our desirable closure properties are true, and all of our motivating decision problems are solvable.

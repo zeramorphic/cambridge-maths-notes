@@ -1,0 +1,30 @@
+\subsection{Parse trees}
+Recall that the language \( \qty{0^k1^k \mid k > 0} \) is context-free but not regular, so context-free languages are indeed a proper superset of regular languages.
+The structure of regular derivations was very simple; each intermediate step was of the form \( wA \) for a word \( w \) and a variable \( A \in V \).
+However, the structure of context-free derivations is more complicated: we use a parse tree instead of a linear derivation.
+\begin{definition}
+	A set \( T \subseteq \mathbb N^\star \) is called a \emph{(finitely-branching) tree} if it is closed under initial segments, and for every \( t \in T \), there is a \emph{branching number} \( n \in \mathbb N \) such that for all \( k \), the sequence \( tk \) lies in \( T \) if and only if \( k < n \).
+	A node \( t \in T \) with no sucessors is called a \emph{leaf}.
+	The empty sequence, which is an element of every tree, is called the \emph{root}.
+	A node \( t \in T \) has \emph{level} \( k \) if the length of the sequence is \( k \), so \( \abs{t} = k \).
+	If \( T \) is finite, there is a maximum level, called the \emph{height} of the tree.
+	For a node \( t \in T \), the sequence \( \eval{t}_0, \eval{t}_1, \dots, \eval{t}_{\abs{t}} = t \) is called the \emph{branch} leading to \( t \).
+\end{definition}
+\begin{remark}
+	The first requirement is that if \( T \) is a tree, \( t \in T \) and \( s \subseteq t \) implies \( s \in T \).
+\end{remark}
+\begin{example}
+	% TODO: visual example
+\end{example}
+\begin{definition}
+	Let \( T \) be a tree and \( t \in T \).
+	Then \( T_t = \qty{s \mid ts \in T} \) is the \emph{subtree starting from \( t \)}.
+\end{definition}
+\begin{definition}
+	We define a partial order on \( T \) by \( t < s \) if \( t \neq s \) and if there exists \( k \) such that \( t(k) \neq s(k) \) and \( k_0 \) is minimal with this property, then \( t(k_0) < s(k_0) \).
+\end{definition}
+\begin{remark}
+	This order is only a partial order since it does not order two distinct nodes that lie on the same branch, for example, \( 0 \) and \( 00 \).
+	For each level \( k \), the nodes of length \( k \) are totally ordered.
+	The leaves are totally ordered.
+\end{remark}
