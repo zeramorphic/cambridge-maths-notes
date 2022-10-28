@@ -384,6 +384,13 @@ Note that we needed to change the start point of \( \widetilde\gamma' \) in the 
 	Hence \( \hat f(z') = \widehat{f \circ (\gamma\gamma')}(1) = \widetilde\gamma'(1) = p_{\alpha_0}^{-1} \circ f \circ \gamma'(1) \in U' \).
 	So \( \hat f(V) \subseteq U \) as required.
 \end{proof}
+\begin{example}
+	Let \( f \colon S^1 \to S^1 \) be the identity map.
+	Let \( p \colon (\mathbb R, 0) \to (S^1, 1) \) be a covering map.
+	Then there is no lift of \( f \) to \( \mathbb R \).
+	Otherwise, the identity map on \( \mathbb Z \) would factor through the trivial group.
+	So the simply connectedness hypothesis is required.
+\end{example}
 
 \subsection{Covering transformations}
 \begin{definition}
@@ -440,5 +447,111 @@ Note that we needed to change the start point of \( \widetilde\gamma' \) in the 
 	In particular, \( p^{-1}(V_\beta) = \coprod_{\alpha \in V, p(x_\alpha) = x_\beta} V_\alpha \), and \( \eval{p}_{V_\alpha} \colon V_\alpha \to V_\beta \) is a homeomorphism.
 	So \( V_\beta \) is evenly covered, so \( p \) is indeed a covering map.
 \end{proof}
-
 % TODO path-connected or path connected?
+
+\subsection{Universality of universal covers}
+Let \( X \) be a locally path connected space, and \( q \colon (\widetilde X, \widetilde x_0) \to (X,x_0) \) be a universal cover.
+Let \( p \colon (\hat X, \hat x_0) \to (X, x_0) \).
+\begin{lemma}
+	If \( p \colon \hat Y \to Y \) is a bijective covering map, then \( p \) is a homeomorphism.
+\end{lemma}
+\begin{proof}
+	\( p \) is continuous and bijective, therefore \( p^{-1} \colon Y \to \hat Y \) exists as a map of sets.
+	We must show that this map is continuous.
+	Since \( p \) is a covering map, \( Y \) has an open cover \( \qty{U_y \mid y \in Y} \) such that \( U_y \) is evenly covered.
+	In particular, \( \eval{p^{-1}}_{U_y} \colon U_y \to p^{-1}(U_y) \) is a homeomorphism.
+	Hence \( p^{-1} \) is continuous.
+\end{proof}
+Recall that if \( p_i \colon \hat X_i \to X \) are covering maps, a covering transformation from \( (p_1, \hat X_1) \) to \( (p_2, \hat X_2) \) is a lift \( \hat p_1 \) of \( p_1 \) to \( X_2 \).
+\( \hat p_1 \) is a covering isomorphism if it is bijective.
+Then, by the lemma, it is a homeomorphism.
+\begin{proposition}
+	Let \( X \) be a locally path connected space, and \( q \colon (\widetilde X, \widetilde x_0) \to (X,x_0) \) be a universal cover.
+	Let \( p \colon (\hat X, \hat x_0) \to (X, x_0) \).
+	Then there is a unique covering transformation \( \hat p \colon (p, \hat X) \to (q, \widetilde X) \)
+	\begin{center}
+		\begin{tikzcd}
+			& (\hat X, \hat x_0) \arrow[d, "p"] \\
+			(\widetilde X, \widetilde x_0) \arrow[r, "q"'] \arrow[ru, "\hat q", dotted] & (X, x_0)
+		\end{tikzcd}
+	\end{center}
+\end{proposition}
+\begin{proof}
+	Note that \( \widetilde X \) is simply connected, and since \( X \) is locally path connected, so is \( \widetilde X \).
+	So existence and uniqueness of \( \hat q \) is exactly the simply connected lifting property.
+\end{proof}
+\begin{corollary}
+	If \( p \) is also a universal cover, \( \hat q \) is a covering isomorphism, and in particular, \( \hat X \simeq \widetilde X \).
+\end{corollary}
+\begin{proof}
+	\( \widetilde X \) is simply connected, so \( \hat q \colon \widetilde X \to \hat X \) is a universal cover.
+	Hence, there is a bijection between points \( \hat q^{-1}(\hat x) \) and elements \( \pi_1(\hat X, \hat x) \).
+	But this is the one-element set, since \( \hat X \) is simply connected.
+	So \( \hat q^{-1}(\hat x) \) has a single element, and so \( \hat q \) is a bijection.
+\end{proof}
+Equivalently, if \( q \colon (\widetilde X, \widetilde x_0) \to (X, x_0) \) and \( q' \colon (\widetilde X', \widetilde x_0') \to (X, x_0) \) are universal covers, there is a unique covering isomorphism \( \hat q \colon (\widetilde X, \widetilde x_0) \to (\widetilde X', \widetilde x_0') \).
+\begin{definition}
+	The \emph{deck group}, written \( G_D(p) \), is the set of covering automorphisms \( g \colon (p, \hat X) \to (p, \hat X) \), which forms a group under composition \( gf = g \circ f \).
+	This has a left action on \( \hat X \) by \( g \cdot \hat x = g(\hat x) \).
+\end{definition}
+\begin{example}
+	Let \( p \colon (\mathbb R, 0) \to (S^1, 1) \).
+	The deck group \( G_D(p) \) is exactly \( \qty{g_n \colon \mathbb R \to \mathbb R \mid g_n(t) = t + n} \simeq \mathbb Z \).
+	In this case, \( G_D(p) \simeq \pi_1(S^1, 1) \).
+\end{example}
+\begin{example}
+	There is a bijection between \( G_D(q) \) and \( q^{-1}(x_0) \), by \( g(\widetilde x_0) \mapsto g \), by the above proposition with \( \hat X = \widetilde X \).
+\end{example}
+\begin{theorem}
+	Let \( q \colon (\widetilde X, \widetilde x_0) \to (X, x_0) \) be a universal cover.
+	Then \( G_D(q) \simeq \pi_1(X,x_0) \).
+\end{theorem}
+\begin{proof}
+	There is a bijection between \( \pi_1(X, x_0) \) and \( q^{-1}(x_0) \) since \( q \) is a universal cover.
+	By the above example, \( q^{-1}(x_0) \) is in bijection with \( G_D(q) \).
+	In particular, we can map \( [\gamma] \in \pi_1(X,x_0) \) to \( \widetilde \gamma(1) \in q^{-1}(x_0) \), where \( \widetilde \gamma \) is the unique lift of \( \gamma \) starting at \( \widetilde x_0 \), and \( g(\widetilde x_0) \in q^{-1}(x_0) \) is mapped to \( g \in G_D(q) \).
+	We need to check that this composed map is a homomorphism: it is already a bijection of sets.
+
+	\( [\gamma][\gamma'] \) is mapped to \( \widetilde{\gamma\gamma'}(1) = \widetilde \gamma (g_{\widetilde \gamma(1)} \circ \widetilde \gamma) \) where \( g_{\widetilde\gamma(1)} \) is the unique element of \( G_D(q) \) with \( g_{\widetilde\gamma(1)}(x_0) = \widetilde \gamma(1) \).
+	Since \( g_{\widetilde\gamma(1)} \circ \widetilde\gamma' \) is a lift of \( \widetilde \gamma' \) starting at \( \widetilde \gamma(1) \), we have \( \widetilde{\gamma\gamma'}(1) = (g_{\widetilde\gamma(1)} \circ \widetilde\gamma')(1) = g_{\widetilde\gamma(1)}(\widetilde\gamma'(1)) = g_{\widetilde\gamma(1)}(g_{\widetilde\gamma'(1)}(\widetilde x_0)) \).
+	So \( \widetilde{\gamma\gamma'}(1) \) is the image of \( \widetilde x_0 \) under \( g_{\widetilde\gamma(1)} \circ g_{\widetilde\gamma'(1)} \), so this is indeed a homomorphism.
+\end{proof}
+\begin{proposition}
+	Let \( G = G_D(q) \simeq \pi_1(X, x_0) \).
+	If \( H \leq G \) is a subgroup, we have a tower of covering maps
+	\begin{center}
+		\begin{tikzcd}
+			\widetilde X \arrow[d, "\pi_H", dotted] \\
+			X_H \arrow[d, "p_H"]                                      \\
+			X
+		\end{tikzcd}
+	\end{center}
+	where \( X_H = H \setminus \widetilde X \) is the quotient given by \( h \cdot x \sim x \) for all \( h \in H \).
+	In particular, \( \pi_H \colon \widetilde X \to H \setminus \widetilde X \) is the quotient map, and \( p_H \colon X_H \to X \) is given by \( p(H \cdot x) = q(x) \).
+	This is well-defined because \( q \circ h = q \) as \( h \) is a deck transformation.
+	In particular, if \( H = G \), \( p_G \) is a covering isomorphism, so \( X \simeq G \setminus \widetilde X \).
+\end{proposition}
+A universal covering map is a quotient by the action of \( G_D(q) \simeq \pi_1(X,x_0) \).
+\begin{proof}
+	Let \( x \in X \).
+	Then choose \( U_x \) to be evenly covered by \( q \).
+	Then \( q^{-1}(U_x) = \coprod_{\alpha \in A} U_\alpha = \coprod_{g \in G_D(q)} g \cdot U_{\alpha_0} \) for \( \widetilde x_0 \in U_{\alpha_0} \).
+	Then \( p_H^{-1}(U_x) = \coprod_{\beta = gH \in \text{cosets of } H} U_\beta \).
+	Then \( \pi_H^{-1}(U_\beta) = \coprod_{gh \in gH} gh \cdot U_{\alpha_0} \), and \( p_H^{-1}(U_x) = \coprod U_\beta \).
+	So each is evenly covered.
+\end{proof}
+\begin{definition}
+	\( p \colon \widetilde X \to X \) is a \emph{normal cover} if \( G_D(p) \) acts transitively on \( p^{-1}(x_0) \).
+\end{definition}
+\begin{example}
+	The universal cover \( q \) is always a normal cover.
+\end{example}
+\begin{proposition}
+	Let \( p \colon (\hat X, \hat x_0) \to (X, x_0) \) be a covering map.
+	Then \( p_\star \colon \pi_1(\hat X, \hat x_0) \to \pi_1(X, x_0) \) is injective.
+	In particular, \( \Im p_\star \simeq \pi_1(\hat X, \hat x_0) \) is a subgroup of \( \pi_1(X, x_0) \).
+\end{proposition}
+\begin{proof}
+	If \( p_\star[\gamma_0] = p_\star[\gamma_1] \), we have \( p \circ \gamma_0 \sim_e p \circ \gamma_1 \), so \( \widehat{p \circ \gamma_0} \sim_e \widehat{p \circ \gamma_1} \), so \( \gamma_0 \sim_e \gamma_1 \).
+	In particular, \( [\gamma_0] = [\gamma_1] \).
+\end{proof}

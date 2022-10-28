@@ -34,7 +34,74 @@ Now, for \( f \colon (E,\mathcal E,\mu) \to \mathbb R \) measurable but not nece
 	Then, \( \mu(f_n) \to \mu(f) \) as \( n \to \infty \).
 \end{theorem}
 \begin{remark}
-	This is a theorem that allows us to interchange a pair of limits.
+	This is a theorem that allows us to interchange a pair of limits, \( \mu(f) = \mu\qty(\lim_n f_n) = \lim_n \mu(f_n) \).
+	Also, \( g_n \geq 0 \), \( \mu\qty(\sum_n g_n) = \sum_n \mu(g_n) \).
+
 	If we consider the approximating sequence \( \widetilde f_n = 2^{-n} \floor{2^n f} \), as defined in the monotone class theorem, then this is a non-negative sequence converging to \( f \).
 	So in particular, \( \mu(f) \) is equal to the limit of the integrals of these simple functions.
+
+	It suffices to require convergence of \( f_n \to f \) almost everywhere, the general argument does not need to change.
+	The non-negativity constraint is not required if the first term in the sequence \( f_0 \) is integrable, by subtracting \( f_0 \) from every term.
 \end{remark}
+\begin{proof}
+	Recall that \( \mu(f) = \sup\qty{\mu(g) \mid g \leq f, g \text{ simple}} \).
+	Since \( f_n \) is an increasing sequence of nonnegative functions, \( \mu(f_n) \) is an increasing sequence of nonnegative functions.
+	So it converges to its (\emph{extended} non-negative real) supremum \( M = \sup_n \mu(f_n) \).
+	Since \( f_n \leq f \), \( \mu(f_n) \leq \mu(f) \), so taking suprema, \( M \leq \mu(f) \).
+	If \( M \) is finite, \( \sup_n \mu(f_n) = \lim_n \mu(f_n) \leq \mu(f) \).
+	If \( M \) is infinite, we are already done.
+
+	Now, we need to show \( \mu(f) \leq M \), or equivalently, \( \mu(g) \geq M \) for all simple \( g \) such that \( g \leq f \), so that taking suprema, \( \mu(f) = \sup_g \mu(g) \leq M \).
+	We define \( g_n = \min (\overline f_n, g) \), where \( \overline f_n \) is the \( n \)th approximation of \( f_n \) by simple functions from the monotone class theorem.
+	Now, since \( f_n \) increases to \( f \), \( \overline f_n \) increases to \( f \).
+	In particular, \( g_n = \min(\overline f_n, g) \) increases to \( \min(f, g) = g \).
+	Since \( \overline f_n \leq f_n \) by definition, we have \( g_n \leq f_n \) for all \( n \).
+
+	Now let \( g \) be an arbitrary simple function of the form \( g = \sum_{k=1}^m a_k \mathbbm 1_{A_k} \) where \( a_k \geq 0 \) and the \( A_k \in \mathcal E \) are disjoint.
+	For \( \varepsilon > 0 \), we define sets \( A_k(n) = \qty{x \in A_k \colon g_n(x) \geq (1-\varepsilon) a_k} \).
+	Since \( g = a_k \) on \( A_k \), and since \( g_n \) increases to \( g \), we must have \( A_k(n) \) increases to \( A_k \) for all \( k \).
+	Since \( \mu \) is a measure, \( \mu(A_k(n)) \) increases to \( \mu(A_k) \) by countable additivity.
+
+	We have \( g_n \mathbbm 1_{A_k} \geq g_n \mathbbm 1_{A_k(n)} \geq (1-\varepsilon)a_k \mathbbm 1_{A_k(n)} \) on \( E \).
+	Moreover, \( g_n = \sum_{k=1}^m g_n \mathbbm 1_{A_k} \) since the \( A_k \) are disjoint and support \( g_n \).
+	Hence, \( g_n \geq \sum_{k=1}^m (1-\varepsilon)a_k \mathbbm 1_{A_k(n)} \), and in particular, \( \mu(g_n) \geq (1 - \varepsilon) \sum_{k=1}^m a_k \mu(A_k(n)) \).
+	The right hand side increases to \( (1-\varepsilon) \sum_{k=1}^m a_k \mu(A_k) = (1-\varepsilon) \mu(g) \).
+	Hence
+	\[ \mu(g) \leq \frac{1}{1-\varepsilon} \limsup_n \mu(g_n) \leq \frac{1}{1-\varepsilon} \limsup_n \mu(f_n) \leq \frac{M}{1-\varepsilon} \]
+	Since \( \varepsilon \) was arbitrary, this completes the proof.
+\end{proof}
+
+\subsection{Linearity of integral}
+\begin{theorem}
+	Let \( f, g \colon (E, \mathcal E, \mu) \to \mathbb R \) be nonnegative measurable functions.
+	Then \( \mu(\alpha f + \beta g) = \alpha \mu(f) + \beta \mu(g) \) for all \( \alpha, \beta \geq 0 \).
+	Further, if \( g \leq f \), then \( \mu(g) \leq \mu(f) \).
+	Finally, \( f = 0 \) almost everywhere if and only if \( \mu(f) = 0 \).
+\end{theorem}
+\begin{proof}
+	If \( \widetilde f_n, \widetilde g_n \) are the approximations of \( f \) and \( g \) by simple funtions from the monotone class theorem, \( \alpha \widetilde f_n \) increases to \( \alpha f \) and \( \beta \widetilde g_n \) increases to \( \beta g \), so \( \alpha \widetilde f_n + \beta \widetilde g_n \) increases to \( \alpha f + \beta g \).
+	Integrating both sides and using the monotone convergence theorem, the result follows, since linearity of simple functions is simple to prove.
+
+	The second part \( g \leq f \implies \mu(g) \leq \mu(f) \) has already been proven.
+	Now, if \( f = 0 \) almost everywhere, its approximation \( 0 \leq \widetilde f_n \) increases to \( f \) almost everywhere, so must be exactly zero for all \( n \).
+	So \( \mu(\widetilde f_n) = 0 \) so \( \mu(f) = 0 \).
+	Conversely, if \( \mu(f) = 0 \), then \( 0 \leq \mu(\widetilde f_n) \to 0 \) gives \( \mu(\widetilde f_n) = 0 \) so \( \widetilde f_n = 0 \) almost everywhere.
+	Since \( 0 = \widetilde f_n \) increases almost everywhere to \( f \), \( f \) is zero almost everywhere.
+\end{proof}
+\begin{remark}
+	Functions such as \( \mathbbm 1_{\mathbb Q} \) are integrable and have integral zero.
+	They are `identified' with the zero element in the theory of integration.
+\end{remark}
+\begin{theorem}
+	Let \( f, g \colon (E, \mathcal E, \mu) \to \mathbb R \) be integrable functions.
+	Then \( \mu(\alpha f + \beta g) = \alpha \mu(f) + \beta \mu(g) \) for all \( \alpha, \beta \in \mathbb R \); if \( g \leq f \), then \( \mu(g) \leq \mu(f) \); and if \( f = 0 \) almost everywhere, we have \( \mu(f) = 0 \).
+\end{theorem}
+\begin{proof}
+	Clearly, if \( f \) is integrable, so is \( \alpha f \), and \( \mu(-f) = -\mu(f) \), by definition of the integral for a general function.
+	We can explicitly check that for \( \alpha \geq 0 \), we have \( \mu(\alpha f) = \mu((\alpha f)^+) - \mu((\alpha f)^-) = \alpha \mu(f^+) - \alpha \mu(f^-) = \alpha \mu(f) \).
+	Define \( h = f + g \).
+	Then \( h^+ + f^- + g^- = h^- + f^+ + g^+ \), so by the previous theorem, \( \mu(h^+) + \mu(f^-) + \mu(g^-) = \mu(h^-) + \mu(f^+) + \mu(g^+) \) and the result holds.
+
+	Finally, if \( 0 \leq f - g \), we have \( 0 \leq \mu(0) \leq \mu(f - g) = \mu(f) - \mu(g) \) so the result follows.
+	If \( f = 0 \) almost everywhere, \( f^+ = 0 \) and \( f^- = 0 \) almost everywhere, so \( \mu(f) = 0 \).
+\end{proof}

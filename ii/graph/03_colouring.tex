@@ -205,3 +205,75 @@
 
 	A result due to June Huh is that the coefficients \( c_0, \dots, c_n \) of \( P_G \) are \emph{log-concave}, so \( c_i^2 > c_{i-1}c_{i+1} \).
 \end{remark}
+
+\subsection{Edge colouring}
+\begin{definition}
+	Let \( G \) be a graph.
+	A \emph{\( k \)-edge colouring} is a function \( c \colon E(G) \to \qty{1, \dots, k} \) such that if \( c(e) \neq c(f) \) if \( e, f \) share an endpoint.
+	The \emph{edge chromatic number}, or the \emph{chromatic index}, denoted \( \chi'(G) \), is the minimum \( k \) such that there exists a \( k \)-edge colouring.
+\end{definition}
+\begin{remark}
+	An edge colouring of \( G \) corresponds exactly to a vertex colouring of the line graph of \( G \).
+	In particular, \( \chi'(G) = \chi(L(G)) \).
+	Note that not every graph can be realised as the line graph of some other graph.
+\end{remark}
+\begin{example}
+	The edge chromatic number of an even cycle is 2.
+	The edge chromatic number of an odd cycle is 3.
+	This is because a cycle is its own line graph.
+\end{example}
+\begin{example}
+	We have \( \Delta(G) \leq \chi'(G) \).
+	If \( x \in V(G) \) has degree \( \Delta(G) \), all edges indicent to \( x \) must be given different colours.
+	We may have \( \Delta(G) < \chi'(G) \) for some graphs, such as \( C_3 \).
+	The edge chromatic number of the Petersen graph is 4, but it is 3-regular.
+
+	We can show that \( \chi'(G) \leq 2\Delta(G) - 1 \) by the greedy colouring, considering how many vertices each edge can be connected to.
+	\( \chi' \) and \( \chi \) can be very different, for instance, consider \( \chi(K_{t,1}) = 2 \) but \( \chi'(K_{t,1}) = t \).
+\end{example}
+Given an edge colouring \( c \colon E(G) \to \qty{1, \dots, k} \), we define the \emph{colour classes} by \( C_i = \qty{e \in E(G) \mid c(e) = i} \).
+Note that \( (V(G), C_i \cup C_j) \) is the union of disjoint paths, even cycles, and isolated vertices.
+We say that the components of this graph are \emph{\( \qty{i,j} \)-components}.
+\begin{theorem}[Vizing]
+	Let \( G \) be a graph.
+	Then \( \chi'(G) = \Delta(G) \) or \( \chi'(G) = \Delta(G) + 1 \).
+\end{theorem}
+\begin{proof}
+	We prove this by induction on \( \abs{E(G)} \).
+	It suffices to show there is a \( \Delta(G) + 1 \) colouring of any graph.
+	If there are no edges, the graph can be \( 0 \)-coloured, so \( \chi'(G) = \Delta(G) = 0 \) and so there is clearly a \( 1 \)-colouring.
+	For the inductive step, let \( G \) be a graph with \( e(G) > 0 \), and \( xv \in E(G) \).
+	Apply induction to \( G - xv \) to obtain a \( \Delta(G) + 1 \) edge colouring.
+
+	Let \( y \in V(G) \) and \( c \in \qty{1, \dots, \Delta(G) + 1} \).
+	We say \( c \) is \emph{missing} at \( y \) if no edge incident to \( y \) are coloured \( c \).
+	Note that there is a colour missing at every vertex since we are using \( \Delta(G) + 1 \).
+	
+	Let \( c_0 \) be a colour missing at \( x \).
+	We define a sequence of vertices \( v_1, \dots, v_k \in N(x) \) and corresponding colours \( c_1, \dots, c_k \) such that \( c_i \) is missing at \( v_i \).
+	First, we set \( v_1 = v \) and let \( c_1 \) be any colour missing at \( v \).
+	Then if \( v_i \) and \( c_i \) are defined, define \( v_{i+1} \) such that \( c(xv_{i+1}) = c_i \), and define \( c_{i+1} \) to be any colour missing at \( v_{i+1} \).
+	This induction continues until either we find a colour missing at \( x \) or we repeat a colour.
+
+	Suppose \( v_1, \dots, v_k \) are defined and \( c_k \) is missing at \( x \).
+	Then we can recolour \( xv_k \) with \( c_k \).
+	Now \( c_{k-1} \) is missing at \( x \), so inductively, recolour \( xv_i \) with \( c_i \).
+	In particular, \( c_1 \) is missing at \( x \), so we can colour \( xv_1 \) with \( c_1 \).
+
+	In the other case, suppose \( c_k = c_i \) for \( i < k \).
+	Note that we may assume \( i = 1 \): uncolour \( xv_{i-1} \) and recolour \( xv_j \) with \( c_j \) for all \( j < i \) as above.
+	So \( c_k = c_1 \).
+	If \( v_1 \) is not in the same \( \qty{c_0, c_1} \) component as \( x \), we can swap the colours on the \( \qty{c_0, c_1} \) component containing \( v_1 \).
+	Then \( c_0 \) is missing at \( v_1 \), and the colours of \( xv_2, \dots, xv_k \) are unchanged.
+	So we can colour \( xv_1 \) with \( c_0 \).
+
+	Now suppose \( x, v_1 \) are in the same \( \qty{c_0, c_1} \) component.
+	If \( v_k \) is not in the same \( \qty{c_0, c_1} \) component as \( x \), we can similarly swap the colours on the \( \qty{c_0, c_1} \) component containing \( v_k \).
+	So \( c_0 \) is missing at \( v_k \) and \( x \), and so we can recolour \( xv_k \) to \( c_0 \), and inductively \( xv_i \) with \( c_i \).
+
+	Now finally suppose \( x, v_1, v_k \) are all in the same \( \qty{c_0, c_1} \) component.
+	So one of \( c_0, c_1 \) are missing at each of \( x, v_1, v_k \).
+	Since all \( \qty{c_0, c_1} \)-components of the graph are disjoint paths, even cycles, or isolated vertices,
+	So \( x, v_1, v_k \) are each endpoints of a path.
+	But since paths only have two endpoints, this is a contradiction.
+\end{proof}
