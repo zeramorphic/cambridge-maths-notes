@@ -23,5 +23,110 @@
 	Then \( \abs{\Aut(L/K)} \leq [L:K] \).
 \end{theorem}
 \begin{proof}
-	Let \( M = L \), then \( \Hom_K(L,M) = \Aut(L,K) \), which has at most \( [L:K] \) elements.
+	Let \( M = L \), then \( \Hom_K(L,M) = \Aut(L/K) \), which has at most \( [L:K] \) elements.
+\end{proof}
+\begin{proposition}
+	If \( K = \mathbb Q \) or \( K = \mathbb F_q \), \( \Aut(K) = \qty{1} \).
+\end{proposition}
+\begin{proof}
+	\( \sigma(1_K) = 1_K \) hence \( \sigma(n_K) = n_K \).
+\end{proof}
+In particular, \( \Aut(L) = \Aut(L/K) \) where \( K \) is the prime subfield of \( L \).
+
+\subsection{Galois extensions}
+We need to define a notion of when an extension \( L / K \) has `many symmetries'.
+\begin{definition}
+	An extension \( L / K \) is a \emph{Galois extension} if it is algebraic, and \( L^{\Aut(L/K)} = K \).
+\end{definition}
+\begin{remark}
+	If \( x \in L \setminus K \), there is a \( K \)-automorphism \( \sigma : L \to L \) such that \( x \neq \sigma(x) \).
+\end{remark}
+\begin{example}
+	\( \mathbb C / \mathbb R \) is a Galois extension, since the fixed field of complex conjugation is \( \mathbb R \).
+	Similarly, \( \mathbb Q(i) / \mathbb Q \) is a Galois extension.
+\end{example}
+\begin{example}
+	Let \( K / \mathbb F_p \) be a finite extension, so \( K \) is a finite field.
+	The Frobenius automorphism of \( K \), given by \( \varphi_p(x) = x^p \), has fixed field
+	\[ K^{\qty{\varphi_p}} = \qty{x \in K \mid x \text{ a root of } T^p - T} \]
+	But since this has at most \( p \) roots, and each element of \( \mathbb F_p \) is a root, the fixed field is exactly \( \mathbb F_p \).
+	So \( K^{\Aut(K/\mathbb F_p)} = \mathbb F_p \), so this is a Galois extension.
+\end{example}
+\begin{definition}
+	Let \( L / K \) be a Galois extension.
+	We say \( \Gal(L/K) \) for the automorphism group \( \Aut(L/K) \), called the \emph{Galois group of \( L / K \)}.
+\end{definition}
+\begin{theorem}[classification of finite Galois extensions]
+	Let \( L / K \) be a finite extension, and let \( G = \Aut(L/K) \), then the following are equivalent.
+	\begin{enumerate}[(i)]
+		\item \( L / K \) is a Galois extension, so \( K = L^G \).
+		\item \( L / K \) is normal and separable.
+		\item \( L \) is a splitting field of a separable polynomial in \( K \).
+		\item \( \abs{\Aut(L/K)} = [L : K] \).
+	\end{enumerate}
+	If this holds, the minimal polynomial of any \( x \in L \) over \( K \) is \( m_{x,K} = \prod_{i=1}^r (T - x_i) \), where \( \qty{x_1, \dots, x_r} \) is the orbit of \( G \) on \( x \).
+\end{theorem}
+\begin{proof}
+	\emph{(i) implies (ii) and the minimal polynomial result.}
+	Let \( x \in L \), and \( \qty{x_1, \dots, x_r} \) be the orbit of \( G \) on \( x \).
+	Let \( f = \prod_{i=1}^r (T - x_i) \).
+	Then \( f(x) = 0 \).
+	Since \( G \) permutes the \( x_i \), the coefficients of \( f \) are fixed by \( G \).
+	By assumption, the coefficients of \( f \) lie in \( K \), so the minimal polynomial of \( x \) must divide \( f \).
+	Since \( m_{x,K}(\sigma(x)) = \sigma(m_{x,K}(x)) = 0 \), so every \( x_i \) is a root of the minimal polynomial of \( m_{x,K} \).
+	So \( f \) is exactly the minimal polynomial as required.
+	\( m_{x,K} \) is a separable polynomial and splits in \( L \).
+	So \( L / K \) is normal and separable.
+
+	\emph{(ii) implies (iii).}
+	Since splitting fields are normal extensions, \( L \) is a splitting field for some polynomial \( f \in K[T] \).
+	Write \( f = \prod_{i=1}^r q_i^{e_i} \) where the \( q_i \) are distinct irreducible polynomials, and \( e_i \geq 1 \).
+	Since \( L \) and \( K \) are separable, the \( q_i \) are separable as they are irreducible, so \( g = \prod_{i=1}^r q_i \) is separable and \( L \) is also a splitting field for \( g \).
+
+	\emph{(iii) implies (iv).}
+	Let \( L = K(x_1, \dots, x_k) \) be the splitting field of a separable polynomial \( f \in K[T] \) with roots \( x_i \).
+	By the theorem on counting embeddings with \( M = L \), since \( m_{x_i,K} \mid f \), conditions (i) and (ii) in the theorem are satisfied, and we find \( \abs{\Aut(L/K)} = \abs{\Hom_K(L,M)} = [L:K] \).
+
+	\emph{(iv) implies (i).}
+	Suppose \( \abs{\Aut(L/K)} = \abs{G} = [L : K] \).
+	Note that \( G \subseteq \Aut(L/L^G) \subseteq \Aut(L/K) \), so these inclusions are both equalities.
+	So \( G = \Aut(L/L^G) \), so \( [L : K] = \abs{G} \leq [L : L^G] \).
+	But since \( L^G \supseteq K \), we must have equality by the tower law.
+\end{proof}
+\begin{corollary}
+	Let \( L / K \) be a finite Galois extension.
+	Then \( L = K(x) \) for some \( x \in L \) which is separable over \( K \), and has degree \( [L : K] \).
+\end{corollary}
+\begin{proof}
+	By (ii) above, \( L / K \) is separable.
+	Then the primitive element theorem implies that \( L = K(x) \) for some \( x \).
+\end{proof}
+
+\subsection{Galois correspondence}
+\begin{theorem}[Galois correspondence: part (a)]
+	Let \( L / K \) be a finite Galois extension with \( G = \Gal(L / K) \).
+	Suppose \( F \) is another field, and \( K \subseteq F \subseteq L \).
+	Then \( L / F \) is also a Galois extension where \( \Gal(L / F) \leq \Gal(L / K) \).
+	The map \( F \mapsto \Gal(L / F) \) is a bijection between the set of intermediate fields \( F \) and the set of subgroups of \( H \leq \Gal(L/K) \).
+	The inverse of this map is \( H \mapsto L^H \).
+	This bijection reverses inclusions, and if \( F = L^H \), we have \( [F : K] = (G : H) \).
+\end{theorem}
+\begin{proof}
+	Let \( x \in L \).
+	Then \( m_{x,F} \mid m_{x,K} \) in \( F[T] \).
+	As \( m_{x,K} \) splits into distinct linear factors in \( L \) so does \( m_{x,F} \).
+	So \( L / F \) is normal and separable, and hence a Galois extension as required.
+	By definition, \( \Gal(L / F) \leq \Gal(L / K) \).
+
+	To check the map \( F \mapsto \Gal(L / F) \) is a bijection with the given inverse, we first consider a field \( F \), and its image \( L^{\Gal(L / F)} \) under both maps.
+	We have \( L^{\Gal(L / F)} = F \), since \( L / F \) is Galois as required.
+	Conversely, suppose \( H \leq \Gal(L / F) \), and consider its image \( \Gal(L / L^H) \).
+	To show \( \Gal(L / L^H) = H \), it suffices to show that \( [L : L^H] \leq \abs{H} \), because certainly \( H \leq \Gal(L / L^H) \) and \( \abs{\Gal(L / L^H)} \leq [L : L^H] \).
+	By the previous corollary, \( L = L^H(x) \) for some \( x \), and \( f = \prod_{\sigma \in H} (T - \sigma(x)) \in L^H[T] \) is a polynomial with \( x \) as a root.
+	In particular, \( [L : L^H] = \deg_{L^H}(x) \leq \deg f = \abs{H} \).
+	So we have a bijection as claimed.
+
+	Suppose \( F \subseteq F' \) are fields between \( K \) and \( L \).
+	Then \( \Gal(L/F') \subseteq \Gal(L/F) \), so the bijection reverses inclusions.
+	Finally, if \( F = L^H \), we have \( [F : K] = \frac{[L : K]}{[L : F]} = \frac{\abs{\Gal(L / K)}}{\abs{\Gal(L / F)}} = \frac{\abs{G}}{\abs{H}} = (G : H) \).
 \end{proof}

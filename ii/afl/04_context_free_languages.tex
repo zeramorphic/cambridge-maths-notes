@@ -1,4 +1,4 @@
-\subsection{Parse trees}
+\subsection{Trees}
 Recall that the language \( \qty{0^k1^k \mid k > 0} \) is context-free but not regular, so context-free languages are indeed a proper superset of regular languages.
 The structure of regular derivations was very simple; each intermediate step was of the form \( wA \) for a word \( w \) and a variable \( A \in V \).
 However, the structure of context-free derivations is more complicated: we use a parse tree instead of a linear derivation.
@@ -22,9 +22,81 @@ However, the structure of context-free derivations is more complicated: we use a
 \end{definition}
 \begin{definition}
 	We define a partial order on \( T \) by \( t < s \) if \( t \neq s \) and if there exists \( k \) such that \( t(k) \neq s(k) \) and \( k_0 \) is minimal with this property, then \( t(k_0) < s(k_0) \).
+	This is called the \emph{left-to-right order}.
 \end{definition}
 \begin{remark}
 	This order is only a partial order since it does not order two distinct nodes that lie on the same branch, for example, \( 0 \) and \( 00 \).
 	For each level \( k \), the nodes of length \( k \) are totally ordered.
 	The leaves are totally ordered.
 \end{remark}
+
+\subsection{Parse trees}
+\begin{definition}
+	Let \( G \) be a context-free grammar.
+	A pair \( \mathbb T = (T, \ell) \) is a \emph{\( G \)-parse tree} if \( T \) is a finitely-branching tree and \( \ell \colon T \to \Omega \) is a \emph{labelling function} such that:
+	\begin{enumerate}
+		\item \( \ell(\varepsilon) \in V \), we say \( T \) \emph{starts with} \( \ell(\varepsilon) \);
+		\item if \( \ell(t) \in \Sigma \), \( t \) has no successors;
+		\item if \( t \) has \( n + 1 \) successors and \( \ell(t) = A \in V \), then \( A \to \ell(t0) \ell(t1) \dots \ell(tn) \in P \).
+	\end{enumerate}
+	If \( \mathbb T = (T,\ell) \) is a \( G \)-parse tree, and \( t_0, \dots, t_m \) are its leaves written in the left-to-right order, then the \emph{string parsed by \( \mathbb T \)} is \( \sigma_{\mathbb T} = \ell(t_0) \dots \ell(t_m) \).
+\end{definition}
+\begin{remark}
+	If \( t \in T \), \( \sigma_{\mathbb T} = \alpha \sigma_{\mathbb T_t} \beta \) where \( \mathbb T_t = (T_t, \ell_t) \), \( \ell_t(s) = \ell(ts) \).
+\end{remark}
+\begin{proposition}
+	Let \( G \) be a context-free grammar.
+	Then \( w \in \mathcal L(G) \) if and only if there is a \( G \)-parse tree \( \mathbb T \) starting from \( S \) such that \( \sigma_{\mathbb T} = w \).
+\end{proposition}
+\begin{proof}
+	Observe that certain sequences of parse trees correspond to derivations.
+	In particular, a sequence \( \mathbb T_0, \dots, \mathbb T_n \) of \( G \)-parse trees is \emph{derivative} if \( \mathbb T_0 = (\qty{\varepsilon}, \ell_0) \) with \( \ell_0(\varepsilon) = S \), and \( T_{i+1} \supseteq T_i \) constructed by considering a leaf \( t \in T_i \) such that \( \ell_i(t) = A \in V \) and \( A \to x_0 \dots x_n \in P \), and giving it \( n + 1 \) successors with \( \ell_{i+1}(tk) = x_k \).
+	There is a one-to-one correspondence between \( G \)-derivations starting from \( S \) and such derivative sequences of parse trees.
+	In particular, any derivation yields a derivative sequence of parse trees, and hence the last parse tree in the sequence has \( \sigma_{\mathbb T_n} = w \).
+
+	Conversely, given a parse tree \( \mathbb T \), it suffices to construct such a derivative sequence of parse trees, because then the correspondence yields a derivation as required.
+	We start with the trivial tree \( \mathbb T_0 = \qty(\qty{\varepsilon}, \eval{\ell}_{\qty{\varepsilon}}) \).
+	In each step, suppose \( \mathbb T_0, \dots, \mathbb T_i \) already form a derivative sequence, and \( T_i \neq T \).
+	Let \( t \in T \setminus T_i \).
+	Then there is a terminal node in \( T_i \) on the branch containing \( t \) in \( T \), which is not a terminal node in \( T \).
+	We can then create \( T_{i+1} \) by adding the \( T \)-successors of \( t \) to \( T_i \).
+	Since \( T \) is finite, after finitely many steps we are done.
+	In particular, \( \mathbb T_0, \dots, \mathbb T_n \) is a derivative sequence, and thus \( S \xrightarrow G \sigma_{\mathbb T_n} = \sigma_{\mathbb T} = w \) as required.
+\end{proof}
+Suppose \( \mathbb T \) is a parse tree and \( t \in T \) such that \( \ell(t) = A \), and \( \mathbb T' \) is a parse tree starting from \( A \).
+Then, we can remove the subtree \( T_t \), and replace it with \( T' \), which also yields a parse tree.
+This technique is known as \emph{grafting}.
+\begin{definition}
+	We define \( \graft(\mathbb T, t, \mathbb T') = (S, \ell^\star) \) where
+	\[ S = \qty{s \in T \mid t \not\subseteq s} \cup \qty{tu \mid u \in T'} \]
+	and
+	\[ \ell^\star(s) = \begin{cases}
+		\ell(s) & t \not\subseteq s \\
+		\ell'(u) & \exists u \in T',\, s = tu
+	\end{cases} \]
+\end{definition}
+Then we have
+\[ \sigma_{\graft(\mathbb T, t, \mathbb T')} = \alpha \sigma_{\mathbb T'} \beta;\quad \sigma_{\mathbb T} = \alpha \sigma_{\mathbb T_t} \beta \]
+
+\subsection{Chomsky normal form}
+\begin{definition}
+	A grammar is in \emph{Chomsky normal form} if all of its rules are of the form \( A \to BC \) or \( A \to a \).
+	Rules of the form \( A \to BC \) are called \emph{binary}; rules of the form \( A \to a \) are called \emph{unary}.
+\end{definition}
+Every grammar in Chomsky normal form is context-free.
+\begin{lemma}
+	Let \( G \) be a grammar in Chomsky normal form, and \( w \in \mathcal L(G) \) with \( \abs{w} = n \).
+	Then every \( G \)-derivation of \( w \) has length \( 2n - 1 \).
+\end{lemma}
+\begin{proof}
+	Binary rules increment the length, and increment the variable count.
+	Unary rules preserve the length, and decrement the variable count.
+	Since \( w \) is comprised only of letters, exactly \( n - 1 \) binary rules and \( n \) unary rules were used.
+\end{proof}
+We will show that every context-free grammar is equivalent to a Chomsky normal form grammar, and there is an algorithm to produce such a grammar.
+There are three types of rules that are obstructions to a context-free grammar being in Chomsky normal form:
+\begin{enumerate}
+	\item rules \( A \to x_0 \dots x_n \) with \( n \geq 2 \);
+	\item rules \( A \to \alpha \) where \( \alpha \) contains both letters and variables, called \emph{mixed rules};
+	\item rules of the form \( A \to B \), called \emph{unit rules}.
+\end{enumerate}
