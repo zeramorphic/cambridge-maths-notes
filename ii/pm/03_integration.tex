@@ -51,7 +51,7 @@ Now, for \( f \colon (E,\mathcal E,\mu) \to \mathbb R \) measurable but not nece
 	If \( M \) is finite, \( \sup_n \mu(f_n) = \lim_n \mu(f_n) \leq \mu(f) \).
 	If \( M \) is infinite, we are already done.
 
-	Now, we need to show \( \mu(f) \leq M \), or equivalently, \( \mu(g) \geq M \) for all simple \( g \) such that \( g \leq f \), so that taking suprema, \( \mu(f) = \sup_g \mu(g) \leq M \).
+	Now, we need to show \( \mu(f) \leq M \), or equivalently, \( \mu(g) \leq M \) for all simple \( g \) such that \( g \leq f \), so that taking suprema, \( \mu(f) = \sup_g \mu(g) \leq M \).
 	We define \( g_n = \min (\overline f_n, g) \), where \( \overline f_n \) is the \( n \)th approximation of \( f_n \) by simple functions from the monotone class theorem.
 	Now, since \( f_n \) increases to \( f \), \( \overline f_n \) increases to \( f \).
 	In particular, \( g_n = \min(\overline f_n, g) \) increases to \( \min(f, g) = g \).
@@ -104,4 +104,74 @@ Now, for \( f \colon (E,\mathcal E,\mu) \to \mathbb R \) measurable but not nece
 
 	Finally, if \( 0 \leq f - g \), we have \( 0 \leq \mu(0) \leq \mu(f - g) = \mu(f) - \mu(g) \) so the result follows.
 	If \( f = 0 \) almost everywhere, \( f^+ = 0 \) and \( f^- = 0 \) almost everywhere, so \( \mu(f) = 0 \).
+\end{proof}
+
+\subsection{Fatou's lemma}
+\begin{lemma}
+	Let \( f_n \colon (E, \mathcal E, \mu) \to \mathbb R \) be nonnegative measurable functions.
+	Then \( \mu (\liminf_n f_n) \leq \liminf_n \mu(f_n) \).
+\end{lemma}
+\begin{remark}
+	Recall that \( \liminf_n x_n = \sup_n \inf_{m \geq n} x_m \) and \( \limsup_n x_n = \inf_n \sup_{m \geq n} x_m \).
+	In particular, \( \limsup_n x_n = \liminf_n x_n \) implies that \( \lim_n x_n \) exists and is equal to \( \limsup_n x_n \) and \( \liminf_n x_n \).
+	Hence, if the \( f_n \) converge to some measurable function \( f \), \( \mu(f) \leq \liminf_n \mu(f_n) \).
+\end{remark}
+\begin{proof}
+	We have \( \inf_{m \geq n} f_m \leq f_k \) for all \( k \geq n \), so by taking integrals,
+	\[ \mu\qty(\inf_{m \geq n} f_m) \leq \mu(f_k) \leq \inf_{k \geq n} \mu(f_k) \leq \sup_n \inf_{k \geq q} \mu(f_k) = \liminf_n \mu(f_k) \]
+	Note that \( \inf_{m \geq n} f_m \) increases to \( \sup_n \inf_{m \geq n} f_m = \liminf_n f_n \).
+	By the monotone convergence theorem,
+	\[ \mu\qty(\liminf_n f_n) = \lim_n \mu\qty(\inf_{m \geq n} f_m) \leq \liminf_n \mu(f_n) \]
+	as required.
+\end{proof}
+
+\subsection{Dominated convergence theorem}
+\begin{theorem}
+	Let \( f_n, f \colon (E, \mathcal E, \mu) \) be measurable functions such that \( \abs{f_n} \leq g \) almost everywhere on \( E \), and the dominating function \( g \) is \( \mu \)-integrable, so \( \mu(g) < \infty \).
+	Suppose \( f_n \to f \) pointwise (or almost everywhere) on \( E \).
+	Then \( f_n \) and \( f \) are also integrable, and \( \mu(f_n) \to \mu(f) \) as \( n \to \infty \).
+\end{theorem}
+\begin{proof}
+	Clearly \( \mu(\abs{f_n}) \leq \mu(g) < \infty \), so the \( f_n \) are integrable.
+	Taking limits in \( \abs{f_n} \leq g \), we have \( \abs{f} \leq g \), so \( f \) is also integrable by the same argument.
+	Now, \( g \pm f_n \) is a nonnegative function, and converges pointwise to \( g \pm f \).
+	Since limits are equal to the limit inferior when they exist, by Fatou's lemma, we have
+	\[ \mu(g) + \mu(f) = \mu(g + f) = \mu\qty(\liminf_n (g + f_n)) \leq \liminf_n \mu(g + f_n) = \mu(g) + \liminf_n \mu(f_n) \]
+	Hence \( \mu(f) \leq \liminf_n \mu(f_n) \).
+	Likewise, \( \mu(g) - \mu(f) \leq \mu(g) - \liminf_n \mu(f_n) \), so \( \mu(f) \geq \limsup_n \mu(f_n) \), so
+	\[ \limsup_n \mu(f_n) \leq \mu(f) \leq \liminf_n \mu(f_n) \]
+	But since \( \liminf_n \mu(f_n) \leq \limsup_n \mu(f_n) \), the result follows.
+\end{proof}
+\begin{example}
+	Let \( E = [0,1] \) with the Lebesgue measure.
+	Let \( f_n \to f \) pointwise and the \( f_n \) are uniformly bounded, so \( \sup_n \norm{f_n}_\infty \leq g \) for some \( g \in \mathbb R \).
+	Then since \( \mu(g) = g < \infty \), the dominated convergence theorem implies that \( f_n, f \) are integrable and \( \mu(f_n) \to \mu(f) \) as \( n \to \infty \).
+	In particular, no notion of uniform convergence of the \( f_n \) is required.
+\end{example}
+\begin{remark}
+	The proof of the fundamental theorem of calculus requires only the fact that \( \int_x^{x + h} \dd{t} = h \).
+	This is a fact which is obviously true of the Riemann integral and also of the Lebesgue integral.
+	Therefore, for any continuous function \( f \colon [0,1] \to \mathbb R \), we have
+	\[ \underbrace{\int_0^x f(t) \dd{t}}_{\text{Riemann integral}} = F(x) = \underbrace{\int_0^x f(t) \dd{\mu(t)}}_{\text{Lebesgue integral}} \]
+	So these integrals coincide for continuous functions.
+	We can show that all Riemann integrable functions are \( \mu^\star \)-measurable, where \( \mu^\star \) is the outer measure of the Lebesgue measure, as defined in the proof of Carath\'eodory's theorem.
+	However, there exist certain Riemann integrable functions that are not Borel measurable.
+	We can find that a bounded \( \mu^\star \)-measurable function is Riemann integrable if and only if
+	\[ \mu\qty(\qty{x \in [0,1] \mid f \text{ is discontinuous at } x}) = 0 \]
+	The standard techniques of Riemann integration, such as substitution and integration by parts, extend to all bounded measurable functions by the monotone class theorem.
+\end{remark}
+\begin{theorem}
+	Let \( U \subseteq \mathbb R \) be an open set and \( (E, \mathcal E, \mu) \) be a measure space.
+	Let \( f \colon U \colon E \to \mathbb R \) be a map such that \( x \mapsto f(t, x) \) is measurable, and \( t \mapsto f(t,x) \) is differentiable where \( \abs{\pdv{f}{t}} < g(x) \) for all \( t \in U \), and \( g \) is \( \mu \)-integrable.
+	Then
+	\[ F(t) = \int_E f(t,x) \dd{\mu(x)} \implies F'(t) = \int_E \pdv{f}{t}(t,x) \dd{\mu(x)} \]
+\end{theorem}
+\begin{proof}
+	By the mean value theorem,
+	\[ g_h(x) = \frac{f(t + h, x) - f(t, x)}{h} - \pdv{f}{t}(t,x) \implies \abs{g_h(x)} = \abs{\pdv{f}{t}(\widetilde t, x) - \pdv{f}{t}(t, x)} \leq 2g(x) \]
+	Note that \( g \) is \( \mu \)-integrable.
+	By differentiability of \( f \), we have \( g_h \to 0 \) as \( h \to 0 \), so applying the dominated convergence theorem, \( \mu(g_h) \to \mu(0) = 0 \).
+	By linearity of the integral,
+	\[ \mu(g_h) = \frac{\int_E f(t + h, x) - f(t, x) \dd{\mu(x)}}{h} - \int_E \pdv{f}{t}(t,x) \dd{\mu(x)} \]
+	Hence, \( \frac{F(t+h) - F(t)}{h} - F'(t) \to 0 \).
 \end{proof}

@@ -1,4 +1,42 @@
-\subsection{Definitions}
+\subsection{Introduction}
+Galois theory concerns itself with solving polynomial equations of higher degree, and discussing how the symmetries of these polynomials relate to their solubility.
+The modern interpretation of Galois theory is more interested in the fields that particular polynomials generate, rather than their particular solutions; this naturally extends to studying symmetries of fields.
+
+\subsection{Solving quadratics, cubics and quartics}
+Methods for solving quadratic equations have been known since the time of the Babylonians.
+Consider \( aX^2 + bX + c \), and complete the square into \( (X + \frac{1}{2} b)^2 + c - \frac{b^2}{4} \).
+This leads directly into the usual formula.
+
+Alternatively, consider \( (X-x_1)(X-x_2) \) and expand, giving \( X^2 - (x_1 + x_2) X + x_1 x_2 \).
+Thus, \( x_1 + x_2 = -b \) and \( x_1 x_2 = c \).
+We can write \( x_1 = \frac{1}{2} \qty[(x_1 + x_2) + (x_1 - x_2)] \), where \( x_1 + x_2 = b \) and \( (x_1 - x_2)^2 = b^2 - 4c \).
+
+Cubics were solved much later, in the early 16th century, by the Italian mathematician del Ferro.
+Consider the cubic \( X^3 + aX^2 + bX + c \), written as \( (X-x_1)(X-x_2)(X-x_3) \).
+Multiplying, we find
+\[ x_1 + x_2 + x_3 = -a;\quad x_1 x_2 + x_2 x_3 + x_3 x_1 = b;\quad x_1 x_2 x_3 = -c \]
+Without loss of generality we can set \( a = 0 \) by replacing \( X \mapsto X - \frac{a}{3} \).
+Now,
+\[ x_1 = \frac{1}{3} \qty[(x_1 + x_2 + x_3) + \underbrace{(x_1 + \omega x_2 + \omega^2 x_3)}_{u} + \underbrace{(x_1 + \omega^2 x_2 + \omega x_3)}_{v}] \]
+where \( \omega = e^{\frac{2\pi i}{3}} \).
+The \( u, v \) are known as Lagrange resolvents.
+Applying a cyclic permutation to \( x_1, x_2, x_3 \) in \( u \) or \( v \), we find \( u \mapsto \omega u \) and \( v \mapsto \omega v \).
+Hence, the cubes of \( u \) and \( v \) are invariant under cyclic permutations of \( x_1, x_2, x_3 \).
+Under a permutation \( x_2 \mapsto x_3, x_3 \mapsto x_2 \), \( u \) and \( v \) swap.
+Hence, \( u^3 + v^3 \) and \( u^3 v^3 \) are invariant under all permutations of roots.
+A general fact that we will prove later is that such invariant expressions can be written in terms of the coefficients of the polynomial.
+In this case, we have
+\[ u^3 + v^3 = -27c;\quad u^3 v^3 = -27 b^2 \]
+Now, \( u^3 \) and \( v^3 \) are the roots of the quadratic \( Y^2 + 27cY - 27b^2 \).
+This then provides a formula for the root \( x_1 \).
+This process is known as Cardano's formula.
+
+Similarly, the quartic \( X^4 + aX^3 + bX^2 + cX + d \) can be solved by producing an auxiliary cubic equation, in a similar way to the auxiliary quadratic equation found for the cubic case above.
+However, the same process does not work for the quintic; the auxiliary equation has a degree which is too large.
+The underlying reason behind this is to do with group theory, and in particular, the group structure of \( S_5 \) and \( A_5 \).
+This will be explored later in the course.
+
+\subsection{Polynomial rings}
 In this course, \emph{ring} means a commutative nonzero ring.
 If \( R \) is a ring, \( R[X] \) denotes the ring of polynomials with elements \( \sum_{i=0}^n a_i X^i \), and the usual operations of addition and multiplication.
 A polynomial \( f \in R[X] \) can be interpreted as a function \( f \colon R \to R \), given by \( x \mapsto \sum_{i=0}^n a_i x^i \).
