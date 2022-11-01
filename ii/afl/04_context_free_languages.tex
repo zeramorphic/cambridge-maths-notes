@@ -96,7 +96,74 @@ Every grammar in Chomsky normal form is context-free.
 We will show that every context-free grammar is equivalent to a Chomsky normal form grammar, and there is an algorithm to produce such a grammar.
 There are three types of rules that are obstructions to a context-free grammar being in Chomsky normal form:
 \begin{enumerate}
-	\item rules \( A \to x_0 \dots x_n \) with \( n \geq 2 \);
-	\item rules \( A \to \alpha \) where \( \alpha \) contains both letters and variables, called \emph{mixed rules};
+	\item rules \( A \to \alpha \) where \( \abs{\alpha} \geq 2 \) and \( \alpha \) contains a letter;
 	\item rules of the form \( A \to B \), called \emph{unit rules}.
+	\item rules \( A \to \alpha \) where \( \abs{\alpha} > 2 \) and \( \alpha \) contains only variables.
 \end{enumerate}
+Suppose we have a rule of the form \( A \to \alpha \) where \( \abs{\alpha} \geq 2 \), and \( \alpha \) contains a letter.
+For each letter \( a \in \Sigma \), we can add a variable \( X_a \) and a rule \( X_a \mapsto a \).
+Then we convert \( \alpha \) to \( X(\alpha) \), where \( X \) is the map converting each \( a \) into \( X_a \).
+Then \( \alpha \) contains no letter.
+We can therefore suppose without loss of generality that a given context-free grammar has no rules of this form.
+
+Now consider a unit rule \( A \to B \).
+A grammar is called \emph{unit closed} if for all \( A \to B \in P \) and \( B \to \alpha \in P \), we also have \( A \to \alpha \in P \).
+We can easily convert each grammar into an equivalent unit closed grammar by adding at most \( \abs{V} \cdot \abs{P} \) new rules.
+If a context-free grammar \( G \) is unit closed, we will show that we can remove all unit rules to give a grammar \( G' \) without changing the language.
+Clearly \( \mathcal L(G') \subseteq \mathcal L(G) \).
+Suppose \( w \in \mathcal L(G) \), then \( w \) has a shortest \( G \)-derivation.
+Suppose this \( G \)-derivation of \( w \) contains a unit rule, so
+\[ S \xrightarrow G \alpha A \beta \xrightarrow G_1 \alpha B \beta \xrightarrow G w \]
+where this use of the unit rule is the last such usage.
+Since \( w \) contains no variables, we must have applied a rule \( B \xrightarrow G_1 \zeta \).
+\[ S \xrightarrow G \alpha A \beta \xrightarrow G_1 \alpha B \beta \xrightarrow G \gamma B \delta \xrightarrow G_1 \gamma \zeta \delta \xrightarrow G w \]
+where the \( B \xrightarrow G_1 \zeta \) is the first usage of a rule for \( B \).
+Since \( \alpha B \beta \xrightarrow \gamma B \delta \) did not use any \( B \)-rule by assumption, by unit closure we can replace this derivation with
+\[ S \xrightarrow G \alpha A \beta \xrightarrow G \gamma A \delta \xrightarrow G_1 \gamma \zeta \delta \xrightarrow G w \]
+This is clearly shorter.
+So the shortest \( G \)-derivation contains no use of a unit rule, so is also a \( G' \)-derivation.
+
+Finally, let us consider a rule \( A \to \alpha \) where \( \abs{\alpha} > 2 \) and \( \alpha \) contains only variables.
+Suppose \( \alpha = A_1 \dots A_n \).
+We define new variables \( X_1, \dots, X_{n-2} \), and add new rules \( A \to A_1 X_1, X_1 \to A_2 X_2, \dots X_{n-2} \to A_{n-1} A_n \).
+Then, performing this for all such rules, we obtain a grammar without any such rules.
+This grammar is in Chomsky normal form.
+\begin{theorem}[Chomsky]
+	Let \( G \) be a context-free grammar.
+	Then we can compute an equivalent context-free grammar \( G' \) in Chomsky normal form.
+\end{theorem}
+\begin{proof}
+	Remove problems due to rules of the form \( A \to \alpha \) where \( \alpha \) contains a letter and has length at least 2.
+	Form the unit closure, then remove unit rules.
+	Remove problems due to rules of the form \( A \to A_1 A_2 A_3 \dots A_n \).
+\end{proof}
+
+\subsection{Pumping lemma for context-free languages}
+\begin{definition}
+	Let \( L \) be a context-free language, and let \( n \in \mathbb N \).
+	Suppose that for all \( w \in L \) such that \( \abs{w} \geq n \), there are \( x, y, z, u, v \) such that \( w = xuyvz \), and \( \abs{uyv} \leq n \), \( \abs{uv} > 0 \), and for all \( k \), \( xu^kyv^kz \in L \).
+	Then \( L \) satisfies the \emph{pumping lemma for context-free languages with pumping number \( n \)}.
+	We call \( u,v \) the \emph{pump}.
+\end{definition}
+\begin{remark}
+	The pump now has two parts, and one part may be the empty string.
+	There is no longer a constraint on the position of the pump in a word; \( x \) and \( z \) may be of any length.
+	The regular pumping lemma implies the context-free pumping lemma.
+	Since there are uncountably many languages satisfying the regular pumping lemma, there are also uncountably many languages satisfying the context-free pumping lemma.
+	In particular, the context-free pumping lemma cannot characterise the countable class of all context-free languages.
+\end{remark}
+\begin{theorem}
+	Every context-free language satisfies the context-free pumping lemma for some pumping number \( n \).
+\end{theorem}
+\begin{proof}
+\end{proof}
+\begin{example}
+	Consider the language \( L = \qty{a^n b^n c^n \mid n > 0} \) is not context-free.
+	Suppose it is context-free.
+	Then it has a pumping number \( N \in \mathbb N \).
+	Consider the word \( a^N b^N c^N \in L \).
+	Then \( a^N b^N c^N = xuyvz \) where \( \abs{uyv} \leq N \), \( \abs{uv} > 0 \).
+	Since \( \abs{uyv} \leq N \), the string \( uyv \) cannot consist of all three letters \( a, b, c \).
+	In any case, pumping up the string will increase the quantity of one letter, but not increase the quantity of some other letter.
+	Then the new word does not lie in \( L \).
+\end{example}
