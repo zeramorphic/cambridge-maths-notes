@@ -201,7 +201,7 @@
 	Other coefficients of the chromatic polynomial contain other information about the graph.
 	For example, the \( t^{n-2} \) coefficient is exactly \( \binom n 2 - \text{ number of triangles in } G \).
 
-	If \( G \) is planar, \( P_G(2+\frac{1+\sqrt{5}}{2}) \neq 0 \).
+	If \( G \) is planar, \( P_G\qty(2+\frac{1+\sqrt{5}}{2}) \neq 0 \).
 
 	A result due to June Huh is that the coefficients \( c_0, \dots, c_n \) of \( P_G \) are \emph{log-concave}, so \( c_i^2 > c_{i-1}c_{i+1} \).
 \end{remark}
@@ -248,7 +248,7 @@ We say that the components of this graph are \emph{\( \qty{i,j} \)-components}.
 	Let \( y \in V(G) \) and \( c \in \qty{1, \dots, \Delta(G) + 1} \).
 	We say \( c \) is \emph{missing} at \( y \) if no edge incident to \( y \) are coloured \( c \).
 	Note that there is a colour missing at every vertex since we are using \( \Delta(G) + 1 \).
-	
+
 	Let \( c_0 \) be a colour missing at \( x \).
 	We define a sequence of vertices \( v_1, \dots, v_k \in N(x) \) and corresponding colours \( c_1, \dots, c_k \) such that \( c_i \) is missing at \( v_i \).
 	First, we set \( v_1 = v \) and let \( c_1 \) be any colour missing at \( v \).
@@ -273,7 +273,58 @@ We say that the components of this graph are \emph{\( \qty{i,j} \)-components}.
 
 	Now finally suppose \( x, v_1, v_k \) are all in the same \( \qty{c_0, c_1} \) component.
 	So one of \( c_0, c_1 \) are missing at each of \( x, v_1, v_k \).
-	Since all \( \qty{c_0, c_1} \)-components of the graph are disjoint paths, even cycles, or isolated vertices,
+	Since all \( \qty{c_0, c_1} \)-components of the graph are disjoint paths, even cycles, or isolated vertices.
 	So \( x, v_1, v_k \) are each endpoints of a path.
 	But since paths only have two endpoints, this is a contradiction.
 \end{proof}
+
+\subsection{Graphs on surfaces}
+We have seen that a planar graph has chromatic number \( \chi(G) \leq 5 \).
+Drawing graphs on other surfaces give different possible chromatic numbers.
+For instance, the complete graph on seven vertices \( K_7 \) can be drawn on a torus with no edge crossings.
+\ctikzfig{k7_torus}
+Recall from IB Geometry that for any \( g \in \mathbb N \), there is a \emph{compact orientable surface of genus \( g \)} which is homeomorphic to a sphere with \( g \) `handles' attached.
+The 2-sphere \( S^2 \) is a compact orientable surfacae of genus 0.
+The torus \( T^2 \) is a compact orientable surface of genus 1.
+
+We have already seen that for a connected planar graph \( G \) with \( f \) faces, we have \( \abs{G} - e(G) + f = 2 \).
+For a disconnected planar graph, we can add edges to make \( G \) into a connected graph.
+Hence, any planar graph with \( f \) faces satisfies \( \abs{G} - e(G) + f \leq 2 \).
+In general, on the compact orientable surface of genus \( g \), \( \abs{G} - e(G) + f \leq E \), where \( E = 2 - 2g \) is the Euler characteristic of the surface.
+Due to results from IB Geometry, the equality holds for connected graphs, and then for any other graph, we can add edges to make it connected.
+
+In particular, if \( e(G) \geq 3 \), then \( 3f \leq 2e(G) \) as usual.
+Therefore, \( \abs{G} - e(G) + \frac{2e(G)}{3} \geq E \), and so \( e(G) \leq 3(\abs{G} - E) \).
+
+\begin{theorem}[Heawood]
+	Let \( G \) be a graph drawn on a surface of Euler characteristic \( E \leq 0 \).
+	Then
+	\[ \chi(G) \leq H(E) = \floor*{\frac{7+\sqrt{49-24E}}{2}} \]
+\end{theorem}
+\begin{remark}
+	Note that \( H(2) = 4 \), which would prove the four-colour theorem if not for the requirement that \( E \leq 0 \).
+\end{remark}
+\begin{proof}
+	Let \( G \) be a graph drawn on a given surface with Euler characteristic \( E \).
+	Suppose its chromatic number is \( \chi(G) = k \).
+	Without loss of generality, we can choose a minimal such graph \( G \) with \( \chi(G) = k \).
+
+	Each vertex has degree at least \( k - 1 \).
+	Indeed, suppose there was a vertex of degree less than \( k - 1 \).
+	Then we could remove this vertex and all associated edges, and we would obtain a strictly smaller graph with chromatic number exactly \( k \), contradicting minimality.
+	Further, we have \( \abs{G} \geq k \), otherwise we could colour the graph with only \( \abs{G} \) colours contradicting the definition of the chromatic number.
+
+	Since \( e(G) \leq 3(\abs{G} - E) \), the sum of the degrees of the vertices is \( 2e(G) \leq 6(\abs{G} - E) \).
+	Hence, \( \delta(G) \leq \frac{1}{\abs{G}} 6(\abs{G} - E) = 6 - 6\frac{E}{\abs{G}} \).
+	In particular,
+	\[ k - 1 \leq \delta(G) \leq 6 - 6\frac{E}{\abs{G}} \leq 6 - 6\frac{E}{k} \]
+	Note that this step requires the fact that \( E \leq 0 \).
+	This gives the quadratic equation \( k^2 - 7k + 6E \leq 0 \).
+	Then,
+	\[ \qty(k - \frac{7}{2})^2 - \frac{49}{4} + 6E \leq 0 \implies k \leq \frac{7 + \sqrt{49 - 24E}}{2} \]
+\end{proof}
+\begin{remark}
+	The inequality is sharp, since the complete graph \( K_{H(E)} \) can be drawn on a surface of characteristic \( E \).
+	An example of this is drawing \( K_7 \) on the torus, as demonstrated above.
+	However, this is a very difficult result to prove.
+\end{remark}
