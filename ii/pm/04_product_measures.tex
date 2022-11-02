@@ -1,0 +1,70 @@
+\subsection{Integration in product spaces}
+Let \( (E_1, \mathcal E_1, \mu_1), (E_2, \mathcal E_2, \mu_2) \) be finite measure spaces.
+On \( E = E_1 \times E_2 \), we can consider the \( \pi \)-system of `rectangles' \( \mathcal A = \qty{A_1 \times A_2 \mid A_1 \in \mathcal E_1, A_2 \in \mathcal E_2} \).
+Then we define the \( \sigma \)-algebra \( \mathcal E_1 \otimes \mathcal E_2 = \sigma(\mathcal A) \) on the product space.
+If the \( E_i \) are topological spaces with a countable base, then \( \mathcal B(E_1 \times E_2) = \mathcal B(E_1) \otimes \mathcal B(E_2) \).
+\begin{lemma}
+	Let \( E = E_1 \times E_2, \mathcal E = \mathcal E_1 \otimes \mathcal E_2 \).
+	Let \( f \colon (E, \mathcal E) \to \mathbb R \) be measurable.
+	Then for all \( x_1 \in E_1 \), the map \( (x_2 \mapsto f(x_1, x_2)) \colon (E_2, \mathcal E_2) \to \mathbb R \) is \( \mathcal E_2 \)-measurable.
+\end{lemma}
+\begin{proof}
+	Let
+	\[ \mathcal V = \qty{f \colon (E,\mathcal E) \to \mathbb R \mid f \text{ bounded, measurable, conclusion of the lemma holds}} \]
+	This is a \( \mathbb R \)-vector space, and it contains \( \mathbbm 1_E, \mathbbm 1_A \) for all \( A \in \mathcal A \), since \( \mathbbm 1_A = \mathbbm 1_{A_1(x_1)} \mathbbm 1_{A_2(x_2)} \).
+	Now, let \( 0 \leq f_n \) increase to \( f \), \( f_n \in \mathcal V \).
+	Then \( (x_2 \mapsto f(x_1, x_2)) = \lim_n (x_2 \mapsto f_n(x_1, x_2)) \), so it is \( \mathcal E_2 \)-measurable as a limit of a sequence of measurable functions.
+	Then by the monotone class theorem, \( \mathcal V \) contains all bounded measureable functions.
+	This extends to all measurable functions by truncating the absolute value of \( f \) to \( n \in \mathbb N \), then the sequence of such bounded truncations converges pointwise to \( f \).
+\end{proof}
+\begin{lemma}
+	Let \( E = E_1 \times E_2, \mathcal E = \mathcal E_1 \otimes \mathcal E_2 \).
+	Let \( f \colon (E, \mathcal E) \to \mathbb R \) be measurable such that
+	\begin{enumerate}
+		\item \( f \) is bounded; or
+		\item \( f \) is nonnegative.
+	\end{enumerate}
+	Then the map \( x_1 \mapsto \int_{E_2} f(x_1,x_2) \dd{\mu_2(x_2)} \) is \( \mu_1 \)-measurable and is bounded or nonnegative respectively.
+\end{lemma}
+\begin{remark}
+	In case (ii), the map on \( x_1 \) may evaluate to infinity, but the set of values \( \qty{x_1 \in E_1 \mid \int_{E_2} f(x_1,x_2) \dd{\mu_2(x_2)} = \infty} \) lies in \( \mathcal E_1 \).
+\end{remark}
+\begin{proof}
+	Let
+	\[ \mathcal V = \qty{f \colon (E,\mathcal E) \to \mathbb R \mid f \text{ bounded, measurable, conclusion of the lemma holds}} \]
+	This is a vector space by linearity of the integral.
+	\( \mathbbm 1_E \in \mathcal V \), since \( \mathbbm 1_{E_1} \mu_2(E_2) \) is nonnegative and bounded.
+	\( \mathbbm 1_A \in \mathcal V \) for all \( A \in \mathcal A \), because \( \mathbbm 1_{A_1}(x_1) \mu_2(A_2) \) is \( \mathcal E_1 \)-measurable, nonnegative, and bounded since it is at most \( \mu_2(E_2) < \infty \).
+	Now let \( f_n \) be a sequence of nonnegative functions that increase to \( f \), where \( f_n \in \mathcal V \).
+	Then by the monotone convergence theorem,
+	\[ \int_{E_2} \lim_{n \to \infty} f_n(x_1, x_2) \dd{\mu_2(x_2)} = \lim_{n \to \infty} \int_{E_2} f_n(x_1, x_2) \dd{\mu_2(x_2)} \]
+	is an increasing limit of \( \mathcal E_1 \)-measurable functions, so is \( \mathcal E_1 \)-measurable.
+	It is bounded by \( \mu_2(E_2) \norm{f}_\infty \), or nonnegative as required.
+	So \( f \in \mathcal V \).
+	By the monotone class theorem, the result for bounded functions holds.
+	In case (ii), we can take a bounded approximation in \( \mathcal V \) of an arbitrary measurable function \( f \) to conclude the proof.
+\end{proof}
+\begin{theorem}[product measure]
+	Let \( (E_1, \mathcal E_1, \mu_1), (E_2, \mathcal E_2, \mu_2) \) be finite measure spaces.
+	There exists a unique measure \( \mu \) on \( (E_1 \times E_2, \mathcal E_1 \otimes \mathcal E_2) \) such that \( \mu(A_1 \times A_2) = \mu_1(A_1) \mu_2(A_2) \) for all \( A_1 \in \mathcal E_1 \), \( A_2 \in \mathcal E_2 \).
+\end{theorem}
+\begin{proof}
+	\( \mathcal A \) generates \( \mathcal E \otimes \mathcal E_2 \), so by the uniqueness theorem, there can only be one such measure.
+	We define
+	\[ \mu(A) = \int_{E_1} \qty( \int_{E_2} \mathbbm 1_A(x_1,x_2) \dd{\mu_2(x_2)} ) \dd{\mu_1(x_1)} \]
+	We have
+	\[ \mu(A_1 \times A_2) = \int_{E_1} \qty( \int_{E_2} \mathbbm 1_{A_1}(x_1) \mathbbm 1_{A_2}(x_2) \dd{\mu_2(x_2)} ) \dd{\mu_1(x_1)} = \int_{E_1} \mathbbm 1_{A_1}(x_1) \mu_2(A_2) \dd{\mu_1(x_1)} = \mu_1(A_1) \mu_2(A_2) \]
+	Clearly \( \mu(\varnothing) = 0 \), so it suffices to show countable additivity.
+	Let \( A_n \) be disjoint sets in \( \mathcal E_1 \otimes \mathcal E_2 \).
+	Then
+	\[ \mathbbm 1_{\qty(\bigcup_n A_n)} = \sum_n \mathbbm 1_{A_n} = \lim_{n \to \infty} \sum_{i=1}^n \mathbbm 1_{A_n} \]
+	Then by the monotone convergence theorem and the previous lemmas,
+	\begin{align*}
+		\mu\qty(\bigcup_n A_n) &= \int_{E_1} \qty( \int_{E_2} \lim_{n \to \infty} \sum_{i=1}^n \mathbbm 1_{A_i} \dd{\mu_2(x_2)} ) \dd{\mu_1(x_1)} \\
+		&= \int_{E_1} \qty( \lim_{n \to \infty} \int_{E_2} \sum_{i=1}^n \mathbbm 1_{A_i} \dd{\mu_2(x_2)} ) \dd{\mu_1(x_1)} \\
+		&= \lim_{n \to \infty} \int_{E_1} \qty( \int_{E_2} \sum_{i=1}^n \mathbbm 1_{A_i} \dd{\mu_2(x_2)} ) \dd{\mu_1(x_1)} \\
+		&= \lim_{n \to \infty} \sum_{i=1}^n \int_{E_1} \qty( \int_{E_2} \mathbbm 1_{A_i} \dd{\mu_2(x_2)} ) \dd{\mu_1(x_1)} \\
+		&= \lim_{n \to \infty} \sum_{i=1}^n \mu(A_i) \\
+		&= \sum_{n=1}^\infty \mu(A_n)
+	\end{align*}
+\end{proof}

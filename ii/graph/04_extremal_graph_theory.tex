@@ -1,0 +1,66 @@
+\subsection{Hamiltonian graphs}
+\begin{definition}
+	A graph is said to be \emph{Hamiltonian} if it contains a cycle that contains all vertices.
+	Such a cycle is called a \emph{Hamilton cycle}.
+\end{definition}
+\begin{theorem}
+	Let \( G \) be a graph on \( n \geq 3 \) vertices.
+	Then if \( \delta(G) \geq \frac{n}{2} \), \( G \) is Hamiltonian.
+\end{theorem}
+\begin{remark}
+	This theorem is sharp.
+	If \( n \) is even, two disjoint \( K_{\frac{n}{2}} \) cliques suffices for a counterexample, since \( \delta(G) = \frac{n}{2} - 1 \).
+	If \( n \) is odd, we can take two \( K_{\frac{n+1}{2}} \) cliques which intersect in a single vertex, giving \( \delta(G) = \frac{n-1}{2} \).
+\end{remark}
+\begin{proof}
+	First, note that \( G \) is connected.
+	Indeed, if \( x \not\sim y \), \( \abs{N(x)}, \abs{N(y)} \geq \frac{n}{2} \), but there are only \( n - 2 \) remaining vertices in the graph.
+	So by the pigeonhole principle, there is a path of length 2 between \( x \) and \( y \).
+
+	Consider a path \( x_1, \dots, x_\ell \) of maximum length, and suppose for a contradiction that there is no cycle in \( G \) of length \( \ell \).
+	Observe that \( N(x_1) \subseteq \qty{x_2, \dots, x_{\ell - 1}} \) by maximality, and \( N(x_\ell) \subseteq \qty{x_2, \dots, x_{\ell - 1}} \) by symmetry.
+	Define \( N^-(x_1) = \qty{x_i \mid x_{i+1} \in N(x_1)} \).
+	Note that \( \abs{N^-(x_1) \cup N(x_\ell)} \leq \ell - 1 \leq n - 1 \), but \( \abs{N^-(x_1)}, \abs{N(x_\ell)} \leq \frac{n}{2} \).
+	So there exists \( x_i \in N^-(x_1) \cap N(x_\ell) \).
+	So we can find a cycle \( x_i, x_\ell, x_{\ell-1}, \dots, x_{i+1}, x_1, x_2, \dots, x_i \) of length \( \ell \).
+\end{proof}
+\begin{remark}
+	Note that there is not an interesting theorem of the form `\( e(G) \geq k \) implies \( G \) is Hamiltonian', because \( K_{n-1} \) adjoined to a single vertex by one edge is not Hamiltonian.
+\end{remark}
+\begin{lemma}
+	Let \( G \) be a graph on \( n \) vertices, and \( n \geq 3 \).
+	Let \( k < n \).
+	If \( G \) is connected and \( \delta(G) \geq \frac{k}{2} \), then \( G \) contains a path of length \( k \).
+\end{lemma}
+\begin{remark}
+	We need the assumption \( k < n \), otherwise \( K_n \) is a counterexample.
+	We need the assumption that \( G \) is connected, otherwise a collection of \( \frac{n}{k} \) disjoint graphs give a counterexample if \( n \mid k \).
+	The requirement that \( \delta(G) \geq \frac{k}{2} \) is sharp, by considering collections of \( K_{\frac{k+1}{2}} \) that all intersect in a single vertex.
+\end{remark}
+\begin{proof}
+	Let \( x_1, \dots, x_\ell \) be a path of maximum length in \( G \).
+	There is no cycle of length \( \ell \), because if \( \ell = n \) we are done as \( k < n \), and if \( \ell < n \) we can use a cycle of length \( \ell \) to build a path of length \( \ell + 1 \) by the same argument from the previous theorem: \( N^-(x_1) \) and \( N(x_\ell) \) must intersect and so we can build a longer path.
+\end{proof}
+\begin{theorem}
+	Let \( G \) be a graph on \( n \) vertices.
+	Then if \( e(G) > \frac{n(k-1)}{2} \), \( G \) contains a path of length \( k \).
+\end{theorem}
+\begin{remark}
+	If \( k \mid n \), a collection of \( \frac{n}{k} \) disjoint \( K_k \) graphs shows that the theorem is sharp.
+\end{remark}
+\begin{proof}
+	Note that if \( k = 1 \), the theorem clearly holds.
+	Suppose \( k \geq 2 \), and apply induction on \( n \).
+	The case \( n = 2 \) holds vacuously.
+	Suppose now we have a graph \( G \) on \( n \geq 3 \) vertices.
+	First note that \( \frac{n(k-1)}{2} < e(G) \leq \frac{n(n-1)}{2} \), so \( k < n \).
+
+	We may assume \( G \) is connected without loss of generality, because if it is disconnected, we can apply induction to one of its connected components.
+	Let \( C_1, \dots, C_r \) be the components, and \( \abs{C_i} = n_i \).
+	Since \( \sum_{i=1}^r e(G[C_i]) = e(G) > \frac{n(k-1)}{2} \), we have \( \sum_{i=1}^r \qty(e(G[C_i]) - \frac{n_i(k - 1)}{2}) > 0 \), so one of the summands is positive.
+	So there exists a connected component \( C_i \) such that \( e(G[C_i]) > \frac{n_i(k-1)}{2} \), so we can apply induction to this graph to obtain a path of length \( k \) as required.
+
+	If \( \delta(G) \geq \frac{k}{2} \), the proof is complete by the previous lemma.
+	Otherwise, there exists a vertex \( x \) of degree less than \( \frac{k}{2} \), so \( \deg(x) \leq \frac{k-1}{2} \).
+	Note that \( e(G - x) > \frac{n(k-1)}{2} - \frac{k-1}{2} = \frac{(n-1)(k-1)}{2} \), so we can apply induction to \( G - x \) to obtain a path of length \( k \), completing the proof.
+\end{proof}
