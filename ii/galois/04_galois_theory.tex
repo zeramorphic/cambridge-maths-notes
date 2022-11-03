@@ -226,11 +226,37 @@ There exist several methods for finding the Galois group for a particular field 
 \begin{remark}
 	If \( G \subseteq S_n \) is transitive, by the orbit-stabiliser theorem, \( n \mid \abs{G} \).
 \end{remark}
-Recall that for a monic polynomial \( f = \prod_{i=1}^n (T - x_i) \), the \emph{discriminant} of \( f \) is \( \mathrm{Disc}(f) = \Delta^2 \in K \), where \( \Delta = \prod_{i < j} (x_i - x_j)^2 \).
+Recall that for a monic polynomial \( f = \prod_{i=1}^n (T - x_i) \), the \emph{discriminant} of \( f \) is \( \mathrm{Disc}(f) = \Delta^2 \in K \), where \( \Delta = \prod_{i < j} (x_i - x_j) \).
 The discriminant is nonzero if and only if \( f \) is separable.
 \begin{proposition}
 	Let \( \mathrm{char}(K) \neq 2 \), and let \( f \in K[T] \) be a monic polynomial with splitting field \( L \).
-	Let \( G = \Gal(L/K) \).
+	Let \( G = \Gal(f/K) \).
 	Then the fixed field of \( G \cap A_n \) is \( K(\Delta) \), where \( \Delta^2 \) is the discriminant.
 	In particular, \( \Gal(f/K) \subseteq A_n \) if and only if the discriminant \( \mathrm{Disc}(f) \) is a square.
 \end{proposition}
+\begin{proof}
+	Let \( \pi \in S_n \).
+	The sign of the permutation is given by \( \prod_{i < j} (T_{\pi(i)} - T_{\pi(j)}) = \sgn \pi \prod_{i < j} (T_i - T_j) \).
+	Hence, if \( \sigma \in G \), we have \( \sigma(\Delta) = \sgn \sigma \cdot \Delta \).
+	Because the characteristic is not 2, \( -1 \neq 1 \).
+	Since \( \Delta \neq 0 \), this implies \( \Delta \in K \) if and only if \( G \subseteq A_n \), and \( \Delta \) lies in the fixed field \( F \) of \( G \cap A_n \).
+	Because \( [F : K] = (G : G \cap A_n) \in \qty{1, 2} \), \( F = K(\Delta) \) exactly.
+\end{proof}
+\begin{example}
+	Let \( n = 3, f = T^3 + aT + b = \prod_{i=1}^3 (T - x_i) \) where \( x_i \) lie in a splitting field for \( f \).
+	Since there is no \( T^2 \) term, \( x_3 = -x_1 - x_2 \).
+	Hence, \( a = x_1 x_2 - (x_1 + x_2)^2 \), and \( b = x_1x_2(x_1 + x_2) \).
+	Therefore,
+	\[ \mathrm{Disc}(f) = \qty[(x_1-x_2)(2x_1+x_2)(x_1+2x_2)]^2 = -4a^3 - 27b^2 \]
+	In particular, \( \Gal(f/K) \subseteq A_3 \) if and only if \( -4a^3 - 27b^2 \) is a square in \( K \).
+
+	For example, consider \( f = T^3 - 21T - 7 \in \mathbb Q[T] \).
+	This is irreducible by Eisenstein's criterion.
+	Its discriminant is \( 4 \cdot 21^3 - 27 \cdot 7^2 = (27 \cdot 7)^2 \), which is a square.
+	So \( \Gal(f/K) \subseteq A_3 \).
+	Since \( f \) is irreducible, \( \Gal(f/K) \) is transitive, so its order is divisible by 3.
+	So \( \Gal(f/K) \) must be exactly \( A_3 \).
+\end{example}
+\begin{remark}
+	This technique can be used to calculate the Galois group of any cubic polynomial for characteristic not \( 2, 3 \), for example.
+\end{remark}

@@ -156,6 +156,36 @@ This grammar is in Chomsky normal form.
 	Every context-free language satisfies the context-free pumping lemma for some pumping number \( n \).
 \end{theorem}
 \begin{proof}
+	Let \( L \) be a context-free language.
+	Then \( L \) has a Chomsky normal form grammar \( G = (\Sigma, V, P, S) \), so \( \mathcal L(G) = L \).
+	Let \( m = \abs{V} \), and \( n = 2^m \).
+	We claim \( n \) is a pumping number for \( G \).
+
+	If \( \mathbb T \) is a \( G \)-parse tree where the height of \( \mathbb T \) is \( h + 1 \) and \( \sigma_{\mathbb T} \) is a word, then \( \abs{\sigma_{\mathbb T}} \leq 2^h \).
+	Indeed, the largest possible tree of height \( h + 1 \) has \( 2^{h + 1} \) leaves.
+	Since \( \sigma_{\mathbb T} \) is a word, we must have applied a unary rule for each letter.
+	Every unary rule reduces the amount of leaves by one.
+	Thus, the tree must contain \( 2^{h+1} - \abs{\sigma_{\mathbb T}} \) leaves.
+	Hence \( \abs{\sigma_{\mathbb T}} \leq 2^h \).
+
+	Consider a word \( w \in \mathcal L(G) \) with \( \abs{w} \geq 2^m = n \).
+	Then, if \( \mathbb T \) is a \( G \)-parse tree of \( w \), so \( \sigma_{\mathbb T} = w \), we know by the previous claim that the height of \( \mathbb T \) is at least \( m + 1 \).
+	Let \( t \in T \) such that the length fo the branch to \( t \) is the height \( h \geq m + 1 \) of the tree.
+	Then, the path from \( \varepsilon \) to \( t \) has \( h + 1 \) labels, so contains \( h \) variables and one letter.
+
+	Let \( s \) be an element of the branch of \( t \) such that the height of the subtree \( T_s \) is exactly \( m + 1 \).
+	Hence \( \abs{\sigma_{\mathbb T_s}} \leq 2^m = n \).
+	In particular, the path from \( s \) to \( t \) has \( m + 2 \) labels, so contains exactly \( m + 1 \) variables and one letter.
+	By the pigeonhole principle, there are two nodes \( t_0, \subsetneq t_1 \) on the branch from \( s \) to \( t \) with the same label \( A \in V \).
+	Let
+	\[ \sigma_{\mathbb T} = a\sigma_{\mathbb T_s} b;\quad \sigma_{\mathbb T_s} = x' \sigma_{\mathbb T_{t_0}} z';\quad \sigma_{\mathbb T_{t_0}} = u \sigma_{\mathbb T_{t_1}} v;\quad \sigma_{\mathbb T_{t_1}} = y \]
+	Then let \( x = ax';\quad z = z'b \) in the definition of the pumping lemma.
+	Since \( t_0 \neq t_1 \), we have \( \abs{uv} > 0 \).
+	Note that \( uyv = \sigma_{\mathbb T_{t_0}} \), which has length at most \( \abs{\sigma_{\mathbb T_s}} \), which has length at most \( 2^m = n \).
+
+	Pumping down is accomplished by grafting \( T_{t_1} \) into \( T_{t_0} \); conversely, pumping up is accomplished by iteratively grafting \( T_{t_0} \) into \( T_{t_1} \).
+	Define \( \mathbb T_{(0)} = \mathbb T_{t_1} \), and \( \mathbb T_{(i+1)} = \graft(\mathbb T_{t_0}, t_1, \mathbb T_{(i)}) \).
+	Then \( \mathbb T_k = \graft(\mathbb T, t_1, \mathbb T_{(k)}) \), and \( \sigma_{\mathbb T_k} = xu^kyv^kz \), thus proving the pumping lemma.
 \end{proof}
 \begin{example}
 	Consider the language \( L = \qty{a^n b^n c^n \mid n > 0} \) is not context-free.
@@ -167,3 +197,27 @@ This grammar is in Chomsky normal form.
 	In any case, pumping up the string will increase the quantity of one letter, but not increase the quantity of some other letter.
 	Then the new word does not lie in \( L \).
 \end{example}
+
+\subsection{Closure properties}
+We have seen that \( L = \qty{a^nb^nc^n \mid n > 0} \) is not context-free.
+However, \( L_0 = \qty{a^nb^nc^k \mid n, k > 0} \) and \( L_1 = \qty{a^kb^nc^n \mid n, k > 0} \) are context-free, as the concatenation of context-free languages.
+But the intersection \( L_0 \cap L_1 \) is exactly \( L \), so context-free languages are not closed under intersection.
+Therefore, they are also not closed under complementation or difference, because this, along with closure under union, would imply closure under intersection.
+Note that any model of computation corresponding to context-free grammars cannot have a product construction, because such a construction would imply closure of context-free languages under intersection.
+
+It can be shown that context-free languages correspond to \emph{pushdown automata}, which are similar to deterministic automata, except that they also have a \emph{stack}, which is a way of storing a sequence of arbitrary symbols.
+The stack has a \emph{push} operation allowing a symbol to be pushed onto the top of the stack, and a \emph{pop} operation that removes the topmost element currently on the stack.
+In particular, the stack does not have random access, and any symbol pushed can be popped at most once.
+Sequences that are pushed onto the stack are popped off in reverse order.
+
+The transition function \( \delta \) has an additional input denoting the topmost element currently on the stack, and an additional output describing an operation to perform on the stack, if any.
+\begin{theorem}
+	A language is context-free if and only if there is a pushdown automaton for the language.
+\end{theorem}
+
+\subsection{Decision problems}
+The word problem is already solved for context-free languages.
+The emptiness problem can be solved by the pumping lemma, similarly to the solution for regular languages.
+Indeed, if \( n \) is a pumping number, no word with length at most \( n \) can be the shortest word, since it can be pumped down.
+So we can explicitly check each word of length less than \( n \) to solve the emptiness problem.
+Note that the choice of pumping lemma to use does not matter in this argument.
