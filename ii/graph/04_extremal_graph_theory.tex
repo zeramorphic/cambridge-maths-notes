@@ -27,6 +27,8 @@
 \begin{remark}
 	Note that there is not an interesting theorem of the form `\( e(G) \geq k \) implies \( G \) is Hamiltonian', because \( K_{n-1} \) adjoined to a single vertex by one edge is not Hamiltonian.
 \end{remark}
+
+\subsection{Paths of a given length}
 \begin{lemma}
 	Let \( G \) be a graph on \( n \) vertices, and \( n \geq 3 \).
 	Let \( k < n \).
@@ -63,4 +65,98 @@
 	If \( \delta(G) \geq \frac{k}{2} \), the proof is complete by the previous lemma.
 	Otherwise, there exists a vertex \( x \) of degree less than \( \frac{k}{2} \), so \( \deg(x) \leq \frac{k-1}{2} \).
 	Note that \( e(G - x) > \frac{n(k-1)}{2} - \frac{k-1}{2} = \frac{(n-1)(k-1)}{2} \), so we can apply induction to \( G - x \) to obtain a path of length \( k \), completing the proof.
+\end{proof}
+
+\subsection{Forcing triangles}
+\begin{proposition}[Jensen]
+	Let \( a < b \) be real numbers, and \( f \colon [a,b] \to \mathbb R \) be a convex function.
+	Let \( x_1, \dots, x_n \in [a,b] \).
+	Then, \( f\qty(\frac{1}{n}\sum_{i=1}^n x_i) \leq \frac{1}{n} \sum_{i=1}^n f(x_i) \).
+\end{proposition}
+\begin{theorem}[Mantel]
+	Let \( G \) be a graph on \( n \) vertices, and \( \frac{n^2}{4} < e(G) \).
+	Then \( G \) contains a triangle.
+\end{theorem}
+\begin{remark}
+	The bipartite graph \( K_{\frac{n}{2}, \frac{n}{2}} \) contains no triangles, and has \( \frac{n^2}{4} \) edges, so the above theorem is sharp.
+\end{remark}
+\begin{proof}
+	Suppose the graph contains no triangle.
+	We may assume that \( n \geq 3 \), otherwise there is nothing to prove.
+	Let \( x, y \in V(G) \) such that \( x \sim y \).
+	In particular, \( \deg x + \deg y \leq n - 2 + 2 = n \).
+	Then, since \( x \mapsto x^2 \) is convex,
+	\begin{align*}
+		ne(G) &\geq \sum_{x \sim y} (\deg x + \deg y) \\
+		&= \frac{1}{2} \sum_x \sum_y (\deg x + \deg y) \mathbbm 1_{x \sim y} \\
+		&= \sum_x \sum_y \deg x \mathbbm 1_{x \sim y} \\
+		&= \sum_x \deg x \sum_y \mathbbm 1_{x \sim y} \\
+		&= \sum_x (\deg x)^2 \\
+		&= n \qty( \frac{1}{n} \sum_x (\deg x)^2 ) \\
+		&\geq n \qty( \frac{1}{n} \sum_x (\deg x) )^2 \\
+		&= n \qty( \frac{2e(G)}{n} )^2
+	\end{align*}
+	So \( e(G) \leq \frac{n^2}{4} \) as required.
+\end{proof}
+
+\subsection{Forcing cliques}
+\begin{definition}
+	We say that a graph \( G \) is \emph{\( r \)-partite} if there is a partition of \( V \) into \( r \) subsets such that no part contains an edge.
+	Equivalently, \( G \) is \( r \)-colourable, so \( \chi(G) \leq r \).
+\end{definition}
+\begin{definition}
+	Given natural numbers \( n_1, \dots, n_r \), define \( K_{n_1, \dots, n_r} \) to be the complete \( r \)-partite graph with partitions of size \( n_1, \dots, n_r \).
+\end{definition}
+Observe that if \( r \mid n \), the graph \( K_{\frac{n}{r}, \dots, \frac{n}{r}} \) is an \( r \)-partite graph with \( \binom r 2 \frac{n^2}{r^2} = \qty(1 - \frac{1}{r})\frac{n^2}{2} \) edges.
+\begin{theorem}[Tur\'an, form 1]
+	Let \( G \) be a graph on \( n \) vertices, and \( \qty(1 - \frac{1}{r}) \frac{n^2}{2} < e(G) \) for \( r \geq 1 \).
+	Then \( G \) contains a subgraph of the form \( K_{r+1} \), so it has an \( (r + 1) \)-clique.
+\end{theorem}
+\begin{proof}
+	Suppose that \( G \) has an \( (r + 1) \)-clique.
+	For a given \( r \), we prove the result by induction on \( n \), assuming the theorem holds for all lower values of \( r \), then we can complete the proof by induction.
+	
+	If \( n \leq r \), the result clearly holds.
+	Let \( G \) be a graph that contains no \( (r + 1) \)-clique.
+	Suppose \( r \geq 2 \), otherwise the result is trivial.
+	Then we can find an \( r \)-clique by induction on \( r \).
+	Let \( K \) be such a clique.
+	Then each vertex in \( V(G) \setminus K \) have at most \( r - 1 \) neighbours in \( K \), otherwise, this would be an \( (r + 1) \)-clique.
+	So
+	\[ e(G) \leq \binom r 2 + (r - 1)(n - r) + e(G \setminus K) \leq \binom r 2 + (r - 1)(n - r) + \qty(1 - \frac{1}{r})\frac{(n-1)^2}{2} = \qty(1 - \frac{1}{r}) \frac{n^2}{2} \]
+\end{proof}
+\begin{remark}
+	This is a generalisation of Mantel's theorem.
+	If \( r \mid n \), the theorem is sharp by considering the complete \( r \)-partite graph.
+\end{remark}
+\begin{definition}
+	The \emph{Tur\'an graph} \( T_{r,n} \) is the complete \( r \)-partite graph \( K_{n_1, \dots, n_r} \) where \( \sum_{i=1}^r n_i = n \) and \( n_1, \dots, n_r \) differ by at most one.
+\end{definition}
+\begin{proposition}
+	Let \( G \) be a \( r \)-partite graph on \( n \) vertices.
+	Then \( e(G) \leq e(T_{r,n}) \).
+\end{proposition}
+\begin{remark}
+	Tur\'an graphs maximise the number of edges among all \( r \)-partite graphs on \( n \) vertices.
+\end{remark}
+\begin{proof}
+	Let \( G \) be an \( r \)-partite graph on \( n \) vertices with the maximum number of edges.
+	This graph is complete, since if there is a missing edge, there is a graph with more edges.
+	Let \( G = K_{n_1, \dots, n_r} \).
+	Suppose that \( n_i - n_j \geq 2 \), so \( G \) is not a Tur\'an graph.
+	Then consider the graph obtained by moving an edge from the part with \( n_i \) vertices to the part with \( n_j \) vertices.
+	Then we gain a total of \( (n_i - 1) \) edges, and remove \( n_j \) edges.
+	But this is at least 1, so we have obtained a graph with more edges.
+\end{proof}
+\begin{theorem}[Tur\'an, form 2]
+	Let \( G \) be a graph on \( n \) vertices and \( r \geq 2 \).
+	Then if \( G \) does not contain an \( (r+1) \)-clique, \( e(G) \leq e(T_{r,n}) \).
+\end{theorem}
+\begin{proof}
+	We will transform a graph \( G \) into a complete \( r \)-partite graph without decreasing the number of edges.
+	Then, since the Tur\'an graph maximises the amount of edges for such a graph, the result follows.
+
+	Let \( V(G) = \qty{1, \dots, n} \).
+	Let \( \alpha_1, \dots, \alpha_r > 0 \) be numbers that are linearly independent over \( \mathbb Q \).
+	For \( S \subseteq V(G) \), define \( \mu(S) = \sum_{i \in S} \alpha_i \).
 \end{proof}

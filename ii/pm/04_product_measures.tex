@@ -46,7 +46,7 @@ If the \( E_i \) are topological spaces with a countable base, then \( \mathcal 
 \end{proof}
 \begin{theorem}[product measure]
 	Let \( (E_1, \mathcal E_1, \mu_1), (E_2, \mathcal E_2, \mu_2) \) be finite measure spaces.
-	There exists a unique measure \( \mu \) on \( (E_1 \times E_2, \mathcal E_1 \otimes \mathcal E_2) \) such that \( \mu(A_1 \times A_2) = \mu_1(A_1) \mu_2(A_2) \) for all \( A_1 \in \mathcal E_1 \), \( A_2 \in \mathcal E_2 \).
+	There exists a unique measure \( \mu = \mu_1 \otimes \mu_2 \) on \( (E_1 \times E_2, \mathcal E_1 \otimes \mathcal E_2) \) such that \( \mu(A_1 \times A_2) = \mu_1(A_1) \mu_2(A_2) \) for all \( A_1 \in \mathcal E_1 \), \( A_2 \in \mathcal E_2 \).
 \end{theorem}
 \begin{proof}
 	\( \mathcal A \) generates \( \mathcal E \otimes \mathcal E_2 \), so by the uniqueness theorem, there can only be one such measure.
@@ -67,4 +67,82 @@ If the \( E_i \) are topological spaces with a countable base, then \( \mathcal 
 		&= \lim_{n \to \infty} \sum_{i=1}^n \mu(A_i) \\
 		&= \sum_{n=1}^\infty \mu(A_n)
 	\end{align*}
+\end{proof}
+
+\subsection{Fubini's theorem}
+\begin{theorem}
+	Let \( (E, \mathcal E, \mu) = (E_1 \times E_2, \mathcal E_1 \otimes \mathcal E_2, \mu_1 \otimes \mu_2) \) be a finite measure space.
+	Let \( f \colon E \to \mathbb R \) be a nonnegative measurable function.
+	Then
+	\[ \mu(f) = \int_E f \dd{\mu} = \int_{E_1} \qty( \int_{E_2} f(x_1,x_2) \dd{\mu_2(x_2)} ) \dd{\mu_1(x_1)} = \int_{E_2} \qty( \int_{E_1} f(x_1,x_2) \dd{\mu_1(x_1)} ) \dd{\mu_2(x_2)} \]
+	Now, let \( f \colon E \to \mathbb R \) be a \( \mu \)-integrable function (on the product measure).
+	Let \( A_1 = \qty{x_1 \in E_1 \mid \int_{E_2} \abs{f(x_1,x_2)} \dd{\mu_2(x_2)} < \infty} \).
+	Define \( f_1 \) by \( f_1(x_1) = \int_{E_2} f(x_1,x_2) \dd{\mu_2(x_2)} \) on \( A_1 \) and zero elsewhere.
+	Then \( \mu_1(A_1^c) = 0 \) and \( \mu(f) = \mu_1(f_1) = \mu_1(f_1 \mathbbm 1_{A_1}) \), and defining \( A_2 \) symmetrically, \( \mu(f) = \mu_2(f_2) = \mu_2(f_2 \mathbbm 1_{A_2}) \).
+\end{theorem}
+\begin{remark}
+	If \( f \) is bounded, \( A_1 = E_1 \).
+	Note, for \( f(x_1,x_2) = \frac{x_1^2-x_2^2}{(x_1^2+x_2^2)^2} \) on \( (0,1)^2 \), we have \( \mu_1(f_1) \neq \mu_2(f_2) \), but \( f \) is not Lebesgue integrable on \( (0,1)^2 \).
+\end{remark}
+\begin{proof}
+	By the construction of the product measure \( \mu(A) \) for rectangles \( A = A_1 \times A_2 \) in the \( \pi \)-system \( \mathcal A \) generating \( \mathcal E \), the identities in the first part of the theorem clearly hold for \( f = \mathbbm 1_A \).
+	By uniqueness, this extends to \( \mathbbm 1_A \) for all \( A \in \mathcal E \).
+	Then, by linearity of the integral, this extends to simple functions.
+	By the monotone convergence theorem, the first part of the theorem follows.
+
+	Now let \( f \) be \( \mu \)-integrable.
+	Let \( h(x_1) = \int_{E_2} \abs{f(x_1,x_2)} \dd{\mu_2(x_2)} \).
+	Then by the first part, \( \mu_1(\abs{h}) \leq \mu(\abs{f}) < \infty \).
+	So \( f_1 \) is \( \mu_1 \)-integrable.
+	We have \( \mu_1(A_1^c) = 0 \), otherwise, we could compute a lower bound \( \mu_1(\abs{h}) \geq \mu_1(\abs{h} \mathbbm 1_{A_1^c}) = \infty \), but it must be finite.
+	Note that \( f_1^\pm = \int_{E_2} f^\pm(x_1,x_2) \dd{\mu_2(x_2)} \), and \( \mu(f_1) = \mu_1(f_1^+) - \mu_1(f_1^-) \).
+	Hence, by the first part, \( \mu(f) = \mu(f^+) - \mu(f^-) = \mu_1(f_1^+) - \mu_1(f_1^-) = \mu_1(f_1) \) as required.
+\end{proof}
+\begin{remark}
+	The proofs above extend to \( \sigma \)-finite measures \( \mu \).
+
+	Let \( (E_i, \mathcal E_i, \mu_i) \) be measure spaces with \( \sigma \)-finite measures.
+	Note that \( (\mathcal E_1 \otimes \mathcal E_2) \otimes \mathcal E_3 = \mathcal E_1 \otimes (\mathcal E_2 \otimes \mathcal E_3) \), by a \( \pi \)-system argument using Dynkin's lemma.
+	So we can iterate the construction of the product measure to obtain a measure \( \mu_1 \otimes \dots \mu_n \), which is a unique measure on \( \qty(\prod_{i=1}^n E_i \bigotimes_{i=1}^n \mathcal E_i) \) with the property that the measure of a hypercube \( \mu(A_1 \times A_n) \) is the product of the measures of its sides \( \mu_i(A_i) \).
+
+	In particular, we have constructed the Lebesgue measure \( \mu^n = \bigotimes_{i=1}^n \mu \) on \( \mathbb R^n \).
+	Applying Fubini's theorem, for functions \( f \) that are either nonnegative and measurable or \( \mu^n \)-integrable, we have
+	\[ \int_{\mathbb R^n} f \dd{\mu^n} = \idotsint_{\mathbb R \dots \mathbb R} f(x_1, \dots, x_n) \dd{\mu(x_1)} \dots \dd{\mu(x_n)} \]
+\end{remark}
+
+\subsection{Product probability spaces and independence}
+\begin{proposition}
+	Let \( (\Omega, \mathcal F, \mathbb P) \), and \( (E, \mathcal E) = \qty(\prod_{i=1}^n E_i, \bigotimes_{i=1}^n \mathcal E_i) \).
+	Let \( X \colon (\Omega, \mathcal F) \to (E, \mathcal E) \) be a measurable function, and define \( X(\omega) = (X_1(\omega), X_2(\omega), \dots, X_n(\omega)) \).
+	Then the following are equivalent.
+	\begin{enumerate}
+		\item \( X_1, \dots, X_n \) are independent random variables;
+		\item \( \mu_X = \bigotimes_{i=1}^n \mu_{X_i} \);
+		\item for all bounded and measurable \( f_i \colon E_i \to \mathbb R \), \( \expect{\prod_{i=1}^n f_i(X_i)} = \prod_{i=1}^n \expect{f_i(X_i)} \).
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	\emph{(i) implies (ii).}
+	Consider the \( \pi \)-system \( \mathcal A \) of rectangles \( A = \prod_{i=1}^n A_i \) for \( A_i \in \mathcal E_i \).
+	Since \( \mu_X \) is an image measure,
+	Then
+	\[ \mu_X(A_1 \times \dots A_n) = \prob{X_1 \in A_1, \dots, X_n \in A_n} = \prob{X_1} \dots \prob{A_n} = \prod_{i=1}^n \mu_{X_i}(A_i) \]
+	So by uniqueness, the result follows.
+
+	\emph{(ii) implies (iii).}
+	By Fubini's theorem,
+	\begin{align*}
+		\expect{\prod{i=1}^n f(X_i)} &= \mu_X\qty(\prod_{i=1}^n f(X_i)) \\
+		&= \int_E f(x) \dd{\mu(x)} \\
+		&= \idotsint_{E_i} \qty(\prod_{i=1}^n f_i(x_i)) \dd{\mu_{X_1}(x_1)} \dots \dd{\mu_{X_2}(x_2)} \\
+		&= \prod_{i=1}^n \int_{E_i} f_i(x_i) \dd{\mu_{X_i}(x_i)} \\
+		&= \prod_{i=1}^n \expect{f(X_i)}
+	\end{align*}
+
+	\emph{(iii) implies (i).}
+	Let \( f_i = \mathbbm 1_{A_i} \) for any \( A_i \in \mathcal E_i \).
+	These are bounded and measurable functions.
+	Then
+	\[ \prob{X_1 \in A_1, \dots, X_n \in A_n} = \expect{\prod_{i=1}^n \mathbbm 1_{A_i}(X_i)} = \prod_{i=1}^n \expect{\mathbbm 1_{A_i}(X_i)} = \prod_{i=1}^n \prob{X_i \in A_i} \]
+	So the \( \sigma \)-algebras generated by the \( X_i \) are independent as required.
 \end{proof}
