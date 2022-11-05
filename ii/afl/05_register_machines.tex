@@ -1,0 +1,51 @@
+\subsection{Definition}
+A register machine uses an alphabet \( \Sigma \), has finitely many states, and finitely many \emph{registers}, which are last-in first-out storage units containing a word \( w \in \mathbb W \).
+The machine is able to access the last letter of the word, remove it, or push a new letter.
+A \emph{configuration} or \emph{snapshot} of length \( n+1 \) is a tuple of the form \( (Q, w_0, \dots, w_n) \in \mathbb Q \times \mathbb W^{n+1} \).
+A configuration defines the state of the computation at a particular point in time.
+
+The transition function should now be of the form \( \delta \colon Q \times \mathbb W^{n+1} \to Q \times \mathbb W^{n+1} \).
+However, not every such function represents a real computation; there are uncountably many such functions, and the action on the registers is unrestricted.
+% TODO: copy table from L\"owe's notes
+Let \( \Instr(\Sigma, Q) \) be the set of \( (\Sigma,Q) \)-instructions.
+This is in principle an infinite set, but finite if \( k \) is bounded.
+\begin{definition}
+	A tuple \( M = (\Sigma, Q, P) \) is called a \emph{\( \Sigma \)-register machine} if \( \Sigma \) is an alphabet, \( Q \) is a finite set of \emph{states} with two distinguished states \( q_S \neq q_H \), called the \emph{start state} and \emph{halt state} respectively, and \( P \colon Q \to \Instr(\Sigma,Q) \) is the \emph{program}.
+	If \( Q = \qty{q_0, \dots, q_n} \), we can describe \( P \) as a finite collection of \emph{program lines} \( q_i \mapsto P(q_i) \).
+	Since \( Q \) is finite, only finitely many registers \( k \) are referenced by \( P \); we call the largest such \( k \) the \emph{upper register index} of \( M \).
+\end{definition}
+\begin{definition}
+	Let \( M \) be a register machine with upper register index \( n \) and \( \vb w = (w_0, \dots, w_n) \in \mathbb W^{n+1} \).
+	For configurations \( C, C' \), we say \( M \) \emph{transforms} \( C \) into \( C' \) if:
+	% TODO: copy the other table
+	Then we define the \emph{computation sequence} of \( M \) with input \( \vb w \) by \( C(0,H,\vb w) = (q_S,\vb w), C(k+1,M,\vb w) = C' \) where \( M \) transforms \( C(k,M,\vb w) \) into \( C' \).
+\end{definition}
+\begin{remark}
+	This recursive definition requires that the length of \( \vb w \) is at least \( n + 1 \), where \( n \) is the upper register index.
+	By convention, if \( \vb w \) is too short, we pad it with copies of the empty word \( \varepsilon \).
+\end{remark}
+\begin{remark}
+	As defined above, all computation sequences are infinite, because every configuration is transformed by \( M \) into some other.
+\end{remark}
+\begin{definition}
+	We say that the computation of \( M \) with input \( w \) \emph{halts at time \( k \)} or \emph{in \( k \) steps} if \( k \) is the smallest natural such that \( C(k,M,\vb w) = (q_H,\vb v) \).
+	In this case, we say that \( \vb v \) is the \emph{register content at time of halting}, or the \emph{output} of the computation.
+	If such a \( k \) does not exist, we say the computation \emph{does not halt}.
+\end{definition}
+\begin{definition}
+	We say that register machines \( M, M' \) are \emph{strongly equivalent} if for all \( k \) and \( \vb w \), \( C(k,M,\vb w) \) and \( C(k,M',\vb w) \) have the same register content, and for all \( \vb w \), we have that \( M \) halts after \( k \) steps with input \( \vb w \) if and only if \( M' \) halts after \( k \) steps with input \( \vb w \).
+\end{definition}
+\begin{remark}
+	If \( \abs{Q} = \abs{Q'} \), then for every \( (\Sigma, Q, P) \) there exists a strongly equivalent register machine \( (\Sigma, Q', P') \) by relabelling the states in \( P \).
+\end{remark}
+
+\subsection{The padding lemma}
+\begin{proposition}
+	Let \( M \) be a register machine.
+	Then there are infinitely many different register machines that are strongly equivalent to \( M \).
+\end{proposition}
+\begin{proof}
+	Let \( M = (\Sigma, Q, P) \).
+	The register machine completely determines the computation sequence, so after adding a new state \( \hat q \) to \( Q \), \( \hat q \) is never a state in any computation sequence.
+	So \( (\Sigma, Q \cup \qty{\hat q}, P \cup \qty{\hat p}) \) is strongly equivalent to \( M \) for any program line \( \hat p \) for \( \hat q \).
+\end{proof}
