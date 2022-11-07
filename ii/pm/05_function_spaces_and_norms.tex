@@ -1,0 +1,90 @@
+\subsection{Norms}
+\begin{definition}
+	A \emph{norm} on a real vector space is a map \( \norm{\cdot}_V \colon V \to \mathbb R \) such that
+	\begin{enumerate}
+		\item \( \norm{\lambda v} = \abs{\lambda} \cdot \norm{v} \);
+		\item \( \norm{u + v} \leq \norm{u} + \norm{v} \);
+		\item \( \norm{v} = 0 \) if and only if \( v = 0 \).
+	\end{enumerate}
+\end{definition}
+\begin{definition}
+	Let \( (E, \mathcal E, \mu) \) be a measure space.
+	We define \( L^p(E,\mathcal E,\mu) = L^p(\mu) = L^p \) for the space of measurable functions \( f \colon E \to \mathbb R \) such that \( \norm{f}_p \) is finite, where
+	\[ \norm{f}_p = \begin{cases}
+		\qty(\int_E \abs{f(x)}^p \dd{\mu(x)})^{\frac{1}{p}} & 1 \leq p < \infty \\
+		\esssup \abs{f} = \inf \qty{\lambda > 0 \mid \abs{f} \leq \lambda \text{ almost everywhere}} & p = \infty
+	\end{cases} \]
+\end{definition}
+% TODO: essential supremum esssup
+We must check that \( \norm{\cdot}_p \) as defined is a norm.
+Clearly (i) holds for all \( 1 \leq p \leq \infty \).
+Property (ii) holds for \( p = 1 \) and \( p = \infty \), and we will prove later that this holds for other values of \( p \).
+The last property does not hold: \( f = 0 \) implies \( \norm{f}_p = 0 \), but \( \norm{f}_p = 0 \) implies only that \( \abs{f}^p = 0 \) almost everywhere, so \( f \) is zero almost everywhere on \( E \).
+Therefore, to rigorously define the norm, we must construct the quotient space \( \mathcal L^p \) of functions that coincide almost everywhere.
+We write \( [f] \) for the equivalence class of functions that are equal almost everywhere.
+The functional \( \norm{\cdot}_p \) is then a norm on \( \mathcal L^p \).
+\begin{proposition}[Chebyshev's inequality, Markov's inequality]
+	Let \( f \colon E \to \mathbb R \) be nonnegative and measurable.
+	Then for all \( \lambda > 0 \),
+	\[ \mu(\qty{x \in E \mid f(x) \geq \lambda}) = \mu(f \geq \lambda) \leq \frac{\mu(f)}{\lambda} \]
+\end{proposition}
+\begin{proof}
+	Integrate the inequality \( \lambda \mathbbm 1_{\qty{f \geq \lambda}} \leq f \), which holds on \( E \).
+\end{proof}
+\begin{definition}
+	Let \( I \subseteq R \) be an interval.
+	Then we say a map \( c \colon I \to \mathbb R \) is \emph{convex} if for all \( x, y \in I \) and \( t \in [0,1] \), we have \( c(tx + (1-t)y) \leq tc(x) + (1-t)c(y) \).
+	Equivalently, for all \( x < t < y \) and \( x, y \in I \), we have \( \frac{c(t) - c(x)}{t-x} \leq \frac{c(y) - c(t)}{y-t} \).
+\end{definition}
+Since a convex function is continuous on the interior of the interval, it is Borel measurable.
+\begin{lemma}
+	Let \( I \subseteq R \) be an interval, and let \( m \in I^\circ \).
+	If \( c \) is convex on \( I \), there exist \( a, b \) such that \( c(x) \geq ax + b \), and \( c(m) = am + b \).
+\end{lemma}
+\begin{proof}
+	Define \( a = \sup \qty{\frac{c(m) - c(x)}{m - x} \mid x < m, x \in I} \).
+	This exists in \( \mathbb R \) by the second definition of convexity.
+	Let \( y \in I \), and \( y > m \).
+	Then \( a \leq \frac{c(y) - c(m)}{y - m} \), so \( c(y) \geq ay - am + c(m) = ay + b \) where we define \( b = c(m) - am \).
+	Similarly, for \( y < m \), by definition of the supremum, \( \frac{c(m) - c(y)}{m - y} \leq a \), we have \( c(y) \geq ay + b \).
+\end{proof}
+\begin{theorem}[Jensen's inequality]
+	Let \( X \) be a random variable taking values in an interval \( I \subseteq \mathbb R \), such that \( \expect{\abs{X}} < \infty \).
+	Let \( c \colon I \to \mathbb R \) be a convex function.
+	Then \( c(\expect{X}) \leq \expect{c(X)} \).
+\end{theorem}
+Note that the integral \( \expect{c(X)} \) is defined as \( \expect{c^+(X)} - \expect{c^-(X)} \), and this is well-defined and takes values in \( (-\infty, \infty] \).
+\begin{proof}
+	Define \( m = \expect{X} = \int_I z \dd{\mu_X(z)} \).
+	If \( m \not\in I^\circ \), \( X \) must equal \( m \) almost surely, and then the result follows.
+	Now let \( m \in I^\circ \).
+	Applying the previous lemma, we find \( a, b \) such that \( c^-(X) \leq \abs{a} \cdot \abs{X} + \abs{b} \).
+	Hence, \( \expect{c^-(X)} \leq \abs{a} \expect{\abs{X}} + \abs{b} < \infty \), and \( \expect{c(X)} = \expect{c^+(X)} - \expect{c^-(X)} \) is well-defined in \( (-\infty,\infty] \).
+	Integrating the inequality from the lemma, and using linearity of the integral,
+	\[ \expect{c(X)} \geq a \expect{X} + b = am + b = c(m) = c(\expect{X}) \]
+\end{proof}
+\begin{remark}
+	If \( 1 \leq p < q < \infty \), \( c(x) = \abs{x}^{\frac{q}{p}} \) is a convex function.
+	If \( X \) is a bounded random variable (so lies in \( L^\infty(\mathbb P) \)), we then have
+	\[ \norm{X}_p = \expect{\abs{X^p}}^{\frac{1}{p}} = c(\expect{\abs{X}^p})^{\frac{1}{q}} \leq \expect{c(\abs{X}^p)}^{\frac{1}{q}} = \norm{X}_q \]
+	Using the monotone convergence theorem, this extends to all \( X \in L^q(\mathbb P) \) when \( \norm{X}_q \) is finite.
+	In particular, \( L^q(\mathbb P) \subseteq L^p(\mathbb P) \) for all \( 1 \leq p \leq q \leq \infty \).
+\end{remark}
+\begin{theorem}[H\"older's inequality]
+	Let \( f, g \) be measurable functions on \( (E,\mathcal E,\mu) \).
+	If \( p, q \) are \emph{conjugate}, so \( \frac{1}{p} + \frac{1}{q} = 1 \) and \( 1 \leq p, q \leq \infty \), we have
+	\[ \mu(\abs{fg}) = \int_E \abs{f(x)g(x)} \dd{\mu} \leq \norm{f}_p \cdot \norm{g}_q \]
+\end{theorem}
+\begin{remark}
+	For \( p = q = 2 \), this is exactly the Cauchy--Schwarz inequality on \( L^2 \).
+\end{remark}
+\begin{proof}
+	The cases \( p = 1 \) or \( p = \infty \) are obvious.
+	We can assume \( f \in L^p \) and \( g \in L^q \) without loss of generality since the right hand side would otherwise be infinite.
+	We can also assume \( f \) is not equal to zero almost everywhere, otherwise this reduces to \( 0 \leq 0 \).
+	Hence, \( \norm{f}_p > 0 \).
+	Then, we can divide both sides by \( \norm{f}_p \) and then assume \( \norm{f}_p = 1 \).
+	\[ \mu(\abs{fg}) = \int_E \abs{g} \frac{1}{\abs{f}^{p-1}} \abs{f}^p \mathbbm 1_{\qty{\abs{f} > 0}} \dd{\mu} \]
+	Note that we can set \( \abs{f}^p \dd{\mu} = \dd{\mathbb P} \), and since \( L^q(\mathbb P) \subseteq L^1(\mathbb P) \),
+	\[ \int_E \abs{g} \frac{1}{\abs{f}^{p-1}} \abs{f}^p \mathbbm 1_{\qty{\abs{f} > 0}} \dd{\mu} \leq \qty( \int \abs{g}^q \frac{1}{\abs{f}^{q(p-1)}} \underbrace{\abs{f}^p \dd{\mu}}_{\dd{\mathbb P}})^{\frac{1}{q}} = \qty(\int_E \abs{g}^q \dd{\mu})^{\frac{1}{q}} \]
+\end{proof}

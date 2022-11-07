@@ -159,4 +159,87 @@ Observe that if \( r \mid n \), the graph \( K_{\frac{n}{r}, \dots, \frac{n}{r}}
 	Let \( V(G) = \qty{1, \dots, n} \).
 	Let \( \alpha_1, \dots, \alpha_r > 0 \) be numbers that are linearly independent over \( \mathbb Q \).
 	For \( S \subseteq V(G) \), define \( \mu(S) = \sum_{i \in S} \alpha_i \).
+
+	If \( H \) is a graph on \( n \) vertices, we define the transformation of \( H \), denoted \( T(H) \), as follows.
+	Let \( x, y \) be a pair of vertices maximising \( \mu(\qty{x,y}) \) (to break any ties) such that \( N(x) \neq N(y) \) and \( x \not\sim y \), and also either \( \deg x > \deg y \) or both \( \deg x = \deg y \) and \( \mu(N(x)) > \mu(N(y)) \).
+	Now define \( T(H) \) to be \( H - y \) along with a new vertex \( x' \) with \( N(x') = N(x) \).
+
+	We first show that if \( H \) does not contain a \( K_{r+1} \), then \( T(H) \) also does not contain a \( K_{r+1} \).
+	Suppose that our new graph \( H' \) contains a clique \( K \) isomorphic to \( K_{r+1} \).
+	We must have that \( x' \) lies inside this clique, because all other vertices remain the same.
+	We know \( x \not\in K \) since \( x\not\sim x' \).
+	Then \( K \setminus \qty{x'} \cup \qty{x} \) must be an \( (r+1) \)-clique in \( H \), which is a contradiction.
+
+	Now, consider the sequence \( G, T(G), T(T(G)), \dots \), iteratively applying the transformation \( T \).
+	We will now show that this sequence \( (T^{(n)}(G))_n \) eventually stabilises.
+	This is because \( e(T(H)) \geq e(H) \), so \( (e(T^{(n)}(G)))_n \) is an increasing sequence of integers which is bounded above by \( \binom n 2 \).
+	Note that \( \sum_{1 \leq x \leq n} \mu(N_{T^{(i)}(G)}(x)) \) is also an increasing sequence, but since there are only finitely many possible values for this sum, it must also stabilise.
+	Therefore, at some point, the transformation \( T \) will do nothing more to our graph.
+	Let \( G_\infty \) be the limiting graph in the sequence \( (T^{(n)}(G))_n \).
+
+	We will show that \( G_\infty \) is a complete \( k \)-partite graph for some \( k \).
+	Let \( k = \chi(G_\infty) \), and \( c \) be a \( k \)-colouring of \( G_\infty \).
+	We write \( V(G_\infty) = C_1 \cup \dots \cup C_k \) where \( C_i \) is the colour class of vertices with colour \( i \).
+	Note that if \( x, y \in C_i \), we have \( x \not\sim y \), so \( N(x) = N(y) \), otherwise the transformation \( T \) would have manipulated the neighbourhoods to be equal.
+	Now let \( x \in C_i, y \in C_j \) for \( i \neq j \).
+	Suppose \( x \not\sim y \).
+	Then \( x' \not\sim y' \) for all other \( x' \in C_i \) and \( y' \in C_j \), so \( C_i \) and \( C_j \) have no edges between them.
+	But then by merging \( C_i \) and \( C_j \), we obtain a more optimal colouring, contradicting our assumption that \( k = \chi(G_\infty) \).
+	So \( G_\infty \) is a complete \( k \)-partite graph for some \( k \).
+
+	Since \( G_\infty \) does not contain a \( K_{r+1} \), we have \( k \leq r \).
+	By the previous proposition, \( e(G_\infty) \leq e(T_{r,n}) \), and \( e(G) \leq e(G_\infty) \) since \( e(H) \leq e(T(H)) \) for all \( H \).
 \end{proof}
+
+\subsection{The Zarankiewicz problem}
+\begin{definition}
+	The \emph{Zarankiewicz number} \( Z(n,t) \) is the maximum number of edges in a bipartite graph \( G = (X \sqcup Y, E) \) with \( \abs{X} = \abs{Y} = n \) such that \( G \) does not contain \( K_{t,t} \).
+\end{definition}
+\begin{lemma}
+	Let \( t \in \mathbb N \), and \( t \geq 2 \).
+	Define the function \( f_t(x) = \frac{x(x-1)\dots(x-t+1)}{t!} \).
+	Then \( f_t(x) \) is convex for \( x \geq t - 1 \).
+\end{lemma}
+\begin{proof}
+	Let \( s = x - t + 1 \), so \( f_t(x) = \frac{(s+t-1)(s+t-2)\dots s}{t!} \).
+	This is a polynomial with nonnegative coefficients.
+	Hence it is convex for \( s \geq 0 \), since \( f''(s) \geq 0 \).
+\end{proof}
+\begin{theorem}
+	Let \( t \geq 2 \).
+	Then \( Z(n,t) \leq t^{\frac{1}{t}} n^{2 - \frac{1}{t}} + tn \).
+\end{theorem}
+\begin{remark}
+	In particular, as \( n \) increases, \( Z(n,t) \) is eventually lower bounded by \( 2n^{2-\frac{1}{t}} \).
+\end{remark}
+\begin{proof}
+	Note that we may assume that \( \deg y \geq t - 1 \) for all \( y \in Y \).
+	If \( \deg y < t - 1 \), we can add an edge and preserve the property that \( G \) contains no \( K_{t,t} \).
+
+	Let \( x_1, \dots, x_t \in X \) be distinct vertices.
+	Then \( \abs{N(x_1) \cap \dots \cap N(x_t)} \leq t - 1 \), otherwise we have a \( K_{t,t} \).
+	Now, applying Jensen's inequality,
+	\begin{align*}
+		(t-1) \binom n t &\geq \sum_{x_1, \dots, x_t \text{ distinct}} \abs{N(x_1) \cap \dots \cap N(x_t)} \\
+		&= \sum_{x_1, \dots, x_t \text{ distinct}} \sum_y \mathbbm 1_{y \sim x_1} \dots \mathbbm 1_{y \sim x_t} \\
+		&= \sum_y \sum_{x_1, \dots, x_t \text{ distinct}} \mathbbm 1_{y \sim x_1} \dots \mathbbm 1_{y \sim x_t} \\
+		&= \sum_y \binom{\deg y}{t} \\
+		&= n \qty( \frac{1}{n} \sum_y \binom{\deg y}{t} ) \\
+		&\geq n \binom{\overline d}{t}
+	\end{align*}
+	where \( \overline d = \frac{e(G)}{n} \) (since we are in a bipartite grpah), using the fact that \( \deg y \geq t - 1 \), so \( x \mapsto \binom x t \) is convex.
+	So
+	\begin{align*}
+		(t-1) \binom n t &\geq n \binom{\overline d}{t} \\
+		\frac{tn^t}{t!} &\geq \frac{n(\overline d - t)^t}{t!} \\
+		tn^t &\geq n(\overline d - t)^t \\
+		t^{\frac{1}{t}} n^{1 - \frac{1}{t}} &\geq \overline d - t \\
+		t^{\frac{1}{t}} n^{1 - \frac{1}{t}} &\geq \frac{e(G)}{n} - t \\
+		e(G) &\leq t^{\frac{1}{t}} n^{2 - \frac{1}{t}} + tn
+	\end{align*}
+\end{proof}
+\begin{remark}
+	If \( t = 2 \), then it is known that \( Z(n,t) \geq cn^{\frac{3}{2}} \) for some contant \( c > 0 \).
+	If \( t = 3 \), \( Z(n,t) \geq cn^{\frac{5}{3}} \).
+	This is an open problem for \( t = 4 \).
+\end{remark}
