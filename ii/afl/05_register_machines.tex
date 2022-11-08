@@ -49,3 +49,85 @@ This is in principle an infinite set, but finite if \( k \) is bounded.
 	The register machine completely determines the computation sequence, so after adding a new state \( \hat q \) to \( Q \), \( \hat q \) is never a state in any computation sequence.
 	So \( (\Sigma, Q \cup \qty{\hat q}, P \cup \qty{\hat p}) \) is strongly equivalent to \( M \) for any program line \( \hat p \) for \( \hat q \).
 \end{proof}
+\begin{proposition}
+	Up to strong equivalence, there are only countably many register machines.
+\end{proposition}
+\begin{proof}
+	Only the cardinality of \( Q \) matters up to strong equivalence.
+	Let \( M_{n,k} \) be the collection of register machines with a fixed state set with \( \abs{Q} = n \) and uppper register index at most \( k \).
+	By checking cases, we find \( \abs{\Instr(\Sigma,Q)} = (k+1)n\abs{\Sigma} + (k+1)n^2\abs{\Sigma} + (k+1)n^2 + (k+1)n^2 = N_{n,k} \), which is finite.
+	Therefore, there are \( N_{n,k}^n \) different programs, and hence \( \abs{M_{n,k}} = N_{n,k}^n \) is finite.
+	Then the collection of all register machines up to strong equivalence is \( \bigcup_{n,k} M_{n,k} \) which is countable.
+\end{proof}
+
+\subsection{Performing operations and answering questions}
+\begin{definition}
+	An \emph{operation} is a partial function \( f \colon \mathbb W^{n+1} \rightharpoonup \mathbb W^{n+1} \).
+	We write \( f(\vb w) \downarrow \) if \( w \) lies in the domain of \( f \), and we say the operation \emph{is defined} or \emph{converges}.
+	We write \( f(\vb w) \uparrow \) otherwise, and say that the operation is \emph{undefined} or \emph{diverges}.
+	A register machine \( M \) \emph{performs} an operation \( f \) if for all \( \vb w \), \( f(\vb w) \downarrow \) if and only if \( M \) halts on input \( \vb w \), and in this case, the register content at time of halting is \( f(\vb w) \).
+\end{definition}
+\begin{example}
+	The operation `never halt' is the empty function, \( \dom f = \varnothing \).
+	Then any program that never references the halt state in the right hand side of a program line performs this operation.
+	For example, \( q_S \mapsto +(0,a,q_S) \) and \( q_H \mapsto +(0,a,q_S) \) suffices.
+\end{example}
+\begin{remark}
+	There are many register machines that perform the same operation, including many that are not strongly equivalent.
+\end{remark}
+\begin{example}
+	The operation `halt without doing anything' is the function \( f(\vb w) = \vb w \) with \( \dom f = \mathbb W^{n+1} \).
+	An example of a program to perform this is \( q_S \mapsto ?(0,a,q_H,q_H) \).
+	This halts after one step, and preserves the register content.
+\end{example}
+\begin{definition}
+	A \emph{question with \( k+1 \) answers} \( \mathsf Q \) is a partition of \( \mathbb W^{n+1} \) into \( k + 1 \) sets \( A_i \).
+	A register machine \emph{answers a question} if it has \( k + 1 \) \emph{answer states} \( \overline q_i \), and upon input of \( \vb w \), after finitely many steps its configuration is \( (\overline q_i, \vb w) \) for the value of \( i \) where \( \vb w \in A_i \).
+\end{definition}
+\begin{example}
+	The question `is register \( i \) empty' is performed by \( q_S \mapsto ?(i, \varepsilon, \overline q_Y, \overline q_N) \).
+	The question `is the final letter in register \( i \) the letter \( a \)' is performed by \( q_S \mapsto ?(i, a, \overline q_Y, \overline q_N) \).
+\end{example}
+The following lemma allows us to concatenate register machines, or alternatively, to perform subroutines.
+\begin{lemma}[concatenation]
+	Let \( M \) perform \( F \colon \mathbb W^{n+1} \rightharpoonup \mathbb W^{n+1} \), and \( M' \) perform \( F' \colon \mathbb W^{n+1} \rightharpoonup \mathbb W^{n+1} \).
+	Then we can construct a register machine \( \hat M \) which performs \( F' \circ F \).
+\end{lemma}
+\begin{remark}
+	If \( F(\vb w) \downarrow \), then \( (F' \circ F)(\vb w) \downarrow \).
+	If \( F(\vb w) \uparrow \) and \( F'(F(\vb w)) \downarrow \), then \( (F' \circ F)(\vb w) \downarrow \).
+	Otherwise, \( (F' \circ F)(\vb w) \uparrow \).
+\end{remark}
+\begin{proof}
+	We may assume without loss of generality that the state sets of the two machines are disjoint.
+	We define \( \hat Q = Q \cup Q' \setminus \qty{q_H} \).
+	We write \( P^\star \) for the program \( P \) with the rule \( q_H \mapsto P(q_H) \) removed, and then all instances of \( q_H \) replaced with \( q_S' \).
+	We then define \( \hat P = P^\star \cup P' \).
+	Then \( \hat M = (\Sigma, \hat Q, \hat P) \) clearly performs \( F' \circ F \).
+\end{proof}
+\begin{lemma}[case distinction]
+	Let \( \mathsf Q \) be a question with \( k + 1 \) answers.
+	Let \( F_i \colon \mathbb W^{n+1} \rightharpoonup \mathbb W^{n+1} \) be operations for \( i \leq k \).
+	Let \( M \) be a register machine that answers \( \mathsf Q \), and let \( M_i \) be register machines that perform \( F_i \).
+	Then there is a register machine that performs the operation given by \( G(\vb w) = F_i(\vb w) \) if \( \vb w \in A_i \).
+\end{lemma}
+\begin{proof}
+	We assume that \( Q \) is disjoint from each \( Q_i \), and \( \bigcap_{i \leq k} Q_i = \qty{q_H} \).
+	Let \( P_i^\star \) be \( P_i \) where all occurrences of \( q_{S,i} \) are replaced with the \( i \)th answer state \( \overline q_i \).
+	Define \( Q^\star = Q \cup \bigcup_{i \leq k} Q_i \setminus \qty{q_{S,i}} \) and \( P^\star = P \cup \bigcup_{i \leq k} P_i^\star \).
+	Then \( M^\star = (\Sigma, Q^\star, P^\star) \) performs \( G \).
+\end{proof}
+\begin{example}
+	Consider
+	\[ F(\vb w) = \begin{cases}
+		\vb w & w_i \neq \varepsilon \\
+		\uparrow & w_i = \varepsilon
+	\end{cases} \]
+	The question `is register \( i \) empty' is performed by a register machine, and in this case, the `never halt' operation can be performed; in the other case, the `halt without doing anything' operation can be performed.
+\end{example}
+\begin{example}
+	The operation `delete the final letter of register \( i \) if it exists' is performed by the program \( q_S \mapsto -(i,q_H,q_H) \).
+	The operation `add letter \( a \) to register \( i \)' is performed by \( q_S \mapsto +(i,a,q_H) \).
+	Note that this machine also performs the operation `guarantee that the \( i \)th register is nonempty'.
+	The operation `delete the content of register \( i \)' is performed by \( q_S \mapsto -(i,q_H,q_S) \).
+\end{example}
