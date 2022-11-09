@@ -84,3 +84,99 @@ Therefore, a simplex determines its set of vertices.
 \begin{definition}
 	If \( K \) is an abstract simplicial complex, its \emph{polyhedron} is \( \abs{K} = \bigcup_{e_I \in K} e_i \subseteq \Delta^n \).
 \end{definition}
+\begin{remark}
+	Polyhedra are compact and Hausdorff.
+\end{remark}
+\begin{definition}
+	We define \( K_r = \qty{e_I \in K \mid \abs{I} \leq r + 1} \) to be the set of faces of dimension at most \( r \).
+	This is called the \emph{\( r \)-skeleton} of \( K \).
+\end{definition}
+The \( r \)-skeleton is an abstract simplicial complex.
+Note that \( \qty{e_\varnothing} = K_{-1} \subset K_0 \subset \dots \subset K_n = K \).
+We write \( \dim K = \max\qty{\dim e_I \mid e_I \in K} \).
+\begin{definition}
+	The \emph{vertex set} \( V(K) \) is the polyhedron \( \abs{K_0} \).
+\end{definition}
+\begin{example}
+	\( \bm \Delta^n = F(\Delta^n) = \qty{e_I \mid I \subseteq \qty{0, \dots, n}} \) is a simplicial complex.
+	Its polyhedron is \( \Delta^n \), which is homeomorphic to \( D^n \) by radial projection.
+\end{example}
+\begin{example}
+	\( \mathbb S^{n-1} = \bm \Delta_{n-1}^n = \qty{e_i \mid I \subsetneq \qty{0, \dots, n}} \) is a simplicial complex.
+	This has polyhedron \( \partial \Delta^n \) by definition of the boundary.
+	This is homeomorphic to \( S^{n-1} \) by radial projection.
+\end{example}
+\begin{definition}
+	Let \( K, L \) be abstract simplicial complexes in \( \Delta^n \) and \( \Delta^m \) respectively.
+	A \emph{simplicial map} \( f \colon K \to L \) is a map such that there is a simplicial map \( \abs{f} \colon \Delta^n \to \Delta^m \) with \( f(e_I) = \abs{f}(e_I) \).
+	Equivalently, there is a map \( \hat f \colon \qty{0, \dots, n} \to \qty{0, \dots, m} \) such that \( f(e_I) = e_{\hat f(I)} \) and \( e_I \in K \) implies \( e_{\hat f(I)} \in L \).
+\end{definition}
+\begin{remark}
+	The identity map is simplicial.
+	The composition of two simplicial maps is simplicial.
+	This induces a category of simplices, where the morphisms are simplicial maps.
+\end{remark}
+\begin{definition}
+	We say a simplicial map \( f \colon K \to L \) is a \emph{simplicial isomorphism} if \( f \) is a bijection, or equivalently, \( \abs{f} \) is a bijection or \( \abs{f} \) is a homeomorphism.
+\end{definition}
+
+\subsection{Euclidean simplicial complexes}
+Recall that \( \mathcal S(\mathbb R^n) \) is the set of elements of the form \( [v_0, \dots, v_n] \) where the \( v_i \) are affine linearly independent.
+\begin{definition}
+	\( K \subseteq \mathcal S(\mathbb R^n) \) is a \emph{Euclidean simplicial complex} if
+	\begin{enumerate}
+		\item \( K \) is finite;
+		\item if \( \sigma \in K \) and \( \tau \in F(\sigma) \), then \( \tau \in K \);
+		\item if \( \sigma_1, \sigma_2 \in K \), then \( \sigma_1 \cap \sigma_2 \in F(\sigma_1) \cap F(\sigma_2) \).
+	\end{enumerate}
+	If so, we write \( \abs{K} = \bigcup_{\sigma \in K} \sigma \subseteq \mathbb R^n \) with the subspace topology.
+	We write \( K_r = \qty{\sigma \in K \mid \dim \sigma \leq r} \) for its \( r \)-skeleton, which is a Euclidean simplicial complex.
+\end{definition}
+\begin{proposition}
+	Let \( \abs{\varphi} \colon \Delta^n \to \mathbb R^n \) be affine linear, and \( K' \) be an abstract simplicial complex in \( \Delta^n \), such that \( \eval{\abs{\varphi}}_{\abs{K'}} \) is injective.
+	Then \( \varphi(K') = \qty{\abs{\varphi}(e_I) \mid e_I \in K} \) is a Euclidean simplicial complex.
+\end{proposition}
+\begin{proof}
+	Property (i) is clear since \( F(\Delta^n) \) is finite.
+	For property (ii), note that if \( \sigma \in \varphi(K') \), there is \( e_I \in K' \) such that \( \sigma = \abs{\varphi}(e_I) \).
+	If \( \tau \in F(\sigma) \), we have \( \tau = \abs{\varphi}(e_J) \) for \( e_J \subseteq e_I \).
+	Then \( e_J \in K' \) since \( K' \) is an abstract simplicial complex.
+	So \( \tau = \abs{\varphi}(e_J) = \varphi(K') \).
+
+	Suppose \( \sigma_1 = \abs{\varphi}(e_{I_1}) \) and \( \sigma_2 = \abs{\varphi}(e_{I_2}) \) where \( e_{I_1}, e_{I_2} \in K' \).
+	Then \( \sigma_1 \cap \sigma_2 = \abs{\varphi}(e_{I_1}) \cap \abs{\varphi}(e_{I_2}) = \abs{\varphi}(e_{I_1} \cap e_{I_2}) \) by injectivity.
+	This is equal to \( \abs{\varphi}(e_{I_1 \cap I_2}) \in F(\sigma_1) \cap F(\sigma_2) \).
+\end{proof}
+\begin{definition}
+	We say that the Euclidean simplicial complex \( \varphi(K') \) is a \emph{realisation} of an abstract simplicial complex \( K' \) in \( \Delta^n \), if \( \abs{\varphi} \colon \Delta^n \to \mathbb R^n \) is affine linear and injective on \( \abs{K'} \).
+\end{definition}
+\begin{remark}
+	If \( \varphi(K') \) is a realisation of \( K' \), \( \eval{\abs{\varphi}}_{\abs{K'}} \) is injective, so \( \abs{\varphi} \colon \abs{K'} \to \abs{\varphi(K)} \) is a homeomorphism.
+\end{remark}
+\begin{proposition}
+	Let \( K \subseteq \mathbb R^N \) be a Euclidean simplicial complex.
+	Then \( K = \varphi(K') \) for some abstract simplicial complex \( K' \), and \( \abs{\varphi} \colon \abs{K'} \to \abs{K} \).
+	Any two \( K' \) are related by a simplicial isomorphism.
+\end{proposition}
+Informally, every Euclidean simplicial complex is the realisation of some abstract simplicial complex.
+\begin{proof}
+	Let \( V(K) = \abs{K_0} = \qty{v_0, \dots, v_n} \subset \mathbb R^N \) be the vertex set of the Euclidean simplicial complex.
+	Define \( K' = \qty{e_{\qty{i_0, \dots, i_k}} \mid [v_{i_0}, \dots, v_{i_k}] \in K} \).
+	Let \( \abs{\varphi} \colon \Delta^n \to \mathbb R^N \) be given by \( \abs{\varphi}(e_i) = v_i \).
+
+	We show that \( \eval{\abs{\varphi}}_{\abs{K'}} \) is injective.
+	If \( \sigma = [v_{i_0}, \dots, v_{i_k}] \in K \), we have that \( v_{i_0}, \dots, v_{i_k} \) are affine linearly independent since \( K \) is a Euclidean simplicial complex.
+	Then \( \abs{\varphi}_{e_I} \) is injective.
+
+	Suppose \( \abs{\varphi}(p) = \abs{\varphi}(q) = x \in \mathbb R^N \), where \( p \in e_I \in K' \) and \( q \in e_J \in K' \).
+	Then \( x \in \abs{\varphi}(e_I) \cap \abs{\varphi}(e_J) \), which is the intersection of simplices in \( K \), so \( x \in \abs{\varphi}(e_{I'}) \) for \( I' \subseteq I \cap J \).
+	Since \( \eval{\abs{\varphi}}_{e_I} \) and \( \eval{\abs{\varphi}}_{e_J} \) are injective, we must have \( p, q \in e_{I'} \).
+	But \( \eval{\abs{\varphi}}_{e_{I'}} \) is also injective, so \( p = q \).
+\end{proof}
+\begin{definition}
+	A \emph{simplicial map of Euclidean simplicial complexes} is a map \( f \colon K_1 \to K_2 \) if there are realisations \( \varphi_i \colon K_i' \to K_i \) and a simplicial map of abstract simplicial complexes \( f' \colon K_1' \to K_2' \) so that the following diagram commutes.
+	% TODO: the obvious diagram
+\end{definition}
+\begin{remark}
+	The composition of simplicial maps of Euclidean simplicial complexes is also a simplicial map.
+\end{remark}

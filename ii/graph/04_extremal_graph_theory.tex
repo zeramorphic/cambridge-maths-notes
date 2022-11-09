@@ -243,3 +243,57 @@ Observe that if \( r \mid n \), the graph \( K_{\frac{n}{r}, \dots, \frac{n}{r}}
 	If \( t = 3 \), \( Z(n,t) \geq cn^{\frac{5}{3}} \).
 	This is an open problem for \( t = 4 \).
 \end{remark}
+
+\subsection{Erd\H{o}s--Stone theorem}
+\begin{definition}
+	Let \( H \) be a fixed graph, and \( n \in \mathbb N \).
+	Then we define the \emph{extremal number} \( \mathrm{ex}(n,H) = \max\qty{e(G) \mid \abs{G} = n, G \text{ contains no copy of } H} \).
+\end{definition}
+\begin{example}
+	\( \mathrm{ex}(n,K_{r+1}) = e(T_{r,n}) \leq \qty(1 - \frac{1}{r})\frac{n^2}{2} \).
+	\( \mathrm{ex}(n,P_k) = \frac{n(k-1)}{2} \).
+	\( \mathrm{ex}(n,K_{t,t}) \leq 2n^{2-\frac{1}{t}} + tn \).
+\end{example}
+\begin{theorem}
+	Let \( H \) be a fixed nonempty graph.
+	Then
+	\[ \lim_{n \to \infty} \frac{\mathrm{ex}(n,H)}{\binom n 2} = 1 - \frac{1}{\chi(H) - 1} \]
+\end{theorem}
+\begin{remark}
+	If \( \chi(H) \geq 3 \), this determines the leading order term in the function \( \mathrm{ex}(n,H) \) for large \( n \).
+	If \( \chi(H) = 2 \), this theorem implies that \( \frac{\mathrm{ex}(n,H)}{n^2} \to 0 \).
+	But in this case, \( H \subseteq K_{t,t} \), and we already know (almost) that \( \mathrm{ex}(n,H) \leq cn^{2-\frac{1}{t}} \), which implies the result from the Erd\H{o}s--Stone theorem.
+	It is easy to see that \( \mathrm{ex}(n,H) \geq \qty(1 - \frac{\chi(H) - 1}) \frac{n^2}{2} \), since \( H \) is not contained in any \( T_{(\chi(H)-1),n} \).
+\end{remark}
+The following proof sketch is non-examinable.
+
+We will consider the case \( \chi(H) = 3 \).
+Let \( K_3(t) = T_{3,3t} \) be the complete 3-partite graph with \( t \) vertices in each part.
+It suffices to prove the \( \chi(H) = 3 \) case for \( H = K_3(t) \), since each fixed graph \( H \) with \( \chi(H) = 3 \) is contained inside \( K_3(\abs{H}) \).
+
+We prove the following claim.
+Let \( \varepsilon > 0 \) and \( t \in \mathbb N \).
+Let \( G \) be a graph such that \( \abs{G} = n \) and \( e(G) \geq \qty(\frac{1}{2} + \varepsilon) \frac{n^2}{2} \) where \( n \geq n_0(\varepsilon,t) \).
+Then \( G \) contains a copy of \( K_3(t) \).
+
+The following lemma is given without proof.
+\begin{lemma}
+	Let \( G \) be a graph on \( n \) vertices with average degree at least \( \qty(\frac{1}{2} + \varepsilon)n \), which is equivalent to the condition \( e(G) \geq \qty(\frac{1}{2} + \varepsilon)\frac{n^2}{2} \).
+	Then there exists \( \widetilde G \subseteq G \) with \( \delta(\widetilde G) \geq \qty(\frac{1}{2} + \frac{\varepsilon}{2})m \) where \( m = \abs{\widetilde G} \geq \frac{\varepsilon^{\frac 12} n}{8} \).
+\end{lemma}
+
+We now prove the main theorem.
+Let \( \widetilde G \subseteq G \) be a subgraph with \( \delta(\widetilde G) \geq \qty(\frac{1}{2} + \frac{\varepsilon}{2})m \) where \( m = \abs{\widetilde G} \).
+We will find a copy \( K \) of \( K_{s,s} \) in \( \widetilde G \) with \( s = 10 \frac{t}{\varepsilon} \).
+Let \( Y = V(\widetilde G) \setminus K \).
+Then
+\[ e(Y,K) = \sum_{x \in K} \abs{N(x) \cap Y} = \sum_{x \in K} (\deg x - S) \geq \sum_{x \in K} \qty(\frac{1}{2} + \frac{\varepsilon}{4})m = \qty(\frac{1}{2} + \frac{\varepsilon}{4})m\abs{K} \]
+Also, \( e(Y,K) = \sum_{y \in Y} \abs{N(y) \cap K} \).
+Hence
+\[ \qty(\frac{1}{2} + \frac{\varepsilon}{4}) \abs{K} \leq \frac{1}{m} \sum_{y \in Y} \abs{N(y) \cap K} \]
+Let \( B = \qty{y \in Y \mid \abs{N(y) \cap K} \geq \frac{1}{2} + \frac{\varepsilon}{8}} \).
+We claim \( \abs{B} \geq \frac{\varepsilon m}{8} \).
+Suppose this is not true, then
+\[ \frac{1}{m}\sum_{y \in Y} \abs{N(y) \cap K} < \frac{1}{m} \frac{\varepsilon m}{8} \abs{K} + \qty(\frac{1}{2} + \frac{\varepsilon}{8})\abs{K} \]
+contradicting the previous inequality.
+Then we can pick by the pigeonhole principle a vertex on either side of \( K \) connected to some vertex in \( B \), creating a \( K_3 \).

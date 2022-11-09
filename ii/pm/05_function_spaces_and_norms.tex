@@ -88,3 +88,89 @@ Note that the integral \( \expect{c(X)} \) is defined as \( \expect{c^+(X)} - \e
 	Note that we can set \( \abs{f}^p \dd{\mu} = \dd{\mathbb P} \), and since \( L^q(\mathbb P) \subseteq L^1(\mathbb P) \),
 	\[ \int_E \abs{g} \frac{1}{\abs{f}^{p-1}} \abs{f}^p \mathbbm 1_{\qty{\abs{f} > 0}} \dd{\mu} \leq \qty( \int \abs{g}^q \frac{1}{\abs{f}^{q(p-1)}} \underbrace{\abs{f}^p \dd{\mu}}_{\dd{\mathbb P}})^{\frac{1}{q}} = \qty(\int_E \abs{g}^q \dd{\mu})^{\frac{1}{q}} \]
 \end{proof}
+\begin{theorem}[Minkowski's inequality]
+	Let \( f, g \colon (E, \mathcal E, \mu) \to \mathbb R \) be measurable functions.
+	Then for all \( 1 \leq p \leq \infty \), we have \( \norm{f + g}_p \leq \norm{f}_p + \norm{g}_p \).
+\end{theorem}
+\begin{proof}
+	The results for \( p = 1, \infty \) are clear.
+	Suppose \( 1 < p < \infty \).
+	We can assume without loss of genreality that \( f, g \in L^p \).
+	We can integrate the pointwise inequality \( \abs{f + g}^p \leq 2^p (\abs{f}^p + \abs{g}^p) \) to deduce that \( \norm{f + g}_p^p \leq 2^p (\norm{f}_p^p + \norm{g}_p^p < \infty \) so \( f + g \in L^p \).
+	We assume that \( 0 < \norm{f+g}_p \), otherwise the result is trivial.
+	Now, using H\"older's inequality with \( q \) conjugate to \( p \),
+	\begin{align*}
+		\norm{f + g}_p^p &= \int_E \abs{f + g}^{p-1} \abs{f + g} \dd{\mu} \\
+		&\leq \int_E \abs{f + g}^{p-1} \abs{f} \dd{\mu} + \int_E \abs{f + g}^{p-1} \abs{g} \dd{\mu} \\
+		&\leq \qty(\int_E \abs{f + g}^{q(p-1)} \dd{\mu})^{\frac{1}{q}} \qty(\norm{f}_p + \norm{g}_p) \\
+		&\leq \qty(\int_E \abs{f + g}^p \dd{\mu})^{\frac{1}{q}} \qty(\norm{f}_p + \norm{g}_p) \\
+		&\leq \norm{f+g}_p^{\frac{p}{q}} \qty(\norm{f}_p + \norm{g}_p)
+	\end{align*}
+	Dividing both sides by \( \norm{f+g}_p^{\frac{p}{q}} \), we obtain \( \norm{f+g}_p \leq \norm{f}_p + \norm{g}_p \).
+\end{proof}
+So the \( L^p \) spaces are indeed normed spaces.
+
+\subsection{Banach spaces}
+\begin{definition}
+	A \emph{Banach space} is a complete normed vector space.
+\end{definition}
+\begin{theorem}[\( \mathcal L^p \) is a Banach space]
+	Let \( 1 \leq p \leq \infty \), and let \( f_n \in L^p \) be a Cauchy sequence, so for all \( \varepsilon > 0 \) there exists \( N \) such that for all \( m, n \geq N \), we have \( \norm{f_m - f_n}_p < \varepsilon \).
+	Then there exists a function \( f \in L^p \) such that \( f_n \to f \) in \( L^p \), so \( \norm{f_n - f}_p \to 0 \) as \( n \to \infty \).
+\end{theorem}
+\begin{proof}
+	For this proof, we assume \( p < \infty \); the other case is already proven in IB Analysis and Topology.
+	Since \( f_n \) is Cauchy, using \( \varepsilon = 2^{-k} \) we extract a subsequence \( f_{N_k} \) of \( L^p \) functions such that
+	\[ S = \sum_{k=1}^\infty \norm{f_{N_{k+1}} - f_{N_k}}_p \leq \sum_{k=1}^\infty 2^{-k} < \infty \]
+	By Minkowski's inequality, for any \( K \), we have
+	\[ \norm{\sum_{k=1}^K \abs{f_{N_{k+1}} - f_{N_k}}}_p \leq \sum_{k=1}^K \norm{f_{N_{k+1}} - f_{N_k}}_p \leq S < \infty \]
+	By the monotone convergence theorem applied to \( \abs{\sum_{k=1}^K \abs{f_{N_{k+1}} - f_{N_k}}}^p \) which increases to \( \abs{\sum_{k=1}^\infty \abs{f_{N_{k+1}} - f_{N_k}}}^p \), we find
+	\[ \norm{\sum_{k=1}^\infty \abs{f_{N_{k+1}} - f_{N_k}}}_p \leq S < \infty \]
+	Since the integral is finite, we see that \( \sum_{k=1}^\infty \abs{f_{N_{k+1}} - f_{N_k}} \) is finite almost everywhere.
+	Then \( \sum_{k=1}^K (f_{N_{k+1}}(x) - f_{N_k}(x)) = f_{N_{k+1}}(x) - f_{N_1}(x) \) converges in the real line for all \( x \) in a set \( A \) that has full measure, so \( \mu(A^c) = 0 \).
+	In particular, \( f_{N_k}(x) \) is a Cauchy sequence of reals, so by completeness of the real line, we can define the limit
+	\[ f(x) = \begin{cases}
+		\lim_{k \to \infty} f_{N_k}(x) & x \in A \\
+		0 & x \in A^c
+	\end{cases} \]
+	so \( f_{N_k} \to f \) as \( k \to \infty \) almost everywhere.
+	Now, by Fatou's lemma,
+	\[ \norm{f_n - f}_p^p = \mu(\abs{f_n - f}^p) = \mu(\lim_k \abs{f_n - f_{N_k}}^p) \leq \liminf_k \mu(\abs{f_n - f_{N_k}}^p) \]
+	Since the \( f_n \) are Cauchy,
+	\[ \norm{f}_p \leq \underbrace{\norm{f - f_N}_p}_{\leq \varepsilon} + \underbrace{\norm{f_N}_p}_{< \infty{ < \infty \]
+	so \( f \in L^p \), and \( \norm{f_n - f}_p^p \leq \varepsilon^p \) for \( n, N_k \geq N \), so \( f_n \to f \) in \( L^p \).
+\end{proof}
+\begin{remark}
+	If \( V \) is any of the spaces \( C([a,b]) \), \( \qty{f \text{ simple}} \), \( \qty{f \text{ a linear combination of indicators of intervals}} \), then \( V \) is dense in \( L^1(\mu) \) where \( \mu \) is the Lebesgue measure on \( \mathcal B([a,b]) \).
+	So the completion \( \overline{(V,\norm{\cdot})} \) is exactly \( L^1(\mu) \).
+\end{remark}
+
+\subsection{Hilbert spaces}
+\begin{definition}
+	A symmetric bilinear form \( \inner{\cdot, \cdot} \colon V \times V \to \mathbb R \) on a real vector space \( V \) is called an \emph{inner product} if \( \inner{v,v} \geq 0 \) and \( \inner{v,v} = 0 \) implies \( v = 0 \).
+	In this case, we can define a norm \( \norm{v} = \sqrt{\inner{v,v}} \).
+	If \( (V,\inner{\cdot,\cdot}) \) is complete, we say that it is a \emph{Hilbert space}.
+\end{definition}
+\begin{corollary}
+	The space \( \mathcal L^(\mu) \) is a Hilbert space for the inner product \( \inner{f,g} = \int_E fg \dd{\mu} \).
+\end{corollary}
+\begin{example}
+	An analog of the Pythagorean theorem holds.
+	Let \( f, g \in L^2 \), then \( \norm{f + g}_2^2 = \norm{f}_2^2 + 2\inner{f,g} + \norm{g}_2^2 \).
+	We say \( f \) is \emph{orthogonal} to \( g \) if \( \inner{f,g} = 0 \).
+	\( f \) and \( g \) are orthogonal if and only if \( \norm{f + g}_2^2 = \norm{f}_2^2 + \norm{g}_2^2 \).
+	For centred (mean zero) random variables \( X, Y \), we have \( \inner{X,Y} = \expect{XY} = \expect{(X - \expect{X})(Y - \expect{Y})} = \Cov(X,Y) \) which vanishes when \( X \) and \( Y \) are orthogonal.
+\end{example}
+\begin{example}
+	The parallelogram identity holds: \( \norm{f+g}_2^2 + \norm{f-g}_2^2 = 2 \qty(\norm{f}_2^2 + \norm{g}_2^2) \)
+\end{example}
+\begin{definition}
+	Let \( V \subseteq L^2(\mu) \).
+	We define its \emph{orthogonal complement} to be \( V^\perp = \qty{f \in L^2(\mu) \mid \forall g \in V,\, \inner{f,g} = 0} \).
+	We say that a subset \( V \) of \( \mathcal L^2 \) is \emph{closed} if any sequence \( f_n \in V \) that converges in \( \mathcal L^2 \), its limit \( f \) coincides almost everywhere with some \( v \in V \).
+\end{definition}
+\begin{theorem}
+	Let \( V \) be a closed linear subspace of \( \mathcal L^2(\mu) \).
+	Then for all \( f \in \mathcal L^2 \), there exists an orthogonal decomposition \( f = v + u \) where \( v \in V \) and \( u \in V^\perp \) such that \( \norm{f - v}_2 \leq \norm{f - g}_2 \) for all \( g \in V \) with equality only if \( v = g \) almost everywhere.
+	We call \( v \) the \emph{projection} of \( f \) onto \( V \).
+\end{theorem}
