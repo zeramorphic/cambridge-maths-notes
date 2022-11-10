@@ -117,17 +117,79 @@ The following lemma allows us to concatenate register machines, or alternatively
 	Define \( Q^\star = Q \cup \bigcup_{i \leq k} Q_i \setminus \qty{q_{S,i}} \) and \( P^\star = P \cup \bigcup_{i \leq k} P_i^\star \).
 	Then \( M^\star = (\Sigma, Q^\star, P^\star) \) performs \( G \).
 \end{proof}
-\begin{example}
-	Consider
+
+\subsection{Register machine API}
+We can perform many different operations and answer many different questions using register machines.
+We say that a register is \emph{unused} if no program line references it.
+A register is \emph{empty} if it contains the empty word.
+Registers that are used only for computation and not the output are sometimes called \emph{scratch space} or \emph{scratch registers}.
+\begin{itemize}
+	\item Consider
 	\[ F(\vb w) = \begin{cases}
 		\vb w & w_i \neq \varepsilon \\
 		\uparrow & w_i = \varepsilon
 	\end{cases} \]
 	The question `is register \( i \) empty' is performed by a register machine, and in this case, the `never halt' operation can be performed; in the other case, the `halt without doing anything' operation can be performed.
-\end{example}
-\begin{example}
-	The operation `delete the final letter of register \( i \) if it exists' is performed by the program \( q_S \mapsto -(i,q_H,q_H) \).
-	The operation `add letter \( a \) to register \( i \)' is performed by \( q_S \mapsto +(i,a,q_H) \).
+	\item The operation `delete the final letter of register \( i \) if it exists' is performed by the program \( q_S \mapsto -(i,q_H,q_H) \).
+	\item The operation `add letter \( a \) to register \( i \)' is performed by \( q_S \mapsto +(i,a,q_H) \).
 	Note that this machine also performs the operation `guarantee that the \( i \)th register is nonempty'.
-	The operation `delete the content of register \( i \)' is performed by \( q_S \mapsto -(i,q_H,q_S) \).
+	\item The operation `delete the content of register \( i \)' is performed by \( q_S \mapsto -(i,q_H,q_S) \).
+	\item We can perform the operation `add a fixed word \( w \) to register \( i \)'.
+	If \( w = a_0 \dots a_\ell \), we use the concatenation lemma to perform the operation `add letter \( a_j \) to register \( i \)' for each letter in the word.
+	\item The operation `replace the register content of \( i \) with the word \( w \)' can be performed by concatenating the operations `delete the content of register \( i \)' and `add \( w \) to register \( i \)'.
+	\item We can answer the question `what is the final letter of register \( i \)'.
+	This question has \( \abs{\Sigma} + 1 \) answers, since the register could be empty.
+	For each letter \( a_j \in \Sigma \), we ask the question `does register \( i \) end in letter \( a_j \)', and if yes, go to the corresponding answer state \( \overline q_j \), and if not, go to a state that asks the next question in the sequence.
+	If no question answers `yes', the register is empty, and we go to an answer state \( \overline q_\varepsilon \).
+	\item In particular, we can perform the operation `copy the final letter of register \( i \) into register \( j \) if it exists', by asking what this letter is, and then in each case, pushing the relevant letter onto register \( j \).
+	\item We can also `move the final letter of register \( i \) into register \( j \) if it exists' by first copying the letter and then removing the original from register \( i \).
+	\item The operation `move the content of register \( i \) into register \( j \) in reverse order' is accomplished by repeatedly moving a single letter until no more letters lie in register \( i \).
+	\item The operation `move the content of register \( i \) into register \( j \) in the correct order' can be performed by considering an unused empty register \( k \).
+	We move the register content from \( i \) to \( k \) in reverse order and then from \( k \) to \( j \) in reverse order.
+	\item The operation `reverse the content of register \( i \)' is performed by moving it in reverse order to an unused empty register \( j \), and then moving this into \( i \) in the correct order.
+	\item The operation `move the content of register \( i \) into registers \( j \) and \( k \) in reverse order' is easily performed by copying the final letter of register \( i \) into \( j \) and then into \( k \), then removing the final letter in register \( i \) iteratively until it is empty.
+	\item The operation `copy the content of register \( i \) into register \( j \) in reverse order' is accomplished by moving the content of register \( i \) into \( j \) and an unused empty register \( k \), and then moving the register content of \( k \) into \( i \) in reverse order.
+	\item The operation `copy the content of register \( i \) into register \( j \) in the correct order' is accomplished by copying in the reverse order, and then reversing the content of register \( j \).
+	\item Consider the question `is the content of register \( i \) the word \( w \)'.
+	Let \( w = a_0 \dots a_k \).
+	We define the subroutine \( S_\ell \) to answer the question `is \( q_\ell \) the final letter of register \( i \)'.
+	If no, move to a state \( q_N \).
+	If yes, move the final letter to an unused empty register \( k \) and run subroutine \( S_{\ell-1} \), or if \( \ell = 0 \), move to a state \( q_Y \).
+	At state \( q_N \) we move the content of \( k \) to \( i \) and answer \( \overline q_N \), and at state \( q_Y \) we move the content of \( k \) to \( i \) and answer \( \overline q_Y \).
+\end{itemize}
+
+\subsection{Computable functions and sets}
+\begin{remark}
+	A lot of computations require the use of scratch space, and we want to reduce the mathematical information related to this scratch space.
+	In the following definition, only register zero is considered real output; all other registers are considered scratch space.
+\end{remark}
+\begin{definition}
+	Let \( M \) be a register machine, and let \( k \in \mathbb N \).
+	Then we define \( f_{M,k} \colon \mathbb W^k \rightharpoonup \mathbb W \) by \( f_{M,k}(\vb w) \uparrow \) when \( M \) does not halt on input \( \vb w \), and \( f_{M,k}(\vb w) = v_0 \) when \( M \) halts on input \( \vb w \) with halting register content \( \vb v \).
+\end{definition}
+Note that if \( M, M' \) are strongly equivalent, \( f_{M,k} = f_{M',k} \) for all \( k \).
+The converse does not hold.
+For the special case of \( k = 1 \), we also write \( W_M = \dom f_{M,1} \).
+\begin{definition}
+	A partial function \( f \colon \mathbb W^k \rightharpoonup \mathbb W \) is called \emph{computable} if there is a register machine \( M \) such that \( f = f_{M,k} \).
+\end{definition}
+\begin{remark}
+	There are only countably many computable functions, because there are only countably many register machines up to strong equivalence.
+	For each computable function \( f \), there are infinitely many register machines \( M \) such that \( f = f_{M,k} \), since any register machine has infinitely many other strongly equivalent register machines.
+	Due to the concatenation lemma and the case distinction lemma, computable functions are closed under concatenation and case distinction.
+\end{remark}
+\begin{example}
+	The identity function on \( \mathbb W \) is computable.
+	Consider \( c \colon \mathbb W^k \to \mathbb W \) is given by \( c(\vb w) = v \) for a fixed \( v \).
+	The operation `replace the content of register \( 0 \) with \( v \)' is performable on a register machine, so \( c \) is computable.
+	The projection \( \pi_i \colon \mathbb W^k \to \mathbb W \) given by \( \pi_i(\vb w) = w_i \) is computable since the operation `replace the content of register \( 0 \) with register \( i \)' can be performed on a register machine by emptying register \( 0 \) and then moving the content of register \( i \) to register \( 0 \).
 \end{example}
+\begin{definition}
+	Let \( X \subseteq \mathbb W^k \).
+	We say that a total function \( f \colon \mathbb W^k \to \mathbb W \) is \emph{a characteristic function of \( X \)} if \( f(\vb w) \neq \varepsilon \) if and only if \( \vb w \in X \).
+	Let \( a \in \Sigma \).
+	We say that \( f \) is \emph{the characteristic function of \( X \)} if \( f(\vb w) = a \) if \( \vb w \in X \) and \( f(\vb w) = \varepsilon \) otherwise.
+\end{definition}
+\begin{definition}
+	A set of words \( X \subseteq \mathbb W^k \) is \emph{computable} if the characteristic function \( \chi_X \) of \( X \) is computable.
+\end{definition}
