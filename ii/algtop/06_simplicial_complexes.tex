@@ -180,3 +180,88 @@ Informally, every Euclidean simplicial complex is the realisation of some abstra
 \begin{remark}
 	The composition of simplicial maps of Euclidean simplicial complexes is also a simplicial map.
 \end{remark}
+
+\subsection{Barycentric subdivision}
+\begin{definition}
+	Let \( \sigma \) be an \( n \)-dimensional Euclidean simplicial complex.
+	Let \( F(\sigma) \) be the set of faces of \( \sigma \), a Euclidean simplicial complex with \( \abs{F(\sigma)} = \sigma \).
+	Let \( \not\partial \sigma = F(\sigma)_{n-1} = F(\sigma) \setminus \sigma \), a Euclidean simplicial complex.
+	Let \( \partial \sigma = \abs{\not\partial \sigma} \subset \mathbb R^N \) be the boundary of \( \sigma \).
+	It is homeomorphic to \( S^{n-1} \).
+	Let \( \sigma^\circ = \sigma \setminus \partial \sigma \) be the interior of \( \sigma \).
+\end{definition}
+\begin{definition}
+	Let \( X \subseteq \mathbb R^N \) and \( p \in \mathbb R^N \).
+	We say \( p \) is \emph{independent} of \( X \) if for each \( x \in X \), the ray \( px \) from \( p \) to \( x \) has \( px \cap X = \qty{x} \).
+\end{definition}
+\begin{definition}
+	If \( p \) is independent of \( X \), the \emph{cone} is defined by \( C_p(X) = \qty{tp + (1-t)x \mid t \in [0,1], x \in X} \)
+\end{definition}
+\begin{example}
+	Let \( X = [v_0,\dots,v_n] \) be an \( n \)-simplex.
+	Then \( p \) is independent of \( X \) if and only if \( \qty{v_0, \dots, v_n, p} \) is an affine linearly independent set.
+	If so, \( C_p(X) = [v_0, \dots, v_n, p] \).
+\end{example}
+\begin{definition}
+	Let \( K \) be a Euclidean simplicial complex in \( \mathbb R^N \) and \( p \) be independent of \( \abs{K} \).
+	Then we define the \emph{cone} \( C_p(K) = K \cup \qty{[v_0, \dots, v_j, p] \mid [v_0, \dots, v_j] \in K} \).
+\end{definition}
+\begin{lemma}
+	If \( p \) is independent of \( \abs{K} \), then \( C_p(K) \) is a Euclidean simplicial complex and \( \abs{C_p(K)} = C_p(\abs{K}) \).
+\end{lemma}
+\begin{definition}
+	If \( \sigma = [v_0, \dots, v_n] \) is an \( n \)-simplex in \( \mathbb R^N \), we define its \emph{barycentre} \( b_\sigma = \frac{n+1}\sum_{i=0}^n v_i \).
+\end{definition}
+\begin{lemma}
+	\( b_\sigma \) is independent of \( \partial\sigma \), and \( C_{b_\sigma}(\partial \sigma) = \sigma \).
+\end{lemma}
+We will define maps \( \beta \) from \( \mathcal S(\mathbb R^N) \) to the set of Euclidean simplicial complexes in \( \mathbb R^N \), and \( B \) from the set of Euclidean simplicial complexes in \( \mathbb R^N \) to Euclidean simplicial complexes in \( \mathbb R^N \), satisfying \( \abs{\beta(\sigma)} = \sigma \) and \( \abs{B(K)} = \abs{K} \).
+The maps \( \beta \) and \( B \) are called \emph{barycentric subdivision}.
+In order to do this, we will inductively define \( \beta \) and \( B \) on simplices and Euclidean simplicial complexes of dimension at most \( n \), and prove the following theorems.
+\begin{theorem}[first inductive hypothesis]
+	Let \( \sigma \in \mathcal S(\mathbb R^N) \) be an \( n \)-simplex.
+	Then \( \beta(\sigma) \) is a Euclidean simplicial complex of dimension \( n \), and \( \abs{\beta(\sigma)} = \sigma \).
+	If \( \tau \) is a face of \( \sigma \) and \( \sigma_1 \in \beta(\sigma) \) then \( \sigma_1 \cap \tau \in \beta(\tau) \).
+\end{theorem}
+\begin{theorem}[second inductive hypothesis]
+	Let \( K \) be an \( n \)-dimensional Euclidean simplicial complex.
+	Then \( B(K) \) is an \( n \)-dimensional Euclidean simplicial complex with polyhedron \( \abs{B(K)} = \abs{K} \).
+\end{theorem}
+For the base case, let \( n = -1 \).
+The only \( -1 \)-dimensional simplex is \( \varnothing \).
+We define \( \beta(\varnothing) = \qty{\varnothing} \).
+The only \( -1 \)-dimensional simplicial complex is \( \qty{\varnothing} \), and we define \( B(\qty{\varnothing}) = \qty{\varnothing} \).
+Both inductive hypotheses hold for this case.
+
+In general, suppose \( \beta \) and \( B \) are defined on \( n-1 \)-dimensional simplices and simplicial complexes and that both inductive hypotheses hold.
+We now define \( \beta(\sigma) = C_{b_\sigma}(B(\not\partial \sigma)) \) and \( B(K) = \bigcup_{\sigma \in K} \beta(\sigma) \).
+\begin{example}
+	Let \( \sigma \) be the zero-simplex.
+	Then \( b_\sigma(\sigma) = \sigma \), and \( \beta(\sigma) = \qty{\varnothing, b_\sigma} \).
+\end{example}
+\begin{example}
+	Let \( \sigma \) be the one-dimensional simplex.
+	\( \not\partial\sigma \) is two points \( p_1, p_2 \) and the empty set.
+	Then \( B(\not\partial\sigma) = \qty{\varnothing,p_1,p_2} \).
+	Therefore, \( C_p(B(\not\partial\sigma)) = \qty{\varnothing, p, p_1, p_2, pp_1, pp_2} \).
+\end{example}
+\begin{example}
+	Let \( \sigma \) be a two-dimensional simplex with vertices \( p_1, p_2, p_3 \).
+	Then \( C_p(B(\not\partial\sigma)) \) has six 2-simplices, twelve 1-simplices, seven 0-simplices and one empty simplex.
+\end{example}
+\begin{proof}[Proof of first inductive hypothesis]
+	\( \not\partial\sigma \) is a Euclidean simplicial complex of dimension \( n - 1 \), hence \( B(\not\partial\sigma) \) is a Euclidean simplicial complex by the second inductive hypothesis, and \( \abs{B(\not\partial\sigma)} = \abs{\not\partial\sigma} = \partial \sigma \).
+	By the lemmas above, \( b_\sigma \) is independent of \( \partial\sigma = \abs{B(\not\partial\sigma)} \), so \( C_{b_\sigma}(B(\not\partial\sigma)) \) is a Euclidean simplicial complex with polyhedron \( \abs{C_{b_\sigma}(B(\not\partial\sigma))} = C_{b_\sigma}(\partial\sigma) = \sigma \).
+	The next part follows from the lemma: if \( \sigma \in C_p(K) \), then \( \sigma \cap \abs{K} \in K \).
+\end{proof}
+\begin{proof}[Proof of second inductive hypothesis]
+	We check the properties required for a Euclidean simplicial complex for \( B(K) = \bigcup_{\sigma \in K} \beta(\sigma) \).
+	\( \beta(\sigma) \) is finite for each \( \sigma \) and \( K \) is finite, so \( B(K) \) is finite.
+	If \( \sigma \in B(K) \) then \( \sigma \in \beta(\sigma') \) for some \( \sigma' \in K \), so if \( \tau \in F(\sigma) \), then \( \tau \in \beta(\sigma') \) since \( \beta(\sigma') \) is a Euclidean simplicial complex, so \( \tau \in B(K) \), so the second property holds.
+	Suppose \( \sigma_1, \sigma_2 \in B(K) \) where \( \sigma_i \in \beta(\sigma'_i) \) and \( \sigma_i' \in K \).
+	Then \( \sigma_1 \cap \sigma_2 \subseteq \sigma_1' \cap \sigma_2' = \tau \) since \( \abs{\beta(\sigma'_i)} = \sigma'_i \), where \( \tau \in K \) since \( K \) is a Euclidean simplicial complex.
+	Then \( \sigma_1 \cap \tau, \sigma_2 \cap \tau \in \beta(\tau) \) by the second part of the first inductive hypothesis.
+	In particular, \( \beta(\tau) \) is a Euclidean simplicial complex, so \( \sigma_1 \cap \sigma_2 = \underbrace{(\sigma_1 \cap \tau)}_{\in \beta(\tau)} \cap \underbrace{(\sigma_2 \cap \tau)}_{\in \beta(\tau)} \in \beta(\tau) \subseteq B(K) \), so the third property holds.
+	So \( K \) is a Euclidean simplicial complex.
+	Now, by the first inductive hypothesis, \( \abs{B(K)} = \bigcup_{\sigma \in K} \beta(\sigma) = \bigcup_{\sigma \in K} \sigma = \abs{K} \).
+\end{proof}

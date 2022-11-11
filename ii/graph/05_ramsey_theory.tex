@@ -1,0 +1,83 @@
+\subsection{Ramsey's theorem}
+Macroscopically, theorems in Ramsey theory are of the form `complete disorder in sufficiently large systems is impossible'.
+\begin{proposition}
+	Let \( c \) be a 2-edge (not proper) colouring of \( K_6 \).
+	Then there exists a monochromatic triangle \( K_3 \); there exists a subgraph induced on three vertices where all edges have the same colour.
+\end{proposition}
+\begin{proof}
+	Suppose our colours are red and blue.
+	Let \( x \in V(K_6) \).
+	Without loss of generality, \( x \) has three neighbours \( y_1, y_2, y_3 \) coloured red.
+	Then the edges between the \( y_i \) cannot be coloured red.
+	So they must all be coloured blue, but then this forms a blue triangle.
+\end{proof}
+\begin{definition}
+	Let \( s \geq 2 \).
+	Then the \emph{\( s \)th Ramsey number}, denoted \( R(s) \), is the minimal \( n \) such that every 2-edge colouring of \( K_n \) contains a monochromatic \( K_s \).
+\end{definition}
+It is not clear \emph{a priori} that such numbers indeed exist.
+\begin{definition}
+	Let \( s, t \geq 2 \).
+	We define \( R(s,t) \) be the minimal \( n \) such that every 2-edge colouring of \( K_n \) contains either a red \( K_s \) or a blue \( K_t \).
+\end{definition}
+\begin{remark}
+	\( R(s, t) \) is symmetric, and \( R(s) = R(s,s) \).
+	Note that \( R(2,t) \) is the minimal \( n \) that contains a red edge or \( K_t \), so \( R(2,t) = t \).
+	We showed above that \( R(3,3) = R(3) \leq 6 \), and in fact this is an equality by demonstrating a 2-edge colouring of \( K_5 \) containing no monochromatic triangle.
+\end{remark}
+\begin{theorem}[Ramsey]
+	For all \( s, t \), the Ramsey number \( R(s, t) \) exists, and \( R(s,t) \leq R(s-1,t) + R(s,t-1) \).
+\end{theorem}
+\begin{proof}
+	Apply induction on \( s + t \).
+	For \( s, t \leq 2 \), the result holds.
+	Now suppose \( s, t > 2 \), and let \( a = R(s-1,t), b = R(s,t-1) \).
+	Let \( n = a + b = R(s-1,t) + R(s,t-1) \), and consider the complete graph \( K_n \).
+	Let \( c \colon E(K_n) \to \qty{\text{red, blue}} \) be a given colouring.
+
+	Let \( x \in K_n \), and let \( N_r(x) \) be the red neighbourhood and \( N_b(x) \) be the blue neighbourhood.
+	Suppose that \( \abs{N_r(x)} \geq a \).
+	In this case, \( N_r(x) \) contains either a red \( K_{s-1} \), in which case \( N_r(x) \cup \qty{x} \) is a red \( K_s \) in \( K_n \); or a blue \( K_t \), in which case we are already done.
+	Now suppose \( \abs{N_b(x)} \geq b \).
+	Then \( N_b(x) \) contains either a red \( K_s \) in which case we are done; or it contains a blue \( K_{t-1} \), in which case \( N_b(x) \cup \qty{x} \) is a blue \( K_t \) in \( K_n \) as required.
+	Suppose that neither of these cases occur, so \( \abs{N_r(x)} \leq a - 1 \) and \( \abs{N_b(x)} \leq b - 1 \), so \( \abs{N(x)} \leq a + b - 2 \), which is a contradiction since the graph is complete.
+\end{proof}
+\begin{corollary}
+	For all \( s \), the Ramsey number \( R(s) \) exists.
+\end{corollary}
+\begin{definition}
+	\( R_k(s_1, \dots, s_k) \) is the minimal \( n \) such that every \( k \)-edge colouring of \( K_n \) contains a \( K_{s_i} \) coloured \( i \) for some \( i \).
+\end{definition}
+\begin{theorem}[multicoloured Ramsey's theorem]
+	For \( s_1, \dots, s_k \) for \( k \geq 2 \), then \( R_k(s_1, \dots, s_k) \) exists.
+\end{theorem}
+\begin{proof}
+	We will show by induction on \( k \) that \( R_k(s_1, \dots, s_k) \leq R(s_1, R_{k-1}(s_2, \dots, s_k)) = n \).
+	Let \( c \) be a \( k \)-colouring of \( K_n \).
+	Apply the two-colour version of Ramsey's theorem to obtain either a \( K_{s_1} \) coloured \( 1 \), or a \( K_{R_{k-1}(s_2, \dots, s_k)} \) coloured in any combination of \( 2, \dots, k \).
+	If we have a \( K_{s_1} \) coloured \( 1 \), we are done.
+	Otherwise, apply induction to obtain an edge colouring of \( K_{R_{k-1}(s_2, \dots, s_k)} \) to obtain a \( K_{s_i} \) coloured \( i \) for some \( i \geq 2 \).
+\end{proof}
+
+\subsection{Infinite graphs}
+\begin{theorem}
+	Let \( c \) be a 2-colouring of the countably infinite complete graph, so \( c \colon \mathbb N^{(2)} \to \qty{\text{red, blue}} \).
+	Then there exists an infinite set \( X \subseteq \mathbb N \) which is monochromatic, so \( X^{(2)} \) is coloured either entirely red or entirely blue.
+\end{theorem}
+\begin{remark}
+	The finite version of Ramsey's theorem cannot be applied here; we can create arbitrarily large cliques, but we do not know if such cliques connect into an infinite set.
+\end{remark}
+\begin{proof}
+	We construct a sequence \( x_1, x_2, \dots \) inductively as follows.
+	Let \( x_1 \in \mathbb N \) be arbitrary.
+	\( x_1 \) has either an infinite red neighbourhood or an infinite blue neighbourhood.
+	We define \( S_1 \) to be the red neighbourhood of \( x_1 \) if it is infinite, or the blue neighbourhood otherwise, so \( S_1 \) is infinite.
+	Now let \( x_2 \in S_1 \).
+	Now, \( x_2 \) has either an infinite red neighbourhood in \( S_1 \) or an infinite blue neighbourhood in \( S_1 \), so we can define \( S_2 \) to be one of these that is infinite, and proceed inductively.
+
+	For each \( i \), all edges \( x_i \sim x_j \) where \( i < j \) have the same colour by construction.
+	Label a vertex red if all its forward-facing edges are red, and label an edge blue if all its forward-facing edges are blue.
+	Then there are either infinitely many red vertices or infinitely many blue vertices.
+	Without loss of generality, suppose the set of red vertices \( X \) is infinite.
+	Then all edges in \( X \) are coloured red, so \( X \) is the infinite monochromatic set as required.
+\end{proof}

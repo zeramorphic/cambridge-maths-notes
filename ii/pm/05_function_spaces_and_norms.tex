@@ -174,3 +174,108 @@ So the \( L^p \) spaces are indeed normed spaces.
 	Then for all \( f \in \mathcal L^2 \), there exists an orthogonal decomposition \( f = v + u \) where \( v \in V \) and \( u \in V^\perp \) such that \( \norm{f - v}_2 \leq \norm{f - g}_2 \) for all \( g \in V \) with equality only if \( v = g \) almost everywhere.
 	We call \( v \) the \emph{projection} of \( f \) onto \( V \).
 \end{theorem}
+\begin{proof}
+	In this proof, we set \( p = 2 \) for all norms.
+	We define \( d(f,V) = \inf_{g \in V} \norm{g - f} \), and let \( g_n \in V \) be a sequence of functions such that \( \norm{g_n - f} \) converges to \( d(f,V) \).
+	By the parallelogram law,
+	\begin{align*}
+		2\norm{f - g_n}^2 + 2\norm{f - g_m}^2 &= \norm{2f - (g_n + g_m)}^2 + \norm{g_n - g_m}^2 \\
+		&= 4 \norm{f - \underbrace{\frac{g_n + g_m}{2}}_{\in V}}^2 + \norm{g_n - g_m}^2 \\
+		&\geq 4 d(f,V)^2 + \norm{g_n - g_m}^2
+	\end{align*}
+	Taking the limit superior as \( n, m \to \infty \), \( \limsup_{m,n} \norm{g_n - g_m}^2 \leq 4d(f,V) - 4d(f,V) = 0 \).
+	So the sequence \( g_n \) is Cauchy in \( L^2 \), so by completeness, it converges to some \( v \in L^2 \).
+	Since \( V \) is closed, \( v \in V \).
+	In particular, \( d(f,V) = \inf_{g \in V} \norm{g - f} = \norm{v - f} \).
+
+	Note that \( d(f,V)^2 \leq F(t) = \norm{f - (v+th)}^2 \) where \( t \in \mathbb R \) and \( h \in V \).
+	So we obtain the first-order condition \( F'(0) = 2\inner{f - v, h} = 0 \) for all \( h \).
+	Defining \( f - v = u \), we have \( f = u + v \) and \( u \in V^\perp \) since \( h \) was arbitrary.
+
+	For uniqueness, suppose \( f = w + z \) with \( w \in V \) and \( z \in V^\perp \).
+	Then \( v - w + u - z = f - f = 0 \), so taking norms, \( 0 = \norm{v - w + u - z}^2 = \norm{v - w}^2 + \norm{u - z}^2 \) so \( v = w \) and \( u - z \) (almost everywhere) by orthogonality.
+\end{proof}
+
+\subsection{Convergence in probability and uniform integrability}
+\begin{theorem}[bounded convergence]
+	Let \( X_n \) be random variables on \( (\Omega, \mathcal F, \mathbb P) \) such that \( \abs{X_n} \leq C < \infty \) and they converge in probability to \( X \).
+	Then \( X_n \to X \) in \( L^1(\mathbb P) \).
+\end{theorem}
+\begin{proof}
+	We know that \( X_{n_k} \to X \) almost surely along a subsequence \( n_k \).
+	So \( \abs{X} = \lim_k \abs{X_{n_k}} \leq C < \infty \) almost surely.
+	Then
+	\begin{align*}
+		\expect{\abs{X_n - X}} &= \expect{\abs{X_n - X} \mathbbm 1_{\qty{\abs{X_n - X} > \frac \varepsilon 2}} + \mathbbm 1_{\qty{\abs{X_n - x} \leq \frac \varepsilon 2}}} \\
+		&\leq 2 C \prob{\abs{X_n - X} \geq \frac{\varepsilon}{2}} + \frac \varepsilon 2 \\
+		< \varepsilon
+	\end{align*}
+	for sufficiently large \( n \).
+\end{proof}
+If \( X \in L^1(\mathbb P) \), then as \( \delta \to 0 \),
+\[ I_X(\delta) = \sup \qty{ \expect{\abs{X} \mathbbm 1_A} \mid \prob{A} \leq \delta} \downarrow 0 \]
+Suppose this does not hold.
+Then there exists \( \varepsilon > 0 \) and a sequence of events \( A_n \in \mathcal F \) such that \( \prob{A_n} \leq 2^{-n} \) but \( \expect{\abs{X} \mathbbm 1_{A_n}} \geq \varepsilon \).
+Since \( \sum_n \prob{A_n} < \infty \), by the first Borel--Cantelli lemma, we have \( \prob{\bigcap_n \bigcup_{m \geq n} A_m} = 0 \).
+But \( \expect{\abs{X} \mathbbm 1_{A_n}} \leq \expect{\abs{X} \mathbbm 1_{\bigcup_{m \geq n} A_m}} \).
+Note that \( \mathbbm 1_{\bigcup_{m \geq n} A_m} \to \mathbbm 1_{\bigcap_n \bigcup_{m \geq n} A_n} \), so \( \expect{\abs{X} \mathbbm 1_{\bigcup_{m \geq n} A_m}} \to \expect{\abs{X} \mathbbm 1_{\bigcap_n \bigcup_{m \geq n}}} \) by the dominated convergence theorem, but this is equal to zero, giving a contradiction.
+\begin{definition}
+	For a collection \( \mathcal X \subseteq L^1(\mathbb P) \) of random variables, we say \( \mathcal X \) is \emph{uniformly integrable} if it is bounded in \( L^1(\mathbb P) \), and
+	\[ I_{\mathcal X}(\delta) = \sup \qty{ \expect{\abs{X}\mathbbm 1_A} \mid \prob{A} \leq \delta, X \in \mathcal X} \downarrow 0 \]
+\end{definition}
+\begin{remark}
+	Note that \( X_n = n\mathbbm 1_{\qty[0,\frac{1}{n}]} \) for the Lebesgue measure \( \mu \) on \( [0,1] \) is bounded in \( L^1(\mathbb P) \) but not uniformly integrable.
+	If \( \mathcal X \) is bounded in \( L^p(\mathbb P) \) for \( p > 1 \), then by H\"older's inequality,
+	\[ \expect{\abs{X}\mathbbm 1_A} \leq \underbrace{\norm{X}_p}_{\text{bounded}} \cdot \underbrace{\prob{A}^{\frac 1 q}}_{\leq \delta^{\frac 1 q} \to 0} \]
+\end{remark}
+\begin{lemma}
+	\( \mathcal X \subseteq L^1(\mathbb P) \) is uniformly integrable if and only if \( \sup_{X \in \mathcal X} \expect{\abs{X} \mathbbm 1_{\qty{\abs{X} > K}}} \to 0 \) as \( K \to \infty \).
+\end{lemma}
+\begin{proof}
+	Let \( \mathcal X \) be uniformly integrable.
+	Applying Markov's inequality, as \( K \to \infty \),
+	\[ \prob{\abs{X} > K} \leq \frac{\expect{\abs{X}}}{K} = \frac{\expect{\abs{X}\mathbbm 1_{\Omega}}}{K} \leq \frac{I_{\mathcal X}(1)}{K} \to 0 \]
+	Using the uniform integrability property using \( A = \qty{\abs{X} > K} \), we obtain the required limit.
+	Conversely, we have
+	\[ \expect{\abs{X}} = \expect{\abs{X}\qty(\mathbbm 1_{\qty{\abs{X} \leq K}} + \mathbbm 1_{\qty{\abs{X} > K}})} \leq K + \frac{\varepsilon}{2} \]
+	for sufficiently large \( K \).
+	So \( \mathcal X \) is bounded in \( L^1(\mathbb P) \) as required.
+	Then for \( A \) such that \( \prob{A} \leq \delta \),
+	\[ \expect{\abs{X}\mathbbm 1_A\qty(\mathbbm 1_{\qty{\abs{X} \leq K}} + \mathbbm 1_{\qty{\abs{X} > K}})} \leq K\prob{A} + \expect{\abs{X}\mathbbm 1_{\qty{\abs{X} > K}}} \leq K\delta + \frac{\varepsilon}{2} < \varepsilon \]
+	for sufficiently small \( \delta \).
+\end{proof}
+\begin{theorem}
+	Let \( X_n, X \) be random variables on \( (\Omega, \mathcal F, \mathbb P) \).
+	Then the following are equivalent.
+	\begin{enumerate}
+		\item \( X_n, X \in L^1(\mathbb P) \) and \( X_n \to X \) in \( L^1(\mathbb P) \).
+		\item \( \qty{X_n \mid n \in \mathbb N} \) is uniformly integrable, and \( X_n \to X \) in probability.
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	\emph{(i) implies (ii).}
+	Using Markov's inequality,
+	\[ \prob{\abs{X_n - X} > \varepsilon} \leq \frac{\expect{\abs{X_n - X}}}{\varepsilon} \to 0 \]
+	so \( X_n \to X \) in probability.
+	Since any finite collection is uniformly integrable, so are \( X \) along with \( X_1, \dots, X_N \) for each \( N \).
+	For the indices larger than \( N \), we have
+	\[ \expect{\abs{X_n} \mathbbm 1_A} \leq \expect{\abs{X_n - X} \mathbbm 1_A} + \expect{\abs{X} \mathbbm 1_A} \leq \frac{\varepsilon}{2} + \frac{\varepsilon}{2} \]
+	for sufficiently large \( N \) and sufficiently small \( \delta \), so all \( X_n \) are uniformly integrable.
+
+	\emph{(ii) implies (i).}
+	Along a subsequence, \( X_n \to X \) almost surely.
+	So
+	\[ \expect{\abs{X}} = \expect{\liminf_k \abs{X_{n_k}}} \leq \liminf_k \expect{\abs{X_{n_k}}} \leq I_{\mathcal X}(1) < \infty \]
+	almost surely, so \( X \in L^1(\mathbb P) \).
+	Next, we define random variables \( g(X_n) = X_n^K = \max{-K, \min{K, X_n}} \) and \( g(X) = X^K = \max{-K, \min{K, X}} \), where \( g \) is continuous.
+	Then for some \( \varepsilon' > 0 \),
+	\[ \prob{\abs{g(X_n) - g(X)} > \varepsilon} \leq \prob{\abs{X_n - X} > \varepsilon'} \to 0 \]
+	as \( n \to \infty \), since \( X_n \to X \) in probability and \( g \) is continuous.
+	Then by bounded convergence, \( X_n^K \to X^K \) in \( L^1 \), and so
+	\begin{align*}
+		\expect{\abs{X_n - X}} &\leq \expect{\abs{X_n - X_n^K}} + \expect{\abs{X_n^K - X^K}} + \expect{\abs{X^K - X}} \\
+		&= \expect{\abs{X_n} \mathbbm 1_{\qty{\abs{X_n} > k}}} + \expect{\abs{X_n^K - X^K}} + \expect{\abs{X}\mathbbm 1_{\qty{\abs{X} > K}}} \\
+		&< \varepsilon
+	\end{align*}
+	by choosing sufficiently large \( K \) and \( n \).
+\end{proof}
