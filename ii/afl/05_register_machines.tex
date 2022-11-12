@@ -191,5 +191,103 @@ For the special case of \( k = 1 \), we also write \( W_M = \dom f_{M,1} \).
 	We say that \( f \) is \emph{the characteristic function of \( X \)} if \( f(\vb w) = a \) if \( \vb w \in X \) and \( f(\vb w) = \varepsilon \) otherwise.
 \end{definition}
 \begin{definition}
-	A set of words \( X \subseteq \mathbb W^k \) is \emph{computable} if the characteristic function \( \chi_X \) of \( X \) is computable.
+	A set \( X \subseteq \mathbb W^k \) is \emph{computable} if the characteristic function \( \chi_X \) of \( X \) is computable.
 \end{definition}
+Note that a language is a set of words, so we can now reason about computability of languages.
+\begin{definition}
+	Let \( X \subseteq \mathbb W^k \).
+	A partial function \( f \colon \mathbb W^k \rightharpoonup \mathbb W \) is called \emph{a pseudocharacteristic function of \( X \)} if \( \dom f = X \).
+	\( f \) is called \emph{the pseudocharacteristic function of \( X \)} if \( f(\vb w) = a \) if \( w \in X \), and undefined otherwise.
+\end{definition}
+We use the notation \( \psi_X \) for the pseudocharacteristic function.
+\begin{definition}
+	A set \( X \subseteq \mathbb W^k \) is \emph{computably enumerable} if the pseudocharacteristic function \( \psi_X \) is computable.
+\end{definition}
+\begin{remark}
+	We will show that every computable set of computably enumerable, but the converse does not hold.
+	We will also show that the computable enumerable sets are exactly the type 0 (context-free or noncontracting) languages, and that the class of computable languages is properly contained between type 1 and type 0.
+\end{remark}
+
+\subsection{Computability of languages}
+\begin{proposition}
+	Let \( X \subseteq \mathbb W^k \).
+	Then:
+	\begin{enumerate}
+		\item \( X \) is computable if and only if \( X^c \) is computable.
+		\item \( X \) is computably enumerable if and only if there exists a register machine \( M \) such that \( X = \dom f_{M,k} \).
+		\item \( X \) is computable implies that \( X \) is computably enumerable.
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	To simplify notation we consider the case \( k = 1 \).
+	Note that if \( g \) and \( h \) are computable, then by the case distinction lemma, so is \( f \) defined by \( f(w) = g(w) \) if \( w \neq \varepsilon \), and \( f(w) = h(w) \) if \( w = \varepsilon \).
+	
+	For the first part, consider the computable function \( f_1 \) given by \( g(w) = \varepsilon \) and \( h(w) = a \).
+	Then \( f_1 \circ \chi_X = \chi_{X^c} \), \( f_1 \circ \chi_{X^c} = \chi_X \).
+
+	Now consider \( f_2 \) given by \( g(w) = a \) and \( h(w) = \varepsilon \).
+	If \( X = \dom f \), then \( \psi_X = f_2 \circ f \).
+
+	Finally, consider \( f_3 \) given by \( g(w) = a \) and \( h(w) \uparrow \).
+	Then \( \psi_X = f_3 \circ \chi_X \).
+\end{proof}
+\begin{theorem}
+	Every regular language is computable.
+\end{theorem}
+\begin{proof}
+	Let \( L \) be such a regular language.
+	Let \( D = (\Sigma, Q, \delta, q_0, F) \) be a deterministic automaton such that \( L = \mathcal L(D) \).
+	The first step in our program is to reverse the content of register 0 into register 1, because register machines read words in the opposite order of deterministic automata.
+	For each \( q \in Q \), the register machine will have a set of states \( Q_q \) that indicate that we are currently mimicking \( D \) in state \( q \).
+	We will now move into the state set \( Q_{q_0} \).
+
+	When moving into each state set \( Q_q \), our program will read the final letter of register 1.
+	If there are no letters in register 1, go to a fixed accepting state if \( q \in F \) and the non-accepting state if \( q \not\in F \).
+	Otherwise, let \( b \) be the last letter in register 1.
+	Remove \( b \) from register 1, and go to state set \( Q_{\delta(q,b)} \).
+	We implicitly repeat this step, since we have now transitioned into a state set.
+
+	If the machine is in the given accepting state, we empty register 0, add \( a \) to register 0, and then halt.
+	If the machine is in the non-accepting state, we empty register 0, and then halt.
+\end{proof}
+
+\subsection{The shortlex ordering}
+We wish to create an order \( < \) on \( \mathbb W \) such that \( (\mathbb N, <) \) is order-isomorphic to \( (\mathbb W, <) \).
+We first fix an arbitrary total order \( < \) on \( \Sigma \).
+\begin{definition}
+	The \emph{shortlex ordering} on \( \mathbb W \) given by an ordering of \( \Sigma \) is given by \( w < v \) when either \( \abs{w} < \abs{v} \) or \( \abs{w} = \abs{v} \) and for the least \( m \) such that the \( m \)th characters differ, the \( m \)th character of \( w \) is less than the \( m \)th character of \( v \).
+\end{definition}
+This ordering first checks length, then the lexicographic ordering.
+This is a total ordering on \( \mathbb W \); it is irreflexive, transitive, and trichotomous.
+The empty word is the least element.
+\begin{example}
+	Let \( \Sigma = \qty{0,1} \), and fix \( 0 < 1 \).
+	Then an initial segment of the ordering is
+	\[ \varepsilon, 0, 1, 00, 01, 10, 11, 000, 001, 010, 011, 100, 101, 110, 111, 0000, \dots \]
+	We can identify each word with a natural number, given by its index in this sequence, counting from zero.
+	There are \( 2^k \) words of length \( k \), so the index of the natural number associated to the word \( 0^k \) is exactly \( 2^k - 1 \).
+
+	We can naturally extend the operations of addition and multiplication on the set of words by acting on the index of the word in this ordering.
+	For example, \( 10 + 01 = 010 \), because the associated index of \( 10 \) is \( 5 \), the index of \( 01 \) is \( 4 \), and the index of \( 010 \) is \( 9 \).
+	This gives \( \mathbb W \) the structure of a commutative semiring.
+\end{example}
+\begin{theorem}
+	The shortlex ordering has the same order type as \( \mathbb N \).
+	We write \( (\mathbb N, <) \cong (\mathbb W, <) \).
+\end{theorem}
+\begin{proof}
+	For a fixed \( w \), the set \( \qty{v \mid v < w} \) is finite.
+	Therefore, the function \( \# \colon \mathbb W \to \mathbb N \) given by \( \#(w) = \abs{\qty{v \mid v < w}} \) is well-defined and is an order isomorphism.
+\end{proof}
+\begin{theorem}
+	The set \( \qty{(v,w) \mid v < w} \) is computable.
+	The \emph{successor function} \( s \colon \mathbb W \to \mathbb W \) with \( \#(s(w)) = \#(w)+1 \) is computable.
+\end{theorem}
+\begin{proof}
+	The question to determine the ordering of \( \abs{w_i} \) and \( \abs{w_j} \) can be answered by a register machine by copying \( i, j \) into empty registers and repeatedly removing letters until one or both is empty.
+	If they have the same length, we again copy \( i, j \) into empty registers in the reverse order, and check and remove each letter until a difference is found.
+
+	To compute \( s(w) \) for a word \( w \), we find the last letter in \( w \) that is not the largest letter in the ordering.
+	Replace this letter with the next letter in the ordering, and replace all subequent letters with the least letter in the ordering.
+	If all \( k \) letters are the greatest letter, output the least letter \( (k + 1) \)-many times.
+\end{proof}

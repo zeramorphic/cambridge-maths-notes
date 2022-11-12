@@ -150,6 +150,12 @@ Hence, by the fact that \( \qty(\frac{-1}{p}) = (-1)^{\frac{p-1}{2}} \),
 which is the quadratic reciprocity law.
 
 \subsection{Construction of regular polygons}
+\begin{lemma}
+	If \( m \) is a positive integer such that \( 2^m + 1 \) is prime, then \( m \) is a power of two.
+\end{lemma}
+\begin{proof}
+	If \( q \) is odd, \( 2^{qr} + 1 = (2^r + 1)(2^{qr - r} - 2^{qr - 2r} + \dots + 1) \), which is a nontrivial factorisation.
+\end{proof}
 Ruler and compass construction of a regular \( n \)-gon for \( n \geq 3 \) is equivalent to constructing the real number \( \cos(\frac{2\pi}{n}) \).
 \begin{theorem}[Gauss]
 	A regular \( n \)-gon is contructible if and only if \( n \) is a power of two multiplied by a product of distinct primes of the form \( 2^{2^k} + 1 \).
@@ -161,3 +167,24 @@ Ruler and compass construction of a regular \( n \)-gon for \( n \geq 3 \) is eq
 	This is false; Euler proved that \( F_5 = 641 \cdot 6700417 \).
 	Many Fermat numbers are known to be composite, and no more have been found to be prime.
 \end{remark}
+\begin{proof}
+	Recall that a real number \( x \in \mathbb R \) is constructible if and only if there is a sequence of fields \( \mathbb Q = K_0 \subset K_1 \subset \dots \subset K_n \) such that \( x \in K_n \) and \( [K_{i+1} : K_i] = 2 \).
+	In particular, if \( x \) is constructible, \( [\mathbb Q(x) : \mathbb Q] = \deg_{\mathbb Q}(x) \) is a power of two.
+	Note that
+	\[ \cos\qty(\frac{2\pi}{n}) = \frac{1}{2} \qty(\zeta_n + \zeta_n^{-1}) \implies \zeta_n^2 - 2x\zeta_n + 1 = 0 \]
+	Since \( x \in \mathbb R \) and \( \zeta_n \not\in \mathbb R \) (for \( n \geq 3 \)), \( [\mathbb Q(\zeta_n) : \mathbb Q(x)] = 2 \).
+	If \( x \) is constructible, then \( [\mathbb Q(\zeta_n):\mathbb Q] \) is a power of two.
+	But \( [\mathbb Q(\zeta_n):\mathbb Q] = \varphi(n) \).
+
+	Let \( n = \prod_{i=1}^r p_i^{e_i} \) be the prime factorisation of \( n \).
+	Then \( [\mathbb Q(\zeta_n):\mathbb Q] = \prod_{i=1}^r p_i^{e_i - 1}(p-1) \).
+	This is a power of two if and only if for all odd \( p_i \), we have \( e_i = 1 \) and \( p - 1 \) is a power of two.
+	By the previous lemma, \( \varphi(n) \) is a power of two if and only if \( n \) is of the required form.
+
+	Now suppose \( n \) is of the required form, so \( \varphi(n) = 2^m \).
+	\( \mathbb Q(\zeta_n) / \mathbb Q \) is Galois, with Galois group \( G = \simeq \qty(\faktor{\mathbb Z}{n\mathbb Z})^\times \), which has \( 2^m \) elements.
+	There exist subgroups \( G = H_0 \supset H_1 \supset \dots \supset H_m = 1 \) such that \( [H_i : H_{i+1}] = 2 \).
+	Indeed, as \( 2 \mid 2^m \), by Cauchy's theorem there exists an element \( \sigma \in G \) of order 2, assuming \( G \) is not the trivial group.
+	Take \( H_{m-1} = \genset{\sigma} \), and then consider \( \faktor{G}{\genset{\sigma}} \), which contains a subgroup of order 2 by the same argument; we can proceed inductively.
+	Then the tower of fixed fields \( K_i = \mathbb Q(\zeta_n)^{H_i} \) is a tower of quadratic extensions by the Galois correspondence.
+\end{proof}

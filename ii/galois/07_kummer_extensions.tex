@@ -1,0 +1,59 @@
+\subsection{?}
+\begin{theorem}[linear independence of field embeddings]
+	Let \( K, L \) be fields, and let \( \sigma_1, \dots, \sigma_n \colon K \to L \) be distinct field homomorphisms.
+	Let \( y_1, \dots, y_n \in L \) be such that for all \( x \in K \), \( y_1 \sigma_1(x) + \dots + y_n \sigma_n(x) = 0 \).
+	Then all \( y_i = 0 \).
+	In other words, \( \sigma_1, \dots, \sigma_n \) are \( L \)-linearly independent elements of the set of functions \( K \to L \), considered as an \( L \)-vector space.
+\end{theorem}
+This is a special case, using \( G = K^\times \), of the following theorem.
+\begin{theorem}[linear independence of characters]
+	Let \( G \) be a group and \( L \) be a field.
+	Let \( \sigma_1, \dots, \sigma_n \colon G \to L^\times \) be distinct group homomorphisms.
+	Then \( \sigma_1, \dots, \sigma_n \) are \( L \)-linearly independent elements.
+\end{theorem}
+\begin{proof}
+	We use induction on \( n \).
+	If \( n = 1 \), the result is clear.
+	Suppose \( n > 1 \).
+	Let \( y_1, \dots, y_n \in L \) be such that for all \( g \in G \), \( y_1 \sigma_1(g) + \dots + y_n \sigma_n(g) = 0 \).
+	Since the homomorphisms are distinct, there is an element \( h \in G \) such that \( \sigma_1(h) \neq \sigma_n(h) \).
+	The \( \sigma_i \) are homomorphisms, so
+	\[ y_1 \sigma_1(hg) + \dots + y_n \sigma_n(hg) = y_1 \sigma_1(h)\sigma_1(g) + \dots + y_n \sigma_n(h)\sigma_n(g) = 0 \]
+	Multiplying the original expression in \( g \) by \( \sigma_n(h) \) and subtracting,
+	\[ y_1' \sigma_1(g) + \dots + y_{n-1}'\sigma_{n-1}(g) = 0;\quad y_i' = y_i(\sigma_i(h) - \sigma_n(h)) \]
+	By induction, all \( y_i' = 0 \).
+	But \( \sigma_1(h) \neq \sigma_n(h) \), so \( y_1 = 0 \).
+	So the original equation \( y_1\sigma_1(g) + \dots + y_n\sigma_n(g) = 0 \) can be simplified into \( y_2\sigma_2(g) + \dots + y_n\sigma_n(g) = 0 \), so again by induction, all \( y_i \) are zero.
+\end{proof}
+We now consider extensions of the form \( L = K(x) \) for \( x^n = a \in K \).
+The special case \( a = 1 \) gives the cyclotomic extensions.
+These extensions are not necessarily Galois; for example, \( \mathbb Q(\sqrt[3]{2}) / \mathbb Q \) is not Galois.
+In this section, let \( n > 1 \), and \( n \neq 0 \) in \( K \).
+\begin{theorem}
+	Let \( K \) be a field that contains a primitive \( n \)th root of unity \( \zeta = \zeta_n \).
+	Let \( L / K \) be a field extension with \( L = K(x) \), where \( x^n = a \in K^\times \).
+	Then \( L / K \) is a splitting field for \( f = T^n - a \), and is Galois with cyclic Galois group.
+	\( [L : K] \) is the least \( m \geq 1 \) such that \( x^m \in K \).
+\end{theorem}
+\begin{proof}
+	Note that \( \bm \mu_n(K) = \qty{\zeta_i \mid 0 \leq i < n} \) has \( n \) elements.
+	Then \( f \) has \( n \) distinct roots \( \zeta_i x \) in \( L \).
+	So \( L \) is a splitting field for the separable polynomial \( f \), and in particular, \( L \) is a Galois extension.
+
+	Let \( \sigma \in \Gal(L/K) = G \).
+	Then \( f(\sigma(x)) = 0 \), so \( \sigma(x) = \zeta_i x \) for some \( i \), which is unique modulo \( n \).
+	This induces a map \( \theta \colon G \to \bm \mu_n(K) \simeq \faktor{\mathbb Z}{n\mathbb Z} \), given by \( \theta(\sigma) = \frac{\sigma(x)}{x} \) which is equal to \( \zeta^i \) for some \( i \).
+	We claim this is a homomorphism.
+	Let \( \sigma, \tau \in G \).
+	Then since \( \zeta \in K \), \( \tau(\theta(\sigma)) = \theta(\sigma) \).
+	So
+	\[ \theta(\tau\sigma) = \frac{\tau\sigma(x)}{x} = \tau\qty(\frac{\sigma(x)}{x}) \cdot \frac{\tau(x)}{x} = \tau(\theta(\sigma)) \cdot \theta(\tau) = \theta(\sigma) \theta(\tau) \]
+	It is injective, because \( \theta(\sigma) = 1 \) if and only if \( \sigma(x) = x \), so \( \sigma = \mathrm{id} \).
+	So \( G \) is isomorphic to a subgroup of a cyclic group.
+	Hence it is cyclic.
+
+	If \( m \geq 1 \), since \( L / K \) is Galois, \( x^m \in K \) if and only if for all \( \sigma \in G \), \( \sigma(x^m) = x^m \).
+	By the definition of \( \theta \), this holds if and only if for all \( \sigma \in G \), \( \theta(\sigma)^m = 1 \).
+	So \( \abs{G} = [L:K] \) divides \( m \).
+	So \( [L:K] \) must be the least \( m \) such that \( x^m \in K \), as required.
+\end{proof}
