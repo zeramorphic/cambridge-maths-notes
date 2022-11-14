@@ -503,7 +503,23 @@ We must check that this idea can be formulated into an algorithm which must comp
 \end{proof}
 \begin{example}
 	Consider the following automaton.
-	% TODO: Example
+	\begin{center}
+		\begin{tikzpicture}[shorten >=1pt, node distance=2cm, on grid, auto]
+			\node[state, initial] (q_0) {\( q_0 \)};
+			\node[state] (q_1) [right=of q_0] {\( q_1 \)};
+			\node[state] (q_2) [below=of q_1] {\( q_2 \)};
+			\node[state] (q_3) [below=of q_0] {\( q_3 \)};
+
+			\path[->]
+				(q_0) edge node {a} (q_1)
+				(q_0) edge node [swap] {b} (q_3)
+				(q_1) edge node {a} (q_2)
+				(q_1) edge [loop above] node {b} ()
+				(q_2) edge [loop below] node {a, b} ()
+				(q_3) edge [loop below] node {a, b} ()
+			;
+		\end{tikzpicture}
+	\end{center}
 	In step zero, we find
 	\begin{center}
 		\begin{tabular}{c|cccc}

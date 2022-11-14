@@ -6,7 +6,35 @@ A configuration defines the state of the computation at a particular point in ti
 
 The transition function should now be of the form \( \delta \colon Q \times \mathbb W^{n+1} \to Q \times \mathbb W^{n+1} \).
 However, not every such function represents a real computation; there are uncountably many such functions, and the action on the registers is unrestricted.
-% TODO: copy table from L\"owe's notes
+\begin{definition}
+	Let \( \Sigma \) be an alphabet, and \( Q \) be a nonempty finite set of states.
+	A tuple of the form
+	\begin{align*}
+		(0,k,a,q) &\in \mathbb N \times \mathbb N \times \Sigma \times Q \\
+		(1,k,a,q,q') &\in \mathbb N \times \mathbb N \times \Sigma \times Q \times Q \\
+		(2,k,q,q') &\in \mathbb N \times \mathbb N \times Q \times Q \\
+		(3,k,q,q') &\in \mathbb N \times \mathbb N \times Q \times Q \\
+	\end{align*}
+	is called a \emph{\( (\Sigma, Q) \)-instruction}.
+	For improved readability, we write
+	\begin{align*}
+		+(k,a,q) &= (0,k,a,q) \\
+		?(k,a,q,q') &= (1,k,a,q,q') \\
+		?(k,\varepsilon,q,q') &= (2,k,q,q') \\
+		-(k,q,q') &= (3,k,q,q')
+	\end{align*}
+\end{definition}
+Intuitively,
+\begin{itemize}
+	\item \( +(k,a,q) \) represents pushing the letter \( a \) onto register \( k \), then advancing to state \( q \).
+	\item \( ?(k,a,q,q') \) checks if the letter \( a \) is currently at the top of the stack \( q \).
+		If so, we advance to state \( q \), and otherwise, we advance to state \( q' \).
+	\item \( ?(k,\varepsilon,q,q') \) checks if the stack \( q \) is empty.
+		If so, we advance to state \( q \), and otherwise, we advance to state \( q' \).
+	\item \( -(k,q,q') \) pops the topmost letter from register \( k \).
+		If the register was already empty, we advance to state \( q \), and otherwise, we advance to state \( q' \).
+\end{itemize}
+These semantics are defined formally later.
 Let \( \Instr(\Sigma, Q) \) be the set of \( (\Sigma,Q) \)-instructions.
 This is in principle an infinite set, but finite if \( k \) is bounded.
 \begin{definition}
@@ -16,8 +44,25 @@ This is in principle an infinite set, but finite if \( k \) is bounded.
 \end{definition}
 \begin{definition}
 	Let \( M \) be a register machine with upper register index \( n \) and \( \vb w = (w_0, \dots, w_n) \in \mathbb W^{n+1} \).
-	For configurations \( C, C' \), we say \( M \) \emph{transforms} \( C \) into \( C' \) if:
-	% TODO: copy the other table
+	For configurations \( C, C' \), we say \( M \) \emph{transforms} \( C \) into \( C' \) if one of the following holds.
+	\begin{itemize}
+		\item \( P(q) = +(k,a,q') \) and \( C' = (q', w_0, \dots, w_{k-1}, w_k a, w_{k+1}, \dots, w_m) \).
+		\item \( P(q) = ?(k,a,q',q'') \), and
+		\begin{itemize}
+			\item \( w_k = wa \) for some \( w \) and \( C' = (q',w_0, \dots, w_m) \), or
+			\item \( w_k \neq wa \) for all \( w \) and \( C' = (q'', w_0, \dots, w_m) \).
+		\end{itemize}
+		\item \( P(q) = ?(k,\varepsilon,q',q'') \), and
+		\begin{itemize}
+			\item \( w_k = \varepsilon \) and \( C' = (q',w_0, \dots, w_m) \), or
+			\item \( w_k \neq \varepsilon \) and \( C' = (q'', w_0, \dots, w_m) \).
+		\end{itemize}
+		\item \( P(q) = -(k,q',q'') \), and
+		\begin{itemize}
+			\item \( w_k = \varepsilon \) and \( C' = (q',w_0, \dots, w_m) \), or
+			\item \( w_k = wa \) and \( C' = (q'', w_0, \dots, w_{k-1}, w, w_{k+1}, \dots, w_m) \).
+		\end{itemize}
+	\end{itemize}
 	Then we define the \emph{computation sequence} of \( M \) with input \( \vb w \) by \( C(0,H,\vb w) = (q_S,\vb w), C(k+1,M,\vb w) = C' \) where \( M \) transforms \( C(k,M,\vb w) \) into \( C' \).
 \end{definition}
 \begin{remark}
@@ -221,7 +266,7 @@ We use the notation \( \psi_X \) for the pseudocharacteristic function.
 \begin{proof}
 	To simplify notation we consider the case \( k = 1 \).
 	Note that if \( g \) and \( h \) are computable, then by the case distinction lemma, so is \( f \) defined by \( f(w) = g(w) \) if \( w \neq \varepsilon \), and \( f(w) = h(w) \) if \( w = \varepsilon \).
-	
+
 	For the first part, consider the computable function \( f_1 \) given by \( g(w) = \varepsilon \) and \( h(w) = a \).
 	Then \( f_1 \circ \chi_X = \chi_{X^c} \), \( f_1 \circ \chi_{X^c} = \chi_X \).
 
