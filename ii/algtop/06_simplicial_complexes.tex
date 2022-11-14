@@ -265,3 +265,127 @@ We now define \( \beta(\sigma) = C_{b_\sigma}(B(\bound \sigma)) \) and \( B(K) =
 	So \( K \) is a Euclidean simplicial complex.
 	Now, by the first inductive hypothesis, \( \abs{B(K)} = \bigcup_{\sigma \in K} \beta(\sigma) = \bigcup_{\sigma \in K} \sigma = \abs{K} \).
 \end{proof}
+\begin{lemma}
+	Let \( \sigma \in \mathcal S(\mathbb R^N) \) and \( x, v \in \sigma \).
+	Then \( \norm{v - x} \leq \max_{v_i \in V(\sigma)} \norm{v_i - x} \).
+\end{lemma}
+\begin{proof}
+	We can write \( x = \sum x_i v_i \), where \( \sum x_i = 1 \), \( x_i \geq 0 \), and \( v_i \in V(\sigma) \).
+	But also, \( v = \sum x_i v \).
+	Hence,
+	\[ \norm{v - x} = \norm{\sum x_i (v - v_i)} \leq \sum x_i \norm{v - v_i} \leq \sum x_i \max\norm{v - v_i} = \max \norm{v - v_i} \]
+	Applying this twice, \( \norm{x - v} \leq \max_{v_i \in V(\sigma)} \norm{v - v_i} \leq \max_{v_i, v_j \in V(\sigma)} \norm{v_i - v_j} \).
+\end{proof}
+\begin{definition}
+	The \emph{mesh} of a simplex \( \sigma \in \mathcal S(\mathbb R^N) \) is \( \mu(\sigma) = \max_{v_i, v_j \in V(\sigma)} \norm{v_i - v_j} = \max_{x, v \in \sigma} \norm{v - x} \).
+	If \( K \) is a Euclidean simplicial complex, its mesh is \( \mu(K) = \max_{\sigma \in K} \mu(\sigma) \).
+\end{definition}
+\begin{lemma}
+	Let \( b_\sigma \) be the barycentre of \( \sigma \), so \( b_\sigma = \frac{1}{n+1} \sum_{i=0}^n v_i \) for \( \sigma = [v_0, \dots, v_n] \).
+	Then \( \max_{v \in \sigma} \norm{b_\sigma - v} \leq \frac{n}{n+1} \mu(\sigma) \).
+\end{lemma}
+\begin{proof}
+	\( \norm{b_\sigma - v} \leq \max_{v_i \in V(\sigma)} \norm{b_\sigma - v_i} \).
+	We have
+	\[ \norm{b_\sigma - v_i} = \frac{1}{n+1} \norm{\sum_{j \neq i} v_j - nv_i} \leq \frac{1}{n+1} \sum_{j \neq i} \norm{v_j - v_i} \leq \frac{1}{n+1} \cdot n\mu(\sigma) \]
+\end{proof}
+\begin{corollary}
+	Let \( \sigma \) be a Euclidean simplex of dimension \( n \).
+	Then \( \mu(\beta(\sigma)) \leq \frac{n}{n+1}\mu(\sigma) \).
+	Let \( K \) be a Euclidean simplicial complex of dimension \( n \).
+	Then \( \mu(B(K)) \leq \frac{n}{n+1}\mu(K) \).
+\end{corollary}
+\begin{proof}
+	Let \( \tau \in \beta(\sigma) \).
+	Suppose \( \tau \in B(\bound \sigma) \).
+	Then, \( \mu(\tau) \leq \frac{n-1}{n}\mu(B(\bound\sigma)) \leq \frac{n}{n+1} \mu(\sigma) \) by induction.
+	Otherwise, \( \tau = [v_0, \dots, v_k, b_\sigma] \), where \( [v_0, \dots, v_k] \in B(\bound\sigma) \).
+	Then \( \norm{v_i - v_j} \leq \frac{n-1}{n} \mu(\sigma) \) by induction, and \( \norm{v_i - b_\sigma} \leq \frac{n}{n+1} \mu(\sigma) \) by the lemma.
+\end{proof}
+
+\subsection{Simplicial approximation}
+\begin{lemma}
+	\begin{enumerate}
+		\item Let \( x \in \Delta^n \).
+			Then there exists a unique \( I \subseteq \qty{0, \dots, n} \) such that \( x \in e_I^\circ \).
+		\item If \( x \in e_I^\circ \), then \( x \in e_J \) if and only if \( I \subseteq J \), or equivalently, \( e_I \subseteq e_J \).
+		\item Let \( K \) be an abstract simplicial complex in \( \Delta^n \), and let \( x \in e_I^\circ \).
+			Suppose that \( x \in \abs{K} \).
+			Then \( e_I \in K \).
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	\emph{Part (i).}
+	Let \( I = \qty{i \in \qty{0, \dots, n} \mid x_i \neq 0} \).
+	\emph{Part (ii).}
+	Follows from part (i).
+	
+	\emph{Part (iii).}
+	\( x \in \abs{K} \) implies \( x \in e_J \) for some \( e_J \in K \).
+	By part (ii), we have \( e_I \subseteq e_J \).
+	Since \( K \) is an abstract simplicial complex and \( e_J \in K \), we have \( e_I \in K \).
+\end{proof}
+\begin{corollary}
+	Let \( K \) be a Euclidean simplicial complex, and \( x \in \abs{K} \).
+	Then there exists a unique \( \sigma \in K \) with \( x \in \sigma^\circ \).
+\end{corollary}
+\begin{proof}
+	Let \( \varphi \colon K' \to K \) be a realisation of \( K \), so \( K' \) is an abstract simplicial complex and \( \varphi \) is a bijection inducing a homeomorphism on the polyhedra.
+	Let \( x' = \abs{\varphi^{-1}}(x) \in \abs{K} \).
+	Then \( x' \) lies in the interior of a unique \( e_I \) by part (i) of the lemma above.
+	Note that \( e_I \in K' \) by part (iii), so \( \varphi(e_I) \) is the unique \( \sigma \in K \) with \( x \in \sigma^\circ \).
+\end{proof}
+\begin{definition}
+	Let \( K \) be a Euclidean simplicial complex, and let \( v \in V(K) \).
+	Then the \emph{star} \( \mathsf{St}_K(v) \) is \( \bigcup_{\qty{\sigma \in K \mid v \in \sigma}} \sigma^\circ \).
+\end{definition}
+\begin{lemma}
+	\begin{enumerate}
+		\item Let \( x \in \abs{K} \) and \( x \in \sigma^\circ \).
+			Then \( x \in \mathrm{St}_K(v) \) if and only if \( v \in V(\sigma) \).
+		\item \( \mathrm{St}_K(v) = \abs{K} \setminus \bigcup_{\qty{\sigma \in K \mid v \not\in V(\sigma)}} \sigma^\circ = \abs{K} \setminus \bigcup_{\qty{\sigma \in K \not\in V(\sigma}} \sigma \).
+		\item \( \qty{\mathrm{St}_K(v) \mid v \in V(K)} \) is an open cover of \( \abs{K} \).
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	\emph{Part (i).}
+	Follows from the fact that if \( x \in \abs{K} \), \( x \) lies in a unique interior of \( \sigma \) for \( \sigma \in K \).
+
+	\emph{Part (ii).}
+	The first equality follows from part (i).
+	The second follows from the fact that if \( \tau \in F(\sigma) \) and \( v \not\in V(\sigma) \), then \( v \not\in V(\tau) \).
+	
+	\emph{Part (iii).}
+	Part (ii) exhibits \( \mathrm{St}_K(v) \) as the complement of a finite union of closed sets in \( \abs{K} \), so it is open.
+	If \( x \in \abs{K} \), then \( x \in \sigma^\circ \) for some \( \sigma \), and if \( v \in V(\sigma) \), then \( x \in \mathrm{St}_K(v) \), so it is a cover.
+\end{proof}
+\begin{definition}
+	Let \( K, L \) be Euclidean simplicial complexes.
+	Let \( f \colon \abs{K} \to \abs{L} \) be a continuous map, and let \( \hat g \colon V(K) \to V(L) \).
+	We say that \( \hat g \) is a \emph{simplicial approximation} of \( f \) if \( f(\mathrm{St}_K(v)) \subseteq \mathrm{St}_L(\hat g(v)) \) for all \( v \in V(K) \).
+\end{definition}
+Let \( \varphi \colon K' \to K \) be a realisation of a Euclidean simplicial complex \( K \), and let \( L \) be a Euclidean simplicial complex in \( \mathbb R^M \).
+We define \( g' \colon \abs{K'} \to \mathbb R^M \) to be the affine linear map with \( \abs{g'}(v) = \hat g(\varphi(v)) \) if \( v \in V(K') \).
+% TODO: diagram
+Let \( \abs{g} = \abs{g'} \circ \abs{\varphi}^{-1} \).
+We want to show \( g \colon K \to L \) is simplicial.
+\begin{theorem}
+	\( \abs{g} \) defines a simplicial map \( g \colon K \to L \), and \( \abs{g} \sim f \).
+\end{theorem}
+\begin{proof}
+	Let \( \sigma \in K \).
+	We must show that \( \abs{g}(\sigma) \in L \).
+	Let \( x \in \sigma^\circ \) be an arbitrary point in the interior.
+	Then \( f(x) \in \abs{L} \), so \( f(x) \in \tau^\circ \) with \( \tau \in L \).
+	Then \( x \in \bigcap_{v \in V(\sigma)} \mathrm{St}_K(v) \), so \( f(x) \in \bigcap_{v \in V(\sigma)} f(\mathrm{St}_K(v)) \subseteq \bigcap_{v \in V(\sigma)} \mathrm{St}_L(g(v)) \) since \( g \) is a simplicial approximation of \( f \).
+	Now, if \( v \in V(\sigma) \), \( f(x) \in \tau^\circ \) and \( f(x) \in \mathrm{St}_L(g(v)) \), so \( g(v) \in \tau \) by part (i) of the lemma above.
+	Hence, every vertex of \( \abs{g}(\sigma) \) is a vertex of \( \tau \), so \( \abs{g}(\sigma) \) is a face of \( \tau \in L \), so \( \abs{g}(\sigma) \in L \) as required.
+	So \( g \colon K \to L \) is simplicial.
+
+	For the second part, we define \( H \colon \abs{K} \times I \to \mathbb R^M \) by \( H(x,t) = t \abs{g}(x) + (1-t)f(x) \).
+	This is clearly a homotopy in \( \mathbb R^M \), but we need to show it is a homotopy in \( \abs{L} \).
+	Suppose \( x \in \sigma^\circ \) and \( f(x) \in \tau^\circ \) as before.
+	Then \( x = \sum_{v_i \in V(\sigma)} x_i v_i \), so \( \abs{g}(x) = \sum_{v_i \in V(\sigma)} x_i \abs{g}(v_i) \in \tau \) since \( \abs{g}(v_i) \in \tau \).
+	Since \( \tau \) is convex, and \( \abs{g}(x), f(x) \in \tau \), we must have \( H(x,t) \in \tau \) for \( t \in [0,1] \).
+	So \( H \colon \abs{K} \times I \to \abs{L} \), which is the desired homotopy.
+\end{proof}

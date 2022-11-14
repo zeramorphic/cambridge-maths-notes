@@ -1,0 +1,79 @@
+\subsection{Fourier transforms}
+In this section, we will write \( L^p(\mathbb R^d) \) for the set of measurable functions \( f \colon \mathbb R^d \to \mathbb C \) such that \( \norm{f}_p = \qty(\int_{\mathbb R^d} \abs{f(x)}^p \dd{x})^{\frac 1p} < \infty \).
+We can extend the integral as a complex linear map \( L^1(\mathbb R) \to \mathbb C \) by defining
+\[ \int_{\mathbb R} (u + iv)(x) \dd{x} = \int_{\mathbb R} u(x) \dd{x} + i \int_{\mathbb R} v(x) \dd{x} \]
+Note that for some \( u + iv = \alpha \in \mathbb C \) with \( \abs{\alpha} = 1 \),
+\[ \abs{\int_{\mathbb R^d} f(x) \dd{x}} = \int_{\mathbb R^d} \alpha f(x) \dd{x} = \int_{\mathbb R^d} u(x) \dd{x} + i \int_{\mathbb R^d} v(x) \dd{x} \]
+But since the left hand side is real-valued, the \( i \int_{\mathbb R^d} v(x) \dd{x} \) term vanishes.
+So
+\[ \abs{\int_{\mathbb R^d} f(x) \dd{x}} = \int_{\mathbb R^d} u(x) \dd{x} \leq \int_{\mathbb R^d} \abs{f(x)} \dd{x} \]
+\begin{definition}
+	Let \( f \in L^1(\mathbb R^d) \).
+	We define the \emph{Fourier transform} \( \hat f \) by
+	\[ \hat f(u) = \int_{\mathbb R^d} f(x) e^{i\inner{u,x}} \dd{x} \]
+	where \( \inner{u,x} = \sum_{i=1}^d u_i x_i \).
+\end{definition}
+\begin{remark}
+	Note that \( \abs{\hat f(u)} \leq \norm{f}_1 \).
+	Also, if \( u_n \to u \), then \( e^{i\inner{u_n,x}} \to e^{i\inner{u,x}} \).
+	By the dominated convergence theorem with dominating function \( \abs{f} \), we have \( \hat f(u_n) \to \hat f(u) \), so \( f \) is a continuous bounded function.
+\end{remark}
+\begin{definition}
+	Let \( f \in L^1(\mathbb R^d) \) such that \( \hat f \in L^1(\mathbb R^d) \).
+	Then we say that the \emph{Fourier inversion formula} holds for \( f \) if
+	\[ f(x) = \frac{1}{(2\pi)^d} \int_{\mathbb R^d} \hat f(u) e^{-i\inner{u,x}} \dd{u} \]
+	almost everywhere in \( \mathbb R^d \).
+\end{definition}
+\begin{definition}
+	Let \( f \in L^1(\mathbb R^d) \cap L^2(\mathbb R^d) \).
+	Then the \emph{Plancherel identity} holds for \( f \) if
+	\[ \norm{\hat f}_2 = (2\pi)^{\frac d2} \norm{f}_2 \]
+\end{definition}
+We will show that the Fourier inversion formula holds whenever \( \hat f \in L^1(\mathbb R^d) \), and the Plancherel identity holds for all \( f \in L^1(\mathbb R^d) \cap L^2(\mathbb R^d) \).
+\begin{remark}
+	Given the Plancherel identity, the Fourier transform is a linear isometry of \( L^2(\mathbb R^d) \), by approximating any function in \( L^2(\mathbb R^d) \) by integrable functions.
+\end{remark}
+\begin{definition}
+	Let \( \mu \) be a finite Borel measure on \( \mathbb R^d \).
+	We define the Fourier transform of the measure by
+	\[ \hat\mu(u) = \int_{\mathbb R^d} e^{i\inner{u,x}} \dd{\mu(x)} \]
+\end{definition}
+Note that \( \abs{\hat \mu(u)} \leq \mu(\mathbb R^d) \), and \( \hat \mu \) is continuous by the dominated convergence theorem.
+If \( \mu \) has a density \( f \) with respect to the Lebesgue measure, \( \hat\mu = \hat f \).
+\begin{definition}
+	Let \( X \) be an \( \mathbb R^d \)-valued random variable.
+	The \emph{characteristic function} \( \varphi_X \) is given by
+	\[ \varphi_X(u) = \expect{e^{i\inner{u,X}}} = \hat \mu_X(u) \]
+	where \( \mu_X \) is the law of \( X \).
+\end{definition}
+
+\subsection{Convolutions}
+\begin{definition}
+	Let \( f \in L^1(\mathbb R^d) \) and \( \nu \) be a probability measure on \( \mathbb R^d \).
+	We define their \emph{convolution} \( f \ast \nu \) by
+	\[ (f \ast \nu)(x) = \begin{cases}
+		\int_{\mathbb R^d} f(x-y) \dd{\nu(y)} & \text{if } (y \mapsto f(x-y)) \in L^1(\nu) \\
+		0 & \text{else}
+	\end{cases} \]
+\end{definition}
+\begin{remark}
+	If \( 1 \leq p < \infty \), by Jensen's inequality,
+	\[ \int_{\mathbb R^d} \qty( \int_{\mathbb R^d} \abs{f(x-y)} \dd{\nu(y)} )^p \dd{x} \leq \int_{\mathbb R^d} \int_{\mathbb R^d} \abs{f(x-y)}^p \dd{\nu(y)} \dd{x} = \int_{\mathbb R^d} \int_{\mathbb R^d} \abs{f(x-y)}^p \dd{x} \dd{\nu(y)} = \int_{\mathbb R^d} \int_{\mathbb R^d} \abs{f(x)} \dd{\nu(y)} \dd{x} = \int_{\mathbb R^d} \abs{f(x)} \dd{x} = \norm{f}_p^p \]
+	So \( f \in L^p(\mathbb R^d) \), we have \( (y \mapsto f(x-y)) \in L^p(\nu) \) almost everywhere, and again by Jensen's inequality,
+	\[ \norm{f \ast \nu}_p^p = \int_{\mathbb R^d} \abs{ \int_{\mathbb R^d} f(x-y)\dd{\nu(y)} }^p \dd{x} \leq \int_{\mathbb R^d} \qty( \int_{\mathbb R^d} \abs{f(x-y)} \dd{\nu(y)} )^p \dd{x} \leq \norm{f}_p^p \]
+	Hence \( f \mapsto f \ast \nu \) is a contraction on \( L^p(\mathbb R^d) \).
+\end{remark}
+In the case where \( \nu \) has a density \( g \) with respect to the Lebesgue measure, we write \( f \ast g = f \ast \nu \).
+\begin{definition}
+	For probability measures \( \mu, \nu \) on \( \mathbb R^d \), their convolution \( \mu \ast \nu \) is a probability measure on \( \mathbb R^d \) given by the law of \( X + Y \) where \( X, Y \) are independent random variables with laws \( \mu \) and \( \nu \), so
+	\[ (\mu \ast \nu)(A) = \prob{X+Y \in A} = \int_{\mathbb R^d \times \mathbb R^d} \mathbbm 1_A(x+y) \dd{(\mu \otimes \nu)(x, y)} = \int_{\mathbb R^d} \int_{\mathbb R^d} \mathbbm 1_A(x+y) \dd{\nu(y)} \dd{\mu(x)} \]
+\end{definition}
+If \( \mu \) has density \( f \) with respect to the Lebesgue measure, \( \mu \ast \nu \) has density \( f \ast \nu \) with respect to the Lebesgue measure.
+Indeed,
+\[ (\mu \ast \nu)(A) = \int_{\mathbb R^d} \int_{\mathbb R^d} \mathbbm 1_A(x+y) f(x) \dd{x} \dd{\nu(y)} = \int_{\mathbb R^d} \int_{\mathbb R^d} \mathbbm 1_A(v) f(v-y) \dd{v} \dd{\nu(y)} = \int_{\mathbb R^d} \mathbbm 1_A(v) \int_{\mathbb R^d}f(v-y) \dd{\nu(y)} \dd{v} = \int_{\mathbb R^d} \mathbbm 1_A(v) (f \ast \nu)(v) \dd{v} \]
+\begin{proposition}
+	\( \widehat{f \ast v}(u) = \hat f(u) \hat \nu(u) \).
+\end{proposition}
+\begin{proposition}
+	\( \widehat{\mu \ast \nu}(u) = \expect{e^{i\inner{u,X+Y}}} = \expect{e^{i\inner{u,X}}e^{i\inner{u,Y}}} = \hat \mu(u) \hat \nu(u) \).
+\end{proposition}

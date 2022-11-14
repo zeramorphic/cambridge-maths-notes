@@ -59,7 +59,7 @@ It is not clear \emph{a priori} that such numbers indeed exist.
 	Otherwise, apply induction to obtain an edge colouring of \( K_{R_{k-1}(s_2, \dots, s_k)} \) to obtain a \( K_{s_i} \) coloured \( i \) for some \( i \geq 2 \).
 \end{proof}
 
-\subsection{Infinite graphs}
+\subsection{Infinite graphs and larger sets}
 \begin{theorem}
 	Let \( c \) be a 2-colouring of the countably infinite complete graph, so \( c \colon \mathbb N^{(2)} \to \qty{\text{red, blue}} \).
 	Then there exists an infinite set \( X \subseteq \mathbb N \) which is monochromatic, so \( X^{(2)} \) is coloured either entirely red or entirely blue.
@@ -80,4 +80,77 @@ It is not clear \emph{a priori} that such numbers indeed exist.
 	Then there are either infinitely many red vertices or infinitely many blue vertices.
 	Without loss of generality, suppose the set of red vertices \( X \) is infinite.
 	Then all edges in \( X \) are coloured red, so \( X \) is the infinite monochromatic set as required.
+\end{proof}
+\begin{remark}
+	We can easily construct a version of the above theorem for an arbitrary finite amount of colours, using the same idea as from the multiple-colour version of Ramsey's theorem in the finite case.
+\end{remark}
+\begin{example}
+	It can be difficult to determine which colour has an infinite monochromatic clique.
+	Suppose we colour \( ij \) with \( \max\qty{n \mid 2^n \mid i + j} \) modulo 2.
+	The set \( \qty{2^2, 2^4, 2^6, \dots} \) is an example of an infinite monochromatic clique.
+
+	Suppose \( ij \) is coloured with the number of distinct prime factors of \( i + j \) modulo 2.
+	The colour of the infinite clique is not known.
+\end{example}
+\begin{remark}
+	It is possible to deduce the existence of \( R(s,t) \) from the infinite version.
+\end{remark}
+\begin{theorem}
+	Let \( c \) be a 2-colouring of the set of \( r \)-sets of \( \mathbb N \), so \( c \colon \mathbb N^{(r)} \to \qty{\text{red, blue}} \).
+	Then there exists an infinite set \( X \subseteq \mathbb N \) such that \( X^{(r)} \) is monochromatic.
+\end{theorem}
+\begin{proof}
+	Apply induction on \( r \).
+	If \( r = 2 \), we fall back to the previous theorem.
+	We define a sequence \( x_1, x_2, \dots \) and a sequence of infinite sets \( S_1, S_2, \dots \) by the following procedure.
+	We start by choosing \( x_1 \) arbitrarily.
+	Now, consider the colouring \( c_{x_1}(F) = c(\qty{x_1} \cup F) \) for \( F \in (\mathbb N \setminus \qty{x_1})^{(r-1)} \).
+	By induction, there exists a set \( S_1 \subseteq \mathbb N \setminus \qty{x_1} \) that is infinite and \( S_1^{(r-1)} \) is monochromatic with respect to the colouring \( c_{x_1} \).
+	Now we choose \( x_2 \in S_1 \), and proceed inductively.
+
+	The sequence \( x_1, x_2, \dots \) has the property that \( F_i = \qty{\qty{x_{i_1}, \dots, x_{i_r}} \mid i_1 < \dots < i_r} \) are monochromatic for each \( i \).
+	But there are either infinitely many red-coloured \( x_i \) or infinitely many blue-coloured \( x_i \).
+	Let \( X \) be one of these infinite sets, then \( X^{(r)} \) is monochromatic.
+\end{proof}
+We can produce a similar version of this theorem for the finite case, along with an explicit inductively-defined bound.
+\begin{definition}
+	Let \( r \in \mathbb N \), and \( s, t \geq 1 \).
+	We define the \emph{\( r \)-set Ramsey number} \( R^{(r)}(s,t) \) to be the minimal \( n \) such that for every 2-colouring of \( \qty{1, \dots, n}^{(r)} \), it contains either a set \( S \) with \( \abs{S} = s \) and \( S^{(r)} \) are coloured red, or a set \( T \) with \( \abs{T} = t \) and \( T^{(r)} \) are coloured blue.
+\end{definition}
+\begin{remark}
+	\( R^{(1)}(s,t) = s + t - 1 \).
+	\( R^{(2)}(s,t) = R(s,t) \).
+	\( R^{(r)}(r,t) = t = R^{(r)}(t,r) \).
+\end{remark}
+\begin{theorem}
+	For all \( r, s, t \geq 1 \), the number \( R^{(r)}(s,t) \) exists.
+\end{theorem}
+\begin{proof}
+	Apply induction on \( r \), and then induction on \( s + t \).
+	If \( s \leq r \) or \( t \leq r \), we are done, since \( R^{(r)}(r,t) = t \).
+	We claim that \( R^{(r)}(s,t) \leq R^{(r-1)}(R^{(r)}(s-1,t) + R^{(r)}(s,t-1)) + 1 = N \).
+
+	Consider a 2-coloured set \( \qty{1, \dots, n}^{(r)} \) where \( n \geq N \).
+	Choose a vertex \( x \in \qty{1, \dots, n} \).
+	Consider the colouring \( c_x(F) = c(\qty{x} \cup F) \) where \( F \in (\qty{1, \dots, n} \setminus \qty{x})^{(r-1)} \).
+	Applying induction on \( r \), we have a set \( S_1 \) such that \( \abs{S_1} = R^{(r)}(s-1,t) \) and \( S_1^{(r-1)} \) is red, or there is a set \( S_2 \) with \( \abs{S_2} = R^{(r)}(s,t-1) \) and \( S_2^{(r-1)} \) is blue.
+	We consider the first case; the other is similar.
+
+	Apply the \( r \)-set version of Ramsey's theorem by induction to \( S_1 \) to find either a set \( A \subseteq S_1 \) with \( \abs{A} = s - 1 \) and \( A^{(r)} \) is coloured red (with respect to \( c \)), or a set \( B \subseteq S_2 \) with \( \abs{B} = t \) and \( B^{(r)} \) is coloured blue.
+	If \( B \) exists, we are done.
+	If \( A \) exists, \( A \cup \qty{x} \) is coloured red and has size \( s \) as required.
+\end{proof}
+
+\subsection{Quantitative aspects}
+\begin{proposition}
+	Let \( s, t \geq 2 \), we have \( R(s,t) \leq \binom{s+t-2}{t-1} \).
+	In particular, \( R(s) = R(s,s) \leq 4^s \).
+\end{proposition}
+\begin{proof}
+	Apply induction on \( s + t \).
+	We know \( R(s,2) = s = \binom{s+2-2}{2-1} \) as required.
+	Suppose this holds for \( R(s-1,t) \) and \( R(s,t-1) \).
+	We have already shown that \( R(s,t) \leq R(s-1,t) + R(s,t-1) \).
+	So
+	\[ R(s,t) \leq R(s-1,t) + R(s,t-1) \leq \binom{s+t-2}{s-2} + \binom{s+t-3}{s-1} = \binom{s+t-2}{s-1} \]
 \end{proof}
