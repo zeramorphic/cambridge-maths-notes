@@ -336,3 +336,61 @@ The empty word is the least element.
 	Replace this letter with the next letter in the ordering, and replace all subequent letters with the least letter in the ordering.
 	If all \( k \) letters are the greatest letter, output the least letter \( (k + 1) \)-many times.
 \end{proof}
+
+\subsection{Church's recursive functions}
+The class of recursive functions is defined inductively.
+% TODO: Basic recursive functions
+
+Let \( f \colon \mathbb W^m \to \mathbb W \) and \( g_1, \dots, g_m \colon \mathbb W^k \to \mathbb W \).
+Then the \emph{composition} is \( h(\vb w) = f(g_1(\vb w), \dots, g_m(\vb k)) \).
+
+Let \( f \colon \mathbb W^k \rightharpoonup \mathbb W \) and \( g \colon \mathbb W^{k+2} \rightharpoonup \mathbb W \).
+Then the partial function \( h \colon \mathbb W^{k+1} \rightharpoonup \mathbb W \) defined by \( h(\vb w, \varepsilon) = f(\vb w) \) and \( h(\vb w, s(v)) = g(\vb w, v, h(\vb w, v)) \) is a function defined by \emph{recursion}.
+
+Let \( f \colon \mathbb W^{k+1} \rightharpoonup \mathbb W \).
+Then the function \( h \colon \mathbb W^k \rightharpoonup \mathbb W \) defined by
+% TODO
+\[ h(\vb w) = \]
+is a function defined by \emph{minimisation}.
+\begin{definition}
+	A class \( \mathcal C \) of partial functions is closed under composition, recursion, and minimisation if whenever \( f_1, \dots, f_\ell \in \mathcal C \), then the results of applying these operations also lie in \( \mathcal C \).
+\end{definition}
+\begin{remark}
+	The class \( \mathcal P \) of all partial functions is closed under composition, recursion, and minimisation.
+\end{remark}
+\begin{definition}
+	We call a partial function \emph{recursive} if it lies in the smallest class \( \mathcal C \) that contains the basic functions and is closed under composition, recursion, and minimisation.
+	A partial function is \emph{primitive recursive} if it lies in the smallest class \( \mathcal C \) that contains the basic functions and is closed under composition and recursion.
+\end{definition}
+\begin{example}
+	\( \pi_{1,0} \colon \mathbb W^1 \to \mathbb W \) is the identity function, which is primitive recursive.
+	\( \pi_{3,2} \colon \mathbb W^3 \to \mathbb W \) defined by \( \pi_{3,2}(u,v,w) = w \) is primitive recursive as it is a basic function.
+	The successor function \( s \colon \mathbb W \to \mathbb W \) is primitive recursive.
+	The function \( s \circ \pi_{3,2} \) is primitive recursive, as the composition of primitive recursive functions.
+
+	The function \( h \) defined by \( h(w,\varepsilon) = \pi_{1,0}(w) \) and \( h(w,s(v)) = s \circ \pi_{3,2}(w,v,h(w,v)) = s(h,w,v) \) is primitive recursive, which is exactly the addition function \( \# h(n,m) = \# n + \# m \).
+	We can define multiplication and exponentiation in a similar way, and so all of these are primitive recursive.
+\end{example}
+We can encode recursive functions in trees.
+Let \( T \) be a finitely branching tree, and define a labelling \( \ell \) on \( T \) with the labels
+% TODO: the labels
+\begin{definition}
+	A tree \( T \) with a labelling \( \ell \) is called a \emph{recursion tree} if the branching of the tree corresponds exactly to the branching numbers of its labels, and
+	\begin{enumerate}
+		\item if \( \ell(s) = C_{n,k} \), then the first successor of \( s \) has a label of arity \( n \) and all other have labels with arity \( k \);
+		\item if \( \ell(s) = R_k \), then the first successor of \( s \) has arity \( k \) and the other has arity \( k + 2 \);
+		\item if \( \ell(s) = M_k \), then the successor has arity \( k \).
+	\end{enumerate}
+	A recursion tree is \emph{primitive} if it has no minimisation labels \( M_k \).
+\end{definition}
+% TODO: addition example
+We can assign a (partial) recursive function \( f_{T,\ell} \) to every recursive tree \( (T, \ell) \).
+If the tree is primitive, the function obtained is primitive recursive.
+\begin{theorem}
+	A partial function \( f \) is recursive if and only if there is a recursion tree \( (T, \ell) \) such that \( f = f_{T, \ell} \).
+	It is primitive recursive if it admits a recursion tree that is primitive.
+\end{theorem}
+\begin{proof}
+	We can obtain the associated partial function from a recursion tree by induction on the height on the tree.
+	For the converse, it suffices to show that the class of functions \( f_{T,\ell} \) contains the basic functions and is closed under composition, recursion, and minimisation, which holds by construction.
+\end{proof}

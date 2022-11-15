@@ -188,3 +188,111 @@ Ruler and compass construction of a regular \( n \)-gon for \( n \geq 3 \) is eq
 	Take \( H_{m-1} = \genset{\sigma} \), and then consider \( \faktor{G}{\genset{\sigma}} \), which contains a subgroup of order 2 by the same argument; we can proceed inductively.
 	Then the tower of fixed fields \( K_i = \mathbb Q(\zeta_n)^{H_i} \) is a tower of quadratic extensions by the Galois correspondence.
 \end{proof}
+
+\subsection{Kummer extensions}
+\begin{theorem}[linear independence of field embeddings]
+	Let \( K, L \) be fields, and let \( \sigma_1, \dots, \sigma_n \colon K \to L \) be distinct field homomorphisms.
+	Let \( y_1, \dots, y_n \in L \) be such that for all \( x \in K^\times \), \( y_1 \sigma_1(x) + \dots + y_n \sigma_n(x) = 0 \).
+	Then all \( y_i = 0 \).
+	In other words, \( \sigma_1, \dots, \sigma_n \) are \( L \)-linearly independent elements of the set of functions \( K \to L \), considered as an \( L \)-vector space.
+\end{theorem}
+This is a special case, using \( G = K^\times \), of the following theorem.
+\begin{theorem}[linear independence of characters]
+	Let \( G \) be a group and \( L \) be a field.
+	Let \( \sigma_1, \dots, \sigma_n \colon G \to L^\times \) be distinct group homomorphisms.
+	Then \( \sigma_1, \dots, \sigma_n \) are \( L \)-linearly independent elements.
+\end{theorem}
+\begin{proof}
+	We use induction on \( n \).
+	If \( n = 1 \), the result is clear.
+	Suppose \( n > 1 \).
+	Let \( y_1, \dots, y_n \in L \) be such that for all \( g \in G \), \( y_1 \sigma_1(g) + \dots + y_n \sigma_n(g) = 0 \).
+	Since the homomorphisms are distinct, there is an element \( h \in G \) such that \( \sigma_1(h) \neq \sigma_n(h) \).
+	The \( \sigma_i \) are homomorphisms, so
+	\[ y_1 \sigma_1(hg) + \dots + y_n \sigma_n(hg) = y_1 \sigma_1(h)\sigma_1(g) + \dots + y_n \sigma_n(h)\sigma_n(g) = 0 \]
+	Multiplying the original expression in \( g \) by \( \sigma_n(h) \) and subtracting,
+	\[ y_1' \sigma_1(g) + \dots + y_{n-1}'\sigma_{n-1}(g) = 0;\quad y_i' = y_i(\sigma_i(h) - \sigma_n(h)) \]
+	By induction, all \( y_i' = 0 \).
+	But \( \sigma_1(h) \neq \sigma_n(h) \), so \( y_1 = 0 \).
+	So the original equation \( y_1\sigma_1(g) + \dots + y_n\sigma_n(g) = 0 \) can be simplified into \( y_2\sigma_2(g) + \dots + y_n\sigma_n(g) = 0 \), so again by induction, all \( y_i \) are zero.
+\end{proof}
+We now consider extensions of the form \( L = K(x) \) for \( x^n = a \in K \).
+The special case \( a = 1 \) gives the cyclotomic extensions.
+These extensions are not necessarily Galois; for example, \( \mathbb Q(\sqrt[3]{2}) / \mathbb Q \) is not Galois.
+In this section, let \( n > 1 \), and \( n \neq 0 \) in \( K \).
+\begin{theorem}
+	Let \( K \) be a field that contains a primitive \( n \)th root of unity \( \zeta = \zeta_n \).
+	Let \( L / K \) be a field extension with \( L = K(x) \), where \( x^n = a \in K^\times \).
+	Then \( L / K \) is a splitting field for \( f = T^n - a \), and is Galois with cyclic Galois group.
+	\( [L : K] \) is the least \( m \geq 1 \) such that \( x^m \in K \).
+\end{theorem}
+\begin{proof}
+	Note that \( \bm \mu_n(K) = \qty{\zeta_i \mid 0 \leq i < n} \) has \( n \) elements.
+	Then \( f \) has \( n \) distinct roots \( \zeta_i x \) in \( L \).
+	So \( L \) is a splitting field for the separable polynomial \( f \), and in particular, \( L \) is a Galois extension.
+
+	Let \( \sigma \in \Gal(L/K) = G \).
+	Then \( f(\sigma(x)) = 0 \), so \( \sigma(x) = \zeta_i x \) for some \( i \), which is unique modulo \( n \).
+	This induces a map \( \theta \colon G \to \bm \mu_n(K) \simeq \faktor{\mathbb Z}{n\mathbb Z} \), given by \( \theta(\sigma) = \frac{\sigma(x)}{x} \) which is equal to \( \zeta^i \) for some \( i \).
+	We claim this is a homomorphism.
+	Let \( \sigma, \tau \in G \).
+	Then since \( \zeta \in K \), \( \tau(\theta(\sigma)) = \theta(\sigma) \).
+	So
+	\[ \theta(\tau\sigma) = \frac{\tau\sigma(x)}{x} = \tau\qty(\frac{\sigma(x)}{x}) \cdot \frac{\tau(x)}{x} = \tau(\theta(\sigma)) \cdot \theta(\tau) = \theta(\sigma) \theta(\tau) \]
+	It is injective, because \( \theta(\sigma) = 1 \) if and only if \( \sigma(x) = x \), so \( \sigma = \mathrm{id} \).
+	So \( G \) is isomorphic to a subgroup of a cyclic group.
+	Hence it is cyclic.
+
+	If \( m \geq 1 \), since \( L / K \) is Galois, \( x^m \in K \) if and only if for all \( \sigma \in G \), \( \sigma(x^m) = x^m \).
+	By the definition of \( \theta \), this holds if and only if for all \( \sigma \in G \), \( \theta(\sigma)^m = 1 \).
+	So \( \abs{G} = [L:K] \) divides \( m \).
+	So \( [L:K] \) must be the least \( m \) such that \( x^m \in K \), as required.
+\end{proof}
+\begin{corollary}
+	Let \( K \) be a field that contains a primitive \( n \)th root of unity \( \zeta = \zeta_n \).
+	Let \( a \in K^\times \).
+	Then \( f = T^n - a \) is irreducible over \( K \) if and only if \( a \) is not a \( d \)th power in \( K \) for any \( 1 \neq d \mid n \).
+\end{corollary}
+\begin{proof}
+	Let \( L \) be a splitting field for \( f = T^n - a \), so \( L = K(x) \) for \( x^n = a \).
+	Then the minimal polynomial of \( x \) divides \( f \).
+	So \( f \) is irreducible if and only if \( f = m_{x,K} \), or equivalently, \( [L : K] = n \).
+
+	Suppose \( n = md \) for \( d \neq 1 \).
+	Then \( a \) is a \( d \)th power in \( K \) if and only if \( x^m \in K \) since \( \zeta_n \in K \).
+	By the above theorem, this holds if and only if \( \abs{G} \mid m \).
+\end{proof}
+\begin{remark}
+	This does not hold if we relax the assumption \( \zeta_n \in K \).
+	For example, consider \( K = \mathbb Q \) and \( T^4 + 4 \).
+\end{remark}
+\begin{definition}
+	Extensions of the form \( L = K(x) \) where \( x^n = a \in K \) and \( \zeta_n \in K \) are called \emph{Kummer extensions}.
+\end{definition}
+\begin{example}
+	Let \( n = 2 \) and \( \fchar K \neq 2 \).
+	Then \( \zeta_2 = -1 \in K \).
+	Then \( K(\sqrt a) / K \) is a quadratic Kummer extension if \( a \not\in (K\times)^2 \).
+	Conversely, any quadratic extension must be of this form.
+\end{example}
+\begin{theorem}
+	Let \( K \) be a field that contains a primitive \( n \)th root of unity \( \zeta = \zeta_n \) where \( n > 1 \).
+	Let \( L / K \) be a Galois extension with cyclic Galois group of order \( n \).
+	Then \( L \) is a Kummer extension of \( K \).
+\end{theorem}
+\begin{proof}
+	Let \( \Gal(L/K) = \qty{1, \sigma, \sigma^2, \dots, \sigma^{n-1}} \).
+	For \( y \in L \), let
+	\[ x = R(y) = y + \zeta^{-1} \sigma(y) + \zeta^{-2}\sigma^2(y) + \dots + \zeta^{-(n-1)} \sigma^{n-1}(y) = \sum_{j=0}^{n-1} \zeta^{-j} \sigma^j(y) \in L \]
+	This is known as a \emph{Lagrange resolvent}.
+	Then
+	\[ \sigma(x) = \sum_{j=0}^{n-1} \zeta^{-j} \sigma^{j+1}(y) = \sum_{j=0}^n \zeta^{1-j} \sigma^j(y) = \zeta x \]
+	Hence \( \sigma(x^n) = \zeta^n x^n = x^n \), so \( x^n \in K \).
+	By the linear independence of field embeddings with \( \qty{\sigma_i} = \qty{1, \sigma, \dots, \sigma^{n-1}} \), there exists \( y \) such that \( R(y) = x \neq 0 \).
+	Now, since \( \sigma^i x = \zeta^i x \), the \( \sigma^i(x) \) are distinct, and so \( \deg_K x = n \).
+	In particular, \( [K(x) : K] = n = [L : K] \), so \( L = K(x) \).
+\end{proof}
+\begin{example}
+	Let \( L / \mathbb Q \) be a Galois extension of degree 3.
+	Since \( \zeta_3 \not\in \mathbb Q \), this is not a Kummer extension.
+\end{example}
