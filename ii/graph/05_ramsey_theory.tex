@@ -58,6 +58,11 @@ It is not clear \emph{a priori} that such numbers indeed exist.
 	If we have a \( K_{s_1} \) coloured \( 1 \), we are done.
 	Otherwise, apply induction to obtain an edge colouring of \( K_{R_{k-1}(s_2, \dots, s_k)} \) to obtain a \( K_{s_i} \) coloured \( i \) for some \( i \geq 2 \).
 \end{proof}
+\begin{remark}
+	We have seen \( R(3) = 6 \).
+	There are very few known Ramsey numbers.
+	\( R(4) = 18 \), but \( R(5) \) is unknown.
+\end{remark}
 
 \subsection{Infinite graphs and larger sets}
 \begin{theorem}
@@ -141,7 +146,7 @@ We can produce a similar version of this theorem for the finite case, along with
 	If \( A \) exists, \( A \cup \qty{x} \) is coloured red and has size \( s \) as required.
 \end{proof}
 
-\subsection{Quantitative aspects}
+\subsection{Upper bounde}
 \begin{proposition}
 	Let \( s, t \geq 2 \), we have \( R(s,t) \leq \binom{s+t-2}{t-1} \).
 	In particular, \( R(s) = R(s,s) \leq 4^s \).
@@ -154,3 +159,51 @@ We can produce a similar version of this theorem for the finite case, along with
 	So
 	\[ R(s,t) \leq R(s-1,t) + R(s,t-1) \leq \binom{s+t-2}{s-2} + \binom{s+t-3}{s-1} = \binom{s+t-2}{s-1} \]
 \end{proof}
+We are interested in bounding \( R^{(r)}(s,t) \).
+Note that we have the bound \( R^{(r)}(s,t) \leq R^{(r-1)}(R^{(r)}(s,t-1), R^{(r)}(s-1,t)) + 1 \).
+Define \( f_1(x) = 2x \), and recursively, \( f_n(x) = f_{n-1}^x(x) \).
+Then \( f_2(x) \sim 2^x \), and as \( n \) increases, \( f_n \) increases very rapidly.
+So our bound on \( R^{(r)}(s,t) \) grows asymptotically on the order of \( f_r(s+t) \).
+
+\subsection{Lower bounds}
+We can explicitly construct some lower bounds for \( R(s) \).
+\begin{proposition}
+	\( R(s) > (s-1)^2 \).
+\end{proposition}
+\begin{proof}
+	Consider the graph defined by \( (s-1) \) disjoint \( K_{s-1} \) cliques, all of which are coloured blue, but all lines between cliques are coloured red.
+	This graph has no monochromatic \( K_s \).
+\end{proof}
+\begin{theorem}[Erd\H{o}s]
+	Let \( s \geq 3 \).
+	Then \( R(s) \geq 2^{\frac s2} \).
+\end{theorem}
+\begin{proof}
+	Consider \( G = K_n \) for \( n \leq 2^{\frac s 2} \).
+	For each edge \( e \) in \( G \), we construct an independent Bernoulli random variable \( X_e \) with parameter \( \frac 12 \).
+	If \( X_e = 0 \), we colour \( e \) red, and if \( X_e = 1 \), we colour \( e \) blue.
+	Then
+	\begin{align*}
+		\prob{\text{colouring has a monochromatic } K_s} &= \prob{\bigcup_{K \in \qty{1, \dots, n}^{(s)}} \qty{K \text{ monochromatic}}} \\
+		&\leq \sum_{K \in \qty{1, \dots, n}^{(s)}} \prob{K \text{ monochromatic}} \\
+		&= \sum_{K \in \qty{1, \dots, n}^{(s)}} 2 \cdot 2^{-\binom s 2} \\
+		&= \binom n s 2 \cdot 2^{-\binom s 2} \\
+		&< \frac{n^s}{s!} 2 \cdot 2^{-\frac{s(s-1)}{2}} \\
+		&= 2 \qty(\frac{n}{(s!)^{\frac 1s}} 2^{-\frac{s-1}{2}})^s \\
+		&\leq 2 \qty( \frac{2^{\frac 12}}{(s!)^{\frac 1s}} )^s
+	\end{align*}
+	Note that \( s! \geq 2^{\frac s 2 + 1} \), so \( (s!)^{\frac 1s} \geq 2^{\frac 12 + \frac 1s} \).
+	\[ \prob{\text{colouring has a monochromatic } K_s} < 2 \qty(\frac{1}{2^{\frac 1s}})^s \leq 1 \]
+	Since the probability is less than 1, there must exist a colouring that has no monochromatic \( K_s \).
+\end{proof}
+\begin{remark}
+	We can think about this proof as follows.
+	Consider the collection of \( 2^{\binom n 2} \) colourings of \( K_n \).
+	Then for each clique, there are at most \( 2^{\binom n 2} \cdot 2 \cdot 2^{-\binom s 2} \) colourings where that clique is monochromatic.
+	So the collection of all colourings where none of these cliques are monochromatic has at least as many elements as \( 2^{\binom n 2} - \binom n 2 2^{\binom n 2} \cdot 2 \cdot 2^{-\binom s 2} \).
+	In general, however, a probabilistic interpretation is more powerful.
+\end{remark}
+\begin{remark}
+	This proof is nonconstructive.
+	It is a major open problem to explicitly construct colourings to show that \( R(s) > (1 + \varepsilon)^s \).
+\end{remark}

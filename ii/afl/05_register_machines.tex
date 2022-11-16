@@ -235,6 +235,7 @@ For the special case of \( k = 1 \), we also write \( W_M = \dom f_{M,1} \).
 	Let \( a \in \Sigma \).
 	We say that \( f \) is \emph{the characteristic function of \( X \)} if \( f(\vb w) = a \) if \( \vb w \in X \) and \( f(\vb w) = \varepsilon \) otherwise.
 \end{definition}
+We use the notation \( \chi_X \) for the characteristic function.
 \begin{definition}
 	A set \( X \subseteq \mathbb W^k \) is \emph{computable} if the characteristic function \( \chi_X \) of \( X \) is computable.
 \end{definition}
@@ -300,7 +301,11 @@ We use the notation \( \psi_X \) for the pseudocharacteristic function.
 We wish to create an order \( < \) on \( \mathbb W \) such that \( (\mathbb N, <) \) is order-isomorphic to \( (\mathbb W, <) \).
 We first fix an arbitrary total order \( < \) on \( \Sigma \).
 \begin{definition}
-	The \emph{shortlex ordering} on \( \mathbb W \) given by an ordering of \( \Sigma \) is given by \( w < v \) when either \( \abs{w} < \abs{v} \) or \( \abs{w} = \abs{v} \) and for the least \( m \) such that the \( m \)th characters differ, the \( m \)th character of \( w \) is less than the \( m \)th character of \( v \).
+	The \emph{shortlex ordering} on \( \mathbb W \) given by an ordering of \( \Sigma \) is given by \( w < v \) when
+	\begin{enumerate}
+		\item \( \abs{w} < \abs{v} \); or
+		\item \( \abs{w} = \abs{v} \) but \( w \neq v \), and for the least \( m \) such that the \( m \)th characters differ, the \( m \)th character of \( w \) is less than the \( m \)th character of \( v \).
+	\end{enumerate}
 \end{definition}
 This ordering first checks length, then the lexicographic ordering.
 This is a total ordering on \( \mathbb W \); it is irreflexive, transitive, and trichotomous.
@@ -339,7 +344,16 @@ The empty word is the least element.
 
 \subsection{Church's recursive functions}
 The class of recursive functions is defined inductively.
-% TODO: Basic recursive functions
+\begin{definition}
+	The \emph{basic functions} are
+	\begin{align*}
+		\pi_{k,i} &\colon \mathbb W^k \to \mathbb W \\
+		c_{k,\varepsilon} &\colon \mathbb W^k \to \mathbb W \\
+		s &\colon \mathbb W \to \mathbb W
+	\end{align*}
+	where \( \pi_{k,i}(\vb w) = w_i \), \( c_{k,\varepsilon}(\vb w) = \varepsilon \), and \( \# s(w) = \# w + 1 \).
+\end{definition}
+We call \( \pi_{k,i} \) the \emph{projection} functions, \( c_{k,\varepsilon} \) the \emph{constant} functions, and \( s \) the \emph{successor} function.
 
 Let \( f \colon \mathbb W^m \to \mathbb W \) and \( g_1, \dots, g_m \colon \mathbb W^k \to \mathbb W \).
 Then the \emph{composition} is \( h(\vb w) = f(g_1(\vb w), \dots, g_m(\vb k)) \).
@@ -349,9 +363,14 @@ Then the partial function \( h \colon \mathbb W^{k+1} \rightharpoonup \mathbb W 
 
 Let \( f \colon \mathbb W^{k+1} \rightharpoonup \mathbb W \).
 Then the function \( h \colon \mathbb W^k \rightharpoonup \mathbb W \) defined by
-% TODO
-\[ h(\vb w) = \]
+\[ h(\vb w) = \begin{cases}
+	v & \text{if for all \( u \leq v \), we have \( f(u) \downarrow \) and \( v \) is \( < \)-minimal such that \( f(\vb w, v) = \varepsilon \)} \\
+	\uparrow & \text{if for all \( v \), we have \( f(\vb w, v) \neq \varepsilon \)}
+\end{cases} \]
 is a function defined by \emph{minimisation}.
+\begin{remark}
+	If a class of functions has the basic functions and is closed under composition, it has all constant functions \( c_{k,v}(\vb w) = v \), because if \( v = s^k(\varepsilon) \), \( c_{k,v} = s^k \circ c_{k,\varepsilon} \).
+\end{remark}
 \begin{definition}
 	A class \( \mathcal C \) of partial functions is closed under composition, recursion, and minimisation if whenever \( f_1, \dots, f_\ell \in \mathcal C \), then the results of applying these operations also lie in \( \mathcal C \).
 \end{definition}
@@ -373,7 +392,17 @@ is a function defined by \emph{minimisation}.
 \end{example}
 We can encode recursive functions in trees.
 Let \( T \) be a finitely branching tree, and define a labelling \( \ell \) on \( T \) with the labels
-% TODO: the labels
+\begin{center}
+	\begin{tabular}{c c c c}
+		& label & arity & branching number \\
+		projection & \( B_{k,i}^\pi \) & \( k \) & 0 \\
+		constant & \( B_{k,i}^c \) & \( k \) & 0 \\
+		successor & \( B^s \) & 1 & 0 \\
+		composition & \( C_{n,k} \) & \( k \) & \( n + 1 \) \\
+		recursion & \( R_k \) & \( k + 1 \) & 2 \\
+		minimisation & \( M_k \) & \( k \) & 1
+	\end{tabular}
+\end{center}
 \begin{definition}
 	A tree \( T \) with a labelling \( \ell \) is called a \emph{recursion tree} if the branching of the tree corresponds exactly to the branching numbers of its labels, and
 	\begin{enumerate}
@@ -383,7 +412,18 @@ Let \( T \) be a finitely branching tree, and define a labelling \( \ell \) on \
 	\end{enumerate}
 	A recursion tree is \emph{primitive} if it has no minimisation labels \( M_k \).
 \end{definition}
-% TODO: addition example
+The following recursion tree describes the addition function defined above.
+\begin{center}
+	\begin{tikzcd}
+		& {R_1} \\
+		{B_{1,0}^\pi} && {C_{1,3}} \\
+		& {B^s} && {B_{3,2}^\pi}
+		\arrow[no head, from=1-2, to=2-1]
+		\arrow[no head, from=1-2, to=2-3]
+		\arrow[no head, from=2-3, to=3-4]
+		\arrow[no head, from=2-3, to=3-2]
+	\end{tikzcd}
+\end{center}
 We can assign a (partial) recursive function \( f_{T,\ell} \) to every recursive tree \( (T, \ell) \).
 If the tree is primitive, the function obtained is primitive recursive.
 \begin{theorem}

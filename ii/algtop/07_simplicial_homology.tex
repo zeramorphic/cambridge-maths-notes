@@ -1,0 +1,73 @@
+\subsection{Chain complexes}
+\begin{definition}
+	A \emph{(finitely generated) chain complex} \( (C_\bullet, d) \) is
+	\begin{enumerate}
+		\item a collection of free (finitely generated) abelian groups \( C_i \) for \( i \in \mathbb Z \) (and if finitely generated, \( C_i = 0 \) for all but finitely many \( i \));
+		\item a collection of homomorphisms \( d_i \colon C_i \to C_{i-1} \);
+		\item \( d_{i-1} \circ d_i = 0 \) for all \( i \).
+	\end{enumerate}
+	\begin{center}
+		\begin{tikzcd}
+			\cdots & {C_{-2}} & {C_{-1}} & {C_0} & {C_1} & {C_2} & \cdots
+			\arrow["{d_3}"', from=1-7, to=1-6]
+			\arrow["{d_2}"', from=1-6, to=1-5]
+			\arrow["{d_1}"', from=1-5, to=1-4]
+			\arrow["{d_0}"', from=1-4, to=1-3]
+			\arrow["{d_{-1}}"', from=1-3, to=1-2]
+			\arrow["{d_{-2}}"', from=1-2, to=1-1]
+		\end{tikzcd}
+	\end{center}
+\end{definition}
+Usually, we write \( C_\bullet = \bigoplus_i C_i \), and \( d = \bigoplus-I d_i \colon C_\bullet \to C_\bullet \).
+We can check that \( d_{i-1} \circ d_i = 0 \) for all \( i \) is equivalent to the statement that \( d \circ d = d^2 = 0 \).
+\begin{remark}
+	Free finitely generated abelian groups are isomorphic to \( \mathbb Z^n \) for some \( n \).
+	A chain complex defined over \( \mathbb Q \), \( \mathbb R \), or \( \mathbb F_p \) is similar, except that \( C_i \) is a vector space over the \( \mathbb Q, \mathbb R, \mathbb F_p \) and the \( d_i \) are linear maps.
+	Every chain complex determines another chain complex over \( \mathbb Q, \mathbb R, \mathbb F_p \) by replacing \( \mathbb Z^{n_i} \) with \( \mathbb Q^{n_i} \), for example, and the \( d_i \) are given by the same matrices.
+\end{remark}
+\begin{remark}
+	There is a unique group homomorphism to and from the trivial abelian group \( 0 \).
+	Arrows to and from this group can therefore be unlabelled.
+\end{remark}
+\begin{example}[reduced chain complex of the simplex]
+	Consider the reduced chain complex of \( \Delta^n \).
+	We define \( \widetilde C_k(\Delta^n) = \genset{e_I \mid \abs{I} = k + 1, I \subseteq \qty{0, \dots, n}} \), the free abelian group on a basis given by the \( e_I \).
+	We also define \( d(e_I) = \sum_{j=0}^{\abs{I}} (-1)^j e_{I_{\hat\jmath}} \) where if \( I = i_0 i_1 \dots i_k \) and \( i_0 < \dots < i_k \), we define \( I_{\hat\jmath} = I \setminus \qty{i_j} \).
+	For example, consider \( C_\bullet(\Delta^2) \).
+	\[ \widetilde C_2(\Delta^2) = \genset{e_{012}};\quad \widetilde C_1(\Delta^2) = \genset{e_{01}, e_{02}, e_{12}};\quad \widetilde C_0(\Delta^2) = \qty{e_0, e_1, e_2};\quad \widetilde C_{-1}(\Delta^2) = \qty{e_\varnothing} \]
+	and, for example,
+	\[ d(e_{012}) = (-1)^0 e_{12} + (-1)^1 e_{02} + (-1)^2 e_{01} = e_{12} - e_{02} + e_{01} \]
+	\[ d(e_{01}) = e_1 - e_0;\quad d(e_{02}) = e_2 - e_0;\quad d(e_{12}) = e_2 - e_1;\quad d(e_0) = d(e_1) = d(e_2) = e_\varnothing \]
+	Note that \( \widetilde C_i(\Delta^2) = 0 \) if \( i < -1 \) or \( i > 2 \).
+	We have \( d^2(e_{012}) = d(e_{12} - e_{02} + e_{01}) = e_2 - e_1 - e_2 + e_0 + e_1 - e_0 = 0 \), as required.
+	\begin{center}
+		\begin{tikzcd}
+			0 & {\widetilde C_{-1}} & {\widetilde C_0} & {\widetilde C_1} & {\widetilde C_2} & 0
+			\arrow[from=1-6, to=1-5]
+			\arrow["{d_2}"', from=1-5, to=1-4]
+			\arrow["{d_1}"', from=1-4, to=1-3]
+			\arrow["{d_0}"', from=1-3, to=1-2]
+			\arrow[from=1-2, to=1-1]
+		\end{tikzcd}
+	\end{center}
+\end{example}
+\begin{example}[chain complex of the simplex]
+	The chain complex of \( \Delta^n \) is defined by \( C_i(\Delta^n) = \widetilde C_i(\Delta^n) \) if \( i \geq 0 \), but \( C_{-1}(\Delta^n) = 0 \).
+	This removes the empty face \( e_\varnothing \).
+	The \( d_i \) are unchanged.
+	\begin{center}
+		\begin{tikzcd}
+			0 & {C_0} & {C_1} & {C_2} & 0
+			\arrow[from=1-5, to=1-4]
+			\arrow["{d_2}"', from=1-4, to=1-3]
+			\arrow["{d_1}"', from=1-3, to=1-2]
+			\arrow[from=1-2, to=1-1]
+		\end{tikzcd}
+	\end{center}
+\end{example}
+\begin{definition}
+	Let \( K \) be an abstract simplicial complex in \( \Delta^n \).
+	Let \( \widetilde C_k(K) = \genset{e_I \mid \abs{I} = k + 1, e_I \in K} \leq \widetilde C_k(\Delta^n) \).
+	Since \( e_I \in K \) implies \( e_{I_{\hat\jmath}} \in K \), \( d_k \colon \widetilde C_k(K) \to \widetilde C_{k-1}(K) \).
+	So \( (\widetilde C_\bullet(K), d) \) is a chain complex.
+\end{definition}
