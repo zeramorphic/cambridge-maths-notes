@@ -1,4 +1,4 @@
-\subsection{?}
+\subsection{Trace and norm}
 Let \( L / K \) be an extension of degree \( n \), so \( L \) is a \( K \)-vector space of dimension \( n \).
 Let \( x \in L \).
 Then the map \( U_x \colon L \to L \) defined by \( U_x(y) = xy \) is \( K \)-linear, as it is \( L \)-linear.
@@ -49,3 +49,114 @@ Then \( \Tr_{L/K}(x) = \tr(A) \), and so on.
 	But this holds if and only if \( x \) is nonzero because \( L \) is a field.
 	The other results follow from the laws of linear transformations.
 \end{proof}
+
+\subsection{Towers}
+\begin{theorem}
+	Let \( M / L / K \) be a tower of finite extensions.
+	Then, for all \( x \in M \),
+	\[ \Tr_{L/K}(\Tr_{M/L}(x)) = \Tr_{M/K}(x);\quad N_{L/K}(N_{M/L}(x)) = N_{M/K}(x) \]
+\end{theorem}
+\begin{proof}
+	We prove the theorem for the trace; we will not need the result for the norm.
+	% TODO: Fill in from online
+	Let \( x \in M \).
+	Let \( u_1, \dots, u_m \) be a basis for \( M / L \), and let \( v_1, \dots, v_n \) be a basis for \( L / K \).
+	Let \( (a_{ij}) \) be the matrix of \( U_{x,M/L} \), so \( (a_{ij}) \in \mathrm{Mat}_{m,m}(L) \).
+	Then \( \Tr_{M/L}(x) = \sum_{i=1}^m a_{ii} \).
+	For each \( (i, j) \), let the matrix of \( U_{a_{ij}} \) be \( A_{ij} \in \mathrm{Mat}_{n,n}(K) \).
+	Then, \( \Tr_{L/K}(\Tr_{M/L}(x)) = \sum_{i=1}^m \Tr_{L/K}(a_{ii}) = \sum_{i=1}^m \tr(A_{ii}) \).
+
+	Consider the basis \( u_1v_1, \dots, u_1v_m, u_2v_1, \dots, u_nv_m \) for \( M \) over \( K \).
+	Then the matrix of \( U_{x,M/K} \) is the block matrix
+	\[ \begin{pmatrix}
+		A_{11} \\
+		& A_{22} \\
+		& & \ddots \\
+		& & & A_{nn}
+	\end{pmatrix} \]
+	which has trace \( \sum_{i=1}^m \tr(A_{ii}) \) as required.
+\end{proof}
+\begin{proposition}
+	Let \( L = K(x) \), and \( f = T^n + c_{n-1} T^{n-1} + \dots + c_0 \in K[T] \) be the minimal polynomial for \( x \) over \( K \).
+	Then \( f_{x,L/K} = f \).
+	Further, \( \Tr_{L/K}(x) = -c_{n-1} \) and \( N_{L/K}(x) = (-1)^n c_0 \).
+\end{proposition}
+\begin{proof}
+	It suffices to prove the first statement, since the second follows from the fact that the determinant and trace are the given coefficients of the characteristic polynomial for any linear transformation.
+	Consider the basis \( 1, x, \dots, x^{n-1} \) for \( L / K \).
+	Then, the matrix of \( U_x \) is
+	\[ \begin{pmatrix}
+		0 & \cdots & & & -c_0 \\
+		1 & 0 & \cdots & & -c_1 \\
+		0 & 1 & 0 & \cdots \\
+		\vdots & 0 & 1 & \cdots \\
+		& \vdots & 0 & 1 & \cdots \\
+		& & & \ddots \\
+		& & & & -c_{n-1}
+	\end{pmatrix} \]
+	which has characteristic polynomial \( f \) since it is in rational canonical form.
+\end{proof}
+\begin{corollary}
+	Let \( \fchar K = p > 0 \), and \( L = K(x) \) where \( x \not\in K \) but \( x^p \in K \).
+	Then for all \( y \in L \), we have \( \Tr_{L/K}(y) = 0 \) and \( N_{L/K}(y) = y^p \).
+\end{corollary}
+\begin{proof}
+	Recall that the minimal polynomial of \( x \) is \( T^p - x^p \), so \( [L : K] = p \).
+	Suppose that \( y \in K \).
+	By a previous lemma, \( \Tr_{L/K}(y) = py = 0 \) and \( N_{L/K}(y) = y^p \).
+	Otherwise, since \( [L:K] \) is prime, \( K(y) = L \), and in particular, if \( y = \sum a_i x^i \) then \( y^p = \qty(\sum a_i x^i)^p = \sum a_i (x^p)^i \in K \).
+	So the minimal polynomial of \( y \) is \( T^p - y^p \).
+	Applying the previous proposition, the result follows.
+\end{proof}
+
+\subsection{?}
+\begin{proposition}
+	Let \( L / K \) be a finite separable extension of degree \( n \).
+	Let \( \sigma_1, \dots, \sigma_n \colon L \to M \) be the distinct \( K \)-homomorphisms of \( L \) into a normal closure \( M \) for \( L / K \).
+	Then
+	\[ \Tr_{L/K}(x) = \sum_{i=1}^n \sigma_i(x); \quad N_{L/K}(x) = \prod_{i=1}^n \sigma_i(x);\quad f_{x,L/K} = \prod_{i=1}^n (T - \sigma_i(x)) \]
+\end{proposition}
+\begin{remark}
+	If \( L / K \) is finite and Galois, then \( \Tr_{L/K}(x) = \sum_{\sigma \in \Gal(L/K)} \sigma(x) \), and the other results are similar.
+\end{remark}
+\begin{proof}
+	It suffices to show the result for the characteristic polynomial.
+	Let \( e_1, \dots, e_n \) be a basis for \( L / K \).
+	Let \( P = (\sigma_i(e_j)) \in \mathrm{Mat}_{n,n}(M) \).
+	Recall that the \( \sigma_i \) are linearly independent, so there exist no \( y_i \in M \) such that for all \( j \), \( \sigma_i(e_j) = 0 \).
+	Hence \( P \) is nonsingular.
+	Let \( A = (a_{ij}) \) be the matrix of \( U_x \), so \( xe_j = \sum_r a_{rj} e_r \).
+	Applying \( \sigma_i \), we have
+	\[ \sigma_i(x) \sigma_i(e_j) = \sum_r \sigma_i(e_r) a_{rj} \]
+	So if \( S \) is the diagonal matrix with \( (i,i) \)th entry \( \sigma_i(x) \), then the given equation can be rewritten as \( SP = PA \).
+	Therefore \( S = PAP^{-1} \).
+	So \( S \) and \( A \) are conjugate matrices and hence have the same characteristic polynomial.
+	We explicitly find that the characteristic polynomial of \( S \) is \( \prod(T - \sigma_i(x)) \) and the characteristic polynomial of \( A \) is \( f_{x,L/K} \).
+	So they are equal as required.
+\end{proof}
+Note that since the trace \( \Tr_{L/K} \colon L \to K \) is \( K \)-linear, it is either the zero map or surjective.
+\begin{theorem}
+	Let \( L / K \) be a finite extension.
+	Then, \( L / K \) is separable if and only if \( \Tr_{L/K} \) is surjective.
+\end{theorem}
+\begin{remark}
+	If \( \char K = 0 \), \( \Tr_{L/K}(1) = n \neq 0 \), so the result holds easily.
+\end{remark}
+\begin{proof}
+	Suppose \( L / K \) is separable, and \( \sigma_i, \dots, \sigma_n \) are the \( K \)-homomorphisms of \( L \) into a normal closure \( M \) of \( L / K \).
+	Then \( \Tr_{L/K}(x) = \sum_{i=1}^n \sigma_i(x) \).
+	As the \( \sigma_i \) are linearly independent, there exists \( x \) such that \( \sum_{i=1}^n \sigma_i(x) \neq 0 \).
+	So \( \Tr_{L/K}(x) \neq 0 \), and in particular, it must be surjective as it is \( K \)-linear.
+
+	Now suppose \( L / K \) is inseparable.
+	Then there exists \( x \in L \) such that \( K(x) \subsetneq K(x^p) \) from example 7 on example sheet 2.
+	As we have shown, \( \Tr_{K(x)/K(x^p)} = 0 \), so \( \Tr_{L/K} = \Tr_{L/K(x)} \circ \Tr_{K(x)/K(x^p)} \circ \Tr_{K(x^p)/K} = 0 \).
+\end{proof}
+\begin{example}
+	Consider the extension of finite fields \( \mathbb F_{q^n} / \mathbb F_q \) for \( q = p^r \).
+	This is separable, so there exists \( x \in \mathbb F_{q^n} \) such that \( \Tr(x) = 1 \).
+	It is also possible to prove this directly by using the fact that the multiplicative group is cyclic.
+\end{example}
+\begin{remark}
+	This criterion can be used to give another proof that if \( M / L \) and \( L / K \) are separable, \( M / K \) is also separable.
+\end{remark}

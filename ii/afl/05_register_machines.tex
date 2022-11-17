@@ -434,3 +434,112 @@ If the tree is primitive, the function obtained is primitive recursive.
 	We can obtain the associated partial function from a recursion tree by induction on the height on the tree.
 	For the converse, it suffices to show that the class of functions \( f_{T,\ell} \) contains the basic functions and is closed under composition, recursion, and minimisation, which holds by construction.
 \end{proof}
+\begin{theorem}
+	Every partial recursive function is computable.
+\end{theorem}
+\begin{proof}
+	The basic functions have already been shown to be computable.
+	Computable functions are closed under composition (previously called concatenation).
+	So it suffices to show that the computable functions are closed under recursion and minimisation.
+
+	Let \( f, g \) be computable functions; we want to show that \( h \) defined by \( h(\vb w, \varepsilon) = f(\vb w) \) and \( h(\vb w, s(v)) = g(\vb w, v, h(\vb w, v)) \) is computable.
+	We describe a register machine.
+	\begin{enumerate}
+		\item Let \( k, \ell \) be two empty unused registers.
+		\item Compute \( f(\vb w) \), and write the result to register \( \ell \).
+			Note that if \( f(\vb w) \) is undefined, this produces the desired result.
+		\item If \( v = \varepsilon \), output the content of register \( \ell \).
+			Otherwise, apply the successor function \( s \) to register \( k \) and perform the following subroutine.
+			\begin{enumerate}
+				\item Compute \( g(\vb w, v, u) \) where \( u \) is the content of register \( \ell \), then overwrite register \( \ell \) with the result.
+				\item Check whether \( v \) is equal to the register content of \( k \).
+					If so, output register \( \ell \).
+					Otherwise, apply \( s \) to register \( k \) and restart the subroutine.
+			\end{enumerate}
+	\end{enumerate}
+	We now consider minimisation.
+	Let \( f \) be computable.
+	Let \( k \) be empty and unused.
+	Perform the following subroutine.
+	\begin{enumerate}
+		\item Compute \( f(\vb w, u) \) where \( u \) is the content of register \( k \).
+			If this result is undefined, this is the desired result.
+		\item Check whether the computation result is empty.
+			If it is not empty, output the register content of \( k \).
+			Otherwise, apply the successor function \( s \) to \( k \) then restart the subroutine.
+	\end{enumerate}
+\end{proof}
+\begin{remark}
+	The proof showed that the computable functions are closed under recursion and minimisation, not just that all partial recursive functions are computable.
+	Therefore, we can use recursion and minimisation directly to construct computable functions or register machines.
+\end{remark}
+Recall that there is a bijection \( z \colon \mathbb N \times \mathbb N \to \mathbb N \), called the \emph{Cantor zigzag function}.
+\[ z(i,j) = \frac{(i+j)(i+j+1)}{2} + j \]
+This gives a bijection \( \mathbb W \times \mathbb W \to \mathbb W \).
+All of these operations are computable by register machines.
+\begin{definition}
+	Let \( v, w \) be words.
+	Then we can \emph{merge} the two words into \( v \ast w \), which is the unique word such that \( \#(v \ast w) = z(\#v, \#w) \).
+	We can \emph{split} a word \( w \) into \( u, v \) such that \( \#w = z(\#u, \#v) \).
+	We write \( u = w_{(0)} \) and \( v = w_{(1)} \).
+\end{definition}
+Technically, splitting a word is not a computable function, since computable functions are defined to always have codomain \( \mathbb W \).
+However, the operation of splitting a word can be performed.
+
+\subsection{Choice of alphabet}
+Consider an alphabet \( \Sigma \).
+We then have a notion of computability for sets \( X \subseteq \Sigma^\star = \mathbb W \).
+If \( \Sigma \subseteq \Sigma' \), then every \( \Sigma \)-register machine is a \( \Sigma' \)-register machine.
+However, the notion of \( \Sigma' \)-computability is no stronger than \( \Sigma \)-computability.
+One can show that computability over any alphabet \( \Sigma \) with \( \abs{\Sigma} \geq 2 \) is equivalent to computability over the set \( \qty{0,1} \) by encoding each letter as a binary string.
+% TODO: Fill in from moodle
+
+\subsection{Universality}
+In this subsection, we aim to show that there is a \emph{universal} register machine, which is a machine that can mimic every register machine.
+Let \( \Sigma \) be an alphabet, and add additional symbols
+\[ \bm 0\ \bm 1\ \bm +\ \bm -\ \bm ?\ \bm (\ \bm )\ \bm ,\ \bm \mapsto\ \bm \square \]
+We name the new alphabet \( \Sigma' \).
+
+When we encode a mathematical object \( o \) as a word \( \Sigma'^\star \), we write the encoded result \( \code(o) \).
+\begin{itemize}
+	\item We can encode \( \mathbb N \) in binary using \( \bm 0 \) and \( \bm 1 \), for instance, \( \bm 1 \bm 0 \bm 0 \bm 1 \bm 1 = \code(19) \).
+	\item If \( Q = \qty{q_0, \dots, q_k} \), we define \( \code(q_k) = \code(k) \).
+	\item We encode instructions \( I \in \mathrm{Instr}(\Sigma, Q) \) using \( \bm +\ \bm -\ \bm ?\ \bm ,\ \bm (\ \bm ) \); for instance, \( \code(+(k,a,\ell)) = \bm +\bm(\code(k)\bm , a\bm ,\code(\ell)\bm ) \).
+	\item We encode program lines by \( \code(q \mapsto I) = \code(q) \bm \mapsto \code(I) \).
+	\item We encode a register machine with program \( P \) as \( \code(q_0 \mapsto P(q_0)) \bm , \ldots \bm , \code(q_n \mapsto P(q_n)) \).
+	\item We encode sequences of words by \( \vb w \) by \( \code(\vb w) = \bm\square w_0 \bm\square \ldots \bm\square w_k \bm\square \).
+	\item We encode configurations \( (q, \vb w) \) by \( \code(q)\code(\vb w) \).
+\end{itemize}
+% TODO: Fill in table
+\begin{lemma}
+	The function \( h \) defined by
+	\[ h(w,u,v) = \begin{cases}
+		\code(C(M,\vb w,\# v)) & \text{if there exist } M, \vb w \text{ such that } w = \code(M), u = \code(\vb w) \\
+		\uparrow & \text{otherwise}
+	\end{cases} \]
+	is computable.
+\end{lemma}
+\begin{proof}
+	Apply recursion with the operation given in the previous table.
+	In particular, we define by recursion \( h(\code(M), \code(\vb w), \varepsilon) = \code(q_0)\code(\vb w) \) and \( h(\code(M), \code(\vb w), s(v)) = \code(C') \) where \( C' \) is the result of transforming \( h(\code(M), \code(\vb w, v)) \) by the machine \( M \).
+\end{proof}
+\begin{corollary}
+	The \emph{truncated computation} function \( t_{M,k} \) defined by
+	\[ t_{M,k}(\vb w, v) = \begin{cases}
+		a & M \text{ has halted before time } \#v \text{ on input } \vb w \\
+		\varepsilon & \text{otherwise}
+	\end{cases} \]
+	is computable.
+\end{corollary}
+\begin{proof}
+	Using recursion on the function \( h \) from the previous lemma, we check all values of \( h \) for words \( u \) such that \( \# u < \# v \).
+	If any of the values is in state \( q_H \), output \( a \), otherwise, output \( \varepsilon \).
+\end{proof}
+\begin{theorem}[the software principle]
+	The function \( g \) defined by
+	\[ g(v,u) = \begin{cases}
+		f_{M,k}(\vb w) & \text{if } v = \code(M), u = \code(\vb w) \text{ and \( \vb w \) has length \( k \)} \\
+		\uparrow & \text{otherwise}
+	\end{cases} \]
+	is computable.
+\end{theorem}
