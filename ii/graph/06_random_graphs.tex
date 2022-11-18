@@ -5,7 +5,7 @@ We have shown that \( Z(n,t) \leq 2n^{2 - \frac 1t} \), but we have found no low
 	Let \( t \geq 2 \).
 	Then \( Z(n,t) \geq \frac{1}{2} n^{2 - \frac{2}{t+1}} \).
 \end{theorem}
-\begin{proof}
+\begin{proof}[Proof excluding the \( t + 1 \) term]
 	Suppose we include each edge in the graph with probability \( p \).
 	Let \( Z \) be a random variable that counts the number of \( K_{t,t} \) in the bipartite graph \( G \) on \( (n, n) \) vertices.
 	Then
@@ -18,3 +18,77 @@ We have shown that \( Z(n,t) \leq 2n^{2 - \frac 1t} \), but we have found no low
 	So \( \prob{e(G) \leq \frac{pn^2}{2}} \leq \frac{1}{2} \).
 	So with probability greater than \( \frac 14 \), we have \( e(G) > \frac{1}{2} pn^2 = \frac{1}{2} n^{2 - \frac{2}{t}} \) and \( G \) does not contain a \( K_{t,t} \).
 \end{proof}
+\begin{proof}
+	Let \( G = (X \sqcup Y, E) \) be a random bipartite graph with \( \abs{X} = \abs{Y} = n \), such that \( xy \in E \) with probability \( p = n^{-\frac{2}{t+1}} \).
+	Let \( \widetilde G \) be the graph \( G \) with an edge removed from each \( K_{t,t} \).
+	By definition, \( \widetilde G \) has no \( K_{t,t} \).
+	Note that \( e(\widetilde G) \geq e(G) - (\text{amount of } K_{t,t} \text{ in } G) \).
+	Taking expectations, \( \expect{e(\widetilde G)} \geq \expect{e(G)} - \expect{\text{amount of } K_{t,t}} \).
+	We have \( \expect{e(G)} = pn^2 \), and the expected amount of \( K_{t,t} \) subgraphs of \( G \) is \( {\binom n t}^2 p^{t^2} \).
+	Substituting in for \( p \) and approximating,
+	\[ \expect{e(\widetilde G)} \geq n^{2-\frac{2}{t+1}} - \frac{n^{2t}}{2} p^{t^2} \]
+	Note that
+	\[ n^{2t} p^{t^2} = (n^2 p^t)^t = (n^2 n^{\frac{-2t}{t+1}})^t = (n^{\frac{2(t+1) - 2t}{t+1}})^t = n^{\frac{2t}{t+1}} = n^{2 - \frac{2}{t+1}} \]
+	Hence
+	\[ \expect{e(\widetilde G)} \geq \frac{1}{2} n^{2 - \frac{2}{t+1}} \]
+	So there must exist a graph \( \widetilde G \) with no \( K_{t,t} \) and that has at least \( \frac{1}{2} n^{2 - \frac{2}{t+1}} \) edges.
+\end{proof}
+
+\subsection{Girth}
+\begin{definition}
+	The \emph{girth} of a graph is the length of the shortest cycle.
+\end{definition}
+\begin{proposition}[Markov]
+	Let \( X \) be a nonnegative random variable.
+	Then for all \( t > 0 \),
+	\[ \prob{X \geq t} \leq \frac{\expect{X}}{t} \]
+\end{proposition}
+\begin{proposition}
+	Let \( G \) be a graph.
+	Then \( \chi(G) \geq \frac{\abs{G}}{\alpha(G)} \), where \( \alpha(G) \) is the size of the largest independent set (non-adjacent vertices) in \( G \).
+\end{proposition}
+\begin{proof}
+	Let \( c \) be a colouring of \( G \) with \( k = \chi(G) \) colours.
+	Let \( C_i \) be the set of vertices coloured \( i \).
+	Then the \( C_i \) are each independent sets.
+	We have \( \abs{G} = \abs{C_1} + \dots + \abs{C_k} \leq k\alpha(G) = \chi(G)\alpha(G) \).
+\end{proof}
+\begin{theorem}[Erd\H{o}s]
+	For all \( k, g \geq 3 \), there exists a graph \( G \) with \( \chi(G) \geq k \) and girth at least \( g \).
+\end{theorem}
+\begin{proof}
+	Let \( G \) be a random graph on \( \qty{1, \dots, n} \) where each edge \( ij \) is included with probability \( p = n^{-1 + \frac{1}{g}} \).
+	Let \( X_i \) be the random variable that counts the number of cycles in \( G \) of length \( i \).
+	Let \( X = X_3 + \dots + X_{g-1} \).
+	Now, note that \( \prob{X \geq \frac{n}{2}} \leq \frac{2}{n} \expect{X} \).
+	\begin{align*}
+		\expect{X} &= \sum_{i=3}^{g-1} \expect{X_i} \\
+		&\leq \sum_{i=3}^{g-1} \frac{n(n-1) \dots (n-i+1)}{i} p^i \\
+		&\leq \sum_{i=3}^{g-1} (np)^i \\
+		&= \sum_{i=3}^{g-1} n^{\frac{i}{g}} \\
+		&\leq c n^{-\frac{1}{g}} < \frac{1}{2}
+	\end{align*}
+	for a constant \( c \).
+	Now, let \( Y \) be the random variable counting the number of independent sets of \( s = \frac{n}{2k} \) vertices (up to rounding).
+	\begin{align*}
+		\prob{Y \geq 1} &\leq \expect{Y} \\
+		&= \binom n s (1-p)^{\binom s 2} \\
+		&\leq n^s e^{-p\binom s 2} \\
+		&= \qty(n^2 e^{-p(s-1)})^{\frac{s}{2}} \\
+		&\leq \qty(2n^2 e^{-\frac{n^{\frac 1 g}}{2k}})^{\frac{s}{2}} \\
+		&< \frac{1}{2}
+	\end{align*}
+	for \( n \) sufficiently large.
+	We have shown that \( G \) has at most \( \frac{n}{2} \) cycles of length at most \( g - 1 \) with probability at least \( \frac{1}{2} \), and \( G \) has \( \alpha(G) \leq \frac{n}{2k} \) with probability at least \( \frac{1}{2} \).
+	Hence there is a graph \( G \) with both properties.
+	Let \( \widetilde G \) be \( G \) with a vertex deleted from each cycle of length less than \( g \).
+	Then \( \widetilde G \) has girth at least \( g \).
+	Further,
+	\[ \chi(\widetilde G) \geq \frac{\abs{\widetilde G}}{\alpha(\widetilde G)} \geq \frac{\frac{n}{2}}{\alpha(G)} \geq \frac{\frac{n}{2}}{\frac{n}{2k}} = k \]
+	as required.
+\end{proof}
+
+\subsection{Binomial random graphs}
+\begin{definition}
+	The \emph{binomial random graph} on \( n \) vertices with parameter \( p \in [0,1] \) is the probability space \( G(n,p) \) on the graphs on \( n \) vertices, where each potential edge is included in the graph independently with probability \( p \).
+\end{definition}

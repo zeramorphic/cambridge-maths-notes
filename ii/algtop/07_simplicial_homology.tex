@@ -51,6 +51,16 @@ We can check that \( d_{i-1} \circ d_i = 0 \) for all \( i \) is equivalent to t
 		\end{tikzcd}
 	\end{center}
 \end{example}
+\begin{proposition}
+	For \( \widetilde C_\bullet(\Delta^n) \), \( d^2 = 0 \).
+\end{proposition}
+\begin{proof}
+	The \( e_I \) are a basis for \( \widetilde C_\bullet(\Delta^n) \), so it suffices to check that \( d^2(e_I) = 0 \) for each \( I \).
+	For some \( c_{jj'} \), we have \( d^2(e_I) = \sum_{j<j'} c_{jj'} e_{I_{\hat\jmath,\hat\jmath'}} \) where \( I_{\hat\jmath,\hat\jmath'} = I \setminus \qty{i_j, i_{j'}} \).
+	We can compute that \( c_{jj'} \) has a contribution of \( (-1)^j (-1)^{j' - 1} \) by first considering \( j \) then \( j' \), since \( i_{j'} \) is the \( (j'-1) \)th element of \( I_{\hat\jmath} \).
+	Note also that by computing the term in the sum with \( j, j' \) in the other order, we have a contribution of \( (-1)^{j'} (-1)^i \).
+	Hence \( c_{jj'} = (-1)^j (-1)^{j'-1} + (-1)^{j'} (-1)^i = 0 \).
+\end{proof}
 \begin{example}[chain complex of the simplex]
 	The chain complex of \( \Delta^n \) is defined by \( C_i(\Delta^n) = \widetilde C_i(\Delta^n) \) if \( i \geq 0 \), but \( C_{-1}(\Delta^n) = 0 \).
 	This removes the empty face \( e_\varnothing \).
@@ -71,3 +81,87 @@ We can check that \( d_{i-1} \circ d_i = 0 \) for all \( i \) is equivalent to t
 	Since \( e_I \in K \) implies \( e_{I_{\hat\jmath}} \in K \), \( d_k \colon \widetilde C_k(K) \to \widetilde C_{k-1}(K) \).
 	So \( (\widetilde C_\bullet(K), d) \) is a chain complex.
 \end{definition}
+\begin{definition}
+	Let \( (C_\bullet, d) \) be a chain complex, and let \( x \in C_k \).
+	We say that \( x \) is a \emph{cycle} or \emph{closed} if \( d x = 0 \), so \( x \in \ker d_k \).
+	We say that \( x \) is a \emph{boundary} or \emph{exact} if \( x = d y \) for some \( y \), so \( x \in \Im d_{k+1} \).
+\end{definition}
+\begin{remark}
+	The statement \( d^2 = 0 \) is equivalent to the statement \( \Im d_{k+1} \subseteq \ker d_k \) for each \( k \), so boundaries are always cycles.
+\end{remark}
+
+\subsection{Homology groups}
+\begin{definition}
+	Let \( (C_\bullet, d) \) be a chain complex.
+	Its \emph{\( k \)th homology group} is \( H_k(C) = \faktor{\ker d_k}{\Im d_{k+1}} \).
+\end{definition}
+\begin{remark}
+	Homology groups are abelian.
+\end{remark}
+\begin{example}
+	Consider \( \widetilde C_\bullet(\Delta^2) \).
+	Recall \( \widetilde C_2 = \genset{e_{012}} \) and \( d(e_{012}) = e_{12} - e_{02} + e_{01} \).
+	Hence \( \ker d_2 = 0 \) and \( \Im d_3 = 0 \), so \( H_2(\widetilde C_\bullet(\Delta^2)) = 0 \).
+
+	We have \( \widetilde C_1 = \genset{e_{12}, e_{02}, e_{01}} \), and \( d(ae_{01} + be_{12} + ce_{02}) = a(e_1 - e_0) + b(e_2 - e_1) + c(e_2 - e_0) = -(a+c)e_0 + (a-b)e_1 + (b+c)e_2 \).
+	Hence \( ae_{01} + be_{12} + ce_{02} \in \ker d \) if and only if \( a = b = -c \).
+	So \( x \in \genset{e_{12} - e_{02} + e_{01}} = \Im d_2 \), giving \( H_1(\widetilde C_\bullet(\Delta^2)) = 0 \).
+
+	We have \( \widetilde C_0 = \genset{e_0, e_1, e_2} \) and \( d(e_i) = e_\varnothing \), so \( \ker d_0 = \qty{a e_0 + b e_1 + c e_2 \mid a + b + c = 0} \).
+	Conversely, \( \Im d_1 = \vecspan\qty{e_1 - e_0, e_2 - e_0, e_2 - e_1} = \ker d_0 \).
+	So in fact \( H_0(\widetilde C_\bullet(\Delta^2)) = 0 \).
+
+	Now \( \widetilde C_{-1} = \genset{e_\varnothing} = \ker d_{-1} = \genset{e_\varnothing} = \Im d_0 \) so \( H_{-1}(\widetilde C_\bullet(\Delta^2)) = 0 \).
+	So all of the homology groups of \( \widetilde C_\bullet(\Delta^2) \) are trivial.
+	Note that
+	\[ H_i(C_\bullet(\Delta^2)) = \begin{cases}
+		H_i(\widetilde C_\bullet(\Delta^2)) & i > 0 \\
+		\faktor{\genset{e_0, e_1, e_2}}{\vecspan\qty{e_1 - e_0, e_2 - e_0, e_2 - e_1}} \simeq \mathbb Z & i = 0
+	\end{cases} \]
+\end{example}
+\begin{definition}
+	Let \( K \) be an abstract simplicial complex in \( \Delta^n \).
+	Then we define \( \widetilde H_i(K) = H_i(\widetilde C_\bullet(K)) \) to be the \( i \)th reduced homology group of \( K \).
+	Then \( C\bullet(K) = \faktor{\widetilde C_\bullet(K)}{\genset{e_\varnothing}} \) is a chain complex, and \( H_i(K) = H_i(C_\bullet(K)) \) is the \( i \)th homology group of \( K \).
+\end{definition}
+\begin{example}
+	Let \( K = \qty{e_0, e_1, \dots, e_r, e_\varnothing} \), so \( \abs{K} \) is a collection of \( r + 1 \) disjoint points.
+	In this case, \( \widetilde C_i(K) = 0 \) for \( i > 0 \).
+	\( \widetilde C_0(K) = \genset{e_0, \dots, e_r} \) and \( d(e_i) = \varnothing \).
+	\( \widetilde C_{-1}(K) = \genset{e_\varnothing} \).
+	Hence \( \ker d_0 = \genset{e_1-e_0, \dots, e_r-e_0} \) and \( \Im d_1 = 0 \), so \( H_0(\widetilde C_\bullet(K)) = \mathbb Z^r \), and \( H_{-1}(\widetilde C_\bullet(K)) = 0 \).
+	Note that \( H_0(C_\bullet(K)) = \mathbb Z^{r+1} = \genset{e_0, \dots, e_r} \).
+\end{example}
+\begin{example}
+	Recall that any Euclidean simplicial complex is realised by an abstract simplicial complex, but we have choice in the labelling of the vertices.
+	Let \( T_n \) be the boundary of a convex \( n \)-gon in \( \mathbb R^2 \).
+	Then the abstract simplicial complex \( K' = \qty{e_\varnothing, e_0, \dots, e_{n-1}, e_{01}, e_{12}, \dots, e_{(n-2)(n-1)}, e_{(n-1)0}} \) in \( \Delta^{n-1} \) realises \( T_n \).
+
+	Then \( C_1(K') = \genset{e_{01}, e_{12}, \dots, e_{(n-2)(n-1)}, e_{(n-1)0}} \) and \( C_0(K') = \genset{e_0, \dots, e_{n-1}} \).
+	We have \( d(e_{i(i+1)}) = e_{i+1} - e_i \), so \( \ker d_1 = \genset{x} \) where \( x = e_{01} + e_{12} + \dots + e_{(n-2)(n-1)} - e_{0(n-1)} \).
+	Note that \( \Im d_1 = \vecspan\qty{e_{i+1} - e_i} \).
+
+	Hence \( H_1(K') = \faktor{\ker d_1}{\Im d_2} = \faktor{\genset{x}}{0} \simeq \mathbb Z \), and \( H_0(K') = \faktor{\ker d_0}{\Im d_1} = \faktor{\genset{e_0, \dots, e_{n-1}}}{\vecspan\qty{e_1 - e_0, \dots, e_{n-1} - e_{n-2}}} \simeq \mathbb Z \).
+	Note that this result does not depend on the choice of \( n \), and \( \abs{T_n} \simeq S^1 \) also does not depend on \( n \).
+	In fact, \( H_\bullet(K) \) depends only on \( \abs{K} \).
+\end{example}
+
+\subsection{Chain maps and chain homotopies}
+\begin{definition}
+	Let \( (C_\bullet, d) \) and \( (C_\bullet', d') \) be chain complexes.
+	A \emph{chain map} \( f \colon C_\bullet \to C_\bullet' \) is
+	\begin{enumerate}
+		\item for each \( i \), a function \( f_i \colon C_i \to C_i' \);
+		\item \( f_{i-1} \circ d_i = d_i' \circ f_i \);
+	\end{enumerate}
+\end{definition}
+\begin{remark}
+	We can interpret \( f \) as \( \bigoplus_i f_i \colon C_\bullet \to C_\bullet' \), given by a block matrix
+	\[ \begin{pmatrix}
+		f_n \\
+		& f_{n-1} \\
+		& & \ddots
+	\end{pmatrix} \]
+	Then part (ii) of the definition is equivalent to the statement \( d f = f d \).
+\end{remark}
+Note that \( f \) induces a map \( f_\star \colon H_i(C) \to H_i(C') \) such that \( f_\star([x]) = [f(x)] \).
