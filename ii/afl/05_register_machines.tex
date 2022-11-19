@@ -543,3 +543,73 @@ When we encode a mathematical object \( o \) as a word \( \Sigma'^\star \), we w
 	\end{cases} \]
 	is computable.
 \end{theorem}
+\begin{proof}
+	We have a computable function \( f \) that maps \( w, u, v \) to \( \code(C(M,\vb w, \# v)) \) if \( \code(M) = w \) and \( \code(\vb w) = u \) by the previous lemma.
+	We start by checking whether \( w \) is a code for a register machine and \( u \) is a code for a \( k \)-tuple of words; if not, never halt.
+	Write \( f' \) for the computable function mapping \( w, u, v \) to \( a \) if the state of \( f(w,u,v) \) is \( q_H \), and \( \varepsilon \) otherwise.
+	We minimise \( f' \) to obtain the computable function \( h \), such that \( h(w,u) \) is the least \( v \) such that \( f(w,u,v) \) is in state \( q_H \) if it exists.
+	If \( h(w,u) \) does not halt, then there is no step at which the computation halts, as expected, since \( g(w,u) \) should not halt in this case.
+	If \( h(w,u) \) halts, consider the configuration \( C(M,\vb w, \#h(w,u)) \) and find the code for its 0th register, and write this into the actual 0th register.
+\end{proof}
+\begin{remark}
+	A register machine \( U \) that computes \( g \) is called a \emph{universal register machine}.
+	\( U \) has a finite amount of used registers and states, but can mimic the behaviour of any register machine using an arbitrarily large amount of registers and states.
+
+	This allows us to streamline notation; for a word \( v \in \mathbb W \), we can write \( f_{v,k}(\vb w) = f_{U,2}(v,\code(w)) = f_{M,k}(w) \) if \( \code(M) = v \).
+	Similarly, we can write \( W_v = \dom f_{v,1} \), so \( \qty{W_v \mid v \in \mathbb W} \) is the set of computably enumerable sets.
+\end{remark}
+\begin{theorem}[\( s \)--\( m \)--\( n \) theorem; parameter theorem]
+	Let \( g \colon \mathbb W^{k+1} \rightharpoonup \mathbb W \) be computable.
+	Then there exists a total computable function \( h \colon \mathbb W \to \mathbb W \) such that \( f_{h(v),k}(\vb w) = g(\vb w, v) \).
+\end{theorem}
+This process is called \emph{currying}, after Haskell Curry.
+\begin{remark}
+	\( g_v(\vb w) = g(\vb w, v) \) is a function in \( k \) variables.
+	This is computable, so there is a mathematical function \( h \) such that \( g_v = f_{h(x),k} \), but this \( h \) is not \emph{a priori} computable.
+\end{remark}
+\begin{proof}
+	First, the operation \( \vb w \mapsto (\vb w, v) \) is performed by a register machine \( M_v \); this is the register machine that writes \( v \) into register \( k \).
+	Therefore, we have a computable function \( v \mapsto \code(M_v) \).
+	Now, since \( g \) is computable, there is a register machine \( M \) such that \( f_{M,k+1} = g \).
+	Therefore, \( g_v \) is computed by the sequence of register machines \( M_v \) then \( M \).
+	We can computably concatenate two register machines, so we can compute a code for \( M \circ M_v \).
+	Hence the function \( h(v) = \code(M \circ M_v) \) is total and computable.
+
+	We must show that \( f_{h(v),k}(\vb w) = g(\vb w, v) \).
+	Indeed, \( f_{h(v),k}(\vb w) = f_{\code(M \circ M_v), k}(\vb w) = f_{M \circ M_v, k}(\vb w) = g_v(\vb w) = g(\vb w, v) \) as required.
+\end{proof}
+
+\subsection{Computably enumerable sets}
+Consider the sets
+\[ \mathbb K_0 = \qty{(w, v) \mid f_{w,1}(v) \downarrow};\quad \mathbb K = \qty{w \mid f_{w,1}(w) \downarrow} \]
+\begin{theorem}
+	\( \mathbb K_0 \) and \( \mathbb K \) are computably enumerable.
+\end{theorem}
+\begin{proof}
+	It suffices to show that \( \mathbb K_0, \mathbb K \) are the domains of computable functions.
+	By the software principle, \( f_{U,2}(w,v) = f_{w,1}(v) \) and \( \dom f_{U,2} = \mathbb K_0 \) as required.
+	Observe that the diagonal function \( \Delta(w) = (w, w) \) is computable, so \( f_{U,2} \circ \Delta \) is computable, and \( \dom(f_{U_2} \circ \Delta) = \mathbb K \).
+\end{proof}
+\begin{theorem}
+	Neither \( \mathbb K_0 \) nor \( \mathbb K \) are computable.
+\end{theorem}
+\begin{proof}
+	We prove the result for \( \mathbb K_0 \).
+	Suppose that \( \mathbb K_0 \) is computable, so the characteristic function \( \chi_{\mathbb K_0} \) is computable.
+	Now, define
+	\[ f(w) = \begin{cases}
+		\uparrow & \text{if } \chi_{\mathbb K_0}(w,w) = a \\
+		\varepsilon & \text{if } \chi_{\mathbb K_0}(w,w) = \varepsilon
+	\end{cases} \]
+	This is a computable function, so there is a machine \( d \in \mathbb W \) such that \( f_{d,1} = f \).
+	Now,
+	\[ f(d) \downarrow \iff f_{d,1}(d) \downarrow \iff (d,d) \in \mathbb K_0 \iff \chi_{\mathbb K_0}(d,d) = a \iff f(d) \uparrow \]
+	The proof is almost exactly the same for \( \mathbb K \).
+\end{proof}
+\begin{definition}
+	\( X \subseteq \mathbb W^k \) is called \( \Sigma_1 \) if there is a computable function \( Y \subseteq \mathbb W^{k+1} \) such that \( \vb w \in X \iff \exists y, (\vb w, y) \in Y \).
+	We say \( X = p(Y) \) is the \emph{projection} of \( Y \).
+\end{definition}
+\begin{theorem}
+	The computably enumerable sets are exactly the \( \Sigma_1 \) sets.
+\end{theorem}

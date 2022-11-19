@@ -1,0 +1,108 @@
+\subsection{?}
+\begin{definition}
+	A field \( K \) is \emph{algebraically closed} if every non-constant polynomial over \( K \) splits into linear factors over \( K \).
+\end{definition}
+\begin{remark}
+	An equivalent condition is that the only irreducible polynomials are linear.
+\end{remark}
+\begin{example}
+	The complex numbers \( \mathbb C \) form an algebraically closed field due to the fundamental theorem of algebra.
+\end{example}
+\begin{proposition}
+	The following are equivalent.
+	\begin{enumerate}
+		\item \( K \) is algebraically closed.
+		\item If \( L / K \) is a field extension and \( x \in L \) is algebraic over \( K \), then \( x \in K \).
+		\item If \( L / K \) is an algebraic extension, \( L = K \).
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	\emph{(i) implies (ii).}
+	Let \( L / K \) be a field extension and \( x \in L \) algebraic over \( K \).
+	Let \( f \) be the minimal polynomial for \( x \) over \( K \).
+	Then \( f \) is linear, so \( x \in K \).
+
+	\emph{(ii) implies (iii).}
+	An extension \( L / K \) is algebraic when all \( x \in L \) are algebraic over \( K \).
+	So \( x \in K \) by (ii).
+
+	\emph{(iii) implies (i).}
+	Let \( f \) be an irreducible polynomial, and \( L = \faktor{K[T]}{(f)} \), so \( L / K \) is a finite algebraic extension.
+	Then \( L = K \), so \( f \) is linear.
+\end{proof}
+\begin{proposition}
+	Let \( L / K \) be an algebraic extension such that every irreducible polynomial \( f \in K[T] \) splits into linear factors in \( L \).
+	Then \( L \) is algebraically closed.
+\end{proposition}
+Such a field is called an \emph{algebraic closure} of \( K \).
+\begin{proof}
+	Let \( M / L \) be an extension, and let \( x \in M \) be algebraic over \( L \).
+	Then \( x \) is algebraic over \( K \).
+	By hypothesis, its minimal polynomial \( m_{x,K} \in K[T] \) splits into linear factors over \( L \).
+	So \( x \in L \).
+	By criterion (ii) in the previous proposition, \( L \) is algebraically closed.
+\end{proof}
+\begin{remark}
+	An algebraic closure of \( K \) is the same as an algebraic extension of \( K \) which is algebraically closed.
+\end{remark}
+\begin{corollary}
+	The field \( \overline{\mathbb Q} \) of algebraic complex numbers is algebraically closed.
+	In particular, \( \overline{\mathbb Q} \) is an algebraic closure of \( \mathbb Q \).
+\end{corollary}
+\begin{proof}
+	We apply the previous result to the extension \( \overline{\mathbb Q} / \mathbb Q \).
+	The extension is algebraic, so it suffices to check that every irreducible polynomial \( f \in \mathbb Q[T] \) splits into linear factors in \( \overline{\mathbb Q} \).
+	By the fundamental theorem of algebra, \( f \) splits in \( \mathbb C \).
+	By definition of \( \overline{\mathbb Q} \), we have \( f = \prod (T - x_i) \) where each \( x_i \in \overline{\mathbb Q} \) as required.
+\end{proof}
+
+\subsection{Constructing algebraic closures}
+\begin{proposition}
+	Let \( K \) be a countable field.
+	Then \( K \) has an algebraic closure.
+\end{proposition}
+\begin{proof}
+	If \( K \) is a countable field, then \( K[T] \) is a countable ring.
+	We will enumerate the monic irreducible polynomials \( f_i \in K[T] \) for \( i \geq 1 \).
+	Let \( L_0 = K \), and inductively define \( L_i \) to be a splitting field for \( f_i \) over \( L_{i-1} \).
+	
+	One can perform this in such a way that no choices need to be made in the construction of the splitting fields.
+	We may also assume that \( L_{i-1} \subseteq L_i \) for each \( i \geq 1 \), because if \( \sigma \colon L_{i-1} \to L_i \) is the extension, we can replace \( L_i \) with \( L_{i-1} \sqcup (L_i \setminus \sigma(L_{i-1})) \).
+	Let \( L = \bigcup L_i \) be their union.
+	By construction, every \( f_i \) splits in \( L \), so \( L \) is an algebraic closure of \( K \).
+\end{proof}
+\begin{example}
+	\( \mathbb F_p \) has an algebraic closure.
+\end{example}
+For a general field, we need to apply some set-theoretic machinery.
+\begin{definition}
+	A binary relation \( \preceq \) on a set \( S \) is a \emph{partial order} if it is reflexive, transitive, and antisymmetric.
+	Explicitly, for all \( x, y, z \in S \), we have
+	\[ x \preceq x;\quad x \preceq y, y \preceq z \implies x \preceq z;\quad x \preceq y, y \preceq x \implies z = y \]
+	We say \( (S, \preceq) \) is a \emph{partially ordered set}, or a \emph{poset}.
+	It is \emph{totally ordered} if the order is total; \( x \preceq y \) or \( y \preceq x \) for all \( x, y \in S \).
+\end{definition}
+\begin{definition}
+	Let \( S \) be a partially ordered set.
+	A \emph{chain} in \( S \) is a totally ordered subset.
+	An \emph{upper bound} for a subset \( T \) of \( S \) is an element \( z \in S \) such that for all \( x \in T \), we have \( x \preceq z \).
+	A \emph{maximal element} of \( S \) is an element \( y \in S \) such that for all \( x \in S \), \( y \preceq x \) implies \( y = x \).
+\end{definition}
+If \( S \) is totally ordered, \( S \) has at most one maximal element.
+\begin{lemma}[Zorn]
+	Let \( S \) be a nonempty partially ordered set.
+	Suppose that every chain in \( S \) has an upper bound in \( S \).
+	Then \( S \) has a maximal element.
+\end{lemma}
+This can be proven using the axiom of choice.
+\begin{example}
+	Let \( V \) be a vector space over \( K \).
+	Then \( V \) has a basis; a set \( B \subseteq V \) such that any finite subset of \( B \) is linearly independent, and for all \( v \in V \), there exists \( b_1, \dots, b_k \in B \) and \( a_1, \dots, a_k \in K \) such that \( v = \sum_{i=1}^k a_i b_i \).
+	If \( V = \qty{0} \), the result is trivial by taking \( V = \varnothing \).
+	Otherwise, let \( S \) be the set of all subsets \( X \subseteq V \) where finite subsets of \( X \) are linearly independent.
+	\( S \) is ordered by inclusion; this is a partial order.
+	\( S \) is nonempty since \( V \neq \qty{0} \).
+	Each chain \( T \subseteq S \) has an upper bound by taking its union \( Y = \bigcup_{X \in T} X \).
+	This upper bound indeed lies in \( S \), since we only need to check finite subsets of \( Y \) for linear independence.
+	Then by Zorn's lemma, \( S \) has a maximal element \( B \), which can be seen to be a basis.
+\end{example}
