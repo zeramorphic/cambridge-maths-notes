@@ -27,7 +27,7 @@ So
 \begin{definition}
 	Let \( f \in L^1(\mathbb R^d) \cap L^2(\mathbb R^d) \).
 	Then the \emph{Plancherel identity} holds for \( f \) if
-	\[ \norm{\hat f}_2 = (2\pi)^{\frac d2} \norm{f}_2 \]
+	\[ \norm{\hat f}_2 = (2\pi)^{-\frac d2} \norm{f}_2 \]
 \end{definition}
 We will show that the Fourier inversion formula holds whenever \( \hat f \in L^1(\mathbb R^d) \), and the Plancherel identity holds for all \( f \in L^1(\mathbb R^d) \cap L^2(\mathbb R^d) \).
 \begin{remark}
@@ -151,4 +151,78 @@ Note that \( \widehat{f \ast g_t}(u) = \hat f(u) e^{-\frac{\norm{u}^2 t}{2}} \),
 		&= \int_{\mathbb R^d} \underbrace{e(\sqrt{t} z)}_{\to e(0) = 0 \text{ as } t \to 0} g_1(z) \dd{z} \\
 		&\to 0
 	\end{align*}
+\end{proof}
+% TODO: Convert random instances of g into g_t
+\begin{theorem}[Fourier inversion]
+	Let \( f \in L^1(\mathbb R^d) \) be such that \( \hat f \in L^1(\mathbb R^d) \).
+	Then for almost all \( x \in \mathbb R^d \),
+	\[ f(x) = \frac{1}{(2\pi)^d} \int_{\mathbb R^d} e^{-i\inner{u,x}} \hat f(u) \dd{u} \]
+\end{theorem}
+\begin{remark}
+	This proves that the Fourier transform is injective; \( \hat f = \hat g \) implies \( \widehat{f - g} = 0 \) so by Fourier inversion, \( f = g \) almost everywhere.
+	The identity holds everywhere on \( \mathbb R^d \) for the (unique) continuous representative \( f \) in its equivalence class.
+\end{remark}
+\begin{proof}
+	The Fourier inversion theorem holds for the following Gaussian convolution for all \( t \).
+	\[ f \ast g_t(x) = \frac{1}{(2\pi)^d} \int_{\mathbb R^d} e^{-i\inner{u,x}} \hat f(u) e^{\frac{-\abs{u}^2 t}{2}} \dd{u} = f_t(x) \]
+	Now, since Gaussian convolutions are dense, \( f \ast g_t \to f \) in \( L^1 \), so \( f \ast g_t \to f \) in measure by Markov's inequality.
+	Hence, along a subsequence, \( f \ast g_{t_k} \to f \) almost everywhere.
+	On the other hand, by the dominated convergence theorem with dominating function \( \abs{\hat f} \), the right hand side converges to \( \frac{1}{(2\pi)^d} \int_{\mathbb R^d} e^{-i\inner{u,x}} \hat f(u) \dd{u} \).
+	So this is equal to \( \lim_{t_k \to 0} f_{t_k} \) almost everywhere by uniqueness of limits.
+\end{proof}
+\begin{theorem}[Plancherel]
+	Let \( f \in L^1(\mathbb R^d) \cap L^2(\mathbb R^d) \).
+	Then \( \norm{f}_2 = (2\pi)^{-\frac{d}{2}} \norm{\hat f}_2 \).
+\end{theorem}
+\begin{remark}
+	By the Pythagorean identity, \( \inner{f, g} = (2\pi)^{-\frac{d}{2}} \inner{\hat f, \hat g} \).
+\end{remark}
+\begin{proof}
+	Initially, we assume \( \hat f \in L^1 \).
+	In this case, \( f, \hat f \in L^\infty \), and \( (x,u) \mapsto f(x)\hat f(u) \) is integrable for the product Lebesgue measure \( \dd{x} \otimes \dd{u} \) on \( \mathbb R^d \times \mathbb R^d \), so Fubini's theorem for bounded functions applies.
+	\begin{align*}
+		(2\pi)^d \norm{f}_2^2 &= (2\pi)^d \int_{\mathbb R^d} f(x) \overline{f(x)} \dd{x} \\
+		&= \int_{\mathbb R^d} \qty(\int_{\mathbb R^d} e^{-i\inner{u,x}} \hat f(u) \dd{u}) \overline{f(x)} \dd{x} \\
+		&= \int_{\mathbb R^d} \hat f(u) \overline{\int_{\mathbb R^d} e^{i\inner{u,x}} f(x) \dd{x}} \dd{u} \\
+		&= \int_{\mathbb R^d} \hat f(u) \overline{\hat f(u)} \dd{u} \\
+		&= \norm{\hat f}_2^2
+	\end{align*}
+	To extend this result to general \( f \), we take the Gaussian convolutions \( f \ast g_t = f_t \) such that \( f_t \to f \) in \( L^2 \).
+	By the continuity of the norm, \( \norm{f_t}_2 \to \norm{f}_2 \).
+	Since \( \abs{\hat f(u) e^{-\frac{\abs{u}^2 t}{2}}}^2 \) increases to \( \abs{\hat f(u)}^2 \), we have by monotone convergence that \( \norm{\hat f_t}_2^2 \uparrow \norm{\hat f}_2^2 \).
+	Therefore, since the Plancherel identity holds for the \( f_t \),
+	\[ \norm{f}_2^2 = \lim_{t \to 0} \norm{f_t}_2^2 = \lim_{t \to 0} (2\pi)^{-\frac{d}{2}} \norm{\hat f_t}_2^2 = (2\pi)^{-\frac{d}{2}} \norm{\hat f}_2^2 \]
+\end{proof}
+\begin{remark}
+	Since \( L_1 \cap L_2 \) is dense in \( L^2 \), we can extend the linear operator \( F_0(f) = (2\pi)^{-\frac{d}[2} \hat f \) to \( L^2 \) by continuity to a linear isometry \( F \colon L^2 \to L^2 \) known as the \emph{Fourier--Plancherel transform}.
+	One can show that \( F \) is surjective with inverse \( F^{-1} \colon L^2 \to L^2 \).
+\end{remark}
+\begin{example}
+	Consider the Dirac measure \( \delta_0 \) on \( \mathbb R \), so \( \hat \delta_0(u) = \int_{\mathbb R} e^{iux} \dd{\delta_0(x)} = 1 \).
+	But the inverse Fourier transform would be \( \frac{1}{2\pi} \int_{\mathbb R} e^{iux} \dd{u} \) which is not a Lebesgue integrable function.
+\end{example}
+\begin{theorem}
+	Let \( X \) be a random vector in \( \mathbb R^d \) with law \( \mu_X \).
+	Then the characteristic function \( \varphi_X = \hat \mu_X \) uniquely determines \( \mu_X \).
+	In addition, if \( \varphi_X \in L^1 \), then \( \mu_X \) has a probability density function \( f_X \) which can be computed almost everywhere by \( \frac{1}{(2\pi)^d} \int_{\mathbb R^d} e^{-i\inner{u,x}} \varphi_X(u) \dd{u} \).
+\end{theorem}
+\begin{proof}
+	Let \( Z = (Z_1, \dots, Z_d) \) be a vector of independent and identically distributed random variables, independent of \( X \), with \( Z_j \sim N(0,1) \).
+	Then \( \sqrt{t} Z \) has probability density function \( g_t \).
+	Then \( X + \sqrt{t} Z \) has probability density function \( f_t = \mu_X \ast g_t \).
+	This is a Gaussian convolution since \( \mu_X \ast g_t = \mu_X \ast g_{\frac t 2} \ast g_{\frac t 2} \).
+	Hence,
+	\[ f_t(x) = \frac{1}{(2\pi)^d} \int_{\mathbb R^d} e^{i\inner{u,x}} \varphi_X(u) e^{-\frac{\abs{u}^2 t}{2}} \dd{u} \]
+	which is uniquely determined by \( \varphi_X \).
+	We show on an example sheet that two Borel probability measures \( \mu, \nu \) on \( \mathbb R^d \) coincide if and only if \( \mu(g) = \nu(g) \) for all \( g \colon \mathbb R^d \to \mathbb R \) that are bounded, continuous, and have compact support.
+	Now,
+	\[ \int_{\mathbb R^d} g(x) f_t(x) \dd{x} = \expect{\underbrace{g(X + \sqrt{t} Z)}_{\to X \text{ a.s.}}} \]
+	Since \( \abs{g(X + \sqrt{t}Z)} \leq \norm{g}_\infty < \infty \), by the bounded convergence theorem, this converges to \( \expect{g(X)} = \int_{\mathbb R^d} g(x) \dd{\mu_X(x)} \).
+	So by uniqueness of limits, \( \varphi_X \) determines \( \mu_X \).
+
+	If \( \varphi_X \in L^1 \), by dominated convergence, \( f_t(x) \) converges everywhere to some function \( f_X \).
+	In particular, since \( \mu_X \ast g_t \geq 0 \), the limit \( f_X \) is also nonnegative on \( \mathbb R^d \).
+	Then, for any bounded continuous function on compact support \( g \in C^b_c(\mathbb R^d) \),
+	\[ \int_{\mathbb R^d} g(x) f_X(x) \dd{x} = \int_{\mathbb R^d} g(x) \lim_{t \to 0} \underbrace{f_t(x)}_{\norm{\varphi_X}_1} \dd{x} = \lim_{t \to 0} \int_{\mathbb R^d} g(x) f_t(x) \dd{x} = \int_{\mathbb R^d} g(x) \dd{\mu_X(x)} \]
+	by the dominated convergence theorem, since \( g \) has compact support.
 \end{proof}

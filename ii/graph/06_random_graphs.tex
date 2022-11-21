@@ -92,3 +92,71 @@ We have shown that \( Z(n,t) \leq 2n^{2 - \frac 1t} \), but we have found no low
 \begin{definition}
 	The \emph{binomial random graph} on \( n \) vertices with parameter \( p \in [0,1] \) is the probability space \( G(n,p) \) on the graphs on \( n \) vertices, where each potential edge is included in the graph independently with probability \( p \).
 \end{definition}
+Let \( (a_n), (b_n) \) be sequences of nonnegative numbers, and \( b_n \neq 0 \) for sufficiently large \( n \).
+Then we write \( a_n \ll b_n \) if \( \lim_{n \to \infty} \frac{a_n}{b_n} = 0 \).
+Let \( X \) be the random variable that counts the number of triangles \( K_3 \) in some random graph \( G \sim G(n,p) \).
+Then \( \expect{X} = \binom n 3 p^3 \).
+
+Note that if \( p \ll \frac{1}{n} \), so \( pn \to 0 \), we have \( \expect{X} \leq n^3 p^3 \to 0 \).
+By Markov's inequality, \( \prob{K_3 \subset G} = \prob{X \geq 1} \leq \expect{X} \to 0 \).
+
+If \( p \gg \frac{1}{n} \), so \( pn \to \infty \), then we have \( \expect{X} \geq \frac{(n - 3)^3}{6} p^3 \to \infty \).
+So asymptotically we have infinitely many triangles.
+We can also show that \( \prob{X \geq 1} \to 1 \), but this does not follow immediately from the previous result.
+\begin{proposition}[Chebyshev]
+	Let \( X \) be a random variable, and let \( t > 0 \).
+	Then
+	\[ \prob{\abs{X - \expect{X}} \geq t} \leq \frac{\Var X}{t^2} \]
+\end{proposition}
+\begin{proposition}[second moment method]
+	Let \( X \) be a random variable taking values in \( \mathbb N \).
+	Then
+	\[ \prob{X = 0} \leq \frac{\Var X}{(\expect{X})^2} \]
+\end{proposition}
+\begin{proof}
+	\[ \prob{X = 0} \leq \prob{\abs{X - \expect{X}} \geq \expect{X}} \leq \frac{\Var X}{(\expect{X})^2} \]
+\end{proof}
+\begin{theorem}
+	Let \( G \sim G(n,p) \) be a binomial random graph.
+	Then
+	\[ \lim_{n \to \infty} \prob{K_3 \subset G} = \begin{cases}
+		0 & p \ll \frac{1}{n} \\
+		1 & p \gg \frac{1}{n}
+	\end{cases} \]
+\end{theorem}
+\begin{proof}
+	Let \( X \) be the random variable counting the triangles in \( G \).
+	If \( p \ll \frac{1}{n} \), then \( \expect{X} \to 0 \) so \( \prob{X \geq 1} \to 0 \).
+	Now suppose \( p \gg \frac{1}{n} \).
+	Let \( p \gg \frac{1}{n} \).
+	Now, \( \prob{X = 0} \leq \frac{\Var X}{(\expect{X})^2} \).
+	So it suffices to show that \( \frac{\Var X}{(\expect{X})^2} \to 0 \).
+	We have
+	\begin{align*}
+		X &= \sum_{K \in \qty{0, \dots, n}^{(3)}} \mathbbm 1(K \text{ is a triangle in } G) \\
+		X^2 &= \sum_{K \in \qty{0, \dots, n}^{(3)}} \sum_{L \in \qty{0, \dots, n}^{(3)}} \mathbbm 1(K, L \text{ are triangles in } G) \\
+		\expect{X^2} &= \sum_{K \in \qty{0, \dots, n}^{(3)}} \sum_{L \in \qty{0, \dots, n}^{(3)}} \prob{K, L \text{ are triangles in } G}
+	\end{align*}
+	and
+	\[ (\expect{X})^2 = \sum_{K \in \qty{0, \dots, n}^{(3)}} \sum_{L \in \qty{0, \dots, n}^{(3)}} \prob{K \text{ is a triangle in } G} \prob{L \text{ is a triangle in } G} \]
+	When computing \( \expect{X^2} - (\expect{X})^2 \), the only terms that do not cancel are those terms which share edges.
+	\begin{align*}
+		\expect{X^2} - (\expect{X})^2 &\leq \sum_{K \in \qty{0, \dots, n}^{(3)}} \sum_{L \text{ that shares a single edge with } K} \prob{K, L \text{ are triangles in } G} + \sum_{K \in \qty{0, \dots, n}^{(3)}} \prob{K \text{ is a triangle in } G} \\
+		&\leq \sum_{K \in \qty{0, \dots, n}^{(3)}} \sum_{L \text{ that shares a single edge with } K} \prob{K, L \text{ are triangles in } G} + \expect{X} \\
+		&\leq \underbrace{n^4 p^5}_{\mathclap{four vertices, five edges}} + \expect{X}
+	\end{align*}
+	Hence,
+	\[ \frac{\Var X}{(\expect{X})^2} \leq \frac{n^4 p^5 + \expect{X}}{(\expect{X})^2} \leq X \frac{n^4 p^5}{(p^3 n^3)^2} + \frac{1}{\expect{X}} \leq \frac{1}{pn^2} + \frac{1}{\expect{X}} \to 0 \]
+\end{proof}
+\begin{remark}
+	We see a `phase transition' from in \( \prob{K_3 \subset G} \) as \( p \) moves from below \( \frac{1}{n} \) to above \( \frac{1}{n} \).
+	Suppose \( p = \frac{\lambda}{n} \) for some fixed \( \lambda > 0 \).
+	Here, \( \lim_{n \to \infty} \prob{K_3 \subset G} = 1 - e^{-\frac{\lambda^3}{6}} \), but this result will not be proven.
+\end{remark}
+\begin{remark}
+	We have seen that if the expected number of triangles increases to infinity, then the probability that \( G \sim G(n,p) \) contains a triangle converges to 1.
+	However, this is not true in general, replacing `triangle' with another graph.
+	Consider the graph \( H \) defined by a triangle with 1000 extra disjoint vertices.
+	Here, the expected amount of copies of \( H \) is \( \binom{n}{1003} p^3 \approx \frac{n^{1003}}{1003!} p^3 \), which becomes large when \( p = n^{-\frac{1003}{3}} < \frac{1}{n} \).
+	If \( K \) is the `densest' subgraph of \( H \), then if the expected amount of copies of \( K \) tends to infinity, the probability that \( G \) contains a copy of \( H \) tends to 1.
+\end{remark}
