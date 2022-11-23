@@ -226,3 +226,90 @@ Note that \( \widehat{f \ast g_t}(u) = \hat f(u) e^{-\frac{\norm{u}^2 t}{2}} \),
 	\[ \int_{\mathbb R^d} g(x) f_X(x) \dd{x} = \int_{\mathbb R^d} g(x) \lim_{t \to 0} \underbrace{f_t(x)}_{\norm{\varphi_X}_1} \dd{x} = \lim_{t \to 0} \int_{\mathbb R^d} g(x) f_t(x) \dd{x} = \int_{\mathbb R^d} g(x) \dd{\mu_X(x)} \]
 	by the dominated convergence theorem, since \( g \) has compact support.
 \end{proof}
+\begin{definition}
+	A sequence \( (\mu_n)_{n \in \mathbb N} \) of Borel probability measures on \( \mathbb R^d \) \emph{converges weakly} to a Borel probability measure \( \mu \) if \( \mu_n(g) \to \mu(g) \) for all \( g \colon \mathbb R^d \to \mathbb R \) bounded and continuous.
+	If \( (X_n)_{n \in \mathbb N}, X \) are random vectors with laws \( (\mu_{X_n}), \mu_X \) such that \( \mu_{X_n} \) converges weakly to \( \mu_X \), we say \( (X_n) \) converges weakly to \( X \).
+\end{definition}
+\begin{remark}
+	If \( d = 1 \), weak convergence is equivalent to convergence in distribution; this is proven on an example sheet.
+	One can also show that convergence of \( \mu_n(g) \) to \( \mu(g) \) for all \( g \in C_c^\infty(\mathbb R^d) \) suffices to show weak convergence, where \( C_c^\infty(\mathbb R^d) \) is the space of smooth functions of compact support.
+	This is equivalent to the notion of weak-\( {}^\star \) convergence on the function space \( C_b(\mathbb R^d) \).
+\end{remark}
+\begin{theorem}[L\'evy's continuity theorem]
+	Let \( X_n, X \) be random vectors in \( \mathbb R^d \), such that \( \varphi_{X_n}(u) \to \varphi_X(u) \) for all \( u \), as \( n \to \infty \).
+	Then \( \mu_{X_n} \to \mu_X \) weakly.
+\end{theorem}
+\begin{remark}
+	The converse holds by definition of weak convergence, testing against the complex exponentials in the Fourier transform.
+\end{remark}
+\begin{proof}
+	Let \( Z = (Z_1, \dots, Z_d) \) be a vector of standard normal random variables, independent from each other, \( X_n \), and \( X \).
+	Let \( g \in C_c^\infty(\mathbb R^d) \).
+	Then \( g \in L^1(\mathbb R^d) \), and is Lipschitz by the mean value theorem, as its first derivative is bounded.
+	Let \( \abs{g(x) - g(y)} \leq \norm{g}_{\mathrm{Lip}} \abs{x - y} \).
+	Let \( \varepsilon > 0 \).
+	Let \( t > 0 \) be sufficiently small such that \( \sqrt t \norm{g}_{\mathrm{Lip}} \expect{\abs{Z}} < \frac{\varepsilon}{3} \).
+	Then,
+	\begin{align*}
+		\abs{\mu_{X_n}(g) - \mu_X(g)} &= \abs{\expect{g(X_n)} - \expect{g(X)}} \\
+		&\leq \expect{\abs{g(X_n) - g(X_n + \sqrt t Z)}} + \expect{\abs{g(X) - g(X + \sqrt t Z)}} + \abs{\expect{g(X_n + \sqrt t Z) - g(X + \sqrt t Z)}} \\
+		&\leq 2\norm{g}_{\mathrm{Lip}}\sqrt t \expect{\abs{Z}} + \abs{\expect{g(X_n + \sqrt t Z) - g(X + \sqrt t Z)}} \\
+		&\leq \frac{2\varepsilon}{3} + \abs{\expect{g(X_n + \sqrt t Z) - g(X + \sqrt t Z)}}
+	\end{align*}
+	We show that the remaining term can be made less than \( \frac{\varepsilon}{3} \) as \( n \to \infty \).
+	Let \( f_{t,n}(x) = g_t \ast \mu_{X_n} \).
+	Then, by Fourier inversion for Gaussian convolutions,
+	\begin{align*}
+		\expect{g(X_n + \sqrt t Z)} &= \int_{\mathbb R^d} g(x) f_{t,n}(x) \dd{x} \\
+		&= \frac{1}{(2\pi)^d} \int_{\mathbb R^d} g(x) \int_{\mathbb R^d} e^{-i\inner{u,x}} \varphi_{X_n}(u) e^{-\frac{\abs{u}^2 t}{2}} \dd{u} \dd{x}
+	\end{align*}
+	Since characteristic functions are bounded by 1, we can apply the dominated convergence theorem with dominating function \( \abs{g(x)} e^{-\frac{\abs{u}^2 t}{2}} \) to find
+	\begin{align*}
+		\expect{g(X_n + \sqrt t Z)} &\to \frac{1}{(2\pi)^d} \int_{\mathbb R^d} g(x) \int_{\mathbb R^d} e^{-i\inner{u,x}} \varphi_X(u) e^{-\frac{\abs{u}^2 t}{2}} \dd{u} \dd{x} \\
+		&= \int_{\mathbb R^d} g(x) f_t(x) \dd{x} \\
+		&= \expect{g(X + \sqrt t Z)}
+	\end{align*}
+	where \( f_t = g_t \ast \mu_X \).
+	So as \( n \to \infty \), the difference between these two terms can be made less than \( \frac{\varepsilon}{3} \) as required.
+\end{proof}
+\begin{theorem}[central limit theorem]
+	Let \( X_1, \dots, X_n \) be independent and identically distributed random variables with \( \expect{X_i} = 0 \) and \( \Var X_i = 1 \).
+	Let \( S_n = \sum_{i=1}^n X_n \).
+	Then
+	\[ \frac{1}{\sqrt{n}} S_n \xrightarrow{\text{weakly}} Z \sim N(0,1) \]
+	In particular,
+	\[ \prob{\frac{1}{\sqrt{n}} S_n \leq x} \to \prob{Z \leq x} \]
+\end{theorem}
+\begin{proof}
+	Let \( X = X_1 \).
+	The characteristic function \( \varphi(u) = \varphi_X(u) = \expect{e^{iuX}} \) satisfies \( \varphi(0) = 1 \), \( \varphi'(u) = i \expect{X e^{iuX}} \), \( \varphi''(u) = i^2 \expect{X^2 e^{iuX}} \).
+	We can find \( \varphi'(0) = i\expect{X} = 0 \) and \( \varphi''(0) = -\expect{X^2} = -\Var X = -1 \).
+	By Taylor's theorem, \( \varphi(v) = 1 - \frac{v^2}{2} + o(v^2) \) as \( v \to 0 \).
+	Now, denoting \( \varphi_n(u) = \varphi_{\frac{1}{\sqrt n} S_n}(u) \), we can write
+	\begin{align*}
+		\varphi_n(u) &= \expect{e^{i\frac{u}{\sqrt n} (X_1 + \dots + X_n)}} \\
+		&= \prod_{j=1}^n \expect{e^{i\frac{u}{\sqrt n} X_j}} \\
+		&= \qty[\varphi\qty(\frac{u}{\sqrt n})]^n \\
+		&= \qty[1 - \frac{u^2}{2n} + o(\frac{1}{n})]^n
+	\end{align*}
+	The complex logarithm satisfies \( \log(1 + z) = z + o(z) \), so by taking logarithms, we find
+	\[ \log \varphi_n(u) = n \log\qty(1 - \frac{u^2}{2n} + o(\frac{1}{n})) = -\frac{u^2}{2} \]
+	Hence, \( \varphi_n(u) \to e^{-\frac{\abs{u}^2}{2}} = \varphi_Z(u) \).
+	So by L\'evy's continuity theorem, the result follows.
+\end{proof}
+\begin{remark}
+	This theorem extends to \( \mathbb R^d \) by using the next proposition, using the fact that \( X_n \to X \) weakly in \( \mathbb R^d \) if and only if \( \inner{X_n, v} \to \inner{X, v} \) weakly in \( \mathbb R \) for all \( v \in \mathbb R^d \).
+\end{remark}
+\begin{definition}
+	A random variable \( X \) in \( \mathbb R^d \) is called a \emph{Gaussian vector} if \( \inner{X_n, v} \) are Gaussian for each \( v \in \mathbb R^d \).
+\end{definition}
+\begin{proposition}
+	Let \( X \) be a Gaussian vector in \( \mathbb R^d \).
+	Then \( Z = AX + b \) is a Gaussian vector in \( \mathbb R^m \) where \( A \) is an \( m \times d \) matrix and \( b \in \mathbb R^m \).
+	Also, \( X \in L^2(\mathbb R^d) \), and \( \mu = \expect{X} \) and \( V = \Cov(X_i, X_j) \) exist and determine \( \mu_X \).
+	The characteristic function is
+	\[ \varphi_X(u) = e^{i\inner{\mu,u} - \frac{\inner{u,Vu}}{2}} \]
+	If \( V \) is invertible, then \( \mu_X \) has a probability density function
+	\[ f_X(x) = (2\pi)^{-\frac{d}{2}} (\det V)^{-\frac{1}{2}} \exp{-\inner{x-\mu, V^{-1}(x - \mu)}} \]
+	Subvectors \( X_{(1)}, X_{(2)} \) of \( X \) are independent if and only if \( \Cov(X_{(1)}, X_{(2)}) = 0 \).
+\end{proposition}

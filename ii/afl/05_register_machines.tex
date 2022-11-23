@@ -590,7 +590,7 @@ Consider the sets
 	By the software principle, \( f_{U,2}(w,v) = f_{w,1}(v) \) and \( \dom f_{U,2} = \mathbb K_0 \) as required.
 	Observe that the diagonal function \( \Delta(w) = (w, w) \) is computable, so \( f_{U,2} \circ \Delta \) is computable, and \( \dom(f_{U_2} \circ \Delta) = \mathbb K \).
 \end{proof}
-\begin{theorem}
+\begin{theorem}[the halting problem]
 	Neither \( \mathbb K_0 \) nor \( \mathbb K \) are computable.
 \end{theorem}
 \begin{proof}
@@ -608,8 +608,115 @@ Consider the sets
 \end{proof}
 \begin{definition}
 	\( X \subseteq \mathbb W^k \) is called \( \Sigma_1 \) if there is a computable function \( Y \subseteq \mathbb W^{k+1} \) such that \( \vb w \in X \iff \exists y, (\vb w, y) \in Y \).
-	We say \( X = p(Y) \) is the \emph{projection} of \( Y \).
+	We say \( X = p(Y) = \qty{\vb w \mid \exists y,\, (\vb w, y) \in Y} \) is the \emph{projection} of \( Y \).
+	We say \( X \) is \( \Pi_1 \) if it is the complement of a \( \Sigma_1 \) set.
+	We say \( X \) is \( \Delta_1 \) if it is \( \Sigma_1 \) and it is \( \Pi_1 \).
 \end{definition}
+\begin{remark}
+	The notation \( \Sigma \) is chosen to symbolise an existential quantifier, and \( \Pi \) symbolises the universal quantifier.
+	In logic, sums and existentials are related, and products and universal quantifiers are also related.
+	\( \Delta \) is chosen for the German word \emph{Durchschnitt} (`intersection'), as \( \Delta_1 \) is the intersection of \( \Sigma_1 \) and \( \Pi_1 \).
+\end{remark}
+\begin{proposition}
+	Every computable set is \( \Delta_1 \).
+\end{proposition}
+\begin{proof}
+	By closure under complement, it suffices to show every computable set is \( \Sigma_1 \).
+	The computable set \( Y = \qty{(\vb w, y) \mid \vb w \in X} \) has projection \( X \).
+	Logically, this adds a trivial existential quantification.
+\end{proof}
 \begin{theorem}
 	The computably enumerable sets are exactly the \( \Sigma_1 \) sets.
 \end{theorem}
+\begin{proof}
+	Suppose \( X \) is computably enumerable.
+	Then by definition, the pseudocharacteristic function \( \psi_X \) is computable.
+	Then there exists a register machine \( M \) such that \( \psi_X = f_{M,k} \).
+	We define \( Y = \qty{(\vb w, y) \mid t_{M,k}(\vb w, y) = a} \) where \( t_{M,k} \) is the truncated computation function for the register machine \( M \).
+	\( Y \) is computable, since \( t_{M,k} = \chi_Y \).
+	Then \( \vb w \in X \iff \psi_X(\vb w) \downarrow \iff \exists y,\, (\vb w, y) \in Y \) as required.
+
+	Now suppose \( X \) is \( \Sigma_1 \).
+	Let \( Y \) be a computable set such that \( X = p(Y) \).
+	The characteristic function \( \chi_Y \) is computable.
+	We apply minimisation to \( \chi_Y \) to obtain a function \( h \) such that \( h(\vb w) \) is the minimal \( y \) such that \( (\vb w, y) \in Y \).
+	Then \( \dom h = p(Y) = X \), so \( X \) is the domain of a partial computable function as required.
+\end{proof}
+\begin{example}
+	Let \( f \colon \mathbb W^2 \rightharpoonup \mathbb W \) be a partial computable function in two variables.
+	Then \( X = \qty{w \mid \exists v,\, f(w, v) \downarrow} \) is computably enumerable.
+	Note that \( f(w, v) \downarrow \) is not a computable predicate.
+	Let \( M \) be a register machine such that \( f = f_{M,2} \), and let \( Z = \qty{(w, v_0, v_1) \mid t_{M,2}(w,v_0,v_1) = a} \).
+	Clearly \( Z \) is computable.
+	Define \( Y = \qty{(w, u) \mid (w, u_{(0)}, u_{(1)}) \in Z} \); this is also computable.
+	Now,
+	\[ \exists v,\, f(w,v) \downarrow \iff \exists v_0,\, \exists v_1,\, (w,v_0,v_1) \in Z \iff \exists u,\, (w,u_{(0)},u_{(1)}) \in Z \iff (w,u) \in Y \iff w \in p(Y) \]
+	So \( X \) is \( \Sigma_1 \) as required.
+\end{example}
+\begin{remark}
+	The previous argument is sometimes known as a \emph{zigzag argument}; a pair of existential quantifiers can be merged into a single existential by merging the two words.
+	Hence, we can perform infinitely many computations in parallel.
+\end{remark}
+\begin{corollary}
+	The computable sets are exactly the \( \Delta_1 \) sets.
+\end{corollary}
+\begin{proof}
+	If \( X \) is computable, it must be \( \Delta_1 \) by a previous result.
+	If \( X \) is \( \Delta_1 \), we can use a zigzag technique.
+	We know that there are machines \( M, M' \) such that \( w \in X \iff \exists v,\, t_{M,k}(\vb w, v) = a \) and \( w \not\in X \iff \exists v,\, t_{M',k}(\vb w, v) = a \).
+	Now, consider
+	\[ f(\vb w, v) = \begin{cases}
+		t_{M,k}(\vb w, v_{(1)}) & \#v_{(0)} \text{ is even} \\
+		t_{M',k}(\vb w, v_{(1)}) & \#v_{(0)} \text{ is odd}
+	\end{cases} \]
+	This is computable.
+	Apply minimisation to \( f \) to obtain a function \( h \) where \( h(\vb w) \) is the least \( v \) such that \( f(\vb w, v) \neq \varepsilon \).
+	We output \( a \) if \( \#h(\vb w)_{(0)} \) is even, and \( \varepsilon \) if \( \#h(\vb w)_{(0)} \) is odd.
+\end{proof}
+\begin{corollary}
+	\( \Sigma_1 \) is not closed under complementation.
+\end{corollary}
+\begin{proof}
+	The complement of the halting problem \( \mathbb W \setminus \mathbb K \) is \( \Pi_1 \) and not \( \Delta_1 \), so not \( \Sigma_1 \).
+\end{proof}
+\begin{theorem}
+	Every type 0 language is computably enumerable.
+\end{theorem}
+\begin{proof}
+	Let \( G = (\Sigma, V, P, S) \) and let \( \Sigma' = \Omega \cup \qty{\bm\to} \).
+	We encode derivations as \( \sigma_0 \bm\to \cdots \bm\to \sigma_n \); this is a \( \Sigma' \)-word.
+	We say \( w \in (\Sigma')^\star \) is a \emph{derivation code} if \( w \) is of this form with \( (\sigma_0, \dots, \sigma_n) \) a \( G \)-derivation.
+	In this case, we call \( \sigma_0 \) the \emph{initial string} and \( \sigma_n \) the \emph{final string}.
+	Let \( Y = \qty{(w, v) \mid v \text{ is a derivation code with initial string } S \text{ and final string } w} \).
+	\( Y \) is computable since we can produce a register machine that tests if a given derivation code can be produced from a fixed given grammar.
+	But \( w \in \mathcal L(G) \iff \exists v,\, (w, v) \in Y \).
+	This is \( \Sigma_1 \), as required.
+\end{proof}
+\begin{remark}
+	The converse also holds; every computably enumerable set \( X \subseteq \mathbb W \) is a type 0 language.
+	This will not be proven rigorously in this course; a sketch will be provided later.
+\end{remark}
+
+\subsection{Closure properties}
+\begin{proposition}
+	The computable sets are closed under intersection, union, complement, difference, and concatenation.
+\end{proposition}
+\begin{proof}
+	Let \( A, B \) be computable sets, so \( \chi_A, \chi_B \) are computable functions.
+	We obtain
+	\[ \chi_{A \cap B}(\vb w) = \begin{cases}
+		a & \chi_A(\vb w) = a \text{ and } \chi_B(\vb w) = a \\
+		\varepsilon & \text{otherwise}
+	\end{cases} \]
+	For complement,
+	\[ \chi_{\mathbb W \setminus A}(\vb w) = \begin{cases}
+		a & \chi_A(\vb w) = \varepsilon \\
+		\varepsilon & \text{otherwise}
+	\end{cases} \]
+	For concatenation, we suppose \( A, B \subseteq \mathbb W \) are one-dimensional.
+	Given a word \( w \), we can iterate over all possible decompositions \( w = vu \) and check if \( v \in A, u \in B \).
+	There are \( (\abs{w} + 1) \)-many such decompositions, so this minimisation will always halt.
+\end{proof}
+\begin{remark}
+	The result for intersection is analogous to the product construction from deterministic automata; two computable functions can be evaluated in parallel since they always terminate, and then their results may be combined.
+\end{remark}

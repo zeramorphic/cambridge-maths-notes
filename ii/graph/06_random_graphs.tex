@@ -160,3 +160,81 @@ We can also show that \( \prob{X \geq 1} \to 1 \), but this does not follow imme
 	Here, the expected amount of copies of \( H \) is \( \binom{n}{1003} p^3 \approx \frac{n^{1003}}{1003!} p^3 \), which becomes large when \( p = n^{-\frac{1003}{3}} < \frac{1}{n} \).
 	If \( K \) is the `densest' subgraph of \( H \), then if the expected amount of copies of \( K \) tends to infinity, the probability that \( G \) contains a copy of \( H \) tends to 1.
 \end{remark}
+
+\subsection{Connectedness}
+Throughout this section, we will use the inequality \( 1 - x \leq e^{-x} \).
+\begin{proposition}
+	Let \( G \sim G(n,p) \).
+	Then, for all \( \varepsilon > 0 \), we have
+	\[ \lim_{n \to \infty} \prob{G \text{ has an isolated vertex}} = \begin{cases}
+		0 & p \geq (1 + \varepsilon) \frac{\log n}{n} \\
+		1 & p \leq (1 - \varepsilon) \frac{\log n}{n}
+	\end{cases} \]
+	where a vertex is \emph{isolated} if its degree is zero.
+\end{proposition}
+\begin{proof}
+	Let \( I \) be the number of isolated vertices in \( G \).
+	Then,
+	\[ \expect{I} = \sum_{i=1}^n \prob{v_i \text{ is isolated}} = \sum_{i=1}^n (1-p)^{n-1} = n(1-p)^{n-1} \]
+	If \( p \geq (1 + \varepsilon) \frac{\log n}{n} \), then
+	% TODO: correction for first inequality
+	\[ \expect{I} = \frac{n(1-p)^n}{1-p} \leq ne^{-pn} \leq n e^{-(1+\varepsilon) \frac{\log n}{n} n} = ne^{-(1+\varepsilon) \log n} = n n^{-(1 + \varepsilon)} = n^{-\varepsilon} \to 0 \]
+	Hence, by Markov's inequality, the probability that \( G \) has an isolated vertex is \( \prob{I \geq 1} \leq \expect{I} \to 0 \).
+	If \( p \leq (1 - \varepsilon) \frac{\log n}{n} \), then
+	\[ \expect{I} = \frac{n(1-p)^n}{1-p} \geq n(1-p)^n \geq ne^{-\qty(1 + \frac{\varepsilon}{4}) pn} \]
+	for sufficiently large \( n \), and sufficiently small \( \varepsilon \).
+	This statement holds because \( 1-p = e^{\log(1-p)} \) and Taylor's theorem implies \( \log (1-p) = -p + \frac{p^2}{2} + o(p^2) \).
+	Then
+	\[ \expect{I} \geq ne^{-\qty(1 + \frac{\varepsilon}{4})(1-\varepsilon)\log n} = nn^{-\qty(1 + \frac{\varepsilon}{4})(1-\varepsilon)} = nn^{-1 + \frac{3\varepsilon}{4} + \frac{\varepsilon^2}{4}} = n^{\frac{3\varepsilon}{4} + \frac{\varepsilon^2}{4}} \to \infty \]
+	We will apply the second moment method on \( I \).
+	We have \( \prob{I = 0} \leq \frac{\Var I}{(\expect I)^2} \).
+	\begin{align*}
+		\Var I &= \expect{I^2} - (\expect{I})^2 \\
+		&= \sum_{u, v \in V(G)} \prob{d(u) = 0, d(v) = 0} - \sum_{u,v \in V(G)} \prob{d(u) = 0} \prob{d(v) = 0} \\
+		&\leq \expect{I} + \sum_{u \neq v} \qty( \prob{d(u) = 0, d(v) = 0} - \prob{d(u) = 0}\prob{d(v) = 0} ) \\
+		&= \expect{I} + \sum_{u \neq v} \qty((1-p)^{2(n-1)} - (1-p)^{2(n-1)}) \\
+		&\leq \expect{I} + n^2 (1-p)^{2(n-1)} \qty(\frac{1}{1-p} - 1) \\
+		\frac{\Var I}{(\expect{I})^2} &\leq \frac{1}{\expect{I}} \frac{1}{n^2 (1-p)^{2(n-1)}} n^2 (1-p)^{2(n-1)} \qty(\frac{1}{1-p} - 1) \\
+		&\leq \frac{1}{\expect{I}} + \frac{1}{1-p} - 1 \to 0
+	\end{align*}
+	since \( p \to 0 \) and \( \expect I \to \infty \) for \( p < (1 - \varepsilon) \frac{\log n}{n} \), as required.
+\end{proof}
+\begin{theorem}
+	Let \( G \sim G(n,p) \).
+	Then for all \( \varepsilon > 0 \), we have
+	\[ \lim_{n \to \infty} \prob{G \text{ connected}} = \begin{cases}
+		1 & p \geq (1 + \varepsilon) \frac{\log n}{n} \\
+		0 & p \leq (1 - \varepsilon) \frac{\log n}{n}
+	\end{cases} \]
+\end{theorem}
+\begin{remark}
+	This is an example of a \emph{sharp threshold}.
+	Above, we saw the \emph{coarse threshold} \( p \gg \frac 1 n \) and \( p \ll \frac 1 n \).
+	Often, sharp thresholds are seen in relation to global properties, and coarse thresholds are seen when analysing local properties.
+\end{remark}
+\begin{proof}
+	Suppose \( p \leq (1-\varepsilon) \frac{\log n}{n} \).
+	We want to show that \( \lim_{n \to \infty} \prob{G \text{ connected}} \) converges to zero.
+	This follows from the fact that \( \prob{G \text{ connected}} \geq \prob{G \text{ has no isolated vertex}} \to 0 \).
+
+	Now suppose \( p \geq (1 + \varepsilon) \frac{\log n}{n} \).
+	We now want to show that \( \lim_{n \to \infty} \prob{G \text{ connected}} \) converges to one.
+	If \( G \) is not connected, we can find \( A \subset V(G) \) where \( 1 \leq \abs{A} \leq \frac{n}{2} \), and there are no edges between \( A \) and \( V(G) \setminus A \).
+	Consider
+	\begin{align*}
+		\prob{G \text{ not connected}} &= \prob{\exists A \subset V(G),\, 0 < \abs{A} \leq \frac{n}{2}, e(A, V(G) \setminus A) = 0} \\
+		&= \prob{\bigcup_{A \subset V(G), 0 < \abs{A} \leq \frac{n}{2}} \qty{e(A, V(G) \setminus A) = 0}} \\
+		&\leq \sum_{A \subset V(G),\, 0 < \abs{A} \leq \frac{n}{2}} \prob{e(A, V(G) \setminus A) = 0} \\
+		&= \sum_{A \subset V(G),\, 0 < \abs{A} \leq \frac{n}{2}} (1-p)^{\abs{A}(n-\abs{A})} \\
+		&= \sum_{k=1}^{\floor{\frac{n}{2}}} \binom{n}{k} (1-p)^{k (n-k)} \\
+		&\leq \sum_{k=1}^{\frac{\varepsilon n}{4}} \binom n k (1-p)^{k (n-k)} + \sum_{k=\frac{\varepsilon n}{4}} \binom n k (1-p)^{k (n - k)} \\
+		&\leq \sum_{k=1}^{\frac{\varepsilon n}{4}} n^k e^{-pk(n-k)} + \sum_{k=\frac{\varepsilon n}{4}} \binom n k (1-p)^{k (n - k)} \\
+		&\leq \sum_{k=1}^{\frac{\varepsilon n}{4}} \qty(ne^{-(1+\varepsilon) \frac{\log n}{n} (n-k)})^k + \sum_{k=\frac{\varepsilon n}{4}} \binom n k (1-p)^{k (n - k)} \\
+		&\leq \sum_{k=1}^{\frac{\varepsilon n}{4}} \qty(ne^{-(1+\varepsilon) \frac{\log n}{n} n\qty(1 - \frac{\varepsilon}{4})})^k + \sum_{k=\frac{\varepsilon n}{4}} \binom n k (1-p)^{k (n - k)} \\
+		&\leq \sum_{k=1}^{\frac{\varepsilon n}{4}} \qty(ne^{-(1+\varepsilon) \log n \qty(1 - \frac{\varepsilon}{4})})^k + \sum_{k=\frac{\varepsilon n}{4}} \binom n k (1-p)^{k (n - k)} \\
+		&\leq \sum_{k=1}^{\frac{\varepsilon n}{4}} \qty(ne^{-\log n\qty(1+\frac{3\varepsilon}{4})})^k + \sum_{k=\frac{\varepsilon n}{4}} \binom n k (1-p)^{k (n - k)} \\
+		&\leq \sum_{k=1}^{\frac{\varepsilon n}{4}} \underbrace{\qty(n^{-\qty(1+\frac{3\varepsilon}{4})})^k}_{\to 0} + \sum_{k=\frac{\varepsilon n}{4}} \binom n k (1-p)^{k (n - k)} \\
+		&\leq \sum_{k=1}^{\frac{\varepsilon n}{4}} \qty(n^{-\qty(1+\frac{3\varepsilon}{4})})^k + \sum_{k=\frac{\varepsilon n}{4}} 2^n e^{-(1 + \varepsilon) \frac{\log n}{n} k(n-k)} \\
+		&\leq \sum_{k=1}^{\frac{\varepsilon n}{4}} \qty(n^{-\qty(1+\frac{3\varepsilon}{4})})^k + \sum_{k=\frac{\varepsilon n}{4}} \underbrace{2^n e^{-(1 + \varepsilon) \frac{\log n}{n} \frac{\varepsilon n}{4} \frac{n}{2}}}_{\to 0}
+	\end{align*}
+\end{proof}
