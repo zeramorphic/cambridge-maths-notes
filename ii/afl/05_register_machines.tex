@@ -720,3 +720,114 @@ Consider the sets
 \begin{remark}
 	The result for intersection is analogous to the product construction from deterministic automata; two computable functions can be evaluated in parallel since they always terminate, and then their results may be combined.
 \end{remark}
+\begin{proposition}
+	The computably enumerable sets are closed under intersection, union, and concatenation.
+	They are not closed under complement or difference.
+\end{proposition}
+\begin{proof}
+	We have already shown that the complement of the halting problem \( \mathbb K \) is \( \Pi_1 \) but not \( \Sigma_1 \), so the computably enumerable sets are not closed under complement or difference.
+	For intersection, the same construction as before works.
+	\[ \chi_{A \cap B}(\vb w) = \begin{cases}
+		a & \psi_A(\vb w) = a \text{ and } \psi_B(\vb w) = a \\
+		\uparrow & \text{otherwise}
+	\end{cases} \]
+	This is because if \( \psi_A \) or \( \psi_B \) diverge, the result is \( \uparrow \) as desired.
+	For union, we cannot compute \( \psi_A \) and \( \psi_B \) serially, since if \( \psi_A \uparrow \) we never run \( \psi_B \) at all.
+	Using the zigzag technique, we can check \( \psi_A(\vb w) \) and \( \psi_B(\vb w) \) in parallel, halting if either halts at any time index.
+	This idea is elaborated on an example sheet.
+
+	For concatenation, consider the set \( Z \) of triples \( (w, v, u) \) such that \( v \) is an initial segment of \( w \), and after \( \#u \) steps, \( \psi_A(v) = a \) and \( \psi_B(v') = a \), where \( w = vv' \).
+	Now define \( Y = \qty{(w, u), (w, u_{(0)}, u_{(1)} \in Z} \), so \( w \in AB \) if and only if there exists \( v \) such that \( (w, v) \in Y \).
+\end{proof}
+\begin{proposition}
+	\( X \) is computably enumerable if and only if there is a partial computable function \( f \) such that \( X = \Im f \).
+\end{proposition}
+\begin{remark}
+	In fact, a stronger result is true: \( X \) is computably enumerable if and only if there is a \emph{total} computable function \( f \) such that \( X = \Im f \).
+	This is seen on an example sheet.
+	This result justifies the name `computably enumerable'.
+\end{remark}
+\begin{proof}
+	If \( \psi_X \) is computable, then so is
+	\[ f(w) \begin{cases}
+		w & \psi_X(w) \downarrow \\
+		\uparrow & \text{otherwise}
+	\end{cases} \]
+	Clearly \( \Im f = X \) as required.
+
+	Conversely, suppose \( f \colon \mathbb W \rightharpoonup \mathbb W \) with \( X = \Im f \).
+	Suppose \( f = f_{c,1} \).
+	We use the zigzag technique.
+	Define the set \( Z \) of tuples \( (w, v, u) \) such that \( t_{c,1}(v,u) = a \) and \( f_{c,1}(v) = w \).
+	Let \( Y = \qty{(w,v) \mid (w, v_{(0)}, v_{(1)}) \in Z} \), so \( \Im f = p(Y) \).
+\end{proof}
+
+\subsection{The Church--Turing thesis}
+Register machines and recursive functions can both be used to define computability.
+Historically, \emph{Turing machines} were also used to define and analyse computability.
+% TODO: Copy from notes
+There is another alternative, known as \emph{while programs}.
+Notably, in this model, there is no special `halt state'; the program halts simply when there are no more instructions to execute.
+Therefore the computation sequence in this model may be finite.
+This gives rise to a notion of while computable functions, the functions computed by a while progarm.
+
+\begin{theorem}
+	Let \( f \colon \mathbb W^k \rightharpoonup \mathbb W \).
+	Then, the following are equivalent.
+	\begin{enumerate}
+		\item \( f \) is (register machine) computable.
+		\item \( f \) is partial recursive.
+		\item \( f \) is Turing computable.
+		\item \( f \) is while computable.
+	\end{enumerate}
+\end{theorem}
+Turing machines, register machines, recursive functions, and while programs are superficially completely different approaches, yet the classes of computable functions that they define are exactly identical.
+The \emph{Church--Turing thesis} is that this is universal; any reasonable notion of computation is equivalent.
+Unfortunately, this is a nonmathematical statement, and cannot be made precise; this is simply a statement that describes our intuition about what computation means.
+Accepting this thesis allows us to freely choose which notion of computability we would like to use for a given task.
+
+The following is a proof sketch of the fact that computably enumerable sets are type 0 languages.
+The sketch makes use of the fact that Turing computability is exactly register machine computability.
+For more detail, see
+% TODO: reference, Formal Languages, Salemaa?
+\begin{proof}[Proof sketch]
+	Let \( M \) be a Turing machine computing \( \psi_X \).
+	Without loss of generality, let the read-write head be then moved to the front, so \( q_s \square w \square \xrightarrow M q_H \square a \square \).
+	This is a rewrite system with the rules described by the definition of the Turing machine, transforming \( q_S \square w \square \) into \( q_H \square a \square \)
+
+	We define a grammar which starts from \( S \), with \( S \to q_H \square a \square \), and performs all Turing instructions backwards.
+	When \( q_S \) is seen, it deletes everything except \( w \).
+\end{proof}
+
+\subsection{Negative answers to decision problems}
+We can use the Church--Turing thesis to give precise statements of our decision problems, without relying on an informal notion of `algorithm'.
+First, we encode grammars in such a way that for all \( w \in \mathbb W \), there exists a grammar \( G \) such that \( \code(G) = w \); we write \( G_w \) for the associated grammar for a word.
+Now,
+\begin{enumerate}
+	\item the word problem is \( \qty{(w, v) \mid w \in \mathcal L(G_v)} \);
+	\item the emptiness problem is \( \qty{w \mid \mathcal L(G_w) = \varnothing} \);
+	\item the equivalence problem is \( \qty{(w, v) \mid \mathcal L(G_w) = \mathcal L(G_v)} \).
+\end{enumerate}
+These are sets of tuples of words, so we can use our notion of computability.
+We can now concretely define that such a problem is \emph{solvable} if the set is computable.
+% TODO: Convert earlier uses of `decidable' to solvable
+\begin{theorem}
+	The word problem for type 0 grammars is unsolvable.
+\end{theorem}
+\begin{proof}
+	Let \( W = \qty{(w, v) \mid w \in \mathcal L(G_v)} \).
+	We want to show that \( W \) is not computable.
+	Recall that \( \mathbb K_0 = \); we will use a proof analogous to the one used for this set.
+	% TODO: Fill this in
+	Suppose \( W \) is computable, so let
+	\[ f(w) = \begin{cases}
+		\uparrow & w \in \mathcal L(G_w) \\
+		a & w \not\in \mathcal L(G_w)
+	\end{cases} \]
+	Then \( f \) is a computable function.
+	Hence, \( \dom f \) is computably enumerable.
+	So there exists a grammar \( G \) such that \( \mathcal L(G) = \dom f \).
+	Let \( d \in \mathbb W \) be such that \( G = G_d \).
+	Then
+	\[ d \in \mathcal L(G_d) \iff d \in \dom f \iff d \not\in \mathcal L(G_d) \]
+\end{proof}

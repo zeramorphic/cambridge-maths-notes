@@ -24,9 +24,93 @@ Then \( K_1 = K(\sqrt{\mathrm{Disc}(f)}) \), and \( K_1 = L \) if \( f \) is red
 In the irreducible case, \( L / K_1 \) is Galois with \( \Gal(L/K_1) \simeq \faktor{\mathbb Z}{3\mathbb Z} \).
 Recall that if \( \omega \in K_1 \) is a primitive third root of unity, then \( L = K_1(y) \) where \( y^3 \in K_1 \), by Kummer theory.
 
+We can compute this \( y \) explicitly.
+Suppose \( f = T^3 + bT + c \) without loss of generality.
+Then \( \Delta^2 = -4b^3 - 27c^2 \).
+If \( b = 0 \), the roots of \( f \) are \( w^i \sqrt[3]{-c} \), so let \( y \) be any of them.
+In the other case \( b \neq 0 \), let \( y \) be a Lagrange resolvent.
+If the roots of \( f \) in \( L \) are \( x_1, x_2, x_3 \), take \( y = x_1 + \omega^2 x_2 + \omega x_3 = (1-\omega)(x_1 - \omega x_2) \) as \( x_1 + x_2 + x_3 = 0 \).
+Then \( L(\omega) = K(\Delta, \omega, y) \) if and only if \( y \neq 0 \), by the proof of the structure of Kummer extensions.
+Let \( y' = x_1 + \omega x_2 + \omega^2 x_3 \), then \( yy' = -3b \neq 0 \) since we are not in characteristic 3.
+Note that \( y + y' = y + y' + x_1 + x_2 + x_3 = 3x_1 \).
+One can calculate \( y^3 = \frac{1}{2} \qty(-3\sqrt{-3} \Delta + 27c) \), so \( x_1 = y - \frac{3b}{y} \).
+
 If not, let \( L(\omega) \) be the splitting field of \( f \cdot (T^3 - 1) \) over \( K \).
 Then \( L(\omega) / K_1(\omega) \) is Galois with Galois group \( \faktor{\mathbb Z}{3\mathbb Z} \) as before.
 So \( L(\omega) = K_1(\omega, y) \) where \( y^3 \in K_1(\omega) \).
 
 Therefore, in every case, \( x_i \) lie in the field obtained by adjoining successive square roots and cube roots to \( K \), since \( \omega = \frac{-1 + \sqrt{-3}}{2} \).
 This is a theoretical description of Cardano's solution to the cubic.
+
+\subsection{Quartics}
+Let \( f \in K[T] \) be a monic separable quartic, with \( \fchar K \neq 2, 3 \).
+Then \( \Gal(f/K) \leq S_4 \).
+Note that \( S_4 \) acts on the partitions \( (12\mid 34), (13\mid 24), (14\mid 23) \) of \( \qty{1, 2, 3, 4} \).
+Then we have a homomorphism \( S_4 \to S_3 \).
+The kernel of this homomorphism is the Klein four-group \( V = \qty{e, (12)(34), (13)(24), (14)(23)} \triangleleft S_4 \).
+Hence the homomorphism is surjective, as \( \abs{V} \cdot \abs{S_3} = \abs{S_4} \).
+
+Let \( f \) have splitting field \( L \) with (distinct) roots \( x_1, \dots, x_4 \).
+Suppose that \( x_1 + \dots + x_4 = 0 \) without loss of generality as the characteristic is not 2, so \( f = T^4 + aT^2 + bT + c \).
+% TODO: diagram
+Since \( V \) is a normal subgroup of \( S_4 \), \( G \cap V \) is a normal subgroup of \( G \) and contains \( V \).
+In particular, we have a homomorphism \( \faktor{G}{G \cap V} \hookrightarrow \faktor{S_4}{V} \simeq S_3 \).
+But \( \faktor{G}{G \cap V} = \Gal(M/K) \).
+So we should be able to write \( M \) as the splitting field of a cubic \( g \in K[T] \).
+
+Let \( y_{12} = x_1 + x_2 = -(x_3 + x_4) = -y_{34} \), and let \( y_{13}, y_{24}, y_{14}, y_{23} \) be defined similarly.
+Note that \( G \cap V \) maps \( y_{12} \) to \( y_{12} \) or \( y_{34} = -y_{12} \), and so on.
+So \( y_{12}^2, y_{13}^2, y_{14}^2 \) are fixed under \( G \cap V \).
+Hence they lie in \( M = L^{G \cap V} \).
+
+Suppose \( y_{12}^2 = y_{13}^2 \).
+Then either \( y_{12} = y_{13} \), so \( x_2 = x_3 \), contradicting separability, or \( y_{12} = -y_{13} \), so \( 2x_1 + x_2 + x_3 = 0 \), giving \( x_1 = x_4 \), also contradicting separability.
+So these are distinct elements of \( M \), and hence are indeed the roots of a separable cubic \( g \in K[T] \).
+This is called the \emph{resolvent cubic}.
+
+\( M = L^{G \cap V} \) is a splitting field of \( g \).
+Note that \( x_1 = \frac{1}{2}(y_{12} + y_{13} + y_{14}) \) and similar results hold for \( x_2, x_3, x_4 \).
+Hence \( L = M(y_{12}, y_{13}, y_{14}) \).
+We can compute \( g = (T - y_{12}^2)(T - y_{13}^2)(T - y_{14}^2) = T^3 + 2aT^2 + (a^2 - 4c)T - b^2 \).
+In particular, \( y_{12} y_{13} y_{14} = b \), hence we can simplify to \( L = M(y_{12}, y_{13}) \) where \( y_{12}^2, y_{13}^2 \in M \).
+
+In conclusion, we have found a way to solve \( f = 0 \).
+First, we solve the resolvent equation \( g = 0 \), and then we take at most two square roots to obtain the relevant field generators.
+
+\subsection{Solubility by radicals}
+Let \( f \in K[T] \) be a monic polynomial in a field \( K \) of characteristic zero.
+To prove that there is no quintic formula, we must first establish a definition of `formula'.
+The relevant notion is solubility by radicals.
+\begin{definition}
+	An irreducible polynomial \( f \in K[T] \) is \emph{soluble by radicals} over \( K \) if there exists a sequence of fields \( K = K_0 \subseteq K_1 \subseteq \dots \subseteq K_m \), with \( x \in K_m \) a root of \( f \), and each \( K_{i+1} \) is obtained from \( K_i \) by adjoining a root, so \( K_{i+1} = K_i(y_i) \) where \( y_i^{d_i} \in K_i \).
+\end{definition}
+\begin{remark}
+	This is a generalisation of ruler and compass constructions to permit roots of arbitrary degree.
+\end{remark}
+Note that we can adjoin extra roots if desired.
+In particular, adjoining roots of unity, \( f \) is soluble by radicals over \( K \) if there exists \( d \geq 1 \) and \( K = K_0 \subseteq \dots \subseteq K_m \), such that \( x \in K_m \) is a root of \( f \), and \( K_1 = K_0(\zeta_d) \) where \( \zeta_d \) is a primitive \( d \)th root of unity.
+We can also assume that the other extensions satisfy \( K_i = K_{i-1}(y_i) \) for \( y_i^d = a_i \in K_{i-1} \).
+This condition can be easily satisfied by letting \( d \) be the least common multiple of the \( d_i \) that occurs in the tower of fields.
+
+Note that \( K_1 / K_0 \) is Galois with abelian Galois group.
+\( K_i / K_{i-1} \) for \( i > 1 \) is Galois, where the Galois group is a subgroup of \( \faktor{\mathbb Z}{d\mathbb Z} \) as it is a Kummer extension.
+
+To obtain all roots of \( f \), we consider a normal closure \( M \) of \( K_m \); this will contain a splitting field for \( f \), since it contains one root and \( f \) is irreducible.
+To determine \( M \), let \( K_i' \subseteq M \) be a normal closure of \( K_i \) for each \( i \).
+As we are in characteristic zero, an extension is Galois if and only if it is normal.
+Note that \( K_1 \) is Galois, so \( K_1 = K_1' = K(\zeta_d) \).
+\begin{proposition}
+	\( K_i' = K_{i-1}'\qty(\qty{\sqrt[d]{\sigma(a_i)} \mid \sigma \in \Gal(K_{i-1}'/K)}) \).
+\end{proposition}
+\begin{proof}
+	Suppose \( \sigma \in \Gal(K_{i-1}'/K) \).
+	Then we can lift \( \sigma \) to an element \( \overline \sigma \in \Gal(K_i'/K) \) such that \( \eval{\overline\sigma}_{K_{i-1}'} = \sigma \).
+	Since \( K_i' / K \) is normal, it contains \( \overline \sigma(y_i) \), and \( \overline \sigma(y)^d = \sigma(y^d) = \sigma(a_i) \).
+	So the right hand side is contained in \( K_i' \).
+
+	It suffices to show the right hand side is a normal extension.
+	It is the splitting field over \( K_{i-1}' \) of the polynomial \( g_i = \prod_{\sigma \in \Gal(K_{i-1}'/K)} (T^d - \sigma(a_i)) \).
+	This has coefficients in \( K \).
+	If \( K_{i-1}' \) is the splitting field of some polynomial \( h_{i-1} \) over \( K \), then the right hand side is the splitting field of the product \( g_i h_{i-1} \) over \( K \).
+	So it is normal.
+\end{proof}
