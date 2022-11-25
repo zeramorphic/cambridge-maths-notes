@@ -122,7 +122,7 @@ We can check that \( d_{i-1} \circ d_i = 0 \) for all \( i \) is equivalent to t
 \begin{definition}
 	Let \( K \) be an abstract simplicial complex in \( \Delta^n \).
 	Then we define \( \widetilde H_i(K) = H_i(\widetilde C_\bullet(K)) \) to be the \( i \)th reduced homology group of \( K \).
-	Then \( C\bullet(K) = \faktor{\widetilde C_\bullet(K)}{\genset{e_\varnothing}} \) is a chain complex, and \( H_i(K) = H_i(C_\bullet(K)) \) is the \( i \)th homology group of \( K \).
+	Then \( C_\bullet(K) = \faktor{\widetilde C_\bullet(K)}{\genset{e_\varnothing}} \) is a chain complex, and \( H_i(K) = H_i(C_\bullet(K)) \) is the \( i \)th homology group of \( K \).
 \end{definition}
 \begin{example}
 	Let \( K = \qty{e_0, e_1, \dots, e_r, e_\varnothing} \), so \( \abs{K} \) is a collection of \( r + 1 \) disjoint points.
@@ -216,7 +216,7 @@ We have already defined \( d \) for ordered sequences of indices; this propositi
 	\( d(e_{210}) = (-1)^0 e_{10} + (-1)^1 e_{20} + (-1)^2 e_{21} = -e_{01} + e_{02} - e_{12} = d(-e_{012}) \), where by definition, \( e_{210} = -e_{012} \) so \( d(e_{210}) = -d(e_{012}) \).
 \end{example}
 \begin{definition}
-	Let \( f \colon K \to L \) be a simplcial map.
+	Let \( f \colon K \to L \) be a simplicial map.
 	Then \( f_\sharp \colon C_k(K) \to C_k(L) \) is defined by \( f_\sharp(e_I) = e_{\hat f(I)} \) where if \( I = (i_0, \dots, i_k) \) we define \( \hat f(I) = (\hat f(i_0), \dots, \hat f(i_k)) \).
 \end{definition}
 This definition of \( f_\sharp \) preserves grading.
@@ -241,7 +241,7 @@ This definition of \( f_\sharp \) preserves grading.
 	Then \( f_0 \) is \emph{chain homotopic} to \( f_1 \), written \( f_0 \sim f_1 \), if there are
 	\begin{enumerate}
 		\item homomorphisms \( h_i \colon C_i \to C_{i+1}' \), where we write \( h = \bigoplus_i h_i \), satisfying
-		\item \( d'h + hd = f_0 - f-1 \).
+		\item \( d'h + hd = f_0 - f_1 \).
 	\end{enumerate}
 	In this case, we say \( h \) is the \emph{chain homotopy}.
 \end{definition}
@@ -502,4 +502,221 @@ where all squares commute since \( f, g \) are chain maps, and all rows are exac
 		\end{tikzcd}
 	\end{center}
 	This definition does not depend on any choices that we made; for example, \( [c] = [c'] \) implies \( \partial_k[c] = \partial_k[c'] \).
+	\begin{enumerate}
+		\item If \( g(b') = c \), then \( g(b-b') = 0 \).
+			By exactness, \( b - b' = f(\alpha) \).
+			Then \( db - db' = f(d(\alpha)) \).
+			Let \( f(a) = db \) and \( f(a') = db' \).
+			So \( a - a' = d\alpha \), so \( [a] = [a'] \).
+		\item Suppose \( [c] = [c'] \).
+			Then \( c - c' = d\gamma \) for \( \gamma \in C_{k+1} \).
+			\( g \) is surjective, so let \( \gamma = g(\beta) \).
+			Then \( b - b' = d\beta \), so \( db = db' \).
+			Since \( a = a' \), we have \( [a] = [a'] \).
+	\end{enumerate}
+	We need to check exactness.
+	We will show that \( \ker \subseteq \Im \) in each case, the other direction is left as an exercise.
+	\begin{enumerate}
+		\item Consider \( H_k(C) \).
+			If \( \partial_k[c] = 0 \), then \( a = d\alpha \) for \( \alpha \in A_k \).
+			Then \( d(f(\alpha)) = f(d\alpha) = f(a) = db \).
+			So \( d(b - f(\alpha)) = 0 \), giving \( [b - f(\alpha)] \in H_k(B) \).
+			Then \( g_\star[b-f(\alpha)] = [g(b) - g(f(\alpha))] = [g(b)] = [c] \) by exactness.
+			So \( [c] \in \Im g_\star \) as required.
+		\item Consider \( H_k(B) \).
+			If \( g_\star[b] = 0 \), then \( g(b) = d\gamma \) for some \( \gamma \in C_{k+1} \).
+			\( g \) is surjective, so \( \gamma = g(\beta) \) for \( \beta \in B_{k+1} \).
+			Then \( g(b - d\beta) = c - dg(\beta) = c - c = 0 \), so \( b - d\beta = f(\alpha) \) for \( \alpha \in A_k \).
+			So \( f(d\alpha) = df(\alpha) = db - d^2\beta = 0 \).
+			Hence \( [b] = [b - d\beta] = f_\star[\alpha] \).
+			So \( [\beta] \in \Im f_\star \).
+		\item Consider \( H_{k-1}(A) \).
+			If \( f_\star[a] = 0 \), then \( f(a) = db \) for some \( b \) in \( B_{k-1} \).
+			Then \( [a] = \partial_k [g(b)] \) since \( dg(b) = g(db) = g(f(a)) = 0 \).
+			So \( [a] \in \Im \partial_k \).
+	\end{enumerate}
 \end{proof}
+\begin{example}
+	Let \( B = C_\bullet(\bm\Delta^n) \), and \( A = C_\bullet(\mathbb S^{n-1}) \).
+	Let \( C \) be defined by
+	\[ C_k = \begin{cases}
+		\genset{e_{0 \dots n}} & k = n \\
+		0 & \text{otherwise}
+	\end{cases} \]
+	Note that
+	\[ H_k(C) = \begin{cases}
+		\mathbb Z & k = n \\
+		0 & \text{otherwise}
+	\end{cases} \]
+	Let \( n > 1 \).
+	Then we have a short exact sequence
+	\begin{tikzcd}
+		0 & {\mathbb S^{n-1}} & {\bm\Delta^n} & {C} & 0
+		\arrow[from=1-1, to=1-2]
+		\arrow["f", from=1-2, to=1-3]
+		\arrow["g", from=1-3, to=1-4]
+		\arrow[from=1-4, to=1-5]
+	\end{tikzcd}
+	and hence we have
+	\begin{center}
+		\begin{tikzcd}
+			H_k(\mathbb S^{n-1}) \rar{f_\star} & H_k(\bm\Delta^n) \rar{g_\star}
+					   \ar[draw=none]{d}[name=X, anchor=center]{}
+			  & H_k(C) \ar[rounded corners,
+					  to path={ -- ([xshift=2ex]\tikztostart.east)
+								|- (X.center) \tikztonodes
+								-| ([xshift=-2ex]\tikztotarget.west)
+								-- (\tikztotarget)}]{dll}[at end]{\partial_k} \\
+			H_{k-1}(\mathbb S^{n-1}) \rar{f_\star} & H_{k-1}(\bm\Delta^n) \rar{g_\star} & H_{k-1}(C)
+		  \end{tikzcd}
+	\end{center}
+	Now, letting \( k = n \), we can therefore find the exact sequence
+	\begin{center}
+		\begin{tikzcd}
+			H_n(\mathbb S^{n-1}) \rar & 0 \rar
+					   \ar[draw=none]{d}[name=X, anchor=center]{}
+			  & \mathbb Z \ar[rounded corners,
+					  to path={ -- ([xshift=2ex]\tikztostart.east)
+								|- (X.center) \tikztonodes
+								-| ([xshift=-2ex]\tikztotarget.west)
+								-- (\tikztotarget)}]{dll}[at end]{\partial_k} \\
+			H_{n-1}(\mathbb S^{n-1}) \rar & 0 \rar & 0
+		  \end{tikzcd}
+	\end{center}
+	By exactness at \( \mathbb Z \) and \( H_{n-1}(\mathbb S^{n-1}) \), \( \partial_k \) is an isomorphism.
+	Hence \( H_{n-1}(\mathbb S^{n-1}) = \mathbb Z \).
+\end{example}
+
+\subsection{Mayer--Vietoris sequence}
+Let \( K_1, K_2 \) be abstract simplicial complexes in \( \Delta^n \).
+Then \( K_1 \cap K_2 \) and \( K_1 \cup K_2 \) are also abstract simplicial complexes in \( \Delta^n \).
+We have the following commutative square of simplicial maps given by inclusion.
+\begin{center}
+	\begin{tikzcd}
+		& {K_1} \\
+		{K_1 \cap K_2} && {K_1 \cup K_2} \\
+		& {K_2}
+		\arrow["{i_1}", from=2-1, to=1-2]
+		\arrow["{j_1}", from=1-2, to=2-3]
+		\arrow["{i_2}"', from=2-1, to=3-2]
+		\arrow["{j_2}"', from=3-2, to=2-3]
+	\end{tikzcd}
+\end{center}
+This induces a commutative square of chain maps as shown.
+\begin{center}
+	\begin{tikzcd}
+		& {C_\bullet(K_1)} \\
+		{C_\bullet(K_1 \cap K_2)} && {C_\bullet(K_1 \cup K_2)} \\
+		& {C_\bullet(K_2)}
+		\arrow["{i_{1\sharp}}", from=2-1, to=1-2]
+		\arrow["{j_{1\sharp}}", from=1-2, to=2-3]
+		\arrow["{i_{2\sharp}}"', from=2-1, to=3-2]
+		\arrow["{j_{2\sharp}}"', from=3-2, to=2-3]
+	\end{tikzcd}
+\end{center}
+\begin{proposition}
+	Let \( K_1, K_2 \) be abstract simplicial complexes in \( \Delta^n \).
+	Then the sequence
+	\begin{center}
+		\begin{tikzcd}
+			0 & {C_\bullet(K_1 \cap K_2)} & {C_\bullet(K_1) \oplus C_\bullet(K_2)} & {C_\bullet(K_1\cup K_2)} & 0
+			\arrow[from=1-1, to=1-2]
+			\arrow["i", from=1-2, to=1-3]
+			\arrow["j", from=1-3, to=1-4]
+			\arrow[from=1-4, to=1-5]
+		\end{tikzcd}
+	\end{center}
+	is a short exact sequence of chain complexes, where
+	\[ i = \begin{pmatrix}i_{1\sharp}\\i_{2\sharp}\end{pmatrix};\quad j = \begin{pmatrix}j_{1\sharp}&-j_{2\sharp}\end{pmatrix} \]
+\end{proposition}
+\begin{proof}
+	We must check exactness at each location.
+	\( i_{1\sharp} \) is injective, so \( i \) is injective.
+
+	If \( j((a, b)) = 0 \), then \( j_{1\sharp}(a) = j_{2\sharp}(b) \), so \( a = b \in C_\bullet(K_1) \cap C_\bullet(K_2) = C_\bullet(K_1 \cap K_2) \).
+	Hence \( (a, b) = i(a) \), so \( \ker j \subseteq \Im i \).
+	For the other direction, \( gf(a) = (j_{1\sharp} \circ i_{1\sharp})(a) - (j_{2\sharp} \circ i_{2\sharp}(a)) = 0 \) since the square of inclusion maps commutes.
+	So \( \Im i \subseteq \ker j \), so the sequence is exact at \( C_\bullet(K_1) \oplus C_\bullet(K_2) \).
+
+	Let \( e_I \in K_1 \cup K_2 \).
+	Then \( e_I \in K_1 \) or \( e_I \in K_2 \).
+	If \( e_I \in K_1 \) then \( e_I = j((e_I, 0)) \).
+	If \( e_I \in K_2 \) then \( e_I = j((0, -e_I)) \).
+	So \( e_I \in \Im j \) in either case.
+	Since the \( e_I \) form a free basis, \( j \) is surjective as required.
+\end{proof}
+\begin{theorem}[Mayer--Vietoris sequence]
+	Let \( K_1, K_2 \) be abstract simplicial complexes in \( \Delta^n \).
+	Then there is a long exact sequence
+	\begin{center}
+		\begin{tikzcd}
+			H_k(K_1 \cap K_2) \rar{i_\star} & H_k(K_1) \oplus H_k(K_2) \rar{j_\star}
+					   \ar[draw=none]{d}[name=X, anchor=center]{}
+			  & H_k(K_1 \cup K_2) \ar[rounded corners,
+					  to path={ -- ([xshift=2ex]\tikztostart.east)
+								|- (X.center) \tikztonodes
+								-| ([xshift=-2ex]\tikztotarget.west)
+								-- (\tikztotarget)}]{dll}[at end]{\partial_k} \\
+			H_{k-1}(K_1 \cap K_2) \rar{i_\star} & H_{k-1}(K_1) \oplus H_{k-1}(K_2) \rar{j_\star} & H_{k-1}(K_1 \cup K_2)
+		  \end{tikzcd}
+	\end{center}
+\end{theorem}
+\begin{proof}
+	Follows from the above theorem and the snake lemma.
+\end{proof}
+\begin{example}
+	Let \( K_1, K_2 \) be abstract simplicial complexes in \( \Delta^n, \Delta^m \).
+	Then let \( K_1 \amalg K_2 \subset \Delta^{n+m+1} \) be the abstract simplicial complex where the vertices of \( \Delta^{n+m+1} \) are \( e_0, \dots, e_n, e_0', \dots, e_m \), and we embed \( K_1 \) and \( K_2 \) into \( K_1 \amalg K_2 \) in the natural way.
+	More precisely, \( e_I \in K_1 \) gives \( e_I \in K_1 \amalg K_2 \), and \( e_I \in K_2 \) gives \( e'_J \in K_1 \amalg K_2 \).
+	Then \( \abs{K_1 \amalg K_2} = \abs{K_1} \amalg \abs{K_2} \).
+	\( K_1 \amalg K_2 = K_1 \cup K_2' \) where \( K_1, K_2' \) are disjoint abstract simplicial complexes in \( \Delta^{n+m+1} \), so \( K_1 \cap K_2' = \qty{e_\varnothing} \).
+	The Mayer--Vietoris sequence gives
+	\begin{center}
+		\begin{tikzcd}
+			H_k(\qty{e_\varnothing}) \rar{i_\star} & H_k(K_1) \oplus H_k(K_2) \rar{j_\star}
+					   \ar[draw=none]{d}[name=X, anchor=center]{}
+			  & H_k(K_1 \amalg K_2) \ar[rounded corners,
+					  to path={ -- ([xshift=2ex]\tikztostart.east)
+								|- (X.center) \tikztonodes
+								-| ([xshift=-2ex]\tikztotarget.west)
+								-- (\tikztotarget)}]{dll}[at end]{\partial_k} \\
+			H_{k-1}(\qty{e_\varnothing}) \rar{i_\star} & H_{k-1}(K_1) \oplus H_{k-1}(K_2) \rar{j_\star} & H_{k-1}(K_1 \amalg K_2)
+		  \end{tikzcd}
+	\end{center}
+	Note that \( H_k(\qty{e_\varnothing}) = 0 \).
+	Hence, the sequence
+	\begin{center}
+		\begin{tikzcd}
+			0 & {H_k(K_1) \oplus H_k(K_2)} & {H_k(K_1 \amalg K_2)} & 0
+			\arrow[from=1-1, to=1-2]
+			\arrow[from=1-2, to=1-3]
+			\arrow[from=1-3, to=1-4]
+		\end{tikzcd}
+	\end{center}
+	is exact.
+	So \( H_k(K_1) \oplus H_k(K_2) \simeq H_k(K_1 \amalg K_2) \).
+\end{example}
+
+\subsection{Homology of triangulable spaces}
+\begin{theorem}
+	Let \( f_0, f_1 \colon K \to L \) be simplicial approximations to a continuous map \( F \colon \abs{K} \to \abs{L} \).
+	Then \( f_{0\sharp} \sim f_{1\sharp} \), so \( f_{0\star} = f_{1\star} \).
+\end{theorem}
+\begin{theorem}
+	There is an isomorphism \( \nu_K \colon H_\bullet(B K) \to H_\bullet(K) \) such that \( \nu_K = f_\star \) where \( f \colon B K \to K \) is any simplicial approximation to the identity map on \( \abs{K} \).
+	% TODO: diagram
+\end{theorem}
+\begin{definition}
+	Let \( F \colon \abs{K} \to \abs{L} \) be continuous.
+	By the simplicial approximation theorem, there exists \( f \colon B^r \to L \) that is a simplicial approximation to \( F \).
+	Define \( F_\star \colon H_\bullet(K) \to H_\bullet(L) \) by \( F_\star = f_\star \circ \nu_{K,r}^{-1} \).
+\end{definition}
+\begin{theorem}
+	\( F_\star \) is well-defined, so does not depend on the choice of \( f \).
+	\( (\mathrm{id}_K)_\star = \mathrm{id}_{H_\bullet(K)} \).
+	Further, \( (F \circ G)_\star = F_\star \circ G_\star \).
+\end{theorem}
+\begin{theorem}
+	Let \( F_0, F_1 \colon \abs{K} \to \abs{L} \) be continuous with \( F_0 \sim F_1 \).
+	Then \( F_{0\star} = F_{1\star} \).
+\end{theorem}
