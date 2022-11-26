@@ -82,7 +82,7 @@ Let \( f \in K[T] \) be a monic polynomial in a field \( K \) of characteristic 
 To prove that there is no quintic formula, we must first establish a definition of `formula'.
 The relevant notion is solubility by radicals.
 \begin{definition}
-	An irreducible polynomial \( f \in K[T] \) is \emph{soluble by radicals} over \( K \) if there exists a sequence of fields \( K = K_0 \subseteq K_1 \subseteq \dots \subseteq K_m \), with \( x \in K_m \) a root of \( f \), and each \( K_{i+1} \) is obtained from \( K_i \) by adjoining a root, so \( K_{i+1} = K_i(y_i) \) where \( y_i^{d_i} \in K_i \).
+	An irreducible polynomial \( f \in K[T] \) is \emph{soluble by radicals} over \( K \) if there exists a sequence of fields \( K = K_0 \subseteq K_1 \subseteq \dots \subseteq K_m \), with \( x \in K_m \) a root of \( f \), and each \( K_i \) is obtained from \( K_{i-1} \) by adjoining a root, so \( K_i = K_{i-1}(y_i) \) where \( y_i^{d_i} \in K_{i-1} \).
 \end{definition}
 \begin{remark}
 	This is a generalisation of ruler and compass constructions to permit roots of arbitrary degree.
@@ -114,3 +114,90 @@ Note that \( K_1 \) is Galois, so \( K_1 = K_1' = K(\zeta_d) \).
 	If \( K_{i-1}' \) is the splitting field of some polynomial \( h_{i-1} \) over \( K \), then the right hand side is the splitting field of the product \( g_i h_{i-1} \) over \( K \).
 	So it is normal.
 \end{proof}
+\begin{proposition}
+	\( \Gal(K_i'/K_{i-1}') \) is abelian.
+\end{proposition}
+\begin{proof}
+	This proof is a variant on the proof of a previous theorem.
+	Consider the case \( i > 1 \).
+	Let \( A = \Gal(K_i'/K_{i-1}') \).
+	Let \( \tau \in A \) and \( \sigma \in \Gal(K_i'/K) \).
+	Then \( \tau(\sqrt[d]{\sigma(a_i)}) = \zeta_d^{m_\sigma} \sqrt[d]{\sigma(a_i)} \) where \( m_\sigma \in \faktor{\mathbb Z}{d\mathbb Z} \).
+	Hence \( \tau \mapsto (m_\sigma) \in \qty(\faktor{\mathbb Z}{d\mathbb Z})^r \) is an injective homomorphism, where \( r = \abs{\Gal(K_{i-1}'/K)} \).
+
+	If \( i = 1 \), then \( K_1 = K(\zeta_d) \).
+	So the Galois group is a subgroup of \( \qty(\faktor{\mathbb Z}{d\mathbb Z})^\times \), so is abelian.
+\end{proof}
+% TODO: diagram
+Since all of the fields \( K_i' \) are normal closures, the \( N_i \) are normal subgroups of \( G \).
+\begin{definition}
+	A finite group \( G \) is \emph{soluble} if there exists a chain of normal subgroups \( N_i \trianglelefteq G \) with \( G = N_0 \supseteq N_1 \supseteq \dots \supseteq N_m = \qty{1} \) such that \( \faktor{N_i}{N_{i+1}} \) is abelian for all \( i \).
+\end{definition}
+\begin{example}
+	Any abelian group is soluble.
+	\( S_3 \) is soluble, by considering the chain \( S_3 \supset A_3 \supset \qty{1} \), as \( \faktor{S_3}{A_3} \simeq \faktor{\mathbb Z}{2\mathbb Z} \) and \( A_3 \simeq \faktor{\mathbb Z}{3\mathbb Z} \).
+	\( S_4 \) is also soluble; the chain \( S_4 \supset A_4 \supset V \supset \qty{1} \) suffices.
+	Note that \( \faktor{S_4}{A_4} \simeq \faktor{\mathbb Z}{2\mathbb Z} \), \( \faktor{A_4}{V} \simeq \faktor{\mathbb Z}{3\mathbb Z} \), \( V \simeq \qty(\faktor{\mathbb Z}{2\mathbb Z})^2 \).
+\end{example}
+We have shown that \( \faktor{N_i}{N_{i+1}} = \Gal(K_i'/K_{i-1}') \) is abelian.
+Hence \( \Gal(M/K) \) is soluble.
+\begin{lemma}
+	Every subgroup and quotient of a soluble group is soluble.
+\end{lemma}
+\begin{proof}
+	Let \( G = N_0 \supset N_1 \supset \dots N_m = \qty{1} \), where the quotients \( \faktor{N_i}{N_{i+1}} \) are abelian.
+	Let \( H \leq G \).
+	Then \( H \cap N_i \trianglelefteq H \), and there is an injective homomorphism from \( \faktor{H \cap N_i}{H \cap N_{i+1}} \) to \( \faktor{N_i}{N_{i+1}} \).
+	Hence the \( \faktor{H \cap N_i}{H \cap N_{i+1}} \) are abelian, so \( H \) is soluble.
+
+	Now let \( \pi \colon G \to \overline G = \faktor{G}{H} \) for \( H \trianglelefteq G \).
+	Then \( \pi(N_i) \trianglelefteq \overline G \), and \( \faktor{N_i}{N_{i+1}} \) surjects onto \( \faktor{\pi(N_i)}{\pi(N_{i+1})} \).
+\end{proof}
+\begin{theorem}[Abel--Ruffini]
+	Let \( f \in K[T] \) be soluble by radicals over \( K \).
+	Then \( \Gal(f/K) \) is soluble.
+\end{theorem}
+\begin{proof}
+	\( \Gal(f/K) = \Gal(L/K) \simeq \faktor{\Gal(M/K)}{\Gal(M/L)} \).
+	We know that \( \Gal(M/K) \) is soluble, so the result follows from the fact that quotients of soluble groups are soluble.
+\end{proof}
+\begin{remark}
+	One can easily show the converse to this theorem.
+\end{remark}
+\begin{proposition}
+	If \( n \geq 5 \), then \( S_n \) and \( A_n \) are insoluble.
+\end{proposition}
+\begin{proof}
+	\( S_n \) and \( A_n \) contain \( A_5 \) as a subgroup, so it suffices to show that \( A_5 \) is insoluble.
+	\( A_5 \) is not abelian, and it is simple, so it is insoluble.
+\end{proof}
+\begin{corollary}
+	Let \( n = \deg f \geq 5 \), and \( A_n \leq \Gal(f/K) \).
+	Then \( f \) is not soluble by radicals over \( K \).
+\end{corollary}
+
+\subsection{Complex numbers are algebraically closed}
+This subsection is non-examinable.
+We show that \( \mathbb C \) is an algebraic closure of \( \mathbb Q \), without using complex analysis.
+We will only use the following facts:
+\begin{enumerate}
+	\item every polynomial of odd degree over \( \mathbb R \) has a root, due to the intermediate value theorem;
+	\item every quadratic over \( \mathbb C \) splits into linear factors, so we can take square roots;
+	\item every finite group \( G \) has a subgroup \( H \) such that \( (G:H) \) is odd and \( \abs{H} \) is a power of 2, by Sylow's theorem for \( p = 2 \);
+	\item if \( G \) is a \( p \)-group, so \( \abs{G} = p^k \) and \( k > 0 \), then \( G \) has a subgroup of index \( p \), since \( G \) has a non-trivial centre.
+\end{enumerate}
+Let \( K / \mathbb C \) be a finite extension.
+Let \( L / K \) be a normal closure of \( K \) over \( \mathbb R \), so \( L \) is a Galois extension of \( \mathbb R \) containing \( \mathbb C \).
+Let \( G = \Gal(L/\mathbb R) \).
+We will show that \( L = \mathbb C \).
+
+Let \( H \leq G \) be a Sylow 2-subgroup, and consider \( L^H \).
+% TODO: diagram
+We have \( [L^H:\mathbb R] = (G:H) \), which is odd.
+So if \( x \in L^H \), by (i), its minimal polynomial is linear over \( \mathbb R \), so \( x \in \mathbb R \).
+Hence \( L^H = \mathbb R \), so \( H = G \).
+So \( G \) is a 2-group.
+
+Let \( G \supset G_1 = \Gal(L/\mathbb C) \), and \( G_2 \leq G_1 \) be a subgroup of index 2, which exists by (iv).
+Then \( [L^{G_2}:\mathbb C] = (G_1 : G_2) \), contradicting the fact (ii) that quadratics split in \( \mathbb C \).
+So there cannot exist a subgroup of index 2, so \( G_1 = \qty{e} \), and \( L = \mathbb C \).
