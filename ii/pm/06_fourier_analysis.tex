@@ -290,10 +290,10 @@ Note that \( \widehat{f \ast g_t}(u) = \hat f(u) e^{-\frac{\norm{u}^2 t}{2}} \),
 		\varphi_n(u) &= \expect{e^{i\frac{u}{\sqrt n} (X_1 + \dots + X_n)}} \\
 		&= \prod_{j=1}^n \expect{e^{i\frac{u}{\sqrt n} X_j}} \\
 		&= \qty[\varphi\qty(\frac{u}{\sqrt n})]^n \\
-		&= \qty[1 - \frac{u^2}{2n} + o(\frac{1}{n})]^n
+		&= \qty[1 - \frac{u^2}{2n} + o\qty(\frac{1}{n})]^n
 	\end{align*}
 	The complex logarithm satisfies \( \log(1 + z) = z + o(z) \), so by taking logarithms, we find
-	\[ \log \varphi_n(u) = n \log\qty(1 - \frac{u^2}{2n} + o(\frac{1}{n})) = -\frac{u^2}{2} \]
+	\[ \log \varphi_n(u) = n \log\qty(1 - \frac{u^2}{2n} + o\qty(\frac{1}{n})) = -\frac{u^2}{2} \]
 	Hence, \( \varphi_n(u) \to e^{-\frac{\abs{u}^2}{2}} = \varphi_Z(u) \).
 	So by L\'evy's continuity theorem, the result follows.
 \end{proof}
@@ -306,12 +306,12 @@ Note that \( \widehat{f \ast g_t}(u) = \hat f(u) e^{-\frac{\norm{u}^2 t}{2}} \),
 \begin{proposition}
 	Let \( X \) be a Gaussian vector in \( \mathbb R^d \).
 	Then \( Z = AX + b \) is a Gaussian vector in \( \mathbb R^m \) where \( A \) is an \( m \times d \) matrix and \( b \in \mathbb R^m \).
-	Also, \( X \in L^2(\mathbb R^d) \), and \( \mu = \expect{X} \) and \( V = \Cov(X_i, X_j) \) exist and determine \( \mu_X \).
+	Also, \( X \in L^2(\mathbb R^d) \), and \( \mu = \expect{X} \) and \( V = \Cov{X_i, X_j} \) exist and determine \( \mu_X \).
 	The characteristic function is
 	\[ \varphi_X(u) = e^{i\inner{\mu,u} - \frac{\inner{u,Vu}}{2}} \]
 	If \( V \) is invertible, then \( \mu_X \) has a probability density function
 	\[ f_X(x) = (2\pi)^{-\frac{d}{2}} (\det V)^{-\frac{1}{2}} \exp{-\inner{x-\mu, V^{-1}(x - \mu)}} \]
-	Subvectors \( X_{(1)}, X_{(2)} \) of \( X \) are independent if and only if \( \Cov(X_{(1)}, X_{(2)}) = 0 \).
+	Subvectors \( X_{(1)}, X_{(2)} \) of \( X \) are independent if and only if \( \Cov{X_{(1)}, X_{(2)}} = 0 \).
 \end{proposition}
 \begin{proposition}
 	Let \( X_n \to X \) weakly in \( \mathbb R^d \) as \( n \to \infty \).
@@ -344,63 +344,3 @@ Note that \( \widehat{f \ast g_t}(u) = \hat f(u) e^{-\frac{\norm{u}^2 t}{2}} \),
 	Also, \( \expect{g(X_n, c)} \to \expect{g(X, c)} \) for all bounded continuous maps \( g \colon \mathbb R^d \times \mathbb R^d \to \mathbb R \), so \( (X_n, c) \to (X, c) \) weakly.
 	Hence, by (ii), \( (X_n, Y_n) \to (X, c) \) weakly.
 \end{proof}
-
-\subsection{Laws of large numbers}
-\begin{proposition}
-	Let \( (X_n)_{n \in \mathbb N} \) be independent and identically distributed random variables such that \( \expect{X_n} = 0 \) and \( \Var X_i = \sigma^2 < \infty \).
-	Then \( \frac{1}{n} \sum_{i=1}^n X_i \to 0 \) in probability as \( n \to \infty \).
-\end{proposition}
-\begin{proof}
-	By Chebyshev's inequality,
-	\[ \prob{\abs{\frac{1}{n}\sum_{i=1}^n X_i} > \varepsilon} \leq \frac{1}{n^2 \varepsilon^2} \Var\qty(\sum_{i=1}^n X_i) \leq \frac{\sigma^2}{n\varepsilon^2} \to 0 \]
-	So \( \frac{1}{n} \sum_{i=1}^n X_i \to \expect{X_1} \) in probability.
-\end{proof}
-This is known as the weak law of large numbers.
-However, this result has several weaknesses, and we can provide stronger results.
-\begin{proposition}
-	Let \( (X_n)_{n \in \mathbb N} \) be independent random variables such that \( \expect{X_n} = \mu \) and \( \expect{X_n^4} \leq M \) for all \( n \).
-	Then \( \frac{1}{n} \sum_{i=1}^n X_i \to \mu \) almost surely as \( n \to \infty \).
-\end{proposition}
-\begin{proof}
-	Let \( Y_n = X_n - \mu \).
-	Then \( \expect{Y_n} = 0 \), and \( \expect{Y_n^4} \leq 2^4 \qty(\expect{X_n^4} + \mu^4) < \infty \).
-	So we can assume \( \mu = 0 \).
-	For distinct indices \( i, j, k, \ell \), by independence and the Cauchy--Schwarz inequality, we have
-	\[ 0 = \expect{X_i X_j X_k X_\ell} = \expect{X_i^2 X_j X_j} = \expect{X_i^3 X_j};\quad \expect{X_i^2 X_j^2} \leq \sqrt{\expect{X_i^2}}\sqrt{\expect{X_j^2}} \leq M \]
-	So we can compute
-	\[ \expect{\qty(\sum{i=1}^n X_i)^4} = \expect{\sum_{i=1}^n X_i^4} + 6\expect{\sum_{i \neq j} X_i^2 X_j^2} \leq nM + 3n(n-1)M \leq 3n^2 M \]
-	Let \( S_n = \sum_{i=1}^n X_i \).
-	Then,
-	\[ \expect{\sum_{n=1}^\infty \qty(\frac{S_n}{n})^4} \leq \sum_{n=1}^\infty \frac{1}{n^4} 3n^2 M < \infty \]
-	Hence \( \sum_{n=1}^n \qty(\frac{S_n}{n})^4 < \infty \) almost surely.
-	But then \( \qty(\frac{S_n}{n})^4 \to 0 \) almost surely, so \( \frac{S_n}{n} \to 0 \) almost surely.
-\end{proof}
-
-% TODO: pull this and previous subsection into a new file
-\subsection{Ergodic theory}
-Let \( (E, \mathcal E, \mu) \) be a \( \sigma \)-finite measure space.
-\begin{definition}
-	A measurable transformation \( \Theta \colon E \to E \) is \emph{measure-preserving} if \( \mu(\Theta^{-1}(A)) = \mu(A) \) for all \( A \in \mathcal E \).
-\end{definition}
-In this case, for any integrable function \( f \in L^1(\mu) \), we have \( \int_E f \dd{\mu} = \int_E f \circ \Theta \dd{\mu} \).
-\begin{definition}
-	A measurable map \( f \colon E \to \mathbb R \) is called \emph{\( \Theta \)-invariant} if \( f \circ \Theta = f \).
-	A set \( A \in \mathcal E \) is \( \Theta \)-invariant if \( \Theta^{-1}(A) = A \), or equivalently, \( \mathbbm 1_A \) is \( \Theta \)-invariant.
-\end{definition}
-The collection \( \mathcal E_\Theta \) of \( \Theta \)-invariant sets forms a \( \sigma \)-algebra over \( E \).
-A function \( f \colon E \to \mathbb R \) is invariant if and only if \( f \) is \( \mathcal E_\Theta \)-measurable; this is a question on an example sheet.
-\begin{definition}
-	\( \Theta \) is called \emph{ergodic} if the \( \Theta \)-invariant sets \( A \) satisfy either \( \mu(A) = 0 \) or \( \mu(E \setminus A) = 0 \).
-\end{definition}
-If \( f \) is \( \Theta \)-invariant and \( \Theta \) is ergodic, then one can show that \( f \) is constant almost everywhere on \( E \).
-\begin{example}
-	Consider \( (E, \mathcal E) = ((0,1], \mathcal B) \) with the Lebesgue measure \( \mu \).
-	The maps \( \Theta_a(x) = x + a \) modulo 1 and \( \Theta(x) = 2x \) modulo 1 are both measure-preserving, and ergodic unless \( a \in \mathbb Q \).
-	This is a question on an example sheet.
-\end{example}
-\begin{theorem}[Birkhoff]
-	Let \( (E, \mathcal E, \mu) \) be a \( \sigma \)-finite measure space.
-	Let \( \Theta \colon E \to E \) be measure-preserving.
-	For \( f \in L^1(\mu) \), we define \( S_0(f) = 0 \) and \( S_n(f) = \sum_{k=0}^{n-1} f \circ \Theta^k \).
-	Then \( \frac{S_n(f)}{n} \to \overline f \) almost everywhere, where \( \overline f \in L^1(\mu) \) is \( \Theta \)-invariant.
-\end{theorem}

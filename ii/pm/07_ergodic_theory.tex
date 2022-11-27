@@ -1,0 +1,130 @@
+\subsection{Laws of large numbers}
+\begin{proposition}
+	Let \( (X_n)_{n \in \mathbb N} \) be independent and identically distributed random variables such that \( \expect{X_n} = 0 \) and \( \Var X_i = \sigma^2 < \infty \).
+	Then \( \frac{1}{n} \sum_{i=1}^n X_i \to 0 \) in probability as \( n \to \infty \).
+\end{proposition}
+\begin{proof}
+	By Chebyshev's inequality,
+	\[ \prob{\abs{\frac{1}{n}\sum_{i=1}^n X_i} > \varepsilon} \leq \frac{1}{n^2 \varepsilon^2} \Var\qty(\sum_{i=1}^n X_i) \leq \frac{\sigma^2}{n\varepsilon^2} \to 0 \]
+	So \( \frac{1}{n} \sum_{i=1}^n X_i \to \expect{X_1} \) in probability.
+\end{proof}
+This is known as the weak law of large numbers.
+However, this result has several weaknesses, and we can provide stronger results.
+\begin{proposition}
+	Let \( (X_n)_{n \in \mathbb N} \) be independent random variables such that \( \expect{X_n} = \mu \) and \( \expect{X_n^4} \leq M \) for all \( n \).
+	Then \( \frac{1}{n} \sum_{i=1}^n X_i \to \mu \) almost surely as \( n \to \infty \).
+\end{proposition}
+\begin{proof}
+	Let \( Y_n = X_n - \mu \).
+	Then \( \expect{Y_n} = 0 \), and \( \expect{Y_n^4} \leq 2^4 \qty(\expect{X_n^4} + \mu^4) < \infty \).
+	So we can assume \( \mu = 0 \).
+	For distinct indices \( i, j, k, \ell \), by independence and the Cauchy--Schwarz inequality, we have
+	\[ 0 = \expect{X_i X_j X_k X_\ell} = \expect{X_i^2 X_j X_j} = \expect{X_i^3 X_j};\quad \expect{X_i^2 X_j^2} \leq \sqrt{\expect{X_i^2}}\sqrt{\expect{X_j^2}} \leq M \]
+	So we can compute
+	\[ \expect{\qty(\sum_{i=1}^n X_i)^4} = \expect{\sum_{i=1}^n X_i^4} + 6\expect{\sum_{i \neq j} X_i^2 X_j^2} \leq nM + 3n(n-1)M \leq 3n^2 M \]
+	Let \( S_n = \sum_{i=1}^n X_i \).
+	Then,
+	\[ \expect{\sum_{n=1}^\infty \qty(\frac{S_n}{n})^4} \leq \sum_{n=1}^\infty \frac{1}{n^4} 3n^2 M < \infty \]
+	Hence \( \sum_{n=1}^n \qty(\frac{S_n}{n})^4 < \infty \) almost surely.
+	But then \( \qty(\frac{S_n}{n})^4 \to 0 \) almost surely, so \( \frac{S_n}{n} \to 0 \) almost surely.
+\end{proof}
+
+\subsection{Invariants}
+Let \( (E, \mathcal E, \mu) \) be a \( \sigma \)-finite measure space.
+\begin{definition}
+	A measurable transformation \( \Theta \colon E \to E \) is \emph{measure-preserving} if \( \mu(\Theta^{-1}(A)) = \mu(A) \) for all \( A \in \mathcal E \).
+\end{definition}
+In this case, for any integrable function \( f \in L^1(\mu) \), we have \( \int_E f \dd{\mu} = \int_E f \circ \Theta \dd{\mu} \).
+\begin{definition}
+	A measurable map \( f \colon E \to \mathbb R \) is called \emph{\( \Theta \)-invariant} if \( f \circ \Theta = f \).
+	A set \( A \in \mathcal E \) is \( \Theta \)-invariant if \( \Theta^{-1}(A) = A \), or equivalently, \( \mathbbm 1_A \) is \( \Theta \)-invariant.
+\end{definition}
+The collection \( \mathcal E_\Theta \) of \( \Theta \)-invariant sets forms a \( \sigma \)-algebra over \( E \).
+A function \( f \colon E \to \mathbb R \) is invariant if and only if \( f \) is \( \mathcal E_\Theta \)-measurable; this is a question on an example sheet.
+\begin{definition}
+	\( \Theta \) is called \emph{ergodic} if the \( \Theta \)-invariant sets \( A \) satisfy either \( \mu(A) = 0 \) or \( \mu(E \setminus A) = 0 \).
+\end{definition}
+If \( f \) is \( \Theta \)-invariant and \( \Theta \) is ergodic, then one can show that \( f \) is constant almost everywhere on \( E \).
+\begin{example}
+	Consider \( (E, \mathcal E) = ((0,1], \mathcal B) \) with the Lebesgue measure \( \mu \).
+	The maps \( \Theta_a(x) = x + a \) modulo 1 and \( \Theta(x) = 2x \) modulo 1 are both measure-preserving, and ergodic unless \( a \in \mathbb Q \).
+	This is a question on an example sheet.
+\end{example}
+\begin{lemma}[maximal ergodic lemma]
+    Let \( (E, \mathcal E, \mu) \) be a \( \sigma \)-finite measure space.
+	Let \( \Theta \colon E \to E \) be measure-preserving.
+	For \( f \in L^1(\mu) \), we define \( S_0(f) = 0 \) and \( S_n(f) = \sum_{k=0}^{n-1} f \circ \Theta^k \).
+    Let \( S^\star = S^\star(f) = \sup_{n \geq 0} S_n(f) \).
+    Then \( \int_{\qty{S^\star > 0}} f \dd{\mu} \geq 0 \).
+\end{lemma}
+\begin{proof}
+    Define \( S_n^\star = \max_{k \leq n} S_k \).
+    Then clearly \( S_n^\star \uparrow S^\star \), and \( S_k \leq S_n^\star \) for all \( k \leq n \).
+    Note that \( S_{k+1} = S_k \circ \Theta + f \leq S_n^\star \circ \Theta + f \).
+
+    Define \( A_n = \qty{S_n^\star > 0} \), so \( A_n \uparrow \qty{S^\star > 0} \).
+    On \( A_n \), we have
+    \[ S_n^\star = \max_{1 \leq k \leq n} S_k \leq \max_{0 \leq k \leq n} S_{k+1} \leq S_n^\star \circ \Theta + f \]
+    since \( S_0 = 0 \).
+    We can integrate this inequality to find
+    \[ \int_{A_n} S_n^\star \dd{\mu} \leq \int_{A_n} S_n^\star \circ \Theta \dd{\mu} + \int_{A_n} f \dd{\mu} \]
+    On the complement \( A_n^c \), we must have \( S_n^\star = 0 \leq S_n^\star \circ \Theta \).
+    Hence,
+    \[ \int_E S_n^\star \dd{\mu} \leq \int_E S_n^\star \circ \Theta \dd{\mu} + \int_{A_n} f \dd{\mu} \]
+    Since \( \Theta \) is measure-preserving,
+    \[ \int_E S_n^\star \dd{\mu} \leq \int_E S_n^\star \dd{\mu} + \int_{A_n} f \dd{\mu} \]
+    so we obtain
+    \[ \int_{A_n} f \dd{\mu} \geq 0 \]
+    Since \( f \mathbbm 1_{A_n} \to f \mathbbm 1_{\qty{S^\star > 0}} \) pointwise, and \( \abs{f \mathbbm 1_{A_n}} \leq \abs{f} \in L^1(\mu) \), we can apply the dominated convergence theorem to show that
+    \[ \int_{\qty{S^\star > 0}} f \dd{\mu} = \lim_{n \to \infty} \int_{A_n} f \dd{\mu} \geq 0 \]
+    as required.
+\end{proof}
+\begin{theorem}[Birkhoff]
+	Let \( (E, \mathcal E, \mu) \) be a \( \sigma \)-finite measure space.
+	Let \( \Theta \colon E \to E \) be measure-preserving.
+	For \( f \in L^1(\mu) \), we define \( S_0(f) = 0 \) and \( S_n(f) = \sum_{k=0}^{n-1} f \circ \Theta^k \).
+	Then there exists an integrable function \( \overline f \in L^1(\mu) \) with \( \mu\qty(\abs{\overline f}) \leq \mu(\abs{f}) \) such that \( \frac{S_n(f)}{n} \to \overline f \) almost everywhere, where \( \overline f \) is \( \Theta \)-invariant.
+\end{theorem}
+\begin{proof}
+    Note that
+    \[ \limsup_n \frac{S_n(f)}{n} =  \limsup_n \frac{S_n(f) \circ \Theta}{n} \]
+    and the same holds for \( \liminf_n \).
+    Hence \( \limsup_n \frac{S_n(f)}{n} \) and \( \liminf_n \frac{S_n(f)}{n} \) are invariant functions.
+    So they are \( \mathcal E_\Theta \)-measurable.
+    Hence
+    \[ D = D_{a,b} = \qty{\liminf_n \frac{S_n(f)}{n} < a < b < \limsup_n \frac{S_n(f)}{n}} \]
+    are measurable and invariant sets.
+    Without loss of generality, let \( b > 0 \).
+    Let \( B \in \mathcal E \), where \( B \subseteq D \) such that \( \mu(B) < \infty \).
+    Let \( g = f - b\mathbbm 1_B \in L^1(\mu) \).
+    Then,
+    \[ S_n(g) = S_n(f) - bS_n(\mathbbm 1_B) \geq S_n(f) - bn \]
+    which is positive on \( D \) for some \( n \) by the definition of \( \limsup_n \).
+    We will apply the maximal ergodic lemma with \( E = D \) and \( \mu = \eval{\mu}_D \); \( \Theta \) is still measure-preserving on this new measure since
+    \[ \eval{\mu}_D(A) = \mu(A \cap D) = \mu(\Theta^{-1}(A \cap D)) = \mu(\Theta^{-1}(A) \cap \Theta^{-1}(D)) = \mu(\Theta^{-1}(A) \cap D) = \eval{\mu}_D(\Theta^{-1}(A)) \]
+    Note that \( \qty{S^\star > 0} \subseteq D \) as we restrict our measure space to \( D \), but by the previous inequality, \( S^\star > 0 \) on \( D \).
+    So \( D = \qty{S^\star > 0} \).
+    Then the maximal ergodic lemma gives
+    \[ 0 \leq \int_{S^\star > 0} g \dd{\mu} = \int_D g \dd{\mu} = \int_D f \dd{\mu} - b \mu(B) \]
+    Hence, \( b \mu(B) \leq \int_D f \dd{\mu} \).
+    By \( \sigma \)-finiteness, this inequality extends to \( D \); one can choose an approximating sequence \( B_n \uparrow D \) where \( \mu(B_n) < \infty \), then take limits to show \( b\mu(D) = b \lim_n \mu(B_n) \leq \int_D f \dd{\mu} \).
+    Repeating the above argument for \( -f \) and \( -a \), we obtain \( -a\mu(D) \leq \int_D -f \dd{\mu} \).
+    Combining these two inequalities gives
+    \[ b\mu(D) \leq \int_D f \dd{\mu} \leq a\mu(D) \]
+    But \( a < b \), so \( \mu(D) = 0 \) or \( \infty \), but \( f \) is integrable, so \( \mu(D) = 0 \).
+    Now, define
+    \[ \Delta = \qty{\liminf_n \frac{S_n(f)}{n} < \limsup_n \frac{S_n(f)}{n}}  = \bigcup_{a < b \in \mathbb Q} D_{a,b} \]
+    By countable additivity,
+    \[ \mu(\Delta) = \mu\qty(\bigcup_{a < b \in \mathbb Q} D_{a,b}) = \sum_{a < b \in \mathbb Q} \mu(D_{a,b}) = 0 \]
+    On \( \Delta^c \), \( \frac{S_n}{n} \) converges in \( [-\infty, \infty] \).
+    We define the invariant function \( \overline f \) by
+    \[ \overline f = \begin{cases}
+        \lim_n \frac{S_n}{n} & x \in \Delta^c \\
+        0 & x \in \Delta
+    \end{cases} \]
+    so \( \frac{S_n}{f} \to \overline f \) almost everywhere as \( n \to \infty \).
+    Since \( \mu(\abs{f \circ \Theta^{n-1}}) = \mu(\abs{f}) \), we have \( \mu(\abs{S_n}) \leq n \mu(\abs{f}) \) and thus
+    \[ \mu\qty(\abs{\overline f}) = \mu\qty(\liminf_n \abs{\frac{S_n}{n}}) \leq \liminf_n \mu\qty(\abs{\frac{S_n}{n}}) \leq \mu(\abs{f}) \]
+    which is one of the results required by the theorem.
+    In particular, \( \mu\qty(\abs{\overline f}) < \infty \) so \( \abs{\overline f} < \infty \) almost everywhere.
+\end{proof}
