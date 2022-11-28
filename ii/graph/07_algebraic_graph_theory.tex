@@ -1,0 +1,88 @@
+\subsection{Graphs of a given diameter}
+\begin{definition}
+	Let \( G \) be a connected graph.
+	The \emph{diameter} of \( G \) is \( \diam G = \max \qty{d(x,y) \mid x, y \in V(G)} \).
+\end{definition}
+\begin{remark}
+	The diameter of \( G \) is 1 if and only if \( G \) is complete, so there are \( \binom n 2 \) edges.
+\end{remark}
+\begin{proposition}
+	Let \( G \) be a graph with diameter at most 2.
+	Then \( \abs{G} \leq \Delta(G)^2 + 1 \).
+\end{proposition}
+\begin{proof}
+	Let \( x \in G \).
+	Then \( V(G) = \qty{x} \cup N(x) \cup N(N(x)) \setminus N(x) \).
+	Hence \( \abs{G} \leq 1 + \Delta(G) + \Delta(G)(\Delta(G) - 1) \leq \Delta(G)^2 + 1 \).
+\end{proof}
+\begin{definition}
+	A \emph{Moore graph} is a graph for which \( \abs{G} = \Delta(G)^2 + 1 \).
+\end{definition}
+\begin{remark}
+	Any Moore graph is regular.
+	Such a graph does not contain a triangle.
+	A graph \( G \) is a Moore graph if and only if every distinct \( x, y \in V(G) \) have a unique path of length at most 2 between them.
+\end{remark}
+\begin{example}
+	\( C_5 \) is a Moore graph with \( \Delta(C_5) = 2 \).
+	The Petersen graph is a Moore graph with degree 3.
+\end{example}
+
+\subsection{Adjacency matrices}
+\begin{definition}
+	The \emph{adjacency matrix} of a graph \( G \) on vertex set \( \qty{1, \dots, n} \) is the \( n \times n \) matrix \( A_G \) with entries \( a_{xy} = \mathbbm 1_{xy \in E(G)} \).
+\end{definition}
+\begin{remark}
+	Adjacency matrices are symmetric and have zero diagonal, hence \( \tr A_G = 0 \).
+\end{remark}
+\begin{proposition}
+	Let \( G \) be a graph, and \( A_G \) be its adjacency matrix.
+	Let \( k \in \mathbb N \).
+	Then \( (A_G^k)_{xy} \) is the number of walks of length \( k \) from \( x \) to \( y \) in \( G \).
+\end{proposition}
+\begin{proof}
+	If \( k = 1 \), then the theorem clearly holds.
+	If \( k = 2 \), then \( (A_G^2)_{xy} = \sum_z (A_G)_{xz} (A_G)_{zy} = \sum_z \mathbbm 1_{x \sim z \in E} \mathbbm 1_{z \in y} \) counts the amount of walks of length 2.
+	For \( k > 2 \), we can proceed by induction.
+\end{proof}
+\( A_G \) acts on \( \mathbb R^n \) as it is a linear map.
+\begin{example}
+	Consider the graph \( C_4 \) on vertex set \( \qty{1, 2, 3, 4} \).
+	This has adjacency matrix
+	\[ A_{C_4} = \begin{pmatrix}
+		0 & 1 & 0 & 1 \\
+		1 & 0 & 1 & 0 \\
+		0 & 1 & 0 & 1 \\
+		1 & 0 & 1 & 0
+	\end{pmatrix} \]
+	Let \( x = (1, 2, -2, 3)^\transpose \).
+	Then \( A_G x = (5, -1, 5, -1)^\transpose \).
+	Note that \( (A_G x)_y \) is the sum of \( x_z \) for \( z \sim y \).
+\end{example}
+\begin{proposition}
+	Let \( A \) be an \( n \times n \) symmetric matrix.
+	Then \( A \) has real eigenvalues \( \lambda_i \), and there exists an orthonormal basis \( u_i \) where \( A u_i = \lambda_i u_i \).
+\end{proposition}
+Given a graph \( G \) on \( n \) vertices, we can now consider its eigenvalues and eigenvectors, which are the eigenvalues and eigenvectors of \( A_G \).
+Let \( \lambda_{\mathrm{max}} = \lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_n = \lambda_{\mathrm{min}} \) without loss of generality.
+Since \( \sum_{i=1}^n \lambda_i = \tr A_G = 0 \), if \( G \) is a nonempty graph, \( \lambda_{\mathrm{max}} > 0 \) and \( \lambda_{\mathrm{min}} < 0 \).
+\begin{example}
+	\( (1, 1, 1, 1)^\transpose \) is an eigenvector of \( C_4 \) with eigenvalue 2.
+	Note that the rank of \( A_G \) is 2, so there are two zero eigenvalues.
+	Since the eigenvalues sum to zero, \( \lambda_{\mathrm{min}} = -2 \).
+	One example of a corresponding eigenvector is \( (1, -1, 1, -1)^\transpose \).
+\end{example}
+\begin{proposition}
+	Let \( A \) be a symmetric \( n \times n \) matrix.
+	Then
+	\[ \lambda_{\mathrm{max}} = \max_{x \in \mathbb R^n \setminus \qty{0}}\qty( \frac{\inner{x, Ax}}{\inner{x, x}} ); \quad \lambda_{\mathrm{min}} = \min_{x \in \mathbb R^n \setminus \qty{0}}\qty( \frac{\inner{x, Ax}}{\inner{x, x}} ) \]
+\end{proposition}
+\begin{proposition}
+	Let \( G \) be a graph.
+	\begin{enumerate}
+		\item If \( \lambda \) is an eigenvalue, then \( \abs{\lambda} \leq \Delta(G) \).
+		\item If \( G \) is connected, then \( \Delta(G) \) is an eigenvalue if and only if \( G \) is regular.
+		\item If \( G \) is connected, then \( -\Delta(G) \) is an eigenvalue if and only if \( G \) is regular and bipartite.
+		\item \( \lambda_{\mathrm{max}} \geq \delta(G) \).
+	\end{enumerate}
+\end{proposition}

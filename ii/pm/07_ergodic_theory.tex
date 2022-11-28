@@ -83,7 +83,7 @@ If \( f \) is \( \Theta \)-invariant and \( \Theta \) is ergodic, then one can s
 	Let \( (E, \mathcal E, \mu) \) be a \( \sigma \)-finite measure space.
 	Let \( \Theta \colon E \to E \) be measure-preserving.
 	For \( f \in L^1(\mu) \), we define \( S_0(f) = 0 \) and \( S_n(f) = \sum_{k=0}^{n-1} f \circ \Theta^k \).
-	Then there exists an integrable function \( \overline f \in L^1(\mu) \) with \( \mu\qty(\abs{\overline f}) \leq \mu(\abs{f}) \) such that \( \frac{S_n(f)}{n} \to \overline f \) almost everywhere, where \( \overline f \) is \( \Theta \)-invariant.
+	Then there exists a \( \Theta \)-invariant integrable function \( \overline f \in L^1(\mu) \) with \( \mu\qty(\abs{\overline f}) \leq \mu(\abs{f}) \) such that \( \frac{S_n(f)}{n} \to \overline f \) almost everywhere.
 \end{theorem}
 \begin{proof}
     Note that
@@ -127,4 +127,76 @@ If \( f \) is \( \Theta \)-invariant and \( \Theta \) is ergodic, then one can s
     \[ \mu\qty(\abs{\overline f}) = \mu\qty(\liminf_n \abs{\frac{S_n}{n}}) \leq \liminf_n \mu\qty(\abs{\frac{S_n}{n}}) \leq \mu(\abs{f}) \]
     which is one of the results required by the theorem.
     In particular, \( \mu\qty(\abs{\overline f}) < \infty \) so \( \abs{\overline f} < \infty \) almost everywhere.
+\end{proof}
+
+\subsection{Infinite product spaces}
+Let \( E = \mathbb R^{\mathbb N} = \qty{x = (x_n)_{n \in \mathbb N}} \) be the space of real sequences.
+Consider
+\[ \mathcal C = \qty{A = \prod_{n=1}^\infty A_n \mid A_n \in \mathcal B, \exists N \in \mathbb N, \forall n > N, A_n = \mathbb R} \]
+This forms a \( \pi \)-system, which generates the \emph{cylindrical \( \sigma \)-algebra} \( \sigma(\mathcal C) \).
+One shows that \( \sigma(\mathcal C) = \sigma(\qty{f_n \mid n \in \mathbb N}) \) where \( f_n(x) = x_n \) are the coordinate projection functions on \( E \).
+We can also show \( \sigma(\mathcal C) = \mathcal B(\mathbb R^{\mathbb N}) \) for the product topology.
+Let \( (X_n)_{n \in \mathbb N} \) be a sequence of independent and identically distributed random variables defined on \( (\Omega, \mathcal F, \mathbb P) \) with marginal distributions \( \mu_{X_n} = m \) for all \( n \); this exists by an earlier theorem.
+We define a map \( X \colon \Omega \to E \) by \( X(\omega)_n = X_n(\omega) \).
+This is \( \mathcal F \)--\( \sigma(\mathcal C) \) measurable, since for all \( A \in \mathcal C \), we have
+\[ X^{-1}(A) = \qty{\omega \mid X_1(\omega) \in A_1, \dots, X_N(\omega) \in A_n} = \bigcap_{n=1}^N X_n^{-1}(A_n) \in \mathcal F \]
+We denote \( \mu = \mathbb P \circ X^{-1} \), which is the unique product probability measure in \( \mathbb R^{\mathbb N} \) satisfying
+\[ \mu\qty(\prod_{n=1}^\infty A_n) = \lim_{N \to \infty} \mu\qty(\prod_{n=1}^N A_n) = \lim_{N \to \infty} \prob{X_1 \in A_1, \dots, X_N \in A_N} = \lim_{N \to \infty} \prob{X_1 \in A_1} \cdots \prob{X_N \in A_N} = \prod_{n=1}^\infty \prob{X_n \in A_n} = \prod_{n=1}^\infty m(A_n) \]
+Note that we need to use finiteness of \( N \) to exploit independence of the \( X_i \).
+We call \( (\mathbb E, \mathcal E, \mu) = (\mathbb R^{\mathbb N}, \sigma(\mathcal C), m^{\mathbb N}) \) the \emph{canonical model} for an infinite sequence of random variables of law \( m \).
+\begin{theorem}
+	The shift map \( \Theta \colon E \to E \) defined by \( \Theta(x)_n = x_{n+1} \) is measure preserving and ergodic.
+\end{theorem}
+\begin{proof}
+	For \( A \in \mathcal C \),
+	\[ \mu(A) = \prob{X_1 \in A_1, \dots, X_N \in A_N} = \prob{X_1 \in A_1} \cdots \prob{X_N \in A_N} = \prod_{n=1}^N m(A_n) = \prob{X_2 \in A_1} \cdots \prob{X_{N+1} \in A_N} = \mu(\Theta^{-1}(A)) \]
+	so \( \Theta \) is measure-preserving.
+	Recall that the tail \( \sigma \)-algebra is defined by \( \tau = \bigcap_n \tau_n \) where \( \tau_n = \sigma(\qty{X_k \mid k \geq n + 1}) \).
+	Note that for all \( A \in \mathcal C \), we have \( \Theta^{-n}(A) = \qty{x \in \mathbb R^{\mathbb N} \mid (x_{n+1}, x_{n+2}, \dots) \in A} \in \tau_n \).
+	Now, if \( A \) is invariant, \( A = \Theta^{-n}(A) \in \tau_n \) for all \( n \), so \( A \in \tau \).
+	By Kolmogorov's zero-one law, \( \mu(A) = 0 \) or \( \mu(A) = 1 \) as required for ergodicity.
+\end{proof}
+We can apply Birkhoff's ergodic theorem to \( \Theta \).
+If \( f \in L^1(\mu) \), then \( \frac{S_n(f)}{n} \to \overline f \in L^1(\mu) \) almost surely.
+Since \( \overline f \) is invariant and \( \Theta \) is ergodic, \( \overline f \) is almost surely constant.
+% TODO: rearrange
+By von Neumann's \( L^p \)-ergodic theorem, convergence holds in fact in \( L^1 \).
+
+\subsection{Strong law of large numbers}
+\begin{theorem}
+	Let \( \int_{\mathbb R} \abs{x} \dd{m(x)} < \infty \), and let \( \int_{\mathbb R} x \dd{m(x)} = \nu \).
+	Then
+	\[ \mu\qty(\qty{x \in \mathbb R^{\mathbb N} \mid \frac{x_1 + x_2 + \dots + x_n}{n} \to \nu}) = 1 \]
+\end{theorem}
+\begin{proof}
+	Let \( f(x) = x_1 \).
+	Then \( f \in L^1(\mu) \), since \( \int_E \abs{f} \dd{\mu} = \int_{\mathbb R} \abs{x} \dd{m(x)} < \infty \).
+	So by the ergodic theorem,
+	\[ \mu\qty(\qty{ \frac{x_1 + \dots + x_n}{n} \to \nu }) = \mu\qty(\qty{ \frac{S_n(f)}{n} \to \overline f }) = 1 \]
+	where we also use von Neumann's ergodic theorem to deduce that \( \overline f = \mu(\overline f) = \lim_n \mu\qty(\frac{S_n(f)}{n}) = \frac{n}{n} \nu = \nu \).
+\end{proof}
+\begin{theorem}[strong law of large numbers]
+	Let \( (X_n)_{n \in \mathbb N} \) be independent and identically distributed random variables such that \( \expect{\abs{X_1}} < \infty \).
+	Then \( \frac{1}{n} \sum_{i=1}^n X_i \to \expect{X} \) almost surely.
+\end{theorem}
+\begin{proof}
+	Inject \( X \) from \( \Omega \) to \( E = \mathbb R^{\mathbb N} \) as before, and notice that
+	\[ \prob{\frac{1}{n} \sum_{i=1}^n X_i \to \expect{X}} = \mu\qty(\qty{ x \mid \frac{x_1 + \dots + x_n}{n} \to \nu }) = 1 \]
+\end{proof}
+\begin{remark}
+	The hypothesis \( \expect{\abs{X}} < \infty \) cannot be weakened; we see on an example sheet that \( \frac{1}{n} \sum_{i=1}^n X_i \) can exhibit various behaviours.
+	Note that this notion of convergence is stronger than the weak convergence seen in the central limit theorem.
+	The law of the iterated logarithm is that
+	\[ \limsup_n \frac{X_1 + \dots + X_n}{\sqrt{2 n \log \log n}} = 1 \]
+	almost surely, and \( -1 \) for the limit inferior.
+	In particular, the central limit theorem does not hold almost surely.
+\end{remark}
+% TODO: rearrange following thm to above
+\begin{theorem}[von Neumann]
+	Let \( (E, \mathcal E, \mu) \) be a finite measure space (not \( \sigma \)-finite).
+	Let \( \Theta \colon E \to E \) be measure-preserving.
+	Let \( f \in L^p(E) \) with \( 1 \leq p < \infty \).
+	Then \( \frac{S_n(f)}{n} \to \overline f \) in \( L^p \).
+\end{theorem}
+\begin{proof}
 \end{proof}
