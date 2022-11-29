@@ -201,3 +201,92 @@ So \( G \) is a 2-group.
 Let \( G \supset G_1 = \Gal(L/\mathbb C) \), and \( G_2 \leq G_1 \) be a subgroup of index 2, which exists by (iv).
 Then \( [L^{G_2}:\mathbb C] = (G_1 : G_2) \), contradicting the fact (ii) that quadratics split in \( \mathbb C \).
 So there cannot exist a subgroup of index 2, so \( G_1 = \qty{e} \), and \( L = \mathbb C \).
+
+% TODO: reorganise
+\subsection{Artin's theorem on invariants}
+\begin{theorem}[Artin]
+	Let \( L \) be a field and \( G \leq \Aut(L) \) be a finite subgroup of automorphisms of \( L \).
+	Then \( L^G = \qty{x \in L \mid \forall \sigma \in G,\, \sigma(x) = x} \) satisfies \( [L:L^G] = \abs{G} \).
+\end{theorem}
+\begin{remark}
+	Unlike in the Galois correspondence, this theorem does not rely on a field extension, just a single field and a finite group of automorphisms.
+	In particular, we find that \( L / L^G \) is finite and Galois, with Galois group \( G \).
+\end{remark}
+\begin{proof}
+	It suffices to show \( L/L^G \) is finite, because then we can apply the Galois correspondence to show \( [L:L^G] = \abs{G} \).
+	Let \( K = L^G \), and let \( x \in L \).
+	Then if \( \qty{\sigma_1(x), \dots, \sigma_r(x)} \) is the orbit of \( G \) on \( x \), then \( x \) is a root of \( f = \prod_{i=1}^r (T - \sigma_i(x)) \).
+	But \( f \in L^G[T] = K[T] \).
+	By construction, \( f \) is separable.
+	Hence \( x \) is algebraic and separable over \( K \), and \( \deg_K x \leq \abs{G} \).
+
+	Let \( y \in L \) have maximal degree.
+	We claim that \( K(y) = L \).
+	If not, there exists \( x \in L \setminus K(y) \).
+	By above, \( x, y \) are algebraic and separable over \( K \).
+	By the primitive element theorem, there exists \( z \in L \) such that \( K(x,y) = K(z) \supsetneq K(y) \), so \( \deg_K z > \deg_K y \).
+	But \( y \) was chosen to have maximal degree, so this is a contradiction.
+\end{proof}
+\begin{remark}
+	One can prove this theorem directly without appealing to the Galois correspondence or the primitive element theorem.
+	This can then be used as a starting point for Galois theory, which then allows the more complicated theorems to be proven.
+\end{remark}
+\begin{example}
+	Let \( \mathbbm k \) be a field, and let \( L = \mathbbm k(X_1, \dots, X_n) \) be the field of rational functions, defined as the fractions of the polynomial ring \( \mathbbm k[X_1, \dots, X_n] \).
+	Let \( G = S_n \) be the symmetric group permuting the \( X_i \).
+	Then \( G \leq \Aut(L) \).
+\end{example}
+\begin{theorem}
+	Let \( \mathbbm k \) be a field and let \( L = \mathbb k(X_1, \dots, X_n) \).
+	Then \( L^G = \mathbbm k(s_1, \dots, s_n) \).
+\end{theorem}
+\begin{proof}
+	Recall that \( \mathbbm k[X_1, \dots, X_n]^G = \mathbbm[s_1, \dots, s_n] \) where the \( s_i \) are the elementary symmetric polynomials in the \( X_i \), and there are no nontrivial relations between the \( s_i \).
+	In particular, \( \mathbbm k(s_1, \dots, s_n) \subseteq L^G \).
+
+	Conversely, let \( \frac{f}{g} \in L^G \) for \( f, g \in \mathbbm k[X_1, \dots, X_n] = R \).
+	Without loss of generality let \( f, g \) be coprime.
+	Then for all \( \sigma \in G \), \( \frac{f}{g} = \frac{\sigma f}{\sigma g} \).
+	By Gauss' lemma, \( R \) is a unique factorisation domain, and the units in \( R \) are the nonzero constants \( \mathbbm k^\times \).
+	Hence \( \sigma f = c_\sigma f \) and \( \sigma g = c_\sigma g \) where \( c_\sigma \in \mathbbm k^\times \).
+
+	Since \( G \) is finite and has order \( N = n! \), \( f = \sigma^N f = c_\sigma^N f \).
+	So \( c_\sigma \) is an \( N \)th root of unity.
+	Then \( fg^{N-1}, g^N \) are invariant under \( \sigma \), so \( fg^{N-1}, g^N \in R^G = \mathbbm k[s_1, \dots, s_n] \).
+	So \( \frac{f}{g} = \frac{fg^{N-1}}{g^N} \in \mathbbm k(s_1, \dots, s_n) \).
+\end{proof}
+\begin{example}
+	Let \( L = \mathbbm k(X_1, \dots, X_n) \), and let \( K = \mathbbm k(s_1, \dots, s_n) = L^G \) where \( G = S^n \).
+	Then by Artin's theorem, \( L/K \) is a finite Galois extension with Galois group \( G \).
+	Let \( f = T^n - s_1 T^{n-1} + \dots + (-1)^n s_n \in K[T] \).
+	Then in \( L \), \( f = \prod_{i=1}^n (T - X_i) \).
+	Since the \( X_i \) are different, \( f \) is separable, and \( L / K \) is a splitting field for \( f \).
+	Hence \( \Gal(f/K) = S^n \).
+	Informally, the general polynomial of degree \( n \) has Galois group \( S^n \).
+	It is not difficult to show that for any finite group \( G \), there exists a Galois extension with Galois group isomorphic to \( G \).
+
+	This is one of a number of theories in \emph{invariant theory}, in which one considers a ring \( R \) and a group \( G \leq \Aut(R) \), and study \( R^G \).
+	If \( R \) is a polynomial ring \( \mathbbm k[X_1, \dots, X_n] \) and \( G \leq S_n \), then knowing \( R^G \) can help with the computation of Galois groups algorithmically.
+	For example, if \( G = A_n \), then \( \mathbbm k[X_1, \dots, X_n]^{A_n} = k[s_1, \dots, s_n, \Delta] \) where \( \Delta = \prod_{i < j} (X_i - X_j) \), for \( \fchar \mathbbm k \neq 2 \).
+
+	Now consider \( R = \mathbbm k[X_1, X_2] \) and \( G = \qty{1, \sigma} \) where \( \sigma(X_i) = -X_i \).
+	Let \( \fchar \mathbbm k \neq 2 \).
+	Then one can show \( R^G = \mathbbm k[X_1^2, X_2^2, X_1 X_2] = \faktor{\mathbbm k[Y_1, Y_2, Y_3]}{(Y_1 Y_2 - Y_3^2)} \).
+	Geometrically, \( \qty{Y_1 Y_2 = Y_3^2} \subset \mathbb R^3 \) is a double cone.
+	The point at which the cones meet is known as a singularity; such singularities occur in the study of algebraic geometry.
+
+	If \( K \) and \( G \) are fixed, it is not always the case that there exists a Galois extension \( L / K \) such that \( \Gal(L/K) = G \).
+	For instance, if \( K \) is algebraically closed, it has no nontrivial Galois extensions.
+	If \( K = \mathbb F_p \), then \( \Gal(L/K) \) must be cyclic.
+
+	The \emph{inverse Galois problem} asks whether every finite group \( G \) is the Galois group of some Galois extension \( L / \mathbb Q \).
+	This is unsolved in the general case.
+	On the extra example sheet, one shows that every abelian group is in fact the Galois group of some Galois extension \( L / \mathbb Q \).
+	There is a famous theorem by Shafarevich that every finite soluble group is such a Galois group over \( \mathbb Q \).
+	This is also known to hold for most finite simple groups; in particular, due to a theorem of John Thompson, the monster group is known to be a Galois group over \( \mathbb Q \).
+
+	Perhaps to solve this problem, it would be better to instead understand \( \Gal(\overline{\mathbb Q}/\mathbb Q) \).
+	The inverse Galois problem is equivalent to asking whether every finite group is a quotient of \( \Gal(\overline{\mathbb Q}/\mathbb Q) \).
+	We may also be interested in finding the representations of this group.
+	This leads to the Langlands programme.
+\end{example}

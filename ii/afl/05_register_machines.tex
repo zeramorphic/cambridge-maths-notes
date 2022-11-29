@@ -928,3 +928,102 @@ This is neither \( \Sigma_1 \) nor \( \Pi_1 \).
 	Then \( f_{h(w)} \) does not halt for any input, giving \( W_{h(w)} = \varnothing \).
 	So \( f_{h(w)}(h(w)) \uparrow \) and in particular \( h(w) \not\in \mathbb K \).
 \end{proof}
+
+\subsection{Index sets and Rice's theorem}
+Recall that \( M \) and \( M' \) are weakly equivalent when \( \dom f_{M,1} = W_M = W_{M'} = \dom f_{M',1} \).
+We can extend this to words.
+We say that words \( v, u \) are weakly equivalent when \( W_v = W_u \), and write \( v \sim u \).
+\begin{definition}
+	A set \( I \subseteq \mathbb W \) is called an \emph{index set} if it is closed under weak equivalence.
+\end{definition}
+\begin{remark}
+	Index sets are unions of equivalence classes.
+\end{remark}
+\begin{example}
+	\( \varnothing \) and \( \mathbb W \) are the trivial index sets.
+	Other index sets correspond to properties of computably enumerable sets.
+	\( \mathbf{Emp} = \qty{v \mid W_v = \varnothing} \), \( \mathbf{Fin} = \qty{v \mid W_v \text{ finite}} \), \( \mathbf{Inf} = \qty{v \mid W_v \text{ infinite}} \), \( \mathbf{Tot} = \qty{v \mid W_v = \mathbb W} \) are index sets.
+	Note that the emptiness problem is precisely the index set \( \mathbf{Emp} \).
+\end{example}
+\begin{theorem}[Rice's theorem]
+	No nontrivial index set is computable.
+\end{theorem}
+Fix \( w \in \mathbb W \) and consider the function
+\[ g(u,v) = \begin{cases}
+	f_{w,1}(v) & f_u(u) \downarrow \text{ or equivalently, } u \in \mathbb K \\
+	\uparrow & \text{otherwise}
+\end{cases} \]
+This is computable, even though the case distinction itself is not computable.
+By the \( s \)--\( m \)--\( n \) theorem, there is a total function \( h \) such that
+\[ f_{h(u)}(v) = g(u,v) = \begin{cases}
+	f_{w,1}(v) & u \in \mathbb K \\
+	\uparrow & u \not\in \mathbb K
+\end{cases} \]
+If \( u \in \mathbb K \), then \( W_{h(u)} = W_w \).
+If \( u \not\in \mathbb K \), then \( W_{h(u)} = \varnothing \).
+This \( h \) will be used as a reduction function.
+\begin{proof}
+	Let \( I \) be an index set.
+	Let \( e \) be such that \( W_e = \varnothing \).
+	Then either \( e \in I \), or \( e \not\in I \).
+
+	Suppose \( e \in I \).
+	Since \( I \) is nontrivial, there exists \( w \not\in I \), so \( W_w \neq \varnothing \).
+	Consider the function \( g \) from the discussion above, instantiated with this choice of \( w \), and apply the \( s \)--\( m \)--\( n \) theorem to obtain a total function \( h \).
+	We claim that \( h \) reduces \( \mathbb W \setminus \mathbb K \) to \( I \).
+	If \( u \in \mathbb K \), then \( W_{h(u)} = W_w \).
+	Hence \( h(u) \sim w \), so \( h(u) \not\in I \).
+	If \( u \not\in \mathbb K \), then \( W_{h(u)} = \varnothing \), so \( h(u) \sim e \), so \( h(u) \in I \).
+
+	Now suppose \( e \not\in I \).
+	Then there exists \( w \in I \), and \( W_w \neq \varnothing \).
+	Take \( g \) and \( h \) as before.
+	We claim now that \( h \) reduces \( \mathbb K \) to \( I \).
+	If \( u \in \mathbb K \), then \( W_{h(u)} = W_w \), so \( h(u) \sim w \), so \( h(u) \in I \).
+	If \( u \not\in \mathbb K \), then \( W_{h(u)} = \varnothing \), so \( h(u) \sim e \), giving \( h(u) \not\in I \).
+\end{proof}
+\begin{remark}
+	The proof given for Rice's theorem shows a stronger statement: if \( e \in I \) then \( \mathbb W \setminus \mathbb K \leq_m I \), and if \( e \not\in I \) then \( \mathbb K \leq_m I \).
+	This allows us to show that certain index sets are not computably enumerable.
+	\( e \in \mathbf{Emp} \) so \( \mathbb W \setminus \mathbb K \leq_m \mathbf{Emp} \).
+	Similarly, \( \mathbb W \setminus \mathbb K \leq_m \mathbf{Fin} \).
+	For the other two index sets, we can only deduce that \( \mathbb K \leq_m \mathbf{Inf} \) and \( \mathbb K \leq_m \mathbf{Tot} \), since \( e \) does not lie in these sets.
+\end{remark}
+\begin{corollary}
+	\( \mathbf{Emp}, \mathbf{Fin}, \mathbf{Inf}, \mathbf{Tot} \) are not computable.
+\end{corollary}
+\begin{corollary}
+	The emptiness problem for type 0 grammars is unsolvable.
+\end{corollary}
+\begin{corollary}
+	The equivalence problem for type 0 grammars is unsolvable.
+\end{corollary}
+\begin{proof}
+	We define \( \mathbf{Eq} = \qty{(w, v) \mid W_w = W_v} \).
+	The function \( g(w) = (w, e) \) can be performed by a register machine for any \( e \).
+	If \( W_e = \varnothing \), then \( \chi_{\mathbf{Emp}} = \chi_{\mathbf{Eq}} \circ g \).
+	Hence, if \( \mathbf{Eq} \) is computable, so is \( \mathbf{Emp} \).
+\end{proof}
+\begin{remark}
+	One can show that \( \mathbf{Emp} \) is many-one equivalent to \( \mathbb W \setminus \mathbb K \), so it is \( \Pi_1 \)-complete, as proven on the last example sheet.
+	The other problems \( \mathbf{Tot}, \mathbf{Inf}, \mathbf{Fin} \) are not in \( \Sigma_1 \) or \( \Pi_1 \).
+\end{remark}
+\begin{theorem}
+	\( \mathbf{Fin} \) is not \( \Sigma_1 \) or \( \Pi_1 \).
+\end{theorem}
+\begin{proof}
+	We know \( \mathbb W \setminus \mathbb K \leq_m \mathbf{Fin} \) by the proof of Rice's theorem, so \( \mathbf{Fin} \) is not \( \Sigma_1 \).
+	To show it is not \( \Pi_1 \), one must show that \( \mathbb K \leq_m \mathbf{Fin} \).
+	Consider
+	\[ g(w,v) = \begin{cases}
+		\uparrow & t_{w,1}(w,v) = a \\
+		\varepsilon & \text{otherwise}
+	\end{cases} \]
+	Applying the \( s \)--\( m \)--\( n \) theorem, we obtain a total function \( h \) such that \( f_{h(w),1}(v) = g(w,v) \).
+	We show \( h \) reduces \( \mathbb K \) to \( \mathbf{Fin} \).
+	If \( w \in \mathbb K \), then \( f_{h(w),1} \) is undefined from \( v \) onwards, where \( v \) is the halting time of \( f_w(w) \).
+	Hence, \( W_{h(w)} \) is finite, so \( h(w) \in \mathbf{Fin} \).
+	If \( w \not\in \mathbb K \), then \( g(w,v) = \varepsilon \) for all \( v \).
+	So \( f_{h(w),1} \) is the constant function with value \( \varepsilon \).
+	Hence \( W_{h(w)} = \mathbb W \) which is infinite, so \( h(w) \not\in \mathbf{Fin} \).
+\end{proof}
