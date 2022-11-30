@@ -82,7 +82,106 @@ Since \( \sum_{i=1}^n \lambda_i = \tr A_G = 0 \), if \( G \) is a nonempty graph
 	\begin{enumerate}
 		\item If \( \lambda \) is an eigenvalue, then \( \abs{\lambda} \leq \Delta(G) \).
 		\item If \( G \) is connected, then \( \Delta(G) \) is an eigenvalue if and only if \( G \) is regular.
+			In this case, \( \mathbbm 1 = (1, \dots, 1) \) is the corresponding eigenvector, and \( \Delta(G) \) has multiplicity 1.
 		\item If \( G \) is connected, then \( -\Delta(G) \) is an eigenvalue if and only if \( G \) is regular and bipartite.
 		\item \( \lambda_{\mathrm{max}} \geq \delta(G) \).
 	\end{enumerate}
 \end{proposition}
+\begin{proof}
+	\emph{Part (i).}
+	Let \( \lambda \) be an eigenvalue for \( G \).
+	Let \( x = (x_1, \dots, x_n) \) be a corresponding eigenvector.
+	Let \( x_i \) be the entry with largest absolute value.
+	We may assume that \( x_i = 1 \).
+	Then, \( \lambda x = Ax \) gives
+	\[ \lambda = \lambda x_i = (\lambda x)_i = (Ax)_i = \sum_{j \sim i} x_j \implies \abs{\lambda} \leq \abs{\sum_{j \sim i} x_j} \leq \Delta(G) \]
+	\emph{Part (ii).}
+	Suppose \( G \) is regular.
+	Then observe that \( \mathbbm 1 = (1, \dots, 1) \) is an eigenvector of \( G \) with eigenvalue \( \delta(G) = \Delta(G) \).
+	Now suppose \( \Delta(G) \) is an eigenvalue.
+	Let \( x = (x_1, \dots, x_n) \) be a corresponding eigenvector and let \( x_i \) be the entry with largest absolute value.
+	Without loss of generality let \( x_i = 1 \).
+	We have \( \Delta(G) = \Delta(G) x_i = \sum_{j \sim i} x_j \), so \( \deg i = \Delta(G) \), and if \( j \sim i \), then \( x_j = 1 \).
+	Proceeding inductively, since the graph is connected, all \( x_j \) are equal to 1, and all vertices have degree \( \Delta(G) \).
+	So \( x = \mathbbm 1 \) as required.
+	Since this is the only possible eigenvector with eigenvalue \( \Delta(G) \), and \( A_G \) is symmetric, the multiplicity of the eigenvalue \( \Delta(G) \) is 1.
+
+	\emph{Part (iii).}
+	Suppose \( G \) is bipartite and regular.
+	Let \( V(G) = X \sqcup Y \), and consider the vector given by \( x_i = 1 \) if \( i \in X \) and \( x_i = -1 \) if \( i \in Y \).
+	Then \( Ax = -\Delta(G) x \) as required.
+	Now suppose \( -\Delta(G) \) is an eigenvalue.
+	As before, let \( x \) be an eigenvector with \( x_i = 1 \) of maximal absolute value.
+	We have \( -\Delta(G) = -\Delta(G) x_i = \sum_{j \sim i} x_j \), hence \( \deg i = \Delta(G) \), and if \( j \sim i \), we have \( x_j = -1 \).
+	Since \( G \) is connected, we repeat the process to show that \( G \) is \( \Delta(G) \)-regular, and \( x_j \) is either \( +1 \) or \( -1 \) giving a natural bipartition of the graph.
+
+	\emph{Part (iv).}
+	Note that
+	\[ \lambda_{\mathrm{max}} = \max_{x \in \mathbb R^n \setminus \qty{0}} \frac{\inner{x, Ax}}{\inner{x,x}} \]
+	Consider \( x = \mathbbm 1 = (1, \dots, 1) \).
+	Then
+	\[ \lambda_{\mathrm{max}} \geq \frac{\inner{\mathbbm 1, A\mathbbm 1}}{\inner{\mathbbm 1, \mathbbm 1}} = \frac{1}{n} \sum_{i=1}^n \deg(i) \geq \delta(G) \]
+\end{proof}
+
+\subsection{Strongly regular graphs}
+\begin{definition}
+	A graph \( G \) is \emph{\( (k, a, b) \)-strongly regular} if
+	\begin{enumerate}
+		\item \( G \) is \( k \)-regular;
+		\item for every pair of adjacent vertices \( x \sim y \), they have exactly \( a \) common neighbours, so \( \abs{N(x) \cap N(y)} = a \);
+		\item for every pair of not equal and non-adjacent vertices \( x \not\sim y \), they have exactly \( b \) common neighbours, so \( \abs{N(x) \cap N(y)} = b \).
+	\end{enumerate}
+\end{definition}
+\begin{example}
+	\( C_4 \) is \( (2, 0, 2) \)-strongly regular.
+	\( C_5 \) is \( (2, 0, 1) \)-strongly regular.
+	Any Moore graph is \( (\Delta(K), 0, 1) \)-strongly regular.
+	The following graph
+	% TODO: diagram
+	is \( (4, 1, 1) \)-strongly regular.
+\end{example}
+\begin{theorem}[strongly regular graphs are rare]
+	Let \( G \) be a \( (k, a, b) \)-strongly regular graph on \( n \) vertices.
+	Then,
+	\[ \frac{1}{2}\qty((n-1) \pm \frac{(n-1)(b-a) - 2k}{\sqrt{(a-b)^2 + 4(k-b)}} \]
+	are integers.
+\end{theorem}
+\begin{proof}
+	Let \( A \) be the adjacency matrix of \( G \).
+	Then
+	\[ (A^2)_{xy} = \begin{cases}
+		a & x \sim y \\
+		b & x \neq y, x \not\sim y \\
+		k & x = y
+	\end{cases} \implies A^2 = aA + b(J-I-A) + kI \]
+	where \( J \) is the matrix with \( J_{xy} = 1 \) for all \( x, y \).
+	Hence, \( A^2 + (b-a)A + (b-k)I - bJ = 0 \).
+	We know that \( k \) is an eigenvalue of \( A \), and the corresponding eigenvector is \( \mathbbm 1 \).
+	Since \( G \) is connected, \( k \) has multiplicity 1.
+
+	Let \( \lambda \) be an eigenvalue of \( A \) such that \( \lambda \neq k \).
+	Let \( x \) be the corresponding eigenvector.
+	Applying the matrix equation to \( x \), we obtain \( \lambda^2 x + (b-a)\lambda x + (b-k)x = 0 \) as \( Jx = 0 \), as \( x \) is orthogonal to \( \mathbbm 1 \).
+	Then \( \lambda^2 + (b-a)\lambda + (b-k) \) as \( x \neq 0 \).
+	Hence,
+	\[ \lambda = \frac{(a-b) \pm \sqrt{(a-b)^2 + 4(k-b)}}{2} \]
+	In particular, there are only three possible eigenvalues for \( A \), which are \( k \) and the two possible solutions to the quadratic equation for \( \lambda \).
+	Let \( \lambda, \mu \) be the solutions to the above equation.
+	Let \( \lambda \) have multiplicity \( s \) and \( \mu \) have multiplicity \( t \).
+	Then,
+	\[ 0 = \tr A = \sum_{i=1}^n \lambda_i = s\lambda + t\mu + k \]
+	We also have \( s + t + 1 = n \), since there are \( n \) eigenvalues.
+	Solving both equations simultaneously, we obtain the result as desired.
+\end{proof}
+\begin{corollary}
+	Let \( G \) be a Moore graph with \( \Delta(G) = k \).
+	Then \( k \in \qty{2, 3, 7, 57} \).
+\end{corollary}
+\begin{proof}
+	If \( G \) is a Moore graph, it is \( (k, 0, 1) \)-strongly regular on \( k^2 + 1 \) vertices.
+	Then, one can check the condition in the previous theorem.
+	\[ \frac{1}{2}\qty(k^2 \pm \frac{k^2 - 2k}{\sqrt{4k - 3}}) \in \mathbb Z \]
+\end{proof}
+\begin{remark}
+	It is not known if such a graph \( G \) with \( k = 57 \) exists.
+\end{remark}

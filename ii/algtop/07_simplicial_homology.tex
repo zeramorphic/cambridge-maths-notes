@@ -804,7 +804,7 @@ Hence \( S^n \sim S^m \) implies \( n = m \).
 	So \( G(x) = P\qty(F(x), \frac{x - F(x)}{\norm{x - F(x)}}) \) is well-defined and continuous.
 \end{proof}
 
-\subsection{Homology of surfaces}
+\subsection{Homology of orientable surfaces}
 We can often compute homology groups only using the Mayer--Vietoris sequence and functoriality properties.
 \begin{example}
 	Consider the torus \( T^2 \).
@@ -836,3 +836,128 @@ is exact, then \( B \simeq A \oplus \mathbb Z^r \).
 	% TODO: somehow this diagram
 	So \( L_{g,1} \sim \bigvee_{i=1}^{2g} S^1 \).
 \end{example}
+\begin{proposition}
+	\[ H_k(L_g) = \begin{cases}
+		\mathbb Z & k = 0, 2 \\
+		\mathbb Z^{2g} & k = 1 \\
+		0 & \text{otherwise}
+	\end{cases} \]
+	and
+	\[ H_k(L_{g,1}) = \begin{cases}
+		\mathbb Z & k = 0 \\
+		\mathbb Z^{2g} & k = 1 \\
+		0 & \text{otherwise}
+	\end{cases} \]
+	Further, \( \iota_{g\star} \colon H_1(\partial L_{g,1}) \to H_1(L_{g,1}) \) is the zero map.
+\end{proposition}
+\begin{proof}
+	By induction, we show the result for \( H_k(L_g) \) implies the result for \( H_k(L_{g,1}) \), and then \( H_k(L_{g,1}) \) gives \( H_{k+1}(L_g) \).
+	The base case is \( H_\bullet(T^2) \) which was shown above.
+	For the first implication, we use the Mayer--Vietoris sequence.
+	Note that \( L_g = L_{g,1} \cup_{\partial L_{g,1}} \bm\Delta^2 \).
+	Then,
+	% TODO: diagram
+	The bottom row of the Mayer--Vietoris sequence always has this form if \( K_1, K_2, K_1 \cap K_2 \) are connected.
+	Note that since the first map in the last row is injective, the map before it is the zero map by exactness, so we can remove the bottom row and replace it with zero.
+	We have that \( \partial_2 \) is injective, and \( H_1(L_{g,1}) \) is torsion-free, so \( \partial_2 \) is an isomorphism.
+	Hence \( \iota \) is the zero map and \( j \) is an isomorphism.
+	Since \( 0 = \iota = \iota_{g\star} + \iota'_\star \), we have \( \iota_{g\star} = 0 \).
+	Further, as \( j \) is an isomorphism, \( H_1(L_{g,1}) \simeq H_1(L_g) = \mathbb Z^{2g} \) as required.
+
+	Now we show the result for \( H_k(L_{g,1}) \) implies the result for \( H_{k+1}(L_g) \).
+	Note that \( L_{g+1} = L_{g,1} \cup_{\partial L_{g,1}} L_{1,1} \).
+	Hence,
+	% TODO: diagram
+	By assumption, \( \iota \) is the zero map.
+	Hence \( H_2(L_{g+1}) \simeq H_1(\partial L_{g,1}) \simeq \mathbb Z \) as \( \partial_2 \) is an isomorphism.
+	Also, \( \mathbb Z^{2g+2} \simeq H_1(L_{g+1}) \) by exactness.
+\end{proof}
+
+\subsection{Homology of non-orientable surfaces}
+Let \( M_1 \) be a triangulation of \( \mathbb R \mathbb P^2 \).
+Let \( M_{r,1} \) be \( M_r \) with a 2-simplex removed, so \( \partial M_{r,1} \simeq \mathbb S^1 \).
+Let \( M_{r+1} = M_{r,1} \cup_{\partial M_{r,1}} M_{1,1} \).
+Then \( M_{r+1,1} = M_{r,1} \cup_{\bm\Delta^1} M_{1,1} \).
+For example, \( \abs{M_{1,1}} \) is homeomorphic to the M\"obius band.
+% TODO: diagram
+Then \( M_{r,1} \sim \bigvee_{i=1}^r S^1 \).
+\begin{proposition}
+	\[ H_k(M_r) = \begin{cases}
+		\mathbb Z^{r-1} \oplus \faktor{\mathbb Z}{2\mathbb Z} & k = 1 \\
+		\mathbb Z & k = 0 \\
+		0 & \text{otherwise}
+	\end{cases} \]
+	and
+	\[ H_k(M_{r,1}) = \begin{cases}
+		\mathbb Z^r & k = 1 \\
+		\mathbb Z & k = 0 \\
+		0 & \text{otherwise}
+	\end{cases} \]
+	Further, \( \iota_{r\star} \colon H_1(\partial M_{r,1}) \to H_1(M_{r,1}) \) has the property that \( \iota_{r\star}(1) \) is twice a primitive element, or equivalently, \( \faktor{H_1(M_{r,1})}{\Im \iota_{r\star}} = \mathbb Z^{r-1} \oplus \faktor{\mathbb Z}{2\mathbb Z} \).
+\end{proposition}
+\begin{proof}
+	We proceed by induction in the same way.
+	For the base case, note that \( \partial M_{1,1} \simeq S^1 \) and \( M_{1,1} \simeq S^1 \), and the map from \( \partial M_{1,1} \to M_{1,1} \) is given by \( z \mapsto z^2 \), so the map \( H_1(S^1) \to H_1(S^1) \) is given by multiplication by 2.
+	Suppose the result holds for \( H_k(M_r) \).
+	Then, \( M_r = M_{r,1} \cup_{\partial M_{r,1}} \bm\Delta^2 \), and
+	% TODO: diagram
+	Since \( H_1(M_{r,1}) \) is torsion-free,
+	% TODO: diagram
+	gives that \( H_1(M_{r,1}) = \mathbb Z^r \).
+
+	Now, \( M_{r+1} = M_{r,1} \cup_{\partial M_{r,1}} M_{1,1} \) hence
+	% TODO: diagram
+	Hence \( H_1(M_{r+1}) \simeq \faktor{\mathbb Z^2 \oplus \mathbb Z}{(2e_1,2)} \simeq \mathbb Z^r \oplus \faktor{\mathbb Z}{2\mathbb Z} \).
+\end{proof}
+
+\subsection{Lefschetz fixed point theorem}
+Let \( (C, d) \) be a chain complex over \( \mathbb Q \) (or any other field).
+Then \( H_\bullet(C) \) is a \( \mathbb Q \)-vector space.
+Let \( f \colon C \to C \) be a chain map, so it induces \( f_\star \colon H_\bullet(C) \to H_\bullet(C) \).
+\( f \) and \( f_\star \) are both linear endomorphisms of vector spaces.
+\begin{definition}
+	The \emph{Lefschetz number} of \( f \) is \( L(f) = \sum_k (-1)^k \tr f_k \) where \( f_k \colon C_k \to C_k \), and \( L(f_\star) = \sum_k (-1)^k \tr f_{k\star} \) where \( f_{k\star} \colon H_k(C) \to H_k(C) \).
+\end{definition}
+\begin{proposition}
+	\( L(f) = L(f_\star) \).
+\end{proposition}
+\begin{proof}
+	Let \( U_k \Im d_{k+1} \subseteq \ker d_k \subseteq C_k \).
+	Then, \( \ker d_k = U_k \oplus V_k \), and \( C_k = U_k \oplus V_k \oplus U_k' \).
+	Then \( d \colon U_k' \to U_{k-1} \) is an isomorphism.
+	With respect to this decomposition, \( d \) is a matrix in block form given by
+	\[ d = \begin{pmatrix}
+		0 & 0 & I \\
+		0 & 0 & 0 \\
+		0 & 0 & 0
+	\end{pmatrix} \]
+	Also, \( f(\Im d_{k+1}) \subseteq \Im d_{k+1} \) since \( f \) is a chain map, and \( f(\ker d_k) \subseteq \ker d_k \).
+	So in block form,
+	\[ f = \begin{pmatrix}
+		A_k & X_k & \star \\
+		0 & B_k & \star \\
+		0 & 0 & A_k'
+	\end{pmatrix} \]
+	Then, the equation \( df = fd \) shows \( A_k = A_{k+1}' \).
+	Hence, \( H_k(C) = \faktor{\ker d_k}{\Im d_{k+1}} = \faktor{U_k \oplus V_k}{U_k} \simeq V_k \), and \( f_{k\star} \colon H_k(C) \to H_k(C) \) maps \( [v] \) to \( [B_k v + X_k v] = [B_k v] \), so \( f_{k\star} \) is multiplication by \( B_k \).
+	Then \( L(f) = \sum_k (-1)^k \tr f_k = \sum (-1)^k (\tr A_k + \tr B_k + \tr A_{k-1}) = \sum (-1)^k \tr B_k = L(f_\star) \).
+\end{proof}
+\begin{definition}
+	Let \( C = C_\bullet(K) \).
+	Then the \emph{Euler characteristic} is defined by \( \chi(C) = L(\mathrm{id}_C) = L(\mathrm{id}_{H_\bullet(K)}) = \sum_k (-1)^k \dim H_k(K) \) depends only on \( \abs{K} \).
+	%Hence \( \chi(C(K)) = \sum_k (-1)^k \dim C_i(K) \).
+\end{definition}
+\begin{theorem}[Lefschetz fixed point theorem]
+	Let \( F \colon \abs{K} \to \abs{K} \) be a continuous map.
+	Let \( L(F) = L(F_\star) \) be the Lefschetz number of \( F \), where \( F_\star \colon H_\bullet(K) \to H_\bullet(K) \).
+	Then if \( L(F) \neq 0 \), \( F \) has a fixed point.
+\end{theorem}
+\begin{remark}
+	This is a generalisation of the Brouwer fixed point theorem.
+	% TODO: fixed-point vs fixed point
+\end{remark}
+\begin{proof}[Proof sketch]
+	If \( F \) has no fixed point, then since \( \abs{K} \) is compact, there exists \( \varepsilon > 0 \) such that \( \abs{F(x) - x} \geq \varepsilon \) for all \( x \).
+	If \( f \colon B^{r+n} K \to B^r K \) is a simplicial approximation of \( F \), then the above implies that \( F_\star(\sigma) \) does not contain \( \sigma \) for any simplex \( \sigma \in C_\bullet(K) \).
+	Hence \( L(F) = L(f) = 0 \).
+\end{proof}
