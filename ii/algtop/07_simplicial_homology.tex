@@ -808,25 +808,77 @@ Hence \( S^n \sim S^m \) implies \( n = m \).
 We can often compute homology groups only using the Mayer--Vietoris sequence and functoriality properties.
 \begin{example}
 	Consider the torus \( T^2 \).
-	We can write a triangulation \( K \) of \( T^2 \) as \( K_1 \cup K_2 \).
-	% TODO: diagram
-	Then, \( \abs{K_i} \simeq S^1 \times I \), and \( \abs{K_1 \cap K_2} \simeq S_1^1 \amalg S_2^1 \).
+	We can write a triangulation \( K \) of \( T^2 \) as \( K_1 \cup K_2 \), with \( \abs{K_i} \simeq S^1 \times I \), and \( \abs{K_1 \cap K_2} \simeq S_1^1 \amalg S_2^1 \).
 	Note that the inclusion \( \iota_{j,i} \colon S_j^1 \hookrightarrow \abs{K_i} \) is a homotopy equivalence, and \( \iota_{1,i} \sim \iota_{2,i} \).
 	Then the Mayer--Vietoris sequence gives
-	% TODO: diagram
+	\[\begin{tikzcd}
+		& {H_2(K_1)\oplus H_2(K_2)} & {H_2(K)} \\
+		{H_1(K_1 \cap K_2)} & {H_1(K_1) \oplus H_1(K_2)} & {H_1(K)} \\
+		{H_0(K_1 \cap K_2)} & {H_0(K_1) \oplus H_0(K_2)} & {H_0(K)} & 0
+		\arrow[from=1-2, to=1-3]
+		\arrow[from=1-3, to=2-1]
+		\arrow["{\alpha_1}"', from=2-1, to=2-2]
+		\arrow[from=2-2, to=2-3]
+		\arrow[from=2-3, to=3-1]
+		\arrow["{\alpha_0}"', from=3-1, to=3-2]
+		\arrow[from=3-2, to=3-3]
+		\arrow[from=3-3, to=3-4]
+	\end{tikzcd}\]
+	giving
+	\[\begin{tikzcd}
+		& 0 & {H_2(K)} \\
+		{\mathbb Z \oplus \mathbb Z} & {\mathbb Z \oplus \mathbb Z} & {H_1(K)} \\
+		{\mathbb Z \oplus \mathbb Z} & {\mathbb Z \oplus \mathbb Z} & {H_0(K)} & 0
+		\arrow[from=1-2, to=1-3]
+		\arrow[from=1-3, to=2-1]
+		\arrow["{\alpha_1}"', from=2-1, to=2-2]
+		\arrow[from=2-2, to=2-3]
+		\arrow[from=2-3, to=3-1]
+		\arrow["{\alpha_0}"', from=3-1, to=3-2]
+		\arrow[from=3-2, to=3-3]
+		\arrow[from=3-3, to=3-4]
+	\end{tikzcd}\]
 	Hence we have short exact sequences
-	% TODO: diagrams
-	We have \( \ker \alpha_i \simeq \mathbb Z \) and \( \coker \alpha_i \simeq \mathbb Z \).
+	\[\begin{tikzcd}
+		0 & {H_2(K)} & {\ker \alpha_1} & 0 \\
+		0 & {\coker \alpha_1} & {H_1(K)} & {\ker \alpha_0} & 0 \\
+		0 & {\coker \alpha_0} & {H_0(K)} & 0
+		\arrow[from=1-1, to=1-2]
+		\arrow[from=1-2, to=1-3]
+		\arrow[from=1-3, to=1-4]
+		\arrow[from=2-1, to=2-2]
+		\arrow[from=2-2, to=2-3]
+		\arrow[from=2-3, to=2-4]
+		\arrow[from=2-4, to=2-5]
+		\arrow[from=3-1, to=3-2]
+		\arrow[from=3-2, to=3-3]
+		\arrow[from=3-3, to=3-4]
+	\end{tikzcd}\]
+	The maps \( \alpha_i \) are given by the matrix \( \begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix} \).
+	Therefore, \( \ker \alpha_i \simeq \mathbb Z \) and \( \coker \alpha_i \simeq \mathbb Z \).
 	Hence \( H_2(K) \simeq \mathbb Z \), \( H_1(K) \simeq \mathbb Z^2 \), and \( H_0(K) \simeq \mathbb Z \).
 	\[ H_k(T^2) = \begin{cases}
 		\mathbb Z & k = 0, 2 \\
 		\mathbb Z^2 & k = 1 \\
-		0 \text{otherwise}
+		0 & \text{otherwise}
 	\end{cases} \]
 \end{example}
-It can be useful to note that if
-% TODO: diagram
-is exact, then \( B \simeq A \oplus \mathbb Z^r \).
+\begin{proposition}
+	Suppose that 
+	\begin{tikzcd}
+		0 & A & B & {\mathbb Z^r} & 0
+		\arrow[from=1-1, to=1-2]
+		\arrow[from=1-2, to=1-3]
+		\arrow[from=1-3, to=1-4]
+		\arrow[from=1-4, to=1-5]
+	\end{tikzcd}
+	is exact.
+	Then \( B \simeq A \oplus \mathbb Z^r \).
+\end{proposition}
+\begin{proof}
+	By exactness, \( \mathbb Z^r \simeq \faktor{B}{A} \).
+	The result then follows from the structure theorem for abelian groups.
+\end{proof}
 \begin{example}
 	Let \( L_1 \) be a triangulation of \( T^2 \), and let \( L_{1,1} \) be \( L_1 \setminus \qty{\sigma} \) where \( \sigma \) is a 2-simplex.
 	Then \( \partial L_{1,1} \simeq \partial \sigma = \mathbb S^1 \), and \( \abs{L_{1,1}} \sim S^1 \vee S^1 \).
@@ -856,18 +908,60 @@ is exact, then \( B \simeq A \oplus \mathbb Z^r \).
 	For the first implication, we use the Mayer--Vietoris sequence.
 	Note that \( L_g = L_{g,1} \cup_{\partial L_{g,1}} \bm\Delta^2 \).
 	Then,
-	% TODO: diagram
+	\[\begin{tikzcd}
+		& {H_2(L_{g,1}) \oplus H_2(\bm\Delta^2)} & {H_2(L_g)} \\
+		{H_1(\partial L_{g,1})} & {H_1(L_{g,1}) \oplus H_1(\bm\Delta^2)} & {H_1(L_g)} \\
+		{H_0(\partial L_{g,1})} & {H_0(L_{g,1}) \oplus H_0(\bm\Delta^2)} & {H_0(L_g)}
+		\arrow[from=1-2, to=1-3]
+		\arrow["{\partial_2}"{description}, from=1-3, to=2-1]
+		\arrow["{\iota_1}"', from=2-1, to=2-2]
+		\arrow[from=2-2, to=2-3]
+		\arrow["{\partial_1}"{description}, from=2-3, to=3-1]
+		\arrow["{\iota_0}"', from=3-1, to=3-2]
+		\arrow[from=3-2, to=3-3]
+	\end{tikzcd}\]
+	giving
+	\[\begin{tikzcd}
+		& {0 \oplus 0} & {\mathbb Z} \\
+		{\mathbb Z} & {H_1(L_{g,1}) \oplus 0} & {\mathbb Z^{2g}} \\
+		{\mathbb Z} & {\mathbb Z \oplus \mathbb Z} & {\mathbb Z}
+		\arrow[from=1-2, to=1-3]
+		\arrow["{\partial_2}"{description}, from=1-3, to=2-1]
+		\arrow["{\iota_1}"', from=2-1, to=2-2]
+		\arrow[from=2-2, to=2-3]
+		\arrow["{\partial_1}"{description}, from=2-3, to=3-1]
+		\arrow["{\iota_0}"', from=3-1, to=3-2]
+		\arrow[from=3-2, to=3-3]
+	\end{tikzcd}\]
 	The bottom row of the Mayer--Vietoris sequence always has this form if \( K_1, K_2, K_1 \cap K_2 \) are connected.
-	Note that since the first map in the last row is injective, the map before it is the zero map by exactness, so we can remove the bottom row and replace it with zero.
+	Note that since \( \iota_0 \) is injective, the map before it is the zero map by exactness, so we can remove the bottom row and replace it with zero.
 	We have that \( \partial_2 \) is injective, and \( H_1(L_{g,1}) \) is torsion-free, so \( \partial_2 \) is an isomorphism.
-	Hence \( \iota \) is the zero map and \( j \) is an isomorphism.
-	Since \( 0 = \iota = \iota_{g\star} + \iota'_\star \), we have \( \iota_{g\star} = 0 \).
+	Hence \( \iota_1 \) is the zero map and \( j \) is an isomorphism.
+	Since \( 0 = \iota_1 = \iota_{g\star} + \iota'_\star \), we have \( \iota_{g\star} = 0 \).
 	Further, as \( j \) is an isomorphism, \( H_1(L_{g,1}) \simeq H_1(L_g) = \mathbb Z^{2g} \) as required.
 
 	Now we show the result for \( H_k(L_{g,1}) \) implies the result for \( H_{k+1}(L_g) \).
 	Note that \( L_{g+1} = L_{g,1} \cup_{\partial L_{g,1}} L_{1,1} \).
 	Hence,
-	% TODO: diagram
+	\[\begin{tikzcd}
+		& {H_2(L_{g,1}) \oplus H_2(L_{1,1})} & {H_2(L_{g+1})} \\
+		{H_1(\partial L_{g,1})} & {H_1(L_{g,1}) \oplus H_2(L_{1,1})} & {H_1(L_{g+1})} & 0
+		\arrow[from=1-2, to=1-3]
+		\arrow[from=1-3, to=2-1]
+		\arrow["{\iota}"', from=2-1, to=2-2]
+		\arrow[from=2-2, to=2-3]
+		\arrow[from=2-3, to=2-4]
+	\end{tikzcd}\]
+	so
+	\[\begin{tikzcd}
+		& {0 \oplus 0} & {H_2(L_{g+1})} \\
+		{\mathbb Z} & {\mathbb Z^{2g} \oplus \mathbb Z^2} & {H_1(L_{g+1})} & 0
+		\arrow[from=1-2, to=1-3]
+		\arrow[from=1-3, to=2-1]
+		\arrow["{\iota}"', from=2-1, to=2-2]
+		\arrow[from=2-2, to=2-3]
+		\arrow[from=2-3, to=2-4]
+	\end{tikzcd}\]
 	By assumption, \( \iota \) is the zero map.
 	Hence \( H_2(L_{g+1}) \simeq H_1(\partial L_{g,1}) \simeq \mathbb Z \) as \( \partial_2 \) is an isomorphism.
 	Also, \( \mathbb Z^{2g+2} \simeq H_1(L_{g+1}) \) by exactness.
@@ -900,13 +994,61 @@ Then \( M_{r,1} \sim \bigvee_{i=1}^r S^1 \).
 	For the base case, note that \( \partial M_{1,1} \simeq S^1 \) and \( M_{1,1} \simeq S^1 \), and the map from \( \partial M_{1,1} \to M_{1,1} \) is given by \( z \mapsto z^2 \), so the map \( H_1(S^1) \to H_1(S^1) \) is given by multiplication by 2.
 	Suppose the result holds for \( H_k(M_r) \).
 	Then, \( M_r = M_{r,1} \cup_{\partial M_{r,1}} \bm\Delta^2 \), and
-	% TODO: diagram
+	\[\begin{tikzcd}
+		& {H_2(M_{r,1})\oplus H_2(\bm\Delta^2)} & {H_2(M_r)} \\
+		{H_1(\partial M_{r,1})} & {H_1(M_{r,1}) \oplus H_1(\bm\Delta^2)} & {H_1(M_r)} & 0
+		\arrow[from=1-2, to=1-3]
+		\arrow[from=1-3, to=2-1]
+		\arrow["{\iota_{r\star}}"', from=2-1, to=2-2]
+		\arrow[from=2-2, to=2-3]
+		\arrow[from=2-3, to=2-4]
+	\end{tikzcd}\]
+	\( \iota_{r\star} \) is injective, so \( \partial_2 = 0 \), giving
+	\begin{tikzcd}
+		0 & {H_2(M_r)} & 0
+		\arrow[from=1-1, to=1-2]
+		\arrow[from=1-2, to=1-3]
+	\end{tikzcd}.
+	Hence,
+	\[\begin{tikzcd}
+		& {0 \oplus 0} & {0} \\
+		{\mathbb Z} & {H_1(M_{r,1}) \oplus 0} & {\mathbb Z^{r-1} \oplus \faktor{\mathbb Z}{2\mathbb Z}} & 0
+		\arrow[from=1-2, to=1-3]
+		\arrow[from=1-3, to=2-1]
+		\arrow["{\iota_{r\star}}"', from=2-1, to=2-2]
+		\arrow[from=2-2, to=2-3]
+		\arrow[from=2-3, to=2-4]
+	\end{tikzcd}\]
 	Since \( H_1(M_{r,1}) \) is torsion-free,
-	% TODO: diagram
+	\[\begin{tikzcd}
+		0 & {\mathbb Z} & {H_1(M_{r,1})} & {\mathbb Z^{r-1}\oplus\faktor{\mathbb Z}{2\mathbb Z}} & 0
+		\arrow[from=1-1, to=1-2]
+		\arrow[from=1-2, to=1-3]
+		\arrow[from=1-3, to=1-4]
+		\arrow[from=1-4, to=1-5]
+	\end{tikzcd}\]
 	gives that \( H_1(M_{r,1}) = \mathbb Z^r \).
 
 	Now, \( M_{r+1} = M_{r,1} \cup_{\partial M_{r,1}} M_{1,1} \) hence
-	% TODO: diagram
+	\[\begin{tikzcd}
+		& {H_2(M_{r,1}) \oplus H_2(M_{1,1})} & {H_2(M_{r+1})} \\
+		{H_1(\mathbb S^1)} & {H_1(M_{r,1}) \oplus H_1(M_{r,1})} & {H_1(M_{r+1})} & 0
+		\arrow[from=1-2, to=1-3]
+		\arrow[from=1-3, to=2-1]
+		\arrow[from=2-1, to=2-2]
+		\arrow[from=2-2, to=2-3]
+		\arrow[from=2-3, to=2-4]
+	\end{tikzcd}\]
+	so
+	\[\begin{tikzcd}
+		& {0 \oplus 0} & 0 \\
+		{\mathbb Z} & {H_1(M_{r,1}) \oplus H_1(M_{r,1})} & {H_1(M_{r+1})} & 0
+		\arrow[from=1-2, to=1-3]
+		\arrow["0"{description}, from=1-3, to=2-1]
+		\arrow[from=2-1, to=2-2]
+		\arrow[from=2-2, to=2-3]
+		\arrow[from=2-3, to=2-4]
+	\end{tikzcd}\]
 	Hence \( H_1(M_{r+1}) \simeq \faktor{\mathbb Z^2 \oplus \mathbb Z}{(2e_1,2)} \simeq \mathbb Z^r \oplus \faktor{\mathbb Z}{2\mathbb Z} \).
 \end{proof}
 
