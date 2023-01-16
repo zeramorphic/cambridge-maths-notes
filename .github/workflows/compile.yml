@@ -235,7 +235,7 @@ jobs:
       #     root_file: ii/book/main.tex
 
       - name: Convert IA book to HTML
-        run: ./pdf2htmlEX.AppImage ia/book/build/main.pdf ns.html --data-dir pdf2htmlEX --zoom 3
+        run: ./pdf2htmlEX.AppImage ia/book/build/main.pdf ia_book.html --data-dir pdf2htmlEX --zoom 3
 
       #- name: Optimise PDFs
       #  run: go run . optimise
@@ -243,7 +243,7 @@ jobs:
       - name: Upload PDFs
         uses: burnett01/rsync-deployments@4.1
         with:
-          switches: -avzr --delete --prune-empty-dirs --include="*/" --include="*.pdf" --exclude="*"
+          switches: -avzr --delete --prune-empty-dirs --include="*/" --include="*.pdf" --include="*.html" --exclude="*"
           path: "."
           remote_path: ${{ secrets.DEPLOY_PATH }}
           remote_host: thirdsgames.co.uk
