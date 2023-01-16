@@ -20,11 +20,16 @@ jobs:
         with:
           go-version: "1.16.x"
 
-      - name: Set up GhostScript optimiser
-        run: sudo apt-get update && sudo apt-get install ghostscript
+      # - name: Set up GhostScript optimiser
+      #   run: sudo apt-get update && sudo apt-get install ghostscript
 
       - name: Get Go dependencies
         run: go get ./...
+
+      - name: Download pdf2htmlEX
+        run: |
+          wget -O pdf2htmlEX.AppImage https://github.com/pdf2htmlEX/pdf2htmlEX/releases/download/v0.18.8.rc1/pdf2htmlEX-0.18.8.rc1-master-20200630-Ubuntu-bionic-x86_64.AppImage
+          chmod +x pdf2htmlEX.AppImage
 
       - name: Set up TikZ folders
         run: go run . setup
@@ -225,7 +230,7 @@ jobs:
       #     root_file: ii/book/main.tex
 
       - name: Convert IA book to HTML
-        run: docker run -it --rm -v ~:/gh -w /gh pdf2htmlex/pdf2htmlex ia/book/build/main.pdf
+        run: ./pdf2htmlEX.AppImage ia/book/build/main.pdf ia/book/build/main.html --data-dir pdf2htmlEX --zoom 3
 
       #- name: Optimise PDFs
       #  run: go run . optimise
