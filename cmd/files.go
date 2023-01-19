@@ -30,6 +30,11 @@ var Files []TexFile = []TexFile{
 	{FilePath: "ii/graph", Name: "Graph Theory"},
 	{FilePath: "ii/afl", Name: "Automata and Formal Languages"},
 	{FilePath: "ii/galois", Name: "Galois Theory"},
+	{FilePath: "ii/cc", Name: "Coding and Cryptography"},
+	{FilePath: "ii/qic", Name: "Quantum Information and Computation"},
+	{FilePath: "ii/lst", Name: "Logic and Set Theory"},
+	{FilePath: "ii/alggeom", Name: "Algebraic Geometry"},
+	{FilePath: "ii/nf", Name: "Number Fields"},
 }
 
 var BookFiles []TexFile = []TexFile{
