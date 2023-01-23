@@ -5,5 +5,96 @@ The \emph{concatenation} of two strings \( x = x_1 \dots x_r \) and \( y = y_1 \
 \begin{definition}
     Let \( \mathcal A, \mathcal B \) be alphabets.
     A \emph{code} is a function \( c \colon \mathcal A \to \mathcal B^\star \).
-    The \emph{code words} of \( c \) are the elements of \( \Im c \).
+    The \emph{codewords} of \( c \) are the elements of \( \Im c \).
 \end{definition}
+\begin{example}[Greek fire code]
+    Let \( \mathcal A = \qty{\alpha, \beta, \dots, \omega} \), and \( B = \qty{1, 2, 3, 4, 5} \).
+    We map \( c(alpha) = 11, c(\beta) = 12, \dots, c(\psi) = 53, c(\omega) = 54 \).
+    \( xy \) means to hold up \( x \) torches and another \( y \) torches nearby.
+    This code was described by the historian Polybius.
+\end{example}
+\begin{example}
+    Let \( \mathcal A \) be a set of words in some dictionary.
+    Let \( \mathcal B \) be the letters of English \( \qty{A, \dots, Z, \textvisiblespace} \)
+    The code is to spell the word and follow with a space.
+\end{example}
+The general idea is to send a message \( x_1, \dots, x_n \in \mathcal A^\star \) as \( c(x_1) \dots c(x_n) \in \mathcal B^\star \).
+So \( c \) extends to a function \( c^\star \colon \mathcal A^\star \to \mathcal B^\star \).
+\begin{definition}
+    A code \( c \) is \emph{decipherable} (or \emph{uniquely decodable}) if \( c^\star \) is injective.
+\end{definition}
+If \( c \) is decipherable, each string in \( \mathcal B^\star \) corresponds to at most one message.
+It does not suffice to require that \( c \) be injective.
+Consider \( \mathcal A = \qty{1, 2, 3, 4}, \mathcal B = \qty{0,1} \), and let \( c(1) = 0, c(2) = 1, c(3) = 00, c(4) = 01 \).
+Then \( c^\star(114) = 0001 = c^\star(312) \).
+
+Typically we define \( m = \abs{\mathcal A} \) and \( a = \abs{\mathcal B} \).
+We say \( c \) is an \( a \)-ary code of size \( m \).
+A 2-ary code is a binary code, and a 3-ary code is a ternary code.
+We aim to construct decipherable codes with short word lengths.
+Assuming that \( c \) is injective, the following codes are always decipherable.
+\begin{enumerate}
+    \item a \emph{block code}, where all codewords have the same length, such as in the Greek fire code;
+    \item a \emph{comma code}, which reserves a letter from \( \mathcal B \) to signal the end of a word;
+    \item a \emph{prefix-free code}, a code in which no codeword is a prefix of another codeword.
+\end{enumerate}
+Block codes and comma codes are examples of prefix-free codes.
+Such codes require no lookahead to determine if we have reached the end of a word, so such codes are sometimes called \emph{instantaneous} codes.
+One can easily find decipherable codes that are not prefix-free.
+
+\subsection{Kraft's inequality}
+\begin{definition}
+    Let \( \mathcal A \) be an alphabet of size \( m \), and \( \mathcal B \) be an alphabet of size \( a \).
+    Let \( c \colon \mathcal A \to \mathcal B^\star \) be a code with codewords are of length \( \ell_1, \dots, \ell_m \).
+    Then, \emph{Kraft's inequality} is
+    \[ \sum_{i=1}^m a^_{-\ell_i} \leq 1 \]
+\end{definition}
+\begin{theorem}
+    A prefix-free code (with given codeword lengths) exists if and only if Kraft's inequality holds.
+\end{theorem}
+\begin{proof}
+    Let us rewrite Kraft's inequality as \( \sum_{n=1}^s n_\ell a^{-\ell} \leq 1 \), where \( n_\ell \) is the number of codewords of length \( \ell \), and \( s \) is the length of the longest codeword.
+    Suppose \( c \colon \mathcal A \to \mathcal B^\star \) is prefix-free.
+    Then,
+    \[ n_1 a^{s-1} + n_2 a^{s-2} + \dots + n_{s-1} a + n_s \leq a^s \]
+    since the left hand side counts the number of strings of length \( s \) in \( \mathcal B \) with some codeword of \( c \) as a prefix, and the right hand side counts the total number of strings of length \( s \).
+    Dividing by \( a^s \) gives the desired result.
+
+    Now, suppose that \( \sum_{n=1}^s n_\ell a^{-\ell} \leq 1 \).
+    We aim to construct a prefix-free code \( c \) with \( n_\ell \) codewords of length \( \ell \) for all \( \ell \leq s \).
+    Proceed by induction on \( s \).
+    The case \( s = 1 \) is clear; in this case, the inequality gives \( n_1 \leq a \).
+    By the inductive hypothesis, we have constructed a prefix-free code \( \hat c \) with \( n_\ell \) codewords of length \( \ell \) for all \( \ell < s \).
+    The inequality gives \( n_1 a^{s-1} + \dots + n_{s-1} a + n_s \leq a^s \).
+    The first \( s - 1 \) terms on the left hand side gives the number of strings of length \( s \) with some codeword of \( \hat c \) as a prefix.
+    So we are free to add \( n_s \) additional codewords of length \( s \) to \( \hat c \) to form \( c \) without exhausting our supply of \( a^s \) total strings of length \( s \).
+\end{proof}
+\begin{remark}
+    The proof of existence of such a code is constructive; one can choose codewords in order of increasing length, ensuring that we do not introduce prefixes at each stage.
+\end{remark}
+
+\subsection{McMillan's inequality}
+\begin{theorem}
+    Any decipherable code satisfies Kraft's inequality.
+\end{theorem}
+\begin{proof}
+    Let \( c \colon \mathcal A \to \mathcal B^\star \) be decipherable with word lengths \( \ell_1, \dots, \ell_m \).
+    Let \( s = \max_{i \leq m} \ell_i \).
+    For \( R \in \mathbb N \), Kraft's inequality gives
+    \[ \qty(\sum_{i=1}^m a^{-\ell_i})^R = \sum_{\ell = 1}^{Rs} b_\ell a^{-\ell} \]
+    where \( b_\ell \) is the number of ways of choosing \( R \) codewords of total length \( \ell \).
+    Since \( c \) is decipherable, any string of length \( \ell \) formed from codewords must correspond to exactly one sequence of codewords.
+    Hence, \( b_\ell \leq \abs{\mathcal B^\ell} = a^\ell \).
+    The inequality therefore gives
+    \[ \qty(\sum_{i=1}^m a^{-\ell_i})^R \leq Rs \implies \sum_{i=1}^m a^{-\ell_i} \leq \qty(Rs)^{\frac{1}{R}} \]
+    As \( R \to \infty \), the right hand side converges to 1, giving Kraft's inequality as required.
+\end{proof}
+\begin{corollary}
+    A decipherable code with prescribed word lengths exists if and only if a prefix-free code with the same word lengths exists.
+\end{corollary}
+We can therefore restrict our attention to prefix-free codes.
+
+\subsection{Shannon's noiseless coding theorem}
+\emph{Entropy} is a measure of `randomness' or `uncertainty' in an input message.
+Suppose that we have a random variable \( X \) taking a finite number of values \( x_1, \dots, x_n \) with probability \( p_1, \dots, p_n \).
+Then, the entropy of this random variable is the expected number of fair coin tosses required to determine \( X \).

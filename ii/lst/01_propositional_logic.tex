@@ -1,6 +1,6 @@
 \subsection{The language of propositional logic}
 Let \( P \) be a set of \emph{primitive propositions}.
-Unless otherwise stated, we let \( P = \qty{p_1, p_2, \dots } \).
+Unless otherwise stated, we let \( P = \qty{p_1, p_2, \dots} \).
 The \emph{language} \( L = L(P) \) is defined inductively by
 \begin{enumerate}
     \item if \( p \in P \), then \( p \in L \);
@@ -22,3 +22,122 @@ The \emph{language} \( L = L(P) \) is defined inductively by
 \end{remark}
 We can now introduce the abbreviations \( \neg, \wedge, \vee \) defined by
 \[ \neg p = (p \implies \bot);\quad p \vee q = \neg p \implies q;\quad p \wedge q = \neg (p \implies \neg q) \]
+
+\subsection{Semantic implication}
+\begin{definition}
+    A \emph{valuation} is a function \( v \colon L \to \qty{0,1} \) such that
+    \begin{enumerate}
+        \item \( v(\bot) = 0 \);
+        \item \( v(p \implies q) = 0 \) if \( v(p) = 1 \) and \( v(q) = 0 \), and 1 otherwise.
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    On \( \qty{0,1} \), we can define the constant \( \bot = 0 \) and the operation \( \implies \) in the obvious way.
+    Then, a valuation is precisely a mapping \( L \to \qty{0,1} \) preserving all structure, so it can be considered a homomorphism.
+\end{remark}
+\begin{proposition}
+    Let \( v, v' \colon L \to \qty{0,1} \) be valuations that agree on the primitives \( p_i \).
+    Then \( v = v' \).
+    Further, any function \( w \colon P \to \qty{0,1} \) extends to a valuation.
+\end{proposition}
+\begin{remark}
+    This is analogous to the definition of a linear map by its action on the basis vectors.
+\end{remark}
+\begin{proof}
+    Clearly, \( v, v' \) agree on \( L_1 \), the set of elements of the language of length 1.
+    If \( v, v' \) agree at \( p, q \), then they agree at \( p \implies q \).
+    So by induction, \( v, v' \) agree on \( L_n \) for all \( n \), and hence on \( L \).
+
+    Let \( v(p) = w(p) \) for all \( p \in P \), and \( v(\bot) = 0 \) to obtain \( v \) on the set \( L_1 \).
+    Assuming \( v \) is defined on \( p, q \) we can define it at \( p \implies q \) in the obvious way.
+    This defines \( v \) on all of \( L \).
+\end{proof}
+\begin{example}
+    Let \( v \) be the valuation with \( v(p_1) = v(p_3) = 1 \), and \( v(p_n) = 0 \) for all \( n \neq 1, 3 \).
+    Then, \( v((p_1 \implies p_3) \implies p_2) = 0 \).
+\end{example}
+\begin{definition}
+    A \emph{tautology} is \( t \in L \) such that \( v(t) = 1 \) for every valuation \( v \).
+    We write \( \models t \).
+\end{definition}
+\begin{example}
+    \( p \implies (q \implies p) \).
+    \begin{array}{cccc}
+        v(p) & v(q) & v(q \implies p) & v(p \implies (q \implies p)) \\
+        0 & 0 & 1 & 1 \\
+        0 & 1 & 0 & 1 \\
+        1 & 0 & 1 & 1 \\
+        1 & 1 & 1 & 1
+    \end{array}
+    Since the right-hand column is always 1, \( \models p \implies (q \implies p) \).
+\end{example}
+\begin{example}
+    \( \neg \neg p \implies p \), which expands to \( ((p \implies \bot) \implies \bot) \implies p \).
+    \begin{array}{cccc}
+        v(p) & v(\neg p) & v(\neg \neg p) & v(\neg \neg p \implies p) \\
+        0 & 1 & 0 & 1 \\
+        1 & 0 & 1 & 1
+    \end{array}
+    Hence \( \models \neg \neg p \implies p \).
+\end{example}
+\begin{example}
+    \( (p \implies (q \implies r)) \implies ((p \implies q) \implies (p \implies r)) \).
+    Suppose this is not a tautology.
+    Then we have a valuation \( v \) such that \( v(p \implies (q \implies r)) = 1 \) and \( v((p \implies q) \implies (p \implies r)) = 0 \).
+    Hence, \( v(p \implies q) = 1, v(p \implies r) = 0 \), so \( v(p) = 1, v(r) = 0 \), giving \( v(q) = 1 \), but then \( v(p \implies (q \implies r)) = 0 \) contradicting the assumption.
+\end{example}
+\begin{definition}
+    Let \( S \subseteq L \) and \( t \in L \).
+    We say \( S \) \emph{entails} or \emph{semantically implies} \( t \), written \( S \models t \), if \( v(t) = 1 \) whenever \( v(s) = 1 \) for all \( s \in S \).
+\end{definition}
+\begin{example}
+    Let \( S = \qty{p \implies q, q \implies r} \), and let \( t = p \implies r \).
+    Suppose \( S \not\models t \), so there is a valuation \( v \) such that \( v(p \implies q) = 1, v(q \implies r) = 1, v(p \implies r) = 0 \).
+    Then \( v(p) = 1, v(r) = 0 \), so \( v(q) = 1 \) and \( v(q) = 0 \).
+\end{example}
+\begin{definition}
+    We say that \( v \) is a \emph{model} of \( S \) in \( L \) if \( v(s) = 1 \) for all \( s \in S \).
+\end{definition}
+Thus, \( S \models t \) is the statement that every model of \( S \) is also a model of \( t \).
+\begin{remark}
+    The notation \( \models t \) is equivalent to \( \varnothing \models t \).
+\end{remark}
+
+\subsection{Syntactic implication}
+For a notion of proof, we require a system of axioms and deduction rules.
+As axioms, we take (for any \( p, q, r \in L \)),
+\begin{enumerate}
+    \item \( p \implies (q \implies p) \);
+    \item \( (p \implies (q \implies r)) \implies ((p \implies q) \implies (p \implies r)) \);
+    \item \( ((p \implies \bot) \implies \bot) \implies p \).
+\end{enumerate}
+\begin{remark}
+    Sometimes, these three axioms are considered axiom \emph{schemes}, since they are really a different axiom for each \( p, q, r \in L \).
+    These are all tautologies.
+\end{remark}
+For deduction rules, we will have only the rule \emph{modus ponens}, that from \( p \) and \( p \implies q \) one can deduce \( q \).
+\begin{definition}
+    Let \( S \subseteq L \), \( t \in L \).
+    We say \( S \) \emph{proves} or \emph{syntactically implies} \( t \), written \( S \vdash t \), if there exists a sequence \( t_1, \dots, t_n = t \) in \( L \) such that every \( t_i \) is either
+    \begin{enumerate}
+        \item an axiom;
+        \item an element of \( S \); or
+        \item \( q \), where \( t_j = p \) and \( t_k = p \implies q \) where \( j, k < i \).
+    \end{enumerate}
+    We say that \( S \) is the set of \emph{premises} or \emph{hypotheses}, and \( t \) is the \emph{conclusion}.
+\end{definition}
+\begin{example}
+    We will show \( \qty{p \implies q, q \implies r} \vdash p \implies r \).
+    \begin{enumerate}[1.]
+        \item \( q \implies r \) (hypothesis)
+        \item \( (q \implies r) \implies (p \implies (q \implies r)) \) (axiom 1)
+        \item \( p \implies (q \implies r) \) (modus ponens on lines 1, 2)
+        \item \( (p \implies (q \implies r)) \implies ((p \implies q) \implies (p \implies r)) \) (axiom 2)
+        \item \( (p \implies q) \implies (p \implies r) \) (modus ponens on lines 3, 4)
+        \item \( p \implies q \) (hypothesis)
+        \item \( p \implies r \) (modus ponens on lines 5, 6)
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    If \( \varnothing \vdash t \), we say \( t \) is a \emph{theorem}, written \( \vdash t \).
+\end{definition}
