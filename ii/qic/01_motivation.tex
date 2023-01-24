@@ -45,3 +45,110 @@ At the time of writing, there is no concensus that quantum supremacy has been ac
 
 \subsection{Mathematical preliminaries}
 Every quantum mechanical system is associated with a Hilbert space \( \mathcal V \), a complex inner product space that is a complete metric space with respect to the distance function induced by the inner product.
+We use the Dirac's \emph{bra-ket} notation: a vector is represented by \( \ket{v} \in \mathcal V \), and its conjugate transpose is denoted \( \bra{v} \in \mathcal V^\star \).
+If \( \mathcal V = \mathbb C^n \), we write
+\[ \ket{\psi} = \begin{pmatrix}
+    a_1 \\
+    \vdots \\
+    a_n
+\end{pmatrix};\quad \bra{\psi} = \begin{pmatrix}
+    a_1^\star & \cdots & a_n^\star
+\end{pmatrix} \]
+The inner product of \( \psi \) and \( \phi \) is written \( \bra{\psi}\ket{\phi} \).
+Recall that an inner product satisfies
+\begin{itemize}
+    \item \( \bra{\psi}\ket{\psi} \geq 0 \), and equal to zero if and only if \( \ket{\psi} = 0 \);
+    \item linearity in the second argument, so \( \bra{\psi}\ket{a\phi_1 + b\phi_2} = a \bra{\psi}\ket{\phi_1} + b \bra{\psi}\ket{\phi_2} \);
+    \item antilinearity in the first argument, so \( \bra{a\psi_1 + b\psi_2}\ket{\phi} = a^\star \bra{\psi_1}\ket{\phi} + b^\star \bra{\psi_2}\ket{\phi} \);
+    \item skew-symmetry, so \( \bra{\psi}\ket{\phi}^\star = \bra{\phi}\ket{\psi} \);
+\end{itemize}
+and induces a norm \( \norm{\psi} = \norm{\ket{\psi}} = \sqrt{\bra{\psi}\ket{\psi}} \).
+In this course, we will often consider \( \mathcal V = \mathbb C^2 \) and define
+\[ \ket{0} = \begin{pmatrix}
+    1 \\ 0
+\end{pmatrix};\quad \ket{1} = \begin{pmatrix}
+    0 \\ 1
+\end{pmatrix} \]
+For an arbitrary \( \ket{v} \in \mathbb C^2 \), we can write \( \ket{v} = a \ket{0} + b \ket{1} \), giving
+\[ \ket{v} = \begin{pmatrix}
+    a \\ b
+\end{pmatrix};\quad \bra{v} = \begin{pmatrix}
+    a^\star & b^\star
+\end{pmatrix} \]
+If \( \ket{w} = c \ket{0} + d \ket{1} \), then \( \ip{v}{w} = a^\star c + b^\star d \).
+
+We can also compute the \emph{outer product} of two vectors, defined to be \( \op{\psi}{\phi} \).
+If \( \mathcal V = \mathbb C^n \), the outer product is an \( n \times n \) matrix.
+An orthonormal basis \( (\ket{i})_{i=1}^n \) for \( \mathcal V \) is called \emph{complete} if \( \sum_{i=1}^n \op{i}{i} \) is the identity matrix.
+
+If \( \mathcal V \) has a complete orthonormal basis, we can write \( \ket{\psi} = \sum_{i=1}^n c_i \ket{i} \) for some \( c_i \).
+If \( \ip{\psi}{\psi} = 1 \), we say \( \ket{\psi} \) is \emph{normalised}.
+In this case, \( \sum \abs{c_i}^2 = 1 \), and the \( \abs{c_i}^2 \) form a discrete probability distribution.
+We call the \( c_i \) the \emph{probability amplitudes}.
+
+Let \( \mathcal V, \mathcal W \) be vector spaces, where \( \dim \mathcal V = n, \dim \mathcal W = m \).
+Let \( \ket{v} \in \mathcal V, \ket{w} \in \mathcal W \).
+Suppose \( \ket{v} = \begin{pmatrix}
+    a_1 & \cdots & a_n
+\end{pmatrix}^\transpose \), and \( \ket{w} = \begin{pmatrix}
+    b_1 & \cdots & b_m
+\end{pmatrix}^\transpose \).
+Then, \( \ket{v} \otimes \ket{w} \) is the \emph{tensor product} of \( \ket{v} \) and \( \ket{w} \), defined by
+\[ \ket{v} \otimes \ket{w} = \begin{pmatrix}
+    a_1 b_1 \\
+    \vdots \\
+    a_1 b_m \\
+    a_2 b_1 \\
+    \vdots \\
+    a_n b_m
+\end{pmatrix} \in \mathcal V \otimes \mathcal W \]
+If \( \qty(\ket{e_i})_{i=1}^n \) is a complete orthonormal basis for \( \mathcal V \) and \( \qty(\ket{f_j})_{j=1}^m \) is a complete orthonormal basis for \( \mathcal W \), then \( \qty(\ket{e_i} \otimes \ket{f_j})_{i,j=1}^{n,m} \) is a complete orthonormal basis for \( \mathcal V \otimes \mathcal W \).
+We sometimes write \( \ket{v} \otimes \ket{w} \) as \( \ket{v} \ket{w} \) or \( \ket{vw} \).
+
+If \( \ket{\alpha} \in \mathcal V \), we can write \( \ket{\alpha} = \sum a_i \ket{e_i} \), and similarly if \( \ket{\beta} \in \mathcal W \), we can write \( \ket{\beta} = \sum b_j \ket{f_j} \).
+Then, \( \ket{\alpha\beta} = \sum a_i c_j \ket{e_i f_j} \).
+
+We say \( \ket{\Psi} \in \mathcal V \otimes \mathcal W \) is a \emph{product vector} if \( \ket{\Psi} = \ket{\psi}\otimes\ket{\phi} \) for some \( \psi, \phi \).
+Vectors that are not product vectors are called \emph{entangled vectors}.
+
+Let \( \mathcal V = \mathbb C^2 = \mathcal W \).
+Define \( \ket{\phi^+} = \frac{1}{\sqrt{2}} \qty(\ket{00} + \ket{11}) \).
+Suppose \( \ket{\phi^+} = \ket{\psi}\otimes\ket{\phi} = (a\ket{0} + b\ket{1}) \otimes (c\ket{0} + d\ket{1}) \).
+Then, \( \ket{\phi^+} = ac \ket{00} + ad \ket{01} + bc \ket{10} + bd \ket{11} \).
+So one of \( a \) and \( d \), and one of \( b \) and \( c \) is equal to zero, contradicting the assumption, so \( \ket{\phi^+} \) is entangled.
+
+We define the inner product on the product space by defining
+\[ \ip{\phi_1}{\psi_2} = \qty(\bra{\alpha_1} \bra{\beta_1})\qty(\ket{\beta_2} \ket{\alpha_2}) = \ip{\alpha_1}{\alpha_2} \ip{\beta_1}{\beta_2} \]
+where \( \ket{\psi_i} = \ket{\alpha_i}\ket{\beta_i} \).
+In the general case, \( \ket{A} = \sum a_{ij} \ket{e_i}\ket{f_j}, \ket{B} = \sum b_{ij} \ket{e_i}\ket{f_j} \), and we define
+\[ \ip{A}{B} = \qty(\sum a_{ij}^\star \bra{e_i} \bra{f_j}) \qty(\sum b_{ij} \ket{e_i} \ket{f_j}) = \sum a_{ij}^\star b_{ij} \delta_{ii'}\delta_{jj'} = \sum a_{ij}^\star b_{ij} \]
+where \( \delta \) is the Kronecker \( \delta \) symbol.
+
+We define the \( k \)-fold \emph{tensor power} of a vector space \( \mathcal V \) by
+\[ \mathcal V^{\otimes n} = \underbrace{\mathcal V \otimes \dots \otimes \mathcal V}_{n \text{ times}} \]
+If \( \mathcal V = \mathbb C^2 \), this has dimension \( 2^k \), and complete orthonormal basis \( \ket{i_1 \dots i_k} \) for \( i_j \in \qty{0,1} \).
+Note that \( \ket{v}\ket{w} \neq \ket{w}\ket{v} \).
+
+\subsection{Postulates of quantum mechanics}
+In this course, we will restrict our attention to finite-dimensional vector spaces, and finite time evolution.
+
+The first postulate is that, given an isolated quantum mechanical system \( S \), we can associate a finite-dimensional vector space \( \mathcal V \).
+The physical state of the system is given by a unit vector \( \ket{\psi} \) in \( \mathcal V \).
+More precisely, the state is given by a \emph{ray}: an equivalence class of vectors \( e^{i\theta} \ket{\psi} \) for \( \theta \in \mathbb R \).
+No measurements can distinguish states in a given equivalence class.
+Note that states \( a\ket{\psi_1} + b\ket{\psi_2} \) and \( a\ket{\psi_1} + be^{i\theta}\ket{\psi_2} \) can be distinguished by measurement, since the phase difference is relative, not global.
+\begin{example}
+    Let \( \mathcal V = \mathbb C^2 \) with (complete orthonormal) basis \( \ket{0}, \ket{1} \).
+    The elementary unit of quantum information is known as the \emph{qubit}, which is any quantum system with \( \mathcal V = \mathbb C^2 \).
+    The spin of an electron, which is some superposition of spin-up and spin-down, can be modelled by \( \mathbb C^2 \).
+    A property of the polarisation of a photon, such as vertical or horizontal, or right-circular or left-circular, can also be modelled in this way.
+
+    Define \( \ket{+} = \frac{1}{\sqrt{2}}\qty(\ket{0} + \ket{1}) \) and \( \ket{-} = \frac{1}{\sqrt{2}}\qty(\ket{0} - \ket{1}) \).
+    This is another complete orthonormal basis for \( \mathcal V \).
+\end{example}
+The second postulate is that two quantum systems \( S_1, S_2 \) with associated vector spaces \( \mathcal V_1, \mathcal V_2 \) can be composed into the \emph{composite system} with vector space \( \mathcal V_1 \otimes \mathcal V_2 \).
+\begin{example}
+    Consider \( \mathcal V^{\otimes n} \), the space of \( n \) qubits.
+    An orthonormal basis is \( \ket{i_1 \dots i_n} \) where \( i_j \in \qty{0,1} \).
+    A vector in \( \mathcal V^{\otimes n} \) can be written \( \sum a_{i_1 \dots i_n} \ket{i_1 \dots i_n} \).
+\end{example}
