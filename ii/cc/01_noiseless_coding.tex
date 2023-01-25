@@ -94,7 +94,105 @@ One can easily find decipherable codes that are not prefix-free.
 \end{corollary}
 We can therefore restrict our attention to prefix-free codes.
 
-\subsection{Shannon's noiseless coding theorem}
+\subsection{Entropy}
 \emph{Entropy} is a measure of `randomness' or `uncertainty' in an input message.
 Suppose that we have a random variable \( X \) taking a finite number of values \( x_1, \dots, x_n \) with probability \( p_1, \dots, p_n \).
 Then, the entropy of this random variable is the expected number of fair coin tosses required to determine \( X \).
+\begin{example}
+    Suppose \( p_1 = p_2 = p_3 = p_4 = \frac{1}{4} \).
+    Identifying \( \qty{x_1, x_2, x_3, x_4} = \qty{00, 01, 10, 11} \), we would expect \( H(X) = 2 \).
+\end{example}
+\begin{example}
+    Suppose \( p_1 = \frac{1}{2} \), \( p_2 = \frac{1}{4} \), and \( p_3 = p_4 = \frac{1}{8} \).
+    Identifying \( \qty{x_1, x_2, x_3, x_4} = \qty{0, 10, 110, 111} \), we obtain \( H(X) = \frac{1}{2} \cdot 1 + \frac{1}{4} \cdot 2 + \frac{1}{8} \cdot 3 + \frac{1}{8} \cdot 3 = \frac{7}{4} \).
+\end{example}
+In a sense, the first example is `more random' than the second, as its entropy is higher.
+\begin{definition}
+    The \emph{entropy} of a random variable \( X \) taking a finite number of values \( x_1, \dots, x_n \) with probabilities \( p_1, \dots, p_n \) is defined to be
+    \[ H(X) = H(p_1, \dots, p_n) = -\sum_{i=1}^n p_i \log p_i = -\expect{\log p_i} \]
+    where the logarithm is taken with base 2.
+\end{definition}
+Note that \( H(X) \geq 0 \), and equality holds exactly when \( X \) is almost surely constant.
+It is measured in \emph{bits}, binary digits.
+By convention, we write \( 0 \log 0 = 0 \) (note that \( x \log x \to 0 \) as \( x \to 0 \)).
+\begin{example}
+    For a biased coin with probability \( p \) of a head, we write \( H(p,1-p) = H(p) \).
+    We find
+    \[ H(p) = -p\log p - (1-p)\log(1-p);\quad H'(p) = \log \frac{1-p}{p} \]
+    This graph is concave, taking a maximum value of 1 when \( p = \frac{1}{2} \).
+    If \( p = 0, 1 \) then \( H(p) = 0 \).
+\end{example}
+
+\subsection{Gibbs' inequality}
+\begin{proposition}
+    Let \( (p_1, \dots, p_n), (q_1, \dots, q_n) \) be discrete probability distributions.
+    Then,
+    \[ -\sum p_i \log p_i \leq -\sum p_i \log q_i \]
+    with equality if and only if \( p_i = q_i \).
+\end{proposition}
+The right hand side is sometimes called the \emph{cross entropy}, or \emph{mixed entropy}.
+\begin{proof}
+    Since \( \log x = \frac{\ln x}{\ln 2} \), we may replace the inequality with
+    \[ -\sum p_i \ln p_i \leq -\sum p_i \ln q_i \]
+    Define \( I = \qty{i \mid p_i \neq 0} \).
+    Now, \( \ln x \leq x - 1 \) for all \( x > 0 \), with equality if and only if \( x = 1 \).
+    Hence, \( \ln \frac{q_i}{p_i} \leq \frac{q_i}{p_i} - 1 \) for all \( i \in I \).
+    Then,
+    \[ \sum_{i \in I} p_i \ln \frac{q_i}{p_i} \leq \sum_{i \in I} q_i - \sum_{i \in I} p_i \]
+    As the \( p_i \) form a probability distribution, \( \sum_{i \in I} p_i = 1 \) and \( \sum_{i \in I} q_i \leq 1 \), so the right hand side is at most 0.
+    Therefore,
+    \[ -\sum_{i=1}^n p_i \ln p_i = -\sum_{i \in I} p_i \ln p_i \leq -\sum_{i \in I} p_i \ln q_i \leq -\sum_{i=1}^n p_i \ln q_i \]
+    If equality holds, we must have \( \sum_{i \in I} q_i = 1 \) and \( \frac{q_i}{p_i} = 1 \) for all \( i \in I \), giving that \( p_i = q_i \) for all \( i \).
+\end{proof}
+\begin{corollary}
+    \( H(p_1, \dots, p_n) \leq \log n \), with equality if and only if \( p_1 = \dots = p_n \).
+\end{corollary}
+
+\subsection{Optimal codes}
+Let \( \mathcal A = \qty{\mu_1, \dots, \mu_m} \) be an alphabet of \( m \geq 2 \) messages, and let \( \mathcal B \) be an alphabet of length \( a \geq 2 \).
+Let \( X \) be a random variable taking values in \( A \) with probabilities \( p_1, \dots, p_m \).
+\begin{definition}
+    A code \( c \colon \mathcal A \to \mathcal B^\star \) is called \emph{optimal} if it has the smallest possible expected word length \( \sum p_i \ell_i = \expect{S} \) among all decipherable codes.
+\end{definition}
+\begin{theorem}[Shannon's noiseless coding theorem]
+    The expected word length \( \expect{S} \) of an optimal code satisfies
+    \[ \frac{H(X)}{\log a} \leq \expect{S} < \frac{H(X)}{\log a} + 1 \]
+\end{theorem}
+The left hand inequality holds for all decipherable codes, but the right hand side only holds for optimal codes.
+\begin{proof}
+    First, we consider the lower bound.
+    Let \( c \colon \mathcal A \to \mathcal B^\star \) be a decipherable code with word lengths \( \ell_1, \dots, \ell_m \).
+    Let \( q_i = \frac{a^{-\ell_i}}{D} \) where \( D = \sum a^{-\ell_i} \), so \( \sum q_i = 1 \).
+    By Gibbs' inequality,
+    \[ H(X) \leq \sum p_i \log q_i = -\sum p_i(-\ell_i \log a - \log D) = \log D + \log a \sum p_i \ell_i \]
+    By McMillan's inequality, \( D \leq 1 \) so \( \log D \leq 0 \).
+    Hence, \( H(X) \leq \log a \sum p_i \ell_i = \log a \expect{S} \) as required.
+    Equality holds exactly when \( p_i = q_i = \frac{a^{-\ell_i}}{D} \) for some integers \( \ell_1, \dots, \ell_m \).
+
+    Now, consider the upper bound.
+    We construct a code called the \emph{Shannon--Fano code}.
+    Let \( \ell_i = \ceil{-\log_a p_i} \), so \( -\log_a p_i \leq \ell_i < -\log_a p_i + 1 \).
+    Therefore, \( \log_a p_i \geq -\ell_i \), so \( p_i \geq a^{-\ell_i} \).
+    Thus, Kraft's inequality \( \sum a^{-\ell_i} \leq 1 \) is satisfied, so there exists a prefix-free code \( c \) with these word lengths \( \ell_1, \dots, \ell_m \).
+    \( c \) has expected word length
+    \[ \expect{S} = \sum p_i \ell_i < \sum p_i (-\log p_i + 1) = \frac{H(X)}{\log a} + a \]
+    as required.
+\end{proof}
+\begin{example}[Shannon--Fano coding]
+    For probabilities \( p_1, \dots, p_m \), we set \( \ell_i = \ceil{-\log_a p_i} \).
+    Construct a prefix-free code with these word lengths by choosing codewords in order of size, with smallest codewords being selected first to ensure that the prefix-free property holds.
+    By Kraft's inequality, this process can always be completed.
+\end{example}
+\begin{example}
+    Let \( a = 2, m = 5 \), and define
+    \[ \begin{array}{cccc}
+            i & p_i & \ceil{-\log_2 p_i} \\
+            1 & 0.4 & 2 & 00 \\
+            2 & 0.2 & 3 & 010 \\
+            3 & 0.2 & 3 & 011 \\
+            4 & 0.1 & 4 & 1000 \\
+            5 & 0.1 & 4 & 1001
+    \end{array} \]
+    Here, \( \expect{S} = \sum p_i \ell_i = 2.8 \), and \( H(X) = \frac{H(X)}{\log 2} \approx 2.12 \).
+    Clearly, this is not optimal; one could take \( c(4) = 100, c(5) = 101 \) to reduce the expected word length.
+\end{example}

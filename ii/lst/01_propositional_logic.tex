@@ -141,3 +141,86 @@ For deduction rules, we will have only the rule \emph{modus ponens}, that from \
 \begin{definition}
     If \( \varnothing \vdash t \), we say \( t \) is a \emph{theorem}, written \( \vdash t \).
 \end{definition}
+\begin{example}
+    \( \vdash p \implies p \).
+    \begin{enumerate}[1.]
+        \item \( (p \implies ((p \implies p) \implies p)) \implies ((p \implies (p \implies p)) \implies (p \implies p)) \) (axiom 2)
+        \item \( p \implies ((p \implies p) \implies p) \) (axiom 1)
+        \item \( (p \implies (p \implies p)) \implies (p \implies p) \) (modus ponens on lines 1, 2)
+        \item \( p \implies (p \implies p) \) (axiom 1)
+        \item \( p \implies p \) (modus ponens on lines 3, 4)
+    \end{enumerate}
+\end{example}
+
+\subsection{Deduction theorem}
+\begin{theorem}
+    Let \( S \subseteq L \), and \( p, q \in L \).
+    Then \( S \vdash (p \implies q) \) if and only if \( S \cup \qty{p} \vdash q \).
+\end{theorem}
+Intuitively, provability corresponds to the implication connective in \( L \).
+\begin{proof}
+    For the forward direction, given a proof of \( p \implies q \) from \( S \), add the line \( p \) by hypothesis and deduce \( q \) from modus ponens, to obtain a proof of \( q \) from \( S \cup \qty{p} \).
+
+    Conversely, suppose we have a proof of \( q \) from \( S \cup \qty{p} \).
+    Let \( t_1, \dots, t_n \) be the lines of the proof.
+    We will prove that \( S \vdash (p \implies t_i) \) for all \( i \).
+    \begin{itemize}
+        \item If \( t_i \) is an axiom, we write \( t_i \) (axiom); \( t_i \implies (p \implies t_i) \) (axiom 1); \( p \implies t_i \) (modus ponens).
+        \item If \( t_i \in S \), we write \( t_i \) (hypothesis); \( t_i \implies (p \implies t_i) \) (axiom 1); \( p \implies t_i \) (modus ponens).
+        \item If \( t_i = p \), we write the proof of \( \vdash p \implies p \) given above.
+        \item Suppose \( t_i \) is obtained by modus ponens from \( t_j \) and \( t_k = t_j \implies t_i \).
+        We may assume by induction that \( S \vdash p \implies t_k \) and \( S \vdash p \implies (t_j \implies t_i) \).
+        We write
+        \begin{enumerate}[1.]
+            \item \( (p \implies (t_j \implies t_i)) \implies ((p \implies t_j) \implies (p \implies t_i)) \) (axiom 2)
+            \item \( (p \implies t_j) \implies (p \implies t_i) \) (modus ponens)
+            \item \( p \implies t_i \) (modus ponens)
+        \end{enumerate}
+        giving \( S \vdash p \implies t_i \).
+    \end{itemize}
+\end{proof}
+\begin{example}
+    Consider \( \qty{p \implies q, q \implies r} \vdash p \implies r \).
+    By the deduction theorem, it suffices to prove \( \qty{p \implies q, q \implies r, p} \vdash r \), which is obtained easily from modus ponens.
+\end{example}
+
+\subsection{Soundness}
+We aim to show \( S \models t \) if and only if \( S \vdash t \).
+The direction \( S \vdash t \) implies \( S \models t \) is called \emph{soundness}, which is a way of verifying that our axioms and deduction rule make sense.
+The direction \( S \models t \) implies \( S \vdash t \) is called \emph{adequacy}, which states that our axioms are powerful enough to deduce everything that is (semantically) true.
+\begin{proposition}
+    Let \( S \subseteq L \) and \( t \in L \).
+    Then \( S \vdash t \) implies \( S \models t \).
+\end{proposition}
+\begin{proof}
+    We have a proof \( t_1, \dots, t_n \) of \( t \) from \( S \).
+    We aim to show that any model of \( S \) is also a model of \( t \), so if \( v \) is a valuation that maps every element of \( S \) to 1, then \( v(t) = 1 \).
+    We show this by induction on the length of the proof.
+    \( v(p) = 1 \) for each axiom \( p \) and for each \( p \in S \).
+    Further, \( v(t_i) = 1, v(t_i \implies t_j) = 1 \), then \( v(t_j) = 1 \).
+    Therefore, \( v(t_i) = 1 \) for all \( i \).
+\end{proof}
+
+\subsection{Adequacy}
+Consider the case of adequacy where \( t = \bot \).
+If our axioms are adequate, \( S \models \bot \) implies \( S \vdash \bot \), so \( S \not\vdash \bot \).
+We say \( S \) is \emph{consistent} if \( S \not\vdash \bot \).
+Therefore, in an adequate system, if \( S \) has no models then \( S \) is inconsistent; equivalently, if \( S \) is consistent then it has a model.
+
+In fact, the statement that consistent axiom sets have a model implies adequacy in general.
+Indeed, if \( S \models t \), then \( S \cup \qty{\neg t} \) has no models, and so it is inconsistent by assumption.
+Then \( S \cup \qty{\neg t} \vdash \bot \), so \( S \vdash \neg t \implies \bot \) by the deduction theorem, giving \( S \vdash t \) by axiom 3.
+
+We aim to construct a model of \( S \) given that \( S \) is consistent.
+Intuitively, we want to write
+\[ v(t) = \begin{cases}
+    1 & t \in S \\
+    0 & t \not\in S
+\end{cases} \]
+but this does not work on the set \( S = \qty{p_1, p_1 \implies p_2} \) as it would evaluate \( p_2 \) to false.
+
+We say a set \( S \subseteq L \) is \emph{deductively closed} if \( p \in S \) whenever \( S \vdash p \).
+Any set \( S \) has a \emph{deductive closure}, which is the (deductively closed) set of statements \( \qty{t \in L \mid S \vdash t} \) that \( S \) proves.
+If \( S \) is consistent, then the deductive closure is also consistent.
+Computing the deductive closure before the valuation solves the problem for \( S = \qty{p_1, p_1 \implies p_2} \).
+However, if a primitive proposition \( p \) is not in \( S \), but \( \neg p \) is also not in \( S \), this technique still does not work, as it would assign false to both \( p \) and \( \neg p \).

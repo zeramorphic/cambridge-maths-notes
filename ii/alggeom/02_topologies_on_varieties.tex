@@ -41,3 +41,82 @@ We will prove this theorem later.
         \item Varieties \( V, W \subseteq \mathbb A^n \) are equal if and only if \( I(V) = I(W) \).
     \end{enumerate}
 \end{proposition}
+\begin{proof}
+    Follows from the definitions.
+\end{proof}
+Therefore, we have an injective map \( I \) from the space of affine varieties in \( \mathbb A^n \) to the space of ideals in \( \mathbb C[\vb X] \), and \( \mathbb V \) gives a left inverse.
+\begin{proposition}
+    If \( V, W \) are affine varieties, \( V \subseteq W \) if and only if \( I(W) \subseteq I(V) \).
+\end{proposition}
+\begin{proof}
+    The forward implication follows from set theory.
+    For the reverse, if \( V \not\subseteq W \), we can choose \( P \in V \setminus W \).
+    Since \( P \not\in \mathbb V(I(W)) \), there exists a function \( f \in I(W) \) such that \( f(P) \neq 0 \), so \( f \not\in I(V) \). 
+\end{proof}
+\begin{proposition}
+    Let \( V \) be a variety.
+    Then \( V \) is irreducible if and only if \( I(V) \) is a prime ideal.
+\end{proposition}
+Recall that \( I(V) \) is prime when \( f_1 f_2 \in I(V) \) implies \( f_1 \in I(V) \) or \( f_2 \in I(V) \).
+Geometrically, the ideal is not prime when we can find two functions where the product is zero on \( V \) but are individually not zero on all of \( V \).
+\begin{proof}
+    Recall that \( I(V_1 \cup V_2) = I(V_1) \cap I(V_2) \).
+    Suppose \( V \) were reducible, so \( V = V_1 \cup V_2 \) where \( V_1, V_2 \neq V \).
+    In particular, \( V_1 \not\subseteq V_2 \not\subseteq V_1 \).
+    Now, let \( I_j = I(V_j) \), giving \( I_1 \not\supseteq I_2 \not\supseteq I_1 \), and \( I(V) = I_1 \cap I_2 \).
+    Therefore, there exists \( f_1 \in I_1 \setminus I_2 \) and \( f_2 \in I_2 \setminus I_1 \).
+    Each \( f_i \) is not an element of \( I(V) \), but \( f_1 f_2 \in I(V) \).
+    So \( I(V) \) cannot be prime.
+
+    Conversely, suppose \( I(V) \) is not prime, so \( f_1 f_2 \in I(V) \) but \( f_1, f_2 \not\in I(V) \).
+    Define \( V_1 = V \cap \mathbb V(f_1) \) and \( V_2 = V \cap \mathbb V(f_2) \).
+    Since neither \( f_i \) is contained in \( I(V) \), \( V_i \neq V \).
+    Also, if \( P \in V \), we have \( f_1(P) f_2(P) = 0 \), so \( P \in V_1 \cup V_2 \).
+    So \( V \) is reducible.
+\end{proof}
+\begin{example}
+    Let \( V = \mathbb V(XY) \subset \mathbb A^2 \).
+    Then \( V = \mathbb V(X) \cup \mathbb V(Y) \) is a decomposition of \( V \) into irreducible components.
+    Indeed, \( \mathbb V(X) \) is irreducible, as \( I(\mathbb V(X)) = (X) \) is a prime ideal in \( \mathbb C[X, Y] \), and similarly for \( Y \).
+\end{example}
+
+\subsection{Coordinate rings}
+Consider a polynomial \( f \in \mathbb C[\vb X] \).
+We obtain a function \( f \colon \mathbb A^n \to \mathbb A^1 \), 
+If \( V \subseteq \mathbb A^n \) and \( f, g \in \mathbb C[\vb X] \), we are interested in when \( f, g \) induce the same set-theoretic function on \( V \).
+We intend to show that \( f, g \) induce the same function if and only if \( f - g \in I(V) \).
+Therefore, we can study polynomials modulo this relation by taking the quotient with respect to this ideal.
+\begin{definition}
+    Let \( V \subseteq \mathbb A^n \) be a variety.
+    The \emph{coordinate ring} of \( V \), or the \emph{ring of regular functions} of \( V \), is defined as \( \faktor{\mathbb C[\vb X]}{I(V)} \), denoted \( \mathbb C[V] \) or \( \mathcal O(V) \).
+\end{definition}
+\begin{corollary}
+    Let \( V \) be a variety.
+    Then \( V \) is irreducible if and only if \( \mathbb C[V] \) is an integral domain.
+\end{corollary}
+\begin{remark}
+    \( \mathbb C[V] \) does not precisely determine \( V \) or \( I(V) \).
+    For instance, consider a surjective homomorphism \( \theta \colon \mathbb C[\vb X] \to \mathbb C[V] \), then \( \ker \theta = I \) is an ideal, and \( \mathbb V(I) \) is a variety with coordinate ring \( \mathbb C[V] \).
+    However, there is not a unique such homomorphism in general.
+    For instance, \( \mathbb C[X] \simeq \faktor{\mathbb C[X,Y]}{(Y)} \).
+\end{remark}
+\begin{definition}
+    Let \( I \triangleleft \mathbb C[\vb X] \).
+    We define the \emph{radical ideal} of \( I \) to be
+    \[ \sqrt{I} = \qty{f \in \mathbb C[\vb X] \mid \exists m > 0,\, f^m \in I} \]
+\end{definition}
+This is an ideal.
+\( \sqrt{\sqrt{I}} = \sqrt{I} \).
+Note that \( \mathbb V(I) = \mathbb V\qty(\sqrt{I}) \).
+\begin{theorem}[strong form of Hilbert's Nullstellensatz]
+    Let \( I \triangleleft \mathbb C[\vb X] \) be an ideal, and \( V = \mathbb V(I) \).
+    Then \( I(V) = \sqrt{I} \).
+\end{theorem}
+Therefore, the map \( V \mapsto I(V) \) maps precisely onto the space of radical ideals, ideals which are equal to their radicals.
+\begin{example}
+    Let \( V = \qty{0} \in \mathbb A^1 \).
+    We can write \( V = \mathbb V(X^2) \), so its coordinate ring is
+    \[ \faktor{\mathbb C[X]}{I(\mathbb V(X^2))} = \faktor{\mathbb C[X]}{\sqrt{(X^2)}} = \faktor{\mathbb C[X]}{(X)} \simeq \mathbb C \]
+    In building the coordinate ring, we forget the structure of \( X^2 \).
+    If we had instead considered \( \faktor{\mathbb C[X]}{(X^2)} \), we would have certain nonzero elements whose squares are zero.
+\end{example}
