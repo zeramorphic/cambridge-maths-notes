@@ -243,7 +243,7 @@ This allows us to define a new invariant which refines \( n = [L:\mathbb Q] \).
     If \( L = \mathbb Q(\sqrt d) \) where \( d \) is square-free, then \( a + b\sqrt d \) and \( a - b\sqrt d \) are conjugates.
 \end{example}
 \begin{proposition}
-    Let \( L / K \) be a separable extension.
+    Let \( L / K \) be a finite separable extension.
     Then, the \( K \)-bilinear form \( L \times L \to K \) given by \( (x, y) \mapsto \Tr_{L/K}(xy) \), known as the \emph{trace form}, is a nondegenerate inner product.
     Equivalently, if \( \alpha_1, \dots, \alpha_n \) is a basis of \( L / K \), the Gram matrix has nonzero determinant: \( \Delta(\alpha_1, \dots, \alpha_n) = \det \Tr_{L/K}(\alpha_i \alpha_i) \neq 0 \).
     Conversely, if \( L / K \) is inseparable, the trace form is the zero map.
@@ -253,4 +253,74 @@ This allows us to define a new invariant which refines \( n = [L:\mathbb Q] \).
     Let \( S \) be the matrix \( (\sigma_i(\alpha_j)) \).
     Observe that \( S^\transpose S \) is the matrix with \( (i,j) \) term \( \sum_{k=1}^n \sigma_k(\alpha_i) \sigma_k(\alpha_j) = \sum_{k=1}^n \sigma_k(\alpha_i \alpha_j) = \Tr_{L/K}(\alpha_i \alpha_j) \).
     So \( \Delta(\alpha_1, \dots, \alpha_n) = \det S \det S^\transpose = (\det S)^2 \).
+    By the primitive element theorem, there exists \( \theta \in L \) such that \( L = K(\theta) \).
+    Therefore, \( 1, \theta, \dots, \theta^{n-1} \) forms a basis of \( L / K \).
+    Then
+    \[ S = \begin{pmatrix}
+        1 & \sigma_1(\theta) & \cdots & \sigma_1(\theta^{n-1}) \\
+        \vdots & \vdots & & \vdots \\
+        1 & \sigma_n(\theta) & \cdots & \sigma_n(\theta^{n-1})
+    \end{pmatrix} \]
+    This is a Vandermonde matrix, which gives
+    \[ (\det S)^2 = \prod_{i < j} \qty(\sigma_i(\theta) - \sigma_j(\theta))^2 = \Delta(1, \theta, \dots, \theta^n) \]
+    This is nonzero; indeed, if \( \sigma_i(\theta) = \sigma_j(\theta) \), then \( \sigma_i(\theta^a) = \sigma_j(\theta^a) \) for all \( a \), so \( \sigma_i = \sigma_j \), but they are distinct.
+
+    Moreover, if \( \alpha_1, \dots, \alpha_n \) is any basis of \( L / K \), and \( \alpha_1', \dots, \alpha_n' \) is another basis of \( L / K \), then \( \Delta(\alpha_1', \dots, \alpha_n') = (\det A)^2 \Delta(\alpha_1, \dots, \alpha_n) \) where \( \alpha_i' = \sum a_{ij} \alpha_j \) and \( A = (a_{ij}) \).
+    Hence, \( \Delta(\alpha_1, \dots, \alpha_n) \neq 0 \) for any basis.
 \end{proof}
+\begin{remark}
+    \( L = K(\theta) \) and \( p_\theta(t) = \prod (t-\sigma_i(\theta)) \).
+    The Galois theory notion of the discriminant of \( p_\theta \), which is \( \prod_{i < j} (\sigma_i(\theta) - \sigma_j(\theta))^2 \), is exactly the determinant of the Gram matrix \( \Delta(1, \theta, \dots, \theta^{n-1}) \), also often called a discriminant.
+\end{remark}
+\begin{remark}
+    Let \( L \) be a number field.
+    If \( \alpha, \beta \in \mathcal O_L \), \( \Tr_{L/\mathbb Q}(\alpha\beta) \in \mathbb Z \).
+    Therefore, the inner product is a function \( \mathcal O_L \times \mathcal O_L \to \mathbb Z \).
+    If \( \alpha_1, \dots, \alpha_n \in L \) form a basis of \( L \) over \( \mathbb Q \), and \( \alpha_1, \dots, \alpha_n \) are algebraic integers, then \( \Delta(\alpha_1, \dots, \alpha_n) \) is a nonzero integer. 
+\end{remark}
+\begin{theorem}
+    Let \( L / \mathbb Q \) be a number field.
+    Then there exists an integral basis for \( \mathcal O_L \): there exist \( \alpha_1, \dots, \alpha_n \in \mathcal O_L \) such that \( \mathcal O_L = \bigoplus \mathbb Z \alpha_i \simeq \mathbb Z^n \) and \( L = \bigoplus \mathbb Q \alpha_i \simeq \mathbb Q^n \).
+\end{theorem}
+\begin{proof}
+    Let \( \alpha_1, \dots, \alpha_n \) be any basis for \( L \) as a \( \mathbb Q \)-vector space.
+    We have shown that there exists \( n_i \in \mathbb Z \) such that \( n_i \alpha_i \in \mathcal O_L \).
+    Therefore, we can assume \( \alpha_1, \dots, \alpha_n \in \mathcal O_L \) without loss of generality.
+    Here, \( \Delta(\alpha_1, \dots, \alpha_n) \) is a nonzero integer.
+
+    Choose \( \alpha_1, \dots, \alpha_n \) such that \( \Delta(\alpha_1, \dots, \alpha_n) \) has minimum absolute value.
+    Suppose the result is false, so let \( x \in \mathcal O_L \) and \( x = \sum \lambda_i \alpha_i \) where \( \lambda_i \in \mathbb Q \), and suppose that some \( \lambda_i \) is not an integer.
+    Without loss of generality let \( \lambda_1 \not\in \mathbb Z \).
+    Write \( \lambda_1 = n_1 + \varepsilon_1 \), and \( 0 < \varepsilon_1 < 1 \).
+    Now, let
+    \[ \alpha_1' = x - n_1 \alpha_1 = \varepsilon_1 \alpha_1 + \lambda_2 \alpha_2 + \dots + \lambda_n \alpha_n \]
+    Note \( \alpha_1' \in \mathcal O_L \).
+    Then \( \alpha_1', \alpha_2, \dots, \alpha_n \) is a basis of \( L \) containing only the elements of \( \mathcal O_L \).
+    But \( \Delta(\alpha_1', \alpha_2, \dots, \alpha_n) = \varepsilon_1^2 \Delta(\alpha_1, \dots, \alpha_n) \) contradicting the minimality assumption.
+\end{proof}
+\begin{remark}
+    If \( \alpha_1', \dots, \alpha_n' \) are any other integral basis of \( \mathcal O_L \), then there exists \( g \in GL_n(\mathbb Z) \) such that \( g(\alpha_i') = \alpha_i \).
+    But \( \det g \in GL_1(\mathbb Z) = \qty{\pm 1} \), so \( (\det g)^2 = 1 \), giving \( \Delta(\alpha_1', \dots, \alpha_n') = \Delta(\alpha_1, \dots, \alpha_n) \), so this is an invariant.
+\end{remark}
+\begin{definition}
+    The \emph{discriminant} of a number field \( L / \mathbb Q \) is the invariant \( D_L = \Delta(\alpha_1, \dots, \alpha_n) \).
+\end{definition}
+\begin{example}
+    Let \( L = \mathbb Q(\sqrt{d}) \) where \( d \) is square-free.
+    Then, \( d \equiv 2, 3 \) mod 4, then \( 1, \sqrt{d} \) is an integral basis.
+    If \( d \equiv 1 \) mod 4, then \( 1, \frac{1}{2}\qty(1+\sqrt{d}) \) is an integral basis.
+    Then,
+    \[ D_L = \qty[\det \begin{pmatrix}
+        1 & \sqrt{d} \\
+        1 & -\sqrt{d}
+    \end{pmatrix}]^2 = 4d;\quad D_L = \qty[\det \begin{pmatrix}
+        1 & \frac{1}{2}\qty(1 + \sqrt{d}) \\
+        1 & \frac{1}{2}\qty(1 - \sqrt{d})
+    \end{pmatrix}]^2 = d \]
+    So the discriminant is either \( 4d \) or \( d \).
+\end{example}
+\begin{remark}
+    Results on quadratic fields are often phrased more uniformly if written in terms of \( D_L \).
+    Note also that \( L = \mathbb Q(\sqrt{D_L}) \).
+    An integral basis is \( 1, \frac{\sqrt{D_L} + D_L}{2} \) regardless of the value of \( d \).
+\end{remark}
