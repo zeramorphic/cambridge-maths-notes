@@ -129,7 +129,7 @@ We define the \( k \)-fold \emph{tensor power} of a vector space \( \mathcal V \
 If \( \mathcal V = \mathbb C^2 \), this has dimension \( 2^k \), and complete orthonormal basis \( \ket{i_1 \dots i_k} \) for \( i_j \in \qty{0,1} \).
 Note that \( \ket{v}\ket{w} \neq \ket{w}\ket{v} \).
 
-\subsection{Postulates of quantum mechanics}
+\subsection{First postulate: quantum states}
 In this course, we will restrict our attention to finite-dimensional vector spaces, and finite time evolution.
 
 The first postulate is that, given an isolated quantum mechanical system \( S \), we can associate a finite-dimensional vector space \( \mathcal V \).
@@ -144,11 +144,154 @@ Note that states \( a\ket{\psi_1} + b\ket{\psi_2} \) and \( a\ket{\psi_1} + be^{
     A property of the polarisation of a photon, such as vertical or horizontal, or right-circular or left-circular, can also be modelled in this way.
 
     Define \( \ket{+} = \frac{1}{\sqrt{2}}\qty(\ket{0} + \ket{1}) \) and \( \ket{-} = \frac{1}{\sqrt{2}}\qty(\ket{0} - \ket{1}) \).
-    This is another complete orthonormal basis for \( \mathcal V \).
+    This is another complete orthonormal basis for \( \mathcal V \), sometimes called the \emph{conjugate basis}.
 \end{example}
-The second postulate is that two quantum systems \( S_1, S_2 \) with associated vector spaces \( \mathcal V_1, \mathcal V_2 \) can be composed into the \emph{composite system} with vector space \( \mathcal V_1 \otimes \mathcal V_2 \).
+
+\subsection{Second postulate: composite systems}
+The second postulate of quantum mechanics is that two quantum systems \( S_1, S_2 \) with associated vector spaces \( \mathcal V_1, \mathcal V_2 \) can be composed into the \emph{composite system} with vector space \( \mathcal V_1 \otimes \mathcal V_2 \).
 \begin{example}
     Consider \( \mathcal V^{\otimes n} \), the space of \( n \) qubits.
     An orthonormal basis is \( \ket{i_1 \dots i_n} \) where \( i_j \in \qty{0,1} \).
     A vector in \( \mathcal V^{\otimes n} \) can be written \( \sum a_{i_1 \dots i_n} \ket{i_1 \dots i_n} \).
+    There are \( 2^n \) different amplitudes \( a_{i_1 \dots i_n} \), providing exponential growth in information.
+    However, in a product state, we obtain only linear growth in information.
 \end{example}
+
+\subsection{Observables}
+An \emph{observable} is a property of a physical system which can, in theory, be measured.
+Mathematically, these are modelled by linear self-adjoint (or Hermitian) operators.
+
+The action of a linear operator \( A \) on a state space \( \mathcal V \) is a written \( A \ket{\psi} \).
+Note that \( A \qty(a \ket{\psi} + b \ket{\phi}) = a A \ket{\psi} + b A \ket{\phi} \) for \( a, b \in \mathbb C \).
+For any operator \( A \) acting on \( \mathcal V \), there is a unique linear operator \( A^\dagger \) such that \( \ip{v}{Aw} = \ip{A^\dagger v}{w} \), called the \emph{adjoint} of \( A \); operators equal to their adjoints are called \emph{self-adjoint}.
+
+We can easily show that \( (AB)^\dagger = B^\dagger A^\dagger \).
+By convention, we define \( \ket{\psi}^\dagger = \bra{\psi} \), so for a self-adjoint operator \( A \), we have \( \qty(A \ket{\psi})^\dagger = \bra{\psi} A \).
+There are four important operators which act on the single-qubit space \( \mathbb C^2 \).
+\[ \sigma_0 = \begin{pmatrix}
+    1 & 0 \\
+    0 & 1
+\end{pmatrix};\quad \sigma_x = \begin{pmatrix}
+    0 & 1 \\
+    1 & 0
+\end{pmatrix};\quad \sigma_y = \begin{pmatrix}
+    0 & -i \\
+    i & 0
+\end{pmatrix};\quad \sigma_z = \begin{pmatrix}
+    1 & 0 \\
+    0 & -1
+\end{pmatrix} \]
+\( \sigma_0 \) is the identity matrix, and \( \sigma_x, \sigma_y, \sigma_z \) are called the \emph{Pauli matrices}.
+The actions of these matrices on the basis vectors \( \ket{0} \) and \( \ket{1} \) are
+\[ \sigma_0\ket{0} = \ket{0};\quad \sigma_0\ket{1} = \ket{1};\quad \sigma_x\ket{0} = \ket{1};\quad \sigma_x\ket{1} = \ket{0}; \]
+\[ \sigma_y\ket{0} = i\ket{1};\quad \sigma_y\ket{1} = -i\ket{0};\quad \sigma_z\ket{0} = \ket{0};\quad \sigma_z\ket{1} = -\ket{1} \]
+Note that
+\[ \sigma_x \sigma_y = i \sigma_z;\quad \sigma_y \sigma_z = i \sigma_x;\quad \sigma_z \sigma_x = i\sigma_y \]
+Intuitively, \( \sigma_x \) is a bit flip, \( \sigma_y \) is a phase flip, and \( \sigma_z \) is a combined bit and phase flip.
+
+\subsection{Dirac notation for linear operators}
+Let \( \ket{v} = a \ket{0} + b \ket{1} \), and \( \ket{w} = c \ket{0} + d \ket{1} \).
+The outer product is
+\[ M = \op{v}{w} = \begin{pmatrix}
+    a \\ b
+\end{pmatrix} \begin{pmatrix}
+    c^\star & d^\star
+\end{pmatrix} = \begin{pmatrix}
+    ac^\star & ad^\star \\
+    bc^\star & bd^\star
+\end{pmatrix} \]
+which is a linear map on \( \mathcal V = \mathbb C^2 \).
+One can show that \( M \ket{x} = \qty(\op{v}{w})\ket{x} = \ket{v} \ip{w}{x} \), which is the scalar product of the vector \( \ket{v} \) with the inner product \( \ip{w}{x} \).
+Such outer products yield the linear maps from \( \mathbb C^2 \) to \( \mathbb C^2 \) that have rank 1, and the kernel of \( M \) is the subspace of vectors orthogonal to \( \ket{w} \).
+Note that
+\[ \op{0}{0} = \begin{pmatrix}
+    1 & 0 \\
+    0 & 0
+\end{pmatrix};\quad \op{0}{1} = \begin{pmatrix}
+    0 & 1 \\
+    0 & 0
+\end{pmatrix};\quad \op{1}{0} = \begin{pmatrix}
+    0 & 0 \\
+    1 & 0
+\end{pmatrix};\quad \op{1}{1} = \begin{pmatrix}
+    0 & 0 \\
+    0 & 1
+\end{pmatrix} \]
+Hence, we can write
+\[ A = \begin{pmatrix}
+    a & b \\
+    c & d
+\end{pmatrix} \implies A = a \op{0}{0} + b \op{0}{1} + c \op{1}{0} + d \op{1}{1} \]
+In particular, \( \op{0}{0}, \op{0}{1}, \op{1}{0}, \op{1}{1} \) forms a basis for the vector space \( \mathcal V \otimes \mathcal V^\star \) of linear maps on \( \mathcal V \).
+Note also that \( \ip{w}{v} = \tr \op{v}{w} \).
+
+\subsection{Projection operators}
+Suppose that \( \ket{v} \) is a normalised vector, so \( \ip{v}{v} = 1 \).
+Then, \( \Pi_v = \op{v}{v} \) is the \emph{projection operator} onto \( v \), satisfying \( \Pi_v \Pi_v = \Pi_v \) and \( \Pi_v^\dagger = \Pi_v \).
+In Dirac notation, one can see that
+\[ \Pi_v \Pi_v = \op{v}{v} \op{v}{v} = \ket{v} \ip{v}{v} \bra{v} = \op{v}{v} = \Pi_v \]
+If \( \ket{a} \) is orthogonal to \( \ket{v} \), then \( \Pi_v \ket{a} = \ket{v} \ip{v}{a} = 0 \).
+Therefore, \( \Pi_v \ket{x} \) is the vector obtained by projection of \( \ket{x} \) onto the one-dimensional subspace of \( \mathcal V \) spanned by \( \ket{v} \).
+
+Now suppose \( \mathcal E \) is any linear subspace of some vector space \( \mathcal V \), and \( \ket{e_1}, \dots, \ket{e_d} \) is any orthonormal basis of \( \mathcal E \).
+Then,
+\[ \Pi_{\mathcal E} = \op{e_1}{e_1} + \dots + \op{e_d}{e_d} \]
+is the projection operator into \( \mathcal E \).
+This property can be checked by extending \( \ket{e_1}, \dots, \ket{e_d} \) into an orthonormal basis of \( \mathcal V \).
+
+Note that if \( \ket{x} = A \ket{v} \), then \( \bra{x} = (A \ket{v})^\dagger = \ket{v}^\dagger A^\dagger = \bra{v} A^\dagger \).
+Therefore, when constructing inner products, we can write \( \mel{a}{M}{b} \) as \( \ip{a}{x} \) or \( \ip{y}{b} \) where \( \ket{x} = M \ket{b} \) or \( \ket{y} = M^\dagger \ket{a} \) (so that we have \( \bra{y} = \bra{a} M \)).
+
+\subsection{Tensor products of linear maps}
+Suppose \( A, B \) are linear maps \( \mathbb C^2 \to \mathbb C^2 \).
+Then, we define \( A \otimes B \colon \mathbb C^2 \otimes \mathbb C^2 \to \mathbb C^2 \otimes \mathbb C^2 \) by its action on the basis \( (A \otimes B)\ket{i} \ket{j} = A \ket{i} B \ket{j} \).
+In particular, for product vectors we obtain \( (A \otimes B) (\ket{v} \ket{w}) = A \ket{v} \otimes B \ket{w} \).
+
+The \( 4 \times 4 \) matrix of components of \( A \otimes B \) has a simple block form, which can be seen by writing down its action on basis states.
+\[ A = \begin{pmatrix}
+    a & b \\
+    c & d
+\end{pmatrix};\quad B = \begin{pmatrix}
+    p & q \\
+    r & s
+\end{pmatrix} \implies A \otimes B = \begin{pmatrix}
+    aB & bB \\
+    cB & dB
+\end{pmatrix} = \begin{pmatrix}
+    ap & aq & bp & bq \\
+    ar & as & br & bs \\
+    cp & cq & dp & dq \\
+    cr & cs & dr & ds
+\end{pmatrix} \]
+Note that \( A \otimes I \) and \( I \otimes A \) can be thought of as acting only on one of the subspaces.
+Consider \( \ket{\Phi} = \frac{1}{\sqrt{2}} \qty(\ket{00} + \ket{11}) \), and define \( A \) as above.
+Then,
+\begin{align*}
+    (A \otimes I) \ket{\Phi} &= \frac{1}{\sqrt{2}} \qty[(A \ket{0}) \ket{0} + (A \ket{1}) \ket{1}] \\
+    &= \frac{1}{\sqrt{2}} \qty[(a \ket{0} + c \ket{1}) \ket{0} + (b \ket{0} + d \ket{1}) \ket{1}] \\
+    &= \frac{1}{\sqrt{2}} \qty[a \ket{00} + b \ket{01} + c \ket{10} + d \ket{11}] \\
+    (I \otimes A) \ket{\Phi} &= \frac{1}{\sqrt{2}} \qty[\ket{0} (A \ket{0}) + \ket{1} (A \ket{1})] \\
+    &= \frac{1}{\sqrt{2}} \qty[\ket{0} (a \ket{0} + c \ket{1}) + \ket{1} (b \ket{0} + d \ket{1})] \\
+    &= \frac{1}{\sqrt{2}} \qty[a \ket{00} + c \ket{01} + b \ket{10} + d \ket{11}]
+\end{align*}
+
+\subsection{Third postulate: physical evolution of quantum systems}
+The third postulate of quantum mechanics is that any physical finite-time evolution of a closed quantum system is represented by a unitary operation on the corresponding vector space of states.
+Recall that the following are equivalent for a linear operator \( U \):
+\begin{itemize}
+    \item \( U \) is unitary, so \( U^{-1} = U^\dagger \);
+    \item \( U \) maps an orthonormal basis to an orthonormal set of vectors;
+    \item the columns (or rows) of \( U \) form an orthonormal set of vectors.
+\end{itemize}
+If a system is in a state \( \ket{\psi(t_1)} \) at a time \( t_1 \) and later in a state \( \ket{\psi(t_2)} \) at a time \( t_2 \), then \( \ket{\psi(t_2)} = U(t_1, t_2) \ket{\psi(t_1)} \) for some unitary map \( U(t_1, t_2) \) which depends only on \( t_1, t_2 \).
+More precisely, the \emph{Schr\"odinger equation} is
+\[ i\hbar \pdv{t} \ket{\psi(t)} = H \ket{\psi(t)} \]
+where \( H \) is a self-adjoint operator known as the \emph{Hamiltonian}, which generates the unitary transformation.
+In particular, if \( H \) is time-independent, we have
+\[ U(t_1, t_2) = e^{-\frac{i}{\hbar} H(t_2 - t_1)} \]
+The unitary evolution of a closed system is deterministic.
+
+\subsection{Partial inner products}
+A vector \( \ket{v} \in \mathcal V \) defines a linear map \( \mathcal V \otimes \mathcal W \to \mathcal W \) called the \emph{partial inner product} with \( \ket{v} \), defined on the basis \( \ket{e_i} \ket{f_j} \) of \( \mathcal V \otimes \mathcal W \) by \( \ket{e_i} \ket{f_j} \mapsto \ip{v}{e_i} \ket{f_j} \).
+Similarly, for any \( \ket{w} \in \mathcal W \), we obtain a partial inner product \( \mathcal V \otimes \mathcal W \to \mathcal V \).
+If \( \mathcal V, \mathcal W \) are isomorphic, we must specify which partial inner product is intended.
