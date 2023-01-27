@@ -224,3 +224,86 @@ Any set \( S \) has a \emph{deductive closure}, which is the (deductively closed
 If \( S \) is consistent, then the deductive closure is also consistent.
 Computing the deductive closure before the valuation solves the problem for \( S = \qty{p_1, p_1 \implies p_2} \).
 However, if a primitive proposition \( p \) is not in \( S \), but \( \neg p \) is also not in \( S \), this technique still does not work, as it would assign false to both \( p \) and \( \neg p \).
+\begin{theorem}[model existence lemma]
+    Every consistent set \( S \subseteq L \) has a model.
+\end{theorem}
+\begin{proof}
+    First, we claim that for any consistent \( S \subseteq L \) and proposition \( p \in L \), either \( S \cup \qty{p} \) is consistent or \( S \cup \qty{\neg p} \) is consistent.
+    If this were not the case, then \( S \cup \qty{p} \vdash \bot \), and also \( S \cup \qty{\neg p} \vdash \bot \).
+    By the deduction theorem, \( S \vdash p \implies \bot \) and \( S \vdash (\neg p) \implies \bot \).
+    But then \( S \vdash \neg p \) and \( S \vdash \neg\neg p \), so \( S \vdash \bot \) contradicting consistency of \( S \).
+    
+    Now, \( L \) is a countable set as each \( L_n \) is countable, so we can enumerate \( L \) as \( t_1, t_2, \dots \).
+    Let \( S_0 = S \), and define \( S_1 = S_0 \cup \qty{t_1} \) or \( S_1 = S_0 \cup \qty{\neg t_1} \), chosen such that \( S_1 \) is consistent.
+    Continuing inductively, define \( \overline S = \bigcup_{i \in \mathbb N} S_i \).
+    Then, for all \( t \in L \), either \( t \in \overline S \) or \( \neg t \in \overline S \).
+    Note that \( \overline S \) is consistent; indeed, if \( \overline S \vdash \bot \), then this proof uses hypotheses only in \( S_n \) for some \( n \), but then \( S_n \vdash \bot \) contradicting consistency of \( S_n \).
+    Note also that \( \overline S \) is deductively closed, so if \( \overline S \vdash p \), we must have \( p \in \overline S \); otherwise, \( \neg p \in \overline S \) so \( \overline S \vdash \neg p \), giving \( \overline S \vdash \bot \), contradicting consistency of \( \overline S \).
+    Now, define the function
+    \[ v(t) = \begin{cases}
+        1 & t \in \overline S \\
+        0 & t \not\in \overline S
+    \end{cases} \]
+    We show that \( v \) is a valuation, then the proof is complete as \( v(s) = 1 \) for all \( s \in S \).
+    Since \( \overline S \) is consistent, \( \bot \not\in \overline S \), so \( v(\bot) = 0 \).
+    
+    Suppose \( v(p) = 1, v(q) = 0 \).
+    Then \( p \in \overline S \) and \( q \not\in \overline S \), and we want to show \( (p \implies q) \not\in \overline S \).
+    If this were not the case, we would have \( (p \implies q) \in \overline S \) and \( p \in \overline S \), so \( q \in \overline S \) as \( \overline S \) is deductively closed.
+
+    Now suppose \( v(q) = 1 \), so \( q \in \overline S \), and we need to show \( (p \implies q) \in \overline S \).
+    Then \( \overline S \vdash q \), and by axiom 1, \( \overline S \vdash q \implies (p \implies q) \).
+    Therefore, as \( \overline S \) is deductively closed, \( (p \implies q) \in \overline S \).
+
+    Finally, suppose \( v(p) = 0 \), so \( p \not\in \overline S \), and we want to show \( (p \implies q) \in \overline S \).
+    We know that \( \neg p \in \overline S \), so it suffices to show that \( p \implies \bot \vdash p \implies q \).
+    By the deduction theorem, this is equivalent to proving \( \qty{p, p \implies \bot} \vdash q \), or equivalently, \( \bot \vdash q \).
+    But by axiom 1, \( \bot \implies (\neg q \implies \bot) \) where \( (\neg q \implies \bot) = \neg\neg q \), so the proof is complete by axiom 3.
+\end{proof}
+\begin{remark}
+    We used the fact that \( P \) was a countable set in order to show that \( L \) was countable.
+    The result does in fact hold if \( P \) is uncountable, but requires more tools to prove.
+    Some sources call this theorem the `completeness theorem'.
+\end{remark}
+\begin{corollary}[adequacy]
+    Let \( S \subseteq L \) and let \( t \in L \), such that \( S \models t \).
+    Then \( S \vdash t \).
+\end{corollary}
+\begin{proof}
+    Follows from the remarks before the model existence lemma.
+\end{proof}
+
+\subsection{Completeness}
+\begin{theorem}[completeness theorem for propositional logic]
+    Let \( S \subseteq L \) and \( t \in L \).
+    Then \( S \models t \) if and only if \( S \vdash t \).
+\end{theorem}
+\begin{proof}
+    Follows from soundness and adequacy.
+\end{proof}
+\begin{theorem}[compactness theorem]
+    Let \( S \subseteq L \) and \( t \in L \) with \( S \models t \).
+    Then there exists a finite subset \( S' \subseteq S \) such that \( S' \models t \).
+\end{theorem}
+\begin{proof}
+    Trivial after applying the completeness theorem, since proofs depend on only finitely many hypotheses in \( S \).
+\end{proof}
+\begin{corollary}[compactness theorem, equivalent form]
+    Let \( S \subseteq L \).
+    Then if every finite subset \( S' \subseteq S \) has a model, then \( S \) has a model.
+\end{corollary}
+\begin{proof}
+    Let \( t = \bot \) in the compactness theorem.
+    Then, if \( S \models \bot \), some finite \( S' \subseteq S \) has \( S' \models \bot \).
+    But this is not true by assumption, so there is a model for \( S \).
+\end{proof}
+\begin{remark}
+    This corollary is equivalent to the more general compactness theorem, since the assertion that \( S \models t \) is equivalent to the statement that \( S \cup \qty{\neg t} \) has no model, and \( S' \models t \) is equivalent to the statement that \( S' \cup \qty{\neg t} \) has no model.
+\end{remark}
+\begin{theorem}[decidability theorem]
+    Let \( S \subseteq L \) and \( t \in L \).
+    Then, there is an algorithm to decide (in finite time) if \( S \vdash t \).
+\end{theorem}
+\begin{proof}
+    Trivial after replacing \( \vdash \) with \( \models \), by drawing the relevant truth tables. 
+\end{proof}

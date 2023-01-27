@@ -196,3 +196,131 @@ The left hand inequality holds for all decipherable codes, but the right hand si
     Here, \( \expect{S} = \sum p_i \ell_i = 2.8 \), and \( H(X) = \frac{H(X)}{\log 2} \approx 2.12 \).
     Clearly, this is not optimal; one could take \( c(4) = 100, c(5) = 101 \) to reduce the expected word length.
 \end{example}
+
+\subsection{Huffman coding}
+Let \( \mathcal A = \qty{\mu_1, \dots, \mu_m} \) and \( p_i = \prob{X = \mu_i} \).
+We assume \( a = 2 \) and \( \mathcal B = \qty{0,1} \) for simplicity.
+Without loss of generality, we can assume \( p_1 \geq p_2 \geq \dots \geq p_m \).
+We construct an optimal code inductively.
+
+If \( m = 2 \), we take codewords \( 0 \) and \( 1 \).
+If \( m > 2 \), first we take the Huffman code for messages \( \mu_1, \dots, \mu_{m-2}, \nu \) with probabilities \( p_1, p_2, \dots, p_{m-2}, p_{m-1} + p_m \).
+Then, we append 0 and 1 to the codeword for \( \nu \) to obtain the new codewords for \( \mu_{m-1}, \mu_m \).
+\begin{remark}
+    By construction, Huffman codes are prefix-free.
+    In general, Huffman codes are not unique; we require a choice if \( p_i = p_j \).
+\end{remark}
+\begin{example}
+    Consider the example
+    Let \( a = 2, m = 5 \), and consider as before
+    \[ \begin{array}{cc}
+            i & p_i \\
+            1 & 0.4 \\
+            2 & 0.2 \\
+            3 & 0.2 \\
+            4 & 0.1 \\
+            5 & 0.1
+    \end{array} \]
+    Merging 4 and 5, as they have the lowest probabilities,
+    \[ \begin{array}{cc}
+        i & p_i \\
+        1 & 0.4 \\
+        2 & 0.2 \\
+        3 & 0.2 \\
+        45 & 0.1
+    \end{array} \]
+    Continuing, we obtain
+    \[ \begin{array}{cc}
+        i & p_i \\
+        (3(45))2 & 0.6 \\
+        1 & 0.4
+    \end{array} \]
+    giving codewords
+    % https://q.uiver.app/?q=WzAsOSxbMSwyLCJcXGJ1bGxldCJdLFswLDMsIjMiXSxbMiwzLCJcXGJ1bGxldCJdLFsxLDQsIjQiXSxbMyw0LCI1Il0sWzIsMSwiXFxidWxsZXQiXSxbMywyLCIyIl0sWzMsMCwiXFxidWxsZXQiXSxbNCwxLCIxIl0sWzAsMSwiMCJdLFswLDIsIjEiLDJdLFsyLDMsIjAiXSxbMiw0LCIxIiwyXSxbNSwwLCIwIl0sWzUsNiwiMSIsMl0sWzcsNSwiMCJdLFs3LDgsIjEiLDJdXQ==
+    \[\begin{tikzcd}
+        &&& \bullet \\
+        && \bullet && 1 \\
+        & \bullet && 2 \\
+        3 && \bullet \\
+        & 4 && 5
+        \arrow["0", from=3-2, to=4-1]
+        \arrow["1"', from=3-2, to=4-3]
+        \arrow["0", from=4-3, to=5-2]
+        \arrow["1"', from=4-3, to=5-4]
+        \arrow["0", from=2-3, to=3-2]
+        \arrow["1"', from=2-3, to=3-4]
+        \arrow["0", from=1-4, to=2-3]
+        \arrow["1"', from=1-4, to=2-5]
+    \end{tikzcd}\]
+    This gives \( \expect{S} = 2.2 \), better than the Shannon--Fano code found above.
+\end{example}
+\begin{lemma}
+    Let \( \mu_1, \dots, \mu_m \) be messages in \( \mathcal A \) with probabilities \( p_1, \dots, p_m \).
+    Let \( c \) be an optimal prefix-free code for \( c \) with word lengths \( \ell_1, \dots, \ell_m \).
+    Then,
+    \begin{enumerate}
+        \item if \( p_i > p_j \), \( \ell_i \leq \ell_j \); and
+        \item among all codewords of maximal length, there exist two which differ only in the last digit.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    If this were not true, one could modify \( c \) by
+    \begin{enumerate}
+        \item swapping the \( i \)th and \( j \)th codewords; or
+        \item deleting the last letter of each codeword of maximal length
+    \end{enumerate}
+    which yields a prefix-free code with strictly smaller expected word length.
+\end{proof}
+\begin{theorem}
+    Huffman codes are optimal.
+\end{theorem}
+\begin{proof}
+    The proof is by induction on \( m \).
+    If \( m = 2 \), then the codewords are 0 and 1, which is clearly optimal.
+    Assume \( m > 2 \), and let \( c_m \) be the Huffman code for \( X_m \) which takes values \( \mu_1, \dots, \mu_m \) with probabilities \( p_1 \geq \dots \geq p_m \).
+    \( c_m \) is constructed from a Huffman code \( c_{m-1} \) with random variable \( X_{m-1} \) taking values \( \mu_1, \dots, \mu_{n-2}, \nu \) with probabilities \( p_1, \dots, p_{m-2}, p_{m-1} + p_m \).
+    The code \( c_{m-1} \) is optimal by the inductive hypothesis.
+    The expected word length \( \expect{S_m} \) is given by
+    \[ \expect{S_m} = \expect{S_{m-1}} + p_{m-1} + p_m \]
+    Let \( c_m' \) be an optimal code for \( X_m \), which without loss of generality can be chosen to be prefix-free.
+    Without loss of generality, the last two codewords of \( c_m' \) can be chosen to have the largest possible length and differ only in the final position, by the previous lemma.
+    Then, \( c_m'(\mu_{m-1}) = y 0 \) and \( c_m'(\mu_m) = y 1 \) for some \( y \in \qty{0,1}^\star \).
+    Let \( c_{m-1}' \) be the prefix-free code for \( X_{m-1} \) given by
+    \[ c_{m-1}'(\mu_i) = \begin{cases}
+        c_m'(\mu_i) & i \leq m-2 \\
+        y & i = m-1, m
+    \end{cases} \]
+    The expected word length satisfies
+    \[ \expect{S_m'} = \expect{S_{m-1}'} + p_{m-1} + p_m \]
+    By the inductive hypothesis, \( c_{m-1} \) is optimal, so \( \expect{S_{m-1}} \leq \expect{S_{m-1}'} \).
+    Combining the equations,
+    \[ \expect{S_m} \leq \expect{S_m'} \]
+    So \( c_m \) is optimal as required.
+\end{proof}
+\begin{remark}
+    Not all optimal codes are Huffman codes.
+    However, we have proven that, given a prefix-free optimal code with prescribed word lengths, there is a Huffman code with these word lengths.
+\end{remark}
+
+\subsection{Joint entropy}
+Let \( X, Y \) be random variables with values in \( \mathcal A, \mathcal B \).
+Then, the pair \( (X, Y) \) is also a random variable, taking values in \( \mathcal A \times \mathcal B \).
+This has entropy \( H(X,Y) \), called the \emph{joint entropy} for \( X \) and \( Y \).
+\[ H(X,Y) = - \sum_{x \in \mathcal A} \sum_{y \in \mathcal B} \prob{X = x, Y = y} \log \prob{X = x, Y = y} \]
+This construction generalises to finite tuples of random variables.
+\begin{lemma}
+    Let \( X, Y \) be random variables taking values in \( \mathcal A, \mathcal B \).
+    Then \( H(X,Y) \leq H(X) + H(Y) \), with equality if and only if \( X \) and \( Y \) are independent.
+\end{lemma}
+\begin{proof}
+    Let \( \mathcal A = \qty{x_1, \dots, x_m} \) and \( \mathcal B = \qty{y_1, \dots, y_n} \).
+    Let \( p_{ij} = \prob{X = x_i, Y = y_j} \), \( p_i = \prob{X = x_i} \), and \( q_j = \prob{Y = y_j} \).
+    By Gibbs' inequality applied to \( \qty{p_{ij}} \) and \( \qty{p_i q_j} \),
+    \begin{align*}
+        H(X,Y) = -\sum p_{ij} \log p_{ij} &\leq -\sum p_{ij} \log(p_i q_j) \\
+        &= -\sum_i \qty(\sum_j p_{ij}) \log p_i - \sum_j \qty(\sum_i p_{ij}) \log q_j \\
+        &= -\sum_i p_i \log p_i - \sum_j q_j \log q_j \\
+        &= H(X) + H(Y)
+    \end{align*}
+    Equality holds if and only if \( p_{ij} = p_i q_j \) for all \( i, j \), or equivalently, if \( X, Y \) are independent.
+\end{proof}
