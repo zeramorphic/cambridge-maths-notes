@@ -284,14 +284,66 @@ Recall that the following are equivalent for a linear operator \( U \):
     \item the columns (or rows) of \( U \) form an orthonormal set of vectors.
 \end{itemize}
 If a system is in a state \( \ket{\psi(t_1)} \) at a time \( t_1 \) and later in a state \( \ket{\psi(t_2)} \) at a time \( t_2 \), then \( \ket{\psi(t_2)} = U(t_1, t_2) \ket{\psi(t_1)} \) for some unitary map \( U(t_1, t_2) \) which depends only on \( t_1, t_2 \).
-More precisely, the \emph{Schr\"odinger equation} is
+This operator is derived from the \emph{Schr\"odinger equation}, which is
 \[ i\hbar \pdv{t} \ket{\psi(t)} = H \ket{\psi(t)} \]
-where \( H \) is a self-adjoint operator known as the \emph{Hamiltonian}, which generates the unitary transformation.
+where \( H \) is a self-adjoint operator known as the \emph{Hamiltonian}n.
 In particular, if \( H \) is time-independent, we have
 \[ U(t_1, t_2) = e^{-\frac{i}{\hbar} H(t_2 - t_1)} \]
+In the more general case,
+\[ U(t_1, t_2) = e^{-\frac{i}{\hbar} \int_{t_1}^{t_2} H(t) \dd{t}} \]
 The unitary evolution of a closed system is deterministic.
 
 \subsection{Partial inner products}
 A vector \( \ket{v} \in \mathcal V \) defines a linear map \( \mathcal V \otimes \mathcal W \to \mathcal W \) called the \emph{partial inner product} with \( \ket{v} \), defined on the basis \( \ket{e_i} \ket{f_j} \) of \( \mathcal V \otimes \mathcal W \) by \( \ket{e_i} \ket{f_j} \mapsto \ip{v}{e_i} \ket{f_j} \).
 Similarly, for any \( \ket{w} \in \mathcal W \), we obtain a partial inner product \( \mathcal V \otimes \mathcal W \to \mathcal V \).
 If \( \mathcal V, \mathcal W \) are isomorphic, we must specify which partial inner product is intended.
+
+\subsection{Fourth postulate: quantum measurement}
+Consider a system \( S \) with state space \( \mathcal V \), and let \( A \) be an observable.
+\( A \) can be written as its \emph{spectral projection} \( A = \sum_k a_k P_k \) where \( A \ket{\varphi_k} = a_k \ket{\varphi_k} \).
+If \( a_k \) is nondegenerate, \( P_k = \op{\varphi_k}{\varphi_k} \).
+If \( a_k \) is degenerate of multiplicity \( m \), then \( P_k = \sum_{i=1}^m \op{\varphi_k^i}{\varphi_k^i} \).
+
+The fourth postulate is that when an observable is measured, the resulting measurement will be an eigenvalue \( a_j \), with probability \( p(a_j) = \ev{P_j}{\psi} \).
+Then, \( \ket{\psi} \) is replaced with the post-measurement state \( \frac{P_j \ket{\psi}}{\sqrt{p(a_j)}} \).
+This is known as \emph{Born's rule}.
+A measurement is sometimes called a \emph{projective measurement} or a \emph{von Neumann measurement}, since the post-measurement state is given by a projection operator.
+
+Suppose \( A, B \) are operators that do not commute, so \( [A,B] = AB - BA \neq 0 \).
+Then, the measurement of \( A \) will influence the outcome probabilities of a subsequent measurement of \( B \).
+For instance, suppose \( \ket{\psi} = \ket{+}, A = \sigma_z, B = \sigma_x \).
+
+Let \( \ket{\psi} \in \mathcal V \) be a state in a state space of dimension \( n \).
+Let \( \mathcal B = \qty{\ket{e_i}} \) be a set of \( n \) orthogonal basis vectors for \( \mathcal V \).
+Then \( \ket{\psi} = \sum a_j \ket{e_j} \) where \( a_k = \ip{e_k}{\psi} \).
+If the outcomes of a measurement are the indices of the basis vectors \( j = 1, \dots, n \), we have \( p(j) = \ev{P_j}{\psi} \) where \( P_j = \op{e_j}{e_j} \).
+Therefore, \( p(j) = \abs{\ip{\psi}{e_j}}^2 = \abs{a_j}^2 \).
+If the outcome is \( j \), the post-measurement state is \( \frac{P_j \ket{\psi}}{\sqrt{p(j)}} = \frac{\ket{e_j} \ip{e_j}{\psi}}{\sqrt{p(j)}} = \ket{e_j} \), so the state collapses to a basis vector.
+Taking another measurement immediately in the same basis, we obtain the result \( j \) with probability 1.
+Such a measurement is called a \emph{complete} projective measurement; it is called complete as all \( P_j \) are of rank 1.
+When we measure a state \( \ket{\psi} \) in a basis, it is often helpful to consider an orthogonal decomposition of \( \mathcal V \) using the basis vectors.
+
+Conversely, an \emph{incomplete} projective measurement corresponds to an arbitrary orthogonal decomposition of \( \mathcal V \).
+Consider a decomposition of \( \mathcal V \) into \( d \) mutually orthogonal subspaces \( \mathcal E_1, \dots, \mathcal E_d \), so \( \mathcal V = \mathcal E_1 \oplus \dots \oplus \mathcal E_d \), and \( \dim \mathcal V = \sum \dim \mathcal E_j \).
+Let \( \Pi_i \) be a projection operator onto \( \mathcal E_i \).
+Since the spaces are mutually orthogonal, \( \Pi_i \Pi_j = \delta_{ij} \Pi_i \).
+Consider a measurement with outcomes \( 1, \dots, d \) representing a particular subspace.
+The probability of observing outcome \( i \) is \( \ev{\Pi_i}{\psi} \).
+If the outcome is \( i \), \( \ket{\psi} \) is replaced with \( \frac{\Pi_i \ket{\psi}}{\sqrt{p(i)}} \).
+In this case, the \( \Pi_i \) are no longer rank 1 projection operators.
+If \( \mathcal E_i \) has basis \( \qty{\ket{f_j}} \), we can write \( \Pi_i = \sum \op{f_j}{f_j} \).
+
+Incomplete projective measurement is a generalisation of complete projective measurement.
+One can refine an incomplete measurement into a complete measurement by first considering a complete measurement, and then summing the relevant outcome probabiilities to obtain a description of the incomplete measurement probabilities.
+Let \( \qty{\ket{e_k^{(j)}}}_{k=1}^{d_j} \) be a basis for \( \mathcal E_j \) for each \( j \).
+Then \( \mathcal V = \bigoplus_{i=1}^d \mathcal E_j \) has orthonormal basis \( \qty{\ket{e_k^{(j)}}}_{j,k} \).
+Then, \( \ip{e_i^{k_1}}{e_j^{k_2}} = \delta_{ij} \delta_{k_1 k_2} \).
+
+Consider a two-bit string \( b_1 b_2 \).
+The \emph{parity} of this string is \( b_1 \oplus b_2 \), where \( \oplus \) represents addition modulo 2.
+Consider the orthogonal decomposition of \( \mathcal V \) into \( \mathcal E_0 \oplus \mathcal E_1 \), where \( \mathcal E_0 = \vecspan \qty{\ket{00}, \ket{11}} \) is the even parity subspace, and \( \mathcal E_1 = \vecspan \qty{\ket{01}, \ket{10}} \) is the odd parity subspace.
+The outcomes of an incomplete measurement are then the labels 0 and 1 of the subspaces \( \mathcal E_0 \) and \( \mathcal E_1 \).
+Note that \( \qty{\ket{00}, \ket{01}, \ket{10}, \ket{11}} \) is a complete orthonormal basis for \( \mathcal V \), so we can consider the complete projective measurement.
+\( \ev{P_{00}}{\psi} \) is the probability of outcome \( 00 \) for the complete measurement, where \( P_{00} = \op{00}{00} \).
+For the incomplete measurement, \( p(0) = \ev{\Pi_0}{\psi} \) is the probability of outcome 0, where \( \Pi_0 = P_{00} + P_{11} \).
+So \( p(0) = \ev{P_{00}}{\psi} + \ev{P_{11}}{\psi} \).
