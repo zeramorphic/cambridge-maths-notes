@@ -1,0 +1,93 @@
+\subsection{Decoding rules}
+\begin{definition}
+    A \emph{binary \( [n,m] \)-code} is a subset \( C \) of \( \qty{0,1}^n \) of size \( m = \abs{C} \).
+    We say \( n \) is the \emph{length} of the code, and elements of \( C \) are called \emph{codewords}.
+\end{definition}
+We use an \( [n,m] \)-code to send one of \( m \) messages through a channel using \( n \) bits.
+For instance, if the channel is a binary symmetric channel, we use the channel \( n \) times.
+Note that \( 1 \leq m \leq 2^n \), so the information rate satisfies \( 0 \leq \frac{1}{n} \log m \leq 1 \).
+If \( m = 1 \), \( \rho(C) = 0 \), and if \( C = \qty{0,1}^n \), \( \rho(C) = 1 \).
+\begin{definition}
+    Let \( x, y \in \qty{0,1}^n \).
+    The \emph{Hamming distance} between \( x \) and \( y \) is
+    \[ d(x,y) = \abs{\qty{i \mid x_i \neq y_i}} \]
+\end{definition}
+In this section, we consider only the binary symmetric channel with probability \( p \).
+\begin{definition}
+    Let \( C \) be a binary \( [n,m] \)-code.
+    \begin{itemize}
+        \item The \emph{ideal observer} decoding rule decodes \( x \in \qty{0,1}^n \) as the \( c \in C \) maximising the probability that \( c \) was sent given that \( x \) was received;
+        \item The \emph{maximum likelihood} decoding rule decodes \( x \in \qty{0,1}^n \) as the \( c \in C \) maximising the probability that \( x \) was received given that \( c \) was sent;
+        \item The \emph{minimum distance} decoding rule decodes \( x \in \qty{0,1}^n \) as the \( c \in C \) minimising the Hamming distance \( d(x,c) \).
+    \end{itemize}
+\end{definition}
+\begin{lemma}
+    Let \( C \) be a binary \( [n,m] \)-code.
+    \begin{enumerate}
+        \item If all messages are equally likely, the ideal observer and maximum likelihood decoding rules agree.
+        \item If \( p < \frac{1}{2} \), then the maximum likelihood and minimum distance decoding rules agree.
+    \end{enumerate}
+\end{lemma}
+Note that the hypothesis in part (i) is reasonable if we first encode a message using noiseless coding.
+The hypothesis in part (ii) is reasonable, since a channel with \( p = \frac{1}{2} \) can carry no information, and a channel with \( p > \frac{1}{2} \) can be used as a channel with probability \( 1 - p \) by inverting its outputs.
+Channels with \( p = 0 \) are called \emph{lossless channels}, and channels with \( p = \frac{1}{2} \) are called \emph{useless channels}.
+\begin{proof}
+    \emph{Part (i).}
+    By Bayes' rule,
+    \[ \prob{c \text{ sent} \mid x \text{ received}} = \frac{\prob{c \text{sent, } x \text{ received}}}{x \text{ received}} = \frac{\prob{c \text{ sent}}}{\prob{x \text{ received}}} \prob{x \text{ received} \mid c \text{sent}} \]
+    By hypothesis, \( \prob{c \text{ sent}} \) is independent of \( c \).
+    Hence, for some fixed received message \( x \), maximising \( \prob{c \text{ sent} \mid x \text{ received}} \) is the same as maximising \( \prob{x \text{ received} \mid c \text{ sent}} \).
+    
+    \emph{Part (ii).}
+    Let \( r = d(x,c) \).
+    Then,
+    \[ \prob{x \text{ received} \mid c \text{ sent}} = p^r (1-p)^{n-r} = (1-p)^n \qty(\frac{p}{1-p})^r \]
+    As \( p < \frac{1}{2} \), \( \frac{p}{1-p} < 1 \).
+    Hence, maximising \( \prob{x \text{ received} \mid c \text{ sent}} \) is equivalent to minimising \( r = d(x,c) \).
+\end{proof}
+We can therefore choose to use minimum distance decoding from this point.
+\begin{example}
+    Suppose codewords \( 000, 111 \) are sent with probabilities \( \alpha = \frac{9}{10} \) and \( 1 - \alpha = \frac{1}{10} \), through a binary symmetric channel with error probability \( p = \frac{1}{4} \).
+    Suppose that we receive \( 110 \).
+    Clearly, an error has been introduced.
+    \[ \prob{000 \text{ sent} \mid 110 \text{ received}} = \frac{\alpha p^2 (1-p)}{\alpha p^2 (1-p) + (1-\alpha)p(1-p)^2} = \frac{3}{4};\quad \prob{111 \text{ sent} \mid 110 \text{ received}} = \frac{1}{4} \]
+    The ideal observer therefore decodes \( 110 \) as \( 000 \).
+    The maximum likelihood or minimum distance decoding rules decode \( 110 \) as \( 111 \).
+\end{example}
+\begin{remark}
+    Minimum distance decoding may be expensive in terms of time and storage if \( \abs{C} \) is large, since the distance to all codewords must be calculated \emph{a priori}.
+    One must also specify a convention in case of a tie between the probabilities or distances, for instance, using a random choice, or requesting a retransmission.
+\end{remark}
+The aim when constructing codes for noisy channels is to detect, or even correct, errors.
+
+\subsection{?}
+\begin{definition}
+    A binary \( [n,m] \)-code \( C \) is
+    \begin{itemize}
+        \item \emph{\( d \)-error detecting} if, when changing up to \( d \) digits in each codeword, we can never produce another codeword;
+        \item \emph{\( e \)-error correcting} if, knowing that \( x \in \qty{0,1}^n \) differs from a codeword in at most \( e \) positions, we can deduce the codeword.
+    \end{itemize}
+\end{definition}
+\begin{example}
+    A \emph{repetition code} of length \( n \) has codewords \( 0^n, 1^n \).
+    This is an \( [n,2] \)-code.
+    It is \( (n-1) \)-error detecting, and \( \floor{\frac{n-1}{2}} \)-error correcting.
+    Its information rate is \( \frac{1}{n} \).
+\end{example}
+\begin{example}
+    A \emph{simple parity check code} or \emph{paper tape code} of length \( n \) identifies the set \( \qty{0,1} \) with the field \( \mathbb F_2 \) of two elements, and defines \( C = \qty{(x_1, \dots, x_n) \in \mathbb F_2^n \mid \sum x_i = 0} \).
+    This is an \( [n,2^{n-1}] \)-code.
+    This is 1-error detecting and 0-error correcting, but has information rate \( \frac{n-1}{n} \).
+\end{example}
+\begin{example}
+    Hamming's original code is a 1-error correcting binary \( [7,16] \)-code, defined on a subset of \( \mathbb F_2^7 \) by
+    \[ C = \qty{c \in \mathbb F_2^7 \mid c_1 + c_3 + c_5 + c_7 = 0; c_2 + c_3 + c_6 + c_7 = 0; c_4 + c_5 + c_6 + c_7 = 0} \]
+    The bits \( c_3, c_5, c_6, c_7 \) are chosen arbitrarily, and \( c_1, c_2, c_4 \) are check digits, giving a size of \( 2^4 = 16 \).
+    Suppose that we receive \( x \in \mathbb F_2^7 \).
+    We form the \emph{syndrome} \( z = z_x = (z_1, z_2, z_4) \in \mathbb F_2^3 \) where
+    \[ z_1 = x_1 + x_3 + x_5 + x_7;\quad z_2 = x_2 + x_3 + x_6 + x_7;\quad z_4 = x_4 + x_5 + x_6 + x_7 \]
+    By definition of \( C \), if \( x \in C \) then \( z = (0, 0, 0) \).
+    If \( d(x,c) = 1 \) for some \( c \in C \), then the place where \( x \) and \( c \) differ is given by \( z_1 + 2z_2 + 4z_4 \) (not modulo 2).
+    Indeed, if \( x = c + e_i \) where \( e_i \) is the zero vector with a one in the \( i \)th position, \( z_x = z_{e_i} \), and one can check that this holds for each \( 1 \leq i \leq 7 \).
+    Therefore, Hamming's original code is 1-error correcting.
+\end{example}

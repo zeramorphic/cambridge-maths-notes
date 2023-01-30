@@ -100,9 +100,46 @@ The set of all morphisms from \( V \) to \( W \) is denoted \( \mathrm{Mor}(V,W)
     Consider the rational function \( X_1^2 / X_2 \in \mathbb C(\mathbb A^2) \).
     This defines a map on the complement of the \( X_2 \)-axis.
     Note that \( X^3 / X_1 X_2 \) defines the same function, but only on points other than \( \mathbb V(X_1 X_2) \).
+    Note that \( X^3 / X_1 X_2 = X_1^2 / X_2 \in \mathbb C(\mathbb A^2) \), so we cannot quite think of elements of \( \mathbb C(\mathbb A^2) \) as functions.
 \end{example}
 \begin{remark}
     A rational function on \( V \) can be thought of as a pair \( (U, f) \) with \( U \subseteq V \) Zariski open, such that \( f \) is a function \( U \to \mathbb C \).
-    We define the equivalence relation \( (U, f) \sim (U', f') \) if \( f, f' \) agree on some non-empty Zariski open set contained in \( U \) and \( U' \).
+    We define the equivalence relation \( (U, f) \sim (U', f') \) if \( f, f' \) agree on some nonempty Zariski open set contained in \( U \) and \( U' \).
     Note that if \( V \) is irreducible, every nonempty open subset is dense in the Zariski topology.
 \end{remark}
+\begin{definition}
+    A \emph{local ring} is a ring \( R \) that contains a unique maximal ideal.
+\end{definition}
+\begin{definition}
+    Let \( V \) be an irreducible variety, and let \( P \).
+    The \emph{local ring of \( V \) at \( P \)} is \( \mathcal O_{V,P} = \qty{f \in \mathbb C(V) \mid f \text{ is regular at } P} \).
+\end{definition}
+\begin{proposition}
+    The local ring of an irreducible variety \( V \) at a point \( P \) is a local ring.
+    Its unique maximal ideal is
+    \[ \mathfrak m_{V,P} = \qty{f \in \mathcal O_{V,P} \mid f(P) = 0} = \ker (f \mapsto f(P)) \]
+    Further, the invertible elements of \( \mathcal O_{V,P} \) are precisely those \( f \) such that \( f(P) \neq 0 \).
+\end{proposition}
+The proof follows from the following more general lemma.
+\begin{lemma}
+    A ring \( R \) is a local ring if and only if \( R \setminus R^\star \) is an ideal.
+    If so, the unique maximal ideal is \( R \setminus R^\star \).
+\end{lemma}
+\begin{proof}
+    If \( A \trianglelefteq R \) is an ideal, then \( A \neq R \) if and only if \( A \subseteq R \setminus R^\star \), because if any unit lies in \( A \), it must be all of \( R \).
+    Hence, if \( R \setminus R^\star \) is an ideal, it is automatically the unique maximal ideal.
+
+    Conversely, let \( R \) be a local ring with unique maximal ideal \( \mathfrak m \).
+    Then \( \mathfrak m \subseteq R \setminus R^\star \), and if \( x \in R \setminus R^\star \) we must have \( (x) \neq R \), so \( (x) \subseteq \mathfrak m \) by maximality.
+    Hence \( \mathfrak m = R \setminus R^\star \).
+\end{proof}
+Note that this proves the previous proposition, as \( \frac{f}{g} \in \mathcal O_{V,P} \) is invertible if and only if \( \qty(\frac{f}{g})(P) \neq 0 \).
+\begin{example}
+    Let
+    \[ R = \qty{\frac{f}{g} \in \mathbb C(t) \mid \text{ignoring factors, } g(0) \neq 0} = \mathcal O_{\mathbb A^1, 0} \]
+    Here, the maximal ideal is \( (t) \), and \( \faktor{R}{(t)} = \mathbb C \).
+
+    Let \( S = \mathbb C[\![t]\!] \) be the ring of formal power series in \( t \).
+    This is a local ring by the lemma; its maximal ideal is \( (t) \).
+    Note that in fact \( R \subseteq S \).
+\end{example}

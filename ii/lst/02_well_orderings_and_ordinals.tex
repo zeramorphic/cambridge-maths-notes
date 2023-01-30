@@ -1,0 +1,93 @@
+\subsection{Definition}
+\begin{definition}
+    A \emph{total order} or \emph{linear order} is a pair \( (X, <) \) where \( X \) is a set, and \( < \) is a relation on \( X \) such that
+    \begin{itemize}
+        \item (irreflexivity) for all \( x \in X \), \( x \not < x \);
+        \item (transitivity) for all \( x, y, z \in X \), \( x < y \) and \( y < z \) implies \( x < z \);
+        \item (trichotomy) for all \( x, y \in X \), either \( x < y \), \( y < x \), or \( x = y \).
+    \end{itemize}
+\end{definition}
+We use the obvious notation \( x > y \) to denote \( y < x \).
+In terms of the \( \leq \) relation, we can equivalently write the axioms of a total order as
+\begin{itemize}
+    \item (reflexivity) for all \( x \in X \), \( x \leq x \);
+    \item (transitivity) for all \( x, y, z \in X \), \( x \leq y \) and \( y \leq z \) implies \( x \leq z \);
+    \item (antisymmetry) for all \( x, y \in X \), if \( x \leq y \) and \( y \leq x \) then \( x = y \).
+    \item (trichotomy, or totality) for all \( x, y \in X \), either \( x \leq y \) or \( y \leq x \).
+\end{itemize}
+\begin{example}
+    \begin{enumerate}
+        \item \( (\mathbb N, \leq) \) is a total order.
+        \item \( (\mathbb Q, \leq) \) is a total order.
+        \item \( (\mathbb R, \leq) \) is a total order.
+        \item \( (\mathbb N^+, |) \) is not a total order, where \( | \) is the divides relation, since \( 2 \) and \( 3 \) are not related.
+        \item \( (\mathcal P(S), \subseteq) \) is not a total order if \( \abs{S} > 1 \), since it fails trichotomy.
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    A total order \( (X, <) \) is a \emph{well-ordering} if every nonempty subset \( S \subseteq X \) has a least element.
+    \[ \forall S \subseteq X,\, S \neq 0 \implies \exists x \in S,\, \forall y \in S,\, x \leq y \]
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item \( (\mathbb N, <) \) is a well-ordering.
+        \item \( (\mathbb Z, <) \) is not a well-ordering, since \( \mathbb Z \) has no least element.
+        \item \( (\mathbb Q, <) \) is not a well-ordering.
+        \item \( (\mathbb R, <) \) is not a well-ordering.
+        \item \( [0,1] \subset \mathbb R \) with the usual order is not a well-ordering, since \( (0,1] \) has no least element.
+        \item \( \qty{\frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \dots} \subset \mathbb R \) with the usual order is a well-ordering.
+        \item \( \qty{\frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \dots} \cup \qty{1} \) with the usual order is also a well-ordering.
+        \item \( \qty{\frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \dots} \cup \qty{2} \) with the usual order is another example.
+        \item \( \qty{\frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \dots} \cup \qty{1 + \frac{1}{2}, 1 + \frac{2}{3}, 1 + \frac{3}{4}, \dots} \) is another example.
+    \end{enumerate}
+\end{example}
+\begin{remark}
+    Let \( (X, <) \) be a total order.
+    \( (X, <) \) is a well-ordering if and only if there is no infinite decreasing sequence \( x_1 > x_2 > \dots \).
+    Indeed, if \( (X, <) \) is a well-ordering, then the set \( \qty{x_1, x_2, \dots} \) has no minimal element, contradicting the assumption.
+    Conversely, if \( S \subseteq X \) has no minimal element, then we can construct an infinite decreasing sequence by arbitrarily choosing points \( x_1 > x_2 > \dots \) in \( S \), which exists as \( S \) has no minimal element.
+\end{remark}
+\begin{definition}
+    Total orders \( X, Y \) are \emph{isomorphic} if there is a bijection \( f \) between \( X \) and \( Y \) that preserves \( < \): \( x < y \) if and only if \( f(x) < f(y) \).
+\end{definition}
+Examples (i) and (vi) are isomorphic, and (vii) and (viii) are isomorphic.
+Examples (i) and (vii) are not isomorphic, since example (vii) has a greatest element and (i) does not.
+\begin{proposition}[proof by induction]
+    Let \( X \) be a well-ordered set, and let \( S \subseteq X \) such that
+    \[ \forall x \in S,\,(\forall y < x,\, y \in S) \implies x \in S \]
+    Then \( S = X \). 
+\end{proposition}
+\begin{remark}
+    Equivalently, if \( p(x) \) is a property such that if \( p(y) \) is true for all \( y < x \) then \( p(x) \), then \( p(x) \) holds for all \( x \).
+\end{remark}
+\begin{proof}
+    Suppose \( S \neq X \).
+    Then \( X \setminus S \) is nonempty, and therefore has a least element \( x \).
+    But all elements \( y < x \) lie in \( S \), and so by the property of \( S \), we must have \( x \in S \), contradicting the assumption.
+\end{proof}
+\begin{proposition}
+    Let \( X, Y \) be isomorphic well-orderings.
+    Then there is exactly one isomorphism between \( X \) and \( Y \).
+\end{proposition}
+Note that this does not hold for general total orderings, such as \( \mathbb Q \) to itself or \( [0,1] \) to itself.
+\begin{proof}
+    Let \( f, g \colon X \to Y \) be isomorphisms.
+    We show that \( f(x) = g(x) \) for all \( x \) by induction on \( x \).
+    Suppose \( f(y) = g(y) \) for all \( y < x \).
+    We must have that \( f(x) = a \), where \( a \) is the least element of \( Y \setminus \qty{f(y) \mid y < x} \).
+    Indeed, if not, we have \( f(x') = a \) for some \( x' > x \) by bijectivity, contradicting the order-preserving property.
+    Note that the set \( Y \setminus \qty{f(x) \mid y < x} \) is nonempty as it contains \( f(x) \).
+    So \( f(x) = a = g(x) \), as required.
+\end{proof}
+
+\subsection{Initial segments}
+\begin{definition}
+    A subset \( I \) of a totally ordered set \( X \) is an \emph{initial segment} if \( x \in I \) implies \( y \in I \) for all \( y < x \).
+\end{definition}
+\begin{example}
+    In any total ordering \( X \) and element \( x \in X \), the set \( \qty{y \mid y < x} \) is an initial segment.
+    Not every initial segment is of this form, for instance \( \qty{x \mid x \leq 3} \) in \( \mathbb R \), or \( \qty{x \mid x > 0, x^2 < 2} \) in \( \mathbb Q \).
+
+    In a well-ordering, every proper initial segment \( I \neq X \) is of this form.
+    Indeed, \( I = \qty{y \mid y < x} \) where \( x \) is the least element of \( X \setminus I \): \( y \in I \) implies \( y < x \), otherwise \( y = x \) or \( x < y \), giving the contradiction \( x \in I \); and conversely, \( y < x \) implies \( y \in I \), otherwise \( y \) is a smaller element of \( X \setminus I \).
+\end{example}
