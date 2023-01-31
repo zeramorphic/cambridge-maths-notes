@@ -313,6 +313,7 @@ Suppose \( A, B \) are operators that do not commute, so \( [A,B] = AB - BA \neq
 Then, the measurement of \( A \) will influence the outcome probabilities of a subsequent measurement of \( B \).
 For instance, suppose \( \ket{\psi} = \ket{+}, A = \sigma_z, B = \sigma_x \).
 
+\subsection{Complete and incomplete projective measurements}
 Let \( \ket{\psi} \in \mathcal V \) be a state in a state space of dimension \( n \).
 Let \( \mathcal B = \qty{\ket{e_i}} \) be a set of \( n \) orthogonal basis vectors for \( \mathcal V \).
 Then \( \ket{\psi} = \sum a_j \ket{e_j} \) where \( a_k = \ip{e_k}{\psi} \).
@@ -347,3 +348,58 @@ Note that \( \qty{\ket{00}, \ket{01}, \ket{10}, \ket{11}} \) is a complete ortho
 \( \ev{P_{00}}{\psi} \) is the probability of outcome \( 00 \) for the complete measurement, where \( P_{00} = \op{00}{00} \).
 For the incomplete measurement, \( p(0) = \ev{\Pi_0}{\psi} \) is the probability of outcome 0, where \( \Pi_0 = P_{00} + P_{11} \).
 So \( p(0) = \ev{P_{00}}{\psi} + \ev{P_{11}}{\psi} \).
+
+\subsection{Extended Born rule}
+Let \( S_1, S_2 \) be quantum systems with state spaces \( \mathcal V, \mathcal W \) with dimensions \( m, n \), and we consider the composite system \( S_1 S_2 \).
+Let \( \qty{\ket{e_i}} \) be a complete orthonormal basis of \( \mathcal V \), and let \( \qty{\ket{f_j}} \) be a complete orthonormal basis of \( \mathcal W \).
+Suppose the composite system is in an initial state \( \ket{\psi} = \sum a_{ij} \ket{e_i} \ket{f_j} \).
+Suppose now that we want to measure \( \ket{\psi} \) in the basis \( \qty{\ket{e_i}} \); this amounts to an incomplete measurement with subspaces \( \mathcal E_i = \vecspan \qty{\ket{e_i} \otimes \ket{\varphi} \mid \ket{\varphi} \in \mathcal W} \) for \( 1 \leq i \leq m \).
+The outcomes of such a measurement are \( \qty{1, \dots, m} \), and the \( \mathcal E_i \) are mutually orthogonal.
+The probability of a given outcome is \( p(k) = \ev{P_k \otimes I}{\psi} \), where \( P_k = \op{e_k}{e_k} \).
+Hence,
+\[ p(k) = \qty(\sum a_{i'j'}^\star \bra{e_i'} \bra{f_j'}) \qty(\op{e_k}{e_k} \otimes I) \qty(\sum a_{ij} \ket{e_i} \ket{f_j}) = \sum_{j=1}^n a_{kj}^\star a_{kj} \]
+If the outcome is \( k \), then the post-measurement state is given by \( \ket{\psi_{\text{after}}} = \frac{(P_k \otimes I)\ket{\psi}}{p(k)} = \frac{\sum_j a_{kj} \ket{e_k} \ket{f_j}}{\sqrt{\sum_j \abs{a_{kj}}^2}} \).
+Using partial inner products, one can show that \( \ket{\psi_{\text{after}}} \) is normalised.
+These rules are referred to as the \emph{extended Born rule}.
+
+Consider a quantum system \( S \) with state space \( \mathcal V \).
+A measurement relative to any basis \( \mathcal C \) can be performed by first performing a measurement in a fixed basis \( \mathcal B \), then performing a unitary operator.
+Let \( \mathcal B = \qty{\ket{e_i}} \), and \( \mathcal C = \qty{\ket{e_i'}} \).
+Let \( U \) be a unitary operator such that \( \ket{e_i'} = U \ket{e_i} \).
+Then, \( U^\dagger = U^{-1} \) has the property that \( U^{-1} \ket{e_i'} = \ket{e_i} \).
+Suppose we have a state \( \ket{\psi} \in \mathcal V \).
+Let \( \ket{\psi} = \sum c_i \ket{e_i'} \).
+Applying \( U^{-1} \) to \( \ket{\psi} \), we obtain \( U^{-1} \ket{\psi} = \sum c_i \ket{e_i} \) by linearity.
+We can then measure \( \ket{\psi'} = U^{-1} \ket{\psi} \) in the basis \( \mathcal B \).
+By the Born rule, \( p(i) = \ev{P_i}{\psi'} = \bra{\psi} U P_i U^\dagger \ket{\psi} \) where \( P_i = \op{e_i}{e_i} \), as we are performing a complete projective measurement.
+If the outcome is \( i \), then the post-measurement state is \( \ket{\psi'_{\text{after}}} = \frac{P_i \ket{\psi'}}{p(i)} \).
+
+\subsection{Standard measurement on multi-qubit systems}
+Consider a system of \( n \) qubits.
+The state space is \( (\mathbb C^2)^{\otimes n} \).
+The \emph{computational basis} or \emph{standard basis} is \( \mathcal B = \qty{\ket{i_1 \dots i_n} \mid i_j \in \qty{0,1}} \).
+The labels of the elements of the standard basis are labelled by bit strings of length \( n \).
+
+Suppose we are measuring a subset of \( k \) qubits of the \( n \)-qubit system.
+Let \( n = 3 \), and let
+\[ \ket{\psi} = \frac{i}{2} \ket{000} + \frac{1+i}{2\sqrt{2}} \ket{001} - \frac{1}{2} \ket{101} + \frac{3}{10} \ket{110} - \frac{2i}{5} \ket{111} \]
+The standard measurement of any of the three qubits will always have the outcome zero or one.
+Suppose we perform a standard measurement on the first qubit.
+By the extended Born rule, we obtain
+\[ p^{(1)}(1) = \bra{\psi} P_1 \otimes I \otimes I \ket{\psi} = \bra{\psi} \qty(\op{1}{1} \otimes I \otimes I) \ket{\psi} = \frac{1}{4} + \frac{9}{100} + \frac{4}{25} = \frac{1}{2} \]
+The post-measurement state is \( \ket{\psi_{\text{after}}} = \frac{(P_1 \otimes I \otimes I)\ket{\psi}}{\sqrt{p^{(1)}(1)}} \).
+
+\subsection{Reliably distinguishing states}
+Note that the measurement postulate implies that states with guaranteed (with probability 1) different measurement outcomes always lie in mutually orthogonal subspaces.
+We say that two states are \emph{reliably distinguishable} if there exists a measurement which outputs two distinct outcomes with probability 1 when applied to the two states.
+Therefore, two states \( \ket{\psi}, \ket{\varphi} \) are reliably distinguishable if and only if they are orthogonal, so \( \ip{\psi}{\varphi} = 0 \).
+
+Let \( \ket{\psi} \) and \( \ket{\varphi} \) be orthogonal.
+Let \( \mathcal B = \qty{\ket{\psi}, \ket{f_1}, \dots, \ket{f_{m-1}}} \) be a complete orthonormal basis for \( \mathcal V \).
+Then \( \ip{\psi}{f_j} = 0 \) and \( \ip{f_j}{f_k} = \delta_{jk} \).
+Measuring \( \ket{\psi} \) in this basis, \( p(1) = \bra{\psi} P_1 \ket{\psi} \) where \( P_1 = \op{\psi}{\psi} \), so the probability is 1.
+Measuring \( \ket{\varphi} \) in this basis, \( p(1) = \ip{\psi}{\varphi} \ip{\varphi}{\psi} = 0 \).
+This is an example of a measurement which can reliably distinguish \( \ket{\psi} \) and \( \ket{\varphi} \).
+
+Vectors \( \ket{v} = \ket{\psi} \) and \( \ket{v'} = e^{i\theta} \ket{\psi} \) are not distinguishable.
+For any measurement, the probability of obtaining a particular outcome when measuring \( \ket{v} \) is always the same as the probability when measuring \( \ket{v'} \).
