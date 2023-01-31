@@ -40,3 +40,147 @@ One can check that this is an ideal, and that products are associative.
     \( \genset{x_1, \dots, x_n} \genset{y_1, \dots, y_m} = \genset{\qty{x_i y_j \mid 1 \leq i \leq n, 1 \leq j \leq n}} \).
     For instance, \( \genset{x}\genset{y} = \genset{xy} \), so the product of principal ideals is principal.
 \end{example}
+\begin{example}
+    Consider \( \mathbb Z[\sqrt{5}] = \mathcal O_L \), and the ideals \( \mathfrak p_1 = (3, 1 + 2\sqrt{5}), \mathfrak p_2 = (3, 1-2\sqrt{5}) \).
+    We obtain \( \mathfrak p_1 \mathfrak p_2 = (9, 3(1-2\sqrt{5}), 3(1+2\sqrt{5}), 21) = (3) \).
+    So the ideal \( (3) \) factors as \( \mathfrak p_1 \mathfrak p_2 \) in \( \mathcal O_L \).
+    Note that \( 37 = (1 + 2\sqrt{-5})(1 - 2\sqrt{-5}) \), so \( \mathbb Z[\sqrt{5}] \) is not a unique factorisation domain.
+\end{example}
+Recall that an ideal \( \mathfrak p \triangleleft R \) is \emph{prime} if \( \frak{R}{\mathfrak p} \) is an integral domain, so \( p \neq R \) and for all \( x, y \in R \), \( xy \in \mathfrak p \) implies \( x \in \mathfrak p \) or \( y \in \mathfrak p \).
+In this course, we will also define that a prime ideal is nonzero.
+
+\subsection{?}
+\begin{lemma}
+    If \( \mathfrak a \triangleleft \mathcal O_K \), it contains an integer, and moreover, \( \faktor{\mathcal O_K}{\mathfrak a} \) is a finite set.
+\end{lemma}
+\begin{proof}
+    Let \( \alpha \in \mathfrak a, \alpha \neq 0 \).
+    Let \( p_\alpha(x) = x^m + a_{m-1} x^{m-1} + \dots + a_0 \in \mathbb Z[x] \) be its minimal polynomial, and \( a_0 \neq 0 \).
+    Then \( a_0 = -\alpha(\alpha^{n-1} + a_{n-1} \alpha^{n-1} + \dots + a_2 \alpha + a_1) \).
+    But \( a_0 \in \mathbb Z \), \( \alpha \in \mathfrak a \), and the other factor lies in \( \mathcal O_K \).
+    So \( a_0 \in \mathfrak a \) as \( \mathfrak a \) is an ideal.
+    Hence \( a_0 \mathcal O_K \subseteq \mathfrak a \), so \( \faktor{\mathcal O_K}{a_0 \mathcal O_K} \) surjects onto \( \faktor{\mathcal O_K}{\mathfrak a} \).
+    But for any integer \( d \), \( \faktor{\mathcal O_K}{d\mathcal O_K} = \faktor{\mathbb Z^n}{d\mathbb Z^n} = \qty(\faktor{\mathbb Z}{d\mathbb Z})^n \) is a finite set, so \( \faktor{\mathcal O_K}{\mathfrak a} \) is finite.
+\end{proof}
+\begin{corollary}
+    \( \mathfrak a \simeq \mathbb Z^n \), as \( \mathcal O_K \simeq \mathbb Z^n \) and the quotient is finite.
+\end{corollary}
+Therefore, nonzero ideals in \( \mathcal O_K \) are isomorphic to \( \mathbb Z^n \) as abelian groups.
+\begin{proposition}
+    \begin{enumerate}
+        \item \( \mathcal O_K \) is an integral domain.
+        \item \( \mathcal O_K \) is a Noetherian ring.
+        \item \( \mathcal O_K \) is \emph{integrally closed} in \( K \) (which is the field of fractions of \( \mathcal O_K \)): if \( x \in K \) is integral over \( \mathcal O_K \), it lies in \( \mathcal O_K \).
+        \item Every (implicitly nonzero) prime ideal is maximal.
+        We say that the \emph{Krull dimension} of \( \mathcal O_K \) is 1.
+    \end{enumerate}
+\end{proposition}
+\begin{remark}
+    A ring with these four properties is called a \emph{Dedekind domain}.
+    Many of the results in this section hold for all Dedekind domains.
+\end{remark}
+\begin{proof}
+    \emph{Part (i).}
+    \( \mathcal O_K \subseteq K \), and \( K \) is a field.
+
+    \emph{Part (ii).}
+    We have shown that \( \mathcal O_K \simeq \mathbb Z^n \), where \( n = [K : \mathbb Q] \), so \( \mathcal O_K \) is finitely generated as an abelian group, so is certainly finitely generated as a ring.
+
+    \emph{Part (iii).}
+    \( \mathcal O_K \) is integral over \( \mathbb Z \) by definition, so if \( x \) is integral over \( \mathcal O_K \), it is integral over \( \mathbb Z \).
+    So \( x \) is an algebraic integer, so lies in \( \mathcal O_K \).
+
+    \emph{Part (iv).}
+    If \( \mathfrak p \) is a prime ideal, then by the previous lemma \( \faktor{\mathcal O_K}{\mathfrak p} \) is finite and an integral domain, as \( \mathfrak p \) is prime.
+    All finite integral domains are fields, hence \( \mathfrak p \) is maximal.
+\end{proof}
+\begin{example}
+    Consider \( R = \mathbb C[X,Y] \).
+    Then \( (x) \) is prime but not maximal, since \( (x) \subsetneq (x,y) \).
+\end{example}
+If \( \mathfrak a, \mathfrak b \) are ideals, we write \( \mathfrak a + \mathfrak b \) for the ideal \( \qty{x + y \mid x \in \mathfrak a, y \in \mathfrak b} \).
+
+\subsection{Unique factorisation of ideals}
+We aim to show that every ideal in \( \mathcal O_K \) factors uniquely as a product of prime ideals.
+\begin{definition}
+    \( \mathfrak b \) divides \( \mathfrak a \) if there exists an ideal \( \mathfrak c \) such that \( \mathfrak a = \mathfrak b \mathfrak c \).
+    We write \( \mathfrak b \mid \mathfrak a \).
+\end{definition}
+\begin{example}
+    \( (5, 1 + 2\sqrt{5}) \mid (3) \) in \( \mathcal O_{\mathbb Q(\sqrt{-5})} \).
+    \( 3\mathbb Z \mid 6\mathbb Z \) as \( 3\mathbb Z \cdot 2\mathbb Z = 6\mathbb Z \).
+\end{example}
+Note that \( \mathfrak b \mathfrak c \subseteq \mathfrak b \), as \( \mathfrak b \) is an ideal.
+So if \( \mathfrak b \mid \mathfrak a \), then \( \mathfrak a \subseteq \mathfrak b \).
+We will show the converse, that \( \mathfrak a \subseteq \mathfrak b \) implies \( \mathfrak b \mid \mathfrak a \).
+This allows us to prove results about division by using containment.
+Note that prime ideals are maximal, which allows us to use the containment relation.
+\begin{lemma}
+    Let \( \mathfrak p \) be a prime ideal in a ring \( R \), and let \( \mathfrak a, \mathfrak b \triangleleft R \) be ideals.
+    Then if \( \mathfrak ab \subseteq \mathfrak p \), either \( \mathfrak a \subseteq \mathfrak p \) or \( \mathfrak b \subseteq \mathfrak p \).
+\end{lemma}
+\begin{proof}
+    Otherwise, there exists \( a \in \mathfrak a \setminus \mathfrak p \) and \( b \in \mathfrak b \setminus \mathfrak p \), with \( ab \in \mathfrak p \).
+    But \( \mathfrak p \) is prime giving a contradiction.
+\end{proof}
+\begin{lemma}
+    Let \( \mathfrak a \trianglelefteq \mathcal O_K \) be a nonzero ideal.
+    Then \( \mathfrak a \) contains a product of prime ideals.
+\end{lemma}
+\begin{proof}
+    Otherwise, as \( \mathcal O_K \) is Noetherian, there exists a ideal \( \mathfrak a \) which is maximal with this property.
+    As prime ideals are maximal, \( \mathfrak a \) is not prime.
+    So there exists \( x, y \in \mathcal O_K \) with \( x, y \not\in \mathfrak a \) but \( xy \in \mathfrak a \).
+    So \( \mathfrak a \subsetneq \mathfrak a + (x) \).
+    But then, \( \mathfrak a + (x) \) contains a product of prime ideals \( \mathfrak p_1, \dots, \mathfrak p_r \) with \( \mathfrak p_1\dots \mathfrak p_r \subseteq \mathfrak a + (x) \).
+    Similarly,  there exist prime ideals \( \mathfrak q_1, \dots \mathfrak q_s \) such that \( \mathfrak q_1 \dots\mathfrak q_s \subseteq \mathfrak a + (y) \).
+    Then,
+    \[ \mathfrak p_1\dots \mathfrak p_r\mathfrak q_1 \dots\mathfrak q_s \subseteq (\mathfrak a + (x))(\mathfrak a + (y)) = \mathfrak a + (xy) \]
+    But \( xy \in \mathfrak a \), giving a contradiction.
+\end{proof}
+The main proof will use the idea that we can formally introduce the group of fractions of the commutative monoid of ideals.
+The object \( \qty{y \in K \mid y\mathfrak a \in \subseteq \mathcal O_K} \) will represent the inverse of \( \mathfrak a \).
+\begin{lemma}
+    \begin{enumerate}
+        \item Let \( 0 \neq \mathfrak a \trianglelefteq \mathcal O_K \) be an ideal.
+        If \( x \in K \) has the property that \( x\mathfrak a \subseteq \mathfrak a \), then \( x \in \mathcal O_K \).
+        \item Let \( 0 \neq \mathfrak a \triangleleft \mathcal O_K \) be a proper ideal.
+        Then, \( \mathcal O_K \subseteq \qty{y \in K \mid y\mathfrak a \in \subseteq \mathcal O_K} \) contains elements which are not in \( \mathcal O_K \).
+        Equivalently, \( \faktor{\qty{y \in K \mid y\mathfrak a \in \subseteq \mathcal O_K}}{\mathcal O_K} \neq \qty{1} \) as abelian groups.
+    \end{enumerate}
+\end{lemma}
+\begin{example}
+    Let \( \mathcal O_K = \mathbb Z \) and \( \mathfrak a = 3\mathbb Z \).
+    Then, part (i) shows that if \( \frac{a}{b} \cdot 3 \in \mathbb 3\mathbb Z \), then \( \frac{a}{b} \in \mathbb Z \).
+    Part (ii) shows that if \( \frac{a}{b} \cdot 3 \in \mathbb Z \) then \( \frac{a}{b} \in \frac{1}{3}\mathbb Z \); for instance, if \( \frac{a}{b} = \frac{1}{3} \), we have \( \faktor{\frac{1}{3}\mathbb Z}{\mathbb Z} = \faktor{\mathbb Z}{3\mathbb Z} \neq \qty{1} \).
+\end{example}
+\begin{proof}
+    \emph{Part (i).}
+    \( \mathfrak a \subseteq \mathcal O_K \) is finitely generated as an abelian group, as it is isomorphic to \( \mathbb Z^n \).
+    Let \( \alpha_1, \dots, \alpha_n \) be a \( \mathbb Z \)-basis of \( \mathfrak a \).
+    Consider \( m_x \colon \mathfrak a \to \mathfrak a \) given by multiplication by \( x \in K \).
+    We write \( x \alpha_i = \sum a_{ij} \alpha_j \), where by assumption, \( a_{ij} \) are integers.
+    Hence,
+    \[ (xI - A) \begin{pmatrix}
+        \alpha_1 \\
+        \vdots \\
+        \alpha_n
+    \end{pmatrix} = 0 \]
+    where \( A = (a_{ij}) \).
+    So \( \det(xI - A) = 0 \), so \( x \) is integral over \( \mathbb Z \); that is, \( x \in \mathcal O_K \).
+
+    \emph{Part (ii).}
+    If this holds for \( \mathfrak a \), it certainly holds for all prime ideals \( \mathfrak a' \subseteq \mathfrak a \).
+    So without loss of generality, let \( \mathfrak a \) be maximal, so \( \mathfrak a = \mathfrak p \) is a prime ideal.
+    Let \( \alpha \in \mathfrak p \) be nonzero.
+    By the previous lemma, there exist prime ideals \( \mathfrak p_1, \dots, \mathfrak p_r \) such that \( \mathfrak p_1 \dots \mathfrak p_r \subseteq (\alpha) \subseteq \mathfrak p \).
+    Suppose that \( r \) is minimal.
+    By the first lemma in this subsection, there exists \( i \) such that \( \mathfrak p_i \subseteq \mathfrak p \), and without loss of generality \( i = 1 \).
+    So \( \mathfrak p_1 \subseteq \mathfrak p \).
+    But \( \mathfrak p_1 \) is maximal, so \( \mathfrak p_1 = \mathfrak p \).
+
+    Since \( r \) is minimal, \( \mathfrak p_2 \dots \mathfrak p_r \subsetneq (\alpha) \).
+    Fix \( \beta \in \mathfrak p_2 \dots \mathfrak p_r \not\subseteq (\alpha) \).
+    Then \( \beta \mathfrak p \subseteq \mathfrak p (\mathfrak p_2 \dots \mathfrak p_r) \subseteq (\alpha) \), but \( \beta \not\subseteq (\alpha) \).
+    So, dividing by \( \alpha \), we obtain \( \frac{\beta}{\alpha} \mathfrak p \subseteq (1) = \mathcal O_K \), but \( \frac{\beta}{\alpha} \not\in \mathcal O_K \).
+\end{proof}
