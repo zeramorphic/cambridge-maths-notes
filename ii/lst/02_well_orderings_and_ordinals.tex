@@ -91,3 +91,66 @@ Note that this does not hold for general total orderings, such as \( \mathbb Q \
     In a well-ordering, every proper initial segment \( I \neq X \) is of this form.
     Indeed, \( I = \qty{y \mid y < x} \) where \( x \) is the least element of \( X \setminus I \): \( y \in I \) implies \( y < x \), otherwise \( y = x \) or \( x < y \), giving the contradiction \( x \in I \); and conversely, \( y < x \) implies \( y \in I \), otherwise \( y \) is a smaller element of \( X \setminus I \).
 \end{example}
+\begin{theorem}[definition by recursion]
+    Let \( X \) be a well-ordering and \( Y \) be any set.
+    Let \( G \colon \mathcal P(X \times Y) \to Y \) be a rule that assigns a point in \( Y \) given a definition of the function `so far', represented as a set of ordered pairs.
+    Then there exists a function \( f \colon X \to Y \) such that \( f(x) = G\qty(\eval{f}_{I_x}) \), and such a function is unique.
+\end{theorem}
+\begin{remark}
+    In defining \( f(x) \), we may use the value of \( f(y) \) for all \( y < x \).
+\end{remark}
+\begin{proof}
+    We say that \( h \) is an \emph{attempt} to mean that \( h \colon I \to Y \) where \( I \) is some initial segment of \( X \), and for all \( x \in I \) we have that \( h(x) = G\qty(\eval{h}_{I_x}) \).
+    Note that if \( h, h' \) are attempts both defined at \( x \), then \( h(x) = h'(x) \) by induction on \( x \).
+    
+    Also, for all \( x \), there exists an attempt defined at \( x \), by induction on \( x \).
+    Indeed, by induction we can assume there exists an attempt \( h_y \) defined at \( y \) for all \( y < x \), and then we can define \( h \) to be the union of the \( h_y \).
+    This is an attempt with domain \( I_x \), so the attempt \( h' = h \cup \qty{x, G(h)} \) is an attempt defined at \( x \).
+    Therefore, there is an attempt defined at each \( x \), so we can define the function \( f \colon X \to Y \) by setting \( f(x) \) to be the value of \( h(x) \) where \( h \) is some attempt defined at \( x \).
+
+    For uniqueness, we apply induction on \( x \).
+    If \( f, f' \) agree below \( x \), then they must agree at \( x \) since \( f(x) = G\qty(\eval{f}_{I_x}) = G\qty(\eval{f'}_{I_x}) = f'(x) \).
+\end{proof}
+\begin{proposition}[subset collapse]
+    Any subset \( Y \) of a well-ordering \( X \) is isomorphic to a unique initial segment of \( X \).
+\end{proposition}
+This is not true for general total orderings, such as \( \qty{1, 2, 3} \subset \mathbb Z \), or \( \mathbb Q \) in \( \mathbb R \).
+\begin{proof}
+    If \( f \) is some such isomorphism, we must have that \( f(x) \) is the least element of \( X \) not of the form \( f(y) \) for \( y < x \).
+    We define \( f \) in this way by recursion, and this is an isomorphism as required.
+    Note that this is always well-defined as \( f(y) \leq y \), so there is always some element of \( X \) (namely, \( x \)) not of the form \( f(y) \) for \( y < x \).
+    Uniqueness follows by induction.
+\end{proof}
+\begin{remark}
+    \( X \) itself cannot be isomorphic to a proper initial segment by uniqueness as it is isomorphic to itself.
+\end{remark}
+
+\subsection{Relating well-orderings}
+\begin{definition}
+    For well-orderings \( X, Y \), we will write \( X \leq Y \) if \( X \) is isomorphic to an initial segment of \( Y \).    
+\end{definition}
+\( X \leq Y \) if and only if \( X \) is isomorphic to some subset of \( Y \).
+\begin{example}
+    \( \mathbb N \leq \qty{\frac{1}{2}, \frac{2}{3}, \dots} \).
+\end{example}
+\begin{proposition}
+    Let \( X, Y \) be well-orderings.
+    Then either \( X \leq Y \) or \( Y \leq X \).
+\end{proposition}
+\begin{proof}
+    Suppose \( Y \not\leq X \), and we will show \( X \leq Y \).
+    By recursion we define the function \( f \colon X \to Y \) by letting \( f(x) \) be the least element of \( Y \) not of the form \( f(y) \) for all \( y < x \).
+    If a least element of this form always exists, this is a well-defined isomorphism from \( X \) to an initial segment of \( Y \) as required.
+    Suppose that \( Y \setminus \qty{f(y) \mid y < x} \) is empty, so \( \qty{f(y) \mid y < x} \).
+    Then \( Y \) is isomorphic to \( I_x \subseteq X \), contradicting the assumption that \( Y \not\leq X \).
+\end{proof}
+\begin{proposition}
+    Let \( X, Y \) be well-orderings, and suppose \( X \leq Y \) and \( Y \leq X \).
+    Then \( X \) is isomorphic to \( Y \).
+\end{proposition}
+\begin{proof}
+    Let \( f \colon X \to Y \) and \( g \colon Y \to X \) be isomorphisms to initial segments.
+    Then \( g \circ f \) is an isomorphism from \( X \) to some initial segment of \( X \), as an initial segment of an initial segment is an initial segment.
+    So by uniqueness, \( g \circ f \) is the identity map on \( X \).
+    Similarly, \( f \circ g \) is the identity on \( Y \), so \( f \) and \( g \) are inverses.
+\end{proof}

@@ -91,3 +91,125 @@ The aim when constructing codes for noisy channels is to detect, or even correct
     Indeed, if \( x = c + e_i \) where \( e_i \) is the zero vector with a one in the \( i \)th position, \( z_x = z_{e_i} \), and one can check that this holds for each \( 1 \leq i \leq 7 \).
     Therefore, Hamming's original code is 1-error correcting.
 \end{example}
+\begin{lemma}
+    The Hamming distance is a metric on \( \mathbb F_2^n \).
+\end{lemma}
+\begin{proof}
+    Clearly, \( d(x,y) \geq 0 \) and equality holds if and only if \( x = y \), and \( d(x,y) = d(y,x) \).
+    Let \( x, y, z \in \mathbb F_2^n \).
+    Then,
+    \[ \qty{i \mid x_i \neq z_i} \subseteq \qty{i \mid x_i \neq y_i} \cup \qty{i \mid y_i \neq z_i} \]
+    Hence \( d(x,z) \leq d(x,y) + d(y,z) \).
+\end{proof}
+\begin{remark}
+    We could write \( d(x,y) \) as \( \sum d_1(x_i,y_i) \) where \( d_1 \) is the discrete metric on \( \mathbb F_2 \).
+\end{remark}
+
+\subsection{Minimum distance}
+\begin{definition}
+    The \emph{minimum distance} of a code is the minimum value of \( d(c_1, c_2) \) for codewords \( c_1 \neq c_2 \).
+\end{definition}
+\begin{lemma}
+    Let \( C \) be a code with minimum distance \( d > 0 \).
+    Then,
+    \begin{enumerate}
+        \item \( C \) is \( (d-1) \)-error detecting, but cannot detect all sets of \( d \) errors;
+        \item \( C \) is \( \floor{\frac{d-1}{2}} \)-error correcting, but cannot correct all sets of \( \floor{\frac{d-1}{2}} + 1 \) errors.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \emph{Part (i).}
+    If \( x \in \mathbb F_2^n \) and \( c \) is a codeword with \( 1 \leq d(x,c) \leq d - 1 \).
+    Then \( x \not\in C \), so \( d - 1 \) errors are detected.
+    Suppose \( c_1, c_2 \) are codewords with \( d(c_1, c_2) = d \).
+    Then \( c_1 \) can be corrupted into \( c_2 \) with only \( d \) errors, and this is undetectable.
+
+    \emph{Part (ii).}
+    Let \( e = \floor{\frac{d-1}{2}} \).
+    By definition, \( e \leq \frac{d-1}{2} < e + 1 \), so \( 2e < d \leq 2(e+1) \).
+    Let \( x \in \mathbb F_2^n \).
+    If \( c_1 \in C \) with \( d(x,c_1) \leq e \), we want to show that that \( d(x,c_2) > e \) for all \( c_2 \neq c_1 \).
+    By the triangle inequality, \( d(x,c_2) \geq d(c_1,c_2) - d(x,c_1) \geq d - e > e \) as required.
+    Hence, \( C \) is \( e \)-error correcting.
+
+    Let \( c_1, c_2 \in C \) with \( d(c_1, c_2) = d \).
+    Let \( x \in \mathbb F_2^n \) differ from \( c_1 \) in precisely \( e + 1 \) places that \( c_1 \) and \( c_2 \) differ.
+    Then \( d(x,c_1) = e + 1 \), and \( d(x,c_2) = d - (e+1) \leq e + 1 \).
+    Hence, \( C \) cannot correct all sets of \( e + 1 \) errors.
+\end{proof}
+\begin{definition}
+    An \( [n,m] \)-code with minimum distance \( d \) is called an \( [n,m,d] \)-code.
+\end{definition}
+Note that \( m \leq 2^n \) with equality if and only if \( C = \mathbb F_2^n \).
+Similarly, \( d \leq n \), with equality in the case of the repetition code.
+\begin{example}
+    The repetition code of length \( n \) is an \( [n,2,n] \)-code.
+    The simple parity check code of length \( n \) is an \( [n,2^{n-1},2] \)-code.
+    The trivial code on \( n \) bits is an \( [n,2^n,1] \)-code.
+    Hamming's original code is 1-error correcting, so has minimum distance at least 3.
+    The minimum distance can easily be shown to be exactly 3 as \( 0000000, 1110000 \) are codewords, so it is a \( [7,16,3] \)-code.
+\end{example}
+
+\subsection{Covering estimates}
+\begin{definition}
+    Let \( x \in \mathbb F_2^n \) and \( r \geq 0 \).
+    Then, we denote the \emph{closed Hamming ball} with centre \( x \) and radius \( r \) by \( B(x,r) \).
+    We write \( V(n,r) = \abs{B(x,r)} = \sum_{i=0}^r \binom{n}{i} \) for the \emph{volume} of this ball.
+\end{definition}
+\begin{lemma}[Hamming's bound; sphere packing bound]
+    An \( e \)-error correcting code \( C \) of length \( n \) has
+    \[ \abs{C} \leq \frac{2^n}{V(n,e)} \]
+\end{lemma}
+\begin{proof}
+    \( C \) is \( e \)-error correcting, so \( B(c_1, e) \cap B(c_2, e) \) is empty for all codewords \( c_1 \neq c_2 \).
+    Hence,
+    \[ \sum_{c \in C} \abs{B(c,e)}  \leq \abs{\mathbb F_2^n} \implies \abs{C} V(n,e) \leq 2^n \]
+    as required.
+\end{proof}
+\begin{definition}
+    An \( e \)-error correcting code \( C \) of length \( n \) such that \( \abs{C} = \frac{2^n}{V(n,e)} \) is called \emph{perfect}.
+\end{definition}
+\begin{remark}
+    Equivalently, a code is perfect if for all \( x \in \mathbb F_2^n \), there exists a unique \( c \in C \) such that \( d(x,c) \leq e \).
+    Alternatively, \( \mathbb F_2^n \) is a union of disjoint balls \( B(c,e) \) for all \( c \in C \), or that any collection of \( e + 1 \) will cause the message to be decoded incorrectly.
+\end{remark}
+\begin{example}
+    Consider Hamming's \( [7,16,3] \)-code.
+    This is 1-error correcting, and
+    \[ \frac{2^n}{V(n,e)} = \frac{2^7}{V(7,1)} = \frac{2^7}{1+7} = 2^4 = \abs{C} \]
+    So Hamming's original code is perfect.
+\end{example}
+\begin{example}
+    The binary repetition code of length \( n \) is perfect if and only if \( n \) is odd.
+\end{example}
+\begin{remark}
+    If \( \frac{2^n}{V(n,e)} \) is not an integer, there does not exist a perfect \( e \)-error correcting code of length \( n \).
+    The converse is false; the case \( n = 90, e = 2 \) is discussed on the second example sheet.
+\end{remark}
+\begin{definition}
+    \( A(n,d) \) is the largest possible size \( m \) of an \( [n,m,d] \)-code.
+\end{definition}
+The values of the \( A(n,d) \) are unknown in general.
+\begin{example}
+    \( A(n,1) = 2^n \), considering the trivial code.
+    \( A(n,2) = 2^{n-1} \), maximised at the simple parity check code.
+    \( A(n,n) = 2 \), maximised at the repetition code.
+\end{example}
+\begin{lemma}
+    \( A(n,d+1) \leq A(n,d) \).
+\end{lemma}
+\begin{proof}
+    Let \( m = A(n,d+1) \), and let \( C \) be an \( [n,m,d+1] \)-code.
+    Let \( c_1, c_2 \in C \) be distinct codewords such that \( d(c_1,c_2) = d+1 \).
+    Let \( c_1' \) differ from \( c_1 \) in exactly one of the places where \( c_1 \) and \( c_2 \) differ.
+    Then \( d(c_1', c_2) = d \).
+    If \( c \in C \) is any codeword not equal to \( c_1 \), then \( d(c,c_1) \leq d(c,c_1') + d(c_1',c_1) \) hence \( d + 1 \leq d(c,c_1') + 1 \), so the code given by \( C \cup \qty{c_1'} \setminus \qty{c_1} \) has minimum distance \( d \), but has length \( n \) and size \( m \).
+    This is therefore an \( [n,m,d] \)-code as required.
+\end{proof}
+\begin{corollary}
+    Equivalently, \( A(n,d) = \max \qty{m \mid \exists [n,m,d'] \text{-code, for some } d' \geq d} \).
+\end{corollary}
+\begin{theorem}
+    \[ \frac{2^n}{V(n,d-1)} \leq A(n,d) \leq \frac{2^n}{V\qty(n,\floor{\frac{d-1}{2}})} \]
+\end{theorem}
+The upper bound is Hamming's bound; the lower bound is known as the GSV (Gilbert--Shannon--Varshamov) bound.
