@@ -1,0 +1,74 @@
+\subsection{?}
+Quantum information is encoded in the states of a quantum system.
+Classical information is encoded in states chosen from an orthonormal set, since all distinct classical messages can be distinguished.
+Given a quantum system \( S \) and a quantum state \( \ket{\psi} \), we can perform this sequence of operations.
+\begin{itemize}
+    \item (ancilla) Consider an auxiliary system \( A \) in a fixed state \( \ket{A} \in \mathcal V_A \).
+    The composite system \( SA \) has vector space \( \mathcal V_S \otimes \mathcal V_A \).
+    The initial joint state is \( \ket{\psi}\ket{A} \).
+    This results in an embedding of quantum information in a higher dimensional space.
+    \item (unitary) Consider the action of a unitary operator \( U \) on \( SA \) (or on \( S \)), modelling the time evolution of the quantum system.
+    \item (measure) We can perform measurements on \( SA \) (or on \( S \)).
+    The post-measurement state of \( S \) is retained, and the auxiliary system \( A \) is discarded.
+\end{itemize}
+This process is sometimes known as `going to the church of the higher Hilbert space'.
+The presence of the ancilla allows for entanglement with other quantum systems.
+
+\subsection{No-cloning theorem}
+Classically, information can be easily copied by measuring all relevant information and reproducing it.
+% We can model this by considering a state \( A \) containing information and a `blank' state \( B \), and performing an operation to yield the original state \( A \) together with a new copy of \( A \) in the place of \( B \).
+Quantum copying involves three systems
+\begin{itemize}
+    \item a system \( A \) containing some quantum information to be copied;
+    \item a system \( B \) with \( \mathcal V_B \simeq \mathcal V_A \) initially in some fixed state \( \ket{0} \) where the information is to be copied;
+    \item a system \( M \) which represents any physical machinery in some `ready' state \( \ket{M_0} \) required for performing the copy.
+\end{itemize}
+The initial state of this composite system \( ABM \) is \( \ket{\psi} \ket{0} \ket{M_0} \).
+Note that the \( \ket{\psi} \) and \( \ket{0}\ket{M_0} \) are \emph{uncorrelated} in this state, as we are using the tensor product to combine them.
+Suppose that the cloning process is performed using some unitary operator \( U \), so \( U\ket{\psi_A}\ket{0}\ket{M_0} = \ket{\psi_A}\ket{\psi_B}\ket{M_\psi} \).
+This cloning process may be required to work either for all states of \( A \), or for some subset of \( A \).
+\begin{theorem}
+    Let \( \mathcal S \) be any set of states of the system \( A \) that contains at least one pair of distinct non-orthogonal states.
+    Then there does not exist any unitary operator \( U \) that clones all states in \( \mathcal S \).
+\end{theorem}
+\begin{proof}
+    Let \( \ket{\xi}, \ket{\eta} \) be distinct non-orthogonal states in \( \mathcal S \), so \( \ip{\xi}{\eta} \neq 0 \).
+    Suppose such a unitary operator \( U \) exists.
+    Then, we must have
+    \[ U \ket{\xi_A}\ket{0_B}\ket{M_0} = \ket{\xi_A}\ket{\xi_B}\ket{M_\xi};\quad U \ket{\eta_A}\ket{0_B}\ket{M_0} = \ket{\eta_A}\ket{\eta_B}\ket{M_\eta} \]
+    Unitary operators preserve inner products.
+    Hence,
+    \[ \ip{\xi_A}{\eta_A} \ip{0_B}{0_B} \ip{M_0}{M_0} = \ip{\xi_A}{\eta_A} \ip{\xi_B}{\eta_B} \ip{M_\xi}{M_\eta} \]
+    Hence, \( \ip{\xi}{\eta} = \qty(\ip{\xi}{\eta})^2 \ip{M_\xi}{M_\eta} \).
+    By taking the absolute value, \( \abs{\ip{\xi}{\eta}} = \abs{\ip{\xi}{\eta}}^2 \abs{\ip{M_\xi}{M_\eta}} \).
+    Since \( \xi \neq \eta \), we must have \( 0 < \abs{\ip{\xi}{\eta}} < 1 \), and \( 0 \leq \abs{\ip{M_\xi}{M_\eta}} \leq 1 \).
+    Therefore, \( 1 = \abs{\ip{\xi}{\eta}} \abs{\ip{M_\xi}{M_\eta}} < 1 \), which is a contradiction.
+\end{proof}
+If quantum cloning were possible, superluminal (indeed, instantaneous) communication would also be possible.
+Suppose we have a state \( \ket{\psi^+_{AB}} = \frac{1}{\sqrt{2}} \qty(\ket{00} + \ket{11}) \in \mathbb C^2 \otimes \mathbb C^2 \).
+Let \( A, B \) be the entangled parts of this quantum state, and suppose that we send the qubits \( A \) and \( B \) far apart from each other.
+
+If we want to send the bit `yes' from \( A \) to \( B \), we measure the qubit \( A \) in the basis \( \qty{\ket{0}, \ket{1}} \), which gives outcomes \( 0, 1 \) with probability \( \frac{1}{2} \).
+If the outcome is 0, the final state of \( B \) is \( \ket{0} \), and if the outcome is 1, the final state of \( B \) is \( \ket{1} \).
+If we want to send `no', we instead measure \( A \) in the basis \( \qty{\ket{+}, \ket{-}} \), which gives the outcomes \( +, - \) with probability \( \frac{1}{2} \).
+Similarly, the final state of \( B \) is \( \ket{+} \) or \( \ket{-} \).
+
+We claim that these `yes' \( (\ket{0}, \ket{1}) \) and `no' \( (\ket{+}, \ket{-}) \) \emph{preparations} of qubit \( B \) are indistinguishable by \( B \) with any local action on the qubit.
+That is, they each give exactly the same probability distribution of outcomes of any measurement.
+In fact, the distribution matches the prior distribution before qubit \( A \) was measured.
+
+Let \( \Pi_i \) be the projection operator for outcome \( i \) on qubit \( B \).
+Suppose that `yes' was sent.
+Then,
+\[ p_{\text{yes}}(i) = \frac{1}{2}\ev{\Pi_i}{0} + \frac{1}{2}\ev{\Pi_i}{1} = \frac{1}{2} \Tr \qty[\Pi_i \op{0}{0}] + \frac{1}{2} \Tr \qty[\Pi_i \op{1}{1}] = \frac{1}{2} \Tr \qty[\Pi_i \qty(\op{0}{0} + \op{1}{1})] = \frac{1}{2} \Tr \Pi_i \]
+In the `no' case,
+\[ p_{\text{no}}(i) = \frac{1}{2}\ev{\Pi_i}{+} + \frac{1}{2}\ev{\Pi_i}{-} = \frac{1}{2} \Tr \qty[Pi_i \qty(\op{+}{+} + \op{-}{-})] = \frac{1}{2} \Tr \Pi_i \]
+These probability distributions match.
+
+Suppose that cloning were possible.
+We clone the qubit \( B \) multiple times after the message was sent, to produce one of the states \( \ket{0} \dots \ket{0}, \ket{1} \dots \ket{1}, \ket{+} \dots \ket{+}, \ket{-} \dots \ket{-} \).
+We now measure each qubit in the basis \( \ket{0}, \ket{1} \) separately.
+If the `yes' message was sent, all measurements will result in 0 or 1.
+If `no' was sent, it is possible that two measurements would differ.
+In expectation, half of the measurements would result in the outcome 0 and half would result in the outcome 1.
+Therefore, the `yes' and `no' errors can be distinguished with probability of error \( 2^{-N+1} \) if we make \( N \) copies of \( B \).
