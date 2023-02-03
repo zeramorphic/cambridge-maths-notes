@@ -213,3 +213,79 @@ The values of the \( A(n,d) \) are unknown in general.
     \[ \frac{2^n}{V(n,d-1)} \leq A(n,d) \leq \frac{2^n}{V\qty(n,\floor{\frac{d-1}{2}})} \]
 \end{theorem}
 The upper bound is Hamming's bound; the lower bound is known as the GSV (Gilbert--Shannon--Varshamov) bound.
+The upper bound can be thought of as a sphere packing bound, and the lower bound is a sphere covering bound.
+\begin{proof}
+    We prove the lower bound.
+    Let \( m = A(n,d) \), and let \( C \) be an \( [n,m,d] \)-code.
+    Then, there exists no \( x \in \mathbb F_2^n \) with \( d(x,c) \geq d \) for all codewords.
+    Indeed, if such an \( x \) exists, we could consider the code \( C \cup \qty{x} \), which would be an \( [n,m+1,d] \)-code, contradicting maximality of \( m \).
+    Then,
+    \[ \mathbb F_2^n \subseteq_{c \in C} \bigcup B(c,d-1) \implies 2^n \leq \sum_{c \in C} \abs{B(c,d-1)} = mV(n,d-1) \]
+    as required.
+\end{proof}
+\begin{example}
+    Let \( n = 10, d = 3 \).
+    Then \( V(n,1) = 11 \) and \( V(n,2) = 56 \), so the GSV bound is \( \frac{2^{10}}{56} \leq A(10,3) \leq \frac{2^{10}}{11} \).
+    Hence, \( 19 \leq A(10,3) \leq 93 \).
+    It was known that the lower bound could be improved to 72.
+    We now know that the true value of \( A(10,3) \) is exactly 72.
+    In this case, the GSV bound was not a sharp inequality.
+\end{example}
+
+\subsection{Asymptotics}
+We study the information rate \( \frac{\log A(n,\floor{n\delta})}{n} \) as \( n \to \infty \) to see how large the information rate can be for a fixed error rate.
+\begin{proposition}
+    Let \( 0 < \delta < \frac{1}{2} \).
+    Then,
+    \begin{enumerate}
+        \item \( \log V(n,\floor{n\delta}) \leq nH(\delta) \);
+        \item \( \frac{1}{n} \log A(n,\floor{n\delta}) \geq 1 - H(\delta) \);
+    \end{enumerate}
+    where \( H(\delta) = -\delta \log \delta - (1-\delta)\log (1-\delta) \).
+\end{proposition}
+\begin{proof}
+    \emph{(i) implies (ii).}
+    By the GSV bound, we find
+    \[ A(n,\floor{n\delta}) \geq \frac{2^n}{V(n,\floor{n\delta} - 1)} \geq \frac{2^n}{V(n,\floor{n\delta})} \]
+    Taking logarithms,
+    \[ \frac{1}{n}\log A(n,\floor{n\delta}) \geq 1 - \frac{\log V(n,\floor{n\delta})}{n} \geq 1 - H(\delta) \]
+    \emph{Part (i).}
+    \( H(\delta) \) is increasing for \( \delta < \frac{1}{2} \).
+    Therefore, without loss of generality, we may assume \( n\delta \) is an integer.
+    Now, as \( \frac{\delta}{1-\delta} < 1 \),
+    \begin{align*}
+        1 &= (\delta + (1-\delta))^n \\
+        &= \sum_{i=0}^n \binom{n}{i} \delta^i (1-\delta)^{n-i} \\
+        &\geq \sum_{i=0}^{n\delta} \binom{n}{i} \delta^i (1-\delta)^{n-i} \\
+        &= (1-\delta)^n \sum_{i=0}^{n\delta} \binom{n}{i} \qty(\frac{\delta}{1-\delta})^i \\
+        &\geq (1-\delta)^n \sum_{i=0}^{n\delta} \binom{n}{i} \qty(\frac{\delta}{1-\delta})^{n\delta} \\
+        &= \delta^{n\delta} (1-\delta)^{n(1-\delta)} V(n,n\delta)
+    \end{align*}
+    Taking logarithms,
+    \[ 0 \geq n\delta \log \delta + n(1-\delta) \log(1-\delta) + \log V(n,n\delta) \]
+    as required.
+\end{proof}
+The constant \( H(\delta) \) in the proposition is optimal.
+\begin{lemma}
+    \( \lim_{n \to \infty} \frac{\log V(n,\floor{n\delta})}{n} = H(\delta) \).
+\end{lemma}
+\begin{proof}
+    Exercise.
+    Follows from Stirling's approximation to factorials.
+\end{proof}
+
+\subsection{Constructing new codes from old}
+Let \( C \) be an \( [n,m,d] \)-code.
+\begin{example}
+    The \emph{parity check extension} \( C^+ \) is an \( [n+1,m,d'] \)-code given by \( \qty{\qty(c_1, \dots, c_n, \sum_{i=1}^n c_i) \mid (c_1, \dots, c_n) \in C} \), where \( d' \) is either \( d \) or \( d + 1 \), depending on whether \( d \) is odd or even.
+\end{example}
+\begin{example}
+    Let \( 1 \leq i \leq n \).
+    Then, deleting the \( i \)th digit from each codeword gives the \emph{punctured code} \( C^- = \qty{(c_1, \dots, c_{i-1}, c_{i+1}, \dots, c_n) \mid (c_1, \dots, c_n) \in C} \).
+    If \( d \geq 2 \), this is an \( [n-1, m, d'] \)-code where \( d' \) is either \( d \) or \( d - 1 \), depending on whether \( d \) is odd or even.
+\end{example}
+\begin{example}
+    Let \( 1 \leq i \leq n \) and let \( \alpha \in \mathbb F_2 \).
+    The \emph{shortened code} \( C' \) is \( \qty{(c_1, \dots, c_{i-1}, c_{i+1}, \dots, c_n) \mid (c_1, \dots, c_{i-1}, \alpha, c_{i+1}, \dots, c_n) \in C} \).
+    This is an \( [n-1,m',d'] \) with \( d' \geq d \) and \( m' \geq \frac{m}{2} \) for a suitable choice of \( \alpha \).
+\end{example}

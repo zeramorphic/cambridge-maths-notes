@@ -154,3 +154,85 @@ This is not true for general total orderings, such as \( \qty{1, 2, 3} \subset \
     So by uniqueness, \( g \circ f \) is the identity map on \( X \).
     Similarly, \( f \circ g \) is the identity on \( Y \), so \( f \) and \( g \) are inverses.
 \end{proof}
+
+\subsection{Constructing larger well-orderings}
+\begin{definition}
+    For well-orderings \( X, Y \), we write \( X < Y \) if \( X \leq Y \) and \( X \) is not isomorphic to \( Y \).
+\end{definition}
+Equivalently, \( X < Y \) if \( X \) is isomorphic to a proper initial segment of \( Y \).
+
+Let \( X \) be a well-ordering, and let \( x \not\in X \).
+Construct the well-ordering on \( X \cup \qty{x} \) by setting \( y < x \) for all \( y \in X \).
+This well-ordering is strictly greater than \( X \), since \( X \) is isomorphic to a proper initial segment.
+This is called the \emph{successor} of \( X \), written \( X^+ \).
+
+For well-orderings \( (X, <_X), (Y, <_Y) \), we say that \( (Y, <_Y) \) \emph{extends} \( (X, <_X) \) if \( X \subseteq Y \), \( \eval{<_Y}_{X} = <_X \), and \( X \) is an initial segment of \( Y \).
+We say that well-orderings \( X_i \) for \( i \in I \) are \emph{nested} if for all \( i, j \in I \), either \( X_i \) extends \( X_j \) or \( X_j \) extends \( X_i \).
+\begin{proposition}
+    Let \( X_i \) for \( i \in I \) be a nested set of well-orderings.
+    Then, there exists a well-ordering \( X \) such that \( X_i \leq X \) for all \( i \in I \).    
+\end{proposition}
+\begin{proof}
+    Let \( X = \bigcup_{i \in I} X_i \) with ordering \( <_X = \bigcup_{i \in I} <_I \).
+    Then, as the \( X_i \) are nested, each \( X_i \) is an initial segment of \( X \).
+    We show that this is a well-ordering.
+    Let \( S \subseteq X \) be a nonempty set.
+    Then \( S \cap X_i \neq \varnothing \) for some \( i \in I \).
+    Let \( x \) be the least element of \( S \cap X_i \).
+    Thus, \( x \) is the least element of \( S \), as \( X_i \) is an initial segment of \( X \).
+\end{proof}
+\begin{remark}
+    The proposition holds without the nestedness assumption.
+\end{remark}
+
+\subsection{Ordinals}
+\begin{definition}
+    An \emph{ordinal} is a well-ordered set, where we regard two ordinals as equal if they are isomorphic.
+\end{definition}
+\begin{remark}
+    We cannot construct ordinals as equivalence classes of well-orderings, due to Russell's paradox.
+    Later, we will see a different construction that deals with this problem.
+\end{remark}
+\begin{definition}
+    Let \( X \) be a well-ordering corresponding to an ordinal \( \alpha \).
+    Then, we say that \( X \) has \emph{order type} \( \alpha \).
+\end{definition}
+The order type of the unique well-ordering on a collection of \( k \in \mathbb N \) points is named \( k \).
+The order type of \( (\mathbb N, <) \) is named \( \omega \).
+\begin{example}
+    In the reals, the set \( \qty{-2, 3, -\pi, 5} \) has order type 4.
+    The set \( \qty{\frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \dots} \) has order type \( \omega \).
+\end{example}
+We will write \( \alpha \leq \beta \) if \( X \leq Y \) where \( X \) has order type \( \alpha \) and \( Y \) has order type \( \beta \).
+This does not depend on the choice of representative \( X \) or \( Y \).
+We define \( \alpha < \beta \) and \( \alpha^+ \) in a similar way.
+Note that \( \alpha \leq \beta, \beta \leq \alpha \) implies \( \alpha = \beta \).
+Therefore, ordinals are totally ordered.
+\begin{proposition}
+    Let \( \alpha \) be an ordinal.
+    Then the set of ordinals less than \( \alpha \) form a well-ordered set of order type \( \alpha \).
+\end{proposition}
+\begin{proof}
+    Let \( X \) be a well-ordering with order type \( \alpha \).
+    Then, the well-orderings less than \( X \) are precisely the proper initial segments of \( X \), up to isomorphism.
+    The initial segments of \( X \) are precisely the sets \( I_x = \qty{y \in X \mid y < x} \) for \( x \in X \).
+    But these are order isomorphic to \( X \) itself by mapping \( I_x \mapsto x \).
+\end{proof}
+We define \( I_\alpha = \qty{\beta < \alpha} \), which is a well-ordered set of order type \( \alpha \), which is often a convenient representative to choose for an ordinal.
+\begin{proposition}
+    Every nonempty set \( S \) of ordinals has a least element.
+\end{proposition}
+\begin{proof}
+    Let \( \alpha \in S \).
+    Suppose \( \alpha \) is not the least element of \( S \).
+    Then \( S \cap I_\alpha \) is nonempty.
+    But \( I_\alpha \) is well-ordered, so \( S \cap I_\alpha \) has a minimal element as required.
+\end{proof}
+\begin{theorem}[Burali--Forti paradox]
+    The ordinals do not form a set.
+\end{theorem}
+\begin{proof}
+    Suppose \( X \) is the set of all ordinals.
+    Then \( X \) is a well-ordered set, so it has an order type \( \alpha \).
+    Then \( X \) is isomorphic to \( I_\alpha \), which is a proper initial segment of \( X \).
+\end{proof}
