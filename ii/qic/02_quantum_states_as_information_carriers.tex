@@ -72,3 +72,86 @@ If the `yes' message was sent, all measurements will result in 0 or 1.
 If `no' was sent, it is possible that two measurements would differ.
 In expectation, half of the measurements would result in the outcome 0 and half would result in the outcome 1.
 Therefore, the `yes' and `no' errors can be distinguished with probability of error \( 2^{-N+1} \) if we make \( N \) copies of \( B \).
+
+\subsection{Distinguishing non-orthogonal states}
+Suppose you know a state \( \ket{\psi} \) has state \( \ket{\alpha_0} \) or \( \ket{\alpha_1} \) with probability \( \frac{1}{2} \), where \( \ip{\alpha_0}{\alpha_1} \neq 0 \).
+Since the states are non-orthogonal, we cannot perfectly distinguish the states, but must allow some error rate.
+The simplest possibility is to not make a measurement and guess randomly; in which case, the guess is correct with probability \( \frac{1}{2} \).
+
+Suppose we append an auxiliary system \( \ket{A} \) to \( \ket{\alpha_i} \).
+Note that \( \bra{A}\bra{\alpha_i}\ket{\alpha_i}\ket{A} = \ip{\alpha_i}{\alpha_i} \) as \( \ket{A} \) is normalised.
+Applying a unitary operator \( U \) to \( \ket{\alpha_i} \) then performing a projection \( \Pi_0 \) or \( \Pi_1 \), this corresponds to simply performing a measurement \( \Pi_0' = U^\dagger \Pi_0 U \) or \( \Pi_1' = U^\dagger \Pi_1 U \), which leads to the same probabilities of outcomes.
+Indeed,
+\[ p(i) = \ev{\Pi_i}{U\xi} = \ev{U^\dagger \Pi_i U}{\xi} = \ev{\Pi_i'}{\xi} \]
+Therefore, in this particular problem, we gain no benefit from moving to a larger Hilbert space or applying unitary operators.
+
+We now describe the \emph{state estimation} or \emph{state discrimination} process.
+We will consider a two-outcome measurement \( \qty{\Pi_0, \Pi_1} \), where \( \Pi_0 + \Pi_1 = I \).
+The average success probability is
+\begin{align*}
+    p_S(\Pi_0, \Pi_1) &= \frac{1}{2} \prob{0 \mid \ket{\psi} = \ket{\alpha_0}} + \frac{1}{2} \prob{1 \mid \ket{\psi} = \ket{\alpha_1}} \\
+    &= \frac{1}{2}\ev{\Pi_0}{\alpha_0} + \frac{1}{2}\ev{\Pi_1}{\alpha_1} \\
+    &= \frac{1}{2} + \frac{1}{2} \Tr \qty[\Pi_0 \qty(\op{\alpha_0}{\alpha_0} - \op{\alpha_1}{\alpha_1})]
+\end{align*}
+as \( \Tr(A\op{\psi}{\psi}) = \ev{A}{\alpha} \).
+The optimal choice of measurement maximises the average success probability \( p_S \).
+Note that \( \Delta = \op{\alpha_0}{\alpha_0} - \op{\alpha_1}{\alpha_1} \) is self-adjoint, and we can write \( p_S = \frac{1}{2} + \frac{1}{2} \Tr(\Pi_0 \Delta) \).
+Therefore, the eigenvalues of \( \Delta \) are real, and the eigenvalues form an orthonormal basis.
+For a state \( \ket{\beta} \) orthogonal to both \( \ket{\alpha_0} \) and \( \ket{\alpha_1} \), we have \( \Delta \ket{\beta} = 0 \).
+Therefore, \( \Delta \) acts nontrivially only in the vector space spanned by \( \ket{\alpha_0} \) and \( \ket{\alpha_1} \), and hence has at most two nonzero eigenvalues, and its eigenvectors lie in \( \vecspan\qty{\ket{\alpha_0}, \ket{\alpha_1}} \).
+
+Now, \( \Tr\Delta = 0 \) so the eigenvalues are \( \delta \) and \( -\delta \) for some \( \delta \in \mathbb R \).
+Let \( \ket{p} \) be the eigenvector for \( \delta \), and \( \ket{m} \) be the eigenvector for \( -\delta \), so \( \ip{p}{m} = 0 \).
+We can write \( \Delta \) in its spectral decomposition, giving \( \Delta = \delta \op{p}{p} - \delta \op{m}{m} \).
+
+Let \( \ket{\alpha_0^\perp} \in \vecspan\qty{\ket{\alpha_0}, \ket{\alpha_1}} \) be a normalised vector such that \( \ip{\alpha_0^\perp}{\alpha_0} = 0 \).
+Then, \( \vecspan\qty{\ket{\alpha_0}, \ket{\alpha_0^\perp}} \) forms an orthonormal basis.
+Hence, we can write \( \ket{\alpha_1} = c_0 \ket{\alpha_0} + c_1 \ket{\alpha_0^\perp} \).
+In this basis,
+\[ \Delta = \begin{pmatrix}
+    1 & 0 \\
+    0 & 0
+\end{pmatrix} + \begin{pmatrix}
+    -\abs{c_0}^2 & -c_0 c_1^\star \\
+    -c_0^\star c_1 & -\abs{c_1}^2
+\end{pmatrix} = \begin{pmatrix}
+    1 - \abs{c_0}^2 & -c_0 c_1^\star \\
+    -c_0^\star c_1 & -\abs{c_1}^2
+\end{pmatrix} = \begin{pmatrix}
+    \abs{c_1}^2 & -c_0 c_1^\star \\
+    -c_0^\star c_1 & -\abs{c_1}^2
+\end{pmatrix} \]
+which has eigenvalues \( \delta = \abs{c_1}, -\delta = -\abs{c_1} \).
+Since \( \abs{c_0} = \abs{\ip{\alpha_0}{\alpha_1}} = \cos \theta \) where \( \theta \geq 0 \), we have \( \delta = \sin \theta \).
+Then,
+\begin{align*}
+    p_S(\Pi_0, \Pi_1) &= \frac{1}{2} + \frac{1}{2} \Tr(\Pi_0 \Delta) \\
+    &= \frac{1}{2} + \frac{1}{2} \Tr(\Pi_0 \qty[\sin\theta \op{p}{p} - \sin\theta \op{m}{m}]) \\
+    &= \frac{1}{2} + \frac{\sin\theta}{2} \qty[\ev{\Pi_0}{p} - \ev{\Pi_0}{m}]
+\end{align*}
+Note that for any \( \ket{\varphi} \), we have \( 0 \leq \ev{\Pi}{\varphi} \leq 1 \), so the measurement is maximised when \( \ev{\Pi_0}{p} = 1 \) and \( \ev{\Pi_0}{m} = 0 \).
+We therefore define \( \Pi_0 = \op{p}{p} \).
+Then, the optimal average success probability is
+\[ p_S^\star = \frac{1}{2} + \frac{\sin\theta}{2} \]
+\begin{theorem}[Holevo--Helstrom; pure states]
+    Let \( \ket{\alpha_0}, \ket{\alpha_1} \) be equally likely states, with \( \abs{\ip{\alpha_0}{\alpha_1}} = \cos\theta \), \( \theta \geq 0 \).
+    Then, the probability \( p_S \) of correctly identifying the state by any quantum measurement satisfies
+    \[ p_S \leq \frac{1}{2} + \frac{\sin\theta}{2} \]
+    and this bound can be attained.
+\end{theorem}
+In the case of orthogonal states, the theorem implies that \( p_S \leq 1 \) and the bound can be attained, which was shown before.
+
+\subsection{No-signalling principle}
+Suppose we have a state \( \ket{\phi_{AB}} \in \mathcal V_A \otimes \mathcal V_B \) shared between two agents \( A, B \).
+Suppose we perform a complete projective measurement on \( \ket{\phi_A} \).
+By the extended Born rule, each measurement outcome will lead to an instantaneous change of \( \ket{\phi_B} \).
+If this change in state could be detected by measuring \( \ket{\phi_B} \), instantaneous communication between \( A \) and \( B \) would be possible.
+
+Consider \( \ket{\phi_{AB}^+} = \frac{1}{\sqrt{2}}\qty(\ket{00} + \ket{11}) \).
+Suppose qubit \( A \) is measured in the standard basis \( \qty{\ket{0}, \ket{1}} \).
+\begin{tabular}{c c c c}
+    outcome & probability & post-measurement state & final state of \( B \) \\
+    0 & \( \frac{1}{2} \) & \( \ket{00} \) & \( \ket{0} \) \\
+    1 & \( \frac{1}{2} \) & \( \ket{11} \) & \( \ket{1} \)
+\end{tabular}
+Therefore, if the outcomes could be controlled, instantaneous communication would be possible.
