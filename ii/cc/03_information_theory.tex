@@ -1,4 +1,4 @@
-\subsection{Shannon's first coding theorem}
+\subsection{?}
 \begin{definition}
     A \emph{source} is a sequence of random variables \( X_1, X_2, \dots \) taking values in \( \mathcal A \).
 \end{definition}
@@ -24,3 +24,105 @@ Shannon's first coding theorem computes the information rate of certain sources,
 Recall from IA Probability that a probability space is a tuple \( (\Omega, \mathcal F, \mathbb P) \), and a discrete random variable is a function \( X \colon \Omega \to \mathcal A \).
 The probability mass function is the function \( p_X \colon \mathcal A \to [0,1] \) given by \( p_X(x) = \prob{X = x} \).
 We can consider the function \( p(X) \colon \Omega \to [0,1] \) defined by the composition \( p_X \circ X \), which assigns \( p(X)(\omega) = \prob{X = X(\omega)} \); hence, \( p(X) \) is also a random variable.
+
+Similarly, given a source \( X_1, X_2, \dots \) of random variables with values in \( \mathcal A \), then the probability mass function of any tuple \( X^{(n)} = (X_1, \dots, X_n) \) is \( p_{X^{n}}(x_1, \dots, x_n) = \prob{X_1 = x_1, \dots, X_n = x_n} \).
+As \( p_{X^{(n)}} \colon \mathcal A^n \to [0,1] \), and \( X^{(n)} \colon \Omega \to \mathcal A^n \), we can consider \( p(X^{(n)}) = p_{X^{(n)}} \circ X^{(n)} \) defined by \( \omega \mapsto p_{X^{(n)}}(X^{(n)}(\omega)) \).
+\begin{example}
+    Let \( \mathcal A = \qty{A, B, C} \).
+    Suppose
+    \[ X^{(2)} = \begin{cases}
+        AB & \text{with probability } 0.3 \\
+        AC & \text{with probability } 0.1 \\
+        BC & \text{with probability } 0.1 \\
+        BA & \text{with probability } 0.2 \\
+        CA & \text{with probability } 0.25 \\
+        CB & \text{with probability } 0.05
+    \end{cases} \]
+    Then, \( p_{X^{(2)}}(AB) = 0.3 \), and so on.
+    Hence,
+    \[ p(X^{(2)}) = \begin{cases}
+        0.3 & \text{with probability } 0.3 \\
+        0.1 & \text{with probability } 0.2 \\
+        0.2 & \text{with probability } 0.2 \\
+        0.25 & \text{with probability } 0.25 \\
+        0.05 & \text{with probability } 0.05
+    \end{cases} \]
+\end{example}
+We say that a source \( X_1,X_2, \dots \) converges in probability to a random variable \( L \) if for all \( \varepsilon > 0 \), \( \lim_{n \to \infty} \prob{\abs{X_n - L} > \varepsilon} = 0 \).
+We write \( X_n \xrightarrow{\mathbb P} L \).
+The weak law of large numbers states that if \( X_1, X_2, \dots \) is a sequence of independent identically distributed real-valued random variables with finite expectation \( \expect{X_1} \), then \( \frac{1}{n} \sum_{i=1}^n X_i \xrightarrow{\mathbb P} \expect{X} \).
+\begin{example}
+    Let \( X_1, X_2, \dots \) be a Bernoulli source.
+    Then \( p(X_1), p(X_2), \dots \) are independent and identically distributed random variables, and \( p(X_1, \dots, X_n) = p(X_1) \dots p(X_n) \).
+    Note that by the weak law of large numbers,
+    \[ -\frac{1}{n} \log p(X_1, \dots, X_n) = -\frac{1}{n} \sum_{i=1}^n \log p(X_i) \xrightarrow{\mathbb P} \expect{-\log p(X_1)} = H(X_1) \]
+\end{example}
+\begin{lemma}
+    The information rate of a Bernoulli source \( X_1, X_2, \dots \) is at most the expected word length of an optimal code \( c \colon \mathcal A \to \qty{0,1}^\star \) for \( X_1 \).
+\end{lemma}
+\begin{proof}
+    Let \( \ell_1, \ell_2, \dots \) be the codeword lengths when we encode \( X_1, X_2, \dots \) using \( c \).
+    Let \( \varepsilon > 0 \).
+    Let
+    \[ A_n = \qty{x \in \mathcal A^n \mid c^\star(x) \text{ has length less than } n \qty(\expect{\ell_1} + \varepsilon)} \]
+    Then,
+    \[ \prob{(X_1, \dots, X_n) \in A_n} = \prob{\sum_{i=1}^n \ell_i \leq n \qty(\expect{\ell_1} + \varepsilon)} = \prob{\abs{\frac{1}{n} \sum_{i=1}^n \ell_i - \expect{\ell_i}} < \varepsilon} \to 1 \]
+    Now, \( c \) is decipherable so \( c^\star \) is injective.
+    Hence, \( \abs{A_n} \leq 2^{n\qty(\expect{\ell_1} + \varepsilon)} \).
+    Making \( A_n \) larger if necessary, we can assume \( \abs{A_n} = \floor{2^{n\qty(\expect{\ell_1} + \varepsilon)}} \).
+    Taking logarithms, \( \frac{\log A_n}{n} \to \expect{\ell_1} + \varepsilon \).
+    So \( X_1, X_2, \dots \) is reliably encodable at rate \( r = \expect{\ell_1} + \varepsilon \) for all \( \varepsilon > 0 \).
+    Hence the information rate is at most \( \expect{\ell_1} \).
+\end{proof}
+\begin{corollary}
+    A Bernoulli source has information rate less than \( H(X_1) + 1 \).
+\end{corollary}
+\begin{proof}
+    Combine the previous lemma with the noiseless coding theorem.
+\end{proof}
+
+\subsection{Asymptotic equipartition property}
+Suppose we encode \( X_1, X_2, \dots \) in blocks of size \( N \).
+Let \( Y_1 = (X_1, \dots, X_N), Y_2 = (X_{N+1}, \dots, X_{2N}) \) and so on, such that \( Y_1, Y_2, \dots \) take values in \( \mathcal A^N \).
+One can show that if the source \( X_1, X_2, \dots \) has information rate \( H \), then \( Y_1, Y_2, \dots \) has information rate \( NH \).
+\begin{proposition}
+    The information rate \( H \) of a Bernoulli source is at most \( H(X_1) \).
+\end{proposition}
+\begin{proof}
+    Apply the previous corollary to the \( Y_i \) to obtain
+    \[ NH < H(Y_1) + 1 = H(X_1, \dots, X_N) + 1 = NH(X_1) + 1 \implies H < H(X_1) + \frac{1}{N} \]
+    as required.
+\end{proof}
+\begin{definition}
+    A source \( X_1, X_2, \dots \) satisfies the \emph{asymptotic equipartition property} if there exists a constant \( H \geq 0 \) such that
+    \[ -\frac{1}{n} \log p(X_1, \dots, X_n) \xrightarrow{\mathbb P} H \]
+\end{definition}
+\begin{example}
+    Suppose we toss a biased coin with probability \( p \) of obtaining a head.
+    Let \( X_1, X_2, \dots \) be the results of independent coin tosses.
+    If we toss the coin \( N \) times, we expect \( pN \) heads and \( (1-p)N \) tails.
+    The probability of any particular sequence of \( pN \) heads and \( (1-p)N \) tails is
+    \[ p^{pN} (1-p)^{(1-p)N} = 2^{N (p \log p + (1-p) \log(1-p))} = 2^{-NH(X)} \]
+    Not every sequence of tosses is of this form, but there is only a small probability of `atypical sequences'.
+    With high probability, it is a `typical sequence' which has a probability close to \( 2^{-NH(X)} \).
+\end{example}
+\begin{lemma}
+    The asymptotic equipartition property for a source \( X_1, X_2, \dots \) is equivalent to the property that for all \( \varepsilon > 0 \), there exists \( n \in \mathbb N \) such that for all \( n \geq n_0 \), there exists a `typical set' \( T_n \subseteq \mathcal A^n \) such that
+    \begin{enumerate}
+        \item \( \prob{(X_1, \dots, X_n) \in T_n} > 1 - \varepsilon \);
+        \item \( 2^{-n(H+\varepsilon)} \leq p(x_1, \dots, x_n) \leq 2^{-n(H-\varepsilon)} \) for all \( (x_1, \dots, x_n) \in T_n \).
+    \end{enumerate}
+\end{lemma}
+\begin{proof}[Proof sketch]
+    First, we show that the asymptotic equipartition property implies the alternative definition.
+    We define
+    \[ T_n = \qty{(x_1, \dots, x_n) \mid \abs{-\frac{1}{n} \log p(x_1, \dots, x_n) - H} \leq \varepsilon} = \qty{(x_1, \dots, x_n) \mid \text{condition (ii) holds}} \]
+    For the converse,
+    \[ \prob{\abs{\frac{1}{n}\log p(x_1, \dots, x_n) - H} < \varepsilon} \geq \prob{T_n} \to 1 \]
+\end{proof}
+
+\subsection{Shannon's first coding theorem}
+\begin{theorem}
+    Let \( X_1, X_2, \dots \) be a source satisfying the asymptotic equipartition property with constant \( H \).
+    Then this source has information rate \( H \).
+\end{theorem}
