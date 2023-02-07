@@ -1,4 +1,4 @@
-\subsection{?}
+\subsection{Using higher Hilbert spaces}
 Quantum information is encoded in the states of a quantum system.
 Classical information is encoded in states chosen from an orthonormal set, since all distinct classical messages can be distinguished.
 Given a quantum system \( S \) and a quantum state \( \ket{\psi} \), we can perform this sequence of operations.
@@ -142,16 +142,67 @@ Then, the optimal average success probability is
 In the case of orthogonal states, the theorem implies that \( p_S \leq 1 \) and the bound can be attained, which was shown before.
 
 \subsection{No-signalling principle}
-Suppose we have a state \( \ket{\phi_{AB}} \in \mathcal V_A \otimes \mathcal V_B \) shared between two agents \( A, B \).
+Suppose we have a possibly entangled state \( \ket{\phi_{AB}} \in \mathcal V_A \otimes \mathcal V_B \) shared between two agents \( A, B \).
 Suppose we perform a complete projective measurement on \( \ket{\phi_A} \).
 By the extended Born rule, each measurement outcome will lead to an instantaneous change of \( \ket{\phi_B} \).
 If this change in state could be detected by measuring \( \ket{\phi_B} \), instantaneous communication between \( A \) and \( B \) would be possible.
 
 Consider \( \ket{\phi_{AB}^+} = \frac{1}{\sqrt{2}}\qty(\ket{00} + \ket{11}) \).
 Suppose qubit \( A \) is measured in the standard basis \( \qty{\ket{0}, \ket{1}} \).
-\begin{tabular}{c c c c}
-    outcome & probability & post-measurement state & final state of \( B \) \\
-    0 & \( \frac{1}{2} \) & \( \ket{00} \) & \( \ket{0} \) \\
-    1 & \( \frac{1}{2} \) & \( \ket{11} \) & \( \ket{1} \)
-\end{tabular}
-Therefore, if the outcomes could be controlled, instantaneous communication would be possible.
+\begin{center}
+    \begin{tabular}{c c c c}
+        outcome & probability & post-measurement state & final state of \( B \) \\
+        0 & \( \frac{1}{2} \) & \( \ket{00} \) & \( \ket{0} \) \\
+        1 & \( \frac{1}{2} \) & \( \ket{11} \) & \( \ket{1} \)
+    \end{tabular}
+\end{center}
+Suppose qubit \( B \) is subsequently measured in \( \qty{\ket{b_0}, \ket{b_1}} \).
+If \( B \) is in the state \( \ket{0} \), we can write \( \ket{0} = c_0\ket{b_0} + c_1\ket{b_1} \), and \( p_{\ket{0}}(i) = \abs{c_i}^2 = \abs{\ip{b_i}{0}}^2 \).
+If \( B \) is in the state \( \ket{1} \), we write \( \ket{1} = d_0\ket{b_0} + d_1\ket{b_1} \), and \( p_{\ket{1}}(i) = \abs{d_i}^2 = \abs{\ip{b_i}{1}}^2 \).
+Therefore, \( p(i) = \frac{1}{2} \abs{\ip{b_i}{0}}^2 + \frac{1}{2} \abs{\ip{b_i}{1}}^2 = \frac{1}{2} \).
+The two outcomes for this measurement are equally likely, regardless of the choice of complete orthonormal basis \( \qty{\ket{b_0}, \ket{b_1}} \).
+
+Suppose instead \( A \) is not measured, but we perform the same measurement on \( B \).
+The initial state is \( \ket{\phi_{AB}^+} \), so by the extended Born rule, \( p(i) = \ev{\qty(I_A \otimes \op{b_i}{b_i})}{\phi_{AB}^+} = \frac{1}{2} \).
+We can therefore not detect through measuring \( B \) whether a measurement was performed at \( A \).
+This is the no-signalling principle.
+
+We now prove the more general case.
+Let \( \ket{\phi_{AB}} \in \mathcal V_A \otimes \mathcal V_B \) be an arbitrary possibly entangled state.
+
+Suppose we measure \( B \) in a complete orthonormal basis \( \qty{\ket{b}}_{b=1}^{\dim \mathcal V_B} \), which is a complete projective measurement on \( B \).
+Let \( \qty{\ket{a}}_{a=1}^{\dim \mathcal V_A} \) be a complete orthonormal basis for \( \mathcal V_A \).
+Then, expanding \( \ket{\phi_{AB}} \), in this basis, we can write \( \ket{\phi_{AB}} = \sum_{a,b} c_{ab} \ket{a} \ket{b} \).
+We obtain outcome \( b \) with probability \( p(b) = \ev{\qty(I_A \otimes P_b)}{\phi_{AB}} = \sum_{a=1}^{\dim \mathcal V_A} \abs{c_{ab}}^2 \).
+The post-measurement state is \( \ket{\phi_{AB}'} \).
+
+Suppse that we first measure \( A \) in a complete orthonormal basis \( \qty{\ket{a}}_{a=1}^{\dim \mathcal V_A} \), and then perform the measurement \( \qty{\ket{b}}_{b=1}^{\dim \mathcal V_B} \) on \( B \).
+The outcome of the first measurement is \( a \) with probability \( p(a) = \ev{\qty(P_a \otimes I_B)}{\phi_{AB}} = \sum_{b=1}^{\dim \mathcal V_B} \abs{c_{ab}}^2 \).
+We denote the post-measurement state of the joint system by \( \ket{\phi_{AB}''}= \frac{(P_a \otimes I_B) \ket{\phi_{AB}}}{\sqrt{p(a)}} \).
+Then, the outcome of the second measurement is \( b \) with probability
+\begin{align*}
+    p(a \mid b) &= \ev{\qty(I_A \otimes P_b)}{\phi_{AB}''} \\
+    &= \frac{1}{p(a)} \ev{(P_a \otimes I_B) (I_A \otimes P_b) (P_a \otimes I_B)}{\phi_{AB}} \\
+    &= \frac{1}{p(a)} \ev{(P_a \otimes P_b)}{\phi_{AB}} \\
+    p(a,b) = p(a) p(a \mid b) &= \ev{(P_a \otimes P_b)}{\phi_{AB}} = \abs{c_{ab}}^2
+\end{align*}
+Hence \( p(b) = \sum_{a=1}^{\dim \mathcal V_A} \abs{c_{ab}}^2 \), which is exactly the distribution we obtained when no measurement on \( A \) was performed.
+This proves the no-signalling principle.
+
+\subsection{The Bell basis}
+Let \( \mathcal C^2 \otimes \mathcal C^2 \) model a quantum system representing the spins of two electrons.
+Consider \( \ket{\phi_{AB}^+} = \frac{1}{2}\qty(\ket{00} + \ket{11}) \in \mathcal C^2 \otimes \mathcal C^2 \).
+This is a \emph{maximally entangled state}; we have information about the whole system, but no information about the individual states.
+\[ \ket{\phi_{AB}^\pm} = \frac{1}{\sqrt{2}} \qty(\ket{00} \pm \ket{11});\quad \ket{\psi_{AB}^\pm} = \frac{1}{\sqrt{2}} \qty(\ket{01} \pm \ket{10}) \]
+\( \qty{\ket{\phi_{AB}^\pm}, \ket{\psi_{AB}^\pm}} \) forms a complete orthonormal basis of \( \mathcal C^2 \otimes \mathcal C^2 \).
+This is called the \emph{Bell basis}.
+The basis vectors are sometimes known as \emph{EPR states}, after Einstein, Podolsky, and Rosen.
+
+One bit of classical information can be encoded in a single qubit, and two bits can be encoded in a pair of qubits in the Bell basis.
+The Bell states have a \emph{parity} 0 or 1, representing parallel \( \qty{\ket{\phi^\pm}} \) or antiparallel \( \qty{\ket{\psi^\pm}} \) spins.
+The states also have a \emph{phase}, which can be positive \( \qty{\ket{\phi^+}, \ket{\psi^+}} \) or negative \( \qty{\ket{\phi^-}, \ket{\psi^-}} \).
+For example, we can encode the classical message 01 using the state \( \ket{\phi^-} \).
+
+We can perform a complete projective measurement on both qubits in the Bell basis to recover the encoded information with certainty.
+For instance, \( P_{00} = \op{\phi^+}{\phi^+} \).
+If we prepare a pair of electrons \( \ket{\phi} \) in the state \( \ket{\phi^-} \) for example, we obtain \( p(00) = p(10) = p(11) = 0 \) and \( p(01) = 1 \).
