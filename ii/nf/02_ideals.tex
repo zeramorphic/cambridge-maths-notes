@@ -117,7 +117,7 @@ This allows us to prove results about division by using containment.
 Note that prime ideals are maximal, which allows us to use the containment relation.
 \begin{lemma}
     Let \( \mathfrak p \) be a prime ideal in a ring \( R \), and let \( \mathfrak a, \mathfrak b \triangleleft R \) be ideals.
-    Then if \( \mathfrak ab \subseteq \mathfrak p \), either \( \mathfrak a \subseteq \mathfrak p \) or \( \mathfrak b \subseteq \mathfrak p \).
+    Then if \( \mathfrak a \mathfrak b \subseteq \mathfrak p \), either \( \mathfrak a \subseteq \mathfrak p \) or \( \mathfrak b \subseteq \mathfrak p \).
 \end{lemma}
 \begin{proof}
     Otherwise, there exists \( a \in \mathfrak a \setminus \mathfrak p \) and \( b \in \mathfrak b \setminus \mathfrak p \), with \( ab \in \mathfrak p \).
@@ -332,3 +332,112 @@ We can now state the main theorems of the course, which are:
 \begin{example}
     \( (3,1+2\sqrt{5})(3,1-2\sqrt{5}) = (3) \), so \( (3,1+2\sqrt{5}) \) and \( (3,1-2\sqrt{5}) \) are inverse in the class group.
 \end{example}
+\begin{example}
+   Let  \( [L:\mathbb Q] = 2 \), so \( L = \mathbb Q(\sqrt{d}) \) for \( d \in \mathbb Z \), and \( d \not\equiv 1 \) mod 4.
+   Let \( \mathfrak a \trianglelefteq \mathcal O_L \), so \( \mathfrak a \simeq \mathbb Z^2 \) giving \( \mathfrak a = \genset{\alpha, \beta} \) as an \( \mathcal O_L \)-module.
+   We can always assume \( \beta \in \mathbb Z \).
+   Indeed, write \( \alpha = a + b \sqrt{d} \) and \( \beta = a' + b' \sqrt{d} \).
+   Let \( \ell = \gcd(b, b') = mb + m'b' \) where \( m, m' \in \mathbb Z \).
+   Then let
+   \[ \beta' = (m\alpha + m'\beta) \underbrace{\qty(\frac{-b'}{\ell})}_{\in \mathbb Z} + \beta \in \mathbb Z \]
+   Then \( \genset{\alpha, \beta} = \genset{\alpha, \beta'} \).
+    Alternatively, \( \mathcal O_L \cap \mathbb Z \neq \qty{0} \), and we can extend a minimal such set to a basis of \( \mathcal O_L \).
+\end{example}
+\begin{example}
+    In a quadratic field \( \mathfrak a = \genset{\alpha, b} \) where \( b \in \mathbb Z \).
+    Then \( \genset{b, \alpha} \genset{b, \overline \alpha} \) is principal.
+    \[ \mathfrak a \overline{\mathfrak a} = \genset{b^2, b\alpha, b\overline \alpha, \alpha\overline\alpha} = \genset{b^2, b\alpha, b\underbrace{(\alpha + \overline \alpha)}_{\Tr(\alpha)}, N(\alpha)} = \genset{b\alpha, c} \]
+    where \( c = \gcd(b^2, \Tr(\alpha), N(\alpha)) \).
+    Let \( x = \frac{b\alpha}{c} \in L^\star \).
+    \( \Tr(x) = \frac{b\Tr(\alpha)}{c} \in \mathbb Z \), and \( N(c) = N\qty(\frac{b\alpha}{c}) = \frac{b^2 N(\alpha)}{c^2} = \frac{b^2}{c} \frac{N(\alpha)}{c} \in \mathbb Z \), so \( x \in \mathcal O_L \), giving \( c \mid b\alpha \), so \( \mathfrak a \overline{\mathfrak a} = \genset{c} \).
+    In particular, \( \genset{b, \alpha}, \genset{b, \overline \alpha} \) are inverse in the class group.
+\end{example}
+
+\subsection{Norms of ideals}
+\begin{definition}
+    Let \( L \) be a number field, and let \( [L:\mathbb Q] = n \).
+    Let \( \mathfrak a \trianglelefteq \mathcal O_L \) be a nonzero ideal.
+    The \emph{norm} of \( \mathfrak a \) is \( \abs{\faktor{\mathcal O_L}{\mathfrak a}} \).        
+\end{definition}
+By Lagrange's theorem, \( N(\mathfrak a) \cdot 1 = 0 \) in \( \faktor{\mathcal O_L}{\mathfrak a} \).
+Hence \( N(\mathfrak a) \in \mathfrak a \cap \mathbb Z \).
+\begin{example}
+    Let \( p \) be a prime.
+    \( N((p)) = \abs{\faktor{\mathbb Z^n}{\qty(p\mathbb Z)^n}} = p^n \).
+\end{example}
+\begin{proposition}
+    Let \( \mathfrak a, \mathfrak b \trianglelefteq \mathcal O_L \) be nonzero ideals.
+    Then, \( N(\mathfrak a \mathfrak b) = N(\mathfrak a) N(\mathfrak b) \).
+\end{proposition}
+\begin{remark}
+    By unique factorisation of ideals, it suffices to show that \( N(\mathfrak p_1^{a_1} \dots \mathfrak p_n^{a_n}) = N(\mathfrak p_1)^{a_1} \dots N(\mathfrak p_n)^{a_n} \) for \( \mathfrak p_i \) distinct prime ideals.
+    To show this, we need that
+    \begin{enumerate}
+        \item \( \faktor{\mathcal O_L}{\mathfrak p_1^{a_1} \dots \mathfrak p_n^{a_n}} \simeq \faktor{\mathcal O_L}{\mathfrak p_1^{a_1}} \dots \faktor{\mathcal O_L}{\mathfrak p_n^{a_n}} \) by the Chinese remainder theorem.
+        \item \( \abs{\faktor{\mathcal O_L}{\mathfrak p^e}} = \abs{\faktor{\mathcal O_L}{\mathfrak p}} \cdot \abs{\faktor{\mathfrak p}{\mathfrak p^2}} \cdots \abs{\faktor{\mathfrak p^{e-1}}{\mathfrak p^e}} \) which is a general fact, and this is equal to \( \abs{\faktor{\mathcal O_L}{\mathfrak p}}^e \) as \( \faktor{\mathfrak p^a}{\mathfrak p^{a+1}} \) is a one-dimensional vector space over the field \( \faktor{\mathcal O_L}{\mathfrak p} \).
+        This fact is specific to number fields (or more generally, Dedekind domains).
+        For a counterexample, consider \( \mathbb F_p[X,Y] \) and \( \mathfrak p = (x,y) \).
+    \end{enumerate}
+\end{remark}
+The following proof uses the above approach obscurely but quickly.
+\begin{proof}
+    By unique factorisation it suffices to show the result for \( \mathfrak b = \mathfrak p \) where \( \mathfrak p \) is prime.
+    \( \mathfrak a \neq \mathfrak a \mathfrak p \) by unique factorisation, so let \( \alpha \in \mathfrak a \setminus \mathfrak a \mathfrak p \).
+    We claim that the homomorphism of abelian groups \( \faktor{\mathcal O_L}{\mathfrak p} \to \faktor{\mathfrak a}{\mathfrak a \mathfrak p} \) mapping \( x \mapsto \alpha x \) is an isomorphism.
+    Then,
+    \[ \faktor{\mathcal O_L}{\mathfrak a} \simeq \faktor{\qty(\faktor{\mathcal O_L}{\mathfrak a \mathfrak p})}{\qty(\faktor{\mathfrak a}{\mathfrak a\mathfrak p})} \]
+    so
+    \[ N(\alpha) = \abs{\faktor{\mathcal O_L}{\mathfrak a}} = \frac{N(\alpha\mathfrak p)}{\abs{\faktor{\mathfrak a}{\mathfrak a \mathfrak p}}} \]
+    but \( \abs{\faktor{\mathfrak a}{\mathfrak a \mathfrak p}} = \abs{\faktor{\mathcal O_L}{\mathfrak p}} = N(\mathfrak p) \) by the claim, proving the proposition.
+    We now prove the claim.
+
+    We show the homomorphism is injective.
+    \( (\alpha) \subseteq \mathfrak a \) so \( (\alpha) = \mathfrak a \mathfrak c \) for some \( \mathfrak c \triangleleft \mathcal O_L \).
+    Suppose \( x \) has \( \alpha x \in \mathfrak a \mathfrak p \), so \( x + \mathfrak p \) is in the kernel.
+    Then, \( x \mathfrak a \mathfrak c \subseteq \mathfrak a \mathfrak p \).
+    Dividing by \( \mathfrak a \), \( x\mathfrak c \subseteq \mathfrak p \).
+    But \( \mathfrak p \) is prime, so \( x \in p \) or \( \mathfrak c \subseteq \mathfrak p \).
+    But \( \mathfrak c \subseteq \mathfrak p \) implies \( \alpha \in \mathfrak a \mathfrak p \), contradicting our choice of \( \alpha \).
+    So \( x \in \mathfrak p \), so the map is injective as required.
+
+    We show the homomorphism is surjective.
+    We want to show \( (\alpha) + \mathfrak a \mathfrak p = \mathfrak a \).
+    We know that \( \mathfrak a \mathfrak p \subsetneq (\alpha) + \mathfrak a \mathfrak p \subseteq \mathfrak a \).
+    Multiplying by \( \mathfrak a^{-1} \), we obtain
+    \[ \mathfrak p \subsetneq ((\alpha) + \mathfrak a \mathfrak p) \mathfrak a^{-1} \subseteq \mathcal O_L \]
+    But \( \mathfrak p \) is a prime and hence maximal.
+    Therefore, \( ((\alpha) + \mathfrak a \mathfrak p) \mathfrak a^{-1} = \mathcal O_L \), so \( (\alpha) + \mathfrak \mathfrak p = \mathfrak a \), so the map is surjective.
+\end{proof}
+\begin{lemma}
+    Let \( M \subseteq \mathbb Z^n \) be a subgroup.
+    Then \( M \subseteq \mathbb Z^r \) for some \( 0 \leq r \leq n \).
+    Suppose further that \( r = n \).
+    Let \( e_1, \dots, e_n \) be a basis of \( \mathbb Z^n \) and \( v_1, \dots, v_n \) be a basis of \( M \) over \( \mathbb Z \).
+    Then, \( \abs{\faktor{\mathbb Z^n}{M}} = \det A \) where \( A = (a_{ij}) \) and \( v_j = \sum a_{ij} e_i \).
+\end{lemma}
+\begin{proof}
+    We can choose a basis \( v_1, \dots, v_n \) of \( M \) such that \( A \) is upper triangular.
+    Then, \( \abs{\det A} = \abs{a_{11} \dots a_{nn}} \). 
+\end{proof}
+\begin{lemma}
+    Let \( \mathfrak a \triangleleft \mathcal O_L \) be a nonzero ideal, and \( n = [L : \mathbb Q] \).
+    Then,
+    \begin{enumerate}
+        \item There exist \( \alpha_1, \dots, \alpha_n \in \mathfrak a \) such that \( \mathfrak a = \qty{\sum_{i=1}^n r_i \alpha_i \mid r_i \in \mathbb Z} \), and \( \alpha_1, \dots, \alpha_n \) are a basis of \( L / \mathbb Q \).
+        \item For any such \( \alpha_1, \dots, \alpha_n \in \mathfrak a \), \( \Delta(\alpha_1, \dots, \alpha_n) = N(\mathfrak a)^2 D_L \) where \( D_L \) is the discriminant of \( L \), and where \( \Delta(\alpha_1, \dots, \alpha_n) = \det \Tr(\alpha_i \alpha_j) = \qty(\det (\sigma_i \alpha_j))^2 \).
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \emph{Part (i).}
+    The result holds for \( \mathcal O_L \), and if \( d \in \mathfrak a \) is an integer, such as \( d = N(\mathfrak a) \), then \( d\mathcal O_L \subseteq \mathfrak a \subseteq \mathcal O_L \), so as abelian groups, \( (d\mathbb Z)^n \subseteq \mathfrak a \subseteq \mathbb Z^n \), so \( \mathfrak a \simeq \mathbb Z^n \).
+
+    \emph{Part (ii).}
+    Let \( \alpha_1', \dots, \alpha_n' \) be an integral basis of \( \mathcal O_L \).
+    Let \( A \) be the change of basis matrix from \( \alpha_1, \dots, \alpha_n \) to \( \alpha_1', \dots, \alpha_n' \).
+    Then \( \Delta(\alpha_1, \dots, \alpha_n) = (\det A)^2 \Delta(\alpha_1', \dots, \alpha_n') = \abs{\faktor{\mathcal O_L}{\mathfrak a}}^2 D_L \) by the lemma.
+\end{proof}
+\begin{corollary}
+    If \( \alpha_1, \dots, \alpha_n \) generating \( \mathfrak a \) as a \( \mathbb Z \)-module has \( \Delta(\alpha_1, \dots, \alpha_n) \) square-free, then \( \mathfrak a = \mathcal O_L \) and \( D_L \) is square-free.
+    In particular, if \( L = \mathbb Q(\alpha) \) and \( \alpha \in \mathcal O_L \) where \( \mathrm{disc}(\alpha) = \Delta(1, \alpha, \dots, \alpha^{n-1}) \) is square-free, then \( \mathbb Z[\alpha] = \mathcal O_L \).
+    More generally, if \( \alpha \in \mathcal O_L \) and \( L = \mathbb Q(\alpha) \), and \( d \in \mathbb Z \) is a maximal integer such that \( d^2 \mid \mathrm{disc}(\alpha) \), then \( \mathbb Z[\alpha] \subseteq \mathcal O_L \subseteq \frac{1}{d} \mathbb Z[\alpha] \).
+\end{corollary}
