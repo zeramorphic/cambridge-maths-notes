@@ -319,3 +319,106 @@ An ordinal \( \alpha \) is a limit if and only if it has no greatest element, or
     \( \omega \) is a limit as it has no greatest element.
     0 is a limit.
 \end{example}
+
+\subsection{Ordinal arithmetic}
+Let \( \alpha, \beta \) be ordinals.
+We define \( \alpha + \beta \) by induction on \( \beta \), by
+\begin{itemize}
+    \item \( \alpha + 0 = \alpha \);
+    \item \( \alpha + \beta^+ = (\alpha + \beta)^+ \);
+    \item \( \alpha + \lambda = \sup\qty{\alpha + \gamma \mid \gamma < \lambda} \) for a nonzero limit ordinal.
+\end{itemize}
+\begin{example}
+    \( \omega + 1 = \omega + 0^+ = (\omega + 0)^+ = \omega^+ \).
+    \( \omega + 2 = \omega + 1^+ = (\omega + 1)^+ = (\omega^+)^+ \).
+    \( 1 + \omega = \sup\qty{1 + \gamma \mid \gamma < \omega} = \omega \).
+    Therefore, addition is noncommutative.
+\end{example}
+\begin{remark}
+    As the ordinals do not form a set, we must technically define addition \( \alpha + \gamma \) by induction on the set \( \qty{\gamma \mid \gamma \leq \beta} \).
+    The choice of \( \beta \) does not change the definition of \( \alpha + \gamma \) as defined for \( \gamma \leq \beta \).
+\end{remark}
+\begin{proposition}
+    Ordinal addition is associative.
+\end{proposition}
+\begin{proof}
+    Let \( \alpha, \beta, \gamma \) be ordinals.
+    We use induction on \( \gamma \).
+    Suppose \( \alpha + (\beta + \delta) = (\alpha + \beta) + \delta \) for all \( \delta < \gamma \).
+
+    First, suppose \( \gamma = 0 \).
+    \( \alpha + (\beta + 0) = \alpha + \beta = (\alpha + \beta) = 0 \), as required.
+    Now consider \( \gamma^+ \).
+    \( \alpha + (\beta + \gamma^+) = \alpha + (\beta + \gamma)^+ = (\alpha + (\beta + \gamma))^+ = ((\alpha + \beta) + \gamma)^+ = (\alpha + \beta) + \gamma^+ \).
+
+    Finally, consider \( \lambda \) a nonzero limit.
+    \( (\alpha + \beta) + \lambda = \sup \qty{(\alpha + \beta) + \gamma \mid \gamma < \lambda} = \sup \qty{\alpha + (\beta + \gamma) \mid \gamma < \lambda} \).
+    We claim that \( \beta + \lambda \) is a limit.
+    Indeed, \( \beta + \lambda = \sup\qty{\beta + \gamma \mid \gamma < \lambda} \), but for every \( \gamma < \lambda \) there exists \( \gamma' < \lambda \) with \( \gamma < \gamma' \) as \( \lambda \) is a limit, so \( \beta + \gamma < \beta + \gamma' \).
+    Thus, there is no greatest element in the set \( \sup\qty{\beta + \gamma \mid \gamma < \lambda} \), so \( \beta + \lambda \) is a limit.
+
+    Now, \( \alpha + (\beta + \lambda) = \sup\qty{\alpha + \delta \mid \delta < \beta + \lambda} \).
+    So it suffices to show that \( \sup\qty{\alpha + (\beta + \gamma) \mid \gamma < \lambda} = \sup\qty{\alpha + \delta \mid \delta < \beta + \lambda} \).
+    Certainly \( \qty{\alpha + (\beta + \gamma) \mid \gamma < \lambda} \subseteq \qty{\alpha + \delta \mid \delta < \beta + \lambda} \), as \( \gamma < \lambda \) implies \( \beta + \gamma < \beta + \lambda \).
+    Further, for any \( \delta < \beta + \lambda \), \( \delta \leq \beta + \gamma \) for some \( \gamma < \lambda \) by definition of \( \beta + \lambda \).
+    Therefore, \( \alpha + \delta \leq \alpha + (\beta + \gamma) \), so each element of \( \qty{\alpha + \delta \mid \delta < \beta + \lambda} \) is at most some element of \( \qty{\alpha + (\beta + \gamma) \mid \gamma < \lambda} \).
+    So the two suprema agree.
+\end{proof}
+\begin{remark}
+    We used the facts
+    \begin{enumerate}
+        \item \( \beta \leq \gamma \implies \alpha + \beta \leq \alpha + \gamma \), which is trivial by induction on \( \gamma \);
+        \item \( \beta < \gamma \implies \alpha + \beta < \alpha + \gamma \), as \( \beta^+ \leq \gamma \) so \( \alpha + \beta^+ \leq \alpha + \gamma \) by (i).
+    \end{enumerate}
+    However, \( 1 < 2 \) but \( 1 + \omega \not < 2 + \omega \).
+\end{remark}
+The above is the \emph{inductive} definition of addition; there is also a \emph{synthetic} definition of addition.
+We can define \( \alpha + \beta \) to be the order type of \( \alpha \sqcup \beta \), where every element of \( \alpha \) is taken to be less than every element of \( \beta \).
+
+For instance, \( \omega + 1 \) is the order type of \( \omega \) with a point afterwards, and \( 1 + \omega \) is the order type of a point followed by \( \omega \), which is clearly isomorphic to \( \omega \).
+Associativity is clear, as \( (\alpha + \beta) + \gamma \) and \( \alpha + (\beta + \gamma) \) are the order type of \( \alpha \sqcup \beta \sqcup \gamma \).
+\begin{proposition}
+    The inductive and synthetic definitions of addition coincide.
+\end{proposition}
+\begin{proof}
+    We write \( +' \) for synthetic addition, and aim to show \( \alpha + \beta = \alpha +' \beta \).
+    We perform induction on \( \beta \).
+
+    For \( \beta = 0 \), \( \alpha + 0 = \alpha \) and \( \alpha +' 0 = \alpha \).
+    For successors, \( \alpha + \beta^+ = (\alpha + \beta)^+ = (\alpha +' \beta)^+ \), which is the order type of \( \alpha \sqcup \beta \sqcup \qty{\star} \), which is equal to \( \alpha +' \beta^+ \).
+
+    Let \( \lambda \) be a nonzero limit.
+    We have \( \alpha + \lambda = \sup\qty{\alpha + \gamma \mid \gamma < \lambda} \).
+    But \( \alpha + \gamma = \alpha +' \gamma \) for \( \gamma < \lambda \), so \( \alpha + \lambda = \sup\qty{\alpha +' \gamma \mid \gamma < \lambda} \).
+    As the set \( \qty{\alpha +' \gamma \mid \gamma < \lambda} \) is nested, it is equal to its union, which is \( \alpha +' \lambda \).
+\end{proof}
+Synthetic definitions can be easier to work with if such definitions exist.
+However, there are many definitions that can only easily be represented inductively, and not synthetically.
+
+We define multiplication inductively by
+\begin{itemize}
+    \item \( \alpha 0 = 0 \);
+    \item \( \alpha \beta^+ = \alpha\beta + \alpha \);
+    \item \( \alpha \lambda = \sup\qty{\alpha \gamma \mid \gamma < \lambda} \) for \( \lambda \) a nonzero limit.
+\end{itemize}
+\begin{example}
+    \( \omega 2 = \omega 1 + \omega = \omega 0 + \omega + \omega = \omega + \omega \).
+    Similarly, \( \omega 3 = \omega + \omega + \omega \).
+    \( \omega \omega = \sup\qty{0, \omega 1, \omega 2, \dots} = \qty{0, \omega, \omega + \omega, \dots} \).
+    Note that \( 2 \omega = \sup\qty{0, 2, 4, \dots} = \omega \).
+    Multiplication is noncommutative.
+    One can show in a similar way that multiplication is associative.
+\end{example}
+We can produce a synthetic definition of multiplication, which can be shown to coincide with the inductive definition.
+We define \( \alpha \beta \) to be the order type of the Cartesian product \( \alpha \times \beta \) where we say \( (\gamma, \delta) < (\gamma', \delta') \) if \( \delta < \delta' \) or \( \delta = \delta' \) and \( \gamma < \gamma' \).
+For instance, \( \omega 2 \) is the order type of two infinite sequences, and \( 2 \omega \) is the order type of a sequence of pairs.
+
+Similar definitions can be created for exponentiation, towers, and so on.
+For instance, \( \alpha^\beta \) can be defined by
+\begin{itemize}
+    \item \( \alpha^0 = 1 \);
+    \item \( \alpha^(\beta^+) = \alpha^\beta \alpha \);
+    \item \( \alpha^\lambda = \sup\qty{\alpha^\gamma \mid \gamma < \lambda} \) for \( \lambda \) a nonzero limit.
+\end{itemize}
+For example, \( \omega^2 = \omega^1 \omega = \omega^0 \omega \omega = \omega \omega \).
+Further, \( 2^\omega = \sup\qty{2^0, 2^1, \dots} = \omega \), which is countable.

@@ -126,3 +126,65 @@ One can show that if the source \( X_1, X_2, \dots \) has information rate \( H 
     Let \( X_1, X_2, \dots \) be a source satisfying the asymptotic equipartition property with constant \( H \).
     Then this source has information rate \( H \).
 \end{theorem}
+\begin{proof}
+    Let \( \varepsilon > 0 \), and let \( T_n \subseteq \mathcal A^n \) be typical sets.
+    Then, for all \( n \geq n_0(\varepsilon) \), for all \( (x_1, \dots, x_n) \in T_n \) we have \( p(x_1, \dots, x_n) \geq 2^{-n(H + \varepsilon)} \).
+    Therefore, \( 1 \geq \prob{T_n} \geq 2^{-n(H + \varepsilon)} \cdot \abs{T_n} \), giving \( \frac{1}{n} \log \abs{T_n} \leq H + \varepsilon \).
+    Taking \( A_n = T_n \) in the definition of reliable encoding shows that the source is reliably encodable at rate \( H + \varepsilon \).
+
+    Conversely, if \( H = 0 \) the proof concludes, so we may assume \( H > 0 \).
+    Let \( 0 < \varepsilon < \frac{H}{2} \), and suppose that the source is reliably encodable at rate \( H - 2\varepsilon \) with sets \( A_n \subseteq \mathcal A^n \).
+    Let \( T_n \subseteq \mathcal A^n \) be typical sets.
+    Then, for all \( (x_1, \dots, x_n) \in T_n \), \( p(x_1, \dots, x_n) \leq 2^{-n(H - \varepsilon)} \), so \( \prob{A_n \cap T_n} \leq 2^{-n(H - \varepsilon)} \abs{A_n} \), giving
+    \[ \frac{1}{n} \log \prob{A_n \cap T_n} \leq -(H - \varepsilon) + \frac{1}{n} \log \abs{A_n} \to -(H - \varepsilon) + (H - 2 \varepsilon) = -\varepsilon \]
+    Then, \( \log \prob{A_n \cap T_n} \to -\infty \), so \( \prob{A_n \cap T_n} \to 0 \).
+    But \( \prob{T_n} \leq \prob{A_n \cap T_n} + \prob{\mathcal A^n \setminus A_n} \to 0 + 0 \), contradicting typicality.
+    So we cannot reliably encode at rate \( H - \varepsilon \), so the information rate is at least \( H \).
+\end{proof}
+\begin{corollary}
+    A Bernoulli source \( X_1, X_2, \dots \) has information rate \( H(X_1) \).
+\end{corollary}
+\begin{proof}
+    In a previous example we showed that for a Bernoulli source, \( -\frac{1}{n} \log(X_1, \dots, X_n) \xrightarrow{\mathbb P} H(X_1) \).
+    So the asymptotic equipartition property holds with \( H = H(X_1) \), giving the result by Shannon's first coding theorem.
+\end{proof}
+\begin{remark}
+    The asymptotic equipartition property is useful for noiseless coding.
+    We can encode the typical sequences using a block code, and encode the atypical sequences arbitrarily.
+
+    Many sources, which are not necessarily Bernoulli, also satisfy the property.
+    Under suitable hypotheses, the sequence \( \frac{1}{n} H(X_1, \dots, X_n) \) is decreasing, and the asymptotic equipartition property is satisfied with constant \( H = \lim_{n \to \infty} \frac{1}{n} H(X_1, \dots, X_n) \).
+\end{remark}
+
+\subsection{Capacity}
+Consider a communication channel with input alphabet \( \mathcal A \) and output alphabet \( \mathcal B \).
+Recall the following definitions.
+A \emph{code} of length \( n \) is a subset \( C \subseteq \mathcal A^n \).
+The \emph{error rate} is \( \hat e(C) = \max_{c \in C} \prob{\text{error} \mid c \text{ sent}} \).
+The \emph{information rate} is \( \rho(C) = \frac{\log \abs{C}}{n} \).
+A channel can \emph{transmit reliably at rate \( R \)} if there exist codes \( C_1, C_2, \dots \) where \( C_n \) has length \( n \) such that \( \lim_{n \to \infty} \rho(C_n) = R \) and \( \lim_{n \to \infty} \hat e(C_n) = 0 \).
+The \emph{(operational) capacity} of a channel is the supremum of all rates at which it can transmit reliably.
+
+Suppose we are given a source with information rate \( r \) bits per second that emits symbols at a rate of \( s \) symbols per second.
+Suppose we also have a channel with capacity \( R \) bits per transmission that transmits symbols at a rate of \( S \) transmissions per second.
+Usually, information theorists take \( S = s = 1 \).
+We will show that reliable encoding and transmission is possible if and only if \( rs \leq RS \).
+
+We will now compute the capacity of the binary symmetric channel with error probability \( p \).
+\begin{proposition}
+    A binary symmetric channel with error probability \( p < \frac{1}{4} \) has nonzero capacity.
+\end{proposition}
+\begin{proof}
+    Let \( \delta \) be such that \( 2p < \delta < \frac{1}{2} \).
+    We claim that we can reliably transmit at rate \( R = 1 - H(\delta) > 0 \).
+    Let \( C_n \) be a code of length \( n \), and suppose it has minimum distance \( \floor{n\delta} \) of maximal size.
+    Then, by the GSV bound,
+    \[ \abs{C_n} = A(n, \floor{n\delta}) \geq 2^{-n(1-H(\delta))} = 2^{nR} \]
+    Replacing \( C_n \) with a subcode if necessary, we can assume \( \abs{C_n} = \floor{2^{nR}} \), with minimum distance at least \( \floor{n\delta} \).
+    Using minimum distance decoding,
+    \[ \hat e(C_n) \leq \prob{\text{in \( n \) uses, the channel makes at least } \floor{\frac{\floor{n\delta}-1}{2}} \text{ errors}} \leq \prob{\text{in \( n \) uses, the channel makes at least } \floor{\frac{n\delta - 1}{2}} \text{ errors}} \]
+    Let \( \varepsilon > 0 \) be such that \( p + \varepsilon < \frac{\delta}{2} \).
+    Then, for \( n \) sufficiently large, \( \frac{n\delta - 1}{2} = n\qty(\frac{\delta}{2} - \frac{1}{2n}) > n(p + \varepsilon) \).
+    Hence, \( \hat e(C_n) \leq \prob{\text{in \( n \) uses, the channel makes at least } n(p+\varepsilon) \text{ errors}} \).
+    We show that this value converges to zero as \( n \to \infty \) using the next lemma.
+\end{proof}
