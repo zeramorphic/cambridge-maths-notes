@@ -337,11 +337,13 @@ We can now state the main theorems of the course, which are:
    Let \( \mathfrak a \trianglelefteq \mathcal O_L \), so \( \mathfrak a \simeq \mathbb Z^2 \) giving \( \mathfrak a = \genset{\alpha, \beta} \) as an \( \mathcal O_L \)-module.
    We can always assume \( \beta \in \mathbb Z \).
    Indeed, write \( \alpha = a + b \sqrt{d} \) and \( \beta = a' + b' \sqrt{d} \).
-   Let \( \ell = \gcd(b, b') = mb + m'b' \) where \( m, m' \in \mathbb Z \).
-   Then let
-   \[ \beta' = (m\alpha + m'\beta) \underbrace{\qty(\frac{-b'}{\ell})}_{\in \mathbb Z} + \beta \in \mathbb Z \]
-   Then \( \genset{\alpha, \beta} = \genset{\alpha, \beta'} \).
-    Alternatively, \( \mathcal O_L \cap \mathbb Z \neq \qty{0} \), and we can extend a minimal such set to a basis of \( \mathcal O_L \).
+   Assume \( \abs{a} + \abs{a'} \) is minimal, so without loss of generality \( a \geq a' \geq 0 \), and if \( a' \neq 0 \), \( \alpha - \beta \), \( \beta \) has smaller \( \abs{a} + \abs{a'} \).
+   % corrected from:
+%    Let \( \ell = \gcd(b, b') = mb + m'b' \) where \( m, m' \in \mathbb Z \).
+%    Then let
+%    \[ \beta' = (m\alpha + m'\beta) \underbrace{\qty(\frac{-b'}{\ell})}_{\in \mathbb Z} + \beta \in \mathbb Z \]
+%    Then \( \genset{\alpha, \beta} = \genset{\alpha, \beta'} \).
+%     Alternatively, \( \mathcal O_L \cap \mathbb Z \neq \qty{0} \), and we can extend a minimal such set to a basis of \( \mathcal O_L \).
 \end{example}
 \begin{example}
     In a quadratic field \( \mathfrak a = \genset{\alpha, b} \) where \( b \in \mathbb Z \).
@@ -441,3 +443,99 @@ The following proof uses the above approach obscurely but quickly.
     In particular, if \( L = \mathbb Q(\alpha) \) and \( \alpha \in \mathcal O_L \) where \( \mathrm{disc}(\alpha) = \Delta(1, \alpha, \dots, \alpha^{n-1}) \) is square-free, then \( \mathbb Z[\alpha] = \mathcal O_L \).
     More generally, if \( \alpha \in \mathcal O_L \) and \( L = \mathbb Q(\alpha) \), and \( d \in \mathbb Z \) is a maximal integer such that \( d^2 \mid \mathrm{disc}(\alpha) \), then \( \mathbb Z[\alpha] \subseteq \mathcal O_L \subseteq \frac{1}{d} \mathbb Z[\alpha] \).
 \end{corollary}
+
+\subsection{Prime ideals}
+\begin{lemma}
+    Let \( \alpha \in \mathcal O_L \) be a nonzero algebraic integer.
+    Then \( N((\alpha)) = \abs{N_{L/\mathbb Q}(\alpha)} \).
+\end{lemma}
+\begin{proof}
+    Let \( \alpha_1, \dots, \alpha_n \) be an integral basis of \( \mathcal O_L \).
+    Consider
+    \[ \Delta(\alpha_1\alpha, \dots, \alpha_n\alpha) = \qty(\det(\sigma_i (\alpha_j \alpha)))^2 = \qty(\det((\sigma_i \alpha_j)(\sigma_i \alpha)))^2 = \qty(\prod_{i=1}^n \sigma_i(\alpha) \cdot \det (\sigma_i \alpha_j))^2 = N(\alpha)^2 \Delta(\alpha_1, \dots, \alpha_n) = N(\alpha)^2 D_L \]
+    But \( \alpha_1\alpha, \dots, \alpha_n\alpha \) is a basis of \( (\alpha) \), hence this is equal to \( N((\alpha))^2 D_L \).
+    So \( N((\alpha))^2 = N_{L/\mathbb Q}(\alpha)^2 \), but \( N((\alpha)) > 0 \), giving the result as required.
+\end{proof}
+\begin{lemma}
+    Let \( \mathfrak p \triangleleft \mathcal O_L \) be a prime ideal.
+    Then there exists a unique prime \( p \in \mathbb Z \) such that \( \mathfrak p \mid (p) = p\mathcal O_L \).
+    Moreover, \( N(\mathfrak p) = p^f \) for some integer \( 1 \leq f \leq n = [L:\mathbb Q] \).
+\end{lemma}
+\begin{proof}
+    \( \mathfrak p \cap \mathbb Z \) is an ideal in \( \mathbb Z \), hence principal.
+    So for some \( p \in \mathbb Z \), \( \mathfrak p \cap \mathbb Z = p \mathbb Z \); we claim \( p \) is prime.
+    If \( p = ab \) with \( a, b \in \mathbb Z \), then as \( p \in \mathfrak p \), \( a \) or \( b \) lie in \( \mathfrak p \cap \mathbb Z \), so \( a \) or \( b \) lie in \( p \mathbb Z \), so \( p \mid a \) or \( p \mid b \).
+    By factorisation of ideals, \( (p) = \mathfrak p \mathfrak a \) for some \( \mathfrak a \trianglelefteq \mathcal O_L \).
+    Taking norms, \( N((p)) = N(\mathfrak p) N(\mathfrak a) \).
+    But \( N((p)) = p^n \), so \( N(\mathfrak p) = p^f \) for \( 1 \leq f \leq n \).
+\end{proof}
+\begin{remark}
+    Every prime ideal in \( \mathcal O_L \) is a factor of \( (p) \triangleleft \mathbb Z \) where \( p \) is a prime.
+    Hence, we can factorise \( (p) \) as \( \mathfrak p_1^{e_1} \dots \mathfrak p_r^{e_r} \) for each prime \( p \in \mathbb Z \) to identify all prime ideals in \( \mathcal O_L \).
+\end{remark}
+Let \( p \in \mathbb Z \) be a prime.
+Consider the map \( q \colon \mathcal O_L \to \faktor{\mathcal O_L}{p\mathcal O_L} \), which is a surjection.
+By the isomorphism theorem, there is a bijection \( I \mapsto q^{-1}(I) \) with inverse \( J \mapsto \faktor{J}{(p)} \) between the set of ideals in \( \faktor{\mathcal O_L}{p\mathcal O_L} \) and ideals of \( \mathcal O_L \) containing \( p\mathcal O_L \), or equivalently, ideals \( \mathfrak p \triangleleft \mathcal O_L \) with \( \mathfrak p \mid (p) \).
+The bijection maps prime ideals to prime ideals.
+
+Under certain assumptions, we can determine the prime ideals in \( \faktor{\mathcal O_L}{(p)} \) exactly.
+\begin{theorem}[Dedekind's criteria]
+    Let \( \alpha \in \mathcal O_L \) have minimum polynomial \( g(x) \in \mathbb Z[x] \).
+    Suppose that \( \mathbb Z[\alpha] \subseteq \mathcal O_L \) has finite index \( \abs{\faktor{\mathcal O_L}{\mathbb Z[\alpha]}} \) coprime to \( p \).
+    Let \( \overline g(x) = g(x) \mod p \in \mathbb F_p[x] \).
+    Let \( \overline g(x) = \overline \varphi_1^{e_1} \dots \overline \varphi_r^{e_r} \) be the factorisation of \( g(x) \) into irreducibles in \( \mathbb F_p[x] \).
+    Then \( p\mathcal O_L = (p) = \mathfrak p_1^{e_1} \dots \mathfrak p_r^{e_r} \) where \( \mathfrak p_i = (p, \varphi_i(\alpha)) \) is the prime ideal in \( \mathcal O_L \) where we choose any monic polynomial \( \varphi_i(x) \in \mathbb Z[x] \) which has reduction mod \( p \) equal to \( \overline \varphi_i(x) \).
+\end{theorem}
+Note that since we choose a monic polynomial, \( \deg \varphi_i(x) = \deg \overline \varphi_i(x) \).
+Different choices of \( \varphi_i(x) \) give the same ideal as \( p \) is in the ideal.
+\( \mathfrak p_i \neq \mathfrak p_j \) if \( i \neq j \), and \( \mathfrak p_1^{e_1} \dots \mathfrak p_r^{e_r} \) is the factorisation of \( (p) \) into irreducibles.
+\begin{remark}
+    Most \( \alpha \in \mathcal O_L \) have \( \faktor{\mathcal O_L}{\mathbb Z[\alpha]} \) finite, but the condition that \( p \nmid \abs{\faktor{\mathcal O_L}{\mathbb Z[\alpha]}} \) is restrictive.
+\end{remark}
+\begin{example}
+    Let \( L = \mathbb Q(\sqrt{-11}) \), and let us factorise \( (5) \subseteq \mathcal O_L \).
+    As \( -11 \equiv 1 \mod 4 \), \( \mathbb Z[\sqrt{-11}] \neq \mathbb Q(\sqrt{-11}) \).
+    So \( \mathbb Z[\sqrt{-11}] \) has index 2 in \( \mathcal O_L \), and \( 5 \nmid 2 \), so Dedekind's criterion applies.
+    Modulo 5, \( x^2 + 1 = (x-2)(x+2) \), so \( (5) = (5, -2 + \sqrt{-11})(5, -2 - \sqrt{-11}) \).
+\end{example}
+\begin{example}
+    In general, let \( L = \mathbb Q(\sqrt{d}) \) where \( d \) is square free and not equal to zero or one.
+    Let \( p \) be an odd prime.
+    Then, \( \mathbb Z[\sqrt{d}] \subseteq \mathcal O_L \) has index 1 or 2, and both are coprime to \( p \).
+    Factorising \( x^2 - d \) modulo \( p \), there are three cases.
+    \begin{itemize}
+        \item Suppose there are two distinct roots modulo \( p \) of \( x^2 - d \).
+        Then, using the Legendre symbol, \( \qty(\frac{d}{p}) = 1 \).
+        In this case, \( x^2 - d = (x-r)(x+r) \) for some \( r \in \mathbb Z \).
+        By Dedekind's criterion, \( p = \mathfrak p_1 \mathfrak p_2 \) where \( \mathfrak p_1 = (p, \sqrt{d} - r) \) and \( \mathfrak p_2 = (p, \sqrt{d} + r) \).
+        In this case, \( N(\mathfrak p_1) = N(\mathfrak p_2) = p \); we say \( p \) \emph{splits} in \( L/\mathbb Q \).
+        \item Suppose \( x^2 - d \) is irreducible modulo \( p \).
+        Then \( \qty(\frac{d}{p}) = -1 \).
+        \( (p) = \mathfrak p \) is prime; we say \( p \) is \emph{inert} in \( L \).
+        \item Suppose \( x^2 - d \) has a repeated root, so \( d \equiv 0 \) modulo \( p \).
+        Then \( \qty(\frac{d}{p}) = 0 \).
+        In this case, Dedekind's criterion gives \( (p) = \mathfrak p^2 \) where \( \mathfrak p = (p, \sqrt{d}) \).
+        We say that \( p \) \emph{ramifies} in \( L \).
+    \end{itemize}
+\end{example}
+Now consider the case \( p = 2 \).
+\begin{lemma}
+    \( 2 \) splits in \( L \) if and only if \( d \equiv 1 \mod 8 \).
+    \( 2 \) is inert in \( L \) if and only if \( d \equiv 5 \mod 8 \).
+    \( 2 \) ramifies in \( L \) if and only if \( d \equiv 2, 3 \mod 4 \).
+\end{lemma}
+\begin{proof}
+    If \( d \equiv 1 \mod 4 \), then \( \mathcal O_L = \mathbb Z[\alpha] \) where \( \alpha = \frac{1}{2}(1+\sqrt{d}) \).
+    The minimal polynomial of \( \alpha \) is \( x^2 - x + \frac{1}{4}(1-d) \).
+    Reducing modulo 2, if \( d \equiv 1 \mod 8 \) then this is \( x(x+1) \) so 2 splits.
+    If \( d \equiv 5 \mod 8 \) then this gives \( x^2+x+1 \) which is irreducible, so 2 is inert.
+    If \( d \equiv 2, 3 \mod 4 \), then \( \mathcal O_L = \mathbb Z[\sqrt{d}] \) and \( x^2 - d \) is either \( x^2 \) or \( (x-1)^2 \), which ramifies.
+\end{proof}
+Recall that \( D_L = 4d \) if \( d \equiv 2, 3 \mod 4 \), and \( D_L = d \) if \( d \equiv 1 \mod 4 \).
+\begin{corollary}
+    Let \( L = \mathbb Q(\sqrt{d}) \).
+    \( p \mid D_L \) if and only if \( p \) ramifies in \( L \).
+\end{corollary}
+\begin{proof}
+    Case analysis.
+\end{proof}
