@@ -182,9 +182,115 @@ We will now compute the capacity of the binary symmetric channel with error prob
     \[ \abs{C_n} = A(n, \floor{n\delta}) \geq 2^{-n(1-H(\delta))} = 2^{nR} \]
     Replacing \( C_n \) with a subcode if necessary, we can assume \( \abs{C_n} = \floor{2^{nR}} \), with minimum distance at least \( \floor{n\delta} \).
     Using minimum distance decoding,
-    \[ \hat e(C_n) \leq \prob{\text{in \( n \) uses, the channel makes at least } \floor{\frac{\floor{n\delta}-1}{2}} \text{ errors}} \leq \prob{\text{in \( n \) uses, the channel makes at least } \floor{\frac{n\delta - 1}{2}} \text{ errors}} \]
+    \begin{align*}
+        \hat e(C_n) &\leq \prob{\text{in \( n \) uses, the channel makes at least } \floor{\frac{\floor{n\delta}-1}{2}} \text{ errors}} \\
+        &\leq \prob{\text{in \( n \) uses, the channel makes at least } \floor{\frac{n\delta - 1}{2}} \text{ errors}}
+    \end{align*}
     Let \( \varepsilon > 0 \) be such that \( p + \varepsilon < \frac{\delta}{2} \).
     Then, for \( n \) sufficiently large, \( \frac{n\delta - 1}{2} = n\qty(\frac{\delta}{2} - \frac{1}{2n}) > n(p + \varepsilon) \).
     Hence, \( \hat e(C_n) \leq \prob{\text{in \( n \) uses, the channel makes at least } n(p+\varepsilon) \text{ errors}} \).
     We show that this value converges to zero as \( n \to \infty \) using the next lemma.
 \end{proof}
+\begin{lemma}
+    Let \( \varepsilon > 0 \).
+    A binary symmetric channel with error probability \( p \) is used to transmit \( n \) digits.
+    Then,
+    \[ \lim_{n \to \infty} \prob{\text{in \( n \) uses, the channel makes at least \( n(p + \varepsilon) \) errors}} = 0 \]
+\end{lemma}
+\begin{proof}
+    Consider random variables \( U_i = \mathbbm 1\qty[\text{the \( i \)th digit is mistransmitted}] \).
+    The \( U_i \) are independent and identically distributed with \( \prob{U_i = 1} = p \).
+    In particular, \( \expect{U_i} = p \).
+    Therefore, the probability that the channel makes at least \( n(p + \varepsilon) \) errors is
+    \[ \prob{\sum_{i=1}^n U_i \geq n(p + \varepsilon)} \leq \prob{\abs{\frac{1}{n} \sum_{i=1}^n U_i - p} \geq \varepsilon} \]
+    so the result holds by the weak law of large numbers.
+\end{proof}
+
+\subsection{Conditional entropy}
+\begin{definition}
+    Let \( X, Y \) be random variables taking values in alphabets \( \mathcal A, \mathcal B \) respectively.
+    Then, the \emph{conditional entropy} is defined by
+    \[ H(X \mid Y = y) - \sum_{x \in \mathcal A} \prob{X = x \mid Y = y} \log \prob{X = x \mid Y = y} \]
+    and
+    \[ H(X \mid Y) = \sum_{y \in \mathcal B} \prob{Y = y} H(X \mid Y = y) \]
+    Note that \( H(X \mid Y) \geq 0 \).
+\end{definition}
+\begin{lemma}
+    \( H(X,Y) = H(X \mid Y) + H(Y) \).
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+        H(X \mid Y) &= -\sum_{y \in \mathcal B} \sum_{x \in \mathcal A} \prob{X = x \mid Y = y} \prob{Y = y} \log \qty(\prob{X = x \mid Y = y}) \\
+        &= -\sum_{y \in \mathcal B} \sum_{x \in \mathcal A} \prob{X = x \mid Y = y} \prob{Y = y} \log \qty(\frac{\prob{X = x, Y = y}}{\prob{Y = y}}) \\
+        &= -\sum_{y \in \mathcal B} \sum_{x \in \mathcal A} \prob{X = x, Y = y} \qty(\log \prob{X = x, Y = y} - \log \prob{Y = y}) \\
+        &= -\sum_{y \in \mathcal B} \sum_{x \in \mathcal A} \prob{X = x, Y = y} \log \prob{X = x, Y = y} + \sum_{y \in \mathcal B} \sum_{x \in \mathcal A} \prob{X = x, Y = y} \log \prob{Y = y} \\
+        &= -\sum_{y \in \mathcal B} \sum_{x \in \mathcal A} \prob{X = x, Y = y} \log \prob{X = x, Y = y} + \sum_{y \in \mathcal B} \prob{Y = y} \log \prob{Y = y} \\
+        &= H(X,Y) - H(Y)
+    \end{align*}
+\end{proof}
+\begin{example}
+    Let \( X \) be a uniform random variable on \( \qty{1, \dots, 6} \) modelling a dice roll, and \( Y \) is defined to be zero if \( X \) is even, and one if \( X \) is odd.
+    Then, \( H(X,Y) = H(X) = \log 6 \) and \( H(Y) = \log 2 \).
+    Therefore, \( H(X \mid Y) = \log 3 \) and \( H(Y \mid X) = 0 \).
+\end{example}
+\begin{corollary}
+    \( H(X\mid Y) \leq H(X) \), with equality if and only if \( X \) and \( Y \) are independent.
+\end{corollary}
+\begin{proof}
+    Combine this result with the fact that \( H(X,Y) \leq H(X) + H(Y) \) where equality holds if and only if \( H(X), H(Y) \) are independent.
+\end{proof}
+Now, replace random variables \( X \) and \( Y \) with random vectors \( X^{(r)} = (X_1, \dots, X_r) \) and \( Y^{(s)} = (Y_1, \dots, Y_s) \).
+Similarly, we can define \( H(X_1, \dots, X_r \mid Y_1, \dots, Y_s) = H(X^{(r)} \mid Y^{(s)}) \).
+Note that \( H(X,Y\mid Z) \) is the entropy of \( X \) and \( Y \) combined, given the value of \( Z \), and is not the entropy of \( X \), together with \( Y \) given \( Z \).
+\begin{lemma}
+    Let \( X, Y, Z \) be random variables.
+    Then, \( H(X \mid Y) \leq H(X \mid Y, Z) + H(Z) \).
+\end{lemma}
+\begin{proof}
+    Expand \( H(X,Y,Z) \) in two ways.
+    \[ H(Z \mid X,Y) + \underbrace{H(X\mid Y) + H(Y)}_{H(X,Y)} = H(X,Y,Z) = H(X \mid Y,Z) + \underbrace{H(Z \mid Y) + H(Y)}_{H(Y,Z)} \]
+    Since \( H(Z \mid X,Y) \geq 0 \), we have
+    Hence,
+    \[ H(X \mid Y) \leq H(X \mid Y,Z) + H(Z \mid Y) \leq H(X \mid Y,Z) + H(Z) \]
+\end{proof}
+\begin{proposition}[Fano's inequality]
+    Let \( X, Y \) be random variables taking values in \( \mathcal A \).
+    Let \( \abs{\mathcal A} = m \), and let \( p = \prob{X \neq Y} \).
+    Then \( H(X \mid Y) \leq H(p) + p \log(m-1) \).
+\end{proposition}
+\begin{proof}
+    Define \( Z \) to be zero if \( X = Y \) and one if \( X \neq Y \).
+    Then, \( \prob{Z = 0} = \prob{X = Y} = 1 - p \), and \( \prob{Z = 1} = \prob{X \neq Y} = p \).
+    Hence, \( H(Z) = H(p) \).
+    Applying the previous lemma, \( H(X \mid Y) \leq H(X \mid Y, Z) + H(p) \), so it suffices to show \( H(X \mid Y, Z) \leq p\log(m-1) \).
+
+    Since \( Z = 0 \) implies \( X = Y \), \( H(X \mid Y = y, Z = 0) = 0 \).
+    There are \( m - 1 \) remaining possibilities for \( X \).
+    Hence, \( H(X \mid Y = y, Z = 1) \leq \log(m-1) \).
+    \[ H(X \mid Y, Z) = \sum_{y \in \mathcal A} \sum_{z \in \qty{0,1}} \prob{Y = y, Z = z} H(X \mid Y = y, Z = z) \leq \sum_{y \in \mathcal A} \prob{Y = y, Z = 1} \log(m-1) = \prob{Z = 1} \log (m-1) = p\log(m-1) \]
+    as required.
+\end{proof}
+Let \( X \) be a random variable describing the input to a channel and \( Y \) be a random variable describing the output of the channel.
+\( H(p) \) provides the information required to decide whether an error has occurred, and \( p\log(m-1) \) gives the information needed to resolve that error in the worst possible case.
+
+\subsection{Shannon's second coding theorem}
+\begin{definition}
+    Let \( X, Y \) be random variables taking values in \( \mathcal A \).
+    The \emph{mutual information} is \( I(X;Y) = H(X) - H(X \mid Y) \).
+\end{definition}
+This is nonnegative, as \( I(X;Y) = H(X) + H(Y) - H(X,Y) \geq 0 \).
+Equality holds if and only if \( X, Y \) are independent.
+Clearly, \( I(X;Y) = I(Y;X) \).
+\begin{definition}
+    Consider a discrete memoryless channel with input alphabet \( \mathcal A \) of size \( m \) and output alphabet \( \mathcal B \).
+    Let \( X \) be a random variable taking values in \( \mathcal A \), used as the input to this channel.
+    Let \( Y \) be the random variable output by the channel, depending on \( X \) and the channel matrix.
+    The \emph{information capacity} of the channel is \( \max_{X} I(X;Y) \).
+\end{definition}
+The maximum is taken over all discrete random variables \( X \) taking values in \( \mathcal A \), or equivalently.
+This maximum is attained since \( I \) is continuous and the space \( \qty{(p_1, \dots, p_m) \in \mathbb R^m \mid p_i \geq 0, \sum_{i=1}^m p_i = 1} \) is compact.
+The information capacity depends only on the channel matrix.
+\begin{theorem}
+    For a discrete memoryless channel, the (operational) capacity is equal to the information capacity.
+\end{theorem}
+We prove that the operational capacity is at most the information capacity in general, and we will prove the other inequality for the special case of the binary symmetric channel.

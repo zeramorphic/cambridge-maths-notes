@@ -1,0 +1,153 @@
+\subsection{Definitions}
+\begin{definition}
+    A \emph{partially ordered set} or \emph{poset} is a pair \( (X, \leq) \) where \( X \) is a set, and \( \leq \) is a relation on \( X \) such that
+    \begin{itemize}
+        \item (reflexivity) for all \( x \in X \), \( x \leq x \);
+        \item (transitivity) for all \( x, y, z \in X \), \( x \leq y \) and \( y \leq z \) implies \( x \leq z \);
+        \item (antisymmetry) for all \( x, y \in X \), \( x \leq y \) and \( y \leq z \) implies \( x = y \).
+    \end{itemize}
+\end{definition}
+We write \( x < y \) for \( x \leq y \) and \( x \neq y \).
+Alternatively, a post is a pair \( (X, <) \) where \( X \) is a set, and \( < \) is a relation on \( X \) such that
+\begin{itemize}
+    \item (irreflexivity) for all \( x \in X \), \( x \not < x \);
+    \item (transitivity) for all \( x, y, z \in X \), \( x < y \) and \( y < z \) implies \( x < z \).
+\end{itemize}
+\begin{example}
+    \begin{enumerate}
+        \item Any total order is a poset.
+        \item \( \mathbb N^+ \) with the divides relation is a poset.
+        \item \( (\mathcal P(S), \subseteq) \) is a poset.
+        \item \( (X, \subseteq) \) is a poset where \( X \subseteq \mathcal P(S) \), such as the set of vector subspaces of a vector space.
+\item The following diagram is also a poset, where the lines from \( a \) upwards to \( b \) denote relations \( a \leq b \).
+% https://q.uiver.app/?q=WzAsNSxbMiwyLCJhIl0sWzEsMSwiYiJdLFswLDAsImMiXSxbMywxLCJkIl0sWzQsMCwiZSJdLFswLDEsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzAsMywiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+\[\begin{tikzcd}
+	c &&&& e \\
+	& b && d \\
+	&& a
+	\arrow[no head, from=3-3, to=2-2]
+	\arrow[no head, from=2-2, to=1-1]
+	\arrow[no head, from=3-3, to=2-4]
+	\arrow[no head, from=2-4, to=1-5]
+\end{tikzcd}\]
+This is called a \emph{Hasse diagram}.
+An upwards line from \( x \) to \( y \) is drawn if \( y \) \emph{covers} \( x \), so \( y > x \) and no \( z \) has \( y > z > x \).
+The natural numbers can be represented as a Hasse diagram.
+% https://q.uiver.app/?q=WzAsNSxbMCw0LCIwIl0sWzAsMywiMSJdLFswLDIsIjIiXSxbMCwxLCIzIl0sWzAsMCwiXFx2ZG90cyJdLFswLDEsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzIsMywiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+\[\begin{tikzcd}
+	\vdots \\
+	3 \\
+	2 \\
+	1 \\
+	0
+	\arrow[no head, from=5-1, to=4-1]
+	\arrow[no head, from=4-1, to=3-1]
+	\arrow[no head, from=3-1, to=2-1]
+	\arrow[no head, from=2-1, to=1-1]
+\end{tikzcd}\]
+The rationals cannot, since no element covers another.
+\item There is no notion of `height' in a poset, illustrated by the following diagram.
+% https://q.uiver.app/?q=WzAsNSxbMiw0LCJhIl0sWzMsMywiZCJdLFszLDEsImUiXSxbMiwwLCJiIl0sWzAsMiwiYyJdLFswLDEsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzIsMywiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFswLDQsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNCwzLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+\[\begin{tikzcd}
+	&& b \\
+	&&& e \\
+	c \\
+	&&& d \\
+	&& a
+	\arrow[no head, from=5-3, to=4-4]
+	\arrow[no head, from=4-4, to=2-4]
+	\arrow[no head, from=2-4, to=1-3]
+	\arrow[no head, from=5-3, to=3-1]
+	\arrow[no head, from=3-1, to=1-3]
+\end{tikzcd}\]
+\item
+% https://q.uiver.app/?q=WzAsNSxbMCwyLCJhIl0sWzAsMSwiYyJdLFsxLDAsImUiXSxbMiwyLCJiIl0sWzIsMSwiZCJdLFswLDEsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsNCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs0LDIsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMCw0LCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMSwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+\[\begin{tikzcd}
+	& e \\
+	c && d \\
+	a && b
+	\arrow[no head, from=3-1, to=2-1]
+	\arrow[no head, from=2-1, to=1-2]
+	\arrow[no head, from=3-3, to=2-3]
+	\arrow[no head, from=2-3, to=1-2]
+	\arrow[no head, from=3-1, to=2-3]
+	\arrow[no head, from=3-3, to=2-1]
+\end{tikzcd}\]
+\end{enumerate}
+\end{example}
+\begin{definition}
+    A subset \( S \) of a poset \( X \) is a \emph{chain} if it is totally ordered.
+\end{definition}
+\begin{example}
+    The powers of 2 in \( (\mathbb N^+, \mid) \) is a chain.
+\end{example}
+\begin{definition}
+    A subset \( S \) of a poset \( X \) is an \emph{antichain} if no two distinct elements are related.
+\end{definition}
+\begin{example}
+    The set of primes in \( (\mathbb N^+, \mid) \) is an antichain.
+\end{example}
+\begin{definition}
+    For \( S \subseteq X \), an \emph{upper bound} for \( S \) is an \( x \in X \) such that \( x \geq y \) for all \( y \in S \).
+    A \emph{least upper bound} is an upper bound \( x \in X \) for \( S \) such that for all upper bounds \( y \in X \) for \( S \), \( x \leq y \).
+\end{definition}
+\begin{example}
+    If \( S = \qty{x \mid x < \sqrt{2}} \subset \mathbb R \), 7 is an upper bound, and \( \sqrt{2} \) is a least upper bound.
+    We write \( \sqrt{2} = \sup S = \bigvee S \) for the least upper bound or \emph{join} of \( S \).
+
+    In \( \mathbb Q \), the set \( \qty{x \mid x^2 < 2} \) has 7 as an upper bound but has no least upper bound.
+
+    In example (v), \( \qty{a, b} \) has upper bounds \( b \) and \( c \), so the least upper bound is \( b \).
+    \( \qty{b, d} \) has no upper bound.
+    In example (vii), \( \qty{a, b} \) has upper bounds \( c, d, e \), so does not have a least upper bound.
+\end{example}
+\begin{definition}
+    A poset \( X \) is \emph{complete} if every \( S \) has a least upper bound.
+\end{definition}
+\begin{example}
+    \( \mathbb R \) is not complete, as \( \mathbb Z \) has no upper bound.
+    \( [0,1] \subset \mathbb R \) is complete.
+    \( (0,1) \subseteq \mathbb R \) is not complete, as \( (0,1) \) has no upper bound.
+\end{example}
+\begin{example}
+    \( X = \mathcal P(S) \) is always complete as a poset under inclusion, with \( \sup\qty{A_i \mid i \in I} = \bigcup_{i \in I} A_i \).
+\end{example}
+Note that every complete poset \( X \) has a greatest element \( \sup X \).
+A complete poset also has a least element \( \sup \varnothing \).
+In the case \( X = \mathcal P(S) \), \( \sup X = S \) and \( \sup \varnothing = \varnothing \).
+\begin{definition}
+    Let \( f \colon X \to Y \) be a function where \( X, Y \) are posets.
+    We say \( f \) is \emph{order-preserving} if \( x \leq y \) implies \( f(x) \leq f(y) \).
+\end{definition}
+\begin{example}
+    The function \( f \colon \mathbb N \to \mathbb N \) defined by \( f(x) = x + 1 \) is order-preserving.
+    The function \( f \colon [0,1] \to [0,1] \) defined by \( x \mapsto \frac{x+1}{2} \) is order-preserving.
+    The function \( f \colon \mathcal P(S) \to \mathcal P(S) \) defined by \( f(A) = A \cup \qty{i} \) for some fixed \( i \in S \) is order-preserving. 
+\end{example}
+Not all order-preserving functions have a fixed point \( x \) such that \( f(x) = x \), for example \( f(x) = x + 1 \) on \( \mathbb N \).
+\begin{theorem}[Knaster--Tarski fixed point theorem]
+    Let \( X \) be a complete poset.
+    Then every order-preserving \( f \colon X \to X \) has a fixed point.
+\end{theorem}
+\begin{proof}
+    Let \( E = \qty{x \in X \mid x \leq f(x)} \), and let \( s = \sup E \).
+    We show that \( s \) is a fixed point for \( f \).
+    
+    First, we show \( s \leq f(s) \), so \( s \in E \).
+    It suffices to show \( f(s) \) is an upper bound for \( E \), then the result holds as \( s \) is the least such upper bound.
+    If \( x \in E \), we know \( x \leq s \), so \( f(x) \leq f(s) \) as \( f \) is order-preserving as required.
+
+    Now, we show \( f(s) \leq s \).
+    It suffices to show \( f(s) \in E \), as \( x \) is an upper bound for \( E \).
+    Since \( s \leq f(s) \), we have \( f(s) \leq f(f(s)) \), but this is precisely the fact that \( f(s) \in E \).
+\end{proof}
+\begin{corollary}[Schr\"oder--Bernstein theorem]
+    Let \( f \colon A \to B \) and \( g \colon B \to A \) be injections.
+    Then there is a bijection \( A \to B \).
+\end{corollary}
+\begin{proof}
+    We seek partitions \( A = P \sqcup Q \), \( B = R \sqcup S \) such that \( f(P) = R \) and \( g(S) = Q \); then we define \( h \) to equal to \( f \) on \( P \) and \( g^{-1} \) on \( R \).
+    Thus, we need a set \( P \) that is a fixed point of \( \theta \colon \mathcal P(A) \to \mathcal P(A) \) given by \( P \mapsto A \setminus g(B \setminus f(P)) \).
+    But \( \theta \) is order-preserving and \( \mathcal P(A) \) is a complete poset.
+    So \( P \) exists by the Knaster--Tarski fixed point theorem. 
+\end{proof}
