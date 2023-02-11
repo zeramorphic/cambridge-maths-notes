@@ -17,7 +17,7 @@ The presence of the ancilla allows for entanglement with other quantum systems.
 \subsection{No-cloning theorem}
 Classically, information can be easily copied by measuring all relevant information and reproducing it.
 % We can model this by considering a state \( A \) containing information and a `blank' state \( B \), and performing an operation to yield the original state \( A \) together with a new copy of \( A \) in the place of \( B \).
-Quantum copying involves three systems
+Quantum copying involves three systems:
 \begin{itemize}
     \item a system \( A \) containing some quantum information to be copied;
     \item a system \( B \) with \( \mathcal V_B \simeq \mathcal V_A \) initially in some fixed state \( \ket{0} \) where the information is to be copied;
@@ -46,14 +46,14 @@ This cloning process may be required to work either for all states of \( A \), o
 \end{proof}
 If quantum cloning were possible, superluminal (indeed, instantaneous) communication would also be possible.
 Suppose we have a state \( \ket{\psi^+_{AB}} = \frac{1}{\sqrt{2}} \qty(\ket{00} + \ket{11}) \in \mathbb C^2 \otimes \mathbb C^2 \).
-Let \( A, B \) be the entangled parts of this quantum state, and suppose that we send the qubits \( A \) and \( B \) far apart from each other.
+Let \( A, B \) be the entangled parts of this quantum state, and suppose that we send qubit \( A \) to Alice and \( B \) to Bob, far apart from each other.
 
-If we want to send the bit `yes' from \( A \) to \( B \), we measure the qubit \( A \) in the basis \( \qty{\ket{0}, \ket{1}} \), which gives outcomes \( 0, 1 \) with probability \( \frac{1}{2} \).
+If we want to send the bit `yes' from Alice to Bob, we measure the qubit \( A \) in the basis \( \qty{\ket{0}, \ket{1}} \), which gives outcomes \( 0, 1 \) with probability \( \frac{1}{2} \).
 If the outcome is 0, the final state of \( B \) is \( \ket{0} \), and if the outcome is 1, the final state of \( B \) is \( \ket{1} \).
 If we want to send `no', we instead measure \( A \) in the basis \( \qty{\ket{+}, \ket{-}} \), which gives the outcomes \( +, - \) with probability \( \frac{1}{2} \).
 Similarly, the final state of \( B \) is \( \ket{+} \) or \( \ket{-} \).
 
-We claim that these `yes' \( (\ket{0}, \ket{1}) \) and `no' \( (\ket{+}, \ket{-}) \) \emph{preparations} of qubit \( B \) are indistinguishable by \( B \) with any local action on the qubit.
+We claim that these `yes' \( (\ket{0}, \ket{1}) \) and `no' \( (\ket{+}, \ket{-}) \) \emph{preparations} of qubit \( B \) are indistinguishable by Bob with any local action on the qubit.
 That is, they each give exactly the same probability distribution of outcomes of any measurement.
 In fact, the distribution matches the prior distribution before qubit \( A \) was measured.
 
@@ -142,7 +142,7 @@ Then, the optimal average success probability is
 In the case of orthogonal states, the theorem implies that \( p_S \leq 1 \) and the bound can be attained, which was shown before.
 
 \subsection{No-signalling principle}
-Suppose we have a possibly entangled state \( \ket{\phi_{AB}} \in \mathcal V_A \otimes \mathcal V_B \) shared between two agents \( A, B \).
+Suppose we have a possibly entangled state \( \ket{\phi_{AB}} \in \mathcal V_A \otimes \mathcal V_B \) shared between two agents Alice (\( A \)) and Bob (\( B \)).
 Suppose we perform a complete projective measurement on \( \ket{\phi_A} \).
 By the extended Born rule, each measurement outcome will lead to an instantaneous change of \( \ket{\phi_B} \).
 If this change in state could be detected by measuring \( \ket{\phi_B} \), instantaneous communication between \( A \) and \( B \) would be possible.
@@ -206,3 +206,160 @@ For example, we can encode the classical message 01 using the state \( \ket{\phi
 We can perform a complete projective measurement on both qubits in the Bell basis to recover the encoded information with certainty.
 For instance, \( P_{00} = \op{\phi^+}{\phi^+} \).
 If we prepare a pair of electrons \( \ket{\phi} \) in the state \( \ket{\phi^-} \) for example, we obtain \( p(00) = p(10) = p(11) = 0 \) and \( p(01) = 1 \).
+
+\subsection{Superdense coding}
+Suppose Alice wants to send a classical message to Bob.
+Two bits of classical information can be sent reliably via a single qubit, provided that Alice and Bob share an entangled state, using \emph{superdense coding} or \emph{quantum dense coding}.
+Let \( X = \sigma_x, Z = \sigma_z, Y = i\sigma_y = \begin{pmatrix}
+    0 & 1 \\
+    -1 & 0
+\end{pmatrix} \).
+One can check that the Bell basis vectors satisfy
+\begin{align*}
+    \ket{\phi^+} &= (I \otimes I) \ket{\phi^+} = (I \otimes I) \ket{\phi^+}\\
+    \ket{\phi^-} &= (Z \otimes I) \ket{\phi^+} = (I \otimes Z) \ket{\phi^+}\\
+    \ket{\psi^+} &= (X \otimes I) \ket{\phi^+} = (I \otimes X) \ket{\phi^+}\\
+    \ket{\psi^-} &= (Y \otimes I) \ket{\phi^+} = -(I \otimes Y) \ket{\phi^+}
+\end{align*}
+Suppose we have shared the entangled Bell state \( \ket{\phi^+_{AB}} \) between Alice and Bob.
+The superdense coding protocol is
+\begin{center}
+    \begin{tabular}{c c c}
+        Alice's message & local action on \( A \) & final state of \( AB \) \\
+        00 & \( I \) & \( \ket{\phi^+} \) \\
+        01 & \( Z \) & \( \ket{\phi^-} \) \\
+        10 & \( X \) & \( \ket{\psi^+} \) \\
+        11 & \( Y \) & \( \ket{\psi^-} \)
+    \end{tabular}
+\end{center}
+Then, Alice sends qubit \( A \) to Bob, so Bob has the entire state \( AB \).
+Bob performs a Bell measurement, which distinguishes between the four Bell states, thus recovering Alice's message.
+Since the state is maximally entangled, an eavesdropper who may intercept Alice's transmission cannot recover any part of the message.
+
+\subsection{Quantum gates}
+A quantum gate is given by a unitary operator acting on some qubits.
+Such gates have matrix representations in the computational basis.
+\begin{enumerate}
+    \item The \emph{Hadamard gate} is
+    \[ H = \frac{1}{\sqrt{2}} \begin{pmatrix}
+        1 & 1 \\
+        1 & -1
+    \end{pmatrix} \]
+    One can show that
+    \[ H \ket{0} = \ket{+};\quad H\ket{1} = \ket{-};\quad H\ket{+} = \ket{0};\quad H\ket{-} = \ket{1} \]
+    Note that \( H^\transpose = H^\dagger = H \) and \( H^2 = I \).
+    As an orthogonal transformation in \( \mathbb R^2 \), it acts as a reflection by an angle of \( \frac{\pi}{8} \) to the positive \( x \) axis.
+    This gate is drawn
+    \begin{center}
+        \begin{quantikz} & \gate{H} & \qw \end{quantikz}
+    \end{center}
+    In general, by linearity we obtain
+    \begin{center}
+        \begin{quantikz}
+            \lstick{\( a \ket{0} + b \ket{1} \)} & \gate{H} & \rstick{\( a \ket{+} + b \ket{-} \)} \qw
+        \end{quantikz}
+    \end{center}
+    \item The \( X, Z \) gates are given by
+    \[ X \ket{k} = \ket{k \oplus 1};\quad Z \ket{k} = (-1)^k \ket{k} \]
+    where \( \oplus \) denotes addition modulo 2.
+    They \( X, Z, Y \) gates are drawn
+    \begin{center}
+        \begin{quantikz} & \gate{X} & \qw \end{quantikz};\quad
+        \begin{quantikz} & \gate{Z} & \qw \end{quantikz};\quad
+        \begin{quantikz} & \gate{X} & \gate{Z} & \qw \end{quantikz}
+    \end{center}
+    \item The \emph{phase gate} is
+    \[ P_\theta = \begin{pmatrix}
+        1 & 0 \\
+        0 & e^{i\theta}
+    \end{pmatrix} \]
+    Note that \( Z = P_\pi \).
+    \item The \emph{controlled-X} gate, also called a \emph{CNOT} gate, is
+    \[ CX = \begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 0 & 1 \\
+        0 & 0 & 1 & 0
+    \end{pmatrix} = \begin{pmatrix}
+        I & 0 \\
+        0 & X
+    \end{pmatrix} \]
+    Note that \( CX \ket{i} \ket{j} = \ket{i}\ket{i \oplus j} \).
+    The first qubit is called the \emph{control} qubit, and the second is called the \emph{target} qubit.
+    If \( i = 0 \), there is no action on the second qubit.
+    If \( i = 1 \), \( X \) is performed on the second qubit.
+    In general, \( CX \ket{0}\ket{\psi} = \ket{0}\ket{\psi} \), and \( CX \ket{1}\ket{\psi} = \ket{1}(X \ket{\psi}) \).
+    The circuit diagram is as follows.
+    \begin{center}
+        \begin{quantikz}
+            \lstick{\( \ket{i} \)} & \ctrl{1} & \rstick{\( \ket{i} \)} \qw \\
+            \lstick{\( \ket{j} \)} & \targ{} & \rstick{\( \ket{i \oplus j} \)} \qw
+        \end{quantikz}
+    \end{center}
+    One can show that
+    \begin{center}
+        \begin{quantikz}
+            & \targ{} & \qw \\
+            & \ctrl{-1} & \qw
+        \end{quantikz}
+        \quad = \quad
+        \begin{quantikz}
+            & \gate{H} & \ctrl{1} & \gate{H} & \qw \\
+            & \gate{H} & \targ{} & \gate{H} & \qw
+        \end{quantikz}
+    \end{center}
+    \item The \emph{controlled-Z} gate, also called a \emph{CZ} gate, is
+    \[ CZ = \begin{pmatrix}
+        I & 0 \\
+        0 & Z
+    \end{pmatrix} \]
+    So \( CZ \ket{0}\ket{\psi} = \ket{0}\ket{\psi} \) and \( CZ \ket{1}\ket{\psi} = \ket{1}(Z\ket{\psi}) \).
+    \( CZ \) is symmetric in its action on the two qubits; for example, \( CZ_{12} \ket{0} \ket{1} = CZ_{21} \ket{0} \ket{1} \).
+    This gate is drawn
+    \begin{center}
+        \begin{quantikz}
+            & \ctrl{1} & \qw \\
+            & \gate{Z} & \qw
+        \end{quantikz}
+        \quad or \quad
+        \begin{quantikz}
+            & \ctrl{1} & \qw \\
+            & \control{} & \qw
+        \end{quantikz}
+    \end{center}
+\end{enumerate}
+
+\subsection{Quantum teleportation}
+Suppose Alice and Bob share the Bell state \( \ket{\phi^+}_{AB} \), and that Alice wants to send the state of qubit \( \ket{\psi}_C \) to Bob, but only classical communication between them is possible.
+It is possible to transfer the information about the state of \( \ket{\psi}_C \) without physically transferring qubit \( C \) to Bob.
+This state transfer can be accomplished in such a way that is unaffected by any physical process in the space between Alice and Bob, since it relies only on classical communication.
+
+The initial state of \( C A B \) is \( \ket{\Psi} = \ket{\psi}_C \otimes \ket{\phi^+}_{AB} \), assuming \( \ket{\psi}_C \) is uncorrelated with \( \ket{\phi^+}_{AB} \).
+Let \( \ket{\psi}_C = a \ket{0}_C + b \ket{1}_C \), so
+\[ \ket{\Psi} = \ket{\psi}_C \otimes \ket{\phi^+}_{AB} = \frac{1}{\sqrt{2}} \qty[a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111}] \]
+Alice sends \( C \) and \( A \) through a \( CX \) gate.
+Now,
+\[ \ket{\Psi} = \ket{\varphi_1} = \frac{1}{\sqrt{2}} \qty[a \ket{000} + a \ket{011} + b \ket{110} + b \ket{101}] \]
+She now sends \( C \) through a Hadamard gate.
+\begin{align*}
+    \ket{\Psi} = \ket{\varphi_2} &= \frac{1}{\sqrt{2}} \qty[a \ket{+00} + a \ket{+11} + b \ket{-10} + b \ket{-01}] \\
+    &= \frac{1}{2} \big[\ket{00} \ket{\psi} + \ket{01} (X \ket{\psi}) + \ket{10} (Z \ket{\psi}) + \ket{11} (-Y\ket{\psi})\big]
+\end{align*}
+Alice now measures \( CA \) in the computational basis of \( \mathbb C^2 \otimes \mathcal C^2 \).
+The probability of each outcome is \( \frac{1}{4} \), irrespective of the values of \( a \) and \( b \) and hence of \( \ket{\psi} \).
+She then sends the result of her measurement to Bob.
+If Alice measures outcome \( ij \), \( B \) is in state \( X^j Z^i \ket{\psi} \).
+Then, Bob can act on \( B \) using \( Z_i X^j \), as \( X \) and \( Z \) are involutive, giving \( \ket{\psi} \) as desired.
+This process can be represented with the following diagram, where double-struck wires are classical, and the meter symbol denotes a measurement of the quantum state.
+\begin{center}
+    \begin{quantikz}
+        \lstick{\( \ket{\psi}_C \)} & \ctrl{1} \slice{\( \ket{\varphi_1} \)} & \gate{H} \slice{\( \ket{\varphi_2} \)} & \meter{} & \cwbend{2} \\
+        \lstick{\( \ket{\phi^+}_A \)} & \targ{} & \qw & \meter{} & \cwbend{1} \\
+        \lstick{\( \ket{\phi^+}_B \)} & \qw & \qw & \qw & \gate{Z^i X^j} & \rstick{\( \ket{\psi} \)} \qw
+    \end{quantikz}
+\end{center}
+Note that after the measurement of \( CA \), the entanglement between \( CA \) and \( B \) is broken.
+No-cloning is not violated, as the original state \( \ket{\psi}_C \) is destroyed.
+
+Note that the first steps of this process including Alice's measurement correspond to performing a Bell measurement on \( CA \).
+This is because the action of \( CX_{CA} \) then \( H_C \) corresponds to a rotation of the Bell basis to the standard basis.
