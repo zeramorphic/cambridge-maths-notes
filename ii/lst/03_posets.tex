@@ -151,3 +151,87 @@ Not all order-preserving functions have a fixed point \( x \) such that \( f(x) 
     But \( \theta \) is order-preserving and \( \mathcal P(A) \) is a complete poset.
     So \( P \) exists by the Knaster--Tarski fixed point theorem. 
 \end{proof}
+
+\subsection{Zorn's lemma}
+\begin{definition}
+    Let \( X \) be a poset.
+    We say that \( x \in X \) is \emph{maximal} if there is no \( y \in X \) with \( y > x \).
+\end{definition}
+\begin{example}
+    In \( [0,1] \), \( 1 \) is maximal.
+    In example (v), there are two maximal elements \( c \) and \( e \).
+\end{example}
+Note that \( (\mathbb R, \leq) \) and \( (\mathbb N, \mid) \) have no maximal elements, and they both have a chain with no upper bound, such as \( \mathbb N \subset \mathbb R \), and powers of two.
+\begin{theorem}[Zorn's lemma]
+    Let \( X \) be a poset in which every chain has an upper bound.
+    Then \( X \) has a maximal element.
+\end{theorem}
+The empty chain must have an upper bound in \( X \), so \( X \) must be nonempty to apply Zorn's lemma.
+Zorn's lemma can be equivalently be stated as the following.
+\begin{theorem}
+    Let \( X \) be a nonempty poset in which every nonempty chain has an upper bound.
+    Then \( X \) has a maximal element.
+\end{theorem}
+One can view Zorn's lemma as a fixed-point theorem on a function \( f \colon X \to X \) with the property that \( x \leq f(x) \).
+\begin{proof}
+    Suppose that \( X \) has no maximal element.
+    Then for each \( x \in X \), we have \( x' \in S \) and \( x' > x \).
+    For each chain \( C \), we have an upper bound \( u(C) \).
+    Let \( x \in X \) be any element, and define \( x_\alpha \) for each \( \alpha < \gamma(X) \) by recursion.
+    \begin{itemize}
+        \item \( x_0 = x \);
+        \item \( x_{\alpha + 1} = x_\alpha' \);
+        \item \( x_\lambda = u\qty{x_\beta \mid \beta < \lambda} \) for \( \lambda \) a nonzero limit.
+    \end{itemize}
+    Note that \( \qty{x_\beta \mid \beta < \lambda} \) forms a chain, so it has an upper bound as required.
+    Then, we have an injection from \( \gamma(X) \) into \( X \), contradicting the definition of \( \gamma(X) \).
+\end{proof}
+\begin{remark}
+    Although this proof was short, it relied on the infrastructure of well-orderings, recursion, ordinals, and Hartogs' lemma.
+\end{remark}
+We show that every vector space has a basis.
+Recall that a basis is a linearly independent spanning set; no nontrivial finite linear combination of basis elements is zero, and each element of the vector space is a finite linear combination of the basis elements.
+For instance, the space of real polynomials has basis \( 1, X, X^2, \dots \).
+The space of real sequences has a linearly independent set \( (1, 0, 0, \dots), (0, 1, 0, \dots), \dots \), but this is not a basis as the sequence \( (1, 1, 1, \dots) \) cannot be constructed as a finite linear combination of these vectors.
+In fact, there is no countable basis for this space, and no explicitly definable basis in general.
+\( \mathbb R \) is a vector space over \( \mathbb Q \).
+There is clearly no countable basis, and in fact no explicit basis.
+A basis in this case is called a \emph{Hamel basis}.
+\begin{theorem}
+    Every vector space \( V \) has a basis.
+\end{theorem}
+\begin{proof}
+    Let \( X \) be the set of all linearly independent subsets of \( V \), ordered by inclusion.
+    We seek a maximal element of \( X \); this is clearly a basis, as any vector not in its span could be added to the set to increase the set of basis vectors.
+    \( X \) is nonempty as \( \varnothing \in X \).
+
+    We apply Zorn's lemma.
+    Let \( (A_i)_{i \in I} \) be a chain in \( X \).
+    We show that its union \( A = \bigcup_{i \in I} A_i \) is a linearly independent set, and therefore lies in \( X \) and is an upper bound.
+    Suppose \( x_1, \dots, x_n \in A \) are linearly dependent.
+    Then \( x_1 \in A_{i_1}, \dots, x_n \in A_{i_n} \), so all \( x_i \) lie in some \( A_k \) as the \( A_i \) are a chain.
+    But \( A_k \) is linearly independent, which is a contradiction.
+\end{proof}
+\begin{remark}
+    The only time that linear algebra was used was to show that the maximal element obtained by Zorn's lemma performs the required task; this is usual for proofs in this style.
+\end{remark}
+We can now prove the completeness theorem for propositional logic with no restrictions on the size of the set of primitive propositions.
+\begin{theorem}
+    Let \( S \subseteq L = L(P) \) be consistent.
+    Then \( S \) has a model.
+\end{theorem}
+\begin{proof}
+    We will extend \( S \) to a consistent set \( \overline S \) such that for all \( t \in L \), either \( t \in S \) or \( \neg t \in \overline S \); we then complete the proof by defining a valuation \( v \) such that \( v(t) = 1 \) if \( t \in \overline S \).
+    
+    Let \( X = \qty{T \supseteq S \mid T \text{ consistent}} \) be the poset of consistent extensions of \( S \), ordered by inclusion.
+    We seek a maximal element of \( X \).
+    Then, if \( \overline S \) is maximal and \( t \not\in \overline S \), then \( \overline S \cup \qty{t} \vdash \bot \) by maximality, so \( \overline S \vdash \neg t \) by the deduction theorem, giving \( \neg t \in \overline S \) again by maximality.
+
+    Note that \( X \neq \varnothing \) as \( S \in X \).
+    Given a nonempty chain \( (T_i)_{i \in I} \), let \( T = \bigcup_{i \in I} T_i \).
+    We have \( T \supseteq T_i \) for all \( i \) and \( T \supseteq S \) as the chain is nonempty, so it suffices to show \( T \) is consistent.
+    Indeed, suppose \( T \vdash \bot \).
+    Then there exists a subset \( \qty{t_1, \dots, t_n} \in T \) with \( \qty{t_1, \dots, t_n} \vdash \bot \) by the compactness theorem.
+    Now, \( t_1 \in T_{i_1}, \dots, t_n \in T_{i_n} \) so all \( t_j \) are elements of \( T_{i_k} \) for some \( k \).
+    But \( T_{i_k} \) is consistent, so \( \qty{t_1, \dots, t_n} \not\vdash \bot \), giving a contradiction.
+\end{proof}
