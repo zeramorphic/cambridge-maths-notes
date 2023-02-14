@@ -251,22 +251,25 @@ Such gates have matrix representations in the computational basis.
     As an orthogonal transformation in \( \mathbb R^2 \), it acts as a reflection by an angle of \( \frac{\pi}{8} \) to the positive \( x \) axis.
     This gate is drawn
     \begin{center}
-        \begin{quantikz} & \gate{H} & \qw \end{quantikz}
+        \leavevmode
+        \Qcircuit { & \gate{H} & \qw }
     \end{center}
     In general, by linearity we obtain
     \begin{center}
-        \begin{quantikz}
-            \lstick{\( a \ket{0} + b \ket{1} \)} & \gate{H} & \rstick{\( a \ket{+} + b \ket{-} \)} \qw
-        \end{quantikz}
+        \leavevmode
+        \Qcircuit {
+            \lstick{a \ket{0} + b \ket{1}} & \gate{H} & \rstick{a \ket{+} + b \ket{-}} \qw
+        }
     \end{center}
     \item The \( X, Z \) gates are given by
     \[ X \ket{k} = \ket{k \oplus 1};\quad Z \ket{k} = (-1)^k \ket{k} \]
     where \( \oplus \) denotes addition modulo 2.
     They \( X, Z, Y \) gates are drawn
     \begin{center}
-        \begin{quantikz} & \gate{X} & \qw \end{quantikz};\quad
-        \begin{quantikz} & \gate{Z} & \qw \end{quantikz};\quad
-        \begin{quantikz} & \gate{X} & \gate{Z} & \qw \end{quantikz}
+        \leavevmode
+        \Qcircuit { & \gate{X} & \qw };\quad
+        \Qcircuit { & \gate{Z} & \qw };\quad
+        \Qcircuit { & \gate{X} & \gate{Z} & \qw }
     \end{center}
     \item The \emph{phase gate} is
     \[ P_\theta = \begin{pmatrix}
@@ -291,22 +294,24 @@ Such gates have matrix representations in the computational basis.
     In general, \( CX \ket{0}\ket{\psi} = \ket{0}\ket{\psi} \), and \( CX \ket{1}\ket{\psi} = \ket{1}(X \ket{\psi}) \).
     The circuit diagram is as follows.
     \begin{center}
-        \begin{quantikz}
-            \lstick{\( \ket{i} \)} & \ctrl{1} & \rstick{\( \ket{i} \)} \qw \\
-            \lstick{\( \ket{j} \)} & \targ{} & \rstick{\( \ket{i \oplus j} \)} \qw
-        \end{quantikz}
+        \leavevmode
+        \Qcircuit {
+            \lstick{\ket{i}} & \ctrl{1} & \rstick{\ket{i}} \qw \\
+            \lstick{\ket{j}} & \targ{} & \rstick{\ket{i \oplus j}} \qw
+        }
     \end{center}
     One can show that
     \begin{center}
-        \begin{quantikz}
+        \leavevmode
+        \Qcircuit {
             & \targ{} & \qw \\
             & \ctrl{-1} & \qw
-        \end{quantikz}
+        }
         \quad = \quad
-        \begin{quantikz}
+        \Qcircuit {
             & \gate{H} & \ctrl{1} & \gate{H} & \qw \\
             & \gate{H} & \targ{} & \gate{H} & \qw
-        \end{quantikz}
+        }
     \end{center}
     \item The \emph{controlled-Z} gate, also called a \emph{CZ} gate, is
     \[ CZ = \begin{pmatrix}
@@ -317,15 +322,16 @@ Such gates have matrix representations in the computational basis.
     \( CZ \) is symmetric in its action on the two qubits; for example, \( CZ_{12} \ket{0} \ket{1} = CZ_{21} \ket{0} \ket{1} \).
     This gate is drawn
     \begin{center}
-        \begin{quantikz}
+        \leavevmode
+        \Qcircuit {
             & \ctrl{1} & \qw \\
             & \gate{Z} & \qw
-        \end{quantikz}
+        }
         \quad or \quad
-        \begin{quantikz}
+        \Qcircuit {
             & \ctrl{1} & \qw \\
-            & \control{} & \qw
-        \end{quantikz}
+            & \control{} \qw & \qw
+        }
     \end{center}
 \end{enumerate}
 
@@ -349,14 +355,15 @@ Alice now measures \( CA \) in the computational basis of \( \mathbb C^2 \otimes
 The probability of each outcome is \( \frac{1}{4} \), irrespective of the values of \( a \) and \( b \) and hence of \( \ket{\psi} \).
 She then sends the result of her measurement to Bob.
 If Alice measures outcome \( ij \), \( B \) is in state \( X^j Z^i \ket{\psi} \).
-Then, Bob can act on \( B \) using \( Z_i X^j \), as \( X \) and \( Z \) are involutive, giving \( \ket{\psi} \) as desired.
+Then, Bob can act on \( B \) using \( Z^i X^j \), as \( X \) and \( Z \) are involutive, giving \( \ket{\psi} \) as desired.
 This process can be represented with the following diagram, where double-struck wires are classical, and the meter symbol denotes a measurement of the quantum state.
 \begin{center}
-    \begin{quantikz}
-        \lstick{\( \ket{\psi}_C \)} & \ctrl{1} \slice{\( \ket{\varphi_1} \)} & \gate{H} \slice{\( \ket{\varphi_2} \)} & \meter{} & \cwbend{2} \\
-        \lstick{\( \ket{\phi^+}_A \)} & \targ{} & \qw & \meter{} & \cwbend{1} \\
-        \lstick{\( \ket{\phi^+}_B \)} & \qw & \qw & \qw & \gate{Z^i X^j} & \rstick{\( \ket{\psi} \)} \qw
-    \end{quantikz}
+    \leavevmode
+    \Qcircuit {
+        \lstick{\ket{\psi}_C} & \ctrl{1} & \gate{H} & \meter{} & \cw & \control \cw \cwx[2] \\
+        \lstick{\ket{\phi^+}_A} & \targ{} & \qw & \meter{} & \control \cw \cwx[1] & \\
+        \lstick{\ket{\phi^+}_B} & \qw & \qw & \qw & \gate{X} & \gate{Z} & \rstick{\ket{\psi}} \qw
+    }
 \end{center}
 Note that after the measurement of \( CA \), the entanglement between \( CA \) and \( B \) is broken.
 No-cloning is not violated, as the original state \( \ket{\psi}_C \) is destroyed.
