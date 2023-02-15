@@ -235,3 +235,49 @@ We can now prove the completeness theorem for propositional logic with no restri
     Now, \( t_1 \in T_{i_1}, \dots, t_n \in T_{i_n} \) so all \( t_j \) are elements of \( T_{i_k} \) for some \( k \).
     But \( T_{i_k} \) is consistent, so \( \qty{t_1, \dots, t_n} \not\vdash \bot \), giving a contradiction.
 \end{proof}
+
+\subsection{Well-ordering principle}
+\begin{theorem}
+    Every set has a well-ordering.
+\end{theorem}
+There exist sets with no definable well-ordering, such as \( \mathbb R \).
+\begin{proof}
+    Let \( S \) be a set, and let \( X \) be the set of pairs \( (A, R) \) such that \( A \subseteq S \) and \( R \) is a well-ordering on \( A \).
+    We define the partial order on \( X \) by \( (A, R) \leq (A', R') \) if \( (A', R') \) extends \( (A, R) \), so \( \eval{R'}_A = A \) and \( A \) is an initial segment of \( A' \) for \( R' \).
+
+    \( X \) is nonempty as the empty relation is a well-ordering of the empty set.
+    Given a nonempty chain \( (A_i, R_i)_{i \in I} \), there is an upper bound \( \qty(\bigcup_{i \in I} A_i, \bigcup_{i \in I} R_i) \), because the well-orderings are nested.
+    By Zorn's lemma, there exists a maximal element \( (A, R) \in X \).
+    
+    Suppose \( x \in S \setminus A \).
+    Then we can construct the well-ordering on \( A \cup \qty{x} \) by defining \( a < x \) for \( a \in A \), contradicting maximality of \( A \).
+    Hence \( A = S \), so \( R \) is a well-ordering on \( S \).
+\end{proof}
+
+\subsection{Zorn's lemma and the axiom of choice}
+In the proof of Zorn's lemma, for each \( x \in S \) we chose an arbitrary \( x' > x \).
+This requires potentially infinitely many arbitrary choices.
+Other proofs, such as that the countable union of countable sets is countable, also required infinitely many choices; in this example, we chose arbitrary enumerations of the countable sets \( A_1, A_2, \dots \) at once.
+
+Formally, this process of making infinitely many arbitrary choices is known as the \emph{axiom of choice} \( \mathsf{AC} \): if we have a family of nonempty sets, one can choose an element from each one.
+More precisely, for any family of nonempty sets \( (A_i)_{i \in I} \), there is a \emph{choice function} \( f \colon I \to \bigcup_{i \in I} A_i \) such that \( f(i) \in A_i \) for all \( i \).
+
+Unlike the other axioms of set theory, the function obtained from the axiom of choice is not uniquely defined.
+For instance, the axiom of union allows for the construction of \( A \cup B \) given \( A \) and \( B \), which can be fully described; but applying the axiom of choice to the family \( \star \mapsto \qty{1, 2} \) could give the choice function \( \star \mapsto 1 \) or \( \star \mapsto 2 \).
+
+Use of the axiom of choice gives rise to nonconstructive proofs.
+In modern mathematics it is sometimes considered useful to note when the axiom of choice is being used.
+However, many proofs that do not even use the axiom of choice are nonconstructive, such as the proof of existence of transcendentals, or Hilbert's basis theorem that every ideal over \( \mathbb Q[X_1, \dots, X_n] \) is finitely generated. 
+
+Although our proof of Zorn's lemma required the axiom of choice, it is not immediately clear that all such proofs require it.
+However, it can be shown that Zorn's lemma implies the axiom of choice in the presence of the other axioms of \( \mathsf{ZF} \) set theory.
+Indeed, if \( (A_i)_{i \in I} \) is a family of sets, we can well-order it using the well-ordering principle, and define the choice function by setting \( f(i) \) to be the least element of \( A_i \).
+Hence, Zorn's lemma, the axiom of choice, and the well-ordering principle are equivalent, given \( \mathsf{ZF} \).
+
+\( \mathsf{AC} \) can be proven trivially in \( \mathsf{ZF} \) if \( \abs{I} = 1 \), because a set being nonempty means precisely that there exists an element inside it.
+Clearly, \( \mathsf{AC} \) holds for all finite index sets in \( \mathsf{ZF} \) by induction on \( \abs{I} \).
+However, \( \mathsf{ZF} \) does not prove the most general form of \( \mathsf{AC} \).
+
+Zorn's lemma is a difficult lemma to prove from first principles because of its reliance on ordinals and Hartogs' lemma; the use of the axiom of choice does not contribute significantly to its difficulty.
+The construction and properties of the ordinals did not rely on the axiom of choice.
+The axiom of choice was only used twice in the section on well-orderings: the fact that in a set that that is not well-ordered, there is an infinite decreasing sequence; and the fact that \( \omega_1 \) is not a countable supremum.
