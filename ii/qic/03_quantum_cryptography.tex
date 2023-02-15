@@ -34,10 +34,56 @@ These are examples of \emph{mutually unbiased bases}; a pair of bases such that 
 For example, measuring \( \ket{+} \) relative to \( \mathcal B_0 \) gives probability \( \frac{1}{2} \) for outcomes 0 and 1.
 
 First, Alice generates two \( m \)-bit strings \( x = x_1 \dots x_m \in \qty{0,1}^m, y = y_1 \dots y_m \in \qty{0,1}^m \) uniformly at random.
-She then prepares the \( m \)-qubit state \( \ket{\psi_xy} = \ket{\psi_{x_1 y_1}} \otimes \dots \otimes \ket{\psi_{x_m y_m}} \) where
+She then prepares the \( m \)-qubit state \( \ket{\psi_{xy}} = \ket{\psi_{x_1 y_1}} \otimes \dots \otimes \ket{\psi_{x_m y_m}} \) where
 \[ \ket{\psi_{x_i y_i}} = \begin{cases}
     \ket{0} & x_i = 0; y_i = 0 \\
     \ket{1} & x_i = 1; y_i = 0 \\
     \ket{+} & x_i = 0; y_i = 1 \\
     \ket{-} & x_i = 1; y_i = 1
 \end{cases} \]
+Alice sends the qubits \( \ket{\psi_{xy}} \) to Bob with \( m \) uses of the quantum channel.
+The qubits received are not necessarily in the state \( \ket{\psi_{xy}} \) due to noise or malicious manipulation of the channel.
+Bob then generates an \( m \)-bit string \( y' = y_1' \dots y_m' \in \qty{0,1}^m \) uniformly at random.
+If \( y_i' = 0 \), he measures the \( i \)th qubit in the basis \( \mathcal B_0 = \qty{\ket{0}, \ket{1}} \).
+If \( y_i' = 1 \), he acts on the \( i \)th qubit by the Hadamard gate and then measures in \( \mathcal B_0 \).
+Equivalently, he measures the \( i \)th qubit in the basis \( \mathcal B_1 = \qty{\ket{+}, \ket{-}} \).
+Let the sequence of outcomes be \( x' = x_1' \dots x_m' \in \qty{0,1}^m \).
+
+If \( y_i' = y_i \), we have \( x_i' = x_i \).
+Indeed, suppose \( y_i' = 0 = y_i \).
+Then \( \ket{\pi_{x_i y_i}} \in \mathcal B_0 \), and Bob measures in basis \( \mathcal B_0 \), so he can determine \( x_i \) with probability 1.
+If \( y_i' = 1 = y_i \), \( \ket{\pi_{x_i y_i}} \in \mathcal B_1 \), and Bob measures in basis \( \mathcal B_1 \).
+
+Now, Alice and Bob compare their values of \( y \) and \( y' \) over the classical channel, and discard all \( x_i \) and \( x_i' \) for which \( y_i \neq y_i' \).
+The remaining \( x_i \) and \( x_i' \) match, given that Bob receives \( \ket{\psi_{xy}} \) exactly, and this forms the shared private key \( \widetilde x = \widetilde x' \).
+The average length of \( \widetilde x \) is \( \frac{m}{2} \).
+
+In the case \( m = 8 \), suppose \( x = 01110100 \) and \( y = 11010001 \).
+Alice prepares \( \ket{\psi_{xy}} \) and sends the qubits to Bob.
+Suppose that Bob receives \( \ket{\psi_{xy}} \) exactly, and he generates \( y' = 01110110 \).
+Bob measures qubit 1 in the basis \( \mathcal B_0 \), but the qubit is in state \( \ket{+} \), so he obtains both outcomes for \( x_1' \) with equal probability.
+He measures qubit 2 in the basis \( \mathcal B_1 \), and the qubit is in state \( \ket{-} \), so after applying \( H \) and measuring, he obtains the correct outcome \( x_2' = 1 \) with probability 1.
+After discarding mismatched \( y_i \), the obtained private key is \( \widetilde x = 110 \).
+
+In the general case, however, there may be noise or malicious activity on the channel.
+We therefore include the further step of \emph{information reconciliation} at the end of hte BB84 protocol.
+Alice and Bob want to estimate the \emph{bit error rate}, which is the proportion of bits in \( \widetilde x \) and \( \widetilde x' \) that differ.
+They can publicly compare a random sample of their bits, and discard the bits used in the test.
+They assume that the bit error rate in the sample is approximately the same as the bit error rate of \( \widetilde x \) and \( \widetilde x' \).
+
+The estimation of the bit error rate can reveal some information on the public channel.
+Alice and Bob want to estimate the maximum amount of information that an eavesdropper could gain about the remaining bits, using \emph{privacy amplification}.
+This depends on the choice of action that Eve takes.
+
+Suppose that Alice and Bob have estimated bit the error rate to be \( \frac{1}{7} \), and now have strings \( a, b \) of length \( 7 \).
+They can use classical error correcting code techniques to fix any remaining errors.
+They publicly agree to act on \( a, b \) by a matrix
+\[ \widetilde H = \begin{pmatrix}
+    1 & 1 & 1 & 0 & 1 & 0 & 0 \\
+    1 & 1 & 0 & 1 & 0 & 1 & 0 \\
+    0 & 1 & 1 & 1 & 0 & 0 & 1
+\end{pmatrix} \]
+which is the check matrix of a Hamming code.
+Alice computes the \emph{syndrome} \( s^A = (s_1^A, s_2^A, s_3^A)^\transpose = \widetilde H a^\transpose \), and sends this to Bob on the public channel.
+Bob computes the syndrome \( s^B \) for \( b \), and calculates \( s = s^B - s^A \).
+There is a unique bit string \( v \) with at most one nonzero entry such that \( \widetilde H v^\transpose = s \); he can therefore recover \( a \).
