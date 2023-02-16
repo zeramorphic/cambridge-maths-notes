@@ -1,0 +1,31 @@
+\subsection{Classical computation}
+A \emph{computational task} takes an input bit string and produces an output bit string.
+
+A decision problem is a computational task that produces an output of length 1.
+Let \( \mathbb B = \mathbb B_1 = \qty{0,1} \) and denote \( \mathbb B_n = \qty{0,1}^n \).
+Define \( \mathbb B^\star = \bigcup_{n \geq 1} \mathbb B_n \).
+A \emph{language} is a subset \( L \subseteq \mathbb B^\star \).
+A decision problem corresponds to the problem of checking whether a word \( w \in \mathbb B^\star \) lies in a language \( L \).
+For example, the set of primes, expressed in binary, forms a language \( P \subseteq \mathbb B^\star \), and there is a corresponding decision problem to check if a given binary string represents a prime.
+
+More generally, the output of a computational task can be of any lenght.
+For example, the task \( \mathsf{FACTOR}(x) \) takes the input \( x \) and produces a bit string containing a factor of \( x \), or 1 if \( x \) is prime.
+
+There are various models of computation, but we restrict to the \emph{circuit} model or \emph{gate array} model.
+In this model, we have an input \( x = b_1 \dots b_n \in \mathbb B_n \), and extend it with some trailing zeroes to add scratch space to perform computations.
+We then perform a computational step, an application of designated Boolean gates \( f \colon \mathbb B_n \to \mathbb B_m \) on preassigned bits.
+For each \( n \), we have a circuit \( C_n \), which is a prescribed sequence of computational steps that performs a given task for all inputs of size \( n \).
+The output to the computation is a designated subsequence of the extended bit string.
+
+Suppose that, in addition to extending the input bit string with zeroes, we also add \( k \) random bits, which have values set to 0 or 1 uniformly at random.
+The output of the computation will now be probabilistic.
+The probability that the output is \( y \) is \( a2^{-k} \), where \( a \) is the number of bit strings \( r \) that produce the desired outcome.
+We typically require that the output is correct with some prescribed probability.
+
+\subsection{Classical complexity}
+The \emph{time complexity} is a measure of the amount of computational steps required for a particular algorithm for an input of size \( n \).
+In the circuit model, we define \( T(n) \) to be the total number of gates in the circuit \( C_n \), known as the \emph{size} of the circuit or \emph{runtime} of the algorithm.
+
+For a positive function \( T(n) \), we write \( T(n) = O(f(n)) \) if there exist positive constants \( c, n_0 \) such that for all \( n > n_0 \), we have \( T(n) \leq cf(n) \).
+If \( T(n) = O(n^k) \) for some \( k > 0 \), we say that \( T(n) \) is \( O(\mathsf{poly}(n)) \), and the corresponding algorithm is a \emph{poly-time} algorithm.
+The class of poly-time algorithms is called \( \mathsf{P} \).

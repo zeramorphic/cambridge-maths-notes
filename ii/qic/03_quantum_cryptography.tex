@@ -71,10 +71,6 @@ Alice and Bob want to estimate the \emph{bit error rate}, which is the proportio
 They can publicly compare a random sample of their bits, and discard the bits used in the test.
 They assume that the bit error rate in the sample is approximately the same as the bit error rate of \( \widetilde x \) and \( \widetilde x' \).
 
-The estimation of the bit error rate can reveal some information on the public channel.
-Alice and Bob want to estimate the maximum amount of information that an eavesdropper could gain about the remaining bits, using \emph{privacy amplification}.
-This depends on the choice of action that Eve takes.
-
 Suppose that Alice and Bob have estimated bit the error rate to be \( \frac{1}{7} \), and now have strings \( a, b \) of length \( 7 \).
 They can use classical error correcting code techniques to fix any remaining errors.
 They publicly agree to act on \( a, b \) by a matrix
@@ -87,3 +83,33 @@ which is the check matrix of a Hamming code.
 Alice computes the \emph{syndrome} \( s^A = (s_1^A, s_2^A, s_3^A)^\transpose = \widetilde H a^\transpose \), and sends this to Bob on the public channel.
 Bob computes the syndrome \( s^B \) for \( b \), and calculates \( s = s^B - s^A \).
 There is a unique bit string \( v \) with at most one nonzero entry such that \( \widetilde H v^\transpose = s \); he can therefore recover \( a \).
+
+The estimation of the bit error rate and the transmission of the syndrome can reveal some information on the public channel.
+Alice and Bob want to estimate the maximum amount of information that an eavesdropper could gain about the remaining bits, using \emph{privacy amplification}.
+This depends on the choice of action that Eve takes.
+
+As an example, suppose \( a^\star = (a_1, a_2, a_3) \in \qty{0,1}^3 \), and suppose Eve knows at most one bit of this string.
+Let \( c = (a_1 \oplus a_3, a_2 \oplus a_3) \).
+We claim that Eve has no knowledge about \( c \).
+Indeed, we can explicitly enumerate all possibilities of \( a^\star \) and the corresponding values of \( c \), and show that Eve's knowledge about any of the bits of \( a^\star \) does not change the distribution of \( c \).
+
+One strategy for Eve, called the \emph{intercept and resend} strategy, is to intercept the qubits as they are transferred to Bob, measure them, and retransmit the post-measurement state.
+The best possible measurement she can perform is in the \emph{Breidbart basis} \( \qty{\ket{\alpha_0}, \ket{\alpha_1}} \) where
+\[ \ket{\alpha_0} = \cos \frac{\pi}{8} \ket{0} + \sin \frac{\pi}{8} \ket{1};\quad \ket{\alpha_1} = \sin \frac{\pi}{8} \ket{0} - \cos \frac{\pi}{8} \ket{1} \]
+Note that
+\[ \abs{\ip{\alpha_0}{0}}^2 = \abs{\ip{\alpha_0}{+}}^2 = \cos^2 \frac{\pi}{8};\quad \abs{\ip{\alpha_1}{1}}^2 = \abs{\ip{\alpha_1}{-}}^2 = \cos^2 \frac{\pi}{8} \]
+The \( \ket{\alpha_i} \) provide the best possible simultaneous approximations of \( \ket{0}, \ket{+} \) and \( \ket{1}, \ket{-} \).
+Suppose \( y_i' = y_i \), and suppose Eve intercepts the \( i \)th qubit and measures it in the Breidbart basis.
+Her outcomes are \( 0 \) or \( 1 \), and she learns the correct value of \( x_i \) with probability \( \cos^2 \frac{\pi}{8} \approx 0.85 \).
+If she measures \( 0 \), she transmits \( \ket{\alpha_0} \) to Bob, and if she measures \( 1 \), she transmits \( \ket{\alpha_1} \) to Bob.
+
+The probability that Bob makes an incorrect inference of the value of the \( i \)th bit after this manipulation is \( \frac{1}{4} \), regardless of the state of the qubit transmitted by Alice.
+Suppose \( \ket{\psi_{x_i y_i}} = \ket{0} \), so \( x_i = 0, y_i = 0 \).
+Then,
+\begin{align*}
+    \prob{x_i' \neq x_i} &= \prob{B \text{ measures } 1 \mid A \text{ sent } \ket{0}} \\
+    &= \prob{E \text{ sent } \ket{\alpha_0} \mid A \text{ sent } \ket{0}} \prob{B \text{ measures } 1 \mid E \text{ sent } \ket{\alpha_0}} \\
+    &+ \prob{E \text{ sent } \ket{\alpha_1} \mid A \text{ sent } \ket{0}} \prob{B \text{ measures } 1 \mid E \text{ sent } \ket{\alpha_1}} \\
+    &= \abs{\ip{\alpha_0}{0}}^2 \abs{\ip{\alpha_0}{1}}^2 + \abs{\ip{\alpha_1}{0}}^2 \abs{\ip{\alpha_1}{1}}^2 \\
+    &= \frac{1}{4}
+\end{align*}
