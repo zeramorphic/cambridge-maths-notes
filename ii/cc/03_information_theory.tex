@@ -210,7 +210,7 @@ We will now compute the capacity of the binary symmetric channel with error prob
 \begin{definition}
     Let \( X, Y \) be random variables taking values in alphabets \( \mathcal A, \mathcal B \) respectively.
     Then, the \emph{conditional entropy} is defined by
-    \[ H(X \mid Y = y) - \sum_{x \in \mathcal A} \prob{X = x \mid Y = y} \log \prob{X = x \mid Y = y} \]
+    \[ H(X \mid Y = y) = - \sum_{x \in \mathcal A} \prob{X = x \mid Y = y} \log \prob{X = x \mid Y = y} \]
     and
     \[ H(X \mid Y) = \sum_{y \in \mathcal B} \prob{Y = y} H(X \mid Y = y) \]
     Note that \( H(X \mid Y) \geq 0 \).
@@ -328,7 +328,7 @@ We will now model using a channel \( n \) times as the \emph{\( n \)th extension
     Therefore,
     \begin{align*}
         I(X_1, \dots, X_n; Y_1, \dots, Y_n) &= H(Y_1, \dots, Y_n) - H(Y_1, \dots, Y_n \mid X_1, \dots, X_n) \\
-        &\leq \sum_{i=1}^n H(Y_i) - \sum_{i=1}^n H(Y_i \mid X_i) \\ 
+        &\leq \sum_{i=1}^n H(Y_i) - \sum_{i=1}^n H(Y_i \mid X_i) \\
         &= \sum_{i=1}^n \qty[H(Y_i) - H(Y_i \mid X_i)] \\
         &= \sum_{i=1}^n I(X_i;Y_i) \leq nC
     \end{align*}
@@ -354,7 +354,7 @@ We now prove part of Shannon's second coding theorem, that the operational capac
     Then \( e(C_n) = \prob{X \neq Y} = p \).
     Hence, \( H(X) = \log \abs{C_n} = \log \floor{2^{nR}} \geq nR - 1 \) for sufficiently large \( n \).
     Also, by Fano's inequality, \( H(X \mid Y) \leq H(p) + p \log(\abs{C_n} - 1) \leq 1 + pnR \).
-    
+
     Recall that \( I(X;Y) = H(X) - H(X \mid Y) \).
     By the previous lemma, \( nC \geq I(X;Y) \), so
     \[ nC \geq nR - 1 - 1 - pnR \implies pnR \geq n(R - c) - 2 \implies p \geq \frac{n(R - C) - 2}{nR} \]
@@ -376,12 +376,12 @@ To complete the proof of Shannon's second coding theorem for the binary symmetri
     Let \( \varepsilon > 0 \) such that \( p + \varepsilon < \frac{1}{2} \) and \( R < 1 - H(p + \varepsilon) \).
     We use minimum distance decoding, and in the case of a tie, we make an arbitrary choice.
     Let \( m = \floor{2^{nR}} \), and let \( C = \qty{c_1, \dots, c_m} \) be a code chosen uniformly at random from \( \mathcal C = \qty{[n,m]\text{-codes}} \), a set of size \( \binom{2^n}{m} \).
-    
+
     Choose \( 1 \leq i \leq m \) uniformly at random, and send \( c_i \) through the channel, and obtain an output \( Y \).
     Then, \( \prob{Y \text{ not decoded as } c_i} \) is the average value of \( e(C) \) for \( C \) ranging over \( \mathcal C \), giving \( \frac{1}{\abs{\mathcal C}} \sum_{C \in \mathcal C} e(C) \).
     We can choose a code \( C_n \in \mathcal C \) such that \( e(C_n) \leq \frac{1}{\abs{\mathcal C}}\sum_{C \in \mathcal C} e(C) \).
     So it suffices to show \( \prob{Y \text{ not decoded as } c_i} \to 0 \).
-    
+
     Let \( r = \floor{n(p + \varepsilon)} \).
     Then if \( B(Y,r) \cap C = \qty{c_i} \), \( Y \) is correctly decoded as \( c_i \).
     Therefore,
