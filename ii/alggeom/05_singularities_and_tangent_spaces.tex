@@ -54,7 +54,7 @@ We can extend the definition of a tangent space to general varieties not generat
 \begin{definition}
     Let \( V \subseteq \mathbb A^n \) be an affine variety, and let \( P \in V \).
     Then the \emph{tangent space} to \( V \) at \( P \) is
-    \[ T_{V,P} = \qty{\vb v \in \mathbb C^n \mid \sum_{i=1}^n \vb v_i \pdv{f}{x_i}\qty(P) = 0 \text{ for all } f \in I(V)} \subseteq \mathbb C^n \]
+    \[ T_{V,P} = \qty{\vb v \in \mathbb C^n \mid \sum_{i=1}^n v_i \pdv{f}{x_i}\qty(P) = 0 \text{ for all } f \in I(V)} \subseteq \mathbb C^n \]
 \end{definition}
 This is a vector subspace of \( \mathbb C^n \).
 \begin{definition}
@@ -75,6 +75,68 @@ Suppose \( \varphi \) is determined by \( (F_0, \dots, F_m) \), where the \( F_i
 By restricting to \( \mathbb A^n \), we can write \( \frac{F_j}{F_0}(1, X_1, \dots, X_n) = f_j \in \mathbb C(X_1, \dots, X_n) \).
 This gives rational functions \( f_1, \dots, f_m \) on \( V \cap \mathbb A^n \).
 The \emph{derivative} of \( \varphi \) at \( P \) or \emph{linearisation} of \( \varphi \) at \( P \) is defined by
-\[ \dd{\varphi}_P(\vb v) = \qty(\sum_{i=1}^n v_i \pdv{f_j}{X_i}\qty(P))_j \]
+\[ \dd{\varphi}_P(v) = \qty(\sum_{i=1}^n v_i \pdv{f_j}{X_i}\qty(P))_j \]
 which is initially a function \( T_{V,P} \to \mathbb C^m \).
-This can be thought of as an application of the matrix of derivatives of \( f \) at \( P \) to the vector \( \vb v \).
+This can be thought of as an application of the matrix of derivatives of \( f \) at \( P \) to the vector \( v \).
+\begin{proposition}
+    \begin{enumerate}
+        \item \( \dd{\varphi}_P(T_{V,P}) \subseteq T_{W,Q} \);
+        \item the linear map \( \dd{\varphi}_P \) depends only on \( \varphi \) and not the representatives;
+        \item if \( \psi \colon W \dashrightarrow Z \) is rational with \( \varphi(P) \in \dom \psi \), then \( \dd{(\psi \circ \varphi)}_P = \dd{\psi}_{\varphi(P)} \circ \dd{\psi}_P \);
+        \item if \( \varphi \) is birational and \( \varphi^{-1} \) is regular at \( \varphi(P) \), then \( \dd{\varphi}_P \) is an isomorphism \( T_{V,P} \simeq T_{W,Q} \).
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \emph{Part (i).}
+    We use \( Y_j \) for coordinates in \( W \).
+    Replace \( V \) with \( V_0 \) and \( W \) with \( W_0 \).
+    Let \( g \in I(W) \), and consider its linearisation at \( Q \).
+    Applying the map \( \varphi^\star \) on function fields, we obtain \( \varphi^\star(g) = h = g(f_1, \dots, f_m) \in \mathbb C(V) \).
+    Choose a representiative in \( C(\mathbb X) \), representing a rational function on \( V \) that is regular at \( P \).
+    This map vanishes when it is regular as \( \varphi(\dom \varphi) \subseteq W \).
+    By the chain rule,
+    \[ \pdv{h}{X_i}\qty(P) = \sum_j \pdv{g}{Y_j}\qty(Q) \pdv{f_j}{X_i}\qty(P) \]
+    Hence, \( v \in T_{V,P} \) gives \( \dd{\varphi}_P(v) \in T_{W,Q} \).
+
+    \emph{Part (ii).}
+    If \( (F_0', \dots, F_m') \) is another representation of \( \varphi \) with corresponding rational functions \( f_1', \dots, f_m' \in \mathbb C(V) \).
+    Then \( f_j - f_j' \) vanishes on \( V \) whenever it is defined, or equivalently, \( f_j - f_j' = \frac{p_j}{q_j} \) where \( p_j \in I(V) \) and \( q_j(P) \neq 0 \).
+    Applying the quotient rule and the fact that \( p_j \in I(V) \),
+    \[ \pdv{(f_j - f_j')}{X_i} = \frac{-1}{q_j(P)} = \pdv{p_j}{X_i}\qty(P) = 0 \]
+    Hence, \( v \in T_{V,P} \) gives \( \sum_i v_i \pdv{(f_j - f_j')}{X_i}\qty(P) = 0 \) as required.
+
+    \emph{Part (iii).}
+    Follows from the chain rule from multivariate calculus.
+
+    \emph{Part (iv).}
+    Immediate from (iii).
+\end{proof}
+Note that if \( P \in U_i \cap U_j \), we have two different definitions of the tangent space \( T_{V,P} \).
+Suppose that \( V = \mathbb P^n \), then there is a birational map \( p_{ij} \colon U_i \dashrightarrow U_j \) which is the identity on \( U_i \cap U_j \).
+Part (iv) of the above proposition gives an isomorphism from \( T_{P,U_i} \) to \( T_{P,U_j} \) given by \( \dd{p}_{ij} \).
+\begin{definition}
+    Let \( V \) be an affine or projective variety.
+    If \( V \) is irreducible, the \emph{dimension} of \( V \), written \( \dim V \), is the minimum dimension of a tangent space for a point in \( V \).
+    If \( P \in V \) and \( V \) is irreducible, we say \( P \) is a \emph{smooth point} of \( V \) if \( \dim T_{V,P} = \dim V \).
+    Otherwise, \( P \) is a \emph{singular point}.
+    If \( V \) is reducible, we define \( \dim V \) to be the maximum dimension of an irreducible component of \( V \).
+\end{definition}
+\begin{theorem}
+    Let \( V \) be a nonempty irreducible affine or projective variety.
+    Then the set of smooth points of \( V \) is a nonempty open subset of \( V \).
+\end{theorem}
+\begin{proof}
+    The fact that the set is nonempty is clear as the minimum dimension must be attained at a point.
+    We can assume \( V \subseteq \mathbb A^n \) is affine.
+    If \( P \in V \),
+    \[ T_{V,P} = \qty{\vb v \in \mathbb C^n \midd \sum_{i=1}^n v_i \pdv{f_j}{x_i}\qty(P)} \]
+    where \( f_j \) is some finite set of functions with \( \mathbb V(\qty{f_j}) = V \).
+    Then
+    \[ \dim T_{V,P} = n - \rank \pdv{f_j}{X_i}\qty(P) \]
+    For any \( r \in \mathbb N \),
+    \[ \qty{P \in V \mid \dim T_{V,P} \geq r} = \qty{P \in V \mid \rank \pdv{f_j}{X_i}\qty(P) \leq n - r} \]
+    This is the subvariety given by the vanishing locus of the \( (n-r+1) \times (n-r+1) \) minors of this matrix \( \pdv{f_j}{X_i}\qty(P) \), which is closed.
+\end{proof}
+\begin{corollary}
+    If \( V, W \) are irreducible and birational, then \( \dim V = \dim W \).
+\end{corollary}

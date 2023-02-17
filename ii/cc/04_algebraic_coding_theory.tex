@@ -1,0 +1,79 @@
+\subsection{Linear codes}
+\begin{definition}
+    A binary code \( C \subseteq \mathbb F_2^n \) is \emph{linear} if \( 0 \in C \), and whenever \( x, y \in C \), we have \( x + y \in C \).
+\end{definition}
+Equivalently, \( C \) is a vector subspace of \( \mathbb F_2^n \).
+\begin{definition}
+    The \emph{rank} of a linear code \( C \), denoted \( \operatorname{rk} C \), is its dimension as an \( \mathbb F_2 \)-vector space.
+    A linear code of length \( n \) and rank \( k \) is called an \( (n,k) \)-code.
+    If it has minimum distance \( d \), it is called an \( (n,k,d) \)-code.
+\end{definition}
+Let \( v_1, \dots, v_k \) be a basis for \( C \).
+Then \( C = \qty{\sum_{i=1}^k \lambda_i v_i \mid \lambda_i \in \mathbb F_2} \).
+The size of the code is therefore \( 2^k \), so an \( (n,k) \)-code is an \( [n,2^k] \)-code, and an \( (n,k,d) \)-code is an \( [n,2^k,d] \)-code.
+The information rate is \( \frac{k}{n} \).
+\begin{definition}
+    The \emph{weight} of \( x \in \mathbb F_2^n \) is \( w(x) = d(x,0) \).
+\end{definition}
+\begin{lemma}
+    The minimum distance of a linear code is the minimum weight of a nonzero codeword.
+\end{lemma}
+\begin{proof}
+    Let \( x, y \in C \).
+    Then, \( d(x,y) = d(x+y,0) = w(x+y) \).
+    Observe that \( x \neq y \) if and only if \( x + y \neq 0 \), so \( d(C) \) is the minimum \( w(x+y) \) for \( x + y \neq 0 \). 
+\end{proof}
+\begin{definition}
+    Let \( x, y \in \mathbb F_2^n \).
+    Define \( x \cdot y = \sum_{i=1}^n x_i y_i \in \mathbb F_2 \).
+    This is symmetric and bilinear.
+\end{definition}
+There are nonzero \( x \) such that \( x \cdot x = 0 \).
+\begin{definition}
+    Let \( P \subseteq \mathbb F_2^n \).
+    The \emph{parity check code} defined by \( P \) is
+    \[ C = \qty{x \in \mathbb F_2^n \mid \forall p \in P,\,p \cdot x = 0} \]
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item \( P = \qty{11\dots 1} \) gives the simple parity check code.
+        \item \( P = \qty{1010101, 0110011, 0001111} \) gives Hamming's original \( [7,16,3] \)-code.
+        \item \( C^+ \) and \( C^- \) are linear if \( C \) is linear.
+    \end{enumerate}
+\end{example}
+\begin{lemma}
+    Every parity check code is linear.
+\end{lemma}
+\begin{proof}
+    \( 0 \in C \) as \( p \cdot 0 = 0 \).
+    If \( p \cdot x = 0 \) and \( p \cdot y = 0 \) then \( p \cdot (x + y) = 0 \), so \( x, y \in C \) implies \( x + y \in C \).
+\end{proof}
+\begin{definition}
+    Let \( C \subseteq \mathbb F^2 \) be a linear code.
+    The \emph{dual code} \( C^\perp \) is defined by
+    \[ C^\perp = \qty{x \in \mathbb F_2^n \mid \forall y \in C,\, x \cdot y = 0} \]
+\end{definition}
+By definition, \( C^\perp \) is a parity check code, and hence is linear.
+Note that \( C \cap c^\perp \) may contain elements other than 0.
+\begin{lemma}
+    \( \operatorname{rk} C + \operatorname{rk} C^\perp = n \).
+\end{lemma}
+\begin{proof}
+    One can prove this by defining \( C^\perp \) as an annihilator from linear algebra.
+    A proof using coding theory is shown later.
+\end{proof}
+\begin{corollary}
+    Let \( C \) be a linear code.
+    Then \( (C^\perp)^\perp = C \).
+    In particular, all linear codes are parity check codes, defined by \( C^\perp \).
+\end{corollary}
+\begin{proof}
+    If \( x \in C \), then \( x \cdot y = 0 \) for all \( y \in C^\perp \) by definition, so \( x \in (C^\perp)^\perp \).
+    Then \( \operatorname{rk} C = n - \operatorname{rk} C^\perp = n - (n - \operatorname{rk} (C^\perp)^\perp) = \operatorname{rk} (C^\perp)^\perp \), so \( C = (C^\perp)^\perp \).
+\end{proof}
+\begin{definition}
+    Let \( C \) be an \( (n,k) \)-code.
+    A \emph{generator matrix} \( G \) for \( C \) is a \( k \times n \) matrix where the rows form a basis for \( C \).
+    A \emph{parity check matrix} \( H \) for \( C \) is a generator matrix for the dual code \( C^\perp \), so it is an \( (n-k) \times n \) matrix.
+\end{definition}
+The codewords of a linear code can be viewed either as linear combinations of rows of \( G \), or linear dependence relations between the columns of \( H \), so \( C = \qty{x \in \mathbb F_2^n \mid H x = 0} \).

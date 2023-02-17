@@ -1,4 +1,82 @@
-\subsection{?}
+\subsection{Languages}
 Recall that a \emph{group} is a set \( A \) equipped with functions \( m \colon A^2 \to A \) of arity 2, and \( i \colon A^1 \to A \) of arity 1, and a constant \( e \in A \) which can be viewed as a function \( A^0 \to A \) of arity 0, such that a set of axioms hold.
-A \emph{poset} is a set \( A \) equipped with a relation \( \leq \subseteq A^2 \) of arity 2, such that a set of axioms hold.
+A \emph{poset} is a set \( A \) equipped with a relation \( (\leq) \subseteq A^2 \) of arity 2, such that a set of axioms hold.
 Other algebraic structures can be described in the same way.
+
+Let \( \Omega \) and \( \Pi \) be disjoint sets of functions and relations, and \( \alpha \colon \Omega \cup \Pi \to \mathbb N \) be an arity function.
+\emph{Variables} are symbols of the form \( x_1, x_2, \dots \).
+\emph{Terms} are defined inductively by
+\begin{enumerate}
+    \item each variable is a term;
+    \item if \( f \in \Omega \) with \( \alpha(f) = n \) and terms \( t_1, \dots, t_n \), then \( f\ t_1\dots\ t_n \) is a term.
+\end{enumerate}
+The \emph{atomic formulae} are defined inductively by
+\begin{enumerate}
+    \item \( \bot \) is an atomic formula;
+    \item for terms \( s, t \), \( (s = t) \) is an atomic formula;
+    \item if \( \varphi \in \Pi \) with \( \alpha(\varphi) = n \) and terms \( t_1, \dots, t_n \), then \( \varphi(t_1, \dots, t_n) \) is an atomic formula.
+\end{enumerate}
+The \emph{formulae} are defined inductively by
+\begin{enumerate}
+    \item each atomic formula is a formula;
+    \item if \( p \) and \( q \) are formulae then \( (p \Rightarrow q) \) is a formula;
+    \item if \( p \) is a formula and \( x \) is a variable, then \( (\forall x) p \) is a formula.
+\end{enumerate}
+The \emph{language} \( L = L(\Omega, \Pi, \alpha) \) is the set of formulae.
+\begin{example}
+    In the language of groups, \( \Omega = \qty{m, i, e} \) and \( \Pi = \varnothing \) with \( \alpha(m) = 2, \alpha(i) = 1, \alpha(e) = 0 \).
+    \( m(x_1, x_2), m(x_1, i(x_2)), e, m(e, e) \) are examples of terms of the language.
+    \( e = m(\ell, e), m(x,y) = m(y,x) \) are atomic formulae.
+\end{example}
+\begin{example}
+    In the language of posets, \( \Omega = \varnothing \) and \( \Pi = \qty{\leq} \) with \( \alpha(\leq) = 2 \).
+    \( x = y, x \leq y \) are atomic formulae.
+    Technically, \( x \leq y \) is written \( \leq(x, y) \).
+\end{example}
+\begin{example}
+    In the language of groups, \( (\forall x) (m(x,x) = e) \) is a formula.
+    Another formula is \( m(x,x) = e \Rightarrow (\exists y) (m(y,y) = x) \).
+\end{example}
+\begin{remark}
+    A formula is a certain finite string of symbols; it has no intrinsic semantics.
+    We define \( \neg p, p \wedge q, p \vee q \) in the usual way.
+    We define \( (\exists x) p \) to mean \( \neg(\forall x) (\neg p) \).
+\end{remark}
+
+\subsection{Variables}
+A term is \emph{closed} if it contains no variables.
+For example, \( e, m(e,i(e)) \) are closed in the language of groups, but \( m(x,i(x)) \) is not closed.
+
+An occurrence of a variable \( x \) in a formula \( p \) is \emph{bound} if it is inside the brackets of a \( (\forall x) \) quantifier.
+Otherwise, we say the occurrence is \emph{free}.
+In the formula \( (\forall x)(m(x,x) = e) \), each occurrence of \( x \) is bound.
+In \( m(x,x) = e \Rightarrow (\exists y)(m(y,y) = x) \), the occurrences of \( x \) are free and the occurrences of \( y \) are bound.
+In the formula \( m(x,x) = e \Rightarrow (\forall x)(\forall y)(m(x,y) = m(y,x)) \), the occurrences of \( x \) on the left hand side are free, and the occurrences of \( x \) on the right hand side are bound.
+
+A \emph{sentence} is a formula with no free variables.
+\( (\forall x)(m(x,x) = e) \) is a sentence, and \( (\forall x)(m(x,x) \Rightarrow (\exists y)(m(y,y) = x)) \) is a sentence.
+In the language of posets, \( (\forall x)(\exists y)(x \geq y \and \neg(x = y)) \) is a sentence.
+
+For a formula \( p \), term \( t \), and variable \( x \), the \emph{substitution} \( p[t/x] \) is obtained from \( p \) by replacing every free occurrence of \( x \) with \( t \).
+If \( p = (\exists y)(m(y,y) = x) \), \( p[e/x] = (\exists y)(m(y,y) = e) \).
+
+\subsection{Semantic implication}
+\begin{definition}
+    Let \( L = L(\Omega, \Pi, \alpha) \) be a language.
+    An \emph{\( L \)-structure} is
+    \begin{itemize}
+        \item a nonempty set \( A \);
+        \item for each \( f \in \Omega \), a function \( f_A \colon A^n \to A \) where \( n = \alpha(f) \);
+        \item for each \( \varphi \in \Pi \), a subset \( \varphi_A \subseteq A^n \) where \( n = \alpha(\varphi) \).
+    \end{itemize}
+\end{definition}
+\begin{remark}
+    We will see later why the restriction that \( A \) is nonempty is given here.
+\end{remark}
+\begin{example}
+    In the language of groups, an \( L \)-structure is a nonempty set \( A \) with functions \( m_A \colon A^2 \to A, i_A \colon A \to A, e_A \in A \).
+    Such a structure may not be a group, as we have not placed any axioms on \( A \).
+\end{example}
+\begin{example}
+    In the language of posets, an \( L \)-structure is a nonempty set \( A \) with a relation \( (\leq_A) \subseteq A^2 \).
+\end{example}

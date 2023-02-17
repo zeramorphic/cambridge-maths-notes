@@ -434,3 +434,27 @@ The bankroll after the toss is
     X_n(1-w) & (n + 1)\text{th toss is a tail}
 \end{cases} \]
 Define \( Y_{n+1} = \frac{X_{n+1}}{X_n} \), then the \( Y_i \) are independent and identically distributed.
+Then \( \log Y_i \) is a sequence of independent and identically distributed random variables.
+Note that \( \log X_n = \sum_{i=1}^n \log Y_i \).
+\begin{lemma}
+    Let \( \mu = \expect{\log Y_1}, \sigma^2 = \Var(\log Y_1) \).
+    Then, if \( a > 0 \),
+    \begin{enumerate}
+        \item \( \prob{\abs{\frac{1}{n} \sum_{i=1}^n \log Y_i - \mu} \geq a} \leq \frac{\sigma^2}{na^2} \) by Chebyshev's inequality;
+        \item \( \prob{\abs{\frac{\log X_n}{n} - \mu} \geq a} \leq \frac{\sigma^2}{na^2} \);
+        \item given \( \varepsilon > 0 \) and \( \delta > 0 \), there exists \( N \) such that \( \prob{\abs{\frac{\log X_n}{n} - \mu} \geq \delta} \leq \varepsilon \) for all \( n \geq N \).
+    \end{enumerate}
+\end{lemma}
+Consider a single coin toss, with probability \( p < 1 \) of a head.
+Suppose that a bet of \( k \) on a head gives a payout of \( ku \) for some payout ratio \( u > 0 \).
+Suppose further that we have an initial bankroll of 1, and we bet \( w \) on heads, retaining \( 1 - w \), for some \( 0 \leq w < 1 \).
+Then, if \( Y \) is the expected fortune after the throw, \( \expect{\log Y} = p \log(1 + (u-1)w) + (1-p) \log(1-w) \).
+One can show that the value of \( \expect{\log Y} \) is maximised by taking \( w = 0 \) if \( up \leq 1 \), and setting \( w = \frac{up-1}{u-1} \) if \( up > 1 \).
+
+Let \( q = 1-p \).
+If \( up > 1 \), at the optimum value of \( w \), we find
+\[ \expect{\log Y} = p \log p + q \log q + \log u - q \log(u-1) = -H(p) + \log u - q \log(u-1) \]
+Kelly's criterion is that in order to maximise profit, \( \expect{\log Y} \) should be optimised, given that we can bet arbitrarily many times.
+
+One can show that if \( w \) is set below the optimum, the bankroll will still increase, but does so more slowly.
+If \( w \) is set sufficiently high, the bankroll will tend to decrease.
