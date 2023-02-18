@@ -8,7 +8,7 @@ A \emph{language} is a subset \( L \subseteq \mathbb B^\star \).
 A decision problem corresponds to the problem of checking whether a word \( w \in \mathbb B^\star \) lies in a language \( L \).
 For example, the set of primes, expressed in binary, forms a language \( P \subseteq \mathbb B^\star \), and there is a corresponding decision problem to check if a given binary string represents a prime.
 
-More generally, the output of a computational task can be of any lenght.
+More generally, the output of a computational task can be of any length.
 For example, the task \( \mathsf{FACTOR}(x) \) takes the input \( x \) and produces a bit string containing a factor of \( x \), or 1 if \( x \) is prime.
 
 There are various models of computation, but we restrict to the \emph{circuit} model or \emph{gate array} model.
@@ -28,4 +28,49 @@ In the circuit model, we define \( T(n) \) to be the total number of gates in th
 
 For a positive function \( T(n) \), we write \( T(n) = O(f(n)) \) if there exist positive constants \( c, n_0 \) such that for all \( n > n_0 \), we have \( T(n) \leq cf(n) \).
 If \( T(n) = O(n^k) \) for some \( k > 0 \), we say that \( T(n) \) is \( O(\mathsf{poly}(n)) \), and the corresponding algorithm is a \emph{poly-time} algorithm.
-The class of poly-time algorithms is called \( \mathsf{P} \).
+The class of languages for which the membership problem has a classical poly-time algorithm is called \( \mathsf{P} \).
+The class of languages for which the membership problem has a randomised classical poly-time algorithm that gives the correct answer with probability at least \( \frac{2}{3} \) is called \( \mathsf{BPP} \), short for \emph{bounded-error probabilistic poly-time}.
+The problem \( \mathsf{FACTOR}(M,N) \) which determined if there is a nontrivial factor of \( N \) that is at most \( M \) does not lie in \( \mathsf{BPP} \).
+The best known runtime is \( T(n) = O\qty(n^{\frac{1}{3}}\qty(\log n)^\frac{2}{3}) \).
+
+A black box promise problem is a computational task where the input is a \emph{black box} or \emph{oracle} which can compute a Boolean function \( f \colon \mathbb B_m \to \mathbb B_n \), and there is an \emph{a priori promise} on \( f \) restricting the possible values of \( f \).
+For example, the black box promise problem for constant versus balanced functions takes a function \( f \colon \mathbb B_n \to \mathbb B \) such that \( f \) is constant or \emph{balanced}, in which case \( f \) is equal to zero for exactly half of the \( 2^n \) possible inputs.
+
+The corresponding complexity is called \emph{query complexity}, which counts the amount of times we need to query the black box.
+We typically wish to minimise the query complexity.
+
+\subsection{Quantum circuits}
+In a quantum circuit, we have qubit inputs \( \ket{b_1} \dots \ket{b_n} \ket{0} \dots \ket{0} \) analogously to the classical case.
+The input size \( n \) is the number of qubits.
+The addition of randomness to classical computation needs no analogue in the quantum case, since randomness is obtained by measurement.
+For instance, if we have a qubit \( \ket{0} \), we can generate a uniform Bernoulli random variable by sending the qubit through a Hadamard gate and then measuring in the computational basis.
+
+The computational steps are gates or unitary operators, which act on a prescribed set of qubits, which constitute a quantum circuit \( C_n \).
+The output is obtained by performing a measurement on a prescribed set of qubits.
+One can show that any circuit involving arbitrarily many measurements is equivalent to a circuit that only performs a single measurement at the end of the computation.
+
+\subsection{Quantum oracles}
+Note that all quantum gates are invertible, as they are represented with unitary operators, but not all classical gates are invertible.
+Any \( f \colon \mathbb B_m \to \mathbb B_n \) can be expressed in an equivalent invertible form \( \widetilde f \colon \mathbb B_{m+n} \to \mathbb B_{m+n} \) by defining \( \widetilde f(b,c) = (b, c \oplus f(b)) \).
+If we can compute \( f \) we can also compute \( \widetilde f \), and conversely given \( \widetilde f \) we can find \( f(b) = \widetilde f(b.0) \).
+This is self-inverse.
+\[ \widetilde f(\widetilde f(b,c)) = \widetilde f(b, c \oplus f(b)) = (b, c \oplus f(b) \oplus f(b)) = (b, c) \]
+A quantum oracle for a function \( f \colon \mathbb B_m \to \mathbb B_n \) is the quantum gate \( U_f \) acting on \( m + n \) qubits such that \( U_f \ket{x} \ket{y} = \ket{x} \ket{y \oplus f(x)} \) for \( \ket{x}, \ket{y} \) states in the computational basis.
+In other words, its action on the computational basis is \( \widetilde f \).
+We say that \( \ket{x} \) is the \emph{input register} and \( \ket{y} \) is the \emph{output register}.
+
+One can show that \( U_f \) is always a unitary operator.
+We can show this directly by considering \( U_f \ket{x'}\ket{y'} = \ket{x'}\ket{y' \oplus f(x')} \), and we can take the inner product with \( U_f \ket{x} \ket{y} = \ket{x} \ket{y \oplus f(x)} \).
+An easier way to show this is to consider \( \widetilde f \colon \mathbb B_k \to \mathbb B_k \) as a permutation on \( \mathbb B_k \) where \( m + n = k \).
+We can write \( U_f \ket{x} \ket{y} = U_f \ket{i_1 \dots i_k} = \ket{\widetilde f(i_1 \dots i_k)} \).
+Since \( \widetilde f \) is a permutation, \( U_f \) is therefore represented by a permutation matrix, which has a single 1 in each row and column.
+All permutation matrices are unitary.
+
+In contrast to a classical oracle, a quantum oracle can act on a superposition of input registers.
+Let \( f \colon \mathbb B_m \to \mathbb B_n \), and consider the \emph{equal superposition} state \( \ket{\varphi_m} = \frac{1}{\sqrt{2^m}} \sum_{x \in \mathbb B_m} \ket{x} \).
+We can find
+\[ U_f \ket{\varphi_m} \ket{y} = U_f \qty( \frac{1}{\sqrt{2^m}} \sum_{x \in \mathbb B_m} \ket{x}) \ket{y} = \frac{1}{\sqrt{2^m}} \sum_{x \in \mathbb B_m} U_f \ket{x} \ket{y} = \ket{\psi_f} \]
+In a single use of the oracle, we obtain a final state which depends on the value of \( f \) corresponding to all possible inputs.
+One can easily create such an equal superposition state \( \ket{\varphi_m} \) by sending the \( m \)-qubit state \( \ket{0} \dots \ket{0} \) through \( m \) Hadamard gates \( H \otimes \dots \otimes H \).
+We have \( \qty(H \ket{0})^{\otimes m} = \qty(\ket{+})^{\otimes m} = \ket{\varphi_m} \).
+This creates a superposition of exponentially many terms using a linear amount of Hadamard gates.
