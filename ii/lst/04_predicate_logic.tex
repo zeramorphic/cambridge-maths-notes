@@ -80,3 +80,77 @@ If \( p = (\exists y)(m(y,y) = x) \), \( p[e/x] = (\exists y)(m(y,y) = e) \).
 \begin{example}
     In the language of posets, an \( L \)-structure is a nonempty set \( A \) with a relation \( (\leq_A) \subseteq A^2 \).
 \end{example}
+We define the \emph{interpretation} \( p_A \in \qty{0,1} \) of a sentence \( p \) in an \( L \)-structure \( A \) as follows.
+\begin{itemize}
+    \item The interpretation \( t_A \) of a closed term \( t \) in an \( L \)-structure \( A \) is defined inductively as \( (f\ t_1\dots t_n)_A = f_A({t_1}_A, \dots, {t_n}_A) \) for \( f \in \Omega, \alpha(f) = n \), where \( t_1, \dots, t_n \) are closed.
+    \item The interpretation of an atomic sentence is defined inductively.
+    \begin{itemize}
+            \item \( \bot_A = 0 \).
+        \item \( (s = t)_A \) is 1 if \( s_A = t_A \) and 0 if \( s_A \neq t_A \).
+        \item \( (\varphi(t_1, \dots, t_n))_A \) is 1 if \( ({t_1}_A, \dots, {t_n}_A) \in \varphi_A \) and 0 otherwise, for \( \varphi \in \Pi, \alpha(\varphi) = n \), where \( t_1, \dots, t_n \) are closed.
+    \end{itemize}
+    \item We now inductively define the interpretation of sentences, which is technically induction by length over all languages at once.
+    \begin{itemize}
+        \item \( (p \Rightarrow q)_A \) is 0 if \( p_A = 1 \) and \( q_A = 0 \), and 1 otherwise.
+        \item \( ((\forall x)p)_A \) is 1 if \( p[\overline a/x] \) is 1 for all \( a \in A \) and 0 otherwise, where we add a constant symbol \( \overline a \) to \( L \) for a fixed \( a \in A \) to form the language \( L' \), and we make \( A \) into an \( L' \)-structure by defining \( \overline a_A = a \).
+    \end{itemize}
+\end{itemize}
+\begin{remark}
+    For a formula \( p \) with free variables, we can define \( p_A \) to be the subset of \( A^k \) where \( k \) is the number of free variables, defined such that \( x \in p_A \) if and only if the substitution of \( x \) in \( p \) is evaluated to 1.
+\end{remark}
+\begin{definition}
+    If \( p_A = 1 \), we say \( p \) \emph{holds} in \( A \), or \( p \) is \emph{true} in \( A \), or \( A \) is a \emph{model} of \( p \).
+    A \emph{theory} is a set of sentences, known as its \emph{axioms}.
+    We say that \( A \) is a \emph{model} of a theory \( T \) if \( p_A = 1 \) for all \( p \in T \).
+    For a theory \( T \) and a sentence \( p \), we say that \( T \models p \), read \( T \) \emph{entails} or \emph{semantically implies} \( p \), if every model of \( T \) is a model of \( p \).        
+\end{definition}
+\begin{example}
+    Let \( L \) be the language of groups, and let
+    \begin{align*}
+        T &= \{(\forall x)(\forall y)(\forall z)m(x,m(y,z)) = m(m(x,y), z), \\
+        &(\forall x)(m(x,e) = x \wedge m(e,x) = x), \\
+        &(\forall x)(m(x,i(x)) = e \wedge m(i(x),x) = e)\}
+    \end{align*}
+    Then, an \( L \)-structure is a model of \( T \) if and only if it is a group.
+    Note that this statement has two assertions; every \( L \)-structure that is a model of \( T \) is a group, and that every group can be turned into an \( L \)-structure that models \( T \).
+    We say that \( T \) \emph{axiomatises} the theory of groups or the class of groups.
+\end{example}
+\begin{example}
+    Let \( L \) be the language of posets, and \( T \) be the poset axioms.
+    Then \( T \) axiomatises the class of posets.
+\end{example}
+\begin{example}
+    Let \( L \) be the language of fields, so \( \Omega = \qty{0, 1, +, \cdot, -} \) with \( \alpha(0) = \alpha(1) = 0, \alpha(+) = \alpha(\cdot) = \alpha(-) = 2 \).
+    \( T \) is the usual field axioms, including the statement \( (\forall x)(\neg (x = 0) \Rightarrow (\exists y)(x \cdot y = 1)) \).
+    Then \( T \) entails the statement that inverses are unique: \( (\forall x)(\neg (x = 0) \Rightarrow (\forall y)(\forall z) (y \cdot x = 1 \wedge z \cdot x = 1 \Rightarrow y = z)) \).
+\end{example}
+\begin{example}
+    Let \( L \) be the language of graphs, defined by \( \Omega = \varnothing \) and \( \Pi = \qty{a} \) where \( \alpha(a) = 2 \) is the adjacency relation.
+    Define \( T = \qty{(\forall x)(\neg a(x,x)), (\forall x)(\forall y)(a(x,y) \Rightarrow a(y,x))} \).
+    Then \( T \) axiomatises the class of graphs.
+\end{example}
+
+\subsection{Syntactic implication}
+We need to define (logical) axioms and deduction rules in order to construct proofs.
+\begin{enumerate}
+    \item \( p \Rightarrow (q \Rightarrow p) \) for formulae \( p, q \).
+    \item \( (p \Rightarrow (q \Rightarrow r)) \Rightarrow ((p \Rightarrow q) \Rightarrow (q \Rightarrow r)) \) for formulae \( p, q, r \).
+    \item \( \neg\neg p \Rightarrow p \) for each formula \( p \).
+    \item \( (\forall x)(x = x) \) for any variable \( x \).
+    \item \( (\forall x)(\forall y)(x = y \Rightarrow (p \Rightarrow p[y/x])) \) for any variables \( x, y \) where \( y \) is not bound in the formula \( p \).
+    \item \( ((\forall x)p) \Rightarrow p[t/x] \) for any variable \( x \), formula \( p \), and term \( t \) that has no free variable that occurs bound in \( p \).
+    \item \( (\forall x)(p \Rightarrow q) \Rightarrow (p \Rightarrow (\forall x)q) \) for any formulae \( p, q \) and variable \( x \) that does not appear free in \( p \).
+\end{enumerate}
+Note that all of these axioms are tautologies; they hold in every structure.
+We define the following deduction rules.
+\begin{enumerate}
+    \item (modus ponens) From \( p \) and \( p \Rightarrow q \), we can deduce \( q \).
+    \item (generalisation) From \( p \), we can deduce \( (\forall x)p \) provided that \( x \) does not occur free in any premise used to deduce \( p \).
+\end{enumerate}
+For \( S \subseteq L \) and \( t \in L \), we say that \( S \vdash p \), read \( S \) \emph{proves} \( p \), if there exists a \emph{proof} of \( p \) from \( S \), which is a finite sequence of formulae ending with \( p \) such that each formula is a logical axiom, a hypothesis in \( S \), or obtained from earlier lines by one of the deduction rules.
+\begin{remark}
+    Suppose we allow the empty structure for a language with no constants.
+    Then, \( \bot \) is false in \( A \), and the statement \( (\forall x)\bot \) is true in \( A \).
+    Therefore, \( ((\forall x)\bot) \Rightarrow \bot \) is false by modus ponens.
+    But this is an instance of axiom (vi), showing that it would not be a tautology.
+\end{remark}

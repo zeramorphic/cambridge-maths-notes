@@ -4,7 +4,7 @@
 \end{definition}
 Equivalently, \( C \) is a vector subspace of \( \mathbb F_2^n \).
 \begin{definition}
-    The \emph{rank} of a linear code \( C \), denoted \( \operatorname{rk} C \), is its dimension as an \( \mathbb F_2 \)-vector space.
+    The \emph{rank} of a linear code \( C \), denoted \( \rank C \), is its dimension as an \( \mathbb F_2 \)-vector space.
     A linear code of length \( n \) and rank \( k \) is called an \( (n,k) \)-code.
     If it has minimum distance \( d \), it is called an \( (n,k,d) \)-code.
 \end{definition}
@@ -56,7 +56,7 @@ There are nonzero \( x \) such that \( x \cdot x = 0 \).
 By definition, \( C^\perp \) is a parity check code, and hence is linear.
 Note that \( C \cap c^\perp \) may contain elements other than 0.
 \begin{lemma}
-    \( \operatorname{rk} C + \operatorname{rk} C^\perp = n \).
+    \( \rank C + \rank C^\perp = n \).
 \end{lemma}
 \begin{proof}
     One can prove this by defining \( C^\perp \) as an annihilator from linear algebra.
@@ -69,7 +69,7 @@ Note that \( C \cap c^\perp \) may contain elements other than 0.
 \end{corollary}
 \begin{proof}
     If \( x \in C \), then \( x \cdot y = 0 \) for all \( y \in C^\perp \) by definition, so \( x \in (C^\perp)^\perp \).
-    Then \( \operatorname{rk} C = n - \operatorname{rk} C^\perp = n - (n - \operatorname{rk} (C^\perp)^\perp) = \operatorname{rk} (C^\perp)^\perp \), so \( C = (C^\perp)^\perp \).
+    Then \( \rank C = n - \rank C^\perp = n - (n - \rank (C^\perp)^\perp) = \rank (C^\perp)^\perp \), so \( C = (C^\perp)^\perp \).
 \end{proof}
 \begin{definition}
     Let \( C \) be an \( (n,k) \)-code.
@@ -77,3 +77,134 @@ Note that \( C \cap c^\perp \) may contain elements other than 0.
     A \emph{parity check matrix} \( H \) for \( C \) is a generator matrix for the dual code \( C^\perp \), so it is an \( (n-k) \times n \) matrix.
 \end{definition}
 The codewords of a linear code can be viewed either as linear combinations of rows of \( G \), or linear dependence relations between the columns of \( H \), so \( C = \qty{x \in \mathbb F_2^n \mid H x = 0} \).
+\begin{definition}
+    Let \( C \) be an \( (n, k) \)-code.
+    The \emph{syndrome} of \( x \in \mathbb F_2^n \) is \( Hx \).
+\end{definition}
+If we receive a word \( x = c + z \) where \( c \in C \) and \( z \) is the error pattern, \( Hx = Hz \) as \( Hc = 0 \).
+If \( C \) is \( e \)-error correcting, we precompute \( Hz \) for all \( z \) for which \( w(z) \leq e \).
+On receiving \( x \), we can compute the syndrome \( Hx \) and find this entry in the table of values of \( Hz \).
+If successful, we decode \( c = x - z \), with \( d(x,c) = w(z) \leq e \).
+\begin{definition}
+    Codes \( C_1, C_2 \subseteq \mathbb F_2^n \) are \emph{equivalent} if there exists a permutation of bits that maps codewords in \( C_1 \) to codewords in \( C_2 \).
+\end{definition}
+Codes are typically only considered up to equivalence.
+\begin{lemma}
+    Every \( (n, k) \)-linear code is equivalent to one with generator matrix with block form \( \begin{pmatrix}
+        I_k & B
+    \end{pmatrix} \) for some \( k \times (n - k) \) matrix \( B \).
+\end{lemma}
+\begin{proof}
+    Let \( G \) be a \( k \times n \) generator matrix for \( C \).
+    Using Gaussian elimination, we can transform \( G \) into row echelon form
+    \[ G_{ij} = \begin{cases}
+        0 & j < \ell(i) \\
+        1 & j = \ell(i)
+    \end{cases} \]
+    for some \( \ell(1) < \ell(2) < \dots < \ell(k) \).
+    Permuting the columns, replaces \( C \) with an equivalent code, so without loss of generality we may assume \( \ell(i) = i \).
+    Hence,
+    \[ G = \begin{pmatrix}
+        1 & & \star \\
+        & \ddots & & B \\
+        & & 1
+    \end{pmatrix} \]
+    Further row operations eliminate \( \star \) to give \( G \) in the required form.
+\end{proof}
+A message \( y \in \mathbb F_2^k \) viewed as a row vector can be encoded as \( yG \).
+If \( G = \begin{pmatrix}
+    I_k & B
+\end{pmatrix} \), then \( yG = (y, yB) \) where \( y \) is the message and \( yB \) is a string of check digits.
+We now prove the following lemma that was stated earlier.
+\begin{lemma}
+    \( \rank C + \rank C^\perp = n \).
+\end{lemma}
+\begin{proof}
+    Let \( C \) have generator matrix \( G = \begin{pmatrix}
+        I_k & B
+    \end{pmatrix} \).
+    \( G \) has \( k \) linearly independent columns, so there is a linear map \( \gamma \colon \mathbb F_2^n \to \mathbb F_2^k \) defined by \( x \mapsto Gx \) which is surjective.
+    Its kernel is \( C^\perp \).
+    By the rank-nullity theorem, \( \dim \mathbb F_2^n = \dim \ker \gamma + \dim \Im \gamma \), so \( n = \rank C + \rank C^\perp \) as required.
+\end{proof}
+\begin{lemma}
+    An \( (n, k) \)-code with generator matrix \( G = \begin{pmatrix}
+        I_k & B
+    \end{pmatrix} \) has parity check matrix \( H \) of the form \( \begin{pmatrix}
+        B^\transpose & I_{n-k}
+    \end{pmatrix} \).
+\end{lemma}
+\begin{proof}
+    \[ GH^\transpose = \begin{pmatrix}
+        I_k & B
+    \end{pmatrix} \begin{pmatrix}
+        B \\
+        I_{n-k}
+    \end{pmatrix} = B + B = 2B = 0 \]
+    So the rows of \( H \) generate a subcode of \( C^\perp \).
+    But \( \rank H = n - k \), and \( \rank C^\perp = n - k \).
+    So \( H = C^\perp \), and \( C^\perp \) has generator matrix \( H \).
+\end{proof}
+\begin{lemma}
+    Let \( C \) be a linear code with parity check matrix \( H \).
+    Then, \( d(C) = d \) if and only if
+    % w(C) = d? typo?
+    \begin{enumerate}
+        \item any \( d - 1 \) columns of \( H \) are linearly independent; and
+        \item a set of \( d \) columns of \( H \) are linearly dependent.
+    \end{enumerate}
+\end{lemma}
+The proof is left as an exercise.
+% see online for proof
+
+\subsection{Hamming codes}
+\begin{definition}
+    Let \( d \geq 1 \), and let \( n = 2^d - 1 \).
+    Let \( H \) be the \( d \times n \) matrix with columns given by the nonzero elements of \( \mathbb F_2^d \).
+    The \emph{Hamming \( (n, n-d) \)-linear code} is the code with parity check matrix \( H \).
+\end{definition}
+\begin{lemma}
+    The Hamming \( (n, n-d) \)-code \( C \) has minimum distance \( d(C) = 3 \), and is a perfect 1-error correcting code.
+\end{lemma}
+\begin{proof}
+    Any two columns of \( H \) are linearly independent, but there are three linearly dependent columns.
+    Hence, \( d(C) = 3 \).
+    Hence, \( C \) is \( \floor{\frac{3-1}{2}} = 1 \)-error correcting.
+    A perfect code is one such that \( \abs{C} = \frac{2^n}{V(n,e)} \).
+    In this case, \( n = 2^d - 1 \) and \( e = 1 \), so \( \frac{2^n}{1 + 2^d - 1} = 2^{n-d} = \abs{C} \) as required.
+\end{proof}
+
+\subsection{Reed--Muller codes}
+Let \( X = \qty{p_1, \dots, p_n} \) be a set of size \( n \).
+There is a correspondence between the power set \( \mathcal P(X) \) and \( \mathbb F_2^n \).
+\[\begin{tikzcd}[column sep=huge]
+	{\mathcal P(X)} & {\qty{f \colon X \to \mathbb F_2}} & {\mathbb F_2^n}
+	\arrow["{A \mapsto \mathbbm 1_A}", from=1-1, to=1-2]
+	\arrow["{f \mapsto (f(p_1), \dots, f(p_n))}", from=1-2, to=1-3]
+\end{tikzcd}\]
+The \emph{symmetric difference} of two sets \( A, B \) is defined to be \( A \,\triangle\, B = A\setminus B \cup B \setminus A \), which corresponds to vector addition in \( \mathbb F_2^n \). 
+Intersection \( A \cap B \) corresponds to the \emph{wedge product} \( x \wedge y = (x_1 y_1, \dots, x_n y_n) \).
+
+Let \( X = \mathbb F_2^d \), so \( n = 2^d - \abs{X} \).
+Let \( v_0 = (1, \dots, 1) \), and let \( v_i = \mathbbm 1_{H_i} \) where \( H_i = \qty{p \in X \mid p_i = 0} \) is a coordinate hyperplane.
+\begin{definition}
+    Let \( 0 \leq r \leq d \).
+    The \emph{Reed--Muller code} \( RM(d,r) \) of length \( 2^d \) is the linear code spanned by \( v_0 \) and all wedge products of at most \( r \) of the the \( v_i \) for \( 1 \leq i \leq d \).
+\end{definition}
+By convention, the empty wedge product is \( v_0 \).
+\begin{example}
+    Let \( d = 3 \), and let \( X = \mathbb F_2^3 = \qty{p_1, \dots, p_8} \) in binary order.
+    \[ \begin{array}{c|cccccccc}
+        X & 000 & 001 & 010 & 011 & 100 & 101 & 110 & 111 \\\hline
+        v_0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+        v_1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 \\
+        v_2 & 1 & 1 & 0 & 0 & 1 & 1 & 0 & 0 \\
+        v_3 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
+        v_1 \wedge v_2 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        v_2 \wedge v_3 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+        v_1 \wedge v_3 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+        v_1 \wedge v_2 \wedge v_3 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+    \end{array} \]
+    A generator matrix for Hamming's original code is a submatrix in the top-right corner.
+\end{example}
+
