@@ -90,3 +90,129 @@ Indeed, if \( \mathfrak a = \mathfrak p_1^{e_1} \dots \mathfrak p_r^{e_r} \) wit
         \item there are no others.
     \end{enumerate}
 \end{theorem}
+\begin{definition}
+    A subset \( X \subseteq \mathbb R^n \) if for all \( K \subseteq \mathbb R^n \) compact, \( K \cap X \) is finite.
+    Equivalently, for all \( x \in X \) there exists \( \varepsilon > 0 \) with \( B_\varepsilon(x) \cap X = \qty{x} \).
+\end{definition}
+Recall that \( K \subseteq \mathbb R^n \) is compact if and only if it is closed and bounded.
+\begin{proposition}
+    Let \( \Lambda \subseteq \mathbb R^n \).
+    Then the following are equivalent.
+    \begin{enumerate}
+        \item \( \Lambda \) is a discrete subgroup of \( (\mathbb R^n, +) \);
+        \item \( \Lambda = \qty{\sum_{i=1}^m n_i x_i \mid n_i \in \mathbb Z} \) where \( x_1, \dots, x_m \) are linearly independent over \( \mathbb R \).
+    \end{enumerate}
+\end{proposition}
+\begin{example}
+    \( \mathbb Z\sqrt{2} + \mathbb Z\sqrt{3} \subseteq \mathbb R \) is not discrete.
+    If \( \Lambda = \mathfrak a \subseteq \trianglelefteq O_L \) is an ideal where \( L = \mathbb Q(\sqrt{-d}) \) and \( d > 0 \), \( \Lambda \) is discrete.
+\end{example}
+\begin{proof}
+    \emph{(ii) implies (i).}
+    Observe that if \( g \in GL_n(\mathbb R) \), then \( g\Lambda \) is discrete if \( \Lambda \) is.
+    \( g\Lambda \) satisfies (ii) if and only if \( \Lambda \) does.
+    Suppose property (ii) holds, so \( \Lambda = \qty{\sum_{i=1}^m n_i x_i \mid n_i \in \mathbb Z} \).
+    There exists \( g \in GL_n(\mathbb R) \) such that \( gx_i = e_i \) where the \( e_i \) form the standard basis of \( \mathbb R^n \).
+    Clearly, \( \bigoplus_{i=1}^m \mathbb Z e_i \) is discrete.
+
+    \emph{(i) implies (ii).}
+    Let \( y_1, \dots, y_m \in \Lambda \) which are \( \mathbb R \)-linearly independent such that \( m \) is maximal.
+    Note that \( m \leq n \).
+    Also,
+    \[ \qty{\sum_{i=1}^m \lambda_i y_i \mid \lambda_i \in \mathbb R} = \qty{\sum_{i=1}^N \lambda_\alpha z_\alpha \mid \lambda_\alpha \in \mathbb R, z_\alpha \in \Lambda, N \geq 0} \]
+    This is the smallest \( \mathbb R \)-vector subspace of \( \mathbb R^n \) containing \( \Lambda \).
+    Let \( X = \qty{\sum_{i=1}^m \lambda_i y_i \mid \lambda_i \in [0,1]} \).
+    This is closed and bounded, hence compact.
+    \( \Lambda \) is discrete, so \( X \cap \Lambda \) is finite.
+
+    Consider the subgroup \( \mathbb Z^m = \bigoplus_{i=1}^m \mathbb Z y_i \subseteq \Lambda \).
+    We can write \( \lambda \in \Lambda \) as \( \lambda = \lambda_0 + \lambda_1 \) where \( \lambda_0 \in X \cap \Lambda \) is the integral part and \( \lambda_1 \in \mathbb Z^m = \bigoplus_{i=1}^m \mathbb Z y_i \) is the fractional part.
+    Hence, \( \abs{\faktor{\Lambda}{\mathbb Z^m}} \leq \abs{X \cap \Lambda} \) is finite.
+    Let \( d = \abs{\faktor{\Lambda}{\mathbb Z^m}} \), so by Lagrange's theorem, \( d = 0 \) in \( \faktor{\Lambda}{\mathbb Z^m} \), so \( d\Lambda \subseteq \mathbb Z^m \).
+    In particular, \( \mathbb Z^m \subseteq \Lambda \subseteq \frac{1}{d} \mathbb Z^m \).
+    The structure theorem for finitely generated abelian groups shows that there exist \( x_1, \dots, x_m \in \Lambda \) with \( \Lambda = \bigoplus_{i=1}^m \mathbb Z x_i \).
+\end{proof}
+\begin{definition}
+    If \( \rank \Lambda = n \), so if \( n = m \), we say \( \Lambda \) is a \emph{lattice} in \( \mathbb R^n \).
+\end{definition}
+\begin{definition}
+    Let \( \Lambda \subseteq \mathbb R^n \) be a lattice with basis \( x_1, \dots, x_n \).
+    The \emph{fundamental parallelogram} is \( P = \qty{\sum_{i=1}^n \lambda_i x_i \mid \lambda_i \in [0,1]} \).
+    The \emph{covolume} of \( \Lambda \) is the volume of \( P \), which is \( \abs{\det A} \) if \( x_i = \sum_{j=1}^n a_{ij} e_j \).    
+\end{definition}
+Note that if \( x_1', \dots, x_n' \) are another basis of \( \Lambda \), the change of basis matrix \( B \) given by \( x_i' = \sum_{j=1}^m b_{ij} x_j \) has integer coefficients, so \( B \in GL_n(\mathbb Z) \), giving \( \det B = \pm 1 \).
+Hence, the covolume is well-defined irrespective of the choice of basis.
+Observe that \( P \) is a fundamental domain for the action of \( \Lambda \) on \( \mathbb R^n \); \( \mathbb R^n = \bigcup_{\gamma \in \Lambda} (\gamma + P) \) and \( (\gamma + P) \cap (\mu + P) \subseteq \partial P \) if \( \gamma \neq \mu \).
+We can think of \( P \) as a set of coset representatives for \( \faktor{\mathbb R^n}{\Lambda} \), ignoring the boundary of \( P \); this can be justified by noting that \( \partial P \) has no volume.
+
+\subsection{Minkowski's lemma}
+\begin{theorem}
+    Let \( \Lambda \subseteq \mathbb R^n \) be a lattice, and \( P \) be a fundamental parallelogram for it.
+    Let \( S \subseteq \mathbb R^n \) be a measurable set.
+    \begin{enumerate}
+        \item If \( \operatorname{vol}(S) > \operatorname{covol}(\Lambda) \), there exist \( x, y \in S \) with \( x \neq y \) and \( x - y \in \Lambda \).
+        \item Suppose \( s \in S \) if and only if \( -s \in S \), so \( S \) is \emph{symmetric around zero}, and that \( S \) is convex.
+        Then, if
+        \begin{enumerate}
+            \item \( \operatorname{vol}(S) > 2^n \operatorname{covol}(\Lambda) \), or
+            \item \( \operatorname{vol}(S) \geq 2^n \operatorname{covol}(\Lambda) \) and \( S \) is closed, 
+        \end{enumerate}
+        then there exists \( \gamma \in S \cap \Lambda \) with \( \gamma \neq 0 \).
+    \end{enumerate}
+\end{theorem}
+Note that this implies the result we used when \( n = 2 \).
+In the case of the square lattice \( \Lambda = \mathbb Z^n \) and \( S = [-1,1]^n \), we can see that these bounds are sharp.
+\begin{proof}
+    \emph{Part (i).}
+    Observe that \( \operatorname{vol}(S) = \sum_{\gamma \in \Lambda} \operatorname{vol}(S \cap (P + \gamma)) \) as \( P \) is a fundamental domain, volume is additive, and \( \operatorname{vol}(\partial (P + \gamma)) = 0 \).
+    Note that \( \operatorname{vol}(S \cap (P + \gamma)) = \operatorname{vol}((S - \gamma) \cap P) \) as volume is translation invariant.
+    We claim that the sets \( (S - \gamma) \cap P \) are not pairwise disjoint.
+    Indeed, if they were, then \( \operatorname{vol}(P) \geq \sum_{\gamma \in \Lambda} \operatorname{vol}((S - \gamma) \cap P) = \operatorname{vol}(S) \) contradicting the assumption.
+    Hence there exists \( \gamma \mu \in \Lambda \) with \( \gamma \neq \mu \) such that \( (S - \gamma) \cap P \) and \( (S - \mu) \cap P \) are not disjoint, so there exist \( x, y \in S \) with \( x - \gamma = y - \mu \), hence \( x - y \in \Lambda \).
+
+    \emph{Part (ii)(a).}
+    Let \( S' = \frac{1}{2} S = \qty{\frac{1}{2} s \mid s \in S} \).
+    Then \( \operatorname{vol}(S') = 2^{-n} \operatorname{vol}(S) > \operatorname{covol}(\Lambda) \) by assumption.
+    By part (i), there exist \( y, z \in S' \) with \( y - z \in \Lambda \setminus \qty{0} \).
+    But \( y - z = \frac{1}{2}(2y + -2z) \).
+    \( 2z \in S \) so \( -2z \in S \) as \( S \) is symmetric around zero.
+    \( 2y \in S \), and \( S \) is convex, so \( y - z \in S \) as required.
+
+    \emph{Part (ii)(b).}
+    Apply part (ii)(a) to \( S_m = \qty(1 + \frac{1}{m}) S \) for all \( m \in \mathbb N, m > 0 \).
+    We obtain \( \gamma_m \in S_m \cap \Lambda \) with \( \gamma_m \neq 0 \).
+    By convexity of \( S \), \( S_m \subseteq S_1 \).
+    So \( \gamma_1, \gamma_2, \dots \) are contained in \( S_1 \cap \Lambda \), which is a finite set as \( S_1 \) is closed and bounded (without loss of generality) and \( \Lambda \) is discrete.
+    So there exists \( \gamma \in S_m \cap \Lambda \) such that \( \gamma_m = \gamma \) for infinitely many \( m \).
+    Hence, \( \gamma \in \bigcap_{m > 0} S_m = S \) as \( S \) is closed.
+    Therefore \( \gamma \in S \cap \Lambda \) with \( \gamma \neq 0 \).
+\end{proof}
+Let \( L \) be a number field and let \( n = [L:\mathbb Q] \).
+Let \( \sigma_1, \dots, \sigma_r \colon L \to \mathbb R \) be the real embeddings, and \( \sigma_{r+1}, \dots, \sigma_{r+s}, \overline{\sigma_{r+1}}, \dots, \overline{\sigma_{r+s}} \colon L \to \mathbb C \) be the complex embeddings, where \( r + 2s = n \).
+This gives an embedding
+\[ (\sigma_1, \dots, \sigma_{r+s}) \colon L \hookrightarrow \mathbb R^r \times \mathbb C^s \xrightarrow{\simeq} \mathbb R^r \times \mathbb R^{2s} = \mathbb R^{r+2s} \]
+In other words, we can write
+\[ \sigma = (\sigma_1, \dots, \sigma_r, \Re \sigma_{r+1}, \Im \sigma_{r+1}, \dots, \Re\sigma_{r+s}, \Im\sigma_{r+s}) \]
+\begin{lemma}
+    \( \sigma(\mathcal O_L) \) is a lattice in \( \mathbb R^n \) of covolume \( 2^{-s} \abs{D_L}^{\frac{1}{2}} \).
+    If \( \mathfrak a \trianglelefteq \mathcal O_L \) is an ideal, then \( \sigma(\mathfrak a) \) is a lattice, and \( \operatorname{covol}(\sigma(\mathfrak a)) = 2^{-s} \abs{D_L}^{\frac{1}{2}} N(\mathfrak a) \).
+\end{lemma}
+\begin{proof}
+    The first part is a special case of the second part.
+    Recall that \( \mathfrak a \) has an integral basis \( \gamma_1, \dots, \gamma_n \), and \( (\det (\sigma_i(\gamma_j)))^2 = \Delta(\gamma_1, \dots, \gamma_n) = N(\mathfrak a)^2 D_L \).
+    Hence, \( \abs{\det(\sigma_i(\gamma_j))} = N(\mathfrak a) \abs{D_L}^{\frac{1}{2}} \).
+    Note that if \( \sigma_{r+i}(\gamma) \overline{\sigma_{r+i}(\gamma)} = z\overline z \),
+    \[ \begin{pmatrix}
+        \Re z \\
+        \Im z
+    \end{pmatrix} = \begin{pmatrix}
+        \frac{1}{2}(z + \overline z) \\
+        \frac{1}{2}(z - \overline z)
+    \end{pmatrix} = \frac{1}{2}\begin{pmatrix}
+        1 & 1 \\
+        1 & -1
+    \end{pmatrix} \begin{pmatrix}
+        z \\ \overline z
+    \end{pmatrix} \]
+    The determinant of the change of basis matrix is \( -\frac{1}{2} \).
+\end{proof}
