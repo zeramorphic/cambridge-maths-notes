@@ -2,18 +2,18 @@
 A \emph{computational task} takes an input bit string and produces an output bit string.
 
 A decision problem is a computational task that produces an output of length 1.
-Let \( \mathbb B = \mathbb B_1 = \qty{0,1} \) and denote \( \mathbb B_n = \qty{0,1}^n \).
-Define \( \mathbb B^\star = \bigcup_{n \geq 1} \mathbb B_n \).
-A \emph{language} is a subset \( L \subseteq \mathbb B^\star \).
-A decision problem corresponds to the problem of checking whether a word \( w \in \mathbb B^\star \) lies in a language \( L \).
-For example, the set of primes, expressed in binary, forms a language \( P \subseteq \mathbb B^\star \), and there is a corresponding decision problem to check if a given binary string represents a prime.
+Let \( B = B_1 = \qty{0,1} \) and denote \( B_n = \qty{0,1}^n \).
+Define \( B^\star = \bigcup_{n \geq 1} B_n \).
+A \emph{language} is a subset \( L \subseteq B^\star \).
+A decision problem corresponds to the problem of checking whether a word \( w \in B^\star \) lies in a language \( L \).
+For example, the set of primes, expressed in binary, forms a language \( P \subseteq B^\star \), and there is a corresponding decision problem to check if a given binary string represents a prime.
 
 More generally, the output of a computational task can be of any length.
 For example, the task \( \mathsf{FACTOR}(x) \) takes the input \( x \) and produces a bit string containing a factor of \( x \), or 1 if \( x \) is prime.
 
 There are various models of computation, but we restrict to the \emph{circuit} model or \emph{gate array} model.
-In this model, we have an input \( x = b_1 \dots b_n \in \mathbb B_n \), and extend it with some trailing zeroes to add scratch space to perform computations.
-We then perform a computational step, an application of designated Boolean gates \( f \colon \mathbb B_n \to \mathbb B_m \) on preassigned bits.
+In this model, we have an input \( x = b_1 \dots b_n \in B_n \), and extend it with some trailing zeroes to add scratch space to perform computations.
+We then perform a computational step, an application of designated Boolean gates \( f \colon B_n \to B_m \) on preassigned bits.
 For each \( n \), we have a circuit \( C_n \), which is a prescribed sequence of computational steps that performs a given task for all inputs of size \( n \).
 The output to the computation is a designated subsequence of the extended bit string.
 
@@ -33,8 +33,8 @@ The class of languages for which the membership problem has a randomised classic
 The problem \( \mathsf{FACTOR}(M,N) \) which determined if there is a nontrivial factor of \( N \) that is at most \( M \) does not lie in \( \mathsf{BPP} \).
 The best known runtime is \( T(n) = O\qty(n^{\frac{1}{3}}\qty(\log n)^\frac{2}{3}) \).
 
-A black box promise problem is a computational task where the input is a \emph{black box} or \emph{oracle} which can compute a Boolean function \( f \colon \mathbb B_m \to \mathbb B_n \), and there is an \emph{a priori promise} on \( f \) restricting the possible values of \( f \).
-For example, the black box promise problem for constant versus balanced functions takes a function \( f \colon \mathbb B_n \to \mathbb B \) such that \( f \) is constant or \emph{balanced}, in which case \( f \) is equal to zero for exactly half of the \( 2^n \) possible inputs.
+A black box promise problem is a computational task where the input is a \emph{black box} or \emph{oracle} which can compute a Boolean function \( f \colon B_m \to B_n \), and there is an \emph{a priori promise} on \( f \) restricting the possible values of \( f \).
+For example, the black box promise problem for constant vs.\ balanced functions takes a function \( f \colon B_n \to B \) such that \( f \) is constant or \emph{balanced}, in which case \( f \) is equal to zero for exactly half of the \( 2^n \) possible inputs.
 
 The corresponding complexity is called \emph{query complexity}, which counts the amount of times we need to query the black box.
 We typically wish to minimise the query complexity.
@@ -51,26 +51,86 @@ One can show that any circuit involving arbitrarily many measurements is equival
 
 \subsection{Quantum oracles}
 Note that all quantum gates are invertible, as they are represented with unitary operators, but not all classical gates are invertible.
-Any \( f \colon \mathbb B_m \to \mathbb B_n \) can be expressed in an equivalent invertible form \( \widetilde f \colon \mathbb B_{m+n} \to \mathbb B_{m+n} \) by defining \( \widetilde f(b,c) = (b, c \oplus f(b)) \).
+Any \( f \colon B_m \to B_n \) can be expressed in an equivalent invertible form \( \widetilde f \colon B_{m+n} \to B_{m+n} \) by defining \( \widetilde f(b,c) = (b, c \oplus f(b)) \).
 If we can compute \( f \) we can also compute \( \widetilde f \), and conversely given \( \widetilde f \) we can find \( f(b) = \widetilde f(b.0) \).
 This is self-inverse.
 \[ \widetilde f(\widetilde f(b,c)) = \widetilde f(b, c \oplus f(b)) = (b, c \oplus f(b) \oplus f(b)) = (b, c) \]
-A quantum oracle for a function \( f \colon \mathbb B_m \to \mathbb B_n \) is the quantum gate \( U_f \) acting on \( m + n \) qubits such that \( U_f \ket{x} \ket{y} = \ket{x} \ket{y \oplus f(x)} \) for \( \ket{x}, \ket{y} \) states in the computational basis.
+A quantum oracle for a function \( f \colon B_m \to B_n \) is the quantum gate \( U_f \) acting on \( m + n \) qubits such that \( U_f \ket{x} \ket{y} = \ket{x} \ket{y \oplus f(x)} \) for \( \ket{x}, \ket{y} \) states in the computational basis.
 In other words, its action on the computational basis is \( \widetilde f \).
 We say that \( \ket{x} \) is the \emph{input register} and \( \ket{y} \) is the \emph{output register}.
 
 One can show that \( U_f \) is always a unitary operator.
 We can show this directly by considering \( U_f \ket{x'}\ket{y'} = \ket{x'}\ket{y' \oplus f(x')} \), and we can take the inner product with \( U_f \ket{x} \ket{y} = \ket{x} \ket{y \oplus f(x)} \).
-An easier way to show this is to consider \( \widetilde f \colon \mathbb B_k \to \mathbb B_k \) as a permutation on \( \mathbb B_k \) where \( m + n = k \).
+An easier way to show this is to consider \( \widetilde f \colon B_k \to B_k \) as a permutation on \( B_k \) where \( m + n = k \).
 We can write \( U_f \ket{x} \ket{y} = U_f \ket{i_1 \dots i_k} = \ket{\widetilde f(i_1 \dots i_k)} \).
 Since \( \widetilde f \) is a permutation, \( U_f \) is therefore represented by a permutation matrix, which has a single 1 in each row and column.
 All permutation matrices are unitary.
 
 In contrast to a classical oracle, a quantum oracle can act on a superposition of input registers.
-Let \( f \colon \mathbb B_m \to \mathbb B_n \), and consider the \emph{equal superposition} state \( \ket{\varphi_m} = \frac{1}{\sqrt{2^m}} \sum_{x \in \mathbb B_m} \ket{x} \).
+Let \( f \colon B_m \to B_n \), and consider the \emph{equal superposition} state \( \ket{\varphi_m} = \frac{1}{\sqrt{2^m}} \sum_{x \in B_m} \ket{x} \).
 We can find
-\[ U_f \ket{\varphi_m} \ket{y} = U_f \qty( \frac{1}{\sqrt{2^m}} \sum_{x \in \mathbb B_m} \ket{x}) \ket{y} = \frac{1}{\sqrt{2^m}} \sum_{x \in \mathbb B_m} U_f \ket{x} \ket{y} = \ket{\psi_f} \]
+\[ U_f \ket{\varphi_m} \ket{y} = U_f \qty( \frac{1}{\sqrt{2^m}} \sum_{x \in B_m} \ket{x}) \ket{y} = \frac{1}{\sqrt{2^m}} \sum_{x \in B_m} U_f \ket{x} \ket{y} = \ket{\psi_f} \]
 In a single use of the oracle, we obtain a final state which depends on the value of \( f \) corresponding to all possible inputs.
 One can easily create such an equal superposition state \( \ket{\varphi_m} \) by sending the \( m \)-qubit state \( \ket{0} \dots \ket{0} \) through \( m \) Hadamard gates \( H \otimes \dots \otimes H \).
 We have \( \qty(H \ket{0})^{\otimes m} = \qty(\ket{+})^{\otimes m} = \ket{\varphi_m} \).
 This creates a superposition of exponentially many terms using a linear amount of Hadamard gates.
+
+\subsection{Deutsch--Jozsa algorithm}
+Consider the black box problem for balanced vs.\ constant functions.
+Classically, one needs \( 2^{n-1} + 1 \) queries to solve the problem in the worst case.
+This amount of queries is clearly sufficient; even if \( f \) is balanced, the first \( 2^{n-1} \) queries could have equal outcomes, but the subsequent query must have a different outcome.
+Suppose that there exists an algorithm that can solve the problem in \( 2^{n-1} \) queries.
+An adversary that controls the oracle can respond with 0 for every query, and subsequently chooses a function \( f \) that agrees with the earlier query results but is balanced or constant as required to cause the algorithm to produce an error.
+Therefore, classically we require a query complexity of \( O(\exp(n)) \).
+
+Suppose we have a quantum oracle \( U_f \) with \( U_f \ket{x} \ket{y} = \ket{x} \ket{y \oplus f(x)} \), where \( \ket{x} \) is an \( n \)-qubit state and \( \ket{y} \) is a 1-qubit state.
+Set each qubit to state \( \ket{0} \), then act by \( H^{\otimes n} \otimes (H \cdot X) \) on \( \ket{x} \ket{y} \).
+We then obtain the state \( \ket{A} = \frac{1}{\sqrt{2^n}} \sum_{x \in B_n} \ket{x} \ket{-} \).
+Send this state through the oracle to obtain \( U_f \ket{A} = \frac{1}{\sqrt{2^n}} U_f \sum_{x \in B_n} \ket{x} \ket{-} \).
+Note that
+\begin{align*}
+    U_f \ket{x} \ket{-} &= \frac{1}{\sqrt{2}} U_f \qty(\ket{x}\ket{0} - \ket{x}\ket{1}) \\
+    &= \frac{1}{\sqrt{2}} \qty(\ket{x}\ket{f(x)} - \ket{x}\ket{f(x)^c}) \\
+    &= \begin{cases}
+        \frac{1}{\sqrt{2}}\ket{x}(\ket{0} - \ket{1}) = \ket{x}\ket{-} & \text{if } f(x) = 0 \\
+        \frac{1}{\sqrt{2}}\ket{x}(\ket{1} - \ket{0}) = -\ket{x}\ket{-} & \text{if } f(x) = 1
+    \end{cases} \\
+    &= (-1)^{f(x)} \ket{x}\ket{-}
+\end{align*}
+The method of encoding all information into a phase is called \emph{phase kickback}.
+Hence,
+\[ U_f \ket{A} = \frac{1}{\sqrt{2^n}} U_f \sum_{x \in B_n} \ket{x} \ket{-} = \frac{1}{\sqrt{2^n}} \qty(\sum_{x \in B_n} (-1)^{f(x)} \ket{x}) \ket{-} \]
+We can then easily discard the last qubit, as it is now in a product state.
+We obtain
+\[ \ket{f} = \frac{1}{\sqrt{2^n}} \sum_{x \in B_n} (-1)^{f(x)} \ket{x} \]
+If \( f \) is constant,
+\[ \ket{f} = \pm \frac{1}{\sqrt{2^n}} \sum_{x \in B_n} \ket{x} = \pm \qty(H \ket{0})^{\otimes n} \]
+If we apply \( H^{\otimes n} \) to \( \ket{f} \), we obtain \( \pm \ket{0}^{\otimes n} \).
+If \( f \) is balanced, writing \( \ket{\varphi_n} = \frac{1}{\sqrt{2^n}} \sum_{y \in B_n} \ket{y} \),
+\[ \ip{f}{\varphi_n} = \frac{1}{2^n} \sum_{x, y \in B_n} (-1)^{f(x)} \ip{y}{x} = \frac{1}{2^n} \sum_{x \in B_n} (-1)^{f(x)} = 0 \]
+In this case, \( \ket{f} \) is orthogonal to \( \ket{\varphi_n} \).
+Applying \( H^{\otimes n} \) to \( \ket{f} \), \( H^{\otimes n} \ket{f} \) is orthogonal to \( H^{\otimes n} \ket{\varphi_n} = \ket{0}^{\otimes n} \).
+
+After obtaining \( \ket{f} \), we apply \( H^{\otimes n} \) and measure in the computational basis.
+If \( f \) is constant, we measure \( 0\dots 0 \) with probability 1, and if \( f \) is balanced, we measure \( 0\dots 0 \) with probability 0.
+This allows us to infer whether \( f \) is constant or balanced with probability 1.
+\begin{center}
+    \leavevmode
+    \Qcircuit{
+        \lstick{\ket{0}_1} & \qw & \gate{H} \qw & \multigate{4}{U_f} & \gate{H} & \meter \qw & \rstick{x_1} \cw \\
+        \lstick{\ket{0}_2} & \qw & \gate{H} \qw & \ghost{U_f} & \gate{H} & \meter \qw & \rstick{x_2} \cw \\
+        \vdots & & & & & & \vdots \\
+        \lstick{\ket{0}_n} & \qw & \gate{H} \qw & \ghost{U_f} & \gate{H} & \meter \qw & \rstick{x_n} \cw \\
+        \lstick{\ket{0}} & \gate{X} \qw & \gate{H} \qw & \ghost{U_f} & \rstick{\text{discard}} \qw
+    }
+\end{center}
+For this algorithm, we use one query and \( 3n+2 \) further operations.
+
+Suppose we permit a probability \( \varepsilon > 0 \) of error.
+In the quantum case, we only need one query.
+In the classical case, there is a randomised algorithm which solves the problem with a constant number \( O\qty(\frac{1}{\log \varepsilon}) \) of queries for all \( n \).
+Choose values of \( k \) bits each chosen uniformly at random, and evaluate \( f(x) \) for each \( x \) in this set.
+If \( f(x) \) is constant for all of these \( k \) bits, we infer \( f \) is constant; otherwise we infer it is balanced.
+An error can only occur when the function is balanced but we infer it is constant.
+The probability of error is \( \frac{2}{2^k} = 2^{-k+1} \).
+Hence, we can take \( \varepsilon < 2^{-k+1} \), so \( k = O\qty(\frac{1}{\log \varepsilon}) \).
