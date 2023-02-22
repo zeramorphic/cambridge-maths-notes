@@ -189,7 +189,7 @@ Let \( X = \mathbb F_2^d \), so \( n = 2^d - \abs{X} \).
 Let \( v_0 = (1, \dots, 1) \), and let \( v_i = \mathbbm 1_{H_i} \) where \( H_i = \qty{p \in X \mid p_i = 0} \) is a coordinate hyperplane.
 \begin{definition}
     Let \( 0 \leq r \leq d \).
-    The \emph{Reed--Muller code} \( RM(d,r) \) of length \( 2^d \) is the linear code spanned by \( v_0 \) and all wedge products of at most \( r \) of the the \( v_i \) for \( 1 \leq i \leq d \).
+    The \emph{Reed--Muller code} \( RM(d,r) \) of \emph{order} \( r \) and length \( 2^d \) is the linear code spanned by \( v_0 \) and all wedge products of at most \( r \) of the the \( v_i \) for \( 1 \leq i \leq d \).
 \end{definition}
 By convention, the empty wedge product is \( v_0 \).
 \begin{example}
@@ -207,4 +207,75 @@ By convention, the empty wedge product is \( v_0 \).
     \end{array} \]
     A generator matrix for Hamming's original code is a submatrix in the top-right corner.
 \end{example}
+\( RM(3,0) \) is spanned by \( v_0 \), and is hence the repetition code of length 8.
+\( RM(3,1) \) is spanned by \( v_0, v_1, v_2, v_3 \), which is equivalent to a parity check extension of Hamming's original \( (7,4) \)-code.
+\( RM(3,2) \) is an \( (8,7) \)-code, and can be shown to be equivalent to a simple parity check code of length 8.
+\( RM(3,3) \) is the trivial code \( \mathbb F_2^8 \) of length 8.
+\begin{theorem}
+    \begin{enumerate}
+        \item The vectors \( v_{i_1} \wedge v_{i_s} \) for \( i_1 < \dots < i_s \) and \( 0 \leq s \leq d \) form a basis for \( \mathbb F_2^n \).
+        \item The rank of \( RM(d,r) \) is \( \sum_{s=0}^r \binom{d}{s} \). 
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \emph{Part (i).}
+    There are \( \sum_{s=0}^d \binom{d}{s} = 2^d = n \) vectors listed, so it suffices to show they are a spanning set, or equivalently \( RM(d,d) \) is the trivial code.
+    Let \( p \in X \), and let \( y_i \) be \( v_i \) if \( p_i = 0 \) and \( v_0 + v_i \) if \( p_i = 1 \).
+    Then \( \mathbbm 1_{\qty{p}} = y_1 \wedge \dots \wedge y_d \).
+    Expanding this using the distributive law, \( \mathbbm 1_{\qty{p}} \in RM(d,d) \).
+    But the set of \( \mathbbm 1_{\qty{p}} \) for \( p \in X \) spans \( \mathbb F_2^n \), as required.
 
+    \emph{Part (ii).}
+    \( RM(d,r) \) is spanned by \( v_{i_1} \wedge \dots \wedge v_{i_s} \) where \( i_1 < \dots < i_s \) and \( 0 \leq s \leq r \).
+    Since these are linearly independent, the rank of \( RM(d,r) \) is the number of such vectors, which is \( \sum_{s=0}^d \binom{d}{s} \).
+\end{proof}
+\begin{definition}
+    Let \( C_1, C_2 \) be linear codes of length \( n \) where \( C_2 \subseteq C_1 \).
+    The \emph{bar product} is \( C_1 \mid C_2 = \qty{(x \mid x + y) \mid x \in C_1, y \in C_2} \).
+\end{definition}
+This is a linear code of length \( 2n \).
+\begin{lemma}
+    \begin{enumerate}
+        \item \( \rank (C_1 \mid C_2) = \rank C_1 + \rank C_2 \).
+        \item \( d(C_1 \mid C_2) = \min \qty{2d(C_1), d(C_2)} \).
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \emph{Part (i).}
+    If \( C_1 \) has basis \( x_1, \dots, x_k \) and \( C_2 \) has basis \( y_1, \dots, y_\ell \), then \( C_1 \mid C_2 \) has basis
+    \[ \qty{(x_i \mid x_i) \mid 1 \leq i \leq k} \cup \qty{(0 \mid y_i) \mid 1 \leq i \leq \ell} \]
+    \emph{Part (ii).}
+    Let \( 0 \neq (x \mid x + y) \in C_1 \mid C_2 \).
+    If \( y \neq 0 \), then \( w(x \mid x + y) = w(x) + w(x + y) \geq w(y) \geq d(C_2) \).
+    If \( y = 0 \), then \( w(x \mid x + y) = w(x \mid x) = 2w(x) \geq 2d(C_1) \).
+    Hence, \( d(C_1 \mid C_2) \geq \min\qty{2d(C_1), d(C_2)} \).
+    
+    There is a nonzero \( x \in C_1 \) with \( w(x) = d(C_1) \), so \( d(C_1 \mid C_2) \leq w(x \mid x) = 2d(C_1) \).
+    There is a nonzero \( y \in C_2 \) with \( w(y) = d(C_2) \), giving \( d(C_1 \mid C_2) \leq w(0 \mid 0 + y) = d(C_2) \), giving the other inequality as required.
+\end{proof}
+\begin{theorem}
+    \begin{enumerate}
+        \item \( RM(d,r) = RM(d-1,r) \mid RM(d-1,r-1) \) for \( 0 < r < d \).
+        \item \( RM(d,r) \) has minimum distance \( 2^{d-r} \) for all \( r \).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \emph{Part (i).}
+    Exercise.
+    % see notes
+
+    \emph{Part (ii).}
+    If \( r = 0 \), then \( RM(d,r) \) is the repetition code of length \( 2^d \), which has minimum distance \( 2^d \).
+    If \( r = d \), \( RM(d,r) \) is the trivial code of length \( 2^d \), which has minimum distance \( 1 = 2^{d-d} \).
+    We prove the remaining cases by induction on \( d \).
+    From part (i), \( RM(d,r) = RM(d-1,r) \mid RM(d-1,r-1) \).
+    By induction, the minimum distance of \( RM(d-1,r) \) is \( 2^{d-1-r} \) and the minimum distance of \( RM(d-1,r-1) \) is \( 2^{d-r} \).
+    By part (ii) of the previous lemma, the minimum distance of \( RM(d,r) \) is \( \min\qty{2\cdot 2^{d-1-r}, 2^{d-r}} = 2^{d-r} \).
+\end{proof}
+
+\subsection{Cyclic codes}
+% Recall that every field is either an extension of \( \mathbb Q \), in which case we say it has characteristic zero, or \( \mathbb F_p \) for some \( p \), in which case is has characteristic \( p \).
+% In a polynomial ring \( R[X] \), \( \sum_{i=0}^n a_i X^i = 0 \) if and only if each \( a_i \) is zero.
+% Note that \( X^2 + X \in \mathbb F_2[X] \) is nonzero, but always evaluates to zero.
+% If \( F \) is a field, \( F[X] \) is a Euclidean domain using the degree function as the Euclidean function, and has a Euclidean division algorithm.
+If \( F \) is a field and \( f \in F[X] \), \( \faktor{F[X]}{(f)} \) is in bijection with \( F^n \), since \( \faktor{F[X]}{(f)} \) is represented by the set of functions of degree less than \( \deg f \).

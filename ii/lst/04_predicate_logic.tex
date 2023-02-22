@@ -42,8 +42,6 @@ The \emph{language} \( L = L(\Omega, \Pi, \alpha) \) is the set of formulae.
     We define \( \neg p, p \wedge q, p \vee q \) in the usual way.
     We define \( (\exists x) p \) to mean \( \neg(\forall x) (\neg p) \).
 \end{remark}
-
-\subsection{Variables}
 A term is \emph{closed} if it contains no variables.
 For example, \( e, m(e,i(e)) \) are closed in the language of groups, but \( m(x,i(x)) \) is not closed.
 
@@ -154,3 +152,83 @@ For \( S \subseteq L \) and \( t \in L \), we say that \( S \vdash p \), read \(
     Therefore, \( ((\forall x)\bot) \Rightarrow \bot \) is false by modus ponens.
     But this is an instance of axiom (vi), showing that it would not be a tautology.
 \end{remark}
+\begin{example}
+    We show \( \qty{x = y, x = z} \vdash y = z \) where \( x, y, z \) are different variables.
+    \begin{enumerate}[1.]
+        \item \( (\forall x)(\forall y)(x = y \Rightarrow (x = z \Rightarrow y = z)) \) (axiom 5)
+        \item \( \qty((\forall x)(\forall y)(x = y \Rightarrow (x = z \Rightarrow y = z))) \Rightarrow (\forall y)(x = y \Rightarrow (x = z \Rightarrow y = z)) \) (axiom 6)
+        \item \( (\forall y)(x = y \Rightarrow (x = z \Rightarrow y = z)) \) (modus ponens on lines 1, 2)
+        \item \( \qty((\forall y)(x = y \Rightarrow (x = z \Rightarrow y = z))) \Rightarrow (x = y \Rightarrow (x = z \Rightarrow y = z)) \) (axiom 6)
+        \item \( x = y \Rightarrow (x = z \Rightarrow y = z) \) (modus ponens on lines 3, 4)
+        \item \( x = y \) (hypothesis)
+        \item \( x = z \Rightarrow y = z \) (modus ponens on lines 5, 6)
+        \item \( x = z \) (hypothesis)
+        \item \( y = z \) (modus ponens on lines 7, 8)
+    \end{enumerate}
+\end{example}
+
+\subsection{Deduction theorem}
+\begin{proposition}
+    Let \( S \subseteq L \), and \( p, q \in L \).
+    Then \( S \vdash (p \Rightarrow q) \) if and only if \( S \cup \qty{p} \vdash q \).    
+\end{proposition}
+\begin{proof}
+    As before, given a proof of \( p \Rightarrow q \) from \( S \), one can establish a proof of \( q \) from \( S \cup \qty{p} \vdash q \) by writing \( p \) and applying modus ponens to the original proof.
+
+    Conversely, suppose we have a proof \( S \cup \qty{p} \vdash q \).
+    We convert each line \( t_i \) into \( p \Rightarrow t_i \) as in the proof in propositional logic.
+    The only new case is generalisation.
+    Suppose we have the line \( r \) and then the line \( (\forall x) r \) obtained by generalisation, and we have a proof \( S \vdash p \Rightarrow r \) by induction.
+    In the proof \( S \cup \qty{p} \vdash r \), no hypothesis has a free occurrence of \( x \).
+    Therefore, in the proof \( S \vdash p \Rightarrow r \), the same holds.
+    Thus, \( S \vdash (\forall x)(p \Rightarrow r) \) by generalisation.
+
+    Suppose \( x \) is not free in \( p \).
+    Then, \( S \vdash p \Rightarrow (\forall x)r \) by axiom 7 and modus ponens.
+
+    Now, suppse \( x \) occurs free in \( p \).
+    In this case, the proof \( S \cup \qty{p} \vdash r \) cannot have used the hypothesis \( p \).
+    Hence, \( S \vdash r \), and so \( S \vdash (\forall x)r \) by generalisation.
+    This gives \( S \vdash p \Rightarrow (\forall x)r \) by axiom 1.
+\end{proof}
+
+\subsection{Soundness}
+This section is non-examinable.
+\begin{proposition}
+    Let \( S \) be a set of sentences in \( L \), and \( p \) a sentence in \( L \).
+    Then \( S \vdash t \) implies \( S \models t \).
+\end{proposition}
+\begin{proof}
+    We have a proof \( t_1, \dots, t_n \) of \( p \) from \( S \).
+    We show that if \( A \) is a model of \( S \), \( A \) is also a model of \( t_i \) for each \( i \) (interpreting free variables as quantified); this can be shown by induction.
+    Hence, \( S \models p \).
+\end{proof}
+
+\subsection{Adequacy}
+This section is non-examinable.
+
+We want to show that \( S \models p \) implies \( S \vdash p \).
+Equivalently, \( S \cup \qty{\neg p} \models \bot \) implies \( S \cup \qty{\neg p} \vdash \bot \).
+In other words, if \( S \cup \qty{\neg p} \) is consistent, it has a model.
+\begin{theorem}[model existence lemma]
+    Every consistent theory has a model.
+\end{theorem}
+We will need a number of key ideas in order to prove this.
+\begin{enumerate}
+    \item We will construct our model out of the language itself using the closed terms of \( L \).
+    For instance, if \( L \) is the language of fields and \( S \) is the usual field axioms, we take the closed terms and combine them with \( + \) and \( \cdot \) in the obvious way.
+    \item However, we can prove \( S \vdash 1 + 0 = 1 \), but \( 1 + 0 \) and \( 1 \) are distinct as strings.
+    We will therefore take the quotient of this set by the equivalence relation defined by \( s \sim t \) if \( S \vdash s = t \).
+    If this set is \( A \), we define \( [s] +_A [t] = [s + t] \), and this is a well-defined operation.
+    \item Suppose \( S \) is the set of field axioms with the statement that \( 1 + 1 = 0 \vee 1 + 1 + 1 = 0 \).
+    In this theory, \( S \not\vdash 1 + 1 = 0 \) and \( S \not\vdash 1 + 1 + 1 = 0 \).
+    Therefore, \( [1+1] \neq [0] \) and \( [1+1+1] \neq [0] \), so our structure \( A \) is not of characteristic 2 or 3.
+    We can overcome this by first extending \( S \) to a maximal consistent theory.
+    \item Suppose \( S \) is the set of field axioms with the statement that \( (\exists x)(x \cdot x = 1 + 1) \).
+    There is no closed term \( t \) with the property that \( [t\cdot t] = [1+1] \).
+    The problem is that \( S \) lacks \emph{witnesses} to existential quantifiers.
+    For each statement of the form \( (\exists x)p \in S \), we add a new constant \( c \) to the language and add to \( S \) the sentence \( p[c/x] \).
+    This still forms a consistent set.
+    \item The resulting set may no longer be maximal, as we have extended our language with new constants.
+    We must then return to step (iii) then step (iv); it is not clear if this process ever terminates.
+\end{enumerate}
