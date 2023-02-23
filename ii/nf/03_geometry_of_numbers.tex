@@ -15,7 +15,7 @@ More precisely, there exists \( \alpha \in \Lambda \) such that \( 0 < \abs{\alp
 Note that this condition depends only on the area of the parallelogram, not its shape.
 This will be proven shortly.
 
-We will apply this to \( \Lambda = \mathfrak \trianglelefteq \mathcal O_L \) for \( L = \mathbb Q(\sqrt{-d}) \), \( d < 0 \) square-free.
+We will apply this to \( \Lambda = \mathfrak a \trianglelefteq \mathcal O_L \) for \( L = \mathbb Q(\sqrt{-d}) \), \( d < 0 \) square-free.
 Let \( \sqrt{d} \in \mathbb C \) be chosen with positive imaginary part to embed \( \mathcal O_L \) in \( \mathbb C \).
 \begin{lemma}
     \begin{enumerate}
@@ -29,7 +29,7 @@ Let \( \sqrt{d} \in \mathbb C \) be chosen with positive imaginary part to embed
     Part (i) is clear.
     (iv) implies (ii) and (iii).
     We will prove (iv) later in a more general setting, giving the justification for the coefficient \( \frac{1}{2} \).
-    
+
     We now prove (ii) and (iii) manually, without appealing to (iv).
     For part (ii), \( \mathcal O_L \) has basis \( 1, \alpha \).
     Therefore, \( A(\mathcal O_L) = \frac{1}{2}\sqrt{d} \) or \( \sqrt{d} \), which is exactly \( \frac{1}{2} \sqrt{\abs{D_L}} \).
@@ -138,7 +138,7 @@ Recall that \( K \subseteq \mathbb R^n \) is compact if and only if it is closed
 \begin{definition}
     Let \( \Lambda \subseteq \mathbb R^n \) be a lattice with basis \( x_1, \dots, x_n \).
     The \emph{fundamental parallelogram} is \( P = \qty{\sum_{i=1}^n \lambda_i x_i \mid \lambda_i \in [0,1]} \).
-    The \emph{covolume} of \( \Lambda \) is the volume of \( P \), which is \( \abs{\det A} \) if \( x_i = \sum_{j=1}^n a_{ij} e_j \).    
+    The \emph{covolume} of \( \Lambda \) is the volume of \( P \), which is \( \abs{\det A} \) if \( x_i = \sum_{j=1}^n a_{ij} e_j \).
 \end{definition}
 Note that if \( x_1', \dots, x_n' \) are another basis of \( \Lambda \), the change of basis matrix \( B \) given by \( x_i' = \sum_{j=1}^m b_{ij} x_j \) has integer coefficients, so \( B \in GL_n(\mathbb Z) \), giving \( \det B = \pm 1 \).
 Hence, the covolume is well-defined irrespective of the choice of basis.
@@ -155,7 +155,7 @@ We can think of \( P \) as a set of coset representatives for \( \faktor{\mathbb
         Then, if
         \begin{enumerate}
             \item \( \operatorname{vol}(S) > 2^n \operatorname{covol}(\Lambda) \), or
-            \item \( \operatorname{vol}(S) \geq 2^n \operatorname{covol}(\Lambda) \) and \( S \) is closed, 
+            \item \( \operatorname{vol}(S) \geq 2^n \operatorname{covol}(\Lambda) \) and \( S \) is closed,
         \end{enumerate}
         then there exists \( \gamma \in S \cap \Lambda \) with \( \gamma \neq 0 \).
     \end{enumerate}
@@ -215,4 +215,46 @@ In other words, we can write
         z \\ \overline z
     \end{pmatrix} \]
     The determinant of the change of basis matrix is \( -\frac{1}{2} \).
+\end{proof}
+\begin{proposition}[Minkowski bound]
+    Let \( \mathfrak a \trianglelefteq \mathcal O_L \).
+    Then there exists \( \alpha \in \mathfrak a \) with \( \alpha \neq 0 \) and \( \abs{N(\alpha)} \leq c_L N(\mathfrak a) \) where \( c_L = \qty(\frac{4}{\pi})^s \frac{n!}{n^n} \abs{D_L}^{\frac{1}{2}} \).
+\end{proposition}
+\begin{proof}
+    Let
+    \[ B_{r,s}(t) = \qty{(y_1, \dots, y_r, z_1, \dots, z_s) \in \mathbb R^r \times \mathbb C^s \mid \sum \abs{y_i} + 2 \abs{z_i} \leq t} \]
+    This set is closed and bounded, hence compact.
+    It is also convex, symmetric around zero, and measurable with volume \( 2^r \qty(\frac{\pi}{2})^2 \frac{t^n}{n!} \).
+    Choose \( t \) such that the volume of \( B_{r,s}(t) \) is \( 2^n \operatorname{covol}(\mathfrak a) \), so \( t^n = \qty(\frac{4}{\pi})^s n! \abs{D_L}^\frac{1}{2} N(\mathfrak a) \).
+    Minkowski's lemma implies that there exists \( \alpha \in \mathfrak a \) and \( \alpha \neq 0 \) such that \( \sigma(\alpha) = (y_1, \dots, y_r, z_1, \dots, z_s) \in B_{r,s}(t) \).
+
+    Note that \( N(\alpha) = y_1 \dots y_r z_1 \overline{z_1} \dots z_s \overline{z_s} = \prod y_i \prod \abs{z_j}^2 \).
+    Since the geometric mean is at most the arithmetic mean, taking \( n \)th roots we obtain \( \abs{N(\alpha)}^{\frac{1}{n}} = \frac{1}{n}\qty(\sum y_i + 2 \sum \abs{z_j}) \leq \frac{t}{n} \) as \( \sigma(\alpha) \in B_{r,s}(t) \).
+    So \( N(\alpha) \leq \frac{t^n}{n^n} = c_L N(\alpha) \) as required.
+\end{proof}
+To show that the volume of \( B_{r,s}(t) \) is \( 2^r \qty(\frac{\pi}{2})^2 \frac{t^n}{n!} \), we can use induction with base cases \( B_{1,0}(t) = [-t,t] \) and \( B_{0,1}(t) = \frac{\pi}{4} t^2 \).
+Given the result for \( B_{r,s}(t) \), the volume of \( B_{r+1,s}(t) \) is
+\[ \int_{-t}^t \operatorname{vol} B_{r,s}(t-\abs{y}) \dd{y} = 2\int_0^t \qty(\frac{\pi}{2})^s 2^r \frac{(ty)^n}{n!} \dd{y} = 2^{r+1} \qty(\frac{\pi}{2})^2 \frac{t^{n+1}}{n!} \]
+The other inductive step is on an example sheet.
+\begin{corollary}
+    Every element of the class group \( [\mathfrak a] \) has a representative \( \mathfrak a \trianglelefteq \mathcal O_L \) with norm at most \( c_L \).
+\end{corollary}
+\begin{theorem}
+    The class group of \( L \) is finite, and generated by prime ideals \( \mathfrak a \trianglelefteq \mathcal O_L \) with \( N(\mathfrak a) \leq c_L \).
+\end{theorem}
+\begin{proof}
+    Follows the argument used for imaginary quadratic fields.
+\end{proof}
+\begin{theorem}[Hermite, Minkowski]
+    Let \( n \geq 2 \).
+    Then \( \abs{D_L} \geq \frac{\pi}{3} \qty(\frac{3\pi}{4})^{n-1} > 1 \).
+    In particular, \( \abs{D_L} > 1 \), so at least one prime ramifies in \( L \).
+\end{theorem}
+\begin{proof}
+    Apply this to \( [\mathcal O_L] \) and obtain an ideal \( \mathfrak a \trianglelefteq \mathcal O_L \) with \( 1 \leq N(\mathfrak a) \leq c_L \), so \( c_L \geq 1 \).
+    So
+    \[ \abs{D_L}^{\frac{1}{2}} \geq \qty(\frac{\pi}{4})^s \frac{n^n}{n!} \geq \qty(\frac{\pi}{4})^{\frac{n}{2}} \frac{n^n}{n!} a_n^{\frac{1}{2}} \]
+    as \( \frac{\pi}{4} < 1 \) and \( s \leq \frac{n}{2} \).
+    So \( a_2 = \frac{\pi^2}{4} \) and \( \frac{a_{n+1}}{a_n} = \frac{\pi}{4} \qty(1 + \frac{1}{n})^{2n} > \frac{\pi}{4}(1 + 2) = \frac{3\pi}{4} \).
+    So \( a_n \geq \frac{\pi^2}{4} \qty(\frac{3\pi}{4})^{n-2} = \frac{\pi}{3} \qty(\frac{3\pi}{4})^{n-1} \).
 \end{proof}

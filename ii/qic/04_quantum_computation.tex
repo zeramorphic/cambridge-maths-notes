@@ -128,9 +128,65 @@ For this algorithm, we use one query and \( 3n+2 \) further operations.
 
 Suppose we permit a probability \( \varepsilon > 0 \) of error.
 In the quantum case, we only need one query.
-In the classical case, there is a randomised algorithm which solves the problem with a constant number \( O\qty(\frac{1}{\log \varepsilon}) \) of queries for all \( n \).
-Choose values of \( k \) bits each chosen uniformly at random, and evaluate \( f(x) \) for each \( x \) in this set.
-If \( f(x) \) is constant for all of these \( k \) bits, we infer \( f \) is constant; otherwise we infer it is balanced.
+In the classical case, there is a randomised algorithm which solves the problem with a constant number \( O\qty(\log \frac{1}{\varepsilon}) \) of queries for all \( n \).
+Choose \( k \) inputs each chosen uniformly at random, and evaluate \( f(x) \) for each \( x \) in this set.
+If \( f(x) \) is constant for all of these \( k \) inputs, we infer \( f \) is constant; otherwise we infer it is balanced.
 An error can only occur when the function is balanced but we infer it is constant.
 The probability of error is \( \frac{2}{2^k} = 2^{-k+1} \).
-Hence, we can take \( \varepsilon < 2^{-k+1} \), so \( k = O\qty(\frac{1}{\log \varepsilon}) \).
+Hence, we can take \( \varepsilon < 2^{-k+1} \), so \( k = O\qty(\log \frac{1}{\varepsilon}) \).
+
+\subsection{Simon's algorithm}
+Consider a function \( f \colon B_n \to B_n \) with the promise that either \( f \) is injective, or \( f(x) = f(y) \) if and only if \( y = x \) or \( y = x \oplus \xi \) for a fixed \( 0 \neq \xi \in B_n \).
+The problem is to determine with bounded error whether \( f \) is in the 1-1 form or the 2-1 form, and in the latter case, to find the constant \( \xi \).
+Note that \( f(x \oplus \xi) = f(x) \) is the statement that \( f \) has period \( \xi \).
+
+Classically, the query complexity is \( O(\exp(n)) \).
+In order to solve the problem, we need to find two distinct \( x, y \) inputs for which \( f(x) = f(y) \), or show that this is not possible.
+However, there is a quantum algorithm with query complexity \( O(n) \).
+
+\subsection{Quantum Fourier transform}
+Let \( \mathcal V_N \) be a state space, and \( \mathcal B_N = \qty{\ket{0}, \ket{1}, \dots, \ket{N-1}} \) be an orthonormal basis for \( \mathcal V_N \).
+Write \( \mathbb Z_N \) for integers modulo \( N \), and let \( \omega = e^{\frac{2\pi i}{N}} \).
+For \( \ket{k} \in \mathcal B_N \), we define
+\[ QFT_N\ket{k} = \frac{1}{\sqrt{N}} \sum_{\ell=0}^{N-1} e^{\frac{2\pi i}{N}k\ell} \ket{\ell} = \frac{1}{\sqrt{N}} \sum_{\ell=0}^{N-1} \omega^{k\ell} \ket{\ell} \]
+The quantum Fourier transform can be viewed as a generalisation of the Hadamard operator, as \( QFT_2 = H \).
+
+We show that this is a unitary operator.
+\[ (QFT)_{jk} = \bra{j}QFT\ket{k} = \frac{1}{\sqrt{N}} \sum_{\ell=0}^{N-1} \omega^{k\ell} \ip{j}{\ell} = \frac{1}{\sqrt{N}} \omega^{jk} \]
+\[ QFT = \frac{1}{\sqrt{N}} \begin{pmatrix}
+    1 & 1 & 1 & 1 & \cdots \\
+    1 & \omega & \omega^2 & \omega^3 & \cdots \\
+    1 & \omega^2 & \omega^4 & \omega^6 & \cdots \\
+    1 & \omega^3 & \omega^6 & \omega^9 & \cdots \\
+    \vdots & \vdots & \vdots & \vdots & \ddots
+\end{pmatrix} \]
+Let \( S_j \) be the sum of the \( j \)th row or column.
+If \( j = 0 \), \( S_j = \frac{1}{\sqrt{N}} N \).
+Otherwise,
+\[ S_j = \frac{1}{\sqrt{N}} (1 + \omega^j + \dots + \omega^{j(N-1)}) = \frac{1}{\sqrt{N}} \cdot \frac{1 - \omega^{jN}}{1 - \omega^j} = 0 \]
+We can use this to prove that \( (QFT^\dagger QFT)_{jk} = \delta_{jk} \), so it is a unitary operator.
+
+Suppose we have a periodic function \( f \colon \mathbb Z_N \to Y \), where typically \( Y = \mathbb Z_M \) for some \( M \).
+Let \( r \) be the smallest integer in \( \mathbb Z_N \) for which \( f(x+r) = f(x) \) for all \( x \in \mathbb Z_N \), so \( f \) is periodic with period \( r \).
+Suppose further that \( f \) is injective in each period.
+We wish to find \( r \) with a particular probability of error.
+
+There is a classical algorithm with query complexity \( O(\sqrt{N}) = O\qty(2^{\log N^{\frac{1}{2}}}) = O\qty(2^{\frac{1}{2} \log N}) \).
+In the quantum case, for any error probability \( \varepsilon \in (0,1) \), there is an algorithm with query complexity \( O(\log \log N) \), which provides an exponential speed increase.
+
+We first describe an attempt to construct such an algorithm without using the quantum Fourier transform.
+Begin with the uniform superposition state \( \ket{\psi_N} = \frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} \ket{x} \).
+Consider the quantum oracle \( U_f \) corresponding to \( f \colon \mathbb Z_N \to \mathbb Z_M \), defined by \( U_f \ket{x} \ket{y} = \ket{x} \ket{y + f(x)} \), where addition is performed modulo \( M \).
+Set the output register \( \ket{y} \) to \( \ket{0} \), and then compute \( \ket{f} = U_f \ket{\psi_N} \ket{0} \).
+We obtain
+\[ \ket{f} = U_f \ket{\psi_N} \ket{0} = \frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} U_f \ket{x} \ket{0} = \frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} \ket{x} \ket{f(x)} \]
+Since \( r \) is the period, we have \( r \mid N \), so let \( A = \frac{N}{r} \in \mathbb N \) be the number of periods.
+We now measure the second register, giving an outcome \( y = f(x_0) \) for some \( x_0 \in \qty{0, \dots, r-1} \).
+Note that \( y = f(x_0 + jr) \) for any \( j \in \qty{0, \dots, A-1} \).
+The terms in \( \ket{f} \) which contribute to the outcome \( y = f(x_0) \) are
+\[ \frac{1}{\sqrt{N}} \sum_{j=0}^{A-1} \ket{x_0 + jr} \ket{f(x_0)} \]
+Hence, the probability of obtaining a particular outcome \( f(x_0) \) is \( \frac{A}{N} = \frac{1}{r} \).
+The post-measurement state of the input register is
+\[ \frac{1}{\sqrt{A}} \sum_{j=0}^{A-1} \ket{x_0 + jr} \]
+If we measure the input register, we obtain \( \ket{x_0 + j_0 r} \) for some \( j_0 \in \qty{0, \dots, A-1} \), selected uniformly at random.
+The probability that the outcome of this second measurement is \( x_0 + j_0 r \) is \( \frac{1}{A} \).
