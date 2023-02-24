@@ -279,3 +279,109 @@ This is a linear code of length \( 2n \).
 % Note that \( X^2 + X \in \mathbb F_2[X] \) is nonzero, but always evaluates to zero.
 % If \( F \) is a field, \( F[X] \) is a Euclidean domain using the degree function as the Euclidean function, and has a Euclidean division algorithm.
 If \( F \) is a field and \( f \in F[X] \), \( \faktor{F[X]}{(f)} \) is in bijection with \( F^n \), since \( \faktor{F[X]}{(f)} \) is represented by the set of functions of degree less than \( \deg f \).
+\begin{definition}
+    A linear code \( C \subseteq \mathbb F_2^n \) is \emph{cyclic} if \( (a_0, a_1, \dots, a_{n-1}) \in C \) implies \( (a_{n-1}, a_0, \dots, a_{n-2}) \in C \).
+\end{definition}
+We identify \( \faktor{\mathbb F_2[X]}{(X^n - 1)} \) with \( \mathbb F_2^n \), letting \( \pi(a_0 + a_1X + \dots + a_{n-1}X^{n-1}) = (a_0, a_1, \dots, a_{n-1}) \).
+\begin{lemma}
+    A code \( C \subseteq \mathbb F_2^n \) is cyclic if and only if \( \pi(C) = \mathcal C \) satisfies
+    \begin{enumerate}
+        \item \( 0 \in \mathcal C \);
+        \item \( f, g \in \mathcal C \) implies \( f + g \in \mathcal C \);
+        \item \( f \in \mathbb F_2[X], g \in \mathcal C \) implies \( fg \in \mathcal C \).
+    \end{enumerate}
+\end{lemma}
+Equivalently, \( C \) is an ideal of \( \faktor{\mathbb F_2[X]}{(X^n - 1)} \).
+\begin{proof}
+    If \( g(X) = a_0 + a_1X + \dots + a_{n-1}X^{n-1} \), multiplication by \( X \) gives \( Xg(X) = a_{n-1} + a_0X + \dots + a_{n-2}X^{n-1} \).
+    So \( \mathcal C \) is cyclic if and only if (i) and (ii) hold and \( g(X) \in C \) implies \( Xg(X) \in C \).
+    Linearity then gives (iii).
+\end{proof}
+We will identify \( C \) with \( \mathcal C \).
+The cyclic codes of length \( n \) correspond to ideals in \( \faktor{\mathbb F_2[X]}{(X^n - 1)} \).
+Such ideals correspond to ideals of \( \mathbb F_2[X] \) that contain \( X^n - 1 \).
+Since \( \mathbb F_2[X] \) is a principal ideal domain, these ideals correspond to polynomials \( g(X) \in \mathbb F_2[X] \) dividing \( X^n - 1 \).
+\begin{theorem}
+    Let \( C \trianglelefteq \faktor{\mathbb F_2[X]}{(X^n - 1)} \) be a cyclic code.
+    Then, there exists a unique \emph{generator} polynomial \( g(X) \in \mathbb F_2[X] \) such that
+    \begin{enumerate}
+        \item \( C = (g) \);
+        \item \( g(X) \mid X^n - 1 \).
+    \end{enumerate}
+    In particular, \( p(X) \in \mathbb F_2[X] \) represents a codeword if and only if \( g \mid p \).
+\end{theorem}
+\begin{proof}
+    Let \( g(X) \in \mathbb F_2[X] \) be the polynomial of smallest degree that represents a nonzero codeword of \( C \).
+    Note that \( \deg g < n \).
+    Since \( C \) is cyclic, \( (g) \subseteq C \).
+    Now let \( p(X) \in \mathbb F_2[X] \) represent a codeword.
+    By the division algorithm, \( p = qg + r \) for \( q, r \in \mathbb F_2[X] \) where \( \deg r < \deg g \).
+    Then, \( r = p - qg \in C \) as \( C \) is an ideal.
+    But \( \deg r < \deg g \), so \( r = 0 \).
+    Hence, \( g \mid p \).
+    For part (ii), let \( p(X) = X^n - 1 \), giving \( g \mid X^n - 1 \).
+
+    Now we show uniqueness.
+    Suppose \( C = (g_1) = (g_2) \).
+    Then \( g_1 \mid g_2 \) and \( g_2 \mid g_1 \).
+    So \( g_1 = cg_2 \) where \( c \in \mathbb F_2^\star \), so \( c = 1 \).
+\end{proof}
+\begin{lemma}
+    Let \( C \) be a cyclic code of length \( n \) with generator \( g(X) = a_0 + a_1 X + \dots + a_k X^k \) with \( a_k \neq 0 \).
+    Then \( C \) has basis \( \qty{g, Xg, X^2g, \dots, X^{n-k-1}g} \).
+    In particular, \( \rank C = n - k \).
+\end{lemma}
+\begin{proof}
+    Exercise.
+\end{proof}
+\begin{corollary}
+    Let \( C \) be a cyclic code of length \( n \) with generator \( g(X) = a_0 + a_1 X + \dots + a_k X^k \) with \( a_k \neq 0 \).
+    Then, a generator matrix for \( C \) is given by
+    \[ G = \begin{pmatrix}
+        a_0 & a_1 & a_2 & \cdots & a_k & 0 & 0 & \cdots \\
+        0 & a_0 & a_1 & \cdots & a_{k-1} & a_k & 0 & \cdots \\
+        \vdots\\
+        0 & 0 & 0 & \cdots & 0 & a_0 & a_1 & \cdots & a_k
+    \end{pmatrix} \]
+    This is an \( (n - k) \times n \) matrix.
+\end{corollary}
+\begin{definition}
+    Let \( g \) be a generator for \( C \).
+    The \emph{parity check polynomial} is the polynomial \( h \) such that \( g(X) h(X) = X^n - 1 \).
+\end{definition}
+\begin{corollary}
+    Writing \( h(X) = b_0 + b_1 X + \dots + b_{n-k} X^{n-k} \), the parity check matrix is
+    \[ H = \begin{pmatrix}
+        b_{n-k} & b_{n-k-1} & \cdots & b_1 & b_0 & 0 & 0 & \cdots \\
+        b_{n-k} & b_{n-k-1} & \cdots & b_2 & b_1 & b_2 & 0 & \cdots \\
+        \\
+        0 & \cdots & b_{n-k} & b_{n-k-1} & \cdots & b_1 & b_0
+    \end{pmatrix} \]
+    which is a \( k \times n \) matrix.
+\end{corollary}
+\begin{proof}
+    One can check that the inner product of the \( i \)th row of the generator matrix and the \( j \)th row of the parity check matrix is the coefficient of \( X^{n-k-i+j} \) in \( g(X) h(X) = X^n - 1 \).
+    Since \( 1 \leq i \leq n - k \) and \( 1 \leq j \leq k \), \( 0 < n - k - i + j < n \), and such coefficients are zero.
+    Hence, the rows of \( G \) are orthogonal to the rows of \( H \).
+    Note that as \( b_{n-k} \neq 0 \), \( \rank H = k = \rank C^\perp \), so \( H \) is the parity check matrix.
+\end{proof}
+\begin{remark}
+    Given a polynomial \( f(X) = \sum_{i=0}^m f_i X_i \) of degree \( m \), the \emph{reverse} polynomial is \( \check{f}(X) = f_n + f_{n-1}X + \dots + f_0 X^M = X^m f\qty(\frac{1}{X}) \).
+    The cyclic code generated by \( \check{h} \) is the dual code \( C^\perp \).
+\end{remark}
+\begin{lemma}
+    If \( n \) is odd, \( X^n - 1 = f_1(X) \dots f_t(X) \) where the \( f_i(X) \) are distinct irreducible polynomials in \( \mathbb F_2[X] \).
+    Thus, there are \( 2^t \) cyclic codes of length \( n \).
+\end{lemma}
+This is false if \( n \) is even, for instance, \( X^2 - 1 = (X - 1)^2 \).
+The proof follows from Galois theory.
+
+\subsection{BCH codes}
+Recall that if \( p \) is a prime, \( \mathbb F_p = \faktor{\mathbb Z}{p\mathbb Z} \) is a field, and if \( f(X) \in \mathbb F_p[X] \) is irreducible, the quotient \( K = \faktor{\mathbb F_p[X]}{(f)} \) is a field and has order \( p^{\deg f} \).
+Moreover, any finite field arises in this way.
+
+If \( q = p^\alpha \) is a prime power where \( \alpha \geq 1 \), there exists a unique field \( \mathbb F_q \) of order \( q \), up to isomorphism.
+Note that \( \mathbb F_q \not\simeq \faktor{\mathbb Z}{q\mathbb Z} \) if \( \alpha > 1 \).
+The multiplicative group \( \mathbb F_q^\times \) is cyclic; there exists \( \beta \in \mathbb F_q \) such that \( \mathbb F_q^\times = \genset{\beta} = \qty{1, \beta, \dots, \beta^{q-2}} \).
+Such a \( \beta \) is called a \emph{primitive element}.
+% BCH codes are a particular type of cyclic code.

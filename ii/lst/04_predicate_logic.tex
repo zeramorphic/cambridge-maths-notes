@@ -232,3 +232,83 @@ We will need a number of key ideas in order to prove this.
     \item The resulting set may no longer be maximal, as we have extended our language with new constants.
     We must then return to step (iii) then step (iv); it is not clear if this process ever terminates.
 \end{enumerate}
+\begin{proof}
+    Let \( S \) be a consistent set in a language \( L = L(\Omega, \Pi) \).
+    Extend \( S \) to a maximal consistent set \( S_1 \), using Zorn's lemma.
+    Then, for each sentence \( p \in L \), either \( p \in S_1 \) or \( \neg p \in S_1 \).
+    Such a theory is called \emph{complete}; each sentence or its negation is proven.
+    Now, we add witnesses to \( S_1 \): for each sentence of the form \( (\exists x)p \in S_1 \), we add a new constant symbol \( c \) to the language, and also add the sentence \( p[c/x] \).
+    We then obtain a new theory \( T_1 \) in the language \( L_1 = L(\Omega \cup C_1 \Pi) \) that has witnesses for every existential in \( S_1 \).
+    One can check easily that \( T_1 \) is consistent.
+
+    We then extend \( T_1 \) to a maximal consistent theory \( S_2 \) in \( L_1 \), and add witnesses to produce \( T_2 \) in the language \( L_2 = L(\Omega \cup C_1 \cup C_2, \Pi) \).
+    Continue inductively, and let \( \overline S = \bigcup_{n \in \mathbb N} S_n \) in the language \( \overline L = L\qty(\Omega \cup \bigcup_{n \in \mathbb N} C_n, \Pi) \).
+
+    We claim that \( \overline S \) is consistent, complete, and has witnesses for every existential in \( \overline S \).
+    Clearly \( \overline S \) is consistent: if \( \overline S \vdash \bot \) then \( S_n \vdash \bot \) for some \( n \) as proofs are finite, contradicting consistency of \( S_n \).
+    For completeness, if \( p \) is a sentence in \( \overline L \), \( p \) must lie in \( L_n \) for some \( n \) as it is a finite string of symbols.
+    But \( S_{n+1} \) is complete in \( L_n \), so \( S_{n+1} \vdash p \) or \( S_{n+1} \vdash \neg p \), so certainly \( \overline S \vdash p \) or \( \overline S \vdash \neg p \).
+    If \( (\exists x)p \in \overline S \), then \( (\exists x)p \in S_n \) for some \( n \), so \( T_n \) provides a witness.
+    
+    On the closed terms of \( \overline L \), we define the relation \( s \sim t \) if \( \overline S \vdash s = t \).
+    This is clearly an equivalence relation, so we can define \( A \) to be the set of equivalence classes of \( \overline L \) under \( \sim \).
+    This is an \( \overline L \)-structure by defining
+    \begin{itemize}
+        \item \( f_A([t_1], \dots, [t_n]) = [f\ t_1 \dots t_n] \) for each \( f \in \Omega \cup \bigcup_{n \in \mathbb N} C_n, \alpha(f) = n, t_i \) closed terms;
+        \item \( \varphi_A = \qty{([t_1], \dots, [t_n]) \in A^n \mid \overline S \vdash \varphi(t_1, \dots, t_n)} \) for each \( \varphi \in \Pi, \alpha(\varphi) = n, t_i \) closed terms.
+    \end{itemize}
+    We claim that for a sentence \( p \in \overline L \), we have \( p_A = 1 \) if and only if \( \overline S \vdash p \).
+    Then the proof is complete, as \( S \subseteq \overline S \) so \( p_A = 1 \) for every \( p \in S \), so \( A \) is a model of \( S \).
+
+    We prove this by induction on the length of sentences.
+    First, suppose \( p \) is atomic.
+    \( \bot_A = 0 \), as \( \overline S \not\vdash \bot \).
+    For closed terms \( s, t \), \( \overline S \vdash s = t \) if and only if \( [s] = [t] \) by definition of \( \sim \).
+    This holds if and only if \( s_A = t_A \) by definition of the operations in \( A \).
+    This is precisely the statement that \( s = t \) holds in \( A \).
+    The same holds for relations.
+
+    Now consider \( p \Rightarrow q \).
+    \( \overline S \vdash p \Rightarrow q \) if and only if \( \overline S \vdash \neg p \) or \( \overline S \vdash q \) as \( \overline S \) is complete and consistent; if \( \overline S \not\vdash \neg p \) and \( \overline S \not\vdash q \), then \( \overline S \vdash p \) and \( \overline S \vdash \neg p \).
+    By induction on the length of the formula, this holds if and only if \( p_A = 0 \) or \( q_A = 1 \).
+    This is the definition of the interpretation of \( p \Rightarrow q \) in \( A \).
+
+    Finally, consider the existential \( (\exists x)p \).
+    \( \overline S \vdash (\exists x)p \) if and only if there is a closed term \( t \) such that \( \overline S \vdash p[t/x] \), as \( \overline S \) has witnesses to every existential.
+    By induction (for example on the amount of quantifiers in a formula), this holds if and only if \( p[t/x]_A = 1 \) for some closed term \( t \).
+    This is true exactly when \( (\exists x)p \) holds in \( A \), as \( A \) is precisely the set of equivalence classes of closed terms.
+\end{proof}
+\begin{corollary}[adequacy]
+    Let \( S \subseteq L \) be a theory and \( t \in L \) be a sentence.
+    Then \( S \models t \) implies \( S \vdash t \).
+\end{corollary}
+
+\subsection{Completeness}
+\begin{theorem}[G\"odel's completeness theorem for first order logic]
+    Let \( S \subseteq L \) be a theory and \( t \in L \) be a sentence.
+    Then \( S \models t \) if and only if \( S \vdash t \).
+\end{theorem}
+\begin{proof}
+    Follows from soundness and adequacy.
+\end{proof}
+Note that \emph{first order} refers to the fact that variables quantify over elements, rather than sets of elements.
+\begin{remark}
+    If \( L \) is countable, or equivalently \( \Omega \) and \( \Pi \) are countable, Zorn's lemma is not needed in the above proof.
+\end{remark}
+\begin{theorem}[compactness theorem]
+    Let \( S \subseteq L \) be a theory.
+    Then if every finite subset \( S' \subseteq S \) has a model, \( S \) has a model.
+\end{theorem}
+\begin{proof}
+    Trivial after applying completness as proofs are finite.
+\end{proof}
+There is no decidability theorem for first order logic, as \( S \models p \) can only be verified by checking its valuation in every \( L \)-structure.
+\begin{corollary}
+    The class of finite groups is not axiomatisable in the language of groups: there is no theory \( S \) such that a group is finite if and only if each \( p \in S \) holds in the group.
+\end{corollary}
+\begin{proof}
+    Suppose \( S \) is a set of sentences that axiomatises the theory of finite groups.
+    Consider \( S \) together with the sentences \( (\exists x_1)(\exists x_2)(x_1 \neq x_2) \), \( (\exists x_1)(\exists x_2)(\exists x_3)(x_1 \neq x_2 \wedge x_1 \neq x_3 \wedge x_2 \neq x_3) \) and so on, which collectively assert that the group has at least \( k \) elements for every \( k \).
+    Each finite subset \( S' \subseteq S \) has a model, such as a cyclic group of sufficiently large order.
+    So by compactness, there is a model of \( S \), which is a finite group with at least \( k \) elements for every \( k \), giving a contradiction.
+\end{proof}
