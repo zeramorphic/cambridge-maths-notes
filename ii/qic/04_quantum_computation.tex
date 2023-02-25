@@ -27,7 +27,7 @@ The \emph{time complexity} is a measure of the amount of computational steps req
 In the circuit model, we define \( T(n) \) to be the total number of gates in the circuit \( C_n \), known as the \emph{size} of the circuit or \emph{runtime} of the algorithm.
 
 For a positive function \( T(n) \), we write \( T(n) = O(f(n)) \) if there exist positive constants \( c, n_0 \) such that for all \( n > n_0 \), we have \( T(n) \leq cf(n) \).
-If \( T(n) = O(n^k) \) for some \( k > 0 \), we say that \( T(n) \) is \( O(\mathsf{poly}(n)) \), and the corresponding algorithm is a \emph{poly-time} algorithm.
+If \( T(n) = O(n^k) \) for some \( k > 0 \), we say that \( T(n) \) is \( O(\mathrm{poly}(n)) \), and the corresponding algorithm is a \emph{poly-time} algorithm.
 The class of languages for which the membership problem has a classical poly-time algorithm is called \( \mathsf{P} \).
 The class of languages for which the membership problem has a randomised classical poly-time algorithm that gives the correct answer with probability at least \( \frac{2}{3} \) is called \( \mathsf{BPP} \), short for \emph{bounded-error probabilistic poly-time}.
 The problem \( \mathsf{FACTOR}(M,N) \) which determined if there is a nontrivial factor of \( N \) that is at most \( M \) does not lie in \( \mathsf{BPP} \).
@@ -187,6 +187,57 @@ The terms in \( \ket{f} \) which contribute to the outcome \( y = f(x_0) \) are
 \[ \frac{1}{\sqrt{N}} \sum_{j=0}^{A-1} \ket{x_0 + jr} \ket{f(x_0)} \]
 Hence, the probability of obtaining a particular outcome \( f(x_0) \) is \( \frac{A}{N} = \frac{1}{r} \).
 The post-measurement state of the input register is
-\[ \frac{1}{\sqrt{A}} \sum_{j=0}^{A-1} \ket{x_0 + jr} \]
+\[ \ket{\text{per}} = \frac{1}{\sqrt{A}} \sum_{j=0}^{A-1} \ket{x_0 + jr} \]
+The state \( \ket{\text{per}} \) is periodic.
 If we measure the input register, we obtain \( \ket{x_0 + j_0 r} \) for some \( j_0 \in \qty{0, \dots, A-1} \), selected uniformly at random.
 The probability that the outcome of this second measurement is \( x_0 + j_0 r \) is \( \frac{1}{A} \).
+Therefore, no information about \( r \) is obtained.
+
+We resolve this issue by utilising the quantum Fourier transform.
+Instead of measuring the input register, we act on \( \ket{\text{per}} \) by \( QFT_N \).
+Since
+\[ QFT_N\ket{x} = \frac{1}{\sqrt{N}}\sum_{y=0}^{N-1}\omega^{xy} \ket{y} \]
+we find
+\begin{align*}
+    QFT_N \ket{\text{per}} &= \frac{1}{\sqrt{A}}\sum_{y=0}^{N-1} QFT_N \ket{x_0 + jr} \\
+    &= \frac{1}{\sqrt{A}} \frac{1}{\sqrt{N}} \sum_{j=0}^{A-1} \sum_{y=0}^{N-1} \omega^{(x_0 + jr)y} \ket{y} \\
+    &= \frac{1}{\sqrt{NA}} \sum_{y=0}^{N-1} \omega^{x_0 y} \underbrace{\qty[\sum_{j=0}^{A-1} \qty(\omega^{ry})^j]}_S \ket{y}
+\end{align*}
+Note that
+\[ S = \begin{cases}
+    A & \text{if } \omega^{ry} = 1 \\
+    \frac{1 - \omega^{ryA}}{1 - \omega^{ry}} = 0 & \text{otherwise}
+\end{cases} \]
+Note that \( \omega^{ry} = 1 \) if \( y = kA = \frac{kN}{r} \) for \( k \in \qty{0, \dots, r - 1} \).
+Hence, we obtain
+\[ QFT_N \ket{\text{per}} = \frac{A}{\sqrt{NA}} \sum_{k=0}^{r-1} \omega^{x_0 \frac{kN}{r}} \ket{\frac{kN}{r}} = \frac{1}{\sqrt{r}} \sum_{k=0}^{r-1} \omega^{x_0 \frac{kN}{r}} \ket{\frac{kN}{r}} \]
+The value of \( x_0 \) is no longer present in a ket, and has been converted into phase information.
+It therefore does not affect measurement outcomes.
+The periodicity in \( r \) has been inverted into periodicity in \( \frac{1}{r} \).
+The resulting state is still periodic, but each period begins at 0 instead of \( x_0 \).
+
+Now, when measuring this register, the outcome is \( c = \frac{k_0N}{r} \) for some \( k_0 \in \qty{0, \dots, r-1} \).
+Each outcome occurs with probability \( r \).
+Note that \( \frac{k_0}{r} = \frac{c}{N} \), and \( \frac{c}{N} \) is known after performing the measurement; we wish to know the value of \( r \).
+
+Suppose first that \( k_0 \) is coprime to \( r \).
+In this case, we can cancel \( \frac{c}{N} \) to its lowest form, then the denominator is \( r \).
+If \( k_0 \) is not coprime to \( r \), the denominator \( \widetilde r \) will instead be a factor of \( r \).
+To solve this, we can compute the reduced denominator and then evaluate \( f(0), f(\widetilde r) \); if they are equal, \( \widetilde r = r \), and otherwise, \( \widetilde r \mid r \).
+We would like to know the probability that a randomly chosen \( k_0 \) is coprime to the true periodicity \( r \).
+\begin{theorem}[coprimality theorem]
+    The number of integers less than \( r \) that are coprime to \( r \) is \( O\qty(\frac{r}{\log \log r}) \).
+\end{theorem}
+This theorem implies that since \( k_0 \) is chosen uniformly at random, the probability that \( k_0 \) is coprime to \( r \) is \( O\qty(\frac{1}{\log \log r}) \).
+We claim that if we repeat this process \( O(\log \log r) \) times, we will obtain an outcome \( c \) such that after cancellation, \( \frac{c}{N} = \frac{k_0}{r} \) where \( k_0 \) is coprime to \( r \) in at least one case, with a constant probability.
+This claim follows from the following lemma.
+\begin{lemma}
+    Suppose that a single trial has success probability \( p \), and the trial is repeated \( M \) times independently, for any \( \varepsilon \in (0,1) \), the probability of at least one success is greater than \( 1 - \varepsilon \) if \( M = \frac{-\log \varepsilon}{p} \).
+\end{lemma}
+Therefore, to achieve a constant probability \( 1 - \varepsilon \) of success, we need \( O\qty(\frac{1}{p}) \) trials.
+In the algorithm above, \( p = O\qty(\frac{1}{\log \log r}) \), so we need \( O(p) = O(\log \log r) < O(\log \log N) \) trials to achieve the desired result.
+
+In each invocation of the algorithm, we query \( f \) three times: once to construct the state \( \ket{f} \), and twice to check if \( \widetilde r \) is the true periodicity.
+We also need to apply the quantum Fourier transform \( QFT_N \), which has implementations in \( O((\log N)^2) \) steps.
+We must also perform standard arithmetic operations such as to cancel denominators, which are computable in \( O(\mathrm{poly}(\log N)) \) steps.
+Therefore, we succeed in determining the period with any constant probability of success \( 1 - \varepsilon \) with \( O(\log \log N) \) queries and \( O(\mathrm{poly}(\log N)) \) additional steps.
