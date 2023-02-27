@@ -312,3 +312,73 @@ There is no decidability theorem for first order logic, as \( S \models p \) can
     Each finite subset \( S' \subseteq S \) has a model, such as a cyclic group of sufficiently large order.
     So by compactness, there is a model of \( S \), which is a finite group with at least \( k \) elements for every \( k \), giving a contradiction.
 \end{proof}
+\begin{corollary}
+    Let \( S \) be a theory with arbitrarily large finite models.
+    Then \( S \) has an infinite model.
+\end{corollary}
+\begin{proof}
+    Add sentences and apply compactness as in the previous corollary.
+\end{proof}
+Finiteness is not a first-order property.
+\begin{theorem}[upward L\"owenheim--Skolem theorem]
+    Let \( S \) be a theory with an infinite model.
+    Then \( S \) has an uncountable model.
+\end{theorem}
+\begin{proof}
+    Add constants \( \qty{c_i \mid i \in I} \) to the language, where \( I \) is an uncountable set.
+    Add sentences \( c_i \neq c_j \) to the theory for all \( i \neq j \) to obtain a theory \( S' \).
+    Any finite set of sentences in \( S' \) has a model: indeed, the infinite model of \( S \) suffices.
+    By compactness, \( S' \) has a model.
+\end{proof}
+\begin{remark}
+    Similarly, we can prove the existence of models of \( S \) that do not inject into \( X \) for any fixed set \( X \).
+    Adding \( \gamma(X) \) constants or \( \mathcal P(X) \) constants both suffice.
+\end{remark}
+\begin{example}
+    There is an uncountable field, as there is an infinite field \( \mathbb Q \).
+    There is also a field that does not inject into \( X \) for any fixed set \( X \).
+\end{example}
+\begin{theorem}[downard L\"owenheim--Skolem theorem]
+    Let \( S \) be a theory in a countable language \( L \), or equivalently, \( \Omega \) and \( \Pi \) are countable.
+    Then if \( S \) has a model, it has a countable model.
+\end{theorem}
+\begin{proof}
+    \( S \) is consistent, so the model constructed in the proof of the model existence lemma is countable.
+\end{proof}
+
+\subsection{Peano arithmetic}
+Consider the language \( L \) given by \( \Omega = \qty{0, s, +, \cdot} \) with \( \alpha(0) = 0, \alpha(s) = 1, \alpha(+) = \alpha(\cdot) = 2 \), and \( \Pi = \varnothing \).
+It has axioms
+\begin{enumerate}
+    \item \( (\forall x)(s(x) \neq 0) \);
+    \item \( (\forall x)(\forall y)(s(x) = s(y) \Rightarrow x = y) \);
+    \item \( (\forall y_1)\dots(\forall y_n)\qty[p[0/x] \wedge (\forall x)(p \Rightarrow p[s(x)/x]) \Rightarrow (\forall x)p] \) for each formula \( p \) with free variables \( x, y_1, \dots, y_n \);
+    \item \( (\forall x)(x + 0 = x) \);
+    \item \( (\forall x)(\forall y)(x + s(y) = s(x + y)) \);
+    \item \( (\forall x)(x \cdot 0 = 0) \);
+    \item \( (\forall x)(\forall y)(x \cdot s(y) = x \cdot y + x) \).
+\end{enumerate}
+These axioms are sometimes called Peano arithmetic, \( \mathsf{PA} \), or formal number theory.
+The \( y_i \) in (iii) are called \emph{parameters}.
+Without the parameters, we would not be able to perform induction on sets such as \( \qty{x \mid x \geq y} \) if \( y \) is a variable.
+
+Note that \( \mathsf{PA} \) clearly has an infinite model, namely \( \mathbb N \).
+So by the upward L\"owenheim--Skolem, it has an uncountable model, which in particular is not isomorphic to \( \mathbb N \).
+This is because (iii) is not `true' induction, stating that all subsets of \( \mathbb N \) either have a least element not in it, or it is \( \mathbb N \) itself.
+Axiom (iii) applies only to countably many formulae \( p \), and therefore only asserts that induction holds for countably many subsets of \( \mathbb N \).
+\begin{definition}
+    A set \( S \subseteq \mathbb N \) is \emph{definable} in the language of \( \mathsf{PA} \) if there is a formula \( p \) with a free variable \( x \) such that for each \( m \in \mathbb N \), \( m \in S \) if and only if \( p[m/x] \) holds in \( \mathbb N \).
+\end{definition}
+Only countably many formulae exist, so only countably many sets are definable.
+\begin{example}
+    The set of squares is definable, as it can be defined by the formula \( (\exists y)(y\cdot y = x) \).
+    The set of primes is also definable by \( x \neq 0 \wedge x \neq 1 \wedge (\forall y)(y \mid x \Rightarrow y = 1 \wedge y = x) \), where \( y \mid x \) is defined to mean \( (\exists z)(z \cdot y = x \).
+    The set of powers of 2 can be defined by \( (\forall y)(y \text{ is prime} \wedge y \mid x \Rightarrow y = 2) \).
+    The set of powers of 4 and the set of powers of 6 are also definable.
+\end{example}
+\begin{theorem}[G\"odel's incompleteness theorem]
+    \( \mathsf{PA} \) is not complete.
+\end{theorem}
+This theorem shows that there is a sentence \( p \) such that \( \mathsf{PA} \vdash p \) and \( \mathsf{PA} \not\vdash p \).
+However, one of \( p, \neg p \) must hold in \( \mathbb N \), so there is a sentence \( p \) that is true in \( \mathbb N \) that \( \mathsf{PA} \) does not prove.
+This does not contradict the completeness theorem, which is that if \( p \) is true in \emph{every} model in \( \mathsf{PA} \) then \( \mathsf{PA} \vdash p \).

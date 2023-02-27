@@ -157,3 +157,87 @@ Since every rational map is contained in \( \mathbb P^m \), any rational map fro
     Let \( t \in \mathbb C(W) \setminus \mathbb C \) with \( \varphi^\star(t) = x \).
     Since \( \mathbb C(V) \) has transcendence degree 1 over \( \mathbb C \), \( \mathbb C(V) \) is finite over \( \mathbb C(x) \), so also over \( \mathbb C(W) \).
 \end{proof}
+\begin{definition}
+    Let \( \varphi \colon V \to W \) be a non-constant morphism of curves.
+    The \emph{degree} of \( \varphi \) is the degree of the field extension \( \mathbb C(V)/\varphi^\star\mathbb C(W) \).
+\end{definition}
+\begin{definition}
+    Let \( \varphi \colon V \to W \) be a non-constant morphism of curves, let \( P \in V \) be a smooth point, and define \( Q = \varphi(P) \).
+    We define the \emph{ramification degree} of \( \varphi \) at \( P \) by \( e_P = e(\varphi, P) = \nu_P(\varphi^\star \pi_Q) \), where \( \pi_Q \) is a local coordinate at \( Q \).    
+\end{definition}
+\begin{example}
+    Consider the morphism \( \varphi \colon \mathbb A^1 \to \mathbb A^1 \) defined by \( z \mapsto z^d \) for some \( d \geq 1 \).
+    On rings, this is given by \( \varphi^\star \colon \mathbb C[Y] \to \mathbb C[X] \) with \( \varphi^\star(Y) = X^d \).
+    On function fields, this map satisfies \( \varphi^\star \mathbb C(Y) = \mathbb C(X^d) \), a subfield of \( \mathbb C(X) \).
+    The degree of \( \varphi \) is \( d \).
+    Let \( P = 0 \in \mathbb A^1 \), so \( Q = 0 \in \mathbb A^1 \).
+    A local parameter near \( Q \) is \( Y \), and \( \varphi^\star(Y) = X^d \).
+    \( \nu_0(X^d) = d \), so the ramification degree of \( \varphi \) at \( 0 \) is \( d \).
+
+    Now suppose \( P = 1 \), \( \varphi(P) = Q = 1 \).
+    The local coordinate at \( Q \) is \( Y - 1 \).
+    We can find \( \nu_P(\varphi^\star(Y - 1)) = 1 \), so the ramification degree of \( \varphi \) at 1 is 1.
+    Note that \( \varphi^{-1}(1) \) is the set of \( d \)th roots of unity, which is a set of \( d \) points \( R_1, \dots, R_d \).
+    \( \nu_{R_i}(\varphi^\star(Y - 1)) = 1\) for each \( i \).
+\end{example}
+\begin{theorem}
+    Let \( \varphi \colon V \to W \) be a non-constant morphism of irreducible projective curves.
+    \begin{enumerate}
+        \item \( \varphi \) is surjective.
+        \item Suppose \( V, W \) are smooth.
+        Then, for any \( Q \in W \), \( \deg \varphi = \sum_{P \in \varphi^{-1}(Q)}e_P \).
+        \item At all but finitely many points \( P \in V \), \( e_P = 1 \).
+    \end{enumerate}
+\end{theorem}
+\begin{definition}
+    A \emph{quasi-projective variety} \( U \) is a Zariski-open subset of a projective variety \( V \subseteq \mathbb P^n \).
+\end{definition}
+\begin{example}
+    All projective varieties are quasi-projective.
+    All affine varieties are also quasi-projective.
+    Products of affine and projective varieties are quasi-projective, such as \( \mathbb P^n \times \mathbb A^m \).
+    Note that rational functions, rational maps, morphisms, irreducibility, function fields, local rings, and other algebraic geometric concepts are defined for quasi-projective varieties in the same way.
+\end{example}
+\begin{proposition}[fundamental theorem of elimination theory]
+    The projection map \( \mathbb P^n \times \mathbb A^m \to \mathbb A^m \) is a Zariski closed map.
+\end{proposition}
+Preimages and images of closed sets are closed under this map.
+\begin{remark}
+    Consider the map \( \pi \colon \mathbb A^2 \to \mathbb A^1 \) given by projection onto the \( x \)-axis.
+    Observe that \( \pi \) is not a closed map, as \( \mathbb V(XY - 1) \) has image \( \mathbb A^1 \setminus \qty{0} \), which is not closed.
+\end{remark}
+Given this proposition, we prove the following result.
+\begin{proposition}
+    Let \( \varphi \colon V \to W \) be a morphism of quasi-projective varieties.
+    Suppose that \( V \) is projective.
+    Then \( \varphi \) is closed.
+\end{proposition}
+\begin{proof}
+    Factorise \( \varphi \) as \( V \to \Gamma_\varphi \subseteq V \times W \to W \), where \( \Gamma_\varphi = \qty{(x, \varphi(x)) \mid x \in V} \) is the graph of \( \varphi \).
+    Note that \( \Gamma_\varphi \) is closed as it is the preimage of the diagonal \( \varphi \times \mathrm{id} \colon V \times W \to W \times W \).
+    The diagonal \( W \subseteq W \times W \) is closed, even though \( W \times W \) is not given the product topology.
+    Now, \( V \subseteq \mathbb P^n \) is a closed subset as it is a projective variety.
+    Hence, it suffices to show that the projection map \( \mathbb P^n \times W \to W \) is closed.
+    Moreover, if \( W \) is covered by affine varieties \( \qty{U_i} \), it further suffices to show that \( \mathbb P^n \times U_i \to U_i \) is closed for all \( i \).
+    Any quasi-projective variety is covered by affine varieties as required.
+    Finally, each \( U_i \) is a closed subset of \( \mathbb A^m \) for some \( m \) with its subspace topology.
+    It therefore suffices to show \( \mathbb P^n \times \mathbb A^m \to \mathbb A^m \) is closed, which is the fundamental theorem of elimination theory.
+\end{proof}
+We can now prove part (i) of the above theorem.
+Part (ii) is nonexaminable, and part (iii) will be shown later.
+\begin{corollary}
+    Let \( \varphi \colon V \to W \) be a non-constant map between irreducible projective curves.
+    Then \( \varphi \) is surjective.
+\end{corollary}
+\begin{proof}
+    The image of \( \varphi \) is closed, so either a finite set of points or \( W \) itself.
+    Since it is non-constant, \( \varphi \) is surjective.
+\end{proof}
+\begin{corollary}
+    Let \( V \) be a smooth projective irreducible curve, and let \( f \in \mathbb C(V)^\star \).
+    Then,
+    \begin{enumerate}
+        \item if \( f \) is regular at all points \( P \in V \), then \( f \in \mathbb C^\star \) is a constant;
+        \item the set of \( P \in V \) such that \( \nu_P(f) \neq 0 \) is finite, and \( \sum_{P \in V} \nu_P(f) = 0 \).
+    \end{enumerate}
+\end{corollary}

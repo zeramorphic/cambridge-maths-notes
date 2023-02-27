@@ -385,3 +385,96 @@ Note that \( \mathbb F_q \not\simeq \faktor{\mathbb Z}{q\mathbb Z} \) if \( \alp
 The multiplicative group \( \mathbb F_q^\times \) is cyclic; there exists \( \beta \in \mathbb F_q \) such that \( \mathbb F_q^\times = \genset{\beta} = \qty{1, \beta, \dots, \beta^{q-2}} \).
 Such a \( \beta \) is called a \emph{primitive element}.
 % BCH codes are a particular type of cyclic code.
+
+Let \( n \) be an odd integer, and let \( r \geq 1 \) such that \( 2^r \equiv 1 \) mod \( n \), which always exists as \( 2 \) is coprime to \( n \).
+Let \( K = \mathbb F_{2^r} \), and define \( \bm \mu_n(K) = \qty{x \in K \mid x^n = 1} \leq K^\times \), which is a cyclic group.
+Since \( n \mid (2^r - 1) = \abs{K^\times} \), \( \bm \mu_n(K) \) is the cyclic group of order \( n \).
+Hence, \( \bm \mu_n(K) = \qty{1, \alpha, \alpha^2, \dots, \alpha^{n-1}} \) for some primitive \( n \)th root of unity \( \alpha \in K \).
+\begin{definition}
+    The cyclic code of length \( n \) with \emph{defining set} \( A \subseteq \bm\mu_n(K) \) is the code
+    \[ C = \qty{f(X) \in \faktor{\mathbb F_2[X]}{(X^n - 1)} \mid \forall a \in A,\, f(a) = 0} \]
+\end{definition}
+The generator polynomial \( g(X) \) is the nonzero polynomial of least degree such that \( g(a) = 0 \) for all \( a \in A \).
+Equivalently, \( g \) is the least common multiple of the minimal polynomials of the elements of \( A \).
+\begin{definition}
+    The cyclic code of length \( n \) with defining set \( \qty{\alpha, \alpha^2, \dots, \alpha^{\delta - 1}} \) is a \emph{BCH code} with \emph{design distance} \( \delta \).
+\end{definition}
+\begin{theorem}
+    A BCH code \( C \) with design distance \( \delta \) has minimum distance \( d(C) \geq \delta \).
+\end{theorem}
+This proof needs the following result.
+\begin{lemma}
+    The Vandermonde matrix satisfies
+    \[ \det \begin{pmatrix}
+        1 & 1 & 1 & \cdots & 1 \\
+        x_1 & x_2 & x_3 & \cdots & x_n \\
+        x_1^2 & x_2^2 & x_3^2 & \cdots & x_n^2 \\
+        \vdots & \vdots & \vdots & \ddots & \vdots \\
+        x_1^{n-1} & x_2^{n-1} & x_3^{n-1} & \cdots & x_n^{n-1}
+    \end{pmatrix} = \prod_{1 \leq j < i \leq n} (x_i - x_j) \]
+\end{lemma}
+\begin{proof}[Proof of theorem]
+    Consider
+    \[ H = \begin{pmatrix}
+        1 & \alpha & \alpha^2 & \cdots & \alpha^{n-1} \\
+        1 & \alpha^2 & \alpha^4 & \cdots & \alpha^{2(n-1)} \\
+        \vdots & \vdots & \vdots & \ddots & \vdots \\
+        1 & \alpha^{\delta - 1} & \alpha^{2(\delta - 1)} & \cdots & \alpha^{(\delta - 1)(n-1)}
+    \end{pmatrix} \]
+    This is a \( (\delta - 1) \times n \) matrix.
+    Any collection of \( (\delta - 1) \) columns is independent as it forms a Vandermonde matrix.
+    But any codeword of \( C \) is a dependence relation between the columns of \( H \).
+    Hence every nonzero codeword has weight at least \( \delta \), giving \( d(C) \geq \delta \).
+\end{proof}
+Note that \( H \) in the proof above is not a parity check matrix, as its entries do not lie in \( \mathbb F_2 \).
+
+Let \( C \) be a cyclic code with defining set \( \qty{\alpha, \alpha^2, \dots, \alpha^{\delta - 1}} \) where \( \alpha \in K \) is a primitive \( n \)th root of unity.
+Its minimum distance is at least \( \delta \), so we should be able to correct \( t = \floor{\frac{\delta - 1}{2}} \) errors.
+Suppose we send \( c \in C \) through the channel, and receive \( r = c + e \) where \( e \) is the error pattern with at most \( t \) nonzero errors.
+Note that \( r, c, e \) correspond to polynomials \( r(X), c(X), e(X) \), and \( c(\alpha^j) = 0 \) for \( j \in \qty{1, \dots, \delta - 1} \) as \( c \) is a codeword.
+Hence, \( r(\alpha^j) = e(\alpha^j) \).
+\begin{definition}
+    The \emph{error locator polynomial} of an error pattern \( e \in \mathbb F_2^n \) is
+    \[ \sigma(X) = \prod_{i \in \mathcal E} (1 - \alpha^i X) \in K[X] \]
+    where \( \mathcal E = \qty{i \mid e_i = 1} \).
+\end{definition}
+Assuming that \( \deg \sigma = \abs{\mathcal E} \), where \( 2t + 1 \leq \delta \), we must recover \( \sigma \) from \( r(X) \).
+\begin{theorem}
+    Suppose \( \deg \sigma = \abs{\mathcal E} \leq t \) where \( 2t + 1 \leq \delta \).
+    Then \( \sigma(X) \) is the unique polynomial in \( K[X] \) of least degree such that
+    \begin{enumerate}
+        \item \( \sigma(0) = 1 \);
+        \item \( \sigma(X) \sum_{j=1}^{2t} r(\alpha^j) X^j = \omega(X) \) mod \( X^{2t+1} \) for some \( \omega \in K[X] \) of degree at most \( t \).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Define \( \omega(X) = -X\sigma'(X) \), called the \emph{error co-locator}.
+    Hence,
+    \[ \omega(X) = \sum_{i \in \mathcal E} \alpha^i X \prod_{j \neq i} (1 - \alpha^j X) \]
+    This polynomial has \( \deg \omega = \deg \sigma \).
+    Consider the ring \( K[\![X]\!] \) of formal power series.
+    In this ring,
+    \[ \frac{\omega(X)}{\sigma(X)} = \sum_{i \in \mathcal E} \frac{\alpha^i X}{1 - \alpha^i X} = \sum_{i \in \mathcal E} \sum_{j = 1}^\infty (\alpha^i X)^j = \sum_{j=1}^\infty X^j \sum_{i \in \mathcal E} (\alpha^j)^i = \sum_{j=1}^\infty e(\alpha^j) X^j \]
+    Hence \( \sigma(X) \sum_{j=1}^\infty e(\alpha^j) X^j = \omega(X) \).
+    By definition of \( C \), we have \( c(\alpha^j) = 0 \) for all \( 1 \leq j \leq \delta - 1 \).
+    Hence \( c(\alpha^j) = 0 \) for \( 1 \leq j \leq 2t \).
+    As \( r = c + e \), \( r(\alpha^j) = e(\alpha^j) \) for all \( 1 \leq j \leq 2t \), hence \( \sigma(X) \sum_{j=1}^{2t} r(\alpha^j) X^j = \omega(X) \) mod \( X^{2t+1} \).
+    This verifies (i) and (ii) for this choice of \( \omega \), so \( \deg \omega = \deg \sigma = \abs{\mathcal E} \leq t \).
+
+    For uniqueness, suppose there exist \( \widetilde \sigma, \widetilde \omega \) with the properties (i), (ii).
+    Without loss of generality, we can assume \( \deg \widetilde \sigma \leq \deg \sigma \).
+    \( \sigma(X) \) has distinct nonzero roots, so \( \omega(X) = -X\sigma'(X) \) is nonzero at these roots.
+    Hence \( \sigma, \omega \) are coprime polynomials.
+    By property (ii), \( \widetilde \sigma(X) \omega(X) = \sigma(X) \widetilde \omega(X) \) mod \( X^{2t+1} \).
+    But the degrees of \( \sigma, \widetilde \sigma, \omega, \widetilde \omega \) are at most \( t \), so this congruence is an equality.
+    But \( \sigma(X) \) and \( \omega(X) \) are coprime, so \( \sigma \mid \widetilde \sigma \), but \( \deg \widetilde \sigma \leq \deg \sigma \) by assumption, so \( \widetilde \sigma = \lambda \sigma \) for some \( \lambda \in K \).
+    By property (i), \( \sigma(0) = \widetilde\sigma(0) \) hence \( \lambda = 1 \), giving \( \widetilde \sigma = \sigma \).
+\end{proof}
+Suppose that we receive \( r(X) \) and wish to decode it.
+\begin{itemize}
+    \item Compute \( \sum_{j=1}^{2t} r(\alpha^j) X^j \).
+    \item Set \( \sigma(X) = 1 + \sigma_1 X + \dots + \sigma_t X^t \), and compute the coefficients of \( X^i \) for \( t + 1 \leq i \leq 2t \) to obtain linear equations for \( \sigma_1, \dots, \sigma_t \), which are of the form \( \sum_0^t \sigma_j r(\alpha^{i-j}) = 0 \).
+    \item Then solve these polynomials over \( K \), keeping solutions of least degree.
+    \item Compute \( \mathcal E = \qty{i \mid \sigma(\alpha^{-i}) = 0} \), and check that \( \abs{\mathcal E} = \deg \sigma \).
+    \item Set \( e(X) = \sum_{i \in \mathcal E} X^i \), then \( c(X) = r(X) + e(X) \), and check that \( c \) is a codeword.
+\end{itemize}
