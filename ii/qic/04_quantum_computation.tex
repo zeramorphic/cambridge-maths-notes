@@ -226,7 +226,9 @@ If \( k_0 \) is not coprime to \( r \), the denominator \( \widetilde r \) will 
 To solve this, we can compute the reduced denominator and then evaluate \( f(0), f(\widetilde r) \); if they are equal, \( \widetilde r = r \), and otherwise, \( \widetilde r \mid r \).
 We would like to know the probability that a randomly chosen \( k_0 \) is coprime to the true periodicity \( r \).
 \begin{theorem}[coprimality theorem]
-    The number of integers less than \( r \) that are coprime to \( r \) is \( O\qty(\frac{r}{\log \log r}) \).
+    Let \( \varphi(r) \) denote the number of integers less than \( r \) that are coprime to \( r \).
+    Then there exist \( c > 0, r_0 > 0 \) such that for all \( r \geq r_0 \), \( \varphi(r) \geq c \frac{r}{\log \log r} \).
+    In particular, \( \varphi(r) = \Omega\qty(\frac{r}{\log \log r}) \).
 \end{theorem}
 This theorem implies that since \( k_0 \) is chosen uniformly at random, the probability that \( k_0 \) is coprime to \( r \) is \( O\qty(\frac{1}{\log \log r}) \).
 We claim that if we repeat this process \( O(\log \log r) \) times, we will obtain an outcome \( c \) such that after cancellation, \( \frac{c}{N} = \frac{k_0}{r} \) where \( k_0 \) is coprime to \( r \) in at least one case, with a constant probability.
@@ -241,3 +243,69 @@ In each invocation of the algorithm, we query \( f \) three times: once to const
 We also need to apply the quantum Fourier transform \( QFT_N \), which has implementations in \( O((\log N)^2) \) steps.
 We must also perform standard arithmetic operations such as to cancel denominators, which are computable in \( O(\mathrm{poly}(\log N)) \) steps.
 Therefore, we succeed in determining the period with any constant probability of success \( 1 - \varepsilon \) with \( O(\log \log N) \) queries and \( O(\mathrm{poly}(\log N)) \) additional steps.
+
+\subsection{Efficient implementation of quantum Fourier transform}
+We can implement a quantum Fourier transform using \( O(\mathrm{poly}(\log N)) \) gates if \( N = 2^n \).
+In this case, \( QFT_N \) acts on \( n \) qubits.
+If \( N \neq 2^n \), we do not have an efficient implementation; in this case, we approximate \( N \) by \( 2^k \) for some \( k \in \mathbb Z \).
+In the case \( N = 2^n \), we demonstrate a quantum circuit of size \( O(n^2) \).
+
+If \( x \in \mathbb Z_n = \qty{0, \dots, 2^n - 1} \), note that
+\[ QFT_N \ket{x} = \frac{1}{\sqrt{N}} \sum_{y=0}^{N-1} \omega^{xy} \ket{y} \]
+We can represent \( x \) and \( y \) by \( n \)-bit strings.
+\[ x = (x_0, x_1, \dots, x_{n-1});\quad x = \sum_{i=0}^{n-1} 2^i x_i \]
+Now, \( \omega^{xy} = \exp\qty[\frac{2\pi i}{2^n} xy] \).
+\[ \frac{xy}{2^n} = \frac{1}{2^n} \qty[(x_0 + 2x_1 + \dots + 2^{n-1} x_{n-1})(y_0 + 2y_1 + \dots + 2^{n-1} y_{n-1})] \]
+Retaining only the fractional terms of \( \frac{xy}{2^n} \), as integral parts do not contribute to the final result, we obtain
+\[ y_{n-1}(.x_0) + y_{n-2}(.x_1 x_0) + \dots + y_0(.x_{n-1} \dots x_0) \]
+where for instance \( .x_1 x_0 = \frac{x_1}{2} + \frac{x_0}{2^2} \).
+Hence,
+\begin{align*}
+    QFT \ket{x} &= \frac{1}{\sqrt{2^n}} \sum_{y_0, \dots, y_{n-1} \in \qty{0,1}} \exp\qty[\frac{2\pi i xy}{2^n}] \ket{y_{n-1}} \dots \ket{y_0} \\
+    &= \qty(\frac{1}{\sqrt{2}} \sum_{y_{n-1} \in \qty{0,1}} \exp\qty[2 \pi i y_{n-1} (.x_0)] \ket{y_{n-1}}) \cdots \qty(\frac{1}{\sqrt{2}} \sum_{y_0 \in \qty{0,1}} \exp\qty[2 \pi i y_0 (.x_{n-1}\dots x_0)] \ket{y_0}) \\
+    &= \frac{1}{\sqrt{2}} \qty(\ket{0} + e^{2\pi i (.x_0)} \ket{1}) \dots \frac{1}{\sqrt{2}} \qty(\ket{0} + e^{2\pi i (.x_{n-1} \dots x_0)} \ket{1})
+\end{align*}
+To implement the quantum Fourier transform, we will use the Hadamard gate, the 1-qubit phase gate, and the 2-qubit controlled phase gate.
+Note that we can write
+\[ H\ket{x} = \frac{1}{\sqrt{2}} \qty[\ket{0} + e^{2\pi i(.x)} \ket{1}] \]
+For any \( d \in \mathbb Z_+ \), the phase gate is given by
+\[ R_d = \begin{pmatrix}
+    1 & 0 \\
+    0 & \exp[\frac{i\pi}{2^d}]
+\end{pmatrix} = \begin{pmatrix}
+    1 & 0 \\
+    0 & \exp[2\pi i(.\underbrace{0\dots 0}_{\mathclap{d \text{ zeroes}}}1)]
+\end{pmatrix} \]
+Note that \( R_d \ket{0} = \ket{0} \) and \( R_d \ket{1} = e^{2\pi i(.0\dots 01)} \ket{1} \).
+In the case \( d = 1 \), we obtain \( R_1 \ket{1} = e^{2 \pi i(.01)} \ket{1} = i \ket{1} \).
+The two-qubit controlled phase gate, denoted \( CR_d \), is drawn
+\begin{center}
+    \leavevmode
+    \Qcircuit{
+        \lstick{\ket{\psi}} & \gate{R_d} & \qw \\
+        \lstick{\ket{\varphi}} & \ctrl{-1} & \qw
+    }
+\end{center}
+If \( \ket{\varphi} = \ket{0} \), \( CR_d\ket{0}\ket{\psi} = \ket{0}\ket{\psi} \).
+If \( \ket{\varphi} = \ket{1} \), \( CR_d\ket{1}\ket{\psi} = \ket{1}R_d\ket{\psi} \).
+We will now describe the quantum circuit for \( QFT_8 \), so \( N = 8 \) and \( n = 3 \).
+\begin{center}
+    \leavevmode
+    \Qcircuit{
+        \lstick{\ket{x_2}} & \gate{H} & \gate{R_1} & \gate{R_2} & \qw & \qw & \qw & \rstick{\ket{y_0}} \qw \\
+        \lstick{\ket{x_1}} & \qw & \ctrl{-1} & \qw & \gate{H} & \gate{R_1} & \qw & \rstick{\ket{y_1}} \qw \\
+        \lstick{\ket{x_0}} & \qw & \qw & \ctrl{-2} & \qw & \ctrl{-1} & \gate{H} & \rstick{\ket{y_2}} \qw
+    }
+\end{center}
+Applying the given gates to \( \ket{x_2} \), we obtain
+\begin{align*}
+    \ket{x_2} &\xrightarrow{H} \frac{1}{\sqrt{2}}\qty[\ket{0} + e^{2\pi i (.x_2)} \ket{1}] \\
+    &\xrightarrow{R_1} \frac{1}{\sqrt{2}}\qty[\ket{0} + e^{2\pi i (.x_2)} e^{2\pi i(.0x_1)} \ket{1}] \\
+    &\xrightarrow{R_2} \frac{1}{\sqrt{2}}\qty[\ket{0} + e^{2\pi i(.x_2)} e^{2\pi i(.0x_1)} e^{2\pi i(.00x_0)} \ket{1}] \\
+    &= \frac{1}{\sqrt{2}}\qty[\ket{0} + e^{2\pi i(.x_2 x_1 x_0)} \ket{1}] = \ket{y_0}
+\end{align*}
+as required.
+Typically, after applying the above circuit, we will swap the states \( \ket{y_0}, ket{y_1}, \ket{y_2} \) to be in reverse order; this takes \( O(n) \) gates.
+
+In this implementation, we used 3 Hadamard gates, and \( 2 + 1 = 3 \) controlled phase gates.
+If \( N = 2^n \), we need \( n \) Hadamard gates and \( \frac{n(n-1)}{2} = O(n^2) \) controlled phase gates.
