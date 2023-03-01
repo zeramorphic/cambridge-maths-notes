@@ -5,3 +5,61 @@ The language has \( \Omega = \varnothing, \Pi = \qty{\in}, \alpha(\in) = 2 \).
 A `universe of sets' is simply a model \( (V, \in_V) = (V, \in) \) for the axioms of \( \mathsf{ZF} \).
 % This theory has nine axioms: two to begin the theory, four to construct sets, and three that might be unintuitive at first.
 We can view this section as a worked example of the concepts of predicate logic, but every model of \( \mathsf{ZF} \) will contain a copy of (most of) mathematics, so they will be very complicated.
+
+\subsection{Axioms of \texorpdfstring{\(\mathsf{ZF}\)}{ZF}}
+\begin{enumerate}
+    \item \emph{Axiom of extension}.
+    \[ (\forall x)(\forall y)((\forall z)(z \in x \Leftrightarrow z \in y) \Rightarrow x = y) \]
+    Note that the converse follows from the definition of equality.
+    This implies that sets have no duplicate elements, and have no ordering.
+    \item \emph{Axiom of separation} or \emph{comprehension}.
+    For a set \( x \) and a property \( p \), we can form the set of \( z \in x \) such that \( p(z) \) holds.
+    \[ (\forall t_1)\dots(\forall t_n)(\forall x)(\exists y)(\forall z)(z \in y \Leftrightarrow z \in x \wedge p) \]
+    where the \( t_i \) are the parameters, and \( p \) is a formula with free variables \( t_1, \dots, t_n, z \).
+    Note that we need the parameters as we may wish to form the set \( \qty{z \in x \mid z \in t} \) for some variable \( t \).
+    We write \( \qty{z \in x \mid p(z)} \) for the set guaranteed by this axiom; this is an abbreviation and does not change the language.
+    \item \emph{Empty-set axiom}.
+    \[ (\exists x)(\forall y)(\neg y \in x) \]
+    This empty set is unique by extensionality.
+    We write \( \varnothing \) for the set guaranteed by this axiom.
+    For instance, \( p(\varnothing) \) is the sentence \( (\exists x)((\forall y)(\neg y \in x) \wedge p(x)) \).
+    \item \emph{Pair-set axiom}.
+    \[ (\forall x)(\forall y)(\exists z)(\forall t)(t \in z \Leftrightarrow t = x \vee t = y) \]
+    We write \( \qty{x, y} \) for this set \( z \), which is unique by extensionality.
+    Some basic set-theoretic principles can now be defined.
+    \begin{itemize}
+        \item We write \( \qty{x} = \qty{x, x} \) for the singleton set containing \( x \).
+        \item We can now define the ordered pair \( (x, y) = \qty{\qty{x}, \qty{x, y}} \); from the axioms so far we can prove that \( (x, y) = (z, t) \) if and only if \( x = z \) and \( y = t \).
+        \item We say that \( x \) is an ordered pair if \( (\exists y)(\exists z)(x = (y,z)) \), and \( f \) is a function if \( (\forall x)(x \in f \Rightarrow x \text{ is an ordered pair}) \) and \( (\forall x)(\forall y)(\forall z)((x,y) \in f \wedge (x,z) \in f \Rightarrow y = z) \).
+        \item We call a set \( x \) the domain of \( f \), written \( x = \dom f \), if \( f \) is a function and \( (\forall y)(y \in x \Leftrightarrow (\exists z)((y,z) \in f)) \).
+        \item The notation \( f \colon x \to y \) means that \( f \) is a function, \( x = \dom f \), and \( (\forall z)(\forall t)((z, t) \in f \Rightarrow t \in y) \).
+    \end{itemize}
+    \item \emph{Union axiom}.
+    For each family of sets \( x \), we can form its union \( \bigcup_{t \in x} t \).
+    \[ (\forall x)(\exists y)(\forall z)(z \in y \Leftrightarrow (\exists t)(z \in t \wedge t \in x)) \]
+    The set guaranteed by this axiom can be written \( \bigcup x \), and we can write \( x \cup y \) for \( \bigcup \qty{x, y} \).
+    We need no intersection axiom, as such intersections already exist by the axiom of separation.
+    This cannot be used to create empty intersections, as the axiom of separation can only create subsets of a set that already exists.
+    \item \emph{Power-set axiom}.
+    \[ (\forall x)(\exists y)(\forall z)(z \in y \Leftrightarrow z \subseteq x) \]
+    where \( z \subseteq x \) means \( (\forall t)(t \in z \Rightarrow t \in x) \).
+    We write \( \mathcal P(x) \) for the power set of \( x \).
+    We can form the Cartesian product \( x \times y \) as a suitable subset of \( \mathcal P(\mathcal P(x \cup y)) \), as if \( z \in x, t \in y \), we have \( (z, t) = \qty{\qty{z}, \qty{z, t}} \in \mathcal P(\mathcal P(x \cup y)) \).
+    The set of all functions \( x \to y \) can be defined as a subset of \( \mathbb P(x \times y) \).
+    \item \emph{Axiom of infinity}.
+    Using our currently defined axioms, any model \( V \) must be infinite.
+    For example, writing \( x^+ \) for the \emph{successor} of \( x \) defined as \( x \cup \qty{x} \), the sets \( \varnothing, \varnothing^+, \varnothing^{++}, \dots \) are distinct.
+    \[ \varnothing^+ = \qty{\varnothing};\quad \varnothing^{++} = \qty{\varnothing, \qty{\varnothing}};\quad \varnothing^{+++} = \qty{\varnothing, \qty{\varnothing}, \qty{\varnothing, \qty{\varnothing}}};\quad \dots \]
+    We write \( 0 = \varnothing, 1 = \varnothing^+, 2 = \varnothing^{++}, \dots \) for the successors created in this way.
+    For instance, \( 3 = \qty{0, 1, 2} \).
+    \( V \) may not have an infinite element, even though \( V \) itself is infinite, because no \( x \in V \) has all \( y \in V \) as elements: \( V \) does not think of itself as a set, because Russell's paradox follows from the axioms defined so far.
+
+    We say that \( x \) is a successor set if \( \varnothing \in x \) and \( (\forall y)(y \in x \Rightarrow y^+ \in x) \).
+    Note that this is a finite-length formula that characterises an infinite set.
+    The axiom of infinity is that there exists a successor set.
+    \[ (\exists x)(\varnothing \in x \wedge (\forall y)(y \in x \Rightarrow y^+ \in x)) \]
+    Note that this set is not uniquely defined, but any intersection of successor sets is a successor set.
+    We can therefore take the intersection of all successor sets by the axiom of separation, giving a least successor set denoted \( \omega \).
+    Thus, \( (\forall x)(x \in \omega \Leftrightarrow (\forall y)(y \text{ is a successor set} \Rightarrow x \in y)) \).
+    For example, we can prove that \( 3 \in \omega \).
+\end{enumerate}

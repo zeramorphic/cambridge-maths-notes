@@ -478,3 +478,83 @@ Suppose that we receive \( r(X) \) and wish to decode it.
     \item Compute \( \mathcal E = \qty{i \mid \sigma(\alpha^{-i}) = 0} \), and check that \( \abs{\mathcal E} = \deg \sigma \).
     \item Set \( e(X) = \sum_{i \in \mathcal E} X^i \), then \( c(X) = r(X) + e(X) \), and check that \( c \) is a codeword.
 \end{itemize}
+\begin{example}
+    Consider \( n = 7 \), and \( X^7 - 1 = (X + 1)(X^3 + X + 1)(X^3 + X^2 + 1) \) in \( \mathbb F_2[X] \).
+    Let \( g(X) = X^3 + X + 1 \), so \( h(X) = (X + 1)(X^3 + X^2 + 1) = X^4 + X^2 + X + 1 \).
+    The parity check matrix is
+    \[ H = \begin{pmatrix}
+        1 & 0 & 1 & 1 & 1 & 0 & 0 \\
+        0 & 1 & 0 & 1 & 1 & 1 & 0 \\
+        0 & 0 & 1 & 0 & 1 & 1 & 1
+    \end{pmatrix} \]
+    The columns are the elements of \( \mathbb F_2^3 \setminus \qty{0} \).
+    This is the Hamming \( (7,4) \)-code.
+
+    Let \( K \) be a splitting field for \( X^7 - 1 \); we can take \( K = \mathbb F_8 \).
+    Let \( \beta \in K \) be a root of \( g \).
+    Note that \( \beta^3 = \beta + 1 \), so \( \beta^6 = \beta^2 + 1 \), so \( g(\beta^2) = 0 \), and hence \( g(\beta^4) = 0 \).
+    So the BCH code defined by \( \qty{\beta, \beta^2} \) has generator polynomial \( g(X) \), again proving that this is Hamming's \( (7,4) \)-code.
+    This code has design distance \( 3 \), so \( d(C) \geq 3 \), and we know Hamming's code has minimum distance exactly 3.
+\end{example}
+
+\subsection{Shift registers}
+\begin{definition}
+    A \emph{(general) feedback shift register} is a map \( f \colon \mathbb F_2^d \to \mathbb F_2^d \) given by
+    \[ f(x_0, \dots, x_{d-1}) = (x_1, \dots, x_{d-1}, C(x_0, \dots, x_{d-1})) \]
+    where \( C \colon \mathbb F_2^d \to \mathbb F_2 \).
+    We say that the register has length \( d \).
+    The \emph{stream} associated to an \emph{initial fill} \( (y_0, \dots, y_{d-1}) \) is the sequence \( y_0, \dots \) with \( y_n = C(y_{n-d}, \dots, y_{n-1}) \) for \( n \geq d \).
+\end{definition}
+\begin{definition}
+    The general feedback shift register \( f \colon \mathbb F_2^d \to \mathbb F_2^d \) is a \emph{linear feedback shift register} if \( C \) is linear, so
+    \[ C(x_0, \dots, x_{d-1}) = \sum_{i=0}^{d-1} a_i x_i \]
+    We usually set \( a_0 = 1 \).
+\end{definition}
+The stream produced by a linear feedback shift register is now given by the recurrence relation \( y_n = \sum_{i=0}^{d-1} a_i y_{n-d+i} \).
+We can define the auxiliary polynomial \( P(X) = X^d + a_{d-1} X^{d-1} + \dots + a_1 X + a_0 \).
+We sometimes write \( a_d = 1 \), so \( P(X) = \sum_{i=0}^d a_i X^i \).
+\begin{definition}
+    The \emph{feedback polynomial} is \( \check{P}(X) = a_0 X^d + \dots + a_{d-1} X + 1 = \sum_{i=0}^d a_{d-i} X^i \).
+    A sequence \( y_0, \dots \) of elements of \( \mathbb F_2 \) has \emph{generating function} \( \sum_{j=0}^\infty y_j X^j \in \mathbb F_2[\![X]\!] \).
+\end{definition}
+\begin{theorem}
+    The stream \( (y_n)_{n \in \mathbb N} \) comes from a linear feedback shift register with auxiliary polynomial \( P(X) \) if and only if its generating function is (formally) of the form \( \frac{A(X)}{\check{P}(X)} \) with \( A \in \mathbb F_2[X] \) such that \( \deg A < \deg \check{P} \).
+\end{theorem}
+Note that \( \check{P}(X) = X^{\deg P}P(X^{-1}) \).
+\begin{proof}
+    Let \( P(X) \) and \( \check{P}(X) \) be as above.
+    We require
+    \[ \qty(\sum_{j=0}^\infty y_j X^j) \qty(\sum_{i=0}^d a_{d-i} X^i) \]
+    to be a polynomial of degree strictly less than \( d \).
+    This holds if and only if the coefficient of \( X^n \) in \( G(X) \check{P}(X) \) is zero for all \( n \geq d \), which is \( \sum_{i=0}^d a_{d-i} y_{n-i} = 0 \).
+    This holds if and only if \( y_n = \sum_{i=0}^{d-1} a_i y_{n-d + i} \) for all \( n \geq d \).
+    This is precisely the form of a stream that arises from a linear feedback shift register with auxiliary polynomial \( P \).
+\end{proof}
+The problem of recovering the linear feedback shift register from its stream and the problem of decoding BCH codes both involve writing a power series as a quotient of polynomials.
+
+\subsection{The Berlekamp--Massey method}
+Let \( (x_n)_{n \in \mathbb N} \) be the output of a binary linear feedback shift register.
+We wish to find the unknown length \( d \) and values \( a_0, \dots, a_{d-1} \) such that \( x_n + \sum_{i=1}^d a_{d-1} x_{n-i} = 0 \) for all \( n \geq d \).
+We have
+\[ \underbrace{\begin{pmatrix}
+    x_d & x_{d-1} & \cdots & x_1 & x_0 \\
+    x_{d+1} & x_d & \cdots & x_2 & x_2 \\
+    \vdots & \vdots & \ddots & \vdots & \vdots \\
+    x_{2d} & x_{2d-1} & \cdots & x_{d+1} & x_d
+\end{pmatrix}}_{A_d} \begin{pmatrix}
+    a_d \\
+    a_{d-1} \\
+    \vdots \\
+    a_1 \\
+    a_0
+\end{pmatrix} = 0 \]
+We look successively at \( A_0 = \begin{pmatrix}
+    x_0
+\end{pmatrix}, A_1 = \begin{pmatrix}
+    x_1 & x_0 \\
+    x_2 & x_1
+\end{pmatrix}, \dots \), starting at \( A_r \) if we know \( d \geq r \).
+For each \( A_i \), we compute its determinant.
+If \( \abs{A_i} \neq 0 \), then \( d \neq i \).
+If \( \abs{A_i} = 0 \), we solve the system of linear equations on the assumption that \( d = i \), giving a candidate for the coefficients \( a_0, \dots, a_{d-1} \).
+This candidate can be checked over as many terms of the stream as desired.

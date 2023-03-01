@@ -241,3 +241,79 @@ Part (ii) is nonexaminable, and part (iii) will be shown later.
         \item the set of \( P \in V \) such that \( \nu_P(f) \neq 0 \) is finite, and \( \sum_{P \in V} \nu_P(f) = 0 \).
     \end{enumerate}
 \end{corollary}
+\begin{proof}
+    \emph{Part (i).}
+    Given \( f \), consider the morphism \( \varphi = (1 : f) \colon V \to \mathbb P^1 \).
+    \( \varphi \) is a morphism because \( C \) is smooth.
+    We want to find zeroes and poles of \( f \).
+    \( \varphi(P) = (1:0) \) if and only if \( f(P) = 0 \), and \( \varphi(P) = (0:1) \) if and only if \( f \) is not regular at \( P \).
+    This means that if \( f \) is everywhere regular, \( \varphi \) is not surjective, so it is constant.
+
+    \emph{Part (ii).}
+    We can assume \( f \) is non-constant.
+    Let \( t \) denote the rational function \( \frac{X_1}{X_0} \) on \( \mathbb P^1 \).
+    By the pullback, we obtain \( \varphi^\star t \in \mathbb C(V) \) is exactly \( \frac{f}{1} = f \).
+    For convenience, \( (1:0) \in \mathbb P^1 \) will be denoted 0, and \( (0:1) \in \mathbb P^1 \) will be denoted \( \infty \).
+
+    Observe that \( t \) is a local parameter at \( 0 \in \mathbb P^1 \), so if \( f(P) = 0 \), \( e_P = \nu_P(\varphi^\star t) = \nu_P(f) \).
+    Similarly, \( \frac{1}{t} = \frac{X_0}{X_1} \) is a local parameter at \( \infty \in \mathbb P^1 \), so if \( f(P) = \infty \), we have \( e_P = \nu_P(\varphi^\star \frac{1}{t}) = -\nu_P(f) \).
+    Finally, if \( f(P) \neq 0, \infty \), then \( \nu_P(f) = 0 \).
+    By the previous theorem, \( \deg \varphi = \sum_{\varphi(P) = 0} \nu_P(f) = \sum_{\varphi(P) = \infty} -\nu_P(f) \), giving the desired result.
+\end{proof}
+Hence, there are no non-constant holomorphic functions.
+
+\subsection{Divisor theory}
+We will only consider smooth projective irreducible curves from now on.
+Let \( V \) be a curve.
+There is a natural inclusion from the space of functions defined everywhere on \( V \) (isomorphic to \( \mathbb C \)) to the field of rational functions on \( V \).
+However, this field \( \mathbb C(V) \) is very large and difficult to study directly.
+The goal of divisor theory is to organise \( \mathbb C(V) \) into manageable (finite-dimensional) pieces.
+
+Note that a rational function \( f \in \mathbb C(V) \) determines an open subset \( U \subseteq V \) on which \( f \) is well-defined as a function \( U \to \mathbb C \).
+For instance, we could define \( U = V \setminus \qty{x \mid \nu_P(f) < 0} \), which is \( V \) with a finite set of points removed.
+One idea is to study functions \( f \in \mathbb C(V) \) that are well-defined away from a fixed set \( \qty{P_1, \dots, P_n} \).
+\begin{definition}
+    A \emph{divisor} \( D \) on a curve \( V \) is a finite formal linear combination \( \sum_{P \in V} n_P[P] \), or equivalently, an element of the free abelian group \( \bigoplus_{P \in V} \mathbb Z[P] \).
+    If \( D = \sum_{P \in V} n_P [P] \), its \emph{degree} is \( \deg D = \sum_{P \in V} n_P \in \mathbb Z \).
+\end{definition}
+Note that \( \deg \colon \mathrm{Div}(V) \to \mathbb Z \) is a group homomorphism.
+The kernel of \( \deg \) is denoted \( \mathrm{Div}^0(V) \).
+If \( D = \sum n_P [P] \), we write \( \nu_P(D) = n_P \).
+\begin{definition}
+    Let \( D \in \mathrm{Div}(V) \).
+    The space of rational functions on with poles bounded by \( D \) is
+    \[ L(D) = \qty{f \in \mathbb C(V) \mid \forall P \in V,\, \nu_P(f) + \nu_P(D) \geq 0} \]
+\end{definition}
+For instance, if \( \nu_P(D) > 0 \), \( f \) is allowed to have a pole at \( P \) of order at most \( \nu_P(D) \).
+If \( \nu_P(D) < 0 \), \( f \) is forced to have a zero at \( P \) of order at least \( -\nu_P(D) \).
+\begin{definition}
+    Let \( f \in \mathbb C(V)^\star \).
+    The \emph{divisor of \( f \)}, is \( \operatorname{div}(f) = \sum_{P \in V} \nu_P(f)[P] \).
+\end{definition}
+Divisors of rational functions must have degree 0.
+Divisors of the form \( \operatorname{div}(f) \) are called \emph{principal divisors}.
+The set \( \mathrm{Prin}(V) \) is the set of divisors \( D \in \mathrm{Div}(V) \) such that \( D = \operatorname{div}(f) \) for some \( f \in \mathbb C(V) \), and this is a subgroup of \( \mathrm{Div}^0(V) \), as \( \operatorname{div}(f \cdot g) = \operatorname{div}f + \operatorname{div}g \).
+
+The quotient \( \faktor{\mathrm{Div}(V)}{\mathrm{Prin}(V)} \) is noted \( \mathrm{Pic}(V) = \mathrm{Cl}(V) \), and this is called the \emph{Picard group} or \emph{class group} of \( V \).
+The Picard group and class group coincide for smooth varieties, but are different in the study of general varieties and schemes.
+
+Divisors \( D, D' \) are called \emph{linearly equivalent} if \( D - D' \) is \( \mathrm{div}(f) \) for some \( f \in \mathbb C(V) \), so \( D \) is equivalent to \( D' \) in \( \mathrm{Pic}(V) \).
+\begin{proposition}
+    Every degree 0 divisor on \( \mathbb P^1 \) is principal.
+\end{proposition}
+Note that every principal divisor is degree 0 in general.
+\begin{proof}
+    Identify \( \mathbb P^1 \) with \( \mathbb C \cup \qty{\infty} \), where \( \mathbb C \hookrightarrow \qty{(1:z) \mid z \in \mathbb C} \).
+    Then, \( D = \sum_{a \in \mathbb C} n_a [a] + n_\infty [\infty] \).
+    Note that \( n_\infty = -\sum_{a \in \mathbb C} n_a \).
+    Let \( f = \prod_{a \in \mathbb C} (t-a)^{n_a} \).
+    This has a zero of order \( n_a \) at \( a \).
+    Hence, \( \operatorname{div} f = D \); clearly, \( \nu_a(\operatorname{div} f) = n_a \) for \( a \in \mathbb C \), and \( \frac{1}{t-a} \) is a local coordinate at \( \infty \) for all \( a \in \mathbb C \) where \( t = \frac{X_1}{X_0} \), then we can calculate explicitly \( \nu_\infty(\operatorname{div} f) = n_\infty \).
+\end{proof}
+It is not always the case that every degree 0 divisor on a curve \( V \) is principal and \( \mathrm{Piv}(V) \) is nontrivial; this gives rise to the notion of genus.
+\begin{definition}
+    Let \( V \subseteq \mathbb P^n \) be a curve.
+    Consider the hyperplane \( \mathbb V(L) \subseteq \mathbb P^n \) where \( L \) is a homogeneous linear polynomial.
+    Assume \( V \subseteq \mathbb V(L) \).
+    The \emph{hyperplane section} of \( V \) by \( \mathbb V(L) \) is \( \operatorname{div}L = \sum_{P \in V} n_P [P] \), where if \( X_i(P) \neq 0 \), \( n_P = \nu_P\qty(\frac{L}{X_i}) \).
+\end{definition}
