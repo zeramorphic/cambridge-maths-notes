@@ -309,3 +309,73 @@ Typically, after applying the above circuit, we will swap the states \( \ket{y_0
 
 In this implementation, we used 3 Hadamard gates, and \( 2 + 1 = 3 \) controlled phase gates.
 If \( N = 2^n \), we need \( n \) Hadamard gates and \( \frac{n(n-1)}{2} = O(n^2) \) controlled phase gates.
+
+\subsection{Grover's algorithm}
+Suppose we have a large unstructured database of \( N \) items, in which we aim to locate a particular `good' item.
+Suppose that given an item, we can easily check if it is the `good' item.
+We wish to construct an algorithm to locate this good item with success probability at least \( 1 - \varepsilon \).
+Each access to the database is called a query.
+
+In the classical case, we need \( O(N) \) queries: if we find a bad item, it gives us no information about the location of the good item.
+The probability that any item is good is \( \frac{1}{N} \).
+Given \( M \) queries, the probability of success is \( \frac{M}{N} \geq 1 - \varepsilon \), so \( M \geq (1-\varepsilon)N \) gives \( M = O(N) \).
+In the quantum case, \( O(\sqrt{N}) \) queries are necessary and sufficient.
+This is not an exponential speedup but a quadratic speedup.
+
+Let \( \mathcal V \) be a vector space, and let \( \ket{v} \in \mathcal V \).
+We define the rank 1 projection operator \( \Pi_{\ket{\alpha}} = \op{\alpha}{\alpha} \), and the reflection operator \( I_{\ket{\alpha}} = I - 2 \op{\alpha}{\alpha} \).
+Note that \( I_{\ket{\alpha}} \ket{\alpha} = - \ket{\alpha} \).
+Let \( \ket{\psi} \in \mathcal S_{\ket{v}}^\perp = \vecspan\qty{\ket{\beta} \in \mathcal V \mid \ip{\alpha}{\beta} = 0} \) .
+Then \( I_{\ket{\alpha}} \ket{\psi} = \ket{\psi} - \ket{\alpha}\ip{\alpha}{\psi} = \ket{\psi} \).
+
+For any unitary operator \( U \) acting on \( \mathcal V \), we have \( U \Pi_{\ket{\alpha}} U^\dagger = U \op{\alpha}{\alpha} U^\dagger = \Pi_{U\ket{\alpha}} \).
+Note also that \( U I_{\ket{\alpha}} U^\dagger = U(I - 2 \op{\alpha}{\alpha}) U^\dagger = I - 2 \op{U\alpha}{U\alpha} = I_{U\ket{\alpha}} \).
+
+If \( \mathcal V \in \mathbb C^2 \), for all \( \ket{\alpha} \in \mathcal V \), let \( \ket{\alpha^\perp} \) be orthogonal to \( \ket{\alpha} \).
+For all \( \ket{v} \in \mathcal V \), we can write \( \ket{v} = a \ket{\alpha} + b \ket{\alpha^\perp} \), so \( \Pi_{\ket{\alpha}} \ket{v} = a \ket{\alpha} \) and \( I_{\ket{\alpha}} \ket{v} = -a\ket{\alpha} + b \ket{\alpha^\perp} \).
+
+Let \( N = 2^n \), so we can label each item in the database with an \( n \)-bit binary string.
+We will convert the search problem into a black-box promise problem.
+The database corresponds to the Boolean function \( f \colon B_n \to B \) where \( f(x_0) = 1 \) for a particular \( x_0 \in B_n \), and \( f(x) = 0 \) otherwise.
+The corresponding quantum oracle is \( U_f \ket{x} \ket{y} = \ket{x} \ket{y \oplus f(x)} \), where \( \ket{x} \in (\mathbb C^2)^{\otimes n} \) and \( \ket{y} \in \mathbb C^2 \).
+The fact that the databse is unstructured corresponds to the fact that the quantum oracle \( U_f \) is a black box.
+We will actually use the operator \( I_{x_0} \).
+\[ I_{x_0} \ket{x} = \begin{cases}
+    +\ket{x} & \text{if } x \neq x_0 \\
+    -\ket{x} & \text{if } x = x_0
+\end{cases} \]
+If \( x_0 = 0\dots 0 \in B_n \), we define \( I_0 = I_{x_0} \).
+Note that \( I_{x_0} \) can be implemented using \( U_f \); indeed,
+\begin{align*}
+    U_f \ket{x} \ket{-} &= \frac{1}{\sqrt{2}} U_f \ket{x} \qty(\ket{0} - \ket{1}) \\
+    &= \frac{1}{\sqrt{2}}\qty(\ket{x} \ket{f(x)} - \ket{x} \ket{f(x)^c}) \\
+    &= \begin{cases}
+        \frac{1}{\sqrt{2}} \ket{x} \qty(\ket{0} - \ket{1}) & \text{if } x \neq x_0 \\
+        \frac{1}{\sqrt{2}} \ket{x} \qty(\ket{1} - \ket{0}) & \text{if } x = x_0
+    \end{cases} \\
+    &= \begin{cases}
+        +\ket{x}\ket{-} & \text{if } x \neq x_0 \\
+        -\ket{x}\ket{-} & \text{if } x = x_0
+    \end{cases}
+\end{align*}
+Hence, \( U_f \ket{x} \ket{-} = (I_{x_0} \ket{x})\ket{-} \).
+So if \( \ket{\psi} \in (\mathbb C^2)^{\otimes n} \), \( \ket{\psi} = a_0 \ket{x_0} + \sum_{x \neq x_0} a_x \ket{x} \) gives \( U_f \ket{\psi}\ket{-} = (I_{x_0} \ket{\psi}) \ket{-} = -a_0 \ket{x_0} + \sum_{x \neq x_0} a_x \ket{x} \).
+
+Given a black box which computes \( I_{x_0} \) for some \( x_0 \in B_n \), we wish to determine \( x_0 \) with the least amount of queries.
+We will now describe Grover's algorithm.
+We begin with the equal superposition state \( \ket{\psi_0} = \frac{1}{\sqrt{2^n}} \sum_{x \in B_n} \ket{x} \).
+Consider \emph{Grover's iteration operator} \( Q = -H_n I_0 H_n I_{x_0} \) where \( H_n = H^{\otimes n} \).
+Note that \( Q \) is real-valued, and has the following properties of.
+\begin{enumerate}
+    \item In the plane \( \mathcal P(x_0) \) spanned by \( \ket{x_0} \) and \( \ket{\psi_0} \), \( Q \) acts as a rotation through an angle \( 2\alpha \) where \( \sin \alpha = \frac{1}{\sqrt{2^n}} \).
+    \item In the plane orthogonal to \( \mathcal P(x_0) \), \( Q \) acts as \( -I \).
+\end{enumerate}
+We repeatedly apply \( Q \) to \( \ket{\psi_0} \) to obtain the rotated vector \( \ket{\psi_0'}\), and then measure in the computational basis.
+\[ \ket{\psi_0'} = a_0 \ket{x_0} + \sum_{x_i \neq x_0} \sum a_i \ket{x_i} \]
+Hence, the probability that the outcome is \( x_0 \) is \( \abs{a_0}^2 = \abs{\ip{x_0}{\psi_0'}}^2 = \abs{\cos \delta}^2 \approx 1 \) where \( \delta \) is the angle between \( \ket{\psi_0'} \) and \( \ket{x_0} \).
+
+If \( n \) is large, \( \ket{\psi_0} \) is almost orthogonal to \( \ket{x_0} \), with \( \ip{x_0}{\psi_0} = \frac{1}{\sqrt{2^n}} = \cos \beta \).
+By property (i), \( Q \) acting on \( \ket{\psi_0} \) rotates the state by \( 2\alpha \), where \( \sin\alpha = \frac{1}{\sqrt{2^n}} \).
+Since \( \sin \alpha \approx \alpha \), this implies that \( 2\alpha \approx 2\sin\alpha = \frac{2}{\sqrt{2^n}} \).
+Let \( m \) be the number of iterations needed to rotate \( \ket{\psi_0} \) close to \( \ket{x_0} \).
+Then \( 2 \alpha m \approx \frac{\pi}{2} \), so \( m \approx \frac{\pi}{4\alpha} = \frac{\pi}{4} \sqrt{N} \).
