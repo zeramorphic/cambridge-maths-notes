@@ -1,0 +1,52 @@
+\subsection{?}
+\begin{theorem}[Euclid]
+    There exist infinitely many primes.
+\end{theorem}
+The following proof is due to Euler in 1748.
+\begin{proof}
+    Consider
+    \[ \prod_{p \text{ prime}} \qty(1 - \frac{1}{p})^{-1} = \prod_{p \text{ prime}} \qty(1 + \frac{1}{p} + \frac{1}{p^2} + \dots) = \sum_{n=1}^\infty \frac{1}{n} \]
+    as every \( n > 0 \) factors uniquely as a product of primes so occurs exactly once when we expand the product.
+    If there are finitely many primes, the product is finite.
+    As \( \sum_{i=1}^\infty p^{-i} \) converges to \( \qty(1 - \frac{1}{p})^{-1} \), \( \sum_{i=1}^\infty \frac{1}{n} \) must converge.
+\end{proof}
+We aim to prove that for all \( a, q \in \mathbb Z \) coprime, there are infinitely many primes of the form \( a + kq \), \( k \in \mathbb N \).
+Note that there is no nice series expansion for \( \prod_{p \equiv a \mod q, p \text{ prime}} \qty(1 - \frac{1}{p})^{-1} \), so Euler's proof does not generalise.
+\begin{definition}
+    The \emph{Riemann zeta function} is \( \zeta(s) = \sum_{n \geq 1} n^{-s} \) for \( s \in \mathbb C \).
+\end{definition}
+\begin{proposition}
+    \begin{enumerate}
+        \item \( \zeta(s) \) converges for \( \Re(s) > 1 \).
+        \item \( \zeta(s) = \prod_{p \text{ prime}} \qty(1 - \frac{1}{p^s})^{-1} \) in this region; this result is known as the \emph{Euler product}.
+        This product converges absolutely.
+        \item \( \zeta(s) - \frac{1}{s - 1} \) extends to a holomorphic function for \( \Re(s) > 0 \), so the zeta function has a simple pole with residue 1 at \( s = 1 \).
+    \end{enumerate}
+\end{proposition}
+If \( a_n \) is a sequence of complex numbers, call the function \( \sum_{n \geq 1} a_n n^{-s} \) a \emph{Dirichlet series}.
+Instead of part (i), we will prove the following more general lemma.
+\begin{lemma}
+    If there exists \( r \in \mathbb R \) with \( a_1 + \dots + a_N = O(N^r) \), then \( \sum_{n \geq 1} a_n n^{-s} \) converges for \( \Re(s) > r \), and it is holomorphic in this region.
+\end{lemma}
+\begin{proof}[Proof of lemma]
+    \[ \sum_{n=1}^N a_n n^{-s} = a_1 (1^{-s} - 2^{-s}) + (a_1 + a_2) (2^{-s} - 3^{-s}) + \dots + (a_1 + a_{N-1})((N-1)^{-s} - N^{-s}) + R_n \]
+    where \( R_n = \frac{T(N)}{N^s} \) with \( T(N) = a_1 + \dots + a_N = O(N^r) \).
+    By assumption, if \( \Re(s) > r \),
+    \[ \abs{\frac{T(N)}{N^s}} = \abs{\frac{T(N)}{N^r}} \cdot \frac{1}{\abs{N^{s-r}}} = \abs{\frac{T(N)}{N^r}} \cdot \frac{1}{N^{\Re(s) - r}} \to 0 \]
+    as \( x^s = e^{s \log x} \) so \( \abs{x^s} = \abs{x^{\Re s}} \).
+    So if \( \Re(s) > r \), \( \sum a_n n^{-s} = \sum T(N) (N^{-s} - (N+1)^{-s}) \).
+    But \( T(N) \leq BN^r \) for some constant \( B \) by assumption, so it suffices to show \( \sum N^r (N^{-s} - (N+1)^{-s}) \) converges.
+    Note that
+    \[ N^{-s} - (N+1)^{-s} = \int_N^{N+1} s \frac{\dd{x}}{x^{s+1}} \]
+    and \( N^r \leq x^r \) if \( x \in [N, N+1] \).
+    Hence
+    \[ N^r (N^{-s} - (N+1)^{-s}) \leq \int_N^{N+1} x^r s \frac{\dd{x}}{x^{s+1}} \leq s \int_N^{N+1} \frac{\dd{x}}{x^{s+1-r}} \]
+    It is enough to show that \( s\int_1^N \frac{\dd{x}}{x^{s+1-r}} \) converges, which it does to \( \frac{s}{s-r} \).
+\end{proof}
+\begin{proof}[Proof of proposition]
+    \emph{Part (ii).}
+
+    \emph{Part (iii).}
+    Left as an exercise, noting that
+    \[ \frac{1}{s-1} = \sum_{i=1}^\infty \int_n^{n+1} \frac{\dd{t}}{t^s} \]
+\end{proof}

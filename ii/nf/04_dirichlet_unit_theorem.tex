@@ -41,14 +41,13 @@ Such an \( \varepsilon_0 \) is called a \emph{fundamental unit}.
     As there are infinitely many units, there exists \( \varepsilon \in \mathcal O_L^\star \) with \( \varepsilon \neq \pm 1 \).
     Hence, \( \abs{\sigma_1(\varepsilon)} \pm 1 \) as \( \sigma_1(\varepsilon) = \pm 1 \) if and only if \( \varepsilon = \pm 1 \).
     Replacing \( \varepsilon \) by \( \varepsilon^{-1} \) if necessary, we can assume \( E = \abs{\sigma_1(\varepsilon)} > 1 \).
-    Consider \( \qty{\alpha \in \mathcal O_L \mid N(\alpha) = \pm 1, 1 \leq \abs{\sigma_1(\alpha)} \leq E} \), which is a finite set by discreteness.
+    Consider \( \qty{\alpha \in \mathcal O_L \mid N(\alpha) = \pm 1, 1 \leq \abs{\sigma_1(\alpha)} \leq E} \), which is a finite set as \( \mathcal O_L \) is discrete in \( \mathbb R^2 \).
     Hence, \( \varepsilon_0 \) can be chosen in this set with minimum \( \abs{\sigma_1(\varepsilon_0)} \) and \( \varepsilon_0 \neq \pm 1 \).
 
     We claim that if \( \varepsilon \in \mathcal O_L^\star \) has \( \sigma_1(\varepsilon) > 0 \), then \( \varepsilon = \varepsilon_0^N \) for some \( N \in \mathbb Z \).
     Indeed, we can write \( \frac{\log \sigma_1(\varepsilon)}{\log \sigma_1(\varepsilon_0)} = N + \gamma \) where \( N \in \mathbb Z, 0 \leq \gamma < 1 \).
     Hence \( \varepsilon \varepsilon_0^{-N} = \varepsilon_0^\gamma \), and if \( \gamma \neq 0 \), \( \abs{\varepsilon_0^\gamma} = \abs{\varepsilon}^\gamma < \abs{\varepsilon_0} \) contradicting the choice of \( \varepsilon_0 \) (taking \( \sigma_1 \) as necessary to simplify notation).
 \end{remark}
-% TODO: fix above proof, take logs at the start not the end so that the set really is discrete
 
 \subsection{General case}
 We can prove Dirichlet's unit theorem in general.
@@ -155,3 +154,61 @@ The determinant of the absolute value of this submatrix is \( R_L \).
     Let \( L \) be a real quadratic field, and let \( \varepsilon \) be a fundamental unit.
     Then \( \log \abs{\sigma_1(\varepsilon)} = R_L \).
 \end{example}
+
+\subsection{Finding fundamental units}
+We now need to find such fundamental units.
+One way is to guess a unit and then find all smaller ones.
+\begin{example}
+    Let \( L = \mathbb Q(\sqrt{d}) \) and \( d > 0 \), and embed this into \( \mathbb R \) by choosing \( \sqrt{d} > 0 \).
+    Consider \( d = 2 \).
+    One might guess \( \varepsilon = 1 + \sqrt{2} \), as \( N(\varepsilon) = 1 \) so \( \varepsilon \) is a unit.
+    We claim that this is fundamental.
+    If not, there exists \( u = a + b\sqrt{2} \) with \( a, b \in \mathbb Z \), \( u \in \mathcal O_L^\star \), and \( 1 < u < \varepsilon \) as elements of \( \mathbb R \), identifying \( L \) with \( \sigma_1(L) \subseteq \mathbb R \).
+    The other embedding \( \overline u = a - b\sqrt{2} \) has \( u \overline u = \pm 1 \).
+    As \( u > 1 \), \( \abs{\overline u} < 1 \), so \( u + \overline u, u - \overline u > 0 \).
+    Hence \( a, b > 0 \), so there are no possibilities for \( 1 < a + b \sqrt{2} < 1 + 1 \sqrt{2} \) with \( a, b > 0 \) integers.
+    Hence \( \varepsilon \) is a fundamental unit.
+\end{example}
+\begin{example}
+    Consider \( d = 11 \).
+    Let \( \varepsilon = 10 - 3\sqrt{11} \) as \( N(\varepsilon) = 1 \).
+    Notice that \( \varepsilon \approx 0.5 \).
+    \( \varepsilon^{-1} > 1 \) and \( \varepsilon^{-1} < 20 \).
+    If this were not fundamental, there exists \( u = a + b \sqrt{11} \) with \( 1 < u < \varepsilon^{-1} = 10 + 3\sqrt{11} < 20 \).
+    We could check all cases like in the above example, but we can do better in this case.
+    If \( N(u) = -1 \), we have \( a^2 - 11b^2 = -1 \), which has no solutions modulo 11 as \( -1 \) is not a square in \( \mathbb F_{11} \).
+    Hence \( N(u) = 1 \) so \( \overline u = u^{-1} \), giving \( \varepsilon^{-1} > u > 1 \) implies \( 0 < \varepsilon < u^{-1} = \overline u < 1 \), so \( 0 < a - b \sqrt{11} < 1 \), so \( -1 < -a + b \sqrt{11} < 0 \).
+    Combining with the previous inequality, \( 0 < 2b \sqrt{11} < 10 + 3\sqrt{11} < 7 \sqrt{11} \) so \( b = 1, 2, 3 \).
+    Now we can check that \( 1 + b^2 \cdot 11 \) is not a square in \( \mathbb F_{11} \) for \( b = 1, 2, 3 \) so there is no possible \( a \).
+    Hence \( u \) is a fundamental unit.
+\end{example}
+\begin{remark}
+    There is an algorithm for \( \mathbb Q(\sqrt{d}) \) to compute fundamental units.
+    Recall that any real number \( t \) can be written as
+    \[ t = a_0 + \frac{1}{a_1 + \frac{1}{a_2 + \frac{a_3 + \ddots}}} = [a_0, a_1, a_2, a_3, \dots] \]
+    where \( a_0 = \floor{t} \).
+    \( t \) is a quadratic algebraic number, so \( [\mathbb Q(t) : \mathbb Q] = 2 \), if and only if the expansion of \( t \) as a continued fraction is periodic \( t = [a_0, \overline{a_1, \dots, a_m}] \).
+\end{remark}
+The following proposition is non-examinable (and should not be used in exams).
+\begin{proposition}
+    Let \( \sqrt{d} = [a_0, \overline{a_1, \dots, a_m}] \) and let \( \frac{p}{q} = [a_0, \dots, a_{m-1}] \).
+    Then \( p + q\sqrt{d} \) is a unit in \( L = \mathbb Q(\sqrt{d}) \), and if \( d \equiv 2, 3 \mod 4 \), it is fundamental.
+\end{proposition}
+The proof is omitted.
+\begin{example}
+    \( \sqrt{7} = [2,\overline{1,1,1,4}] \) so \( \frac{p}{q} = [2,1,1,1] = \frac{8}{3} \) and \( (8 + 3\sqrt{7})(8 - 3\sqrt{7}) = 1 \).
+\end{example}
+This algorithm is polynomial-time in the regulator, but not polynomial-time in the discriminant.
+
+% number theory digression?
+If \( q(x,y) = ax^2 + bxy + cy^2 \) is a quadratic form for \( a, b, c \in \mathbb Z \) and \( D = b^2 - 4ac \), define \( L = \mathbb Q(\sqrt{D}) \), and define the ideal associated to \( q \) to be \( \qty(a, \frac{-b+\sqrt{D}}{2}) \).
+One can show that if \( a > 0, D < 0 \), the ideal attached to \( q \) is equal to the ideal attached to \( q' \) in the class group if and only \( q \) and \( q' \) are equal under the action of \( SL_2(\mathbb Z) \), i.e.\ if \( q'(x,y) = q(x',y') \)
+\[ \begin{pmatrix}
+    x' \\ y'
+\end{pmatrix} = \underbrace{\begin{pmatrix}
+    \alpha & \beta \\
+    \gamma & \delta
+\end{pmatrix}}_{\in SL_2(\mathbb Z)} \begin{pmatrix}
+    x \\ y
+\end{pmatrix} \]
+In particular, the size of the class group is exactly the number of orbits of positive definite quadratic forms with discriminant \( D \) under the action of \( SL_2(\mathbb Z) \).
