@@ -1,5 +1,5 @@
 \subsection{Cryptosystems}
-We want to modify a message such that it becomes unintelligible to an eavesdropper.
+We want to modify a message such that it becomes unintelligible to an eavesdropper Eve.
 Certain secret information is shared between two participants Alice and Bob, called the \emph{key}, chosen from a set of possible keys \( \mathcal K \).
 The unencrypted message is called the \emph{plaintext}, which lies in a set \( \mathcal M \), and the encrypted message is called the \emph{ciphertext}, and lies in a set \( \mathcal C \).
 A \emph{cryptosystem} consists of \( (\mathcal K, \mathcal M, \mathcal C) \) together with the \emph{encryption} function \( e \colon \mathcal M \times \mathcal K \to \mathcal C \) and \emph{decryption} function \( d \colon \mathcal C \times \mathcal K \to \mathcal M \).
@@ -16,3 +16,91 @@ These maps have the property that \( d(e(m, k), k) = m \) for all \( m \in \math
     Note, for instance, that each occurrence of the letter A in the plaintext corresponds to a letter of the key in the ciphertext.
     If \( d = 1 \), this is the \emph{Caesar cipher}.
 \end{example}
+
+\subsection{Breaking cryptosystems}
+Eve may know \( e \) and \( d \), as well as the probability distributions of \( \mathcal K, \mathcal M \), but she does not know the key itself.
+She seeks to recover the plaintext from a given string of ciphertext.
+There are three possible attack levels.
+\begin{enumerate}[1.]
+    \item (ciphertext-only) Eve only knows some piece of ciphertext.
+    \item (known-plaintext) Eve knows a considerable length of plaintext and its corresponding ciphertext, but not the key.
+    In other words, she knows \( m \) and \( e(m,k) \), but not \( k \).
+    \item (chosen plaintext) Eve can acquire the ciphertext for any plaintext message; she can generate \( e(m,k) \) for any \( m \).
+\end{enumerate}
+\begin{remark}
+    The simple substitution cipher and Vigen\`ere cipher fail at Level 1 in English if the messages are sufficiently long, as we can perform frequency analysis.
+    Even if the plaintext is suitably random, both examples can fail at Level 2.
+    For modern applications, Level 3 security is desirable.
+\end{remark}
+% TODO: too little indent in enumerate above
+Consider a cryptosystem \( (\mathcal M, \mathcal K, \mathcal C) \).
+We model the keys and messages as independent random variables \( K, M \) taking values in \( \mathcal K, \mathcal M \).
+The ciphertext random variable is \( C = e(K,M) \in \mathcal C \).
+\begin{definition}
+    A cryptosystem \( (\mathcal M, \mathcal K, \mathcal C) \) has \emph{perfect secrecy} if \( H(M \mid C) = H(M) \), or equivalently, \( M \) and \( C \) are independent, or \( I(M;C) = 0 \).
+\end{definition}
+One can show that perfect secrecy implies that \( \abs{\mathcal K} \geq \abs{\mathcal M} \).
+\begin{definition}
+    The \emph{message equivocation} is \( H(M \mid C) \).
+    The \emph{key equivocation} is \( H(K \mid C) \).
+\end{definition}
+\begin{lemma}
+    \( H(M \mid C) \leq H(K \mid C) \).
+\end{lemma}
+\begin{proof}
+    Note that \( M = d(C,K) \), hence \( H(M \mid C, K) = 0 \).
+    Therefore, \( H(C,K) = H(M,C,K) \).
+    So
+    \[ H(K \mid C) = H(K,C) - H(C) = H(M,C,K) - H(M \mid K,C) - H(C) = H(M,K,C) - H(C) = H(K \mid M,C) + H(M,C) - H(C) = H(K \mid M, C) + H(M \mid C) \]
+    Hence \( H(K \mid C) \geq H(M \mid C) \).
+\end{proof}
+Let \( \mathcal M = \mathcal C = \mathcal A \), and suppose we send \( n \) messages modelled as \( M^{(n)} = (M_1, \dots, M_n) \) encrypted as \( C^{(n)} = (C_1, \dots, C_n) \) using the same key \( K \).
+\begin{definition}
+    The \emph{unicity distance} is the least \( n \) such that \( H(K \mid C^{(n)}) = 0 \); it is the smallest number of encrypted messages required to uniquely determine the key.
+\end{definition}
+Now,
+\[ H(K \mid C^{(n)}) = H(K, C^{(n)}) - H(C^{(n)}) = H(K, M^{(n)}, C^{(n)}) - H(C^{(n)}) = H(K, M^{(n)}) - H(C^{(n)}) = H(K) + H(M^{(n)}) - H(C^{(n)}) \]
+as \( K, M^{(n)} \) are independent.
+We make the following assumptions.
+\begin{enumerate}
+    \item All keys are equally likely, so \( H(K) = \log \abs{\mathcal K} \).
+    \item \( H(M^{(n)}) \approx nH \) for some constant \( H \) and sufficiently large \( n \).
+    \item All sequences of ciphertext are equally likely, so \( H(C^{(n)}) = n \log \abs{\mathcal A} \).
+\end{enumerate}
+Hence,
+\[ H(K \mid C^{(n)}) = \log \abs{\mathcal K} + nH - n \log \abs{\mathcal A} \geq 0 \]
+This holds if and only if
+\[ n \leq U = \frac{\log \abs{\mathcal K}}{\log \abs{\mathcal A} - H} \]
+Equivalently, \( \frac{\log \abs{\mathcal A}}{R\log \abs{\mathcal A}} \) where \( R = 1 - \frac{H}{\log \abs{\mathcal A}} \) is the \emph{redundancy} of the source.
+Recall that \( 0 \leq H \leq \log \abs{\mathcal A} \).
+To make the unicity distance large, we can make the number of keys large, or use a message source with little redundancy.
+
+\subsection{One-time pad}
+Consider streams in \( \mathbb F_2 \) representing the plaintext \( p_0, p_1, \dots \), the key stream \( k_0, k_1, \dots \), and the ciphertext \( z_0, z_1, \dots \) where \( z_n = p_n + k_n \).
+\begin{definition}
+    A \emph{one-time pad} is a cryptosystem where \( k \) is generated randomly; the \( k_i \) are independent and take values of 0 or 1 with probability \( \frac{1}{2} \).
+\end{definition}
+\( z = p + k \) is now a stream of independent and identically distributed random variables taking values of 0 or 1 with probability \( \frac{1}{2} \).
+Hence, without the key stream, deciphering is impossible, so the unicity distance is infinite.
+One can show that a one-time pad has perfect secrecy.
+
+In order to effectively use a one-time pad, we need to generate a random key stream.
+We then need to share the key stream to the recipient, which is exactly the initial problem.
+In most applications, the one-time pad is not practical.
+Instead, we share an initial fill \( k_0, \dots, k_{d-1} \) to be used in a shared feedback shift register of length \( d \) to generate \( k \).
+We then apply the following result.
+\begin{lemma}
+    Let \( x_0, x_1, \dots \) be a stream in \( \mathbb F_2 \) produced by a feedback shift register of length \( d \).
+    Then there exist \( M, N \leq 2^d \) such that \( x_{N+r} = X_{r} \) for all \( r \geq M \).
+\end{lemma}
+\begin{proof}
+    Let the register be \( f \colon \mathbb F_2^d \to \mathbb F_2^d \), and let \( v_i = (x_i, \dots, x_{i+d-1}) \).
+    Then for all \( i \), we have \( f(v_i) = v_{i+1} \).
+    Since \( \abs{\mathbb F_2^d} = 2^d \), the tuples \( v_0, v_1, \dots, v_{2^d} \) cannot all be distinct.
+    Let \( a < b \leq 2^d \) such that \( v_a = v_b \).
+    Let \( M = a \) and \( N = b - a \), so \( v_M = v_{M+N} \) so by induction we have \( v_r = v_{r+N} \) for all \( r \geq M \).
+\end{proof}
+\begin{remark}
+    The maximum period of a feedback shift register of length \( d \) is \( 2^d \).
+    For a linear feedback shift register, the maximum period is \( 2^d - 1 \).
+\end{remark}

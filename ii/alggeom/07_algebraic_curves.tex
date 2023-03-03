@@ -317,3 +317,84 @@ It is not always the case that every degree 0 divisor on a curve \( V \) is prin
     Assume \( V \not\subseteq \mathbb V(L) \).
     The \emph{hyperplane section} of \( V \) by \( \mathbb V(L) \) is \( \operatorname{div}L = \sum_{P \in V} n_P [P] \), where if \( X_i(P) \neq 0 \), \( n_P = \nu_P\qty(\frac{L}{X_i}) \).
 \end{definition}
+This is well-defined as \( \nu_P\qty(\frac{L}{X_i}) = \nu_P\qty(\frac{L}{X_j}) \) for \( X_i(p) \neq 0, X_j(P) \neq 0 \), as \( \frac{X_i}{X_j} \in \mathcal O_{V,P}^\star \) so \( \nu_P\qty(\frac{X_i}{X_j}) = 0 \).
+Note that all \( n_P \) are nonnegative in this case.
+\begin{proposition}
+    Let \( V \subseteq \mathbb P^n \) be as above, and let \( L, L' \) be linear homogeneous polynomials, neither vanishing on \( V \).
+    Then there is an equality
+    \[ \operatorname{div}L - \operatorname{div}L' = \operatorname{div}\qty(\frac{L}{L'}) \]
+    In particular, \( \operatorname{div}L - \operatorname{div}L' \) is principal, and \( \deg \operatorname{div}L = \deg \operatorname{div}L' \).
+\end{proposition}
+\begin{definition}
+    Let \( V \subseteq \mathbb P^n \) be a curve.
+    Then the \emph{degree} of \( V \) is \( \deg \operatorname{div} L \) where \( V \not\subseteq \mathbb V(L) \).
+\end{definition}
+\begin{remark}
+    A line in \( \mathbb P^2 \) is degree 1.
+    A conic is degree 2.
+\end{remark}
+We can generalise these notions.
+\begin{enumerate}
+    \item If \( \varphi \colon V \to \mathbb P^n \) is any non-constant morphism, and \( L \) is a linear form, we can similarly define \( \operatorname{div}L \) by using \( \sum_{P \in V} n_P [P] \) where \( n_P = \nu_P\qty(\frac{\varphi^\star L}{X_i}) \) where \( X_i(P) \neq 0 \).
+    This generalises the case where \( \varphi \) is an inclusion.
+    As before, we assume \( \mathbb V(L) \) does not contain \( \Im \varphi \).
+    Note that this map need not be injective.
+    \item If \( G \) is homogeneous of degree \( m \geq 1 \) and \( \varphi \colon V \to \mathbb P^n \), one can similarly define \( \operatorname{div} G = \sum_{P \in V} n_P [P] \) where \( n_P = \nu_P\qty(\frac{\varphi^\star G}{X_i^m}) \) for any \( i \) such that \( X_i(P) \neq 0 \).
+\end{enumerate}
+\begin{theorem}[weak form of B\'ezout's theorem]
+    Let \( V, V' \subseteq \mathbb P^2 \) be smooth projective irreducible curves of degrees \( m, n \).
+    Then if \( V \neq V' \), the number of intersection points of \( V \) and \( V' \) is at most \( mn \).
+\end{theorem}
+We have already shown that this is the case when \( V' \) is a line on an example sheet.
+\begin{proof}
+    Suppose \( V, V' \) are cut out by \( \mathbb V(F), \mathbb V(G) \) of degrees \( m, n \).
+    We claim that the degree of \( \operatorname{div} G \) as a divisor on \( V \) is \( mn \).
+    We can replace \( G \) by any other homogeneous polynomial of degree \( m \) by the previous proposition as it gives a linearly equivalent divisor.
+    Replace \( G \) with \( L^m \) for a homogeneous linear polynomial \( L \).
+    Now, \( \mathbb V(L) \cap V \) has size at most \( n = \deg V \), so \( \deg \operatorname{div} \varphi^\star G = nm \) as required, since \( \operatorname{div}(\varphi^\star G) = \sum_{P \in V \cap \mathbb V(G)} n_P [P] \) where \( n_P > 0 \) (note that if \( n_P > 0 \) then \( G \) vanishes at \( P \)).
+\end{proof}
+\begin{definition}
+    A divisor \( D \) is called \emph{effective} if \( D = \sum n_P [P] \) for \( n_P \geq 0 \).
+\end{definition}
+Recall that
+\[ L(D) = \qty{f \in \mathbb C(V) \mid f = 0 \text{ or } \operatorname{div}f + D \geq 0 \text{ pointwise}} \]
+is equivalently the set of \( f \in \mathbb C(V) \) such that \( \operatorname{div}f + D \) is effective.
+\begin{proposition}
+    The set \( L(D) \) is a complex vector subspace of \( \mathbb C(V) \).
+\end{proposition}
+\begin{proof}
+    \( \nu_P(f+g) \geq \min\qty{\nu_P(f), \nu_P(g)} \), hence sums of the form \( f + g \) lie in \( L(D) \) if \( f, g \in L(D) \).
+    Clearly \( L(D) \) is closed under scalar multiplication.
+\end{proof}
+\begin{definition}
+    Denote \( \dim_{\mathbb C} L(D) = \ell(D) \).
+\end{definition}
+\begin{example}
+    Let \( \infty \) denote the point \( (0:1) \in \mathbb P^1 \), and let \( D = m [\infty] \) where \( m \geq 0 \).
+    Writing \( t = \frac{X_1}{X_0} \), \( L(D) \) is spanned by \( 1, t, t^2, \dots, t^m \).
+    Hence, \( \ell(D) = m + 1 \).
+\end{example}
+\begin{proposition}
+    Let \( D \) be a divisor on \( V \).
+    Then,
+    \begin{enumerate}
+        \item If \( \deg D < 0 \), then \( L(D) = 0 \).
+        \item If \( \deg D \geq 0 \), then \( \ell(D) \leq \deg D + 1 \).
+        \item For any \( P \in V \), \( \ell(D) \leq \ell(D - P) + 1 \).
+    \end{enumerate}
+    In particular, \( L(D) \) is always finite-dimensional.
+\end{proposition}
+\begin{proof}
+    \emph{Part (i).}
+    If \( L(D) \neq 0 \) then there exists \( f \neq 0 \) with \( f \in L(D) \) such that \( \operatorname{div} f + D \geq 0 \).
+    But taking degrees, \( \deg \operatorname{div} f = 0 \) hence \( \deg D \geq 0 \), a contradiction.
+
+    \emph{Part (iii).}
+    Let \( n = \nu_P(D) \).
+    Define \( \mathrm{ev}_P \colon L(D) \to C \) by \( f \mapsto (\pi_P^n f)(P) \), intuitively extracting the first nonzero term of the power series defining \( f \) at \( P \).
+    The kernel of this homomorphism is \( L(D-P) \).
+
+    \emph{Part (ii).}
+    This now follows from parts (i) and (iii).
+    If \( d = \deg D \), then \( \ell(D) \leq \ell(D - (d+1)P) + d + 1 = d + 1 \) where the latter equality holds as \( \deg(D - (d + 1)P) < 0 \).
+\end{proof}

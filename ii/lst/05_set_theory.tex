@@ -3,7 +3,6 @@ In order to do this, we will treat set theory as a first-order theory like any o
 In particular, we will study a particular theory called \emph{Zermelo--Fraenkel set theory}, denoted \( \mathsf{ZF} \).
 The language has \( \Omega = \varnothing, \Pi = \qty{\in}, \alpha(\in) = 2 \).
 A `universe of sets' is simply a model \( (V, \in_V) = (V, \in) \) for the axioms of \( \mathsf{ZF} \).
-% This theory has nine axioms: two to begin the theory, four to construct sets, and three that might be unintuitive at first.
 We can view this section as a worked example of the concepts of predicate logic, but every model of \( \mathsf{ZF} \) will contain a copy of (most of) mathematics, so they will be very complicated.
 
 \subsection{Axioms of \texorpdfstring{\(\mathsf{ZF}\)}{ZF}}
@@ -62,4 +61,46 @@ We can view this section as a worked example of the concepts of predicate logic,
     We can therefore take the intersection of all successor sets by the axiom of separation, giving a least successor set denoted \( \omega \).
     Thus, \( (\forall x)(x \in \omega \Leftrightarrow (\forall y)(y \text{ is a successor set} \Rightarrow x \in y)) \).
     For example, we can prove that \( 3 \in \omega \).
+
+    In particular, \( x \subseteq \omega \) is a successor set, \( x = \omega \).
+    Hence, \( (\forall x)(x \subseteq \omega \wedge \varnothing in x \wedge (\forall y)(y \in x \Rightarrow y^+ \in x) \Rightarrow x = \omega) \).
+    This is `proper' induction over all subsets of \( \omega \), unlike the weaker first-order induction defined in the Peano axioms.
+    It is easy to check that \( (\forall x)(x \in \omega \Rightarrow x^+ \neq \varnothing) \) and \( (\forall x)(\forall y)(x \in \omega \wedge y \in \omega \wedge x^+ = y^+ \Rightarrow x = y) \), so \( \omega \) satisfies (in \( V \)) the usual axioms for the natural numbers.
+    We can now define `\( x \) is finite' to mean \( (\exists y)(y \in \omega \wedge x \text{ bijects with } y) \), and define `\( x \) is countable' to mean that \( x \) is finite or bijects with \( \omega \).
+    \item \emph{Axiom of foundation} or \emph{regularity}.
+    We require that sets are built out of simpler sets.
+    For example, we want to disallow a set from being a member of itself, and similarly forbid \( x \in y \) and \( y \in x \).
+    In general, we want to forbid sets \( x_i \) such that \( x_{i+1} \in x_i \) for each \( i \in \mathbb N \).
+    
+    Note that if \( x \in x \), \( \qty{x} \) has no \( \in \)-minimal element.
+    If \( x \in y, y \in x \), \( \qty{x, y} \) has no \( \in \)-minimal element.
+    In the last example, \( \qty{x_0, x_1, \dots} \) has no \( \in \)-minimal element.
+    We now define the axiom of foundation: every nonempty set has an \( \in \)-minimal element.
+    \[ (\forall x)(x \neq \varnothing \Rightarrow (\exists y)(y \in x \wedge (\forall z)(z \in x \Rightarrow z \not\in y))) \]
+    Any model of \( \mathsf{ZF} \) without this axiom has a submodel of all of \( \mathsf{ZF} \).
+    \item \emph{Axiom of replacement}.
+    Often, we are given an index set \( I \) and construct a set \( A_i \) for each \( i \in I \), then take the collection \( \qty{A_i \mid i \in I} \).
+    In order to write this down, the mapping \( i \mapsto A_i \) must be a function, or equivalently, there must be a set \( \qty{(i, A_i) \mid i \in I} \).
+    This is not clear from the other axioms.
+    We would like to say that the image of a set under something that looks like a function (since we do not yet have such a set-theoretic function) is a set.
+
+    Let \( (V, \in) \) be an \( L \)-structure.
+    A \emph{class} is a set \( C \subseteq V \) such that for some formula \( p \) with free variables \( x \) and some parameters, we have \( x \in C \) if and only if \( p \) holds in \( V \).
+    \( C \) is a set outside of our model; it may not correspond to a set \( x \in V \) inside the model.
+    For instance, \( V \) is a class, taking \( p \) to be \( x = x \).
+    There is a class of infinite sets, taking \( p \) to be `\( x \) is not finite'.
+    For any \( t \in V \), the collection of \( x \) with \( t \in x \) is a class; here, \( t \) is a parameter to the class.
+    Every set \( y \in V \) is a class by setting \( p \) to be \( x \in y \).
+    A \emph{proper class} is a class that does not correspond to a set \( x \in V \): \( \neg(\exists y)(\forall x)(x \in y \Leftrightarrow p) \).
+    When writing about classes inside \( \mathsf{ZF} \), we instead write about their defining formulae, as classes have no direct representation in the language.
+
+    Similarly, a \emph{function-class} is a set \( F \subseteq V \) of ordered pairs from \( V \) such that for some formula \( p \) with free variables \( x, y \) and parameters, we have \( (x, y) \) belongs to \( F \) if and only if \( p \), and if \( (x, y), (x, z) \) belong to \( F \), \( y = z \).
+    This is intuitively a function whose domain may not be a set.
+    For example, the mapping \( x \mapsto \qty{x} \) is a function-class, taking \( p \) to be \( y = \qty{x} \).
+    This is not a function, for example, every \( f \) has a domain which is a set in \( V \), and this function has domain \( V \) which is not a set.
+
+    We can now define the axiom of replacement: the image of a set under a function-class is a set.
+    \[ (\forall t_1)\dots(\forall t_n)\qty[(\forall x)(\forall y)(\forall z)(p \wedge p[z/y] \Rightarrow y = z) \Rightarrow (\forall x)(\exists y)(\forall z)(z \in y \Leftrightarrow (\exists t)(t \in x \wedge p[t/x,z/y]))] \]
+    For example, for any set \( x \), we can form the set \( \qty{\qty{t} \mid t \in x} \), which is the image of \( x \) under the function class \( t \mapsto \qty{t} \).
+    This set could alternatively have been formed using the power-set and separation axioms; we will later present some examples of sets built with this axiom that cannot be constructed from the other axioms.
 \end{enumerate}
