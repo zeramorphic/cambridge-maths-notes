@@ -365,7 +365,8 @@ Given a black box which computes \( I_{x_0} \) for some \( x_0 \in B_n \), we wi
 We will now describe Grover's algorithm.
 We begin with the equal superposition state \( \ket{\psi_0} = \frac{1}{\sqrt{2^n}} \sum_{x \in B_n} \ket{x} \).
 Consider \emph{Grover's iteration operator} \( Q = -H_n I_0 H_n I_{x_0} \) where \( H_n = H^{\otimes n} \).
-Note that \( Q \) is real-valued, and has the following properties of.
+Note that \( Q \) is real-valued, so acts geometrically on the real-valued vector \( \ket{\psi_0} \) in real Euclidean space.
+It has the following properties.
 \begin{enumerate}
     \item In the plane \( \mathcal P(x_0) \) spanned by \( \ket{x_0} \) and \( \ket{\psi_0} \), \( Q \) acts as a rotation through an angle \( 2\alpha \) where \( \sin \alpha = \frac{1}{\sqrt{2^n}} \).
     \item In the plane orthogonal to \( \mathcal P(x_0) \), \( Q \) acts as \( -I \).
@@ -376,6 +377,55 @@ Hence, the probability that the outcome is \( x_0 \) is \( \abs{a_0}^2 = \abs{\i
 
 If \( n \) is large, \( \ket{\psi_0} \) is almost orthogonal to \( \ket{x_0} \), with \( \ip{x_0}{\psi_0} = \frac{1}{\sqrt{2^n}} = \cos \beta \).
 By property (i), \( Q \) acting on \( \ket{\psi_0} \) rotates the state by \( 2\alpha \), where \( \sin\alpha = \frac{1}{\sqrt{2^n}} \).
-Since \( \sin \alpha \approx \alpha \), this implies that \( 2\alpha \approx 2\sin\alpha = \frac{2}{\sqrt{2^n}} \).
 Let \( m \) be the number of iterations needed to rotate \( \ket{\psi_0} \) close to \( \ket{x_0} \).
+Then
+\[ m = \frac{\beta}{2\alpha} = \frac{\arccos\qty(\frac{1}{\sqrt{2^n}})}{2\arcsin\qty(\frac{1}{\sqrt{2^n}})} \]
+Since \( \sin \alpha \approx \alpha \), this implies that \( 2\alpha \approx 2\sin\alpha = \frac{2}{\sqrt{2^n}} \).
 Then \( 2 \alpha m \approx \frac{\pi}{2} \), so \( m \approx \frac{\pi}{4\alpha} = \frac{\pi}{4} \sqrt{N} \).
+The number of iterations is independent of \( \ket{x_0} \); it depends only on \( n \).
+\begin{example}
+    Consider a database with four items, so \( n = 2, N = 4 \).
+    Here, \( \sin \alpha = \frac{1}{2} \), so \( \alpha = \frac{\pi}{6} \).
+    \( Q \) causes a rotation through \( 2\alpha = \frac{\pi}{3} \).
+    The initial state is \( \ket{\psi_0} = \ket{++} = \frac{1}{2}\qty(\ket{00} + \ket{01} + \ket{10} + \ket{11}) \).
+    For any \( x_0 \in B_2 \), we have \( \cos\beta = \ip{x_0}{\psi_0} = \frac{1}{2} \) so \( \beta = \frac{\pi}{3} \).
+    Therefore, we need precisely one iteration, which rotates \( \ket{\psi_0} \) to \( \ket{x_0} \) exactly.
+    Performing a measurement in the computational basis, we obtain \( x_0 \) with certainty.
+\end{example}
+We now prove the geometric properties of \( Q \).
+First, note that \( Q = -H_n I_0 H_n I_{x_0} = -I_{\ket{\psi_0}} I_{\ket{x_0}} \).
+If \( \ket{\alpha}, \ket{v} \in \mathcal V \) and \( \ket{v} \in \mathcal P(x_0) \), we have
+\begin{itemize}
+    \item \( I_{\ket{x_0}} \ket{v} = \ket{v} - 2\ip{x_0}{v} \ket{x_0} \);
+    \item \( I_{\ket{\psi_0}} \ket{v} = \ket{v} - 2\ip{\psi_0}{v} \ket{\psi_0} \).
+\end{itemize}
+These operators are reflections about lines perpendicular to \( \ket{x_0} \) and \( \ket{\psi_0} \) respectively.
+Thus, \( \mathcal P(x_0) \) is stable under the action of \( I_{\ket{x_0}} \) and \( I_{\ket{\psi_0}} \).
+
+Let \( M_1, M_2 \) be lines in the Euclidean plane, intersecting at \( O \).
+Let \( \theta \) be the angle between \( M_1 \) and \( M_2 \).
+Then, reflection about \( M_1 \) then \( M_2 \) acts as an anticlockwise rotation by \( 2\theta \) about \( O \).
+
+In our case, the angle between the lines perpendicular to \( \ket{x_0} \) and \( \ket{\psi_0} \) is \( \beta \).
+Therefore, \( I_{\ket{\psi_0}} I_{\ket{x_0}} \) is an anticlockwise rotation by an angle of \( 2\beta \).
+For any real unit vector \( v \in \mathbb R^2 \), we have \( -I_v = I_{v^\perp} \) where \( v_\perp \) is a unit vector orthogonal to \( v \).
+Hence, \( -I_{\ket{\psi_0}} I_{\ket{x_0}} = I_{\ket{\psi_0^\perp}} I_{\ket{x_0}} \), which is an anticlockwise rotation by an angle of \( 2\alpha \), as \( \alpha + \beta = \frac{\pi}{2} \).
+This proves property (i).
+
+Now consider \( \ket{\xi} \in \mathcal P(x_0)^\perp \) perpendicular to \( \ket{\psi_0} \) and to \( \ket{x_0} \).
+Clearly \( I_{\ket{x_0}} \ket{\xi} = \ket{\xi} \) and \( I_{\ket{\psi_0}} \ket{\xi} = \ket{\xi} \).
+So \( Q \ket{\xi} = -\ket{\xi} \), giving property (ii).
+
+Grover's algorithm achieves an unstructured search for a unique good item in approximately \( \frac{\pi}{4}\sqrt{N} \) queries, and there is no algorithm that has smaller asymptotic query complexity.
+Any quantum algorithm that achieves this search in an unstructured database of size \( N \) must use \( O(\sqrt{N}) \) queries.
+Moreover, it can be shown that \( \frac{\pi}{4} (1 - \varepsilon) \sqrt{N} \) queries are insufficient for each \( \varepsilon \), so Grover's algorithm is tight.
+
+Consider the case where there are \( r \geq 1 \) good items.
+Here, \( f(x_i) = 1 \) if \( i = 1, \dots, r \), and \( f(x) = 0 \) otherwise, where the \( x_i \) are the binary labels for the good items.
+Then, define
+\[ I_G \ket{x} = I - 2\sum_{i=1}^r \op{x_i}{x_i} = \begin{cases}
+    +\ket{x} & x \not\in \qty{x_1, \dots, x_r} \\
+    -\ket{x} & x \in \qty{x_1, \dots, x_r}
+\end{cases} \]
+Now, define \( Q_G = -H_n I_0 H_n I_G = -I_{\ket{\psi_0}} I_G \).
+Let \( \ket{\psi_G} = \frac{1}{\sqrt{r}} \sum_{i=1}^r \ket{x_i} \) be an equal superposition of the good states, and \( \ket{\psi_B} = \frac{1}{\sqrt{N-r}} \sum_{i=1}^r \ket{x_i} \) be an equal superposition of the bad states.
