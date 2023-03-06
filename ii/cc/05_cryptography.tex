@@ -102,5 +102,79 @@ We then apply the following result.
 \end{proof}
 \begin{remark}
     The maximum period of a feedback shift register of length \( d \) is \( 2^d \).
-    For a linear feedback shift register, the maximum period is \( 2^d - 1 \).
+    For a linear feedback shift register, the maximum period is \( 2^d - 1 \); this result is shown on the fourth example sheet.
+    
+    Stream ciphers using linear feedback shift registers fail at level 2 due to the Berlekamp--Massey method.
+    However, this cryptosystem is cheap, fast, and easy to use.
+    Encryption and decryption can be performed on-the-fly, without needing the entire codeword first, and it is error-tolerant.
 \end{remark}
+Recall that the stream produced by a linear feedback shift register is given by \( x_n = \sum_{i=1}^d a_{d-i} x_{n-i} \) for all \( n \geq d \), and has auxiliary polynomial \( P(X) = X^d + a_{d-1}X^{d-1} + \dots + a_0 \) with \( a_d = 1 \).
+The solutions to the recursion relations are linear combinations of powers of roots of \( P \).
+Over \( \mathbb C \), the general solution is a linear combination of \( \alpha^n, n\alpha^n, \dots, n^{t-1} \alpha^n \) where \( \alpha \) is a root of \( P(X) \) with multiplicity \( t \).
+
+As \( n^2 = n \) in \( \mathbb F_2 \), we cannot use this method directly.
+First, we must work in a splitting field \( K \) of \( P \), a field containing \( \mathbb F_2 \) in which \( P \) is expressible as a product of linear factors.
+In addition, we replace the \( n^i \alpha^n \) term with \( \binom{n}{i} \alpha^n \).
+The general solution is now a linear combination of these terms in \( K \).
+
+We can also generate new key streams from old ones.
+\begin{lemma}
+    Let \( (x_n) \), \( (y_n) \) be outputs from linear feedback shift registers of length \( M, N \) respectively.
+    Then,
+    \begin{enumerate}
+        \item the sequence \( (x_n + y_n) \) is the output of a linear feedback shift register of length \( M + N \);
+        \item the sequence \( (x_n y_n) \) is the output of a linear feedback shift register of length \( MN \).
+    \end{enumerate}
+\end{lemma}
+The following proof is non-examinable.
+\begin{proof}
+    Assume for simplicity that the auxiliary polynomials \( P(X), Q(X) \) each have distinct roots \( \alpha_1, \alpha_M \) and \( \beta_1, \dots, \beta_N \) in a field \( K \) extending \( \mathbb F_2 \).
+    Then \( x_n = \sum_{i=1}^M \lambda_i \alpha_i^n \) and \( y_n = \sum_{i=1}^N \mu_j \beta_j^n \) where \( \lambda_i, \mu_j \in K \).
+    Now, \( x_n + y_n = \sum_{i=1}^M \lambda_i \alpha_i^n \sum_{i=1}^N \mu_j \beta_j^n \) is produced by a linear feedback shift register with auxiliary polynomial \( P(X) Q(X) \).
+    For the second part, \( x_n y_n = \sum_{i=1}^M \sum_{j=1}^n \lambda_i \mu_j (\alpha_i \beta_j)^n \) is the output of a linear feedback shift register with auxiliary polynomial \( \prod_{i=1}^N \prod_{j=1}^M (X - \alpha_i \beta_j) \).
+\end{proof}
+Adding outputs of linear feedback shift registers is no more economical than producing the same string with a single linear feedback shift register.
+Muliplying streams does increase the effective length of the linear feedback shift register, but \( x_n y_n = 0 \) when either \( x_n \) or \( y_n \) are zero, so we gain little extra data.
+Nonlinear feedback shift registers are in general hard to analyse; in particular, an eavesdropper may understand the feedback shift register better than Alice and Bob.
+
+\subsection{Asymmetric ciphers}
+Stream ciphers are examples of symmetric cryptosystems.
+In such a system, the decryption process is the same, or is easily deduced from, the encryption process.
+In an asymmetric cryptosystem, the key is split into two parts: the \emph{private key} for decryption, and the \emph{public key} for encryption.
+Knowing the encryption and decryption processes and the public key, it should still be hard to find the private key or to decrypt the messages.
+This aim implies security at level 3.
+In this case, there is also no key exchange problem, since the public key can be broadcast on an open channel.
+
+We base asymmetric cryptosystems on certain mathematical problems in number theory which are believed to be `hard', such as the following.
+\begin{enumerate}
+    \item Factoring.
+    Let \( N = pq \) for \( p, q \) large prime numbers.
+    Given \( N \), the task is to find \( p \) and \( q \).
+    \item Discrete logarithm problem.
+    Let \( p \) be a large prime and \( g \) be a primitive root mod \( p \) (a generator of \( \mathbb F_p^\star \)).
+    Given \( x \), we wish to find \( a \) such that \( x \equiv g^a \) mod \( p \).
+\end{enumerate}
+\begin{definition}
+    An algorithm runs in \emph{polynomial time} if the number of operations needed to perform the algorithm is at most \( c N^d \) where \( N \) is the input size, and \( c, d \) are constants.
+\end{definition}
+\begin{example}
+    An algorithm for factoring \( N \) has input size \( \log_2 N \), roughly the number of bits in its binary expansion.
+    Polynomial time algorithms include arithmetic operations on integers including the division algorithm, computation of greatest common divisors, and the Euclidean algorithm.
+    We can also compute \( x^\alpha \) mod \( N \) in polynomial time using repeated squaring; this is called modular exponentiation.
+    Primality testing can be performed in polynomial time.
+
+    Polynomial time algorithms are not known for examples (i) and (ii) above.
+    However, we have elementary methods for computing (i) and (ii) that take exponential time.
+    If \( N = pq \), dividing \( N \) by successive primes up to \( \sqrt{N} \) will find \( p \) and \( q \) but takes \( O(\sqrt{N}) = O(2^{\frac{B}{2}}) \) steps where \( B = \log_2 N \).
+    
+    We describe the \emph{baby-step, giant-step} algorithm for the discrete logarithm problem.
+    Set \( m = \ceil{\sqrt{p}} \), and write \( a = qm + r \) for \( 0 \leq q, r < m \).
+    Then, \( x \equiv g^a = g^{qm + r} \) mod \( p \), so \( g^{qm} = g^{-r} x \) mod \( p \).
+    We list all values of \( g^{qm} \) and \( g^{-r}x \) mod \( p \); we then sort the lists and search for a match.
+    This takes \( O(\sqrt{p}\log p) \) steps.
+
+    The best known methods for solving the examples above use a factor base method, called the \emph{modular number sieve}.
+    It has running time
+    \[ O\qty(\exp(c (\log N)^{\frac{1}{3}} (\log \log N)^{\frac{2}{3}})) \]
+    where \( c \) is a known constant.
+\end{example}

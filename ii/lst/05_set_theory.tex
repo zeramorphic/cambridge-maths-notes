@@ -1,3 +1,4 @@
+\subsection{Axioms of \texorpdfstring{\(\mathsf{ZF}\)}{ZF}}
 In this section, we will attempt to understand the structure of the universe of sets.
 In order to do this, we will treat set theory as a first-order theory like any other, and can therefore study it with our usual tools.
 In particular, we will study a particular theory called \emph{Zermelo--Fraenkel set theory}, denoted \( \mathsf{ZF} \).
@@ -5,7 +6,7 @@ The language has \( \Omega = \varnothing, \Pi = \qty{\in}, \alpha(\in) = 2 \).
 A `universe of sets' is simply a model \( (V, \in_V) = (V, \in) \) for the axioms of \( \mathsf{ZF} \).
 We can view this section as a worked example of the concepts of predicate logic, but every model of \( \mathsf{ZF} \) will contain a copy of (most of) mathematics, so they will be very complicated.
 
-\subsection{Axioms of \texorpdfstring{\(\mathsf{ZF}\)}{ZF}}
+We now define the axioms of \( \mathsf{ZF} \) set theory.
 \begin{enumerate}
     \item \emph{Axiom of extension}.
     \[ (\forall x)(\forall y)((\forall z)(z \in x \Leftrightarrow z \in y) \Rightarrow x = y) \]
@@ -63,7 +64,7 @@ We can view this section as a worked example of the concepts of predicate logic,
     For example, we can prove that \( 3 \in \omega \).
 
     In particular, \( x \subseteq \omega \) is a successor set, \( x = \omega \).
-    Hence, \( (\forall x)(x \subseteq \omega \wedge \varnothing in x \wedge (\forall y)(y \in x \Rightarrow y^+ \in x) \Rightarrow x = \omega) \).
+    Hence, \( (\forall x)(x \subseteq \omega \wedge \varnothing \in x \wedge (\forall y)(y \in x \Rightarrow y^+ \in x) \Rightarrow x = \omega) \).
     This is `proper' induction over all subsets of \( \omega \), unlike the weaker first-order induction defined in the Peano axioms.
     It is easy to check that \( (\forall x)(x \in \omega \Rightarrow x^+ \neq \varnothing) \) and \( (\forall x)(\forall y)(x \in \omega \wedge y \in \omega \wedge x^+ = y^+ \Rightarrow x = y) \), so \( \omega \) satisfies (in \( V \)) the usual axioms for the natural numbers.
     We can now define `\( x \) is finite' to mean \( (\exists y)(y \in \omega \wedge x \text{ bijects with } y) \), and define `\( x \) is countable' to mean that \( x \) is finite or bijects with \( \omega \).
@@ -100,7 +101,87 @@ We can view this section as a worked example of the concepts of predicate logic,
     This is not a function, for example, every \( f \) has a domain which is a set in \( V \), and this function has domain \( V \) which is not a set.
 
     We can now define the axiom of replacement: the image of a set under a function-class is a set.
-    \[ (\forall t_1)\dots(\forall t_n)\qty[(\forall x)(\forall y)(\forall z)(p \wedge p[z/y] \Rightarrow y = z) \Rightarrow (\forall x)(\exists y)(\forall z)(z \in y \Leftrightarrow (\exists t)(t \in x \wedge p[t/x,z/y]))] \]
+    \[ (\forall t_1)\dots(\forall t_n)[(\forall x)(\forall y)(\forall z)(p \wedge p[z/y] \Rightarrow y = z) \Rightarrow \]
+    \[ (\forall x)(\exists y)(\forall z)(z \in y \Leftrightarrow (\exists t)(t \in x \wedge p[t/x,z/y]))] \]
     For example, for any set \( x \), we can form the set \( \qty{\qty{t} \mid t \in x} \), which is the image of \( x \) under the function class \( t \mapsto \qty{t} \).
     This set could alternatively have been formed using the power-set and separation axioms; we will later present some examples of sets built with this axiom that cannot be constructed from the other axioms.
 \end{enumerate}
+This completes the description of the axioms of \( \mathsf{ZF} \).
+We write \( \mathsf{ZFC} \) for \( \mathsf{ZF} + \mathsf{AC} \), where \( \mathsf{AC} \) is the axiom
+\[ (\forall f)[f\text{ is a function} \wedge (\forall x)(x \in \dom f \Rightarrow f(x) \neq \varnothing) \Rightarrow \]
+\[ (\exists g)(g\text{ is a function} \wedge (\dom g = \dom f) \wedge (\forall x)(x \in \dom f \Rightarrow g(x) \in f(x)))] \]
+
+\subsection{Transitive sets}
+\begin{definition}
+    \( x \) is \emph{transitive} if each member of a member of \( x \) is a member of \( x \).
+    \[ (\forall y)((\exists z)(y \in z \wedge z \in x) \Rightarrow y \in x) \]
+\end{definition}
+Equivalently, \( \bigcup x \subseteq x \).
+\begin{example}
+    \( \varnothing \) is a transitive set.
+    \( \qty{\varnothing} \) is also transitive, and \( \qty{\varnothing, \qty{\varnothing}} \) is transitive.
+    In general, elements of \( \omega \) are transitive.
+    This can be proven by \( \omega \)-induction (inside a model): \( \varnothing \) is transitive, and if \( y \) is transitive, \( y^+ = y \cup \qty{y} \) is clearly transitive.
+\end{example}
+\begin{lemma}
+    Every set is contained in a transitive set.
+\end{lemma}
+\begin{remark}
+    This proof takes place inside an arbitrary model of \( \mathsf{ZF} \).
+    Technically, the statement of the lemma is `let \( V, \in \) be a model of \( \mathsf{ZF} \), then for all sets \( x \in V \), \( x \) is contained in a transitive set \( y \in V \)'.
+    By completeness, this will show that there is a proof of this fact from the axioms of \( \mathsf{ZF} \).
+
+    Note also that once this lemma is proven, any \( x \) is contained in a least transitive set by taking intersections, called its \emph{transitive closure}, written \( TC(x) \).
+    This holds as any intersection of transitive sets is transitive.
+\end{remark}
+\begin{proof}
+    We want to form \( x \cup (\bigcup x) \cup (\bigcup\bigcup x) \cup \dots \); if this is a set, it is clearly transitive and contains \( x \).
+    We can show that this is a set by the union axiom applied to the set \( \qty{x, \bigcup x, \bigcup\bigcup x, \dots} \).
+    This a set by applying the axiom of replacement, it is an image of \( \omega \) under the function-class \( 0 \mapsto x, 1 \mapsto \bigcup x, 2 \mapsto \bigcup \bigcup x \) and so on.
+    % This function-class is defined by \( \omega \)-induction.
+    We want to define the function-class \( p(z,w) \) to be \( (z = 0 \wedge w = x) \vee ((\exists t)(\exists u) z = t^+ \wedge w = \bigcup u \wedge p(t,u)) \), but this is not a first-order formula.
+    
+    Define that \( f \) is an \emph{attempt} to mean that
+    \[ (f \text{ is a function}) \wedge (\dom f \in \omega) \wedge (\dom f \neq \varnothing) \wedge (f(0) = x)\, \wedge \]
+    \[ (\forall n)(n \in \omega \wedge n \in \dom f \wedge n \neq 0 \Rightarrow f(x) = \bigcup f(n-1)) \]
+    Then,
+    \[ (\forall n)(n \in \omega \Rightarrow (\exists f)(f \emph{ is an attempt} \wedge n \in \dom f)) \]
+    can be proven by \( \omega \)-induction.
+    We can similarly prove
+    \[ (\forall n)(n \in \omega \Rightarrow (\forall f)(\forall g)(f, g \text{ are attempts} \wedge n \in \dom f \cap \dom g \Rightarrow f(n) = g(n))) \]
+    by \( \omega \)-induction.
+    We now define the function-class \( p = p(z,w) \) is
+    \[ (\exists f)(f \text{ is an attempt} \wedge z \in \dom f \wedge f(z) = w) \]
+\end{proof}
+Intuitively, we needed to use the axiom of replacement because we started with a set \( x \) and needed to go `far away' from it, forming \( \bigcup^n x \) for all \( x \).
+We could not have used the other axioms such as the power-set axiom, as the \( \bigcup^n x \) are not contained in an obvious larger set.
+
+Transitive closures allow us to pass from the large universe of sets, which is not a set itself, into a smaller world which is a set closed under \( \in \) that contains the relevant sets in question.
+
+\subsection{\texorpdfstring{\( \in \)}{∈}-induction}
+We want the axiom of foundation to capture the idea that sets are built out of simpler sets.
+\begin{theorem}[principle of \( \in \)-induction]
+    For each formula \( p \) with free variables \( t_1, \dots, t_n, x \),
+    \[ (\forall t_1)\dots(\forall t_n)[(\forall x)((\forall y)(y \in x \Rightarrow p(y)) \Rightarrow p(x)) \Rightarrow (\forall x)p(x)] \]
+\end{theorem}
+\begin{proof}
+    Given \( t_1, \dots, t_n \) and the statement \( (\forall x)((\forall y)(y \in x \Rightarrow p(y)) \Rightarrow p(x)) \), we want to show \( (\forall x)p(x) \).
+    Suppse this is not the case, so there exists \( x \) such that \( \neg p(x) \).
+    We want to look at the set \( \qty{t \mid \neg p(t)} \) and take an \( \in \)-minimal element, but this is not necessarily a set, for instance if \( p(x) \) is the assertion \( x \neq x \).
+
+    Let \( u = \qty{t \in TC(\qty{x}) \mid \neg p(t)} \); this is clearly a set in the model, and \( u \neq \varnothing \) as \( x \in u \).
+    Let \( t \) be an \( \in \)-minimal element of \( u \), guaranteed by the axiom of foundation.
+    Then \( \neg p(t) \) as \( t \in u \), but \( p(z) \) for all \( z \in t \) by minimality of \( t \), noting that \( z \in t \) implies \( z \in TC(\qty{x}) \).
+    This gives a contradiction.
+\end{proof}
+The name of this theorem should be read `epsilon-induction', even though the membership relation is denoted \( \in \) and not \( \epsilon \) or \( \varepsilon \).
+
+The principle of \( \in \)-induction is equivalent to the axiom of foundation in the presence of the other axioms of \( \mathsf{ZF} \).
+We say that \( x \) is \emph{regular} if \( (\forall y)(x \in y \Rightarrow y \text{ has a minimal element}) \).
+The axiom of foundation is equivalent to the assertion that every set is regular.
+Given \( \in \)-induction, we can prove every set is regular.
+Suppose \( (\forall y \in x)(y \text{ is regular}) \); we need to show \( x \) is regular.
+For a set \( z \) with \( x \in z \), if \( x \) is minimal in \( z \), \( x \) is clearly regular as required.
+If \( x \) is not minimal in \( z \), there exists \( y \in x \) such that \( y \in z \).
+So \( z \) has a minimal element as \( y \) is regular.
+Hence \( x \) is regular.
