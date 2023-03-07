@@ -11,7 +11,7 @@ The following proof is due to Euler in 1748.
     As \( \sum_{i=1}^\infty p^{-i} \) converges to \( \qty(1 - \frac{1}{p})^{-1} \), \( \sum_{i=1}^\infty \frac{1}{n} \) must converge.
 \end{proof}
 We aim to prove that for all \( a, q \in \mathbb Z \) coprime, there are infinitely many primes of the form \( a + kq \), \( k \in \mathbb N \).
-Note that there is no nice series expansion for \( \prod_{p \equiv a \mod q, p \text{ prime}} \qty(1 - \frac{1}{p})^{-1} \), so Euler's proof does not generalise.
+Note that there is no nice series expansion for \( \prod_{p \equiv a \text{ mod } q, p \text{ prime}} \qty(1 - \frac{1}{p})^{-1} \), so Euler's proof does not generalise.
 \begin{definition}
     The \emph{Riemann zeta function} is \( \zeta(s) = \sum_{n \geq 1} n^{-s} \) for \( s \in \mathbb C \).
 \end{definition}
@@ -23,6 +23,9 @@ Note that there is no nice series expansion for \( \prod_{p \equiv a \mod q, p \
         \item \( \zeta(s) - \frac{1}{s - 1} \) extends to a holomorphic function for \( \Re(s) > 0 \), so the zeta function has a simple pole with residue 1 at \( s = 1 \).
     \end{enumerate}
 \end{proposition}
+If \( \sum \log(1 - a_n) \) converges, \( \prod (1 - a_n) \) converges.
+\( \prod (1 - a_n) \) absolutely converges if \( \sum \abs{\log(1-a_n)} \) converges.
+
 If \( a_n \) is a sequence of complex numbers, call the function \( \sum_{n \geq 1} a_n n^{-s} \) a \emph{Dirichlet series}.
 Instead of part (i), we will prove the following more general lemma.
 \begin{lemma}
@@ -45,8 +48,92 @@ Instead of part (i), we will prove the following more general lemma.
 \end{proof}
 \begin{proof}[Proof of proposition]
     \emph{Part (ii).}
+    Let \( p_1, \dots, p_r \) be the first \( r \) primes.
+    Then, \( \prod_{i=1}^r (1 - p_r^{-s})^{-1} = \sum_{n \in X} n^{-s} \) where \( X \) is the set of positive integers whose prime divisors are only in \( p_1, \dots, p_r \).
+    So
+    \[ \abs{\zeta(s) - \prod_{i=1}^r (1 - p_r^{-s})^{-1}} = \abs{\sum_{n \not\in X} n^{-s}} \leq \sum_{n \not\in X} \abs{n^{-s}} = \sum_{n \not\in X} n^{-\Re(s)} \leq \sum_{n > r} n^{-\Re(s)} \]
+    as \( 1, \dots, r \in X \).
+    Hence the infinite product converges to \( \zeta(s) \).
+    The proof of absolute convergence is omitted. 
 
     \emph{Part (iii).}
     Left as an exercise, noting that
     \[ \frac{1}{s-1} = \sum_{i=1}^\infty \int_n^{n+1} \frac{\dd{t}}{t^s} \]
 \end{proof}
+
+\subsection{Zeta functions in number fields}
+The remaining new content in this course is nonexaminable.
+\begin{definition}
+    Let \( L \) be a number field.
+    The \emph{zeta function of \( L \)} is
+    \[ \zeta_L(s) = \sum_{\mathfrak a \trianglelefteq \mathcal O_L} N(\mathfrak a)^{-s} = \sum_{n \geq 1} \#\qty{\mathfrak a \trianglelefteq \mathcal O_L \mid N(\mathfrak a) = n} n^{-s} \]
+\end{definition}
+\begin{proposition}
+    \begin{enumerate}
+        \item \( \zeta_L(s) \) converges to a holomorphic function for \( \Re(s) > 1 \).
+        \item \( \zeta_L(s) = \prod_{\mathfrak p \text{ prime ideal}} (1 - N(\mathfrak p)^{-s})^{-1} \) in this region.
+        \item \( \zeta_L(s) \) is a meromorphic function for \( \Re(s) > 1 - \frac{1}{[L:\mathbb Q]} \), with a simple pole at \( s = 1 \) with residue
+        \[ \frac{\abs{\mathrm{Cl}_L} 2^{r+s} \pi^s R_L}{\abs{D_L}^{\frac{1}{2}} \abs{\bm\mu_L}} \]
+        This is called the \emph{analytic class number formula}.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Part (ii) is clear.
+    Parts (i) and (iii) follow from the following estimate.
+    Writing \( \zeta_L(s) = \sum \frac{a_n}{n^s} \) where \( a_n \) is the number of ideals of norm \( n \), one can show
+    \[ a_1 + \dots + a_N = \frac{\abs{\mathrm{Cl}_L} 2^{r+s} \pi^s R_L}{\abs{D_L}^{\frac{1}{2}} \abs{\bm\mu_L}} \cdot N + O\qty(N^{1 - \frac{1}{[L:\mathbb Q]}}) \]
+\end{proof}
+If \( L \neq \mathbb Q \), it turns out that \( \zeta_L(s) \) factors into \( \zeta_{\mathbb Q}(s) = \zeta(s) \) and some other factors.
+Suppose \( L = \mathbb Q(\sqrt{d}) \) and \( d \neq 0, 1 \) is square-free.
+\[ \zeta_L - \prod_{\mathfrak p \text{ prime ideal}} (1 - N(\mathfrak p)^{-s})^{-1} = \prod_{p \text{ prime}} \prod_{\mathfrak p \mid (p)} (1 - N(\mathfrak p)^{-s})^{-1} \]
+If \( p \mid D_L \), then \( (p) = \mathfrak p^2 \) ramifies.
+In this case, \( N(\mathfrak p) = p \) and we have a term \( (1 - p^{-s}) \) in the product.
+If \( (p) \) remains prime in \( L \), then \( N(\mathfrak p) = p^2 \) giving the term \( (1 - p^{-2s}) = (1 - p^{-s})(1 - p^s) \).
+If \( (p) = \mathfrak p_1 \mathfrak p_2 \) splits, then \( N(\mathfrak p_i) = p \) and we have a term \( (1 - p^{-s})^2 \).
+Let
+\[ \chi_{D_L}(p) = \chi(p) = \begin{cases}
+    0 & p \text{ ramifies} \\
+    -1 & p \text{ inert} \\
+    1 & p \text{ splits}
+\end{cases} = \underbrace{\qty(\frac{D_L}{p})}_{\mathclap{\text{if } p \text{ odd}}} \]
+Then, defining \( L(\chi,s) = \prod_{p \text{ prime}} {1 - \chi(p) p^{-s}}^{-1} \), we have \( \zeta_L(s) = \zeta_{\mathbb Q}(s) L(\chi,s) \).
+The function \( L \) is called a \emph{Dirichlet \( L \)-function}.
+When expanding the infinite product defining \( L(\chi_D, s) \) the coefficient of \( n^{-s} \), if \( n = p_1^{e_1} \dots p_r^{e_r} \) is \( \chi_D(p_1)^{e_1} \dots \chi_D(p_r)^{e_r} \).
+We can extend the definition of \( \chi \) to make it multiplicative: \( \chi_D(p_1^{e_1} \dots p_r^{e_r}) = \chi_D(p_1)^{e_1} \dots \chi_D(p_r)^{e_r} \).
+\begin{example}
+    Let \( L = \mathbb Q(\sqrt{-1}) \), so \( D_L = 4 \).
+    We have \( \qty(\frac{-4}{p}) = \qty(\frac{-1}{p}) = (-1)^{\frac{p-1}{2}} \) for \( p \neq 2 \).
+    2 ramifies, so \( \chi_D(2) = 0 \).
+    We claim that
+    \[ \chi_{-4}(m) = \begin{cases}
+        (-1)^{\frac{m-1}{2}} & m \text{ odd} \\
+        0 & m \text{ even}
+    \end{cases} \]
+    Indeed, if \( n \) is even, this is clear; otherwise, this claim is that \( (-1)^{\frac{mn-1}{2}} = (-1)^{\frac{m-1}{2}} (-1)^{\frac{n-1}{2}} \), which is easy to verify.
+    Hence,
+    \[ L(\chi_{-4}, s) = 1 - \frac{1}{3^s} + \frac{1}{5^s} - \frac{1}{7^s} + \dots \]
+    In this example, the coefficients are periodic mod 4; this is true for general \( L(\chi_D, s) \).
+    Since \( \zeta_L(s) = \zeta_{\mathbb Q}(s) L(\chi_{-4}, s) \), the fact that \( \zeta_{\mathbb Q}(s) \) has a simple pole at \( s = 1 \) with residue 1, together with the analytic class number formula, gives \( L(\chi_{-4}, 1) = \frac{\pi}{4} \).
+\end{example}
+\begin{definition}
+    \( \chi \colon \mathbb Z \to \mathbb C \) is a \emph{Dirichlet character} of modulus \( D \) if there exists a group homomorphism \( \omega \colon \qty(\faktor{\mathbb Z}{D\mathbb Z})^\star \to \mathbb C \) such that
+    \[ \chi(n) = \begin{cases}
+        \omega(w \text{ mod } D) & n \text{ invertible mod } D \\
+        0 & \text{otherwise}
+    \end{cases} \]
+\end{definition}
+For such a \( \chi \), we have \( \chi(n)\chi(m) = \chi(nm) \), and we can define
+\[ L(\chi,s) = \prod_{p \text{ prime}}(1 - \chi(p)p^{-s})^{-1} = \sum_{n \geq 1}\chi(n)n^{-s} \]
+The previous example shows that \( \chi_{-4} \) is a Dirichlet character of modulus 4.
+\begin{theorem}
+    For any \( d \neq 0, 1 \) square-free, defining \( L = \mathbb Q(\sqrt{d}), D = D_L \), we have that \( \chi_D \) is a Dirichlet character of modulus \( D \).
+\end{theorem}
+\begin{proof}
+    We must show \( \chi_D(n+D) = \chi_D(n) \) for \( n \in \mathbb N \).
+    Suppose first that \( d \equiv 3 \) mod 4.
+    Here, \( D = 4d \), so \( \chi_D(2) = 0 \) as 2 ramifies, so \( \chi_D(n) = 0 \) if \( n \) is even as required.
+    For \( p > 2 \), \( \chi_D(p) = \qty(\frac{D}{p}) = \qty(\frac{d}{p}) \) by definition, but this is equal to \( \qty(\frac{p}{d}) (-1)^{\frac{p-1}{2}} \) by quadratic reciprocity as \( p, d \) are odd, and as \( d \equiv 3 \) mod 4, \( \frac{d-1}{2} \equiv 1 \) mod 4.
+    \( n \mapsto (-1)^{\frac{n-1}{2}} \) is multiplicative, so \( \chi_D(n+D) = \qty(\frac{n+D}{d})(-1)^{\frac{n-1}{2}}(-1)^{4d}{2} = \chi_D(n) \).
+    The other cases are omitted.
+\end{proof}
+This theorem can be seen as equivalent to the law of quadratic reciprocity.
