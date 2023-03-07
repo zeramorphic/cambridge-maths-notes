@@ -4,7 +4,7 @@
     \begin{itemize}
         \item (reflexivity) for all \( x \in X \), \( x \leq x \);
         \item (transitivity) for all \( x, y, z \in X \), \( x \leq y \) and \( y \leq z \) implies \( x \leq z \);
-        \item (antisymmetry) for all \( x, y \in X \), \( x \leq y \) and \( y \leq z \) implies \( x = y \).
+        \item (antisymmetry) for all \( x, y \in X \), \( x \leq y \) and \( y \leq x \) implies \( x = y \).
     \end{itemize}
 \end{definition}
 We write \( x < y \) for \( x \leq y \) and \( x \neq y \).
@@ -102,11 +102,11 @@ The rationals cannot, since no element covers another.
     In example (vii), \( \qty{a, b} \) has upper bounds \( c, d, e \), so does not have a least upper bound.
 \end{example}
 \begin{definition}
-    A poset \( X \) is \emph{complete} if every \( S \) has a least upper bound.
+    A poset \( X \) is \emph{complete} if every \( S \subseteq X \) has a least upper bound.
 \end{definition}
 \begin{example}
     \( \mathbb R \) is not complete, as \( \mathbb Z \) has no upper bound.
-    \( [0,1] \subset \mathbb R \) is complete.
+    \( [0,1] \subseteq \mathbb R \) is complete.
     \( (0,1) \subseteq \mathbb R \) is not complete, as \( (0,1) \) has no upper bound.
 \end{example}
 \begin{example}
@@ -122,7 +122,7 @@ In the case \( X = \mathcal P(S) \), \( \sup X = S \) and \( \sup \varnothing = 
 \begin{example}
     The function \( f \colon \mathbb N \to \mathbb N \) defined by \( f(x) = x + 1 \) is order-preserving.
     The function \( f \colon [0,1] \to [0,1] \) defined by \( x \mapsto \frac{x+1}{2} \) is order-preserving.
-    The function \( f \colon \mathcal P(S) \to \mathcal P(S) \) defined by \( f(A) = A \cup \qty{i} \) for some fixed \( i \in S \) is order-preserving. 
+    The function \( f \colon \mathcal P(S) \to \mathcal P(S) \) defined by \( f(A) = A \cup \qty{i} \) for some fixed \( i \in S \) is order-preserving.
 \end{example}
 Not all order-preserving functions have a fixed point \( x \) such that \( f(x) = x \), for example \( f(x) = x + 1 \) on \( \mathbb N \).
 \begin{theorem}[Knaster--Tarski fixed point theorem]
@@ -132,7 +132,7 @@ Not all order-preserving functions have a fixed point \( x \) such that \( f(x) 
 \begin{proof}
     Let \( E = \qty{x \in X \mid x \leq f(x)} \), and let \( s = \sup E \).
     We show that \( s \) is a fixed point for \( f \).
-    
+
     First, we show \( s \leq f(s) \), so \( s \in E \).
     It suffices to show \( f(s) \) is an upper bound for \( E \), then the result holds as \( s \) is the least such upper bound.
     If \( x \in E \), we know \( x \leq s \), so \( f(x) \leq f(s) \) as \( f \) is order-preserving as required.
@@ -149,7 +149,7 @@ Not all order-preserving functions have a fixed point \( x \) such that \( f(x) 
     We seek partitions \( A = P \sqcup Q \), \( B = R \sqcup S \) such that \( f(P) = R \) and \( g(S) = Q \); then we define \( h \) to equal to \( f \) on \( P \) and \( g^{-1} \) on \( R \).
     Thus, we need a set \( P \) that is a fixed point of \( \theta \colon \mathcal P(A) \to \mathcal P(A) \) given by \( P \mapsto A \setminus g(B \setminus f(P)) \).
     But \( \theta \) is order-preserving and \( \mathcal P(A) \) is a complete poset.
-    So \( P \) exists by the Knaster--Tarski fixed point theorem. 
+    So \( P \) exists by the Knaster--Tarski fixed point theorem.
 \end{proof}
 
 \subsection{Zorn's lemma}
@@ -222,7 +222,7 @@ We can now prove the completeness theorem for propositional logic with no restri
 \end{theorem}
 \begin{proof}
     We will extend \( S \) to a consistent set \( \overline S \) such that for all \( t \in L \), either \( t \in S \) or \( \neg t \in \overline S \); we then complete the proof by defining a valuation \( v \) such that \( v(t) = 1 \) if \( t \in \overline S \).
-    
+
     Let \( X = \qty{T \supseteq S \mid T \text{ consistent}} \) be the poset of consistent extensions of \( S \), ordered by inclusion.
     We seek a maximal element of \( X \).
     Then, if \( \overline S \) is maximal and \( t \not\in \overline S \), then \( \overline S \cup \qty{t} \vdash \bot \) by maximality, so \( \overline S \vdash \neg t \) by the deduction theorem, giving \( \neg t \in \overline S \) again by maximality.
@@ -248,7 +248,7 @@ There exist sets with no definable well-ordering, such as \( \mathbb R \).
     \( X \) is nonempty as the empty relation is a well-ordering of the empty set.
     Given a nonempty chain \( (A_i, R_i)_{i \in I} \), there is an upper bound \( \qty(\bigcup_{i \in I} A_i, \bigcup_{i \in I} R_i) \), because the well-orderings are nested.
     By Zorn's lemma, there exists a maximal element \( (A, R) \in X \).
-    
+
     Suppose \( x \in S \setminus A \).
     Then we can construct the well-ordering on \( A \cup \qty{x} \) by defining \( a < x \) for \( a \in A \), contradicting maximality of \( A \).
     Hence \( A = S \), so \( R \) is a well-ordering on \( S \).
@@ -267,7 +267,7 @@ For instance, the axiom of union allows for the construction of \( A \cup B \) g
 
 Use of the axiom of choice gives rise to nonconstructive proofs.
 In modern mathematics it is sometimes considered useful to note when the axiom of choice is being used.
-However, many proofs that do not even use the axiom of choice are nonconstructive, such as the proof of existence of transcendentals, or Hilbert's basis theorem that every ideal over \( \mathbb Q[X_1, \dots, X_n] \) is finitely generated. 
+However, many proofs that do not even use the axiom of choice are nonconstructive, such as the proof of existence of transcendentals, or Hilbert's basis theorem that every ideal over \( \mathbb Q[X_1, \dots, X_n] \) is finitely generated.
 
 Although our proof of Zorn's lemma required the axiom of choice, it is not immediately clear that all such proofs require it.
 However, it can be shown that Zorn's lemma implies the axiom of choice in the presence of the other axioms of \( \mathsf{ZF} \) set theory.
@@ -280,4 +280,4 @@ However, \( \mathsf{ZF} \) does not prove the most general form of \( \mathsf{AC
 
 Zorn's lemma is a difficult lemma to prove from first principles because of its reliance on ordinals and Hartogs' lemma; the use of the axiom of choice does not contribute significantly to its difficulty.
 The construction and properties of the ordinals did not rely on the axiom of choice.
-The axiom of choice was only used twice in the section on well-orderings: the fact that in a set that that is not well-ordered, there is an infinite decreasing sequence; and the fact that \( \omega_1 \) is not a countable supremum.
+The axiom of choice was only used twice in the section on well-orderings: the fact that in a set that is not well-ordered, there is an infinite decreasing sequence; and the fact that \( \omega_1 \) is not a countable supremum.
