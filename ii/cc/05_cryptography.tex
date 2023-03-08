@@ -178,3 +178,106 @@ We base asymmetric cryptosystems on certain mathematical problems in number theo
     \[ O\qty(\exp(c (\log N)^{\frac{1}{3}} (\log \log N)^{\frac{2}{3}})) \]
     where \( c \) is a known constant.
 \end{example}
+
+\subsection{Rabin cryptosystem}
+Recall that \emph{Euler's totient function} is denoted \( \varphi \), where \( \varphi(n) \) is the number of integers less than \( n \) which are coprime to \( n \).
+Equivalently, \( \varphi(n) = \abs{\qty(\faktor{\mathbb Z}{n\mathbb Z})^\times} \).
+By Lagrange's theorem, \( a^{\varphi(N)} \equiv 1 \) mod \( N \) for each \( a \) coprime to \( N \); this result is sometimes known as the Fermat--Euler theorem.
+If \( N = p \) is prime, \( a^{p-1} \equiv 1 \) mod \( p \), which is Fermat's little theorem.
+\begin{lemma}
+    Let \( p = 4k - 1 \) be a prime, and let \( d \in \mathbb Z \).
+    If \( x^2 \equiv d \) mod \( p \) is soluble, one solution is \( x \equiv d^k \) mod \( p \).
+\end{lemma}
+\begin{proof}
+    Suppose \( x_0 \) is a solution, so \( x_0^2 \equiv d \) mod \( p \).
+    Without loss of generality we can assume \( x_0 \not\equiv 0 \), or equivalently, \( x_0 \nmid p \).
+    Then \( x_0^2 \equiv d \) so \( d^{2k-1} \equiv x_0^{2(2k-1)} \equiv x_0^{p-1} \equiv 1 \).
+    Hence, \( \qty(d^k)^2 \equiv d \).
+\end{proof}
+In the Rabin cryptosystem, the private key consists of two large distinct primes \( p, q \equiv 3 \) mod 4.
+The public key is \( N = pq \).
+\( \mathcal M = \mathcal C = \qty{1, \dots, N-1} = \mathbb Z_N^\times \).
+We encrypt a plaintext message \( m \) as \( c = m^2 \) mod \( N \).
+Usually, we restrict our messages so that \( (m, N) = 1 \) and \( m > \sqrt{N} \).
+
+Receiving ciphertext \( c \), we can solve for \( x_1, x_2 \) such that \( x_1^2 \equiv c \) mod \( p \) and \( x_2^2 \equiv c \) mod \( q \) using the previous lemma.
+Then, applying the Chinese remainder theorem, we can find \( x \) such that \( x \equiv x_1 \) mod \( p \) and \( x \equiv x_2 \) mod \( q \), hence \( x^2 \equiv c \) mod \( N \).
+Indeed, running the Euclidean algorithm on \( p, q \) gives integers \( r, s \) such that \( rp + sq = 1 \), then we can take \( x = sqx_1 + rpx_2 \).
+\begin{lemma}
+    \begin{enumerate}
+        \item Let \( p \) be an odd prime, and let \( (d, p) = 1 \).
+        Then \( x^2 \equiv d \) mod \( p \) has no solutions or exactly two solutions.
+        \item Let \( N = pq \) where \( p, q \) are distinct odd primes, and let \( (d, N) = 1 \).
+        Then \( x^2 \equiv d \) mod \( N \) has no solutions or exactly four solutions.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \emph{Part (i).}
+    \( x^2 \equiv y^2 \) mod \( p \) if and only if \( p \mid (x^2 - y^2) = (x-y)(x+y) \), so either \( p \mid x-y \) or \( p \mid x+y \), so \( x = \pm y \).
+    
+    \emph{Part (ii).}
+    If \( x_0 \) is a solution, then by the Chinese remainder theorem, there exist solutions \( x \) with \( x \equiv \pm x_0 \) mod \( p \) and \( x \equiv \pm x_0 \) mod \( q \).
+    This gives four solutions as required.
+    By (i), these are the only possible solutions.
+\end{proof}
+Hence, to decrypt the Rabin cipher, we must find all four solutions to \( x^2 \equiv c \) mod \( N \).
+Messages should include enough redundancy to uniquely determine which of these four solutions is the intended plaintext.
+\begin{theorem}
+    Breaking the Rabin cryptosystem is essentially as difficult as factoring \( N \).
+\end{theorem}
+\begin{proof}
+    If we can factorise \( N \) as \( pq \), we have seen that we can decrypt messages.
+    Conversely, suppose we can break the cryptosystem, so we have an algorithm to find square roots modulo \( N \).
+    Choose \( x \) mod \( N \) at random, and use the algorithm to find \( y \) such that \( y^2 \equiv x^2 \) mod \( N \).
+    With probability \( \frac{1}{2} \), \( x \neq \pm y \) mod \( N \).
+    Then, \( (N, x-y) \) is a nontrivial factor of \( N \).
+    If this fails, choose another \( x \), and repeat until the probability of failure \( \qty(\frac{1}{2})^r \) is acceptably low.
+\end{proof}
+
+\subsection{RSA cryptosystem}
+Suppose \( N = pq \) where \( p, q \) are distinct odd primes.
+We claim that if we know a multiple \( m \) of \( \varphi(N) = (p-1)(q-1) \), then factoring \( N \) is `easy'.
+Write \( o_p(x) \) for the order of \( x \) as an element of \( \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \).
+Write \( m = 2^a b \) where \( a \geq 1, b \) odd.
+Let
+\[ X = \qty{x \in \qty(\faktor{\mathbb Z}{N\mathbb Z})^\times \midd o_p(x^b) \neq o_q(x^b)} \]
+\begin{theorem}
+    \begin{enumerate}
+        \item If \( x \in X \), then there exists \( 0 \leq t < a \) such that \( (x^{2^t b} - 1, N) \) is a nontrivial factor of \( N \).
+        \item \( \abs{X} \geq \frac{1}{2} \abs{\qty(\faktor{\mathbb Z}{n\mathbb N})^\times} = \frac{1}{2}(p-1)(q-1) \).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \emph{Part (i).}
+    By the Fermat--Euler theorem, \( x^{\varphi(N)} \equiv 1 \) mod \( N \).
+    Hence \( x^m \equiv 1 \) mod \( N \).
+    But \( m = 2^a b \), so setting \( y = x^b \) mod \( N \), we obtain \( y^{2^a} \equiv 1 \) mod \( N \).
+    In particular, \( o_p(y) \) and \( o_q(y) \) are powers of 2.
+    Since \( x \in X \), \( o_p(y) \neq o_q(y) \), so without loss of generality suppose \( o_p(y) < o_q(y) \).
+    Let \( o_p(y) = 2^t \), so \( 0 \leq t < a \).
+    Then \( y^{2^t} \equiv 1 \) mod \( p \), but \( y^{2^t} \not\equiv 1 \) mod \( q \).
+    So \( (y^{2^t} - 1, N) = p \) as required.
+\end{proof}
+The proof of part (ii) will be seen later.
+
+In the RSA cryptosystem, the private key consists of large distinct primes \( p, q \) chosen at random.
+Let \( N = pq \), and choose the \emph{encrypting exponent} \( e \) randomly such that \( (e, \varphi(N)) = 1 \), for instance taking \( e \) prime larger than \( p, q \).
+By Euclid's algorithm, there exist \( d, k \) such that \( de - k\varphi(N) = 1 \); \( d \) is called the \emph{decrypting exponent}.
+
+The public key is \( (N, e) \), and we encrypt \( m \in \mathcal M \) as \( c \equiv m^e \) mod \( N \).
+The private key is \( (N, d) \), and we decrypt \( c \in \mathcal C \) as \( x \equiv c^d \) mod \( N \).
+By the Fermat--Euler theorem, \( x \equiv m^{de} \equiv m^{1+k\varphi(N)} \equiv m \) mod \( N \), noting that the probability that \( (m, N) \neq 1 \) is small enough to be ignored.
+Hence, the decrypting function is inverse to the encrypting function.
+% 
+% Suppose that Eve intercepts the ciphertext \( c \), and wants to find the plaintext given the public key \( (N, e) \).
+% This problem is essentially as difficult as finding the factors \( p \) and \( q \) of \( N \) so that \( \varphi(N) = (p-1)(q-1) \) can be computed.
+\begin{corollary}
+    Finding the RSA private key \( (N, d) \) is essentially as difficult as factoring \( N \).
+\end{corollary}
+\begin{proof}
+    We have already shown that if we can factorise \( N \), we can find \( d \).
+    Conversely, suppose there is an algorithm to find \( d \) given \( N \) and \( e \).
+    Then \( de \equiv 1 \) mod \( \varphi(N) \).
+    Taking \( m = de-1 \) in the proof of part (i) of the theorem above, we can factorise \( N \).
+    If this fails, repeat until the probability of failure is acceptably low.
+\end{proof}
