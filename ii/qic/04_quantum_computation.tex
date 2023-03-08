@@ -420,12 +420,40 @@ Grover's algorithm achieves an unstructured search for a unique good item in app
 Any quantum algorithm that achieves this search in an unstructured database of size \( N \) must use \( O(\sqrt{N}) \) queries.
 Moreover, it can be shown that \( \frac{\pi}{4} (1 - \varepsilon) \sqrt{N} \) queries are insufficient for each \( \varepsilon \), so Grover's algorithm is tight.
 
-Consider the case where there are \( r \geq 1 \) good items.
-Here, \( f(x_i) = 1 \) if \( i = 1, \dots, r \), and \( f(x) = 0 \) otherwise, where the \( x_i \) are the binary labels for the good items.
+\subsection{Grover's algorithm for multiple items}
+Consider the case where there are \( r \geq 1 \) good items, and \( r \) is known.
+Here, \( f(x_i) = 1 \) if \( i = 1, \dots, r \), and \( f(x) = 0 \) otherwise, where \( x_1, \dots, x_r \) are the binary labels for the good items.
+We want to find any of the good items.
 Then, define
 \[ I_G \ket{x} = I - 2\sum_{i=1}^r \op{x_i}{x_i} = \begin{cases}
     +\ket{x} & x \not\in \qty{x_1, \dots, x_r} \\
     -\ket{x} & x \in \qty{x_1, \dots, x_r}
 \end{cases} \]
+Note that \( I_G \) is not of the form \( I_{\ket{v}} \) for a single vector \( \ket{v} \).
 Now, define \( Q_G = -H_n I_0 H_n I_G = -I_{\ket{\psi_0}} I_G \).
-Let \( \ket{\psi_G} = \frac{1}{\sqrt{r}} \sum_{i=1}^r \ket{x_i} \) be an equal superposition of the good states, and \( \ket{\psi_B} = \frac{1}{\sqrt{N-r}} \sum_{i=1}^r \ket{x_i} \) be an equal superposition of the bad states.
+Let \( \ket{\psi_G} = \frac{1}{\sqrt{r}} \sum_{i=1}^r \ket{x_i} \) be an equal superposition of the good states, and \( \ket{\psi_B} = \frac{1}{\sqrt{N-r}} \sum_{i=r+1}^N \ket{x_i} \) be an equal superposition of the bad states.
+Note that \( \ip{\psi_G}{\psi_B} = 0 \).
+Begin with the equal superposition state.
+\[ \ket{\psi_0} = (H\ket{0})^{\otimes N} = \frac{\sqrt{r}}{\sqrt{N}} \ket{\psi_G} + \frac{\sqrt{N-r}}{\sqrt{N}} \ket{\psi_B} \]
+Consider the plane \( \mathcal P_G \) spanned by \( \ket{\psi_G} \) and \( \ket{\psi_0} \), which contains \( \ket{\psi_B} \).
+Let \( \alpha \) be the angle between \( \ket{\psi_G} \) and \( \ket{\psi_0^\perp} \).
+
+We show that in the plane \( \mathcal P_G \), \( Q_G \) acts as a rotation through an angle \( 2\alpha \) where \( \sin \alpha = \ip{\psi_0}{\psi_G} = \frac{\sqrt{r}}{\sqrt{N}} \).
+The states \( \ket{\psi_G}, \ket{\psi_B} \) form an orthonormal basis for \( \mathcal P_G \).
+We find \( I_G (a \ket{\psi_G} + b \ket{\psi_B}) = -a \ket{\psi_G} + b \ket{\psi_B} \); indeed, restricting to the plane \( \mathcal P_G \), the action of \( I_G \) is precisely the action of \( I_{\ket{\psi_G}} \).
+Hence, as before, \( Q_G \) causes the desired rotation through \( 2\alpha \) in this plane.
+
+Suppose now that \( r \) is unknown.
+In this case, we start with \( \ket{\psi_0} \) and repeatedly apply \( Q \) to rotate \( \ket{\psi_0} \) to \( \ket{\psi_G} \) as before.
+However, we do not know how many iterations of \( Q \) to apply, since this depends on \( r \).
+
+If \( r \ll N \), we choose \( K \) uniformly at random in \( \qty(0, \frac{\pi}{4}\sqrt{N}) \), and apply \( K \) iterations of \( Q \).
+We measure the final state \( \ket{\psi^K} \) to obtain \( x \), and check if \( f(x) = 1 \) or not.
+Note that each iteration causes a rotation of \( 2\alpha \) where \( \sin \alpha = \frac{\sqrt{r}}{\sqrt{N}} \) so \( 2\alpha \approx 2\frac{\sqrt{r}}{\sqrt{N}} \).
+Choosing \( K \) therefore implicitly chooses a random angle in the range \( \qty(0, \frac{\pi}{2} \sqrt{r}) \).
+Now, if the final rotated state \( \ket{\psi} \) makes an angle within \( \pm \frac{\pi}{4} \) with \( \ket{\psi_0} \), the probability of locating a good item is \( \abs{\ip{\psi}{\psi_0}}^2 \geq \cos^2 \frac{\pi}{4} = \frac{1}{2} \).
+Since for every quadrant in the plane \( \mathcal P_G \), half of the angles are within \( \pm \frac{\pi}{4} \) from the \( y \)-axis, the randomised procedure using \( O(\sqrt{N}) \) queries will locate a good item with probability approximately \( \frac{1}{4} \).
+The procedure can then be repeated to reduce the error probability to an acceptable level.
+
+\subsection{Complexity}
+Grover's search algorithm can be applied to any \( \mathsf{NP} \) problem to obtain a quadratic speedup over a classical exhaustive search.
