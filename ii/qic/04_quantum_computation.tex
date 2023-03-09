@@ -442,6 +442,7 @@ We show that in the plane \( \mathcal P_G \), \( Q_G \) acts as a rotation throu
 The states \( \ket{\psi_G}, \ket{\psi_B} \) form an orthonormal basis for \( \mathcal P_G \).
 We find \( I_G (a \ket{\psi_G} + b \ket{\psi_B}) = -a \ket{\psi_G} + b \ket{\psi_B} \); indeed, restricting to the plane \( \mathcal P_G \), the action of \( I_G \) is precisely the action of \( I_{\ket{\psi_G}} \).
 Hence, as before, \( Q_G \) causes the desired rotation through \( 2\alpha \) in this plane.
+The probability of finding a single good item is \( \abs{\ip{\psi}{\psi_G}}^2 \), as \( \ket{\psi} = a \ket{\psi_G} + b \ket{\psi_B} \).
 
 Suppose now that \( r \) is unknown.
 In this case, we start with \( \ket{\psi_0} \) and repeatedly apply \( Q \) to rotate \( \ket{\psi_0} \) to \( \ket{\psi_G} \) as before.
@@ -455,5 +456,57 @@ Now, if the final rotated state \( \ket{\psi} \) makes an angle within \( \pm \f
 Since for every quadrant in the plane \( \mathcal P_G \), half of the angles are within \( \pm \frac{\pi}{4} \) from the \( y \)-axis, the randomised procedure using \( O(\sqrt{N}) \) queries will locate a good item with probability approximately \( \frac{1}{4} \).
 The procedure can then be repeated to reduce the error probability to an acceptable level.
 
-\subsection{Complexity}
-Grover's search algorithm can be applied to any \( \mathsf{NP} \) problem to obtain a quadratic speedup over a classical exhaustive search.
+\subsection{\texorpdfstring{\( \mathsf{NP} \)}{NP} problems}
+A \emph{verifier} \( V \) for a language \( L \) is a computation with two inputs \( w, c \) such that
+\begin{enumerate}
+    \item if \( w \in L \), there exists a \emph{certificate of membership} \( c \) such that \( V(w,c) \) halts in an accepting state; and
+    \item if \( w \not\in L \), for any \( c \), \( V(w,c) \) halts in a rejecting state.
+\end{enumerate}
+\( V \) is a \emph{poly-time} verifier if for all inputs \( w, c \), the algorithm \( V \) runs in polynomial time in \( n \), where \( n \) is the size of the input \( w \).
+A problem in the \emph{non-deterministic polynomial-time} complexity class \( \mathsf{NP} \) is easy to verify, but hard to solve.
+More precisely, a language \( L \) is in \( \mathsf{NP} \) if it has a polynomial time verifier \( V \),
+
+Alternatively, consider a computer operating non-deterministically; at each binary choice, the computer duplicates itself and performs both branches in parallel.
+We require that all possible paths eventually halt with either an accepting or rejecting state.
+The running time of a given algorithm is the length of the longest path.
+The computation is defined to accept its input if at least one path accepts it, and rejects its input if all paths reject it.
+One can check that \( \mathsf{NP} \) is precisely the class of languages that are decided by a non-dererministic computation with polynomial running time.
+
+Let \( f \colon B_n \to B \) be a Boolean formula.
+The \emph{Boolean satisfiability problem} \( \mathsf{SAT} \) seeks an assignment of the variables \( x_1, \dots, x_n \) such that \( f(x_1, \dots, x_n) = 1 \)..
+Any such assignment is called a \emph{satisfying assignment}.
+This problem clearly lies in \( \mathsf{NP} \); if \( f \) is satisfiable, then \( c \) is any assignment for which \( V(f,c) = 1 \) where \( V(f,c) = f(c) \).
+Brute-force methods have \( O(2^n) \) runtime.
+
+Searching for arbitrarily many good items in an unstructured database corresponds to \( \mathsf{SAT} \).
+Assuming that there are few satisfying assignments, we can run the randomised Grover's algorithm to give a quantum algorithm for solving \( \mathsf{SAT} \) in \( O(\sqrt{2^n}) \) time with low probability of error.
+Any \( \mathsf{NP} \) problem can be converted into an application of \( \mathsf{SAT} \); we say \( \mathsf{SAT} \) is \emph{\( \mathsf{NP} \)-complete}.
+Grover's algorithm can hence be applied to any \( \mathsf{NP} \) problem to provide a quadratic speedup.
+
+\subsection{Shor's algorithm}
+Suppose \( N \) is a positive integer and \( n = \ceil{\log N} \) is the number of bits in a binary representation of \( N \).
+We wish to factorise \( N \).
+We will describe an algorithm which, given \( N \) and a fixed acceptable probability of error, outputs a factor \( 1 < k < N \), or outputs \( N \) if \( N \) is prime.
+This algorithm runs in polynomial time in \( n \); there is no classical algorithm with this property.
+
+We first use results from number theory to convert the problem into a periodicity determination problem.
+Then, we apply the quantum period-finding algorithm using the quantum Fourier transform.
+
+Choose an integer \( 1 < a < N \) uniformly at random, and compute \( b = \mathrm{gcd}(a,N) \).
+If \( b > 1 \), then \( b \mid N \) so is a factor; in this case we simply output \( b \).
+If \( b = 1 \), then \( a, N \) are coprime.
+\begin{theorem}[Euler's theorem]
+    Let \( a, N \) be coprime.
+    Then there exists \( 1 < r < N \) such that \( a^r \equiv 1 \) mod \( N \).
+    A minimal such \( r \) is called the \emph{order} of \( a \) modulo \( N \).
+\end{theorem}
+Consider the \emph{modular exponentiation function} \( f \colon \mathbb Z \to \faktor{\mathbb Z}{n\mathbb Z} \) such that \( f(k) = a^k \) mod \( N \).
+This function satisfies \( f(k_1 + k_2) = f(k_1)f(k_2) \) so is a monoid homomorphism \( (\mathbb Z, +) \to \qty(\faktor{\mathbb Z}{n\mathbb Z})^\times \).
+\( f \) is periodic with period \( r \), and is injective within each period.
+
+Suppose that we can find \( r \), and suppose \( r \) is even.
+Then \( a^r - 1 \equiv (a^{\frac{r}{2}}+1)(a^{\frac{r}{2}}-1) \equiv 0 \) mod \( N \).
+Note that \( N \nmid (a^{\frac{r}{2}}-1) \) since \( r \) was minimal such that \( a^{\frac{r}{2}} \equiv 1 \) mod \( N \).
+If \( N \nmid (a^{\frac{r}{2}}+1) \), then \( N \) must have some prime factors in \( (a^{\frac{r}{2}}+1) \) and some in \( (a^{\frac{r}{2}}-1) \).
+We can use Euclid's algorithm to compute \( \mathrm{gcd}(a^{\frac{r}{2}}+1, N) \) and \( \mathrm{gcd}(a^{\frac{r}{2}}-1, N) \), which are factors of \( N \).
+Thus, we find factors of \( N \) provided \( r \) is even and \( a^{\frac{r}{2}} + 1 \not\equiv 0 \) mod \( N \).

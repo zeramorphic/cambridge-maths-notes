@@ -54,7 +54,7 @@ Instead of part (i), we will prove the following more general lemma.
     \[ \abs{\zeta(s) - \prod_{i=1}^r (1 - p_r^{-s})^{-1}} = \abs{\sum_{n \not\in X} n^{-s}} \leq \sum_{n \not\in X} \abs{n^{-s}} = \sum_{n \not\in X} n^{-\Re(s)} \leq \sum_{n > r} n^{-\Re(s)} \]
     as \( 1, \dots, r \in X \).
     Hence the infinite product converges to \( \zeta(s) \).
-    The proof of absolute convergence is omitted. 
+    The proof of absolute convergence is omitted.
 
     \emph{Part (iii).}
     Left as an exercise, noting that
@@ -118,7 +118,7 @@ We can extend the definition of \( \chi \) to make it multiplicative: \( \chi_D(
 \begin{definition}
     \( \chi \colon \mathbb Z \to \mathbb C \) is a \emph{Dirichlet character} of modulus \( D \) if there exists a group homomorphism \( \omega \colon \qty(\faktor{\mathbb Z}{D\mathbb Z})^\star \to \mathbb C \) such that
     \[ \chi(n) = \begin{cases}
-        \omega(w \text{ mod } D) & n \text{ invertible mod } D \\
+        \omega(n \text{ mod } D) & n \text{ invertible mod } D \\
         0 & \text{otherwise}
     \end{cases} \]
 \end{definition}
@@ -137,3 +137,93 @@ The previous example shows that \( \chi_{-4} \) is a Dirichlet character of modu
     The other cases are omitted.
 \end{proof}
 This theorem can be seen as equivalent to the law of quadratic reciprocity.
+Note that \( \chi \) is nontrivial if \( \omega \not\equiv 1 \)
+\begin{lemma}
+    If \( \chi \) is a nontrivial Dirichlet character, \( L(\chi, s) \) is holomorphic for \( \Re s > 0 \).
+\end{lemma}
+\begin{proof}
+    Recall that if \( G \) is a finite group and \( \chi_1, \chi_2 \) are characters of irreducible complex representations, then
+    \[ \frac{1}{G} \sum_{g \in G} \overline{\chi_1(g)} \chi_2(g) = \begin{cases}
+        1 & \chi_1 = \chi_2 \\
+        0 & \text{otherwise}
+    \end{cases} \]
+    Applying this to \( G = \qty(\faktor{\mathbb Z}{d\mathbb Z})^\star \) where \( \chi_1 \) is the trivial character and \( \chi_2 = \omega \), this gives
+    \[ \sum_{ad < i < (a+1)d} \chi(i) = \sum_{i \in \faktor{\mathbb Z}{d\mathbb Z}} \chi(i) = \sum_{i \in \qty(\faktor{\mathbb Z}{d\mathbb Z})^\star} \omega(i) = 0 \]
+    In particular, \( \sum_{i=1}^n \chi(i) = O(1) \) is bounded.
+    So \( \sum_{i=1}^n \frac{\chi(i)}{n^s} \) converges for \( \Re(s) > 0 \).
+\end{proof}
+\begin{corollary}
+    If \( D < 0 \),
+    \[ L(\chi_D, 1) = \frac{2\pi \abs{\mathrm{Cl}_{\mathbb Q(\sqrt{D})}}}{\abs{D}^{\frac{1}{2}} \abs{\bm\mu_{\mathbb Q(\sqrt{D})}}} \]
+    In particular, \( L(\chi_D, 1) \neq 0 \).
+\end{corollary}
+\begin{proof}
+    \( \zeta_{\mathbb Q(\sqrt(D))}(s) = \zeta_{\mathbb Q}(s)L(\chi_D, s) \), so both sides have a simple pole at \( s = 1 \).
+    The analytic class number formula gives the residue of the left hand side, and \( \Res_\zeta(1) = 1 \).
+\end{proof}
+
+\subsection{\texorpdfstring{\( L \)}{L}-functions in cyclotomic fields}
+We will show that \( L(\chi, 1) \neq 0 \) for any Dirichlet character \( \chi \), and hence show that there are infinitely many primes in arithmetic progression.
+To do this, we will factor \( \zeta_{\mathbb Q(e^{\frac{2\pi i}{q}})} \) for any \( q \).
+Consider \( L = \mathbb Q(\omega_q) \) where \( \omega_q \) is a primitive \( q \)th root of unity,
+\begin{proposition}
+    \begin{enumerate}
+        \item \( [L:\mathbb Q] = \varphi(q) \) where \( \varphi(q) = \abs{\qty(\faktor{\mathbb Z}{q\mathbb Z})^\star} \);
+        \item \( L/\mathbb Q \) is a Galois extension with Galois group \( G = \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \), and if \( r \in \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \), then \( r \) acts on \( L \) by mapping \( \omega_q \) to \( \omega_q^r \);
+        \item \( \mathcal O_L = \mathbb Z[\omega_q] = \faktor{\mathbb Z[x]}{\Phi_q(x)} \) where \( \Phi_q \) is the \( q \)th cyclotomic polynomial;
+        \item if \( p \) is prime, \( p \mid D_L \) if and only if \( p \mid q \);
+        \item if \( p \) is prime, \( p \) ramifies in \( \mathcal O_L \) if and only if \( p \mid q \);
+        \item if \( p \) is prime with \( p \nmid q \), then \( (p) \) factors as a product of \( \frac{\varphi(q)}{f} \) distinct prime ideals, each of norm \( p^f \), where \( f \) is the order of \( p \) in \( \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \).
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Parts (i) and (ii) follow from Galois theory.
+    Part (iii) for \( q \) prime is on an example sheet, and the general case is omitted.
+    Part (iv) is omitted.
+    Part (iv) implies (v) is a general fact; we will only show part (vi).
+
+    As \( \mathcal O_L = \faktor{\mathbb Z[x]}{\Phi_q(x)} \), Dedekind's theorem applies.
+    We study \( \faktor{\mathcal O_L}{(p)} = \faktor{\mathbb F_p[x]}{\Phi_q(x)} \) by factoring \( \Phi_q(x) \) modulo \( p \).
+    Recall that
+    \[ \Phi_q(x) = \frac{x^q - 1}{\prod_{d \neq q, d \mid q} \Phi_d(x)} \]
+    so for instance \( \Phi_8(x) = \frac{x^8 - 1}{x^4 - 1} = x^4 + 1 \).
+    \[ \qty(\faktor{\mathbb Z}{8\mathbb Z})^\star = \qty{1, 3, -3, -1} \simeq \faktor{\mathbb Z}{2\mathbb Z} \times \faktor{\mathbb Z}{2\mathbb Z} \]
+    In this example, if \( p = 17 \), \( x^4 + 1 \) factors into four linear factors, but if \( p = 3 \), \( x^4 + 1 \) factors into two factors as the order of 3 is 2 in \( \qty(\faktor{\mathbb Z}{8\mathbb Z})^\star \).
+
+    Write \( \Phi_q(x) = \gamma_1^{e_1} \dots \gamma_g^{e_g} \) for \( \gamma_i \) irreducible and distinct, so
+    \[ \faktor{\mathcal O_L}{(p)} = \faktor{\mathbb F_p[x]}{(\gamma_1^{e_1})} \times \dots \faktor{\mathbb F_p[x]}{(\gamma_g^{e_g})} \]
+    For any number field \( L \), \( \Gal(L/\mathbb Q) \) preserves \( \mathcal O_L \).
+    Indeed, if \( \alpha \in \mathcal O_L \), \( f(\alpha) = 0 \) for some monic polynomial \( f \in \mathbb Z[x] \), but then \( g \in \Gal(L/\mathbb Q) \) givesn \( 0 = gf(\alpha) = f(g(\alpha)) = 0 \), so \( g(\alpha) \) is also a root of \( f \) and hence in \( \mathcal O_L \).
+
+    \( G \) permutes the roots of \( \Phi_q \), so \( G \) acts on \( \qty{\gamma_1, \dots, \gamma_g} \).
+    This action is transitive on the roots, so is transitive on \( \qty{\gamma_1, \dots, \gamma_g} \).
+    Hence \( \deg \gamma_1 = \dots = \deg \gamma_g \), so \( e_1 = \dots = e_g = e \).
+    Further, \( ge \) is the order of \( \faktor{G}{\Stab_G(\gamma_1)} \).
+
+    If \( p \nmid D_L \), or equivalently \( p \nmid q \), then \( e = 1 \) as \( p \) is unramified.
+    Hence \( \faktor{\mathbb F_p[x]}{(\gamma_1)} = \mathbb F_{p^{f'}} \) for some \( f' \), and \( \frac{\varphi(q)}{f'} \) factors.
+    We must show that \( f' = f \).
+
+    \( p \in \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star = \Gal(L/\mathbb Q) \) acts as \( \alpha \mapsto \alpha^p \) on \( \mathbb F_{p^{f'}} \), so it acts as the Frobenius automorphism, which is the generator of the Galois group of \( \faktor{\mathbb F_{p^{f'}}}{\mathbb F_p} \) by (ii).
+    Conversely, the image of \( x \) in \( \faktor{\mathbb F_p[x]}{(\gamma_1)} \), is the image of \( \omega_q \) which is a primitive \( q \)th root of unity.
+    So \( q \mid \abs{\mathbb F_{p^{f'}}^\star} \), so \( q \mid p^{f'} - 1 \).
+    In particular, \( p^{f'} \equiv 1 \) mod \( q \), so \( f = \ord(p) \mid f' \).
+    Hence \( f = f' \) as required.
+\end{proof}
+Recall that \( \zeta_{\mathbb Q(\omega_q)}(s) = \prod_{\mathfrak p \text{ prime}} (1 - N(\mathfrak p)^{-s})^{-1} \).
+Consider prime ideals \( \mathfrak p \) dividing \( (p) \) for a fixed integer prime \( p \).
+If \( p \nmid q \), part (vi) shows that these contribute \( (1 - p^{-fs})^{-\frac{\varphi(q)}{f}} \) to the zeta function, where \( f \) is the order of \( p \) in \( \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \).
+But this factors as \( (1 - t^f) = \prod_{\gamma \in \bm\mu_f}(1 - \gamma t) \) where \( \bm\mu_f = \qty{\gamma \in \mathbb C \mid \gamma^f = 1} \).
+
+Set \( t = p^{-s} \), and let \( \omega_1, \dots, \omega_{\varphi(q)} \colon \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \to \mathbb C \) be the distinct irreducible complex representations of \( \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \), such that \( \omega_1 = \mathbbm 1 \) so \( \omega_1(\alpha) = 1 \) for all \( \alpha \in \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \).
+We claim that \( \omega_1(p), \dots, \omega_{\varphi(q)}(p) \) are the distinct \( f \)th roots of unity, each repeated \( \frac{\varphi(q)}{f} \) times.
+Certainly \( p \) generates a cyclic subgroup \( (p) \) of \( \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \) of order \( f \) by definition of \( f \).
+The claim is that the restriction of of \( \omega_1, \dots, \omega_{\varphi(q)} \) to \( (p) \) are the \( f \) distinct irreducible representations of \( (p) \), each repeated \( \frac{\varphi(q)}{f} \) times, which can be easily proven using representation theory.
+We have therefore shown that
+\[ (1-p^{-fs})^{-\frac{\varphi(q)}{f}} = \prod_{i=1}^{\varphi(q)} (1 - \omega_i(p) p^{-s})^{-1} \]
+Let
+\[ \chi_i(n) = \begin{cases}
+    \omega_i (n \text{ mod } q) & \text{if } \gcd(n,q) = 1 \\
+    0 & \text{otherwise}
+\end{cases} \]
+Then we have shown that \( \zeta_{\mathbb Q(\omega_q)}(s) = \prod_{i=1}^{\varphi(q)} L(\chi_i, s) \) multiplied by a correction term, which is a finite product of the form \( \prod_{p \mid q} (1 - p^{-f_p s})^{-1} \).
