@@ -263,3 +263,67 @@ In particular, every well-ordered set is order-isomorphic to a unique transitive
 We can now define that an ordinal is a transitive set well-ordered by \( \in \) (or equivalently, totally-ordered, due to the axiom of foundation).
 For example, \( \varnothing \) is an ordinal, \( n \in \omega \) is an ordinal, \( \omega \) is also an ordinal, and so on.
 Therefore, each well-ordering is order-isomorphic to a unique ordinal called its order type, by Mostowski collapse.
+\begin{remark}
+    If \( x, y \) are elements of a well-ordered set \( a \) with \( y < x \), then the order type of \( I_x \), which is precisely the image \( f(x) \) under the Mostowski collapse, has an element \( f(y) \), the order type of \( I_y \).
+    In particular, given two ordinals \( \alpha, \beta \), the statement \( \alpha < \beta \) is equivalent to \( \alpha \in \beta \).
+    Hence \( \alpha = \qty{\beta \mid \beta < \alpha} \).
+    Thus, \( \alpha^+ = \alpha \cup \qty{\alpha} \), and \( \sup \qty{\alpha_i \mid i \in I} = \bigcup \qty{\alpha_i \mid i \in I} \).
+\end{remark}
+
+\subsection{The universe of sets}
+We would like the universe to be V-shaped, in the sense that we begin with \( \varnothing \) and continue taking power sets to create larger and larger sets.
+Define sets \( V_\alpha \) for each ordinal \( \alpha \) by
+\begin{itemize}
+    \item \( V_0 = \varnothing \);
+    \item \( V_{\alpha+1} = \mathcal P(V_\alpha) \);
+    \item \( V_\lambda = \bigcup \qty{V_\alpha \mid \alpha < \lambda} \) for a nonzero limit ordinal \( \lambda \).
+\end{itemize}
+This can be viewed as a well-founded recursion on ordinals, or \( \in \)-recursion on the universe but mapping non-ordinals to \( \varnothing \).
+For example, \( V_\omega = V_0 \cup V_1 \cup \dots \), and \( V_{\omega+1} = \mathcal P(V_\omega) \).
+We will now show that every set is contained within some \( V_\alpha \).
+\begin{lemma}
+    Each \( V_\alpha \) is transitive.
+\end{lemma}
+\begin{proof}
+    We show this by induction on \( \alpha \).
+    Clearly \( V_0 = \varnothing \) is transitive.
+    Suppose \( V_\alpha \) is transitive.
+    Then \( V_{\alpha+1} \) is transitive as the power set of a transitive set is transitive.
+    Indeed, if \( x \) is transitive and \( z \in y \in \mathcal P(x) \), we have \( z \in x \), so \( z \subseteq x \) as \( x \) is transitive, so \( z \in \mathcal P(x) \).
+    Now suppose \( \lambda \) is a limit ordinal, and that the \( V_\alpha \) are transitive for \( \alpha < \lambda \).
+    Any union of transitive sets is transitive, so \( V_\lambda \) is transitive.
+\end{proof}
+\begin{lemma}
+    Let \( \alpha \leq \beta \).
+    Then \( V_\alpha \subseteq V_\beta \).
+\end{lemma}
+\begin{proof}
+    We show this by induction on \( \beta \) for a fixed \( \alpha \).
+    If \( \beta = \alpha \), \( V_\alpha \subseteq V_\beta \) is trivial.
+    For successors, note that \( V_\beta \subseteq \mathcal P(V_\beta) \) as \( V_\beta \) is transitive.
+    So if \( V_\alpha \subseteq V_\beta \), then \( V_\alpha \subseteq V_{\beta+1} \).
+    Limits are trivial.
+\end{proof}
+\begin{theorem}
+    Every set \( x \) belongs to \( V_\alpha \) for some \( \alpha \).
+\end{theorem}
+If we could construct the set \( V \) defined as the union of the \( V_\alpha \) over all ordinals \( \alpha \), \( V \) would be a model of \( \mathsf{ZF} \).
+\begin{remark}
+    Note that \( x \subseteq V_\alpha \) if and only if \( x \in V_{\alpha+1} \), so it suffices to show that each set \( x \) is a subset of some \( V_\alpha \).
+    Once we have \( x \subseteq V_\alpha \) for some \( \alpha \), there is a least such \( \alpha \), called the \emph{rank} of \( x \).
+    For example, the rank of \( \varnothing \) is 0, the rank of 1 is 1, the rank of \( \omega \) is \( \omega \), and in general the rank of any ordinal \( \alpha \) is \( \alpha \).
+    Intuitively, the rank of a set is the time at which it was created.
+\end{remark}
+\begin{proof}
+    We proceed by \( \in \)-induction on \( x \); we may assume that for all \( y \in x \), there exists \( \alpha \) such that \( y \subseteq V_\alpha \), so \( y = V_{\mathrm{rank}(y)} \).
+    Thus, for each \( y \in x \), \( y \in V_{\mathrm{rank}(y)+1} \), so define \( \alpha = \sup\qty{\mathrm{rank}(y) + 1 \mid y \in x} \).
+    Then for all \( y \in x \), we have \( y \in V_\alpha \).
+    So \( x \subseteq V_\alpha \) as required.
+\end{proof}
+The ordinals can be viewed as the backbone of the universe of sets; each \( V_\alpha \) can be thought of as resting on the ordinal \( \alpha \).
+\begin{remark}
+    The \( V_\alpha \) are called the \emph{von Neumann hierarchy}.
+    The above proof shows that for all \( x \), \( \mathrm{rank}(x) = \sup\qty{\mathrm{rank}(y) + 1 \mid y \in x} \).
+    For example, the rank of \( \qty{\qty{2, 3}, 6} \) is
+    \[ \sup\qty{\mathrm{rank}\qty{2, 3} + 1, 6 + 1} = \sup\qty{5, 7} = 7 \]
+\end{remark}

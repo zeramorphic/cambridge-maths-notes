@@ -280,4 +280,92 @@ Hence, the decrypting function is inverse to the encrypting function.
     Then \( de \equiv 1 \) mod \( \varphi(N) \).
     Taking \( m = de-1 \) in the proof of part (i) of the theorem above, we can factorise \( N \).
     If this fails, repeat until the probability of failure is acceptably low.
+    After \( r \) such random choices, we find a factor of \( N \) with probability \( 1 - \qty(\frac{1}{2})^r \).
 \end{proof}
+We now prove part (ii) of the above theorem.
+\begin{proof}
+    The Chinese remainder theorem provides a multiplicative group isomorphism \( \qty(\faktor{\mathbb Z}{N\mathbb Z})^\times \to \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \times \qty(\faktor{\mathbb Z}{q\mathbb Z})^\times \) mapping \( x \) to \( (x \text{ mod } p, x \text{ mod } q) \).
+    We claim that if we partition \( \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \) according to the value of \( o_p(x^b) \), then each equivalence class has size at most \( \frac{1}{2} \abs{\qty(\faktor{\mathbb Z}{p\mathbb Z})^\times} = \frac{1}{2}(p-1) \).
+    We show that one of these subsets has size exactly \( \frac{1}{2}(p-1) \).
+    Let \( g \) be a primitive root mod \( p \), so \( \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times = \genset{g} \).
+    By Fermat's little theorem, \( g^{p-1} \equiv 1 \) mod \( p \), so \( g^m = g^{2^a b} \equiv 1 \) mod \( p \).
+    Hence, \( o_p(g^b) \) is a power of 2, say \( 2^t \leq a \).
+    Let \( x = g^k \) for some \( 0 \leq k \leq p - 2 \), then \( x^b = (g^b)^k \), so \( o_p(x^b) = \frac{2^t}{(2^t, k)} \).
+    So \( o_p(x^b) = 2^t \) if and only if \( k \) is odd, so
+    \[ o_p(x^b) = o_p(g^{bk}) = \begin{cases}
+        o_p(g^b) = 2^t & \text{if } k \text{ odd} \\
+        < 2^t & \text{if } k \text{ even}
+    \end{cases} \]
+    Thus, \( \qty{g^k \text{ mod } p \mid k \text{ odd}} \) is the set as required, proving the claim.
+    To finish, for each \( y \in \qty(\faktor{\mathbb Z}{q\mathbb Z})^\times \), the set \( \qty{x \in \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \mid o_p(x^b) \neq o_q(x^b)} \) has at least \( \frac{1}{2}(p-1) \) elements.
+    Applying the Chinese remainder theorem,
+    \[ \abs{X} = \qty{(x,y) \in \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \times \qty(\faktor{\mathbb Z}{q\mathbb Z})^\times \mid o_p(x^b) \neq o_q(x^b)} \geq \frac{1}{2}(p-1)(q-1) = \frac{1}{2}\varphi(N) \]
+\end{proof}
+\begin{remark}
+    We have shown that finding \( (N, d) \) from the public key \( (N, e) \) is as hard as factoring \( N \).
+    It is unknown whether decrypting messages sent via RSA is as hard as factoring.
+
+    RSA avoids the issue of needing to share keys, but it is slow.
+    Symmetric ciphers are often faster.
+\end{remark}
+\begin{example}[Shamir's padlock example]
+    Let \( \mathcal A = \mathbb Z_p \).
+    Alice chooses \( a \in \mathbb Z_{p-1} \) and computes \( g^a \).
+    She finds \( a' \) such that \( aa' = 1 \) mod \( p-1 \).
+    Bob chooses \( b \in \mathbb Z_{p-1} \) and computes \( g^b \).
+    He similarly finds \( b' \) such that \( bb' = 1 \) mod \( p-1 \).
+
+    Let \( m \) be a message in \( \mathbb Z_p \).
+    She encodes \( m \) as \( c = m^a \) mod \( p \).
+    She then sends this to Bob, who computes \( d = c^b \) mod \( p \).
+    He sends this back to alice, who computes \( e = d^{a'} \) mod \( p \).
+    She sends this back to Bob, who computes \( e^{b'} \) mod \( p \).
+    By Fermat's little theorem, \( e^{b'} \equiv d^{a'b'} \equiv c^{ba'b'} \equiv m^{aba'b'} \equiv m \).
+    % https://q.uiver.app/?q=WzAsNSxbMCwwLCJtIl0sWzEsMCwibV5hIl0sWzIsMCwiY15iIl0sWzMsMCwiZF57YSd9Il0sWzQsMCwiZV57Yid9Il0sWzAsMSwiQSJdLFsxLDIsIkIiXSxbMiwzLCJBIl0sWzMsNCwiQiJdXQ==
+    \[\begin{tikzcd}
+        m & {m^a} & {c^b} & {d^{a'}} & {e^{b'}}
+        \arrow["A", from=1-1, to=1-2]
+        \arrow["B", from=1-2, to=1-3]
+        \arrow["A", from=1-3, to=1-4]
+        \arrow["B", from=1-4, to=1-5]
+    \end{tikzcd}\]
+\end{example}
+\begin{example}[Diffie--Hellman key exchange]
+    Alice and Bob wish to agree on a secret key \( k \).
+    Let \( p \) be a large prime, and \( g \) a primitive root mod \( p \).
+    Alice chooses an exponent \( \alpha \in \mathbb Z_{p-1} \) and sends \( g^\alpha \) mod \( p \) to Bob.
+    Bob chooses an exponent \( \beta \) and sends \( g^\beta \) mod \( p \) to Alice.
+    Both Alice and Bob compute \( k = g^{\alpha\beta} \), which can be used as their secret key.
+    An eavesdropper must find \( g^{\alpha\beta} \) knowing \( g \), \( g^{\alpha} \), and \( g^{\beta} \).
+    Diffie and Hellman conjectured that this problem is as difficult as solving the discrete logarithm problem.
+\end{example}
+
+\subsection{Signatures}
+Consider a message \( m \) sent by Alice to Bob.
+Here are some possible aims that the participants may have in communication.
+\begin{enumerate}
+    \item \emph{Secrecy}: Alice and Bob can be sure that no third party can read the message.
+    \item \emph{Integrity}: Alice and Bob can be sure that no third party can alter the message.
+    \item \emph{Authenticity}: Bob can be sure that Alice sent the message.
+    \item \emph{Non-repudiation}: Bob can prove to a third party that Alice sent the message.
+\end{enumerate}
+\begin{example}[authenticity using RSA]
+    Suppose Alice uses a private key \( (N, d) \) to encrypt \( m \).
+    Anyone can decrypt \( m \) using the public key \( (N, e) \) as \( (m^d)^e = (m^e)^d = m \), but they cannot forge a message sent by Alice.
+    Suppose Bob picks a random message \( m \) and sends it to Alice; if Bob then receives a message back from Alice which after decryption ends in \( m \), then he can be sure it comes from Alice.
+\end{example}
+Signature schemes preserve integrity and non-repudiation.
+They also prevent tampering in the following sense.
+\begin{example}[homomorphism attack]
+    Suppose a bank sends messages of the form \( (M_1, M_2) \) where \( M_1 \) represents the client's name and \( M_2 \) represents an amount of money to be transferred into their account.
+    Suppose that messages are encoded using RSA as \( (Z_1, Z_2) = (M_1^e, M_2^e) \), where all calculations are performed modulo \( N \).
+    A client \( C \) transfers \( \pounds 100 \) to their account, and observes the encrypted message \( (Z_1, Z_2) \).
+    Then, sending \( (Z_1, Z_2^3) \) to the bank, \( C \) becomes a millionaire without breaking RSA.
+    Alternatively, one could simply send \( (Z_1, Z_2) \) to the bank many times, gaining more money each time; this particular attack is defeated by timestamping the messages.
+\end{example}
+\begin{definition}
+    A message \( m \) is \emph{signed} as \( (m, s) \) where the \emph{signature} \( s = s(m,k) \) is a function of \( m \) and the private key \( k \).
+\end{definition}
+The recipient can check the signature using the public key to verify authenticity of the message.
+The signature function or \emph{trapdoor} function \( s \colon \mathcal M \times \mathcal K \to \mathcal S \) is designed such that without knowledge of the private key, one cannot sign messages, but anyone can check whether a signature is valid.
+Note that the signature is associated to each message, not to each sender.

@@ -546,8 +546,9 @@ Differentials provide another source of divisors.
 \begin{proof}
     Since \( \operatorname{div}\omega \) is one-dimensional over \( \mathbb C(V) \), we can write \( \omega = f \omega' \) where \( f \in \mathbb C(V) \).
 \end{proof}
-If \( \omega \) is a nonzero differential, \( \operatorname{div} \omega \) is a well-defined element in \( \mathrm{Pic}(V) = \mathrm{Cl}(V) = \faktor{\mathrm{Div}(V)}{\mathrm{Prin}(V)} \).
-We say that \( \operatorname{div}\omega \) is a canonical divisor.
+If \( \omega \) is a nonzero differential, \( \operatorname{div} \omega \) gives a well-defined element in \( \mathrm{Pic}(V) = \mathrm{Cl}(V) = \faktor{\mathrm{Div}(V)}{\mathrm{Prin}(V)} \).
+We say that \( \operatorname{div}\omega \) is a \emph{canonical divisor}, and its equivalence class is the \emph{canonical class}, denoted \( K_V \).
+Sometimes \( K_V \) is also simply called the canonical divisor.
 
 We now prove the above theorem.
 \begin{proof}
@@ -579,3 +580,76 @@ We now prove the above theorem.
     \[ \nu_\infty(\dd{t}) = \nu_\infty\qty(\frac{-1}{\qty(\frac{1}{t})^2} \dd{\qty(\frac{1}{t})}) = -2 \]
     Hence \( \operatorname{div} \dd{t} = -2[\infty] \), so the degree is nonzero, hence this divisor is not principal.
 \end{example}
+\begin{definition}
+    Let \( V \) be a curve.
+    The \emph{genus} of \( V \) is \( g(V) = \ell(K_V) \).
+\end{definition}
+\( L(K_V) \) is not well-defined, but \( \ell(K_V) \) is.
+Note that if \( V = \mathbb P^1 \), then \( \operatorname{div}\dd{t} = -2[\infty] \), so \( \ell(K_{\mathbb P^1}) = 0 \), as there are no rational functions on \( \mathbb P^1 \) that vanish to order 2 at infinity, apart from the zero function.
+
+\subsection{Differentials on plane curves}
+We will study curves in \( \mathbb P^2 \).
+\begin{example}[smooth plane cubics]
+    Consider \( V = \mathbb V(F) \subseteq \mathbb P^2 \) where \( F = X_0 X_2^2 - \prod_{i=1}^3 (X_1 - \lambda_i X_0) \) with \( \lambda_1, \lambda_2, \lambda_3 \) distinct complex numbers.
+    This curve is nonsingular.
+    To calculate the genus, we take the following steps.
+    \begin{enumerate}
+        \item We first use the affine equation \( f(x,y) = y^2 - \prod_{i=1}^3 (x - \lambda_i) \), and write \( f(x,y) = y^2 - g(x,y) \).
+        Differentiating, \( 2y \dd{y} = g'(x) \dd{x} \) is a nontrivial relation in \( \Omega_V \).
+        \item Using this relation, we choose a convenient differential \( \omega \in \Omega_V \); in this case, we will choose \( \omega = \frac{\dd{x}}{y} \).
+        \item Calculate \( \operatorname{div}\omega \) by using the fact that if \( \pdv{f}{y}\qty(P) \) is nonzero, \( x - x(P) \) is a local parameter, and if \( \pdv{f}{x}\qty(P) \) is nonzero, \( y - y(P) \) is a local parameter.
+    \end{enumerate}
+    % see notes for example for the actual calculation
+    We find that \( K_V = 0 \).
+    Hence, \( g(V) = 1 \) as \( \ell(0) = 1 \).
+\end{example}
+\begin{theorem}
+    Let \( V \) be a smooth plane cubic.
+    Then \( g(V) = 1 \), and in particular, \( V \not\simeq \mathbb P^1 \).
+\end{theorem}
+\begin{proof}
+    Change coordinates into the example above.
+\end{proof}
+\begin{theorem}
+    Let \( V = \mathbb V(F) \subseteq \mathbb P^2 \) be a smooth projective plane curve of degree \( d \).
+    Then \( K_V = (d - 3)H \) where \( H \) is the divisor class associated to a hyperplane section of \( V \).
+\end{theorem}
+\begin{proof}
+    First, we will select a differential \( \omega \in \Omega_V \).
+    Change coordinates such that \( (0 : 1 : 0) \not\in V \).
+    Let \( x = \frac{X_1}{X_0}, y = \frac{X_2}{X_0} \) be elements of \( \mathbb C(V) \).
+    Set \( f(X,Y) = F(1,X,Y) \), so \( f(x,y) = 0 \) in \( \mathbb C(V) \).
+    Differentiating, \( \pdv{f}{X}\qty(x,y) \dd{x} + \pdv{f}{Y}\qty(x,y) \dd{y} = 0 \) is a relation in \( \Omega_V \).
+    Choose
+    \[ \omega = \frac{\dd{x}}{\pdv{f}{Y}\qty(x,y)} = \frac{-\dd{y}}{\pdv{f}{X}\qty(x,y)} \]
+    Then, we will calculate \( \operatorname{div}\dd{\omega} \) in this affine patch.
+    If \( \pdv{f}{Y}\qty(P) \neq 0 \), then \( x - x(P) \) is a local coordinate at \( P \).
+    Then, \( \nu_P(\omega) = \nu_P\qty(\frac{1}{\pdv{f}{Y}}\qty(x,y)) = 0 \).
+    Otherwise, \( \pdv{f}{X}\qty(P) \neq 0 \) by smoothness, so \( y - y(P) \) is a local coordinate and \( \nu_P(\omega) = 0 \).
+
+    Since \( (0 : 1 : 0) \not\in V \), any point at infinity in \( V \) is not contained in \( \qty{X_2 = 0} \).
+    The equation for \( V \) on the patch \( \qty{X_2 \neq 0} \) is \( g(z,w) = 0 \) where \( z = \frac{X_0}{X_2} = \frac{1}{y} \) and \( y = \frac{X_1}{X_2} = \frac{x}{y} \) and \( g(Z,W) = F(Z,W,1) \) in \( \mathbb C[Z,W] \).
+    Select a different differential
+    \[ \eta = \frac{\dd{z}}{\pdv{g}{W}\qty(z,w)} = \frac{-\dd{w}}{\qty{g}{Z}\qty(z,w)} \]
+    By the same argument as before, \( \nu_P(\eta) = 0 \) for all \( P \) in the patch \( \qty{X_2 \neq 0} \).
+    Using \( f(X,Y) = Y^d g\qty(\frac{1}{X}, \frac{X}{Y}) \) and differentiating, we find \( \omega = Z^{d-3} \eta \).
+    If \( X_2(P) \neq 0 \), we calculate \( \nu_P(\omega) = (d-3)\nu_P(z) + \nu_P(\eta) = (d-3)\nu_P(z) \).
+    As \( Z = \frac{X_0}{X_2} \), \( \operatorname{div} \omega = (d-3) \operatorname{div} X_0 \) as claimed.
+\end{proof}
+\begin{proposition}
+    If \( f(x,y) = 0 \) is an affine patch equation for a smooth projective plane curve, and \( \deg f \geq 3 \), then
+    \[ \qty{\frac{x^r y^s \dd{x}}{\pdv{f}{y}} \mid 0 \leq r + s \leq d - 3} \]
+    is a basis for \( L(K_V) \) for the representative of \( K_V \) given by \( (d-3)H \) where \( H \) is the hyperplane at infinity.
+\end{proposition}
+\begin{proof}
+    The proof is non-examinable, and follows from the same argument as the proof of the previous theorem.
+\end{proof}
+\begin{corollary}
+    If \( d, d' \geq 2 \) are distinct integers, then smooth plane curves of degrees \( d, d' \) are never isomorphic.
+\end{corollary}
+\begin{proof}
+    \( \deg K_V \) depends only on \( V \) up to isomorphism.
+\end{proof}
+In particular, there are infinitely many distinct curves up to isomorphism.
+
+\subsection{Riemann--Roch theorem}
