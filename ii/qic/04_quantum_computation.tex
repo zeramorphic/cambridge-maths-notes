@@ -572,5 +572,52 @@ We act on \( \ket{\mathrm{per}} \) by \( QFT_{2^m} \) to obtain
 \end{align*}
 where \( \omega = 2^{\frac{2\pi i}{M}} \) where \( M = 2^m \).
 \( S \) is a geometric series.
-We claim that a measurement on \( QFT_{2^m} \) yields an integer \( c \) which is close to a multiple of \( \frac{M}{r} \).
+If \( \frac{M}{r} \not\in \mathbb Z \), \( \alpha^A \neq 1 \).
+We claim that a measurement on \( QFT_{2^m} \ket{\mathrm{per}} \) yields an integer \( c \) which is close to a multiple of \( \frac{M}{r} \) with high probability.
+
+Consider \( k\frac{2^m}{r} \) for \( k = 0, \dots, r-1 \).
+Each of these multiples is within \( \frac{1}{2} \) of a unique integer; indeed, \( 2^m = Br + b \) so \( r < 2^m \), giving that \( k\frac{2^m}{r} \) cannot be a half integer.
+Consider the values of \( c \) such that \( \abs{c - k \frac{2^m}{r}} < \frac{1}{2} \) for \( k = 0, \dots, r-1 \).
 % Note that \( \omega^{cr} = 1 \) if \( e^{\frac{2\pi i cr}{M}} = 1 \).
+\begin{theorem}
+    Suppose that \( QFT_{2^m} \ket{\mathrm{per}} = \sum_{c=0}^{2^m - 1} g(c) \ket{c} \), and that we measure the state and receive an outcome \( c \).
+    Let \( c_k \) be the unique integer such that \( \abs{c_k - k\frac{2^m}{r}} < \frac{1}{2} \).
+    Then \( \prob{c = c_k} > \frac{\gamma}{r} \) for a fixed constant \( \gamma \) (which can be shown to be \( \frac{4}{\pi^2} \)).
+    Moreover, the probability that \( k, r \) are coprime is \( \Omega\qty(\frac{1}{\log \log r}) \) by the coprimality theorem..
+\end{theorem}
+Thus, with \( O(\log \log N) > O(\log \log r) \) repetitions, we obtain a good \( c \) value with high probability.
+Suppose that we measure \( c \) such that \( \abs{c - k \frac{2^m}{r}} < \frac{1}{2} \), so \( \abs{\frac{c}{2^m} - \frac{k}{r}} < \frac{1}{2^{m+1}} \).
+Recall that \( r < N \) and \( m \) is minimal such that \( 2^m > N^2 \).
+Then \( \abs{\frac{c}{2^m} - \frac{k}{r}} < \frac{1}{2N^2} \).
+Note that \( \frac{c}{2^m} \) is known.
+
+We show that there is at most one fraction \( \frac{k}{r} \) with denominator \( r < N \) such that \( \abs{\frac{c}{2^m} - \frac{k}{r}} < \frac{1}{2N^2} \).
+Suppose \( \frac{k'}{r'}, \frac{k''}{r''} \) both satisfy this requirement.
+Then
+\[ \abs{\frac{k'}{r'} - \frac{k''}{r''}} = \frac{\abs{k'r'' - k''r'}}{r'r''} \geq \frac{1}{r'r''} > \frac{1}{N^2} \]
+But \( \abs{\frac{c}{2^m} - \frac{k'}{r'}}, \abs{\frac{c}{2^m} - \frac{k'}{r'}} < \frac{1}{2N^2} \), contradicting the triangle inequality.
+This result is the reason for choosing \( m \) minimal such that \( 2^m > N^2 \).
+Therefore, we have with high probability that \( \frac{c}{2^m} \) is close to a unique fraction \( \frac{k}{r} \).
+\begin{example}
+    Let \( N = 39 \) and choose \( a = 7 \); note that 7 and 39 are coprime.
+    Let \( r \) be the period of \( f(k) = a^k \) mod 39.
+    Note that \( 2^{10} < N^2 < 2^{11} \), so set \( m = 11 \).
+    Suppose that \( QFT_{2^{11}} \ket{\mathrm{per}} \) gives a measurement of \( c \).
+    Then \( \abs{c - k \frac{2^{11}}{r}} < \frac{1}{2} \) with probability \( \frac{\gamma}{r} \).
+
+    Suppose \( c = 853 \).
+    One can explicitly check all fractions of the form \( \frac{a}{b} \) to find one that satisfies \( \abs{\frac{a}{b} - \frac{853}{2048}} < \frac{1}{2^{12}} \).
+    This is consistent with \( \frac{a}{b} = \frac{5}{12}, \frac{10}{24} \); as we are constrained by coprimality we must choose \( r = 12 \).
+    One can check that \( 7^{12} \equiv 1 \) mod 39, hence \( r = 12 \).
+    Note that \( O(N^2) = O(\exp(n)) \) computations are needed for this calculation; there is a more efficient way to compute \( a, b \) using continued fractions.
+\end{example}
+A rational number \( \frac{s}{t} \) can be written in the form of a continued fraction
+\[ \frac{s}{t} = \frac{1}{a_1 + \frac{1}{a_2 + \frac{1}{\dots + \frac{1}{a_\ell}}}} = [a_1, \dots, a_\ell] \]
+where \( a_1, \dots, a_\ell \) are positive integers.
+We can write \( \frac{s}{t} = \frac{1}{\frac{t}{s}} = \frac{1}{a_1 + \frac{s_1}{t_1}} \), and so on.
+For example, if \( \frac{s}{t} = \frac{13}{35} \), we can find \( a_1 = 2, a_2 = 2, a_3 = 1, a_4 = 1, a_5 = 2 \) and \( \ell = 5 \).
+Since the sequence \( t_k \) is decreasing, the expansion will always terminate.
+For each \( k = 1, \dots, \ell \), we can truncate the computation at level \( k \).
+This gives the sequence of rational numbers
+\[ \frac{p_1}{q_1} = [a_1], \frac{p_2}{q_2} = [a_1, a_2], \dots, \frac{p_\ell}{q_\ell} = [a_1, \dots, a_\ell] = \frac{s}{t} \]
+\( \frac{p_k}{q_k} \) is the \( k \)th \emph{convergent} of the continued fraction \( \frac{s}{t} \).
