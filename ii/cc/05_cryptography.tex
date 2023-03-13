@@ -369,3 +369,78 @@ They also prevent tampering in the following sense.
 The recipient can check the signature using the public key to verify authenticity of the message.
 The signature function or \emph{trapdoor} function \( s \colon \mathcal M \times \mathcal K \to \mathcal S \) is designed such that without knowledge of the private key, one cannot sign messages, but anyone can check whether a signature is valid.
 Note that the signature is associated to each message, not to each sender.
+\begin{example}[signatures using RSA]
+    Suppose Alice has a private key \( (N, d) \), and publishes a public key \( (N, e) \).
+    She signs a message \( m \) as \( (m, s) \) where \( s = m^d \text{ mod } N \).
+    The signature is verified by checking \( s^e = m \).
+
+    This technique is vulnerable to the homomorphism attack.
+    This is also vulnerable to the \emph{existential forgery} attack: an attacker can produce valid signed messages of the form \( (s^e \text{ mod N }, s) \) after choosing \( s \) first.
+    Hopefully, such messages are not meaningful.
+
+    To solve these problems, we could use a better signature scheme.
+    In addition, rather than signing a message \( m \), we instead sign the \emph{digest} \( h(m) \) where \( h \colon \mathcal M \to \qty{1, \dots, N-1} \) is a \emph{hash} function.
+    A hash function is a publicly known function for which it is very difficult to find pairs of messages with matching hashes; such a pair is called a \emph{collision}.
+    Examples of hash functions include MD5 and the SHA family.
+\end{example}
+
+\subsection{Elgamal signature scheme}
+Alice chooses a large prime \( p \) and a random integer \( u \) with \( 1 < u < p \).
+Let \( g \) be a primitive root mod \( p \).
+The public key is \( p, g, y = g^u \text{ mod } p \).
+The private key is \( u \).
+Let \( h \colon \mathcal M \to \qty{1, \dots, p-1} \) be a collision-resistant hash function.
+
+To send a message \( m \) with \( 0 \leq m \leq p-1 \), Alice randomly chooses \( k \) with \( 1 \leq k \leq p-2 \) coprime to \( p-1 \).
+She computes \( r, s \) with \( 1 \leq r \leq p-1 \) and \( 1 \leq s \leq p-2 \) satisfying
+\[ r \equiv g^k \mod p;\quad h(m) \equiv ur + ks \mod (p-1) \]
+Since \( k \) is coprime to \( p-1 \), the congruence for \( s \) always has a solution.
+Alice signs the message with the signature \( (r, s) \).
+Now,
+\[ g^{h(m)} \equiv g^{ur + ks} \equiv (g^u)^r (g^k)^s \equiv y^r r^s \mod p \]
+Bob accepts a signature if \( g^{h(m)} = y^r r^s \) mod \( p \).
+To forge a signature, obvious attacks involve the discrete logarithm problem, finding \( u \) from \( y = g^u \).
+\begin{lemma}
+    Let \( a, b, m \in \mathbb N \) and consider the congruence \( ax \equiv b \) mod \( m \).
+    This has either no solutions or \( \gcd(a,m) \) solutions for \( x \) mod \( m \).
+\end{lemma}
+\begin{proof}
+    Let \( d = \gcd(a,m) \).
+    If \( d \nmid b \), there is no solution.
+    If \( d \mid b \), we can rewrite the congruence as \( \frac{a}{d} x \equiv \frac{b}{d} \) mod \( \frac{m}{d} \).
+    Note that \( \frac{a}{d}, \frac{m}{d} \) are coprime, so this congruence has a unique solution.
+\end{proof}
+It is vital that Alice chooses a new value of \( k \) to sign each message.
+Suppose she sends \( m_1, m_2 \) using the same value of \( k \).
+Denote the signatures \( (r, s_1) \) and \( (r, s_2) \); note that \( r \) depends only on \( k \) and is hence fixed.
+\[ h(m_1) \equiv ur + ks_1 \mod (p-1);\quad h(m_2) \equiv ur + ks_2 \mod (p-1) \implies h(m_1) - h(m_2) \equiv k(s_1 - s_2) \mod (p-1) \]
+Let \( d = \gcd(p-1, s_1 - s_2) \).
+By the previous lemma, this is the number of solutions for \( k \) modulo \( p-1 \).
+Choose the solution that gives the correct value in the first congruence \( r \equiv g^k \) mod \( p \).
+Then,
+\[ s_1 \equiv \frac{h(m_1) - ur}{k} \mod (p-1) \]
+This gives \( ur \equiv h(m_1) - ks_1 \).
+Hence, using the lemma again, there are \( \gcd(p-1, r) \) solutions for \( u \).
+Choose the solution for \( u \) that gives \( y \equiv g^u \).
+This allows us to deduce Alice's private key \( u \), as well as the exponent \( k \) used in both messages.
+
+\subsection{The digital signature algorithm}
+The digital signature algorithm is a variant of the Elgamal signature scheme developed by the NSA.
+The public key is \( (p, q, g) \) constructed as follows.
+% TODO: verify previous line
+\begin{itemize}
+    \item Let \( p \) be a prime of exactly \( N \) bits, where \( N \) is a multiple of 64 such that \( 512 \leq N \leq 1024 \), so \( 2^{N-1} < p < 2^N \).
+    \item Let \( q \) be a prime of 160 bits, such that \( q \mid p-1 \).
+    \item Let \( g \equiv h^{\frac{p-1}{q}} \) mod \( p \), where \( h \) is a primitive root mod \( p \); in particular, \( g \) is an element of order \( q \) in \( \mathbb Z_p^\times \).
+    \item Alice chooses a private key \( x \) with \( 1 < x < q \) and publishes \( y = g^x \).
+\end{itemize}
+Let \( m \) be a message with \( 0 \leq m < q \).
+She chooses a random \( k \) with \( 1 < k < q \), and computes
+\[ s_1 \equiv (g^k \text{ mod } p) \text{ mod } q;\quad s_2 \equiv k^{-1}(m+xs_1) \text{ mod } q \]
+The signature is \( (s_1, s_2) \).
+To verify a signature, we perform the following procedure.
+Bob computes \( w \equiv s_2^{-1} \) mod \( q \), \( u_1 \equiv mw \) mod \( q \), \( u_2 \equiv s_1 w \) mod \( q \), and \( v = (g^{u_1} y^{u_2} \text{ mod } p) \text{ mod } q \).
+He accepts the signature if \( v = s_1 \).
+\begin{proposition}
+    The digital signature algorithm works.
+\end{proposition}
