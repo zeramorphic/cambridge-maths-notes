@@ -13,3 +13,79 @@ This is often called the \emph{essential rank} of \( x \).
 In this case, we let \( \mathrm{card}(x) \) be the set \( \qty{y \subseteq V_\alpha \mid y \leftrightarrow x} \).
 
 \subsection{The hierarchy of alephs}
+An ordinal is \emph{initial} if it does not biject with any smaller ordinal.
+Any finite ordinal is initial, and \( \omega, \omega_1 \) are initial.
+For any set \( x \), \( \gamma(x) \) is initial.
+\( \omega^2 \) is not initial as it bijects with \( \omega \).
+We define \( \omega_\alpha \) for each ordinal \( \alpha \) by recursion.
+\begin{itemize}
+    \item \( \omega_0 = \omega \);
+    \item \( \omega_{\alpha + 1} = \gamma(\omega_\alpha) \);
+    \item \( \omega_\lambda = \sup\qty{\omega_\alpha \mid \alpha < \lambda} \) for a nonzero limit ordinal \( \lambda \).
+\end{itemize}
+Each of these ordinals is initial, and every initial ordinal \( \beta \) is of the form \( \omega_\alpha \).
+Indeed, the \( \omega_\alpha \) are unbounded, as \( \omega_\alpha \geq \alpha \) for each \( \alpha \) by induction, so there exists a least ordinal \( \delta \) such that \( \beta < \omega_\delta \).
+\( \delta \) must be a successor, otherwise \( \omega_\delta = \sup\qty{\omega_\alpha \mid \alpha < \beta} \), contradicting the definition of \( \delta \).
+So \( \delta = \alpha + 1 \), so \( \omega_\alpha \leq \beta < \omega_{\alpha+1} \).
+Hence \( \beta = \omega_\alpha \), otherwise we contradict \( \omega_{\alpha+1} = \gamma(\omega_\alpha) \).
+
+Since we have potentially different definitions of cardinals, we will write \( \aleph_\alpha \) for \( \mathrm{card}(\omega_\alpha) \) to avoid ambiguity.
+The \( \aleph_\alpha \) are precisely the cardinalities of the infinite sets.
+In \( \mathsf{ZF} \) without \( \mathsf{AC} \), the \( \aleph_\alpha \) are the cardinalities of the well-orderable sets.
+
+For cardinals \( m, n \), we write \( m \leq n \) if there exists an injection from \( M \) to \( N \) where \( \mathrm{card}(M) = m, \mathrm{card}(N) = n \).
+Similarly, we write \( m < n \) if \( m \leq n \) and \( m \neq n \).
+For example, \( \mathrm{card}(\omega) < \mathrm{card}(\mathcal P(\omega)) \).
+By the Schr\"oder--Bernstein theorem, if \( m \leq n \) and \( n \leq m \), then \( m = n \).
+Hence, \( \leq \) is a partial order on cardinals.
+This is in fact a total order in \( \mathsf{ZFC} \), since we can well-order the two sets in question, and one injects into the other; alternatively, the \( \aleph \) numbers are clearly totally ordered.
+
+\subsection{Cardinal arithmetic}
+Let \( m, n \) be cardinals.
+Then,
+\begin{enumerate}
+    \item \( m + n = \mathrm{card}\qty(M \amalg N) \);
+    \item \( m \cdot n = \mathrm{card}(M \times N) \);
+    \item \( m^n = \mathrm{card}(M^N) \);
+\end{enumerate}
+where \( m = \mathrm{card}(M), n = \mathrm{card}(N) \), and \( M^N \) is the set of functions \( N \to M \).
+The choice of representatives \( M, N \) do not influence the result.
+We can also define \( \sum_{i \in I} m_i = \mathrm{card}\qty(\coprod_{i \in I} M_i) \); this is only well-defined assuming the axiom of choice, as forming the bijection requires infinitely many choices.
+\begin{example}
+    \( \mathbb R, \mathcal P(\omega), \qty{0,1}^\omega \) biject.
+    Hence, \( \mathrm{card}(\mathbb R) = \mathrm{card}(\mathcal P(\omega)) = 2^{\aleph_0} \).
+    In particular, cardinal exponentiation and ordinal exponentiation do not coincide, as \( 2^\omega = \omega \).
+    
+    The cardinality of the set of sequences of reals is
+    \[ \mathrm{card}(\mathbb R^\omega) = (2^{\aleph_0})^{\aleph_0} = 2^{\aleph_0 \cdot \aleph_0} = 2^{\aleph_0} \]
+    Note that this statement requires that addition and multiplication are commutative, \( \aleph_0 \cdot \aleph_0 = \aleph_0 \) as \( \omega \times \omega \) bijects with \( \omega \), and that \( (m^n)^p = m^{np} \).
+    The latter holds as \( (M^N)^P \) is the set of functions \( P \to (N \to M) \), and \( M^{N \times P} \) is the set of functions \( N \times P \to M \).
+\end{example}
+\begin{theorem}
+    \( m^2 = m \) for all infinite cardinals \( m \).
+\end{theorem}
+\begin{proof}
+    We show by induction that \( \aleph_\alpha^2 = \aleph_\alpha \) for all \( \alpha \) by induction.
+    Define a well-ordering of \( \omega_\alpha \times \omega_\alpha \) by `going up in squares':
+    \[ (x,y) < (z,w) \iff (\max(x,y) < \max(z,w)) \vee (\max(x,y) = \max(z,w) = \beta \wedge (y < \beta, z < \beta \vee x = z = \beta, y < w \vee y = w = \beta, x < z)) \]
+    For any \( \delta \in \omega_\alpha \times \omega_\alpha \), \( \delta \in \beta \times \beta \) for some \( \beta < \omega_\alpha \), as \( \omega_\alpha \) is a limit ordinal.
+    By induction, we can assume \( \beta \times \beta \) bijects with \( \beta \) (or \( \beta \) is finite).
+    Hence, the initial segment \( I_\delta \) is contained in \( \beta \times \beta \) and hence has cardinality at most \( \mathrm{card}(\beta \times \beta) < \mathrm{card}(\omega_\alpha) \).
+    
+    Therefore, the well-ordering has order type at most \( \omega_\alpha \).
+    Thus, \( \omega_\alpha \times \omega_\alpha \) injects into \( \omega_\alpha \), and the converse injection is trivial.
+    So \( \omega_\alpha \times \omega_\alpha \) bijects with \( \omega_\alpha \).
+\end{proof}
+\begin{corollary}
+    For any ordinals \( \alpha < \beta \), we have \( \aleph_\alpha + \aleph_\beta = \aleph_\alpha \cdot \aleph_\beta = \aleph_\beta \).
+\end{corollary}
+\begin{proof}
+    \[ \aleph_\beta \leq \aleph_\alpha + \aleph_\beta \leq 2 \cdot \aleph_\beta \leq \aleph_\alpha \aleph_\beta \leq \aleph_\beta^2 = \aleph_\beta \]
+\end{proof}
+Hence, for example, \( X \amalg X \) bijects with \( X \) for any infinite set \( X \).
+
+Cardinal exponentiation is not as simple as addition and multiplication.
+For instance, in \( \mathsf{ZF} \), \( 2^{\aleph_0} \) need not even be an aleph number, for instance if \( \mathbb R \) is not well-orderable.
+In \( \mathsf{ZFC} \), the statement \( 2^{\aleph_0} = \aleph_1 \) is independent of the axioms; this is called the \emph{continuum hypothesis}.
+\( \mathsf{ZFC} \) does not even decide if \( 2^{\aleph_0} < 2^{\aleph_1} \).
+Even today, not all implications about cardinal exponentiation (such as \( \aleph_\alpha^{\aleph_\beta} \)) are known.
