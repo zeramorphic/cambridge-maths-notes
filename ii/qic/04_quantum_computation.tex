@@ -501,7 +501,7 @@ If \( b = 1 \), then \( a, N \) are coprime.
     A minimal such \( r \) is called the \emph{order} of \( a \) modulo \( N \).
 \end{theorem}
 Consider the \emph{modular exponentiation function} \( f \colon \mathbb Z \to \faktor{\mathbb Z}{n\mathbb Z} \) such that \( f(k) = a^k \) mod \( N \).
-This function satisfies \( f(k_1 + k_2) = f(k_1)f(k_2) \) so is a monoid homomorphism \( (\mathbb Z, +) \to \qty(\faktor{\mathbb Z}{n\mathbb Z})^\times \).
+This function satisfies \( f(k_1 + k_2) = f(k_1)f(k_2) \).
 \( f \) is periodic with period \( r \), and is injective within each period.
 
 Suppose that we can find \( r \), and suppose \( r \) is even.
@@ -510,3 +510,67 @@ Note that \( N \nmid (a^{\frac{r}{2}}-1) \) since \( r \) was minimal such that 
 If \( N \nmid (a^{\frac{r}{2}}+1) \), then \( N \) must have some prime factors in \( (a^{\frac{r}{2}}+1) \) and some in \( (a^{\frac{r}{2}}-1) \).
 We can use Euclid's algorithm to compute \( \mathrm{gcd}(a^{\frac{r}{2}}+1, N) \) and \( \mathrm{gcd}(a^{\frac{r}{2}}-1, N) \), which are factors of \( N \).
 Thus, we find factors of \( N \) provided \( r \) is even and \( a^{\frac{r}{2}} + 1 \not\equiv 0 \) mod \( N \).
+
+Consider \( N = 15, a = 7 \).
+Then \( f(k) = 7^k \) mod \( 15 \) takes values \( 1, 7, 4, 13 \), so has period \( r = 4 \).
+This is even, so we can write \( a^r - 1 = (a^{\frac{r}{2}} + 1)(a^{\frac{r}{2}} - 1) = 50 \cdot 48 \).
+\( N = 15 \) does not divide \( 50 \), so \( \gcd(50, N) = 5 \) is a factor, and \( \gcd(48, 15) = 3 \) is a factor.
+\begin{theorem}
+    Let \( N \) be odd and not a prime power.
+    Then, choosing \( a \) uniformly at random such that \( \gcd(a,N) = 1 \), the probability that \( r \) is even and \( (a^{\frac{r}{2}} + 1) \not\equiv 0 \) mod \( N \) is at least \( \frac{1}{2} \).
+\end{theorem}
+This implies that if \( N \) is odd and not a prime power, we obtain a factor of \( N \) with probability at least \( \frac{1}{2} \).
+We repeat this process until the probability of not finding a factor is acceptably low.
+If \( N \) is even, we simply output 2 as a factor.
+\begin{lemma}
+    Let \( N = c^\ell \) for some \( c, \ell \in \mathbb N \).
+    There is a classical polynomial-time algorithm that computes \( c \).
+\end{lemma}
+% If the previous tests fail, we can run this classical algorithm to test if \( N \) is a prime power.
+Shor's algorithm can be summarised as follows.
+\begin{enumerate}
+    \item Test if \( N \) is even; if so, output 2 and halt.
+    \item Run the classical algorithm to test if \( N \) is of the form \( c^\ell \) with \( \ell > 1 \); if so, output \( c \) and halt.
+    \item Choose \( 1 < a < N \) uniformly at random and compute \( b = \gcd(a,N) \).
+    If \( b > 1 \), output \( b \) and halt.
+    \item Find the period \( r \) of the modular exponentiation function \( f(k) = a^k \) mod \( N \).
+    If this fails, return to step (iii).
+    \item If \( r \) is even and \( (a^{\frac{r}{2}} + 1) \equiv 0 \) mod \( N \), compute \( t = \gcd(a^{\frac{r}{2}} + 1, N) \); if \( 1 < t < N \), output \( t \) and halt.
+    Otherwise, return to step (iii).
+\end{enumerate}
+We now describe the method to compute the period of the modular exponentiation function.
+Note that \( f \colon \mathbb Z \to \mathbb Z \), not \( \mathbb Z_N \to \mathbb Z_M \); we therefore cannot directly use the algorithm discussed previously.
+We must first truncate the domain \( \mathbb Z \) to some \( \mathbb Z_M \).
+If \( r \) is unknown, \( f \) will not necessarily be periodic on \( \mathbb Z_M \).
+However, if \( M \) is \( O(N^2) \), the single incomplete period has a negligible effect on the periodicity determination.
+We will define \( M = 2^m \) for some \( m \) and use \( QFT_M \).
+
+Consider a finite domain \( D = \mathbb Z_m = \qty{0, \dots, 2^m - 1} \), where \( m \) is the smallest integer such that \( 2^m > N^2 \).
+Suppose \( 2^m = Br + b \) where \( 0 \leq b < r \), so \( B = \floor{\frac{2^m}{r}} \).
+We start with the equal superposition state \( \ket{\psi_m} = \frac{1}{\sqrt{2^m}} \sum_{x \in D} \ket{x} \).
+Consider the quantum oracle \( U_f \) corresponding to the modular exponentiation function \( f \).
+Then
+\begin{align*}
+    \ket{\Psi} &= U_f \ket{\psi_m} \ket{0} \\
+    &= \frac{1}{\sqrt{2^m}} \sum_{x \in D} \ket{x} \ket{f(x)} \\
+    &= \frac{1}{\sqrt{2^m}} \sum_{x_0 = 0}^{b-1} \sum_{j=0}^B \ket{x_0 + jr} \ket{f(x_0)} + \frac{1}{\sqrt{2^m}} \sum_{x_0 = b}^r \sum_{j=0}^{B-1} \ket{x_0 + jr}\ket{f(x_0)}
+\end{align*}
+Measuring the second register, we obtain an outcome \( y = f(x_0) \).
+In the case \( x_0 < b \), \( f(x_0) = f(x_0 + jr) \) for \( j \in \qty{0, \dots, B} \).
+If \( x_0 \geq b \), \( f(x_0) = f(x_0 + jr) \) for \( j \in \qty{0, \dots, B - 1} \).
+
+If \( y = f(x_0) \) for \( x_0 < b \), the probability of measuring \( y \) is \( \frac{B+1}{2^m} \).
+The post-measurement state of the first register is \( \ket{\mathrm{per}} = \frac{1}{\sqrt{B+1}} \sum_{j=0}^B \ket{x_0 + jr} \).
+In the case \( x_0 \geq b \), we have \( \ket{\mathrm{per}} = \frac{1}{\sqrt{B}} \sum_{j=0}^{B-1} \ket{x_0 + jr} \).
+In both cases,
+\[ \ket{\mathrm{per}} = \frac{1}{\sqrt{A}} \sum_{j=0}^{A-1} \ket{x_0 + jr} \]
+where \( A = B+1 \) if \( y = f(x_0) \) with \( x_0 < b \) and \( A = B \) if \( y = f(x_0) \) with \( x_0 \geq b \).
+We act on \( \ket{\mathrm{per}} \) by \( QFT_{2^m} \) to obtain
+\begin{align*}
+    QFT_{2^m} \ket{\mathrm{per}} &= \frac{1}{\sqrt{A}} \frac{1}{\sqrt{2^n}} \sum_{j = 0}^{A-1} \sum_{c=0}^{2^m - 1} \omega^{(x_0 + jr)c}\ket{c} \\
+    &=  \frac{1}{\sqrt{A}} \frac{1}{\sqrt{2^n}} \sum_{c=0}^{2^m - 1} \omega^{x_0 c} \underbrace{\qty[\sum_{j = 0}^{A-1} (\omega^{cr})^j]}_{S} \ket{c} \\
+\end{align*}
+where \( \omega = 2^{\frac{2\pi i}{M}} \) where \( M = 2^m \).
+\( S \) is a geometric series.
+We claim that a measurement on \( QFT_{2^m} \) yields an integer \( c \) which is close to a multiple of \( \frac{M}{r} \).
+% Note that \( \omega^{cr} = 1 \) if \( e^{\frac{2\pi i cr}{M}} = 1 \).
