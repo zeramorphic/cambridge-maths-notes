@@ -226,4 +226,79 @@ Let
     \omega_i (n \text{ mod } q) & \text{if } \gcd(n,q) = 1 \\
     0 & \text{otherwise}
 \end{cases} \]
-Then we have shown that \( \zeta_{\mathbb Q(\omega_q)}(s) = \prod_{i=1}^{\varphi(q)} L(\chi_i, s) \) multiplied by a correction term, which is a finite product of the form \( \prod_{p \mid q} (1 - p^{-f_p s})^{-1} \).
+Then we have shown that
+\[ \zeta_{\mathbb Q(\omega_q)}(s) = \prod_{i=1}^{\varphi(q)} L(\chi_i, s) \text{ multiplied by a correction term} \]
+which is a finite product of the form \( \prod_{p \mid q} (1 - p^{-f_p s})^{-1} \).
+Note that \( \zeta_{\mathbb Q}(s) = L(\chi_1, s) \prod_{p \mid q}(1-p^{-s})^{-1} \), so we can rewrite this as
+\[ \zeta_{\mathbb Q(\omega_p)}(s) = \zeta_{\mathbb Q}(s) \prod_{i=2}^{\varphi(q)}L(\chi_i, s) \text{ multiplied by a correction term} \]
+\begin{theorem}
+    If \( \chi_i \) is a nontrivial Dirichlet character, then \( L(\chi_i, 1) \neq 0 \).
+\end{theorem}
+In fact, if \( \chi \) is any nontrivial Dirichlet character modulo \( q \), \( \chi = \chi_i \) for some \( i \).
+\begin{proof}
+    We have shown that if \( \chi \) is a nontrivial Dirichlet character, \( L(\chi, s) \) is holomorphic at \( s = 1 \).
+    In the above expansion, the left hand side and right hand side are meromorphic functions at \( s = 1 \) with a simple pole.
+    The residue of the right hand side and left hand side therefore agree, and its value is
+    \[ \Res_{s = 1}\zeta_{\mathbb Q}(s) \prod_{i=2}^{\varphi(q)}L(\chi_i, 1) \cdot \text{ multiplied by a correction term} \]
+    The analytic class number formula implies that this is nonzero, so \( L(\chi_i, 1) \neq 0 \).
+\end{proof}
+Note that Dirichlet characters of quadratic fields have values in \( \pm 1 \).
+
+\subsection{Primes in arithmetic progression}
+\begin{theorem}[Dirichlet]
+    Let \( a, q \in \mathbb N \) with \( \gcd(a,q) = 1 \).
+    There are infinitely many primes in \( a, a + q, a + 2q, \dots \).
+\end{theorem}
+\begin{proof}
+    Consider \( \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \), an abelian group of order \( \varphi(q) \).
+    % TODO: What are the \omega?
+    Let \( \omega_1, \dots, \omega_{\varphi(q)} \colon \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \to \mathbb C^\star \) where \( \omega_1 = \mathbbm 1 \), and \( \chi_1, \dots, \chi_{\varphi(q)} \colon \faktor{\mathbb Z}{q\mathbb Z} \to \mathbb C \) be the corresponding Dirichlet characters.
+    Recall the orthogonality of the columns of the character table of a finite group:
+    \[ \frac{1}{\varphi(q)} \sum_i \overline{\omega_i(a)} \omega_i(p) = \begin{cases}
+        1 & a \equiv p \mod q \\
+        0 & \text{otherwise}
+    \end{cases} \]
+    if \( \gcd(p, q) = 1 \), so \( p \) defines an element of \( \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \).
+    Hence,
+    \[ \frac{1}{\varphi(q)} \sum_i \overline{\chi_i(a)} \chi_i(p) = \begin{cases}
+        1 & a \equiv p \mod q \\
+        0 & \text{otherwise}
+    \end{cases} \]
+    even if \( \gcd(p, q) \neq 1 \), since in this case \( \chi_i(p) = 0 \) by definition.
+    Hence,
+    \[ \sum_{p \equiv a \text{ mod } q, p \text{ prime}} p^{-s} = \frac{1}{\varphi(q)} \sum_{i, p} \overline{\chi_i(a)} \chi_i(p) p^{-s} \]
+    We want to show that this has a pole at \( s = 1 \).
+    If \( \chi \) is a Dirichlet character, by the series expansion of logarithm which is valid by absolute convergence, we can write
+    \begin{align*}
+        \log L(\chi, s) &= -\sum_p \log(1 - \chi(p) p^{-s}) \\
+        &= \sum_{n,p} \frac{\chi(p)^n}{p^{ns} n} \\
+        &= \sum_{n,p} \frac{\chi(p^n)}{p^{ns} n} \\
+        &= \sum_p \frac{\chi(p)}{p^s} + \sum_{n \geq 2, p} \frac{\chi(p^n)}{p^{ns} n}
+    \end{align*}
+    We claim that \( \sum_{n \geq 2, p \text{ prime}} \frac{\chi(p^n)}{p^{ns} n} \) converges at \( s = 1 \).
+    This holds as its absolute value is at most
+    \[ \sum_{n \geq 2, p \text{ prime}} p^{-ns} = \sum_{p \text{ prime}} \frac{1}{p^s(p^s - 1)} \leq \sum_n \frac{1}{n^s(n^s - 1)} \leq 2\frac{1}{n^{2s}} \]
+    which is finite at \( s = 1 \).
+    Hence, the series above has a pole at \( s = 1 \) if and only if \( \frac{1}{\varphi(q)} \sum_{i} \overline{\chi_i(a)} \log L(\chi_i, s) \) has a pole at \( s = 1 \).
+
+    If \( \chi_1 \) is the trivial character, \( L(\chi_1, s) = \zeta_{\mathbb Q}(s) \prod_{p \mid s} (1 - p^{-s}) \), so as \( \zeta_{\mathbb Q}(s) \) has only a simple pole at \( s = 1 \), \( \log \zeta_{\mathbb Q}(s) = \log\frac{1}{s-1} + \text{bounded function} \) near \( s = 1 \), so \( \log L(\chi_1, s) \sim \log \frac{1}{s-1} \) has a pole at \( s = 1 \).
+    For \( i \neq 1 \), \( L(\chi_i, s) \) is nonzero at \( s = 1 \) by the above theorem, so \( \log L(\chi_i, s) \) is bounded at \( s = 1 \).
+    Hence, \( \frac{1}{\varphi(q)}\sum_{i,p}\overline{\chi_i(a)} \chi_i(p) p^{-s} \sim \frac{1}{\varphi(q)} \log \frac{1}{s-1} \), and in particular has a pole at \( s = 1 \).
+
+    Hence, there are infinitely many primes in arithmetic progression.
+\end{proof}
+This proof shows that approximately \( \frac{1}{\varphi(q)} \) of all primes lie in this arithmetic progression.
+
+One can in fact show that for any number field \( L \), \( \zeta_L(s) \) always factors and the factors have meaning.
+Suppose \( L/\mathbb Q \) is Galois, and \( G = \Gal(L/\mathbb Q) \).
+Then,
+\begin{enumerate}
+    \item We can factor \( \zeta_L(s) = \prod_{\rho \text{ irreducible representation of } G} L(\rho, s)^{\dim \rho} \), where the \( L(\rho, s) \) are \emph{Artin \( L \)-functions}.
+    Moreover, \( L / \mathbb Q \) is the regular representation of \( G \).
+    \item \( L(\mathbbm 1, s) = \zeta_{\mathbb Q}(s) \).
+    \item \( L(\rho, s) \) is a meromorphic function of \( s \).
+    It is conjectured, but still not known, that \( L(\rho, s) \) is holomorphic if \( \rho \neq \mathbbm 1 \).
+    \item If \( \rho \) is one-dimensional, then \( L(\rho, s) = L(\chi, s) \) multiplied by a correction factor, where \( L(\chi, s) \) is a Dirichlet \( L \)-function.
+    Finding \( \chi \) given \( \rho \) is a generalisation of quadratic reciprocity, called class field theory.
+    \item The properties of mutidimensional \( \rho \) are studied in the Langlands programme.
+\end{enumerate}
