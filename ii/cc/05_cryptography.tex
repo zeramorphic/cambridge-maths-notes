@@ -442,5 +442,65 @@ To verify a signature, we perform the following procedure.
 Bob computes \( w \equiv s_2^{-1} \) mod \( q \), \( u_1 \equiv mw \) mod \( q \), \( u_2 \equiv s_1 w \) mod \( q \), and \( v = (g^{u_1} y^{u_2} \text{ mod } p) \text{ mod } q \).
 He accepts the signature if \( v = s_1 \).
 \begin{proposition}
-    The digital signature algorithm works.
+    If a message is signed with the DSA and the message is not manipulated, the signature is accepted.
 \end{proposition}
+\begin{proof}
+    First, note that \( (m + xs_1)w = ks_2s_2^{-1} \) mod \( q \).
+    Now, as \( g^q = 1 \) mod \( p \),
+    \begin{align*}
+        v &= (g^{u_1} y^{u_2} \text{ mod } p) \text{ mod } q \\
+        &= (g^{mw} g^{xs_1 w} \text{ mod } p) \text{ mod } q \\
+        &= (g^{(m + xs_1)w} \text{ mod } p) \text{ mod } q \\
+        &= (g^k \text{ mod } p) \text{ mod } q \\
+        &= s_1
+    \end{align*}
+    Hence, for a correctly signed message, the verification succeeds.
+\end{proof}
+Suppose that Alice sends \( m_1 \) to Bob and \( m_2 \) to Carol, and provides signatures for each message using the DSA.
+One can show that if Alice uses the same value of \( k \) for both transmissions, it is possible for an eavesdropper to recover the private key \( x \) from the signed messages.
+
+\subsection{Commitment schemes}
+Suppose Alice wants to send a bit \( m \in \qty{0,1} \) to Bob in such a way that
+\begin{enumerate}
+    \item Bob cannot determine the value of \( m \) without Alice's help; and
+    \item Alice cannot change the bit once she has sent it.
+\end{enumerate}
+Such a system can be used for coin tossing: suppose Alice and Bob are in different rooms, where Alice tosses a coin and Bob guesses the result.
+The result of the coin and Bob's guess can be viewed as messages of this form.
+As another example, consider a poll whose result cannot be viewed until everyone has voted.
+We will see two examples of such a \emph{commit-and-reveal} strategy, known as \emph{bit commitment}.
+
+Suppose that we have a publicly known encryption function \( e_A \) and a decryption function \( d_A \) known only to Alice.
+Alice makes a choice for her message \( m \), and commits to Bob the ciphertext \( c = e_A(m) \).
+Under the assumption that the cipher is secure, Bob cannot decipher the message.
+To reveal her choice, Alice sends her private key to Bob, who can then use it to decipher the message \( d_A(c) = d_A(e_A(m)) = m \).
+He can also check that \( d_A, e_A \) are inverse functions and thus ensure that Alice sent the correct private key.
+
+Alternatively, suppose that Alice has two ways to communicate to Bob: a clear channel which transmits with no errors, and a binary symmetric channel with error probability \( p \).
+Suppose \( 0 < p < \frac{1}{2} \), and the noisy channel corrupts bits independent of any action of Alice or Bob, so neither can affect its behaviour.
+Bob publishes a binary linear code \( C \) of length \( N \) and minimum distance \( d \), and Alice publishes a random non-trivial linear map \( \theta \colon C \to \mathbb F_2 \).
+To send a bit \( m \in \mathbb F_2 \), Alice chooses a random codeword \( c \in C \) such that \( \theta(c) = m \), and sends \( c \) to Bob via the noisy channel.
+Bob receives \( r = c + e \in \mathbb F_2^N \) where \( e \) is the error pattern.
+The expected value of \( d(r,c) = d(e,0) \) is \( Np \).
+\( N \) is chosen such that \( Np \gg d \), so Bob cannot tell what the original codeword \( c \) was, and hence cannot find \( \theta(c) = m \).
+
+To reveal, Alice sends \( c \) to Bob using the clear channel.
+Bob can check that \( d(c,r) \approx Np \); if so, he accepts the message.
+It is possible that many more or many fewer bits of \( c \) were corrupted by the noisy channel, which may make Bob reject the message even if Alice correctly committed and revealed the message.
+\( N, d \) should be chosen such that the probability of this occurring is negligible.
+
+We have shown that Bob cannot read Alice's guess until she reveals it.
+In addition, Alice cannot cheat by changing her guess, because she knows \( c \) but not how it was corrupted by the noisy channel.
+All she knows is that the received message \( r \) has distance approximately \( Np \) from \( c \).
+If she were to send \( c' \neq c \), she must ensure that \( d(r,c') \approx Np \), but the probability that this happens is small unless she chooses \( c' \) very close to \( c \).
+But any two distinct codewords have distance at least \( d \), so she cannot cheat.
+
+\subsection{Secret sharing schemes}
+% This has been made nonexaminable.
+Suppose that the CMS is attacked by the MIO.
+% (mathematical institute, oxford)
+The Faculty will retreat to a bunker known as MR2.
+Entry to MR2 is controlled by a \emph{secret}, which is a positive integer \( S \).
+This secret is known only to the Leader.
+Each of the \( n \) members of the Faculty knows a pair of numbers, called their \emph{shadow} or \emph{share}.
+It is required that, in the absence of the Leader, any \( k \) members of the Faculty can reconstruct the secret from their shadows, but any \( k-1 \) cannot.

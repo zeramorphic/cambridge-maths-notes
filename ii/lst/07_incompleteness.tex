@@ -1,0 +1,76 @@
+We aim to show that \( \mathsf{PA} \) is incomplete: there is a sentence \( p \) such that \( \mathsf{PA} \) does not prove \( p \) or \( \neg p \).
+Equivalently, there is a sentence \( p \) that is true in \( \mathbb N \) but \( \mathsf{PA} \not\vdash p \).
+In this section, by `true' we mean true in \( \mathbb N \), and by `unprovable' we mean \( \mathsf{PA} \) does not prove it, so more concisely we wish to find an unprovable true sentence.
+Our aim is to find a sentence \( p \) that asserts that it is not provable in \( \mathsf{PA} \); then \( p \) is true if and only if \( p \) is not provable.
+Then the proof is complete, as if \( p \) is false, \( p \) is provable and hence true by soundness.
+
+\subsection{Definability}
+Recall that a subset \( S \subseteq \mathbb N \) is \emph{definable} if there is a formula \( p \) with free variable \( x \) such that \( m \in S \) if and only if \( p(m) \) is true.
+For example, the set of primes is definable, taking \( p(x) \) to be \( (x \neq 1) \wedge (\forall y)(\forall z)(yz = x \Rightarrow (y = 1) \vee (z = 1)) \).
+We might say that `\( m \) is prime' is definable.
+
+A function \( f \colon \mathbb N \to \mathbb N \) is similarly called definable if there is a formula \( p \) with free variables \( x, y \) such that \( f(m) = n \) if and only if \( p(m,n) \) is true.
+The function \( f(x) = \floor{\frac{x}{2}} \) is definable, setting \( p(x,y) \) to be \( (x = 2y) \vee (x = 2y + 1) \).
+Similarly, \( x^2 \) is definable.
+In fact, any function \( f \) given by an algorithm is definable in \( \mathsf{PA} \), but this will not be proven in this section.
+
+\subsection{Coding}
+\( L \) has symbols
+\[ 0, s, +, \cdot, =, \bot, \Rightarrow, (, ), \forall, x, ' \]
+labelling each variable \( x, x', x'' \) and so on.
+We code each symbol by assigning it a number, so \( v(0) = 1, \dots, v(') = 12 \).
+A formula \( p \) is encoded by
+\[ c(p) = 2^{v(\text{first symbol})} 3^{v(\text{second symbol})} \dots \text{\( n \)th prime}^{v(\text{\( n \)th symbol})} \]
+For instance, if \( p \) is the assertion \( (\forall x)(x=0) \), then
+\[ c(p) = 2^8 3^{10} 5^{11} 7^9 11^8 13^{11} 17^5 19^1 23^9 \]
+Clearly, not all numbers encode formulae.
+We will write \( S_n \) for the formula encoded by \( n \), with \( S_n = \bot \) if \( n \) does not encode a formula.
+Observe that the statement `\( n \) codes a formula' is definable, as there is an algorithm to decide it.
+
+The statement `\( l, m, n \) code formulae and \( S_n \) is obtained from \( S_l, S_m \) by modus ponens' is definable.
+The analogous statement for generalisation is also definable in a similar way.
+The axioms of \( \mathsf{PA} \) are clearly definable, and `\( n \) codes a logical axiom or axiom of \( \mathsf{PA} \)' is definable.
+Given formulae \( p_1, \dots, p_n \), we code the sequence as
+\[ s(p_1, \dots, p_n) = 2^{c(p_1)} 3^{c(p_2)}\dots \text{\( n \) prime}^{c(p_n)} \]
+Thus, `\( n \) codes a proof' is definable, and `\( n \) codes a proof of \( S_m \)' is definable.
+Let \( \theta(m,n) \) be a formula defining `\( n \) codes a proof of \( S_m \)'.
+Let \( \phi(m) = \text{`\( S_m \) is provable'} \) is definable, as \( \phi(m) = (\exists n)(\theta(m,n)) \). 
+
+\subsection{G\"odel's incompleteness theorem}
+Consider \( \chi(m) = \text{`\( m \) codes a formula \( S_m \) with one free variable, such that \( S_m(m) \) is unprovable'} \).
+This is definable, so is given by some formula \( p(x) \), so \( \chi(m) \) holds if and only if \( p(m) \) holds.
+Let \( N \) be the code for \( p(x) \).
+Then, \( p(N) \) is the assertion that \( N \) codes a formula \( S_N \) with one free variable, such that \( S_N(N) \) is unprovable.
+Note that \( S_N = p \) and \( S_N(N) = p(N) \), so \( p(N) \) asserts that \( p(N) \) is unprovable.
+The sentence \( p(N) \) suffices for the above argument, so we have shown the following theorem.
+\begin{theorem}
+    \( \mathsf{PA} \) is incomplete.
+\end{theorem}
+Note that if our proof above could be written in \( \mathsf{PA} \), we would then have that \( p(N) \) is provable in \( \mathsf{PA} \).
+One can check that the proof used the fact that a model of \( \mathsf{PA} \) exists (namely, \( \mathbb N \), although this was not particularly important).
+We thus used the statement \( \mathrm{Con}(\mathsf{PA}) \), that \( \mathsf{PA} \) is consistent, or equivalently,
+\[ (\forall x)(x \text{ does not code a proof of } \bot) \]
+Thus, our proof above formalises to the statement
+\[ \mathsf{PA} \cup \qty{\mathrm{Con}(\mathsf{PA})} \vdash p(N) \]
+The next theorem then follows.
+\begin{theorem}
+    \( \mathsf{PA} \not\vdash \mathrm{Con}(\mathsf{PA}) \).
+\end{theorem}
+\( \mathsf{PA} \) is incomplete, but we cannot add any true sentence \( t \) to obtain a complete theory.
+Indeed, the proof above can be performed on this new theory \( \mathsf{PA} \cup \qty{t} \) to show that it is incomplete.
+However, \( \mathsf{PA} \) can certainly be extended to some complete theory by taking the set of all sentences that hold in \( \mathbb N \).
+We cannot use the above proof to show that \( T \) is incomplete, since this would immediately derive a contradiction.
+Almost all of the above proof is still valid, so the only invalid part must lead to this contradiction; there must be no algorithm to decide truth of sentences in \( \mathsf{PA} \).
+\begin{theorem}
+    \( T \) is not definable.
+\end{theorem}
+Note that \( \mathsf{ZFC} \vdash \mathrm{Con}(\mathsf{PA}) \), where \( \mathrm{Con}(\mathsf{PA}) \) represents the sentence
+\[ (\forall x \in \omega)(x \text{ does not code a proof of } \bot) \]
+This is because \( \mathsf{ZFC} \) proves that \( \mathsf{PA} \) has a model, namely \( \omega \).
+However, as for the above theorems, we obtain the following.
+\begin{theorem}
+    \( \mathsf{ZFC} \) is incomplete (if \( \mathsf{ZFC} \) is consistent).
+\end{theorem}
+\begin{theorem}
+    \( \mathsf{ZFC} \not\vdash \mathrm{Con}(\mathsf{ZFC}) \) (if \( \mathsf{ZFC} \) is consistent).
+\end{theorem}
