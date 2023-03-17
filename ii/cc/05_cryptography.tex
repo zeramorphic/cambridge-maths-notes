@@ -504,3 +504,68 @@ Entry to MR2 is controlled by a \emph{secret}, which is a positive integer \( S 
 This secret is known only to the Leader.
 Each of the \( n \) members of the Faculty knows a pair of numbers, called their \emph{shadow} or \emph{share}.
 It is required that, in the absence of the Leader, any \( k \) members of the Faculty can reconstruct the secret from their shadows, but any \( k-1 \) cannot.
+\begin{definition}
+    Let \( k, n \in \mathbb N \) with \( k < n \).
+    A \emph{\( (k, n) \)-threshold scheme} is a method of sharing a message \( S \) among a set of \( n \) participants such that any subset of \( k \) participants can reconstruct \( S \), but no subset of smaller size can reconstruct \( S \).
+\end{definition}
+We discuss Shamir's method for implementing such a scheme.
+Let \( 0 \leq S \leq N \) be the secret, which can be chosen at random by the Leader.
+The Leader chooses and publishes a prime \( p > n, N \).
+They then choose independent random coefficients \( a_1, \dots, a_{k-1} \) with \( 0 \leq a_j \leq p-1 \) where we take \( a_0 = S \), and distinct integers \( x_1, \dots, x_n \) with \( 1 \leq x_j \leq p-1 \).
+Define
+\[ P(r) \equiv a_0 + \sum_{j=1}^{k-1} a_j x_r^j \mod p \]
+choosing \( 0 \leq P(r) \leq p-1 \).
+The \( r \)th participant is given their shadow pair \( (x_r, P(r)) \) to be kept secret.
+The Leader can then discard their computations.
+
+Suppose \( k \) members of the Faculty assemble with shadow pairs \( (y_j, Q(j)) = (x_{i_j}, P(i_j)) \) for \( 1 \leq j \leq k \).
+By properties of the Vandermonde determinant,
+\[ \det\begin{pmatrix}
+    1 & y_1 & \cdots & y_1^{k-1} \\
+    1 & y_2 & \cdots & y_2^{k-1} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    1 & y_k & \cdots & y_k^{k-1}
+\end{pmatrix} = \prod_{1 \leq j < i \leq k} (y_i - y_j) \]
+The \( y_i \) are distinct, so this determinant does not vanish.
+Hence, we can uniquely solve the system of \( k \) simultaneous equations
+\begin{align*}
+    z_0 + y_1 z_1 + y_1^2 z_2 + \dots + y_k^{k-1} z_{k-1} &\equiv Q(1) \\
+    z_0 + y_2 z_1 + y_2^2 z_2 + \dots + y_2^{k-1} z_{k-1} &\equiv Q(2) \\
+    &\vdots \\
+    z_0 + y_k z_1 + y_k^2 z_2 + \dots + y_k^{k-1} z_{k-1} &\equiv Q(k)
+\end{align*}
+In particular, \( z_0 = a_0 = S \) is the secret, as \( (a_0, \dots, a_{k-1}) \) is also a solution to these equations by construction.
+Suppose \( k-1 \) people attempt to reconstruct the secret.
+In this case, the Vandermonde determinant gives
+\[ \det\begin{pmatrix}
+    y_1 & y_1^2 & \cdots & y_1^{k-1} \\
+    y_2 & y_2^2 & \cdots & y_2^{k-1} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    y_{k-1} & y_{k-1}^2 & \cdots & y_{k-1}^{k-1}
+\end{pmatrix} = y_1 y_2 \dots y_{k-1} \prod_{1 \leq j < i \leq k-1} (y_i - y_j) \]
+This is nonzero modulo \( p \), so the system of equations
+\begin{align*}
+    z_0 + y_1 z_1 + y_1^2 z_2 + \dots + y_k^{k-1} z_{k-1} &\equiv Q(1) \\
+    z_0 + y_2 z_1 + y_2^2 z_2 + \dots + y_2^{k-1} z_{k-1} &\equiv Q(2) \\
+    &\vdots \\
+    z_0 + y_{k-1} z_1 + y_{k-1}^2 z_2 + \dots + y_{k-1}^{k-1} z_{k-1} &\equiv Q(k-1)
+\end{align*}
+has solutions for \( z_1, \dots, z_{k-1} \) regardless of the value of \( z_0 \).
+Thus, \( k - 1 \) members of the Faculty cannot reconstruct the secret \( S \), or even tell which values are more likely than others.
+\begin{remark}
+    Note that a polynomial of degree \( k - 1 \) can be recovered from its values at \( k \) points, but not on fewer points; this technique is known as Lagrange interpolation.
+    The secret shadow pairs can be changed without altering the secret \( S \); the Leader simply chooses a different random polynomial with the same constant term.
+    Changing the polynomial frequently can increase security, since any eavesdropper who has gathered some shadow pairs generated from one polynomial cannot use that information to help decrypt a different polynomial.
+\end{remark}
+\begin{example}
+    Consider a \( (3, n) \)-threshold scheme, where ordinary workers in a company have single shares, the vice presidents have two shares, and the Leader has three.
+    In this case, the secret can be recovered by any three ordinary workers, any two workers if one of them is a vice president, or the Leader alone.
+    In such \emph{hierarchical schemes}, the `importance' of individuals determines how many of them are required to recover the secret.
+\end{example}
+\begin{example}
+    Suppose Alice has a private key that she wishes to store securely and reliably.
+    She uses a \( (k, 2k-1) \)-threshold scheme, where she forms \( 2k-1 \) shadow pairs and stores them in different locations.
+    As long as she does not lose more than half of the pairs, she can recover her key, hence the scheme is reliable.
+    An eavesdropper needs to steal more than half of the pairs in order to recover the key, hence the scheme is secure.
+\end{example}
+% exercise: is S compromised if the values of the x_j are known?
