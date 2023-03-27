@@ -243,7 +243,7 @@ Note that a language is a set of words, so we can now reason about computability
 \begin{definition}
 	Let \( X \subseteq \mathbb W^k \).
 	A partial function \( f \colon \mathbb W^k \rightharpoonup \mathbb W \) is called \emph{a pseudocharacteristic function of \( X \)} if \( \dom f = X \).
-	\( f \) is called \emph{the pseudocharacteristic function of \( X \)} if \( f(\vb w) = a \) if \( w \in X \), and undefined otherwise.
+	\( f \) is called \emph{the pseudocharacteristic function of \( X \)} if \( f(\vb w) = a \) if \( \vb w \in X \), and undefined otherwise.
 \end{definition}
 We use the notation \( \psi_X \) for the pseudocharacteristic function.
 \begin{definition}
@@ -444,6 +444,7 @@ If the tree is primitive, the function obtained is primitive recursive.
 
 	Let \( f, g \) be computable functions; we want to show that \( h \) defined by \( h(\vb w, \varepsilon) = f(\vb w) \) and \( h(\vb w, s(v)) = g(\vb w, v, h(\vb w, v)) \) is computable.
 	We describe a register machine.
+	% TODO: Fix this, as (iii)(a) has v bound and (iii)(b) has v free
 	\begin{enumerate}
 		\item Let \( k, \ell \) be two empty unused registers.
 		\item Compute \( f(\vb w) \), and write the result to register \( \ell \).
@@ -502,7 +503,7 @@ We name the new alphabet \( \Sigma' \).
 
 When we encode a mathematical object \( o \) as a word \( \Sigma'^\star \), we write the encoded result \( \code(o) \).
 \begin{itemize}
-	\item We can encode \( \mathbb N \) in binary using \( \bm 0 \) and \( \bm 1 \), for instance, \( \bm 1 \bm 0 \bm 0 \bm 1 \bm 1 = \code(19) \).
+	\item We can encode \( \mathbb N \) in binary using \( \bm 0 \) and \( \bm 1 \), for instance, \( \code(19) = \bm 1 \bm 0 \bm 0 \bm 1 \bm 1 \).
 	\item If \( Q = \qty{q_0, \dots, q_k} \), we define \( \code(q_k) = \code(k) \).
 	\item We encode instructions \( I \in \mathrm{Instr}(\Sigma, Q) \) using \( \bm +\ \bm -\ \bm ?\ \bm ,\ \bm (\ \bm ) \); for instance, \( \code(+(k,a,\ell)) = \bm +\bm(\code(k)\bm , a\bm ,\code(\ell)\bm ) \).
 	\item We encode program lines by \( \code(q \mapsto I) = \code(q) \bm \mapsto \code(I) \).
@@ -607,7 +608,7 @@ Consider the sets
 	The proof is almost exactly the same for \( \mathbb K \).
 \end{proof}
 \begin{definition}
-	\( X \subseteq \mathbb W^k \) is called \( \Sigma_1 \) if there is a computable function \( Y \subseteq \mathbb W^{k+1} \) such that \( \vb w \in X \iff \exists y, (\vb w, y) \in Y \).
+	\( X \subseteq \mathbb W^k \) is called \( \Sigma_1 \) if there is a computable set \( Y \subseteq \mathbb W^{k+1} \) such that \( \vb w \in X \iff \exists y, (\vb w, y) \in Y \).
 	We say \( X = p(Y) = \qty{\vb w \mid \exists y,\, (\vb w, y) \in Y} \) is the \emph{projection} of \( Y \).
 	We say \( X \) is \( \Pi_1 \) if it is the complement of a \( \Sigma_1 \) set.
 	We say \( X \) is \( \Delta_1 \) if it is \( \Sigma_1 \) and it is \( \Pi_1 \).
@@ -802,6 +803,7 @@ For more detail, see
 \subsection{Negative answers to decision problems}
 We can use the Church--Turing thesis to give precise statements of our decision problems, without relying on an informal notion of `algorithm'.
 First, we encode grammars in such a way that for all \( w \in \mathbb W \), there exists a grammar \( G \) such that \( \code(G) = w \); we write \( G_w \) for the associated grammar for a word.
+We require that all grammars are of the form \( G_w \) for some word \( w \in \mathbb W \).
 Now,
 \begin{enumerate}
 	\item the word problem is \( \qty{(w, v) \mid w \in \mathcal L(G_v)} \);
