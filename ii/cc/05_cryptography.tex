@@ -1,0 +1,571 @@
+\subsection{Cryptosystems}
+We want to modify a message such that it becomes unintelligible to an eavesdropper Eve.
+Certain secret information is shared between two participants Alice and Bob, called the \emph{key}, chosen from a set of possible keys \( \mathcal K \).
+The unencrypted message is called the \emph{plaintext}, which lies in a set \( \mathcal M \), and the encrypted message is called the \emph{ciphertext}, and lies in a set \( \mathcal C \).
+A \emph{cryptosystem} consists of \( (\mathcal K, \mathcal M, \mathcal C) \) together with the \emph{encryption} function \( e \colon \mathcal M \times \mathcal K \to \mathcal C \) and \emph{decryption} function \( d \colon \mathcal C \times \mathcal K \to \mathcal M \).
+These maps have the property that \( d(e(m, k), k) = m \) for all \( m \in \mathcal M, k \in \mathcal K \).
+\begin{example}
+    Suppose \( \mathcal M = \mathcal C = \qty{A, B, \dots, Z}^\star = \Sigma^\star \).
+    The \emph{simple substitution cipher} defines \( \mathcal K \) to be the set of permutations of \( \Sigma \).
+    To encrypt a message, each letter of plaintext is replaced with its image under a chosen permutation \( \pi \in \mathcal K \).
+
+    The \emph{Vigen\`ere} cipher has \( \mathcal K = \Sigma^d \) for some \( d \).
+    We identify \( \Sigma \) and \( \faktor{\mathbb Z}{26\mathbb Z} \).
+    Write out the key repeatedly below the plaintext, and add each plaintext letter with the corresponding key letter to produce a letter of ciphertext.
+    For instance, encrypting the plaintext ATTACKATDAWN with the key LEMON gives ciphertext LXFOPVEFRNHR.
+    Note, for instance, that each occurrence of the letter A in the plaintext corresponds to a letter of the key in the ciphertext.
+    If \( d = 1 \), this is the \emph{Caesar cipher}.
+\end{example}
+
+\subsection{Breaking cryptosystems}
+Eve may know \( e \) and \( d \), as well as the probability distributions of \( \mathcal K, \mathcal M \), but she does not know the key itself.
+She seeks to recover the plaintext from a given string of ciphertext.
+There are three possible attack levels.
+\begin{enumerate}[1.]
+    \item (ciphertext-only) Eve only knows some piece of ciphertext.
+    \item (known-plaintext) Eve knows a considerable length of plaintext and its corresponding ciphertext, but not the key.
+    In other words, she knows \( m \) and \( e(m,k) \), but not \( k \).
+    \item (chosen plaintext) Eve can acquire the ciphertext for any plaintext message; she can generate \( e(m,k) \) for any \( m \).
+\end{enumerate}
+\begin{remark}
+    The simple substitution cipher and Vigen\`ere cipher fail at Level 1 in English if the messages are sufficiently long, as we can perform frequency analysis.
+    Even if the plaintext is suitably random, both examples can fail at Level 2.
+    For modern applications, Level 3 security is desirable.
+\end{remark}
+% TODO: too little indent in enumerate above
+Consider a cryptosystem \( (\mathcal M, \mathcal K, \mathcal C) \).
+We model the keys and messages as independent random variables \( K, M \) taking values in \( \mathcal K, \mathcal M \).
+The ciphertext random variable is \( C = e(K,M) \in \mathcal C \).
+\begin{definition}
+    A cryptosystem \( (\mathcal M, \mathcal K, \mathcal C) \) has \emph{perfect secrecy} if \( H(M \mid C) = H(M) \), or equivalently, \( M \) and \( C \) are independent, or \( I(M;C) = 0 \).
+\end{definition}
+One can show that perfect secrecy implies that \( \abs{\mathcal K} \geq \abs{\mathcal M} \).
+\begin{definition}
+    The \emph{message equivocation} is \( H(M \mid C) \).
+    The \emph{key equivocation} is \( H(K \mid C) \).
+\end{definition}
+\begin{lemma}
+    \( H(M \mid C) \leq H(K \mid C) \).
+\end{lemma}
+\begin{proof}
+    Note that \( M = d(C,K) \), hence \( H(M \mid C, K) = 0 \).
+    Therefore, \( H(C,K) = H(M,C,K) \).
+    So
+    \[ H(K \mid C) = H(K,C) - H(C) = H(M,C,K) - H(M \mid K,C) - H(C) = H(M,K,C) - H(C) = H(K \mid M,C) + H(M,C) - H(C) = H(K \mid M, C) + H(M \mid C) \]
+    Hence \( H(K \mid C) \geq H(M \mid C) \).
+\end{proof}
+Let \( \mathcal M = \mathcal C = \mathcal A \), and suppose we send \( n \) messages modelled as \( M^{(n)} = (M_1, \dots, M_n) \) encrypted as \( C^{(n)} = (C_1, \dots, C_n) \) using the same key \( K \).
+\begin{definition}
+    The \emph{unicity distance} is the least \( n \) such that \( H(K \mid C^{(n)}) = 0 \); it is the smallest number of encrypted messages required to uniquely determine the key.
+\end{definition}
+Now,
+\[ H(K \mid C^{(n)}) = H(K, C^{(n)}) - H(C^{(n)}) = H(K, M^{(n)}, C^{(n)}) - H(C^{(n)}) = H(K, M^{(n)}) - H(C^{(n)}) = H(K) + H(M^{(n)}) - H(C^{(n)}) \]
+as \( K, M^{(n)} \) are independent.
+We make the following assumptions.
+\begin{enumerate}
+    \item All keys are equally likely, so \( H(K) = \log \abs{\mathcal K} \).
+    \item \( H(M^{(n)}) \approx nH \) for some constant \( H \) and sufficiently large \( n \).
+    \item All sequences of ciphertext are equally likely, so \( H(C^{(n)}) = n \log \abs{\mathcal A} \).
+\end{enumerate}
+Hence,
+\[ H(K \mid C^{(n)}) = \log \abs{\mathcal K} + nH - n \log \abs{\mathcal A} \geq 0 \]
+This holds if and only if
+\[ n \leq U = \frac{\log \abs{\mathcal K}}{\log \abs{\mathcal A} - H} \]
+Equivalently, \( \frac{\log \abs{\mathcal A}}{R\log \abs{\mathcal A}} \) where \( R = 1 - \frac{H}{\log \abs{\mathcal A}} \) is the \emph{redundancy} of the source.
+Recall that \( 0 \leq H \leq \log \abs{\mathcal A} \).
+To make the unicity distance large, we can make the number of keys large, or use a message source with little redundancy.
+
+\subsection{One-time pad}
+Consider streams in \( \mathbb F_2 \) representing the plaintext \( p_0, p_1, \dots \), the key stream \( k_0, k_1, \dots \), and the ciphertext \( z_0, z_1, \dots \) where \( z_n = p_n + k_n \).
+\begin{definition}
+    A \emph{one-time pad} is a cryptosystem where \( k \) is generated randomly; the \( k_i \) are independent and take values of 0 or 1 with probability \( \frac{1}{2} \).
+\end{definition}
+\( z = p + k \) is now a stream of independent and identically distributed random variables taking values of 0 or 1 with probability \( \frac{1}{2} \).
+Hence, without the key stream, deciphering is impossible, so the unicity distance is infinite.
+One can show that a one-time pad has perfect secrecy.
+
+In order to effectively use a one-time pad, we need to generate a random key stream.
+We then need to share the key stream to the recipient, which is exactly the initial problem.
+In most applications, the one-time pad is not practical.
+Instead, we share an initial fill \( k_0, \dots, k_{d-1} \) to be used in a shared feedback shift register of length \( d \) to generate \( k \).
+We then apply the following result.
+\begin{lemma}
+    Let \( x_0, x_1, \dots \) be a stream in \( \mathbb F_2 \) produced by a feedback shift register of length \( d \).
+    Then there exist \( M, N \leq 2^d \) such that \( x_{N+r} = X_{r} \) for all \( r \geq M \).
+\end{lemma}
+\begin{proof}
+    Let the register be \( f \colon \mathbb F_2^d \to \mathbb F_2^d \), and let \( v_i = (x_i, \dots, x_{i+d-1}) \).
+    Then for all \( i \), we have \( f(v_i) = v_{i+1} \).
+    Since \( \abs{\mathbb F_2^d} = 2^d \), the tuples \( v_0, v_1, \dots, v_{2^d} \) cannot all be distinct.
+    Let \( a < b \leq 2^d \) such that \( v_a = v_b \).
+    Let \( M = a \) and \( N = b - a \), so \( v_M = v_{M+N} \) so by induction we have \( v_r = v_{r+N} \) for all \( r \geq M \).
+\end{proof}
+\begin{remark}
+    The maximum period of a feedback shift register of length \( d \) is \( 2^d \).
+    For a linear feedback shift register, the maximum period is \( 2^d - 1 \); this result is shown on the fourth example sheet.
+    
+    Stream ciphers using linear feedback shift registers fail at level 2 due to the Berlekamp--Massey method.
+    However, this cryptosystem is cheap, fast, and easy to use.
+    Encryption and decryption can be performed on-the-fly, without needing the entire codeword first, and it is error-tolerant.
+\end{remark}
+Recall that the stream produced by a linear feedback shift register is given by \( x_n = \sum_{i=1}^d a_{d-i} x_{n-i} \) for all \( n \geq d \), and has auxiliary polynomial \( P(X) = X^d + a_{d-1}X^{d-1} + \dots + a_0 \) with \( a_d = 1 \).
+The solutions to the recursion relations are linear combinations of powers of roots of \( P \).
+Over \( \mathbb C \), the general solution is a linear combination of \( \alpha^n, n\alpha^n, \dots, n^{t-1} \alpha^n \) where \( \alpha \) is a root of \( P(X) \) with multiplicity \( t \).
+
+As \( n^2 = n \) in \( \mathbb F_2 \), we cannot use this method directly.
+First, we must work in a splitting field \( K \) of \( P \), a field containing \( \mathbb F_2 \) in which \( P \) is expressible as a product of linear factors.
+In addition, we replace the \( n^i \alpha^n \) term with \( \binom{n}{i} \alpha^n \).
+The general solution is now a linear combination of these terms in \( K \).
+
+We can also generate new key streams from old ones.
+\begin{lemma}
+    Let \( (x_n) \), \( (y_n) \) be outputs from linear feedback shift registers of length \( M, N \) respectively.
+    Then,
+    \begin{enumerate}
+        \item the sequence \( (x_n + y_n) \) is the output of a linear feedback shift register of length \( M + N \);
+        \item the sequence \( (x_n y_n) \) is the output of a linear feedback shift register of length \( MN \).
+    \end{enumerate}
+\end{lemma}
+The following proof is non-examinable.
+\begin{proof}
+    Assume for simplicity that the auxiliary polynomials \( P(X), Q(X) \) each have distinct roots \( \alpha_1, \alpha_M \) and \( \beta_1, \dots, \beta_N \) in a field \( K \) extending \( \mathbb F_2 \).
+    Then \( x_n = \sum_{i=1}^M \lambda_i \alpha_i^n \) and \( y_n = \sum_{i=1}^N \mu_j \beta_j^n \) where \( \lambda_i, \mu_j \in K \).
+    Now, \( x_n + y_n = \sum_{i=1}^M \lambda_i \alpha_i^n \sum_{i=1}^N \mu_j \beta_j^n \) is produced by a linear feedback shift register with auxiliary polynomial \( P(X) Q(X) \).
+    For the second part, \( x_n y_n = \sum_{i=1}^M \sum_{j=1}^n \lambda_i \mu_j (\alpha_i \beta_j)^n \) is the output of a linear feedback shift register with auxiliary polynomial \( \prod_{i=1}^N \prod_{j=1}^M (X - \alpha_i \beta_j) \).
+\end{proof}
+Adding outputs of linear feedback shift registers is no more economical than producing the same string with a single linear feedback shift register.
+Muliplying streams does increase the effective length of the linear feedback shift register, but \( x_n y_n = 0 \) when either \( x_n \) or \( y_n \) are zero, so we gain little extra data.
+Nonlinear feedback shift registers are in general hard to analyse; in particular, an eavesdropper may understand the feedback shift register better than Alice and Bob.
+
+\subsection{Asymmetric ciphers}
+Stream ciphers are examples of symmetric cryptosystems.
+In such a system, the decryption process is the same, or is easily deduced from, the encryption process.
+In an asymmetric cryptosystem, the key is split into two parts: the \emph{private key} for decryption, and the \emph{public key} for encryption.
+Knowing the encryption and decryption processes and the public key, it should still be hard to find the private key or to decrypt the messages.
+This aim implies security at level 3.
+In this case, there is also no key exchange problem, since the public key can be broadcast on an open channel.
+
+We base asymmetric cryptosystems on certain mathematical problems in number theory which are believed to be `hard', such as the following.
+\begin{enumerate}
+    \item Factoring.
+    Let \( N = pq \) for \( p, q \) large prime numbers.
+    Given \( N \), the task is to find \( p \) and \( q \).
+    \item Discrete logarithm problem.
+    Let \( p \) be a large prime and \( g \) be a primitive root mod \( p \) (a generator of \( \mathbb F_p^\star \)).
+    Given \( x \), we wish to find \( a \) such that \( x \equiv g^a \) mod \( p \).
+\end{enumerate}
+\begin{definition}
+    An algorithm runs in \emph{polynomial time} if the number of operations needed to perform the algorithm is at most \( c N^d \) where \( N \) is the input size, and \( c, d \) are constants.
+\end{definition}
+\begin{example}
+    An algorithm for factoring \( N \) has input size \( \log_2 N \), roughly the number of bits in its binary expansion.
+    Polynomial time algorithms include arithmetic operations on integers including the division algorithm, computation of greatest common divisors, and the Euclidean algorithm.
+    We can also compute \( x^\alpha \) mod \( N \) in polynomial time using repeated squaring; this is called modular exponentiation.
+    Primality testing can be performed in polynomial time.
+
+    Polynomial time algorithms are not known for examples (i) and (ii) above.
+    However, we have elementary methods for computing (i) and (ii) that take exponential time.
+    If \( N = pq \), dividing \( N \) by successive primes up to \( \sqrt{N} \) will find \( p \) and \( q \) but takes \( O(\sqrt{N}) = O(2^{\frac{B}{2}}) \) steps where \( B = \log_2 N \).
+    
+    We describe the \emph{baby-step, giant-step} algorithm for the discrete logarithm problem.
+    Set \( m = \ceil{\sqrt{p}} \), and write \( a = qm + r \) for \( 0 \leq q, r < m \).
+    Then, \( x \equiv g^a = g^{qm + r} \) mod \( p \), so \( g^{qm} = g^{-r} x \) mod \( p \).
+    We list all values of \( g^{qm} \) and \( g^{-r}x \) mod \( p \); we then sort the lists and search for a match.
+    This takes \( O(\sqrt{p}\log p) \) steps.
+
+    The best known methods for solving the examples above use a factor base method, called the \emph{modular number sieve}.
+    It has running time
+    \[ O\qty(\exp(c (\log N)^{\frac{1}{3}} (\log \log N)^{\frac{2}{3}})) \]
+    where \( c \) is a known constant.
+\end{example}
+
+\subsection{Rabin cryptosystem}
+Recall that \emph{Euler's totient function} is denoted \( \varphi \), where \( \varphi(n) \) is the number of integers less than \( n \) which are coprime to \( n \).
+Equivalently, \( \varphi(n) = \abs{\qty(\faktor{\mathbb Z}{n\mathbb Z})^\times} \).
+By Lagrange's theorem, \( a^{\varphi(N)} \equiv 1 \) mod \( N \) for each \( a \) coprime to \( N \); this result is sometimes known as the Fermat--Euler theorem.
+If \( N = p \) is prime, \( a^{p-1} \equiv 1 \) mod \( p \), which is Fermat's little theorem.
+\begin{lemma}
+    Let \( p = 4k - 1 \) be a prime, and let \( d \in \mathbb Z \).
+    If \( x^2 \equiv d \) mod \( p \) is soluble, one solution is \( x \equiv d^k \) mod \( p \).
+\end{lemma}
+\begin{proof}
+    Suppose \( x_0 \) is a solution, so \( x_0^2 \equiv d \) mod \( p \).
+    Without loss of generality we can assume \( x_0 \not\equiv 0 \), or equivalently, \( x_0 \nmid p \).
+    Then \( x_0^2 \equiv d \) so \( d^{2k-1} \equiv x_0^{2(2k-1)} \equiv x_0^{p-1} \equiv 1 \).
+    Hence, \( \qty(d^k)^2 \equiv d \).
+\end{proof}
+In the Rabin cryptosystem, the private key consists of two large distinct primes \( p, q \equiv 3 \) mod 4.
+The public key is \( N = pq \).
+\( \mathcal M = \mathcal C = \qty{1, \dots, N-1} = \mathbb Z_N^\times \).
+We encrypt a plaintext message \( m \) as \( c = m^2 \) mod \( N \).
+Usually, we restrict our messages so that \( (m, N) = 1 \) and \( m > \sqrt{N} \).
+
+Receiving ciphertext \( c \), we can solve for \( x_1, x_2 \) such that \( x_1^2 \equiv c \) mod \( p \) and \( x_2^2 \equiv c \) mod \( q \) using the previous lemma.
+Then, applying the Chinese remainder theorem, we can find \( x \) such that \( x \equiv x_1 \) mod \( p \) and \( x \equiv x_2 \) mod \( q \), hence \( x^2 \equiv c \) mod \( N \).
+Indeed, running the Euclidean algorithm on \( p, q \) gives integers \( r, s \) such that \( rp + sq = 1 \), then we can take \( x = sqx_1 + rpx_2 \).
+\begin{lemma}
+    \begin{enumerate}
+        \item Let \( p \) be an odd prime, and let \( (d, p) = 1 \).
+        Then \( x^2 \equiv d \) mod \( p \) has no solutions or exactly two solutions.
+        \item Let \( N = pq \) where \( p, q \) are distinct odd primes, and let \( (d, N) = 1 \).
+        Then \( x^2 \equiv d \) mod \( N \) has no solutions or exactly four solutions.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \emph{Part (i).}
+    \( x^2 \equiv y^2 \) mod \( p \) if and only if \( p \mid (x^2 - y^2) = (x-y)(x+y) \), so either \( p \mid x-y \) or \( p \mid x+y \), so \( x = \pm y \).
+    
+    \emph{Part (ii).}
+    If \( x_0 \) is a solution, then by the Chinese remainder theorem, there exist solutions \( x \) with \( x \equiv \pm x_0 \) mod \( p \) and \( x \equiv \pm x_0 \) mod \( q \).
+    This gives four solutions as required.
+    By (i), these are the only possible solutions.
+\end{proof}
+Hence, to decrypt the Rabin cipher, we must find all four solutions to \( x^2 \equiv c \) mod \( N \).
+Messages should include enough redundancy to uniquely determine which of these four solutions is the intended plaintext.
+\begin{theorem}
+    Breaking the Rabin cryptosystem is essentially as difficult as factoring \( N \).
+\end{theorem}
+\begin{proof}
+    If we can factorise \( N \) as \( pq \), we have seen that we can decrypt messages.
+    Conversely, suppose we can break the cryptosystem, so we have an algorithm to find square roots modulo \( N \).
+    Choose \( x \) mod \( N \) at random, and use the algorithm to find \( y \) such that \( y^2 \equiv x^2 \) mod \( N \).
+    With probability \( \frac{1}{2} \), \( x \neq \pm y \) mod \( N \).
+    Then, \( (N, x-y) \) is a nontrivial factor of \( N \).
+    If this fails, choose another \( x \), and repeat until the probability of failure \( \qty(\frac{1}{2})^r \) is acceptably low.
+\end{proof}
+
+\subsection{RSA cryptosystem}
+Suppose \( N = pq \) where \( p, q \) are distinct odd primes.
+We claim that if we know a multiple \( m \) of \( \varphi(N) = (p-1)(q-1) \), then factoring \( N \) is `easy'.
+Write \( o_p(x) \) for the order of \( x \) as an element of \( \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \).
+Write \( m = 2^a b \) where \( a \geq 1, b \) odd.
+Let
+\[ X = \qty{x \in \qty(\faktor{\mathbb Z}{N\mathbb Z})^\times \midd o_p(x^b) \neq o_q(x^b)} \]
+\begin{theorem}
+    \begin{enumerate}
+        \item If \( x \in X \), then there exists \( 0 \leq t < a \) such that \( (x^{2^t b} - 1, N) \) is a nontrivial factor of \( N \).
+        \item \( \abs{X} \geq \frac{1}{2} \abs{\qty(\faktor{\mathbb Z}{n\mathbb N})^\times} = \frac{1}{2}(p-1)(q-1) \).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \emph{Part (i).}
+    By the Fermat--Euler theorem, \( x^{\varphi(N)} \equiv 1 \) mod \( N \).
+    Hence \( x^m \equiv 1 \) mod \( N \).
+    But \( m = 2^a b \), so setting \( y = x^b \) mod \( N \), we obtain \( y^{2^a} \equiv 1 \) mod \( N \).
+    In particular, \( o_p(y) \) and \( o_q(y) \) are powers of 2.
+    Since \( x \in X \), \( o_p(y) \neq o_q(y) \), so without loss of generality suppose \( o_p(y) < o_q(y) \).
+    Let \( o_p(y) = 2^t \), so \( 0 \leq t < a \).
+    Then \( y^{2^t} \equiv 1 \) mod \( p \), but \( y^{2^t} \not\equiv 1 \) mod \( q \).
+    So \( (y^{2^t} - 1, N) = p \) as required.
+\end{proof}
+The proof of part (ii) will be seen later.
+
+In the RSA cryptosystem, the private key consists of large distinct primes \( p, q \) chosen at random.
+Let \( N = pq \), and choose the \emph{encrypting exponent} \( e \) randomly such that \( (e, \varphi(N)) = 1 \), for instance taking \( e \) prime larger than \( p, q \).
+By Euclid's algorithm, there exist \( d, k \) such that \( de - k\varphi(N) = 1 \); \( d \) is called the \emph{decrypting exponent}.
+
+The public key is \( (N, e) \), and we encrypt \( m \in \mathcal M \) as \( c \equiv m^e \) mod \( N \).
+The private key is \( (N, d) \), and we decrypt \( c \in \mathcal C \) as \( x \equiv c^d \) mod \( N \).
+By the Fermat--Euler theorem, \( x \equiv m^{de} \equiv m^{1+k\varphi(N)} \equiv m \) mod \( N \), noting that the probability that \( (m, N) \neq 1 \) is small enough to be ignored.
+Hence, the decrypting function is inverse to the encrypting function.
+% 
+% Suppose that Eve intercepts the ciphertext \( c \), and wants to find the plaintext given the public key \( (N, e) \).
+% This problem is essentially as difficult as finding the factors \( p \) and \( q \) of \( N \) so that \( \varphi(N) = (p-1)(q-1) \) can be computed.
+\begin{corollary}
+    Finding the RSA private key \( (N, d) \) is essentially as difficult as factoring \( N \).
+\end{corollary}
+\begin{proof}
+    We have already shown that if we can factorise \( N \), we can find \( d \).
+    Conversely, suppose there is an algorithm to find \( d \) given \( N \) and \( e \).
+    Then \( de \equiv 1 \) mod \( \varphi(N) \).
+    Taking \( m = de-1 \) in the proof of part (i) of the theorem above, we can factorise \( N \).
+    If this fails, repeat until the probability of failure is acceptably low.
+    After \( r \) such random choices, we find a factor of \( N \) with probability \( 1 - \qty(\frac{1}{2})^r \).
+\end{proof}
+We now prove part (ii) of the above theorem.
+\begin{proof}
+    The Chinese remainder theorem provides a multiplicative group isomorphism \( \qty(\faktor{\mathbb Z}{N\mathbb Z})^\times \to \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \times \qty(\faktor{\mathbb Z}{q\mathbb Z})^\times \) mapping \( x \) to \( (x \text{ mod } p, x \text{ mod } q) \).
+    We claim that if we partition \( \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \) according to the value of \( o_p(x^b) \), then each equivalence class has size at most \( \frac{1}{2} \abs{\qty(\faktor{\mathbb Z}{p\mathbb Z})^\times} = \frac{1}{2}(p-1) \).
+    We show that one of these subsets has size exactly \( \frac{1}{2}(p-1) \).
+    Let \( g \) be a primitive root mod \( p \), so \( \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times = \genset{g} \).
+    By Fermat's little theorem, \( g^{p-1} \equiv 1 \) mod \( p \), so \( g^m = g^{2^a b} \equiv 1 \) mod \( p \).
+    Hence, \( o_p(g^b) \) is a power of 2, say \( 2^t \leq a \).
+    Let \( x = g^k \) for some \( 0 \leq k \leq p - 2 \), then \( x^b = (g^b)^k \), so \( o_p(x^b) = \frac{2^t}{(2^t, k)} \).
+    So \( o_p(x^b) = 2^t \) if and only if \( k \) is odd, so
+    \[ o_p(x^b) = o_p(g^{bk}) = \begin{cases}
+        o_p(g^b) = 2^t & \text{if } k \text{ odd} \\
+        < 2^t & \text{if } k \text{ even}
+    \end{cases} \]
+    Thus, \( \qty{g^k \text{ mod } p \mid k \text{ odd}} \) is the set as required, proving the claim.
+    To finish, for each \( y \in \qty(\faktor{\mathbb Z}{q\mathbb Z})^\times \), the set \( \qty{x \in \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \mid o_p(x^b) \neq o_q(x^b)} \) has at least \( \frac{1}{2}(p-1) \) elements.
+    Applying the Chinese remainder theorem,
+    \[ \abs{X} = \qty{(x,y) \in \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \times \qty(\faktor{\mathbb Z}{q\mathbb Z})^\times \mid o_p(x^b) \neq o_q(x^b)} \geq \frac{1}{2}(p-1)(q-1) = \frac{1}{2}\varphi(N) \]
+\end{proof}
+\begin{remark}
+    We have shown that finding \( (N, d) \) from the public key \( (N, e) \) is as hard as factoring \( N \).
+    It is unknown whether decrypting messages sent via RSA is as hard as factoring.
+
+    RSA avoids the issue of needing to share keys, but it is slow.
+    Symmetric ciphers are often faster.
+\end{remark}
+\begin{example}[Shamir's padlock example]
+    Let \( \mathcal A = \mathbb Z_p \).
+    Alice chooses \( a \in \mathbb Z_{p-1} \) and computes \( g^a \).
+    She finds \( a' \) such that \( aa' = 1 \) mod \( p-1 \).
+    Bob chooses \( b \in \mathbb Z_{p-1} \) and computes \( g^b \).
+    He similarly finds \( b' \) such that \( bb' = 1 \) mod \( p-1 \).
+
+    Let \( m \) be a message in \( \mathbb Z_p \).
+    She encodes \( m \) as \( c = m^a \) mod \( p \).
+    She then sends this to Bob, who computes \( d = c^b \) mod \( p \).
+    He sends this back to alice, who computes \( e = d^{a'} \) mod \( p \).
+    She sends this back to Bob, who computes \( e^{b'} \) mod \( p \).
+    By Fermat's little theorem, \( e^{b'} \equiv d^{a'b'} \equiv c^{ba'b'} \equiv m^{aba'b'} \equiv m \).
+    % https://q.uiver.app/?q=WzAsNSxbMCwwLCJtIl0sWzEsMCwibV5hIl0sWzIsMCwiY15iIl0sWzMsMCwiZF57YSd9Il0sWzQsMCwiZV57Yid9Il0sWzAsMSwiQSJdLFsxLDIsIkIiXSxbMiwzLCJBIl0sWzMsNCwiQiJdXQ==
+    \[\begin{tikzcd}
+        m & {m^a} & {c^b} & {d^{a'}} & {e^{b'}}
+        \arrow["A", from=1-1, to=1-2]
+        \arrow["B", from=1-2, to=1-3]
+        \arrow["A", from=1-3, to=1-4]
+        \arrow["B", from=1-4, to=1-5]
+    \end{tikzcd}\]
+\end{example}
+\begin{example}[Diffie--Hellman key exchange]
+    Alice and Bob wish to agree on a secret key \( k \).
+    Let \( p \) be a large prime, and \( g \) a primitive root mod \( p \).
+    Alice chooses an exponent \( \alpha \in \mathbb Z_{p-1} \) and sends \( g^\alpha \) mod \( p \) to Bob.
+    Bob chooses an exponent \( \beta \) and sends \( g^\beta \) mod \( p \) to Alice.
+    Both Alice and Bob compute \( k = g^{\alpha\beta} \), which can be used as their secret key.
+    An eavesdropper must find \( g^{\alpha\beta} \) knowing \( g \), \( g^{\alpha} \), and \( g^{\beta} \).
+    Diffie and Hellman conjectured that this problem is as difficult as solving the discrete logarithm problem.
+\end{example}
+
+\subsection{Signatures}
+Consider a message \( m \) sent by Alice to Bob.
+Here are some possible aims that the participants may have in communication.
+\begin{enumerate}
+    \item \emph{Secrecy}: Alice and Bob can be sure that no third party can read the message.
+    \item \emph{Integrity}: Alice and Bob can be sure that no third party can alter the message.
+    \item \emph{Authenticity}: Bob can be sure that Alice sent the message.
+    \item \emph{Non-repudiation}: Bob can prove to a third party that Alice sent the message.
+\end{enumerate}
+\begin{example}[authenticity using RSA]
+    Suppose Alice uses a private key \( (N, d) \) to encrypt \( m \).
+    Anyone can decrypt \( m \) using the public key \( (N, e) \) as \( (m^d)^e = (m^e)^d = m \), but they cannot forge a message sent by Alice.
+    Suppose Bob picks a random message \( m \) and sends it to Alice; if Bob then receives a message back from Alice which after decryption ends in \( m \), then he can be sure it comes from Alice.
+\end{example}
+Signature schemes preserve integrity and non-repudiation.
+They also prevent tampering in the following sense.
+\begin{example}[homomorphism attack]
+    Suppose a bank sends messages of the form \( (M_1, M_2) \) where \( M_1 \) represents the client's name and \( M_2 \) represents an amount of money to be transferred into their account.
+    Suppose that messages are encoded using RSA as \( (Z_1, Z_2) = (M_1^e, M_2^e) \), where all calculations are performed modulo \( N \).
+    A client \( C \) transfers \( \pounds 100 \) to their account, and observes the encrypted message \( (Z_1, Z_2) \).
+    Then, sending \( (Z_1, Z_2^3) \) to the bank, \( C \) becomes a millionaire without breaking RSA.
+    Alternatively, one could simply send \( (Z_1, Z_2) \) to the bank many times, gaining more money each time; this particular attack is defeated by timestamping the messages.
+\end{example}
+\begin{definition}
+    A message \( m \) is \emph{signed} as \( (m, s) \) where the \emph{signature} \( s = s(m,k) \) is a function of \( m \) and the private key \( k \).
+\end{definition}
+The recipient can check the signature using the public key to verify authenticity of the message.
+The signature function or \emph{trapdoor} function \( s \colon \mathcal M \times \mathcal K \to \mathcal S \) is designed such that without knowledge of the private key, one cannot sign messages, but anyone can check whether a signature is valid.
+Note that the signature is associated to each message, not to each sender.
+\begin{example}[signatures using RSA]
+    Suppose Alice has a private key \( (N, d) \), and publishes a public key \( (N, e) \).
+    She signs a message \( m \) as \( (m, s) \) where \( s = m^d \text{ mod } N \).
+    The signature is verified by checking \( s^e = m \).
+
+    This technique is vulnerable to the homomorphism attack.
+    This is also vulnerable to the \emph{existential forgery} attack: an attacker can produce valid signed messages of the form \( (s^e \text{ mod N }, s) \) after choosing \( s \) first.
+    Hopefully, such messages are not meaningful.
+
+    To solve these problems, we could use a better signature scheme.
+    In addition, rather than signing a message \( m \), we instead sign the \emph{digest} \( h(m) \) where \( h \colon \mathcal M \to \qty{1, \dots, N-1} \) is a \emph{hash} function.
+    A hash function is a publicly known function for which it is very difficult to find pairs of messages with matching hashes; such a pair is called a \emph{collision}.
+    Examples of hash functions include MD5 and the SHA family.
+\end{example}
+
+\subsection{Elgamal signature scheme}
+Alice chooses a large prime \( p \) and a random integer \( u \) with \( 1 < u < p \).
+Let \( g \) be a primitive root mod \( p \).
+The public key is \( p, g, y = g^u \text{ mod } p \).
+The private key is \( u \).
+Let \( h \colon \mathcal M \to \qty{1, \dots, p-1} \) be a collision-resistant hash function.
+
+To send a message \( m \) with \( 0 \leq m \leq p-1 \), Alice randomly chooses \( k \) with \( 1 \leq k \leq p-2 \) coprime to \( p-1 \).
+She computes \( r, s \) with \( 1 \leq r \leq p-1 \) and \( 1 \leq s \leq p-2 \) satisfying
+\[ r \equiv g^k \mod p;\quad h(m) \equiv ur + ks \mod (p-1) \]
+Since \( k \) is coprime to \( p-1 \), the congruence for \( s \) always has a solution.
+Alice signs the message with the signature \( (r, s) \).
+Now,
+\[ g^{h(m)} \equiv g^{ur + ks} \equiv (g^u)^r (g^k)^s \equiv y^r r^s \mod p \]
+Bob accepts a signature if \( g^{h(m)} = y^r r^s \) mod \( p \).
+To forge a signature, obvious attacks involve the discrete logarithm problem, finding \( u \) from \( y = g^u \).
+\begin{lemma}
+    Let \( a, b, m \in \mathbb N \) and consider the congruence \( ax \equiv b \) mod \( m \).
+    This has either no solutions or \( \gcd(a,m) \) solutions for \( x \) mod \( m \).
+\end{lemma}
+\begin{proof}
+    Let \( d = \gcd(a,m) \).
+    If \( d \nmid b \), there is no solution.
+    If \( d \mid b \), we can rewrite the congruence as \( \frac{a}{d} x \equiv \frac{b}{d} \) mod \( \frac{m}{d} \).
+    Note that \( \frac{a}{d}, \frac{m}{d} \) are coprime, so this congruence has a unique solution.
+\end{proof}
+It is vital that Alice chooses a new value of \( k \) to sign each message.
+Suppose she sends \( m_1, m_2 \) using the same value of \( k \).
+Denote the signatures \( (r, s_1) \) and \( (r, s_2) \); note that \( r \) depends only on \( k \) and is hence fixed.
+\[ h(m_1) \equiv ur + ks_1 \mod (p-1);\quad h(m_2) \equiv ur + ks_2 \mod (p-1) \implies h(m_1) - h(m_2) \equiv k(s_1 - s_2) \mod (p-1) \]
+Let \( d = \gcd(p-1, s_1 - s_2) \).
+By the previous lemma, this is the number of solutions for \( k \) modulo \( p-1 \).
+Choose the solution that gives the correct value in the first congruence \( r \equiv g^k \) mod \( p \).
+Then,
+\[ s_1 \equiv \frac{h(m_1) - ur}{k} \mod (p-1) \]
+This gives \( ur \equiv h(m_1) - ks_1 \).
+Hence, using the lemma again, there are \( \gcd(p-1, r) \) solutions for \( u \).
+Choose the solution for \( u \) that gives \( y \equiv g^u \).
+This allows us to deduce Alice's private key \( u \), as well as the exponent \( k \) used in both messages.
+
+\subsection{The digital signature algorithm}
+The digital signature algorithm is a variant of the Elgamal signature scheme developed by the NSA.
+The public key is \( (p, q, g) \) constructed as follows.
+% TODO: verify previous line
+\begin{itemize}
+    \item Let \( p \) be a prime of exactly \( N \) bits, where \( N \) is a multiple of 64 such that \( 512 \leq N \leq 1024 \), so \( 2^{N-1} < p < 2^N \).
+    \item Let \( q \) be a prime of 160 bits, such that \( q \mid p-1 \).
+    \item Let \( g \equiv h^{\frac{p-1}{q}} \) mod \( p \), where \( h \) is a primitive root mod \( p \); in particular, \( g \) is an element of order \( q \) in \( \mathbb Z_p^\times \).
+    \item Alice chooses a private key \( x \) with \( 1 < x < q \) and publishes \( y = g^x \).
+\end{itemize}
+Let \( m \) be a message with \( 0 \leq m < q \).
+She chooses a random \( k \) with \( 1 < k < q \), and computes
+\[ s_1 \equiv (g^k \text{ mod } p) \text{ mod } q;\quad s_2 \equiv k^{-1}(m+xs_1) \text{ mod } q \]
+The signature is \( (s_1, s_2) \).
+To verify a signature, we perform the following procedure.
+Bob computes \( w \equiv s_2^{-1} \) mod \( q \), \( u_1 \equiv mw \) mod \( q \), \( u_2 \equiv s_1 w \) mod \( q \), and \( v = (g^{u_1} y^{u_2} \text{ mod } p) \text{ mod } q \).
+He accepts the signature if \( v = s_1 \).
+\begin{proposition}
+    If a message is signed with the DSA and the message is not manipulated, the signature is accepted.
+\end{proposition}
+\begin{proof}
+    First, note that \( (m + xs_1)w = ks_2s_2^{-1} \) mod \( q \).
+    Now, as \( g^q = 1 \) mod \( p \),
+    \begin{align*}
+        v &= (g^{u_1} y^{u_2} \text{ mod } p) \text{ mod } q \\
+        &= (g^{mw} g^{xs_1 w} \text{ mod } p) \text{ mod } q \\
+        &= (g^{(m + xs_1)w} \text{ mod } p) \text{ mod } q \\
+        &= (g^k \text{ mod } p) \text{ mod } q \\
+        &= s_1
+    \end{align*}
+    Hence, for a correctly signed message, the verification succeeds.
+\end{proof}
+Suppose that Alice sends \( m_1 \) to Bob and \( m_2 \) to Carol, and provides signatures for each message using the DSA.
+One can show that if Alice uses the same value of \( k \) for both transmissions, it is possible for an eavesdropper to recover the private key \( x \) from the signed messages.
+
+\subsection{Commitment schemes}
+Suppose Alice wants to send a bit \( m \in \qty{0,1} \) to Bob in such a way that
+\begin{enumerate}
+    \item Bob cannot determine the value of \( m \) without Alice's help; and
+    \item Alice cannot change the bit once she has sent it.
+\end{enumerate}
+Such a system can be used for coin tossing: suppose Alice and Bob are in different rooms, where Alice tosses a coin and Bob guesses the result.
+The result of the coin and Bob's guess can be viewed as messages of this form.
+As another example, consider a poll whose result cannot be viewed until everyone has voted.
+We will see two examples of such a \emph{commit-and-reveal} strategy, known as \emph{bit commitment}.
+
+Suppose that we have a publicly known encryption function \( e_A \) and a decryption function \( d_A \) known only to Alice.
+Alice makes a choice for her message \( m \), and commits to Bob the ciphertext \( c = e_A(m) \).
+Under the assumption that the cipher is secure, Bob cannot decipher the message.
+To reveal her choice, Alice sends her private key to Bob, who can then use it to decipher the message \( d_A(c) = d_A(e_A(m)) = m \).
+He can also check that \( d_A, e_A \) are inverse functions and thus ensure that Alice sent the correct private key.
+
+Alternatively, suppose that Alice has two ways to communicate to Bob: a clear channel which transmits with no errors, and a binary symmetric channel with error probability \( p \).
+Suppose \( 0 < p < \frac{1}{2} \), and the noisy channel corrupts bits independent of any action of Alice or Bob, so neither can affect its behaviour.
+Bob publishes a binary linear code \( C \) of length \( N \) and minimum distance \( d \), and Alice publishes a random non-trivial linear map \( \theta \colon C \to \mathbb F_2 \).
+To send a bit \( m \in \mathbb F_2 \), Alice chooses a random codeword \( c \in C \) such that \( \theta(c) = m \), and sends \( c \) to Bob via the noisy channel.
+Bob receives \( r = c + e \in \mathbb F_2^N \) where \( e \) is the error pattern.
+The expected value of \( d(r,c) = d(e,0) \) is \( Np \).
+\( N \) is chosen such that \( Np \gg d \), so Bob cannot tell what the original codeword \( c \) was, and hence cannot find \( \theta(c) = m \).
+
+To reveal, Alice sends \( c \) to Bob using the clear channel.
+Bob can check that \( d(c,r) \approx Np \); if so, he accepts the message.
+It is possible that many more or many fewer bits of \( c \) were corrupted by the noisy channel, which may make Bob reject the message even if Alice correctly committed and revealed the message.
+\( N, d \) should be chosen such that the probability of this occurring is negligible.
+
+We have shown that Bob cannot read Alice's guess until she reveals it.
+In addition, Alice cannot cheat by changing her guess, because she knows \( c \) but not how it was corrupted by the noisy channel.
+All she knows is that the received message \( r \) has distance approximately \( Np \) from \( c \).
+If she were to send \( c' \neq c \), she must ensure that \( d(r,c') \approx Np \), but the probability that this happens is small unless she chooses \( c' \) very close to \( c \).
+But any two distinct codewords have distance at least \( d \), so she cannot cheat.
+
+\subsection{Secret sharing schemes}
+% This has been made nonexaminable.
+Suppose that the CMS is attacked by the MIO.
+% (mathematical institute, oxford)
+The Faculty will retreat to a bunker known as MR2.
+Entry to MR2 is controlled by a \emph{secret}, which is a positive integer \( S \).
+This secret is known only to the Leader.
+Each of the \( n \) members of the Faculty knows a pair of numbers, called their \emph{shadow} or \emph{share}.
+It is required that, in the absence of the Leader, any \( k \) members of the Faculty can reconstruct the secret from their shadows, but any \( k-1 \) cannot.
+\begin{definition}
+    Let \( k, n \in \mathbb N \) with \( k < n \).
+    A \emph{\( (k, n) \)-threshold scheme} is a method of sharing a message \( S \) among a set of \( n \) participants such that any subset of \( k \) participants can reconstruct \( S \), but no subset of smaller size can reconstruct \( S \).
+\end{definition}
+We discuss Shamir's method for implementing such a scheme.
+Let \( 0 \leq S \leq N \) be the secret, which can be chosen at random by the Leader.
+The Leader chooses and publishes a prime \( p > n, N \).
+They then choose independent random coefficients \( a_1, \dots, a_{k-1} \) with \( 0 \leq a_j \leq p-1 \) where we take \( a_0 = S \), and distinct integers \( x_1, \dots, x_n \) with \( 1 \leq x_j \leq p-1 \).
+Define
+\[ P(r) \equiv a_0 + \sum_{j=1}^{k-1} a_j x_r^j \mod p \]
+choosing \( 0 \leq P(r) \leq p-1 \).
+The \( r \)th participant is given their shadow pair \( (x_r, P(r)) \) to be kept secret.
+The Leader can then discard their computations.
+
+Suppose \( k \) members of the Faculty assemble with shadow pairs \( (y_j, Q(j)) = (x_{i_j}, P(i_j)) \) for \( 1 \leq j \leq k \).
+By properties of the Vandermonde determinant,
+\[ \det\begin{pmatrix}
+    1 & y_1 & \cdots & y_1^{k-1} \\
+    1 & y_2 & \cdots & y_2^{k-1} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    1 & y_k & \cdots & y_k^{k-1}
+\end{pmatrix} = \prod_{1 \leq j < i \leq k} (y_i - y_j) \]
+The \( y_i \) are distinct, so this determinant does not vanish.
+Hence, we can uniquely solve the system of \( k \) simultaneous equations
+\begin{align*}
+    z_0 + y_1 z_1 + y_1^2 z_2 + \dots + y_k^{k-1} z_{k-1} &\equiv Q(1) \\
+    z_0 + y_2 z_1 + y_2^2 z_2 + \dots + y_2^{k-1} z_{k-1} &\equiv Q(2) \\
+    &\vdots \\
+    z_0 + y_k z_1 + y_k^2 z_2 + \dots + y_k^{k-1} z_{k-1} &\equiv Q(k)
+\end{align*}
+In particular, \( z_0 = a_0 = S \) is the secret, as \( (a_0, \dots, a_{k-1}) \) is also a solution to these equations by construction.
+Suppose \( k-1 \) people attempt to reconstruct the secret.
+In this case, the Vandermonde determinant gives
+\[ \det\begin{pmatrix}
+    y_1 & y_1^2 & \cdots & y_1^{k-1} \\
+    y_2 & y_2^2 & \cdots & y_2^{k-1} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    y_{k-1} & y_{k-1}^2 & \cdots & y_{k-1}^{k-1}
+\end{pmatrix} = y_1 y_2 \dots y_{k-1} \prod_{1 \leq j < i \leq k-1} (y_i - y_j) \]
+This is nonzero modulo \( p \), so the system of equations
+\begin{align*}
+    z_0 + y_1 z_1 + y_1^2 z_2 + \dots + y_k^{k-1} z_{k-1} &\equiv Q(1) \\
+    z_0 + y_2 z_1 + y_2^2 z_2 + \dots + y_2^{k-1} z_{k-1} &\equiv Q(2) \\
+    &\vdots \\
+    z_0 + y_{k-1} z_1 + y_{k-1}^2 z_2 + \dots + y_{k-1}^{k-1} z_{k-1} &\equiv Q(k-1)
+\end{align*}
+has solutions for \( z_1, \dots, z_{k-1} \) regardless of the value of \( z_0 \).
+Thus, \( k - 1 \) members of the Faculty cannot reconstruct the secret \( S \), or even tell which values are more likely than others.
+\begin{remark}
+    Note that a polynomial of degree \( k - 1 \) can be recovered from its values at \( k \) points, but not on fewer points; this technique is known as Lagrange interpolation.
+    The secret shadow pairs can be changed without altering the secret \( S \); the Leader simply chooses a different random polynomial with the same constant term.
+    Changing the polynomial frequently can increase security, since any eavesdropper who has gathered some shadow pairs generated from one polynomial cannot use that information to help decrypt a different polynomial.
+\end{remark}
+\begin{example}
+    Consider a \( (3, n) \)-threshold scheme, where ordinary workers in a company have single shares, the vice presidents have two shares, and the Leader has three.
+    In this case, the secret can be recovered by any three ordinary workers, any two workers if one of them is a vice president, or the Leader alone.
+    In such \emph{hierarchical schemes}, the `importance' of individuals determines how many of them are required to recover the secret.
+\end{example}
+\begin{example}
+    Suppose Alice has a private key that she wishes to store securely and reliably.
+    She uses a \( (k, 2k-1) \)-threshold scheme, where she forms \( 2k-1 \) shadow pairs and stores them in different locations.
+    As long as she does not lose more than half of the pairs, she can recover her key, hence the scheme is reliable.
+    An eavesdropper needs to steal more than half of the pairs in order to recover the key, hence the scheme is secure.
+\end{example}
+% exercise: is S compromised if the values of the x_j are known?

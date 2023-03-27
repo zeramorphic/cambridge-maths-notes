@@ -1,0 +1,291 @@
+\subsection{Decoding rules}
+\begin{definition}
+    A \emph{binary \( [n,m] \)-code} is a subset \( C \) of \( \qty{0,1}^n \) of size \( m = \abs{C} \).
+    We say \( n \) is the \emph{length} of the code, and elements of \( C \) are called \emph{codewords}.
+\end{definition}
+We use an \( [n,m] \)-code to send one of \( m \) messages through a channel using \( n \) bits.
+For instance, if the channel is a binary symmetric channel, we use the channel \( n \) times.
+Note that \( 1 \leq m \leq 2^n \), so the information rate satisfies \( 0 \leq \frac{1}{n} \log m \leq 1 \).
+If \( m = 1 \), \( \rho(C) = 0 \), and if \( C = \qty{0,1}^n \), \( \rho(C) = 1 \).
+\begin{definition}
+    Let \( x, y \in \qty{0,1}^n \).
+    The \emph{Hamming distance} between \( x \) and \( y \) is
+    \[ d(x,y) = \abs{\qty{i \mid x_i \neq y_i}} \]
+\end{definition}
+In this section, we consider only the binary symmetric channel with probability \( p \).
+\begin{definition}
+    Let \( C \) be a binary \( [n,m] \)-code.
+    \begin{itemize}
+        \item The \emph{ideal observer} decoding rule decodes \( x \in \qty{0,1}^n \) as the \( c \in C \) maximising the probability that \( c \) was sent given that \( x \) was received;
+        \item The \emph{maximum likelihood} decoding rule decodes \( x \in \qty{0,1}^n \) as the \( c \in C \) maximising the probability that \( x \) was received given that \( c \) was sent;
+        \item The \emph{minimum distance} decoding rule decodes \( x \in \qty{0,1}^n \) as the \( c \in C \) minimising the Hamming distance \( d(x,c) \).
+    \end{itemize}
+\end{definition}
+\begin{lemma}
+    Let \( C \) be a binary \( [n,m] \)-code.
+    \begin{enumerate}
+        \item If all messages are equally likely, the ideal observer and maximum likelihood decoding rules agree.
+        \item If \( p < \frac{1}{2} \), then the maximum likelihood and minimum distance decoding rules agree.
+    \end{enumerate}
+\end{lemma}
+Note that the hypothesis in part (i) is reasonable if we first encode a message using noiseless coding.
+The hypothesis in part (ii) is reasonable, since a channel with \( p = \frac{1}{2} \) can carry no information, and a channel with \( p > \frac{1}{2} \) can be used as a channel with probability \( 1 - p \) by inverting its outputs.
+Channels with \( p = 0 \) are called \emph{lossless channels}, and channels with \( p = \frac{1}{2} \) are called \emph{useless channels}.
+\begin{proof}
+    \emph{Part (i).}
+    By Bayes' rule,
+    \[ \prob{c \text{ sent} \mid x \text{ received}} = \frac{\prob{c \text{ sent, } x \text{ received}}}{x \text{ received}} = \frac{\prob{c \text{ sent}}}{\prob{x \text{ received}}} \prob{x \text{ received} \mid c \text{ sent}} \]
+    By hypothesis, \( \prob{c \text{ sent}} \) is independent of \( c \).
+    Hence, for some fixed received message \( x \), maximising \( \prob{c \text{ sent} \mid x \text{ received}} \) is the same as maximising \( \prob{x \text{ received} \mid c \text{ sent}} \).
+
+    \emph{Part (ii).}
+    Let \( r = d(x,c) \).
+    Then,
+    \[ \prob{x \text{ received} \mid c \text{ sent}} = p^r (1-p)^{n-r} = (1-p)^n \qty(\frac{p}{1-p})^r \]
+    As \( p < \frac{1}{2} \), \( \frac{p}{1-p} < 1 \).
+    Hence, maximising \( \prob{x \text{ received} \mid c \text{ sent}} \) is equivalent to minimising \( r = d(x,c) \).
+\end{proof}
+We can therefore choose to use minimum distance decoding from this point.
+\begin{example}
+    Suppose codewords \( 000, 111 \) are sent with probabilities \( \alpha = \frac{9}{10} \) and \( 1 - \alpha = \frac{1}{10} \), through a binary symmetric channel with error probability \( p = \frac{1}{4} \).
+    Suppose that we receive \( 110 \).
+    Clearly, an error has been introduced.
+    \[ \prob{000 \text{ sent} \mid 110 \text{ received}} = \frac{\alpha p^2 (1-p)}{\alpha p^2 (1-p) + (1-\alpha)p(1-p)^2} = \frac{3}{4};\quad \prob{111 \text{ sent} \mid 110 \text{ received}} = \frac{1}{4} \]
+    The ideal observer therefore decodes \( 110 \) as \( 000 \).
+    The maximum likelihood or minimum distance decoding rules decode \( 110 \) as \( 111 \).
+\end{example}
+\begin{remark}
+    Minimum distance decoding may be expensive in terms of time and storage if \( \abs{C} \) is large, since the distance to all codewords must be calculated \emph{a priori}.
+    One must also specify a convention in case of a tie between the probabilities or distances, for instance, using a random choice, or requesting a retransmission.
+\end{remark}
+The aim when constructing codes for noisy channels is to detect, or even correct, errors.
+
+\subsection{?}
+\begin{definition}
+    A binary \( [n,m] \)-code \( C \) is
+    \begin{itemize}
+        \item \emph{\( d \)-error detecting} if, when changing up to \( d \) digits in each codeword, we can never produce another codeword;
+        \item \emph{\( e \)-error correcting} if, knowing that \( x \in \qty{0,1}^n \) differs from a codeword in at most \( e \) positions, we can deduce the codeword.
+    \end{itemize}
+\end{definition}
+\begin{example}
+    A \emph{repetition code} of length \( n \) has codewords \( 0^n, 1^n \).
+    This is an \( [n,2] \)-code.
+    It is \( (n-1) \)-error detecting, and \( \floor{\frac{n-1}{2}} \)-error correcting.
+    Its information rate is \( \frac{1}{n} \).
+\end{example}
+\begin{example}
+    A \emph{simple parity check code} or \emph{paper tape code} of length \( n \) identifies the set \( \qty{0,1} \) with the field \( \mathbb F_2 \) of two elements, and defines \( C = \qty{(x_1, \dots, x_n) \in \mathbb F_2^n \mid \sum x_i = 0} \).
+    This is an \( [n,2^{n-1}] \)-code.
+    This is 1-error detecting and 0-error correcting, but has information rate \( \frac{n-1}{n} \).
+\end{example}
+\begin{example}
+    Hamming's original code is a 1-error correcting binary \( [7,16] \)-code, defined on a subset of \( \mathbb F_2^7 \) by
+    \[ C = \qty{c \in \mathbb F_2^7 \mid c_1 + c_3 + c_5 + c_7 = 0; c_2 + c_3 + c_6 + c_7 = 0; c_4 + c_5 + c_6 + c_7 = 0} \]
+    The bits \( c_3, c_5, c_6, c_7 \) are chosen arbitrarily, and \( c_1, c_2, c_4 \) are check digits, giving a size of \( 2^4 = 16 \).
+    Suppose that we receive \( x \in \mathbb F_2^7 \).
+    We form the \emph{syndrome} \( z = z_x = (z_1, z_2, z_4) \in \mathbb F_2^3 \) where
+    \[ z_1 = x_1 + x_3 + x_5 + x_7;\quad z_2 = x_2 + x_3 + x_6 + x_7;\quad z_4 = x_4 + x_5 + x_6 + x_7 \]
+    By definition of \( C \), if \( x \in C \) then \( z = (0, 0, 0) \).
+    If \( d(x,c) = 1 \) for some \( c \in C \), then the place where \( x \) and \( c \) differ is given by \( z_1 + 2z_2 + 4z_4 \) (not modulo 2).
+    Indeed, if \( x = c + e_i \) where \( e_i \) is the zero vector with a one in the \( i \)th position, \( z_x = z_{e_i} \), and one can check that this holds for each \( 1 \leq i \leq 7 \).
+    Therefore, Hamming's original code is 1-error correcting.
+\end{example}
+\begin{lemma}
+    The Hamming distance is a metric on \( \mathbb F_2^n \).
+\end{lemma}
+\begin{proof}
+    Clearly, \( d(x,y) \geq 0 \) and equality holds if and only if \( x = y \), and \( d(x,y) = d(y,x) \).
+    Let \( x, y, z \in \mathbb F_2^n \).
+    Then,
+    \[ \qty{i \mid x_i \neq z_i} \subseteq \qty{i \mid x_i \neq y_i} \cup \qty{i \mid y_i \neq z_i} \]
+    Hence \( d(x,z) \leq d(x,y) + d(y,z) \).
+\end{proof}
+\begin{remark}
+    We could write \( d(x,y) \) as \( \sum d_1(x_i,y_i) \) where \( d_1 \) is the discrete metric on \( \mathbb F_2 \).
+\end{remark}
+
+\subsection{Minimum distance}
+\begin{definition}
+    The \emph{minimum distance} of a code is the minimum value of \( d(c_1, c_2) \) for codewords \( c_1 \neq c_2 \).
+\end{definition}
+\begin{lemma}
+    Let \( C \) be a code with minimum distance \( d > 0 \).
+    Then,
+    \begin{enumerate}
+        \item \( C \) is \( (d-1) \)-error detecting, but cannot detect all sets of \( d \) errors;
+        \item \( C \) is \( \floor{\frac{d-1}{2}} \)-error correcting, but cannot correct all sets of \( \floor{\frac{d-1}{2}} + 1 \) errors.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \emph{Part (i).}
+    If \( x \in \mathbb F_2^n \) and \( c \) is a codeword with \( 1 \leq d(x,c) \leq d - 1 \).
+    Then \( x \not\in C \), so \( d - 1 \) errors are detected.
+    Suppose \( c_1, c_2 \) are codewords with \( d(c_1, c_2) = d \).
+    Then \( c_1 \) can be corrupted into \( c_2 \) with only \( d \) errors, and this is undetectable.
+
+    \emph{Part (ii).}
+    Let \( e = \floor{\frac{d-1}{2}} \).
+    By definition, \( e \leq \frac{d-1}{2} < e + 1 \), so \( 2e < d \leq 2(e+1) \).
+    Let \( x \in \mathbb F_2^n \).
+    If \( c_1 \in C \) with \( d(x,c_1) \leq e \), we want to show that \( d(x,c_2) > e \) for all \( c_2 \neq c_1 \).
+    By the triangle inequality, \( d(x,c_2) \geq d(c_1,c_2) - d(x,c_1) \geq d - e > e \) as required.
+    Hence, \( C \) is \( e \)-error correcting.
+
+    Let \( c_1, c_2 \in C \) with \( d(c_1, c_2) = d \).
+    Let \( x \in \mathbb F_2^n \) differ from \( c_1 \) in precisely \( e + 1 \) places that \( c_1 \) and \( c_2 \) differ.
+    Then \( d(x,c_1) = e + 1 \), and \( d(x,c_2) = d - (e+1) \leq e + 1 \).
+    Hence, \( C \) cannot correct all sets of \( e + 1 \) errors.
+\end{proof}
+\begin{definition}
+    An \( [n,m] \)-code with minimum distance \( d \) is called an \( [n,m,d] \)-code.
+\end{definition}
+Note that \( m \leq 2^n \) with equality if and only if \( C = \mathbb F_2^n \).
+Similarly, \( d \leq n \), with equality in the case of the repetition code.
+\begin{example}
+    The repetition code of length \( n \) is an \( [n,2,n] \)-code.
+    The simple parity check code of length \( n \) is an \( [n,2^{n-1},2] \)-code.
+    The trivial code on \( n \) bits is an \( [n,2^n,1] \)-code.
+    Hamming's original code is 1-error correcting, so has minimum distance at least 3.
+    The minimum distance can easily be shown to be exactly 3 as \( 0000000, 1110000 \) are codewords, so it is a \( [7,16,3] \)-code.
+\end{example}
+
+\subsection{Covering estimates}
+\begin{definition}
+    Let \( x \in \mathbb F_2^n \) and \( r \geq 0 \).
+    Then, we denote the \emph{closed Hamming ball} with centre \( x \) and radius \( r \) by \( B(x,r) \).
+    We write \( V(n,r) = \abs{B(x,r)} = \sum_{i=0}^r \binom{n}{i} \) for the \emph{volume} of this ball.
+\end{definition}
+\begin{lemma}[Hamming's bound; sphere packing bound]
+    An \( e \)-error correcting code \( C \) of length \( n \) has
+    \[ \abs{C} \leq \frac{2^n}{V(n,e)} \]
+\end{lemma}
+\begin{proof}
+    \( C \) is \( e \)-error correcting, so \( B(c_1, e) \cap B(c_2, e) \) is empty for all codewords \( c_1 \neq c_2 \).
+    Hence,
+    \[ \sum_{c \in C} \abs{B(c,e)}  \leq \abs{\mathbb F_2^n} \implies \abs{C} V(n,e) \leq 2^n \]
+    as required.
+\end{proof}
+\begin{definition}
+    An \( e \)-error correcting code \( C \) of length \( n \) such that \( \abs{C} = \frac{2^n}{V(n,e)} \) is called \emph{perfect}.
+\end{definition}
+\begin{remark}
+    Equivalently, a code is perfect if for all \( x \in \mathbb F_2^n \), there exists a unique \( c \in C \) such that \( d(x,c) \leq e \).
+    Alternatively, \( \mathbb F_2^n \) is a union of disjoint balls \( B(c,e) \) for all \( c \in C \), or that any collection of \( e + 1 \) will cause the message to be decoded incorrectly.
+\end{remark}
+\begin{example}
+    Consider Hamming's \( [7,16,3] \)-code.
+    This is 1-error correcting, and
+    \[ \frac{2^n}{V(n,e)} = \frac{2^7}{V(7,1)} = \frac{2^7}{1+7} = 2^4 = \abs{C} \]
+    So Hamming's original code is perfect.
+\end{example}
+\begin{example}
+    The binary repetition code of length \( n \) is perfect if and only if \( n \) is odd.
+\end{example}
+\begin{remark}
+    If \( \frac{2^n}{V(n,e)} \) is not an integer, there does not exist a perfect \( e \)-error correcting code of length \( n \).
+    The converse is false; the case \( n = 90, e = 2 \) is discussed on the second example sheet.
+\end{remark}
+\begin{definition}
+    \( A(n,d) \) is the largest possible size \( m \) of an \( [n,m,d] \)-code.
+\end{definition}
+The values of the \( A(n,d) \) are unknown in general.
+\begin{example}
+    \( A(n,1) = 2^n \), considering the trivial code.
+    \( A(n,2) = 2^{n-1} \), maximised at the simple parity check code.
+    \( A(n,n) = 2 \), maximised at the repetition code.
+\end{example}
+\begin{lemma}
+    \( A(n,d+1) \leq A(n,d) \).
+\end{lemma}
+\begin{proof}
+    Let \( m = A(n,d+1) \), and let \( C \) be an \( [n,m,d+1] \)-code.
+    Let \( c_1, c_2 \in C \) be distinct codewords such that \( d(c_1,c_2) = d+1 \).
+    Let \( c_1' \) differ from \( c_1 \) in exactly one of the places where \( c_1 \) and \( c_2 \) differ.
+    Then \( d(c_1', c_2) = d \).
+    If \( c \in C \) is any codeword not equal to \( c_1 \), then \( d(c,c_1) \leq d(c,c_1') + d(c_1',c_1) \) hence \( d + 1 \leq d(c,c_1') + 1 \), so the code given by \( C \cup \qty{c_1'} \setminus \qty{c_1} \) has minimum distance \( d \), but has length \( n \) and size \( m \).
+    This is therefore an \( [n,m,d] \)-code as required.
+\end{proof}
+\begin{corollary}
+    Equivalently, \( A(n,d) = \max \qty{m \mid \exists [n,m,d'] \text{-code, for some } d' \geq d} \).
+\end{corollary}
+\begin{theorem}
+    \[ \frac{2^n}{V(n,d-1)} \leq A(n,d) \leq \frac{2^n}{V\qty(n,\floor{\frac{d-1}{2}})} \]
+\end{theorem}
+The upper bound is Hamming's bound; the lower bound is known as the GSV (Gilbert--Shannon--Varshamov) bound.
+The upper bound can be thought of as a sphere packing bound, and the lower bound is a sphere covering bound.
+\begin{proof}
+    We prove the lower bound.
+    Let \( m = A(n,d) \), and let \( C \) be an \( [n,m,d] \)-code.
+    Then, there exists no \( x \in \mathbb F_2^n \) with \( d(x,c) \geq d \) for all codewords.
+    Indeed, if such an \( x \) exists, we could consider the code \( C \cup \qty{x} \), which would be an \( [n,m+1,d] \)-code, contradicting maximality of \( m \).
+    Then,
+    \[ \mathbb F_2^n \subseteq_{c \in C} \bigcup B(c,d-1) \implies 2^n \leq \sum_{c \in C} \abs{B(c,d-1)} = mV(n,d-1) \]
+    as required.
+\end{proof}
+\begin{example}
+    Let \( n = 10, d = 3 \).
+    Then \( V(n,1) = 11 \) and \( V(n,2) = 56 \), so the GSV bound is \( \frac{2^{10}}{56} \leq A(10,3) \leq \frac{2^{10}}{11} \).
+    Hence, \( 19 \leq A(10,3) \leq 93 \).
+    It was known that the lower bound could be improved to 72.
+    We now know that the true value of \( A(10,3) \) is exactly 72.
+    In this case, the GSV bound was not a sharp inequality.
+\end{example}
+
+\subsection{Asymptotics}
+We study the information rate \( \frac{\log A(n,\floor{n\delta})}{n} \) as \( n \to \infty \) to see how large the information rate can be for a fixed error rate.
+\begin{proposition}
+    Let \( 0 < \delta < \frac{1}{2} \).
+    Then,
+    \begin{enumerate}
+        \item \( \log V(n,\floor{n\delta}) \leq nH(\delta) \);
+        \item \( \frac{1}{n} \log A(n,\floor{n\delta}) \geq 1 - H(\delta) \);
+    \end{enumerate}
+    where \( H(\delta) = -\delta \log \delta - (1-\delta)\log (1-\delta) \).
+\end{proposition}
+\begin{proof}
+    \emph{(i) implies (ii).}
+    By the GSV bound, we find
+    \[ A(n,\floor{n\delta}) \geq \frac{2^n}{V(n,\floor{n\delta} - 1)} \geq \frac{2^n}{V(n,\floor{n\delta})} \]
+    Taking logarithms,
+    \[ \frac{1}{n}\log A(n,\floor{n\delta}) \geq 1 - \frac{\log V(n,\floor{n\delta})}{n} \geq 1 - H(\delta) \]
+    \emph{Part (i).}
+    \( H(\delta) \) is increasing for \( \delta < \frac{1}{2} \).
+    Therefore, without loss of generality, we may assume \( n\delta \) is an integer.
+    Now, as \( \frac{\delta}{1-\delta} < 1 \),
+    \begin{align*}
+        1 &= (\delta + (1-\delta))^n \\
+        &= \sum_{i=0}^n \binom{n}{i} \delta^i (1-\delta)^{n-i} \\
+        &\geq \sum_{i=0}^{n\delta} \binom{n}{i} \delta^i (1-\delta)^{n-i} \\
+        &= (1-\delta)^n \sum_{i=0}^{n\delta} \binom{n}{i} \qty(\frac{\delta}{1-\delta})^i \\
+        &\geq (1-\delta)^n \sum_{i=0}^{n\delta} \binom{n}{i} \qty(\frac{\delta}{1-\delta})^{n\delta} \\
+        &= \delta^{n\delta} (1-\delta)^{n(1-\delta)} V(n,n\delta)
+    \end{align*}
+    Taking logarithms,
+    \[ 0 \geq n\delta \log \delta + n(1-\delta) \log(1-\delta) + \log V(n,n\delta) \]
+    as required.
+\end{proof}
+The constant \( H(\delta) \) in the proposition is optimal.
+\begin{lemma}
+    \( \lim_{n \to \infty} \frac{\log V(n,\floor{n\delta})}{n} = H(\delta) \).
+\end{lemma}
+\begin{proof}
+    Exercise.
+    Follows from Stirling's approximation to factorials.
+\end{proof}
+
+\subsection{Constructing new codes from old}
+Let \( C \) be an \( [n,m,d] \)-code.
+\begin{example}
+    The \emph{parity check extension} \( C^+ \) is an \( [n+1,m,d'] \)-code given by \( \qty{\qty(c_1, \dots, c_n, \sum_{i=1}^n c_i) \mid (c_1, \dots, c_n) \in C} \), where \( d' \) is either \( d \) or \( d + 1 \), depending on whether \( d \) is odd or even.
+\end{example}
+\begin{example}
+    Let \( 1 \leq i \leq n \).
+    Then, deleting the \( i \)th digit from each codeword gives the \emph{punctured code} \( C^- = \qty{(c_1, \dots, c_{i-1}, c_{i+1}, \dots, c_n) \mid (c_1, \dots, c_n) \in C} \).
+    If \( d \geq 2 \), this is an \( [n-1, m, d'] \)-code where \( d' \) is either \( d \) or \( d - 1 \), depending on whether \( d \) is odd or even.
+\end{example}
+\begin{example}
+    Let \( 1 \leq i \leq n \) and let \( \alpha \in \mathbb F_2 \).
+    The \emph{shortened code} \( C' \) is \( \qty{(c_1, \dots, c_{i-1}, c_{i+1}, \dots, c_n) \mid (c_1, \dots, c_{i-1}, \alpha, c_{i+1}, \dots, c_n) \in C} \).
+    This is an \( [n-1,m',d'] \) with \( d' \geq d \) and \( m' \geq \frac{m}{2} \) for a suitable choice of \( \alpha \).
+\end{example}

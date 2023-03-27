@@ -1,0 +1,405 @@
+\subsection{Motivation}
+In classical computation, the elementary unit of information is the \emph{bit}, which takes a value in \( \qty{0,1} \).
+This gives the result of a single binary decision problem, where the zero and one correspond to different answers to the problem.
+Binary strings of length greater than one are used to provide more than 2 answers to a problem; if we have \( n \) bits, we can encode \( 2^n \) different messages.
+
+Classical computation is understood to be the processing of information: taking an initial bit string and and updating it by a prescribed sequence of steps.
+The steps are taken to be the action of local Boolean logic gates, such as conjunction, disjunction, or negation.
+At each step, a small number of bits in prescribed locations are edited.
+
+Information in the real world must be tied to a physical representation.
+For example, bits in a processor are often represented by different voltages of specific components.
+Importantly, there is no information \emph{without} representation.
+Performing a computation classically must therefore involve the evolution of a physical system over time, which is coverned by the laws of classical physics.
+
+However, nature does not abide by classical physics at subatomic levels, and we must use quantum mechanics to accurately model such behaviours.
+One such behaviour modelled by quantum mechanics is the superposition principle, that the corresponding quantum analog of the bit need not be in precisely one state.
+Quantum entanglement is the phenomenon where particles can be linked in such a way that their states can be manipulated even at a distance.
+Quantum measurement is probabilistic and alters the underlying system.
+
+Quantum information and computation therefore exploits these features of quantum mechanics to address issues of information storage, communication, computation, and cryptography.
+The features of quantum mechanics seem to allow us benefits which are beyond the limits of classical information and computation, even in principle.
+Note that a quantum computer cannot perform any task that cannot in principle be performed classically.
+We only hope that quantum techniques allow a reduction in the complexity of certain algorithms.
+
+\subsection{Benefits of quantum information and computation}
+In complexity theory, we study the \emph{hardness} of a certain computational task.
+One must consider the resources required for the task; which in classical computation are normally limited to time (measured in number of computational steps) and space (amount of memory required).
+
+If an algorithm takes time bounded by a polynomial function in the input size \( n \), we say the algorithm is \emph{polyomial-time}.
+Otherwise, we say it is an \emph{exponential-time} algorithm.
+Polynomial-time algorithms are typically taken to be computable in practice, but exponential-time algorithms are usually considered only computable in principle.
+Quantum mechanical techniques can provide polynomial-time algorithms that have only exponential-time classical versions.
+One example is Shor's integer factorisation algorithm.
+
+Quantum states of physical sytems can be used to encode information, such as spin states of electrons.
+There are certain tasks possible with such quantum states which are impossible in classical physics; one example is quantum teleportation.
+
+There are also some technological issues with classical physics.
+Components of processors have become minified to atomic scale, and therefore they cannot be shrunk much further without dealing with the effects of quantum mechanics.
+Conversely, there are technological challenges with quantum physics.
+Quantum systems are very fragile, and modern quantum computers typically require temperatures close to absolute zero to reduce noise.
+
+\emph{Quantum supremacy} refers to the hypothetical moment at which a programmable quantum computer can first solve a problem in practice that a classical computer cannot.
+At the time of writing, there is no concensus that quantum supremacy has been achieved.
+
+\subsection{Hilbert spaces}
+Every quantum mechanical system is associated with a Hilbert space \( \mathcal V \), a complex inner product space that is a complete metric space with respect to the distance function induced by the inner product.
+We use the Dirac's \emph{bra-ket} notation: a vector is represented by \( \ket{v} \in \mathcal V \), and its conjugate transpose is denoted \( \bra{v} \in \mathcal V^\star \).
+If \( \mathcal V = \mathbb C^n \), we write
+\[ \ket{\psi} = \begin{pmatrix}
+    a_1 \\
+    \vdots \\
+    a_n
+\end{pmatrix};\quad \bra{\psi} = \begin{pmatrix}
+    a_1^\star & \cdots & a_n^\star
+\end{pmatrix} \]
+The inner product of \( \psi \) and \( \phi \) is written \( \bra{\psi}\ket{\phi} \).
+Recall that an inner product satisfies
+\begin{itemize}
+    \item \( \bra{\psi}\ket{\psi} \geq 0 \), and equal to zero if and only if \( \ket{\psi} = 0 \);
+    \item linearity in the second argument, so \( \bra{\psi}\ket{a\phi_1 + b\phi_2} = a \bra{\psi}\ket{\phi_1} + b \bra{\psi}\ket{\phi_2} \);
+    \item antilinearity in the first argument, so \( \bra{a\psi_1 + b\psi_2}\ket{\phi} = a^\star \bra{\psi_1}\ket{\phi} + b^\star \bra{\psi_2}\ket{\phi} \);
+    \item skew-symmetry, so \( \bra{\psi}\ket{\phi}^\star = \bra{\phi}\ket{\psi} \);
+\end{itemize}
+and induces a norm \( \norm{\psi} = \norm{\ket{\psi}} = \sqrt{\bra{\psi}\ket{\psi}} \).
+In this course, we will often consider \( \mathcal V = \mathbb C^2 \) and define
+\[ \ket{0} = \begin{pmatrix}
+    1 \\ 0
+\end{pmatrix};\quad \ket{1} = \begin{pmatrix}
+    0 \\ 1
+\end{pmatrix} \]
+For an arbitrary \( \ket{v} \in \mathbb C^2 \), we can write \( \ket{v} = a \ket{0} + b \ket{1} \), giving
+\[ \ket{v} = \begin{pmatrix}
+    a \\ b
+\end{pmatrix};\quad \bra{v} = \begin{pmatrix}
+    a^\star & b^\star
+\end{pmatrix} \]
+If \( \ket{w} = c \ket{0} + d \ket{1} \), then \( \ip{v}{w} = a^\star c + b^\star d \).
+
+We can also compute the \emph{outer product} of two vectors, defined to be \( \op{\psi}{\phi} \).
+If \( \mathcal V = \mathbb C^n \), the outer product is an \( n \times n \) matrix.
+An orthonormal basis \( (\ket{i})_{i=1}^n \) for \( \mathcal V \) is called \emph{complete} if \( \sum_{i=1}^n \op{i}{i} \) is the identity matrix.
+
+If \( \mathcal V \) has a complete orthonormal basis, we can write \( \ket{\psi} = \sum_{i=1}^n c_i \ket{i} \) for some \( c_i \).
+If \( \ip{\psi}{\psi} = 1 \), we say \( \ket{\psi} \) is \emph{normalised}.
+In this case, \( \sum \abs{c_i}^2 = 1 \), and the \( \abs{c_i}^2 \) form a discrete probability distribution.
+We call the \( c_i \) the \emph{probability amplitudes}.
+
+Let \( \mathcal V, \mathcal W \) be vector spaces, where \( \dim \mathcal V = n, \dim \mathcal W = m \).
+Let \( \ket{v} \in \mathcal V, \ket{w} \in \mathcal W \).
+Suppose \( \ket{v} = \begin{pmatrix}
+    a_1 & \cdots & a_n
+\end{pmatrix}^\transpose \), and \( \ket{w} = \begin{pmatrix}
+    b_1 & \cdots & b_m
+\end{pmatrix}^\transpose \).
+Then, \( \ket{v} \otimes \ket{w} \) is the \emph{tensor product} of \( \ket{v} \) and \( \ket{w} \), defined by
+\[ \ket{v} \otimes \ket{w} = \begin{pmatrix}
+    a_1 b_1 \\
+    \vdots \\
+    a_1 b_m \\
+    a_2 b_1 \\
+    \vdots \\
+    a_n b_m
+\end{pmatrix} \in \mathcal V \otimes \mathcal W \]
+If \( \qty(\ket{e_i})_{i=1}^n \) is a complete orthonormal basis for \( \mathcal V \) and \( \qty(\ket{f_j})_{j=1}^m \) is a complete orthonormal basis for \( \mathcal W \), then \( \qty(\ket{e_i} \otimes \ket{f_j})_{i,j=1}^{n,m} \) is a complete orthonormal basis for \( \mathcal V \otimes \mathcal W \).
+We sometimes write \( \ket{v} \otimes \ket{w} \) as \( \ket{v} \ket{w} \) or \( \ket{vw} \).
+
+If \( \ket{\alpha} \in \mathcal V \), we can write \( \ket{\alpha} = \sum a_i \ket{e_i} \), and similarly if \( \ket{\beta} \in \mathcal W \), we can write \( \ket{\beta} = \sum b_j \ket{f_j} \).
+Then, \( \ket{\alpha\beta} = \sum a_i c_j \ket{e_i f_j} \).
+
+We say \( \ket{\Psi} \in \mathcal V \otimes \mathcal W \) is a \emph{product vector} if \( \ket{\Psi} = \ket{\psi}\otimes\ket{\phi} \) for some \( \psi, \phi \).
+Vectors that are not product vectors are called \emph{entangled vectors}.
+
+Let \( \mathcal V = \mathbb C^2 = \mathcal W \).
+Define \( \ket{\phi^+} = \frac{1}{\sqrt{2}} \qty(\ket{00} + \ket{11}) \).
+Suppose \( \ket{\phi^+} = \ket{\psi}\otimes\ket{\phi} = (a\ket{0} + b\ket{1}) \otimes (c\ket{0} + d\ket{1}) \).
+Then, \( \ket{\phi^+} = ac \ket{00} + ad \ket{01} + bc \ket{10} + bd \ket{11} \).
+So one of \( a \) and \( d \), and one of \( b \) and \( c \) is equal to zero, contradicting the assumption, so \( \ket{\phi^+} \) is entangled.
+
+We define the inner product on the product space by defining
+\[ \ip{\phi_1}{\psi_2} = \qty(\bra{\alpha_1} \bra{\beta_1})\qty(\ket{\beta_2} \ket{\alpha_2}) = \ip{\alpha_1}{\alpha_2} \ip{\beta_1}{\beta_2} \]
+where \( \ket{\psi_i} = \ket{\alpha_i}\ket{\beta_i} \).
+In the general case, \( \ket{A} = \sum a_{ij} \ket{e_i}\ket{f_j}, \ket{B} = \sum b_{ij} \ket{e_i}\ket{f_j} \), and we define
+\[ \ip{A}{B} = \qty(\sum a_{ij}^\star \bra{e_i} \bra{f_j}) \qty(\sum b_{ij} \ket{e_i} \ket{f_j}) = \sum a_{ij}^\star b_{ij} \delta_{ii'}\delta_{jj'} = \sum a_{ij}^\star b_{ij} \]
+where \( \delta \) is the Kronecker \( \delta \) symbol.
+
+We define the \( k \)-fold \emph{tensor power} of a vector space \( \mathcal V \) by
+\[ \mathcal V^{\otimes n} = \underbrace{\mathcal V \otimes \dots \otimes \mathcal V}_{n \text{ times}} \]
+If \( \mathcal V = \mathbb C^2 \), this has dimension \( 2^k \), and complete orthonormal basis \( \ket{i_1 \dots i_k} \) for \( i_j \in \qty{0,1} \).
+Note that \( \ket{v}\ket{w} \neq \ket{w}\ket{v} \).
+
+\subsection{First postulate: quantum states}
+In this course, we will restrict our attention to finite-dimensional vector spaces, and finite time evolution.
+
+The first postulate is that, given an isolated quantum mechanical system \( S \), we can associate a finite-dimensional vector space \( \mathcal V \).
+The physical state of the system is given by a unit vector \( \ket{\psi} \) in \( \mathcal V \).
+More precisely, the state is given by a \emph{ray}: an equivalence class of vectors \( e^{i\theta} \ket{\psi} \) for \( \theta \in \mathbb R \).
+No measurements can distinguish states in a given equivalence class.
+Note that states \( a\ket{\psi_1} + b\ket{\psi_2} \) and \( a\ket{\psi_1} + be^{i\theta}\ket{\psi_2} \) can be distinguished by measurement, since the phase difference is relative, not global.
+\begin{example}
+    Let \( \mathcal V = \mathbb C^2 \) with (complete orthonormal) basis \( \ket{0}, \ket{1} \).
+    The elementary unit of quantum information is known as the \emph{qubit}, which is any quantum system with \( \mathcal V = \mathbb C^2 \).
+    The spin of an electron, which is some superposition of spin-up and spin-down, can be modelled by \( \mathbb C^2 \).
+    A property of the polarisation of a photon, such as vertical or horizontal, or right-circular or left-circular, can also be modelled in this way.
+
+    Define \( \ket{+} = \frac{1}{\sqrt{2}}\qty(\ket{0} + \ket{1}) \) and \( \ket{-} = \frac{1}{\sqrt{2}}\qty(\ket{0} - \ket{1}) \).
+    This is another complete orthonormal basis for \( \mathcal V \), sometimes called the \emph{conjugate basis}.
+\end{example}
+
+\subsection{Second postulate: composite systems}
+The second postulate of quantum mechanics is that two quantum systems \( S_1, S_2 \) with associated vector spaces \( \mathcal V_1, \mathcal V_2 \) can be composed into the \emph{composite system} with vector space \( \mathcal V_1 \otimes \mathcal V_2 \).
+\begin{example}
+    Consider \( \mathcal V^{\otimes n} \), the space of \( n \) qubits.
+    An orthonormal basis is \( \ket{i_1 \dots i_n} \) where \( i_j \in \qty{0,1} \).
+    A vector in \( \mathcal V^{\otimes n} \) can be written \( \sum a_{i_1 \dots i_n} \ket{i_1 \dots i_n} \).
+    There are \( 2^n \) different amplitudes \( a_{i_1 \dots i_n} \), providing exponential growth in information.
+    However, in a product state, we obtain only linear growth in information.
+\end{example}
+
+\subsection{Observables}
+An \emph{observable} is a property of a physical system which can, in theory, be measured.
+Mathematically, these are modelled by linear self-adjoint (or Hermitian) operators.
+
+The action of a linear operator \( A \) on a state space \( \mathcal V \) is a written \( A \ket{\psi} \).
+Note that \( A \qty(a \ket{\psi} + b \ket{\phi}) = a A \ket{\psi} + b A \ket{\phi} \) for \( a, b \in \mathbb C \).
+For any operator \( A \) acting on \( \mathcal V \), there is a unique linear operator \( A^\dagger \) such that \( \ip{v}{Aw} = \ip{A^\dagger v}{w} \), called the \emph{adjoint} of \( A \); operators equal to their adjoints are called \emph{self-adjoint}.
+
+We can easily show that \( (AB)^\dagger = B^\dagger A^\dagger \).
+By convention, we define \( \ket{\psi}^\dagger = \bra{\psi} \), so for a self-adjoint operator \( A \), we have \( \qty(A \ket{\psi})^\dagger = \bra{\psi} A \).
+There are four important operators which act on the single-qubit space \( \mathbb C^2 \).
+\[ \sigma_0 = \begin{pmatrix}
+    1 & 0 \\
+    0 & 1
+\end{pmatrix};\quad \sigma_x = \begin{pmatrix}
+    0 & 1 \\
+    1 & 0
+\end{pmatrix};\quad \sigma_y = \begin{pmatrix}
+    0 & -i \\
+    i & 0
+\end{pmatrix};\quad \sigma_z = \begin{pmatrix}
+    1 & 0 \\
+    0 & -1
+\end{pmatrix} \]
+\( \sigma_0 \) is the identity matrix, and \( \sigma_x, \sigma_y, \sigma_z \) are called the \emph{Pauli matrices}.
+The actions of these matrices on the basis vectors \( \ket{0} \) and \( \ket{1} \) are
+\[ \sigma_0\ket{0} = \ket{0};\quad \sigma_0\ket{1} = \ket{1};\quad \sigma_x\ket{0} = \ket{1};\quad \sigma_x\ket{1} = \ket{0}; \]
+\[ \sigma_y\ket{0} = i\ket{1};\quad \sigma_y\ket{1} = -i\ket{0};\quad \sigma_z\ket{0} = \ket{0};\quad \sigma_z\ket{1} = -\ket{1} \]
+Note that
+\[ \sigma_x \sigma_y = i \sigma_z;\quad \sigma_y \sigma_z = i \sigma_x;\quad \sigma_z \sigma_x = i\sigma_y \]
+Intuitively, \( \sigma_x \) is a bit flip, \( \sigma_y \) is a phase flip, and \( \sigma_z \) is a combined bit and phase flip.
+
+\subsection{Dirac notation for linear operators}
+Let \( \ket{v} = a \ket{0} + b \ket{1} \), and \( \ket{w} = c \ket{0} + d \ket{1} \).
+The outer product is
+\[ M = \op{v}{w} = \begin{pmatrix}
+    a \\ b
+\end{pmatrix} \begin{pmatrix}
+    c^\star & d^\star
+\end{pmatrix} = \begin{pmatrix}
+    ac^\star & ad^\star \\
+    bc^\star & bd^\star
+\end{pmatrix} \]
+which is a linear map on \( \mathcal V = \mathbb C^2 \).
+One can show that \( M \ket{x} = \qty(\op{v}{w})\ket{x} = \ket{v} \ip{w}{x} \), which is the scalar product of the vector \( \ket{v} \) with the inner product \( \ip{w}{x} \).
+Such outer products yield the linear maps from \( \mathbb C^2 \) to \( \mathbb C^2 \) that have rank 1, and the kernel of \( M \) is the subspace of vectors orthogonal to \( \ket{w} \).
+Note that
+\[ \op{0}{0} = \begin{pmatrix}
+    1 & 0 \\
+    0 & 0
+\end{pmatrix};\quad \op{0}{1} = \begin{pmatrix}
+    0 & 1 \\
+    0 & 0
+\end{pmatrix};\quad \op{1}{0} = \begin{pmatrix}
+    0 & 0 \\
+    1 & 0
+\end{pmatrix};\quad \op{1}{1} = \begin{pmatrix}
+    0 & 0 \\
+    0 & 1
+\end{pmatrix} \]
+Hence, we can write
+\[ A = \begin{pmatrix}
+    a & b \\
+    c & d
+\end{pmatrix} \implies A = a \op{0}{0} + b \op{0}{1} + c \op{1}{0} + d \op{1}{1} \]
+In particular, \( \op{0}{0}, \op{0}{1}, \op{1}{0}, \op{1}{1} \) forms a basis for the vector space \( \mathcal V \otimes \mathcal V^\star \) of linear maps on \( \mathcal V \).
+Note also that \( \ip{w}{v} = \tr \op{v}{w} \).
+
+\subsection{Projection operators}
+Suppose that \( \ket{v} \) is a normalised vector, so \( \ip{v}{v} = 1 \).
+Then, \( \Pi_v = \op{v}{v} \) is the \emph{projection operator} onto \( v \), satisfying \( \Pi_v \Pi_v = \Pi_v \) and \( \Pi_v^\dagger = \Pi_v \).
+In Dirac notation, one can see that
+\[ \Pi_v \Pi_v = \op{v}{v} \op{v}{v} = \ket{v} \ip{v}{v} \bra{v} = \op{v}{v} = \Pi_v \]
+If \( \ket{a} \) is orthogonal to \( \ket{v} \), then \( \Pi_v \ket{a} = \ket{v} \ip{v}{a} = 0 \).
+Therefore, \( \Pi_v \ket{x} \) is the vector obtained by projection of \( \ket{x} \) onto the one-dimensional subspace of \( \mathcal V \) spanned by \( \ket{v} \).
+
+Now suppose \( \mathcal E \) is any linear subspace of some vector space \( \mathcal V \), and \( \ket{e_1}, \dots, \ket{e_d} \) is any orthonormal basis of \( \mathcal E \).
+Then,
+\[ \Pi_{\mathcal E} = \op{e_1}{e_1} + \dots + \op{e_d}{e_d} \]
+is the projection operator into \( \mathcal E \).
+This property can be checked by extending \( \ket{e_1}, \dots, \ket{e_d} \) into an orthonormal basis of \( \mathcal V \).
+
+Note that if \( \ket{x} = A \ket{v} \), then \( \bra{x} = (A \ket{v})^\dagger = \ket{v}^\dagger A^\dagger = \bra{v} A^\dagger \).
+Therefore, when constructing inner products, we can write \( \mel{a}{M}{b} \) as \( \ip{a}{x} \) or \( \ip{y}{b} \) where \( \ket{x} = M \ket{b} \) or \( \ket{y} = M^\dagger \ket{a} \) (so that we have \( \bra{y} = \bra{a} M \)).
+
+\subsection{Tensor products of linear maps}
+Suppose \( A, B \) are linear maps \( \mathbb C^2 \to \mathbb C^2 \).
+Then, we define \( A \otimes B \colon \mathbb C^2 \otimes \mathbb C^2 \to \mathbb C^2 \otimes \mathbb C^2 \) by its action on the basis \( (A \otimes B)\ket{i} \ket{j} = A \ket{i} B \ket{j} \).
+In particular, for product vectors we obtain \( (A \otimes B) (\ket{v} \ket{w}) = A \ket{v} \otimes B \ket{w} \).
+
+The \( 4 \times 4 \) matrix of components of \( A \otimes B \) has a simple block form, which can be seen by writing down its action on basis states.
+\[ A = \begin{pmatrix}
+    a & b \\
+    c & d
+\end{pmatrix};\quad B = \begin{pmatrix}
+    p & q \\
+    r & s
+\end{pmatrix} \implies A \otimes B = \begin{pmatrix}
+    aB & bB \\
+    cB & dB
+\end{pmatrix} = \begin{pmatrix}
+    ap & aq & bp & bq \\
+    ar & as & br & bs \\
+    cp & cq & dp & dq \\
+    cr & cs & dr & ds
+\end{pmatrix} \]
+Note that \( A \otimes I \) and \( I \otimes A \) can be thought of as acting only on one of the subspaces.
+Consider \( \ket{\Phi} = \frac{1}{\sqrt{2}} \qty(\ket{00} + \ket{11}) \), and define \( A \) as above.
+Then,
+\begin{align*}
+    (A \otimes I) \ket{\Phi} &= \frac{1}{\sqrt{2}} \qty[(A \ket{0}) \ket{0} + (A \ket{1}) \ket{1}] \\
+    &= \frac{1}{\sqrt{2}} \qty[(a \ket{0} + c \ket{1}) \ket{0} + (b \ket{0} + d \ket{1}) \ket{1}] \\
+    &= \frac{1}{\sqrt{2}} \qty[a \ket{00} + b \ket{01} + c \ket{10} + d \ket{11}] \\
+    (I \otimes A) \ket{\Phi} &= \frac{1}{\sqrt{2}} \qty[\ket{0} (A \ket{0}) + \ket{1} (A \ket{1})] \\
+    &= \frac{1}{\sqrt{2}} \qty[\ket{0} (a \ket{0} + c \ket{1}) + \ket{1} (b \ket{0} + d \ket{1})] \\
+    &= \frac{1}{\sqrt{2}} \qty[a \ket{00} + c \ket{01} + b \ket{10} + d \ket{11}]
+\end{align*}
+
+\subsection{Third postulate: physical evolution of quantum systems}
+The third postulate of quantum mechanics is that any physical finite-time evolution of a closed quantum system is represented by a unitary operation on the corresponding vector space of states.
+Recall that the following are equivalent for a linear operator \( U \):
+\begin{itemize}
+    \item \( U \) is unitary, so \( U^{-1} = U^\dagger \);
+    \item \( U \) maps an orthonormal basis to an orthonormal set of vectors;
+    \item the columns (or rows) of \( U \) form an orthonormal set of vectors.
+\end{itemize}
+If a system is in a state \( \ket{\psi(t_1)} \) at a time \( t_1 \) and later in a state \( \ket{\psi(t_2)} \) at a time \( t_2 \), then \( \ket{\psi(t_2)} = U(t_1, t_2) \ket{\psi(t_1)} \) for some unitary map \( U(t_1, t_2) \) which depends only on \( t_1, t_2 \).
+This operator is derived from the \emph{Schr\"odinger equation}, which is
+\[ i\hbar \pdv{t} \ket{\psi(t)} = H \ket{\psi(t)} \]
+where \( H \) is a self-adjoint operator known as the \emph{Hamiltonian}n.
+In particular, if \( H \) is time-independent, we have
+\[ U(t_1, t_2) = e^{-\frac{i}{\hbar} H(t_2 - t_1)} \]
+In the more general case,
+\[ U(t_1, t_2) = e^{-\frac{i}{\hbar} \int_{t_1}^{t_2} H(t) \dd{t}} \]
+The unitary evolution of a closed system is deterministic.
+
+\subsection{Partial inner products}
+A vector \( \ket{v} \in \mathcal V \) defines a linear map \( \mathcal V \otimes \mathcal W \to \mathcal W \) called the \emph{partial inner product} with \( \ket{v} \), defined on the basis \( \ket{e_i} \ket{f_j} \) of \( \mathcal V \otimes \mathcal W \) by \( \ket{e_i} \ket{f_j} \mapsto \ip{v}{e_i} \ket{f_j} \).
+Similarly, for any \( \ket{w} \in \mathcal W \), we obtain a partial inner product \( \mathcal V \otimes \mathcal W \to \mathcal V \).
+If \( \mathcal V, \mathcal W \) are isomorphic, we must specify which partial inner product is intended.
+
+\subsection{Fourth postulate: quantum measurement}
+Consider a system \( S \) with state space \( \mathcal V \), and let \( A \) be an observable.
+\( A \) can be written as its \emph{spectral projection} \( A = \sum_k a_k P_k \) where \( A \ket{\varphi_k} = a_k \ket{\varphi_k} \).
+If \( a_k \) is nondegenerate, \( P_k = \op{\varphi_k}{\varphi_k} \).
+If \( a_k \) is degenerate of multiplicity \( m \), then \( P_k = \sum_{i=1}^m \op{\varphi_k^i}{\varphi_k^i} \).
+
+The fourth postulate is that when an observable is measured, the resulting measurement will be an eigenvalue \( a_j \), with probability \( p(a_j) = \ev{P_j}{\psi} \).
+Then, \( \ket{\psi} \) is replaced with the post-measurement state \( \frac{P_j \ket{\psi}}{\sqrt{p(a_j)}} \).
+This is known as \emph{Born's rule}.
+A measurement is sometimes called a \emph{projective measurement} or a \emph{von Neumann measurement}, since the post-measurement state is given by a projection operator.
+
+Suppose \( A, B \) are operators that do not commute, so \( [A,B] = AB - BA \neq 0 \).
+Then, the measurement of \( A \) will influence the outcome probabilities of a subsequent measurement of \( B \).
+For instance, suppose \( \ket{\psi} = \ket{+}, A = \sigma_z, B = \sigma_x \).
+
+\subsection{Complete and incomplete projective measurements}
+Let \( \ket{\psi} \in \mathcal V \) be a state in a state space of dimension \( n \).
+Let \( \mathcal B = \qty{\ket{e_i}} \) be a set of \( n \) orthogonal basis vectors for \( \mathcal V \).
+Then \( \ket{\psi} = \sum a_j \ket{e_j} \) where \( a_k = \ip{e_k}{\psi} \).
+If the outcomes of a measurement are the indices of the basis vectors \( j = 1, \dots, n \), we have \( p(j) = \ev{P_j}{\psi} \) where \( P_j = \op{e_j}{e_j} \).
+Therefore, \( p(j) = \abs{\ip{\psi}{e_j}}^2 = \abs{a_j}^2 \).
+If the outcome is \( j \), the post-measurement state is \( \frac{P_j \ket{\psi}}{\sqrt{p(j)}} = \frac{\ket{e_j} \ip{e_j}{\psi}}{\sqrt{p(j)}} = \ket{e_j} \), so the state collapses to a basis vector.
+Taking another measurement immediately in the same basis, we obtain the result \( j \) with probability 1.
+Such a measurement is called a \emph{complete} projective measurement; it is called complete as all \( P_j \) are of rank 1.
+When we measure a state \( \ket{\psi} \) in a basis, it is often helpful to consider an orthogonal decomposition of \( \mathcal V \) using the basis vectors.
+
+Conversely, an \emph{incomplete} projective measurement corresponds to an arbitrary orthogonal decomposition of \( \mathcal V \).
+Consider a decomposition of \( \mathcal V \) into \( d \) mutually orthogonal subspaces \( \mathcal E_1, \dots, \mathcal E_d \), so \( \mathcal V = \mathcal E_1 \oplus \dots \oplus \mathcal E_d \), and \( \dim \mathcal V = \sum \dim \mathcal E_j \).
+Let \( \Pi_i \) be a projection operator onto \( \mathcal E_i \).
+Since the spaces are mutually orthogonal, \( \Pi_i \Pi_j = \delta_{ij} \Pi_i \).
+Consider a measurement with outcomes \( 1, \dots, d \) representing a particular subspace.
+The probability of observing outcome \( i \) is \( \ev{\Pi_i}{\psi} \).
+If the outcome is \( i \), \( \ket{\psi} \) is replaced with \( \frac{\Pi_i \ket{\psi}}{\sqrt{p(i)}} \).
+In this case, the \( \Pi_i \) are no longer rank 1 projection operators.
+If \( \mathcal E_i \) has basis \( \qty{\ket{f_j}} \), we can write \( \Pi_i = \sum \op{f_j}{f_j} \).
+
+Incomplete projective measurement is a generalisation of complete projective measurement.
+One can refine an incomplete measurement into a complete measurement by first considering a complete measurement, and then summing the relevant outcome probabiilities to obtain a description of the incomplete measurement probabilities.
+Let \( \qty{\ket{e_k^{(j)}}}_{k=1}^{d_j} \) be a basis for \( \mathcal E_j \) for each \( j \).
+Then \( \mathcal V = \bigoplus_{i=1}^d \mathcal E_j \) has orthonormal basis \( \qty{\ket{e_k^{(j)}}}_{j,k} \).
+Then, \( \ip{e_i^{k_1}}{e_j^{k_2}} = \delta_{ij} \delta_{k_1 k_2} \).
+
+Consider a two-bit string \( b_1 b_2 \).
+The \emph{parity} of this string is \( b_1 \oplus b_2 \), where \( \oplus \) represents addition modulo 2.
+Consider the orthogonal decomposition of \( \mathcal V \) into \( \mathcal E_0 \oplus \mathcal E_1 \), where \( \mathcal E_0 = \vecspan \qty{\ket{00}, \ket{11}} \) is the even parity subspace, and \( \mathcal E_1 = \vecspan \qty{\ket{01}, \ket{10}} \) is the odd parity subspace.
+The outcomes of an incomplete measurement are then the labels 0 and 1 of the subspaces \( \mathcal E_0 \) and \( \mathcal E_1 \).
+Note that \( \qty{\ket{00}, \ket{01}, \ket{10}, \ket{11}} \) is a complete orthonormal basis for \( \mathcal V \), so we can consider the complete projective measurement.
+\( \ev{P_{00}}{\psi} \) is the probability of outcome \( 00 \) for the complete measurement, where \( P_{00} = \op{00}{00} \).
+For the incomplete measurement, \( p(0) = \ev{\Pi_0}{\psi} \) is the probability of outcome 0, where \( \Pi_0 = P_{00} + P_{11} \).
+So \( p(0) = \ev{P_{00}}{\psi} + \ev{P_{11}}{\psi} \).
+
+\subsection{Extended Born rule}
+Let \( S_1, S_2 \) be quantum systems with state spaces \( \mathcal V, \mathcal W \) with dimensions \( m, n \), and we consider the composite system \( S_1 S_2 \).
+Let \( \qty{\ket{e_i}} \) be a complete orthonormal basis of \( \mathcal V \), and let \( \qty{\ket{f_j}} \) be a complete orthonormal basis of \( \mathcal W \).
+Suppose the composite system is in an initial state \( \ket{\psi} = \sum a_{ij} \ket{e_i} \ket{f_j} \).
+Suppose now that we want to measure \( \ket{\psi} \) in the basis \( \qty{\ket{e_i}} \); this amounts to an incomplete measurement with subspaces \( \mathcal E_i = \vecspan \qty{\ket{e_i} \otimes \ket{\varphi} \mid \ket{\varphi} \in \mathcal W} \) for \( 1 \leq i \leq m \).
+The outcomes of such a measurement are \( \qty{1, \dots, m} \), and the \( \mathcal E_i \) are mutually orthogonal.
+The probability of a given outcome is \( p(k) = \ev{P_k \otimes I}{\psi} \), where \( P_k = \op{e_k}{e_k} \).
+Hence,
+\[ p(k) = \qty(\sum a_{i'j'}^\star \bra{e_i'} \bra{f_j'}) \qty(\op{e_k}{e_k} \otimes I) \qty(\sum a_{ij} \ket{e_i} \ket{f_j}) = \sum_{j=1}^n a_{kj}^\star a_{kj} \]
+If the outcome is \( k \), then the post-measurement state is given by \( \ket{\psi_{\text{after}}} = \frac{(P_k \otimes I)\ket{\psi}}{p(k)} = \frac{\sum_j a_{kj} \ket{e_k} \ket{f_j}}{\sqrt{\sum_j \abs{a_{kj}}^2}} \).
+Using partial inner products, one can show that \( \ket{\psi_{\text{after}}} \) is normalised.
+These rules are referred to as the \emph{extended Born rule}.
+
+Consider a quantum system \( S \) with state space \( \mathcal V \).
+A measurement relative to any basis \( \mathcal C \) can be performed by first performing a measurement in a fixed basis \( \mathcal B \), then performing a unitary operator.
+Let \( \mathcal B = \qty{\ket{e_i}} \), and \( \mathcal C = \qty{\ket{e_i'}} \).
+Let \( U \) be a unitary operator such that \( \ket{e_i'} = U \ket{e_i} \).
+Then, \( U^\dagger = U^{-1} \) has the property that \( U^{-1} \ket{e_i'} = \ket{e_i} \).
+Suppose we have a state \( \ket{\psi} \in \mathcal V \).
+Let \( \ket{\psi} = \sum c_i \ket{e_i'} \).
+Applying \( U^{-1} \) to \( \ket{\psi} \), we obtain \( U^{-1} \ket{\psi} = \sum c_i \ket{e_i} \) by linearity.
+We can then measure \( \ket{\psi'} = U^{-1} \ket{\psi} \) in the basis \( \mathcal B \).
+By the Born rule, \( p(i) = \ev{P_i}{\psi'} = \bra{\psi} U P_i U^\dagger \ket{\psi} \) where \( P_i = \op{e_i}{e_i} \), as we are performing a complete projective measurement.
+If the outcome is \( i \), then the post-measurement state is \( \ket{\psi'_{\text{after}}} = \frac{P_i \ket{\psi'}}{p(i)} \).
+
+\subsection{Standard measurement on multi-qubit systems}
+Consider a system of \( n \) qubits.
+The state space is \( (\mathbb C^2)^{\otimes n} \).
+The \emph{computational basis} or \emph{standard basis} is \( \mathcal B = \qty{\ket{i_1 \dots i_n} \mid i_j \in \qty{0,1}} \).
+The labels of the elements of the standard basis are labelled by bit strings of length \( n \).
+
+Suppose we are measuring a subset of \( k \) qubits of the \( n \)-qubit system.
+Let \( n = 3 \), and let
+\[ \ket{\psi} = \frac{i}{2} \ket{000} + \frac{1+i}{2\sqrt{2}} \ket{001} - \frac{1}{2} \ket{101} + \frac{3}{10} \ket{110} - \frac{2i}{5} \ket{111} \]
+The standard measurement of any of the three qubits will always have the outcome zero or one.
+Suppose we perform a standard measurement on the first qubit.
+By the extended Born rule, we obtain
+\[ p^{(1)}(1) = \bra{\psi} P_1 \otimes I \otimes I \ket{\psi} = \bra{\psi} \qty(\op{1}{1} \otimes I \otimes I) \ket{\psi} = \frac{1}{4} + \frac{9}{100} + \frac{4}{25} = \frac{1}{2} \]
+The post-measurement state is \( \ket{\psi_{\text{after}}} = \frac{(P_1 \otimes I \otimes I)\ket{\psi}}{\sqrt{p^{(1)}(1)}} \).
+
+\subsection{Reliably distinguishing states}
+Note that the measurement postulate implies that states with guaranteed (with probability 1) different measurement outcomes always lie in mutually orthogonal subspaces.
+We say that two states are \emph{reliably distinguishable} if there exists a measurement which outputs two distinct outcomes with probability 1 when applied to the two states.
+Therefore, two states \( \ket{\psi}, \ket{\varphi} \) are reliably distinguishable if and only if they are orthogonal, so \( \ip{\psi}{\varphi} = 0 \).
+
+Let \( \ket{\psi} \) and \( \ket{\varphi} \) be orthogonal.
+Let \( \mathcal B = \qty{\ket{\psi}, \ket{f_1}, \dots, \ket{f_{m-1}}} \) be a complete orthonormal basis for \( \mathcal V \).
+Then \( \ip{\psi}{f_j} = 0 \) and \( \ip{f_j}{f_k} = \delta_{jk} \).
+Measuring \( \ket{\psi} \) in this basis, \( p(1) = \bra{\psi} P_1 \ket{\psi} \) where \( P_1 = \op{\psi}{\psi} \), so the probability is 1.
+Measuring \( \ket{\varphi} \) in this basis, \( p(1) = \ip{\psi}{\varphi} \ip{\varphi}{\psi} = 0 \).
+This is an example of a measurement which can reliably distinguish \( \ket{\psi} \) and \( \ket{\varphi} \).
+
+Vectors \( \ket{v} = \ket{\psi} \) and \( \ket{v'} = e^{i\theta} \ket{\psi} \) are not distinguishable.
+For any measurement, the probability of obtaining a particular outcome when measuring \( \ket{v} \) is always the same as the probability when measuring \( \ket{v'} \).

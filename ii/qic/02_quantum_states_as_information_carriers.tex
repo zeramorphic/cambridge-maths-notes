@@ -1,0 +1,372 @@
+\subsection{Using higher Hilbert spaces}
+Quantum information is encoded in the states of a quantum system.
+Classical information is encoded in states chosen from an orthonormal set, since all distinct classical messages can be distinguished.
+Given a quantum system \( S \) and a quantum state \( \ket{\psi} \), we can perform this sequence of operations.
+\begin{itemize}
+    \item (ancilla) Consider an auxiliary system \( A \) in a fixed state \( \ket{A} \in \mathcal V_A \).
+    The composite system \( SA \) has vector space \( \mathcal V_S \otimes \mathcal V_A \).
+    The initial joint state is \( \ket{\psi}\ket{A} \).
+    This results in an embedding of quantum information in a higher dimensional space.
+    \item (unitary) Consider the action of a unitary operator \( U \) on \( SA \) (or on \( S \)), modelling the time evolution of the quantum system.
+    \item (measure) We can perform measurements on \( SA \) (or on \( S \)).
+    The post-measurement state of \( S \) is retained, and the auxiliary system \( A \) is discarded.
+\end{itemize}
+This process is sometimes known as `going to the church of the higher Hilbert space'.
+The presence of the ancilla allows for entanglement with other quantum systems.
+
+\subsection{No-cloning theorem}
+Classically, information can be easily copied by measuring all relevant information and reproducing it.
+% We can model this by considering a state \( A \) containing information and a `blank' state \( B \), and performing an operation to yield the original state \( A \) together with a new copy of \( A \) in the place of \( B \).
+Quantum copying involves three systems:
+\begin{itemize}
+    \item a system \( A \) containing some quantum information to be copied;
+    \item a system \( B \) with \( \mathcal V_B \simeq \mathcal V_A \) initially in some fixed state \( \ket{0} \) where the information is to be copied;
+    \item a system \( M \) which represents any physical machinery in some `ready' state \( \ket{M_0} \) required for performing the copy.
+\end{itemize}
+The initial state of this composite system \( ABM \) is \( \ket{\psi} \ket{0} \ket{M_0} \).
+Note that the \( \ket{\psi} \) and \( \ket{0}\ket{M_0} \) are \emph{uncorrelated} in this state, as we are using the tensor product to combine them.
+Suppose that the cloning process is performed using some unitary operator \( U \), so \( U\ket{\psi_A}\ket{0}\ket{M_0} = \ket{\psi_A}\ket{\psi_B}\ket{M_\psi} \).
+This cloning process may be required to work either for all states of \( A \), or for some subset of \( A \).
+\begin{theorem}
+    Let \( \mathcal S \) be any set of states of the system \( A \) that contains at least one pair of distinct non-orthogonal states.
+    Then there does not exist any unitary operator \( U \) that clones all states in \( \mathcal S \).
+\end{theorem}
+\begin{proof}
+    Let \( \ket{\xi}, \ket{\eta} \) be distinct non-orthogonal states in \( \mathcal S \), so \( \ip{\xi}{\eta} \neq 0 \).
+    Suppose such a unitary operator \( U \) exists.
+    Then, we must have
+    \[ U \ket{\xi_A}\ket{0_B}\ket{M_0} = \ket{\xi_A}\ket{\xi_B}\ket{M_\xi};\quad U \ket{\eta_A}\ket{0_B}\ket{M_0} = \ket{\eta_A}\ket{\eta_B}\ket{M_\eta} \]
+    Unitary operators preserve inner products.
+    Hence,
+    \[ \ip{\xi_A}{\eta_A} \ip{0_B}{0_B} \ip{M_0}{M_0} = \ip{\xi_A}{\eta_A} \ip{\xi_B}{\eta_B} \ip{M_\xi}{M_\eta} \]
+    Hence, \( \ip{\xi}{\eta} = \qty(\ip{\xi}{\eta})^2 \ip{M_\xi}{M_\eta} \).
+    By taking the absolute value, \( \abs{\ip{\xi}{\eta}} = \abs{\ip{\xi}{\eta}}^2 \abs{\ip{M_\xi}{M_\eta}} \).
+    Since \( \xi \neq \eta \), we must have \( 0 < \abs{\ip{\xi}{\eta}} < 1 \), and \( 0 \leq \abs{\ip{M_\xi}{M_\eta}} \leq 1 \).
+    Therefore, \( 1 = \abs{\ip{\xi}{\eta}} \abs{\ip{M_\xi}{M_\eta}} < 1 \), which is a contradiction.
+\end{proof}
+If quantum cloning were possible, superluminal (indeed, instantaneous) communication would also be possible.
+Suppose we have a state \( \ket{\psi^+_{AB}} = \frac{1}{\sqrt{2}} \qty(\ket{00} + \ket{11}) \in \mathbb C^2 \otimes \mathbb C^2 \).
+Let \( A, B \) be the entangled parts of this quantum state, and suppose that we send qubit \( A \) to Alice and \( B \) to Bob, far apart from each other.
+
+If we want to send the bit `yes' from Alice to Bob, we measure the qubit \( A \) in the basis \( \qty{\ket{0}, \ket{1}} \), which gives outcomes \( 0, 1 \) with probability \( \frac{1}{2} \).
+If the outcome is 0, the final state of \( B \) is \( \ket{0} \), and if the outcome is 1, the final state of \( B \) is \( \ket{1} \).
+If we want to send `no', we instead measure \( A \) in the basis \( \qty{\ket{+}, \ket{-}} \), which gives the outcomes \( +, - \) with probability \( \frac{1}{2} \).
+Similarly, the final state of \( B \) is \( \ket{+} \) or \( \ket{-} \).
+
+We claim that these `yes' \( (\ket{0}, \ket{1}) \) and `no' \( (\ket{+}, \ket{-}) \) \emph{preparations} of qubit \( B \) are indistinguishable by Bob with any local action on the qubit.
+That is, they each give exactly the same probability distribution of outcomes of any measurement.
+In fact, the distribution matches the prior distribution before qubit \( A \) was measured.
+
+Let \( \Pi_i \) be the projection operator for outcome \( i \) on qubit \( B \).
+Suppose that `yes' was sent.
+Then,
+\[ p_{\text{yes}}(i) = \frac{1}{2}\ev{\Pi_i}{0} + \frac{1}{2}\ev{\Pi_i}{1} = \frac{1}{2} \Tr \qty[\Pi_i \op{0}{0}] + \frac{1}{2} \Tr \qty[\Pi_i \op{1}{1}] = \frac{1}{2} \Tr \qty[\Pi_i \qty(\op{0}{0} + \op{1}{1})] = \frac{1}{2} \Tr \Pi_i \]
+In the `no' case,
+\[ p_{\text{no}}(i) = \frac{1}{2}\ev{\Pi_i}{+} + \frac{1}{2}\ev{\Pi_i}{-} = \frac{1}{2} \Tr \qty[Pi_i \qty(\op{+}{+} + \op{-}{-})] = \frac{1}{2} \Tr \Pi_i \]
+These probability distributions match.
+
+Suppose that cloning were possible.
+We clone the qubit \( B \) multiple times after the message was sent, to produce one of the states \( \ket{0} \dots \ket{0}, \ket{1} \dots \ket{1}, \ket{+} \dots \ket{+}, \ket{-} \dots \ket{-} \).
+We now measure each qubit in the basis \( \ket{0}, \ket{1} \) separately.
+If the `yes' message was sent, all measurements will result in 0 or 1.
+If `no' was sent, it is possible that two measurements would differ.
+In expectation, half of the measurements would result in the outcome 0 and half would result in the outcome 1.
+Therefore, the `yes' and `no' errors can be distinguished with probability of error \( 2^{-N+1} \) if we make \( N \) copies of \( B \).
+
+\subsection{Distinguishing non-orthogonal states}
+Suppose you know a state \( \ket{\psi} \) has state \( \ket{\alpha_0} \) or \( \ket{\alpha_1} \) with probability \( \frac{1}{2} \), where \( \ip{\alpha_0}{\alpha_1} \neq 0 \).
+Since the states are non-orthogonal, we cannot perfectly distinguish the states, but must allow some error rate.
+The simplest possibility is to not make a measurement and guess randomly; in which case, the guess is correct with probability \( \frac{1}{2} \).
+
+Suppose we append an auxiliary system \( \ket{A} \) to \( \ket{\alpha_i} \).
+Note that \( \bra{A}\bra{\alpha_i}\ket{\alpha_i}\ket{A} = \ip{\alpha_i}{\alpha_i} \) as \( \ket{A} \) is normalised.
+Applying a unitary operator \( U \) to \( \ket{\alpha_i} \) then performing a projection \( \Pi_0 \) or \( \Pi_1 \), this corresponds to simply performing a measurement \( \Pi_0' = U^\dagger \Pi_0 U \) or \( \Pi_1' = U^\dagger \Pi_1 U \), which leads to the same probabilities of outcomes.
+Indeed,
+\[ p(i) = \ev{\Pi_i}{U\xi} = \ev{U^\dagger \Pi_i U}{\xi} = \ev{\Pi_i'}{\xi} \]
+Therefore, in this particular problem, we gain no benefit from moving to a larger Hilbert space or applying unitary operators.
+
+We now describe the \emph{state estimation} or \emph{state discrimination} process.
+We will consider a two-outcome measurement \( \qty{\Pi_0, \Pi_1} \), where \( \Pi_0 + \Pi_1 = I \).
+The average success probability is
+\begin{align*}
+    p_S(\Pi_0, \Pi_1) &= \frac{1}{2} \prob{0 \mid \ket{\psi} = \ket{\alpha_0}} + \frac{1}{2} \prob{1 \mid \ket{\psi} = \ket{\alpha_1}} \\
+    &= \frac{1}{2}\ev{\Pi_0}{\alpha_0} + \frac{1}{2}\ev{\Pi_1}{\alpha_1} \\
+    &= \frac{1}{2} + \frac{1}{2} \Tr \qty[\Pi_0 \qty(\op{\alpha_0}{\alpha_0} - \op{\alpha_1}{\alpha_1})]
+\end{align*}
+as \( \Tr(A\op{\psi}{\psi}) = \ev{A}{\alpha} \).
+The optimal choice of measurement maximises the average success probability \( p_S \).
+Note that \( \Delta = \op{\alpha_0}{\alpha_0} - \op{\alpha_1}{\alpha_1} \) is self-adjoint, and we can write \( p_S = \frac{1}{2} + \frac{1}{2} \Tr(\Pi_0 \Delta) \).
+Therefore, the eigenvalues of \( \Delta \) are real, and the eigenvalues form an orthonormal basis.
+For a state \( \ket{\beta} \) orthogonal to both \( \ket{\alpha_0} \) and \( \ket{\alpha_1} \), we have \( \Delta \ket{\beta} = 0 \).
+Therefore, \( \Delta \) acts nontrivially only in the vector space spanned by \( \ket{\alpha_0} \) and \( \ket{\alpha_1} \), and hence has at most two nonzero eigenvalues, and its eigenvectors lie in \( \vecspan\qty{\ket{\alpha_0}, \ket{\alpha_1}} \).
+
+Now, \( \Tr\Delta = 0 \) so the eigenvalues are \( \delta \) and \( -\delta \) for some \( \delta \in \mathbb R \).
+Let \( \ket{p} \) be the eigenvector for \( \delta \), and \( \ket{m} \) be the eigenvector for \( -\delta \), so \( \ip{p}{m} = 0 \).
+We can write \( \Delta \) in its spectral decomposition, giving \( \Delta = \delta \op{p}{p} - \delta \op{m}{m} \).
+
+Let \( \ket{\alpha_0^\perp} \in \vecspan\qty{\ket{\alpha_0}, \ket{\alpha_1}} \) be a normalised vector such that \( \ip{\alpha_0^\perp}{\alpha_0} = 0 \).
+Then, \( \vecspan\qty{\ket{\alpha_0}, \ket{\alpha_0^\perp}} \) forms an orthonormal basis.
+Hence, we can write \( \ket{\alpha_1} = c_0 \ket{\alpha_0} + c_1 \ket{\alpha_0^\perp} \).
+In this basis,
+\[ \Delta = \begin{pmatrix}
+    1 & 0 \\
+    0 & 0
+\end{pmatrix} + \begin{pmatrix}
+    -\abs{c_0}^2 & -c_0 c_1^\star \\
+    -c_0^\star c_1 & -\abs{c_1}^2
+\end{pmatrix} = \begin{pmatrix}
+    1 - \abs{c_0}^2 & -c_0 c_1^\star \\
+    -c_0^\star c_1 & -\abs{c_1}^2
+\end{pmatrix} = \begin{pmatrix}
+    \abs{c_1}^2 & -c_0 c_1^\star \\
+    -c_0^\star c_1 & -\abs{c_1}^2
+\end{pmatrix} \]
+which has eigenvalues \( \delta = \abs{c_1}, -\delta = -\abs{c_1} \).
+Since \( \abs{c_0} = \abs{\ip{\alpha_0}{\alpha_1}} = \cos \theta \) where \( \theta \geq 0 \), we have \( \delta = \sin \theta \).
+Then,
+\begin{align*}
+    p_S(\Pi_0, \Pi_1) &= \frac{1}{2} + \frac{1}{2} \Tr(\Pi_0 \Delta) \\
+    &= \frac{1}{2} + \frac{1}{2} \Tr(\Pi_0 \qty[\sin\theta \op{p}{p} - \sin\theta \op{m}{m}]) \\
+    &= \frac{1}{2} + \frac{\sin\theta}{2} \qty[\ev{\Pi_0}{p} - \ev{\Pi_0}{m}]
+\end{align*}
+Note that for any \( \ket{\varphi} \), we have \( 0 \leq \ev{\Pi}{\varphi} \leq 1 \), so the measurement is maximised when \( \ev{\Pi_0}{p} = 1 \) and \( \ev{\Pi_0}{m} = 0 \).
+We therefore define \( \Pi_0 = \op{p}{p} \).
+Then, the optimal average success probability is
+\[ p_S^\star = \frac{1}{2} + \frac{\sin\theta}{2} \]
+\begin{theorem}[Holevo--Helstrom; pure states]
+    Let \( \ket{\alpha_0}, \ket{\alpha_1} \) be equally likely states, with \( \abs{\ip{\alpha_0}{\alpha_1}} = \cos\theta \), \( \theta \geq 0 \).
+    Then, the probability \( p_S \) of correctly identifying the state by any quantum measurement satisfies
+    \[ p_S \leq \frac{1}{2} + \frac{\sin\theta}{2} \]
+    and this bound can be attained.
+\end{theorem}
+In the case of orthogonal states, the theorem implies that \( p_S \leq 1 \) and the bound can be attained, which was shown before.
+
+\subsection{No-signalling principle}
+Suppose we have a possibly entangled state \( \ket{\phi_{AB}} \in \mathcal V_A \otimes \mathcal V_B \) shared between two agents Alice (\( A \)) and Bob (\( B \)).
+Suppose we perform a complete projective measurement on \( \ket{\phi_A} \).
+By the extended Born rule, each measurement outcome will lead to an instantaneous change of \( \ket{\phi_B} \).
+If this change in state could be detected by measuring \( \ket{\phi_B} \), instantaneous communication between \( A \) and \( B \) would be possible.
+
+Consider \( \ket{\phi_{AB}^+} = \frac{1}{\sqrt{2}}\qty(\ket{00} + \ket{11}) \).
+Suppose qubit \( A \) is measured in the standard basis \( \qty{\ket{0}, \ket{1}} \).
+\begin{center}
+    \begin{tabular}{c c c c}
+        outcome & probability & post-measurement state & final state of \( B \) \\
+        0 & \( \frac{1}{2} \) & \( \ket{00} \) & \( \ket{0} \) \\
+        1 & \( \frac{1}{2} \) & \( \ket{11} \) & \( \ket{1} \)
+    \end{tabular}
+\end{center}
+Suppose qubit \( B \) is subsequently measured in \( \qty{\ket{b_0}, \ket{b_1}} \).
+If \( B \) is in the state \( \ket{0} \), we can write \( \ket{0} = c_0\ket{b_0} + c_1\ket{b_1} \), and \( p_{\ket{0}}(i) = \abs{c_i}^2 = \abs{\ip{b_i}{0}}^2 \).
+If \( B \) is in the state \( \ket{1} \), we write \( \ket{1} = d_0\ket{b_0} + d_1\ket{b_1} \), and \( p_{\ket{1}}(i) = \abs{d_i}^2 = \abs{\ip{b_i}{1}}^2 \).
+Therefore, \( p(i) = \frac{1}{2} \abs{\ip{b_i}{0}}^2 + \frac{1}{2} \abs{\ip{b_i}{1}}^2 = \frac{1}{2} \).
+The two outcomes for this measurement are equally likely, regardless of the choice of complete orthonormal basis \( \qty{\ket{b_0}, \ket{b_1}} \).
+
+Suppose instead \( A \) is not measured, but we perform the same measurement on \( B \).
+The initial state is \( \ket{\phi_{AB}^+} \), so by the extended Born rule, \( p(i) = \ev{\qty(I_A \otimes \op{b_i}{b_i})}{\phi_{AB}^+} = \frac{1}{2} \).
+We can therefore not detect through measuring \( B \) whether a measurement was performed at \( A \).
+This is the no-signalling principle.
+
+We now prove the more general case.
+Let \( \ket{\phi_{AB}} \in \mathcal V_A \otimes \mathcal V_B \) be an arbitrary possibly entangled state.
+
+Suppose we measure \( B \) in a complete orthonormal basis \( \qty{\ket{b}}_{b=1}^{\dim \mathcal V_B} \), which is a complete projective measurement on \( B \).
+Let \( \qty{\ket{a}}_{a=1}^{\dim \mathcal V_A} \) be a complete orthonormal basis for \( \mathcal V_A \).
+Then, expanding \( \ket{\phi_{AB}} \), in this basis, we can write \( \ket{\phi_{AB}} = \sum_{a,b} c_{ab} \ket{a} \ket{b} \).
+We obtain outcome \( b \) with probability \( p(b) = \ev{\qty(I_A \otimes P_b)}{\phi_{AB}} = \sum_{a=1}^{\dim \mathcal V_A} \abs{c_{ab}}^2 \).
+The post-measurement state is \( \ket{\phi_{AB}'} \).
+
+Suppse that we first measure \( A \) in a complete orthonormal basis \( \qty{\ket{a}}_{a=1}^{\dim \mathcal V_A} \), and then perform the measurement \( \qty{\ket{b}}_{b=1}^{\dim \mathcal V_B} \) on \( B \).
+The outcome of the first measurement is \( a \) with probability \( p(a) = \ev{\qty(P_a \otimes I_B)}{\phi_{AB}} = \sum_{b=1}^{\dim \mathcal V_B} \abs{c_{ab}}^2 \).
+We denote the post-measurement state of the joint system by \( \ket{\phi_{AB}''}= \frac{(P_a \otimes I_B) \ket{\phi_{AB}}}{\sqrt{p(a)}} \).
+Then, the outcome of the second measurement is \( b \) with probability
+\begin{align*}
+    p(a \mid b) &= \ev{\qty(I_A \otimes P_b)}{\phi_{AB}''} \\
+    &= \frac{1}{p(a)} \ev{(P_a \otimes I_B) (I_A \otimes P_b) (P_a \otimes I_B)}{\phi_{AB}} \\
+    &= \frac{1}{p(a)} \ev{(P_a \otimes P_b)}{\phi_{AB}} \\
+    p(a,b) = p(a) p(a \mid b) &= \ev{(P_a \otimes P_b)}{\phi_{AB}} = \abs{c_{ab}}^2
+\end{align*}
+Hence \( p(b) = \sum_{a=1}^{\dim \mathcal V_A} \abs{c_{ab}}^2 \), which is exactly the distribution we obtained when no measurement on \( A \) was performed.
+This proves the no-signalling principle.
+
+\subsection{The Bell basis}
+Let \( \mathbb C^2 \otimes \mathbb C^2 \) model a quantum system representing the spins of two electrons.
+Consider \( \ket{\phi_{AB}^+} = \frac{1}{2}\qty(\ket{00} + \ket{11}) \in \mathbb C^2 \otimes \mathbb C^2 \).
+This is a \emph{maximally entangled state}; we have information about the whole system, but no information about the individual states.
+\[ \ket{\phi_{AB}^\pm} = \frac{1}{\sqrt{2}} \qty(\ket{00} \pm \ket{11});\quad \ket{\psi_{AB}^\pm} = \frac{1}{\sqrt{2}} \qty(\ket{01} \pm \ket{10}) \]
+\( \qty{\ket{\phi_{AB}^\pm}, \ket{\psi_{AB}^\pm}} \) forms a complete orthonormal basis of \( \mathbb C^2 \otimes \mathbb C^2 \).
+This is called the \emph{Bell basis}.
+The basis vectors are sometimes known as \emph{EPR states}, after Einstein, Podolsky, and Rosen.
+
+One bit of classical information can be encoded in a single qubit, and two bits can be encoded in a pair of qubits in the Bell basis.
+The Bell states have a \emph{parity} 0 or 1, representing parallel \( \qty{\ket{\phi^\pm}} \) or antiparallel \( \qty{\ket{\psi^\pm}} \) spins.
+The states also have a \emph{phase}, which can be positive \( \qty{\ket{\phi^+}, \ket{\psi^+}} \) or negative \( \qty{\ket{\phi^-}, \ket{\psi^-}} \).
+For example, we can encode the classical message 01 using the state \( \ket{\phi^-} \).
+
+We can perform a complete projective measurement on both qubits in the Bell basis to recover the encoded information with certainty.
+For instance, \( P_{00} = \op{\phi^+}{\phi^+} \).
+If we prepare a pair of electrons \( \ket{\phi} \) in the state \( \ket{\phi^-} \) for example, we obtain \( p(00) = p(10) = p(11) = 0 \) and \( p(01) = 1 \).
+
+\subsection{Superdense coding}
+Suppose Alice wants to send a classical message to Bob.
+Two bits of classical information can be sent reliably via a single qubit, provided that Alice and Bob share an entangled state, using \emph{superdense coding} or \emph{quantum dense coding}.
+Let \( X = \sigma_x, Z = \sigma_z, Y = i\sigma_y = \begin{pmatrix}
+    0 & 1 \\
+    -1 & 0
+\end{pmatrix} \).
+One can check that the Bell basis vectors satisfy
+\begin{align*}
+    \ket{\phi^+} &= (I \otimes I) \ket{\phi^+} = (I \otimes I) \ket{\phi^+}\\
+    \ket{\phi^-} &= (Z \otimes I) \ket{\phi^+} = (I \otimes Z) \ket{\phi^+}\\
+    \ket{\psi^+} &= (X \otimes I) \ket{\phi^+} = (I \otimes X) \ket{\phi^+}\\
+    \ket{\psi^-} &= (Y \otimes I) \ket{\phi^+} = -(I \otimes Y) \ket{\phi^+}
+\end{align*}
+Suppose we have shared the entangled Bell state \( \ket{\phi^+_{AB}} \) between Alice and Bob.
+The superdense coding protocol is
+\begin{center}
+    \begin{tabular}{c c c}
+        Alice's message & local action on \( A \) & final state of \( AB \) \\
+        00 & \( I \) & \( \ket{\phi^+} \) \\
+        01 & \( Z \) & \( \ket{\phi^-} \) \\
+        10 & \( X \) & \( \ket{\psi^+} \) \\
+        11 & \( Y \) & \( \ket{\psi^-} \)
+    \end{tabular}
+\end{center}
+Then, Alice sends qubit \( A \) to Bob, so Bob has the entire state \( AB \).
+Bob performs a Bell measurement, which distinguishes between the four Bell states, thus recovering Alice's message.
+Since the state is maximally entangled, an eavesdropper who may intercept Alice's transmission cannot recover any part of the message.
+
+\subsection{Quantum gates}
+A quantum gate is given by a unitary operator acting on some qubits.
+Such gates have matrix representations in the computational basis.
+\begin{enumerate}
+    \item The \emph{Hadamard gate} is
+    \[ H = \frac{1}{\sqrt{2}} \begin{pmatrix}
+        1 & 1 \\
+        1 & -1
+    \end{pmatrix} \]
+    One can show that
+    \[ H \ket{0} = \ket{+};\quad H\ket{1} = \ket{-};\quad H\ket{+} = \ket{0};\quad H\ket{-} = \ket{1} \]
+    Note that \( H^\transpose = H^\dagger = H \) and \( H^2 = I \).
+    As an orthogonal transformation in \( \mathbb R^2 \), it acts as a reflection by an angle of \( \frac{\pi}{8} \) to the positive \( x \) axis.
+    This gate is drawn
+    \begin{center}
+        \leavevmode
+        \Qcircuit { & \gate{H} & \qw }
+    \end{center}
+    In general, by linearity we obtain
+    \begin{center}
+        \leavevmode
+        \Qcircuit {
+            \lstick{a \ket{0} + b \ket{1}} & \gate{H} & \rstick{a \ket{+} + b \ket{-}} \qw
+        }
+    \end{center}
+    \item The \( X, Z \) gates are given by
+    \[ X \ket{k} = \ket{k \oplus 1};\quad Z \ket{k} = (-1)^k \ket{k} \]
+    where \( \oplus \) denotes addition modulo 2.
+    They \( X, Z, Y \) gates are drawn
+    \begin{center}
+        \leavevmode
+        \Qcircuit { & \gate{X} & \qw };\quad
+        \Qcircuit { & \gate{Z} & \qw };\quad
+        \Qcircuit { & \gate{X} & \gate{Z} & \qw }
+    \end{center}
+    \item The \emph{phase gate} is
+    \[ P_\theta = \begin{pmatrix}
+        1 & 0 \\
+        0 & e^{i\theta}
+    \end{pmatrix} \]
+    Note that \( Z = P_\pi \).
+    \item The \emph{controlled-X} gate, also called a \emph{CNOT} gate, is
+    \[ CX = \begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 0 & 1 \\
+        0 & 0 & 1 & 0
+    \end{pmatrix} = \begin{pmatrix}
+        I & 0 \\
+        0 & X
+    \end{pmatrix} \]
+    Note that \( CX \ket{i} \ket{j} = \ket{i}\ket{i \oplus j} \).
+    The first qubit is called the \emph{control} qubit, and the second is called the \emph{target} qubit.
+    If \( i = 0 \), there is no action on the second qubit.
+    If \( i = 1 \), \( X \) is performed on the second qubit.
+    In general, \( CX \ket{0}\ket{\psi} = \ket{0}\ket{\psi} \), and \( CX \ket{1}\ket{\psi} = \ket{1}(X \ket{\psi}) \).
+    The circuit diagram is as follows.
+    \begin{center}
+        \leavevmode
+        \Qcircuit {
+            \lstick{\ket{i}} & \ctrl{1} & \rstick{\ket{i}} \qw \\
+            \lstick{\ket{j}} & \targ{} & \rstick{\ket{i \oplus j}} \qw
+        }
+    \end{center}
+    One can show that
+    \begin{center}
+        \leavevmode
+        \Qcircuit {
+            & \targ{} & \qw \\
+            & \ctrl{-1} & \qw
+        }
+        \quad = \quad
+        \Qcircuit {
+            & \gate{H} & \ctrl{1} & \gate{H} & \qw \\
+            & \gate{H} & \targ{} & \gate{H} & \qw
+        }
+    \end{center}
+    \item The \emph{controlled-Z} gate, also called a \emph{CZ} gate, is
+    \[ CZ = \begin{pmatrix}
+        I & 0 \\
+        0 & Z
+    \end{pmatrix} \]
+    So \( CZ \ket{0}\ket{\psi} = \ket{0}\ket{\psi} \) and \( CZ \ket{1}\ket{\psi} = \ket{1}(Z\ket{\psi}) \).
+    \( CZ \) is symmetric in its action on the two qubits; for example, \( CZ_{12} \ket{0} \ket{1} = CZ_{21} \ket{0} \ket{1} \).
+    This gate is drawn
+    \begin{center}
+        \leavevmode
+        \Qcircuit {
+            & \ctrl{1} & \qw \\
+            & \gate{Z} & \qw
+        }
+        \quad or \quad
+        \Qcircuit {
+            & \ctrl{1} & \qw \\
+            & \control{} \qw & \qw
+        }
+    \end{center}
+\end{enumerate}
+
+\subsection{Quantum teleportation}
+Suppose Alice and Bob share the Bell state \( \ket{\phi^+}_{AB} \), and that Alice wants to send the state of qubit \( \ket{\psi}_C \) to Bob, but only classical communication between them is possible.
+It is possible to transfer the information about the state of \( \ket{\psi}_C \) without physically transferring qubit \( C \) to Bob.
+This state transfer can be accomplished in such a way that is unaffected by any physical process in the space between Alice and Bob, since it relies only on classical communication.
+
+The initial state of \( C A B \) is \( \ket{\Psi} = \ket{\psi}_C \otimes \ket{\phi^+}_{AB} \), assuming \( \ket{\psi}_C \) is uncorrelated with \( \ket{\phi^+}_{AB} \).
+Let \( \ket{\psi}_C = a \ket{0}_C + b \ket{1}_C \), so
+\[ \ket{\Psi} = \ket{\psi}_C \otimes \ket{\phi^+}_{AB} = \frac{1}{\sqrt{2}} \qty[a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111}] \]
+Alice sends \( C \) and \( A \) through a \( CX \) gate.
+Now,
+\[ \ket{\Psi} = \ket{\varphi_1} = \frac{1}{\sqrt{2}} \qty[a \ket{000} + a \ket{011} + b \ket{110} + b \ket{101}] \]
+She now sends \( C \) through a Hadamard gate.
+\begin{align*}
+    \ket{\Psi} = \ket{\varphi_2} &= \frac{1}{\sqrt{2}} \qty[a \ket{+00} + a \ket{+11} + b \ket{-10} + b \ket{-01}] \\
+    &= \frac{1}{2} \big[\ket{00} \ket{\psi} + \ket{01} (X \ket{\psi}) + \ket{10} (Z \ket{\psi}) + \ket{11} (-Y\ket{\psi})\big]
+\end{align*}
+Alice now measures \( CA \) in the computational basis of \( \mathbb C^2 \otimes \mathbb C^2 \).
+The probability of each outcome is \( \frac{1}{4} \), irrespective of the values of \( a \) and \( b \) and hence of \( \ket{\psi} \).
+She then sends the result of her measurement to Bob.
+If Alice measures outcome \( ij \), \( B \) is in state \( X^j Z^i \ket{\psi} \).
+Then, Bob can act on \( B \) using \( Z^i X^j \), as \( X \) and \( Z \) are involutive, giving \( \ket{\psi} \) as desired.
+This process can be represented with the following diagram, where double-struck wires are classical, and the meter symbol denotes a measurement of the quantum state.
+\begin{center}
+    \leavevmode
+    \Qcircuit {
+        \lstick{\ket{\psi}_C} & \ctrl{1} & \gate{H} & \meter{} & \cw & \control \cw \cwx[2] \\
+        \lstick{\ket{\phi^+}_A} & \targ{} & \qw & \meter{} & \control \cw \cwx[1] & \\
+        \lstick{\ket{\phi^+}_B} & \qw & \qw & \qw & \gate{X} & \gate{Z} & \rstick{\ket{\psi}} \qw
+    }
+\end{center}
+Note that after the measurement of \( CA \), the entanglement between \( CA \) and \( B \) is broken.
+No-cloning is not violated, as the original state \( \ket{\psi}_C \) is destroyed.
+
+Note that the first steps of this process including Alice's measurement correspond to performing a Bell measurement on \( CA \).
+This is because the action of \( CX_{CA} \) then \( H_C \) corresponds to a rotation of the Bell basis to the standard basis.

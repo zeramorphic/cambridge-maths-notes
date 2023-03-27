@@ -1,0 +1,384 @@
+\subsection{Languages}
+Recall that a \emph{group} is a set \( A \) equipped with functions \( m \colon A^2 \to A \) of arity 2, and \( i \colon A^1 \to A \) of arity 1, and a constant \( e \in A \) which can be viewed as a function \( A^0 \to A \) of arity 0, such that a set of axioms hold.
+A \emph{poset} is a set \( A \) equipped with a relation \( (\leq) \subseteq A^2 \) of arity 2, such that a set of axioms hold.
+Other algebraic structures can be described in the same way.
+
+Let \( \Omega \) and \( \Pi \) be disjoint sets of functions and relations, and \( \alpha \colon \Omega \cup \Pi \to \mathbb N \) be an arity function.
+\emph{Variables} are symbols of the form \( x_i \) for some \( i \in \mathbb N \).
+\emph{Terms} are defined inductively by
+\begin{enumerate}
+    \item each variable is a term;
+    \item if \( f \in \Omega \) with \( \alpha(f) = n \) and terms \( t_1, \dots, t_n \), then \( f\ t_1\dots\ t_n \) is a term.
+\end{enumerate}
+The \emph{atomic formulae} are defined inductively by
+\begin{enumerate}
+    \item \( \bot \) is an atomic formula;
+    \item for terms \( s, t \), \( (s = t) \) is an atomic formula;
+    \item if \( \varphi \in \Pi \) with \( \alpha(\varphi) = n \) and terms \( t_1, \dots, t_n \), then \( \varphi(t_1, \dots, t_n) \) is an atomic formula.
+\end{enumerate}
+The \emph{formulae} are defined inductively by
+\begin{enumerate}
+    \item each atomic formula is a formula;
+    \item if \( p \) and \( q \) are formulae then \( (p \Rightarrow q) \) is a formula;
+    \item if \( p \) is a formula and \( x \) is a variable, then \( (\forall x) p \) is a formula.
+\end{enumerate}
+The \emph{language} \( L = L(\Omega, \Pi, \alpha) \) is the set of formulae.
+\begin{example}
+    In the language of groups, \( \Omega = \qty{m, i, e} \) and \( \Pi = \varnothing \) with \( \alpha(m) = 2, \alpha(i) = 1, \alpha(e) = 0 \).
+    \( m(x_1, x_2), m(x_1, i(x_2)), e, m(e, e) \) are examples of terms of the language.
+    \( e = m(\ell, e), m(x,y) = m(y,x) \) are atomic formulae.
+\end{example}
+\begin{example}
+    In the language of posets, \( \Omega = \varnothing \) and \( \Pi = \qty{\leq} \) with \( \alpha(\leq) = 2 \).
+    \( x = y, x \leq y \) are atomic formulae.
+    Technically, \( x \leq y \) is written \( \leq(x, y) \).
+\end{example}
+\begin{example}
+    In the language of groups, \( (\forall x) (m(x,x) = e) \) is a formula.
+    Another formula is \( m(x,x) = e \Rightarrow (\exists y) (m(y,y) = x) \).
+\end{example}
+\begin{remark}
+    A formula is a certain finite string of symbols; it has no intrinsic semantics.
+    We define \( \neg p, p \wedge q, p \vee q \) in the usual way.
+    We define \( (\exists x) p \) to mean \( \neg(\forall x) (\neg p) \).
+\end{remark}
+A term is \emph{closed} if it contains no variables.
+For example, \( e, m(e,i(e)) \) are closed in the language of groups, but \( m(x,i(x)) \) is not closed.
+
+An occurrence of a variable \( x \) in a formula \( p \) is \emph{bound} if it is inside the brackets of a \( (\forall x) \) quantifier.
+Otherwise, we say the occurrence is \emph{free}.
+In the formula \( (\forall x)(m(x,x) = e) \), each occurrence of \( x \) is bound.
+In \( m(x,x) = e \Rightarrow (\exists y)(m(y,y) = x) \), the occurrences of \( x \) are free and the occurrences of \( y \) are bound.
+In the formula \( m(x,x) = e \Rightarrow (\forall x)(\forall y)(m(x,y) = m(y,x)) \), the occurrences of \( x \) on the left hand side are free, and the occurrences of \( x \) on the right hand side are bound.
+
+A \emph{sentence} is a formula with no free variables.
+\( (\forall x)(m(x,x) = e) \) is a sentence, and \( (\forall x)(m(x,x) \Rightarrow (\exists y)(m(y,y) = x)) \) is a sentence.
+In the language of posets, \( (\forall x)(\exists y)(x \geq y \wedge \neg(x = y)) \) is a sentence.
+
+For a formula \( p \), term \( t \), and variable \( x \), the \emph{substitution} \( p[t/x] \) is obtained from \( p \) by replacing every free occurrence of \( x \) with \( t \).
+If \( p = (\exists y)(m(y,y) = x) \), \( p[e/x] = (\exists y)(m(y,y) = e) \).
+
+\subsection{Semantic implication}
+\begin{definition}
+    Let \( L = L(\Omega, \Pi, \alpha) \) be a language.
+    An \emph{\( L \)-structure} is
+    \begin{itemize}
+        \item a nonempty set \( A \);
+        \item for each \( f \in \Omega \), a function \( f_A \colon A^n \to A \) where \( n = \alpha(f) \);
+        \item for each \( \varphi \in \Pi \), a subset \( \varphi_A \subseteq A^n \) where \( n = \alpha(\varphi) \).
+    \end{itemize}
+\end{definition}
+\begin{remark}
+    We will see later why the restriction that \( A \) is nonempty is given here.
+\end{remark}
+\begin{example}
+    In the language of groups, an \( L \)-structure is a nonempty set \( A \) with functions \( m_A \colon A^2 \to A, i_A \colon A \to A, e_A \in A \).
+    Such a structure may not be a group, as we have not placed any axioms on \( A \).
+\end{example}
+\begin{example}
+    In the language of posets, an \( L \)-structure is a nonempty set \( A \) with a relation \( (\leq_A) \subseteq A^2 \).
+\end{example}
+We define the \emph{interpretation} \( p_A \in \qty{0,1} \) of a sentence \( p \) in an \( L \)-structure \( A \) as follows.
+\begin{itemize}
+    \item The interpretation \( t_A \) of a closed term \( t \) in an \( L \)-structure \( A \) is defined inductively as \( (f\ t_1\dots t_n)_A = f_A({t_1}_A, \dots, {t_n}_A) \) for \( f \in \Omega, \alpha(f) = n \), where \( t_1, \dots, t_n \) are closed.
+    \item The interpretation of an atomic sentence is defined inductively.
+    \begin{itemize}
+            \item \( \bot_A = 0 \).
+        \item \( (s = t)_A \) is 1 if \( s_A = t_A \) and 0 if \( s_A \neq t_A \).
+        \item \( (\varphi(t_1, \dots, t_n))_A \) is 1 if \( ({t_1}_A, \dots, {t_n}_A) \in \varphi_A \) and 0 otherwise, for \( \varphi \in \Pi, \alpha(\varphi) = n \), where \( t_1, \dots, t_n \) are closed.
+    \end{itemize}
+    \item We now inductively define the interpretation of sentences, which is technically induction by length over all languages at once.
+    \begin{itemize}
+        \item \( (p \Rightarrow q)_A \) is 0 if \( p_A = 1 \) and \( q_A = 0 \), and 1 otherwise.
+        \item \( ((\forall x)p)_A \) is 1 if \( p[\overline a/x] \) is 1 for all \( a \in A \) and 0 otherwise, where we add a constant symbol \( \overline a \) to \( L \) for a fixed \( a \in A \) to form the language \( L' \), and we make \( A \) into an \( L' \)-structure by defining \( \overline a_A = a \).
+    \end{itemize}
+\end{itemize}
+\begin{remark}
+    For a formula \( p \) with free variables, we can define \( p_A \) to be the subset of \( A^k \) where \( k \) is the number of free variables, defined such that \( x \in p_A \) if and only if the substitution of \( x \) in \( p \) is evaluated to 1.
+\end{remark}
+\begin{definition}
+    If \( p_A = 1 \), we say \( p \) \emph{holds} in \( A \), or \( p \) is \emph{true} in \( A \), or \( A \) is a \emph{model} of \( p \).
+    A \emph{theory} is a set of sentences, known as its \emph{axioms}.
+    We say that \( A \) is a \emph{model} of a theory \( T \) if \( p_A = 1 \) for all \( p \in T \).
+    For a theory \( T \) and a sentence \( p \), we say that \( T \models p \), read \( T \) \emph{entails} or \emph{semantically implies} \( p \), if every model of \( T \) is a model of \( p \).
+\end{definition}
+\begin{example}
+    Let \( L \) be the language of groups, and let
+    \begin{align*}
+        T &= \{(\forall x)(\forall y)(\forall z)(m(x,m(y,z)) = m(m(x,y), z)), \\
+        &(\forall x)(m(x,e) = x \wedge m(e,x) = x), \\
+        &(\forall x)(m(x,i(x)) = e \wedge m(i(x),x) = e)\}
+    \end{align*}
+    Then, an \( L \)-structure is a model of \( T \) if and only if it is a group.
+    Note that this statement has two assertions; every \( L \)-structure that is a model of \( T \) is a group, and that every group can be turned into an \( L \)-structure that models \( T \).
+    We say that \( T \) \emph{axiomatises} the theory of groups or the class of groups.
+\end{example}
+\begin{example}
+    Let \( L \) be the language of posets, and \( T \) be the poset axioms.
+    Then \( T \) axiomatises the class of posets.
+\end{example}
+\begin{example}
+    Let \( L \) be the language of fields, so \( \Omega = \qty{0, 1, +, \cdot, -} \) with \( \alpha(0) = \alpha(1) = 0, \alpha(+) = \alpha(\cdot) = \alpha(-) = 2 \).
+    \( T \) is the usual field axioms, including the statement \( (\forall x)(\neg (x = 0) \Rightarrow (\exists y)(x \cdot y = 1)) \).
+    Then \( T \) entails the statement that inverses are unique: \( (\forall x)(\neg (x = 0) \Rightarrow (\forall y)(\forall z) (y \cdot x = 1 \wedge z \cdot x = 1 \Rightarrow y = z)) \).
+\end{example}
+\begin{example}
+    Let \( L \) be the language of graphs, defined by \( \Omega = \varnothing \) and \( \Pi = \qty{a} \) where \( \alpha(a) = 2 \) is the adjacency relation.
+    Define \( T = \qty{(\forall x)(\neg a(x,x)), (\forall x)(\forall y)(a(x,y) \Rightarrow a(y,x))} \).
+    Then \( T \) axiomatises the class of graphs.
+\end{example}
+
+\subsection{Syntactic implication}
+We need to define (logical) axioms and deduction rules in order to construct proofs.
+\begin{enumerate}
+    \item \( p \Rightarrow (q \Rightarrow p) \) for formulae \( p, q \).
+    \item \( (p \Rightarrow (q \Rightarrow r)) \Rightarrow ((p \Rightarrow q) \Rightarrow (q \Rightarrow r)) \) for formulae \( p, q, r \).
+    \item \( \neg\neg p \Rightarrow p \) for each formula \( p \).
+    \item \( (\forall x)(x = x) \) for any variable \( x \).
+    \item \( (\forall x)(\forall y)(x = y \Rightarrow (p \Rightarrow p[y/x])) \) for any variables \( x, y \) where \( y \) is not bound in the formula \( p \).
+    \item \( ((\forall x)p) \Rightarrow p[t/x] \) for any variable \( x \), formula \( p \), and term \( t \) that has no free variable that occurs bound in \( p \).
+    \item \( (\forall x)(p \Rightarrow q) \Rightarrow (p \Rightarrow (\forall x)q) \) for any formulae \( p, q \) and variable \( x \) that does not appear free in \( p \).
+\end{enumerate}
+Note that all of these axioms are tautologies; they hold in every structure.
+We define the following deduction rules.
+\begin{enumerate}
+    \item (modus ponens) From \( p \) and \( p \Rightarrow q \), we can deduce \( q \).
+    \item (generalisation) From \( p \), we can deduce \( (\forall x)p \) provided that \( x \) does not occur free in any premise used to deduce \( p \).
+\end{enumerate}
+For \( S \subseteq L \) and \( t \in L \), we say that \( S \vdash p \), read \( S \) \emph{proves} \( p \), if there exists a \emph{proof} of \( p \) from \( S \), which is a finite sequence of formulae ending with \( p \) such that each formula is a logical axiom, a hypothesis in \( S \), or obtained from earlier lines by one of the deduction rules.
+\begin{remark}
+    Suppose we allow the empty structure for a language with no constants.
+    Then, \( \bot \) is false in \( A \), and the statement \( (\forall x)\bot \) is true in \( A \).
+    Therefore, \( ((\forall x)\bot) \Rightarrow \bot \) is false by modus ponens.
+    But this is an instance of axiom (vi), showing that it would not be a tautology.
+\end{remark}
+\begin{example}
+    We show \( \qty{x = y, x = z} \vdash y = z \) where \( x, y, z \) are different variables.
+    \begin{enumerate}[1.]
+        \item \( (\forall x)(\forall y)(x = y \Rightarrow (x = z \Rightarrow y = z)) \) (axiom 5)
+        \item \( \qty((\forall x)(\forall y)(x = y \Rightarrow (x = z \Rightarrow y = z))) \Rightarrow (\forall y)(x = y \Rightarrow (x = z \Rightarrow y = z)) \) (axiom 6)
+        \item \( (\forall y)(x = y \Rightarrow (x = z \Rightarrow y = z)) \) (modus ponens on lines 1, 2)
+        \item \( \qty((\forall y)(x = y \Rightarrow (x = z \Rightarrow y = z))) \Rightarrow (x = y \Rightarrow (x = z \Rightarrow y = z)) \) (axiom 6)
+        \item \( x = y \Rightarrow (x = z \Rightarrow y = z) \) (modus ponens on lines 3, 4)
+        \item \( x = y \) (hypothesis)
+        \item \( x = z \Rightarrow y = z \) (modus ponens on lines 5, 6)
+        \item \( x = z \) (hypothesis)
+        \item \( y = z \) (modus ponens on lines 7, 8)
+    \end{enumerate}
+\end{example}
+
+\subsection{Deduction theorem}
+\begin{proposition}
+    Let \( S \subseteq L \), and \( p, q \in L \).
+    Then \( S \vdash (p \Rightarrow q) \) if and only if \( S \cup \qty{p} \vdash q \).
+\end{proposition}
+\begin{proof}
+    As before, given a proof of \( p \Rightarrow q \) from \( S \), one can establish a proof of \( q \) from \( S \cup \qty{p} \vdash q \) by writing \( p \) and applying modus ponens to the original proof.
+
+    Conversely, suppose we have a proof \( S \cup \qty{p} \vdash q \).
+    We convert each line \( t_i \) into \( p \Rightarrow t_i \) as in the proof in propositional logic.
+    The only new case is generalisation.
+    Suppose we have the line \( r \) and then the line \( (\forall x) r \) obtained by generalisation, and we have a proof \( S \vdash p \Rightarrow r \) by induction.
+    In the proof \( S \cup \qty{p} \vdash r \), no hypothesis has a free occurrence of \( x \).
+    Therefore, in the proof \( S \vdash p \Rightarrow r \), the same holds.
+    Thus, \( S \vdash (\forall x)(p \Rightarrow r) \) by generalisation.
+
+    Suppose \( x \) is not free in \( p \).
+    Then, \( S \vdash p \Rightarrow (\forall x)r \) by axiom 7 and modus ponens.
+
+    Now, suppse \( x \) occurs free in \( p \).
+    In this case, the proof \( S \cup \qty{p} \vdash r \) cannot have used the hypothesis \( p \).
+    Hence, \( S \vdash r \), and so \( S \vdash (\forall x)r \) by generalisation.
+    This gives \( S \vdash p \Rightarrow (\forall x)r \) by axiom 1.
+\end{proof}
+
+\subsection{Soundness}
+This section is non-examinable.
+\begin{proposition}
+    Let \( S \) be a set of sentences in \( L \), and \( p \) a sentence in \( L \).
+    Then \( S \vdash t \) implies \( S \models t \).
+\end{proposition}
+\begin{proof}
+    We have a proof \( t_1, \dots, t_n \) of \( p \) from \( S \).
+    We show that if \( A \) is a model of \( S \), \( A \) is also a model of \( t_i \) for each \( i \) (interpreting free variables as quantified); this can be shown by induction.
+    Hence, \( S \models p \).
+\end{proof}
+
+\subsection{Adequacy}
+This section is non-examinable.
+
+We want to show that \( S \models p \) implies \( S \vdash p \).
+Equivalently, \( S \cup \qty{\neg p} \models \bot \) implies \( S \cup \qty{\neg p} \vdash \bot \).
+In other words, if \( S \cup \qty{\neg p} \) is consistent, it has a model.
+\begin{theorem}[model existence lemma]
+    Every consistent theory has a model.
+\end{theorem}
+We will need a number of key ideas in order to prove this.
+\begin{enumerate}
+    \item We will construct our model out of the language itself using the closed terms of \( L \).
+    For instance, if \( L \) is the language of fields and \( S \) is the usual field axioms, we take the closed terms and combine them with \( + \) and \( \cdot \) in the obvious way.
+    \item However, we can prove \( S \vdash 1 + 0 = 1 \), but \( 1 + 0 \) and \( 1 \) are distinct as strings.
+    We will therefore take the quotient of this set by the equivalence relation defined by \( s \sim t \) if \( S \vdash s = t \).
+    If this set is \( A \), we define \( [s] +_A [t] = [s + t] \), and this is a well-defined operation.
+    \item Suppose \( S \) is the set of field axioms with the statement that \( 1 + 1 = 0 \vee 1 + 1 + 1 = 0 \).
+    In this theory, \( S \not\vdash 1 + 1 = 0 \) and \( S \not\vdash 1 + 1 + 1 = 0 \).
+    Therefore, \( [1+1] \neq [0] \) and \( [1+1+1] \neq [0] \), so our structure \( A \) is not of characteristic 2 or 3.
+    We can overcome this by first extending \( S \) to a maximal consistent theory.
+    \item Suppose \( S \) is the set of field axioms with the statement that \( (\exists x)(x \cdot x = 1 + 1) \).
+    There is no closed term \( t \) with the property that \( [t\cdot t] = [1+1] \).
+    The problem is that \( S \) lacks \emph{witnesses} to existential quantifiers.
+    For each statement of the form \( (\exists x)p \in S \), we add a new constant \( c \) to the language and add to \( S \) the sentence \( p[c/x] \).
+    This still forms a consistent set.
+    \item The resulting set may no longer be maximal, as we have extended our language with new constants.
+    We must then return to step (iii) then step (iv); it is not clear if this process ever terminates.
+\end{enumerate}
+\begin{proof}
+    Let \( S \) be a consistent set in a language \( L = L(\Omega, \Pi) \).
+    Extend \( S \) to a maximal consistent set \( S_1 \), using Zorn's lemma.
+    Then, for each sentence \( p \in L \), either \( p \in S_1 \) or \( \neg p \in S_1 \).
+    Such a theory is called \emph{complete}; each sentence or its negation is proven.
+    Now, we add witnesses to \( S_1 \): for each sentence of the form \( (\exists x)p \in S_1 \), we add a new constant symbol \( c \) to the language, and also add the sentence \( p[c/x] \).
+    We then obtain a new theory \( T_1 \) in the language \( L_1 = L(\Omega \cup C_1 \Pi) \) that has witnesses for every existential in \( S_1 \).
+    One can check easily that \( T_1 \) is consistent.
+
+    We then extend \( T_1 \) to a maximal consistent theory \( S_2 \) in \( L_1 \), and add witnesses to produce \( T_2 \) in the language \( L_2 = L(\Omega \cup C_1 \cup C_2, \Pi) \).
+    Continue inductively, and let \( \overline S = \bigcup_{n \in \mathbb N} S_n \) in the language \( \overline L = L\qty(\Omega \cup \bigcup_{n \in \mathbb N} C_n, \Pi) \).
+
+    We claim that \( \overline S \) is consistent, complete, and has witnesses for every existential in \( \overline S \).
+    Clearly \( \overline S \) is consistent: if \( \overline S \vdash \bot \) then \( S_n \vdash \bot \) for some \( n \) as proofs are finite, contradicting consistency of \( S_n \).
+    For completeness, if \( p \) is a sentence in \( \overline L \), \( p \) must lie in \( L_n \) for some \( n \) as it is a finite string of symbols.
+    But \( S_{n+1} \) is complete in \( L_n \), so \( S_{n+1} \vdash p \) or \( S_{n+1} \vdash \neg p \), so certainly \( \overline S \vdash p \) or \( \overline S \vdash \neg p \).
+    If \( (\exists x)p \in \overline S \), then \( (\exists x)p \in S_n \) for some \( n \), so \( T_n \) provides a witness.
+
+    On the closed terms of \( \overline L \), we define the relation \( s \sim t \) if \( \overline S \vdash s = t \).
+    This is clearly an equivalence relation, so we can define \( A \) to be the set of equivalence classes of \( \overline L \) under \( \sim \).
+    This is an \( \overline L \)-structure by defining
+    \begin{itemize}
+        \item \( f_A([t_1], \dots, [t_n]) = [f\ t_1 \dots t_n] \) for each \( f \in \Omega \cup \bigcup_{n \in \mathbb N} C_n, \alpha(f) = n, t_i \) closed terms;
+        \item \( \varphi_A = \qty{([t_1], \dots, [t_n]) \in A^n \mid \overline S \vdash \varphi(t_1, \dots, t_n)} \) for each \( \varphi \in \Pi, \alpha(\varphi) = n, t_i \) closed terms.
+    \end{itemize}
+    We claim that for a sentence \( p \in \overline L \), we have \( p_A = 1 \) if and only if \( \overline S \vdash p \).
+    Then the proof is complete, as \( S \subseteq \overline S \) so \( p_A = 1 \) for every \( p \in S \), so \( A \) is a model of \( S \).
+
+    We prove this by induction on the length of sentences.
+    First, suppose \( p \) is atomic.
+    \( \bot_A = 0 \), as \( \overline S \not\vdash \bot \).
+    For closed terms \( s, t \), \( \overline S \vdash s = t \) if and only if \( [s] = [t] \) by definition of \( \sim \).
+    This holds if and only if \( s_A = t_A \) by definition of the operations in \( A \).
+    This is precisely the statement that \( s = t \) holds in \( A \).
+    The same holds for relations.
+
+    Now consider \( p \Rightarrow q \).
+    \( \overline S \vdash p \Rightarrow q \) if and only if \( \overline S \vdash \neg p \) or \( \overline S \vdash q \) as \( \overline S \) is complete and consistent; if \( \overline S \not\vdash \neg p \) and \( \overline S \not\vdash q \), then \( \overline S \vdash p \) and \( \overline S \vdash \neg p \).
+    By induction on the length of the formula, this holds if and only if \( p_A = 0 \) or \( q_A = 1 \).
+    This is the definition of the interpretation of \( p \Rightarrow q \) in \( A \).
+
+    Finally, consider the existential \( (\exists x)p \).
+    \( \overline S \vdash (\exists x)p \) if and only if there is a closed term \( t \) such that \( \overline S \vdash p[t/x] \), as \( \overline S \) has witnesses to every existential.
+    By induction (for example on the amount of quantifiers in a formula), this holds if and only if \( p[t/x]_A = 1 \) for some closed term \( t \).
+    This is true exactly when \( (\exists x)p \) holds in \( A \), as \( A \) is precisely the set of equivalence classes of closed terms.
+\end{proof}
+\begin{corollary}[adequacy]
+    Let \( S \subseteq L \) be a theory and \( t \in L \) be a sentence.
+    Then \( S \models t \) implies \( S \vdash t \).
+\end{corollary}
+
+\subsection{Completeness}
+\begin{theorem}[G\"odel's completeness theorem for first order logic]
+    Let \( S \subseteq L \) be a theory and \( t \in L \) be a sentence.
+    Then \( S \models t \) if and only if \( S \vdash t \).
+\end{theorem}
+\begin{proof}
+    Follows from soundness and adequacy.
+\end{proof}
+Note that \emph{first order} refers to the fact that variables quantify over elements, rather than sets of elements.
+\begin{remark}
+    If \( L \) is countable, or equivalently \( \Omega \) and \( \Pi \) are countable, Zorn's lemma is not needed in the above proof.
+\end{remark}
+\begin{theorem}[compactness theorem]
+    Let \( S \subseteq L \) be a theory.
+    Then if every finite subset \( S' \subseteq S \) has a model, \( S \) has a model.
+\end{theorem}
+\begin{proof}
+    Trivial after applying completness as proofs are finite.
+\end{proof}
+There is no decidability theorem for first order logic, as \( S \models p \) can only be verified by checking its valuation in every \( L \)-structure.
+\begin{corollary}
+    The class of finite groups is not axiomatisable in the language of groups: there is no theory \( S \) such that a group is finite if and only if each \( p \in S \) holds in the group.
+\end{corollary}
+\begin{proof}
+    Suppose \( S \) is a set of sentences that axiomatises the theory of finite groups.
+    Consider \( S \) together with the sentences \( (\exists x_1)(\exists x_2)(x_1 \neq x_2) \), \( (\exists x_1)(\exists x_2)(\exists x_3)(x_1 \neq x_2 \wedge x_1 \neq x_3 \wedge x_2 \neq x_3) \) and so on, which collectively assert that the group has at least \( k \) elements for every \( k \).
+    Each finite subset \( S' \subseteq S \) has a model, such as a cyclic group of sufficiently large order.
+    So by compactness, there is a model of \( S \), which is a finite group with at least \( k \) elements for every \( k \), giving a contradiction.
+\end{proof}
+\begin{corollary}
+    Let \( S \) be a theory with arbitrarily large finite models.
+    Then \( S \) has an infinite model.
+\end{corollary}
+\begin{proof}
+    Add sentences and apply compactness as in the previous corollary.
+\end{proof}
+Finiteness is not a first-order property.
+\begin{theorem}[upward L\"owenheim--Skolem theorem]
+    Let \( S \) be a theory with an infinite model.
+    Then \( S \) has an uncountable model.
+\end{theorem}
+\begin{proof}
+    Add constants \( \qty{c_i \mid i \in I} \) to the language, where \( I \) is an uncountable set.
+    Add sentences \( c_i \neq c_j \) to the theory for all \( i \neq j \) to obtain a theory \( S' \).
+    Any finite set of sentences in \( S' \) has a model: indeed, the infinite model of \( S \) suffices.
+    By compactness, \( S' \) has a model.
+\end{proof}
+\begin{remark}
+    Similarly, we can prove the existence of models of \( S \) that do not inject into \( X \) for any fixed set \( X \).
+    Adding \( \gamma(X) \) constants or \( \mathcal P(X) \) constants both suffice.
+\end{remark}
+\begin{example}
+    There is an uncountable field, as there is an infinite field \( \mathbb Q \).
+    There is also a field that does not inject into \( X \) for any fixed set \( X \).
+\end{example}
+\begin{theorem}[downard L\"owenheim--Skolem theorem]
+    Let \( S \) be a theory in a countable language \( L \), or equivalently, \( \Omega \) and \( \Pi \) are countable.
+    Then if \( S \) has a model, it has a countable model.
+\end{theorem}
+\begin{proof}
+    \( S \) is consistent, so the model constructed in the proof of the model existence lemma is countable.
+\end{proof}
+
+\subsection{Peano arithmetic}
+Consider the language \( L \) given by \( \Omega = \qty{0, s, +, \cdot} \) with \( \alpha(0) = 0, \alpha(s) = 1, \alpha(+) = \alpha(\cdot) = 2 \), and \( \Pi = \varnothing \).
+It has axioms
+\begin{enumerate}
+    \item \( (\forall x)(s(x) \neq 0) \);
+    \item \( (\forall x)(\forall y)(s(x) = s(y) \Rightarrow x = y) \);
+    \item \( (\forall y_1)\dots(\forall y_n)\qty[p[0/x] \wedge (\forall x)(p \Rightarrow p[s(x)/x]) \Rightarrow (\forall x)p] \) for each formula \( p \) with free variables \( x, y_1, \dots, y_n \);
+    \item \( (\forall x)(x + 0 = x) \);
+    \item \( (\forall x)(\forall y)(x + s(y) = s(x + y)) \);
+    \item \( (\forall x)(x \cdot 0 = 0) \);
+    \item \( (\forall x)(\forall y)(x \cdot s(y) = x \cdot y + x) \).
+\end{enumerate}
+These axioms are sometimes called Peano arithmetic, \( \mathsf{PA} \), or formal number theory.
+The \( y_i \) in (iii) are called \emph{parameters}.
+Without the parameters, we would not be able to perform induction on sets such as \( \qty{x \mid x \geq y} \) if \( y \) is a variable.
+
+Note that \( \mathsf{PA} \) clearly has an infinite model, namely \( \mathbb N \).
+So by the upward L\"owenheim--Skolem theorem, it has an uncountable model, which in particular is not isomorphic to \( \mathbb N \).
+This is because (iii) is not `true' induction, stating that all subsets of \( \mathbb N \) either have a least element not in it, or it is \( \mathbb N \) itself.
+Axiom (iii) applies only to countably many formulae \( p \), and therefore only asserts that induction holds for countably many subsets of \( \mathbb N \).
+\begin{definition}
+    A set \( S \subseteq \mathbb N \) is \emph{definable} in the language of \( \mathsf{PA} \) if there is a formula \( p \) with a free variable \( x \) such that for each \( m \in \mathbb N \), \( m \in S \) if and only if \( p[m/x] \) holds in \( \mathbb N \).
+\end{definition}
+Only countably many formulae exist, so only countably many sets are definable.
+\begin{example}
+    The set of squares is definable, as it can be defined by the formula \( (\exists y)(y\cdot y = x) \).
+    The set of primes is also definable by \( x \neq 0 \wedge x \neq 1 \wedge (\forall y)(y \mid x \Rightarrow y = 1 \wedge y = x) \), where \( y \mid x \) is defined to mean \( (\exists z)(z \cdot y = x) \).
+    The set of powers of 2 can be defined by \( (\forall y)(y \text{ is prime} \wedge y \mid x \Rightarrow y = 2) \).
+    The set of powers of 4 and the set of powers of 6 are also definable.
+\end{example}
+\begin{theorem}[G\"odel's incompleteness theorem]
+    \( \mathsf{PA} \) is not complete.
+\end{theorem}
+This theorem shows that there is a sentence \( p \) such that \( \mathsf{PA} \vdash p \) and \( \mathsf{PA} \not\vdash p \).
+However, one of \( p, \neg p \) must hold in \( \mathbb N \), so there is a sentence \( p \) that is true in \( \mathbb N \) that \( \mathsf{PA} \) does not prove.
+This does not contradict the completeness theorem, which is that if \( p \) is true in \emph{every} model in \( \mathsf{PA} \) then \( \mathsf{PA} \vdash p \).

@@ -1,0 +1,214 @@
+\subsection{Real quadratic fields}
+Recall that \( \alpha \in \mathcal O_L \) is a unit if and only if \( N(\alpha) = \pm 1 \).
+We aim to show that \( \mathcal O_L^\star \simeq \bm \mu_L \times \mathbb Z^{r+s-1} \) where \( \bm \mu_L = \qty{\alpha \in L \mid \alpha^a = 1 \text{ for some } a > 0} \) is the set of roots of unity in \( L \), a finite cyclic group.
+\begin{example}
+    Let \( L = \mathbb Q(\sqrt{d}) \) where \( d > 0 \) is square-free.
+    Here, \( r = 2, s = 0, n = 2 \).
+    \( L \subseteq \mathbb R \) gives \( \bm \mu_L \subseteq \qty{\pm 1} \) so \( \bm \mu_L = \qty{\pm 1} \).
+    Note that \( N(x+y\sqrt{d}) = x^2 - dy^2 \), so Dirichlet's theorem implies the following statement, which we will now prove directly.
+\end{example}
+\begin{theorem}[Pell's equation]
+    There exist infinitely many \( x + y \sqrt{d} \in \mathcal O_L \) with \( x^2 - dy^2 = \pm 1 \).
+\end{theorem}
+\begin{proof}
+    Recall that we have \( \sigma \colon \mathcal O_L \to \mathbb R^2 \) given by \( x + y\sqrt{d} \mapsto (x + y \sqrt{d}, x - y \sqrt{d}) \).
+    For example, if \( d = 2 \), the image is a lattice with basis \( (1,1), (-\sqrt{2}, \sqrt{2}) \), note also that no point lies in the coordinate axes apart from 0.
+    The covolume of \( \sigma(\mathcal O_L) \) is \( \abs{D_L}^{\frac{1}{2}} \).
+
+    Consider
+    \[ S_t = \qty{(y_1, y_2) \in \mathbb R^2 \midd \abs{y_1} \leq t, \abs{y_2} \leq \frac{\abs{D_L}^{\frac{1}{2}}}{t}} \]
+    The volume of \( S_t \) is \( 4\abs{D_L}^{\frac{1}{2}} = 2^n \operatorname{covol}(\sigma(\mathcal O_L)) \) as \( n = 2 \).
+    Minkowski's lemma implies that there exists a nonzero \( \alpha \in \mathcal O_L \) with \( \sigma(\alpha) \in S_t \).
+    But \( \sigma(\alpha) = (y_1, y_2) \) gives \( N(\alpha) = y_1 y_2 \).
+
+    We have therefore found an element \( \alpha \in \mathcal O_L \) with \( \sigma(\alpha) \in S_t \) that has norm satisfying \( 1 \leq n(\alpha) \leq \abs{D_L}^{\frac{1}{2}} \).
+    We show that there exist infinitely many such \( \alpha \) for \( 0 < t < 1 \), so there are infinitely many \( \alpha \in \mathcal O_L \) with \( \abs{N(\alpha)} = N((\alpha)) < \abs{D_L}^{\frac{1}{2}} \).
+    For fixed \( t \), \( S_t \cap \sigma(\mathcal O_L) \) is finite as \( S_t \) is compact.
+    Given \( t_1 > t_2 > \dots > t_n \), choose \( t_{n+1} \) less than all \( y_1 \) where \( \sigma(\alpha) = (y_1, y_2) \in S_{t_n} \cap \sigma(\mathcal O_L) \).
+    Note that \( \alpha \neq 0 \) so \( \sigma_1(\alpha) \neq 0 \), so \( t_{n+1} > 0 \).
+
+    Hence, there exists \( m \in \mathbb Z \) with \( 1 \leq \abs{m} \leq \abs{D_L}^{\frac{1}{2}} \) for which there are infinitely many \( \alpha \) with \( N(\alpha) = m \), by the pigeonhole principle.
+    But ideals \( \mathfrak a \trianglelefteq \mathcal O_L \) with \( m \in \mathfrak a \) biject with ideals in \( \faktor{\mathcal O_L}{m} = \qty(\faktor{\mathbb Z}{m\mathbb Z})^2 \), and hence there are finitely many of them.
+    Again by the pigeonhole principle, there exists \( \beta \in \mathcal O_L \) and infinitely many \( \alpha \in \mathcal O_L \) with \( N(\beta) = N(\alpha) = m \), where \( (\beta) = (\alpha) \).
+    But \( \frac{\beta}{\alpha} \) is a unit, so there are infinitely many units.
+\end{proof}
+We can prove Dirichlet's unit theorem for real quadratic fields from this result.
+\begin{corollary}
+    \( \mathcal O_L^\star = \qty{\pm \varepsilon_0^n \mid n \in \mathbb Z} \) for \( \varepsilon_0 \in \mathcal O_L^\star \).
+\end{corollary}
+Such an \( \varepsilon_0 \) is called a \emph{fundamental unit}.
+\begin{remark}
+    As there are infinitely many units, there exists \( \varepsilon \in \mathcal O_L^\star \) with \( \varepsilon \neq \pm 1 \).
+    Hence, \( \abs{\sigma_1(\varepsilon)} \pm 1 \) as \( \sigma_1(\varepsilon) = \pm 1 \) if and only if \( \varepsilon = \pm 1 \).
+    Replacing \( \varepsilon \) by \( \varepsilon^{-1} \) if necessary, we can assume \( E = \abs{\sigma_1(\varepsilon)} > 1 \).
+    Consider \( \qty{\alpha \in \mathcal O_L \mid N(\alpha) = \pm 1, 1 \leq \abs{\sigma_1(\alpha)} \leq E} \), which is a finite set as \( \mathcal O_L \) is discrete in \( \mathbb R^2 \).
+    Hence, \( \varepsilon_0 \) can be chosen in this set with minimum \( \abs{\sigma_1(\varepsilon_0)} \) and \( \varepsilon_0 \neq \pm 1 \).
+
+    We claim that if \( \varepsilon \in \mathcal O_L^\star \) has \( \sigma_1(\varepsilon) > 0 \), then \( \varepsilon = \varepsilon_0^N \) for some \( N \in \mathbb Z \).
+    Indeed, we can write \( \frac{\log \sigma_1(\varepsilon)}{\log \sigma_1(\varepsilon_0)} = N + \gamma \) where \( N \in \mathbb Z, 0 \leq \gamma < 1 \).
+    Hence \( \varepsilon \varepsilon_0^{-N} = \varepsilon_0^\gamma \), and if \( \gamma \neq 0 \), \( \abs{\varepsilon_0^\gamma} = \abs{\varepsilon}^\gamma < \abs{\varepsilon_0} \) contradicting the choice of \( \varepsilon_0 \) (taking \( \sigma_1 \) as necessary to simplify notation).
+\end{remark}
+
+\subsection{General case}
+We can prove Dirichlet's unit theorem in general.
+
+Let \( L \) be a number field and let \( [L:\mathbb Q] = n \) with \( \sigma_1, \dots, \sigma_r \colon L \to \mathbb R \) real embeddings and \( \sigma_{r+1}, \dots, \sigma_{r+s}, \overline\sigma_{r+1}, \dots, \overline\sigma_{r+s} \colon L \to \mathbb C \) complex embeddings, choosing some representative between \( \sigma_{r+i}, \overline \sigma_{r+i} \) arbitrarily.
+Define a map \( \ell \colon \mathcal O_L^\star \to \mathbb R^{r+s} \) by
+\[ \ell(x) = (\log \abs{\sigma_1(x)}, \dots, \log\abs{\sigma_r(x)}, 2\log\abs{\sigma_{r+1}(x)}, \dots, 2\log\abs{\sigma_{r+s}(x)}) \]
+\begin{lemma}
+    \begin{enumerate}
+        \item The image of \( \ell \) is a discrete subgroup of \( \mathbb R^{r+s} \).
+        \item The kernel of \( \ell \) is \( \bm \mu_L \), the roots of unity in \( L \), which is a finite cyclic group.
+    \end{enumerate}
+\end{lemma}
+\begin{remark}
+    \( \ell \) is independent of the choice of representative \( \sigma_{r+i}, \overline\sigma_{r+i} \), as they have the same absolute value.
+\end{remark}
+\begin{proof}
+    \emph{Part (i).}
+    \( \log \abs{ab} = \log \abs{a} + \log \abs{b} \), so \( \ell \) is a group homomorphism.
+    The image is therefore an additive subgroup of \( \mathbb R^{r+s} \).
+    For part (i), it suffices to show that \( \Im \ell \cap [-A,A]^{r+s} \) is finite for all \( A > 0 \).
+    \( \ell \) factorises as
+    % https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXG1hdGhjYWwgT19MXlxcc3RhciJdLFsxLDAsIihcXG1hdGhiYiBSX3tcXG5lcSAwfSleciBcXHRpbWVzIFxcbWF0aGJiIENecyJdLFsyLDAsIlxcbWF0aGJiIFJee3Irc30iXSxbMCwxLCJcXHNpZ21hIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoiaG9vayIsInNpZGUiOiJ0b3AifX19XSxbMSwyLCJqIl1d
+    \[\begin{tikzcd}
+        {\mathcal O_L^\star} & {(\mathbb R_{\neq 0})^r \times \mathbb C^s} & {\mathbb R^{r+s}}
+        \arrow["\sigma", hook, from=1-1, to=1-2]
+        \arrow["j", from=1-2, to=1-3]
+    \end{tikzcd}\]
+    where
+    \[ j(y_1, \dots, y_r, z_1, \dots, z_s) = (\log \abs{y_1}, \dots, \log \abs{y_r}, 2\log\abs{z_1}, \dots, 2\log \abs{z_s}) \]
+    and
+    \[ j^{-1}([-A,A]^{r+s}) = \qty{(y_i, z_j) \mid e^{-A} \leq \abs{y_i} \leq e^A, e^{-A} \leq 2\abs{z_j} \leq e^A} \]
+    which is compact.
+    As \( \alpha(\mathcal O_L) \) is a lattice, \( \sigma(\mathcal O_L^\star) \cap j^{-1}([-A,A]^{r+s}) \) is finite.
+    This gives (i), and also shows that \( \ker j = \ker \ell \) is finite.
+
+    \emph{Part (ii).}
+    \( \ker \ell \) is a group and finite, so every element has finite order.
+    In particular, \( \ker \ell \leq \bm \mu_L \).
+    But each root of unity lies in \( \ker \ell \), so \( \ker \ell = \bm\mu_L \).
+    But \( L \hookrightarrow \mathbb C \) by any embedding, so \( \bm\mu_L \) is contained in the set of roots of unity in \( \mathbb C \) of a fixed order, which is a cyclic group.
+    Subgroups of cyclic groups are cyclic.
+\end{proof}
+Note that if \( r > 0 \), \( L \hookrightarrow \mathbb R \), so \( \bm\mu_L = \qty{\pm 1} \).
+
+Observe that \( \Im \ell \) is contained in the set \( \qty{(y_1, \dots, y_{r+s}) \mid y_1 + \dots + y_{r+s} = 0} \).
+Indeed, \( \alpha \in \mathcal O_L^\star \) gives \( N(\alpha) = \prod_{i=1}^r \sigma_i(\alpha) \prod_{i=1}^s \sigma_{r+i}(\alpha) \overline\sigma_{r+i}(\alpha) = \pm 1 \), so taking logarithms,
+\[ \log\abs{N(\alpha)} = \sum_{i=1}^r \log\abs{\sigma_i(\alpha)} + \sum_{i=1}^s 2\log\abs{\sigma_{r+i}(\alpha)} = 0 \]
+So \( \Im \ell \subseteq \mathbb R^{r+s-1} \) is a discrete subgroup, hence isomorphic to \( \mathbb Z^a \) for \( a \leq r + s - 1 \).
+\begin{theorem}[Dirichlet's unit theorem]
+    \( \Im \ell \subseteq \mathbb R^{r+s-1} \) is a lattice; it is isomorphic to \( \mathbb Z^{r+s-1} \).
+\end{theorem}
+We now prove this theorem.
+\begin{lemma}
+    Let \( 1 \leq k \leq s \), and \( \alpha \in \mathcal O_L \), \( \alpha \neq 0 \).
+    Then there exists \( \beta \in \mathcal O_L \) with \( \abs{N(\beta)} \leq \qty(\frac{2}{\pi})^s \abs{D_L}^{\frac{1}{2}} \) and with \( b_i < a_i \) for all \( i \neq k \), where \( \ell(\alpha) = (a_1, \dots, a_{r+s}) \) and \( \ell(\beta) = (b_1, \dots, b_{r+s}) \).
+\end{lemma}
+\begin{proof}
+    Apply Minkowski's lemma.
+    Let
+    \[ S = \qty{(y_1, \dots, y_r, z_r, \dots, z_s) \in \mathbb R^r \times \mathbb C^2 \simeq \mathbb R^n \mid \abs{y_i} \leq c_i, \abs{z_j}^2 \leq c_{r+j}} \]
+    We have \( \operatorname{vol}(S) = 2^r \pi^s c_1 \dots c_{r+s} \).
+    This is convex and symmetric around zero.
+    By choosing \( c_i \) such that \( 0 < c_i < e^{a_i} \) for \( i \neq k \), and setting \( c_k = \qty(\frac{2}{\pi})^s \abs{D_L}^{\frac{1}{2}} c_1^{-1} \dots c_{k-1}^{-1} c_{k+1}^{-1} \dots c_{r+s}^{-1} \), Minkowski gives \( \beta \in \sigma(\mathcal O_L) \cap S \).
+\end{proof}
+Fix some \( 1 \leq k \leq s \).
+Repeatedly applying this lemma, we can obtain a sequence \( \alpha_1, \alpha_2, \dots \in \mathcal O_L \) such that \( N(\alpha_j) \) is bounded, and for all \( i \neq k \), the \( i \)th coordinate of \( \ell(\alpha_1), \ell(\alpha_2), \dots \) is strictly decreasing.
+Hence, there exists \( t < t' \) with \( N(\alpha_t) = N(\alpha_{t'}) = m \) as there are only finitely many possible norms of the \( \alpha_t \), and \( \alpha = \alpha_t' \) modulo \( \faktor{\mathcal O_L}{m} \) by the pigeonhole principle.
+Therefore \( (\alpha_t) = (\alpha_{t'}) \) as in the proof for real quadratic fields.
+
+Let \( u_k = \alpha_t \alpha_{t'}^{-1} \); this is a unit in \( \mathcal O_L \) such that \( \ell(u) = \ell(a_t) - \ell(a_t') = (y_1, \dots, y_{r+s}) \) has \( y_i < 0 \) if \( i \neq k \).
+Note that as \( \sum y_i = 0 \), we have \( y_k > 0 \).
+
+We now have units \( u_1, \dots, u_{r+s} \) by performing this for each coordinate.
+We now show that \( \ell(u_1), \dots, \ell(u_{r+s-1}) \) are linearly independent, hence the rank of \( \ell(\mathcal O_L^\star) \) is \( r + s - 1 \).
+Indeed, let \( A \) be the \( (r + s) \times (r + s) \) matrix with \( j \)th row given by \( \ell(u_j) \), and apply the following lemma.
+\begin{lemma}
+    Let \( A \in M_{m \times m}(\mathbb R) \) be a matrix with \( a_{ii} > 0 \), \( a_{ij} < 0 \) for \( i \leq j \), and \( \sum_j a_{ij} \geq 0 \) for all \( i \).
+    Then \( \rank A \geq m - 1 \).
+\end{lemma}
+Note that the assumptions of this lemma are satisfied for our choice of matrix \( A \).
+\begin{proof}
+    Let \( v_i \) be the \( i \)th column of \( A \).
+    We show that \( v_1, \dots, v_{m-1} \) are linearly independent.
+    Suppose that there exist \( t_i \in \mathbb R \) with \( \sum_{i=1}^{m-1} t_i v_i = 0 \), and not all \( t_i \) are zero.
+    Choose \( k \) such that \( t_k \) has maximum absolute value.
+    Dividing the linear dependence relation by \( t_k \), we can assume \( t_k = 1 \) and all other \( t_i \) have absolute value at most 1.
+    Now consider the \( k \)th entry of the linear dependence relation.
+    \[ 0 = \sum_{i=1}^{m-1} t_i a_{ki} = t_k a_{kk} + \sum_{i \neq k, 1 \leq i \leq m-1} t_i a_{ki} \]
+    Since \( t_i \leq 1, a_{ki} < 0 \), we have
+    \[ 0 \geq \sum_{i=1}^{m-a} a_{ki} > \sum_{i=1}^m a_{ki} \geq 0 \]
+    as \( a_{km} < 0 \), giving a contradiction as required.
+\end{proof}
+This proves Dirichlet's unit theorem.
+
+\begin{definition}
+    Let \( R_L = \operatorname{covol}(\ell(\mathcal O_L^\star) \subseteq \mathbb R^{r+s-1}) \).
+    This is an invariant of a number field, called the \emph{regulator} of \( L \).
+\end{definition}
+Concretely, choose \( \varepsilon_1, \dots, \varepsilon_{r+s-1} \) in \( \mathcal O_L^\star \) such that \( \mathcal O_L^\star \simeq \bm\mu_L \times \qty{\varepsilon_1^{n_1} \dots \varepsilon_{r+s-1}^{n_{r+s-1}} \mid n_i \in \mathbb Z} \).
+Take any \( (r+s-1) \times (r+s-1) \) minor of the \( (r+s-1)\times(r+s) \) matrix \( (\ell(\varepsilon_1), \dots, \ell(\varepsilon_{r+s})) \).
+The determinant of the absolute value of this submatrix is \( R_L \).
+\begin{example}
+    Let \( L \) be a real quadratic field, and let \( \varepsilon \) be a fundamental unit.
+    Then \( \log \abs{\sigma_1(\varepsilon)} = R_L \).
+\end{example}
+
+\subsection{Finding fundamental units}
+We now need to find such fundamental units.
+One way is to guess a unit and then find all smaller ones.
+\begin{example}
+    Let \( L = \mathbb Q(\sqrt{d}) \) and \( d > 0 \), and embed this into \( \mathbb R \) by choosing \( \sqrt{d} > 0 \).
+    Consider \( d = 2 \).
+    One might guess \( \varepsilon = 1 + \sqrt{2} \), as \( N(\varepsilon) = 1 \) so \( \varepsilon \) is a unit.
+    We claim that this is fundamental.
+    If not, there exists \( u = a + b\sqrt{2} \) with \( a, b \in \mathbb Z \), \( u \in \mathcal O_L^\star \), and \( 1 < u < \varepsilon \) as elements of \( \mathbb R \), identifying \( L \) with \( \sigma_1(L) \subseteq \mathbb R \).
+    The other embedding \( \overline u = a - b\sqrt{2} \) has \( u \overline u = \pm 1 \).
+    As \( u > 1 \), \( \abs{\overline u} < 1 \), so \( u + \overline u, u - \overline u > 0 \).
+    Hence \( a, b > 0 \), so there are no possibilities for \( 1 < a + b \sqrt{2} < 1 + 1 \sqrt{2} \) with \( a, b > 0 \) integers.
+    Hence \( \varepsilon \) is a fundamental unit.
+\end{example}
+\begin{example}
+    Consider \( d = 11 \).
+    Let \( \varepsilon = 10 - 3\sqrt{11} \) as \( N(\varepsilon) = 1 \).
+    Notice that \( \varepsilon \approx 0.5 \).
+    \( \varepsilon^{-1} > 1 \) and \( \varepsilon^{-1} < 20 \).
+    If this were not fundamental, there exists \( u = a + b \sqrt{11} \) with \( 1 < u < \varepsilon^{-1} = 10 + 3\sqrt{11} < 20 \).
+    We could check all cases like in the above example, but we can do better in this case.
+    If \( N(u) = -1 \), we have \( a^2 - 11b^2 = -1 \), which has no solutions modulo 11 as \( -1 \) is not a square in \( \mathbb F_{11} \).
+    Hence \( N(u) = 1 \) so \( \overline u = u^{-1} \), giving \( \varepsilon^{-1} > u > 1 \) implies \( 0 < \varepsilon < u^{-1} = \overline u < 1 \), so \( 0 < a - b \sqrt{11} < 1 \), so \( -1 < -a + b \sqrt{11} < 0 \).
+    Combining with the previous inequality, \( 0 < 2b \sqrt{11} < 10 + 3\sqrt{11} < 7 \sqrt{11} \) so \( b = 1, 2, 3 \).
+    Now we can check that \( 1 + b^2 \cdot 11 \) is not a square in \( \mathbb F_{11} \) for \( b = 1, 2, 3 \) so there is no possible \( a \).
+    Hence \( u \) is a fundamental unit.
+\end{example}
+\begin{remark}
+    There is an algorithm for \( \mathbb Q(\sqrt{d}) \) to compute fundamental units.
+    Recall that any real number \( t \) can be written as
+    \[ t = a_0 + \frac{1}{a_1 + \frac{1}{a_2 + \frac{1}{a_3 + \cdots}}} = [a_0, a_1, a_2, a_3, \dots] \]
+    where \( a_0 = \floor{t} \).
+    \( t \) is a quadratic algebraic number, so \( [\mathbb Q(t) : \mathbb Q] = 2 \), if and only if the expansion of \( t \) as a continued fraction is periodic \( t = [a_0, \overline{a_1, \dots, a_m}] \).
+\end{remark}
+The following proposition is non-examinable (and should not be used in exams).
+\begin{proposition}
+    Let \( \sqrt{d} = [a_0, \overline{a_1, \dots, a_m}] \) and let \( \frac{p}{q} = [a_0, \dots, a_{m-1}] \).
+    Then \( p + q\sqrt{d} \) is a unit in \( L = \mathbb Q(\sqrt{d}) \), and if \( d \equiv 2, 3 \mod 4 \), it is fundamental.
+\end{proposition}
+The proof is omitted.
+\begin{example}
+    \( \sqrt{7} = [2,\overline{1,1,1,4}] \) so \( \frac{p}{q} = [2,1,1,1] = \frac{8}{3} \) and \( (8 + 3\sqrt{7})(8 - 3\sqrt{7}) = 1 \).
+\end{example}
+This algorithm is polynomial-time in the regulator, but not polynomial-time in the discriminant.
+
+% number theory digression?
+If \( q(x,y) = ax^2 + bxy + cy^2 \) is a quadratic form for \( a, b, c \in \mathbb Z \) and \( D = b^2 - 4ac \), define \( L = \mathbb Q(\sqrt{D}) \), and define the ideal associated to \( q \) to be \( \qty(a, \frac{-b+\sqrt{D}}{2}) \).
+One can show that if \( a > 0, D < 0 \), the ideal attached to \( q \) is equal to the ideal attached to \( q' \) in the class group if and only \( q \) and \( q' \) are equal under the action of \( SL_2(\mathbb Z) \), i.e.\ if \( q'(x,y) = q(x',y') \)
+\[ \begin{pmatrix}
+    x' \\ y'
+\end{pmatrix} = \underbrace{\begin{pmatrix}
+    \alpha & \beta \\
+    \gamma & \delta
+\end{pmatrix}}_{\in SL_2(\mathbb Z)} \begin{pmatrix}
+    x \\ y
+\end{pmatrix} \]
+In particular, the size of the class group is exactly the number of orbits of positive definite quadratic forms with discriminant \( D \) under the action of \( SL_2(\mathbb Z) \).

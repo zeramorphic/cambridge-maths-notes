@@ -1,0 +1,283 @@
+\subsection{Definitions}
+\begin{definition}
+    A \emph{partially ordered set} or \emph{poset} is a pair \( (X, \leq) \) where \( X \) is a set, and \( \leq \) is a relation on \( X \) such that
+    \begin{itemize}
+        \item (reflexivity) for all \( x \in X \), \( x \leq x \);
+        \item (transitivity) for all \( x, y, z \in X \), \( x \leq y \) and \( y \leq z \) implies \( x \leq z \);
+        \item (antisymmetry) for all \( x, y \in X \), \( x \leq y \) and \( y \leq x \) implies \( x = y \).
+    \end{itemize}
+\end{definition}
+We write \( x < y \) for \( x \leq y \) and \( x \neq y \).
+Alternatively, a post is a pair \( (X, <) \) where \( X \) is a set, and \( < \) is a relation on \( X \) such that
+\begin{itemize}
+    \item (irreflexivity) for all \( x \in X \), \( x \not < x \);
+    \item (transitivity) for all \( x, y, z \in X \), \( x < y \) and \( y < z \) implies \( x < z \).
+\end{itemize}
+\begin{example}
+    \begin{enumerate}
+        \item Any total order is a poset.
+        \item \( \mathbb N^+ \) with the divides relation is a poset.
+        \item \( (\mathcal P(S), \subseteq) \) is a poset.
+        \item \( (X, \subseteq) \) is a poset where \( X \subseteq \mathcal P(S) \), such as the set of vector subspaces of a vector space.
+\item The following diagram is also a poset, where the lines from \( a \) upwards to \( b \) denote relations \( a \leq b \).
+% https://q.uiver.app/?q=WzAsNSxbMiwyLCJhIl0sWzEsMSwiYiJdLFswLDAsImMiXSxbMywxLCJkIl0sWzQsMCwiZSJdLFswLDEsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzAsMywiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+\[\begin{tikzcd}
+	c &&&& e \\
+	& b && d \\
+	&& a
+	\arrow[no head, from=3-3, to=2-2]
+	\arrow[no head, from=2-2, to=1-1]
+	\arrow[no head, from=3-3, to=2-4]
+	\arrow[no head, from=2-4, to=1-5]
+\end{tikzcd}\]
+This is called a \emph{Hasse diagram}.
+An upwards line from \( x \) to \( y \) is drawn if \( y \) \emph{covers} \( x \), so \( y > x \) and no \( z \) has \( y > z > x \).
+The natural numbers can be represented as a Hasse diagram.
+% https://q.uiver.app/?q=WzAsNSxbMCw0LCIwIl0sWzAsMywiMSJdLFswLDIsIjIiXSxbMCwxLCIzIl0sWzAsMCwiXFx2ZG90cyJdLFswLDEsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzIsMywiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+\[\begin{tikzcd}
+	\vdots \\
+	3 \\
+	2 \\
+	1 \\
+	0
+	\arrow[no head, from=5-1, to=4-1]
+	\arrow[no head, from=4-1, to=3-1]
+	\arrow[no head, from=3-1, to=2-1]
+	\arrow[no head, from=2-1, to=1-1]
+\end{tikzcd}\]
+The rationals cannot, since no element covers another.
+\item There is no notion of `height' in a poset, illustrated by the following diagram.
+% https://q.uiver.app/?q=WzAsNSxbMiw0LCJhIl0sWzMsMywiZCJdLFszLDEsImUiXSxbMiwwLCJiIl0sWzAsMiwiYyJdLFswLDEsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzIsMywiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFswLDQsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNCwzLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+\[\begin{tikzcd}
+	&& b \\
+	&&& e \\
+	c \\
+	&&& d \\
+	&& a
+	\arrow[no head, from=5-3, to=4-4]
+	\arrow[no head, from=4-4, to=2-4]
+	\arrow[no head, from=2-4, to=1-3]
+	\arrow[no head, from=5-3, to=3-1]
+	\arrow[no head, from=3-1, to=1-3]
+\end{tikzcd}\]
+\item
+% https://q.uiver.app/?q=WzAsNSxbMCwyLCJhIl0sWzAsMSwiYyJdLFsxLDAsImUiXSxbMiwyLCJiIl0sWzIsMSwiZCJdLFswLDEsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsNCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs0LDIsIiIsMSx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMCw0LCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMSwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+\[\begin{tikzcd}
+	& e \\
+	c && d \\
+	a && b
+	\arrow[no head, from=3-1, to=2-1]
+	\arrow[no head, from=2-1, to=1-2]
+	\arrow[no head, from=3-3, to=2-3]
+	\arrow[no head, from=2-3, to=1-2]
+	\arrow[no head, from=3-1, to=2-3]
+	\arrow[no head, from=3-3, to=2-1]
+\end{tikzcd}\]
+\end{enumerate}
+\end{example}
+\begin{definition}
+    A subset \( S \) of a poset \( X \) is a \emph{chain} if it is totally ordered.
+\end{definition}
+\begin{example}
+    The powers of 2 in \( (\mathbb N^+, \mid) \) is a chain.
+\end{example}
+\begin{definition}
+    A subset \( S \) of a poset \( X \) is an \emph{antichain} if no two distinct elements are related.
+\end{definition}
+\begin{example}
+    The set of primes in \( (\mathbb N^+, \mid) \) is an antichain.
+\end{example}
+\begin{definition}
+    For \( S \subseteq X \), an \emph{upper bound} for \( S \) is an \( x \in X \) such that \( x \geq y \) for all \( y \in S \).
+    A \emph{least upper bound} is an upper bound \( x \in X \) for \( S \) such that for all upper bounds \( y \in X \) for \( S \), \( x \leq y \).
+\end{definition}
+\begin{example}
+    If \( S = \qty{x \mid x < \sqrt{2}} \subset \mathbb R \), 7 is an upper bound, and \( \sqrt{2} \) is a least upper bound.
+    We write \( \sqrt{2} = \sup S = \bigvee S \) for the least upper bound or \emph{join} of \( S \).
+
+    In \( \mathbb Q \), the set \( \qty{x \mid x^2 < 2} \) has 7 as an upper bound but has no least upper bound.
+
+    In example (v), \( \qty{a, b} \) has upper bounds \( b \) and \( c \), so the least upper bound is \( b \).
+    \( \qty{b, d} \) has no upper bound.
+    In example (vii), \( \qty{a, b} \) has upper bounds \( c, d, e \), so does not have a least upper bound.
+\end{example}
+\begin{definition}
+    A poset \( X \) is \emph{complete} if every \( S \subseteq X \) has a least upper bound.
+\end{definition}
+\begin{example}
+    \( \mathbb R \) is not complete, as \( \mathbb Z \) has no upper bound.
+    \( [0,1] \subseteq \mathbb R \) is complete.
+    \( (0,1) \subseteq \mathbb R \) is not complete, as \( (0,1) \) has no upper bound.
+\end{example}
+\begin{example}
+    \( X = \mathcal P(S) \) is always complete as a poset under inclusion, with \( \sup\qty{A_i \mid i \in I} = \bigcup_{i \in I} A_i \).
+\end{example}
+Note that every complete poset \( X \) has a greatest element \( \sup X \).
+A complete poset also has a least element \( \sup \varnothing \).
+In the case \( X = \mathcal P(S) \), \( \sup X = S \) and \( \sup \varnothing = \varnothing \).
+\begin{definition}
+    Let \( f \colon X \to Y \) be a function where \( X, Y \) are posets.
+    We say \( f \) is \emph{order-preserving} if \( x \leq y \) implies \( f(x) \leq f(y) \).
+\end{definition}
+\begin{example}
+    The function \( f \colon \mathbb N \to \mathbb N \) defined by \( f(x) = x + 1 \) is order-preserving.
+    The function \( f \colon [0,1] \to [0,1] \) defined by \( x \mapsto \frac{x+1}{2} \) is order-preserving.
+    The function \( f \colon \mathcal P(S) \to \mathcal P(S) \) defined by \( f(A) = A \cup \qty{i} \) for some fixed \( i \in S \) is order-preserving.
+\end{example}
+Not all order-preserving functions have a fixed point \( x \) such that \( f(x) = x \), for example \( f(x) = x + 1 \) on \( \mathbb N \).
+\begin{theorem}[Knaster--Tarski fixed point theorem]
+    Let \( X \) be a complete poset.
+    Then every order-preserving \( f \colon X \to X \) has a fixed point.
+\end{theorem}
+\begin{proof}
+    Let \( E = \qty{x \in X \mid x \leq f(x)} \), and let \( s = \sup E \).
+    We show that \( s \) is a fixed point for \( f \).
+
+    First, we show \( s \leq f(s) \), so \( s \in E \).
+    It suffices to show \( f(s) \) is an upper bound for \( E \), then the result holds as \( s \) is the least such upper bound.
+    If \( x \in E \), we know \( x \leq s \), so \( f(x) \leq f(s) \) as \( f \) is order-preserving as required.
+
+    Now, we show \( f(s) \leq s \).
+    It suffices to show \( f(s) \in E \), as \( x \) is an upper bound for \( E \).
+    Since \( s \leq f(s) \), we have \( f(s) \leq f(f(s)) \), but this is precisely the fact that \( f(s) \in E \).
+\end{proof}
+\begin{corollary}[Schr\"oder--Bernstein theorem]
+    Let \( f \colon A \to B \) and \( g \colon B \to A \) be injections.
+    Then there is a bijection \( A \to B \).
+\end{corollary}
+\begin{proof}
+    We seek partitions \( A = P \sqcup Q \), \( B = R \sqcup S \) such that \( f(P) = R \) and \( g(S) = Q \); then we define \( h \) to equal to \( f \) on \( P \) and \( g^{-1} \) on \( R \).
+    Thus, we need a set \( P \) that is a fixed point of \( \theta \colon \mathcal P(A) \to \mathcal P(A) \) given by \( P \mapsto A \setminus g(B \setminus f(P)) \).
+    But \( \theta \) is order-preserving and \( \mathcal P(A) \) is a complete poset.
+    So \( P \) exists by the Knaster--Tarski fixed point theorem.
+\end{proof}
+
+\subsection{Zorn's lemma}
+\begin{definition}
+    Let \( X \) be a poset.
+    We say that \( x \in X \) is \emph{maximal} if there is no \( y \in X \) with \( y > x \).
+\end{definition}
+\begin{example}
+    In \( [0,1] \), \( 1 \) is maximal.
+    In example (v), there are two maximal elements \( c \) and \( e \).
+\end{example}
+Note that \( (\mathbb R, \leq) \) and \( (\mathbb N, \mid) \) have no maximal elements, and they both have a chain with no upper bound, such as \( \mathbb N \subset \mathbb R \), and powers of two.
+\begin{theorem}[Zorn's lemma]
+    Let \( X \) be a poset in which every chain has an upper bound.
+    Then \( X \) has a maximal element.
+\end{theorem}
+The empty chain must have an upper bound in \( X \), so \( X \) must be nonempty to apply Zorn's lemma.
+Zorn's lemma can be equivalently be stated as the following.
+\begin{theorem}
+    Let \( X \) be a nonempty poset in which every nonempty chain has an upper bound.
+    Then \( X \) has a maximal element.
+\end{theorem}
+One can view Zorn's lemma as a fixed-point theorem on a function \( f \colon X \to X \) with the property that \( x \leq f(x) \).
+\begin{proof}
+    Suppose that \( X \) has no maximal element.
+    Then for each \( x \in X \), we have \( x' \in S \) and \( x' > x \).
+    For each chain \( C \), we have an upper bound \( u(C) \).
+    Let \( x \in X \) be any element, and define \( x_\alpha \) for each \( \alpha < \gamma(X) \) by recursion.
+    \begin{itemize}
+        \item \( x_0 = x \);
+        \item \( x_{\alpha + 1} = x_\alpha' \);
+        \item \( x_\lambda = u\qty{x_\beta \mid \beta < \lambda} \) for \( \lambda \) a nonzero limit.
+    \end{itemize}
+    Note that \( \qty{x_\beta \mid \beta < \lambda} \) forms a chain, so it has an upper bound as required.
+    Then, we have an injection from \( \gamma(X) \) into \( X \), contradicting the definition of \( \gamma(X) \).
+\end{proof}
+\begin{remark}
+    Although this proof was short, it relied on the infrastructure of well-orderings, recursion, ordinals, and Hartogs' lemma.
+\end{remark}
+We show that every vector space has a basis.
+Recall that a basis is a linearly independent spanning set; no nontrivial finite linear combination of basis elements is zero, and each element of the vector space is a finite linear combination of the basis elements.
+For instance, the space of real polynomials has basis \( 1, X, X^2, \dots \).
+The space of real sequences has a linearly independent set \( (1, 0, 0, \dots), (0, 1, 0, \dots), \dots \), but this is not a basis as the sequence \( (1, 1, 1, \dots) \) cannot be constructed as a finite linear combination of these vectors.
+In fact, there is no countable basis for this space, and no explicitly definable basis in general.
+\( \mathbb R \) is a vector space over \( \mathbb Q \).
+There is clearly no countable basis, and in fact no explicit basis.
+A basis in this case is called a \emph{Hamel basis}.
+\begin{theorem}
+    Every vector space \( V \) has a basis.
+\end{theorem}
+\begin{proof}
+    Let \( X \) be the set of all linearly independent subsets of \( V \), ordered by inclusion.
+    We seek a maximal element of \( X \); this is clearly a basis, as any vector not in its span could be added to the set to increase the set of basis vectors.
+    \( X \) is nonempty as \( \varnothing \in X \).
+
+    We apply Zorn's lemma.
+    Let \( (A_i)_{i \in I} \) be a chain in \( X \).
+    We show that its union \( A = \bigcup_{i \in I} A_i \) is a linearly independent set, and therefore lies in \( X \) and is an upper bound.
+    Suppose \( x_1, \dots, x_n \in A \) are linearly dependent.
+    Then \( x_1 \in A_{i_1}, \dots, x_n \in A_{i_n} \), so all \( x_i \) lie in some \( A_k \) as the \( A_i \) are a chain.
+    But \( A_k \) is linearly independent, which is a contradiction.
+\end{proof}
+\begin{remark}
+    The only time that linear algebra was used was to show that the maximal element obtained by Zorn's lemma performs the required task; this is usual for proofs in this style.
+\end{remark}
+We can now prove the completeness theorem for propositional logic with no restrictions on the size of the set of primitive propositions.
+\begin{theorem}
+    Let \( S \subseteq L = L(P) \) be consistent.
+    Then \( S \) has a model.
+\end{theorem}
+\begin{proof}
+    We will extend \( S \) to a consistent set \( \overline S \) such that for all \( t \in L \), either \( t \in S \) or \( \neg t \in \overline S \); we then complete the proof by defining a valuation \( v \) such that \( v(t) = 1 \) if \( t \in \overline S \).
+
+    Let \( X = \qty{T \supseteq S \mid T \text{ consistent}} \) be the poset of consistent extensions of \( S \), ordered by inclusion.
+    We seek a maximal element of \( X \).
+    Then, if \( \overline S \) is maximal and \( t \not\in \overline S \), then \( \overline S \cup \qty{t} \vdash \bot \) by maximality, so \( \overline S \vdash \neg t \) by the deduction theorem, giving \( \neg t \in \overline S \) again by maximality.
+
+    Note that \( X \neq \varnothing \) as \( S \in X \).
+    Given a nonempty chain \( (T_i)_{i \in I} \), let \( T = \bigcup_{i \in I} T_i \).
+    We have \( T \supseteq T_i \) for all \( i \) and \( T \supseteq S \) as the chain is nonempty, so it suffices to show \( T \) is consistent.
+    Indeed, suppose \( T \vdash \bot \).
+    Then there exists a subset \( \qty{t_1, \dots, t_n} \in T \) with \( \qty{t_1, \dots, t_n} \vdash \bot \) by the compactness theorem.
+    Now, \( t_1 \in T_{i_1}, \dots, t_n \in T_{i_n} \) so all \( t_j \) are elements of \( T_{i_k} \) for some \( k \).
+    But \( T_{i_k} \) is consistent, so \( \qty{t_1, \dots, t_n} \not\vdash \bot \), giving a contradiction.
+\end{proof}
+
+\subsection{Well-ordering principle}
+\begin{theorem}
+    Every set has a well-ordering.
+\end{theorem}
+There exist sets with no definable well-ordering, such as \( \mathbb R \).
+\begin{proof}
+    Let \( S \) be a set, and let \( X \) be the set of pairs \( (A, R) \) such that \( A \subseteq S \) and \( R \) is a well-ordering on \( A \).
+    We define the partial order on \( X \) by \( (A, R) \leq (A', R') \) if \( (A', R') \) extends \( (A, R) \), so \( \eval{R'}_A = A \) and \( A \) is an initial segment of \( A' \) for \( R' \).
+
+    \( X \) is nonempty as the empty relation is a well-ordering of the empty set.
+    Given a nonempty chain \( (A_i, R_i)_{i \in I} \), there is an upper bound \( \qty(\bigcup_{i \in I} A_i, \bigcup_{i \in I} R_i) \), because the well-orderings are nested.
+    By Zorn's lemma, there exists a maximal element \( (A, R) \in X \).
+
+    Suppose \( x \in S \setminus A \).
+    Then we can construct the well-ordering on \( A \cup \qty{x} \) by defining \( a < x \) for \( a \in A \), contradicting maximality of \( A \).
+    Hence \( A = S \), so \( R \) is a well-ordering on \( S \).
+\end{proof}
+
+\subsection{Zorn's lemma and the axiom of choice}
+In the proof of Zorn's lemma, for each \( x \in S \) we chose an arbitrary \( x' > x \).
+This requires potentially infinitely many arbitrary choices.
+Other proofs, such as that the countable union of countable sets is countable, also required infinitely many choices; in this example, we chose arbitrary enumerations of the countable sets \( A_1, A_2, \dots \) at once.
+
+Formally, this process of making infinitely many arbitrary choices is known as the \emph{axiom of choice} \( \mathsf{AC} \): if we have a family of nonempty sets, one can choose an element from each one.
+More precisely, for any family of nonempty sets \( (A_i)_{i \in I} \), there is a \emph{choice function} \( f \colon I \to \bigcup_{i \in I} A_i \) such that \( f(i) \in A_i \) for all \( i \).
+
+Unlike the other axioms of set theory, the function obtained from the axiom of choice is not uniquely defined.
+For instance, the axiom of union allows for the construction of \( A \cup B \) given \( A \) and \( B \), which can be fully described; but applying the axiom of choice to the family \( \star \mapsto \qty{1, 2} \) could give the choice function \( \star \mapsto 1 \) or \( \star \mapsto 2 \).
+
+Use of the axiom of choice gives rise to nonconstructive proofs.
+In modern mathematics it is sometimes considered useful to note when the axiom of choice is being used.
+However, many proofs that do not even use the axiom of choice are nonconstructive, such as the proof of existence of transcendentals, or Hilbert's basis theorem that every ideal over \( \mathbb Q[X_1, \dots, X_n] \) is finitely generated.
+
+Although our proof of Zorn's lemma required the axiom of choice, it is not immediately clear that all such proofs require it.
+However, it can be shown that Zorn's lemma implies the axiom of choice in the presence of the other axioms of \( \mathsf{ZF} \) set theory.
+Indeed, if \( (A_i)_{i \in I} \) is a family of sets, we can well-order it using the well-ordering principle, and define the choice function by setting \( f(i) \) to be the least element of \( A_i \).
+Hence, Zorn's lemma, the axiom of choice, and the well-ordering principle are equivalent, given \( \mathsf{ZF} \).
+
+\( \mathsf{AC} \) can be proven trivially in \( \mathsf{ZF} \) if \( \abs{I} = 1 \), because a set being nonempty means precisely that there exists an element inside it.
+Clearly, \( \mathsf{AC} \) holds for all finite index sets in \( \mathsf{ZF} \) by induction on \( \abs{I} \).
+However, \( \mathsf{ZF} \) does not prove the most general form of \( \mathsf{AC} \).
+
+Zorn's lemma is a difficult lemma to prove from first principles because of its reliance on ordinals and Hartogs' lemma; the use of the axiom of choice does not contribute significantly to its difficulty.
+The construction and properties of the ordinals did not rely on the axiom of choice.
+The axiom of choice was only used twice in the section on well-orderings: the fact that in a set that is not well-ordered, there is an infinite decreasing sequence; and the fact that \( \omega_1 \) is not a countable supremum.

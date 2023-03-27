@@ -1,0 +1,424 @@
+\subsection{Definition}
+\begin{definition}
+    A \emph{total order} or \emph{linear order} is a pair \( (X, <) \) where \( X \) is a set, and \( < \) is a relation on \( X \) such that
+    \begin{itemize}
+        \item (irreflexivity) for all \( x \in X \), \( x \not < x \);
+        \item (transitivity) for all \( x, y, z \in X \), \( x < y \) and \( y < z \) implies \( x < z \);
+        \item (trichotomy) for all \( x, y \in X \), either \( x < y \), \( y < x \), or \( x = y \).
+    \end{itemize}
+\end{definition}
+We use the obvious notation \( x > y \) to denote \( y < x \).
+In terms of the \( \leq \) relation, we can equivalently write the axioms of a total order as
+\begin{itemize}
+    \item (reflexivity) for all \( x \in X \), \( x \leq x \);
+    \item (transitivity) for all \( x, y, z \in X \), \( x \leq y \) and \( y \leq z \) implies \( x \leq z \);
+    \item (antisymmetry) for all \( x, y \in X \), if \( x \leq y \) and \( y \leq x \) then \( x = y \).
+    \item (trichotomy, or totality) for all \( x, y \in X \), either \( x \leq y \) or \( y \leq x \).
+\end{itemize}
+\begin{example}
+    \begin{enumerate}
+        \item \( (\mathbb N, \leq) \) is a total order.
+        \item \( (\mathbb Q, \leq) \) is a total order.
+        \item \( (\mathbb R, \leq) \) is a total order.
+        \item \( (\mathbb N^+, |) \) is not a total order, where \( | \) is the divides relation, since \( 2 \) and \( 3 \) are not related.
+        \item \( (\mathcal P(S), \subseteq) \) is not a total order if \( \abs{S} > 1 \), since it fails trichotomy.
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    A total order \( (X, <) \) is a \emph{well-ordering} if every nonempty subset \( S \subseteq X \) has a least element.
+    \[ \forall S \subseteq X,\, S \neq 0 \implies \exists x \in S,\, \forall y \in S,\, x \leq y \]
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item \( (\mathbb N, <) \) is a well-ordering.
+        \item \( (\mathbb Z, <) \) is not a well-ordering, since \( \mathbb Z \) has no least element.
+        \item \( (\mathbb Q, <) \) is not a well-ordering.
+        \item \( (\mathbb R, <) \) is not a well-ordering.
+        \item \( [0,1] \subset \mathbb R \) with the usual order is not a well-ordering, since \( (0,1] \) has no least element.
+        \item \( \qty{\frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \dots} \subset \mathbb R \) with the usual order is a well-ordering.
+        \item \( \qty{\frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \dots} \cup \qty{1} \) with the usual order is also a well-ordering.
+        \item \( \qty{\frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \dots} \cup \qty{2} \) with the usual order is another example.
+        \item \( \qty{\frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \dots} \cup \qty{1 + \frac{1}{2}, 1 + \frac{2}{3}, 1 + \frac{3}{4}, \dots} \) is another example.
+    \end{enumerate}
+\end{example}
+\begin{remark}
+    Let \( (X, <) \) be a total order.
+    \( (X, <) \) is a well-ordering if and only if there is no infinite decreasing sequence \( x_1 > x_2 > \dots \).
+    Indeed, if \( (X, <) \) is a well-ordering, then the set \( \qty{x_1, x_2, \dots} \) has no minimal element, contradicting the assumption.
+    Conversely, if \( S \subseteq X \) has no minimal element, then we can construct an infinite decreasing sequence by arbitrarily choosing points \( x_1 > x_2 > \dots \) in \( S \), which exists as \( S \) has no minimal element.
+\end{remark}
+\begin{definition}
+    Total orders \( X, Y \) are \emph{isomorphic} if there is a bijection \( f \) between \( X \) and \( Y \) that preserves \( < \): \( x < y \) if and only if \( f(x) < f(y) \).
+\end{definition}
+Examples (i) and (vi) are isomorphic, and (vii) and (viii) are isomorphic.
+Examples (i) and (vii) are not isomorphic, since example (vii) has a greatest element and (i) does not.
+\begin{proposition}[proof by induction]
+    Let \( X \) be a well-ordered set, and let \( S \subseteq X \) such that
+    \[ \forall x \in S,\,(\forall y < x,\, y \in S) \implies x \in S \]
+    Then \( S = X \).
+\end{proposition}
+\begin{remark}
+    Equivalently, if \( p(x) \) is a property such that if \( p(y) \) is true for all \( y < x \) then \( p(x) \), then \( p(x) \) holds for all \( x \).
+\end{remark}
+\begin{proof}
+    Suppose \( S \neq X \).
+    Then \( X \setminus S \) is nonempty, and therefore has a least element \( x \).
+    But all elements \( y < x \) lie in \( S \), and so by the property of \( S \), we must have \( x \in S \), contradicting the assumption.
+\end{proof}
+\begin{proposition}
+    Let \( X, Y \) be isomorphic well-orderings.
+    Then there is exactly one isomorphism between \( X \) and \( Y \).
+\end{proposition}
+Note that this does not hold for general total orderings, such as \( \mathbb Q \) to itself or \( [0,1] \) to itself.
+\begin{proof}
+    Let \( f, g \colon X \to Y \) be isomorphisms.
+    We show that \( f(x) = g(x) \) for all \( x \) by induction on \( x \).
+    Suppose \( f(y) = g(y) \) for all \( y < x \).
+    We must have that \( f(x) = a \), where \( a \) is the least element of \( Y \setminus \qty{f(y) \mid y < x} \).
+    Indeed, if not, we have \( f(x') = a \) for some \( x' > x \) by bijectivity, contradicting the order-preserving property.
+    Note that the set \( Y \setminus \qty{f(x) \mid y < x} \) is nonempty as it contains \( f(x) \).
+    So \( f(x) = a = g(x) \), as required.
+\end{proof}
+
+\subsection{Initial segments}
+\begin{definition}
+    A subset \( I \) of a totally ordered set \( X \) is an \emph{initial segment} if \( x \in I \) implies \( y \in I \) for all \( y < x \).
+\end{definition}
+\begin{example}
+    In any total ordering \( X \) and element \( x \in X \), the set \( \qty{y \mid y < x} \) is an initial segment.
+    Not every initial segment is of this form, for instance \( \qty{x \mid x \leq 3} \) in \( \mathbb R \), or \( \qty{x \mid x > 0, x^2 < 2} \) in \( \mathbb Q \).
+
+    In a well-ordering, every proper initial segment \( I \neq X \) is of this form.
+    Indeed, \( I = \qty{y \mid y < x} \) where \( x \) is the least element of \( X \setminus I \): \( y \in I \) implies \( y < x \), otherwise \( y = x \) or \( x < y \), giving the contradiction \( x \in I \); and conversely, \( y < x \) implies \( y \in I \), otherwise \( y \) is a smaller element of \( X \setminus I \).
+\end{example}
+\begin{theorem}[definition by recursion]
+    Let \( X \) be a well-ordering and \( Y \) be any set.
+    Let \( G \colon \mathcal P(X \times Y) \to Y \) be a rule that assigns a point in \( Y \) given a definition of the function `so far', represented as a set of ordered pairs.
+    Then there exists a function \( f \colon X \to Y \) such that \( f(x) = G\qty(\eval{f}_{I_x}) \), and such a function is unique.
+\end{theorem}
+\begin{remark}
+    In defining \( f(x) \), we may use the value of \( f(y) \) for all \( y < x \).
+\end{remark}
+\begin{proof}
+    We say that \( h \) is an \emph{attempt} to mean that \( h \colon I \to Y \) where \( I \) is some initial segment of \( X \), and for all \( x \in I \) we have that \( h(x) = G\qty(\eval{h}_{I_x}) \).
+    Note that if \( h, h' \) are attempts both defined at \( x \), then \( h(x) = h'(x) \) by induction on \( x \).
+
+    Also, for all \( x \), there exists an attempt defined at \( x \), by induction on \( x \).
+    Indeed, by induction we can assume there exists an attempt \( h_y \) defined at \( y \) for all \( y < x \), and then we can define \( h \) to be the union of the \( h_y \).
+    This is an attempt with domain \( I_x \), so the attempt \( h' = h \cup \qty{x, G(h)} \) is an attempt defined at \( x \).
+    Therefore, there is an attempt defined at each \( x \), so we can define the function \( f \colon X \to Y \) by setting \( f(x) \) to be the value of \( h(x) \) where \( h \) is some attempt defined at \( x \).
+
+    For uniqueness, we apply induction on \( x \).
+    If \( f, f' \) agree below \( x \), then they must agree at \( x \) since \( f(x) = G\qty(\eval{f}_{I_x}) = G\qty(\eval{f'}_{I_x}) = f'(x) \).
+\end{proof}
+\begin{proposition}[subset collapse]
+    Any subset \( Y \) of a well-ordering \( X \) is isomorphic to a unique initial segment of \( X \).
+\end{proposition}
+This is not true for general total orderings, such as \( \qty{1, 2, 3} \subset \mathbb Z \), or \( \mathbb Q \) in \( \mathbb R \).
+\begin{proof}
+    If \( f \) is some such isomorphism, we must have that \( f(x) \) is the least element of \( X \) not of the form \( f(y) \) for \( y < x \).
+    We define \( f \) in this way by recursion, and this is an isomorphism as required.
+    Note that this is always well-defined as \( f(y) \leq y \), so there is always some element of \( X \) (namely, \( x \)) not of the form \( f(y) \) for \( y < x \).
+    Uniqueness follows by induction.
+\end{proof}
+\begin{remark}
+    \( X \) itself cannot be isomorphic to a proper initial segment by uniqueness as it is isomorphic to itself.
+\end{remark}
+
+\subsection{Relating well-orderings}
+\begin{definition}
+    For well-orderings \( X, Y \), we will write \( X \leq Y \) if \( X \) is isomorphic to an initial segment of \( Y \).
+\end{definition}
+\( X \leq Y \) if and only if \( X \) is isomorphic to some subset of \( Y \).
+\begin{example}
+    \( \mathbb N \leq \qty{\frac{1}{2}, \frac{2}{3}, \dots} \).
+\end{example}
+\begin{proposition}
+    Let \( X, Y \) be well-orderings.
+    Then either \( X \leq Y \) or \( Y \leq X \).
+\end{proposition}
+\begin{proof}
+    Suppose \( Y \not\leq X \), and we will show \( X \leq Y \).
+    By recursion we define the function \( f \colon X \to Y \) by letting \( f(x) \) be the least element of \( Y \) not of the form \( f(y) \) for all \( y < x \).
+    If a least element of this form always exists, this is a well-defined isomorphism from \( X \) to an initial segment of \( Y \) as required.
+    Suppose that \( Y \setminus \qty{f(y) \mid y < x} \) is empty, so \( \qty{f(y) \mid y < x} \).
+    Then \( Y \) is isomorphic to \( I_x \subseteq X \), contradicting the assumption that \( Y \not\leq X \).
+\end{proof}
+\begin{proposition}
+    Let \( X, Y \) be well-orderings, and suppose \( X \leq Y \) and \( Y \leq X \).
+    Then \( X \) is isomorphic to \( Y \).
+\end{proposition}
+\begin{proof}
+    Let \( f \colon X \to Y \) and \( g \colon Y \to X \) be isomorphisms to initial segments.
+    Then \( g \circ f \) is an isomorphism from \( X \) to some initial segment of \( X \), as an initial segment of an initial segment is an initial segment.
+    So by uniqueness, \( g \circ f \) is the identity map on \( X \).
+    Similarly, \( f \circ g \) is the identity on \( Y \), so \( f \) and \( g \) are inverses.
+\end{proof}
+
+\subsection{Constructing larger well-orderings}
+\begin{definition}
+    For well-orderings \( X, Y \), we write \( X < Y \) if \( X \leq Y \) and \( X \) is not isomorphic to \( Y \).
+\end{definition}
+Equivalently, \( X < Y \) if \( X \) is isomorphic to a proper initial segment of \( Y \).
+
+Let \( X \) be a well-ordering, and let \( x \not\in X \).
+Construct the well-ordering on \( X \cup \qty{x} \) by setting \( y < x \) for all \( y \in X \).
+This well-ordering is strictly greater than \( X \), since \( X \) is isomorphic to a proper initial segment.
+This is called the \emph{successor} of \( X \), written \( X^+ \).
+
+For well-orderings \( (X, <_X), (Y, <_Y) \), we say that \( (Y, <_Y) \) \emph{extends} \( (X, <_X) \) if \( X \subseteq Y \), \( \eval{<_Y}_{X} = <_X \), and \( X \) is an initial segment of \( Y \).
+We say that well-orderings \( X_i \) for \( i \in I \) are \emph{nested} if for all \( i, j \in I \), either \( X_i \) extends \( X_j \) or \( X_j \) extends \( X_i \).
+\begin{proposition}
+    Let \( X_i \) for \( i \in I \) be a nested set of well-orderings.
+    Then, there exists a well-ordering \( X \) such that \( X_i \leq X \) for all \( i \in I \).
+\end{proposition}
+\begin{proof}
+    Let \( X = \bigcup_{i \in I} X_i \) with ordering \( <_X = \bigcup_{i \in I} <_I \).
+    Then, as the \( X_i \) are nested, each \( X_i \) is an initial segment of \( X \).
+    We show that this is a well-ordering.
+    Let \( S \subseteq X \) be a nonempty set.
+    Then \( S \cap X_i \neq \varnothing \) for some \( i \in I \).
+    Let \( x \) be the least element of \( S \cap X_i \).
+    Thus, \( x \) is the least element of \( S \), as \( X_i \) is an initial segment of \( X \).
+\end{proof}
+\begin{remark}
+    The proposition holds without the nestedness assumption.
+\end{remark}
+
+\subsection{Ordinals}
+\begin{definition}
+    An \emph{ordinal} is a well-ordered set, where we regard two ordinals as equal if they are isomorphic.
+\end{definition}
+\begin{remark}
+    We cannot construct ordinals as equivalence classes of well-orderings, due to Russell's paradox.
+    Later, we will see a different construction that deals with this problem.
+\end{remark}
+\begin{definition}
+    Let \( X \) be a well-ordering corresponding to an ordinal \( \alpha \).
+    Then, we say that \( X \) has \emph{order type} \( \alpha \).
+\end{definition}
+The order type of the unique well-ordering on a collection of \( k \in \mathbb N \) points is named \( k \).
+The order type of \( (\mathbb N, <) \) is named \( \omega \).
+\begin{example}
+    In the reals, the set \( \qty{-2, 3, -\pi, 5} \) has order type 4.
+    The set \( \qty{\frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \dots} \) has order type \( \omega \).
+\end{example}
+We will write \( \alpha \leq \beta \) if \( X \leq Y \) where \( X \) has order type \( \alpha \) and \( Y \) has order type \( \beta \).
+This does not depend on the choice of representative \( X \) or \( Y \).
+We define \( \alpha < \beta \) and \( \alpha^+ \) in a similar way.
+Note that \( \alpha \leq \beta, \beta \leq \alpha \) implies \( \alpha = \beta \).
+Therefore, ordinals are totally ordered.
+\begin{proposition}
+    Let \( \alpha \) be an ordinal.
+    Then the set of ordinals less than \( \alpha \) form a well-ordered set of order type \( \alpha \).
+\end{proposition}
+\begin{proof}
+    Let \( X \) be a well-ordering with order type \( \alpha \).
+    Then, the well-orderings less than \( X \) are precisely the proper initial segments of \( X \), up to isomorphism.
+    The initial segments of \( X \) are precisely the sets \( I_x = \qty{y \in X \mid y < x} \) for \( x \in X \).
+    But these are order isomorphic to \( X \) itself by mapping \( I_x \mapsto x \).
+\end{proof}
+We define \( I_\alpha = \qty{\beta < \alpha} \), which is a well-ordered set of order type \( \alpha \), which is often a convenient representative to choose for an ordinal.
+\begin{proposition}
+    Every nonempty set \( S \) of ordinals has a least element.
+\end{proposition}
+\begin{proof}
+    Let \( \alpha \in S \).
+    Suppose \( \alpha \) is not the least element of \( S \).
+    Then \( S \cap I_\alpha \) is nonempty.
+    But \( I_\alpha \) is well-ordered, so \( S \cap I_\alpha \) has a minimal element as required.
+\end{proof}
+\begin{theorem}[Burali-Forti paradox]
+    The ordinals do not form a set.
+\end{theorem}
+\begin{proof}
+    Suppose \( X \) is the set of all ordinals.
+    Then \( X \) is a well-ordered set, so it has an order type \( \alpha \).
+    Then \( X \) is isomorphic to \( I_\alpha \), which is a proper initial segment of \( X \).
+\end{proof}
+\begin{remark}
+    Given a set \( S = \qty{\alpha_i \colon i \in I} \) of ordinals, there exists an upper bound \( \alpha \) for \( S \), so \( \alpha_i \leq \alpha \) for all \( i \in I \), by considering the nested family of well-orderings \( I_{\alpha_i} \).
+    Hence, by the previous proposition, there exists a least upper bound, as \( I_\alpha \) is a set.
+    We write \( \alpha = \sup S \).
+\end{remark}
+\begin{example}
+    \( \sup \qty{2, 4, 6, \dots} = \omega \).
+\end{example}
+\begin{remark}
+    If we represent ordinals by sets of smaller ordinals, \( \sup S = \bigcup_{\alpha \in S} \alpha \).
+\end{remark}
+
+\subsection{Some ordinals}
+\[ 0, 1, 2, 3, \dots, \omega \]
+Write \( \alpha + 1 \) for the successor \( \alpha^+ \) of \( \alpha \).
+\[ \omega + 1, \omega + 2, \omega + 3, \dots, \omega + \omega = \omega \cdot 2 \]
+where \( \omega + \omega = \omega \cdot 2 \) is defined by \( \sup \qty{\omega, \omega + 1, \omega + 2, \dots} \).
+\[ \omega \cdot 2 + 1, \omega \cdot 2 + 2, \dots, \omega \cdot 3, \omega \cdot 4, \omega \cdot 5, \dots, \omega \cdot \omega = \omega^2 \]
+where we define \( \omega \cdot \omega = \sup \qty{\omega \cdot 2, \omega \cdot 3, \dots} \).
+\[ \omega^2 + 1, \omega^2 + 2, \dots, \omega^2 + \omega, \dots, \omega^2 + \omega \cdot 2, \dots, \omega^2 + \omega^2 = \omega^2 \cdot 2 \]
+Continue in the same way.
+\[ \omega^2 \cdot 3, \omega^2 \cdot 4, \dots, \omega^3 \]
+where \( \omega^3 = \sup\qty{\omega^2 \cdot 2, \omega^2 \cdot 3, \dots} \).
+\[ \omega^3 + \omega^2 \cdot 7 + \omega \cdot 4 + 13, \dots, \omega^4, \omega^5, \dots, \omega^\omega \]
+where \( \omega^\omega = \sup \qty{\omega, \omega^2, \omega^3, \dots} \).
+\[ \omega^\omega \cdot 2, \omega^\omega \cdot 3, \dots, \omega^\omega \cdot \omega = \omega^{\omega + 1} \]
+\[ \omega^{\omega + 2}, \dots, \omega^{\omega \cdot 2}, \omega^{\omega \cdot 3}, \dots, \omega^{\omega^2}, \dots, \omega^{\omega^3}, \dots, \omega^{\omega^\omega}, \dots, \omega^{\omega^{\omega^\omega}}, \dots, \omega^{\omega^{\omega^{\dots}}} = \varepsilon_0 \]
+where \( \varepsilon_0 = \sup\qty{\omega, \omega^\omega, \omega^{\omega^\omega}, \dots} \).
+\[ \varepsilon_0 + 1, \varepsilon_0 + \omega, \varepsilon_0 + \varepsilon_0 = \varepsilon_0 \cdot 2, \dots, \varepsilon_0^2, \varepsilon_0^3, \dots, \varepsilon_0^{\varepsilon_0} \]
+where \( \varepsilon_0^{\varepsilon_0} = \sup\qty{\varepsilon_0^\omega, \varepsilon_0^{\omega^\omega}, \dots} \).
+\[ \varepsilon_0^{\varepsilon_0^{\varepsilon_0^{\dots}}} = \varepsilon_1 \]
+All of these ordinals are countable, as each operation only takes a countable union of countable sets.
+
+\subsection{Uncountable ordinals}
+\begin{theorem}
+    There exists an uncountable ordinal.
+\end{theorem}
+\begin{remark}
+    The reals cannot be explicitly well-ordered.
+\end{remark}
+\begin{proof}
+    Let \( A \subseteq \mathcal P (\omega \times \omega) \) be the set of well-orderings of subsets of \( \mathbb N \).
+    Let \( B \) be the set of order types of \( A \).
+    Then \( B \) is the set of all countable ordinals.
+    Let \( \omega_1 = \sup B \).
+    \( \omega_1 \) is uncountable, and in particular, the least uncountable ordinal.
+    Indeed, if it were countable, it would be the greatest element of \( B \), but \( \omega_1 + 1 \) would also lie in \( B \).
+\end{proof}
+\begin{remark}
+    Without introducing \( A \), it would be difficult to show that \( B \) was in fact a set.
+\end{remark}
+\begin{remark}
+    Another ending to the proof above is as follows.
+    \( B \) cannot be the set of all ordinals, since the ordinals do not form a set by the Burali-Forti paradox, so there exists an uncountable ordinal.
+    In particular, there exists a least uncountable ordinal.
+\end{remark}
+The ordering \( \omega_1 \) has a number of remarkable properties.
+\begin{enumerate}
+    \item \( \omega_1 \) is uncountable, but \( \qty{\beta \mid \beta < \alpha} \) is countable for all \( \alpha < \omega_1 \).
+    \item There exists no sequence \( \alpha_1, \alpha_2, \dots \) in \( I_{\omega_1} \) with supremum \( \omega_1 \), as it is bounded by \( \sup\qty{\alpha_1, \alpha_2, \dots} \), which is a countable ordinal.
+\end{enumerate}
+\begin{theorem}[Hartogs' lemma]
+    For every set \( X \), there exists an ordinal \( \gamma \) that does not inject into \( X \).
+\end{theorem}
+\begin{proof}
+    Use the argument above from the existence of an uncountable ordinal.
+\end{proof}
+We write \( \gamma(X) \) for the least ordinal that does not inject into \( X \).
+For example \( \gamma(\omega) = \omega_1 \).
+
+\subsection{Successors and limits}
+\begin{definition}
+    We say that an ordinal \( \alpha \) is a \emph{successor} if there exists \( \beta \) such that \( \alpha = \beta^+ \).
+    Otherwise, \( \alpha \) is a \emph{limit}.
+\end{definition}
+Equivalently, an ordinal is a successor if and only if it has a greatest element.
+An ordinal \( \alpha \) is a limit if and only if it has no greatest element, or equivalently, for all \( \beta < \alpha \), there exists \( \gamma < \alpha \) with \( \gamma > \beta \), giving \( \alpha = \sup \qty{\beta \mid \beta < \alpha} \).
+\begin{example}
+    5 is a successor.
+    \( \omega + 2 = (\omega^+)^+ \) is a successor.
+    \( \omega \) is a limit as it has no greatest element.
+    0 is a limit.
+\end{example}
+
+\subsection{Ordinal arithmetic}
+Let \( \alpha, \beta \) be ordinals.
+We define \( \alpha + \beta \) by induction on \( \beta \), by
+\begin{itemize}
+    \item \( \alpha + 0 = \alpha \);
+    \item \( \alpha + \beta^+ = (\alpha + \beta)^+ \);
+    \item \( \alpha + \lambda = \sup\qty{\alpha + \gamma \mid \gamma < \lambda} \) for a nonzero limit ordinal.
+\end{itemize}
+\begin{example}
+    \( \omega + 1 = \omega + 0^+ = (\omega + 0)^+ = \omega^+ \).
+    \( \omega + 2 = \omega + 1^+ = (\omega + 1)^+ = (\omega^+)^+ \).
+    \( 1 + \omega = \sup\qty{1 + \gamma \mid \gamma < \omega} = \omega \).
+    Therefore, addition is noncommutative.
+\end{example}
+\begin{remark}
+    As the ordinals do not form a set, we must technically define addition \( \alpha + \gamma \) by induction on the set \( \qty{\gamma \mid \gamma \leq \beta} \).
+    The choice of \( \beta \) does not change the definition of \( \alpha + \gamma \) as defined for \( \gamma \leq \beta \).
+\end{remark}
+\begin{proposition}
+    Ordinal addition is associative.
+\end{proposition}
+\begin{proof}
+    Let \( \alpha, \beta, \gamma \) be ordinals.
+    We use induction on \( \gamma \).
+    Suppose \( \alpha + (\beta + \delta) = (\alpha + \beta) + \delta \) for all \( \delta < \gamma \).
+
+    First, suppose \( \gamma = 0 \).
+    \( \alpha + (\beta + 0) = \alpha + \beta = (\alpha + \beta) = 0 \), as required.
+    Now consider \( \gamma^+ \).
+    \( \alpha + (\beta + \gamma^+) = \alpha + (\beta + \gamma)^+ = (\alpha + (\beta + \gamma))^+ = ((\alpha + \beta) + \gamma)^+ = (\alpha + \beta) + \gamma^+ \).
+
+    Finally, consider \( \lambda \) a nonzero limit.
+    \( (\alpha + \beta) + \lambda = \sup \qty{(\alpha + \beta) + \gamma \mid \gamma < \lambda} = \sup \qty{\alpha + (\beta + \gamma) \mid \gamma < \lambda} \).
+    We claim that \( \beta + \lambda \) is a limit.
+    Indeed, \( \beta + \lambda = \sup\qty{\beta + \gamma \mid \gamma < \lambda} \), but for every \( \gamma < \lambda \) there exists \( \gamma' < \lambda \) with \( \gamma < \gamma' \) as \( \lambda \) is a limit, so \( \beta + \gamma < \beta + \gamma' \).
+    Thus, there is no greatest element in the set \( \sup\qty{\beta + \gamma \mid \gamma < \lambda} \), so \( \beta + \lambda \) is a limit.
+
+    Now, \( \alpha + (\beta + \lambda) = \sup\qty{\alpha + \delta \mid \delta < \beta + \lambda} \).
+    So it suffices to show that \( \sup\qty{\alpha + (\beta + \gamma) \mid \gamma < \lambda} = \sup\qty{\alpha + \delta \mid \delta < \beta + \lambda} \).
+    Certainly \( \qty{\alpha + (\beta + \gamma) \mid \gamma < \lambda} \subseteq \qty{\alpha + \delta \mid \delta < \beta + \lambda} \), as \( \gamma < \lambda \) implies \( \beta + \gamma < \beta + \lambda \).
+    Further, for any \( \delta < \beta + \lambda \), \( \delta \leq \beta + \gamma \) for some \( \gamma < \lambda \) by definition of \( \beta + \lambda \).
+    Therefore, \( \alpha + \delta \leq \alpha + (\beta + \gamma) \), so each element of \( \qty{\alpha + \delta \mid \delta < \beta + \lambda} \) is at most some element of \( \qty{\alpha + (\beta + \gamma) \mid \gamma < \lambda} \).
+    So the two suprema agree.
+\end{proof}
+\begin{remark}
+    We used the facts
+    \begin{enumerate}
+        \item \( \beta \leq \gamma \implies \alpha + \beta \leq \alpha + \gamma \), which is trivial by induction on \( \gamma \);
+        \item \( \beta < \gamma \implies \alpha + \beta < \alpha + \gamma \), as \( \beta^+ \leq \gamma \) so \( \alpha + \beta^+ \leq \alpha + \gamma \) by (i).
+    \end{enumerate}
+    However, \( 1 < 2 \) but \( 1 + \omega \not < 2 + \omega \).
+\end{remark}
+The above is the \emph{inductive} definition of addition; there is also a \emph{synthetic} definition of addition.
+We can define \( \alpha + \beta \) to be the order type of \( \alpha \sqcup \beta \), where every element of \( \alpha \) is taken to be less than every element of \( \beta \).
+
+For instance, \( \omega + 1 \) is the order type of \( \omega \) with a point afterwards, and \( 1 + \omega \) is the order type of a point followed by \( \omega \), which is clearly isomorphic to \( \omega \).
+Associativity is clear, as \( (\alpha + \beta) + \gamma \) and \( \alpha + (\beta + \gamma) \) are the order type of \( \alpha \sqcup \beta \sqcup \gamma \).
+\begin{proposition}
+    The inductive and synthetic definitions of addition coincide.
+\end{proposition}
+\begin{proof}
+    We write \( +' \) for synthetic addition, and aim to show \( \alpha + \beta = \alpha +' \beta \).
+    We perform induction on \( \beta \).
+
+    For \( \beta = 0 \), \( \alpha + 0 = \alpha \) and \( \alpha +' 0 = \alpha \).
+    For successors, \( \alpha + \beta^+ = (\alpha + \beta)^+ = (\alpha +' \beta)^+ \), which is the order type of \( \alpha \sqcup \beta \sqcup \qty{\star} \), which is equal to \( \alpha +' \beta^+ \).
+
+    Let \( \lambda \) be a nonzero limit.
+    We have \( \alpha + \lambda = \sup\qty{\alpha + \gamma \mid \gamma < \lambda} \).
+    But \( \alpha + \gamma = \alpha +' \gamma \) for \( \gamma < \lambda \), so \( \alpha + \lambda = \sup\qty{\alpha +' \gamma \mid \gamma < \lambda} \).
+    As the set \( \qty{\alpha +' \gamma \mid \gamma < \lambda} \) is nested, it is equal to its union, which is \( \alpha +' \lambda \).
+\end{proof}
+Synthetic definitions can be easier to work with if such definitions exist.
+However, there are many definitions that can only easily be represented inductively, and not synthetically.
+
+We define multiplication inductively by
+\begin{itemize}
+    \item \( \alpha 0 = 0 \);
+    \item \( \alpha \beta^+ = \alpha\beta + \alpha \);
+    \item \( \alpha \lambda = \sup\qty{\alpha \gamma \mid \gamma < \lambda} \) for \( \lambda \) a nonzero limit.
+\end{itemize}
+\begin{example}
+    \( \omega 2 = \omega 1 + \omega = \omega 0 + \omega + \omega = \omega + \omega \).
+    Similarly, \( \omega 3 = \omega + \omega + \omega \).
+    \( \omega \omega = \sup\qty{0, \omega 1, \omega 2, \dots} = \qty{0, \omega, \omega + \omega, \dots} \).
+    Note that \( 2 \omega = \sup\qty{0, 2, 4, \dots} = \omega \).
+    Multiplication is noncommutative.
+    One can show in a similar way that multiplication is associative.
+\end{example}
+We can produce a synthetic definition of multiplication, which can be shown to coincide with the inductive definition.
+We define \( \alpha \beta \) to be the order type of the Cartesian product \( \alpha \times \beta \) where we say \( (\gamma, \delta) < (\gamma', \delta') \) if \( \delta < \delta' \) or \( \delta = \delta' \) and \( \gamma < \gamma' \).
+For instance, \( \omega 2 \) is the order type of two infinite sequences, and \( 2 \omega \) is the order type of a sequence of pairs.
+
+Similar definitions can be created for exponentiation, towers, and so on.
+For instance, \( \alpha^\beta \) can be defined by
+\begin{itemize}
+    \item \( \alpha^0 = 1 \);
+    \item \( \alpha^(\beta^+) = \alpha^\beta \alpha \);
+    \item \( \alpha^\lambda = \sup\qty{\alpha^\gamma \mid \gamma < \lambda} \) for \( \lambda \) a nonzero limit.
+\end{itemize}
+For example, \( \omega^2 = \omega^1 \omega = \omega^0 \omega \omega = \omega \omega \).
+Further, \( 2^\omega = \sup\qty{2^0, 2^1, \dots} = \omega \), which is countable.

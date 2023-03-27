@@ -1,0 +1,304 @@
+\subsection{?}
+\begin{theorem}[Euclid]
+    There exist infinitely many primes.
+\end{theorem}
+The following proof is due to Euler in 1748.
+\begin{proof}
+    Consider
+    \[ \prod_{p \text{ prime}} \qty(1 - \frac{1}{p})^{-1} = \prod_{p \text{ prime}} \qty(1 + \frac{1}{p} + \frac{1}{p^2} + \dots) = \sum_{n=1}^\infty \frac{1}{n} \]
+    as every \( n > 0 \) factors uniquely as a product of primes so occurs exactly once when we expand the product.
+    If there are finitely many primes, the product is finite.
+    As \( \sum_{i=1}^\infty p^{-i} \) converges to \( \qty(1 - \frac{1}{p})^{-1} \), \( \sum_{i=1}^\infty \frac{1}{n} \) must converge.
+\end{proof}
+We aim to prove that for all \( a, q \in \mathbb Z \) coprime, there are infinitely many primes of the form \( a + kq \), \( k \in \mathbb N \).
+Note that there is no nice series expansion for \( \prod_{p \equiv a \text{ mod } q, p \text{ prime}} \qty(1 - \frac{1}{p})^{-1} \), so Euler's proof does not generalise.
+\begin{definition}
+    The \emph{Riemann zeta function} is \( \zeta(s) = \sum_{n \geq 1} n^{-s} \) for \( s \in \mathbb C \).
+\end{definition}
+\begin{proposition}
+    \begin{enumerate}
+        \item \( \zeta(s) \) converges for \( \Re(s) > 1 \).
+        \item \( \zeta(s) = \prod_{p \text{ prime}} \qty(1 - \frac{1}{p^s})^{-1} \) in this region; this result is known as the \emph{Euler product}.
+        This product converges absolutely.
+        \item \( \zeta(s) - \frac{1}{s - 1} \) extends to a holomorphic function for \( \Re(s) > 0 \), so the zeta function has a simple pole with residue 1 at \( s = 1 \).
+    \end{enumerate}
+\end{proposition}
+If \( \sum \log(1 - a_n) \) converges, \( \prod (1 - a_n) \) converges.
+\( \prod (1 - a_n) \) absolutely converges if \( \sum \abs{\log(1-a_n)} \) converges.
+
+If \( a_n \) is a sequence of complex numbers, call the function \( \sum_{n \geq 1} a_n n^{-s} \) a \emph{Dirichlet series}.
+Instead of part (i), we will prove the following more general lemma.
+\begin{lemma}
+    If there exists \( r \in \mathbb R \) with \( a_1 + \dots + a_N = O(N^r) \), then \( \sum_{n \geq 1} a_n n^{-s} \) converges for \( \Re(s) > r \), and it is holomorphic in this region.
+\end{lemma}
+\begin{proof}[Proof of lemma]
+    \[ \sum_{n=1}^N a_n n^{-s} = a_1 (1^{-s} - 2^{-s}) + (a_1 + a_2) (2^{-s} - 3^{-s}) + \dots + (a_1 + a_{N-1})((N-1)^{-s} - N^{-s}) + R_n \]
+    where \( R_n = \frac{T(N)}{N^s} \) with \( T(N) = a_1 + \dots + a_N = O(N^r) \).
+    By assumption, if \( \Re(s) > r \),
+    \[ \abs{\frac{T(N)}{N^s}} = \abs{\frac{T(N)}{N^r}} \cdot \frac{1}{\abs{N^{s-r}}} = \abs{\frac{T(N)}{N^r}} \cdot \frac{1}{N^{\Re(s) - r}} \to 0 \]
+    as \( x^s = e^{s \log x} \) so \( \abs{x^s} = \abs{x^{\Re s}} \).
+    So if \( \Re(s) > r \), \( \sum a_n n^{-s} = \sum T(N) (N^{-s} - (N+1)^{-s}) \).
+    But \( T(N) \leq BN^r \) for some constant \( B \) by assumption, so it suffices to show \( \sum N^r (N^{-s} - (N+1)^{-s}) \) converges.
+    Note that
+    \[ N^{-s} - (N+1)^{-s} = \int_N^{N+1} s \frac{\dd{x}}{x^{s+1}} \]
+    and \( N^r \leq x^r \) if \( x \in [N, N+1] \).
+    Hence
+    \[ N^r (N^{-s} - (N+1)^{-s}) \leq \int_N^{N+1} x^r s \frac{\dd{x}}{x^{s+1}} \leq s \int_N^{N+1} \frac{\dd{x}}{x^{s+1-r}} \]
+    It is enough to show that \( s\int_1^N \frac{\dd{x}}{x^{s+1-r}} \) converges, which it does to \( \frac{s}{s-r} \).
+\end{proof}
+\begin{proof}[Proof of proposition]
+    \emph{Part (ii).}
+    Let \( p_1, \dots, p_r \) be the first \( r \) primes.
+    Then, \( \prod_{i=1}^r (1 - p_r^{-s})^{-1} = \sum_{n \in X} n^{-s} \) where \( X \) is the set of positive integers whose prime divisors are only in \( p_1, \dots, p_r \).
+    So
+    \[ \abs{\zeta(s) - \prod_{i=1}^r (1 - p_r^{-s})^{-1}} = \abs{\sum_{n \not\in X} n^{-s}} \leq \sum_{n \not\in X} \abs{n^{-s}} = \sum_{n \not\in X} n^{-\Re(s)} \leq \sum_{n > r} n^{-\Re(s)} \]
+    as \( 1, \dots, r \in X \).
+    Hence the infinite product converges to \( \zeta(s) \).
+    The proof of absolute convergence is omitted.
+
+    \emph{Part (iii).}
+    Left as an exercise, noting that
+    \[ \frac{1}{s-1} = \sum_{i=1}^\infty \int_n^{n+1} \frac{\dd{t}}{t^s} \]
+\end{proof}
+
+\subsection{Zeta functions in number fields}
+The remaining new content in this course is nonexaminable.
+\begin{definition}
+    Let \( L \) be a number field.
+    The \emph{zeta function of \( L \)} is
+    \[ \zeta_L(s) = \sum_{\mathfrak a \trianglelefteq \mathcal O_L} N(\mathfrak a)^{-s} = \sum_{n \geq 1} \#\qty{\mathfrak a \trianglelefteq \mathcal O_L \mid N(\mathfrak a) = n} n^{-s} \]
+\end{definition}
+\begin{proposition}
+    \begin{enumerate}
+        \item \( \zeta_L(s) \) converges to a holomorphic function for \( \Re(s) > 1 \).
+        \item \( \zeta_L(s) = \prod_{\mathfrak p \text{ prime ideal}} (1 - N(\mathfrak p)^{-s})^{-1} \) in this region.
+        \item \( \zeta_L(s) \) is a meromorphic function for \( \Re(s) > 1 - \frac{1}{[L:\mathbb Q]} \), with a simple pole at \( s = 1 \) with residue
+        \[ \frac{\abs{\mathrm{Cl}_L} 2^{r+s} \pi^s R_L}{\abs{D_L}^{\frac{1}{2}} \abs{\bm\mu_L}} \]
+        This is called the \emph{analytic class number formula}.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Part (ii) is clear.
+    Parts (i) and (iii) follow from the following estimate.
+    Writing \( \zeta_L(s) = \sum \frac{a_n}{n^s} \) where \( a_n \) is the number of ideals of norm \( n \), one can show
+    \[ a_1 + \dots + a_N = \frac{\abs{\mathrm{Cl}_L} 2^{r+s} \pi^s R_L}{\abs{D_L}^{\frac{1}{2}} \abs{\bm\mu_L}} \cdot N + O\qty(N^{1 - \frac{1}{[L:\mathbb Q]}}) \]
+\end{proof}
+If \( L \neq \mathbb Q \), it turns out that \( \zeta_L(s) \) factors into \( \zeta_{\mathbb Q}(s) = \zeta(s) \) and some other factors.
+Suppose \( L = \mathbb Q(\sqrt{d}) \) and \( d \neq 0, 1 \) is square-free.
+\[ \zeta_L - \prod_{\mathfrak p \text{ prime ideal}} (1 - N(\mathfrak p)^{-s})^{-1} = \prod_{p \text{ prime}} \prod_{\mathfrak p \mid (p)} (1 - N(\mathfrak p)^{-s})^{-1} \]
+If \( p \mid D_L \), then \( (p) = \mathfrak p^2 \) ramifies.
+In this case, \( N(\mathfrak p) = p \) and we have a term \( (1 - p^{-s}) \) in the product.
+If \( (p) \) remains prime in \( L \), then \( N(\mathfrak p) = p^2 \) giving the term \( (1 - p^{-2s}) = (1 - p^{-s})(1 - p^s) \).
+If \( (p) = \mathfrak p_1 \mathfrak p_2 \) splits, then \( N(\mathfrak p_i) = p \) and we have a term \( (1 - p^{-s})^2 \).
+Let
+\[ \chi_{D_L}(p) = \chi(p) = \begin{cases}
+    0 & p \text{ ramifies} \\
+    -1 & p \text{ inert} \\
+    1 & p \text{ splits}
+\end{cases} = \underbrace{\qty(\frac{D_L}{p})}_{\mathclap{\text{if } p \text{ odd}}} \]
+Then, defining \( L(\chi,s) = \prod_{p \text{ prime}} {1 - \chi(p) p^{-s}}^{-1} \), we have \( \zeta_L(s) = \zeta_{\mathbb Q}(s) L(\chi,s) \).
+The function \( L \) is called a \emph{Dirichlet \( L \)-function}.
+When expanding the infinite product defining \( L(\chi_D, s) \) the coefficient of \( n^{-s} \), if \( n = p_1^{e_1} \dots p_r^{e_r} \) is \( \chi_D(p_1)^{e_1} \dots \chi_D(p_r)^{e_r} \).
+We can extend the definition of \( \chi \) to make it multiplicative: \( \chi_D(p_1^{e_1} \dots p_r^{e_r}) = \chi_D(p_1)^{e_1} \dots \chi_D(p_r)^{e_r} \).
+\begin{example}
+    Let \( L = \mathbb Q(\sqrt{-1}) \), so \( D_L = 4 \).
+    We have \( \qty(\frac{-4}{p}) = \qty(\frac{-1}{p}) = (-1)^{\frac{p-1}{2}} \) for \( p \neq 2 \).
+    2 ramifies, so \( \chi_D(2) = 0 \).
+    We claim that
+    \[ \chi_{-4}(m) = \begin{cases}
+        (-1)^{\frac{m-1}{2}} & m \text{ odd} \\
+        0 & m \text{ even}
+    \end{cases} \]
+    Indeed, if \( n \) is even, this is clear; otherwise, this claim is that \( (-1)^{\frac{mn-1}{2}} = (-1)^{\frac{m-1}{2}} (-1)^{\frac{n-1}{2}} \), which is easy to verify.
+    Hence,
+    \[ L(\chi_{-4}, s) = 1 - \frac{1}{3^s} + \frac{1}{5^s} - \frac{1}{7^s} + \dots \]
+    In this example, the coefficients are periodic mod 4; this is true for general \( L(\chi_D, s) \).
+    Since \( \zeta_L(s) = \zeta_{\mathbb Q}(s) L(\chi_{-4}, s) \), the fact that \( \zeta_{\mathbb Q}(s) \) has a simple pole at \( s = 1 \) with residue 1, together with the analytic class number formula, gives \( L(\chi_{-4}, 1) = \frac{\pi}{4} \).
+\end{example}
+\begin{definition}
+    \( \chi \colon \mathbb Z \to \mathbb C \) is a \emph{Dirichlet character} of modulus \( D \) if there exists a group homomorphism \( \omega \colon \qty(\faktor{\mathbb Z}{D\mathbb Z})^\star \to \mathbb C \) such that
+    \[ \chi(n) = \begin{cases}
+        \omega(n \text{ mod } D) & n \text{ invertible mod } D \\
+        0 & \text{otherwise}
+    \end{cases} \]
+\end{definition}
+For such a \( \chi \), we have \( \chi(n)\chi(m) = \chi(nm) \), and we can define
+\[ L(\chi,s) = \prod_{p \text{ prime}}(1 - \chi(p)p^{-s})^{-1} = \sum_{n \geq 1}\chi(n)n^{-s} \]
+The previous example shows that \( \chi_{-4} \) is a Dirichlet character of modulus 4.
+\begin{theorem}
+    For any \( d \neq 0, 1 \) square-free, defining \( L = \mathbb Q(\sqrt{d}), D = D_L \), we have that \( \chi_D \) is a Dirichlet character of modulus \( D \).
+\end{theorem}
+\begin{proof}
+    We must show \( \chi_D(n+D) = \chi_D(n) \) for \( n \in \mathbb N \).
+    Suppose first that \( d \equiv 3 \) mod 4.
+    Here, \( D = 4d \), so \( \chi_D(2) = 0 \) as 2 ramifies, so \( \chi_D(n) = 0 \) if \( n \) is even as required.
+    For \( p > 2 \), \( \chi_D(p) = \qty(\frac{D}{p}) = \qty(\frac{d}{p}) \) by definition, but this is equal to \( \qty(\frac{p}{d}) (-1)^{\frac{p-1}{2}} \) by quadratic reciprocity as \( p, d \) are odd, and as \( d \equiv 3 \) mod 4, \( \frac{d-1}{2} \equiv 1 \) mod 4.
+    \( n \mapsto (-1)^{\frac{n-1}{2}} \) is multiplicative, so \( \chi_D(n+D) = \qty(\frac{n+D}{d})(-1)^{\frac{n-1}{2}}(-1)^{4d}{2} = \chi_D(n) \).
+    The other cases are omitted.
+\end{proof}
+This theorem can be seen as equivalent to the law of quadratic reciprocity.
+Note that \( \chi \) is nontrivial if \( \omega \not\equiv 1 \)
+\begin{lemma}
+    If \( \chi \) is a nontrivial Dirichlet character, \( L(\chi, s) \) is holomorphic for \( \Re s > 0 \).
+\end{lemma}
+\begin{proof}
+    Recall that if \( G \) is a finite group and \( \chi_1, \chi_2 \) are characters of irreducible complex representations, then
+    \[ \frac{1}{G} \sum_{g \in G} \overline{\chi_1(g)} \chi_2(g) = \begin{cases}
+        1 & \chi_1 = \chi_2 \\
+        0 & \text{otherwise}
+    \end{cases} \]
+    Applying this to \( G = \qty(\faktor{\mathbb Z}{d\mathbb Z})^\star \) where \( \chi_1 \) is the trivial character and \( \chi_2 = \omega \), this gives
+    \[ \sum_{ad < i < (a+1)d} \chi(i) = \sum_{i \in \faktor{\mathbb Z}{d\mathbb Z}} \chi(i) = \sum_{i \in \qty(\faktor{\mathbb Z}{d\mathbb Z})^\star} \omega(i) = 0 \]
+    In particular, \( \sum_{i=1}^n \chi(i) = O(1) \) is bounded.
+    So \( \sum_{i=1}^n \frac{\chi(i)}{n^s} \) converges for \( \Re(s) > 0 \).
+\end{proof}
+\begin{corollary}
+    If \( D < 0 \),
+    \[ L(\chi_D, 1) = \frac{2\pi \abs{\mathrm{Cl}_{\mathbb Q(\sqrt{D})}}}{\abs{D}^{\frac{1}{2}} \abs{\bm\mu_{\mathbb Q(\sqrt{D})}}} \]
+    In particular, \( L(\chi_D, 1) \neq 0 \).
+\end{corollary}
+\begin{proof}
+    \( \zeta_{\mathbb Q(\sqrt(D))}(s) = \zeta_{\mathbb Q}(s)L(\chi_D, s) \), so both sides have a simple pole at \( s = 1 \).
+    The analytic class number formula gives the residue of the left hand side, and \( \Res_\zeta(1) = 1 \).
+\end{proof}
+
+\subsection{\texorpdfstring{\( L \)}{L}-functions in cyclotomic fields}
+We will show that \( L(\chi, 1) \neq 0 \) for any Dirichlet character \( \chi \), and hence show that there are infinitely many primes in arithmetic progression.
+To do this, we will factor \( \zeta_{\mathbb Q(e^{\frac{2\pi i}{q}})} \) for any \( q \).
+Consider \( L = \mathbb Q(\omega_q) \) where \( \omega_q \) is a primitive \( q \)th root of unity,
+\begin{proposition}
+    \begin{enumerate}
+        \item \( [L:\mathbb Q] = \varphi(q) \) where \( \varphi(q) = \abs{\qty(\faktor{\mathbb Z}{q\mathbb Z})^\star} \);
+        \item \( L/\mathbb Q \) is a Galois extension with Galois group \( G = \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \), and if \( r \in \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \), then \( r \) acts on \( L \) by mapping \( \omega_q \) to \( \omega_q^r \);
+        \item \( \mathcal O_L = \mathbb Z[\omega_q] = \faktor{\mathbb Z[x]}{\Phi_q(x)} \) where \( \Phi_q \) is the \( q \)th cyclotomic polynomial;
+        \item if \( p \) is prime, \( p \mid D_L \) if and only if \( p \mid q \);
+        \item if \( p \) is prime, \( p \) ramifies in \( \mathcal O_L \) if and only if \( p \mid q \);
+        \item if \( p \) is prime with \( p \nmid q \), then \( (p) \) factors as a product of \( \frac{\varphi(q)}{f} \) distinct prime ideals, each of norm \( p^f \), where \( f \) is the order of \( p \) in \( \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \).
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Parts (i) and (ii) follow from Galois theory.
+    Part (iii) for \( q \) prime is on an example sheet, and the general case is omitted.
+    Part (iv) is omitted.
+    Part (iv) implies (v) is a general fact; we will only show part (vi).
+
+    As \( \mathcal O_L = \faktor{\mathbb Z[x]}{\Phi_q(x)} \), Dedekind's theorem applies.
+    We study \( \faktor{\mathcal O_L}{(p)} = \faktor{\mathbb F_p[x]}{\Phi_q(x)} \) by factoring \( \Phi_q(x) \) modulo \( p \).
+    Recall that
+    \[ \Phi_q(x) = \frac{x^q - 1}{\prod_{d \neq q, d \mid q} \Phi_d(x)} \]
+    so for instance \( \Phi_8(x) = \frac{x^8 - 1}{x^4 - 1} = x^4 + 1 \).
+    \[ \qty(\faktor{\mathbb Z}{8\mathbb Z})^\star = \qty{1, 3, -3, -1} \simeq \faktor{\mathbb Z}{2\mathbb Z} \times \faktor{\mathbb Z}{2\mathbb Z} \]
+    In this example, if \( p = 17 \), \( x^4 + 1 \) factors into four linear factors, but if \( p = 3 \), \( x^4 + 1 \) factors into two factors as the order of 3 is 2 in \( \qty(\faktor{\mathbb Z}{8\mathbb Z})^\star \).
+
+    Write \( \Phi_q(x) = \gamma_1^{e_1} \dots \gamma_g^{e_g} \) for \( \gamma_i \) irreducible and distinct, so
+    \[ \faktor{\mathcal O_L}{(p)} = \faktor{\mathbb F_p[x]}{(\gamma_1^{e_1})} \times \dots \faktor{\mathbb F_p[x]}{(\gamma_g^{e_g})} \]
+    For any number field \( L \), \( \Gal(L/\mathbb Q) \) preserves \( \mathcal O_L \).
+    Indeed, if \( \alpha \in \mathcal O_L \), \( f(\alpha) = 0 \) for some monic polynomial \( f \in \mathbb Z[x] \), but then \( g \in \Gal(L/\mathbb Q) \) givesn \( 0 = gf(\alpha) = f(g(\alpha)) = 0 \), so \( g(\alpha) \) is also a root of \( f \) and hence in \( \mathcal O_L \).
+
+    \( G \) permutes the roots of \( \Phi_q \), so \( G \) acts on \( \qty{\gamma_1, \dots, \gamma_g} \).
+    This action is transitive on the roots, so is transitive on \( \qty{\gamma_1, \dots, \gamma_g} \).
+    Hence \( \deg \gamma_1 = \dots = \deg \gamma_g \), so \( e_1 = \dots = e_g = e \).
+    Further, \( ge \) is the order of \( \faktor{G}{\Stab_G(\gamma_1)} \).
+
+    If \( p \nmid D_L \), or equivalently \( p \nmid q \), then \( e = 1 \) as \( p \) is unramified.
+    Hence \( \faktor{\mathbb F_p[x]}{(\gamma_1)} = \mathbb F_{p^{f'}} \) for some \( f' \), and \( \frac{\varphi(q)}{f'} \) factors.
+    We must show that \( f' = f \).
+
+    \( p \in \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star = \Gal(L/\mathbb Q) \) acts as \( \alpha \mapsto \alpha^p \) on \( \mathbb F_{p^{f'}} \), so it acts as the Frobenius automorphism, which is the generator of the Galois group of \( \faktor{\mathbb F_{p^{f'}}}{\mathbb F_p} \) by (ii).
+    Conversely, the image of \( x \) in \( \faktor{\mathbb F_p[x]}{(\gamma_1)} \), is the image of \( \omega_q \) which is a primitive \( q \)th root of unity.
+    So \( q \mid \abs{\mathbb F_{p^{f'}}^\star} \), so \( q \mid p^{f'} - 1 \).
+    In particular, \( p^{f'} \equiv 1 \) mod \( q \), so \( f = \ord(p) \mid f' \).
+    Hence \( f = f' \) as required.
+\end{proof}
+Recall that \( \zeta_{\mathbb Q(\omega_q)}(s) = \prod_{\mathfrak p \text{ prime}} (1 - N(\mathfrak p)^{-s})^{-1} \).
+Consider prime ideals \( \mathfrak p \) dividing \( (p) \) for a fixed integer prime \( p \).
+If \( p \nmid q \), part (vi) shows that these contribute \( (1 - p^{-fs})^{-\frac{\varphi(q)}{f}} \) to the zeta function, where \( f \) is the order of \( p \) in \( \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \).
+But this factors as \( (1 - t^f) = \prod_{\gamma \in \bm\mu_f}(1 - \gamma t) \) where \( \bm\mu_f = \qty{\gamma \in \mathbb C \mid \gamma^f = 1} \).
+
+Set \( t = p^{-s} \), and let \( \omega_1, \dots, \omega_{\varphi(q)} \colon \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \to \mathbb C \) be the distinct irreducible complex representations of \( \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \), such that \( \omega_1 = \mathbbm 1 \) so \( \omega_1(\alpha) = 1 \) for all \( \alpha \in \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \).
+We claim that \( \omega_1(p), \dots, \omega_{\varphi(q)}(p) \) are the distinct \( f \)th roots of unity, each repeated \( \frac{\varphi(q)}{f} \) times.
+Certainly \( p \) generates a cyclic subgroup \( (p) \) of \( \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \) of order \( f \) by definition of \( f \).
+The claim is that the restriction of of \( \omega_1, \dots, \omega_{\varphi(q)} \) to \( (p) \) are the \( f \) distinct irreducible representations of \( (p) \), each repeated \( \frac{\varphi(q)}{f} \) times, which can be easily proven using representation theory.
+We have therefore shown that
+\[ (1-p^{-fs})^{-\frac{\varphi(q)}{f}} = \prod_{i=1}^{\varphi(q)} (1 - \omega_i(p) p^{-s})^{-1} \]
+Let
+\[ \chi_i(n) = \begin{cases}
+    \omega_i (n \text{ mod } q) & \text{if } \gcd(n,q) = 1 \\
+    0 & \text{otherwise}
+\end{cases} \]
+Then we have shown that
+\[ \zeta_{\mathbb Q(\omega_q)}(s) = \prod_{i=1}^{\varphi(q)} L(\chi_i, s) \text{ multiplied by a correction term} \]
+which is a finite product of the form \( \prod_{p \mid q} (1 - p^{-f_p s})^{-1} \).
+Note that \( \zeta_{\mathbb Q}(s) = L(\chi_1, s) \prod_{p \mid q}(1-p^{-s})^{-1} \), so we can rewrite this as
+\[ \zeta_{\mathbb Q(\omega_p)}(s) = \zeta_{\mathbb Q}(s) \prod_{i=2}^{\varphi(q)}L(\chi_i, s) \text{ multiplied by a correction term} \]
+\begin{theorem}
+    If \( \chi_i \) is a nontrivial Dirichlet character, then \( L(\chi_i, 1) \neq 0 \).
+\end{theorem}
+In fact, if \( \chi \) is any nontrivial Dirichlet character modulo \( q \), \( \chi = \chi_i \) for some \( i \).
+\begin{proof}
+    We have shown that if \( \chi \) is a nontrivial Dirichlet character, \( L(\chi, s) \) is holomorphic at \( s = 1 \).
+    In the above expansion, the left hand side and right hand side are meromorphic functions at \( s = 1 \) with a simple pole.
+    The residue of the right hand side and left hand side therefore agree, and its value is
+    \[ \Res_{s = 1}\zeta_{\mathbb Q}(s) \prod_{i=2}^{\varphi(q)}L(\chi_i, 1) \cdot \text{ multiplied by a correction term} \]
+    The analytic class number formula implies that this is nonzero, so \( L(\chi_i, 1) \neq 0 \).
+\end{proof}
+Note that Dirichlet characters of quadratic fields have values in \( \pm 1 \).
+
+\subsection{Primes in arithmetic progression}
+\begin{theorem}[Dirichlet]
+    Let \( a, q \in \mathbb N \) with \( \gcd(a,q) = 1 \).
+    There are infinitely many primes in \( a, a + q, a + 2q, \dots \).
+\end{theorem}
+\begin{proof}
+    Consider \( \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \), an abelian group of order \( \varphi(q) \).
+    % TODO: What are the \omega?
+    Let \( \omega_1, \dots, \omega_{\varphi(q)} \colon \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \to \mathbb C^\star \) where \( \omega_1 = \mathbbm 1 \), and \( \chi_1, \dots, \chi_{\varphi(q)} \colon \faktor{\mathbb Z}{q\mathbb Z} \to \mathbb C \) be the corresponding Dirichlet characters.
+    Recall the orthogonality of the columns of the character table of a finite group:
+    \[ \frac{1}{\varphi(q)} \sum_i \overline{\omega_i(a)} \omega_i(p) = \begin{cases}
+        1 & a \equiv p \mod q \\
+        0 & \text{otherwise}
+    \end{cases} \]
+    if \( \gcd(p, q) = 1 \), so \( p \) defines an element of \( \qty(\faktor{\mathbb Z}{q\mathbb Z})^\star \).
+    Hence,
+    \[ \frac{1}{\varphi(q)} \sum_i \overline{\chi_i(a)} \chi_i(p) = \begin{cases}
+        1 & a \equiv p \mod q \\
+        0 & \text{otherwise}
+    \end{cases} \]
+    even if \( \gcd(p, q) \neq 1 \), since in this case \( \chi_i(p) = 0 \) by definition.
+    Hence,
+    \[ \sum_{p \equiv a \text{ mod } q, p \text{ prime}} p^{-s} = \frac{1}{\varphi(q)} \sum_{i, p} \overline{\chi_i(a)} \chi_i(p) p^{-s} \]
+    We want to show that this has a pole at \( s = 1 \).
+    If \( \chi \) is a Dirichlet character, by the series expansion of logarithm which is valid by absolute convergence, we can write
+    \begin{align*}
+        \log L(\chi, s) &= -\sum_p \log(1 - \chi(p) p^{-s}) \\
+        &= \sum_{n,p} \frac{\chi(p)^n}{p^{ns} n} \\
+        &= \sum_{n,p} \frac{\chi(p^n)}{p^{ns} n} \\
+        &= \sum_p \frac{\chi(p)}{p^s} + \sum_{n \geq 2, p} \frac{\chi(p^n)}{p^{ns} n}
+    \end{align*}
+    We claim that \( \sum_{n \geq 2, p \text{ prime}} \frac{\chi(p^n)}{p^{ns} n} \) converges at \( s = 1 \).
+    This holds as its absolute value is at most
+    \[ \sum_{n \geq 2, p \text{ prime}} p^{-ns} = \sum_{p \text{ prime}} \frac{1}{p^s(p^s - 1)} \leq \sum_n \frac{1}{n^s(n^s - 1)} \leq 2\frac{1}{n^{2s}} \]
+    which is finite at \( s = 1 \).
+    Hence, the series above has a pole at \( s = 1 \) if and only if \( \frac{1}{\varphi(q)} \sum_{i} \overline{\chi_i(a)} \log L(\chi_i, s) \) has a pole at \( s = 1 \).
+
+    If \( \chi_1 \) is the trivial character, \( L(\chi_1, s) = \zeta_{\mathbb Q}(s) \prod_{p \mid s} (1 - p^{-s}) \), so as \( \zeta_{\mathbb Q}(s) \) has only a simple pole at \( s = 1 \), \( \log \zeta_{\mathbb Q}(s) = \log\frac{1}{s-1} + \text{bounded function} \) near \( s = 1 \), so \( \log L(\chi_1, s) \sim \log \frac{1}{s-1} \) has a pole at \( s = 1 \).
+    For \( i \neq 1 \), \( L(\chi_i, s) \) is nonzero at \( s = 1 \) by the above theorem, so \( \log L(\chi_i, s) \) is bounded at \( s = 1 \).
+    Hence, \( \frac{1}{\varphi(q)}\sum_{i,p}\overline{\chi_i(a)} \chi_i(p) p^{-s} \sim \frac{1}{\varphi(q)} \log \frac{1}{s-1} \), and in particular has a pole at \( s = 1 \).
+
+    Hence, there are infinitely many primes in arithmetic progression.
+\end{proof}
+This proof shows that approximately \( \frac{1}{\varphi(q)} \) of all primes lie in this arithmetic progression.
+
+One can in fact show that for any number field \( L \), \( \zeta_L(s) \) always factors and the factors have meaning.
+Suppose \( L/\mathbb Q \) is Galois, and \( G = \Gal(L/\mathbb Q) \).
+Then,
+\begin{enumerate}
+    \item We can factor \( \zeta_L(s) = \prod_{\rho \text{ irreducible representation of } G} L(\rho, s)^{\dim \rho} \), where the \( L(\rho, s) \) are \emph{Artin \( L \)-functions}.
+    Moreover, \( L / \mathbb Q \) is the regular representation of \( G \).
+    \item \( L(\mathbbm 1, s) = \zeta_{\mathbb Q}(s) \).
+    \item \( L(\rho, s) \) is a meromorphic function of \( s \).
+    It is conjectured, but still not known, that \( L(\rho, s) \) is holomorphic if \( \rho \neq \mathbbm 1 \).
+    \item If \( \rho \) is one-dimensional, then \( L(\rho, s) = L(\chi, s) \) multiplied by a correction factor, where \( L(\chi, s) \) is a Dirichlet \( L \)-function.
+    Finding \( \chi \) given \( \rho \) is a generalisation of quadratic reciprocity, called class field theory.
+    \item The properties of mutidimensional \( \rho \) are studied in the Langlands programme.
+\end{enumerate}

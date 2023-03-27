@@ -63,7 +63,7 @@ This is in principle an infinite set, but finite if \( k \) is bounded.
 			\item \( w_k = wa \) and \( C' = (q'', w_0, \dots, w_{k-1}, w, w_{k+1}, \dots, w_m) \).
 		\end{itemize}
 	\end{itemize}
-	Then we define the \emph{computation sequence} of \( M \) with input \( \vb w \) by \( C(0,H,\vb w) = (q_S,\vb w), C(k+1,M,\vb w) = C' \) where \( M \) transforms \( C(k,M,\vb w) \) into \( C' \).
+	Then we define the \emph{computation sequence} of \( M \) with input \( \vb w \) by \( C(0,M,\vb w) = (q_S,\vb w), C(k+1,M,\vb w) = C' \) where \( M \) transforms \( C(k,M,\vb w) \) into \( C' \).
 \end{definition}
 \begin{remark}
 	This recursive definition requires that the length of \( \vb w \) is at least \( n + 1 \), where \( n \) is the upper register index.
@@ -73,7 +73,7 @@ This is in principle an infinite set, but finite if \( k \) is bounded.
 	As defined above, all computation sequences are infinite, because every configuration is transformed by \( M \) into some other.
 \end{remark}
 \begin{definition}
-	We say that the computation of \( M \) with input \( w \) \emph{halts at time \( k \)} or \emph{in \( k \) steps} if \( k \) is the smallest natural such that \( C(k,M,\vb w) = (q_H,\vb v) \).
+	We say that the computation of \( M \) with input \( \vb w \) \emph{halts at time \( k \)} or \emph{in \( k \) steps} if \( k \) is the smallest natural such that \( C(k,M,\vb w) = (q_H,\vb v) \).
 	In this case, we say that \( \vb v \) is the \emph{register content at time of halting}, or the \emph{output} of the computation.
 	If such a \( k \) does not exist, we say the computation \emph{does not halt}.
 \end{definition}
@@ -99,7 +99,7 @@ This is in principle an infinite set, but finite if \( k \) is bounded.
 \end{proposition}
 \begin{proof}
 	Only the cardinality of \( Q \) matters up to strong equivalence.
-	Let \( M_{n,k} \) be the collection of register machines with a fixed state set with \( \abs{Q} = n \) and uppper register index at most \( k \).
+	Let \( M_{n,k} \) be the collection of register machines with a fixed state set with \( \abs{Q} = n \) and upper register index at most \( k \).
 	By checking cases, we find \( \abs{\Instr(\Sigma,Q)} = (k+1)n\abs{\Sigma} + (k+1)n^2\abs{\Sigma} + (k+1)n^2 + (k+1)n^2 = N_{n,k} \), which is finite.
 	Therefore, there are \( N_{n,k}^n \) different programs, and hence \( \abs{M_{n,k}} = N_{n,k}^n \) is finite.
 	Then the collection of all register machines up to strong equivalence is \( \bigcup_{n,k} M_{n,k} \) which is countable.
@@ -139,9 +139,9 @@ The following lemma allows us to concatenate register machines, or alternatively
 	Then we can construct a register machine \( \hat M \) which performs \( F' \circ F \).
 \end{lemma}
 \begin{remark}
-	If \( F(\vb w) \downarrow \), then \( (F' \circ F)(\vb w) \downarrow \).
-	If \( F(\vb w) \uparrow \) and \( F'(F(\vb w)) \downarrow \), then \( (F' \circ F)(\vb w) \downarrow \).
-	Otherwise, \( (F' \circ F)(\vb w) \uparrow \).
+	If \( F(\vb w) \uparrow \), then \( (F' \circ F)(\vb w) \uparrow \).
+	If \( F(\vb w) \downarrow \) and \( F'(F(\vb w)) \uparrow \), then \( (F' \circ F)(\vb w) \uparrow \).
+	Otherwise, \( (F' \circ F)(\vb w) \downarrow \).
 \end{remark}
 \begin{proof}
 	We may assume without loss of generality that the state sets of the two machines are disjoint.
@@ -197,7 +197,7 @@ Registers that are used only for computation and not the output are sometimes ca
 	\item The operation `copy the content of register \( i \) into register \( j \) in the correct order' is accomplished by copying in the reverse order, and then reversing the content of register \( j \).
 	\item Consider the question `is the content of register \( i \) the word \( w \)'.
 	Let \( w = a_0 \dots a_k \).
-	We define the subroutine \( S_\ell \) to answer the question `is \( q_\ell \) the final letter of register \( i \)'.
+	We define the subroutine \( S_\ell \) to answer the question `is \( a_\ell \) the final letter of register \( i \)'.
 	If no, move to a state \( q_N \).
 	If yes, move the final letter to an unused empty register \( k \) and run subroutine \( S_{\ell-1} \), or if \( \ell = 0 \), move to a state \( q_Y \).
 	At state \( q_N \) we move the content of \( k \) to \( i \) and answer \( \overline q_N \), and at state \( q_Y \) we move the content of \( k \) to \( i \) and answer \( \overline q_Y \).
@@ -250,8 +250,8 @@ We use the notation \( \psi_X \) for the pseudocharacteristic function.
 	A set \( X \subseteq \mathbb W^k \) is \emph{computably enumerable} if the pseudocharacteristic function \( \psi_X \) is computable.
 \end{definition}
 \begin{remark}
-	We will show that every computable set of computably enumerable, but the converse does not hold.
-	We will also show that the computable enumerable sets are exactly the type 0 (context-free or noncontracting) languages, and that the class of computable languages is properly contained between type 1 and type 0.
+	We will show that every computable set is computably enumerable, but the converse does not hold.
+	We will also show that the computably enumerable sets are exactly the type 0 (context-free or noncontracting) languages, and that the class of computable languages is properly contained between type 1 and type 0.
 \end{remark}
 
 \subsection{Computability of languages}
@@ -355,7 +355,7 @@ The class of recursive functions is defined inductively.
 \end{definition}
 We call \( \pi_{k,i} \) the \emph{projection} functions, \( c_{k,\varepsilon} \) the \emph{constant} functions, and \( s \) the \emph{successor} function.
 
-Let \( f \colon \mathbb W^m \to \mathbb W \) and \( g_1, \dots, g_m \colon \mathbb W^k \to \mathbb W \).
+Let \( f \colon \mathbb W^m \rightharpoonup \mathbb W \) and \( g_1, \dots, g_m \colon \mathbb W^k \rightharpoonup \mathbb W \).
 Then the \emph{composition} is \( h(\vb w) = f(g_1(\vb w), \dots, g_m(\vb k)) \).
 
 Let \( f \colon \mathbb W^k \rightharpoonup \mathbb W \) and \( g \colon \mathbb W^{k+2} \rightharpoonup \mathbb W \).
@@ -387,7 +387,7 @@ is a function defined by \emph{minimisation}.
 	The successor function \( s \colon \mathbb W \to \mathbb W \) is primitive recursive.
 	The function \( s \circ \pi_{3,2} \) is primitive recursive, as the composition of primitive recursive functions.
 
-	The function \( h \) defined by \( h(w,\varepsilon) = \pi_{1,0}(w) \) and \( h(w,s(v)) = s \circ \pi_{3,2}(w,v,h(w,v)) = s(h,w,v) \) is primitive recursive, which is exactly the addition function \( \# h(n,m) = \# n + \# m \).
+	The function \( h \) defined by \( h(w,\varepsilon) = \pi_{1,0}(w) \) and \( h(w,s(v)) = s \circ \pi_{3,2}(w,v,h(w,v)) = s(h(w,v)) \) is primitive recursive, which is exactly the addition function \( \# h(n,m) = \# n + \# m \).
 	We can define multiplication and exponentiation in a similar way, and so all of these are primitive recursive.
 \end{example}
 We can encode recursive functions in trees.
@@ -522,7 +522,7 @@ When we encode a mathematical object \( o \) as a word \( \Sigma'^\star \), we w
 \end{lemma}
 \begin{proof}
 	Apply recursion with the operation given in the previous table.
-	In particular, we define by recursion \( h(\code(M), \code(\vb w), \varepsilon) = \code(q_0)\code(\vb w) \) and \( h(\code(M), \code(\vb w), s(v)) = \code(C') \) where \( C' \) is the result of transforming \( h(\code(M), \code(\vb w, v)) \) by the machine \( M \).
+	In particular, we define by recursion \( h(\code(M), \code(\vb w), \varepsilon) = \code(q_0)\code(\vb w) \) and \( h(\code(M), \code(\vb w), s(v)) = \code(C') \) where \( C' \) is the result of transforming \( h(\code(M), \code(\vb w), v) \) by the machine \( M \).
 \end{proof}
 \begin{corollary}
 	The \emph{truncated computation} function \( t_{M,k} \) defined by
@@ -556,7 +556,7 @@ When we encode a mathematical object \( o \) as a word \( \Sigma'^\star \), we w
 	A register machine \( U \) that computes \( g \) is called a \emph{universal register machine}.
 	\( U \) has a finite amount of used registers and states, but can mimic the behaviour of any register machine using an arbitrarily large amount of registers and states.
 
-	This allows us to streamline notation; for a word \( v \in \mathbb W \), we can write \( f_{v,k}(\vb w) = f_{U,2}(v,\code(w)) = f_{M,k}(w) \) if \( \code(M) = v \).
+	This allows us to streamline notation; for a word \( v \in \mathbb W \), we can write \( f_{v,k}(\vb w) = f_{U,2}(v,\code(\vb w)) = f_{M,k}(\vb w) \) if \( \code(M) = v \).
 	Similarly, we can write \( W_v = \dom f_{v,1} \), so \( \qty{W_v \mid v \in \mathbb W} \) is the set of computably enumerable sets.
 \end{remark}
 \begin{theorem}[\( s \)--\( m \)--\( n \) theorem; parameter theorem]
@@ -589,7 +589,7 @@ Consider the sets
 \begin{proof}
 	It suffices to show that \( \mathbb K_0, \mathbb K \) are the domains of computable functions.
 	By the software principle, \( f_{U,2}(w,v) = f_{w,1}(v) \) and \( \dom f_{U,2} = \mathbb K_0 \) as required.
-	Observe that the diagonal function \( \Delta(w) = (w, w) \) is computable, so \( f_{U,2} \circ \Delta \) is computable, and \( \dom(f_{U_2} \circ \Delta) = \mathbb K \).
+	Observe that the diagonal function \( \Delta(w) = (w, w) \) is computable, so \( f_{U,2} \circ \Delta \) is computable, and \( \dom(f_{U,2} \circ \Delta) = \mathbb K \).
 \end{proof}
 \begin{theorem}[the halting problem]
 	Neither \( \mathbb K_0 \) nor \( \mathbb K \) are computable.

@@ -1,0 +1,556 @@
+\subsection{Linear codes}
+\begin{definition}
+    A binary code \( C \subseteq \mathbb F_2^n \) is \emph{linear} if \( 0 \in C \), and whenever \( x, y \in C \), we have \( x + y \in C \).
+\end{definition}
+Equivalently, \( C \) is a vector subspace of \( \mathbb F_2^n \).
+\begin{definition}
+    The \emph{rank} of a linear code \( C \), denoted \( \rank C \), is its dimension as an \( \mathbb F_2 \)-vector space.
+    A linear code of length \( n \) and rank \( k \) is called an \( (n,k) \)-code.
+    If it has minimum distance \( d \), it is called an \( (n,k,d) \)-code.
+\end{definition}
+Let \( v_1, \dots, v_k \) be a basis for \( C \).
+Then \( C = \qty{\sum_{i=1}^k \lambda_i v_i \mid \lambda_i \in \mathbb F_2} \).
+The size of the code is therefore \( 2^k \), so an \( (n,k) \)-code is an \( [n,2^k] \)-code, and an \( (n,k,d) \)-code is an \( [n,2^k,d] \)-code.
+The information rate is \( \frac{k}{n} \).
+\begin{definition}
+    The \emph{weight} of \( x \in \mathbb F_2^n \) is \( w(x) = d(x,0) \).
+\end{definition}
+\begin{lemma}
+    The minimum distance of a linear code is the minimum weight of a nonzero codeword.
+\end{lemma}
+\begin{proof}
+    Let \( x, y \in C \).
+    Then, \( d(x,y) = d(x+y,0) = w(x+y) \).
+    Observe that \( x \neq y \) if and only if \( x + y \neq 0 \), so \( d(C) \) is the minimum \( w(x+y) \) for \( x + y \neq 0 \).
+\end{proof}
+\begin{definition}
+    Let \( x, y \in \mathbb F_2^n \).
+    Define \( x \cdot y = \sum_{i=1}^n x_i y_i \in \mathbb F_2 \).
+    This is symmetric and bilinear.
+\end{definition}
+There are nonzero \( x \) such that \( x \cdot x = 0 \).
+\begin{definition}
+    Let \( P \subseteq \mathbb F_2^n \).
+    The \emph{parity check code} defined by \( P \) is
+    \[ C = \qty{x \in \mathbb F_2^n \mid \forall p \in P,\,p \cdot x = 0} \]
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item \( P = \qty{11\dots 1} \) gives the simple parity check code.
+        \item \( P = \qty{1010101, 0110011, 0001111} \) gives Hamming's original \( [7,16,3] \)-code.
+        \item \( C^+ \) and \( C^- \) are linear if \( C \) is linear.
+    \end{enumerate}
+\end{example}
+\begin{lemma}
+    Every parity check code is linear.
+\end{lemma}
+\begin{proof}
+    \( 0 \in C \) as \( p \cdot 0 = 0 \).
+    If \( p \cdot x = 0 \) and \( p \cdot y = 0 \) then \( p \cdot (x + y) = 0 \), so \( x, y \in C \) implies \( x + y \in C \).
+\end{proof}
+\begin{definition}
+    Let \( C \subseteq \mathbb F^2 \) be a linear code.
+    The \emph{dual code} \( C^\perp \) is defined by
+    \[ C^\perp = \qty{x \in \mathbb F_2^n \mid \forall y \in C,\, x \cdot y = 0} \]
+\end{definition}
+By definition, \( C^\perp \) is a parity check code, and hence is linear.
+Note that \( C \cap c^\perp \) may contain elements other than 0.
+\begin{lemma}
+    \( \rank C + \rank C^\perp = n \).
+\end{lemma}
+\begin{proof}
+    One can prove this by defining \( C^\perp \) as an annihilator from linear algebra.
+    A proof using coding theory is shown later.
+\end{proof}
+\begin{corollary}
+    Let \( C \) be a linear code.
+    Then \( (C^\perp)^\perp = C \).
+    In particular, all linear codes are parity check codes, defined by \( C^\perp \).
+\end{corollary}
+\begin{proof}
+    If \( x \in C \), then \( x \cdot y = 0 \) for all \( y \in C^\perp \) by definition, so \( x \in (C^\perp)^\perp \).
+    Then \( \rank C = n - \rank C^\perp = n - (n - \rank (C^\perp)^\perp) = \rank (C^\perp)^\perp \), so \( C = (C^\perp)^\perp \).
+\end{proof}
+\begin{definition}
+    Let \( C \) be an \( (n,k) \)-code.
+    A \emph{generator matrix} \( G \) for \( C \) is a \( k \times n \) matrix where the rows form a basis for \( C \).
+    A \emph{parity check matrix} \( H \) for \( C \) is a generator matrix for the dual code \( C^\perp \), so it is an \( (n-k) \times n \) matrix.
+\end{definition}
+The codewords of a linear code can be viewed either as linear combinations of rows of \( G \), or linear dependence relations between the columns of \( H \), so \( C = \qty{x \in \mathbb F_2^n \mid H x = 0} \).
+\begin{definition}
+    Let \( C \) be an \( (n, k) \)-code.
+    The \emph{syndrome} of \( x \in \mathbb F_2^n \) is \( Hx \).
+\end{definition}
+If we receive a word \( x = c + z \) where \( c \in C \) and \( z \) is the error pattern, \( Hx = Hz \) as \( Hc = 0 \).
+If \( C \) is \( e \)-error correcting, we precompute \( Hz \) for all \( z \) for which \( w(z) \leq e \).
+On receiving \( x \), we can compute the syndrome \( Hx \) and find this entry in the table of values of \( Hz \).
+If successful, we decode \( c = x - z \), with \( d(x,c) = w(z) \leq e \).
+\begin{definition}
+    Codes \( C_1, C_2 \subseteq \mathbb F_2^n \) are \emph{equivalent} if there exists a permutation of bits that maps codewords in \( C_1 \) to codewords in \( C_2 \).
+\end{definition}
+Codes are typically only considered up to equivalence.
+\begin{lemma}
+    Every \( (n, k) \)-linear code is equivalent to one with generator matrix with block form \( \begin{pmatrix}
+        I_k & B
+    \end{pmatrix} \) for some \( k \times (n - k) \) matrix \( B \).
+\end{lemma}
+\begin{proof}
+    Let \( G \) be a \( k \times n \) generator matrix for \( C \).
+    Using Gaussian elimination, we can transform \( G \) into row echelon form
+    \[ G_{ij} = \begin{cases}
+        0 & j < \ell(i) \\
+        1 & j = \ell(i)
+    \end{cases} \]
+    for some \( \ell(1) < \ell(2) < \dots < \ell(k) \).
+    Permuting the columns, replaces \( C \) with an equivalent code, so without loss of generality we may assume \( \ell(i) = i \).
+    Hence,
+    \[ G = \begin{pmatrix}
+        1 & & \star \\
+        & \ddots & & B \\
+        & & 1
+    \end{pmatrix} \]
+    Further row operations eliminate \( \star \) to give \( G \) in the required form.
+\end{proof}
+A message \( y \in \mathbb F_2^k \) viewed as a row vector can be encoded as \( yG \).
+If \( G = \begin{pmatrix}
+    I_k & B
+\end{pmatrix} \), then \( yG = (y, yB) \) where \( y \) is the message and \( yB \) is a string of check digits.
+We now prove the following lemma that was stated earlier.
+\begin{lemma}
+    \( \rank C + \rank C^\perp = n \).
+\end{lemma}
+\begin{proof}
+    Let \( C \) have generator matrix \( G = \begin{pmatrix}
+        I_k & B
+    \end{pmatrix} \).
+    \( G \) has \( k \) linearly independent columns, so there is a linear map \( \gamma \colon \mathbb F_2^n \to \mathbb F_2^k \) defined by \( x \mapsto Gx \) which is surjective.
+    Its kernel is \( C^\perp \).
+    By the rank-nullity theorem, \( \dim \mathbb F_2^n = \dim \ker \gamma + \dim \Im \gamma \), so \( n = \rank C + \rank C^\perp \) as required.
+\end{proof}
+\begin{lemma}
+    An \( (n, k) \)-code with generator matrix \( G = \begin{pmatrix}
+        I_k & B
+    \end{pmatrix} \) has parity check matrix \( H \) of the form \( \begin{pmatrix}
+        B^\transpose & I_{n-k}
+    \end{pmatrix} \).
+\end{lemma}
+\begin{proof}
+    \[ GH^\transpose = \begin{pmatrix}
+        I_k & B
+    \end{pmatrix} \begin{pmatrix}
+        B \\
+        I_{n-k}
+    \end{pmatrix} = B + B = 2B = 0 \]
+    So the rows of \( H \) generate a subcode of \( C^\perp \).
+    But \( \rank H = n - k \), and \( \rank C^\perp = n - k \).
+    So \( H = C^\perp \), and \( C^\perp \) has generator matrix \( H \).
+\end{proof}
+\begin{lemma}
+    Let \( C \) be a linear code with parity check matrix \( H \).
+    Then, \( d(C) = d \) if and only if
+    % w(C) = d? typo?
+    \begin{enumerate}
+        \item any \( d - 1 \) columns of \( H \) are linearly independent; and
+        \item a set of \( d \) columns of \( H \) are linearly dependent.
+    \end{enumerate}
+\end{lemma}
+The proof is left as an exercise.
+% see online for proof
+
+\subsection{Hamming codes}
+\begin{definition}
+    Let \( d \geq 1 \), and let \( n = 2^d - 1 \).
+    Let \( H \) be the \( d \times n \) matrix with columns given by the nonzero elements of \( \mathbb F_2^d \).
+    The \emph{Hamming \( (n, n-d) \)-linear code} is the code with parity check matrix \( H \).
+\end{definition}
+\begin{lemma}
+    The Hamming \( (n, n-d) \)-code \( C \) has minimum distance \( d(C) = 3 \), and is a perfect 1-error correcting code.
+\end{lemma}
+\begin{proof}
+    Any two columns of \( H \) are linearly independent, but there are three linearly dependent columns.
+    Hence, \( d(C) = 3 \).
+    Hence, \( C \) is \( \floor{\frac{3-1}{2}} = 1 \)-error correcting.
+    A perfect code is one such that \( \abs{C} = \frac{2^n}{V(n,e)} \).
+    In this case, \( n = 2^d - 1 \) and \( e = 1 \), so \( \frac{2^n}{1 + 2^d - 1} = 2^{n-d} = \abs{C} \) as required.
+\end{proof}
+
+\subsection{Reed--Muller codes}
+Let \( X = \qty{p_1, \dots, p_n} \) be a set of size \( n \).
+There is a correspondence between the power set \( \mathcal P(X) \) and \( \mathbb F_2^n \).
+\[ \mathcal P(X) \xrightarrow{A \mapsto \mathbbm 1_A} \qty{f \colon X \to \mathbb F_2} \xrightarrow{f \mapsto (f(p_1), \dots, f(p_n))} \mathbb F_2^n \]
+The \emph{symmetric difference} of two sets \( A, B \) is defined to be \( A \,\triangle\, B = A\setminus B \cup B \setminus A \), which corresponds to vector addition in \( \mathbb F_2^n \).
+Intersection \( A \cap B \) corresponds to the \emph{wedge product} \( x \wedge y = (x_1 y_1, \dots, x_n y_n) \).
+
+Let \( X = \mathbb F_2^d \), so \( n = 2^d - \abs{X} \).
+Let \( v_0 = (1, \dots, 1) \), and let \( v_i = \mathbbm 1_{H_i} \) where \( H_i = \qty{p \in X \mid p_i = 0} \) is a coordinate hyperplane.
+\begin{definition}
+    Let \( 0 \leq r \leq d \).
+    The \emph{Reed--Muller code} \( RM(d,r) \) of \emph{order} \( r \) and length \( 2^d \) is the linear code spanned by \( v_0 \) and all wedge products of at most \( r \) of the the \( v_i \) for \( 1 \leq i \leq d \).
+\end{definition}
+By convention, the empty wedge product is \( v_0 \).
+\begin{example}
+    Let \( d = 3 \), and let \( X = \mathbb F_2^3 = \qty{p_1, \dots, p_8} \) in binary order.
+    \[ \begin{array}{c|cccccccc}
+        X & 000 & 001 & 010 & 011 & 100 & 101 & 110 & 111 \\\hline
+        v_0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+        v_1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 \\
+        v_2 & 1 & 1 & 0 & 0 & 1 & 1 & 0 & 0 \\
+        v_3 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
+        v_1 \wedge v_2 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        v_2 \wedge v_3 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+        v_1 \wedge v_3 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+        v_1 \wedge v_2 \wedge v_3 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+    \end{array} \]
+    A generator matrix for Hamming's original code is a submatrix in the top-right corner.
+\end{example}
+\( RM(3,0) \) is spanned by \( v_0 \), and is hence the repetition code of length 8.
+\( RM(3,1) \) is spanned by \( v_0, v_1, v_2, v_3 \), which is equivalent to a parity check extension of Hamming's original \( (7,4) \)-code.
+\( RM(3,2) \) is an \( (8,7) \)-code, and can be shown to be equivalent to a simple parity check code of length 8.
+\( RM(3,3) \) is the trivial code \( \mathbb F_2^8 \) of length 8.
+\begin{theorem}
+    \begin{enumerate}
+        \item The vectors \( v_{i_1} \wedge v_{i_s} \) for \( i_1 < \dots < i_s \) and \( 0 \leq s \leq d \) form a basis for \( \mathbb F_2^n \).
+        \item The rank of \( RM(d,r) \) is \( \sum_{s=0}^r \binom{d}{s} \).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \emph{Part (i).}
+    There are \( \sum_{s=0}^d \binom{d}{s} = 2^d = n \) vectors listed, so it suffices to show they are a spanning set, or equivalently \( RM(d,d) \) is the trivial code.
+    Let \( p \in X \), and let \( y_i \) be \( v_i \) if \( p_i = 0 \) and \( v_0 + v_i \) if \( p_i = 1 \).
+    Then \( \mathbbm 1_{\qty{p}} = y_1 \wedge \dots \wedge y_d \).
+    Expanding this using the distributive law, \( \mathbbm 1_{\qty{p}} \in RM(d,d) \).
+    But the set of \( \mathbbm 1_{\qty{p}} \) for \( p \in X \) spans \( \mathbb F_2^n \), as required.
+
+    \emph{Part (ii).}
+    \( RM(d,r) \) is spanned by \( v_{i_1} \wedge \dots \wedge v_{i_s} \) where \( i_1 < \dots < i_s \) and \( 0 \leq s \leq r \).
+    Since these are linearly independent, the rank of \( RM(d,r) \) is the number of such vectors, which is \( \sum_{s=0}^d \binom{d}{s} \).
+\end{proof}
+\begin{definition}
+    Let \( C_1, C_2 \) be linear codes of length \( n \) where \( C_2 \subseteq C_1 \).
+    The \emph{bar product} is \( C_1 \mid C_2 = \qty{(x \mid x + y) \mid x \in C_1, y \in C_2} \).
+\end{definition}
+This is a linear code of length \( 2n \).
+\begin{lemma}
+    \begin{enumerate}
+        \item \( \rank (C_1 \mid C_2) = \rank C_1 + \rank C_2 \).
+        \item \( d(C_1 \mid C_2) = \min \qty{2d(C_1), d(C_2)} \).
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \emph{Part (i).}
+    If \( C_1 \) has basis \( x_1, \dots, x_k \) and \( C_2 \) has basis \( y_1, \dots, y_\ell \), then \( C_1 \mid C_2 \) has basis
+    \[ \qty{(x_i \mid x_i) \mid 1 \leq i \leq k} \cup \qty{(0 \mid y_i) \mid 1 \leq i \leq \ell} \]
+    \emph{Part (ii).}
+    Let \( 0 \neq (x \mid x + y) \in C_1 \mid C_2 \).
+    If \( y \neq 0 \), then \( w(x \mid x + y) = w(x) + w(x + y) \geq w(y) \geq d(C_2) \).
+    If \( y = 0 \), then \( w(x \mid x + y) = w(x \mid x) = 2w(x) \geq 2d(C_1) \).
+    Hence, \( d(C_1 \mid C_2) \geq \min\qty{2d(C_1), d(C_2)} \).
+
+    There is a nonzero \( x \in C_1 \) with \( w(x) = d(C_1) \), so \( d(C_1 \mid C_2) \leq w(x \mid x) = 2d(C_1) \).
+    There is a nonzero \( y \in C_2 \) with \( w(y) = d(C_2) \), giving \( d(C_1 \mid C_2) \leq w(0 \mid 0 + y) = d(C_2) \), giving the other inequality as required.
+\end{proof}
+\begin{theorem}
+    \begin{enumerate}
+        \item \( RM(d,r) = RM(d-1,r) \mid RM(d-1,r-1) \) for \( 0 < r < d \).
+        \item \( RM(d,r) \) has minimum distance \( 2^{d-r} \) for all \( r \).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \emph{Part (i).}
+    Exercise.
+    % see notes
+
+    \emph{Part (ii).}
+    If \( r = 0 \), then \( RM(d,r) \) is the repetition code of length \( 2^d \), which has minimum distance \( 2^d \).
+    If \( r = d \), \( RM(d,r) \) is the trivial code of length \( 2^d \), which has minimum distance \( 1 = 2^{d-d} \).
+    We prove the remaining cases by induction on \( d \).
+    From part (i), \( RM(d,r) = RM(d-1,r) \mid RM(d-1,r-1) \).
+    By induction, the minimum distance of \( RM(d-1,r) \) is \( 2^{d-1-r} \) and the minimum distance of \( RM(d-1,r-1) \) is \( 2^{d-r} \).
+    By part (ii) of the previous lemma, the minimum distance of \( RM(d,r) \) is \( \min\qty{2\cdot 2^{d-1-r}, 2^{d-r}} = 2^{d-r} \).
+\end{proof}
+
+\subsection{Cyclic codes}
+% Recall that every field is either an extension of \( \mathbb Q \), in which case we say it has characteristic zero, or \( \mathbb F_p \) for some \( p \), in which case is has characteristic \( p \).
+% In a polynomial ring \( R[X] \), \( \sum_{i=0}^n a_i X^i = 0 \) if and only if each \( a_i \) is zero.
+% Note that \( X^2 + X \in \mathbb F_2[X] \) is nonzero, but always evaluates to zero.
+% If \( F \) is a field, \( F[X] \) is a Euclidean domain using the degree function as the Euclidean function, and has a Euclidean division algorithm.
+If \( F \) is a field and \( f \in F[X] \), \( \faktor{F[X]}{(f)} \) is in bijection with \( F^n \), since \( \faktor{F[X]}{(f)} \) is represented by the set of functions of degree less than \( \deg f \).
+\begin{definition}
+    A linear code \( C \subseteq \mathbb F_2^n \) is \emph{cyclic} if \( (a_0, a_1, \dots, a_{n-1}) \in C \) implies \( (a_{n-1}, a_0, \dots, a_{n-2}) \in C \).
+\end{definition}
+We identify \( \faktor{\mathbb F_2[X]}{(X^n - 1)} \) with \( \mathbb F_2^n \), letting \( \pi(a_0 + a_1X + \dots + a_{n-1}X^{n-1}) = (a_0, a_1, \dots, a_{n-1}) \).
+\begin{lemma}
+    A code \( C \subseteq \mathbb F_2^n \) is cyclic if and only if \( \pi(C) = \mathcal C \) satisfies
+    \begin{enumerate}
+        \item \( 0 \in \mathcal C \);
+        \item \( f, g \in \mathcal C \) implies \( f + g \in \mathcal C \);
+        \item \( f \in \mathbb F_2[X], g \in \mathcal C \) implies \( fg \in \mathcal C \).
+    \end{enumerate}
+\end{lemma}
+Equivalently, \( C \) is an ideal of \( \faktor{\mathbb F_2[X]}{(X^n - 1)} \).
+\begin{proof}
+    If \( g(X) = a_0 + a_1X + \dots + a_{n-1}X^{n-1} \), multiplication by \( X \) gives \( Xg(X) = a_{n-1} + a_0X + \dots + a_{n-2}X^{n-1} \).
+    So \( \mathcal C \) is cyclic if and only if (i) and (ii) hold and \( g(X) \in C \) implies \( Xg(X) \in C \).
+    Linearity then gives (iii).
+\end{proof}
+We will identify \( C \) with \( \mathcal C \).
+The cyclic codes of length \( n \) correspond to ideals in \( \faktor{\mathbb F_2[X]}{(X^n - 1)} \).
+Such ideals correspond to ideals of \( \mathbb F_2[X] \) that contain \( X^n - 1 \).
+Since \( \mathbb F_2[X] \) is a principal ideal domain, these ideals correspond to polynomials \( g(X) \in \mathbb F_2[X] \) dividing \( X^n - 1 \).
+\begin{theorem}
+    Let \( C \trianglelefteq \faktor{\mathbb F_2[X]}{(X^n - 1)} \) be a cyclic code.
+    Then, there exists a unique \emph{generator} polynomial \( g(X) \in \mathbb F_2[X] \) such that
+    \begin{enumerate}
+        \item \( C = (g) \);
+        \item \( g(X) \mid X^n - 1 \).
+    \end{enumerate}
+    In particular, \( p(X) \in \mathbb F_2[X] \) represents a codeword if and only if \( g \mid p \).
+\end{theorem}
+\begin{proof}
+    Let \( g(X) \in \mathbb F_2[X] \) be the polynomial of smallest degree that represents a nonzero codeword of \( C \).
+    Note that \( \deg g < n \).
+    Since \( C \) is cyclic, \( (g) \subseteq C \).
+    Now let \( p(X) \in \mathbb F_2[X] \) represent a codeword.
+    By the division algorithm, \( p = qg + r \) for \( q, r \in \mathbb F_2[X] \) where \( \deg r < \deg g \).
+    Then, \( r = p - qg \in C \) as \( C \) is an ideal.
+    But \( \deg r < \deg g \), so \( r = 0 \).
+    Hence, \( g \mid p \).
+    For part (ii), let \( p(X) = X^n - 1 \), giving \( g \mid X^n - 1 \).
+
+    Now we show uniqueness.
+    Suppose \( C = (g_1) = (g_2) \).
+    Then \( g_1 \mid g_2 \) and \( g_2 \mid g_1 \).
+    So \( g_1 = cg_2 \) where \( c \in \mathbb F_2^\star \), so \( c = 1 \).
+\end{proof}
+\begin{lemma}
+    Let \( C \) be a cyclic code of length \( n \) with generator \( g(X) = a_0 + a_1 X + \dots + a_k X^k \) with \( a_k \neq 0 \).
+    Then \( C \) has basis \( \qty{g, Xg, X^2g, \dots, X^{n-k-1}g} \).
+    In particular, \( \rank C = n - k \).
+\end{lemma}
+\begin{proof}
+    Exercise.
+\end{proof}
+\begin{corollary}
+    Let \( C \) be a cyclic code of length \( n \) with generator \( g(X) = a_0 + a_1 X + \dots + a_k X^k \) with \( a_k \neq 0 \).
+    Then, a generator matrix for \( C \) is given by
+    \[ G = \begin{pmatrix}
+        a_0 & a_1 & a_2 & \cdots & a_k & 0 & 0 & \cdots \\
+        0 & a_0 & a_1 & \cdots & a_{k-1} & a_k & 0 & \cdots \\
+        \vdots\\
+        0 & 0 & 0 & \cdots & 0 & a_0 & a_1 & \cdots & a_k
+    \end{pmatrix} \]
+    This is an \( (n - k) \times n \) matrix.
+\end{corollary}
+\begin{definition}
+    Let \( g \) be a generator for \( C \).
+    The \emph{parity check polynomial} is the polynomial \( h \) such that \( g(X) h(X) = X^n - 1 \).
+\end{definition}
+\begin{corollary}
+    Writing \( h(X) = b_0 + b_1 X + \dots + b_{n-k} X^{n-k} \), the parity check matrix is
+    \[ H = \begin{pmatrix}
+        b_{n-k} & b_{n-k-1} & \cdots & b_1 & b_0 & 0 & 0 & \cdots \\
+        b_{n-k} & b_{n-k-1} & \cdots & b_2 & b_1 & b_2 & 0 & \cdots \\
+        \\
+        0 & \cdots & b_{n-k} & b_{n-k-1} & \cdots & b_1 & b_0
+    \end{pmatrix} \]
+    which is a \( k \times n \) matrix.
+\end{corollary}
+\begin{proof}
+    One can check that the inner product of the \( i \)th row of the generator matrix and the \( j \)th row of the parity check matrix is the coefficient of \( X^{n-k-i+j} \) in \( g(X) h(X) = X^n - 1 \).
+    Since \( 1 \leq i \leq n - k \) and \( 1 \leq j \leq k \), \( 0 < n - k - i + j < n \), and such coefficients are zero.
+    Hence, the rows of \( G \) are orthogonal to the rows of \( H \).
+    Note that as \( b_{n-k} \neq 0 \), \( \rank H = k = \rank C^\perp \), so \( H \) is the parity check matrix.
+\end{proof}
+\begin{remark}
+    Given a polynomial \( f(X) = \sum_{i=0}^m f_i X_i \) of degree \( m \), the \emph{reverse} polynomial is \( \check{f}(X) = f_n + f_{n-1}X + \dots + f_0 X^M = X^m f\qty(\frac{1}{X}) \).
+    The cyclic code generated by \( \check{h} \) is the dual code \( C^\perp \).
+\end{remark}
+\begin{lemma}
+    If \( n \) is odd, \( X^n - 1 = f_1(X) \dots f_t(X) \) where the \( f_i(X) \) are distinct irreducible polynomials in \( \mathbb F_2[X] \).
+    Thus, there are \( 2^t \) cyclic codes of length \( n \).
+\end{lemma}
+This is false if \( n \) is even, for instance, \( X^2 - 1 = (X - 1)^2 \).
+The proof follows from Galois theory.
+
+\subsection{BCH codes}
+Recall that if \( p \) is a prime, \( \mathbb F_p = \faktor{\mathbb Z}{p\mathbb Z} \) is a field, and if \( f(X) \in \mathbb F_p[X] \) is irreducible, the quotient \( K = \faktor{\mathbb F_p[X]}{(f)} \) is a field and has order \( p^{\deg f} \).
+Moreover, any finite field arises in this way.
+
+If \( q = p^\alpha \) is a prime power where \( \alpha \geq 1 \), there exists a unique field \( \mathbb F_q \) of order \( q \), up to isomorphism.
+Note that \( \mathbb F_q \not\simeq \faktor{\mathbb Z}{q\mathbb Z} \) if \( \alpha > 1 \).
+The multiplicative group \( \mathbb F_q^\times \) is cyclic; there exists \( \beta \in \mathbb F_q \) such that \( \mathbb F_q^\times = \genset{\beta} = \qty{1, \beta, \dots, \beta^{q-2}} \).
+Such a \( \beta \) is called a \emph{primitive element}.
+% BCH codes are a particular type of cyclic code.
+
+Let \( n \) be an odd integer, and let \( r \geq 1 \) such that \( 2^r \equiv 1 \) mod \( n \), which always exists as \( 2 \) is coprime to \( n \).
+Let \( K = \mathbb F_{2^r} \), and define \( \bm \mu_n(K) = \qty{x \in K \mid x^n = 1} \leq K^\times \), which is a cyclic group.
+Since \( n \mid (2^r - 1) = \abs{K^\times} \), \( \bm \mu_n(K) \) is the cyclic group of order \( n \).
+Hence, \( \bm \mu_n(K) = \qty{1, \alpha, \alpha^2, \dots, \alpha^{n-1}} \) for some primitive \( n \)th root of unity \( \alpha \in K \).
+\begin{definition}
+    The cyclic code of length \( n \) with \emph{defining set} \( A \subseteq \bm\mu_n(K) \) is the code
+    \[ C = \qty{f(X) \in \faktor{\mathbb F_2[X]}{(X^n - 1)} \mid \forall a \in A,\, f(a) = 0} \]
+\end{definition}
+The generator polynomial \( g(X) \) is the nonzero polynomial of least degree such that \( g(a) = 0 \) for all \( a \in A \).
+Equivalently, \( g \) is the least common multiple of the minimal polynomials of the elements of \( A \).
+\begin{definition}
+    The cyclic code of length \( n \) with defining set \( \qty{\alpha, \alpha^2, \dots, \alpha^{\delta - 1}} \) is a \emph{BCH code} with \emph{design distance} \( \delta \).
+\end{definition}
+\begin{theorem}
+    A BCH code \( C \) with design distance \( \delta \) has minimum distance \( d(C) \geq \delta \).
+\end{theorem}
+This proof needs the following result.
+\begin{lemma}
+    The Vandermonde matrix satisfies
+    \[ \det \begin{pmatrix}
+        1 & 1 & 1 & \cdots & 1 \\
+        x_1 & x_2 & x_3 & \cdots & x_n \\
+        x_1^2 & x_2^2 & x_3^2 & \cdots & x_n^2 \\
+        \vdots & \vdots & \vdots & \ddots & \vdots \\
+        x_1^{n-1} & x_2^{n-1} & x_3^{n-1} & \cdots & x_n^{n-1}
+    \end{pmatrix} = \prod_{1 \leq j < i \leq n} (x_i - x_j) \]
+\end{lemma}
+\begin{proof}[Proof of theorem]
+    Consider
+    \[ H = \begin{pmatrix}
+        1 & \alpha & \alpha^2 & \cdots & \alpha^{n-1} \\
+        1 & \alpha^2 & \alpha^4 & \cdots & \alpha^{2(n-1)} \\
+        \vdots & \vdots & \vdots & \ddots & \vdots \\
+        1 & \alpha^{\delta - 1} & \alpha^{2(\delta - 1)} & \cdots & \alpha^{(\delta - 1)(n-1)}
+    \end{pmatrix} \]
+    This is a \( (\delta - 1) \times n \) matrix.
+    Any collection of \( (\delta - 1) \) columns is independent as it forms a Vandermonde matrix.
+    But any codeword of \( C \) is a dependence relation between the columns of \( H \).
+    Hence every nonzero codeword has weight at least \( \delta \), giving \( d(C) \geq \delta \).
+\end{proof}
+Note that \( H \) in the proof above is not a parity check matrix, as its entries do not lie in \( \mathbb F_2 \).
+
+Let \( C \) be a cyclic code with defining set \( \qty{\alpha, \alpha^2, \dots, \alpha^{\delta - 1}} \) where \( \alpha \in K \) is a primitive \( n \)th root of unity.
+Its minimum distance is at least \( \delta \), so we should be able to correct \( t = \floor{\frac{\delta - 1}{2}} \) errors.
+Suppose we send \( c \in C \) through the channel, and receive \( r = c + e \) where \( e \) is the error pattern with at most \( t \) nonzero errors.
+Note that \( r, c, e \) correspond to polynomials \( r(X), c(X), e(X) \), and \( c(\alpha^j) = 0 \) for \( j \in \qty{1, \dots, \delta - 1} \) as \( c \) is a codeword.
+Hence, \( r(\alpha^j) = e(\alpha^j) \).
+\begin{definition}
+    The \emph{error locator polynomial} of an error pattern \( e \in \mathbb F_2^n \) is
+    \[ \sigma(X) = \prod_{i \in \mathcal E} (1 - \alpha^i X) \in K[X] \]
+    where \( \mathcal E = \qty{i \mid e_i = 1} \).
+\end{definition}
+Assuming that \( \deg \sigma = \abs{\mathcal E} \), where \( 2t + 1 \leq \delta \), we must recover \( \sigma \) from \( r(X) \).
+\begin{theorem}
+    Suppose \( \deg \sigma = \abs{\mathcal E} \leq t \) where \( 2t + 1 \leq \delta \).
+    Then \( \sigma(X) \) is the unique polynomial in \( K[X] \) of least degree such that
+    \begin{enumerate}
+        \item \( \sigma(0) = 1 \);
+        \item \( \sigma(X) \sum_{j=1}^{2t} r(\alpha^j) X^j = \omega(X) \) mod \( X^{2t+1} \) for some \( \omega \in K[X] \) of degree at most \( t \).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Define \( \omega(X) = -X\sigma'(X) \), called the \emph{error co-locator}.
+    Hence,
+    \[ \omega(X) = \sum_{i \in \mathcal E} \alpha^i X \prod_{j \neq i} (1 - \alpha^j X) \]
+    This polynomial has \( \deg \omega = \deg \sigma \).
+    Consider the ring \( K[\![X]\!] \) of formal power series.
+    In this ring,
+    \[ \frac{\omega(X)}{\sigma(X)} = \sum_{i \in \mathcal E} \frac{\alpha^i X}{1 - \alpha^i X} = \sum_{i \in \mathcal E} \sum_{j = 1}^\infty (\alpha^i X)^j = \sum_{j=1}^\infty X^j \sum_{i \in \mathcal E} (\alpha^j)^i = \sum_{j=1}^\infty e(\alpha^j) X^j \]
+    Hence \( \sigma(X) \sum_{j=1}^\infty e(\alpha^j) X^j = \omega(X) \).
+    By definition of \( C \), we have \( c(\alpha^j) = 0 \) for all \( 1 \leq j \leq \delta - 1 \).
+    Hence \( c(\alpha^j) = 0 \) for \( 1 \leq j \leq 2t \).
+    As \( r = c + e \), \( r(\alpha^j) = e(\alpha^j) \) for all \( 1 \leq j \leq 2t \), hence \( \sigma(X) \sum_{j=1}^{2t} r(\alpha^j) X^j = \omega(X) \) mod \( X^{2t+1} \).
+    This verifies (i) and (ii) for this choice of \( \omega \), so \( \deg \omega = \deg \sigma = \abs{\mathcal E} \leq t \).
+
+    For uniqueness, suppose there exist \( \widetilde \sigma, \widetilde \omega \) with the properties (i), (ii).
+    Without loss of generality, we can assume \( \deg \widetilde \sigma \leq \deg \sigma \).
+    \( \sigma(X) \) has distinct nonzero roots, so \( \omega(X) = -X\sigma'(X) \) is nonzero at these roots.
+    Hence \( \sigma, \omega \) are coprime polynomials.
+    By property (ii), \( \widetilde \sigma(X) \omega(X) = \sigma(X) \widetilde \omega(X) \) mod \( X^{2t+1} \).
+    But the degrees of \( \sigma, \widetilde \sigma, \omega, \widetilde \omega \) are at most \( t \), so this congruence is an equality.
+    But \( \sigma(X) \) and \( \omega(X) \) are coprime, so \( \sigma \mid \widetilde \sigma \), but \( \deg \widetilde \sigma \leq \deg \sigma \) by assumption, so \( \widetilde \sigma = \lambda \sigma \) for some \( \lambda \in K \).
+    By property (i), \( \sigma(0) = \widetilde\sigma(0) \) hence \( \lambda = 1 \), giving \( \widetilde \sigma = \sigma \).
+\end{proof}
+Suppose that we receive \( r(X) \) and wish to decode it.
+\begin{itemize}
+    \item Compute \( \sum_{j=1}^{2t} r(\alpha^j) X^j \).
+    \item Set \( \sigma(X) = 1 + \sigma_1 X + \dots + \sigma_t X^t \), and compute the coefficients of \( X^i \) for \( t + 1 \leq i \leq 2t \) to obtain linear equations for \( \sigma_1, \dots, \sigma_t \), which are of the form \( \sum_0^t \sigma_j r(\alpha^{i-j}) = 0 \).
+    \item Then solve these polynomials over \( K \), keeping solutions of least degree.
+    \item Compute \( \mathcal E = \qty{i \mid \sigma(\alpha^{-i}) = 0} \), and check that \( \abs{\mathcal E} = \deg \sigma \).
+    \item Set \( e(X) = \sum_{i \in \mathcal E} X^i \), then \( c(X) = r(X) + e(X) \), and check that \( c \) is a codeword.
+\end{itemize}
+\begin{example}
+    Consider \( n = 7 \), and \( X^7 - 1 = (X + 1)(X^3 + X + 1)(X^3 + X^2 + 1) \) in \( \mathbb F_2[X] \).
+    Let \( g(X) = X^3 + X + 1 \), so \( h(X) = (X + 1)(X^3 + X^2 + 1) = X^4 + X^2 + X + 1 \).
+    The parity check matrix is
+    \[ H = \begin{pmatrix}
+        1 & 0 & 1 & 1 & 1 & 0 & 0 \\
+        0 & 1 & 0 & 1 & 1 & 1 & 0 \\
+        0 & 0 & 1 & 0 & 1 & 1 & 1
+    \end{pmatrix} \]
+    The columns are the elements of \( \mathbb F_2^3 \setminus \qty{0} \).
+    This is the Hamming \( (7,4) \)-code.
+
+    Let \( K \) be a splitting field for \( X^7 - 1 \); we can take \( K = \mathbb F_8 \).
+    Let \( \beta \in K \) be a root of \( g \).
+    Note that \( \beta^3 = \beta + 1 \), so \( \beta^6 = \beta^2 + 1 \), so \( g(\beta^2) = 0 \), and hence \( g(\beta^4) = 0 \).
+    So the BCH code defined by \( \qty{\beta, \beta^2} \) has generator polynomial \( g(X) \), again proving that this is Hamming's \( (7,4) \)-code.
+    This code has design distance \( 3 \), so \( d(C) \geq 3 \), and we know Hamming's code has minimum distance exactly 3.
+\end{example}
+
+\subsection{Shift registers}
+\begin{definition}
+    A \emph{(general) feedback shift register} is a map \( f \colon \mathbb F_2^d \to \mathbb F_2^d \) given by
+    \[ f(x_0, \dots, x_{d-1}) = (x_1, \dots, x_{d-1}, C(x_0, \dots, x_{d-1})) \]
+    where \( C \colon \mathbb F_2^d \to \mathbb F_2 \).
+    We say that the register has length \( d \).
+    The \emph{stream} associated to an \emph{initial fill} \( (y_0, \dots, y_{d-1}) \) is the sequence \( y_0, \dots \) with \( y_n = C(y_{n-d}, \dots, y_{n-1}) \) for \( n \geq d \).
+\end{definition}
+\begin{definition}
+    The general feedback shift register \( f \colon \mathbb F_2^d \to \mathbb F_2^d \) is a \emph{linear feedback shift register} if \( C \) is linear, so
+    \[ C(x_0, \dots, x_{d-1}) = \sum_{i=0}^{d-1} a_i x_i \]
+    We usually set \( a_0 = 1 \).
+\end{definition}
+The stream produced by a linear feedback shift register is now given by the recurrence relation \( y_n = \sum_{i=0}^{d-1} a_i y_{n-d+i} \).
+We can define the auxiliary polynomial \( P(X) = X^d + a_{d-1} X^{d-1} + \dots + a_1 X + a_0 \).
+We sometimes write \( a_d = 1 \), so \( P(X) = \sum_{i=0}^d a_i X^i \).
+\begin{definition}
+    The \emph{feedback polynomial} is \( \check{P}(X) = a_0 X^d + \dots + a_{d-1} X + 1 = \sum_{i=0}^d a_{d-i} X^i \).
+    A sequence \( y_0, \dots \) of elements of \( \mathbb F_2 \) has \emph{generating function} \( \sum_{j=0}^\infty y_j X^j \in \mathbb F_2[\![X]\!] \).
+\end{definition}
+\begin{theorem}
+    The stream \( (y_n)_{n \in \mathbb N} \) comes from a linear feedback shift register with auxiliary polynomial \( P(X) \) if and only if its generating function is (formally) of the form \( \frac{A(X)}{\check{P}(X)} \) with \( A \in \mathbb F_2[X] \) such that \( \deg A < \deg \check{P} \).
+\end{theorem}
+Note that \( \check{P}(X) = X^{\deg P}P(X^{-1}) \).
+\begin{proof}
+    Let \( P(X) \) and \( \check{P}(X) \) be as above.
+    We require
+    \[ \qty(\sum_{j=0}^\infty y_j X^j) \qty(\sum_{i=0}^d a_{d-i} X^i) \]
+    to be a polynomial of degree strictly less than \( d \).
+    This holds if and only if the coefficient of \( X^n \) in \( G(X) \check{P}(X) \) is zero for all \( n \geq d \), which is \( \sum_{i=0}^d a_{d-i} y_{n-i} = 0 \).
+    This holds if and only if \( y_n = \sum_{i=0}^{d-1} a_i y_{n-d + i} \) for all \( n \geq d \).
+    This is precisely the form of a stream that arises from a linear feedback shift register with auxiliary polynomial \( P \).
+\end{proof}
+The problem of recovering the linear feedback shift register from its stream and the problem of decoding BCH codes both involve writing a power series as a quotient of polynomials.
+
+\subsection{The Berlekamp--Massey method}
+Let \( (x_n)_{n \in \mathbb N} \) be the output of a binary linear feedback shift register.
+We wish to find the unknown length \( d \) and values \( a_0, \dots, a_{d-1} \) such that \( x_n + \sum_{i=1}^d a_{d-1} x_{n-i} = 0 \) for all \( n \geq d \).
+We have
+\[ \underbrace{\begin{pmatrix}
+    x_d & x_{d-1} & \cdots & x_1 & x_0 \\
+    x_{d+1} & x_d & \cdots & x_2 & x_2 \\
+    \vdots & \vdots & \ddots & \vdots & \vdots \\
+    x_{2d} & x_{2d-1} & \cdots & x_{d+1} & x_d
+\end{pmatrix}}_{A_d} \begin{pmatrix}
+    a_d \\
+    a_{d-1} \\
+    \vdots \\
+    a_1 \\
+    a_0
+\end{pmatrix} = 0 \]
+We look successively at \( A_0 = \begin{pmatrix}
+    x_0
+\end{pmatrix}, A_1 = \begin{pmatrix}
+    x_1 & x_0 \\
+    x_2 & x_1
+\end{pmatrix}, \dots \), starting at \( A_r \) if we know \( d \geq r \).
+For each \( A_i \), we compute its determinant.
+If \( \abs{A_i} \neq 0 \), then \( d \neq i \).
+If \( \abs{A_i} = 0 \), we solve the system of linear equations on the assumption that \( d = i \), giving a candidate for the coefficients \( a_0, \dots, a_{d-1} \).
+This candidate can be checked over as many terms of the stream as desired.

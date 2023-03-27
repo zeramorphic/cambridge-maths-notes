@@ -1,0 +1,679 @@
+\subsection{Classical computation}
+A \emph{computational task} takes an input bit string and produces an output bit string.
+
+A decision problem is a computational task that produces an output of length 1.
+Let \( B = B_1 = \qty{0,1} \) and denote \( B_n = \qty{0,1}^n \).
+Define \( B^\star = \bigcup_{n \geq 1} B_n \).
+A \emph{language} is a subset \( L \subseteq B^\star \).
+A decision problem corresponds to the problem of checking whether a word \( w \in B^\star \) lies in a language \( L \).
+For example, the set of primes, expressed in binary, forms a language \( P \subseteq B^\star \), and there is a corresponding decision problem to check if a given binary string represents a prime.
+
+More generally, the output of a computational task can be of any length.
+For example, the task \( \mathsf{FACTOR}(x) \) takes the input \( x \) and produces a bit string containing a factor of \( x \), or 1 if \( x \) is prime.
+
+There are various models of computation, but we restrict to the \emph{circuit} model or \emph{gate array} model.
+In this model, we have an input \( x = b_1 \dots b_n \in B_n \), and extend it with some trailing zeroes to add scratch space to perform computations.
+We then perform a computational step, an application of designated Boolean gates \( f \colon B_n \to B_m \) on preassigned bits.
+For each \( n \), we have a circuit \( C_n \), which is a prescribed sequence of computational steps that performs a given task for all inputs of size \( n \).
+The output to the computation is a designated subsequence of the extended bit string.
+
+Suppose that, in addition to extending the input bit string with zeroes, we also add \( k \) random bits, which have values set to 0 or 1 uniformly at random.
+The output of the computation will now be probabilistic.
+The probability that the output is \( y \) is \( a2^{-k} \), where \( a \) is the number of bit strings \( r \) that produce the desired outcome.
+We typically require that the output is correct with some prescribed probability.
+
+\subsection{Classical complexity}
+The \emph{time complexity} is a measure of the amount of computational steps required for a particular algorithm for an input of size \( n \).
+In the circuit model, we define \( T(n) \) to be the total number of gates in the circuit \( C_n \), known as the \emph{size} of the circuit or \emph{runtime} of the algorithm.
+
+For a positive function \( T(n) \), we write \( T(n) = O(f(n)) \) if there exist positive constants \( c, n_0 \) such that for all \( n > n_0 \), we have \( T(n) \leq cf(n) \).
+If \( T(n) = O(n^k) \) for some \( k > 0 \), we say that \( T(n) \) is \( O(\mathrm{poly}(n)) \), and the corresponding algorithm is a \emph{poly-time} algorithm.
+The class of languages for which the membership problem has a classical poly-time algorithm is called \( \mathsf{P} \).
+The class of languages for which the membership problem has a randomised classical poly-time algorithm that gives the correct answer with probability at least \( \frac{2}{3} \) is called \( \mathsf{BPP} \), short for \emph{bounded-error probabilistic poly-time}.
+The problem \( \mathsf{FACTOR}(M,N) \) which determined if there is a nontrivial factor of \( N \) that is at most \( M \) does not lie in \( \mathsf{BPP} \).
+The best known runtime is \( T(n) = O\qty(n^{\frac{1}{3}}\qty(\log n)^\frac{2}{3}) \).
+
+A black box promise problem is a computational task where the input is a \emph{black box} or \emph{oracle} which can compute a Boolean function \( f \colon B_m \to B_n \), and there is an \emph{a priori promise} on \( f \) restricting the possible values of \( f \).
+For example, the black box promise problem for constant vs.\ balanced functions takes a function \( f \colon B_n \to B \) such that \( f \) is constant or \emph{balanced}, in which case \( f \) is equal to zero for exactly half of the \( 2^n \) possible inputs.
+
+The corresponding complexity is called \emph{query complexity}, which counts the amount of times we need to query the black box.
+We typically wish to minimise the query complexity.
+
+\subsection{Quantum circuits}
+In a quantum circuit, we have qubit inputs \( \ket{b_1} \dots \ket{b_n} \ket{0} \dots \ket{0} \) analogously to the classical case.
+The input size \( n \) is the number of qubits.
+The addition of randomness to classical computation needs no analogue in the quantum case, since randomness is obtained by measurement.
+For instance, if we have a qubit \( \ket{0} \), we can generate a uniform Bernoulli random variable by sending the qubit through a Hadamard gate and then measuring in the computational basis.
+
+The computational steps are gates or unitary operators, which act on a prescribed set of qubits, which constitute a quantum circuit \( C_n \).
+The output is obtained by performing a measurement on a prescribed set of qubits.
+One can show that any circuit involving arbitrarily many measurements is equivalent to a circuit that only performs a single measurement at the end of the computation.
+
+\subsection{Quantum oracles}
+Note that all quantum gates are invertible, as they are represented with unitary operators, but not all classical gates are invertible.
+Any \( f \colon B_m \to B_n \) can be expressed in an equivalent invertible form \( \widetilde f \colon B_{m+n} \to B_{m+n} \) by defining \( \widetilde f(b,c) = (b, c \oplus f(b)) \).
+If we can compute \( f \) we can also compute \( \widetilde f \), and conversely given \( \widetilde f \) we can find \( f(b) = \widetilde f(b.0) \).
+This is self-inverse.
+\[ \widetilde f(\widetilde f(b,c)) = \widetilde f(b, c \oplus f(b)) = (b, c \oplus f(b) \oplus f(b)) = (b, c) \]
+A quantum oracle for a function \( f \colon B_m \to B_n \) is the quantum gate \( U_f \) acting on \( m + n \) qubits such that \( U_f \ket{x} \ket{y} = \ket{x} \ket{y \oplus f(x)} \) for \( \ket{x}, \ket{y} \) states in the computational basis.
+In other words, its action on the computational basis is \( \widetilde f \).
+We say that \( \ket{x} \) is the \emph{input register} and \( \ket{y} \) is the \emph{output register}.
+
+One can show that \( U_f \) is always a unitary operator.
+We can show this directly by considering \( U_f \ket{x'}\ket{y'} = \ket{x'}\ket{y' \oplus f(x')} \), and we can take the inner product with \( U_f \ket{x} \ket{y} = \ket{x} \ket{y \oplus f(x)} \).
+An easier way to show this is to consider \( \widetilde f \colon B_k \to B_k \) as a permutation on \( B_k \) where \( m + n = k \).
+We can write \( U_f \ket{x} \ket{y} = U_f \ket{i_1 \dots i_k} = \ket{\widetilde f(i_1 \dots i_k)} \).
+Since \( \widetilde f \) is a permutation, \( U_f \) is therefore represented by a permutation matrix, which has a single 1 in each row and column.
+All permutation matrices are unitary.
+
+In contrast to a classical oracle, a quantum oracle can act on a superposition of input registers.
+Let \( f \colon B_m \to B_n \), and consider the \emph{equal superposition} state \( \ket{\varphi_m} = \frac{1}{\sqrt{2^m}} \sum_{x \in B_m} \ket{x} \).
+We can find
+\[ U_f \ket{\varphi_m} \ket{y} = U_f \qty( \frac{1}{\sqrt{2^m}} \sum_{x \in B_m} \ket{x}) \ket{y} = \frac{1}{\sqrt{2^m}} \sum_{x \in B_m} U_f \ket{x} \ket{y} = \ket{\psi_f} \]
+In a single use of the oracle, we obtain a final state which depends on the value of \( f \) corresponding to all possible inputs.
+One can easily create such an equal superposition state \( \ket{\varphi_m} \) by sending the \( m \)-qubit state \( \ket{0} \dots \ket{0} \) through \( m \) Hadamard gates \( H \otimes \dots \otimes H \).
+We have \( \qty(H \ket{0})^{\otimes m} = \qty(\ket{+})^{\otimes m} = \ket{\varphi_m} \).
+This creates a superposition of exponentially many terms using a linear amount of Hadamard gates.
+
+\subsection{Deutsch--Jozsa algorithm}
+Consider the black box problem for balanced vs.\ constant functions.
+Classically, one needs \( 2^{n-1} + 1 \) queries to solve the problem in the worst case.
+This amount of queries is clearly sufficient; even if \( f \) is balanced, the first \( 2^{n-1} \) queries could have equal outcomes, but the subsequent query must have a different outcome.
+Suppose that there exists an algorithm that can solve the problem in \( 2^{n-1} \) queries.
+An adversary that controls the oracle can respond with 0 for every query, and subsequently chooses a function \( f \) that agrees with the earlier query results but is balanced or constant as required to cause the algorithm to produce an error.
+Therefore, classically we require a query complexity of \( O(\exp(n)) \).
+
+Suppose we have a quantum oracle \( U_f \) with \( U_f \ket{x} \ket{y} = \ket{x} \ket{y \oplus f(x)} \), where \( \ket{x} \) is an \( n \)-qubit state and \( \ket{y} \) is a 1-qubit state.
+Set each qubit to state \( \ket{0} \), then act by \( H^{\otimes n} \otimes (H \cdot X) \) on \( \ket{x} \ket{y} \).
+We then obtain the state \( \ket{A} = \frac{1}{\sqrt{2^n}} \sum_{x \in B_n} \ket{x} \ket{-} \).
+Send this state through the oracle to obtain \( U_f \ket{A} = \frac{1}{\sqrt{2^n}} U_f \sum_{x \in B_n} \ket{x} \ket{-} \).
+Note that
+\begin{align*}
+    U_f \ket{x} \ket{-} &= \frac{1}{\sqrt{2}} U_f \qty(\ket{x}\ket{0} - \ket{x}\ket{1}) \\
+    &= \frac{1}{\sqrt{2}} \qty(\ket{x}\ket{f(x)} - \ket{x}\ket{f(x)^c}) \\
+    &= \begin{cases}
+        \frac{1}{\sqrt{2}}\ket{x}(\ket{0} - \ket{1}) = \ket{x}\ket{-} & \text{if } f(x) = 0 \\
+        \frac{1}{\sqrt{2}}\ket{x}(\ket{1} - \ket{0}) = -\ket{x}\ket{-} & \text{if } f(x) = 1
+    \end{cases} \\
+    &= (-1)^{f(x)} \ket{x}\ket{-}
+\end{align*}
+The method of encoding all information into a phase is called \emph{phase kickback}.
+Hence,
+\[ U_f \ket{A} = \frac{1}{\sqrt{2^n}} U_f \sum_{x \in B_n} \ket{x} \ket{-} = \frac{1}{\sqrt{2^n}} \qty(\sum_{x \in B_n} (-1)^{f(x)} \ket{x}) \ket{-} \]
+We can then easily discard the last qubit, as it is now in a product state.
+We obtain
+\[ \ket{f} = \frac{1}{\sqrt{2^n}} \sum_{x \in B_n} (-1)^{f(x)} \ket{x} \]
+If \( f \) is constant,
+\[ \ket{f} = \pm \frac{1}{\sqrt{2^n}} \sum_{x \in B_n} \ket{x} = \pm \qty(H \ket{0})^{\otimes n} \]
+If we apply \( H^{\otimes n} \) to \( \ket{f} \), we obtain \( \pm \ket{0}^{\otimes n} \).
+If \( f \) is balanced, writing \( \ket{\varphi_n} = \frac{1}{\sqrt{2^n}} \sum_{y \in B_n} \ket{y} \),
+\[ \ip{f}{\varphi_n} = \frac{1}{2^n} \sum_{x, y \in B_n} (-1)^{f(x)} \ip{y}{x} = \frac{1}{2^n} \sum_{x \in B_n} (-1)^{f(x)} = 0 \]
+In this case, \( \ket{f} \) is orthogonal to \( \ket{\varphi_n} \).
+Applying \( H^{\otimes n} \) to \( \ket{f} \), \( H^{\otimes n} \ket{f} \) is orthogonal to \( H^{\otimes n} \ket{\varphi_n} = \ket{0}^{\otimes n} \).
+
+After obtaining \( \ket{f} \), we apply \( H^{\otimes n} \) and measure in the computational basis.
+If \( f \) is constant, we measure \( 0\dots 0 \) with probability 1, and if \( f \) is balanced, we measure \( 0\dots 0 \) with probability 0.
+This allows us to infer whether \( f \) is constant or balanced with probability 1.
+\begin{center}
+    \leavevmode
+    \Qcircuit{
+        \lstick{\ket{0}_1} & \qw & \gate{H} \qw & \multigate{4}{U_f} & \gate{H} & \meter \qw & \rstick{x_1} \cw \\
+        \lstick{\ket{0}_2} & \qw & \gate{H} \qw & \ghost{U_f} & \gate{H} & \meter \qw & \rstick{x_2} \cw \\
+        \vdots & & & & & & \vdots \\
+        \lstick{\ket{0}_n} & \qw & \gate{H} \qw & \ghost{U_f} & \gate{H} & \meter \qw & \rstick{x_n} \cw \\
+        \lstick{\ket{0}} & \gate{X} \qw & \gate{H} \qw & \ghost{U_f} & \rstick{\text{discard}} \qw
+    }
+\end{center}
+For this algorithm, we use one query and \( 3n+2 \) further operations.
+
+Suppose we permit a probability \( \varepsilon > 0 \) of error.
+In the quantum case, we only need one query.
+In the classical case, there is a randomised algorithm which solves the problem with a constant number \( O\qty(\log \frac{1}{\varepsilon}) \) of queries for all \( n \).
+Choose \( k \) inputs each chosen uniformly at random, and evaluate \( f(x) \) for each \( x \) in this set.
+If \( f(x) \) is constant for all of these \( k \) inputs, we infer \( f \) is constant; otherwise we infer it is balanced.
+An error can only occur when the function is balanced but we infer it is constant.
+The probability of error is \( \frac{2}{2^k} = 2^{-k+1} \).
+Hence, we can take \( \varepsilon < 2^{-k+1} \), so \( k = O\qty(\log \frac{1}{\varepsilon}) \).
+
+\subsection{Simon's algorithm}
+Consider a function \( f \colon B_n \to B_n \) with the promise that either \( f \) is injective, or \( f(x) = f(y) \) if and only if \( y = x \) or \( y = x \oplus \xi \) for a fixed \( 0 \neq \xi \in B_n \).
+The problem is to determine with bounded error whether \( f \) is in the 1-1 form or the 2-1 form, and in the latter case, to find the constant \( \xi \).
+Note that \( f(x \oplus \xi) = f(x) \) is the statement that \( f \) has period \( \xi \).
+
+Classically, the query complexity is \( O(\exp(n)) \).
+In order to solve the problem, we need to find two distinct \( x, y \) inputs for which \( f(x) = f(y) \), or show that this is not possible.
+However, there is a quantum algorithm with query complexity \( O(n) \).
+
+\subsection{Quantum Fourier transform}
+Let \( \mathcal V_N \) be a state space, and \( \mathcal B_N = \qty{\ket{0}, \ket{1}, \dots, \ket{N-1}} \) be an orthonormal basis for \( \mathcal V_N \).
+Write \( \mathbb Z_N \) for integers modulo \( N \), and let \( \omega = e^{\frac{2\pi i}{N}} \).
+For \( \ket{k} \in \mathcal B_N \), we define
+\[ QFT_N\ket{k} = \frac{1}{\sqrt{N}} \sum_{\ell=0}^{N-1} e^{\frac{2\pi i}{N}k\ell} \ket{\ell} = \frac{1}{\sqrt{N}} \sum_{\ell=0}^{N-1} \omega^{k\ell} \ket{\ell} \]
+The quantum Fourier transform can be viewed as a generalisation of the Hadamard operator, as \( QFT_2 = H \).
+
+We show that this is a unitary operator.
+\[ (QFT)_{jk} = \bra{j}QFT\ket{k} = \frac{1}{\sqrt{N}} \sum_{\ell=0}^{N-1} \omega^{k\ell} \ip{j}{\ell} = \frac{1}{\sqrt{N}} \omega^{jk} \]
+\[ QFT = \frac{1}{\sqrt{N}} \begin{pmatrix}
+    1 & 1 & 1 & 1 & \cdots \\
+    1 & \omega & \omega^2 & \omega^3 & \cdots \\
+    1 & \omega^2 & \omega^4 & \omega^6 & \cdots \\
+    1 & \omega^3 & \omega^6 & \omega^9 & \cdots \\
+    \vdots & \vdots & \vdots & \vdots & \ddots
+\end{pmatrix} \]
+Let \( S_j \) be the sum of the \( j \)th row or column.
+If \( j = 0 \), \( S_j = \frac{1}{\sqrt{N}} N \).
+Otherwise,
+\[ S_j = \frac{1}{\sqrt{N}} (1 + \omega^j + \dots + \omega^{j(N-1)}) = \frac{1}{\sqrt{N}} \cdot \frac{1 - \omega^{jN}}{1 - \omega^j} = 0 \]
+We can use this to prove that \( (QFT^\dagger QFT)_{jk} = \delta_{jk} \), so it is a unitary operator.
+
+Suppose we have a periodic function \( f \colon \mathbb Z_N \to Y \), where typically \( Y = \mathbb Z_M \) for some \( M \).
+Let \( r \) be the smallest integer in \( \mathbb Z_N \) for which \( f(x+r) = f(x) \) for all \( x \in \mathbb Z_N \), so \( f \) is periodic with period \( r \).
+Suppose further that \( f \) is injective in each period.
+We wish to find \( r \) with a particular probability of error.
+
+There is a classical algorithm with query complexity \( O(\sqrt{N}) = O\qty(2^{\log N^{\frac{1}{2}}}) = O\qty(2^{\frac{1}{2} \log N}) \).
+In the quantum case, for any error probability \( \varepsilon \in (0,1) \), there is an algorithm with query complexity \( O(\log \log N) \), which provides an exponential speed increase.
+
+We first describe an attempt to construct such an algorithm without using the quantum Fourier transform.
+Begin with the uniform superposition state \( \ket{\psi_N} = \frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} \ket{x} \).
+Consider the quantum oracle \( U_f \) corresponding to \( f \colon \mathbb Z_N \to \mathbb Z_M \), defined by \( U_f \ket{x} \ket{y} = \ket{x} \ket{y + f(x)} \), where addition is performed modulo \( M \).
+Set the output register \( \ket{y} \) to \( \ket{0} \), and then compute \( \ket{f} = U_f \ket{\psi_N} \ket{0} \).
+We obtain
+\[ \ket{f} = U_f \ket{\psi_N} \ket{0} = \frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} U_f \ket{x} \ket{0} = \frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} \ket{x} \ket{f(x)} \]
+Since \( r \) is the period, we have \( r \mid N \), so let \( A = \frac{N}{r} \in \mathbb N \) be the number of periods.
+We now measure the second register, giving an outcome \( y = f(x_0) \) for some \( x_0 \in \qty{0, \dots, r-1} \).
+Note that \( y = f(x_0 + jr) \) for any \( j \in \qty{0, \dots, A-1} \).
+The terms in \( \ket{f} \) which contribute to the outcome \( y = f(x_0) \) are
+\[ \frac{1}{\sqrt{N}} \sum_{j=0}^{A-1} \ket{x_0 + jr} \ket{f(x_0)} \]
+Hence, the probability of obtaining a particular outcome \( f(x_0) \) is \( \frac{A}{N} = \frac{1}{r} \).
+The post-measurement state of the input register is
+\[ \ket{\text{per}} = \frac{1}{\sqrt{A}} \sum_{j=0}^{A-1} \ket{x_0 + jr} \]
+The state \( \ket{\text{per}} \) is periodic.
+If we measure the input register, we obtain \( \ket{x_0 + j_0 r} \) for some \( j_0 \in \qty{0, \dots, A-1} \), selected uniformly at random.
+The probability that the outcome of this second measurement is \( x_0 + j_0 r \) is \( \frac{1}{A} \).
+Therefore, no information about \( r \) is obtained.
+
+We resolve this issue by utilising the quantum Fourier transform.
+Instead of measuring the input register, we act on \( \ket{\text{per}} \) by \( QFT_N \).
+Since
+\[ QFT_N\ket{x} = \frac{1}{\sqrt{N}}\sum_{y=0}^{N-1}\omega^{xy} \ket{y} \]
+we find
+\begin{align*}
+    QFT_N \ket{\text{per}} &= \frac{1}{\sqrt{A}}\sum_{y=0}^{N-1} QFT_N \ket{x_0 + jr} \\
+    &= \frac{1}{\sqrt{A}} \frac{1}{\sqrt{N}} \sum_{j=0}^{A-1} \sum_{y=0}^{N-1} \omega^{(x_0 + jr)y} \ket{y} \\
+    &= \frac{1}{\sqrt{NA}} \sum_{y=0}^{N-1} \omega^{x_0 y} \underbrace{\qty[\sum_{j=0}^{A-1} \qty(\omega^{ry})^j]}_S \ket{y}
+\end{align*}
+Note that
+\[ S = \begin{cases}
+    A & \text{if } \omega^{ry} = 1 \\
+    \frac{1 - \omega^{ryA}}{1 - \omega^{ry}} = 0 & \text{otherwise}
+\end{cases} \]
+Note that \( \omega^{ry} = 1 \) if \( y = kA = \frac{kN}{r} \) for \( k \in \qty{0, \dots, r - 1} \).
+Hence, we obtain
+\[ QFT_N \ket{\text{per}} = \frac{A}{\sqrt{NA}} \sum_{k=0}^{r-1} \omega^{x_0 \frac{kN}{r}} \ket{\frac{kN}{r}} = \frac{1}{\sqrt{r}} \sum_{k=0}^{r-1} \omega^{x_0 \frac{kN}{r}} \ket{\frac{kN}{r}} \]
+The value of \( x_0 \) is no longer present in a ket, and has been converted into phase information.
+It therefore does not affect measurement outcomes.
+The periodicity in \( r \) has been inverted into periodicity in \( \frac{1}{r} \).
+The resulting state is still periodic, but each period begins at 0 instead of \( x_0 \).
+
+Now, when measuring this register, the outcome is \( c = \frac{k_0N}{r} \) for some \( k_0 \in \qty{0, \dots, r-1} \).
+Each outcome occurs with probability \( r \).
+Note that \( \frac{k_0}{r} = \frac{c}{N} \), and \( \frac{c}{N} \) is known after performing the measurement; we wish to know the value of \( r \).
+
+Suppose first that \( k_0 \) is coprime to \( r \).
+In this case, we can cancel \( \frac{c}{N} \) to its lowest form, then the denominator is \( r \).
+If \( k_0 \) is not coprime to \( r \), the denominator \( \widetilde r \) will instead be a factor of \( r \).
+To solve this, we can compute the reduced denominator and then evaluate \( f(0), f(\widetilde r) \); if they are equal, \( \widetilde r = r \), and otherwise, \( \widetilde r \mid r \).
+We would like to know the probability that a randomly chosen \( k_0 \) is coprime to the true periodicity \( r \).
+\begin{theorem}[coprimality theorem]
+    Let \( \varphi(r) \) denote the number of integers less than \( r \) that are coprime to \( r \).
+    Then there exist \( c > 0, r_0 > 0 \) such that for all \( r \geq r_0 \), \( \varphi(r) \geq c \frac{r}{\log \log r} \).
+    In particular, \( \varphi(r) = \Omega\qty(\frac{r}{\log \log r}) \).
+\end{theorem}
+This theorem implies that since \( k_0 \) is chosen uniformly at random, the probability that \( k_0 \) is coprime to \( r \) is \( O\qty(\frac{1}{\log \log r}) \).
+We claim that if we repeat this process \( O(\log \log r) \) times, we will obtain an outcome \( c \) such that after cancellation, \( \frac{c}{N} = \frac{k_0}{r} \) where \( k_0 \) is coprime to \( r \) in at least one case, with a constant probability.
+This claim follows from the following lemma.
+\begin{lemma}
+    Suppose that a single trial has success probability \( p \), and the trial is repeated \( M \) times independently, for any \( \varepsilon \in (0,1) \), the probability of at least one success is greater than \( 1 - \varepsilon \) if \( M = \frac{-\log \varepsilon}{p} \).
+\end{lemma}
+Therefore, to achieve a constant probability \( 1 - \varepsilon \) of success, we need \( O\qty(\frac{1}{p}) \) trials.
+In the algorithm above, \( p = O\qty(\frac{1}{\log \log r}) \), so we need \( O(p) = O(\log \log r) < O(\log \log N) \) trials to achieve the desired result.
+
+In each invocation of the algorithm, we query \( f \) three times: once to construct the state \( \ket{f} \), and twice to check if \( \widetilde r \) is the true periodicity.
+We also need to apply the quantum Fourier transform \( QFT_N \), which has implementations in \( O((\log N)^2) \) steps.
+We must also perform standard arithmetic operations such as to cancel denominators, which are computable in \( O(\mathrm{poly}(\log N)) \) steps.
+Therefore, we succeed in determining the period with any constant probability of success \( 1 - \varepsilon \) with \( O(\log \log N) \) queries and \( O(\mathrm{poly}(\log N)) \) additional steps.
+
+\subsection{Efficient implementation of quantum Fourier transform}
+We can implement a quantum Fourier transform using \( O(\mathrm{poly}(\log N)) \) gates if \( N = 2^n \).
+In this case, \( QFT_N \) acts on \( n \) qubits.
+If \( N \neq 2^n \), we do not have an efficient implementation; in this case, we approximate \( N \) by \( 2^k \) for some \( k \in \mathbb Z \).
+In the case \( N = 2^n \), we demonstrate a quantum circuit of size \( O(n^2) \).
+
+If \( x \in \mathbb Z_n = \qty{0, \dots, 2^n - 1} \), note that
+\[ QFT_N \ket{x} = \frac{1}{\sqrt{N}} \sum_{y=0}^{N-1} \omega^{xy} \ket{y} \]
+We can represent \( x \) and \( y \) by \( n \)-bit strings.
+\[ x = (x_0, x_1, \dots, x_{n-1});\quad x = \sum_{i=0}^{n-1} 2^i x_i \]
+Now, \( \omega^{xy} = \exp\qty[\frac{2\pi i}{2^n} xy] \).
+\[ \frac{xy}{2^n} = \frac{1}{2^n} \qty[(x_0 + 2x_1 + \dots + 2^{n-1} x_{n-1})(y_0 + 2y_1 + \dots + 2^{n-1} y_{n-1})] \]
+Retaining only the fractional terms of \( \frac{xy}{2^n} \), as integral parts do not contribute to the final result, we obtain
+\[ y_{n-1}(.x_0) + y_{n-2}(.x_1 x_0) + \dots + y_0(.x_{n-1} \dots x_0) \]
+where for instance \( .x_1 x_0 = \frac{x_1}{2} + \frac{x_0}{2^2} \).
+Hence,
+\begin{align*}
+    QFT \ket{x} &= \frac{1}{\sqrt{2^n}} \sum_{y_0, \dots, y_{n-1} \in \qty{0,1}} \exp\qty[\frac{2\pi i xy}{2^n}] \ket{y_{n-1}} \dots \ket{y_0} \\
+    &= \qty(\frac{1}{\sqrt{2}} \sum_{y_{n-1} \in \qty{0,1}} \exp\qty[2 \pi i y_{n-1} (.x_0)] \ket{y_{n-1}}) \cdots \qty(\frac{1}{\sqrt{2}} \sum_{y_0 \in \qty{0,1}} \exp\qty[2 \pi i y_0 (.x_{n-1}\dots x_0)] \ket{y_0}) \\
+    &= \frac{1}{\sqrt{2}} \qty(\ket{0} + e^{2\pi i (.x_0)} \ket{1}) \dots \frac{1}{\sqrt{2}} \qty(\ket{0} + e^{2\pi i (.x_{n-1} \dots x_0)} \ket{1})
+\end{align*}
+To implement the quantum Fourier transform, we will use the Hadamard gate, the 1-qubit phase gate, and the 2-qubit controlled phase gate.
+Note that we can write
+\[ H\ket{x} = \frac{1}{\sqrt{2}} \qty[\ket{0} + e^{2\pi i(.x)} \ket{1}] \]
+For any \( d \in \mathbb Z_+ \), the phase gate is given by
+\[ R_d = \begin{pmatrix}
+    1 & 0 \\
+    0 & \exp[\frac{i\pi}{2^d}]
+\end{pmatrix} = \begin{pmatrix}
+    1 & 0 \\
+    0 & \exp[2\pi i(.\underbrace{0\dots 0}_{\mathclap{d \text{ zeroes}}}1)]
+\end{pmatrix} \]
+Note that \( R_d \ket{0} = \ket{0} \) and \( R_d \ket{1} = e^{2\pi i(.0\dots 01)} \ket{1} \).
+In the case \( d = 1 \), we obtain \( R_1 \ket{1} = e^{2 \pi i(.01)} \ket{1} = i \ket{1} \).
+The two-qubit controlled phase gate, denoted \( CR_d \), is drawn
+\begin{center}
+    \leavevmode
+    \Qcircuit{
+        \lstick{\ket{\psi}} & \gate{R_d} & \qw \\
+        \lstick{\ket{\varphi}} & \ctrl{-1} & \qw
+    }
+\end{center}
+If \( \ket{\varphi} = \ket{0} \), \( CR_d\ket{0}\ket{\psi} = \ket{0}\ket{\psi} \).
+If \( \ket{\varphi} = \ket{1} \), \( CR_d\ket{1}\ket{\psi} = \ket{1}R_d\ket{\psi} \).
+We will now describe the quantum circuit for \( QFT_8 \), so \( N = 8 \) and \( n = 3 \).
+\begin{center}
+    \leavevmode
+    \Qcircuit{
+        \lstick{\ket{x_2}} & \gate{H} & \gate{R_1} & \gate{R_2} & \qw & \qw & \qw & \rstick{\ket{y_0}} \qw \\
+        \lstick{\ket{x_1}} & \qw & \ctrl{-1} & \qw & \gate{H} & \gate{R_1} & \qw & \rstick{\ket{y_1}} \qw \\
+        \lstick{\ket{x_0}} & \qw & \qw & \ctrl{-2} & \qw & \ctrl{-1} & \gate{H} & \rstick{\ket{y_2}} \qw
+    }
+\end{center}
+Applying the given gates to \( \ket{x_2} \), we obtain
+\begin{align*}
+    \ket{x_2} &\xrightarrow{H} \frac{1}{\sqrt{2}}\qty[\ket{0} + e^{2\pi i (.x_2)} \ket{1}] \\
+    &\xrightarrow{R_1} \frac{1}{\sqrt{2}}\qty[\ket{0} + e^{2\pi i (.x_2)} e^{2\pi i(.0x_1)} \ket{1}] \\
+    &\xrightarrow{R_2} \frac{1}{\sqrt{2}}\qty[\ket{0} + e^{2\pi i(.x_2)} e^{2\pi i(.0x_1)} e^{2\pi i(.00x_0)} \ket{1}] \\
+    &= \frac{1}{\sqrt{2}}\qty[\ket{0} + e^{2\pi i(.x_2 x_1 x_0)} \ket{1}] = \ket{y_0}
+\end{align*}
+as required.
+Typically, after applying the above circuit, we will swap the states \( \ket{y_0}, ket{y_1}, \ket{y_2} \) to be in reverse order; this takes \( O(n) \) gates.
+
+In this implementation, we used 3 Hadamard gates, and \( 2 + 1 = 3 \) controlled phase gates.
+If \( N = 2^n \), we need \( n \) Hadamard gates and \( \frac{n(n-1)}{2} = O(n^2) \) controlled phase gates.
+
+\subsection{Grover's algorithm}
+Suppose we have a large unstructured database of \( N \) items, in which we aim to locate a particular `good' item.
+Suppose that given an item, we can easily check if it is the `good' item.
+We wish to construct an algorithm to locate this good item with success probability at least \( 1 - \varepsilon \).
+Each access to the database is called a query.
+
+In the classical case, we need \( O(N) \) queries: if we find a bad item, it gives us no information about the location of the good item.
+The probability that any item is good is \( \frac{1}{N} \).
+Given \( M \) queries, the probability of success is \( \frac{M}{N} \geq 1 - \varepsilon \), so \( M \geq (1-\varepsilon)N \) gives \( M = O(N) \).
+In the quantum case, \( O(\sqrt{N}) \) queries are necessary and sufficient.
+This is not an exponential speedup but a quadratic speedup.
+
+Let \( \mathcal V \) be a vector space, and let \( \ket{v} \in \mathcal V \).
+We define the rank 1 projection operator \( \Pi_{\ket{\alpha}} = \op{\alpha}{\alpha} \), and the reflection operator \( I_{\ket{\alpha}} = I - 2 \op{\alpha}{\alpha} \).
+Note that \( I_{\ket{\alpha}} \ket{\alpha} = - \ket{\alpha} \).
+Let \( \ket{\psi} \in \mathcal S_{\ket{v}}^\perp = \vecspan\qty{\ket{\beta} \in \mathcal V \mid \ip{\alpha}{\beta} = 0} \) .
+Then \( I_{\ket{\alpha}} \ket{\psi} = \ket{\psi} - \ket{\alpha}\ip{\alpha}{\psi} = \ket{\psi} \).
+
+For any unitary operator \( U \) acting on \( \mathcal V \), we have \( U \Pi_{\ket{\alpha}} U^\dagger = U \op{\alpha}{\alpha} U^\dagger = \Pi_{U\ket{\alpha}} \).
+Note also that \( U I_{\ket{\alpha}} U^\dagger = U(I - 2 \op{\alpha}{\alpha}) U^\dagger = I - 2 \op{U\alpha}{U\alpha} = I_{U\ket{\alpha}} \).
+
+If \( \mathcal V \in \mathbb C^2 \), for all \( \ket{\alpha} \in \mathcal V \), let \( \ket{\alpha^\perp} \) be orthogonal to \( \ket{\alpha} \).
+For all \( \ket{v} \in \mathcal V \), we can write \( \ket{v} = a \ket{\alpha} + b \ket{\alpha^\perp} \), so \( \Pi_{\ket{\alpha}} \ket{v} = a \ket{\alpha} \) and \( I_{\ket{\alpha}} \ket{v} = -a\ket{\alpha} + b \ket{\alpha^\perp} \).
+
+Let \( N = 2^n \), so we can label each item in the database with an \( n \)-bit binary string.
+We will convert the search problem into a black-box promise problem.
+The database corresponds to the Boolean function \( f \colon B_n \to B \) where \( f(x_0) = 1 \) for a particular \( x_0 \in B_n \), and \( f(x) = 0 \) otherwise.
+The corresponding quantum oracle is \( U_f \ket{x} \ket{y} = \ket{x} \ket{y \oplus f(x)} \), where \( \ket{x} \in (\mathbb C^2)^{\otimes n} \) and \( \ket{y} \in \mathbb C^2 \).
+The fact that the databse is unstructured corresponds to the fact that the quantum oracle \( U_f \) is a black box.
+We will actually use the operator \( I_{x_0} \).
+\[ I_{x_0} \ket{x} = \begin{cases}
+    +\ket{x} & \text{if } x \neq x_0 \\
+    -\ket{x} & \text{if } x = x_0
+\end{cases} \]
+If \( x_0 = 0\dots 0 \in B_n \), we define \( I_0 = I_{x_0} \).
+Note that \( I_{x_0} \) can be implemented using \( U_f \); indeed,
+\begin{align*}
+    U_f \ket{x} \ket{-} &= \frac{1}{\sqrt{2}} U_f \ket{x} \qty(\ket{0} - \ket{1}) \\
+    &= \frac{1}{\sqrt{2}}\qty(\ket{x} \ket{f(x)} - \ket{x} \ket{f(x)^c}) \\
+    &= \begin{cases}
+        \frac{1}{\sqrt{2}} \ket{x} \qty(\ket{0} - \ket{1}) & \text{if } x \neq x_0 \\
+        \frac{1}{\sqrt{2}} \ket{x} \qty(\ket{1} - \ket{0}) & \text{if } x = x_0
+    \end{cases} \\
+    &= \begin{cases}
+        +\ket{x}\ket{-} & \text{if } x \neq x_0 \\
+        -\ket{x}\ket{-} & \text{if } x = x_0
+    \end{cases}
+\end{align*}
+Hence, \( U_f \ket{x} \ket{-} = (I_{x_0} \ket{x})\ket{-} \).
+So if \( \ket{\psi} \in (\mathbb C^2)^{\otimes n} \), \( \ket{\psi} = a_0 \ket{x_0} + \sum_{x \neq x_0} a_x \ket{x} \) gives \( U_f \ket{\psi}\ket{-} = (I_{x_0} \ket{\psi}) \ket{-} = -a_0 \ket{x_0} + \sum_{x \neq x_0} a_x \ket{x} \).
+
+Given a black box which computes \( I_{x_0} \) for some \( x_0 \in B_n \), we wish to determine \( x_0 \) with the least amount of queries.
+We will now describe Grover's algorithm.
+We begin with the equal superposition state \( \ket{\psi_0} = \frac{1}{\sqrt{2^n}} \sum_{x \in B_n} \ket{x} \).
+Consider \emph{Grover's iteration operator} \( Q = -H_n I_0 H_n I_{x_0} \) where \( H_n = H^{\otimes n} \).
+Note that \( Q \) is real-valued, so acts geometrically on the real-valued vector \( \ket{\psi_0} \) in real Euclidean space.
+It has the following properties.
+\begin{enumerate}
+    \item In the plane \( \mathcal P(x_0) \) spanned by \( \ket{x_0} \) and \( \ket{\psi_0} \), \( Q \) acts as a rotation through an angle \( 2\alpha \) where \( \sin \alpha = \frac{1}{\sqrt{2^n}} \).
+    \item In the plane orthogonal to \( \mathcal P(x_0) \), \( Q \) acts as \( -I \).
+\end{enumerate}
+We repeatedly apply \( Q \) to \( \ket{\psi_0} \) to obtain the rotated vector \( \ket{\psi_0'}\), and then measure in the computational basis.
+\[ \ket{\psi_0'} = a_0 \ket{x_0} + \sum_{x_i \neq x_0} \sum a_i \ket{x_i} \]
+Hence, the probability that the outcome is \( x_0 \) is \( \abs{a_0}^2 = \abs{\ip{x_0}{\psi_0'}}^2 = \abs{\cos \delta}^2 \approx 1 \) where \( \delta \) is the angle between \( \ket{\psi_0'} \) and \( \ket{x_0} \).
+
+If \( n \) is large, \( \ket{\psi_0} \) is almost orthogonal to \( \ket{x_0} \), with \( \ip{x_0}{\psi_0} = \frac{1}{\sqrt{2^n}} = \cos \beta \).
+By property (i), \( Q \) acting on \( \ket{\psi_0} \) rotates the state by \( 2\alpha \), where \( \sin\alpha = \frac{1}{\sqrt{2^n}} \).
+Let \( m \) be the number of iterations needed to rotate \( \ket{\psi_0} \) close to \( \ket{x_0} \).
+Then
+\[ m = \frac{\beta}{2\alpha} = \frac{\arccos\qty(\frac{1}{\sqrt{2^n}})}{2\arcsin\qty(\frac{1}{\sqrt{2^n}})} \]
+Since \( \sin \alpha \approx \alpha \), this implies that \( 2\alpha \approx 2\sin\alpha = \frac{2}{\sqrt{2^n}} \).
+Then \( 2 \alpha m \approx \frac{\pi}{2} \), so \( m \approx \frac{\pi}{4\alpha} = \frac{\pi}{4} \sqrt{N} \).
+The number of iterations is independent of \( \ket{x_0} \); it depends only on \( n \).
+\begin{example}
+    Consider a database with four items, so \( n = 2, N = 4 \).
+    Here, \( \sin \alpha = \frac{1}{2} \), so \( \alpha = \frac{\pi}{6} \).
+    \( Q \) causes a rotation through \( 2\alpha = \frac{\pi}{3} \).
+    The initial state is \( \ket{\psi_0} = \ket{++} = \frac{1}{2}\qty(\ket{00} + \ket{01} + \ket{10} + \ket{11}) \).
+    For any \( x_0 \in B_2 \), we have \( \cos\beta = \ip{x_0}{\psi_0} = \frac{1}{2} \) so \( \beta = \frac{\pi}{3} \).
+    Therefore, we need precisely one iteration, which rotates \( \ket{\psi_0} \) to \( \ket{x_0} \) exactly.
+    Performing a measurement in the computational basis, we obtain \( x_0 \) with certainty.
+\end{example}
+We now prove the geometric properties of \( Q \).
+First, note that \( Q = -H_n I_0 H_n I_{x_0} = -I_{\ket{\psi_0}} I_{\ket{x_0}} \).
+If \( \ket{\alpha}, \ket{v} \in \mathcal V \) and \( \ket{v} \in \mathcal P(x_0) \), we have
+\begin{itemize}
+    \item \( I_{\ket{x_0}} \ket{v} = \ket{v} - 2\ip{x_0}{v} \ket{x_0} \);
+    \item \( I_{\ket{\psi_0}} \ket{v} = \ket{v} - 2\ip{\psi_0}{v} \ket{\psi_0} \).
+\end{itemize}
+These operators are reflections about lines perpendicular to \( \ket{x_0} \) and \( \ket{\psi_0} \) respectively.
+Thus, \( \mathcal P(x_0) \) is stable under the action of \( I_{\ket{x_0}} \) and \( I_{\ket{\psi_0}} \).
+
+Let \( M_1, M_2 \) be lines in the Euclidean plane, intersecting at \( O \).
+Let \( \theta \) be the angle between \( M_1 \) and \( M_2 \).
+Then, reflection about \( M_1 \) then \( M_2 \) acts as an anticlockwise rotation by \( 2\theta \) about \( O \).
+
+In our case, the angle between the lines perpendicular to \( \ket{x_0} \) and \( \ket{\psi_0} \) is \( \beta \).
+Therefore, \( I_{\ket{\psi_0}} I_{\ket{x_0}} \) is an anticlockwise rotation by an angle of \( 2\beta \).
+For any real unit vector \( v \in \mathbb R^2 \), we have \( -I_v = I_{v^\perp} \) where \( v_\perp \) is a unit vector orthogonal to \( v \).
+Hence, \( -I_{\ket{\psi_0}} I_{\ket{x_0}} = I_{\ket{\psi_0^\perp}} I_{\ket{x_0}} \), which is an anticlockwise rotation by an angle of \( 2\alpha \), as \( \alpha + \beta = \frac{\pi}{2} \).
+This proves property (i).
+
+Now consider \( \ket{\xi} \in \mathcal P(x_0)^\perp \) perpendicular to \( \ket{\psi_0} \) and to \( \ket{x_0} \).
+Clearly \( I_{\ket{x_0}} \ket{\xi} = \ket{\xi} \) and \( I_{\ket{\psi_0}} \ket{\xi} = \ket{\xi} \).
+So \( Q \ket{\xi} = -\ket{\xi} \), giving property (ii).
+
+Grover's algorithm achieves an unstructured search for a unique good item in approximately \( \frac{\pi}{4}\sqrt{N} \) queries, and there is no algorithm that has smaller asymptotic query complexity.
+Any quantum algorithm that achieves this search in an unstructured database of size \( N \) must use \( O(\sqrt{N}) \) queries.
+Moreover, it can be shown that \( \frac{\pi}{4} (1 - \varepsilon) \sqrt{N} \) queries are insufficient for each \( \varepsilon \), so Grover's algorithm is tight.
+
+\subsection{Grover's algorithm for multiple items}
+Consider the case where there are \( r \geq 1 \) good items, and \( r \) is known.
+Here, \( f(x_i) = 1 \) if \( i = 1, \dots, r \), and \( f(x) = 0 \) otherwise, where \( x_1, \dots, x_r \) are the binary labels for the good items.
+We want to find any of the good items.
+Then, define
+\[ I_G \ket{x} = I - 2\sum_{i=1}^r \op{x_i}{x_i} = \begin{cases}
+    +\ket{x} & x \not\in \qty{x_1, \dots, x_r} \\
+    -\ket{x} & x \in \qty{x_1, \dots, x_r}
+\end{cases} \]
+Note that \( I_G \) is not of the form \( I_{\ket{v}} \) for a single vector \( \ket{v} \).
+Now, define \( Q_G = -H_n I_0 H_n I_G = -I_{\ket{\psi_0}} I_G \).
+Let \( \ket{\psi_G} = \frac{1}{\sqrt{r}} \sum_{i=1}^r \ket{x_i} \) be an equal superposition of the good states, and \( \ket{\psi_B} = \frac{1}{\sqrt{N-r}} \sum_{i=r+1}^N \ket{x_i} \) be an equal superposition of the bad states.
+Note that \( \ip{\psi_G}{\psi_B} = 0 \).
+Begin with the equal superposition state.
+\[ \ket{\psi_0} = (H\ket{0})^{\otimes N} = \frac{\sqrt{r}}{\sqrt{N}} \ket{\psi_G} + \frac{\sqrt{N-r}}{\sqrt{N}} \ket{\psi_B} \]
+Consider the plane \( \mathcal P_G \) spanned by \( \ket{\psi_G} \) and \( \ket{\psi_0} \), which contains \( \ket{\psi_B} \).
+Let \( \alpha \) be the angle between \( \ket{\psi_G} \) and \( \ket{\psi_0^\perp} \).
+
+We show that in the plane \( \mathcal P_G \), \( Q_G \) acts as a rotation through an angle \( 2\alpha \) where \( \sin \alpha = \ip{\psi_0}{\psi_G} = \frac{\sqrt{r}}{\sqrt{N}} \).
+The states \( \ket{\psi_G}, \ket{\psi_B} \) form an orthonormal basis for \( \mathcal P_G \).
+We find \( I_G (a \ket{\psi_G} + b \ket{\psi_B}) = -a \ket{\psi_G} + b \ket{\psi_B} \); indeed, restricting to the plane \( \mathcal P_G \), the action of \( I_G \) is precisely the action of \( I_{\ket{\psi_G}} \).
+Hence, as before, \( Q_G \) causes the desired rotation through \( 2\alpha \) in this plane.
+The probability of finding a single good item is \( \abs{\ip{\psi}{\psi_G}}^2 \), as \( \ket{\psi} = a \ket{\psi_G} + b \ket{\psi_B} \).
+
+Suppose now that \( r \) is unknown.
+In this case, we start with \( \ket{\psi_0} \) and repeatedly apply \( Q \) to rotate \( \ket{\psi_0} \) to \( \ket{\psi_G} \) as before.
+However, we do not know how many iterations of \( Q \) to apply, since this depends on \( r \).
+
+If \( r \ll N \), we choose \( K \) uniformly at random in \( \qty(0, \frac{\pi}{4}\sqrt{N}) \), and apply \( K \) iterations of \( Q \).
+We measure the final state \( \ket{\psi^K} \) to obtain \( x \), and check if \( f(x) = 1 \) or not.
+Note that each iteration causes a rotation of \( 2\alpha \) where \( \sin \alpha = \frac{\sqrt{r}}{\sqrt{N}} \) so \( 2\alpha \approx 2\frac{\sqrt{r}}{\sqrt{N}} \).
+Choosing \( K \) therefore implicitly chooses a random angle in the range \( \qty(0, \frac{\pi}{2} \sqrt{r}) \).
+Now, if the final rotated state \( \ket{\psi} \) makes an angle within \( \pm \frac{\pi}{4} \) with \( \ket{\psi_0} \), the probability of locating a good item is \( \abs{\ip{\psi}{\psi_0}}^2 \geq \cos^2 \frac{\pi}{4} = \frac{1}{2} \).
+Since for every quadrant in the plane \( \mathcal P_G \), half of the angles are within \( \pm \frac{\pi}{4} \) from the \( y \)-axis, the randomised procedure using \( O(\sqrt{N}) \) queries will locate a good item with probability approximately \( \frac{1}{4} \).
+The procedure can then be repeated to reduce the error probability to an acceptable level.
+
+\subsection{\texorpdfstring{\( \mathsf{NP} \)}{NP} problems}
+A \emph{verifier} \( V \) for a language \( L \) is a computation with two inputs \( w, c \) such that
+\begin{enumerate}
+    \item if \( w \in L \), there exists a \emph{certificate of membership} \( c \) such that \( V(w,c) \) halts in an accepting state; and
+    \item if \( w \not\in L \), for any \( c \), \( V(w,c) \) halts in a rejecting state.
+\end{enumerate}
+\( V \) is a \emph{poly-time} verifier if for all inputs \( w, c \), the algorithm \( V \) runs in polynomial time in \( n \), where \( n \) is the size of the input \( w \).
+A problem in the \emph{non-deterministic polynomial-time} complexity class \( \mathsf{NP} \) is easy to verify, but hard to solve.
+More precisely, a language \( L \) is in \( \mathsf{NP} \) if it has a polynomial time verifier \( V \),
+
+Alternatively, consider a computer operating non-deterministically; at each binary choice, the computer duplicates itself and performs both branches in parallel.
+We require that all possible paths eventually halt with either an accepting or rejecting state.
+The running time of a given algorithm is the length of the longest path.
+The computation is defined to accept its input if at least one path accepts it, and rejects its input if all paths reject it.
+One can check that \( \mathsf{NP} \) is precisely the class of languages that are decided by a non-dererministic computation with polynomial running time.
+
+Let \( f \colon B_n \to B \) be a Boolean formula.
+The \emph{Boolean satisfiability problem} \( \mathsf{SAT} \) seeks an assignment of the variables \( x_1, \dots, x_n \) such that \( f(x_1, \dots, x_n) = 1 \)..
+Any such assignment is called a \emph{satisfying assignment}.
+This problem clearly lies in \( \mathsf{NP} \); if \( f \) is satisfiable, then \( c \) is any assignment for which \( V(f,c) = 1 \) where \( V(f,c) = f(c) \).
+Brute-force methods have \( O(2^n) \) runtime.
+
+Searching for arbitrarily many good items in an unstructured database corresponds to \( \mathsf{SAT} \).
+Assuming that there are few satisfying assignments, we can run the randomised Grover's algorithm to give a quantum algorithm for solving \( \mathsf{SAT} \) in \( O(\sqrt{2^n}) \) time with low probability of error.
+Any \( \mathsf{NP} \) problem can be converted into an application of \( \mathsf{SAT} \); we say \( \mathsf{SAT} \) is \emph{\( \mathsf{NP} \)-complete}.
+Grover's algorithm can hence be applied to any \( \mathsf{NP} \) problem to provide a quadratic speedup.
+
+\subsection{Shor's algorithm}
+Suppose \( N \) is a positive integer and \( n = \ceil{\log N} \) is the number of bits in a binary representation of \( N \).
+We wish to factorise \( N \).
+We will describe an algorithm which, given \( N \) and a fixed acceptable probability of error, outputs a factor \( 1 < k < N \), or outputs \( N \) if \( N \) is prime.
+This algorithm runs in polynomial time in \( n \); there is no classical algorithm with this property.
+
+We first use results from number theory to convert the problem into a periodicity determination problem.
+Then, we apply the quantum period-finding algorithm using the quantum Fourier transform.
+
+Choose an integer \( 1 < a < N \) uniformly at random, and compute \( b = \mathrm{gcd}(a,N) \).
+If \( b > 1 \), then \( b \mid N \) so is a factor; in this case we simply output \( b \).
+If \( b = 1 \), then \( a, N \) are coprime.
+\begin{theorem}[Euler's theorem]
+    Let \( a, N \) be coprime.
+    Then there exists \( 1 < r < N \) such that \( a^r \equiv 1 \) mod \( N \).
+    A minimal such \( r \) is called the \emph{order} of \( a \) modulo \( N \).
+\end{theorem}
+Consider the \emph{modular exponentiation function} \( f \colon \mathbb Z \to \faktor{\mathbb Z}{n\mathbb Z} \) such that \( f(k) = a^k \) mod \( N \).
+This function satisfies \( f(k_1 + k_2) = f(k_1)f(k_2) \).
+\( f \) is periodic with period \( r \), and is injective within each period.
+
+Suppose that we can find \( r \), and suppose \( r \) is even.
+Then \( a^r - 1 \equiv (a^{\frac{r}{2}}+1)(a^{\frac{r}{2}}-1) \equiv 0 \) mod \( N \).
+Note that \( N \nmid (a^{\frac{r}{2}}-1) \) since \( r \) was minimal such that \( a^{\frac{r}{2}} \equiv 1 \) mod \( N \).
+If \( N \nmid (a^{\frac{r}{2}}+1) \), then \( N \) must have some prime factors in \( (a^{\frac{r}{2}}+1) \) and some in \( (a^{\frac{r}{2}}-1) \).
+We can use Euclid's algorithm to compute \( \mathrm{gcd}(a^{\frac{r}{2}}+1, N) \) and \( \mathrm{gcd}(a^{\frac{r}{2}}-1, N) \), which are factors of \( N \).
+Thus, we find factors of \( N \) provided \( r \) is even and \( a^{\frac{r}{2}} + 1 \not\equiv 0 \) mod \( N \).
+
+Consider \( N = 15, a = 7 \).
+Then \( f(k) = 7^k \) mod \( 15 \) takes values \( 1, 7, 4, 13 \), so has period \( r = 4 \).
+This is even, so we can write \( a^r - 1 = (a^{\frac{r}{2}} + 1)(a^{\frac{r}{2}} - 1) = 50 \cdot 48 \).
+\( N = 15 \) does not divide \( 50 \), so \( \gcd(50, N) = 5 \) is a factor, and \( \gcd(48, 15) = 3 \) is a factor.
+\begin{theorem}
+    Let \( N \) be odd and not a prime power.
+    Then, choosing \( a \) uniformly at random such that \( \gcd(a,N) = 1 \), the probability that \( r \) is even and \( (a^{\frac{r}{2}} + 1) \not\equiv 0 \) mod \( N \) is at least \( \frac{1}{2} \).
+\end{theorem}
+This implies that if \( N \) is odd and not a prime power, we obtain a factor of \( N \) with probability at least \( \frac{1}{2} \).
+We repeat this process until the probability of not finding a factor is acceptably low.
+If \( N \) is even, we simply output 2 as a factor.
+\begin{lemma}
+    Let \( N = c^\ell \) for some \( c, \ell \in \mathbb N \).
+    There is a classical polynomial-time algorithm that computes \( c \).
+\end{lemma}
+% If the previous tests fail, we can run this classical algorithm to test if \( N \) is a prime power.
+Shor's algorithm can be summarised as follows.
+\begin{enumerate}
+    \item Test if \( N \) is even; if so, output 2 and halt.
+    \item Run the classical algorithm to test if \( N \) is of the form \( c^\ell \) with \( \ell > 1 \); if so, output \( c \) and halt.
+    \item Choose \( 1 < a < N \) uniformly at random and compute \( b = \gcd(a,N) \).
+    If \( b > 1 \), output \( b \) and halt.
+    \item Find the period \( r \) of the modular exponentiation function \( f(k) = a^k \) mod \( N \).
+    If this fails, return to step (iii).
+    \item If \( r \) is even and \( (a^{\frac{r}{2}} + 1) \equiv 0 \) mod \( N \), compute \( t = \gcd(a^{\frac{r}{2}} + 1, N) \); if \( 1 < t < N \), output \( t \) and halt.
+    Otherwise, return to step (iii).
+\end{enumerate}
+We now describe the method to compute the period of the modular exponentiation function.
+Note that \( f \colon \mathbb Z \to \mathbb Z \), not \( \mathbb Z_N \to \mathbb Z_M \); we therefore cannot directly use the algorithm discussed previously.
+We must first truncate the domain \( \mathbb Z \) to some \( \mathbb Z_M \).
+If \( r \) is unknown, \( f \) will not necessarily be periodic on \( \mathbb Z_M \).
+However, if \( M \) is \( O(N^2) \), the single incomplete period has a negligible effect on the periodicity determination.
+We will define \( M = 2^m \) for some \( m \) and use \( QFT_M \).
+
+Consider a finite domain \( D = \mathbb Z_m = \qty{0, \dots, 2^m - 1} \), where \( m \) is the smallest integer such that \( 2^m > N^2 \).
+Suppose \( 2^m = Br + b \) where \( 0 \leq b < r \), so \( B = \floor{\frac{2^m}{r}} \).
+We start with the equal superposition state \( \ket{\psi_m} = \frac{1}{\sqrt{2^m}} \sum_{x \in D} \ket{x} \).
+Consider the quantum oracle \( U_f \) corresponding to the modular exponentiation function \( f \).
+Then
+\begin{align*}
+    \ket{\Psi} &= U_f \ket{\psi_m} \ket{0} \\
+    &= \frac{1}{\sqrt{2^m}} \sum_{x \in D} \ket{x} \ket{f(x)} \\
+    &= \frac{1}{\sqrt{2^m}} \sum_{x_0 = 0}^{b-1} \sum_{j=0}^B \ket{x_0 + jr} \ket{f(x_0)} + \frac{1}{\sqrt{2^m}} \sum_{x_0 = b}^r \sum_{j=0}^{B-1} \ket{x_0 + jr}\ket{f(x_0)}
+\end{align*}
+Measuring the second register, we obtain an outcome \( y = f(x_0) \).
+In the case \( x_0 < b \), \( f(x_0) = f(x_0 + jr) \) for \( j \in \qty{0, \dots, B} \).
+If \( x_0 \geq b \), \( f(x_0) = f(x_0 + jr) \) for \( j \in \qty{0, \dots, B - 1} \).
+
+If \( y = f(x_0) \) for \( x_0 < b \), the probability of measuring \( y \) is \( \frac{B+1}{2^m} \).
+The post-measurement state of the first register is \( \ket{\mathrm{per}} = \frac{1}{\sqrt{B+1}} \sum_{j=0}^B \ket{x_0 + jr} \).
+In the case \( x_0 \geq b \), we have \( \ket{\mathrm{per}} = \frac{1}{\sqrt{B}} \sum_{j=0}^{B-1} \ket{x_0 + jr} \).
+In both cases,
+\[ \ket{\mathrm{per}} = \frac{1}{\sqrt{A}} \sum_{j=0}^{A-1} \ket{x_0 + jr} \]
+where \( A = B+1 \) if \( y = f(x_0) \) with \( x_0 < b \) and \( A = B \) if \( y = f(x_0) \) with \( x_0 \geq b \).
+We act on \( \ket{\mathrm{per}} \) by \( QFT_{2^m} \) to obtain
+\begin{align*}
+    QFT_{2^m} \ket{\mathrm{per}} &= \frac{1}{\sqrt{A}} \frac{1}{\sqrt{2^n}} \sum_{j = 0}^{A-1} \sum_{c=0}^{2^m - 1} \omega^{(x_0 + jr)c}\ket{c} \\
+    &=  \frac{1}{\sqrt{A}} \frac{1}{\sqrt{2^n}} \sum_{c=0}^{2^m - 1} \omega^{x_0 c} \underbrace{\qty[\sum_{j = 0}^{A-1} (\omega^{cr})^j]}_{S} \ket{c} \\
+\end{align*}
+where \( \omega = 2^{\frac{2\pi i}{M}} \) where \( M = 2^m \).
+\( S \) is a geometric series.
+If \( \frac{M}{r} \not\in \mathbb Z \), \( \alpha^A \neq 1 \).
+We claim that a measurement on \( QFT_{2^m} \ket{\mathrm{per}} \) yields an integer \( c \) which is close to a multiple of \( \frac{M}{r} \) with high probability.
+
+Consider \( k\frac{2^m}{r} \) for \( k = 0, \dots, r-1 \).
+Each of these multiples is within \( \frac{1}{2} \) of a unique integer; indeed, \( 2^m = Br + b \) so \( r < 2^m \), giving that \( k\frac{2^m}{r} \) cannot be a half integer.
+Consider the values of \( c \) such that \( \abs{c - k \frac{2^m}{r}} < \frac{1}{2} \) for \( k = 0, \dots, r-1 \).
+% Note that \( \omega^{cr} = 1 \) if \( e^{\frac{2\pi i cr}{M}} = 1 \).
+\begin{theorem}
+    Suppose that \( QFT_{2^m} \ket{\mathrm{per}} = \sum_{c=0}^{2^m - 1} g(c) \ket{c} \), and that we measure the state and receive an outcome \( c \).
+    Let \( c_k \) be the unique integer such that \( \abs{c_k - k\frac{2^m}{r}} < \frac{1}{2} \).
+    Then \( \prob{c = c_k} > \frac{\gamma}{r} \) for a fixed constant \( \gamma \) (which can be shown to be \( \frac{4}{\pi^2} \)).
+    Moreover, the probability that \( k, r \) are coprime is \( \Omega\qty(\frac{1}{\log \log r}) \) by the coprimality theorem..
+\end{theorem}
+Thus, with \( O(\log \log N) > O(\log \log r) \) repetitions, we obtain a good \( c \) value with high probability.
+Suppose that we measure \( c \) such that \( \abs{c - k \frac{2^m}{r}} < \frac{1}{2} \), so \( \abs{\frac{c}{2^m} - \frac{k}{r}} < \frac{1}{2^{m+1}} \).
+Recall that \( r < N \) and \( m \) is minimal such that \( 2^m > N^2 \).
+Then \( \abs{\frac{c}{2^m} - \frac{k}{r}} < \frac{1}{2N^2} \).
+Note that \( \frac{c}{2^m} \) is known.
+
+We show that there is at most one fraction \( \frac{k}{r} \) with denominator \( r < N \) such that \( \abs{\frac{c}{2^m} - \frac{k}{r}} < \frac{1}{2N^2} \).
+Suppose \( \frac{k'}{r'}, \frac{k''}{r''} \) both satisfy this requirement.
+Then
+\[ \abs{\frac{k'}{r'} - \frac{k''}{r''}} = \frac{\abs{k'r'' - k''r'}}{r'r''} \geq \frac{1}{r'r''} > \frac{1}{N^2} \]
+But \( \abs{\frac{c}{2^m} - \frac{k'}{r'}}, \abs{\frac{c}{2^m} - \frac{k'}{r'}} < \frac{1}{2N^2} \), contradicting the triangle inequality.
+This result is the reason for choosing \( m \) minimal such that \( 2^m > N^2 \).
+Therefore, we have with high probability that \( \frac{c}{2^m} \) is close to a unique fraction \( \frac{k}{r} \).
+\begin{example}
+    Let \( N = 39 \) and choose \( a = 7 \); note that 7 and 39 are coprime.
+    Let \( r \) be the period of \( f(k) = a^k \) mod 39.
+    Note that \( 2^{10} < N^2 < 2^{11} \), so set \( m = 11 \).
+    Suppose that \( QFT_{2^{11}} \ket{\mathrm{per}} \) gives a measurement of \( c \).
+    Then \( \abs{c - k \frac{2^{11}}{r}} < \frac{1}{2} \) with probability \( \frac{\gamma}{r} \).
+
+    Suppose \( c = 853 \).
+    One can explicitly check all fractions of the form \( \frac{a}{b} \) to find one that satisfies \( \abs{\frac{a}{b} - \frac{853}{2048}} < \frac{1}{2^{12}} \).
+    This is consistent with \( \frac{a}{b} = \frac{5}{12}, \frac{10}{24} \); as we are constrained by coprimality we must choose \( r = 12 \).
+    One can check that \( 7^{12} \equiv 1 \) mod 39, hence \( r = 12 \).
+    Note that \( O(N^2) = O(\exp(n)) \) computations are needed for this calculation; there is a more efficient way to compute \( a, b \) using continued fractions.
+\end{example}
+A rational number \( \frac{s}{t} \) can be written in the form of a continued fraction
+\[ \frac{s}{t} = \frac{1}{a_1 + \frac{1}{a_2 + \frac{1}{\dots + \frac{1}{a_\ell}}}} = [a_1, \dots, a_\ell] \]
+where \( a_1, \dots, a_\ell \) are positive integers.
+We can write \( \frac{s}{t} = \frac{1}{\frac{t}{s}} = \frac{1}{a_1 + \frac{s_1}{t_1}} \), and so on.
+For example, if \( \frac{s}{t} = \frac{13}{35} \), we can find \( a_1 = 2, a_2 = 2, a_3 = 1, a_4 = 1, a_5 = 2 \) and \( \ell = 5 \).
+Since the sequence \( t_k \) is decreasing, the expansion will always terminate.
+For each \( k = 1, \dots, \ell \), we can truncate the computation at level \( k \).
+This gives the sequence of rational numbers
+\[ \frac{p_1}{q_1} = [a_1], \frac{p_2}{q_2} = [a_1, a_2], \dots, \frac{p_\ell}{q_\ell} = [a_1, \dots, a_\ell] = \frac{s}{t} \]
+\( \frac{p_k}{q_k} \) is the \( k \)th \emph{convergent} of the continued fraction \( \frac{s}{t} \).
+\begin{lemma}
+    Let \( a_1, \dots, a_\ell \) be positive reals, and let \( p_0 = 0, q_0 = 1, p_1 = 1, q_1 = a_1 \).
+    Then,
+    \begin{enumerate}
+        \item \( [a_1, \dots, a_k] = \frac{p_k}{q_k} \) where \( p_k = a_k p_{k-1} + p_{k-2} \) and \( q_k = a_k q_{k-1} + q_{k-2} \);
+        \item if the \( a_k \) are integers, then so are the \( p_k \) and \( q_k \), with \( q_k p_{k-1} - p_k q_{k-1} = (-1)^k \) for \( k \geq 1 \), and moreover \( \gcd(p_k, q_k) = 1 \).
+    \end{enumerate}
+\end{lemma}
+\begin{theorem}
+    Consider a continued fraction \( \frac{s}{t} = [a_1, \dots, a_\ell] \), and let \( \frac{p_k}{q_k} \) be the \( k \)th convergent.
+    If \( s \) and \( t \) are given by \( m \)-bit integers, then the length \( \ell \) of the continued fraction is \( O(m) \), and the continued fraction and its convergents can be computed in \( O(m^3) \) time.
+\end{theorem}
+\begin{proof}[Proof sketch]
+    We have \( a_k \geq 1 \) and \( p_k, q_k \geq 1 \).
+    Part (i) of the above lemma implies that \( (p_k) \) and \( (q_k) \) are increasing sequences.
+    If \( k \) is even, \( p_k \geq 2p_{k-2} \) and \( q_k \geq 2q_{k-2} \) hence \( p_k, q_k \geq 2^{\frac{k}{2}} \).
+    Thus, in general, \( p_k, q_k \geq 2^{\floor{\frac{k}{2}}} \).
+    We therefore need at most \( \ell = O(m) \) iterations to obtain \( \frac{s}{t} \) exactly, since \( q_k, p_k \) are coprime and each are at least \( 2^{\floor{\frac{k}{2}}} \).
+    The computation of each successive \( a_k \) value involves division of \( O(m) \)-bit integers and converting it into an integer and remainder term; these computations can be performed in \( O(m^2) \) time.
+    Hence, the entire computation requires only \( O(m^3) \) time.
+\end{proof}
+\begin{theorem}
+    Let \( x \in \mathbb Q \) with \( 0 < x < 1 \).
+    Let \( \frac{p}{q} \in \mathbb Q \) such that \( \abs{x - \frac{p}{q}} - \frac{1}{2q^2} \).
+    Then \( \frac{p}{q} \) is a convergent of the continued fraction expansion of \( x \).
+\end{theorem}
+In our situation, we have \( c \) such that
+\[ \abs{\frac{c}{2^m} - \frac{k}{r}} < \frac{1}{2N^2};\quad r < N \]
+In particular, \( \abs{\frac{c}{2^m} - \frac{k}{r}} < \frac{1}{2r^2} \), and we have seen that there is at most one fraction \( \frac{k}{r} \) such that this holds.
+Note that \( 0 < c < 2^m \), so \( 0 < \frac{c}{2^m} < 1 \).
+Hence, \( \frac{k}{r} \) is a convergent of \( \frac{c}{2^m} \).
+Note that \( 2^m > N^2 > 2^{m-1} \), so \( c, 2^m \) are \( O(m) \)-bit integers, and hence the sequence of convergents (and in particular \( \frac{k}{r} \)) can be computed in \( O(m^3) \) time.
+We can then explicitly check for each convergent \( \frac{k}{r} \) if \( \abs{\frac{c}{2^m} - \frac{k}{r}} < \frac{1}{2N^2} \) and \( r < N \) hold.
+\begin{example}
+    Consider again \( N = 39 \) and \( 2^m = 2^{11} = 2048 \).
+    Suppose \( c = 853 \).
+    Then one can explicitly compute
+    \[ \frac{c}{2^m} = \frac{853}{2048} = [2, 2, 2, 42, 4] \]
+    Its convergents are
+    \[ \frac{1}{2};\quad \frac{2}{5};\quad \frac{5}{12};\quad \frac{212}{509};\quad \frac{853}{2048} \]
+    Only \( \frac{5}{12} \) satisfies \( \abs{\frac{c}{2^m} - \frac{k}{r}} < \frac{1}{2N^2} \) and \( r < N \).
+    So \( r = 12 \) is the period.
+\end{example}
+% time complexity nonexaminable
+A classical factoring algorithm takes \( O\qty(\exp(n^{\frac{1}{3}})) \) time; we analyse the time complexity of Shor's algorithm.
+Consider the case when \( N \) is odd and not a prime power, and let \( n = \log N \).
+The modular exponentiation function requires \( O(m) = O(n) \) multiplications, each of which take \( O(m^2) = O(n^2) \) time, so this algorithm takes \( O(n^3) \) time.
+The construction of the equal superposition state requires \( m = O(n) \) Hadamard gates, and applying the quantum oracle gives the state \( \frac{1}{2^m} \sum_{x \in B_m} \ket{x} \ket{f(x)} \) in \( O(n^3) \) steps.
+We measure the second register which contains \( O(n) \) qubits, hence requiring \( O(n) \) single-qubit measurements.
+The first register is then in state \( \ket{\mathrm{per}} \).
+We then apply the quantum Fourier transform \( QFT_{2^m} \), which can be implemented in \( O(m^2) = O(n^2) \) steps.
+We then measure the first register to obtain \( c \), requiring \( O(n) \) single-qubit measurements.
+Then, we find \( r \) from \( c \) using the continued fraction algorithm, requiring \( O(n^3) \) steps.
+A good \( c \) value is obtained with probability \( 1 - \varepsilon \) with \( O(\log \log N) = O(\log n) \) repetitions.
+Then, \( t = \gcd(a^{\frac{r}{2}} + 1, N) \) is computed using Euclid's algorithm, taking \( O(n^3) \) steps.
+If \( r \) is odd or is even but \( t = 1 \), then we return to the start, and the case where \( r \) is even and \( t \neq 1 \) occurs with probability at least \( 1 - \varepsilon \) if we perform \( \log \frac{1}{\varepsilon} \) repetitions.

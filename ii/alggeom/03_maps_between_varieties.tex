@@ -1,0 +1,145 @@
+\subsection{?}
+Let \( V \subseteq \mathbb A^n \) and \( W \subseteq \mathbb A^m \) be affine varieties.
+\begin{definition}
+    A \emph{regular map} or \emph{morphism} from \( V \) to \( W \) is a function \( \varphi \colon V \to W \) such that there exist elements \( f_1, \dots, f_m \in \mathbb C[V] \) such that
+    \[ \varphi(P) = (f_1(P), \dots, f_m(P)) \]
+    for all \( P \in V \).
+\end{definition}
+The set of all morphisms from \( V \) to \( W \) is denoted \( \mathrm{Mor}(V,W) \).
+\begin{example}
+    The morphisms \( V \) to \( \mathbb A^1 \) are precisely the functions in the coordinate ring \( \mathbb C[V] \).
+\end{example}
+\begin{example}
+    Linear projections \( \mathbb A^n \to \mathbb A^m \) are morphisms.
+    More generally, linear transformations and affine translations are also morphisms.
+\end{example}
+\begin{example}
+    If \( V \subseteq W \subseteq \mathbb A^n \) where \( V, W \) are varieties, then the inclusion map \( V \hookrightarrow W \) is a morphism.
+\end{example}
+\begin{proposition}
+    Let \( \varphi \colon V \to W, \psi \colon W \to Z \) be morphisms.
+    Then the composite map \( \psi \circ \varphi \) is a morphism \( V \to Z \).
+\end{proposition}
+\begin{proof}
+    The composition of polynomials is a polynomial.
+\end{proof}
+\begin{remark}
+    Affine varieties form a category.
+\end{remark}
+
+\subsection{Pullbacks}
+\begin{definition}
+    Let \( \varphi \colon V \to W \) be a morphism, and let \( g \in \mathbb C[W] \).
+    Then, the \emph{pullback} is \( \varphi^\star(g) = g \circ \varphi \colon V \to \mathbb C \).
+    Note that \( \varphi^\star(g) \in \mathbb C[V] \), so \( \varphi^\star \) gives a map \( \mathbb C[W] \to \mathbb C[V] \).
+\end{definition}
+\begin{remark}
+    This map \( \varphi^\star \) is a ring homomorphism, and restricts to the identity on \( \mathbb C \).
+\end{remark}
+\begin{definition}
+    A ring homomorphism \( \mathbb C[X] \to \mathbb C[Y] \) that restricts to the identity on \( \mathbb C \) is called a \emph{\( \mathbb C \)-algebra homomorphism}.
+\end{definition}
+\begin{theorem}
+    Let \( V \subseteq \mathbb A^n, W \subseteq \mathbb A^m \) be affine varieties.
+    The map \( \alpha \colon \varphi \mapsto \varphi^\star \) defines a bijection from \( \mathrm{Mor}(V, W) \) to the space of \( \mathbb C \)-algebra homomorphisms \( \mathbb C[W] \to \mathbb C[V] \).
+\end{theorem}
+\begin{proof}
+    Let \( y_1, \dots, y_n \in \mathbb C[W] \) be the coordinate projections on \( W \), which are the restrictions of the standard linear coordinate projections on \( \mathbb A^n \).
+
+    First, we show injectivity of \( \alpha \).
+    Let \( \varphi \colon V \to W \) be a morphism.
+    For any point \( P \in V \),
+    \[ \varphi(P) = (y_1(\varphi(P)), \dots, y_m(\varphi(P))) = (\varphi^\star(y_1)(P), \dots, \varphi^\star(y_n)(P)) \]
+    So \( \varphi \) is determined by the values of \( \varphi^\star(y_1), \dots, \varphi^\star(y_n) \).
+
+    Now we show its surjectivity.
+    Let \( \lambda \colon \mathbb C[W] \to \mathbb C[V] \) be a \( \mathbb C \)-algebra homomorphism, and let \( f_i = \lambda(y_i) \in \mathbb C[V] \).
+    We can now define the map \( \varphi = (f_1, \dots, f_m) \colon V \to \mathbb A^m \).
+    We will show that \( \varphi \) has image contained in \( W \), so that we have \( \varphi \colon V \to W \), which then shows that \( \varphi \) is a morphism \( V \to W \).
+    For \( P \in V \), we must show \( g(\varphi(P)) = 0 \) for all \( g \in I(W) \).
+    We obtain \( g(f_1(P), \dots, f_m(P)) = \lambda(g)(P) \).
+    But \( g = 0 \) in \( \mathbb C[W] \), so \( g(\varphi(P)) = 0 \) as required.
+    Hence \( \varphi \colon V \to W \) is a morphism, and \( \lambda = \varphi^\star \) since \( \varphi^\star(y_i) = f_i = \lambda(y_i) \).
+\end{proof}
+\begin{definition}
+    Two affine varieties \( V, W \) are \emph{isomorphic} if we have \( \varphi \colon V \to W, \psi \colon W \to V \) where \( \varphi \circ \psi = \mathrm{id}_W \) and \( \psi \circ \varphi = \mathrm{id}_V \).
+\end{definition}
+\begin{remark}
+    \( V \) is isomorphic to \( W \) if and only if \( \mathbb C[V] \) is isomorphic to \( \mathbb C[W] \) as \( \mathbb C \)-algebras.
+\end{remark}
+\begin{example}
+    The affine line \( \mathbb A^1 \) is isomorphic to the twisted cubic \( \qty{(t, t^2, t^3) \mid t \in \mathbb C} \).
+    This can be easily shown by calculating the coordinate rings explicitly.
+\end{example}
+\begin{example}
+    Let \( V \subseteq \mathbb A^2 \) be given by \( X_1 X_2 (X_1 - X_2) = 0 \).
+    This is the union of three lines, intersecting at the origin.
+    Let \( W \subseteq \mathbb A^3 \) be given by \( X_1 X_2 = X_2 X_3 = X_3 X_1 = 0 \), which is also a union of three lines, which in this case are the coordinate axes.
+    These are not isomorphic as varieties, because their coordinate rings are not isomorphic, which can be easily shown using tangent spaces, defined in later sections.
+    Note, however, that \( V \) and \( W \) are homeomorphic in the Euclidean topology.
+\end{example}
+
+\subsection{Rational functions}
+\begin{definition}
+    Let \( V \subseteq \mathbb A^n \) be an irreducible variety.
+    Its \emph{function field}, \emph{field of rational functions}, or \emph{field of meromorphic functions} is the field of fractions \( \mathbb C(V) = FF(\mathbb C[V]) \) of \( \mathbb C[V] \).
+\end{definition}
+\begin{remark}
+    Since \( V \) is irreducible, \( I(V) \) is prime, so \( \mathbb C[V] \) is an integral domain.
+    This allows us to construct the field of fractions.
+\end{remark}
+\begin{definition}
+    Let \( \varphi \) be a rational function.
+    A point \( P \in V \) is called \emph{regular} if \( \varphi \) can be expressed as a ratio \( \frac{f}{g} \) with \( g(P) \neq 0 \).
+\end{definition}
+\begin{remark}
+    If \( \varphi = \frac{f}{g} \), we obtain a well-defined function \( \varphi \colon V \setminus \mathbb V(g) \to \mathbb C \).
+    The domain is an open set in \( V \), since \( \mathbb V(g) \) is Zariski closed.
+\end{remark}
+\begin{example}
+    Consider the rational function \( X_1^2 / X_2 \in \mathbb C(\mathbb A^2) \).
+    This defines a map on the complement of the \( X_2 \)-axis.
+    Note that \( X^3 / X_1 X_2 \) defines the same function, but only on points other than \( \mathbb V(X_1 X_2) \).
+    Note that \( X^3 / X_1 X_2 = X_1^2 / X_2 \in \mathbb C(\mathbb A^2) \), so we cannot quite think of elements of \( \mathbb C(\mathbb A^2) \) as functions.
+\end{example}
+\begin{remark}
+    A rational function on \( V \) can be thought of as a pair \( (U, f) \) with \( U \subseteq V \) Zariski open, such that \( f \) is a function \( U \to \mathbb C \).
+    We define the equivalence relation \( (U, f) \sim (U', f') \) if \( f, f' \) agree on some nonempty Zariski open set contained in \( U \) and \( U' \).
+    Note that if \( V \) is irreducible, every nonempty open subset is dense in the Zariski topology.
+\end{remark}
+\begin{definition}
+    A \emph{local ring} is a ring \( R \) that contains a unique maximal ideal.
+\end{definition}
+\begin{definition}
+    Let \( V \) be an irreducible variety, and let \( P \).
+    The \emph{local ring of \( V \) at \( P \)} is \( \mathcal O_{V,P} = \qty{f \in \mathbb C(V) \mid f \text{ is regular at } P} \).
+\end{definition}
+\begin{proposition}
+    The local ring of an irreducible variety \( V \) at a point \( P \) is a local ring.
+    Its unique maximal ideal is
+    \[ \mathfrak m_{V,P} = \qty{f \in \mathcal O_{V,P} \mid f(P) = 0} = \ker (f \mapsto f(P)) \]
+    Further, the invertible elements of \( \mathcal O_{V,P} \) are precisely those \( f \) such that \( f(P) \neq 0 \).
+\end{proposition}
+The proof follows from the following more general lemma.
+\begin{lemma}
+    A ring \( R \) is a local ring if and only if \( R \setminus R^\star \) is an ideal.
+    If so, the unique maximal ideal is \( R \setminus R^\star \).
+\end{lemma}
+\begin{proof}
+    If \( A \trianglelefteq R \) is an ideal, then \( A \neq R \) if and only if \( A \subseteq R \setminus R^\star \), because if any unit lies in \( A \), it must be all of \( R \).
+    Hence, if \( R \setminus R^\star \) is an ideal, it is automatically the unique maximal ideal.
+
+    Conversely, let \( R \) be a local ring with unique maximal ideal \( \mathfrak m \).
+    Then \( \mathfrak m \subseteq R \setminus R^\star \), and if \( x \in R \setminus R^\star \) we must have \( (x) \neq R \), so \( (x) \subseteq \mathfrak m \) by maximality.
+    Hence \( \mathfrak m = R \setminus R^\star \).
+\end{proof}
+Note that this proves the previous proposition, as \( \frac{f}{g} \in \mathcal O_{V,P} \) is invertible if and only if \( \qty(\frac{f}{g})(P) \neq 0 \).
+\begin{example}
+    Let
+    \[ R = \qty{\frac{f}{g} \in \mathbb C(t) \mid \text{ignoring factors, } g(0) \neq 0} = \mathcal O_{\mathbb A^1, 0} \]
+    Here, the maximal ideal is \( (t) \), and \( \faktor{R}{(t)} = \mathbb C \).
+
+    Let \( S = \mathbb C[\![t]\!] \) be the ring of formal power series in \( t \).
+    This is a local ring by the lemma; its maximal ideal is \( (t) \).
+    Note that in fact \( R \subseteq S \).
+\end{example}

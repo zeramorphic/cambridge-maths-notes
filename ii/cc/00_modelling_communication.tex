@@ -1,0 +1,64 @@
+To reason about communication, we use the following model.
+We have a \emph{source} which knows a message, that uses an \emph{encoder} to produce some \emph{code words}.
+The code words are sent through a \emph{channel}, but errors and noise may be introduced in this channel.
+The code words are received by a \emph{decoder}, which performs some form of error detection and correction.
+The message is finally received by a \emph{receiver}.
+
+The source is often named \emph{Alice}, and the receiver is named \emph{Bob}.
+There may be an agent watching the channel called \emph{Eve}, short for eavesdropper.
+
+Examples of these ideas include the optical and electrical telegraph, SMS, postcodes, CDs and their error correction, compression algorithms such as \texttt{gzip}, and PINs.
+
+Given a source and a channel, modelled probabilistically, the basic problem is to design an encoder and decoder to transmit messages \emph{economically} (noiseless coding, compression) and \emph{reliably} (noisy coding).
+
+An example of noiseless coding is Morse code, where every letter is assigned a unique sequence of dots and dashes, where more common letters are assigned shorter strings.
+Noiseless coding is adapted to the source.
+
+Here is an example of noisy coding.
+Each book has an ISBN \( a_1 a_2 \dots a_9 a_{10} \) where the \( a_1, \dots, a_9 \) are digits in \( \qty{0, \dots, 9} \), and \( a_{10} \in \qty{0, \dots, 9, X} \) such that \( 11 \mid \sum_{j=1}^{10} j a_j \).
+This coding system detects the common human errors of writing an incorrect digit and transposing two adjacent digits.
+Noisy coding is adapted to the channel, which in this case is the human reading the number and typing it into a computer.
+
+\begin{definition}
+    A \emph{communication channel} accepts a string of symbols from a finite alphabet \( \mathcal A = \qty{a_1, \dots, a_r} \) and outputs a string of symbols from another finite alphabet \( \mathcal B = \qty{b_1, \dots, b_s} \).
+    It is modelled by the probabilities \( \prob{y_1 \dots y_n \text{ received} \mid x_1 \dots x_n \text{ sent}} \).
+\end{definition}
+\begin{definition}
+    A \emph{discrete memoryless channel} is a channel where \( p_{ij} = \prob{b_i \text{ received} \mid a_i \text{ sent}} \) are the same for each channel use, and independent of all past and future uses of the channel.
+    Its \emph{channel matrix} is the \( r \times s \) stochastic matrix \( P = (p_{ij}) \).
+\end{definition}
+\begin{example}
+    The \emph{binary symmetric channel} with error probability \( p \in [0,1] \) is a discrete memoryless channel with input and output alphabets \( \qty{0, 1} \), where the channel matrix is
+    \[ \begin{pmatrix}
+            1-p & p \\
+            p & 1-p
+    \end{pmatrix} \]
+    Here, a symbol is transmitted correctly with probability \( 1 - p \).
+    Usually, we assume \( p < \frac{1}{2} \).
+\end{example}
+\begin{example}
+    The \emph{binary erasure channel} has \( \mathcal A = \qty{0, 1} \) and \( \mathcal B = \qty{0, 1, \star} \).
+    The channel matrix is
+    \[ \begin{pmatrix}
+        1-p & 0 & p \\
+        0 & 1-p & p
+    \end{pmatrix} \]
+    \( p \) can be interpreted as the probability that the symbol received is unreadable.
+    If \( \star \) is received, we say that we have received a \emph{splurge error}.
+\end{example}
+\begin{definition}
+    We model \( n \) uses of a channel by the \emph{\( n \)th extension}, with input alphabet \( \mathcal A^n \) and output alphabet \( \mathcal B^n \).
+    A \emph{code} \( C \) of length \( n \) is a function \( \mathcal M \to \mathcal A^n \), where \( \mathcal M \) is a set of messages.
+    Implicitly, we also have a decoding rule \( \mathcal B^n \to \mathcal M \).
+    \begin{itemize}
+        \item The \emph{size} of this code is \( m = \abs{\mathcal M} \).
+        \item The \emph{information rate} of the code is \( \rho(C) = \frac{1}{n} \log_2 m \).
+        \item The \emph{error rate} of the code is \( \hat e(C) = \max_{x \in \mathcal M} \qty{\text{error} \mid x \text{ sent}} \).
+    \end{itemize}
+\end{definition}
+\begin{definition}
+    A channel can \emph{transmit reliably at rate \( R \)} if there is a sequence of codes \( (C_n)_{n=1}^\infty \) with each \( C_n \) a code of length \( n \) such that \( \lim_{n \to \infty} \rho(C_n) = R \) and \( \lim_{n \to \infty} \hat e(C_n) = 0 \).
+    The \emph{capacity} of a channel is the supremum of all reliable transmission rates.
+\end{definition}
+It is a nontrivial fact that the capacity of the binary symmetric channel with \( p < \frac{1}{2} \) is nonzero.
+This is one of Shannon's theorems, proven later.

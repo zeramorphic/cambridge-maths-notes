@@ -151,7 +151,7 @@ We can check that \( d_{i-1} \circ d_i = 0 \) for all \( i \) is equivalent to t
 	Let \( (C_\bullet, d) \) and \( (C_\bullet', d') \) be chain complexes.
 	A \emph{chain map} \( f \colon C_\bullet \to C_\bullet' \) is
 	\begin{enumerate}
-		\item for each \( i \), a function \( f_i \colon C_i \to C_i' \);
+		\item for each \( i \), a homomorphism \( f_i \colon C_i \to C_i' \);
 		\item \( f_{i-1} \circ d_i = d_i' \circ f_i \);
 	\end{enumerate}
 \end{definition}
@@ -166,9 +166,9 @@ We can check that \( d_{i-1} \circ d_i = 0 \) for all \( i \) is equivalent to t
 \end{remark}
 If \( x \in \ker d \), we write \( [x] \in H_\bullet(C) \) for its image under the map \( \ker d \to \faktor{\ker d}{\Im d} \).
 \begin{remark}
-	\( f(\ker d) \subseteq \ker d \) because if \( dx = 0 \), we have \( d'(f(x)) = f(d(x)) = f(0) = 0 \).
+	\( f(\ker d) \subseteq \ker d' \) because if \( dx = 0 \), we have \( d'(f(x)) = f(d(x)) = f(0) = 0 \).
 	\( f(\Im d) \subseteq \Im d' \), because if \( x = dy \), we have \( f(x) = f(d(y)) = d'(f(y)) \).
-	So \( f \) descends to a well-defined homomorphism \( f_\star \colon \faktor{\ker d}{\Im d'} \to \faktor{\ker d'}{\Im d'} \) such that \( f_\star([x]) = [f(x)] \).
+	So \( f \) descends to a well-defined homomorphism \( f_\star \colon \faktor{\ker d}{\Im d} \to \faktor{\ker d'}{\Im d'} \) such that \( f_\star([x]) = [f(x)] \).
 	So \( f_\star \colon H_k(C) \to H_k(C') \).
 	This is called the map \emph{induced by} \( f \).
 \end{remark}
@@ -278,7 +278,7 @@ This definition of \( f_\sharp \) preserves grading.
 \begin{definition}
 	Let \( K \) be an abstract simplicial complex in \( \Delta^n \).
 	Let \( e_0 \not\in K \).
-	Then the \emph{cone} is \( C_{e_0}(K) = K \cup \qty{e_{oI} \mid e_I \in K} \).
+	Then the \emph{cone} is \( C_{e_0}(K) = K \cup \qty{e_{0I} \mid e_I \in K} \).
 \end{definition}
 \begin{remark}
 	\( C_{e_0}(K) \) is an abstract simplicial complex.
@@ -286,7 +286,7 @@ This definition of \( f_\sharp \) preserves grading.
 \end{remark}
 \begin{example}
 	Consider \( \hat{\bm \Delta} ^n= \qty{e_I \in \bm \Delta^{n+1} \mid 0 \not\in I} \simeq \bm\Delta^n \).
-	Then \( C_{e_0}(\hat{\bm \Delta})^n = \bm \Delta^{n+1} \).
+	Then \( C_{e_0}(\hat{\bm \Delta} ^n) = \bm \Delta^{n+1} \).
 \end{example}
 \begin{proposition}
 	\( \widetilde C_\bullet(C_{e_0}(K)) \) is contractible.
@@ -333,7 +333,7 @@ Alternatively, we can prove this fact using the results from the next subsection
 \subsection{Exact sequences}
 \begin{definition}
 	Let \( A_k \) be a sequence of abelian groups for \( k \in \mathbb Z \), and \( f_k \colon A_k \to A_{k-1} \) be homomorphisms.
-	We say that the sequence is \emph{exact} at \( A_k \) if \( \ker f_k \subseteq \Im f_{k+1} \).
+	We say that the sequence is \emph{exact} at \( A_k \) if \( \ker f_k = \Im f_{k+1} \).
 	If it is exact at all \( A_k \), we say the sequence is exact.
 	\begin{center}
 		\begin{tikzcd}
@@ -1064,7 +1064,7 @@ Let \( f \colon C \to C \) be a chain map, so it induces \( f_\star \colon H_\bu
 	\( L(f) = L(f_\star) \).
 \end{proposition}
 \begin{proof}
-	Let \( U_k \Im d_{k+1} \subseteq \ker d_k \subseteq C_k \).
+	Let \( U_k = \Im d_{k+1} \subseteq \ker d_k \subseteq C_k \).
 	Then, \( \ker d_k = U_k \oplus V_k \), and \( C_k = U_k \oplus V_k \oplus U_k' \).
 	Then \( d \colon U_k' \to U_{k-1} \) is an isomorphism.
 	With respect to this decomposition, \( d \) is a matrix in block form given by
@@ -1086,8 +1086,9 @@ Let \( f \colon C \to C \) be a chain map, so it induces \( f_\star \colon H_\bu
 \end{proof}
 \begin{definition}
 	Let \( C = C_\bullet(K) \).
-	Then the \emph{Euler characteristic} is defined by \( \chi(C) = L(\mathrm{id}_C) = L(\mathrm{id}_{H_\bullet(K)}) = \sum_k (-1)^k \dim H_k(K) \) depends only on \( \abs{K} \).
-	%Hence \( \chi(C(K)) = \sum_k (-1)^k \dim C_k(K) \).
+	Then the \emph{Euler characteristic} is defined by \( \chi(C) = L(\mathrm{id}_C) \).
+	Hence \( \chi(C(K)) = \sum_k (-1)^k \dim C_k(K) \).
+	Note that \( L(\mathrm{id}_C) = L(\mathrm{id}_{H_\bullet(K)}) = \sum_k (-1)^k \dim H_k(K) \) depends only on \( \abs{K} \).
 \end{definition}
 \begin{theorem}[Lefschetz fixed point theorem]
 	Let \( F \colon \abs{K} \to \abs{K} \) be a continuous map.

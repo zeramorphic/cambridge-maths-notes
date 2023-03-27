@@ -1,0 +1,329 @@
+\subsection{Axioms of \texorpdfstring{\(\mathsf{ZF}\)}{ZF}}
+In this section, we will attempt to understand the structure of the universe of sets.
+In order to do this, we will treat set theory as a first-order theory like any other, and can therefore study it with our usual tools.
+In particular, we will study a particular theory called \emph{Zermelo--Fraenkel set theory}, denoted \( \mathsf{ZF} \).
+The language has \( \Omega = \varnothing, \Pi = \qty{\in}, \alpha(\in) = 2 \).
+A `universe of sets' is simply a model \( (V, \in_V) = (V, \in) \) for the axioms of \( \mathsf{ZF} \).
+We can view this section as a worked example of the concepts of predicate logic, but every model of \( \mathsf{ZF} \) will contain a copy of (most of) mathematics, so they will be very complicated.
+
+We now define the axioms of \( \mathsf{ZF} \) set theory.
+\begin{enumerate}
+    \item \emph{Axiom of extension}.
+    \[ (\forall x)(\forall y)((\forall z)(z \in x \Leftrightarrow z \in y) \Rightarrow x = y) \]
+    Note that the converse follows from the definition of equality.
+    This implies that sets have no duplicate elements, and have no ordering.
+    \item \emph{Axiom of separation} or \emph{comprehension}.
+    For a set \( x \) and a property \( p \), we can form the set of \( z \in x \) such that \( p(z) \) holds.
+    \[ (\forall t_1)\dots(\forall t_n)(\forall x)(\exists y)(\forall z)(z \in y \Leftrightarrow z \in x \wedge p) \]
+    where the \( t_i \) are the parameters, and \( p \) is a formula with free variables \( t_1, \dots, t_n, z \).
+    Note that we need the parameters as we may wish to form the set \( \qty{z \in x \mid z \in t} \) for some variable \( t \).
+    We write \( \qty{z \in x \mid p(z)} \) for the set guaranteed by this axiom; this is an abbreviation and does not change the language.
+    \item \emph{Empty-set axiom}.
+    \[ (\exists x)(\forall y)(\neg y \in x) \]
+    This empty set is unique by extensionality.
+    We write \( \varnothing \) for the set guaranteed by this axiom.
+    For instance, \( p(\varnothing) \) is the sentence \( (\exists x)((\forall y)(\neg y \in x) \wedge p(x)) \).
+    \item \emph{Pair-set axiom}.
+    \[ (\forall x)(\forall y)(\exists z)(\forall t)(t \in z \Leftrightarrow t = x \vee t = y) \]
+    We write \( \qty{x, y} \) for this set \( z \), which is unique by extensionality.
+    Some basic set-theoretic principles can now be defined.
+    \begin{itemize}
+        \item We write \( \qty{x} = \qty{x, x} \) for the singleton set containing \( x \).
+        \item We can now define the ordered pair \( (x, y) = \qty{\qty{x}, \qty{x, y}} \); from the axioms so far we can prove that \( (x, y) = (z, t) \) if and only if \( x = z \) and \( y = t \).
+        \item We say that \( x \) is an ordered pair if \( (\exists y)(\exists z)(x = (y,z)) \), and \( f \) is a function if \( (\forall x)(x \in f \Rightarrow x \text{ is an ordered pair}) \) and \( (\forall x)(\forall y)(\forall z)((x,y) \in f \wedge (x,z) \in f \Rightarrow y = z) \).
+        \item We call a set \( x \) the domain of \( f \), written \( x = \dom f \), if \( f \) is a function and \( (\forall y)(y \in x \Leftrightarrow (\exists z)((y,z) \in f)) \).
+        \item The notation \( f \colon x \to y \) means that \( f \) is a function, \( x = \dom f \), and \( (\forall z)(\forall t)((z, t) \in f \Rightarrow t \in y) \).
+    \end{itemize}
+    \item \emph{Union axiom}.
+    For each family of sets \( x \), we can form its union \( \bigcup_{t \in x} t \).
+    \[ (\forall x)(\exists y)(\forall z)(z \in y \Leftrightarrow (\exists t)(z \in t \wedge t \in x)) \]
+    The set guaranteed by this axiom can be written \( \bigcup x \), and we can write \( x \cup y \) for \( \bigcup \qty{x, y} \).
+    We need no intersection axiom, as such intersections already exist by the axiom of separation.
+    This cannot be used to create empty intersections, as the axiom of separation can only create subsets of a set that already exists.
+    \item \emph{Power-set axiom}.
+    \[ (\forall x)(\exists y)(\forall z)(z \in y \Leftrightarrow z \subseteq x) \]
+    where \( z \subseteq x \) means \( (\forall t)(t \in z \Rightarrow t \in x) \).
+    We write \( \mathcal P(x) \) for the power set of \( x \).
+    We can form the Cartesian product \( x \times y \) as a suitable subset of \( \mathcal P(\mathcal P(x \cup y)) \), as if \( z \in x, t \in y \), we have \( (z, t) = \qty{\qty{z}, \qty{z, t}} \in \mathcal P(\mathcal P(x \cup y)) \).
+    The set of all functions \( x \to y \) can be defined as a subset of \( \mathbb P(x \times y) \).
+    \item \emph{Axiom of infinity}.
+    Using our currently defined axioms, any model \( V \) must be infinite.
+    For example, writing \( x^+ \) for the \emph{successor} of \( x \) defined as \( x \cup \qty{x} \), the sets \( \varnothing, \varnothing^+, \varnothing^{++}, \dots \) are distinct.
+    \[ \varnothing^+ = \qty{\varnothing};\quad \varnothing^{++} = \qty{\varnothing, \qty{\varnothing}};\quad \varnothing^{+++} = \qty{\varnothing, \qty{\varnothing}, \qty{\varnothing, \qty{\varnothing}}};\quad \dots \]
+    We write \( 0 = \varnothing, 1 = \varnothing^+, 2 = \varnothing^{++}, \dots \) for the successors created in this way.
+    For instance, \( 3 = \qty{0, 1, 2} \).
+    \( V \) may not have an infinite element, even though \( V \) itself is infinite, because no \( x \in V \) has all \( y \in V \) as elements: \( V \) does not think of itself as a set, because Russell's paradox follows from the axioms defined so far.
+
+    We say that \( x \) is a successor set if \( \varnothing \in x \) and \( (\forall y)(y \in x \Rightarrow y^+ \in x) \).
+    Note that this is a finite-length formula that characterises an infinite set.
+    The axiom of infinity is that there exists a successor set.
+    \[ (\exists x)(\varnothing \in x \wedge (\forall y)(y \in x \Rightarrow y^+ \in x)) \]
+    Note that this set is not uniquely defined, but any intersection of successor sets is a successor set.
+    We can therefore take the intersection of all successor sets by the axiom of separation, giving a least successor set denoted \( \omega \).
+    Thus, \( (\forall x)(x \in \omega \Leftrightarrow (\forall y)(y \text{ is a successor set} \Rightarrow x \in y)) \).
+    For example, we can prove that \( 3 \in \omega \).
+
+    In particular, \( x \subseteq \omega \) is a successor set, \( x = \omega \).
+    Hence, \( (\forall x)(x \subseteq \omega \wedge \varnothing \in x \wedge (\forall y)(y \in x \Rightarrow y^+ \in x) \Rightarrow x = \omega) \).
+    This is `proper' induction over all subsets of \( \omega \), unlike the weaker first-order induction defined in the Peano axioms.
+    It is easy to check that \( (\forall x)(x \in \omega \Rightarrow x^+ \neq \varnothing) \) and \( (\forall x)(\forall y)(x \in \omega \wedge y \in \omega \wedge x^+ = y^+ \Rightarrow x = y) \), so \( \omega \) satisfies (in \( V \)) the usual axioms for the natural numbers.
+    We can now define `\( x \) is finite' to mean \( (\exists y)(y \in \omega \wedge x \text{ bijects with } y) \), and define `\( x \) is countable' to mean that \( x \) is finite or bijects with \( \omega \).
+    \item \emph{Axiom of foundation} or \emph{regularity}.
+    We require that sets are built out of simpler sets.
+    For example, we want to disallow a set from being a member of itself, and similarly forbid \( x \in y \) and \( y \in x \).
+    In general, we want to forbid sets \( x_i \) such that \( x_{i+1} \in x_i \) for each \( i \in \mathbb N \).
+
+    Note that if \( x \in x \), \( \qty{x} \) has no \( \in \)-minimal element.
+    If \( x \in y, y \in x \), \( \qty{x, y} \) has no \( \in \)-minimal element.
+    In the last example, \( \qty{x_0, x_1, \dots} \) has no \( \in \)-minimal element.
+    We now define the axiom of foundation: every nonempty set has an \( \in \)-minimal element.
+    \[ (\forall x)(x \neq \varnothing \Rightarrow (\exists y)(y \in x \wedge (\forall z)(z \in x \Rightarrow z \not\in y))) \]
+    Any model of \( \mathsf{ZF} \) without this axiom has a submodel of all of \( \mathsf{ZF} \).
+    \item \emph{Axiom of replacement}.
+    Often, we are given an index set \( I \) and construct a set \( A_i \) for each \( i \in I \), then take the collection \( \qty{A_i \mid i \in I} \).
+    In order to write this down, the mapping \( i \mapsto A_i \) must be a function, or equivalently, there must be a set \( \qty{(i, A_i) \mid i \in I} \).
+    This is not clear from the other axioms.
+    We would like to say that the image of a set under something that looks like a function (since we do not yet have such a set-theoretic function) is a set.
+
+    Let \( (V, \in) \) be an \( L \)-structure.
+    A \emph{class} is a set \( C \subseteq V \) such that for some formula \( p \) with free variables \( x \) and some parameters, we have \( x \in C \) if and only if \( p \) holds in \( V \).
+    \( C \) is a set outside of our model; it may not correspond to a set \( x \in V \) inside the model.
+    For instance, \( V \) is a class, taking \( p \) to be \( x = x \).
+    There is a class of infinite sets, taking \( p \) to be `\( x \) is not finite'.
+    For any \( t \in V \), the collection of \( x \) with \( t \in x \) is a class; here, \( t \) is a parameter to the class.
+    Every set \( y \in V \) is a class by setting \( p \) to be \( x \in y \).
+    A \emph{proper class} is a class that does not correspond to a set \( x \in V \): \( \neg(\exists y)(\forall x)(x \in y \Leftrightarrow p) \).
+    When writing about classes inside \( \mathsf{ZF} \), we instead write about their defining formulae, as classes have no direct representation in the language.
+
+    Similarly, a \emph{function-class} is a set \( F \subseteq V \) of ordered pairs from \( V \) such that for some formula \( p \) with free variables \( x, y \) and parameters, we have \( (x, y) \) belongs to \( F \) if and only if \( p \), and if \( (x, y), (x, z) \) belong to \( F \), \( y = z \).
+    This is intuitively a function whose domain may not be a set.
+    For example, the mapping \( x \mapsto \qty{x} \) is a function-class, taking \( p \) to be \( y = \qty{x} \).
+    This is not a function, for example, every \( f \) has a domain which is a set in \( V \), and this function has domain \( V \) which is not a set.
+
+    We can now define the axiom of replacement: the image of a set under a function-class is a set.
+    \[ (\forall t_1)\dots(\forall t_n)[(\forall x)(\forall y)(\forall z)(p \wedge p[z/y] \Rightarrow y = z) \Rightarrow \]
+    \[ (\forall x)(\exists y)(\forall z)(z \in y \Leftrightarrow (\exists t)(t \in x \wedge p[t/x,z/y]))] \]
+    For example, for any set \( x \), we can form the set \( \qty{\qty{t} \mid t \in x} \), which is the image of \( x \) under the function class \( t \mapsto \qty{t} \).
+    This set could alternatively have been formed using the power-set and separation axioms; we will later present some examples of sets built with this axiom that cannot be constructed from the other axioms.
+\end{enumerate}
+This completes the description of the axioms of \( \mathsf{ZF} \).
+We write \( \mathsf{ZFC} \) for \( \mathsf{ZF} + \mathsf{AC} \), where \( \mathsf{AC} \) is the axiom
+\[ (\forall f)[f\text{ is a function} \wedge (\forall x)(x \in \dom f \Rightarrow f(x) \neq \varnothing) \Rightarrow \]
+\[ (\exists g)(g\text{ is a function} \wedge (\dom g = \dom f) \wedge (\forall x)(x \in \dom f \Rightarrow g(x) \in f(x)))] \]
+
+\subsection{Transitive sets}
+\begin{definition}
+    \( x \) is \emph{transitive} if each member of a member of \( x \) is a member of \( x \).
+    \[ (\forall y)((\exists z)(y \in z \wedge z \in x) \Rightarrow y \in x) \]
+\end{definition}
+Equivalently, \( \bigcup x \subseteq x \).
+\begin{example}
+    \( \varnothing \) is a transitive set.
+    \( \qty{\varnothing} \) is also transitive, and \( \qty{\varnothing, \qty{\varnothing}} \) is transitive.
+    In general, elements of \( \omega \) are transitive.
+    This can be proven by \( \omega \)-induction (inside a model): \( \varnothing \) is transitive, and if \( y \) is transitive, \( y^+ = y \cup \qty{y} \) is clearly transitive.
+\end{example}
+\begin{lemma}
+    Every set is contained in a transitive set.
+\end{lemma}
+\begin{remark}
+    This proof takes place inside an arbitrary model of \( \mathsf{ZF} \).
+    Technically, the statement of the lemma is `let \( V, \in \) be a model of \( \mathsf{ZF} \), then for all sets \( x \in V \), \( x \) is contained in a transitive set \( y \in V \)'.
+    By completeness, this will show that there is a proof of this fact from the axioms of \( \mathsf{ZF} \).
+
+    Note also that once this lemma is proven, any \( x \) is contained in a least transitive set by taking intersections, called its \emph{transitive closure}, written \( TC(x) \).
+    This holds as any intersection of transitive sets is transitive.
+\end{remark}
+\begin{proof}
+    We want to form \( x \cup (\bigcup x) \cup (\bigcup\bigcup x) \cup \dots \); if this is a set, it is clearly transitive and contains \( x \).
+    We can show that this is a set by the union axiom applied to the set \( \qty{x, \bigcup x, \bigcup\bigcup x, \dots} \).
+    This a set by applying the axiom of replacement, it is an image of \( \omega \) under the function-class \( 0 \mapsto x, 1 \mapsto \bigcup x, 2 \mapsto \bigcup \bigcup x \) and so on.
+    % This function-class is defined by \( \omega \)-induction.
+    We want to define the function-class \( p(z,w) \) to be \( (z = 0 \wedge w = x) \vee ((\exists t)(\exists u) z = t^+ \wedge w = \bigcup u \wedge p(t,u)) \), but this is not a first-order formula.
+
+    Define that \( f \) is an \emph{attempt} to mean that
+    \[ (f \text{ is a function}) \wedge (\dom f \in \omega) \wedge (\dom f \neq \varnothing) \wedge (f(0) = x)\, \wedge \]
+    \[ (\forall n)(n \in \omega \wedge n \in \dom f \wedge n \neq 0 \Rightarrow f(x) = \bigcup f(n-1)) \]
+    Then,
+    \[ (\forall n)(n \in \omega \Rightarrow (\exists f)(f \emph{ is an attempt} \wedge n \in \dom f)) \]
+    can be proven by \( \omega \)-induction.
+    We can similarly prove
+    \[ (\forall n)(n \in \omega \Rightarrow (\forall f)(\forall g)(f, g \text{ are attempts} \wedge n \in \dom f \cap \dom g \Rightarrow f(n) = g(n))) \]
+    by \( \omega \)-induction.
+    We now define the function-class \( p = p(z,w) \) is
+    \[ (\exists f)(f \text{ is an attempt} \wedge z \in \dom f \wedge f(z) = w) \]
+\end{proof}
+Intuitively, we needed to use the axiom of replacement because we started with a set \( x \) and needed to go `far away' from it, forming \( \bigcup^n x \) for all \( x \).
+We could not have used the other axioms such as the power-set axiom, as the \( \bigcup^n x \) are not contained in an obvious larger set.
+
+Transitive closures allow us to pass from the large universe of sets, which is not a set itself, into a smaller world which is a set closed under \( \in \) that contains the relevant sets in question.
+
+\subsection{\texorpdfstring{\( \in \)}{∈}-induction}
+We want the axiom of foundation to capture the idea that sets are built out of simpler sets.
+\begin{theorem}[principle of \( \in \)-induction]
+    For each formula \( p \) with free variables \( t_1, \dots, t_n, x \),
+    \[ (\forall t_1)\dots(\forall t_n)[(\forall x)((\forall y)(y \in x \Rightarrow p(y)) \Rightarrow p(x)) \Rightarrow (\forall x)p(x)] \]
+\end{theorem}
+\begin{proof}
+    Given \( t_1, \dots, t_n \) and the statement \( (\forall x)((\forall y)(y \in x \Rightarrow p(y)) \Rightarrow p(x)) \), we want to show \( (\forall x)p(x) \).
+    Suppse this is not the case, so there exists \( x \) such that \( \neg p(x) \).
+    We want to look at the set \( \qty{t \mid \neg p(t)} \) and take an \( \in \)-minimal element, but this is not necessarily a set, for instance if \( p(x) \) is the assertion \( x \neq x \).
+
+    Let \( u = \qty{t \in TC(\qty{x}) \mid \neg p(t)} \); this is clearly a set in the model, and \( u \neq \varnothing \) as \( x \in u \).
+    Let \( t \) be an \( \in \)-minimal element of \( u \), guaranteed by the axiom of foundation.
+    Then \( \neg p(t) \) as \( t \in u \), but \( p(z) \) for all \( z \in t \) by minimality of \( t \), noting that \( z \in t \) implies \( z \in TC(\qty{x}) \).
+    This gives a contradiction.
+\end{proof}
+The name of this theorem should be read `epsilon-induction', even though the membership relation is denoted \( \in \) and not \( \epsilon \) or \( \varepsilon \).
+
+The principle of \( \in \)-induction is equivalent to the axiom of foundation in the presence of the other axioms of \( \mathsf{ZF} \).
+We say that \( x \) is \emph{regular} if \( (\forall y)(x \in y \Rightarrow y \text{ has a minimal element}) \).
+The axiom of foundation is equivalent to the assertion that every set is regular.
+Given \( \in \)-induction, we can prove every set is regular.
+Suppose \( (\forall y \in x)(y \text{ is regular}) \); we need to show \( x \) is regular.
+For a set \( z \) with \( x \in z \), if \( x \) is minimal in \( z \), \( x \) is clearly regular as required.
+If \( x \) is not minimal in \( z \), there exists \( y \in x \) such that \( y \in z \).
+So \( z \) has a minimal element as \( y \) is regular.
+Hence \( x \) is regular.
+
+\subsection{\texorpdfstring{\( \in \)}{∈}-recursion}
+We want to be able to define \( f(x) \) given \( f(y) \) for all \( y \in x \).
+\begin{theorem}[\( \in \)-recursion theorem]
+    Let \( G \) be a function-class, so \( (x,y) \in G \) if and only if \( p(x,y) \) for some formula \( p \).
+    Suppose that \( G \) is defined for all sets.
+    Then there is a function-class \( F \) defined for all sets by a formula \( q(x,y) \) such that
+    \[ (\forall x)\qty(F(x) = G\qty(\eval{F}_x)) \]
+    Moreover, this \( F \) is unique.
+\end{theorem}
+Note that \( \eval{F}_x = \qty{(y, F(y)) \mid y \in x} \) is a set by the axiom of replacement.
+\begin{proof}
+    Define that \( f \) is an \emph{attempt} if
+    \[ f \text{ is a function} \wedge \dom f \text{ is transitive} \wedge (\forall x)\qty(x \in \dom f \Rightarrow f(x) = G\qty(\eval{f}_x)) \]
+    Note that \( \eval{f}_x \) is defined as \( \dom f \) is transitive.
+    Then,
+    \[ (\forall x)(\forall f)(\forall f')(f, f' \text{ are attempts} \wedge x \in \dom f \cap \dom f' \Rightarrow f(x) = f'(x)) \]
+    by \( \in \)-induction: if \( f(y) = f'(y) \) for all \( y \in x \), then \( f(x) = f'(x) \).
+    Also,
+    \[ (\forall x)(\exists f)(f \text{ is an attempt} \wedge x \in \dom f) \]
+    by \( \in \)-induction.
+    Indeed, if for all \( y \in x \) there exists an attempt defined at \( y \), then for each \( y \in x \) there is a unique attempt \( f_y \) defined on \( TC(\qty{y}) \).
+    Let \( f = \bigcup\qty{f_y \mid y \in x} \), which is an attempt with domain \( TC(x) \).
+    We can then define \( f' = f \cup \qty{\qty(x, G\qty(\eval{f}_x))} \).
+    This is an attempt defined at \( x \).
+    We can then take \( q(x,y) \) to be
+    \[ (\exists f)(f \text{ is an attempt} \wedge x \in \dom f \wedge f(x) = y) \]
+    This defines the function-class \( F \) as required.
+    Uniqueness follows from the fact that if \( F, F' \) are suitable function-classes, we have \( (\forall x)(F(x) = F'(x)) \) by \( \in \)-induction.
+\end{proof}
+
+\subsection{Well-founded relations}
+Note the similarity between the proofs of \( \in \)-induction and \( \in \)-recursion and the proofs of induction and recursion on ordinals.
+These proofs are not specific to the relation \( \in \); we only used some of its properties.
+\begin{enumerate}
+    \item \( p \) is \emph{well-founded}: every nonempty set has a \( p \)-minimal element.
+    \item \( p \) is \emph{local}: \( \qty{x \mid p(x,y)} \) is a set.
+    This was required to build the \( p \)-transitive closure.
+\end{enumerate}
+Therefore, we have \( p \)-induction and \( p \)-recursion for all relation-classes \( p \) that are well-founded and local.
+In participants, if \( r \) is a well-founded relation on a set \( a \), it is clearly local and hence we have \( r \)-induction and \( r \)-recursion.
+The theorems about induction and recursion on ordinals are therefore special cases of this, as a well-ordering is precisely a well-founded total order.
+
+On the set \( \qty{a, b, c} \), let \( r \) be the relation \( arb, brc \).
+Choosing \( a' = \varnothing, b' = \qty{\varnothing}, c' = \qty{\qty{\varnothing}} \), the map \( f \colon \qty{a, b, c} \to \qty{a', b', c'} \) given by \( x \mapsto x' \) is a bijection with a transitive set such that \( xry \) if and only if \( f(x) \in f(y) \).
+This models the relation \( r \) by \( \in \).
+
+We say that a relation \( r \) on a set \( a \) is \emph{extensional} if
+\[ (\forall x \in a)(\forall y \in a)((\forall z \in a)(zrx \Leftrightarrow zry) \Rightarrow x = y) \]
+The relation \( r \) in the above example is extensional.
+\begin{theorem}[Mostowski's collapsing theorem]
+    Let \( r \) be a relation on a set \( a \) that is well-founded and extensional.
+    Then, there exists a transitive set \( b \) and a bijection \( f \colon a \to b \) such that
+    \[ (\forall x \in a)(\forall y \in a)(x r y \Leftrightarrow f(x) \in f(y)) \]
+    Moreover, \( b \) and \( f \) are unique.
+\end{theorem}
+This is an analogue of subset collapse from the section on ordinals.
+Transitive sets are playing the role of initial segments.
+Note that the well-foundedness and extensionality conditions are clearly necessary for the theorem, consider \( (\mathbb Z, <) \) or \( (\qty{a,b,c,},<) \) with \( a<b, a<c \) for counterexamples.
+\begin{proof}
+    We define the function \( f \) by \( f(x) = \qty{f(y) \mid y r x} \) using \( r \)-recursion.
+    Note that \( f \) is a function by the axiom of replacement as it is given by a function-class \( F \) obtained from \( r \)-recursion that is defined on the set \( a \).
+    Let \( b = \qty{f(x) \mid x \in a} \); this is a set by the axiom of replacement.
+    Clearly \( f \) is surjective by the definition of \( b \), and \( b \) is transitive by definition.
+
+    We claim that \( f \) is injective, and then we have that \( yrx \) if and only if \( f(y) \in f(x) \) by definition of \( f \).
+    We show
+    \[ (\forall x \in a)(\forall x' \in a)(f(x') = f(x) \Rightarrow x' = x) \]
+    by \( r \)-induction on \( x \).
+    Suppose that \( (\forall y r x)(\forall z \in a)(f(y) = f(z) \Rightarrow y = z) \), we have \( f(x) = f(x') \), and we want to show that \( x = x' \).
+    Note that \( \qty{f(y) \mid y r x} = \qty{f(z) \mid z r x'} \) by the definition of \( f \) as \( f(x) = f(x') \).
+    So \( \qty{y \mid y r x} = \qty{z \mid z r x'} \), so \( x = x' \) as \( r \) is extensional.
+    Uniqueness holds by \( r \)-induction, as we must have \( f(x) = \qty{f(y) \mid y r x} \) for all \( x \in a \).
+\end{proof}
+In particular, every well-ordered set is order-isomorphic to a unique transitive set well-ordered by \( \in \).
+We can now define that an ordinal is a transitive set well-ordered by \( \in \) (or equivalently, totally-ordered, due to the axiom of foundation).
+For example, \( \varnothing \) is an ordinal, \( n \in \omega \) is an ordinal, \( \omega \) is also an ordinal, and so on.
+Therefore, each well-ordering is order-isomorphic to a unique ordinal called its order type, by Mostowski collapse.
+\begin{remark}
+    If \( x, y \) are elements of a well-ordered set \( a \) with \( y < x \), then the order type of \( I_x \), which is precisely the image \( f(x) \) under the Mostowski collapse, has an element \( f(y) \), the order type of \( I_y \).
+    In particular, given two ordinals \( \alpha, \beta \), the statement \( \alpha < \beta \) is equivalent to \( \alpha \in \beta \).
+    Hence \( \alpha = \qty{\beta \mid \beta < \alpha} \).
+    Thus, \( \alpha^+ = \alpha \cup \qty{\alpha} \), and \( \sup \qty{\alpha_i \mid i \in I} = \bigcup \qty{\alpha_i \mid i \in I} \).
+\end{remark}
+
+\subsection{The universe of sets}
+We would like the universe to be V-shaped, in the sense that we begin with \( \varnothing \) and continue taking power sets to create larger and larger sets.
+Define sets \( V_\alpha \) for each ordinal \( \alpha \) by
+\begin{itemize}
+    \item \( V_0 = \varnothing \);
+    \item \( V_{\alpha+1} = \mathcal P(V_\alpha) \);
+    \item \( V_\lambda = \bigcup \qty{V_\alpha \mid \alpha < \lambda} \) for a nonzero limit ordinal \( \lambda \).
+\end{itemize}
+This can be viewed as a well-founded recursion on ordinals, or \( \in \)-recursion on the universe but mapping non-ordinals to \( \varnothing \).
+For example, \( V_\omega = V_0 \cup V_1 \cup \dots \), and \( V_{\omega+1} = \mathcal P(V_\omega) \).
+We will now show that every set is contained within some \( V_\alpha \).
+\begin{lemma}
+    Each \( V_\alpha \) is transitive.
+\end{lemma}
+\begin{proof}
+    We show this by induction on \( \alpha \).
+    Clearly \( V_0 = \varnothing \) is transitive.
+    Suppose \( V_\alpha \) is transitive.
+    Then \( V_{\alpha+1} \) is transitive as the power set of a transitive set is transitive.
+    Indeed, if \( x \) is transitive and \( z \in y \in \mathcal P(x) \), we have \( z \in x \), so \( z \subseteq x \) as \( x \) is transitive, so \( z \in \mathcal P(x) \).
+    Now suppose \( \lambda \) is a limit ordinal, and that the \( V_\alpha \) are transitive for \( \alpha < \lambda \).
+    Any union of transitive sets is transitive, so \( V_\lambda \) is transitive.
+\end{proof}
+\begin{lemma}
+    Let \( \alpha \leq \beta \).
+    Then \( V_\alpha \subseteq V_\beta \).
+\end{lemma}
+\begin{proof}
+    We show this by induction on \( \beta \) for a fixed \( \alpha \).
+    If \( \beta = \alpha \), \( V_\alpha \subseteq V_\beta \) is trivial.
+    For successors, note that \( V_\beta \subseteq \mathcal P(V_\beta) \) as \( V_\beta \) is transitive.
+    So if \( V_\alpha \subseteq V_\beta \), then \( V_\alpha \subseteq V_{\beta+1} \).
+    Limits are trivial.
+\end{proof}
+\begin{theorem}
+    Every set \( x \) belongs to \( V_\alpha \) for some \( \alpha \).
+\end{theorem}
+If we could construct the set \( V \) defined as the union of the \( V_\alpha \) over all ordinals \( \alpha \), \( V \) would be a model of \( \mathsf{ZF} \).
+\begin{remark}
+    Note that \( x \subseteq V_\alpha \) if and only if \( x \in V_{\alpha+1} \), so it suffices to show that each set \( x \) is a subset of some \( V_\alpha \).
+    Once we have \( x \subseteq V_\alpha \) for some \( \alpha \), there is a least such \( \alpha \), called the \emph{rank} of \( x \).
+    For example, the rank of \( \varnothing \) is 0, the rank of 1 is 1, the rank of \( \omega \) is \( \omega \), and in general the rank of any ordinal \( \alpha \) is \( \alpha \).
+    Intuitively, the rank of a set is the time at which it was created.
+\end{remark}
+\begin{proof}
+    We proceed by \( \in \)-induction on \( x \); we may assume that for all \( y \in x \), there exists \( \alpha \) such that \( y \subseteq V_\alpha \), so \( y = V_{\mathrm{rank}(y)} \).
+    Thus, for each \( y \in x \), \( y \in V_{\mathrm{rank}(y)+1} \), so define \( \alpha = \sup\qty{\mathrm{rank}(y) + 1 \mid y \in x} \).
+    Then for all \( y \in x \), we have \( y \in V_\alpha \).
+    So \( x \subseteq V_\alpha \) as required.
+\end{proof}
+The ordinals can be viewed as the backbone of the universe of sets; each \( V_\alpha \) can be thought of as resting on the ordinal \( \alpha \).
+\begin{remark}
+    The \( V_\alpha \) are called the \emph{von Neumann hierarchy}.
+    The above proof shows that for all \( x \), \( \mathrm{rank}(x) = \sup\qty{\mathrm{rank}(y) + 1 \mid y \in x} \).
+    For example, the rank of \( \qty{\qty{2, 3}, 6} \) is
+    \[ \sup\qty{\mathrm{rank}\qty{2, 3} + 1, 6 + 1} = \sup\qty{5, 7} = 7 \]
+\end{remark}

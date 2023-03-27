@@ -1,0 +1,115 @@
+\subsection{One-time pads}
+We can use quantum information theory to securely transmit messages between agents Alice and Bob, who may be in distant locations, without the possibility that an eavesdropper Eve can recover the message that was sent.
+
+We will assume that Alice and Bob have an authenticated classical channel through which they can send classical information; Alice and Bob can verify that any particular message on the channel came from a particular sender.
+We also assume that Eve cannot block the channel or modify any messages transmitted, but she can monitor the channel freely.
+Hence, Alice and Bob can receive messages from each other without error.
+
+In the classical setting, there exists a provably secure classical scheme for private communications, called the \emph{one-time pad}.
+This requires that Alice and Bob share a private key \( K \), which is a binary string.
+\( K \) must have been created beforehand, and must be chosen uniformly at random from the set of binary strings of the same length as the message \( M \).
+Suppose \( M, K \in \qty{0,1}^n \).
+
+The protocol is as follows.
+First, Alice computes the encrypted message \( C = M \oplus K \).
+She then sends \( C \) to Bob through the classical channel.
+Bob can then compute \( C \oplus K = C \oplus K \oplus K = M \) to obtain the message that was sent by Alice.
+Eve cannot learn any information about the message (apart from its length), as she has no knowledge of \( K \).
+In general, the probability that a particular \( K \) was chosen is \( 2^{-n} \).
+This scheme cannot be broken.
+
+Suppose that Alice and Bob use the same key \( K \) to send two messages \( M_1, M_2 \).
+Eve can obtain \( M_1 \oplus K \) and \( M_2 \oplus K \), and can therefore compute \( (M_1 \oplus K) \oplus (M_2 \oplus K) = M_1 \oplus M_2 \), which gives some information about the messages that were sent.
+Any key must only be used once, so the one-time pad protocol is inefficient.
+To solve this problem, we will construct methods for distributing keys, using techniques from quantum information theory.
+
+\subsection{The BB84 protocol}
+Quantum key distribution allows Alice and Bob to generate a private key without needing to physically meet.
+This key can then be used to send messages over the one-time pad protocol.
+In addition to a classical channel, we assume that Alice and Bob also have access to a quantum channel through which they can send qubits.
+We will show that Eve cannot gain information about the key that Alice and Bob generate without being detected.
+
+Consider the bases \( \mathcal B_0 = \qty{\ket{0}, \ket{1}}, \mathcal B_1 = \qty{\ket{+}, \ket{-}} \).
+These are examples of \emph{mutually unbiased bases}; a pair of bases such that if any basis vector is measured relative to the other basis, all outcomes are equally likely.
+For example, measuring \( \ket{+} \) relative to \( \mathcal B_0 \) gives probability \( \frac{1}{2} \) for outcomes 0 and 1.
+
+First, Alice generates two \( m \)-bit strings \( x = x_1 \dots x_m \in \qty{0,1}^m, y = y_1 \dots y_m \in \qty{0,1}^m \) uniformly at random.
+She then prepares the \( m \)-qubit state \( \ket{\psi_{xy}} = \ket{\psi_{x_1 y_1}} \otimes \dots \otimes \ket{\psi_{x_m y_m}} \) where
+\[ \ket{\psi_{x_i y_i}} = \begin{cases}
+    \ket{0} & x_i = 0; y_i = 0 \\
+    \ket{1} & x_i = 1; y_i = 0 \\
+    \ket{+} & x_i = 0; y_i = 1 \\
+    \ket{-} & x_i = 1; y_i = 1
+\end{cases} \]
+Alice sends the qubits \( \ket{\psi_{xy}} \) to Bob with \( m \) uses of the quantum channel.
+The qubits received are not necessarily in the state \( \ket{\psi_{xy}} \) due to noise or malicious manipulation of the channel.
+Bob then generates an \( m \)-bit string \( y' = y_1' \dots y_m' \in \qty{0,1}^m \) uniformly at random.
+If \( y_i' = 0 \), he measures the \( i \)th qubit in the basis \( \mathcal B_0 = \qty{\ket{0}, \ket{1}} \).
+If \( y_i' = 1 \), he acts on the \( i \)th qubit by the Hadamard gate and then measures in \( \mathcal B_0 \).
+Equivalently, he measures the \( i \)th qubit in the basis \( \mathcal B_1 = \qty{\ket{+}, \ket{-}} \).
+Let the sequence of outcomes be \( x' = x_1' \dots x_m' \in \qty{0,1}^m \).
+
+If \( y_i' = y_i \), we have \( x_i' = x_i \).
+Indeed, suppose \( y_i' = 0 = y_i \).
+Then \( \ket{\pi_{x_i y_i}} \in \mathcal B_0 \), and Bob measures in basis \( \mathcal B_0 \), so he can determine \( x_i \) with probability 1.
+If \( y_i' = 1 = y_i \), \( \ket{\pi_{x_i y_i}} \in \mathcal B_1 \), and Bob measures in basis \( \mathcal B_1 \).
+
+Now, Alice and Bob compare their values of \( y \) and \( y' \) over the classical channel, and discard all \( x_i \) and \( x_i' \) for which \( y_i \neq y_i' \).
+The remaining \( x_i \) and \( x_i' \) match, given that Bob receives \( \ket{\psi_{xy}} \) exactly, and this forms the shared private key \( \widetilde x = \widetilde x' \).
+The average length of \( \widetilde x \) is \( \frac{m}{2} \).
+
+In the case \( m = 8 \), suppose \( x = 01110100 \) and \( y = 11010001 \).
+Alice prepares \( \ket{\psi_{xy}} \) and sends the qubits to Bob.
+Suppose that Bob receives \( \ket{\psi_{xy}} \) exactly, and he generates \( y' = 01110110 \).
+Bob measures qubit 1 in the basis \( \mathcal B_0 \), but the qubit is in state \( \ket{+} \), so he obtains both outcomes for \( x_1' \) with equal probability.
+He measures qubit 2 in the basis \( \mathcal B_1 \), and the qubit is in state \( \ket{-} \), so after applying \( H \) and measuring, he obtains the correct outcome \( x_2' = 1 \) with probability 1.
+After discarding mismatched \( y_i \), the obtained private key is \( \widetilde x = 110 \).
+
+In the general case, however, there may be noise or malicious activity on the channel.
+We therefore include the further step of \emph{information reconciliation} at the end of hte BB84 protocol.
+Alice and Bob want to estimate the \emph{bit error rate}, which is the proportion of bits in \( \widetilde x \) and \( \widetilde x' \) that differ.
+They can publicly compare a random sample of their bits, and discard the bits used in the test.
+They assume that the bit error rate in the sample is approximately the same as the bit error rate of \( \widetilde x \) and \( \widetilde x' \).
+
+Suppose that Alice and Bob have estimated bit the error rate to be \( \frac{1}{7} \), and now have strings \( a, b \) of length \( 7 \).
+They can use classical error correcting code techniques to fix any remaining errors.
+They publicly agree to act on \( a, b \) by a matrix
+\[ \widetilde H = \begin{pmatrix}
+    1 & 1 & 1 & 0 & 1 & 0 & 0 \\
+    1 & 1 & 0 & 1 & 0 & 1 & 0 \\
+    0 & 1 & 1 & 1 & 0 & 0 & 1
+\end{pmatrix} \]
+which is the check matrix of a Hamming code.
+Alice computes the \emph{syndrome} \( s^A = (s_1^A, s_2^A, s_3^A)^\transpose = \widetilde H a^\transpose \), and sends this to Bob on the public channel.
+Bob computes the syndrome \( s^B \) for \( b \), and calculates \( s = s^B - s^A \).
+There is a unique bit string \( v \) with at most one nonzero entry such that \( \widetilde H v^\transpose = s \); he can therefore recover \( a \).
+
+The estimation of the bit error rate and the transmission of the syndrome can reveal some information on the public channel.
+Alice and Bob want to estimate the maximum amount of information that an eavesdropper could gain about the remaining bits, using \emph{privacy amplification}.
+This depends on the choice of action that Eve takes.
+
+As an example, suppose \( a^\star = (a_1, a_2, a_3) \in \qty{0,1}^3 \), and suppose Eve knows at most one bit of this string.
+Let \( c = (a_1 \oplus a_3, a_2 \oplus a_3) \).
+We claim that Eve has no knowledge about \( c \).
+Indeed, we can explicitly enumerate all possibilities of \( a^\star \) and the corresponding values of \( c \), and show that Eve's knowledge about any of the bits of \( a^\star \) does not change the distribution of \( c \).
+
+One strategy for Eve, called the \emph{intercept and resend} strategy, is to intercept the qubits as they are transferred to Bob, measure them, and retransmit the post-measurement state.
+The best possible measurement she can perform is in the \emph{Breidbart basis} \( \qty{\ket{\alpha_0}, \ket{\alpha_1}} \) where
+\[ \ket{\alpha_0} = \cos \frac{\pi}{8} \ket{0} - \sin \frac{\pi}{8} \ket{1};\quad \ket{\alpha_1} = \sin \frac{\pi}{8} \ket{0} + \cos \frac{\pi}{8} \ket{1} \]
+Note that
+\[ \abs{\ip{\alpha_0}{0}}^2 = \abs{\ip{\alpha_0}{+}}^2 = \cos^2 \frac{\pi}{8};\quad \abs{\ip{\alpha_1}{1}}^2 = \abs{\ip{\alpha_1}{-}}^2 = \cos^2 \frac{\pi}{8} \]
+The \( \ket{\alpha_i} \) provide the best possible simultaneous approximations of \( \ket{0}, \ket{+} \) and \( \ket{1}, \ket{-} \).
+Suppose \( y_i' = y_i \), and suppose Eve intercepts the \( i \)th qubit and measures it in the Breidbart basis.
+Her outcomes are \( 0 \) or \( 1 \), and she learns the correct value of \( x_i \) with probability \( \cos^2 \frac{\pi}{8} \approx 0.85 \).
+If she measures \( 0 \), she transmits \( \ket{\alpha_0} \) to Bob, and if she measures \( 1 \), she transmits \( \ket{\alpha_1} \) to Bob.
+
+The probability that Bob makes an incorrect inference of the value of the \( i \)th bit after this manipulation is \( \frac{1}{4} \), regardless of the state of the qubit transmitted by Alice.
+Suppose \( \ket{\psi_{x_i y_i}} = \ket{0} \), so \( x_i = 0, y_i = 0 \).
+Then,
+\begin{align*}
+    \prob{x_i' \neq x_i} &= \prob{B \text{ measures } 1 \mid A \text{ sent } \ket{0}} \\
+    &= \prob{E \text{ sent } \ket{\alpha_0} \mid A \text{ sent } \ket{0}} \prob{B \text{ measures } 1 \mid E \text{ sent } \ket{\alpha_0}} \\
+    &+ \prob{E \text{ sent } \ket{\alpha_1} \mid A \text{ sent } \ket{0}} \prob{B \text{ measures } 1 \mid E \text{ sent } \ket{\alpha_1}} \\
+    &= \abs{\ip{\alpha_0}{0}}^2 \abs{\ip{\alpha_0}{1}}^2 + \abs{\ip{\alpha_1}{0}}^2 \abs{\ip{\alpha_1}{1}}^2 \\
+    &= \frac{1}{4}
+\end{align*}

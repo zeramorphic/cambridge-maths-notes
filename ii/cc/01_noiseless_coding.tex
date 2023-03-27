@@ -1,0 +1,326 @@
+\subsection{Prefix-free codes}
+Let \( \mathcal A \) be a finite alphabet.
+We write \( \mathcal A^\star \) for the set of strings of elements of \( \mathcal A \), defined by \( \mathcal A^\star = \bigcup_{n \geq 0} A^n \).
+The \emph{concatenation} of two strings \( x = x_1 \dots x_r \) and \( y = y_1 \dots y_s \) is the string \( xy = x_1 \dots x_r y_1 \dots y_s \).
+\begin{definition}
+    Let \( \mathcal A, \mathcal B \) be alphabets.
+    A \emph{code} is a function \( c \colon \mathcal A \to \mathcal B^\star \).
+    The \emph{codewords} of \( c \) are the elements of \( \Im c \).
+\end{definition}
+\begin{example}[Greek fire code]
+    Let \( \mathcal A = \qty{\alpha, \beta, \dots, \omega} \), and \( B = \qty{1, 2, 3, 4, 5} \).
+    We map \( c(alpha) = 11, c(\beta) = 12, \dots, c(\psi) = 53, c(\omega) = 54 \).
+    \( xy \) means to hold up \( x \) torches and another \( y \) torches nearby.
+    This code was described by the historian Polybius.
+\end{example}
+\begin{example}
+    Let \( \mathcal A \) be a set of words in some dictionary.
+    Let \( \mathcal B \) be the letters of English \( \qty{A, \dots, Z, \textvisiblespace} \)
+    The code is to spell the word and follow with a space.
+\end{example}
+The general idea is to send a message \( x_1, \dots, x_n \in \mathcal A^\star \) as \( c(x_1) \dots c(x_n) \in \mathcal B^\star \).
+So \( c \) extends to a function \( c^\star \colon \mathcal A^\star \to \mathcal B^\star \).
+\begin{definition}
+    A code \( c \) is \emph{decipherable} (or \emph{uniquely decodable}) if \( c^\star \) is injective.
+\end{definition}
+If \( c \) is decipherable, each string in \( \mathcal B^\star \) corresponds to at most one message.
+It does not suffice to require that \( c \) be injective.
+Consider \( \mathcal A = \qty{1, 2, 3, 4}, \mathcal B = \qty{0,1} \), and let \( c(1) = 0, c(2) = 1, c(3) = 00, c(4) = 01 \).
+Then \( c^\star(114) = 0001 = c^\star(312) \).
+
+Typically we define \( m = \abs{\mathcal A} \) and \( a = \abs{\mathcal B} \).
+We say \( c \) is an \( a \)-ary code of size \( m \).
+A 2-ary code is a binary code, and a 3-ary code is a ternary code.
+We aim to construct decipherable codes with short word lengths.
+Assuming that \( c \) is injective, the following codes are always decipherable.
+\begin{enumerate}
+    \item a \emph{block code}, where all codewords have the same length, such as in the Greek fire code;
+    \item a \emph{comma code}, which reserves a letter from \( \mathcal B \) to signal the end of a word;
+    \item a \emph{prefix-free code}, a code in which no codeword is a prefix of another codeword.
+\end{enumerate}
+Block codes and comma codes are examples of prefix-free codes.
+Such codes require no lookahead to determine if we have reached the end of a word, so such codes are sometimes called \emph{instantaneous} codes.
+One can easily find decipherable codes that are not prefix-free.
+
+\subsection{Kraft's inequality}
+\begin{definition}
+    Let \( \mathcal A \) be an alphabet of size \( m \), and \( \mathcal B \) be an alphabet of size \( a \).
+    Let \( c \colon \mathcal A \to \mathcal B^\star \) be a code with codewords are of length \( \ell_1, \dots, \ell_m \).
+    Then, \emph{Kraft's inequality} is
+    \[ \sum_{i=1}^m a^{-\ell_i} \leq 1 \]
+\end{definition}
+\begin{theorem}
+    A prefix-free code (with given codeword lengths) exists if and only if Kraft's inequality holds.
+\end{theorem}
+\begin{proof}
+    Let us rewrite Kraft's inequality as \( \sum_{n=1}^s n_\ell a^{-\ell} \leq 1 \), where \( n_\ell \) is the number of codewords of length \( \ell \), and \( s \) is the length of the longest codeword.
+    Suppose \( c \colon \mathcal A \to \mathcal B^\star \) is prefix-free.
+    Then,
+    \[ n_1 a^{s-1} + n_2 a^{s-2} + \dots + n_{s-1} a + n_s \leq a^s \]
+    since the left hand side counts the number of strings of length \( s \) in \( \mathcal B \) with some codeword of \( c \) as a prefix, and the right hand side counts the total number of strings of length \( s \).
+    Dividing by \( a^s \) gives the desired result.
+
+    Now, suppose that \( \sum_{n=1}^s n_\ell a^{-\ell} \leq 1 \).
+    We aim to construct a prefix-free code \( c \) with \( n_\ell \) codewords of length \( \ell \) for all \( \ell \leq s \).
+    Proceed by induction on \( s \).
+    The case \( s = 1 \) is clear; in this case, the inequality gives \( n_1 \leq a \).
+    By the inductive hypothesis, we have constructed a prefix-free code \( \hat c \) with \( n_\ell \) codewords of length \( \ell \) for all \( \ell < s \).
+    The inequality gives \( n_1 a^{s-1} + \dots + n_{s-1} a + n_s \leq a^s \).
+    The first \( s - 1 \) terms on the left hand side gives the number of strings of length \( s \) with some codeword of \( \hat c \) as a prefix.
+    So we are free to add \( n_s \) additional codewords of length \( s \) to \( \hat c \) to form \( c \) without exhausting our supply of \( a^s \) total strings of length \( s \).
+\end{proof}
+\begin{remark}
+    The proof of existence of such a code is constructive; one can choose codewords in order of increasing length, ensuring that we do not introduce prefixes at each stage.
+\end{remark}
+
+\subsection{McMillan's inequality}
+\begin{theorem}
+    Any decipherable code satisfies Kraft's inequality.
+\end{theorem}
+\begin{proof}
+    Let \( c \colon \mathcal A \to \mathcal B^\star \) be decipherable with word lengths \( \ell_1, \dots, \ell_m \).
+    Let \( s = \max_{i \leq m} \ell_i \).
+    For \( R \in \mathbb N \), Kraft's inequality gives
+    \[ \qty(\sum_{i=1}^m a^{-\ell_i})^R = \sum_{\ell = 1}^{Rs} b_\ell a^{-\ell} \]
+    where \( b_\ell \) is the number of ways of choosing \( R \) codewords of total length \( \ell \).
+    Since \( c \) is decipherable, any string of length \( \ell \) formed from codewords must correspond to exactly one sequence of codewords.
+    Hence, \( b_\ell \leq \abs{\mathcal B^\ell} = a^\ell \).
+    The inequality therefore gives
+    \[ \qty(\sum_{i=1}^m a^{-\ell_i})^R \leq Rs \implies \sum_{i=1}^m a^{-\ell_i} \leq \qty(Rs)^{\frac{1}{R}} \]
+    As \( R \to \infty \), the right hand side converges to 1, giving Kraft's inequality as required.
+\end{proof}
+\begin{corollary}
+    A decipherable code with prescribed word lengths exists if and only if a prefix-free code with the same word lengths exists.
+\end{corollary}
+We can therefore restrict our attention to prefix-free codes.
+
+\subsection{Entropy}
+\emph{Entropy} is a measure of `randomness' or `uncertainty' in an input message.
+Suppose that we have a random variable \( X \) taking a finite number of values \( x_1, \dots, x_n \) with probability \( p_1, \dots, p_n \).
+Then, the entropy of this random variable is the expected number of fair coin tosses required to determine \( X \).
+\begin{example}
+    Suppose \( p_1 = p_2 = p_3 = p_4 = \frac{1}{4} \).
+    Identifying \( \qty{x_1, x_2, x_3, x_4} = \qty{00, 01, 10, 11} \), we would expect \( H(X) = 2 \).
+\end{example}
+\begin{example}
+    Suppose \( p_1 = \frac{1}{2} \), \( p_2 = \frac{1}{4} \), and \( p_3 = p_4 = \frac{1}{8} \).
+    Identifying \( \qty{x_1, x_2, x_3, x_4} = \qty{0, 10, 110, 111} \), we obtain \( H(X) = \frac{1}{2} \cdot 1 + \frac{1}{4} \cdot 2 + \frac{1}{8} \cdot 3 + \frac{1}{8} \cdot 3 = \frac{7}{4} \).
+\end{example}
+In a sense, the first example is `more random' than the second, as its entropy is higher.
+\begin{definition}
+    The \emph{entropy} of a random variable \( X \) taking a finite number of values \( x_1, \dots, x_n \) with probabilities \( p_1, \dots, p_n \) is defined to be
+    \[ H(X) = H(p_1, \dots, p_n) = -\sum_{i=1}^n p_i \log p_i = -\expect{\log p_i} \]
+    where the logarithm is taken with base 2.
+\end{definition}
+Note that \( H(X) \geq 0 \), and equality holds exactly when \( X \) is almost surely constant.
+It is measured in \emph{bits}, binary digits.
+By convention, we write \( 0 \log 0 = 0 \) (note that \( x \log x \to 0 \) as \( x \to 0 \)).
+\begin{example}
+    For a biased coin with probability \( p \) of a head, we write \( H(p,1-p) = H(p) \).
+    We find
+    \[ H(p) = -p\log p - (1-p)\log(1-p);\quad H'(p) = \log \frac{1-p}{p} \]
+    This graph is concave, taking a maximum value of 1 when \( p = \frac{1}{2} \).
+    If \( p = 0, 1 \) then \( H(p) = 0 \).
+\end{example}
+
+\subsection{Gibbs' inequality}
+\begin{proposition}
+    Let \( (p_1, \dots, p_n), (q_1, \dots, q_n) \) be discrete probability distributions.
+    Then,
+    \[ -\sum p_i \log p_i \leq -\sum p_i \log q_i \]
+    with equality if and only if \( p_i = q_i \).
+\end{proposition}
+The right hand side is sometimes called the \emph{cross entropy}, or \emph{mixed entropy}.
+\begin{proof}
+    Since \( \log x = \frac{\ln x}{\ln 2} \), we may replace the inequality with
+    \[ -\sum p_i \ln p_i \leq -\sum p_i \ln q_i \]
+    Define \( I = \qty{i \mid p_i \neq 0} \).
+    Now, \( \ln x \leq x - 1 \) for all \( x > 0 \), with equality if and only if \( x = 1 \).
+    Hence, \( \ln \frac{q_i}{p_i} \leq \frac{q_i}{p_i} - 1 \) for all \( i \in I \).
+    Then,
+    \[ \sum_{i \in I} p_i \ln \frac{q_i}{p_i} \leq \sum_{i \in I} q_i - \sum_{i \in I} p_i \]
+    As the \( p_i \) form a probability distribution, \( \sum_{i \in I} p_i = 1 \) and \( \sum_{i \in I} q_i \leq 1 \), so the right hand side is at most 0.
+    Therefore,
+    \[ -\sum_{i=1}^n p_i \ln p_i = -\sum_{i \in I} p_i \ln p_i \leq -\sum_{i \in I} p_i \ln q_i \leq -\sum_{i=1}^n p_i \ln q_i \]
+    If equality holds, we must have \( \sum_{i \in I} q_i = 1 \) and \( \frac{q_i}{p_i} = 1 \) for all \( i \in I \), giving that \( p_i = q_i \) for all \( i \).
+\end{proof}
+\begin{corollary}
+    \( H(p_1, \dots, p_n) \leq \log n \), with equality if and only if \( p_1 = \dots = p_n \).
+\end{corollary}
+
+\subsection{Optimal codes}
+Let \( \mathcal A = \qty{\mu_1, \dots, \mu_m} \) be an alphabet of \( m \geq 2 \) messages, and let \( \mathcal B \) be an alphabet of length \( a \geq 2 \).
+Let \( X \) be a random variable taking values in \( A \) with probabilities \( p_1, \dots, p_m \).
+\begin{definition}
+    A code \( c \colon \mathcal A \to \mathcal B^\star \) is called \emph{optimal} if it has the smallest possible expected word length \( \sum p_i \ell_i = \expect{S} \) among all decipherable codes.
+\end{definition}
+\begin{theorem}[Shannon's noiseless coding theorem]
+    The expected word length \( \expect{S} \) of an optimal code satisfies
+    \[ \frac{H(X)}{\log a} \leq \expect{S} < \frac{H(X)}{\log a} + 1 \]
+\end{theorem}
+The left hand inequality holds for all decipherable codes, but the right hand side only holds for optimal codes.
+\begin{proof}
+    First, we consider the lower bound.
+    Let \( c \colon \mathcal A \to \mathcal B^\star \) be a decipherable code with word lengths \( \ell_1, \dots, \ell_m \).
+    Let \( q_i = \frac{a^{-\ell_i}}{D} \) where \( D = \sum a^{-\ell_i} \), so \( \sum q_i = 1 \).
+    By Gibbs' inequality,
+    \[ H(X) \leq \sum p_i \log q_i = -\sum p_i(-\ell_i \log a - \log D) = \log D + \log a \sum p_i \ell_i \]
+    By McMillan's inequality, \( D \leq 1 \) so \( \log D \leq 0 \).
+    Hence, \( H(X) \leq \log a \sum p_i \ell_i = \log a \expect{S} \) as required.
+    Equality holds exactly when \( p_i = q_i = \frac{a^{-\ell_i}}{D} \) for some integers \( \ell_1, \dots, \ell_m \).
+
+    Now, consider the upper bound.
+    We construct a code called the \emph{Shannon--Fano code}.
+    Let \( \ell_i = \ceil{-\log_a p_i} \), so \( -\log_a p_i \leq \ell_i < -\log_a p_i + 1 \).
+    Therefore, \( \log_a p_i \geq -\ell_i \), so \( p_i \geq a^{-\ell_i} \).
+    Thus, Kraft's inequality \( \sum a^{-\ell_i} \leq 1 \) is satisfied, so there exists a prefix-free code \( c \) with these word lengths \( \ell_1, \dots, \ell_m \).
+    \( c \) has expected word length
+    \[ \expect{S} = \sum p_i \ell_i < \sum p_i (-\log p_i + 1) = \frac{H(X)}{\log a} + a \]
+    as required.
+\end{proof}
+\begin{example}[Shannon--Fano coding]
+    For probabilities \( p_1, \dots, p_m \), we set \( \ell_i = \ceil{-\log_a p_i} \).
+    Construct a prefix-free code with these word lengths by choosing codewords in order of size, with smallest codewords being selected first to ensure that the prefix-free property holds.
+    By Kraft's inequality, this process can always be completed.
+\end{example}
+\begin{example}
+    Let \( a = 2, m = 5 \), and define
+    \[ \begin{array}{cccc}
+            i & p_i & \ceil{-\log_2 p_i} \\
+            1 & 0.4 & 2 & 00 \\
+            2 & 0.2 & 3 & 010 \\
+            3 & 0.2 & 3 & 011 \\
+            4 & 0.1 & 4 & 1000 \\
+            5 & 0.1 & 4 & 1001
+    \end{array} \]
+    Here, \( \expect{S} = \sum p_i \ell_i = 2.8 \), and \( H(X) = \frac{H(X)}{\log 2} \approx 2.12 \).
+    Clearly, this is not optimal; one could take \( c(4) = 100, c(5) = 101 \) to reduce the expected word length.
+\end{example}
+
+\subsection{Huffman coding}
+Let \( \mathcal A = \qty{\mu_1, \dots, \mu_m} \) and \( p_i = \prob{X = \mu_i} \).
+We assume \( a = 2 \) and \( \mathcal B = \qty{0,1} \) for simplicity.
+Without loss of generality, we can assume \( p_1 \geq p_2 \geq \dots \geq p_m \).
+We construct an optimal code inductively.
+
+If \( m = 2 \), we take codewords \( 0 \) and \( 1 \).
+If \( m > 2 \), first we take the Huffman code for messages \( \mu_1, \dots, \mu_{m-2}, \nu \) with probabilities \( p_1, p_2, \dots, p_{m-2}, p_{m-1} + p_m \).
+Then, we append 0 and 1 to the codeword for \( \nu \) to obtain the new codewords for \( \mu_{m-1}, \mu_m \).
+\begin{remark}
+    By construction, Huffman codes are prefix-free.
+    In general, Huffman codes are not unique; we require a choice if \( p_i = p_j \).
+\end{remark}
+\begin{example}
+    Consider the example
+    Let \( a = 2, m = 5 \), and consider as before
+    \[ \begin{array}{cc}
+            i & p_i \\
+            1 & 0.4 \\
+            2 & 0.2 \\
+            3 & 0.2 \\
+            4 & 0.1 \\
+            5 & 0.1
+    \end{array} \]
+    Merging 4 and 5, as they have the lowest probabilities,
+    \[ \begin{array}{cc}
+        i & p_i \\
+        1 & 0.4 \\
+        2 & 0.2 \\
+        3 & 0.2 \\
+        45 & 0.1
+    \end{array} \]
+    Continuing, we obtain
+    \[ \begin{array}{cc}
+        i & p_i \\
+        (3(45))2 & 0.6 \\
+        1 & 0.4
+    \end{array} \]
+    giving codewords
+    % https://q.uiver.app/?q=WzAsOSxbMSwyLCJcXGJ1bGxldCJdLFswLDMsIjMiXSxbMiwzLCJcXGJ1bGxldCJdLFsxLDQsIjQiXSxbMyw0LCI1Il0sWzIsMSwiXFxidWxsZXQiXSxbMywyLCIyIl0sWzMsMCwiXFxidWxsZXQiXSxbNCwxLCIxIl0sWzAsMSwiMCJdLFswLDIsIjEiLDJdLFsyLDMsIjAiXSxbMiw0LCIxIiwyXSxbNSwwLCIwIl0sWzUsNiwiMSIsMl0sWzcsNSwiMCJdLFs3LDgsIjEiLDJdXQ==
+    \[\begin{tikzcd}
+        &&& \bullet \\
+        && \bullet && 1 \\
+        & \bullet && 2 \\
+        3 && \bullet \\
+        & 4 && 5
+        \arrow["0", from=3-2, to=4-1]
+        \arrow["1"', from=3-2, to=4-3]
+        \arrow["0", from=4-3, to=5-2]
+        \arrow["1"', from=4-3, to=5-4]
+        \arrow["0", from=2-3, to=3-2]
+        \arrow["1"', from=2-3, to=3-4]
+        \arrow["0", from=1-4, to=2-3]
+        \arrow["1"', from=1-4, to=2-5]
+    \end{tikzcd}\]
+    This gives \( \expect{S} = 2.2 \), better than the Shannon--Fano code found above.
+\end{example}
+\begin{lemma}
+    Let \( \mu_1, \dots, \mu_m \) be messages in \( \mathcal A \) with probabilities \( p_1, \dots, p_m \).
+    Let \( c \) be an optimal prefix-free code for \( c \) with word lengths \( \ell_1, \dots, \ell_m \).
+    Then,
+    \begin{enumerate}
+        \item if \( p_i > p_j \), \( \ell_i \leq \ell_j \); and
+        \item among all codewords of maximal length, there exist two which differ only in the last digit.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    If this were not true, one could modify \( c \) by
+    \begin{enumerate}
+        \item swapping the \( i \)th and \( j \)th codewords; or
+        \item deleting the last letter of each codeword of maximal length
+    \end{enumerate}
+    which yields a prefix-free code with strictly smaller expected word length.
+\end{proof}
+\begin{theorem}
+    Huffman codes are optimal.
+\end{theorem}
+\begin{proof}
+    The proof is by induction on \( m \).
+    If \( m = 2 \), then the codewords are 0 and 1, which is clearly optimal.
+    Assume \( m > 2 \), and let \( c_m \) be the Huffman code for \( X_m \) which takes values \( \mu_1, \dots, \mu_m \) with probabilities \( p_1 \geq \dots \geq p_m \).
+    \( c_m \) is constructed from a Huffman code \( c_{m-1} \) with random variable \( X_{m-1} \) taking values \( \mu_1, \dots, \mu_{n-2}, \nu \) with probabilities \( p_1, \dots, p_{m-2}, p_{m-1} + p_m \).
+    The code \( c_{m-1} \) is optimal by the inductive hypothesis.
+    The expected word length \( \expect{S_m} \) is given by
+    \[ \expect{S_m} = \expect{S_{m-1}} + p_{m-1} + p_m \]
+    Let \( c_m' \) be an optimal code for \( X_m \), which without loss of generality can be chosen to be prefix-free.
+    Without loss of generality, the last two codewords of \( c_m' \) can be chosen to have the largest possible length and differ only in the final position, by the previous lemma.
+    Then, \( c_m'(\mu_{m-1}) = y 0 \) and \( c_m'(\mu_m) = y 1 \) for some \( y \in \qty{0,1}^\star \).
+    Let \( c_{m-1}' \) be the prefix-free code for \( X_{m-1} \) given by
+    \[ c_{m-1}'(\mu_i) = \begin{cases}
+        c_m'(\mu_i) & i \leq m-2 \\
+        y & i = m-1, m
+    \end{cases} \]
+    The expected word length satisfies
+    \[ \expect{S_m'} = \expect{S_{m-1}'} + p_{m-1} + p_m \]
+    By the inductive hypothesis, \( c_{m-1} \) is optimal, so \( \expect{S_{m-1}} \leq \expect{S_{m-1}'} \).
+    Combining the equations,
+    \[ \expect{S_m} \leq \expect{S_m'} \]
+    So \( c_m \) is optimal as required.
+\end{proof}
+\begin{remark}
+    Not all optimal codes are Huffman codes.
+    However, we have proven that, given a prefix-free optimal code with prescribed word lengths, there is a Huffman code with these word lengths.
+\end{remark}
+
+\subsection{Joint entropy}
+Let \( X, Y \) be random variables with values in \( \mathcal A, \mathcal B \).
+Then, the pair \( (X, Y) \) is also a random variable, taking values in \( \mathcal A \times \mathcal B \).
+This has entropy \( H(X,Y) \), called the \emph{joint entropy} for \( X \) and \( Y \).
+\[ H(X,Y) = - \sum_{x \in \mathcal A} \sum_{y \in \mathcal B} \prob{X = x, Y = y} \log \prob{X = x, Y = y} \]
+This construction generalises to finite tuples of random variables.
+\begin{lemma}
+    Let \( X, Y \) be random variables taking values in \( \mathcal A, \mathcal B \).
+    Then \( H(X,Y) \leq H(X) + H(Y) \), with equality if and only if \( X \) and \( Y \) are independent.
+\end{lemma}
+\begin{proof}
+    Let \( \mathcal A = \qty{x_1, \dots, x_m} \) and \( \mathcal B = \qty{y_1, \dots, y_n} \).
+    Let \( p_{ij} = \prob{X = x_i, Y = y_j} \), \( p_i = \prob{X = x_i} \), and \( q_j = \prob{Y = y_j} \).
+    By Gibbs' inequality applied to \( \qty{p_{ij}} \) and \( \qty{p_i q_j} \),
+    \begin{align*}
+        H(X,Y) = -\sum p_{ij} \log p_{ij} &\leq -\sum p_{ij} \log(p_i q_j) \\
+        &= -\sum_i \qty(\sum_j p_{ij}) \log p_i - \sum_j \qty(\sum_i p_{ij}) \log q_j \\
+        &= -\sum_i p_i \log p_i - \sum_j q_j \log q_j \\
+        &= H(X) + H(Y)
+    \end{align*}
+    Equality holds if and only if \( p_{ij} = p_i q_j \) for all \( i, j \), or equivalently, if \( X, Y \) are independent.
+\end{proof}

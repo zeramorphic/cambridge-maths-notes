@@ -1,0 +1,456 @@
+We will construct the projective space \( \mathbb P^n \), which will be an upgrade to \( \mathbb A^n \); it is not immediately obvious why \( \mathbb P^n \) is considered `better'.
+Projective space has some interesting properties, such as:
+\begin{itemize}
+    \item every pair of lines in \( \mathbb P^2 \) that are distinct meet at a unique point;
+    \item if \( V \) is a projective variety (defined shortly) in \( \mathbb P^2 \) defined by a degree \( d \) polynomial, if \( V \) is a manifold then \( V \) is homeomorphic in the Euclidean topology to a closed orientable topological surface of genus \( \binom{d-1}{2} \).
+    \item \( \mathbb P^n \) is compact in the Euclidean topology, but \( \mathbb A^n \) is not.
+\end{itemize}
+
+\subsection{Definition}
+\begin{definition}
+    Let \( U \) be a finite-dimensional complex vector space.
+    The \emph{projectivisation} of \( U \), written \( \mathbb P(U) \), is the set of lines in \( U \) through the origin \( \vb 0 \in U \).
+    Define \( \mathbb P^n = \mathbb P(\mathbb C^{n+1}) \).
+\end{definition}
+We usually index the coordinates on \( \mathbb C^{n+1} \) with indices \( 0, \dots, n \).
+A line in \( \mathbb C^{n+1} \) is therefore given by \( \qty{(a_0 t, \dots, a_n t) \mid t \in \mathbb C} \), and is written \( L_{(a_0, \dots, a_n)} \), where not all \( a_i \) are zero.
+We write \( (a_0 : a_1 : \dots : a_n) \) for the corresponding element of \( \mathbb P^n \).
+Therefore,
+\[ \mathbb P^n = \faktor{\qty{(a_0, \dots, a_n) \mid a_i \in \mathbb C, \text{not all } a_i = 0}}{\text{scaling by } \mathbb C^\star} \]
+For example, \( (2 : 1 : -2) = (4 : 2 : -4) \in \mathbb P^2 \).
+
+We can decompose \( \mathbb P^1 \) as
+\[ \qty{(a_0 : a_1) \mid a_0 \neq 0} \cup \qty{(a_0 : a_1) \mid a_0 = 0} = \qty{\qty(1 : z) \mid z \in \mathbb C} \cup \qty{(0 : 1)} = \mathbb A^1 \cup \text{a point at infinity} \]
+More generally,
+\[ \mathbb P^n = \qty{(a_0 : \dots : a_n) \mid a_0 \neq 0} \cup \qty{(0 : a_1 : \dots : a_n)} = \mathbb A^n \amalg \mathbb P^{n-1} \]
+By induction, \( \mathbb P^n = \mathbb A^n \cup \mathbb A^{n-1} \cup \dots \cup \mathbb A^1 \cup \) a point, where the terms other than \( \mathbb A^n \) are considered `at infinity'.
+\begin{definition}
+    The \emph{Zariski} (respectively \emph{Euclidean}) topology on projective space is the quotient topology for the subspace topology for the Zariski (respectively Euclidean) topology on \( \mathbb C^{n+1} \setminus \qty{\vb 0} \), where \( \mathbb P^n = \faktor{\mathbb C^{n+1} \setminus \qty{\vb 0}}{\sim} \) and \( \mathbb C^{n+1} \setminus \qty{0} \subseteq \mathbb C^{n+1} \).
+\end{definition}
+There is a copy of \( \mathbb S^{2n+1} \) inside \( \mathbb C^{n+1} \setminus \qty{\vb 0} \), which therefore surjects onto \( \mathbb P^n \).
+\begin{corollary}
+    \( \mathbb P^n \) is compact.
+\end{corollary}
+\begin{proof}
+    It is the continuous image of the compact set \( \mathbb S^{2n+1} \).
+\end{proof}
+\begin{definition}
+    For \( 0 \leq j \leq n \), we define the \emph{\( j \)th coordinate hyperplane} is the set \( H_j = \qty{(\vb a_i) \mid a_j = 0} \subseteq \mathbb P^n \).
+\end{definition}
+We can naturally identify \( H_j \) with \( \mathbb P^{n-1} \).
+\begin{definition}
+    The \emph{\( j \)th standard affine patch} \( U_j \) is the complement of \( H_j \).
+\end{definition}
+There is a natural bijection \( U_j \to \mathbb A^n \) by mapping \( (a_0 : \dots : a_n) \) to \( \qty(\frac{a_0}{a_j}, \dots, \widehat{\frac{a_j}{a_j}}, \dots, \frac{a_n}{a_j}) \) where the hat denotes `forgetting' that element of the tuple.
+The inverse function maps \( (b_1, \dots, b_n) \) to \( (b_1 : \dots : b_{j-1} : 1 : b_j : \dots : b_n) \).
+We observe that \( \qty{U_j}_{j=0}^n \) is an open cover of \( \mathbb P^n \) in the Zariski topology.
+
+\subsection{Projective varieties}
+\begin{example}
+    Consider the polynomial \( X_0 + 1 \in \mathbb C[X_0, X_1] \).
+    Note that \( X_0 + 1 \) does not define a function on \( \mathbb P^1 \).
+    For example, \( (-1 : 0) = (1 : 0) \), but \( X_0 + 1 \) vanishes on the first representative and not the second.
+    The vanishing locus of \( X_0 + 1 \) on \( \mathbb P^1 \) is therefore undefined.
+    Therefore, we need a slightly more subtle definition of a variety in projective space.
+\end{example}
+\begin{definition}
+    A \emph{monomial} in \( \mathbb C[\vb X] = \mathbb C[X_0, \dots, X_n] \) is an element of the form \( X_0^{d_0} X_1^{d_1} \dots X_n^{d_n} \) where \( d_i \geq 0 \).
+    A \emph{term} is a nonzero multiple of a monomial.
+    The \emph{degree} of a term \( cX_0^{d_0} \dots X_n^{d_n} \) is \( \sum_{i=0}^n d_i \).
+    A \emph{homogeneous polynomial} of degree \( d \) is a finite sum of terms of degree \( d \).
+\end{definition}
+Any polynomial can be uniquely decomposed as a sum of homogeneous polynomials of different degree; we write \( f = \sum_{i=0}^\infty f_{[i]} \) where the \( f_{[i]} \) are homogeneous of degree \( i \).
+Note that this sum is always finite.
+\begin{lemma}
+    Let \( f \in \mathbb C[\vb X] \) be homogeneous, and let \( (a_0, \dots, a_n) \in \mathbb C^{n+1} \setminus \qty{\vb 0} \).
+    Then, if \( f(\vb a) = 0 \), we have \( f(\lambda \vb a) = 0 \) for all \( \lambda \in \mathbb C^\star \).
+\end{lemma}
+\begin{proof}
+    Trivial by checking the definitions.
+\end{proof}
+\begin{corollary}
+    Let \( f \in \mathbb C[\vb X] \) be homogeneous.
+    Then
+    \[ \mathbb V(f) = \qty{P \in \mathbb P^n \mid f(\vb a) = 0 \text{ for any (or every) representative of } P} \]
+    is well-defined.
+\end{corollary}
+\begin{definition}
+    An ideal \( I \trianglelefteq \mathbb C[\vb X] \) is called \emph{homogeneous} if it can be generated by homogeneous polynomials (of potentially different degrees).
+\end{definition}
+\begin{lemma}
+    Let \( I \trianglelefteq \mathbb C[\vb X] \) be an ideal.
+    Then \( I \) is homogeneous if and only if whenever \( f \in I \), all of the homogeneous parts \( f_{[r]} \) are also contained in \( I \).
+\end{lemma}
+\begin{proof}
+    Suppose \( I \) is homogeneous.
+    Then let \( g_j \) be homogeneous generators of \( I \) of degree \( d_j \).
+    Writing \( f = \sum h_j g_j \) for arbitrary \( h_j \in \mathbb C[\vb X] \), we can split each \( h_j \) into its pieces \( h_{j[r]} \).
+    Now, \( h_{j[r]} g_j \in I \) is homogeneous, and its degree is \( rd_j \).
+    Hence, \( f_{[r]} = \sum_j h_{j[r-dj]} g_j \in I \) as required.
+    The converse is trivial by decomposing the generators of the ideal.
+\end{proof}
+\begin{definition}
+    Let \( I \trianglelefteq \mathbb C[\vb X] \) be a homogeneous ideal.
+    Then, the \emph{vanishing locus} is \( \mathbb V(I) = \qty{P = (\vb a_i) \in \mathbb P^n \mid \forall f \in I,\, f((\vb a_i)) = 0} \).
+    A \emph{projective variety} in \( \mathbb P^n \) is any set of this form.
+\end{definition}
+Note that we could have defined the vanishing locus using the quantifier `for all \emph{homogeneous} \( f \in I \)'.
+\begin{example}
+    Let \( U \subseteq \mathbb C^{n+1} \) be any vector subspace.
+    Let the projectivisation of \( U \) is a subset of \( \mathbb P^n \), and is a projective variety.
+    More concretely, \( U = \qty{\vb v \in \mathbb C^{n+1} \mid \forall j,\, \sum_{i=0}^n a_i^{(j)} v_i = 0} \) for a subset \( \vb a^{(j)} = (a_0^{(j)}, \dots, a_n^{(j)}) \), as a vector subspace is the kernel of some linear map.
+    Therefore, \( \mathbb P(U) = \mathbb V(I) \) where \( I \) is the ideal generated by \( F_j = \sum_i a^{(j)}_i X_i \in \mathbb C[\vb X] \).
+    More generally, a projective linear space is the projectivisation of a linear subspace.
+    Hence, projective linear spaces in \( \mathbb P^n \) are in bijection with linear subspaces in \( \mathbb C^{n+1} \).
+\end{example}
+\( GL_{n+1}(\mathbb C) \) acts on \( \mathbb P^n \) coordinatewise.
+The normal subgroup of scalar matrices \( \mathbb C^\star \subseteq GL_{n+1}(\mathbb C) \) acts trivially on \( \mathbb P^n \).
+The quotient is written \( PGL_n(\mathbb C) = \faktor{GL_{n+1}(\mathbb C)}{\mathbb C^\star} \), and acts transitively on \( \mathbb P^n \).
+\begin{example}
+    The \emph{Segre surface} is the hypersurface \( S_{11} = \mathbb V(X_0X_3 - X_1X_2) \subseteq \mathbb P^3 \).
+    Consider the map \( \sigma_{11} \colon \mathbb P^1 \times \mathbb P^1 \to \mathbb P^3 \) given by \( \sigma_{11}((a_0 : a_1), (b_0 : b_1)) = (a_0 b_0 : a_0 b_1 : a_1 b_0 : a_1 b_1) \).
+    One can show that this map is well-defined, and in fact, \( \Im \sigma_{11} = S_{11} \).
+
+    First, consider the map \( \mathbb C^2 \times \mathbb C^2 \to \mathbb C^4 \) where we identify \( \mathbb C^4 \) with the space of \( 2 \times 2 \) matrices on \( \mathbb C \), given by the outer product.
+    More precisely, \( (v,w) \mapsto vw^\transpose \).
+    The image of this map is precisely the set of matrices of rank at most 1.
+    Hence, the image is the vanishing locus of \( X_0 X_3 - X_1 X_2 \), the determinant of such a matrix.
+\end{example}
+
+\subsection{Closed sets in projective space}
+Recall that \( \mathbb P^n = U_0 \cup \dots \cup U_n \), where \( U_i = \mathbb P^n \setminus \mathbb V(X_i) \).
+We therefore have the following different descriptions of a Zariski topology on \( \mathbb P^n \):
+\begin{enumerate}
+    \item the quotient of the subspace of the Zariski topology on \( \mathbb C^{n+1} \);
+    \item define that \( V \) is Zariski-closed if and only if \( V = \mathbb V(I) \) where \( I \triangleleft \mathbb C[\vb X] \) is homogeneous;
+    \item the gluing topology: define that a subset \( Z \subseteq \mathbb P^n \) is closed if \( Z \cap U_i \) is closed for all \( i \), as the \( U_i \) are isomorphic to \( \mathbb A^n \).
+\end{enumerate}
+These three constructions coincide.
+
+If \( V \subseteq \mathbb P^n \) is a projective variety, consider \( U_0 \cap V \subseteq U_0 \).
+If \( V = \mathbb V(I) \), then \( U_0 \cap V = \mathbb V(I_0) \) where \( I_0 = \qty{f = F(1, Y_1, \dots, Y_n) \mid F \in I \text{ homogeneous}} \subseteq \mathbb C[Y_1, \dots, Y_n] \).
+Identifying \( U_0 \) with \( \mathbb A^n \) with coordinates \( Y_1, \dots, Y_n \) (so \( Y_j = \frac{X_j}{X_0} \)), \( V \cap U_0 \) is naturally an affine variety.
+
+Conversely, let \( W \subseteq \mathbb A^n \) be an affine variety, and identify \( \mathbb A^n \) with \( U_0 \).
+Then, the Zariski closure \( \overline W \) of \( W \) inside \( \mathbb P^n \) is a projective variety.
+We are interested in studying the precise projective varieties obtained in this way.
+\begin{definition}
+    Let \( f \in \mathbb C[Y_1, \dots, Y_n] \) be an arbitrary polynomial of total degree \( d \).
+    The \emph{homogenisation} of \( f \), written \( F \) or \( f^h \), is
+    \[ f^h(X_0, \dots, X_n) = X_0^d f\qty(\frac{X_1}{X_0}, \dots, \frac{X_n}{X_0}) \in \mathbb C[X_0, \dots, X_n] \]
+    This is homogeneous of degree \( d \).
+    Similarly, if \( I \) is an ideal in \( \mathbb C[Y_1, \dots, Y_n] \), its homogenisation \( I^\star = I^h \) is the ideal generated by the homogenisation of the elements \( f \in I \); this is a homogeneous ideal in \( \mathbb C[X_0, \dots, X_n] \).
+    Given an affine variety \( V \subseteq \mathbb A^n \), the \emph{projective closure} of \( V \) is \( \mathbb V(I(V)^h) \subseteq \mathbb P^n \).
+\end{definition}
+\begin{example}
+    Let \( f(Y_1, Y_2) = 1 + Y_1^2 + Y_1 Y_2^2 \).
+    Its homogenisation is \( f^h(X_0, X_1, X_2) = X_0^3 + X_0 X_1^2 + X_1 X_2^2 \).
+\end{example}
+\begin{remark}
+    Let \( I = (f_1, \dots, f_r) \subseteq \mathbb C[Y_1, \dots, Y_n] \), and let \( J = (f_1^h, \dots, f_r^h) \).
+    Typically, \( J \neq I^h \).
+    If \( I \) is principal, this holds: \( I = (f) \) implies \( I^h = (f^h) \).
+\end{remark}
+\begin{proposition}
+    Let \( V \subseteq \mathbb A^n \) be an affine variety.
+    Then, the Zariski closure \( \overline V \subseteq \mathbb P^n \) given by identifying \( U_0 = \mathbb A^n \) coincides with the projective closure \( \mathbb V(I(V)^h) \subseteq \mathbb P^n \).
+\end{proposition}
+\begin{proof}
+    Let \( I \) be an ideal in \( \mathbb C[Y_1, \dots, Y_n] \), and let \( V = \mathbb V(I) \).
+    Let \( \overline V \) be the Zariski closure.
+    Let \( I^h \) be the homogenisation of the ideal.
+    Then \( \mathbb V(I^h) \) is Zariski closed, and contains \( V \).
+    We will show that this is the smallest such set.
+
+    Suppose \( Y \supseteq V \) is closed, so \( Y = \mathbb V(I') \) where \( I' \) is homogeneous.
+    Any homogeneous element in \( I' \) can be written as \( X_0^d f^h \) for some \( f \in \mathbb C[Y_1, \dots, Y_n] \).
+    Now, \( X_0^d f^h = 0 \) on \( V \subseteq \mathbb P^n \), so \( f = 0 \) on \( V \subseteq \mathbb A^n \).
+    Hence \( f \in I(V) = \sqrt{I} \) by the Nullstellensatz.
+    So \( f^m \in I \) for some \( m > 0 \), so \( (f^m)^h = (f^h)^m \in I^h \).
+    Hence \( f^h \in \sqrt{I^h} \), so \( X_0^d f^h \in \sqrt{I^h} \).
+    Therefore, \( I' \subseteq \sqrt{I^h} \).
+\end{proof}
+\begin{remark}
+    Let \( V \subseteq \mathbb P^n \), and let \( W = V \cap U_0 \subseteq \mathbb A^n \).
+    Then \( \overline W \subseteq \mathbb P^n \) is not in general equal to \( V \).
+    For example, let \( V = \mathbb V(X_0) \), so \( W = \varnothing \) and \( \overline W = \varnothing \).
+    This ambiguity arises due to the \( X_0^d \) term required in the above proof when dehomogenising a polynomial.
+\end{remark}
+This shows that the topological notion of the Zariski closure and the algebraic notion of the projective closure agree.
+\begin{example}
+    Let \( V \subseteq \mathbb P^2 \) be given by \( \mathbb V(X_0 X_1 - X_2^2) \).
+    We obtain \( V_0 \subseteq U_0 \) given by setting \( X_0 = 1 \), \( V_1 \subseteq U_1 \) given by setting \( X_1 = 1 \), and \( V_2 \subseteq U_2 \) given by setting \( X_2 = 1 \).
+    We find \( V_0 = \mathbb V(Y_1 - Y_2^2) \) which is a parabola, and \( V_1 \) is similar.
+    \( V_2 = \mathbb V(X_0 X_1 - 1) \), which is a rectangular hyperbola.
+\end{example}
+\begin{theorem}
+    Let \( Q \subseteq \mathbb P^n \) be given by \( \mathbb V(f) \) where \( f \) is a homogeneous quadratic polynomial.
+    Then, after a change of coordinates \( A \in PGL_n(\mathbb C) \), \( Q \) has the form \( \mathbb V(X_0^2 + \dots + X_r^2) \) where \( r \) is the rank of the quadratic form \( f \).
+\end{theorem}
+\begin{proof}
+    Use the results from IB Linear Algebra.
+\end{proof}
+\begin{theorem}[projective Nullstellensatz]
+    If \( \mathbb V(I) = \varnothing \subseteq \mathbb P^n \) where \( I \) is a homogeneous ideal, then \( I \supseteq (X_0^m, \dots, X_n^m) \) for some \( m \in \mathbb N \).
+    Further, if \( V = \mathbb V(I) \neq \varnothing \), then \( I^h(V) = \sqrt{I} \), where \( I^h(V) \) is the ideal generated by homogeneous polynomials vanishing on \( V \).
+\end{theorem}
+\begin{proof}
+    We reduce to the affine case.
+    Let \( I \) be a homogeneous ideal, and let \( V^a = \mathbb V(I) \subseteq \mathbb A^{n+1} \).
+    Note that \( \vb 0 \in V^a \), assuming \( V \neq \varnothing \).
+    Then there is a continuous map \( V^a \setminus \qty{0} \to V \) obtained by the restriction of \( \mathbb A^{n+1} \setminus \qty{\vb 0} \to \mathbb P^n \).
+    Moreover, this map is surjective, so is a quotient map.
+    Note that \( V \) is empty if and only if \( V^a = \qty{\vb 0} \).
+    So the result holds by the affine Nullstellensatz.
+    The second part is similar.
+\end{proof}
+Let \( V \) be a projective variety in \( \mathbb P^n \).
+If \( W \subseteq V \) is a variety closed in \( V \), we say \( W \) is a \emph{closed subvariety} of \( V \).
+The complement \( V \setminus W \) is an \emph{open subvariety}.
+The closed (respectively open) subvarieties of \( V \) satisfy the axioms of the closed (open) sets of a topology.
+We say \( V \) is irreducible if \( V \) cannot be written as \( V_1 \cup V_2 \) for proper closed subvarieties \( V_1, V_2 \).
+\begin{proposition}
+    \begin{enumerate}
+        \item Every projective variety is a finite union of irreducible varieties.
+        \item \( V \) is irreducible if and only if \( I^h(V) \) is prime.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Part (i) is identical to the affine case.
+    For part (ii), first observe that if \( I \) is a homogeneous ideal which is not prime, we can find homogeneous \( F, G \not\in I \) such that \( FG \in I \), as \( I \) is generated by homogeneous elements.
+    Then the proof for the affine case works as before.
+\end{proof}
+Let \( S \subseteq V \) be a subset.
+\( S \) is Zariski dense in \( V \) if and only if every homogeneous polynomial that vanishes on \( S \) vanishes on \( V \).
+\begin{proposition}
+    Let \( V \subseteq \mathbb P^n \) be an irreducible projective variety.
+    Let \( W \subsetneq V \) be a proper closed subvariety.
+    Then, \( V \setminus W \) is dense in \( V \).
+\end{proposition}
+Intuitively, \( W \) is lower-dimensional than \( V \), and \( V \) with a lower-dimensional set removed is dense.
+\begin{proof}
+    Let \( f \in \mathbb C[\vb X] \) be a homogeneous polynomial that vanishes on \( V \setminus W \).
+    As \( W \neq V \), there exists a polynomial \( g \in I^h(W) \setminus I^h(V) \) by the projective Nullstellensatz.
+    Then, \( fg \) vanishes on all of \( V \).
+    But \( I^h(V) \) is prime as \( V \) is irreducible, so \( f \in I^h(V) \).
+\end{proof}
+
+\subsection{Function theory on projective varieties}
+Homogeneous polynomials have well-defined zero sets in \( \mathbb P^n \), but not a well-defined value.
+Therefore, we cannot define a coordinate ring \( \mathbb C[V] \) in an analogous way.
+However, a ratio of homogeneous polynomials of the same degree does have a well-defined value on \( \mathbb P^n \) away from the vanishing locus of the denominator.
+\begin{definition}
+    Let \( V \subseteq \mathbb P^n \) be an irreducible projective variety.
+    The \emph{function field} or \emph{field of rational functions} is
+    \[ \mathbb C(V) = \faktor{\qty{\frac{F}{G} \mid F, G \in \mathbb C[\vb X] \text{ homogeneous and have the same degree, } G \not\in I^h(V)}}{\sim} \]
+    where \( \frac{F_1}{G_1} \sim \frac{F_2}{G_2} \) if \( F_1 G_2 - F_2 G_1 \in I^h(V) \).
+\end{definition}
+\begin{lemma}
+    The relation \( \sim \) is an equivalence relation.
+\end{lemma}
+\begin{proof}
+    Reflexivity and symmetry are clear.
+    Now suppose that \( \frac{F_1}{G_1} \sim \frac{F_2}{G_2} \sim \frac{F_3}{G_3} \), so \( F_2 G_1 - F_1 G_2 \in I^h(V) \) and \( F_3 G_2 - F_2 G_3 \in I^h(V) \).
+    Consider \( F_1 G_3 - F_3 G_1 \).
+    Multiplying by \( G_2 \), \( F_1 G_2 G_3 - F_3 G_1 G_2 \).
+    Since \( G_2 \not\in I^h(V) \), primality of \( I^h(V) \) implies that it suffices to show \( F_1 G_2 G_3 - F_3 G_1 G_2 \in I^h(V) \).
+    In the ring \( \faktor{\mathbb C[\vb X]}{I^h(V)} \), we have relations \( F_1 G_2 = F_2 G_1 \) and \( F_3 G_2 = F_2 G_3 \).
+    Hence \( F_1 G_2 G_3 - F_3 G_1 G_2 = 0 \) in \( \faktor{\mathbb C[\vb X]}{I^h(V)} \).
+\end{proof}
+Note that \( \mathbb C(V) \) is a field.
+\begin{proposition}
+    The field \( \mathbb C(V) \) is a finitely generated field extension of \( \mathbb C \).
+\end{proposition}
+Note that \( \mathbb C(t) \) is finitely generated as a field, but not finitely generated as a \( \mathbb C \)-module or a \( \mathbb C \)-algebra.
+\begin{proof}
+    Suppose \( V \neq \varnothing \).
+    Then, there is some coordinate function \( X_i \) that is nonzero on \( V \); without loss of generality let \( i = 0 \).
+    We claim that \( \frac{X_1}{X_0}, \dots, \frac{X_n}{X_0} \) generate \( \mathbb C(V) \) over \( \mathbb C \).
+    Explicitly, if \( \frac{F}{G} \) is a degree 0 ratio, it can be written in terms of the \( \frac{X_j}{X_0} \) and the field operations.
+    It suffices to show the result holds when \( \frac{F}{G} \) is of the form \( \frac{M}{G} \) where \( M \) is a monomial.
+    Then, it suffices to show the result for \( \frac{G}{M} \) where \( M \) is a monomial by taking reciprocals.
+    Hence, it suffices to show the result for \( \frac{M}{M'} \) where \( M, M' \) are monomials, and this is trivial.
+\end{proof}
+\begin{corollary}
+    Let \( V \subseteq \mathbb P^n \) be an irreducible projective variety, not contained in the hyperplane \( \qty{X_0 = 0} \).
+    Let \( V_0 = V \cap U_0 \), where \( U_0 \simeq \mathbb A^n \) is the first affine patch.
+    Then, \( \mathbb C(V_0) = \mathbb C(V) \), where \( \mathbb C(V_0) = FF(\mathbb C[V_0]) \).
+\end{corollary}
+\begin{proof}
+    \( V_0 \) has coordinate ring
+    \[ \faktor{\mathbb C\qty[\frac{X_1}{X_0}, \dots, \frac{X_n}{X_0}]}{I(V_0)} \]
+    Hence, \( \mathbb C(V_0) = FF(\mathbb C[V_0]) \) is generated by the \( \frac{X_j}{X_0} \).
+\end{proof}
+\begin{definition}
+    Let \( \varphi \in \mathbb C(V) \) and let \( P \in V \).
+    We say that \( \varphi \) is \emph{regular} or \emph{defined} at \( P \) if \( \varphi \) can be expressed as \( \frac{F}{G} \) where \( F, G \) are homogeneous of the same degree with \( G(P) \neq 0 \).
+    There is a partial function from the set of regular points of \( V \) to \( \mathbb C \).
+\end{definition}
+\begin{definition}
+    The \emph{local ring} of \( V \) at \( P \), written \( \mathcal O_{V,P} \), is the set of \( \varphi \in \mathbb C(V) \) such that \( \varphi \) is regular at \( P \).
+    This is a subring of \( \mathbb C(V) \), which is a local ring in the sense of commutative algebra.
+\end{definition}
+\begin{proposition}
+    Let \( V \subseteq \mathbb P^n \) be an irreducible projective variety not contained in \( \qty{X_0 = 0} \).
+    Let \( V_0 = V \cap U_0 \) where \( U_0 = \qty{X_0 = 0} \).
+    Let \( P \) be a point in \( V_0 \).
+    Then, there is a natural isomorphism \( \mathcal O_{V,P} \to \mathcal O_{V_0,P} \) respecting the isomorphism \( \mathbb C(V) \simeq \mathbb C(V_0) \).
+\end{proposition}
+\begin{proof}
+    Follows by unfolding the definitions.
+\end{proof}
+
+\subsection{Rational maps between projective varieties}
+% We denote a \emph{rational map} using notation such as \( \varphi \colon \mathbb P^n \dashrightarrow \mathbb P^m \).
+Let \( F_0, \dots, F_m \in \mathbb C[\vb X] = \mathbb C[X_0, \dots, X_n] \) be homogeneous of the same degree \( d \).
+Define \( \vb F = (F_0, \dots, F_m) \colon \mathbb C^{n+1} \to \mathbb C^{m+1} \).
+\begin{proposition}
+    The map \( \vb F \) descends to a well-defined map of sets \( \varphi \colon \mathbb P^n \setminus \bigcap_j \mathbb V(F_j) \to \mathbb P^m \).
+    If \( P \) is represented by \( \vb a = (a_0, \dots, a_n) \), then \( \varphi(P) \) is represented by \( (F_0(\vb a), \dots, F_m(\vb a)) \).
+\end{proposition}
+\begin{proof}
+    Since all \( F_j \) are homogeneous of the same degree \( d \), \( \lambda \vb a = (\lambda a_0, \dots, \lambda a_n) \) gives \( (F_0(\lambda\vb a), \dots, F_m(\lambda \vb a)) = \lambda^d (F_0(\vb a), \dots, F_m(\vb a)) \), which is equivalent to \( \varphi(P) \).
+\end{proof}
+We will denote such maps \( \vb F = (F_0, \dots, F_m) \) by \( \varphi \colon \mathbb P^n \dashrightarrow \mathbb P^m \).
+
+Let \( G \) be a nonzero homogeneous polynomial in \( X_0, \dots, X_n \).
+Given \( \vb F \colon \mathbb P^n \dashrightarrow \mathbb P^m \), we can also consider \( G\vb F = (GF_0, \dots, GF_n) \colon \mathbb P^n \dashrightarrow \mathbb P^m \).
+Observe that the maps \( \vb F \) and \( G\vb F \) have different domains, but coincide at points where they are both defined.
+Note that there is a `best' representative \( \vb F \), as \( \mathbb C[\vb X] \) is a unique factorisation domain, but we will not use this notion here, because not all rings that we will use are unique factorisation domains.
+\begin{definition}
+    Let \( V \subseteq \mathbb P^n \) be an irreducible projective variety.
+    Let \( F_0, \dots, F_m \) be homogeneous polynomials in \( \mathbb C[X_0, \dots, X_n] \) of fixed degree \( d \), and not all contained in \( I^h(V) \).
+    They determine a map of sets \( V \setminus \bigcap_j \mathbb V(F_j) \to \mathbb P^n \) by the previous construction.
+    Two such tuples \( (F_0, \dots, F_m) \) and \( (G_0, \dots, G_m) \) are said to \emph{determine the same map} if \( F_i G_j - F_j G_i \in I^h(V) \).
+    A \emph{rational map} from \( V \) to \( \mathbb P^m \) is an equivalence class of tuples \( (F_0, \dots, F_m) \) as above, where two tuples are equivalent if they determine the same map.
+\end{definition}
+\begin{definition}
+    A point \( P \in V \) is a \emph{regular point} of a rational map \( \varphi \colon V \dashrightarrow \mathbb P^n \) if there is a representative \( (F_0, \dots, F_m) \) of \( \varphi \) such that \( F_j(P) \neq 0 \) for some \( j \).
+    The \emph{domain} of \( \varphi \) is the set of regular points of \( \varphi \).
+    A rational map \( \varphi \) is called a \emph{morphism} if the domain of \( \varphi \) is \( V \); in this case, we write \( V \to \mathbb P^m \).
+\end{definition}
+\begin{example}
+    A linear map \( \varphi \colon \mathbb P^n \dashrightarrow \mathbb P^m \) is given by an \( (m + 1) \times (n + 1) \) matrix \( A = (a_{ij}) \).
+    Concretely, we can define \( \varphi = (F_0, \dots, F_m) \) where \( F_j = \sum_i a_{ij} X_i \).
+    If \( A \) has rank \( n + 1 \leq m + 1 \), then \( \varphi \) is a morphism.
+\end{example}
+\begin{example}[projection from a point]
+    Let \( P = (0 : 0 : 1) \in \mathbb P^2 \).
+    The \emph{projection from \( P \)} is the rational map \( \pi \colon \mathbb P^2 \dashrightarrow \mathbb P^1 \) defined by \( (a_0 : a_1 : a_2) \mapsto (a_0 : a_1) \).
+    \( \pi \) is not regular at \( P \), and regular everywhere else.
+
+    Let \( C = \mathbb V(f_d) \) where \( f_d \) is a homogeneous polynomial of degree \( d \).
+    Suppose that \( P \not\in C \).
+    The composition is therefore a morphism \( \varpi \colon C \to \mathbb P^1 \).
+    One can show that for almost all choices of \( Q \in \mathbb P^1 \), the fibre \( \varpi^{-1}(Q) \) is a set of size \( d \).
+\end{example}
+\begin{example}
+    Let \( C = \mathbb V(X_0 X_2 - X_1^2) \subseteq \mathbb P^2 \).
+    Consider the projection from \( (0 : 0 : 1) \), and restrict this projection to \( C \) to obtain a map \( \pi \colon C \dashrightarrow \mathbb P^1 \) defined by \( \pi(a_0:a_1:a_2) = (a_0:a_1) \).
+    By changing representatives, we can show \( \pi \) is a morphism, even though \( (0 : 0 : 1) \in C \).
+
+    The map \( \pi \) is determined by \( (X_0, X_1) \); we must look for other pairs \( (F_0, F_1) \) that determine the same rational map as \( \pi \), so \( F_0 X_1 - F_1 X_0 \in I^h(C) = (X_0 X_2 - X_1^2) \).
+    Notice that this relation is satisfied by \( (X_1, X_2) \), so \( \pi \) agrees with the function \( \pi'(a_0:a_1:a_2) = (a_1:a_2) \) on \( C \).
+    So \( \pi \) is regular at \( (0 : 0 : 1) \in C \), so \( \pi \) is a morphism.
+
+    Observe that for \( \pi \colon C \to \mathbb P^1 \), \( \pi^{-1}(q) \) is a single point for \( q \in \mathbb P^1 \).
+    One can show also that \( \pi \) is surjective.
+\end{example}
+If \( W \) is a projective variety, a rational map (or morphism) \( V \to W \) is a rational map (or morphism) \( V \to \mathbb P^m \) with image contained in \( W \).
+A morphism \( \varphi \colon V \to W \) is an isomorphism if it has a two-sided inverse morphism.
+\begin{proposition}
+    Let \( C \) be the vanishing locus of a homogeneous polynomial \( f \in \mathbb C[X_0, X_1, X_2] \) of degree 2 in \( \mathbb P^2 \).
+    Then, if \( f \) is irreducible then \( C \simeq \mathbb P^1 \).
+\end{proposition}
+\begin{proof}
+    By changing coordinates, we can assume \( f = X_0 X_2 - X_1^2 \); the rank of the quadratic form is 2 as \( f \) is irreducible.
+    By the example above, we have a morphism \( \pi \colon C \to \mathbb P^1 \) by projection from \( (0 : 0 : 1) \).
+    We define an inverse map \( \mu \colon \mathbb P^1 \to \mathbb P^2 \) by \( \mu(Y_0 : Y_1) = (Y_0^2 : Y_0 Y_1 : Y_1^2) \).
+    The image of \( \mu \) lies in \( C \), and the compositions are inverse.
+\end{proof}
+There is only one conic in projective space, up to changing coordinates.
+% Copy ex 8.7 in notes: Cremona transformation
+\begin{example}[Veronese embedding]
+    Let \( F_0, \dots, F_m \) be the list of degree \( d \) monomials in \( X_0, \dots, X_n \), so \( m = \binom{n+d}{d} - 1 \).
+    We define the \( \nu_d \colon \mathbb P^n \to \mathbb P^m \) mapping \( (\vb a) \) to \( (F_0(\vb a), \dots, F_m(\vb a)) \).
+    One can show this is a morphism.
+    Note that the map \( \mu(Y_0 : Y_1) = (Y_0^2 : Y_0 Y_1 : Y_1^2) \) used in the previous proposition is an instance of this embedding.
+    In general, \( \nu_d \) is injective, and the image of \( \nu_d \) is a projective variety isomorphic to \( \mathbb P^n \).
+    This fact has a straightforward but tedious proof.
+\end{example}
+Note that \( \mathbb P^n \times \mathbb P^m \not\simeq \mathbb P^{n+m} \).
+\begin{example}[Segre embedding]
+    Let \( n, m > 0 \) be integers.
+    The \emph{Segre embedding} is the map \( \sigma_{mn} \colon \mathbb P^m \times \mathbb P^n \to \mathbb P^{mn+m+n} \) defined by \( \sigma_{mn}((x_i), (y_j)) = (x_i y_j) \).
+    We label the coordinates of \( \mathbb P^{mn+m+n} \) using \( Z_{ij} \) for \( 0 \leq i \leq m \) and \( 0 \leq j \leq n \).
+    Note that \( (m+1)(n+1) - 1 \); we have a map \( U \times V \to U \otimes V \) and then take the projectivisation, giving the correct dimension.
+\end{example}
+\begin{theorem}
+    The map \( \sigma_{mn} \) is a bijection between \( \mathbb P^m \times \mathbb P^n \) and the projective variety \( \mathbb V(I) \) where \( I \) is the ideal generated by the \( Z_{ij} Z_{pq} - Z_{iq} Z_{pj} \).
+\end{theorem}
+\begin{proof}
+    Clearly, \( \sigma_{mn}(\mathbb P^m \times \mathbb P^n) \subseteq V = \mathbb V(I) \).
+    Now, consider the affine piece \( V_{00} = V \cap \qty{Z_{00} \neq 0} \subseteq \mathbb A^{mn+m+n} \).
+    The inhomogeneous ideal defining \( V_{00} \) is generated by \( Y_{ij} - Y_{i0} Y_{0j} \) where \( 1 \leq i \leq m \) and \( 1 \leq j \leq n \), and \( Y_{ij} = \frac{Z_{ij}}{Z_{00}} \).
+    Note that elements \( Y_{ij} Y_{pq} - Y_{iq} Y_{pj} \) for other indices automatically lie in this ideal.
+    On this patch, \( \sigma_{mn} \) defines a morphism \( \mathbb A^m \times \mathbb A^n \to \mathbb V(I_{00}) \).
+    There is an inverse \( \mathbb A^{mn+m+n} \to \mathbb A^m \times \mathbb A^n \), given by \( (Y_{ij}) \mapsto ((Y_{10}, \dots, Y_{m0}), (Y_{01}, \dots, Y_{0n})) \).
+    One can check that this is indeed an inverse; this process can be repeated for all other patches \( \qty{Z_{ij} \neq 0} \), so \( \sigma_{mn} \) is as claimed.
+\end{proof}
+Hence, if \( V, W \) are projective varieties, \( V \times W \) is naturally also a projective variety.
+
+\subsection{Composition of rational maps}
+Let \( \varphi \colon V \dashrightarrow W \) and \( \psi \colon W \dashrightarrow Z \) be rational maps between irreducible varieties.
+The composition \( \psi \circ \varphi \) of rational maps may not be well-defined, as the image of the domain of \( \varphi \) could lie entirely inside the locus of indeterminacy of \( \psi \).
+\begin{definition}
+    A rational map \( \varphi \colon V \dashrightarrow W \) is \emph{dominant} if \( \varphi(\dom \varphi) \) is Zariski dense in \( W \).
+\end{definition}
+\begin{proposition}
+    If \( \varphi \) is dominant, then \( \psi \circ \varphi \) is well-defined for any rational map \( \psi \colon W \dashrightarrow Z \).
+\end{proposition}
+\begin{proof}
+    Let \( U \) denote a dense open set in \( \dom \varphi \), and let \( U' \) be a dense open set in \( \dom \psi \).
+    Then, let \( U'' = U \cap \varphi^{-1}(U') \), which is open in \( V \).
+    The composition \( \psi \circ \varphi \) is well-defined on \( U'' \).
+    This is a rational map as the composition of polynomials is a polynomial.
+\end{proof}
+\begin{definition}
+    If \( \varphi \colon V \dashrightarrow W \) and \( \psi \colon W \dashrightarrow V \) are such that \( \varphi \circ \psi \) and \( \psi \circ \varphi \) are equivalent to the identity map on \( W \) and \( V \) respectively, we say that \( V \) and \( W \) are \emph{birational} and that \( \varphi \) and \( \psi \) are \emph{birational maps}.
+\end{definition}
+\begin{example}
+    Any isomorphism is birational.
+\end{example}
+\begin{example}
+    Consider the Cremona map \( \kappa \colon \mathbb P^2 \dashrightarrow \mathbb P^2 \) defined by \( (x_0 : x_1 : x_2) \mapsto (x_1 x_2 : x_0 x_2 : x_0 x_1) \).
+    Intuitively, \( (x_0 : x_1 : x_2) \mapsto \qty(\frac{1}{x_0} : \frac{1}{x_1} : \frac{1}{x_2}) \).
+    Then \( \kappa \) is self-inverse as a rational map, hence birational.
+    It is not an isomorphism as it is not defined everywhere.
+\end{example}
+\begin{remark}
+    One can construct the group \( \mathrm{Bir}(\mathbb P^2) \) of birational automorphisms of \( \mathbb P^2 \).
+    This group contains a copy of \( PGL_2(\mathbb C) \) and the subgroup generated by \( \kappa \) above.
+\end{remark}
+\begin{theorem}
+    Let \( V, W \) be irreducible projective varieties.
+    Then \( V \) is birational to \( W \) if and only if \( \mathbb C(V) \) and \( \mathbb C(W) \) are isomorphic as fields.
+\end{theorem}
+Recall the similar result that if \( V, W \) are affine varieties, \( V \) is isomorphic to \( W \) if and only if \( \mathbb C[V] \) and \( \mathbb C[W] \) are isomorphic as \( \mathbb C \)-algebras.
+\begin{proof}
+    Suppose first that \( V \) is birational to \( W \), so \( \varphi \colon V \dashrightarrow W \) is a birational map.
+    Let \( f \in \mathbb C(W) \).
+    Then, \( f \) gives a function \( W \dashrightarrow \mathbb A^1 = \mathbb C \), and composition gives a map of fields \( \varphi^\star \colon \mathbb C(W) \to \mathbb C(V) \) defined by \( f \mapsto f \circ \varphi \).
+    Similarly, \( \varphi^{-1} \) gives a map \( \mathbb C(V) \to \mathbb C(W) \), and the compositions are identical, so we obtain an isomorphism of fields.
+
+    For the converse, suppose we have \( \mathbb C(V) \simeq \mathbb C(W) \) as fields.
+    Suppose that \( V \subseteq \mathbb P^n \) is not contained in \( \qty{X_0 = 0} \), and \( W \subseteq \mathbb P^m \) is not contained in \( \qty{Y_0 = 0} \).
+    We have shown that \( \mathbb C(V) = \mathbb C(x_1, \dots, x_n) \) where \( x_i \) is the rational function determined by \( \frac{X_i}{X_0} \).
+    Simiarly, \( \mathbb C(W) = \mathbb C(y_1, \dots, y_m) \) where \( y_j \) is determined by \( \frac{Y_j}{Y_0} \).
+
+    An isomorphism \( \mathbb C(V) \simeq \mathbb C(W) \) identifies each \( y_j \) with \( f_j(\vb x) \) where \( f_j \) is a rational function in \( n \) variables.
+    Writing each \( f_j(\vb x) \) as a rational function in the \( \frac{X_i}{X_0} \), we can clear denominators by multiplying by some polynomial in the \( \frac{X_i}{X_0} \) and homogenise with respect to \( X_0 \).
+    We then obtain homogeneous polynomials \( F_0, \dots, F_m \) in \( X_0, \dots, X_n \) such that
+    \[ f_j\qty(\frac{X_1}{X_0}, \dots, \frac{X_n}{X_0}) = \frac{F_j(X_0, \dots, X_n)}{F_0(X_0, \dots, X_n)} \]
+    Now, \( F_0, \dots, F_m \) determine a rational map \( V \dashrightarrow W \).
+    This can be repeated with the \( x_i \) and \( y_j \) reversed to obtain a rational map \( W \dashrightarrow V \).
+    One can show that these are inverses.
+\end{proof}

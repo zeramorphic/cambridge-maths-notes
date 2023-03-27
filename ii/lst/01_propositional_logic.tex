@@ -1,0 +1,309 @@
+\subsection{Languages}
+Let \( P \) be a set of \emph{primitive propositions}.
+Unless otherwise stated, we let \( P = \qty{p_1, p_2, \dots} \).
+The \emph{language} \( L = L(P) \) is defined inductively by
+\begin{enumerate}
+    \item if \( p \in P \), then \( p \in L \);
+    \item \( \bot \in L \), where the symbol \( \bot \) is read `false';
+    \item if \( p, q \in L \), then \( (p \Rightarrow q) \in L \).
+\end{enumerate}
+\begin{example}
+    \( ((p_1 \Rightarrow p_2) \Rightarrow (p_1 \Rightarrow p_3)) \in L \).
+    \( (p_4 \Rightarrow \bot) \in L \).
+\end{example}
+\begin{remark}
+    Note that the elements of \( L \), called propositions, are just strings of symbols from the alphabet \( \qty{(, ), \Rightarrow, \bot, p_1, p_2, \dots} \).
+    Brackets are only given for clarity; we omit those that are unnecessary, and may use other types of brackets such as square brackets.
+
+    Note that the phrase `\( L \) is defined inductively' means more precisely the following.
+    Let \( L_1 = P \cup \qty{\bot} \), and define \( L_{n+1} = L_n \cup \qty{(p \Rightarrow q) \mid p, q \in L_n} \).
+    We set \( L = \bigcup_{n=1}^\infty L_n \).
+    Note that the introduction rules for the language are injective and have disjoint ranges, so there is exactly one way in which any element of the language can be constructed using rules (i) to (iii).
+\end{remark}
+We can now introduce the abbreviations \( \neg, \wedge, \vee \) defined by
+\[ \neg p = (p \Rightarrow \bot);\quad p \vee q = \neg p \Rightarrow q;\quad p \wedge q = \neg (p \Rightarrow \neg q) \]
+
+\subsection{Semantic implication}
+\begin{definition}
+    A \emph{valuation} is a function \( v \colon L \to \qty{0,1} \) such that
+    \begin{enumerate}
+        \item \( v(\bot) = 0 \);
+        \item \( v(p \Rightarrow q) = 0 \) if \( v(p) = 1 \) and \( v(q) = 0 \), and 1 otherwise.
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    On \( \qty{0,1} \), we can define the constant \( \bot = 0 \) and the operation \( \Rightarrow \) in the obvious way.
+    Then, a valuation is precisely a mapping \( L \to \qty{0,1} \) preserving all structure, so it can be considered a homomorphism.
+\end{remark}
+\begin{proposition}
+    Let \( v, v' \colon L \to \qty{0,1} \) be valuations that agree on the primitives \( p_i \).
+    Then \( v = v' \).
+    Further, any function \( w \colon P \to \qty{0,1} \) extends to a valuation.
+\end{proposition}
+\begin{remark}
+    This is analogous to the definition of a linear map by its action on the basis vectors.
+\end{remark}
+\begin{proof}
+    Clearly, \( v, v' \) agree on \( L_1 \), the set of elements of the language of length 1.
+    If \( v, v' \) agree at \( p, q \), then they agree at \( p \Rightarrow q \).
+    So by induction, \( v, v' \) agree on \( L_n \) for all \( n \), and hence on \( L \).
+
+    Let \( v(p) = w(p) \) for all \( p \in P \), and \( v(\bot) = 0 \) to obtain \( v \) on the set \( L_1 \).
+    Assuming \( v \) is defined on \( p, q \) we can define it at \( p \Rightarrow q \) in the obvious way.
+    This defines \( v \) on all of \( L \).
+\end{proof}
+\begin{example}
+    Let \( v \) be the valuation with \( v(p_1) = v(p_3) = 1 \), and \( v(p_n) = 0 \) for all \( n \neq 1, 3 \).
+    Then, \( v((p_1 \Rightarrow p_3) \Rightarrow p_2) = 0 \).
+\end{example}
+\begin{definition}
+    A \emph{tautology} is \( t \in L \) such that \( v(t) = 1 \) for every valuation \( v \).
+    We write \( \models t \).
+\end{definition}
+\begin{example}
+    \( p \Rightarrow (q \Rightarrow p) \).
+    \[ \begin{array}{cccc}
+        v(p) & v(q) & v(q \Rightarrow p) & v(p \Rightarrow (q \Rightarrow p)) \\
+        0 & 0 & 1 & 1 \\
+        0 & 1 & 0 & 1 \\
+        1 & 0 & 1 & 1 \\
+        1 & 1 & 1 & 1
+    \end{array} \]
+    Since the right-hand column is always 1, \( \models p \Rightarrow (q \Rightarrow p) \).
+\end{example}
+\begin{example}
+    \( \neg \neg p \Rightarrow p \), which expands to \( ((p \Rightarrow \bot) \Rightarrow \bot) \Rightarrow p \).
+    \[ \begin{array}{cccc}
+        v(p) & v(\neg p) & v(\neg \neg p) & v(\neg \neg p \Rightarrow p) \\
+        0 & 1 & 0 & 1 \\
+        1 & 0 & 1 & 1
+    \end{array} \]
+    Hence \( \models \neg \neg p \Rightarrow p \).
+\end{example}
+\begin{example}
+    \( (p \Rightarrow (q \Rightarrow r)) \Rightarrow ((p \Rightarrow q) \Rightarrow (p \Rightarrow r)) \).
+    Suppose this is not a tautology.
+    Then we have a valuation \( v \) such that \( v(p \Rightarrow (q \Rightarrow r)) = 1 \) and \( v((p \Rightarrow q) \Rightarrow (p \Rightarrow r)) = 0 \).
+    Hence, \( v(p \Rightarrow q) = 1, v(p \Rightarrow r) = 0 \), so \( v(p) = 1, v(r) = 0 \), giving \( v(q) = 1 \), but then \( v(p \Rightarrow (q \Rightarrow r)) = 0 \) contradicting the assumption.
+\end{example}
+\begin{definition}
+    Let \( S \subseteq L \) and \( t \in L \).
+    We say \( S \) \emph{entails} or \emph{semantically implies} \( t \), written \( S \models t \), if \( v(t) = 1 \) whenever \( v(s) = 1 \) for all \( s \in S \).
+\end{definition}
+\begin{example}
+    Let \( S = \qty{p \Rightarrow q, q \Rightarrow r} \), and let \( t = p \Rightarrow r \).
+    Suppose \( S \not\models t \), so there is a valuation \( v \) such that \( v(p \Rightarrow q) = 1, v(q \Rightarrow r) = 1, v(p \Rightarrow r) = 0 \).
+    Then \( v(p) = 1, v(r) = 0 \), so \( v(q) = 1 \) and \( v(q) = 0 \).
+\end{example}
+\begin{definition}
+    We say that \( v \) is a \emph{model} of \( S \) in \( L \) if \( v(s) = 1 \) for all \( s \in S \).
+\end{definition}
+Thus, \( S \models t \) is the statement that every model of \( S \) is also a model of \( t \).
+\begin{remark}
+    The notation \( \models t \) is equivalent to \( \varnothing \models t \).
+\end{remark}
+
+\subsection{Syntactic implication}
+For a notion of proof, we require a system of axioms and deduction rules.
+As axioms, we take (for any \( p, q, r \in L \)),
+\begin{enumerate}
+    \item \( p \Rightarrow (q \Rightarrow p) \);
+    \item \( (p \Rightarrow (q \Rightarrow r)) \Rightarrow ((p \Rightarrow q) \Rightarrow (p \Rightarrow r)) \);
+    \item \( ((p \Rightarrow \bot) \Rightarrow \bot) \Rightarrow p \).
+\end{enumerate}
+\begin{remark}
+    Sometimes, these three axioms are considered axiom \emph{schemes}, since they are really a different axiom for each \( p, q, r \in L \).
+    These are all tautologies.
+\end{remark}
+For deduction rules, we will have only the rule \emph{modus ponens}, that from \( p \) and \( p \Rightarrow q \) one can deduce \( q \).
+\begin{definition}
+    Let \( S \subseteq L \), \( t \in L \).
+    We say \( S \) \emph{proves} or \emph{syntactically implies} \( t \), written \( S \vdash t \), if there exists a sequence \( t_1, \dots, t_n = t \) in \( L \) such that every \( t_i \) is either
+    \begin{enumerate}
+        \item an axiom;
+        \item an element of \( S \); or
+        \item \( q \), where \( t_j = p \) and \( t_k = p \Rightarrow q \) where \( j, k < i \).
+    \end{enumerate}
+    We say that \( S \) is the set of \emph{premises} or \emph{hypotheses}, and \( t \) is the \emph{conclusion}.
+\end{definition}
+\begin{example}
+    We will show \( \qty{p \Rightarrow q, q \Rightarrow r} \vdash p \Rightarrow r \).
+    \begin{enumerate}[1.]
+        \item \( q \Rightarrow r \) (hypothesis)
+        \item \( (q \Rightarrow r) \Rightarrow (p \Rightarrow (q \Rightarrow r)) \) (axiom 1)
+        \item \( p \Rightarrow (q \Rightarrow r) \) (modus ponens on lines 1, 2)
+        \item \( (p \Rightarrow (q \Rightarrow r)) \Rightarrow ((p \Rightarrow q) \Rightarrow (p \Rightarrow r)) \) (axiom 2)
+        \item \( (p \Rightarrow q) \Rightarrow (p \Rightarrow r) \) (modus ponens on lines 3, 4)
+        \item \( p \Rightarrow q \) (hypothesis)
+        \item \( p \Rightarrow r \) (modus ponens on lines 5, 6)
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    If \( \varnothing \vdash t \), we say \( t \) is a \emph{theorem}, written \( \vdash t \).
+\end{definition}
+\begin{example}
+    \( \vdash p \Rightarrow p \).
+    \begin{enumerate}[1.]
+        \item \( (p \Rightarrow ((p \Rightarrow p) \Rightarrow p)) \Rightarrow ((p \Rightarrow (p \Rightarrow p)) \Rightarrow (p \Rightarrow p)) \) (axiom 2)
+        \item \( p \Rightarrow ((p \Rightarrow p) \Rightarrow p) \) (axiom 1)
+        \item \( (p \Rightarrow (p \Rightarrow p)) \Rightarrow (p \Rightarrow p) \) (modus ponens on lines 1, 2)
+        \item \( p \Rightarrow (p \Rightarrow p) \) (axiom 1)
+        \item \( p \Rightarrow p \) (modus ponens on lines 3, 4)
+    \end{enumerate}
+\end{example}
+
+\subsection{Deduction theorem}
+\begin{theorem}
+    Let \( S \subseteq L \), and \( p, q \in L \).
+    Then \( S \vdash (p \Rightarrow q) \) if and only if \( S \cup \qty{p} \vdash q \).
+\end{theorem}
+Intuitively, provability corresponds to the implication connective in \( L \).
+\begin{proof}
+    For the forward direction, given a proof of \( p \Rightarrow q \) from \( S \), add the line \( p \) by hypothesis and deduce \( q \) from modus ponens, to obtain a proof of \( q \) from \( S \cup \qty{p} \).
+
+    Conversely, suppose we have a proof of \( q \) from \( S \cup \qty{p} \).
+    Let \( t_1, \dots, t_n \) be the lines of the proof.
+    We will prove that \( S \vdash (p \Rightarrow t_i) \) for all \( i \).
+    \begin{itemize}
+        \item If \( t_i \) is an axiom, we write \( t_i \) (axiom); \( t_i \Rightarrow (p \Rightarrow t_i) \) (axiom 1); \( p \Rightarrow t_i \) (modus ponens).
+        \item If \( t_i \in S \), we write \( t_i \) (hypothesis); \( t_i \Rightarrow (p \Rightarrow t_i) \) (axiom 1); \( p \Rightarrow t_i \) (modus ponens).
+        \item If \( t_i = p \), we write the proof of \( \vdash p \Rightarrow p \) given above.
+        \item Suppose \( t_i \) is obtained by modus ponens from \( t_j \) and \( t_k = t_j \Rightarrow t_i \).
+        We may assume by induction that \( S \vdash p \Rightarrow t_k \) and \( S \vdash p \Rightarrow (t_j \Rightarrow t_i) \).
+        We write
+        \begin{enumerate}[1.]
+            \item \( (p \Rightarrow (t_j \Rightarrow t_i)) \Rightarrow ((p \Rightarrow t_j) \Rightarrow (p \Rightarrow t_i)) \) (axiom 2)
+            \item \( (p \Rightarrow t_j) \Rightarrow (p \Rightarrow t_i) \) (modus ponens)
+            \item \( p \Rightarrow t_i \) (modus ponens)
+        \end{enumerate}
+        giving \( S \vdash p \Rightarrow t_i \).
+    \end{itemize}
+\end{proof}
+\begin{example}
+    Consider \( \qty{p \Rightarrow q, q \Rightarrow r} \vdash p \Rightarrow r \).
+    By the deduction theorem, it suffices to prove \( \qty{p \Rightarrow q, q \Rightarrow r, p} \vdash r \), which is obtained easily from modus ponens.
+\end{example}
+
+\subsection{Soundness}
+We aim to show \( S \models t \) if and only if \( S \vdash t \).
+The direction \( S \vdash t \) implies \( S \models t \) is called \emph{soundness}, which is a way of verifying that our axioms and deduction rule make sense.
+The direction \( S \models t \) implies \( S \vdash t \) is called \emph{adequacy}, which states that our axioms are powerful enough to deduce everything that is (semantically) true.
+\begin{proposition}
+    Let \( S \subseteq L \) and \( t \in L \).
+    Then \( S \vdash t \) implies \( S \models t \).
+\end{proposition}
+\begin{proof}
+    We have a proof \( t_1, \dots, t_n \) of \( t \) from \( S \).
+    We aim to show that any model of \( S \) is also a model of \( t \), so if \( v \) is a valuation that maps every element of \( S \) to 1, then \( v(t) = 1 \).
+    We show this by induction on the length of the proof.
+    \( v(p) = 1 \) for each axiom \( p \) and for each \( p \in S \).
+    Further, \( v(t_i) = 1, v(t_i \Rightarrow t_j) = 1 \), then \( v(t_j) = 1 \).
+    Therefore, \( v(t_i) = 1 \) for all \( i \).
+\end{proof}
+
+\subsection{Adequacy}
+Consider the case of adequacy where \( t = \bot \).
+If our axioms are adequate, \( S \models \bot \) implies \( S \vdash \bot \), so \( S \not\vdash \bot \).
+We say \( S \) is \emph{consistent} if \( S \not\vdash \bot \).
+Therefore, in an adequate system, if \( S \) has no models then \( S \) is inconsistent; equivalently, if \( S \) is consistent then it has a model.
+
+In fact, the statement that consistent axiom sets have a model implies adequacy in general.
+Indeed, if \( S \models t \), then \( S \cup \qty{\neg t} \) has no models, and so it is inconsistent by assumption.
+Then \( S \cup \qty{\neg t} \vdash \bot \), so \( S \vdash \neg t \Rightarrow \bot \) by the deduction theorem, giving \( S \vdash t \) by axiom 3.
+
+We aim to construct a model of \( S \) given that \( S \) is consistent.
+Intuitively, we want to write
+\[ v(t) = \begin{cases}
+    1 & t \in S \\
+    0 & t \not\in S
+\end{cases} \]
+but this does not work on the set \( S = \qty{p_1, p_1 \Rightarrow p_2} \) as it would evaluate \( p_2 \) to false.
+
+We say a set \( S \subseteq L \) is \emph{deductively closed} if \( p \in S \) whenever \( S \vdash p \).
+Any set \( S \) has a \emph{deductive closure}, which is the (deductively closed) set of statements \( \qty{t \in L \mid S \vdash t} \) that \( S \) proves.
+If \( S \) is consistent, then the deductive closure is also consistent.
+Computing the deductive closure before the valuation solves the problem for \( S = \qty{p_1, p_1 \Rightarrow p_2} \).
+However, if a primitive proposition \( p \) is not in \( S \), but \( \neg p \) is also not in \( S \), this technique still does not work, as it would assign false to both \( p \) and \( \neg p \).
+\begin{theorem}[model existence lemma]
+    Every consistent set \( S \subseteq L \) has a model.
+\end{theorem}
+\begin{proof}
+    First, we claim that for any consistent \( S \subseteq L \) and proposition \( p \in L \), either \( S \cup \qty{p} \) is consistent or \( S \cup \qty{\neg p} \) is consistent.
+    If this were not the case, then \( S \cup \qty{p} \vdash \bot \), and also \( S \cup \qty{\neg p} \vdash \bot \).
+    By the deduction theorem, \( S \vdash p \Rightarrow \bot \) and \( S \vdash (\neg p) \Rightarrow \bot \).
+    But then \( S \vdash \neg p \) and \( S \vdash \neg\neg p \), so \( S \vdash \bot \) contradicting consistency of \( S \).
+
+    Now, \( L \) is a countable set as each \( L_n \) is countable, so we can enumerate \( L \) as \( t_1, t_2, \dots \).
+    Let \( S_0 = S \), and define \( S_1 = S_0 \cup \qty{t_1} \) or \( S_1 = S_0 \cup \qty{\neg t_1} \), chosen such that \( S_1 \) is consistent.
+    Continuing inductively, define \( \overline S = \bigcup_{i \in \mathbb N} S_i \).
+    Then, for all \( t \in L \), either \( t \in \overline S \) or \( \neg t \in \overline S \).
+    Note that \( \overline S \) is consistent; indeed, if \( \overline S \vdash \bot \), then this proof uses hypotheses only in \( S_n \) for some \( n \), but then \( S_n \vdash \bot \) contradicting consistency of \( S_n \).
+    Note also that \( \overline S \) is deductively closed, so if \( \overline S \vdash p \), we must have \( p \in \overline S \); otherwise, \( \neg p \in \overline S \) so \( \overline S \vdash \neg p \), giving \( \overline S \vdash \bot \), contradicting consistency of \( \overline S \).
+    Now, define the function
+    \[ v(t) = \begin{cases}
+        1 & t \in \overline S \\
+        0 & t \not\in \overline S
+    \end{cases} \]
+    We show that \( v \) is a valuation, then the proof is complete as \( v(s) = 1 \) for all \( s \in S \).
+    Since \( \overline S \) is consistent, \( \bot \not\in \overline S \), so \( v(\bot) = 0 \).
+
+    Suppose \( v(p) = 1, v(q) = 0 \).
+    Then \( p \in \overline S \) and \( q \not\in \overline S \), and we want to show \( (p \Rightarrow q) \not\in \overline S \).
+    If this were not the case, we would have \( (p \Rightarrow q) \in \overline S \) and \( p \in \overline S \), so \( q \in \overline S \) as \( \overline S \) is deductively closed.
+
+    Now suppose \( v(q) = 1 \), so \( q \in \overline S \), and we need to show \( (p \Rightarrow q) \in \overline S \).
+    Then \( \overline S \vdash q \), and by axiom 1, \( \overline S \vdash q \Rightarrow (p \Rightarrow q) \).
+    Therefore, as \( \overline S \) is deductively closed, \( (p \Rightarrow q) \in \overline S \).
+
+    Finally, suppose \( v(p) = 0 \), so \( p \not\in \overline S \), and we want to show \( (p \Rightarrow q) \in \overline S \).
+    We know that \( \neg p \in \overline S \), so it suffices to show that \( p \Rightarrow \bot \vdash p \Rightarrow q \).
+    By the deduction theorem, this is equivalent to proving \( \qty{p, p \Rightarrow \bot} \vdash q \), or equivalently, \( \bot \vdash q \).
+    But by axiom 1, \( \bot \Rightarrow (\neg q \Rightarrow \bot) \) where \( (\neg q \Rightarrow \bot) = \neg\neg q \), so the proof is complete by axiom 3.
+\end{proof}
+\begin{remark}
+    We used the fact that \( P \) was a countable set in order to show that \( L \) was countable.
+    The result does in fact hold if \( P \) is uncountable, but requires more tools to prove.
+    Some sources call this theorem the `completeness theorem'.
+\end{remark}
+\begin{corollary}[adequacy]
+    Let \( S \subseteq L \) and let \( t \in L \), such that \( S \models t \).
+    Then \( S \vdash t \).
+\end{corollary}
+\begin{proof}
+    Follows from the remarks before the model existence lemma.
+\end{proof}
+
+\subsection{Completeness}
+\begin{theorem}[completeness theorem for propositional logic]
+    Let \( S \subseteq L \) and \( t \in L \).
+    Then \( S \models t \) if and only if \( S \vdash t \).
+\end{theorem}
+\begin{proof}
+    Follows from soundness and adequacy.
+\end{proof}
+\begin{theorem}[compactness theorem]
+    Let \( S \subseteq L \) and \( t \in L \) with \( S \models t \).
+    Then there exists a finite subset \( S' \subseteq S \) such that \( S' \models t \).
+\end{theorem}
+\begin{proof}
+    Trivial after applying the completeness theorem, since proofs depend on only finitely many hypotheses in \( S \).
+\end{proof}
+\begin{corollary}[compactness theorem, equivalent form]
+    Let \( S \subseteq L \).
+    Then if every finite subset \( S' \subseteq S \) has a model, then \( S \) has a model.
+\end{corollary}
+\begin{proof}
+    Let \( t = \bot \) in the compactness theorem.
+    Then, if \( S \models \bot \), some finite \( S' \subseteq S \) has \( S' \models \bot \).
+    But this is not true by assumption, so there is a model for \( S \).
+\end{proof}
+\begin{remark}
+    This corollary is equivalent to the more general compactness theorem, since the assertion that \( S \models t \) is equivalent to the statement that \( S \cup \qty{\neg t} \) has no model, and \( S' \models t \) is equivalent to the statement that \( S' \cup \qty{\neg t} \) has no model.
+\end{remark}
+\begin{theorem}[decidability theorem]
+    Let \( S \subseteq L \) and \( t \in L \).
+    Then, there is an algorithm to decide (in finite time) if \( S \vdash t \).
+\end{theorem}
+\begin{proof}
+    Trivial after replacing \( \vdash \) with \( \models \), by drawing the relevant truth tables.
+\end{proof}
