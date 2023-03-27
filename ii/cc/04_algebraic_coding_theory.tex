@@ -49,12 +49,12 @@ There are nonzero \( x \) such that \( x \cdot x = 0 \).
     If \( p \cdot x = 0 \) and \( p \cdot y = 0 \) then \( p \cdot (x + y) = 0 \), so \( x, y \in C \) implies \( x + y \in C \).
 \end{proof}
 \begin{definition}
-    Let \( C \subseteq \mathbb F^2 \) be a linear code.
+    Let \( C \subseteq \mathbb F_2^n \) be a linear code.
     The \emph{dual code} \( C^\perp \) is defined by
     \[ C^\perp = \qty{x \in \mathbb F_2^n \mid \forall y \in C,\, x \cdot y = 0} \]
 \end{definition}
 By definition, \( C^\perp \) is a parity check code, and hence is linear.
-Note that \( C \cap c^\perp \) may contain elements other than 0.
+Note that \( C \cap C^\perp \) may contain elements other than 0.
 \begin{lemma}
     \( \rank C + \rank C^\perp = n \).
 \end{lemma}
@@ -280,7 +280,7 @@ If \( F \) is a field and \( f \in F[X] \), \( \faktor{F[X]}{(f)} \) is in bijec
 \end{definition}
 We identify \( \faktor{\mathbb F_2[X]}{(X^n - 1)} \) with \( \mathbb F_2^n \), letting \( \pi(a_0 + a_1X + \dots + a_{n-1}X^{n-1}) = (a_0, a_1, \dots, a_{n-1}) \).
 \begin{lemma}
-    A code \( C \subseteq \mathbb F_2^n \) is cyclic if and only if \( \pi(C) = \mathcal C \) satisfies
+    A code \( C \subseteq \mathbb F_2^n \) is cyclic if and only if \( \pi(\mathcal C) = C \) satisfies
     \begin{enumerate}
         \item \( 0 \in \mathcal C \);
         \item \( f, g \in \mathcal C \) implies \( f + g \in \mathcal C \);
@@ -334,9 +334,9 @@ Since \( \mathbb F_2[X] \) is a principal ideal domain, these ideals correspond 
     Let \( C \) be a cyclic code of length \( n \) with generator \( g(X) = a_0 + a_1 X + \dots + a_k X^k \) with \( a_k \neq 0 \).
     Then, a generator matrix for \( C \) is given by
     \[ G = \begin{pmatrix}
-        a_0 & a_1 & a_2 & \cdots & a_k & 0 & 0 & \cdots \\
-        0 & a_0 & a_1 & \cdots & a_{k-1} & a_k & 0 & \cdots \\
-        \vdots\\
+        a_0 & a_1 & a_2 & \cdots & a_k & 0 & 0 & \cdots & 0 \\
+        0 & a_0 & a_1 & \cdots & a_{k-1} & a_k & 0 & \cdots & 0 \\
+        \vdots & \vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \ddots & \vdots \\
         0 & 0 & 0 & \cdots & 0 & a_0 & a_1 & \cdots & a_k
     \end{pmatrix} \]
     This is an \( (n - k) \times n \) matrix.
@@ -348,10 +348,10 @@ Since \( \mathbb F_2[X] \) is a principal ideal domain, these ideals correspond 
 \begin{corollary}
     Writing \( h(X) = b_0 + b_1 X + \dots + b_{n-k} X^{n-k} \), the parity check matrix is
     \[ H = \begin{pmatrix}
-        b_{n-k} & b_{n-k-1} & \cdots & b_1 & b_0 & 0 & 0 & \cdots \\
-        b_{n-k} & b_{n-k-1} & \cdots & b_2 & b_1 & b_2 & 0 & \cdots \\
-        \\
-        0 & \cdots & b_{n-k} & b_{n-k-1} & \cdots & b_1 & b_0
+        b_{n-k} & b_{n-k-1} & b_{n-k-2} & \cdots & b_1 & b_0 & 0 & 0 & \cdots & 0 \\
+        0 & b_{n-k} & b_{n-k-1} & \cdots & b_2 & b_1 & b_0 & 0 & \cdots & 0 \\
+        \vdots & \vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+        0 & 0 & 0 & \cdots & 0 & b_{n-k} & b_{n-k-1} & b_{n-k-2} & \cdots & b_0
     \end{pmatrix} \]
     which is a \( k \times n \) matrix.
 \end{corollary}
