@@ -103,7 +103,7 @@ We then apply the following result.
 \begin{remark}
     The maximum period of a feedback shift register of length \( d \) is \( 2^d \).
     For a linear feedback shift register, the maximum period is \( 2^d - 1 \); this result is shown on the fourth example sheet.
-    
+
     Stream ciphers using linear feedback shift registers fail at level 2 due to the Berlekamp--Massey method.
     However, this cryptosystem is cheap, fast, and easy to use.
     Encryption and decryption can be performed on-the-fly, without needing the entire codeword first, and it is error-tolerant.
@@ -166,7 +166,7 @@ We base asymmetric cryptosystems on certain mathematical problems in number theo
     Polynomial time algorithms are not known for examples (i) and (ii) above.
     However, we have elementary methods for computing (i) and (ii) that take exponential time.
     If \( N = pq \), dividing \( N \) by successive primes up to \( \sqrt{N} \) will find \( p \) and \( q \) but takes \( O(\sqrt{N}) = O(2^{\frac{B}{2}}) \) steps where \( B = \log_2 N \).
-    
+
     We describe the \emph{baby-step, giant-step} algorithm for the discrete logarithm problem.
     Set \( m = \ceil{\sqrt{p}} \), and write \( a = qm + r \) for \( 0 \leq q, r < m \).
     Then, \( x \equiv g^a = g^{qm + r} \) mod \( p \), so \( g^{qm} = g^{-r} x \) mod \( p \).
@@ -214,7 +214,7 @@ Indeed, running the Euclidean algorithm on \( p, q \) gives integers \( r, s \) 
 \begin{proof}
     \emph{Part (i).}
     \( x^2 \equiv y^2 \) mod \( p \) if and only if \( p \mid (x^2 - y^2) = (x-y)(x+y) \), so either \( p \mid x-y \) or \( p \mid x+y \), so \( x = \pm y \).
-    
+
     \emph{Part (ii).}
     If \( x_0 \) is a solution, then by the Chinese remainder theorem, there exist solutions \( x \) with \( x \equiv \pm x_0 \) mod \( p \) and \( x \equiv \pm x_0 \) mod \( q \).
     This gives four solutions as required.
@@ -268,7 +268,7 @@ The public key is \( (N, e) \), and we encrypt \( m \in \mathcal M \) as \( c \e
 The private key is \( (N, d) \), and we decrypt \( c \in \mathcal C \) as \( x \equiv c^d \) mod \( N \).
 By the Fermat--Euler theorem, \( x \equiv m^{de} \equiv m^{1+k\varphi(N)} \equiv m \) mod \( N \), noting that the probability that \( (m, N) \neq 1 \) is small enough to be ignored.
 Hence, the decrypting function is inverse to the encrypting function.
-% 
+%
 % Suppose that Eve intercepts the ciphertext \( c \), and wants to find the plaintext given the public key \( (N, e) \).
 % This problem is essentially as difficult as finding the factors \( p \) and \( q \) of \( N \) so that \( \varphi(N) = (p-1)(q-1) \) can be computed.
 \begin{corollary}
@@ -413,7 +413,9 @@ To forge a signature, obvious attacks involve the discrete logarithm problem, fi
 It is vital that Alice chooses a new value of \( k \) to sign each message.
 Suppose she sends \( m_1, m_2 \) using the same value of \( k \).
 Denote the signatures \( (r, s_1) \) and \( (r, s_2) \); note that \( r \) depends only on \( k \) and is hence fixed.
-\[ h(m_1) \equiv ur + ks_1 \mod (p-1);\quad h(m_2) \equiv ur + ks_2 \mod (p-1) \implies h(m_1) - h(m_2) \equiv k(s_1 - s_2) \mod (p-1) \]
+\[ h(m_1) \equiv ur + ks_1 \mod (p-1);\quad h(m_2) \equiv ur + ks_2 \mod (p-1) \]
+Hence,
+\[ h(m_1) - h(m_2) \equiv k(s_1 - s_2) \mod (p-1) \]
 Let \( d = \gcd(p-1, s_1 - s_2) \).
 By the previous lemma, this is the number of solutions for \( k \) modulo \( p-1 \).
 Choose the solution that gives the correct value in the first congruence \( r \equiv g^k \) mod \( p \).

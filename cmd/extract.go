@@ -14,7 +14,7 @@ var extractCmd = &cobra.Command{
 	Short: "Extracts definitions and theorems from files",
 	Long:  "Extracts definitions and theorems from files. Can be used in conjunction with Anki to make flashcards semi-automatically.",
 	Run: func(cmd *cobra.Command, args []string) {
-		course, _ := cmd.Flags().GetString("course")
+		course, _ := cmd.Flags().GetStringArray("course")
 		extract(course)
 	},
 }
@@ -22,7 +22,7 @@ var extractCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(extractCmd)
 
-	extractCmd.Flags().String("course", "c", "The course to extract definitions from, e.g. ib/antop")
+	extractCmd.Flags().StringArrayP("course", "c", []string{}, "The course(s) to extract definitions from, e.g. \"ib/antop ii/alggeom\"")
 
 	// Here you will define your flags and configuration settings.
 
@@ -46,69 +46,71 @@ func toCsv(text string) string {
 	return text
 }
 
-func extract(course string) {
-	files, _ := walkMatch(course, "*.tex")
-	definitions := ""
-	theorems := ""
-	for _, v := range files {
-		contentsBytes, _ := os.ReadFile(v)
-		contents := string(contentsBytes)
-		for {
-			i := strings.Index(contents, `\begin{definition}`)
-			if i == -1 {
-				break
-			}
-			j := strings.Index(contents, `\end{definition}`)
-			def := contents[i+len(`\begin{definition}`) : j]
-			contents = contents[j+len(`\end{definition}`):]
-
-			def = strings.ReplaceAll(def, "\t", "")
-			def = strings.ReplaceAll(def, "\n", " ")
-			def = strings.TrimSpace(def)
-
-			i1 := strings.Index(def, `\textit{`)
-			guessedDefName := "[unknown definition]"
-			if i1 != -1 {
-				j1 := strings.Index(def[i1:], `}`)
-				guessedDefName = def[i1+len(`\textit{`) : i1+j1]
-			}
-
+func extract(courses []string) {
+	for _, course := range courses {
+		files, _ := walkMatch(course, "*.tex")
+		definitions := ""
+		theorems := ""
+		for _, v := range files {
+			contentsBytes, _ := os.ReadFile(v)
+			contents := string(contentsBytes)
 			for {
-				// Remove all textit
-				i2 := strings.Index(def, `\textit{`)
-				if i2 == -1 {
+				i := strings.Index(contents, `\begin{definition}`)
+				if i == -1 {
 					break
 				}
-				j2 := strings.Index(def[i2:], `}`)
-				def = def[:i2] + "<i>" + def[i2+len(`\textit{`):i2+j2] + "</i>" + def[i2+j2+1:]
+				j := strings.Index(contents, `\end{definition}`)
+				def := contents[i+len(`\begin{definition}`) : j]
+				contents = contents[j+len(`\end{definition}`):]
+
+				def = strings.ReplaceAll(def, "\t", "")
+				def = strings.ReplaceAll(def, "\n", " ")
+				def = strings.TrimSpace(def)
+
+				i1 := strings.Index(def, `\emph{`)
+				guessedDefName := "[unknown definition]"
+				if i1 != -1 {
+					j1 := strings.Index(def[i1:], `}`)
+					guessedDefName = def[i1+len(`\emph{`) : i1+j1]
+				}
+
+				for {
+					// Remove all emph
+					i2 := strings.Index(def, `\emph{`)
+					if i2 == -1 {
+						break
+					}
+					j2 := strings.Index(def[i2:], `}`)
+					def = def[:i2] + "<i>" + def[i2+len(`\emph{`):i2+j2] + "</i>" + def[i2+j2+1:]
+				}
+
+				definitions += guessedDefName + "\t" + def + "\n"
 			}
 
-			definitions += guessedDefName + "\t" + def + "\n"
-		}
-
-		// Now do theorems.
-		contents = string(contentsBytes)
-		alts := "theorem|lemma|proposition|claim|corollary"
-		thm, e := regexp.Compile(`\\begin{(` + alts + `)}(?:\[(.*)\])?(?sU)(.*)\\end{(?:` + alts + `)}(?:.*)\\begin{proof}(.*)\\end{proof}`)
-		if e != nil {
-			println(e)
-			return
-		}
-		thms := thm.FindAllStringSubmatch(contents, -1)
-		for _, val := range thms {
-			// 0 = entire theorem
-			// 1 = theorem/lemma etc
-			// 2 = name of result
-			// 3 = content of the theorem
-			// 4 = proof of the theorem
-			name := strings.Title(val[1])
-			if val[2] != "" {
-				name += " (" + val[2] + ")"
+			// Now do theorems.
+			contents = string(contentsBytes)
+			alts := "theorem|lemma|proposition|claim|corollary"
+			thm, e := regexp.Compile(`\\begin{(` + alts + `)}(?:\[(.*)\])?(?sU)(.*)\\end{(?:` + alts + `)}(?:.*)\\begin{proof}(.*)\\end{proof}`)
+			if e != nil {
+				println(e)
+				return
 			}
-			theorems += name + ". " + toCsv(val[3]) + "\t" + toCsv(val[4]) + "\n"
+			thms := thm.FindAllStringSubmatch(contents, -1)
+			for _, val := range thms {
+				// 0 = entire theorem
+				// 1 = theorem/lemma etc
+				// 2 = name of result
+				// 3 = content of the theorem
+				// 4 = proof of the theorem
+				name := strings.Title(val[1])
+				if val[2] != "" {
+					name += " (" + val[2] + ")"
+				}
+				theorems += name + ". " + toCsv(val[3]) + "\t" + toCsv(val[4]) + "\n"
+			}
 		}
+		os.WriteFile(strings.ReplaceAll(course, "/", "_")+"_definitions.csv", []byte(definitions), 0644)
+		os.WriteFile(strings.ReplaceAll(course, "/", "_")+"_theorems.csv", []byte(theorems), 0644)
+		color.HiGreen("Done " + course + "!")
 	}
-	os.WriteFile("definitions.csv", []byte(definitions), 0644)
-	os.WriteFile(strings.ReplaceAll(course, "/", "_") + "_theorems.csv", []byte(theorems), 0644)
-	color.HiGreen("Done!")
 }
