@@ -9,7 +9,7 @@ These maps have the property that \( d(e(m, k), k) = m \) for all \( m \in \math
     The \emph{simple substitution cipher} defines \( \mathcal K \) to be the set of permutations of \( \Sigma \).
     To encrypt a message, each letter of plaintext is replaced with its image under a chosen permutation \( \pi \in \mathcal K \).
 
-    The \emph{Vigen\`ere} cipher has \( \mathcal K = \Sigma^d \) for some \( d \).
+    The \emph{Vigen\`ere cipher} has \( \mathcal K = \Sigma^d \) for some \( d \).
     We identify \( \Sigma \) and \( \faktor{\mathbb Z}{26\mathbb Z} \).
     Write out the key repeatedly below the plaintext, and add each plaintext letter with the corresponding key letter to produce a letter of ciphertext.
     For instance, encrypting the plaintext ATTACKATDAWN with the key LEMON gives ciphertext LXFOPVEFRNHR.
@@ -32,7 +32,6 @@ There are three possible attack levels.
     Even if the plaintext is suitably random, both examples can fail at Level 2.
     For modern applications, Level 3 security is desirable.
 \end{remark}
-% TODO: too little indent in enumerate above
 Consider a cryptosystem \( (\mathcal M, \mathcal K, \mathcal C) \).
 We model the keys and messages as independent random variables \( K, M \) taking values in \( \mathcal K, \mathcal M \).
 The ciphertext random variable is \( C = e(K,M) \in \mathcal C \).
@@ -51,24 +50,35 @@ One can show that perfect secrecy implies that \( \abs{\mathcal K} \geq \abs{\ma
     Note that \( M = d(C,K) \), hence \( H(M \mid C, K) = 0 \).
     Therefore, \( H(C,K) = H(M,C,K) \).
     So
-    \[ H(K \mid C) = H(K,C) - H(C) = H(M,C,K) - H(M \mid K,C) - H(C) = H(M,K,C) - H(C) = H(K \mid M,C) + H(M,C) - H(C) = H(K \mid M, C) + H(M \mid C) \]
+    \begin{align*}
+        H(K \mid C) &= H(K,C) - H(C) \\
+        &= H(M,C,K) - H(M \mid K,C) - H(C) \\
+        &= H(M,K,C) - H(C) \\
+        &= H(K \mid M,C) + H(M,C) - H(C) \\
+        &= H(K \mid M, C) + H(M \mid C)
+    \end{align*}
     Hence \( H(K \mid C) \geq H(M \mid C) \).
 \end{proof}
 Let \( \mathcal M = \mathcal C = \mathcal A \), and suppose we send \( n \) messages modelled as \( M^{(n)} = (M_1, \dots, M_n) \) encrypted as \( C^{(n)} = (C_1, \dots, C_n) \) using the same key \( K \).
 \begin{definition}
-    The \emph{unicity distance} is the least \( n \) such that \( H(K \mid C^{(n)}) = 0 \); it is the smallest number of encrypted messages required to uniquely determine the key.
+    The \emph{unicity distance} is the least \( n \) such that \( H\qty(K \mid C^{(n)}) = 0 \); it is the smallest number of encrypted messages required to uniquely determine the key.
 \end{definition}
 Now,
-\[ H(K \mid C^{(n)}) = H(K, C^{(n)}) - H(C^{(n)}) = H(K, M^{(n)}, C^{(n)}) - H(C^{(n)}) = H(K, M^{(n)}) - H(C^{(n)}) = H(K) + H(M^{(n)}) - H(C^{(n)}) \]
+\begin{align*}
+    H\qty(K \mid C^{(n)}) &= H\qty(K, C^{(n)}) - H\qty(C^{(n)}) \\
+    &= H\qty(K, M^{(n)}, C^{(n)}) - H\qty(C^{(n)}) \\
+    &= H\qty(K, M^{(n)}) - H\qty(C^{(n)}) \\
+    &= H(K) + H\qty(M^{(n)}) - H\qty(C^{(n)})
+\end{align*}
 as \( K, M^{(n)} \) are independent.
 We make the following assumptions.
 \begin{enumerate}
     \item All keys are equally likely, so \( H(K) = \log \abs{\mathcal K} \).
-    \item \( H(M^{(n)}) \approx nH \) for some constant \( H \) and sufficiently large \( n \).
-    \item All sequences of ciphertext are equally likely, so \( H(C^{(n)}) = n \log \abs{\mathcal A} \).
+    \item \( H\qty(M^{(n)}) \approx nH \) for some constant \( H \) and sufficiently large \( n \).
+    \item All sequences of ciphertext are equally likely, so \( H\qty(C^{(n)}) = n \log \abs{\mathcal A} \).
 \end{enumerate}
 Hence,
-\[ H(K \mid C^{(n)}) = \log \abs{\mathcal K} + nH - n \log \abs{\mathcal A} \geq 0 \]
+\[ H\qty(K \mid C^{(n)}) = \log \abs{\mathcal K} + nH - n \log \abs{\mathcal A} \geq 0 \]
 This holds if and only if
 \[ n \leq U = \frac{\log \abs{\mathcal K}}{\log \abs{\mathcal A} - H} \]
 Equivalently, \( \frac{\log \abs{\mathcal A}}{R\log \abs{\mathcal A}} \) where \( R = 1 - \frac{H}{\log \abs{\mathcal A}} \) is the \emph{redundancy} of the source.
@@ -318,7 +328,7 @@ We now prove part (ii) of the above theorem.
     Let \( m \) be a message in \( \mathbb Z_p \).
     She encodes \( m \) as \( c = m^a \) mod \( p \).
     She then sends this to Bob, who computes \( d = c^b \) mod \( p \).
-    He sends this back to alice, who computes \( e = d^{a'} \) mod \( p \).
+    He sends this back to Alice, who computes \( e = d^{a'} \) mod \( p \).
     She sends this back to Bob, who computes \( e^{b'} \) mod \( p \).
     By Fermat's little theorem, \( e^{b'} \equiv d^{a'b'} \equiv c^{ba'b'} \equiv m^{aba'b'} \equiv m \).
     % https://q.uiver.app/?q=WzAsNSxbMCwwLCJtIl0sWzEsMCwibV5hIl0sWzIsMCwiY15iIl0sWzMsMCwiZF57YSd9Il0sWzQsMCwiZV57Yid9Il0sWzAsMSwiQSJdLFsxLDIsIkIiXSxbMiwzLCJBIl0sWzMsNCwiQiJdXQ==
