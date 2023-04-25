@@ -331,15 +331,15 @@ Then \( I_{\ket{\alpha}} \ket{\psi} = \ket{\psi} - \ket{\alpha}\ip{\alpha}{\psi}
 For any unitary operator \( U \) acting on \( \mathcal V \), we have \( U \Pi_{\ket{\alpha}} U^\dagger = U \op{\alpha}{\alpha} U^\dagger = \Pi_{U\ket{\alpha}} \).
 Note also that \( U I_{\ket{\alpha}} U^\dagger = U(I - 2 \op{\alpha}{\alpha}) U^\dagger = I - 2 \op{U\alpha}{U\alpha} = I_{U\ket{\alpha}} \).
 
-If \( \mathcal V \in \mathbb C^2 \), for all \( \ket{\alpha} \in \mathcal V \), let \( \ket{\alpha^\perp} \) be orthogonal to \( \ket{\alpha} \).
+If \( \mathcal V = \mathbb C^2 \), for all \( \ket{\alpha} \in \mathcal V \), let \( \ket{\alpha^\perp} \) be orthogonal to \( \ket{\alpha} \).
 For all \( \ket{v} \in \mathcal V \), we can write \( \ket{v} = a \ket{\alpha} + b \ket{\alpha^\perp} \), so \( \Pi_{\ket{\alpha}} \ket{v} = a \ket{\alpha} \) and \( I_{\ket{\alpha}} \ket{v} = -a\ket{\alpha} + b \ket{\alpha^\perp} \).
 
 Let \( N = 2^n \), so we can label each item in the database with an \( n \)-bit binary string.
 We will convert the search problem into a black-box promise problem.
 The database corresponds to the Boolean function \( f \colon B_n \to B \) where \( f(x_0) = 1 \) for a particular \( x_0 \in B_n \), and \( f(x) = 0 \) otherwise.
 The corresponding quantum oracle is \( U_f \ket{x} \ket{y} = \ket{x} \ket{y \oplus f(x)} \), where \( \ket{x} \in (\mathbb C^2)^{\otimes n} \) and \( \ket{y} \in \mathbb C^2 \).
-The fact that the databse is unstructured corresponds to the fact that the quantum oracle \( U_f \) is a black box.
-We will actually use the operator \( I_{x_0} \).
+The fact that the database is unstructured corresponds to the fact that the quantum oracle \( U_f \) is a black box.
+We will use the operator \( I_{x_0} \), which has the following action on the basis vectors.
 \[ I_{x_0} \ket{x} = \begin{cases}
     +\ket{x} & \text{if } x \neq x_0 \\
     -\ket{x} & \text{if } x = x_0
@@ -535,7 +535,7 @@ Shor's algorithm can be summarised as follows.
     If \( b > 1 \), output \( b \) and halt.
     \item Find the period \( r \) of the modular exponentiation function \( f(k) = a^k \) mod \( N \).
     If this fails, return to step (iii).
-    \item If \( r \) is even and \( (a^{\frac{r}{2}} + 1) \equiv 0 \) mod \( N \), compute \( t = \gcd(a^{\frac{r}{2}} + 1, N) \); if \( 1 < t < N \), output \( t \) and halt.
+    \item If \( r \) is even and \( (a^{\frac{r}{2}} + 1) \not\equiv 0 \) mod \( N \), compute \( t = \gcd(a^{\frac{r}{2}} + 1, N) \); if \( 1 < t < N \), output \( t \) and halt.
     Otherwise, return to step (iii).
 \end{enumerate}
 We now describe the method to compute the period of the modular exponentiation function.
@@ -644,7 +644,7 @@ This gives the sequence of rational numbers
 \end{proof}
 \begin{theorem}
     Let \( x \in \mathbb Q \) with \( 0 < x < 1 \).
-    Let \( \frac{p}{q} \in \mathbb Q \) such that \( \abs{x - \frac{p}{q}} - \frac{1}{2q^2} \).
+    Let \( \frac{p}{q} \in \mathbb Q \) such that \( \abs{x - \frac{p}{q}} < \frac{1}{2q^2} \).
     Then \( \frac{p}{q} \) is a convergent of the continued fraction expansion of \( x \).
 \end{theorem}
 In our situation, we have \( c \) such that
