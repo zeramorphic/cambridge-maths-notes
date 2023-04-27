@@ -167,6 +167,68 @@ It also has the unique lifting property, but this will be more easily proven lat
 	Then \( \hat \gamma_0(1) = \hat \gamma_1(1) \).
 \end{corollary}
 
+\subsection{Simply connected lifting}
+Let \( p \colon (\hat X, \hat x_0) \to (X, x_0) \) be a covering map.
+If \( \gamma \colon I \to X \) has \( \gamma(0) = x_0 \), let \( \hat \gamma \colon I \to \hat X \) be its unique lift such that \( \hat \gamma(0) = \hat x_0 \).
+
+Consider \( \widehat{\gamma\gamma'} = \hat\gamma\widetilde\gamma' \), where \( \widetilde\gamma' \) is a lift of \( \gamma' \) such that \( \widetilde\gamma'(0) = \hat\gamma(1) \).
+Note that we needed to change the start point of \( \widetilde\gamma' \) in the covering space.
+\begin{definition}
+	A space \( X \) is \emph{locally path-connected} if for every open set \( U \subseteq X \) and \( x \in U \), there exists an open \( V \subseteq U \) with \( x \in V \) and \( V \) path-connected.
+\end{definition}
+\begin{example}
+	Consider
+	\[ X = \qty{(x,0) \in \mathbb R^2} \cup \qty{\qty(\frac{1}{n}, y) \in \mathbb R^2, n \in \mathbb Z} \cup \qty{(0,y) \in \mathbb R^2} \]
+	Then, an open set containing a point \( (0,y) \) but not \( (0,0) \) admits no smaller path-connected open neighbourhood.
+\end{example}
+\begin{proposition}[simply connected lifting property]
+	Let \( Z \) be a simply connected (and hence path-connected) space that is also locally path-connected.
+	If \( f \colon (Z,z_0) \to (X,x_0) \), then \( f \) has a unique lift \( \hat f \colon (Z,z_0) \to (\hat X, \hat x_0) \).
+\end{proposition}
+\begin{remark}
+	This proposition then implies the path lifting and homotopy lifting properties.
+\end{remark}
+\begin{proof}
+	Suppose \( \hat f \colon (Z,z_0) \to (\hat X, \hat x_0) \) is a lift of \( f \).
+	Given \( z \in Z \), consider a path \( \gamma \in \Omega(Z,z_0,z) \), which exists since \( Z \) is path-connected.
+	Then \( \hat f \circ \gamma \) is a lift of \( f \circ \gamma \), since \( p(\hat f \circ \gamma) = (p \circ \hat f)\circ \gamma = f \circ \gamma \).
+	Then, \( (\hat f \circ \gamma)(0) = \hat f(z_0) = \hat x_0 \), so \( \hat f \circ \gamma = \widehat{f \circ \gamma} \) is the unique lift of \( f \circ \gamma \) given by the unique path lifting property.
+	Then \( \hat f(z) = \hat f(\gamma(1)) = (\hat f \circ \gamma)(1) = \widehat{f \circ \gamma}(1) \) is uniquely determined by the unique path lifting property.
+	So any such lift is unique.
+
+	If \( \gamma_0, \gamma_1 \in \Omega(Z,z_0,z) \), \( \gamma_0 \sim_e \gamma_1 \) by simply-connectedness.
+	In particular, \( f \circ \gamma_0 \sim_e f \circ \gamma_1 \), and by the homotopy lifting property, \( \widehat{f \circ \gamma_0}(1) = \widehat{f \circ \gamma_1}(1) \).
+	So the choice of path \( \gamma \) used above is not relevant.
+	Now, let us define \( \hat f \colon (Z,z_0) \to (\hat X, \hat x_0) \) by \( \hat f(z) = \widehat{f \circ \gamma}(1) \) where \( \gamma \in \Omega(Z,z_0,z) \) is any path from \( z_0 \) to \( z \).
+	Then \( p(\hat f(z)) = p \circ \widehat{f \circ \gamma}(1) = f \circ \gamma(1) = f(z) \) since \( \widehat{f \circ \gamma} \) is a lift of \( f \circ \gamma \).
+	Hence \( \hat f \) as defined is a lift.
+	If \( z = z_0 \), we can take \( \gamma = c_{I,z_0} \), so \( f \circ \gamma = c_{I,x_0} \).
+	In particular, \( \widehat{f \circ \gamma} = c_{I,\hat x_0} \), so \( \hat f(z) = \widehat{f \circ \gamma}(1) = \hat x_0 \) as required.
+
+	Now, it suffices to check that \( \hat f \) is a continuous function.
+	Let \( U \subseteq \hat X \) be an open neighbourhood of \( \hat f(z) \).
+	We need to find an open neighbourhood \( V \subseteq Z \) of \( z \) such that \( \hat f(V) \subseteq U \).
+
+	First, we find a subset \( U' \subset U \) with \( \hat f(z) \in U' \) such that \( p(U') \) is open and evenly covered.
+	Since \( p \) is a covering map, there exists an open \( W \subseteq X \) with \( f(z) \in W \) and which is evenly covered.
+	Hence \( p^{-1}(W) = \coprod_{\alpha \in A} W_\alpha \), and \( p(\hat f(z)) = f(z) \), so \( \hat f(z) \in W_{\alpha_0} \) for some \( \alpha_0 \in A \).
+	Then, \( W_{\alpha_0} \subseteq \hat X \) is an open set.
+	Let \( U' = U \cap W_{\alpha_0} \).
+	Then \( \hat f(z) \in U' \), and \( \eval{p}_{W_{\alpha_0}} \colon W_{\alpha_0} \to W \) is a homeomorphism, so \( p(U') = p_{\alpha_0}(U') \) is open and evenly covered.
+
+	Next, \( f \colon Z \to X \) is continuous, so we need to find an open set \( V' \subseteq Z \) with \( z \in V' \) and \( f(V') \subseteq p(U') \).
+	Since \( Z \) is locally path-connected, there exists \( V \subseteq V' \) which is an open path-connected set with \( z \in V \).
+
+	Now we need to show \( V \) satisfies the continuity requirement, that \( \hat f(V) \subseteq U \).
+	Given \( z' \in V \), let \( \gamma' \in \Omega(V,z,z') \), which exists because \( V \) is path-connected.
+	Then \( \Im f \circ \gamma' \subseteq f(V) \subseteq p(U') \).
+	Note that \( \Im f \circ \gamma' \) is evenly covered.
+	Hence \( \widetilde \gamma' = p_{\alpha_0}^{-1} \circ f \circ \gamma' \) is a lift of \( f \circ \gamma' \) with \( \widetilde \gamma'(0) = p_{\alpha_0}^{-1}(f(z)) = \hat f(z) \).
+	Then \( \gamma\gamma' \in \Omega(Z,z_0,z') \), and \( \widehat{f \circ (\gamma\gamma')} = \widehat{f \circ \gamma} \widetilde \gamma' \) by the discussion at the beginning of the subsection.
+	Hence \( \hat f(z') = \widehat{f \circ (\gamma\gamma')}(1) = \widetilde\gamma'(1) = p_{\alpha_0}^{-1} \circ f \circ \gamma'(1) \in U' \).
+	So \( \hat f(V) \subseteq U \) as required.
+\end{proof}
+
 \subsection{Universal covers}
 Let \( p \colon (\hat X, \hat x_0) \to (X, x_0) \) be a covering map.
 If \( \gamma \in \Omega(X,x_0) \), let \( \hat \gamma \colon I \to \hat X \) be its unique lift such that \( \hat \gamma(0) = \hat x_0 \), which exists by the path lifting property.
@@ -219,6 +281,13 @@ In particular, \( \varepsilon_p \) descends to a well-defined map from \( \pi_1(
 \begin{corollary}
 	\( S^1 \) is not contractible.
 \end{corollary}
+\begin{example}
+	Let \( f \colon S^1 \to S^1 \) be the identity map.
+	Let \( p \colon (\mathbb R, 0) \to (S^1, 1) \) be a covering map.
+	Then there is no lift of \( f \) to \( \mathbb R \).
+	Otherwise, the identity map on \( \mathbb Z \) would factor through the trivial group.
+	This shows that the simply connected lifting property does not extend to all path-connected spaces.
+\end{example}
 
 \subsection{Degree of maps on the circle}
 \begin{lemma}
@@ -319,75 +388,6 @@ If each \( X_i \) has the property that for any \( x_i, x_i' \in X_i \), there e
 	In particular, there is a bijection \( \pi_1(S^1 \vee S^1, x_0) \to p^{-1}(\qty{x_0}) \) given by \( [\gamma] \to \varepsilon_p(\gamma) \).
 	Here, \( \varepsilon_p(ab) = \widehat{ab}(1) \), but \( \varepsilon_p(ba) = \widehat{ba}(1) \neq \widehat{ab}(1) \).
 	In \( \pi_1(S^1 \vee S^1, x_0) \), \( ab \neq ba \), so \( \pi_1(S^1 \vee S^1,x_0) \) is not abelian.
-\end{example}
-
-\subsection{Simply connected lifting}
-Let \( p \colon (\hat X, \hat x_0) \to (X, x_0) \) be a covering map.
-If \( \gamma \colon I \to X \) has \( \gamma(0) = x_0 \), let \( \hat \gamma \colon I \to \hat X \) be its unique lift such that \( \hat \gamma(0) = \hat x_0 \).
-
-Consider \( \widehat{\gamma\gamma'} = \hat\gamma\widetilde\gamma' \), where \( \widetilde\gamma' \) is a lift of \( \gamma' \) such that \( \widetilde\gamma'(0) = \hat\gamma(1) \).
-Note that we needed to change the start point of \( \widetilde\gamma' \) in the covering space.
-\begin{definition}
-	A space \( X \) is \emph{locally path-connected} if for every open set \( U \subseteq X \) and \( x \in U \), there exists an open \( V \subseteq U \) with \( x \in V \) and \( V \) path-connected.
-\end{definition}
-\begin{example}
-	Consider
-	\[ X = \qty{(x,0) \in \mathbb R^2} \cup \qty{\qty(\frac{1}{n}, y) \in \mathbb R^2, n \in \mathbb Z} \cup \qty{(0,y) \in \mathbb R^2} \]
-	Then, an open set containing a point \( (0,y) \) but not \( (0,0) \) admits no smaller path-connected open neighbourhood.
-\end{example}
-\begin{proposition}[simply connected lifting property]
-	Let \( Z \) be a simply connected (and hence path-connected) space that is also locally path-connected.
-	If \( f \colon (Z,z_0) \to (X,x_0) \), then \( f \) has a unique lift \( \hat f \colon (Z,z_0) \to (\hat X, \hat x_0) \).
-\end{proposition}
-\begin{remark}
-	This proposition then implies the path lifting and homotopy lifting properties.
-\end{remark}
-\begin{proof}
-	Suppose \( \hat f \colon (Z,z_0) \to (\hat X, \hat x_0) \) is a lift of \( f \).
-	Given \( z \in Z \), consider a path \( \gamma \in \Omega(Z,z_0,z) \), which exists since \( Z \) is path-connected.
-	Then \( \hat f \circ \gamma \) is a lift of \( f \circ \gamma \), since \( p(\hat f \circ \gamma) = (p \circ \hat f)\circ \gamma = f \circ \gamma \).
-	Then, \( (\hat f \circ \gamma)(0) = \hat f(z_0) = \hat x_0 \), so \( \hat f \circ \gamma = \widehat{f \circ \gamma} \) is the unique lift of \( f \circ \gamma \) given by the unique path lifting property.
-	Then \( \hat f(z) = \hat f(\gamma(1)) = (\hat f \circ \gamma)(1) = \widehat{f \circ \gamma}(1) \) is uniquely determined by the unique path lifting property.
-	So any such lift is unique.
-
-	If \( \gamma_0, \gamma_1 \in \Omega(Z,z_0,z) \), \( \gamma_0 \sim_e \gamma_1 \) by simply-connectedness.
-	In particular, \( f \circ \gamma_0 \sim_e f \circ \gamma_1 \), and by the homotopy lifting property, \( \widehat{f \circ \gamma_0}(1) = \widehat{f \circ \gamma_1}(1) \).
-	So the choice of path \( \gamma \) used above is not relevant.
-	Now, let us define \( \hat f \colon (Z,z_0) \to (\hat X, \hat x_0) \) by \( \hat f(z) = \widehat{f \circ \gamma}(1) \) where \( \gamma \in \Omega(Z,z_0,z) \) is any path from \( z_0 \) to \( z \).
-	Then \( p(\hat f(z)) = p \circ \widehat{f \circ \gamma}(1) = f \circ \gamma(1) = f(z) \) since \( \widehat{f \circ \gamma} \) is a lift of \( f \circ \gamma \).
-	Hence \( \hat f \) as defined is a lift.
-	If \( z = z_0 \), we can take \( \gamma = c_{I,z_0} \), so \( f \circ \gamma = c_{I,x_0} \).
-	In particular, \( \widehat{f \circ \gamma} = c_{I,\hat x_0} \), so \( \hat f(z) = \widehat{f \circ \gamma}(1) = \hat x_0 \) as required.
-
-	Now, it suffices to check that \( \hat f \) is a continuous function.
-	Let \( U \subseteq \hat X \) be an open neighbourhood of \( \hat f(z) \).
-	We need to find an open neighbourhood \( V \subseteq Z \) of \( z \) such that \( \hat f(V) \subseteq U \).
-
-	First, we find a subset \( U' \subset U \) with \( \hat f(z) \in U' \) such that \( p(U') \) is open and evenly covered.
-	Since \( p \) is a covering map, there exists an open \( W \subseteq X \) with \( f(z) \in W \) and which is evenly covered.
-	Hence \( p^{-1}(W) = \coprod_{\alpha \in A} W_\alpha \), and \( p(\hat f(z)) = f(z) \), so \( \hat f(z) \in W_{\alpha_0} \) for some \( \alpha_0 \in A \).
-	Then, \( W_{\alpha_0} \subseteq \hat X \) is an open set.
-	Let \( U' = U \cap W_{\alpha_0} \).
-	Then \( \hat f(z) \in U' \), and \( \eval{p}_{W_{\alpha_0}} \colon W_{\alpha_0} \to W \) is a homeomorphism, so \( p(U') = p_{\alpha_0}(U') \) is open and evenly covered.
-
-	Next, \( f \colon Z \to X \) is continuous, so we need to find an open set \( V' \subseteq Z \) with \( z \in V' \) and \( f(V') \subseteq p(U') \).
-	Since \( Z \) is locally path-connected, there exists \( V \subseteq V' \) which is an open path-connected set with \( z \in V \).
-
-	Now we need to show \( V \) satisfies the continuity requirement, that \( \hat f(V) \subseteq U \).
-	Given \( z' \in V \), let \( \gamma' \in \Omega(V,z,z') \), which exists because \( V \) is path-connected.
-	Then \( \Im f \circ \gamma' \subseteq f(V) \subseteq p(U') \).
-	Note that \( \Im f \circ \gamma' \) is evenly covered.
-	Hence \( \widetilde \gamma' = p_{\alpha_0}^{-1} \circ f \circ \gamma' \) is a lift of \( f \circ \gamma' \) with \( \widetilde \gamma'(0) = p_{\alpha_0}^{-1}(f(z)) = \hat f(z) \).
-	Then \( \gamma\gamma' \in \Omega(Z,z_0,z') \), and \( \widehat{f \circ (\gamma\gamma')} = \widehat{f \circ \gamma} \widetilde \gamma' \) by the discussion at the beginning of the subsection.
-	Hence \( \hat f(z') = \widehat{f \circ (\gamma\gamma')}(1) = \widetilde\gamma'(1) = p_{\alpha_0}^{-1} \circ f \circ \gamma'(1) \in U' \).
-	So \( \hat f(V) \subseteq U \) as required.
-\end{proof}
-\begin{example}
-	Let \( f \colon S^1 \to S^1 \) be the identity map.
-	Let \( p \colon (\mathbb R, 0) \to (S^1, 1) \) be a covering map.
-	Then there is no lift of \( f \) to \( \mathbb R \).
-	Otherwise, the identity map on \( \mathbb Z \) would factor through the trivial group.
-	So the simply connectedness hypothesis is required.
 \end{example}
 
 \subsection{Covering transformations}
