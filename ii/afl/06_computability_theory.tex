@@ -46,7 +46,7 @@ We use the notation \( \psi_X \) for the pseudocharacteristic function.
 \end{definition}
 \begin{remark}
 	We will show that every computable set is computably enumerable, but the converse does not hold.
-	We will also show that the computably enumerable sets are exactly the type 0 (context-free or noncontracting) languages, and that the class of computable languages is properly contained between type 1 and type 0.
+	We will also show that the computably enumerable sets are exactly the type 0 languages (those languages that have grammars), and that the class of computable languages is properly contained between type 1 and type 0.
 \end{remark}
 
 \subsection{Computability of languages}
@@ -151,7 +151,7 @@ The class of recursive functions is defined inductively.
 We call \( \pi_{k,i} \) the \emph{projection} functions, \( c_{k,\varepsilon} \) the \emph{constant} functions, and \( s \) the \emph{successor} function.
 
 Let \( f \colon \mathbb W^m \rightharpoonup \mathbb W \) and \( g_1, \dots, g_m \colon \mathbb W^k \rightharpoonup \mathbb W \).
-Then the \emph{composition} is \( h(\vb w) = f(g_1(\vb w), \dots, g_m(\vb k)) \).
+Then the \emph{composition} is \( h(\vb w) = f(g_1(\vb w), \dots, g_m(\vb w)) \).
 
 Let \( f \colon \mathbb W^k \rightharpoonup \mathbb W \) and \( g \colon \mathbb W^{k+2} \rightharpoonup \mathbb W \).
 Then the partial function \( h \colon \mathbb W^{k+1} \rightharpoonup \mathbb W \) defined by \( h(\vb w, \varepsilon) = f(\vb w) \) and \( h(\vb w, s(v)) = g(\vb w, v, h(\vb w, v)) \) is a function defined by \emph{recursion}.
@@ -159,7 +159,7 @@ Then the partial function \( h \colon \mathbb W^{k+1} \rightharpoonup \mathbb W 
 Let \( f \colon \mathbb W^{k+1} \rightharpoonup \mathbb W \).
 Then the function \( h \colon \mathbb W^k \rightharpoonup \mathbb W \) defined by
 \[ h(\vb w) = \begin{cases}
-	v & \text{if for all \( u \leq v \), we have \( f(u) \downarrow \) and \( v \) is \( < \)-minimal such that \( f(\vb w, v) = \varepsilon \)} \\
+	v & \text{if for all \( u \leq v \), we have \( f(\vb w, u) \downarrow \) and \( v \) is \( < \)-minimal such that \( f(\vb w, v) = \varepsilon \)} \\
 	\uparrow & \text{if for all \( v \), we have \( f(\vb w, v) \neq \varepsilon \)}
 \end{cases} \]
 is a function defined by \emph{minimisation}.
@@ -261,7 +261,7 @@ If the tree is primitive, the function obtained is primitive recursive.
 		\item Compute \( f(\vb w, u) \) where \( u \) is the content of register \( k \).
 			If this result is undefined, this is the desired result.
 		\item Check whether the computation result is empty.
-			If it is not empty, output the register content of \( k \).
+			If it is empty, output the register content of \( k \).
 			Otherwise, apply the successor function \( s \) to \( k \) then restart the subroutine.
 	\end{enumerate}
 \end{proof}
@@ -269,7 +269,9 @@ If the tree is primitive, the function obtained is primitive recursive.
 	The proof showed that the computable functions are closed under recursion and minimisation, not just that all partial recursive functions are computable.
 	Therefore, we can use recursion and minimisation directly to construct computable functions or register machines.
 \end{remark}
-Recall that there is a bijection \( z \colon \mathbb N \times \mathbb N \to \mathbb N \), called the \emph{Cantor zigzag function}.
+
+\subsection{Merging and splitting words}
+There is a bijection \( z \colon \mathbb N \times \mathbb N \to \mathbb N \), called the \emph{Cantor zigzag function}.
 \[ z(i,j) = \frac{(i+j)(i+j+1)}{2} + j \]
 This gives a bijection \( \mathbb W \times \mathbb W \to \mathbb W \).
 All of these operations are computable by register machines.
@@ -282,7 +284,7 @@ All of these operations are computable by register machines.
 Technically, splitting a word is not a computable function, since computable functions are defined to always have codomain \( \mathbb W \).
 However, the operation of splitting a word can be performed.
 
-\subsection{Choice of alphabet}
+\subsection{Universality}
 Consider an alphabet \( \Sigma \).
 We then have a notion of computability for sets \( X \subseteq \Sigma^\star = \mathbb W \).
 If \( \Sigma \subseteq \Sigma' \), then every \( \Sigma \)-register machine is a \( \Sigma' \)-register machine.
@@ -290,12 +292,10 @@ However, the notion of \( \Sigma' \)-computability is no stronger than \( \Sigma
 One can show that computability over any alphabet \( \Sigma \) with \( \abs{\Sigma} \geq 2 \) is equivalent to computability over the set \( \qty{0,1} \) by encoding each letter as a binary string.
 % TODO: Fill in from moodle
 
-\subsection{Universality}
 In this subsection, we aim to show that there is a \emph{universal} register machine, which is a machine that can mimic every register machine.
 Let \( \Sigma \) be an alphabet, and add additional symbols
 \[ \bm 0\ \bm 1\ \bm +\ \bm -\ \bm ?\ \bm (\ \bm )\ \bm ,\ \bm \mapsto\ \bm \square \]
 We name the new alphabet \( \Sigma' \).
-
 When we encode a mathematical object \( o \) as a word \( \Sigma'^\star \), we write the encoded result \( \code(o) \).
 \begin{itemize}
 	\item We can encode \( \mathbb N \) in binary using \( \bm 0 \) and \( \bm 1 \), for instance, \( \code(19) = \bm 1 \bm 0 \bm 0 \bm 1 \bm 1 \).
@@ -310,14 +310,13 @@ When we encode a mathematical object \( o \) as a word \( \Sigma'^\star \), we w
 \begin{lemma}
 	The function \( h \) defined by
 	\[ h(w,u,v) = \begin{cases}
-		\code(C(M,\vb w,\# v)) & \text{if there exist } M, \vb w \text{ such that } w = \code(M), u = \code(\vb w) \\
+		\code(C(M,\vb w,\# v)) & \text{if } \exists M, \vb w \text{ such that } w = \code(M), u = \code(\vb w) \\
 		\uparrow & \text{otherwise}
 	\end{cases} \]
 	is computable.
 \end{lemma}
 \begin{proof}
-	Apply recursion with the operation given in the previous table.
-	In particular, we define by recursion \( h(\code(M), \code(\vb w), \varepsilon) = \code(q_0)\code(\vb w) \) and \( h(\code(M), \code(\vb w), s(v)) = \code(C') \) where \( C' \) is the result of transforming \( h(\code(M), \code(\vb w), v) \) by the machine \( M \).
+	Define by recursion \( h(\code(M), \code(\vb w), \varepsilon) = \code(q_0)\code(\vb w) \) and \( h(\code(M), \code(\vb w), s(v)) = \code(C') \) where \( C' \) is the result of transforming \( h(\code(M), \code(\vb w), v) \) by the machine \( M \).
 \end{proof}
 \begin{corollary}
 	The \emph{truncated computation} function \( t_{M,k} \) defined by
@@ -375,7 +374,7 @@ This process is called \emph{currying}, after Haskell Curry.
 	Indeed, \( f_{h(v),k}(\vb w) = f_{\code(M \circ M_v), k}(\vb w) = f_{M \circ M_v, k}(\vb w) = g_v(\vb w) = g(\vb w, v) \) as required.
 \end{proof}
 
-\subsection{Computably enumerable sets}
+\subsection{The halting problem}
 Consider the sets
 \[ \mathbb K_0 = \qty{(w, v) \mid f_{w,1}(v) \downarrow};\quad \mathbb K = \qty{w \mid f_{w,1}(w) \downarrow} \]
 \begin{theorem}
@@ -402,6 +401,8 @@ Consider the sets
 	\[ f(d) \downarrow \iff f_{d,1}(d) \downarrow \iff (d,d) \in \mathbb K_0 \iff \chi_{\mathbb K_0}(d,d) = a \iff f(d) \uparrow \]
 	The proof is almost exactly the same for \( \mathbb K \).
 \end{proof}
+
+\subsection{The arithmetical hierarchy}
 \begin{definition}
 	\( X \subseteq \mathbb W^k \) is called \( \Sigma_1 \) if there is a computable set \( Y \subseteq \mathbb W^{k+1} \) such that \( \vb w \in X \iff \exists y, (\vb w, y) \in Y \).
 	We say \( X = p(Y) = \qty{\vb w \mid \exists y,\, (\vb w, y) \in Y} \) is the \emph{projection} of \( Y \).
@@ -483,7 +484,8 @@ Consider the sets
 	We encode derivations as \( \sigma_0 \bm\to \cdots \bm\to \sigma_n \); this is a \( \Sigma' \)-word.
 	We say \( w \in (\Sigma')^\star \) is a \emph{derivation code} if \( w \) is of this form with \( (\sigma_0, \dots, \sigma_n) \) a \( G \)-derivation.
 	In this case, we call \( \sigma_0 \) the \emph{initial string} and \( \sigma_n \) the \emph{final string}.
-	Let \( Y = \qty{(w, v) \mid v \text{ is a derivation code with initial string } S \text{ and final string } w} \).
+	Let
+	\[ Y = \qty{(w, v) \mid v \text{ is a derivation code with initial string } S \text{ and final string } w} \]
 	\( Y \) is computable since we can produce a register machine that tests if a given derivation code can be produced from a fixed given grammar.
 	But \( w \in \mathcal L(G) \iff \exists v,\, (w, v) \in Y \).
 	This is \( \Sigma_1 \), as required.
@@ -545,7 +547,7 @@ Consider the sets
 \end{remark}
 \begin{proof}
 	If \( \psi_X \) is computable, then so is
-	\[ f(w) \begin{cases}
+	\[ f(w) = \begin{cases}
 		w & \psi_X(w) \downarrow \\
 		\uparrow & \text{otherwise}
 	\end{cases} \]
@@ -584,8 +586,7 @@ Accepting this thesis allows us to freely choose which notion of computability w
 
 The following is a proof sketch of the fact that computably enumerable sets are type 0 languages.
 The sketch makes use of the fact that Turing computability is exactly register machine computability.
-For more detail, see
-% TODO: reference, Formal Languages, Salemaa?
+For more detail, see \emph{Formal Languages} (Salomaa 1973).
 \begin{proof}[Proof sketch]
 	Let \( M \) be a Turing machine computing \( \psi_X \).
 	Without loss of generality, let the read-write head be then moved to the front, so \( q_s \square w \square \xrightarrow M q_H \square a \square \).
@@ -595,7 +596,7 @@ For more detail, see
 	When \( q_S \) is seen, it deletes everything except \( w \).
 \end{proof}
 
-\subsection{Negative answers to decision problems}
+\subsection{Solvability of decision problems}
 We can use the Church--Turing thesis to give precise statements of our decision problems, without relying on an informal notion of `algorithm'.
 First, we encode grammars in such a way that for all \( w \in \mathbb W \), there exists a grammar \( G \) such that \( \code(G) = w \); we write \( G_w \) for the associated grammar for a word.
 We require that all grammars are of the form \( G_w \) for some word \( w \in \mathbb W \).
@@ -607,15 +608,13 @@ Now,
 \end{enumerate}
 These are sets of tuples of words, so we can use our notion of computability.
 We can now concretely define that such a problem is \emph{solvable} if the set is computable.
-% TODO: Convert earlier uses of `decidable' to solvable
 \begin{theorem}
 	The word problem for type 0 grammars is unsolvable.
 \end{theorem}
 \begin{proof}
 	Let \( W = \qty{(w, v) \mid w \in \mathcal L(G_v)} \).
 	We want to show that \( W \) is not computable.
-	Recall that \( \mathbb K_0 = \); we will use a proof analogous to the one used for this set.
-	% TODO: Fill this in
+	Recall that \( \mathbb K_0 = \qty{(w, v) \mid f_{w,1}(v) \downarrow} \); we will use a proof analogous to the one used for this set.
 	Suppose \( W \) is computable, so let
 	\[ f(w) = \begin{cases}
 		\uparrow & w \in \mathcal L(G_w) \\
@@ -629,7 +628,7 @@ We can now concretely define that such a problem is \emph{solvable} if the set i
 	\[ d \in \mathcal L(G_d) \iff d \in \dom f \iff d \not\in \mathcal L(G_d) \]
 \end{proof}
 
-\subsection{Reduction functions and degrees of unsolvability}
+\subsection{Reduction functions}
 \begin{definition}
 	Let \( A, B \subseteq \mathbb W \).
 	A function \( f \colon \mathbb W \to \mathbb W \) is called a \emph{reduction} from \( A \) to \( B \) if \( f \) is total computable and \( w \in A \) if and only if \( f(w) \in B \).
@@ -726,10 +725,10 @@ This is neither \( \Sigma_1 \) nor \( \Pi_1 \).
 	So \( f_{h(w)}(h(w)) \uparrow \) and in particular \( h(w) \not\in \mathbb K \).
 \end{proof}
 
-\subsection{Index sets and Rice's theorem}
-Recall that \( M \) and \( M' \) are weakly equivalent when \( \dom f_{M,1} = W_M = W_{M'} = \dom f_{M',1} \).
+\subsection{Rice's theorem}
+We say that \( M \) and \( M' \) are weakly equivalent when \( \dom f_{M,1} = W_M = W_{M'} = \dom f_{M',1} \).
 We can extend this to words.
-We say that words \( v, u \) are weakly equivalent when \( W_v = W_u \), and write \( v \sim u \).
+Words \( v, u \) are weakly equivalent when \( W_v = W_u \), and write \( v \sim u \).
 \begin{definition}
 	A set \( I \subseteq \mathbb W \) is called an \emph{index set} if it is closed under weak equivalence.
 \end{definition}
