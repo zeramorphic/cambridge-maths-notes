@@ -9,13 +9,13 @@ The \emph{concatenation} of two strings \( x = x_1 \dots x_r \) and \( y = y_1 \
 \end{definition}
 \begin{example}[Greek fire code]
     Let \( \mathcal A = \qty{\alpha, \beta, \dots, \omega} \), and \( B = \qty{1, 2, 3, 4, 5} \).
-    We map \( c(alpha) = 11, c(\beta) = 12, \dots, c(\psi) = 53, c(\omega) = 54 \).
+    We map \( c(\alpha) = 11, c(\beta) = 12, \dots, c(\psi) = 53, c(\omega) = 54 \).
     \( xy \) means to hold up \( x \) torches and another \( y \) torches nearby.
     This code was described by the historian Polybius.
 \end{example}
 \begin{example}
     Let \( \mathcal A \) be a set of words in some dictionary.
-    Let \( \mathcal B \) be the letters of English \( \qty{A, \dots, Z, \textvisiblespace} \)
+    Let \( \mathcal B \) be the letters of English \( \qty{A, \dots, Z, \text{\textvisiblespace}} \)
     The code is to spell the word and follow with a space.
 \end{example}
 The general idea is to send a message \( x_1, \dots, x_n \in \mathcal A^\star \) as \( c(x_1) \dots c(x_n) \in \mathcal B^\star \).
@@ -80,7 +80,7 @@ One can easily find decipherable codes that are not prefix-free.
 \begin{proof}
     Let \( c \colon \mathcal A \to \mathcal B^\star \) be decipherable with word lengths \( \ell_1, \dots, \ell_m \).
     Let \( s = \max_{i \leq m} \ell_i \).
-    For \( R \in \mathbb N \), Kraft's inequality gives
+    For \( R \in \mathbb N \), we have
     \[ \qty(\sum_{i=1}^m a^{-\ell_i})^R = \sum_{\ell = 1}^{Rs} b_\ell a^{-\ell} \]
     where \( b_\ell \) is the number of ways of choosing \( R \) codewords of total length \( \ell \).
     Since \( c \) is decipherable, any string of length \( \ell \) formed from codewords must correspond to exactly one sequence of codewords.
@@ -112,7 +112,7 @@ In a sense, the first example is `more random' than the second, as its entropy i
     \[ H(X) = H(p_1, \dots, p_n) = -\sum_{i=1}^n p_i \log p_i = -\expect{\log p_i} \]
     where the logarithm is taken with base 2.
 \end{definition}
-Note that \( H(X) \geq 0 \), and equality holds exactly when \( X \) is almost surely constant.
+Note that \( H(X) \geq 0 \), and equality holds exactly when \( X \) is constant with probability 1.
 It is measured in \emph{bits}, binary digits.
 By convention, we write \( 0 \log 0 = 0 \) (note that \( x \log x \to 0 \) as \( x \to 0 \)).
 \begin{example}
@@ -157,6 +157,7 @@ Let \( X \) be a random variable taking values in \( A \) with probabilities \( 
 \begin{theorem}[Shannon's noiseless coding theorem]
     The expected word length \( \expect{S} \) of an optimal code satisfies
     \[ \frac{H(X)}{\log a} \leq \expect{S} < \frac{H(X)}{\log a} + 1 \]
+    Moreover, the left hand inequality is an equality if and only if \( D = 1 \) and \( p_i = a^{-\ell_i} \) for some integers \( \ell_1, \dots, \ell_m \).
 \end{theorem}
 The left hand inequality holds for all decipherable codes, but the right hand side only holds for optimal codes.
 \begin{proof}
@@ -164,10 +165,10 @@ The left hand inequality holds for all decipherable codes, but the right hand si
     Let \( c \colon \mathcal A \to \mathcal B^\star \) be a decipherable code with word lengths \( \ell_1, \dots, \ell_m \).
     Let \( q_i = \frac{a^{-\ell_i}}{D} \) where \( D = \sum a^{-\ell_i} \), so \( \sum q_i = 1 \).
     By Gibbs' inequality,
-    \[ H(X) \leq \sum p_i \log q_i = -\sum p_i(-\ell_i \log a - \log D) = \log D + \log a \sum p_i \ell_i \]
+    \[ H(X) \leq -\sum p_i \log q_i = -\sum p_i(-\ell_i \log a - \log D) = \log D + \log a \sum p_i \ell_i \]
     By McMillan's inequality, \( D \leq 1 \) so \( \log D \leq 0 \).
     Hence, \( H(X) \leq \log a \sum p_i \ell_i = \log a \expect{S} \) as required.
-    Equality holds exactly when \( p_i = q_i = \frac{a^{-\ell_i}}{D} \) for some integers \( \ell_1, \dots, \ell_m \).
+    Equality holds exactly when \( D = 1 \) and \( p_i = q_i = \frac{a^{-\ell_i}}{D} = a^{-\ell_i} \) for some integers \( \ell_1, \dots, \ell_m \).
 
     Now, consider the upper bound.
     We construct a code called the \emph{Shannon--Fano code}.
@@ -228,7 +229,7 @@ Then, we append 0 and 1 to the codeword for \( \nu \) to obtain the new codeword
         1 & 0.4 \\
         2 & 0.2 \\
         3 & 0.2 \\
-        45 & 0.1
+        45 & 0.2
     \end{array} \]
     Continuing, we obtain
     \[ \begin{array}{cc}
