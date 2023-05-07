@@ -80,8 +80,6 @@ The weak law of large numbers states that if \( X_1, X_2, \dots \) is a sequence
 \begin{proof}
     Combine the previous lemma with the noiseless coding theorem.
 \end{proof}
-
-\subsection{Asymptotic equipartition property}
 Suppose we encode \( X_1, X_2, \dots \) in blocks of size \( N \).
 Let \( Y_1 = (X_1, \dots, X_N), Y_2 = (X_{N+1}, \dots, X_{2N}) \) and so on, such that \( Y_1, Y_2, \dots \) take values in \( \mathcal A^N \).
 One can show that if the source \( X_1, X_2, \dots \) has information rate \( H \), then \( Y_1, Y_2, \dots \) has information rate \( NH \).
@@ -93,6 +91,8 @@ One can show that if the source \( X_1, X_2, \dots \) has information rate \( H 
     \[ NH < H(Y_1) + 1 = H(X_1, \dots, X_N) + 1 = NH(X_1) + 1 \implies H < H(X_1) + \frac{1}{N} \]
     as required.
 \end{proof}
+
+\subsection{Asymptotic equipartition property}
 \begin{definition}
     A source \( X_1, X_2, \dots \) satisfies the \emph{asymptotic equipartition property} if there exists a constant \( H \geq 0 \) such that
     \[ -\frac{1}{n} \log p(X_1, \dots, X_n) \xrightarrow{\mathbb P} H \]
@@ -116,7 +116,7 @@ One can show that if the source \( X_1, X_2, \dots \) has information rate \( H 
 \begin{proof}[Proof sketch]
     First, we show that the asymptotic equipartition property implies the alternative definition.
     We define
-    \[ T_n = \qty{(x_1, \dots, x_n) \mid \abs{-\frac{1}{n} \log p(x_1, \dots, x_n) - H} \leq \varepsilon} = \qty{(x_1, \dots, x_n) \mid \text{condition (ii) holds}} \]
+    \[ T_n = \qty{(x_1, \dots, x_n) \midd \abs{-\frac{1}{n} \log p(x_1, \dots, x_n) - H} \leq \varepsilon} = \qty{(x_1, \dots, x_n) \mid \text{condition (ii) holds}} \]
     For the converse,
     \[ \prob{\abs{\frac{1}{n}\log p(x_1, \dots, x_n) - H} < \varepsilon} \geq \prob{T_n} \to 1 \]
 \end{proof}
@@ -160,7 +160,8 @@ One can show that if the source \( X_1, X_2, \dots \) has information rate \( H 
 Consider a communication channel with input alphabet \( \mathcal A \) and output alphabet \( \mathcal B \).
 Recall the following definitions.
 A \emph{code} of length \( n \) is a subset \( C \subseteq \mathcal A^n \).
-The \emph{error rate} is \( \hat e(C) = \max_{c \in C} \prob{\text{error} \mid c \text{ sent}} \).
+The \emph{error rate} is
+\[ \hat e(C) = \max_{c \in C} \prob{\text{error} \mid c \text{ sent}} \]
 The \emph{information rate} is \( \rho(C) = \frac{\log \abs{C}}{n} \).
 A channel can \emph{transmit reliably at rate \( R \)} if there exist codes \( C_1, C_2, \dots \) where \( C_n \) has length \( n \) such that \( \lim_{n \to \infty} \rho(C_n) = R \) and \( \lim_{n \to \infty} \hat e(C_n) = 0 \).
 The \emph{(operational) capacity} of a channel is the supremum of all rates at which it can transmit reliably.
@@ -267,7 +268,12 @@ Note that \( H(X,Y\mid Z) \) is the entropy of \( X \) and \( Y \) combined, giv
     Since \( Z = 0 \) implies \( X = Y \), \( H(X \mid Y = y, Z = 0) = 0 \).
     There are \( m - 1 \) remaining possibilities for \( X \).
     Hence, \( H(X \mid Y = y, Z = 1) \leq \log(m-1) \).
-    \[ H(X \mid Y, Z) = \sum_{y \in \mathcal A} \sum_{z \in \qty{0,1}} \prob{Y = y, Z = z} H(X \mid Y = y, Z = z) \leq \sum_{y \in \mathcal A} \prob{Y = y, Z = 1} \log(m-1) = \prob{Z = 1} \log (m-1) = p\log(m-1) \]
+    \begin{align*}
+        H(X \mid Y, Z) &= \sum_{y \in \mathcal A} \sum_{z \in \qty{0,1}} \prob{Y = y, Z = z} H(X \mid Y = y, Z = z) \\
+        &\leq \sum_{y \in \mathcal A} \prob{Y = y, Z = 1} \log(m-1) \\
+        &= \prob{Z = 1} \log (m-1) \\
+        &= p\log(m-1)
+    \end{align*}
     as required.
 \end{proof}
 Let \( X \) be a random variable describing the input to a channel and \( Y \) be a random variable describing the output of the channel.

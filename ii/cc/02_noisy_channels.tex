@@ -5,7 +5,7 @@
 \end{definition}
 We use an \( [n,m] \)-code to send one of \( m \) messages through a channel using \( n \) bits.
 For instance, if the channel is a binary symmetric channel, we use the channel \( n \) times.
-Note that \( 1 \leq m \leq 2^n \), so the information rate satisfies \( 0 \leq \frac{1}{n} \log m \leq 1 \).
+Note that \( 1 \leq m \leq 2^n \), so the information rate \( \rho(C) = \frac{1}{n} \log m \) satisfies \( 0 \leq \rho(C) \leq 1 \).
 If \( m = 1 \), \( \rho(C) = 0 \), and if \( C = \qty{0,1}^n \), \( \rho(C) = 1 \).
 \begin{definition}
     Let \( x, y \in \qty{0,1}^n \).
@@ -50,7 +50,10 @@ We can therefore choose to use minimum distance decoding from this point.
     Suppose codewords \( 000, 111 \) are sent with probabilities \( \alpha = \frac{9}{10} \) and \( 1 - \alpha = \frac{1}{10} \), through a binary symmetric channel with error probability \( p = \frac{1}{4} \).
     Suppose that we receive \( 110 \).
     Clearly, an error has been introduced.
-    \[ \prob{000 \text{ sent} \mid 110 \text{ received}} = \frac{\alpha p^2 (1-p)}{\alpha p^2 (1-p) + (1-\alpha)p(1-p)^2} = \frac{3}{4};\quad \prob{111 \text{ sent} \mid 110 \text{ received}} = \frac{1}{4} \]
+    \begin{align*}
+        \prob{000 \text{ sent} \mid 110 \text{ received}} &= \frac{\alpha p^2 (1-p)}{\alpha p^2 (1-p) + (1-\alpha)p(1-p)^2} = \frac{3}{4} \\
+        \prob{111 \text{ sent} \mid 110 \text{ received}} &= \frac{1}{4}
+    \end{align*}
     The ideal observer therefore decodes \( 110 \) as \( 000 \).
     The maximum likelihood or minimum distance decoding rules decode \( 110 \) as \( 111 \).
 \end{example}
@@ -58,9 +61,9 @@ We can therefore choose to use minimum distance decoding from this point.
     Minimum distance decoding may be expensive in terms of time and storage if \( \abs{C} \) is large, since the distance to all codewords must be calculated \emph{a priori}.
     One must also specify a convention in case of a tie between the probabilities or distances, for instance, using a random choice, or requesting a retransmission.
 \end{remark}
-The aim when constructing codes for noisy channels is to detect, or even correct, errors.
 
-\subsection{?}
+\subsection{Error detection and correction}
+The aim when constructing codes for noisy channels is to detect errors, and if possible, to correct them.
 \begin{definition}
     A binary \( [n,m] \)-code \( C \) is
     \begin{itemize}
@@ -277,15 +280,19 @@ The constant \( H(\delta) \) in the proposition is optimal.
 \subsection{Constructing new codes from old}
 Let \( C \) be an \( [n,m,d] \)-code.
 \begin{example}
-    The \emph{parity check extension} \( C^+ \) is an \( [n+1,m,d'] \)-code given by \( \qty{\qty(c_1, \dots, c_n, \sum_{i=1}^n c_i) \mid (c_1, \dots, c_n) \in C} \), where \( d' \) is either \( d \) or \( d + 1 \), depending on whether \( d \) is odd or even.
+    The \emph{parity check extension} is an \( [n+1,m,d'] \)-code given by
+    \[ C^+ = \qty{\qty(c_1, \dots, c_n, \sum_{i=1}^n c_i) \mid (c_1, \dots, c_n) \in C} \]
+    where \( d' \) is either \( d \) or \( d + 1 \), depending on whether \( d \) is odd or even.
 \end{example}
 \begin{example}
     Let \( 1 \leq i \leq n \).
-    Then, deleting the \( i \)th digit from each codeword gives the \emph{punctured code} \( C^- = \qty{(c_1, \dots, c_{i-1}, c_{i+1}, \dots, c_n) \mid (c_1, \dots, c_n) \in C} \).
+    Then, deleting the \( i \)th digit from each codeword gives the \emph{punctured code}
+    \[ C^- = \qty{(c_1, \dots, c_{i-1}, c_{i+1}, \dots, c_n) \mid (c_1, \dots, c_n) \in C} \]
     If \( d \geq 2 \), this is an \( [n-1, m, d'] \)-code where \( d' \) is either \( d \) or \( d - 1 \), depending on whether \( d \) is odd or even.
 \end{example}
 \begin{example}
     Let \( 1 \leq i \leq n \) and let \( \alpha \in \mathbb F_2 \).
-    The \emph{shortened code} \( C' \) is \( \qty{(c_1, \dots, c_{i-1}, c_{i+1}, \dots, c_n) \mid (c_1, \dots, c_{i-1}, \alpha, c_{i+1}, \dots, c_n) \in C} \).
+    The \emph{shortened code} is
+    \[ C' = \qty{(c_1, \dots, c_{i-1}, c_{i+1}, \dots, c_n) \mid (c_1, \dots, c_{i-1}, \alpha, c_{i+1}, \dots, c_n) \in C} \]
     This is an \( [n-1,m',d'] \) with \( d' \geq d \) and \( m' \geq \frac{m}{2} \) for a suitable choice of \( \alpha \).
 \end{example}

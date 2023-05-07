@@ -1,6 +1,6 @@
 \subsection{Laws of large numbers}
 \begin{proposition}
-	Let \( (X_n)_{n \in \mathbb N} \) be independent and identically distributed random variables such that \( \expect{X_n} = 0 \) and \( \Var{X_i} = \sigma^2 < \infty \).
+	Let \( (X_n)_{n \in \mathbb N} \) be independent and identically distributed random variables such that \( \expect{X_n} = 0 \) and \( \Var{X_n} = \sigma^2 < \infty \).
 	Then \( \frac{1}{n} \sum_{i=1}^n X_i \to 0 \) in probability as \( n \to \infty \).
 \end{proposition}
 \begin{proof}
@@ -21,11 +21,11 @@ However, this result has several weaknesses, and we can provide stronger results
 	For distinct indices \( i, j, k, \ell \), by independence and the Cauchy--Schwarz inequality, we have
 	\[ 0 = \expect{X_i X_j X_k X_\ell} = \expect{X_i^2 X_j X_j} = \expect{X_i^3 X_j};\quad \expect{X_i^2 X_j^2} \leq \sqrt{\expect{X_i^4}}\sqrt{\expect{X_j^4}} \leq M \]
 	So we can compute
-	\[ \expect{\qty(\sum_{i=1}^n X_i)^4} = \expect{\sum_{i=1}^n X_i^4} + 6\expect{\sum_{i \neq j} X_i^2 X_j^2} \leq nM + 3n(n-1)M \leq 3n^2 M \]
+	\[ \expect{\qty(\sum_{i=1}^n X_i)^4} = \expect{\sum_{i=1}^n X_i^4} + 6\expect{\sum_{i < j} X_i^2 X_j^2} \leq nM + 3n(n-1)M \leq 3n^2 M \]
 	Let \( S_n = \sum_{i=1}^n X_i \).
 	Then,
 	\[ \expect{\sum_{n=1}^\infty \qty(\frac{S_n}{n})^4} \leq \sum_{n=1}^\infty \frac{1}{n^4} 3n^2 M < \infty \]
-	Hence \( \sum_{n=1}^n \qty(\frac{S_n}{n})^4 < \infty \) almost surely.
+	Hence \( \sum_{n=1}^\infty \qty(\frac{S_n}{n})^4 < \infty \) almost surely.
 	But then \( \qty(\frac{S_n}{n})^4 \to 0 \) almost surely, so \( \frac{S_n}{n} \to 0 \) almost surely.
 \end{proof}
 
@@ -133,7 +133,7 @@ The proof of Birkhoff's ergodic theorem is non-examinable.
 \subsection{Infinite product spaces}
 Let \( E = \mathbb R^{\mathbb N} = \qty{x = (x_n)_{n \in \mathbb N}} \) be the space of real sequences.
 Consider
-\[ \mathcal C = \qty{A = \prod_{n=1}^\infty A_n \mid A_n \in \mathcal B, \exists N \in \mathbb N, \forall n > N, A_n = \mathbb R} \]
+\[ \mathcal C = \qty{A = \prod_{n=1}^\infty A_n \midd A_n \in \mathcal B, \exists N \in \mathbb N, \forall n > N, A_n = \mathbb R} \]
 This forms a \( \pi \)-system, which generates the \emph{cylindrical \( \sigma \)-algebra} \( \sigma(\mathcal C) \).
 One shows that \( \sigma(\mathcal C) = \sigma(\qty{f_n \mid n \in \mathbb N}) \) where \( f_n(x) = x_n \) are the coordinate projection functions on \( E \).
 We can also show \( \sigma(\mathcal C) = \mathcal B(\mathbb R^{\mathbb N}) \) for the product topology.
@@ -142,7 +142,13 @@ We define a map \( X \colon \Omega \to E \) by \( X(\omega)_n = X_n(\omega) \).
 This is \( \mathcal F \)--\( \sigma(\mathcal C) \) measurable, since for all \( A \in \mathcal C \), we have
 \[ X^{-1}(A) = \qty{\omega \mid X_1(\omega) \in A_1, \dots, X_N(\omega) \in A_n} = \bigcap_{n=1}^N X_n^{-1}(A_n) \in \mathcal F \]
 We denote \( \mu = \mathbb P \circ X^{-1} \), which is the unique product probability measure in \( \mathbb R^{\mathbb N} \) satisfying
-\[ \mu\qty(\prod_{n=1}^\infty A_n) = \lim_{N \to \infty} \mu\qty(\prod_{n=1}^N A_n) = \lim_{N \to \infty} \prob{X_1 \in A_1, \dots, X_N \in A_N} = \lim_{N \to \infty} \prob{X_1 \in A_1} \cdots \prob{X_N \in A_N} = \prod_{n=1}^\infty \prob{X_n \in A_n} = \prod_{n=1}^\infty m(A_n) \]
+\begin{align*}
+		\mu\qty(\prod_{n=1}^\infty A_n) &= \lim_{N \to \infty} \mu\qty(\prod_{n=1}^N A_n) \\
+		&= \lim_{N \to \infty} \prob{X_1 \in A_1, \dots, X_N \in A_N} \\
+		&= \lim_{N \to \infty} \prob{X_1 \in A_1} \cdots \prob{X_N \in A_N} \\
+		&= \prod_{n=1}^\infty \prob{X_n \in A_n} \\
+		&= \prod_{n=1}^\infty m(A_n)
+\end{align*}
 Note that we need to use finiteness of \( N \) to exploit independence of the \( X_i \).
 We call \( (E, \mathcal E, \mu) = (\mathbb R^{\mathbb N}, \sigma(\mathcal C), m^{\mathbb N}) \) the \emph{canonical model} for an infinite sequence of random variables of law \( m \).
 \begin{theorem}
@@ -150,7 +156,13 @@ We call \( (E, \mathcal E, \mu) = (\mathbb R^{\mathbb N}, \sigma(\mathcal C), m^
 \end{theorem}
 \begin{proof}
 	For \( A \in \mathcal C \),
-	\[ \mu(A) = \prob{X_1 \in A_1, \dots, X_N \in A_N} = \prob{X_1 \in A_1} \cdots \prob{X_N \in A_N} = \prod_{n=1}^N m(A_n) = \prob{X_2 \in A_1} \cdots \prob{X_{N+1} \in A_N} = \mu(\Theta^{-1}(A)) \]
+	\begin{align*}
+			\mu(A) &= \prob{X_1 \in A_1, \dots, X_N \in A_N} \\
+			&= \prob{X_1 \in A_1} \cdots \prob{X_N \in A_N} \\
+			&= \prod_{n=1}^N m(A_n) \\
+			&= \prob{X_2 \in A_1} \cdots \prob{X_{N+1} \in A_N} \\
+			&= \mu(\Theta^{-1}(A))
+	\end{align*}
 	so \( \Theta \) is measure-preserving.
 	Recall that the tail \( \sigma \)-algebra is defined by \( \tau = \bigcap_n \tau_n \) where \( \tau_n = \sigma(\qty{X_k \mid k \geq n + 1}) \).
 	Note that for all \( A \in \mathcal C \), we have \( \Theta^{-n}(A) = \qty{x \in \mathbb R^{\mathbb N} \mid (x_{n+1}, x_{n+2}, \dots) \in A} \in \tau_n \).
@@ -167,7 +179,7 @@ By von Neumann's \( L^p \)-ergodic theorem, convergence holds in fact in \( L^1 
 \begin{theorem}
 	Let \( \int_{\mathbb R} \abs{x} \dd{m(x)} < \infty \), and let \( \int_{\mathbb R} x \dd{m(x)} = \nu \).
 	Then
-	\[ \mu\qty(\qty{x \in \mathbb R^{\mathbb N} \mid \frac{x_1 + x_2 + \dots + x_n}{n} \to \nu}) = 1 \]
+	\[ \mu\qty(\qty{x \in \mathbb R^{\mathbb N} \midd \frac{x_1 + x_2 + \dots + x_n}{n} \to \nu}) = 1 \]
 \end{theorem}
 \begin{proof}
 	Let \( f(x) = x_1 \).
@@ -182,7 +194,7 @@ By von Neumann's \( L^p \)-ergodic theorem, convergence holds in fact in \( L^1 
 \end{theorem}
 \begin{proof}
 	Inject \( X \) from \( \Omega \) to \( E = \mathbb R^{\mathbb N} \) as before, and notice that
-	\[ \prob{\frac{1}{n} \sum_{i=1}^n X_i \to \expect{X}} = \mu\qty(\qty{ x \mid \frac{x_1 + \dots + x_n}{n} \to \nu }) = 1 \]
+	\[ \prob{\frac{1}{n} \sum_{i=1}^n X_i \to \expect{X}} = \mu\qty(\qty{ x \midd \frac{x_1 + \dots + x_n}{n} \to \nu }) = 1 \]
 \end{proof}
 \begin{remark}
 	The hypothesis \( \expect{\abs{X}} < \infty \) cannot be weakened; we see on an example sheet that \( \frac{1}{n} \sum_{i=1}^n X_i \) can exhibit various behaviours.
@@ -228,7 +240,11 @@ By von Neumann's \( L^p \)-ergodic theorem, convergence holds in fact in \( L^1 
 	\end{align*}
 	So in particular, \( \overline f \in L^p \).
 	Then by the triangle inequality,
-	\[ \norm{\frac{S_n(f)}{n} - \overline f}_p \leq \norm{\frac{S_n(f) - S_n(f_K)}{n}}_p + \norm{\frac{S_n(f_K)}{n} - \overline f_K}_p + \norm{\overline f - \overline f_K}_p < \norm{\frac{S_n(f) - S_n(f_K)}{n}}_p + \frac{2\varepsilon}{3} \leq \norm{f - f_K}_p + \frac{2\varepsilon}{3} = \varepsilon \]
+	\begin{align*}
+			\norm{\frac{S_n(f)}{n} - \overline f}_p &\leq \norm{\frac{S_n(f) - S_n(f_K)}{n}}_p + \norm{\frac{S_n(f_K)}{n} - \overline f_K}_p + \norm{\overline f - \overline f_K}_p \\
+			&< \norm{\frac{S_n(f) - S_n(f_K)}{n}}_p + \frac{2\varepsilon}{3} \\
+			&\leq \norm{f - f_K}_p + \frac{2\varepsilon}{3} = \varepsilon
+	\end{align*}
 	for sufficiently large \( n \).
 \end{proof}
 \begin{corollary}
