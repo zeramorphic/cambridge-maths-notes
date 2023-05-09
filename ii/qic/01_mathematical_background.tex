@@ -26,7 +26,7 @@ We only hope that quantum techniques allow a reduction in the complexity of cert
 In complexity theory, we study the \emph{hardness} of a certain computational task.
 One must consider the resources required for the task; which in classical computation are normally limited to time (measured in number of computational steps) and space (amount of memory required).
 
-If an algorithm takes time bounded by a polynomial function in the input size \( n \), we say the algorithm is \emph{polyomial-time}.
+If an algorithm takes time bounded by a polynomial function in the input size \( n \), we say the algorithm is \emph{polynomial-time}.
 Otherwise, we say it is an \emph{exponential-time} algorithm.
 Polynomial-time algorithms are typically taken to be computable in practice, but exponential-time algorithms are usually considered only computable in principle.
 Quantum mechanical techniques can provide polynomial-time algorithms that have only exponential-time classical versions.
@@ -45,7 +45,7 @@ At the time of writing, there is no concensus that quantum supremacy has been ac
 
 \subsection{Hilbert spaces}
 Every quantum mechanical system is associated with a Hilbert space \( \mathcal V \), a complex inner product space that is a complete metric space with respect to the distance function induced by the inner product.
-We use the Dirac's \emph{bra-ket} notation: a vector is represented by \( \ket{v} \in \mathcal V \), and its conjugate transpose is denoted \( \bra{v} \in \mathcal V^\star \).
+We use Dirac's \emph{bra-ket} notation: a vector is represented by \( \ket{v} \in \mathcal V \), and its conjugate transpose is denoted \( \bra{v} \in \mathcal V^\star \).
 If \( \mathcal V = \mathbb C^n \), we write
 \[ \ket{\psi} = \begin{pmatrix}
     a_1 \\
@@ -131,10 +131,11 @@ Note that \( \ket{v}\ket{w} \neq \ket{w}\ket{v} \).
 
 \subsection{First postulate: quantum states}
 In this course, we will restrict our attention to finite-dimensional vector spaces, and finite time evolution.
+We describe the \emph{postulates} for quantum mechanics that we will work under.
 
 The first postulate is that, given an isolated quantum mechanical system \( S \), we can associate a finite-dimensional vector space \( \mathcal V \).
 The physical state of the system is given by a unit vector \( \ket{\psi} \) in \( \mathcal V \).
-More precisely, the state is given by a \emph{ray}: an equivalence class of vectors \( e^{i\theta} \ket{\psi} \) for \( \theta \in \mathbb R \).
+More precisely, the state is given by a \emph{ray}, an equivalence class of vectors \( e^{i\theta} \ket{\psi} \) for \( \theta \in \mathbb R \).
 No measurements can distinguish states in a given equivalence class.
 Note that states \( a\ket{\psi_1} + b\ket{\psi_2} \) and \( a\ket{\psi_1} + be^{i\theta}\ket{\psi_2} \) can be distinguished by measurement, since the phase difference is relative, not global.
 \begin{example}
@@ -286,7 +287,7 @@ Recall that the following are equivalent for a linear operator \( U \):
 If a system is in a state \( \ket{\psi(t_1)} \) at a time \( t_1 \) and later in a state \( \ket{\psi(t_2)} \) at a time \( t_2 \), then \( \ket{\psi(t_2)} = U(t_1, t_2) \ket{\psi(t_1)} \) for some unitary map \( U(t_1, t_2) \) which depends only on \( t_1, t_2 \).
 This operator is derived from the \emph{Schr\"odinger equation}, which is
 \[ i\hbar \pdv{t} \ket{\psi(t)} = H \ket{\psi(t)} \]
-where \( H \) is a self-adjoint operator known as the \emph{Hamiltonian}n.
+where \( H \) is a self-adjoint operator known as the \emph{Hamiltonian}.
 In particular, if \( H \) is time-independent, we have
 \[ U(t_1, t_2) = e^{-\frac{i}{\hbar} H(t_2 - t_1)} \]
 In the more general case,
@@ -307,7 +308,7 @@ If \( a_k \) is degenerate of multiplicity \( m \), then \( P_k = \sum_{i=1}^m \
 The fourth postulate is that when an observable is measured, the resulting measurement will be an eigenvalue \( a_j \), with probability \( p(a_j) = \ev{P_j}{\psi} \).
 Then, \( \ket{\psi} \) is replaced with the post-measurement state \( \frac{P_j \ket{\psi}}{\sqrt{p(a_j)}} \).
 This is known as \emph{Born's rule}.
-A measurement is sometimes called a \emph{projective measurement} or a \emph{von Neumann measurement}, since the post-measurement state is given by a projection operator.
+Such a measurement is called a \emph{projective measurement} (or sometimes a \emph{von Neumann measurement}), since the post-measurement state is given by a projection operator.
 
 Suppose \( A, B \) are operators that do not commute, so \( [A,B] = AB - BA \neq 0 \).
 Then, the measurement of \( A \) will influence the outcome probabilities of a subsequent measurement of \( B \).
@@ -338,7 +339,7 @@ Incomplete projective measurement is a generalisation of complete projective mea
 One can refine an incomplete measurement into a complete measurement by first considering a complete measurement, and then summing the relevant outcome probabiilities to obtain a description of the incomplete measurement probabilities.
 Let \( \qty{\ket{e_k^{(j)}}}_{k=1}^{d_j} \) be a basis for \( \mathcal E_j \) for each \( j \).
 Then \( \mathcal V = \bigoplus_{i=1}^d \mathcal E_j \) has orthonormal basis \( \qty{\ket{e_k^{(j)}}}_{j,k} \).
-Then, \( \ip{e_i^{k_1}}{e_j^{k_2}} = \delta_{ij} \delta_{k_1 k_2} \).
+Then, \( \ip{e_i^{(k_1)}}{e_j^{(k_2)}} = \delta_{ij} \delta_{k_1 k_2} \).
 
 Consider a two-bit string \( b_1 b_2 \).
 The \emph{parity} of this string is \( b_1 \oplus b_2 \), where \( \oplus \) represents addition modulo 2.
@@ -363,7 +364,7 @@ Using partial inner products, one can show that \( \ket{\psi_{\text{after}}} \) 
 These rules are referred to as the \emph{extended Born rule}.
 
 Consider a quantum system \( S \) with state space \( \mathcal V \).
-A measurement relative to any basis \( \mathcal C \) can be performed by first performing a measurement in a fixed basis \( \mathcal B \), then performing a unitary operator.
+A measurement relative to any basis \( \mathcal C \) can be performed by first performing a unitary operator, then performing a measurement in a fixed basis \( \mathcal B \).
 Let \( \mathcal B = \qty{\ket{e_i}} \), and \( \mathcal C = \qty{\ket{e_i'}} \).
 Let \( U \) be a unitary operator such that \( \ket{e_i'} = U \ket{e_i} \).
 Then, \( U^\dagger = U^{-1} \) has the property that \( U^{-1} \ket{e_i'} = \ket{e_i} \).
@@ -387,7 +388,7 @@ The standard measurement of any of the three qubits will always have the outcome
 Suppose we perform a standard measurement on the first qubit.
 By the extended Born rule, we obtain
 \[ p^{(1)}(1) = \bra{\psi} P_1 \otimes I \otimes I \ket{\psi} = \bra{\psi} \qty(\op{1}{1} \otimes I \otimes I) \ket{\psi} = \frac{1}{4} + \frac{9}{100} + \frac{4}{25} = \frac{1}{2} \]
-The post-measurement state is \( \ket{\psi_{\text{after}}} = \frac{(P_1 \otimes I \otimes I)\ket{\psi}}{\sqrt{p^{(1)}(1)}} \).
+If we measure the outcome 1, the post-measurement state is \( \ket{\psi_{\text{after}}} = \frac{(P_1 \otimes I \otimes I)\ket{\psi}}{\sqrt{p^{(1)}(1)}} \).
 
 \subsection{Reliably distinguishing states}
 Note that the measurement postulate implies that states with guaranteed (with probability 1) different measurement outcomes always lie in mutually orthogonal subspaces.
