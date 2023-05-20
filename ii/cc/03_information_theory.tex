@@ -1,4 +1,4 @@
-\subsection{?}
+\subsection{Sources and information rate}
 \begin{definition}
     A \emph{source} is a sequence of random variables \( X_1, X_2, \dots \) taking values in \( \mathcal A \).
 \end{definition}
@@ -25,7 +25,7 @@ Recall from IA Probability that a probability space is a tuple \( (\Omega, \math
 The probability mass function is the function \( p_X \colon \mathcal A \to [0,1] \) given by \( p_X(x) = \prob{X = x} \).
 We can consider the function \( p(X) \colon \Omega \to [0,1] \) defined by the composition \( p_X \circ X \), which assigns \( p(X)(\omega) = \prob{X = X(\omega)} \); hence, \( p(X) \) is also a random variable.
 
-Similarly, given a source \( X_1, X_2, \dots \) of random variables with values in \( \mathcal A \), then the probability mass function of any tuple \( X^{(n)} = (X_1, \dots, X_n) \) is \( p_{X^{n}}(x_1, \dots, x_n) = \prob{X_1 = x_1, \dots, X_n = x_n} \).
+Similarly, given a source \( X_1, X_2, \dots \) of random variables with values in \( \mathcal A \), the probability mass function of any tuple \( X^{(n)} = (X_1, \dots, X_n) \) is \( p_{X^{(n)}}(x_1, \dots, x_n) = \prob{X_1 = x_1, \dots, X_n = x_n} \).
 As \( p_{X^{(n)}} \colon \mathcal A^n \to [0,1] \), and \( X^{(n)} \colon \Omega \to \mathcal A^n \), we can consider \( p(X^{(n)}) = p_{X^{(n)}} \circ X^{(n)} \) defined by \( \omega \mapsto p_{X^{(n)}}(X^{(n)}(\omega)) \).
 \begin{example}
     Let \( \mathcal A = \qty{A, B, C} \).
@@ -70,7 +70,7 @@ The weak law of large numbers states that if \( X_1, X_2, \dots \) is a sequence
     Now, \( c \) is decipherable so \( c^\star \) is injective.
     Hence, \( \abs{A_n} \leq 2^{n\qty(\expect{\ell_1} + \varepsilon)} \).
     Making \( A_n \) larger if necessary, we can assume \( \abs{A_n} = \floor{2^{n\qty(\expect{\ell_1} + \varepsilon)}} \).
-    Taking logarithms, \( \frac{\log A_n}{n} \to \expect{\ell_1} + \varepsilon \).
+    Taking logarithms, \( \frac{\log \abs{A_n}}{n} \to \expect{\ell_1} + \varepsilon \).
     So \( X_1, X_2, \dots \) is reliably encodable at rate \( r = \expect{\ell_1} + \varepsilon \) for all \( \varepsilon > 0 \).
     Hence the information rate is at most \( \expect{\ell_1} \).
 \end{proof}
@@ -251,7 +251,6 @@ Note that \( H(X,Y\mid Z) \) is the entropy of \( X \) and \( Y \) combined, giv
     Expand \( H(X,Y,Z) \) in two ways.
     \[ H(Z \mid X,Y) + \underbrace{H(X\mid Y) + H(Y)}_{H(X,Y)} = H(X,Y,Z) = H(X \mid Y,Z) + \underbrace{H(Z \mid Y) + H(Y)}_{H(Y,Z)} \]
     Since \( H(Z \mid X,Y) \geq 0 \), we have
-    Hence,
     \[ H(X \mid Y) \leq H(X \mid Y,Z) + H(Z \mid Y) \leq H(X \mid Y,Z) + H(Z) \]
 \end{proof}
 \begin{proposition}[Fano's inequality]
@@ -443,7 +442,7 @@ Define \( Y_{n+1} = \frac{X_{n+1}}{X_n} \), then the \( Y_i \) are independent a
 Then \( \log Y_i \) is a sequence of independent and identically distributed random variables.
 Note that \( \log X_n = \sum_{i=1}^n \log Y_i \).
 \begin{lemma}
-    Let \( \mu = \expect{\log Y_1}, \sigma^2 = \Var(\log Y_1) \).
+    Let \( \mu = \expect{\log Y_1}, \sigma^2 = \Var{\log Y_1} \).
     Then, if \( a > 0 \),
     \begin{enumerate}
         \item \( \prob{\abs{\frac{1}{n} \sum_{i=1}^n \log Y_i - \mu} \geq a} \leq \frac{\sigma^2}{na^2} \) by Chebyshev's inequality;

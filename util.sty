@@ -53,14 +53,20 @@
 \usetikzlibrary{external}
 \usetikzlibrary{cd}
 
-% for some reason, externalising when compiling the book takes forever, it's probably just too big a project
-% todo: re-enable this when the book has been separated into parts IA and IB
+% when building the books, start a new page before each section
 \if@compilingfullbook
-\else
-	\tikzexternalize[prefix=tikz/]
-	\AtBeginEnvironment{tikzcd}{\tikzexternaldisable}
-	\AtEndEnvironment{tikzcd}{\tikzexternalenable}
+\AddToHook{cmd/section/before}{\clearpage}
 \fi
+
+% currently testing re-enabling this.
+% % for some reason, externalising when compiling the books takes forever, it's probably just too big a project
+% % todo: re-enable this when the book has been separated into parts IA and IB
+% \if@compilingfullbook
+% \else
+% 	\tikzexternalize[prefix=tikz/]
+% 	\AtBeginEnvironment{tikzcd}{\tikzexternaldisable}
+% 	\AtEndEnvironment{tikzcd}{\tikzexternalenable}
+% \fi
 
 \usepackage{../../tex_vendor/quiver}
 \usepackage{../../tex_vendor/tikzit}

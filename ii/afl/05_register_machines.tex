@@ -27,9 +27,9 @@ However, not every such function represents a real computation; there are uncoun
 Intuitively,
 \begin{itemize}
 	\item \( +(k,a,q) \) represents pushing the letter \( a \) onto register \( k \), then advancing to state \( q \).
-	\item \( ?(k,a,q,q') \) checks if the letter \( a \) is currently at the top of the stack \( q \).
+	\item \( ?(k,a,q,q') \) checks if the letter \( a \) is currently at the top of register \( k \).
 		If so, we advance to state \( q \), and otherwise, we advance to state \( q' \).
-	\item \( ?(k,\varepsilon,q,q') \) checks if the stack \( q \) is empty.
+	\item \( ?(k,\varepsilon,q,q') \) checks if register \( k \) is empty.
 		If so, we advance to state \( q \), and otherwise, we advance to state \( q' \).
 	\item \( -(k,q,q') \) pops the topmost letter from register \( k \).
 		If the register was already empty, we advance to state \( q \), and otherwise, we advance to state \( q' \).
@@ -77,15 +77,15 @@ This is in principle an infinite set, but finite if \( k \) is bounded.
 	In this case, we say that \( \vb v \) is the \emph{register content at time of halting}, or the \emph{output} of the computation.
 	If such a \( k \) does not exist, we say the computation \emph{does not halt}.
 \end{definition}
+
+\subsection{Strong equivalence}
 \begin{definition}
 	We say that register machines \( M, M' \) are \emph{strongly equivalent} if for all \( k \) and \( \vb w \), \( C(k,M,\vb w) \) and \( C(k,M',\vb w) \) have the same register content, and for all \( \vb w \), we have that \( M \) halts after \( k \) steps with input \( \vb w \) if and only if \( M' \) halts after \( k \) steps with input \( \vb w \).
 \end{definition}
 \begin{remark}
 	If \( \abs{Q} = \abs{Q'} \), then for every \( (\Sigma, Q, P) \) there exists a strongly equivalent register machine \( (\Sigma, Q', P') \) by relabelling the states in \( P \).
 \end{remark}
-
-\subsection{The padding lemma}
-\begin{proposition}
+\begin{proposition}[the padding lemma]
 	Let \( M \) be a register machine.
 	Then there are infinitely many different register machines that are strongly equivalent to \( M \).
 \end{proposition}
