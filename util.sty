@@ -8,7 +8,10 @@
 \usepackage[UKenglish]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\if@compilingfullbook
+\else
 \usepackage[a4paper]{geometry} % , margin=20mm
+\fi
 \usepackage{textcomp} % makes the "not defining \perthousand"/"\micro" errors go away by including this first
 %\newcommand\hmmax{0}
 %\newcommand\bmmax{0}
@@ -72,18 +75,22 @@
 \usepackage{../../tex_vendor/tikzit}
 \input{../../tex_vendor/style.tikzstyles}
 
-\usepackage{minitoc}
 \usepackage{faktor} % TODO: convert group quotients to this style
 \usepackage{scalerel}
 \usepackage{microtype}
 \usepackage[breakable]{tcolorbox}
 
+\if@compilingfullbook
+% always echo the tex string instead of the PDF string when compiling book
+\newcommand{\texorpdfstring}[2]{#1}
+\else
 \usepackage[pdfa]{hyperref}
 \hypersetup{
 	colorlinks=true,
 	linktoc=all,
 	linkcolor=green!40!black,
 }
+\fi
 
 \numberwithin{equation}{section} % make equations be numbered 1.1 not 1
 
