@@ -19,8 +19,9 @@ var buildCmd = &cobra.Command{
 		compileBook, _ := cmd.Flags().GetBool("book")
 		singleThreaded, _ := cmd.Flags().GetBool("single-threaded")
 		hideProofs, _ := cmd.Flags().GetBool("hide-proofs")
+		noColourBoxes, _ := cmd.Flags().GetBool("no-colour-boxes")
 		goMode, _ := cmd.Flags().GetBool("go")
-		build(compileBook, singleThreaded, hideProofs, goMode)
+		build(compileBook, singleThreaded, hideProofs, noColourBoxes, goMode)
 	},
 }
 
@@ -38,10 +39,11 @@ func init() {
 	buildCmd.Flags().BoolP("book", "b", false, "Compile the book as well as the individual courses")
 	buildCmd.Flags().BoolP("single-threaded", "s", false, "Compile only one file at once")
 	buildCmd.Flags().BoolP("hide-proofs", "p", false, "Hide all instances of the proof environment")
+	buildCmd.Flags().BoolP("no-colour-boxes", "n", false, "Disable the use of coloured boxes for definitions and theorems")
 	buildCmd.Flags().BoolP("go", "g", false, "Force latexmk to process document, even if it can't detect changes (useful when enabling or disabling -p)")
 }
 
-func build(compileBook bool, singleThreaded bool, hideProofs bool, goMode bool) {
+func build(compileBook bool, singleThreaded bool, hideProofs bool, noColourBoxes bool, goMode bool) {
 	fmt.Println("Building...")
 	var wg sync.WaitGroup
 
@@ -66,9 +68,12 @@ func build(compileBook bool, singleThreaded bool, hideProofs bool, goMode bool) 
 			defer wg.Done()
 
 			// Compile the file.
-			cmd := exec.Command("latexmk", "--shell-escape", "-pdflatex=xelatex", "-pdf", "-cd", "-output-directory=build", "-file-line-error", "-halt-on-error", "-interaction=nonstopmode")
+			cmd := exec.Command("latexmk", "--shell-escape", "-xelatex", "-cd", "-output-directory=build", "-file-line-error", "-halt-on-error", "-interaction=nonstopmode")
 			if hideProofs {
 				cmd.Args = append(cmd.Args, `-usepretex="\\let\\hideproofs 1"`)
+			}
+			if noColourBoxes {
+				cmd.Args = append(cmd.Args, `-usepretex="\\let\\nocolourboxes 1"`)
 			}
 			if goMode {
 				cmd.Args = append(cmd.Args, "-g")
