@@ -79,6 +79,8 @@ If \( f \) is \( \Theta \)-invariant and \( \Theta \) is ergodic, then one can s
     \[ \int_{\qty{S^\star > 0}} f \dd{\mu} = \lim_{n \to \infty} \int_{A_n} f \dd{\mu} \geq 0 \]
     as required.
 \end{proof}
+
+\subsection{Ergodic theorems}
 \begin{theorem}[Birkhoff]
 	Let \( (E, \mathcal E, \mu) \) be a \( \sigma \)-finite measure space.
 	Let \( \Theta \colon E \to E \) be measure-preserving.
@@ -128,6 +130,48 @@ The proof of Birkhoff's ergodic theorem is non-examinable.
     \[ \mu\qty(\abs{\overline f}) = \mu\qty(\liminf_n \abs{\frac{S_n}{n}}) \leq \liminf_n \mu\qty(\abs{\frac{S_n}{n}}) \leq \mu(\abs{f}) \]
     which is one of the results required by the theorem.
     In particular, \( \mu\qty(\abs{\overline f}) < \infty \) so \( \abs{\overline f} < \infty \) almost everywhere.
+\end{proof}
+\begin{theorem}[von Neumann]
+	Let \( (E, \mathcal E, \mu) \) be a finite measure space (not \( \sigma \)-finite).
+	Let \( \Theta \colon E \to E \) be measure-preserving.
+	Let \( f \in L^p(E) \) with \( 1 \leq p < \infty \).
+	Then \( \frac{S_n(f)}{n} \to \overline f \) in \( L^p \).
+\end{theorem}
+\begin{proof}
+	Since \( \Theta \) is measure-preserving, we have
+	\[ \norm{f \circ \Theta^i}_p^p = \int_E \abs{f}^p \circ \Theta^i \dd{\mu} = \int_E \abs{f}^p \dd{\mu} = \int_E \abs{f}^p \dd{\mu} = \norm{f}_p^p \]
+	Thus, by Minkowski's inequality, for all \( f \in L^p \) we have
+	\[ \norm{\frac{S_n(f)}{n}}_p \leq \frac{1}{n} \sum_{i=0}^{n-1} \norm{f \circ \Theta^i}_p = \norm{f}_p \]
+	So \( \frac{S_n(f)}{n} \) is a contraction in \( L^p \).
+	For each \( K > 0 \), we define \( f_K = \max(\min(f, K), -K) \).
+	Then
+	\[ \norm{f - f_K}_p^p = \int_E \abs{f - f_K}^p \mathbbm 1_{\abs{f} > K} \dd{\mu} \]
+	Since \( \mathbbm 1_{\abs{f} > K} \) converges to zero pointwise, and \( \abs{f - f_K} \leq 2\abs{f}^p \in L^1 \), we find \( \norm{f - f_K}_p < \frac{\varepsilon}{3} \) by dominated convergence, for sufficiently large \( K = K_\varepsilon \).
+	As \( \abs{f_K} \leq K \), we have \( \abs{\frac{S_n(f_K)}{n}} \leq K \).
+	Since \( \mu \) is finite, \( f_K \in L^1(\mu) \), so by Birkhoff's ergodic theorem, \( \frac{S_n(f_K)}{n} \to \overline f_K \) almost everywhere for some invariant function \( \overline f_K \).
+	Note that \( \overline f_k \) is bounded by \( K \) as \( \frac{S_n(f_K)}{n} \) is bounded by \( K \).
+	By the bounded convergence theorem, we deduce that \( \norm{\frac{S_n(f_K)}{n} - \overline f_K} \to 0 \) as \( n \to \infty \).
+	Further, this holds in \( L^p \) since
+	\[ \norm{\frac{S_n(f_K)}{n} - \overline f_K}_p \leq (2K)^{\frac{p-1}{p}} \norm{\frac{S_n(f_K)}{n} - \overline f_K}_1 < \frac{\varepsilon}{3} \]
+	where the last inequality holds for sufficiently large \( n \).
+	Since \( \mu \) is a finite measure, \( L^p(\mu) \subseteq L^1(\mu) \), hence by Birkhoff's ergodic theorem, \( \frac{S_n(f)}{n} \to \overline f \) almost everywhere as \( f \to \infty \).
+	Then, by the contraction property applied to \( f - f_K \),
+	\begin{align*}
+		\norm{\overline f - \overline f_K}_p^p &= \int_E \abs{\overline f - \overline f_K}^p \dd{\mu} \\
+		&= \int_E \liminf_n \abs{\frac{S_n(f) - S_n(f_K)}{n}}^p \dd{\mu} \\
+		&\leq \liminf_n \int_E \abs{\frac{S_n(f) - S_n(f_K)}{n}}^p \dd{\mu} \\
+		&= \liminf_n \int_E \abs{\frac{S_n(f - f_K)}{n}}^p \dd{\mu} \\
+		&\leq \liminf_n \norm{f - f_K}_p^p \\
+		&= \norm{f - f_K}_p^p < \qty(\frac{\varepsilon}{3})^p
+	\end{align*}
+	So in particular, \( \overline f \in L^p \).
+	Then by the triangle inequality,
+	\begin{align*}
+			\norm{\frac{S_n(f)}{n} - \overline f}_p &\leq \norm{\frac{S_n(f) - S_n(f_K)}{n}}_p + \norm{\frac{S_n(f_K)}{n} - \overline f_K}_p + \norm{\overline f - \overline f_K}_p \\
+			&< \norm{\frac{S_n(f) - S_n(f_K)}{n}}_p + \frac{2\varepsilon}{3} \\
+			&\leq \norm{f - f_K}_p + \frac{2\varepsilon}{3} = \varepsilon
+	\end{align*}
+	for sufficiently large \( n \).
 \end{proof}
 
 \subsection{Infinite product spaces}
@@ -184,7 +228,7 @@ By von Neumann's \( L^p \)-ergodic theorem, convergence holds in fact in \( L^1 
 \begin{proof}
 	Let \( f(x) = x_1 \).
 	Then \( f \in L^1(\mu) \), since \( \int_E \abs{f} \dd{\mu} = \int_{\mathbb R} \abs{x} \dd{m(x)} < \infty \).
-	So by the ergodic theorem,
+	So by Birkhoff's ergodic theorem,
 	\[ \mu\qty(\qty{ \frac{x_1 + \dots + x_n}{n} \to \nu }) = \mu\qty(\qty{ \frac{S_n(f)}{n} \to \overline f }) = 1 \]
 	where we also use von Neumann's ergodic theorem to deduce that \( \overline f = \mu(\overline f) = \lim_n \mu\qty(\frac{S_n(f)}{n}) = \frac{n}{n} \nu = \nu \).
 \end{proof}
@@ -205,48 +249,6 @@ By von Neumann's \( L^p \)-ergodic theorem, convergence holds in fact in \( L^1 
 	In particular, the central limit theorem does not hold almost surely.
 \end{remark}
 % TODO: rearrange following thm to above
-\begin{theorem}[von Neumann]
-	Let \( (E, \mathcal E, \mu) \) be a finite measure space (not \( \sigma \)-finite).
-	Let \( \Theta \colon E \to E \) be measure-preserving.
-	Let \( f \in L^p(E) \) with \( 1 \leq p < \infty \).
-	Then \( \frac{S_n(f)}{n} \to \overline f \) in \( L^p \).
-\end{theorem}
-\begin{proof}
-	Since \( \Theta \) is measure-preserving, we have
-	\[ \norm{f \circ \Theta^i}_p^p = \int_E \abs{f}^p \circ \Theta^i \dd{\mu} = \int_E \abs{f}^p \dd{\mu} = \int_E \abs{f}^p \dd{\mu} = \norm{f}_p^p \]
-	Thus, by Minkowski's inequality, for all \( f \in L^p \) we have
-	\[ \norm{\frac{S_n(f)}{n}}_p \leq \frac{1}{n} \sum_{i=0}^{n-1} \norm{f \circ \Theta^i}_p = \norm{f}_p \]
-	So \( \frac{S_n(f)}{n} \) is a contraction in \( L^p \).
-	For each \( K > 0 \), we define \( f_K = \max(\min(f, K), -K) \).
-	Then
-	\[ \norm{f - f_K}_p^p = \int_E \abs{f - f_K}^p \mathbbm 1_{\abs{f} > K} \dd{\mu} \]
-	Since \( \mathbbm 1_{\abs{f} > K} \) converges to zero pointwise, and \( \abs{f - f_K} \leq 2\abs{f}^p \in L^1 \), we find \( \norm{f - f_K}_p < \frac{\varepsilon}{3} \) by dominated convergence, for sufficiently large \( K = K_\varepsilon \).
-	As \( \abs{f_K} \leq K \), we have \( \abs{\frac{S_n(f_K)}{n}} \leq K \).
-	Since \( \mu \) is finite, \( f_K \in L^1(\mu) \), so by Birkhoff's ergodic theorem, \( \frac{S_n(f_K)}{n} \to \overline f_K \) almost everywhere for some invariant function \( \overline f_K \).
-	Note that \( \overline f_k \) is bounded by \( K \) as \( \frac{S_n(f_K)}{n} \) is bounded by \( K \).
-	By the bounded convergence theorem, we deduce that \( \norm{\frac{S_n(f_K)}{n} - \overline f_K} \to 0 \) as \( n \to \infty \).
-	Further, this holds in \( L^p \) since
-	\[ \norm{\frac{S_n(f_K)}{n} - \overline f_K}_p \leq (2K)^{\frac{p-1}{p}} \norm{\frac{S_n(f_K)}{n} - \overline f_K}_1 < \frac{\varepsilon}{3} \]
-	where the last inequality holds for sufficiently large \( n \).
-	Since \( \mu \) is a finite measure, \( L^p(\mu) \subseteq L^1(\mu) \), hence by Birkhoff's ergodic theorem, \( \frac{S_n(f)}{n} \to \overline f \) almost everywhere as \( f \to \infty \).
-	Then, by the contraction property applied to \( f - f_K \),
-	\begin{align*}
-		\norm{\overline f - \overline f_K}_p^p &= \int_E \abs{\overline f - \overline f_K}^p \dd{\mu} \\
-		&= \int_E \liminf_n \abs{\frac{S_n(f) - S_n(f_K)}{n}}^p \dd{\mu} \\
-		&\leq \liminf_n \int_E \abs{\frac{S_n(f) - S_n(f_K)}{n}}^p \dd{\mu} \\
-		&= \liminf_n \int_E \abs{\frac{S_n(f - f_K)}{n}}^p \dd{\mu} \\
-		&\leq \liminf_n \norm{f - f_K}_p^p \\
-		&= \norm{f - f_K}_p^p < \qty(\frac{\varepsilon}{3})^p
-	\end{align*}
-	So in particular, \( \overline f \in L^p \).
-	Then by the triangle inequality,
-	\begin{align*}
-			\norm{\frac{S_n(f)}{n} - \overline f}_p &\leq \norm{\frac{S_n(f) - S_n(f_K)}{n}}_p + \norm{\frac{S_n(f_K)}{n} - \overline f_K}_p + \norm{\overline f - \overline f_K}_p \\
-			&< \norm{\frac{S_n(f) - S_n(f_K)}{n}}_p + \frac{2\varepsilon}{3} \\
-			&\leq \norm{f - f_K}_p + \frac{2\varepsilon}{3} = \varepsilon
-	\end{align*}
-	for sufficiently large \( n \).
-\end{proof}
 \begin{corollary}
 	In the strong law of large numbers, we have \( \expect{\abs{\frac{1}{n} \sum_{i=1}^n X_i - \expect{X}}} \to 0 \) as \( n \to \infty \).
 \end{corollary}

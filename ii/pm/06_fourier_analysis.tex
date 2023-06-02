@@ -16,7 +16,7 @@ So
 \begin{remark}
 	Note that \( \abs{\hat f(u)} \leq \norm{f}_1 \).
 	Also, if \( u_n \to u \), then \( e^{i\inner{u_n,x}} \to e^{i\inner{u,x}} \).
-	By the dominated convergence theorem with dominating function \( \abs{f} \), we have \( \hat f(u_n) \to \hat f(u) \), so \( f \) is a continuous bounded function.
+	By the dominated convergence theorem with dominating function \( \abs{f} \), we have \( \hat f(u_n) \to \hat f(u) \), so \( \hat f \) is a continuous bounded function.
 \end{remark}
 \begin{definition}
 	Let \( f \in L^1(\mathbb R^d) \) such that \( \hat f \in L^1(\mathbb R^d) \).
@@ -74,7 +74,12 @@ In the case where \( \nu \) has a density \( g \) with respect to the Lebesgue m
 \end{definition}
 If \( \mu \) has density \( f \) with respect to the Lebesgue measure, \( \mu \ast \nu \) has density \( f \ast \nu \) with respect to the Lebesgue measure.
 Indeed,
-\[ (\mu \ast \nu)(A) = \int_{\mathbb R^d} \int_{\mathbb R^d} \mathbbm 1_A(x+y) f(x) \dd{x} \dd{\nu(y)} = \int_{\mathbb R^d} \int_{\mathbb R^d} \mathbbm 1_A(v) f(v-y) \dd{v} \dd{\nu(y)} = \int_{\mathbb R^d} \mathbbm 1_A(v) \int_{\mathbb R^d}f(v-y) \dd{\nu(y)} \dd{v} = \int_{\mathbb R^d} \mathbbm 1_A(v) (f \ast \nu)(v) \dd{v} \]
+\begin{align*}
+	(\mu \ast \nu)(A) &= \int_{\mathbb R^d} \int_{\mathbb R^d} \mathbbm 1_A(x+y) f(x) \dd{x} \dd{\nu(y)} \\
+	&= \int_{\mathbb R^d} \int_{\mathbb R^d} \mathbbm 1_A(v) f(v-y) \dd{v} \dd{\nu(y)} \\
+	&= \int_{\mathbb R^d} \mathbbm 1_A(v) \int_{\mathbb R^d}f(v-y) \dd{\nu(y)} \dd{v} \\
+	&= \int_{\mathbb R^d} \mathbbm 1_A(v) (f \ast \nu)(v) \dd{v}
+\end{align*}
 \begin{proposition}
 	\( \widehat{f \ast \nu}(u) = \hat f(u) \hat \nu(u) \).
 \end{proposition}
@@ -340,7 +345,7 @@ Note that \( \widehat{f \ast g_t}(u) = \hat f(u) e^{-\frac{\norm{u}^2 t}{2}} \),
 	\[ \abs{\expect{g(Y_n)} - \expect{g(X)}} \leq \underbrace{\abs{\expect{g(X_n)} - \expect{g(X)}}}_{< \frac{\varepsilon}{3}} + \expect{\abs{g(X_n) - g(Y_n)}} \]
 	where the bound on \( \expect{g(X_n)} - \expect{g(X)} \) holds for sufficiently large \( n \).
 	Then the remaining term is upper bounded by
-	\[ \expect{\abs{g(X_n) - g(Y_n)}} \qty(\mathbbm 1_{\qty{\abs{X_n - Y_n} \leq \frac{\varepsilon}{3\norm{g}_{\mathrm{Lip}}}}} + \mathbbm 1_{\qty{\abs{X_n - Y_n} \leq \frac{\varepsilon}{3\norm{g}_{\mathrm{Lip}}}}} ) \]
+	\[ \expect{\abs{g(X_n) - g(Y_n)}} \qty(\mathbbm 1_{\qty{\abs{X_n - Y_n} \leq \frac{\varepsilon}{3\norm{g}_{\mathrm{Lip}}}}} + \mathbbm 1_{\qty{\abs{X_n - Y_n} > \frac{\varepsilon}{3\norm{g}_{\mathrm{Lip}}}}} ) \]
 	\[ \leq \norm{g}_{\mathrm{Lip}} \frac{\varepsilon}{3\norm{g}_{\mathrm{Lip}}} + 2\norm{g}_\infty \prob{\abs{X_n - Y_n} > \frac{\varepsilon}{3\norm{g}_{\mathrm{Lip}}}} < \frac{2\varepsilon}{3} \]
 	for sufficiently large \( n \).
 
