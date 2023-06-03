@@ -817,28 +817,40 @@ We can often compute homology groups only using the Mayer--Vietoris sequence and
 	Note that the inclusion \( \iota_{j,i} \colon S_j^1 \hookrightarrow \abs{K_i} \) is a homotopy equivalence, and \( \iota_{1,i} \sim \iota_{2,i} \).
 	Then the Mayer--Vietoris sequence gives
 	\[\begin{tikzcd}
-		& {H_2(K_1)\oplus H_2(K_2)} & {H_2(K)} \\
-		{H_1(K_1 \cap K_2)} & {H_1(K_1) \oplus H_1(K_2)} & {H_1(K)} \\
+		& {H_2(K_1)\oplus H_2(K_2)} \ar[draw=none]{d}[name=X, anchor=center]{} & {H_2(K)} \ar[rounded corners,
+		to path={ -- ([xshift=2ex]\tikztostart.east)
+				  |- (X.center) \tikztonodes
+				  -| ([xshift=-2ex]\tikztotarget.west)
+				  -- (\tikztotarget)}]{dll} \\
+		{H_1(K_1 \cap K_2)} & {H_1(K_1) \oplus H_1(K_2)} \ar[draw=none]{d}[name=Y, anchor=center]{} & {H_1(K)} \ar[rounded corners,
+		to path={ -- ([xshift=2ex]\tikztostart.east)
+				  |- (Y.center) \tikztonodes
+				  -| ([xshift=-2ex]\tikztotarget.west)
+				  -- (\tikztotarget)}]{dll} \\
 		{H_0(K_1 \cap K_2)} & {H_0(K_1) \oplus H_0(K_2)} & {H_0(K)} & 0
 		\arrow[from=1-2, to=1-3]
-		\arrow[from=1-3, to=2-1]
 		\arrow["{\alpha_1}"', from=2-1, to=2-2]
 		\arrow[from=2-2, to=2-3]
-		\arrow[from=2-3, to=3-1]
 		\arrow["{\alpha_0}"', from=3-1, to=3-2]
 		\arrow[from=3-2, to=3-3]
 		\arrow[from=3-3, to=3-4]
 	\end{tikzcd}\]
 	giving
 	\[\begin{tikzcd}
-		& 0 & {H_2(K)} \\
-		{\mathbb Z \oplus \mathbb Z} & {\mathbb Z \oplus \mathbb Z} & {H_1(K)} \\
+		& 0 \ar[draw=none]{d}[name=Y, anchor=center]{} & {H_2(K)} \ar[rounded corners,
+		to path={ -- ([xshift=2ex]\tikztostart.east)
+				  |- (X.center) \tikztonodes
+				  -| ([xshift=-2ex]\tikztotarget.west)
+				  -- (\tikztotarget)}]{dll} \\
+		{\mathbb Z \oplus \mathbb Z} & {\mathbb Z \oplus \mathbb Z} \ar[draw=none]{d}[name=Y, anchor=center]{} & {H_1(K)} \ar[rounded corners,
+		to path={ -- ([xshift=2ex]\tikztostart.east)
+				  |- (Y.center) \tikztonodes
+				  -| ([xshift=-2ex]\tikztotarget.west)
+				  -- (\tikztotarget)}]{dll} \\
 		{\mathbb Z \oplus \mathbb Z} & {\mathbb Z \oplus \mathbb Z} & {H_0(K)} & 0
 		\arrow[from=1-2, to=1-3]
-		\arrow[from=1-3, to=2-1]
 		\arrow["{\alpha_1}"', from=2-1, to=2-2]
 		\arrow[from=2-2, to=2-3]
-		\arrow[from=2-3, to=3-1]
 		\arrow["{\alpha_0}"', from=3-1, to=3-2]
 		\arrow[from=3-2, to=3-3]
 		\arrow[from=3-3, to=3-4]
@@ -914,27 +926,39 @@ We can often compute homology groups only using the Mayer--Vietoris sequence and
 	Note that \( L_g = L_{g,1} \cup_{\partial L_{g,1}} \bm\Delta^2 \).
 	Then,
 	\[\begin{tikzcd}
-		& {H_2(L_{g,1}) \oplus H_2(\bm\Delta^2)} & {H_2(L_g)} \\
-		{H_1(\partial L_{g,1})} & {H_1(L_{g,1}) \oplus H_1(\bm\Delta^2)} & {H_1(L_g)} \\
+		& {H_2(L_{g,1}) \oplus H_2(\bm\Delta^2)} \ar[draw=none]{d}[name=X, anchor=center]{} & {H_2(L_g)} \ar[rounded corners,
+		to path={ -- ([xshift=2ex]\tikztostart.east)
+				  |- (X.center) \tikztonodes
+				  -| ([xshift=-2ex]\tikztotarget.west)
+				  -- (\tikztotarget)}]{dll}[at end]{\partial_2} \\
+		{H_1(\partial L_{g,1})} & {H_1(L_{g,1}) \oplus H_1(\bm\Delta^2)} \ar[draw=none]{d}[name=Y, anchor=center]{} & {H_1(L_g)} \ar[rounded corners,
+		to path={ -- ([xshift=2ex]\tikztostart.east)
+				  |- (Y.center) \tikztonodes
+				  -| ([xshift=-2ex]\tikztotarget.west)
+				  -- (\tikztotarget)}]{dll}[at end]{\partial_1} \\
 		{H_0(\partial L_{g,1})} & {H_0(L_{g,1}) \oplus H_0(\bm\Delta^2)} & {H_0(L_g)}
 		\arrow[from=1-2, to=1-3]
-		\arrow["{\partial_2}"{description}, from=1-3, to=2-1]
 		\arrow["{\iota_1}"', from=2-1, to=2-2]
 		\arrow[from=2-2, to=2-3]
-		\arrow["{\partial_1}"{description}, from=2-3, to=3-1]
 		\arrow["{\iota_0}"', from=3-1, to=3-2]
 		\arrow[from=3-2, to=3-3]
 	\end{tikzcd}\]
 	giving
 	\[\begin{tikzcd}
-		& {0 \oplus 0} & {\mathbb Z} \\
-		{\mathbb Z} & {H_1(L_{g,1}) \oplus 0} & {\mathbb Z^{2g}} \\
+		& {0 \oplus 0} \ar[draw=none]{d}[name=X, anchor=center]{} & {\mathbb Z} \ar[rounded corners,
+		to path={ -- ([xshift=2ex]\tikztostart.east)
+				  |- (X.center) \tikztonodes
+				  -| ([xshift=-2ex]\tikztotarget.west)
+				  -- (\tikztotarget)}]{dll}[at end]{\partial_2} \\
+		{\mathbb Z} & {H_1(L_{g,1}) \oplus 0} \ar[draw=none]{d}[name=Y, anchor=center]{} & {\mathbb Z^{2g}} \ar[rounded corners,
+		to path={ -- ([xshift=2ex]\tikztostart.east)
+				  |- (Y.center) \tikztonodes
+				  -| ([xshift=-2ex]\tikztotarget.west)
+				  -- (\tikztotarget)}]{dll}[at end]{\partial_1} \\
 		{\mathbb Z} & {\mathbb Z \oplus \mathbb Z} & {\mathbb Z}
 		\arrow[from=1-2, to=1-3]
-		\arrow["{\partial_2}"{description}, from=1-3, to=2-1]
 		\arrow["{\iota_1}"', from=2-1, to=2-2]
 		\arrow[from=2-2, to=2-3]
-		\arrow["{\partial_1}"{description}, from=2-3, to=3-1]
 		\arrow["{\iota_0}"', from=3-1, to=3-2]
 		\arrow[from=3-2, to=3-3]
 	\end{tikzcd}\]
@@ -949,20 +973,26 @@ We can often compute homology groups only using the Mayer--Vietoris sequence and
 	Note that \( L_{g+1} = L_{g,1} \cup_{\partial L_{g,1}} L_{1,1} \).
 	Hence,
 	\[\begin{tikzcd}
-		& {H_2(L_{g,1}) \oplus H_2(L_{1,1})} & {H_2(L_{g+1})} \\
+		& {H_2(L_{g,1}) \oplus H_2(L_{1,1})} \ar[draw=none]{d}[name=X, anchor=center]{} & {H_2(L_{g+1})} \ar[rounded corners,
+		to path={ -- ([xshift=2ex]\tikztostart.east)
+				  |- (X.center) \tikztonodes
+				  -| ([xshift=-2ex]\tikztotarget.west)
+				  -- (\tikztotarget)}]{dll} \\
 		{H_1(\partial L_{g,1})} & {H_1(L_{g,1}) \oplus H_2(L_{1,1})} & {H_1(L_{g+1})} & 0
 		\arrow[from=1-2, to=1-3]
-		\arrow[from=1-3, to=2-1]
 		\arrow["{\iota}"', from=2-1, to=2-2]
 		\arrow[from=2-2, to=2-3]
 		\arrow[from=2-3, to=2-4]
 	\end{tikzcd}\]
 	so
 	\[\begin{tikzcd}
-		& {0 \oplus 0} & {H_2(L_{g+1})} \\
+		& {0 \oplus 0} \ar[draw=none]{d}[name=X, anchor=center]{} & {H_2(L_{g+1})} \ar[rounded corners,
+		to path={ -- ([xshift=2ex]\tikztostart.east)
+				  |- (X.center) \tikztonodes
+				  -| ([xshift=-2ex]\tikztotarget.west)
+				  -- (\tikztotarget)}]{dll} \\
 		{\mathbb Z} & {\mathbb Z^{2g} \oplus \mathbb Z^2} & {H_1(L_{g+1})} & 0
 		\arrow[from=1-2, to=1-3]
-		\arrow[from=1-3, to=2-1]
 		\arrow["{\iota}"', from=2-1, to=2-2]
 		\arrow[from=2-2, to=2-3]
 		\arrow[from=2-3, to=2-4]
@@ -1000,10 +1030,13 @@ Then \( M_{r,1} \sim \bigvee_{i=1}^r S^1 \).
 	Suppose the result holds for \( H_k(M_r) \).
 	Then, \( M_r = M_{r,1} \cup_{\partial M_{r,1}} \bm\Delta^2 \), and
 	\[\begin{tikzcd}
-		& {H_2(M_{r,1})\oplus H_2(\bm\Delta^2)} & {H_2(M_r)} \\
+		& {H_2(M_{r,1})\oplus H_2(\bm\Delta^2)} \ar[draw=none]{d}[name=X, anchor=center]{} & {H_2(M_r)} \ar[rounded corners,
+		to path={ -- ([xshift=2ex]\tikztostart.east)
+				  |- (X.center) \tikztonodes
+				  -| ([xshift=-2ex]\tikztotarget.west)
+				  -- (\tikztotarget)}]{dll} \\
 		{H_1(\partial M_{r,1})} & {H_1(M_{r,1}) \oplus H_1(\bm\Delta^2)} & {H_1(M_r)} & 0
 		\arrow[from=1-2, to=1-3]
-		\arrow[from=1-3, to=2-1]
 		\arrow["{\iota_{r\star}}"', from=2-1, to=2-2]
 		\arrow[from=2-2, to=2-3]
 		\arrow[from=2-3, to=2-4]
@@ -1016,10 +1049,13 @@ Then \( M_{r,1} \sim \bigvee_{i=1}^r S^1 \).
 	\end{tikzcd}.
 	Hence,
 	\[\begin{tikzcd}
-		& {0 \oplus 0} & {0} \\
+		& {0 \oplus 0} \ar[draw=none]{d}[name=X, anchor=center]{} & {0} \ar[rounded corners,
+		to path={ -- ([xshift=2ex]\tikztostart.east)
+				  |- (X.center) \tikztonodes
+				  -| ([xshift=-2ex]\tikztotarget.west)
+				  -- (\tikztotarget)}]{dll} \\
 		{\mathbb Z} & {H_1(M_{r,1}) \oplus 0} & {\mathbb Z^{r-1} \oplus \faktor{\mathbb Z}{2\mathbb Z}} & 0
 		\arrow[from=1-2, to=1-3]
-		\arrow[from=1-3, to=2-1]
 		\arrow["{\iota_{r\star}}"', from=2-1, to=2-2]
 		\arrow[from=2-2, to=2-3]
 		\arrow[from=2-3, to=2-4]
@@ -1036,20 +1072,26 @@ Then \( M_{r,1} \sim \bigvee_{i=1}^r S^1 \).
 
 	Now, \( M_{r+1} = M_{r,1} \cup_{\partial M_{r,1}} M_{1,1} \) hence
 	\[\begin{tikzcd}
-		& {H_2(M_{r,1}) \oplus H_2(M_{1,1})} & {H_2(M_{r+1})} \\
+		& {H_2(M_{r,1}) \oplus H_2(M_{1,1})} \ar[draw=none]{d}[name=X, anchor=center]{} & {H_2(M_{r+1})} \ar[rounded corners,
+		to path={ -- ([xshift=2ex]\tikztostart.east)
+				  |- (X.center) \tikztonodes
+				  -| ([xshift=-2ex]\tikztotarget.west)
+				  -- (\tikztotarget)}]{dll} \\
 		{H_1(\mathbb S^1)} & {H_1(M_{r,1}) \oplus H_1(M_{r,1})} & {H_1(M_{r+1})} & 0
 		\arrow[from=1-2, to=1-3]
-		\arrow[from=1-3, to=2-1]
 		\arrow[from=2-1, to=2-2]
 		\arrow[from=2-2, to=2-3]
 		\arrow[from=2-3, to=2-4]
 	\end{tikzcd}\]
 	so
 	\[\begin{tikzcd}
-		& {0 \oplus 0} & 0 \\
+		& {0 \oplus 0} \ar[draw=none]{d}[name=X, anchor=center]{} & 0 \ar[rounded corners,
+		to path={ -- ([xshift=2ex]\tikztostart.east)
+				  |- (X.center) \tikztonodes
+				  -| ([xshift=-2ex]\tikztotarget.west)
+				  -- (\tikztotarget)}]{dll}[at end]{0} \\
 		{\mathbb Z} & {H_1(M_{r,1}) \oplus H_1(M_{r,1})} & {H_1(M_{r+1})} & 0
 		\arrow[from=1-2, to=1-3]
-		\arrow["0"{description}, from=1-3, to=2-1]
 		\arrow[from=2-1, to=2-2]
 		\arrow[from=2-2, to=2-3]
 		\arrow[from=2-3, to=2-4]
