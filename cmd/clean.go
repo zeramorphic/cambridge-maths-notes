@@ -19,6 +19,10 @@ var cleanCmd = &cobra.Command{
 			os.RemoveAll(file.FilePath + "/build")
 			os.RemoveAll(file.FilePath + "/tikz")
 		}
+		for _, file := range BookFiles {
+			os.RemoveAll(file.FilePath + "/build")
+			os.RemoveAll(file.FilePath + "/tikz")
+		}
 	},
 }
 

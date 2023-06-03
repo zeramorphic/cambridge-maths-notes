@@ -13,25 +13,28 @@
 \else
 \usepackage[a4paper]{geometry} % , margin=20mm
 \fi
-% \usepackage{textcomp} % makes the "not defining \perthousand"/"\micro" errors go away by including this first
 %\newcommand\hmmax{0}
 %\newcommand\bmmax{0}
-% \usepackage{stix2}
-% \usepackage{mathpazo}
-% \usepackage{tgpagella}
 \usepackage{amsmath}
 % \usepackage{amssymb}
 % \usepackage{mathrsfs}
 \usepackage{amsthm}
 % \usepackage{amsfonts}
+\usepackage{mathtools}
+\mathtoolsset{mathic}
 \RequirePackage{unicode-math}
+% https://milde.users.sourceforge.net/LUCR/Math/unimathsymbols.html
 \setmainfont{STIX Two Text}
 \setmathfont{STIX Two Math}
+
+% \UnicodeMathSymbol{"027CB}{\diagup}{\mathord}{mathematical rising diagonal}
+\newcommand{\diagup}{\char"27CB}
+
 \usepackage{bbm}
 \usepackage{wrapfig}
 \usepackage{physics}
-\usepackage{bm}
-\DeclareDocumentCommand\mathbf{m}{\bm{\mathrm{#1}}} % make bold work for greek symbols
+\DeclareDocumentCommand\mathbf{m}{\symbfup{#1}} % make bold work for greek symbols
+\newcommand{\bm}[1]{\symbfup{#1}}
 \DeclareDocumentCommand\vnabla{}{\nabla} % use non-bold nabla for \grad, \curl etc.
 % Enabled to unify laplacian symbol between vector and scalar forms
 \DeclareDocumentCommand\dotproduct{}{\cdot} % use non-bold dot for scalar product to unify notation
@@ -40,8 +43,6 @@
 \usepackage[shortlabels]{enumitem}
 \setlist[enumerate,1]{label={(\roman*)}}
 \setlist[enumerate,2]{label={(\alph*)}}
-\usepackage{mathtools}
-\mathtoolsset{mathic}
 \usepackage{centernot}
 \usepackage{relsize}
 \usepackage{siunitx}
@@ -206,6 +207,12 @@
 \DeclareMathOperator{\fchar}{char}
 \DeclareMathOperator{\code}{code}
 \DeclareMathOperator{\coker}{coker}
+% https://github.com/wspr/unicode-math/issues/457
+\AtBeginDocument{%
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\newcommand{\dashrightarrow}{\mathrel{\rightdasharrow}}
+}
 
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}

@@ -18,6 +18,11 @@ so that latexmk has the correct privileges to write to the folders.`,
 			os.Mkdir(file.FilePath+"/build/tikz", 0777)
 			os.Mkdir(file.FilePath+"/tikz", 0777)
 		}
+		for _, file := range BookFiles {
+			os.Mkdir(file.FilePath+"/build", 0777)
+			os.Mkdir(file.FilePath+"/build/tikz", 0777)
+			os.Mkdir(file.FilePath+"/tikz", 0777)
+		}
 	},
 }
 
