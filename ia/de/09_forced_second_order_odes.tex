@@ -1,13 +1,14 @@
 We want to find methods for finding the particular integral of forced second order ODEs.
 \subsection{Guesswork}
 Here, \(f(x)\) is the forcing term.
-
-\begin{tabular}{c c}
-	Form of \(f(x)\)                        & Form of \(y_p(x)\)                          \\\midrule
-	\(e^{mx}\)                              & \(Ae^{mx}\)                                 \\
-	\(\sin(kx)\) or \(\cos(kx)\)            & \(A\sin(kx) + B\cos(kx)\)                   \\
-	\(x^n\) or an \(n\)th degree polynomial & \(a_n x^n + a_{n-1}x^{n-1} + \cdots + a_0\)
-\end{tabular}
+\begin{center}
+	\begin{tabular}{c c}
+		Form of \(f(x)\)                        & Form of \(y_p(x)\)                          \\\midrule
+		\(e^{mx}\)                              & \(Ae^{mx}\)                                 \\
+		\(\sin(kx)\) or \(\cos(kx)\)            & \(A\sin(kx) + B\cos(kx)\)                   \\
+		\(x^n\) or an \(n\)th degree polynomial & \(a_n x^n + a_{n-1}x^{n-1} + \cdots + a_0\)
+	\end{tabular}
+\end{center}
 
 In general:
 \begin{enumerate}
@@ -171,7 +172,7 @@ Altogether, we have
 \[
 	y_p = \frac{1}{(\omega_0^2 - \omega^2)^2 + \mu^2\omega^2}\left[ (\omega_0^2 - \omega^2)\sin\omega t - \mu \omega \cos \omega t \right]
 \]
-Drawing an example of this kind of particular integral in red (with the complementary function in blue), we can see the following:\medskip
+Drawing an example of this kind of particular integral (with the complementary function in grey), we can see the following:\medskip
 
 \begin{tikzpicture}
 	\begin{axis}[
@@ -191,14 +192,15 @@ Drawing an example of this kind of particular integral in red (with the compleme
 		\addplot [
 			domain=0:10,
 			samples=200,
-			color=blue
+			% color=blue
+			color=gray
 		]
 		{2.5*e^(-0.4*x)*sin(3*deg(x))};
 
 		\addplot [
 			domain=0:10,
 			samples=200,
-			color=red
+			% color=red
 		]
 		{0.3*(sin(7*deg(x)) + cos(7*deg(x)))};
 	\end{axis}
@@ -278,7 +280,7 @@ For convenience, let \(\Delta\omega \equiv \omega_0 - \omega\), and therefore \(
 \[
 	y_p = \frac{-2}{\Delta\omega(\omega_0 + \omega)}\left[ \cos\left( \left(\omega_0 - \frac{\Delta\omega}{2}\right)t \right) \sin\frac{\Delta\omega t}{2} \right]
 \]
-In the following diagram, \(y_p\) is drawn in blue, with the sine term (in red) acting as an envelope for the higher-frequency cosine term.
+In the following diagram, \(y_p\) is drawn in grey, with the sine term acting as an envelope for the higher-frequency cosine term.
 The phenomenon visible here is known as `beating', as an oscillator with a fundamental frequency slightly different to the forcing frequency will begin oscillating then stop, and repeat this cycle.\medskip
 
 \begin{tikzpicture}
@@ -299,21 +301,22 @@ The phenomenon visible here is known as `beating', as an oscillator with a funda
 		\addplot [
 			domain=0:10,
 			samples=200,
-			color=red
+			% color=red
 		]
 		{sin(deg(x))};
 		\addplot [
 			dashed,
 			domain=0:10,
 			samples=200,
-			color=red
+			% color=red
 		]
 		{-sin(deg(x))};
 
 		\addplot [
 			domain=0:10,
 			samples=2000,
-			color=blue
+			% color=blue
+			color=gray
 		]
 		{cos(24.3*deg(x))*sin(deg(x))};
 	\end{axis}
