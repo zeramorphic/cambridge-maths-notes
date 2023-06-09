@@ -1,0 +1,432 @@
+\subsection{Higher order discrete equations}
+The general form of an \(m\)th order linear discrete equation with constant coefficients is
+\begin{equation}\label{mlindiscrete}
+	a_m y_{n+m} + a_{m-1}y_{n+m-1} + \dots + a_1y_{n+1} + a_0y_n = f_n
+\end{equation}
+To solve such an equation, we will exploit some principles used to solve higher order differential equations.
+
+To apply eigenfunction properties, we will define a difference operator \(D[y_n] = y_{n+1}\).
+Then, \(D\) has eigenfunction \(y_n = k^n\) for \(k\) constant, since \(D[k^n] = k^{n+1} = k \cdot k^n = ky_n\).
+
+To apply linearity, notice that \eqref{mlindiscrete} is linear in \(y\), so the general solution \(y_n = y_n^{(c)} + y_n^{(p)}\) where \(y^{(c)}\) is the complementary function and \(y^{(p)}\) is the particular integral.
+
+As an example, let us consider a second order difference equation
+\[
+	a_2 y_{n+2} + a_1 y_{n+1} + a_0 y_n = f_n
+\]
+We will first try to solve the homogeneous equation, letting \(f=0\).
+\[
+	a_2 y_{n+2} + a_1 y_{n+1} + a_0 y_n = 0
+\]
+We will look for solutions of the form of the eigenfunction: \(y_n = k^n\).
+\[
+	a_2 k^2 + a_1 k + a_0 = 0
+\]
+This quadratic may be solved to give \(k_1\) and \(k_2\).
+Then our complementary function is
+\[
+	y_n^{(c)} = \begin{cases}
+		A k_1^n + B k_2^n & k_1 \neq k_2  \\
+		A k^n + Bnk^n     & k_1 = k_2 = k
+	\end{cases}
+\]
+To solve the particular integral, let us consult this table:
+
+\begin{center}
+	\begin{tabular}{cc}
+		Form of \(f_n\)      & Form of \(y_n^{(p)}\)                \\\midrule
+		\(k^n\)              & \(Ak^n\) if \(k \neq k_1, k_2\)      \\
+		\(k_1^n\), \(k_2^n\) & \(Ank_1^n + Bnk_2^n\)                \\
+		\(n^p\)              & \(An^p + Bn^{p-1} + \dots + Cn + D\)
+	\end{tabular}
+\end{center}
+
+\subsection{Fibonacci sequence}
+The Fibonacci sequence is given by
+\[
+	y_n = y_{n-1} + y_{n-2}
+\]
+with initial conditions \(y_0 = y_1 = 1\).
+In standard form, we have
+\[
+	y_{n+2} - y_{n+1} - y_n = 0
+\]
+We will look for solutions of the form \(y=k^n\).
+Then
+\[
+	k^2 - k - 1 = 0
+\]
+So we have
+\[
+	k_1 = \phi = \frac{1 + \sqrt 5}{2};\quad k_2 = -\phi^{-1} = \frac{1 - \sqrt 5}{2}
+\]
+Solving for the initial conditions gives
+\[
+	y_n = \frac{1}{\sqrt 5}\phi + \frac{1}{\sqrt 5}\phi^{-1} = \frac{\phi^{n+1} - (-\phi^{-1})^{n+1}}{\sqrt{5}}
+\]
+So we can deduce that
+\[
+	\lim_{n \to \infty} \frac{y_{n+1}}{y_n} = \lim_{n \to \infty} \frac{\phi^{n+2} - (-\phi^{-1})^{n+2}}{\phi^{n+1} - (-\phi^{-1})^{n+1}} = \phi
+\]
+
+\subsection{Method of Frobenius}
+The Method of Frobenius is a way of computing series solutions to linear homogeneous second order ODEs.
+The general form is
+\[
+	p(x)y'' + q(x)y' + r(x)y = 0
+\]
+We will seek a power series expansion about some point \(x = x_0\).
+First, we must classify the point \(x_0\):
+\begin{itemize}
+	\item (ordinary point) \(x=x_0\) is an ordinary point if the Taylor series of \(q/p\) and \(r/p\) converge in some region around \(x_0\); i.e.\ \(q/p\) and \(r/p\) are analytic.
+	\item (singular point) If \(x_0\) is not ordinary, it is singular.
+	      There are two types of singular points:
+	      \begin{itemize}
+		      \item (regular singular point) If the original ODE can be written as
+		            \[
+			            P(x)(x-x_0)^2 y'' + Q(x)(x-x_0)y' + R(x)y = 0
+		            \]
+		            and \(\frac{Q}{P}\) and \(\frac{R}{P}\) are analytic, then \(x=x_0\) is a regular singular point.
+		            Note that \(\frac{Q}{P} = (x-x_0)\frac{q}{p}; \frac{R}{P}(x-x_0)^2\frac{r}{p}\).
+		      \item (irregular singular point) Otherwise, \(x=x_0\) is an irregular singular point.
+	      \end{itemize}
+\end{itemize}
+Here are some examples.
+\begin{enumerate}
+	\item \((1-x^2)y'' - 2xy' + 2y = 0\).
+	      We have \(q/p = \frac{-2x}{1-x^2}\), so \(x = \pm 1\) are singular points.
+	      But \(Q/P = \frac{2x}{1+x}\) which is regular at \(x=1\); a similar argument holds for \(-1\).
+	\item \(y''\sin x + y'\cos x + 2y = 0\).
+	      We have \(q/p = \cot x\), \(r/p = 2\csc x\).
+	      So where \(x = n\pi\) where \(n \in \mathbb Z\), we have regular singular points.
+	\item \((1+\sqrt{x})y'' - 2xy' + 2y = 0\).
+	      We have \(q/p = \frac{-2x}{1+\sqrt{x}}\).
+	      Around \(x=0\), the second derivative is undefined, so this is an irregular singular point.
+\end{enumerate}
+
+\subsection{Fuch's theorem}
+\begin{theorem}
+	\begin{enumerate}
+		\item If \(x_0\) is an ordinary point, then there are two linearly independent solutions of the form
+		      \[
+			      y = \sum_{n=0}^\infty a_n(x-x_0)^n
+		      \]
+		      This series is convergent in some region around \(x_0\).
+		\item If \(x_0\) is a regular singular point, then there is at least one solution of the form
+		      \[
+			      y = \sum_{n=0}^\infty a_n(x-x_0)^{n + \sigma}
+		      \]
+		      where \(\sigma\) is real and \(a_0 \neq 0\).
+	\end{enumerate}
+\end{theorem}
+\begin{example}
+	Here is an example of case 1.
+	\begin{equation}\label{fuch1}
+		(1-x^2)y'' - 2xy' + 2y = 0
+	\end{equation}
+	We will try to find series solutions about \(x_0=0\), an ordinary point.
+	We will therefore try solutions of the form
+	\begin{align*}
+		y   & = \sum_{n=0}^\infty a_n x^n           \\
+		y'  & = \sum_{n=1}^\infty na_n x^{n-1}      \\
+		y'' & = \sum_{n=2}^\infty n(n-1)a_n x^{n-2}
+	\end{align*}
+	Now, to make all powers of \(x\) at least \(n\), we will multiply \eqref{fuch1} by \(x^2\) for convenience.
+
+	\[
+		(1-x^2)x^2y'' - 2x^3y' + 2x^2y = 0
+	\]
+	\[
+		(1-x^2)x^2\sum_{n=2}^\infty n(n-1)a_n(x-x_0)^{n-2} - 2x^3\sum_{n=1}^\infty na_n(x-x_0)^{n-1} + 2x^2\sum_{n=0}^\infty a_n(x-x_0)^n = 0
+	\]
+	\[
+		(1-x^2)\sum_{n=2}^\infty n(n-1)a_n x^n - 2x^2\sum_{n=1}^\infty na_n x^n + 2x^2\sum_{n=0}^\infty a_n x^n = 0
+	\]
+	\[
+		\sum_{n=2}^\infty a_n[n(n-1)(1-x^2)]x^n - 2\sum_{n=1}^\infty a_n(nx^2)x^n + 2\sum_{n=0}^\infty a_n(x^2)x^n = 0
+	\]
+
+	Now, for \(n \geq 2\), equating the \(x^n\) coefficients we have
+	\[
+		a_n[n(n-1)] - a_{n-2}[(n-2)(n-3)] - 2a_{n-2}(n-2) + 2a_{n-2} = 0
+	\]
+	This is a discrete equation.
+	Rewritten in a more standard form, we have
+	\[
+		n(n-1)a_n = (n^2 - 3n)a_{n-2}
+	\]
+	or
+	\begin{equation}\label{fuch1recurrence}
+		a_n = \frac{n-3}{n-1}a_{n-2}
+	\end{equation}
+	This is known as the recurrence relation.
+	The values of \(a_0\) and \(a_1\) are the unknown constants to be found via initial or boundary conditions.
+	Note that \(a_3 = 0\) from \eqref{fuch1recurrence}.
+	Therefore, any odd power of \(x\) of higher order than \(x^1\) is zero.
+	For even \(n\), we have
+	\begin{align*}
+		a_n            & = \frac{n-3}{n-1}a_{n-2}                                         \\
+		a_n            & = \frac{n-3}{n-1}\frac{n-5}{n-3}a_{n-4} = \frac{n-5}{n-1}a_{n-4} \\
+		a_n            & = \frac{n-5}{n-1}\frac{n-7}{n-5}a_{n-6} = \frac{n-7}{n-1}a_{n-6} \\
+		\therefore a_n & = \frac{-1}{n-1}a_0
+	\end{align*}
+	Therefore
+	\[
+		y = a_1 x + a_0\left[ 1 - x^2 - \frac{x^4}{3} - \frac{x^6}{5} - \frac{x^8}{7} - \dots \right]
+	\]
+	Note that
+	\[
+		\ln(1 \pm x) = \pm x - \frac{x^2}{2} \pm \frac{x^3}{3} - \dots
+	\]
+	Therefore
+	\[
+		\ln(\frac{1+x}{1-x}) = \ln(1+x) - \ln(1-x) = 2x + 2\frac{x^3}{3} + 2\frac{x^5}{5} + \dots
+	\]
+	Hence,
+	\[
+		y = a_1x + a_0\left[ 1-\frac{x}{2}\ln\left( \frac{1+x}{1-x} \right) \right]
+	\]
+	Note the behaviour of this function near the singular points of the original differential equation.
+\end{example}
+\begin{example}
+	Consider the following differential equation:
+	\begin{equation}\label{fuch2}
+		4xy'' + 2(1-x^2)y' - xy = 0
+	\end{equation}
+	We want to find series solutions about \(x=0\).
+	In this case, \(\frac{q}{p}\) is undefined at \(x=0\), so it is a singular point, but it is regular.
+	We will try solutions of the form
+	\begin{align*}
+		y   & = \sum_{n=0}^\infty a_n x^{n + \sigma}                         \\
+		y'  & = \sum_{n=0}^\infty (n+\sigma)a_n x^{n + \sigma-1}             \\
+		y'' & = \sum_{n=0}^\infty (n+\sigma)(n+\sigma-1)a_n x^{n + \sigma-2} \\
+	\end{align*}
+	where \(a_0 \neq 0\).
+	For convenience we will multiply \eqref{fuch2} by \(x\):
+	\[
+		4x^2y'' + 2(1-x^2)xy' - x^2y = 0
+	\]
+	\[
+		4x^2\sum_{n=0}^\infty (n+\sigma)(n+\sigma-1)a_n x^{n + \sigma-2} + 2(1-x^2)x\sum_{n=0}^\infty (n+\sigma)a_n x^{n + \sigma-1} - x^2\sum_{n=0}^\infty a_n x^{n + \sigma}
+	\]
+	Hence,
+	\begin{equation}\label{fuch2expanded}
+		\sum_{n=0}^\infty a_n x^{n + \sigma}\left[4(n+\sigma)(n+\sigma-1) + 2\left(1-x^2\right)(n+\sigma) - x^2\right] = 0
+	\end{equation}
+	We will equate coefficients of \(x^{n+\sigma}\) for \(n\geq 2\), since here all terms will make some contribution to the coefficient.
+	\[
+		a_n\left[4(n+\sigma)(n+\sigma-1) + 2(n+\sigma)\right] + a_{n-2}\left[-2(n-2+\sigma) - 1\right] = 0
+	\]
+	Therefore,
+	\begin{equation}\label{fuch2recurrence}
+		2(n+\sigma)(2n+2\sigma-1)a_n = (2n+2\sigma-3)a_{n-2}
+	\end{equation}
+	This is the recurrence relation, which we can use to compute the \(a_n\).
+	A general technique to find \(\sigma\) is to equate the coefficients of the lowest power of \(x\) in \eqref{fuch2expanded}.
+	By setting \(n=0\), we can equate coefficients of \(x^\sigma\), giving
+	\[
+		a_0(4\sigma(\sigma - 1)) + a_0 2\sigma = 0
+	\]
+	But since \(a_0 \neq 0\) in Fuch's Theorem, we have
+	\[
+		4\sigma(\sigma - 1) + 2\sigma = 0
+	\]
+	So either \(\sigma = 0\) or \(\sigma = \frac{1}{2}\).
+	We must consider these two cases individually.
+	\begin{itemize}
+		\item (\(\sigma = 0\)) Equate coefficients of the lowest powers of \(x\) in \eqref{fuch2expanded}.
+			\begin{itemize}
+				\item (\(n=0\)) The coefficient of \(x^0\) gives
+						\[
+							a_0[4(0)(-1)] + a_0[2(0)] = 0
+						\]
+						which is true for all \(a_0\).
+						So \(a_0\) is an arbitrary constant.
+				\item (\(n=1\)) The coefficient of \(x^1\) gives
+						\[
+							a_1[4(1)(0)] + a_1[2(1)] = 0
+						\]
+						so \(a_1 = 0\).
+			\end{itemize}
+			From the recurrence relation \eqref{fuch2recurrence} which is valid for \(n \geq 2\), plugging in \(\sigma = 0\) gives
+			\begin{equation}\label{fuch2recurrencezero}
+				2n(2n - 1)a_n = (2n - 3)a_{n-2}
+			\end{equation}
+			Since \(a_1 = 0\), clearly all \(a_k = 0\) for odd \(k\).
+			Therefore, using the recurrence relation \eqref{fuch2recurrencezero} we have
+			\[
+				y = a_0 \left( 1 + \frac{x^2}{4 \cdot 3} + \frac{5x^4}{8\cdot 7 \cdot 4 \cdot 3} + \dots \right)
+			\]
+
+		\item (\(\sigma = \frac{1}{2}\)) This time we will start with the recurrence relation \eqref{fuch2recurrence} with \(\sigma = \frac{1}{2}\), relabelling \(a\) to \(b\) to avoid confusion.
+			\begin{equation}\label{fuch2recurrencehalf}
+				(2n+1)(2n)b_n = (2n-2)b_{n-2}
+			\end{equation}
+			Now let us analyse the coefficients of the lowest powers of \(x\), substituting into \eqref{fuch2expanded}.
+			\begin{itemize}
+				\item (\(n=0\)) The coefficient of \(x^{\frac{1}{2}}\) gives
+						\[
+							b_0\left[4\left(\frac{1}{2}\right)\left(\frac{-1}{2}\right)\right] + b_0\left[2\left(\frac{1}{2}\right)\right] = 0
+						\]
+						which is true for all \(b_0\).
+						So \(b_0\) is an arbitrary constant.
+				\item (\(n=1\)) The coefficient of \(x^{\frac{3}{2}}\) gives
+						\[
+							b_1\left[4\left(\frac{3}{2}\right)\left(\frac{1}{2}\right)\right] + b_1\left[2\left(\frac{3}{2}\right)\right] = 0
+						\]
+						so \(b_1 = 0\).
+			\end{itemize}
+			As before, all \(b_k = 0\) where \(k\) is odd.
+			Therefore, using the recurrence relation \eqref{fuch2recurrencehalf}, we have
+			\[
+				y = b_0x^{\frac{1}{2}} \left[ 1 + \frac{x^2}{2 \cdot 5} + \frac{3x^4}{2 \cdot 5 \cdot 4 \cdot 9} + \dots \right]
+			\]
+	\end{itemize}
+	So we have found two linearly independent solutions to the differential equation, given by boundary conditions \(a_0\) and \(b_0\).
+	Note that Fuch's Theorem only specifies that there will be at least one, but we have found two in this case.
+\end{example}
+
+\subsection{Special cases of indicial equation}
+Before looking at some examples of the method of Frobenius, we will first look at special cases of the indicial equation provided by Fuch's theorem.
+Consider an expansion about the point \(x=x_0\).
+Let \(\sigma_1, \sigma_2\) be the roots of this equation.
+There are two cases:
+\begin{itemize}
+	\item (\(\sigma_1 - \sigma_2 \notin \mathbb Z\)) We have two linearly independent solutions.
+	      So our solution is of the form
+	      \[
+		      y = (x-x_0)^{\sigma_1}\sum_{n=0}^\infty a_n(x-x_0)^n + (x-x_0)^{\sigma_2}\sum_{n=0}^\infty b_n(x-x_0)^n
+	      \]
+	      Note that the limit as \(x \to x_0\), \(y \sim (x-x_0)^{\min(\sigma_1, \sigma_2)}\).
+	\item (\(\sigma_1 - \sigma_2 \in \mathbb Z\)) There is one solution of the form
+	      \[
+		      y_1 = (x-x_0)^{\sigma_2}\sum_{n=0}^\infty a_n(x-x_0)^n
+	      \]
+	      The other solution is of the form
+	      \[
+		      y_2 = (x-x_0)^{\sigma_1}\sum_{n=0}^\infty b_n(x-x_0)^n + cy_1 \ln(x-x_0)
+	      \]
+	      where \(c\) may or may not equal zero.
+	      If the two solutions are linearly independent without the \(c\) term, then \(c=0\).
+	      Else, without loss of generality, we can let \(c=1\) since we're dealing with homogeneous equations.
+	\item (\(\sigma_1 = \sigma_2 = \sigma\)) Here, \(c \neq 0\).
+	      So our solutions are of the form
+	      \[
+		      y_1 = (x-x_0)^\sigma \sum_{n=0}^\infty a_n(x-x_0)^n
+	      \]
+	      \[
+		      y_2 = (x-x_0)^\sigma \sum_{n=0}^\infty b_n(x-x_0)^n + y_1\ln(x-x_0)
+	      \]
+\end{itemize}
+
+\begin{example}
+	Let us solve the equation
+	\begin{equation}\label{frobenius1}
+		x^2y'' - xy = 0
+	\end{equation}
+	where we want series solutions about \(x=0\).
+	Note that this is a regular singular point.
+	We will try solutions of the form
+	\[
+		y=\sum_{n=0}^\infty a_n x^{n+\sigma}
+	\]
+	Therefore, we have
+	\begin{equation}\label{frobenius1b}
+		\sum_{n=0}^\infty a_n x^{n+\sigma}\left[ (n+\sigma)(n+\sigma - 1) - x \right] = 0
+	\end{equation}
+	Equating coefficients of \(x^{n+\sigma}\) for \(n \geq 1\):
+	\begin{equation}\label{frobenius1a}
+		(n+\sigma)(n+\sigma-1) a_n = a_{n-1}
+	\end{equation}
+	By equating the coefficients of the lowest powers of \(x\) (here \(n=0\), so we equate coefficients of \(x^\sigma\)), we get an indicial equation for \(\sigma\):
+	\[
+		\sigma(\sigma - 1)a_0 = 0
+	\]
+	So either \(\sigma = 0\) or \(\sigma = 1\), since \(a_0 \neq 0\).
+	So the values of \(\sigma\) differ by an integer.
+	\begin{itemize}
+		\item (\(\sigma = 1\)) \eqref{frobenius1a} implies that
+			\[
+				a_n = \frac{a_{n-1}}{n(n-1)} = \frac{a_0}{(n+1)(n!)^2}
+			\]
+			So we have
+			\[
+				y_1 = a_0x\left(1 + \frac{x}{2} + \frac{x^2}{12} + \frac{x^3}{144} + \dots\right)
+			\]
+		\item (\(\sigma = 0\)) \eqref{frobenius1a} now gives
+			\[
+				n(n-1)b_n = b_{n-1}
+			\]
+			Normally we could find \(b_1\) in terms of \(b_0\) using this relation, but this just reduces to \(0b_1 = 0\), so we can't deduce it here.
+			When \(n=1\), we can equate coefficients of \(x\) in \eqref{frobenius1b} (relabelling \(a\) to \(b\)) to get
+			\[
+				b_1 (1)(1-1) = 0
+			\]
+			So \(b_1\) is arbitrary.
+			Then of course we can find \(b_2\) and so on in terms of smaller \(b_i\) values.
+			It turns out that
+			\[
+				b_i = a_{i-1}
+			\]
+			And therefore \(y_2(x)\) is linearly dependent on the previous \(y_1(x)\).
+			So we now need to use that logarithmic term to achieve linear independence, so \(y\) here is of the form
+			\[
+				y_2 = y_1\ln x + \sum_{x=0}^\infty b_n x^n
+			\]
+			Why do we have specifically a logarithmic term?
+			We can try the reduction of order method to find the other solution given the existence of \(y_1\).
+			Let \(y_2(x) = v(x)y_1(x)\) for some function \(v\).
+			Then we have
+			\[
+				x^2(v''y_1 + 2v'y_1') = 0
+			\]
+			Let \(u=v'\), then
+			\begin{align*}
+				u'y_1 + 2uy_1 & = 0                                                                                                  \\
+				\frac{u'}{u}  & = -2\frac{y_1'}{y_1}                                                                                 \\
+				\ln u         & = \ln(y_1^{-2}) + \ln B                                                                              \\
+				u = v'        & = \frac{B}{y_1^2}                                                                                    \\
+				v'            & = \frac{B}{a_0^2 x^2} \left( 1 + \frac{x}{2} + \frac{x^2}{12} + \frac{x^3}{144} + \dots \right)^{-2}
+			\end{align*}
+			Note that the constant of integration gives a constant multiple of \(y_1\), and since the equation is homogeneous the constant does not matter.
+			We will expand this now using the binomial theorem, continually redefining constants since they are arbitrary, to give
+			\[
+				v' = \frac{B}{a_0^2}\left( \frac{1}{x^2} - \frac{1}{x} + \sum_{n=0}^\infty B_n x^n \right)
+			\]
+			for some constants \(B_n\).
+			Then integrating with respect to \(x\),
+			\begin{align*}
+				v          & = \frac{-B}{a_0^2}\frac{1}{x} - \frac{B}{a_0^2}\ln x + \sum_{n=1}^\infty C_n x^n \\
+				y_2 = vy_1 & = \frac{-B}{a_0} - \frac{B}{2a_0}x + \sum_{n=2}^\infty D_n x^n + Cy_1\ln x       \\
+							& = \sum_{n=0}^\infty b_n x^n + cy_1\ln x
+			\end{align*}
+			So the appearance of \(\ln x\) is natural here.
+	\end{itemize}
+\end{example}
+\begin{example}
+	Let us revisit \eqref{fuch1}.
+	\[
+		(1-x^2)y'' - 2xy' + 2y = 0
+	\]
+	Instead of expanding around \(x=0\), let us now consider expanding around \(x=-1\), a singular point.
+	We will redefine the independent variable, let
+	\[
+		z = 1 + x \implies z(2-z)y'' - 2(z-1)y' + 2y = 0
+	\]
+	Now we will expand around \(z=0\).
+	We know that \(z=0\) is a regular singular point, so we will try solutions of the form
+	\[
+		y = \sum_{n=0}^\infty a_n z^{n+\sigma};\quad a_0 \neq 0
+	\]
+	We have
+	\[
+		\sum_{n=0}^\infty a_n z^{n+\sigma-1}\left[ (n+\sigma)(n+\sigma-1)(2-z) - 2(n+\sigma)(z-1) + 2z \right] = 0
+	\]
+	As before, we will equate the coefficients of the lowest power of \(z\) (for \(n=0\), these are the coefficients of \(z^{\sigma - 1}\)) to get the indicial equation and recursion relation.
+	\[
+		2\sigma(\sigma - 1)a_0 + 2\sigma a_0 = 0 \implies \sigma^2 = 0
+	\]
+	So \(\sigma = 0\) is a repeated root.
+	Note that we need a term of the form \(y_1\ln (x-x_0)\) in this problem.
+	We will not complete this example here.
+\end{example}

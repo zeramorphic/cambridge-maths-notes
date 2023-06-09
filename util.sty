@@ -6,26 +6,40 @@
 \ProcessOptions\relax
 
 \usepackage[UKenglish]{babel}
-\usepackage[T1]{fontenc}
+% \usepackage[T1]{fontenc}
+\usepackage{fontspec}
 \usepackage[utf8]{inputenc}
 \if@compilingfullbook
 \else
 \usepackage[a4paper]{geometry} % , margin=20mm
 \fi
-\usepackage{textcomp} % makes the "not defining \perthousand"/"\micro" errors go away by including this first
 %\newcommand\hmmax{0}
 %\newcommand\bmmax{0}
-\usepackage{mathpazo}
 \usepackage{amsmath}
-\usepackage{amssymb}
+% \usepackage{amssymb}
+% \usepackage{mathrsfs}
 \usepackage{amsthm}
-\usepackage{amsfonts}
-\usepackage{bbm}
+% \usepackage{amsfonts}
+\usepackage{mathtools}
+\mathtoolsset{mathic}
+
+\RequirePackage{unicode-math}
+
+% \UnicodeMathSymbol{"027CB}{\diagup}{\mathord}{mathematical rising diagonal}
+\newcommand{\diagup}{\char"27CB}
+% \newcommand{\diagup}{\xsol}
+
+% https://milde.users.sourceforge.net/LUCR/Math/unimathsymbols.html
+% \setmainfont{TeX Gyre Schola}
+\setmainfont{STIX Two Text}
+\setmathfont{STIX Two Math}
+\setmathfont[range={bb, bbit}]{TeX Gyre Pagella Math}
+\setmathfont[range=\star]{TeX Gyre Pagella Math}
+
 \usepackage{wrapfig}
 \usepackage{physics}
-\usepackage{bm}
-\usepackage{tgpagella}
-\DeclareDocumentCommand\mathbf{m}{\bm{\mathrm{#1}}} % make bold work for greek symbols
+\DeclareDocumentCommand\mathbf{m}{\symbfup{#1}} % make bold work for greek symbols
+\newcommand{\bm}[1]{\symbfup{#1}}
 \DeclareDocumentCommand\vnabla{}{\nabla} % use non-bold nabla for \grad, \curl etc.
 % Enabled to unify laplacian symbol between vector and scalar forms
 \DeclareDocumentCommand\dotproduct{}{\cdot} % use non-bold dot for scalar product to unify notation
@@ -34,11 +48,7 @@
 \usepackage[shortlabels]{enumitem}
 \setlist[enumerate,1]{label={(\roman*)}}
 \setlist[enumerate,2]{label={(\alph*)}}
-\usepackage{mathtools}
-\mathtoolsset{mathic}
-\usepackage{centernot}
 \usepackage{relsize}
-\usepackage{mathrsfs}
 \usepackage{siunitx}
 \usepackage{booktabs}
 \usepackage[ruled,vlined]{algorithm2e}
@@ -146,8 +156,7 @@
 \newcommand{\acts}{\curvearrowright}
 \newcommand{\adjugate}[1]{\widetilde{#1}}
 \newcommand{\mathhuge}[1]{\mathlarger{\mathlarger{\mathlarger{#1}}}}
-\newcommand{\stcomp}[1]{{#1}^c} % consider \complement?
-% Personally I think this looks better, and it's what Wikipedia uses
+\newcommand{\stcomp}[1]{{#1}^c}
 \newcommand{\prob}[1]{\mathbb{P}\left({#1}\right)}
 \newcommand{\psub}[2]{\mathbb{P}_{#1}\left({#2}\right)}
 \newcommand{\psubx}[1]{\psub{x}{#1}}
@@ -168,6 +177,7 @@
 \newcommand{\Chat}{\widehat{\mathbb C}}
 \newcommand{\bound}{\ooalign{\hidewidth$\partial$\hidewidth\cr/}}
 \newcommand{\hhat}[1]{\hat{\hat{#1}}}
+\newcommand{\symmdiff}{\mathrel{\raisebox{1pt}{\( \mathsmaller\triangle \)}}}
 
 \DeclareMathOperator{\vecspan}{span}
 \DeclareMathOperator{\HCF}{HCF}
@@ -200,6 +210,14 @@
 \DeclareMathOperator{\fchar}{char}
 \DeclareMathOperator{\code}{code}
 \DeclareMathOperator{\coker}{coker}
+% https://github.com/wspr/unicode-math/issues/457
+\AtBeginDocument{%
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\newcommand{\dashrightarrow}{\mathrel{\rightdasharrow}}
+% \let\oldstar\star
+% \renewcommand{\star}{{\raisebox{1pt}{\( \mathsmaller{\mathsmaller\oldstar} \)}}}
+}
 
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}

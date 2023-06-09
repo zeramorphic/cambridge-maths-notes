@@ -9,7 +9,7 @@ A decision problem corresponds to the problem of checking whether a word \( w \i
 For example, the set of primes, expressed in binary, forms a language \( P \subseteq B^\star \), and there is a corresponding decision problem to check if a given binary string represents a prime.
 
 More generally, the output of a computational task can be of any length.
-For example, the task \( \mathsf{FACTOR}(x) \) takes the input \( x \) and produces a bit string containing a factor of \( x \), or 1 if \( x \) is prime.
+For example, the task \( \symsfup{FACTOR}(x) \) takes the input \( x \) and produces a bit string containing a factor of \( x \), or 1 if \( x \) is prime.
 
 There are various models of computation, but we restrict to the \emph{circuit} or \emph{gate array} model.
 In this model, we have an input \( x = b_1 \dots b_n \in B_n \), and extend it with some trailing zeroes to add scratch space to perform computations.
@@ -28,9 +28,9 @@ In the circuit model, we define \( T(n) \) to be the total number of gates in th
 
 For a positive function \( T(n) \), we write \( T(n) = O(f(n)) \) if there exist positive constants \( c, n_0 \) such that for all \( n > n_0 \), we have \( T(n) \leq cf(n) \).
 If \( T(n) = O(n^k) \) for some \( k > 0 \), we say that \( T(n) \) is \( O(\mathrm{poly}(n)) \), and the corresponding algorithm is a \emph{poly-time} algorithm.
-The class of languages for which the membership problem has a classical poly-time algorithm is called \( \mathsf{P} \).
-The class of languages for which the membership problem has a randomised classical poly-time algorithm that gives the correct answer with probability at least \( \frac{2}{3} \) is called \( \mathsf{BPP} \), short for \emph{bounded-error probabilistic poly-time}.
-The problem \( \mathsf{FACTOR}(M,N) \) which determines if there is a nontrivial factor of \( N \) that is at most \( M \) does not lie in \( \mathsf{BPP} \).
+The class of languages for which the membership problem has a classical poly-time algorithm is called \( \symsfup{P} \).
+The class of languages for which the membership problem has a randomised classical poly-time algorithm that gives the correct answer with probability at least \( \frac{2}{3} \) is called \( \symsfup{BPP} \), short for \emph{bounded-error probabilistic poly-time}.
+The problem \( \symsfup{FACTOR}(M,N) \) which determines if there is a nontrivial factor of \( N \) that is at most \( M \) does not lie in \( \symsfup{BPP} \).
 The best known runtime is \( T(n) = O\qty(n^{\frac{1}{3}}\qty(\log n)^\frac{2}{3}) \).
 
 A black box promise problem is a computational task where the input is a \emph{black box} or \emph{oracle} which can compute a Boolean function \( f \colon B_m \to B_n \), and there is an \emph{a priori promise} on \( f \) restricting the possible values of \( f \).
@@ -456,32 +456,32 @@ Now, if the final rotated state \( \ket{\psi} \) makes an angle within \( \pm \f
 Since for every quadrant in the plane \( \mathcal P_G \), half of the angles are within \( \pm \frac{\pi}{4} \) from the \( y \)-axis, the randomised procedure using \( O(\sqrt{N}) \) queries will locate a good item with probability approximately \( \frac{1}{4} \).
 The procedure can then be repeated to reduce the error probability to an acceptable level.
 
-\subsection{\texorpdfstring{\( \mathsf{NP} \)}{NP} problems}
+\subsection{\texorpdfstring{\( \symsfup{NP} \)}{NP} problems}
 A \emph{verifier} \( V \) for a language \( L \) is a computation with two inputs \( w, c \) such that
 \begin{enumerate}
     \item if \( w \in L \), there exists a \emph{certificate of membership} \( c \) such that \( V(w,c) \) halts in an accepting state; and
     \item if \( w \not\in L \), for any \( c \), \( V(w,c) \) halts in a rejecting state.
 \end{enumerate}
 \( V \) is a \emph{poly-time} verifier if for all inputs \( w, c \), the algorithm \( V \) runs in polynomial time in \( n \), where \( n \) is the size of the input \( w \).
-A problem in the \emph{non-deterministic polynomial-time} complexity class \( \mathsf{NP} \) is easy to verify, but may be hard to solve.
-More precisely, a language \( L \) is in \( \mathsf{NP} \) if it has a polynomial time verifier \( V \).
+A problem in the \emph{non-deterministic polynomial-time} complexity class \( \symsfup{NP} \) is easy to verify, but may be hard to solve.
+More precisely, a language \( L \) is in \( \symsfup{NP} \) if it has a polynomial time verifier \( V \).
 
 Alternatively, consider a computer operating non-deterministically; at each binary choice, the computer duplicates itself and performs both branches in parallel.
 We require that all possible paths eventually halt with either an accepting or rejecting state.
 The running time of a given algorithm is the length of the longest path.
 The computation is defined to accept its input if at least one path accepts it, and rejects its input if all paths reject it.
-One can check that \( \mathsf{NP} \) is precisely the class of languages that are decided by a non-deterministic computation with polynomial running time.
+One can check that \( \symsfup{NP} \) is precisely the class of languages that are decided by a non-deterministic computation with polynomial running time.
 
 Let \( f \colon B_n \to B \) be a Boolean formula.
-The \emph{Boolean satisfiability problem} \( \mathsf{SAT} \) seeks an assignment of the variables \( x_1, \dots, x_n \) such that \( f(x_1, \dots, x_n) = 1 \).
+The \emph{Boolean satisfiability problem} \( \symsfup{SAT} \) seeks an assignment of the variables \( x_1, \dots, x_n \) such that \( f(x_1, \dots, x_n) = 1 \).
 Any such assignment is called a \emph{satisfying assignment}.
-This problem clearly lies in \( \mathsf{NP} \); if \( f \) is satisfiable, then \( c \) is any assignment for which \( V(f,c) = 1 \) where \( V(f,c) = f(c) \).
+This problem clearly lies in \( \symsfup{NP} \); if \( f \) is satisfiable, then \( c \) is any assignment for which \( V(f,c) = 1 \) where \( V(f,c) = f(c) \).
 Brute-force methods have \( O(2^n) \) runtime.
 
-Searching for arbitrarily many good items in an unstructured database corresponds to \( \mathsf{SAT} \).
-Assuming that there are few satisfying assignments, we can run the randomised Grover's algorithm to give a quantum algorithm for solving \( \mathsf{SAT} \) in \( O(\sqrt{2^n}) \) time with low probability of error.
-Any \( \mathsf{NP} \) problem can be converted into an application of \( \mathsf{SAT} \); we say \( \mathsf{SAT} \) is \emph{\( \mathsf{NP} \)-complete}.
-Grover's algorithm can hence be applied to any \( \mathsf{NP} \) problem to provide a quadratic speedup.
+Searching for arbitrarily many good items in an unstructured database corresponds to \( \symsfup{SAT} \).
+Assuming that there are few satisfying assignments, we can run the randomised Grover's algorithm to give a quantum algorithm for solving \( \symsfup{SAT} \) in \( O(\sqrt{2^n}) \) time with low probability of error.
+Any \( \symsfup{NP} \) problem can be converted into an application of \( \symsfup{SAT} \); we say \( \symsfup{SAT} \) is \emph{\( \symsfup{NP} \)-complete}.
+Grover's algorithm can hence be applied to any \( \symsfup{NP} \) problem to provide a quadratic speedup.
 
 \subsection{Shor's algorithm}
 Suppose \( N \) is a positive integer and \( n = \ceil{\log N} \) is the number of bits in a binary representation of \( N \).
