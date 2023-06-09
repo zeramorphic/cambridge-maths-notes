@@ -22,12 +22,14 @@ Note that:
 	\item Invertible integers are cancellable.
 	      For example, \(ab=ac \implies b=c\) if \(a\) is invertible (by left-multiplying by its inverse).
 	\item In general, you cannot simply cancel an integer multiple in the realm of modular arithmetic.
-	      For example \(4 \cdot 5 = 2 \cdot 5\) does not imply \(4 = 2\).
+	      For example \(4 \cdot 5 = 2 \cdot 5 \centernot\implies 4 = 2\).
 	\item Invertible numbers are also called `units'.
 \end{itemize}
+
+\subsection{Invertibility}
 \begin{proposition}
 	Let \(n \geq 2\).
-	Then every \(a \not\equiv 0\ (n)\) is invertible modulo \(n\) if and only if \((a, n) = 1\).
+	Then every \(a \centernot\equiv 0\ (n)\) is invertible modulo \(n\) if and only if \((a, n) = 1\).
 	Note that the parenthesis notation means the highest common factor of the parameters.
 	In particular, if \(n\) is prime, then all \(1 \leq a < n\) are invertible.
 \end{proposition}
@@ -47,8 +49,8 @@ Note that:
 	Therefore there exists an inverse for \(a\).
 \end{proof}
 
-\subsection{Fermat's little theorem and the Fermat--Euler theorem}
-\begin{definition}[Euler's totient function]
+\subsection{Euler's totient function}
+\begin{definition}
 	Let \(\varphi(n)\) be the amount of natural numbers less than or equal to \(n\) that are coprime to \(n\).
 \end{definition}
 Here are some examples.
@@ -60,12 +62,14 @@ Here are some examples.
 	      There are \(a\) multiples of \(b\) and \(b\) multiples of \(a\), and since we discounted \(ab\) itself twice we need to count it again.
 	      Note that \(\varphi(ab) = \varphi(a)\varphi(b)\).
 \end{itemize}
-\begin{theorem}[Fermat's little theorem]
+
+\subsection{Fermat's little theorem and Fermat-Euler theorem}
+\begin{theorem}
 	Let \(p\) be a prime.
 	Then in \(\mathbb Z_p\), \(a \neq 0 \implies a^{p-1} = 1\).
 \end{theorem}
 \noindent This is actually a special case of the following theorem:
-\begin{theorem}[Fermat--Euler Theorem]
+\begin{theorem}[Fermat-Euler Theorem]
 	Let \(n \geq 2\).
 	Then in \(\mathbb Z_n\), any unit \(a\) satisfies \(a^{\varphi(n)} = 1\).
 \end{theorem}
@@ -83,7 +87,7 @@ Here are some examples.
 If alternatively we wanted to prove this just for \(p\) prime, then we could replace \(\varphi(n)\) with \(p-1\), and \(\prod X\) with \((p-1)!
 \).
 
-\subsection{Square roots of one and negative one}
+\subsection{Square roots of one}
 \begin{lemma}
 	Let \(p\) be prime.
 	Then in \(\mathbb Z_p\), \(x^2 = 1\) has solutions \(1\) and \(-1\) only.
@@ -95,6 +99,8 @@ If alternatively we wanted to prove this just for \(p\) prime, then we could rep
 	\(x^2 = 1\) implies that \((x-1)(x+1) = 0\).
 	Because of the \(p\mid ab\implies (p\mid a) \lor (p\mid b)\) lemma, we know that \((x-1) = 0\) or \((x+1) = 0\), so \(-1\) and \(1\) are the only solutions.
 \end{proof}
+
+\subsection{Square roots of negative one}
 \begin{theorem}[Wilson's Theorem]
 	Let \(p\) be prime.
 	Then \((p-1)!
@@ -170,7 +176,7 @@ We can't also just divide the whole thing by 2, there isn't a rule for that in g
 We can, however, move into \(\mathbb Z\) and manipulate the expression there.
 \(10x = 12 + 34y\) for some \(y \in \mathbb Z\), so we can divide the equation by 2 to get \(5x = 6 + 17y\), so \(5x = 6\ (17)\) and we can solve from there.
 
-\subsection{The Chinese remainder theorem}
+\subsection{Chinese remainder theorem}
 Is there a solution for the simultaneous congruences
 \[
 	x \equiv 6\ (17);\quad x \equiv 2\ (19)
@@ -221,7 +227,7 @@ To efficiently compute large powers of \(x\), we can use a repeated squaring tec
 For example, we can find \(x, x^2, x^4, x^8, x^{16}\) through repeated squaring, and then for example we can calculate \(x^{19} = x^{16} x^{2} x^{1}\).
 
 To decode \(x^e\), we ideally want some number \(d\) such that \((x^e)^d = x\).
-By the Fermat--Euler Theorem, we have \(x^{\varphi(n)} = 1\), so clearly \(x^{k\varphi(n) + 1} = x\).
+By the Fermat-Euler Theorem, we have \(x^{\varphi(n)} = 1\), so clearly \(x^{k\varphi(n) + 1} = x\).
 In other words, we want \(ed \equiv 1 \mod \varphi(n)\).
 By running Euclid's algorithm on \(e\) and \(\varphi(n)\), we can find such a \(d\).
 Note that this requires \(e\) and \(\varphi(n)\) to be coprime; in practice we would choose \(e\) after we have chosen \(n\) such that this is the case.
