@@ -1,4 +1,4 @@
-\subsection{Definitions}
+\subsection{Eigenvalues and eigenvectors}
 For a linear map \(T\colon V \to V\), a vector \(\vb v \in V\) with \(\vb v \neq 0\) is called an eigenvector of \(T\) with eigenvalue \(\lambda\) if \(T(\vb v) = \lambda \vb v\).
 If \(V = \mathbb R^n\) or \(\mathbb C^n\), and \(T\) is given by an \(n \times n\) matrix \(A\), then
 \[
@@ -19,8 +19,7 @@ So \(\lambda\) is an eigenvalue if and only if it is a root of the characteristi
 	\end{vmatrix}
 \]
 We can look for eigenvalues as roots of the characteristic polynomial or characteristic equation, and then determine the corresponding eigenvectors once we've deduced what the possibilities are.
-
-\subsection{Examples of eigenvalues and eigenvectors}
+Here are a few examples.
 \begin{enumerate}
 	\item \(V = \mathbb C^2\):
 	      \[
@@ -97,7 +96,7 @@ We can look for eigenvalues as roots of the characteristic polynomial or charact
 	      So the eigenvalues are all the \(\lambda_i\), and the eigenvectors are \(\vb v = \alpha \vb e_i\) (\(\alpha \neq 0\)) for each \(i\).
 \end{enumerate}
 
-\subsection{Deductions involving the characteristic polynomial}
+\subsection{The characteristic polynomial}
 For an \(n \times n\) matrix \(A\), the characteristic polynomial \(\chi_A(t)\) has degree \(n\):
 \[
 	\chi_A(t) = \sum_{j = 0}^n c_j t^j = (-1)^n(t-\lambda_1)\dots(t-\lambda_n)
@@ -136,8 +135,7 @@ i.e.\ \(\chi_A(t) = (t - \lambda)^{M_t} f(t)\), where \(f(\lambda) \neq 0\).
 	\(M_\lambda \geq m_\lambda\) (and \(m_\lambda \geq 1\) since \(\lambda\) is an eigenvalue).
 	The proof of this proposition is delayed until the next section where we will then have the tools to prove it.
 \end{proposition}
-
-\subsection{Examples of eigenspaces}
+Here are some examples.
 \begin{enumerate}
 	\item
 	      \[
@@ -269,3 +267,304 @@ i.e.\ \(\chi_A(t) = (t - \lambda)^{M_t} f(t)\), where \(f(\lambda) \neq 0\).
 	\]
 	So each \(\vb w_i\) is the trivial linear combination of elements of \(\mathcal B_{\lambda_i}\) and the result follows.
 \end{proof}
+
+\subsection{Diagonalisability}
+\begin{proposition}
+	For an \(n \times n\) matrix \(A\) acting on \(V = \mathbb R^n\) or \(\mathbb C^n\), the following conditions are equivalent:
+	\begin{enumerate}
+		\item there exists a basis of eigenvectors of \(A\) for \(V\), named \(\vb v_1, \vb v_2, \dots, \vb v_n\) which \(A\vb v_i = \lambda_i\vb v_i\) for each \(i\); and
+		\item there exists an \(n \times n\) invertible matrix \(P\) with the property that
+		      \[
+			      P^{-1}AP = D = \begin{pmatrix}
+				      \lambda_1 & 0         & \cdots & 0         \\
+				      0         & \lambda_2 & \cdots & 0         \\
+				      \vdots    & \vdots    & \ddots & \vdots    \\
+				      0         & 0         & \cdots & \lambda_n
+			      \end{pmatrix}
+		      \]
+	\end{enumerate}
+	If either of these conditions hold, then \(A\) is diagonalisable.
+\end{proposition}
+\begin{proof}
+	Note that for any matrix \(P\), \(AP\) has columns \(A\vb C_i(P)\), and \(PD\) has columns \(\lambda_i \vb C_i(P)\).
+	Then (i) and (ii) are related by choosing \(\vb v_i = \vb C_i(P)\).
+	Then \(P^{-1}AP = D \iff AP = PD \iff A\vb v_i = \lambda_i\vb v_i\).
+
+	In essence, given a basis of eigenvectors as in (i), the relation above defines \(P\), and if the eigenvectors are linearly independent then \(P\) is invertible.
+	Conversely, given a matrix \(P\) as in (ii), its columns are a basis of eigenvectors.
+\end{proof}
+Let's try some examples.
+\begin{enumerate}
+	\item Let
+	      \[
+		      A = \begin{pmatrix}
+			      1 & 1 \\ 0 & 1
+		      \end{pmatrix} \implies E_1 = \left\{ \alpha\begin{pmatrix}
+			      1 \\ 0
+		      \end{pmatrix} \right\}
+	      \]
+	      This is a single eigenvalue \(\lambda = 1\) with one linearly independent eigenvector.
+	      So there is no basis of eigenvectors for \(\mathbb R^2\) or \(\mathbb C^2\), so \(A\) is not diagonalisable.
+	\item Let
+	      \[
+		      U = \begin{pmatrix}
+			      \cos \theta & -\sin \theta \\
+			      \sin \theta & \cos \theta
+		      \end{pmatrix} \implies E_{e^{i\theta}} = \left\{ \alpha\begin{pmatrix}
+			      1 \\ -i
+		      \end{pmatrix} \right\};\quad E_{e^{-i\theta}} = \left\{ \beta\begin{pmatrix}
+			      1 \\ i
+		      \end{pmatrix} \right\}
+	      \]
+	      which are two linearly independent complex eigenvectors.
+	      So,
+	      \[
+		      P = \begin{pmatrix}
+			      1 & 1 \\ -i & i
+		      \end{pmatrix};\quad P^{-1} = \frac{1}{2}\begin{pmatrix}
+			      1 & i \\ 1 & -i
+		      \end{pmatrix};\quad P^{-1}UP = \begin{pmatrix}
+			      e^{i\theta} & 0 \\ 0 & e^{i\theta}
+		      \end{pmatrix}
+	      \]
+	      So \(U\) is diagonalisable over \(\mathbb C^2\) but not over \(\mathbb R^2\).
+\end{enumerate}
+
+\subsection{Criteria for diagonalisability}
+\begin{proposition}
+	Consider an \(n \times n\) matrix \(A\).
+	\begin{enumerate}
+		\item \(A\) is diagonalisable if it has \(n\) distinct eigenvalues (sufficient condition).
+		\item \(A\) is diagonalisable if and only if for every eigenvalue \(\lambda\), \(M_\lambda = m_\lambda\) (necessary and sufficient condition).
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	Use the proposition and corollary above.
+	\begin{enumerate}
+		\item If we have \(n\) distinct eigenvalues, then we have \(n\) linearly independent eigenvectors.
+		      Hence they form a basis.
+		\item If \(\lambda_i\) are all the distinct eigenvalues, then \(\mathcal B_{\lambda_1} \cup \dots \cup \mathcal B_{\lambda_r}\) are linearly independent.
+		      The number of elements in this new basis is \(\sum_{i} m_{\lambda_i} = \sum_{i} M_{\lambda_i} = n\) which is the degree of the characteristic polynomial.
+		      So we have a basis.
+	\end{enumerate}
+	Note that case (i) is just a specialisation of case (ii) where both multiplicities are 1.
+\end{proof}
+Let us consider some examples.
+\begin{enumerate}
+	\item Let
+	      \[
+		      A = \begin{pmatrix}
+			      -2 & 2 & -3 \\ 2 & 1 & -6 \\ -1 & -2 & 0
+		      \end{pmatrix} \implies \lambda = 5, -3;\quad M_5=m_5=1;\quad M_{-3}=m_{-3}=2
+	      \]
+	      So \(A\) is diagonalisable by case (ii) above, and moreover
+	      \[
+		      P = \begin{pmatrix}
+			      1  & -2 & 3 \\
+			      2  & 1  & 0 \\
+			      -1 & 0  & 1
+		      \end{pmatrix};\quad P^{-1} = \frac{1}{8}\begin{pmatrix}
+			      1  & 2 & -3 \\
+			      -2 & 4 & 6  \\
+			      1  & 2 & 5
+		      \end{pmatrix} \implies P^{-1}AP = \begin{pmatrix}
+			      5 & 0  & 0  \\
+			      0 & -3 & 0  \\
+			      0 & 0  & -3
+		      \end{pmatrix}
+	      \]
+	\item Let
+	      \[
+		      A = \begin{pmatrix}
+			      -3 & -1 & 1 \\
+			      -1 & -3 & 1 \\
+			      -2 & 2  & 0
+		      \end{pmatrix} \implies \lambda = -2;\quad M_{-2}=3 > m_{-2} = 2
+	      \]
+	      So \(A\) is not diagonalisable.
+	      As a check, if it were diagonalisable, then there would be some matrix \(P\) such that \(P^{-1}AP = -2I \implies A = P(-2I)P^{-1} = -2I\) \contradiction.
+\end{enumerate}
+
+\subsection{Similarity}
+Matrices \(A\) and \(B\) (both \(n \times n\)) are similar if \(B = P^{-1}AP\) for some invertible \(n\times n\) matrix \(P\).
+This is an equivalence relation.
+\begin{proposition}
+	If \(A\) and \(B\) are similar, then
+	\begin{enumerate}
+		\item \(\tr B = \tr A\)
+		\item \(\det B = \det A\)
+		\item \(\chi_B = \chi_A\)
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	\begin{enumerate}
+		\item \begin{align*}
+			      \tr B & = \tr (P^{-1}AP) \\&= \tr(APP^{-1}) \\&= \tr A
+		      \end{align*}
+		\item \begin{align*}
+			      \det B & = \det (P^{-1}AP) \\&= \det P^{-1} \det A \det P \\&= \det A
+		      \end{align*}
+		\item \begin{align*}
+			      \det(B - tI) & = \det(P^{-1}AP - tI) \\&= \det(P^{-1}AP - tP^{-1}P) \\&= \det(P^{-1}(A - tI)P) \\&= \det P^{-1} \det(A - tI) \det P \\&= \det(A - tI)
+		      \end{align*}
+	\end{enumerate}
+\end{proof}
+
+\subsection{Real eigenvalues and orthogonal eigenvectors}
+Recall that an \(n\times n\) matrix \(A\) is hermitian if and only if \(A^\dagger = \overline{A}^\transpose = A\), or \(\overline{A_{ij}} = A_{ji}\).
+If \(A\) is real, then it is hermitian if and only if it is symmetric.
+The complex inner product for \(\vb v, \vb w \in \mathbb C^n\) is \(\vb v^\dagger \vb w = \sum_i \overline{v_i}w_i\), and for \(\vb v, \vb w \in \mathbb R^n\), this reduces to the dot product in \(\mathbb R^n\), \(\vb v^\transpose \vb w\).
+
+Here is a key observation.
+If \(A\) is hermitian, then
+\[
+	(A\vb v)^\dagger \vb w = \vb v^\dagger (A \vb w)
+\]
+\begin{theorem}
+	For an \(n \times n\) matrix \(A\) that is hermitian:
+	\begin{enumerate}
+		\item Every eigenvalue \(\lambda\) is real;
+		\item Eigenvectors \(\vb v, \vb w\) with different eigenvalues \(\lambda, \mu\) respectively, are orthogonal, i.e.\ \(\vb v^\dagger \vb w = 0\); and
+		\item If \(A\) is real and symmetric, then for each eigenvalue \(\lambda\) we can choose a real eigenvector, and part (ii) becomes \(\vb v \cdot \vb w = 0\).
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	\begin{enumerate}
+		\item Using the observation above with \(\vb v = \vb w\) where \(\vb v\) is any eigenvector with eigenvalue \(\lambda\), we get
+		      \begin{align*}
+			      \vb v^\dagger (A\vb v)        & = (A\vb v)^\dagger \vb v                   \\
+			      \vb v^\dagger (\lambda\vb v)  & = (\lambda\vb v)^\dagger \vb v             \\
+			      \lambda \vb v^\dagger (\vb v) & = \overline{\lambda} (\vb v)^\dagger \vb v \\
+			      \intertext{As \(\vb v\) is an eigenvector, it is nonzero, so \(\vb v^\dagger \vb v \neq 0\), so}
+			      \lambda                       & = \overline \lambda
+		      \end{align*}
+		\item Using the same observation,
+		      \begin{align*}
+			      \vb v^\dagger (A \vb w)   & = (A \vb v)^\dagger \vb w       \\
+			      \vb v^\dagger (\mu \vb w) & = (\lambda \vb v)^\dagger \vb w \\
+			      \mu \vb v^\dagger \vb w   & = \lambda \bm v^\dagger \vb w
+		      \end{align*}
+		      Since \(\lambda \neq \mu\), \(\vb v^\dagger \vb w = 0\), so the eigenvectors are orthogonal.
+		\item Given \(A\vb v = \lambda \vb v\) with \(\vb v \in \mathbb C^n\) but \(A\) is real, let
+		      \[
+			      \vb v = \vb u + i\vb u';\quad \vb u, \vb u' \in \mathbb R^n
+		      \]
+		      Since \(\vb v\) is an eigenvector, and this is a linear equation, we have
+		      \[
+			      A\vb u = \lambda \vb u;\quad A\vb u' = \lambda \vb u'
+		      \]
+		      So \(\vb u\) and \(\vb u'\) are eigenvectors.
+		      \(\vb v \neq 0\) implies that at least one of \(\vb u\) and \(\vb u'\) are nonzero, so there is at least one real eigenvector with this eigenvalue.
+	\end{enumerate}
+\end{proof}
+Case (ii) is a stronger claim for hermitian matrices than just showing that eigenvectors are linearly independent.
+Furthermore, previously we considered bases \(\mathcal B_\lambda\) for each eigenspace \(E_\lambda\), and it is now natural to choose bases \(\mathcal B_\lambda\) to be orthonormal when we are considering hermitian matrices.
+Here are some examples.
+\begin{enumerate}
+	\item Let
+	      \[
+		      A = \begin{pmatrix}
+			      2 & i \\ -i & 2
+		      \end{pmatrix};\quad A^\dagger = A;\quad \lambda = 1, 3;\quad\vb u_1 = \frac{1}{\sqrt{2}} \begin{pmatrix}
+			      1 \\i
+		      \end{pmatrix};\quad\vb u_2 = \frac{1}{\sqrt{2}} \begin{pmatrix}
+			      1 \\-i
+		      \end{pmatrix}
+	      \]
+	      We have chosen coefficients for the vectors \(\vb u_1\) and \(\vb u_2\) such that they are unit vectors.
+	      As shown above, they are then orthonormal.
+	      We know that having distinct eigenvalues means that a matrix is diagonalisable.
+	      So let us set
+	      \[
+		      P =  \frac{1}{\sqrt{2}} \begin{pmatrix}
+			      1 & 1 \\ i & -i
+		      \end{pmatrix} \implies P^{-1}AP = D = \begin{pmatrix}
+			      1 & 0 \\ 0 & 3
+		      \end{pmatrix}
+	      \]
+	      Since the eigenvectors are orthonormal, so are the columns of \(P\), so \(P^{-1} = P^\dagger\) (i.e.\ \(P\) is unitary).
+	\item Let
+	      \[
+		      A = \begin{pmatrix}
+			      0 & 1 & 1 \\ 1 & 0 & 1 \\ 1 & 1 & 0
+		      \end{pmatrix}
+	      \]
+	      \(A\) is real and symmetric, with eigenvalues \(\lambda = -1, 2\) with \(M_{-1} = 2\), \(M_2 = 1\).
+	      Further,
+	      \[
+		      E_{-1} = \vecspan \{ \vb w_1, \vb w_2 \};\quad \vb w_1 = \begin{pmatrix}
+			      1 \\ -1 \\ 0
+		      \end{pmatrix};\quad \vb w_2 = \begin{pmatrix}
+			      1 \\ 0 \\ -1
+		      \end{pmatrix}
+	      \]
+	      So \(m_{-1} = 2\), and the matrix is diagonalisable.
+	      Let us choose an orthonormal basis for \(E_{-1}\) by taking
+	      \[
+		      \vb u_1 = \frac{1}{\abs{\vb w_1}}\vb w_1 = \frac{1}{\sqrt 2}\begin{pmatrix}
+			      1 \\ -1 \\ 0
+		      \end{pmatrix}
+	      \]
+	      and we can consider
+	      \[
+		      \vb w_2' = \vb w_2 - (\vb u_1 \cdot \vb w_2)\vb u_1 = \begin{pmatrix}
+			      1/2 \\ 1/2 \\ -1
+		      \end{pmatrix}
+	      \]
+	      so that \(\vb w_2'\) is orthogonal to \(\vb u_1\) by construction.
+	      We can then normalise this vector to get
+	      \[
+		      \vb u_2 = \frac{1}{\abs{\vb w_2'}}\vb w_2' = \frac{1}{\sqrt 6} \begin{pmatrix}
+			      1 \\ 1 \\ -2
+		      \end{pmatrix}
+	      \]
+	      and therefore
+	      \[
+		      \mathcal B_{-1} = \{ \vb u_1, \vb u_2 \}
+	      \]
+	      is an orthonormal basis.
+	      For \(E_2\), let us choose \(\mathcal B_2 = \{ \vb u_3 \}\) where
+	      \[
+		      \vb u_3 = \frac{1}{\sqrt 3}\begin{pmatrix}
+			      1 \\ 1 \\ 1
+		      \end{pmatrix}
+	      \]
+	      Together,
+	      \[
+		      \mathcal B = \left\{ \frac{1}{\sqrt 2}\begin{pmatrix}
+			      1 \\ -1 \\ 0
+		      \end{pmatrix}, \frac{1}{\sqrt 6} \begin{pmatrix}
+			      1 \\ 1 \\ -2
+		      \end{pmatrix}, \frac{1}{\sqrt 3}\begin{pmatrix}
+			      1 \\ 1 \\ 1
+		      \end{pmatrix} \right\}
+	      \]
+	      is an orthonormal basis for \(\mathbb R^3\).
+	      Let \(P\) be the matrix with columns \(\vb u_1, \vb u_2, \vb u_3\), then \(P^{-1}AP = D\) as required.
+	      Since we have chosen an orthonormal basis, \(P\) is orthogonal, so \(P^\transpose AP = D\).
+\end{enumerate}
+
+\subsection{Unitary and orthogonal diagonalisation}
+\begin{theorem}
+	Any \(n\times n\) hermitian matrix \(A\) is diagonalisable.
+	\begin{enumerate}
+		\item There exists a basis of eigenvectors \(\vb u_1, \dots, \vb u_n \in \mathbb C^n\) with \(A\vb u_i = \lambda \vb u_i\); equivalently
+		\item There exists an \(n \times n\) invertible matrix \(P\) with \(P^{-1}AP = D\) where \(D\) is the matrix with eigenvalues on the diagonal, where the columns of \(P\) are the eigenvectors \(\vb u_i\).
+	\end{enumerate}
+	In addition, the eigenvectors \(\vb u_i\) can be chosen to be orthonormal, so
+	\[
+		\vb u^\dagger_i \vb u_j = \delta_{ij}
+	\]
+	or equivalently, the matrix \(P\) can be chosen to be unitary,
+	\[
+		P^\dagger = P^{-1} \implies P^\dagger AP = D
+	\]
+	In the special case that the matrix \(A\) is real, the eigenvectors can be chosen to be real, and so
+	\[
+		\vb u^\transpose \vb u_j = \vb u_i \cdot \vb u_j = \delta_{ij}
+	\]
+	so \(P\) is orthogonal, so
+	\[
+		P^\transpose = P^{-1} \implies P^\transpose AP = D
+	\]
+\end{theorem}

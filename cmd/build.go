@@ -36,7 +36,7 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	buildCmd.Flags().BoolP("book", "b", false, "Compile the book as well as the individual courses")
+	buildCmd.Flags().BoolP("book", "b", false, "Compile the books as well as the individual courses")
 	buildCmd.Flags().BoolP("single-threaded", "s", false, "Compile only one file at once")
 	buildCmd.Flags().BoolP("hide-proofs", "p", false, "Hide all instances of the proof environment")
 	buildCmd.Flags().BoolP("no-colour-boxes", "n", false, "Disable the use of coloured boxes for definitions and theorems")
