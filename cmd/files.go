@@ -43,6 +43,10 @@ var BookFiles []TexFile = []TexFile{
 	{FilePath: "ii/book", Name: "II Book"},
 	{FilePath: "ia/vol1", Name: "Volume 1"},
 	{FilePath: "ia/vol2", Name: "Volume 2"},
+	{FilePath: "ib/vol3", Name: "Volume 3"},
+	{FilePath: "ib/vol4", Name: "Volume 4"},
+	{FilePath: "ii/vol5", Name: "Volume 5"},
+	{FilePath: "ii/vol6", Name: "Volume 6"},
 }
 
 var FilesWithBook []TexFile
