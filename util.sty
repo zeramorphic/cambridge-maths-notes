@@ -211,10 +211,25 @@
 \DeclareMathOperator{\coker}{coker}
 % https://github.com/wspr/unicode-math/issues/457
 \AtBeginDocument{%
+\newcommand{\dashrightarrow}{\mathrel{\rightdasharrow}}
+
+% Redefine a few things that the physics package does, but at the wrong time.
 \renewcommand{\Re}{\operatorname{Re}}
 \renewcommand{\Im}{\operatorname{Im}}
-\renewcommand{\div}{\nabla\cdot}
-\newcommand{\dashrightarrow}{\mathrel{\rightdasharrow}}
+
+\let\divergence\relax
+\DeclareDocumentCommand\divergence{ g o d() }{ % Divergence
+	\IfNoValueTF{#1}{
+		\IfNoValueTF{#2}{
+			\IfNoValueTF{#3}{\vnabla \vdot}{\vnabla \vdot \quantity(#3)}
+			}
+			{\vnabla \vdot \quantity[#2] \IfNoValueTF{#3}{}{(#3)}}
+		}
+		{\vnabla \vdot #1 \IfNoValueTF{#2}{}{[#2]} \IfNoValueTF{#3}{}{(#3)}}
+	}
+\let\divisionsymbol\div % Rename \div [division symbol] in order to free up control sequence for \divergence
+\let\div\relax
+\DeclareDocumentCommand\div{}{\divergence} % Shorthand for \divergence
 }
 
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
