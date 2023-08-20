@@ -118,7 +118,11 @@ We then apply the following result.
     However, this cryptosystem is cheap, fast, and easy to use.
     Encryption and decryption can be performed on-the-fly, without needing the entire codeword first, and it is error-tolerant.
 \end{remark}
-Recall that the stream produced by a linear feedback shift register is given by \( x_n = \sum_{i=1}^d a_{d-i} x_{n-i} \) for all \( n \geq d \), and has auxiliary polynomial \( P(X) = X^d + a_{d-1}X^{d-1} + \dots + a_0 \) with \( a_d = 1 \).
+Recall that the stream produced by a linear feedback shift register is given by
+\[ x_n = \sum_{i=1}^d a_{d-i} x_{n-i} \]
+for all \( n \geq d \), and has auxiliary polynomial
+\[ P(X) = X^d + a_{d-1}X^{d-1} + \dots + a_0 \]
+with \( a_d = 1 \).
 The solutions to the recursion relations are linear combinations of powers of roots of \( P \).
 Over \( \mathbb C \), the general solution is a linear combination of \( \alpha^n, n\alpha^n, \dots, n^{t-1} \alpha^n \) where \( \alpha \) is a root of \( P(X) \) with multiplicity \( t \).
 
@@ -178,7 +182,7 @@ We base asymmetric cryptosystems on certain mathematical problems in number theo
     If \( N = pq \), dividing \( N \) by successive primes up to \( \sqrt{N} \) will find \( p \) and \( q \) but takes \( O(\sqrt{N}) = O(2^{\frac{B}{2}}) \) steps where \( B = \log_2 N \).
 
     We describe the \emph{baby-step, giant-step} algorithm for the discrete logarithm problem.
-    Set \( m = \ceil{\sqrt{p}} \), and write \( a = qm + r \) for \( 0 \leq q, r < m \).
+    Set \( m = \ceil*{\sqrt{p}} \), and write \( a = qm + r \) for \( 0 \leq q, r < m \).
     Then, \( x \equiv g^a = g^{qm + r} \) mod \( p \), so \( g^{qm} = g^{-r} x \) mod \( p \).
     We list all values of \( g^{qm} \) and \( g^{-r}x \) mod \( p \); we then sort the lists and search for a match.
     This takes \( O(\sqrt{p}\log p) \) steps.
@@ -294,8 +298,11 @@ Hence, the decrypting function is inverse to the encrypting function.
 \end{proof}
 We now prove part (ii) of the above theorem.
 \begin{proof}
-    The Chinese remainder theorem provides a multiplicative group isomorphism \( \qty(\faktor{\mathbb Z}{N\mathbb Z})^\times \to \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \times \qty(\faktor{\mathbb Z}{q\mathbb Z})^\times \) mapping \( x \) to \( (x \text{ mod } p, x \text{ mod } q) \).
-    We claim that if we partition \( \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \) according to the value of \( o_p(x^b) \), then each equivalence class has size at most \( \frac{1}{2} \abs{\qty(\faktor{\mathbb Z}{p\mathbb Z})^\times} = \frac{1}{2}(p-1) \).
+    The Chinese remainder theorem provides a multiplicative group isomorphism
+    \[ \qty(\faktor{\mathbb Z}{N\mathbb Z})^\times \to \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \times \qty(\faktor{\mathbb Z}{q\mathbb Z})^\times \]
+    mapping \( x \) to \( (x \text{ mod } p, x \text{ mod } q) \).
+    We claim that if we partition \( \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \) according to the value of \( o_p(x^b) \), then each equivalence class has size at most
+    \[ \frac{1}{2} \abs{\qty(\faktor{\mathbb Z}{p\mathbb Z})^\times} = \frac{1}{2}(p-1) \]
     We show that one of these subsets has size exactly \( \frac{1}{2}(p-1) \).
     Let \( g \) be a primitive root mod \( p \), so \( \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times = \genset{g} \).
     By Fermat's little theorem, \( g^{p-1} \equiv 1 \) mod \( p \), so \( g^m = g^{2^a b} \equiv 1 \) mod \( p \).
@@ -307,9 +314,11 @@ We now prove part (ii) of the above theorem.
         < 2^t & \text{if } k \text{ even}
     \end{cases} \]
     Thus, \( \qty{g^k \text{ mod } p \mid k \text{ odd}} \) is the set as required, proving the claim.
-    To finish, for each \( y \in \qty(\faktor{\mathbb Z}{q\mathbb Z})^\times \), the set \( \qty{x \in \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \midd o_p(x^b) \neq o_q(x^b)} \) has at least \( \frac{1}{2}(p-1) \) elements.
+    To finish, for each \( y \in \qty(\faktor{\mathbb Z}{q\mathbb Z})^\times \), the set
+    \[ \qty{x \in \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \midd o_p(x^b) \neq o_q(x^b)} \]
+    has at least \( \frac{1}{2}(p-1) \) elements.
     Applying the Chinese remainder theorem,
-    \[ \abs{X} = \qty{(x,y) \in \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \times \qty(\faktor{\mathbb Z}{q\mathbb Z})^\times \midd o_p(x^b) \neq o_q(x^b)} \geq \frac{1}{2}(p-1)(q-1) = \frac{1}{2}\varphi(N) \]
+    \[ \abs{X} = \abs{\qty{(x,y) \in \qty(\faktor{\mathbb Z}{p\mathbb Z})^\times \times \qty(\faktor{\mathbb Z}{q\mathbb Z})^\times \midd o_p(x^b) \neq o_q(x^b)}} \geq \frac{1}{2}(p-1)(q-1) = \frac{1}{2}\varphi(N) \]
 \end{proof}
 \begin{remark}
     We have shown that finding \( (N, d) \) from the public key \( (N, e) \) is as hard as factoring \( N \).
@@ -385,7 +394,7 @@ Note that the signature is associated to each message, not to each sender.
     The signature is verified by checking \( s^e = m \).
 
     This technique is vulnerable to the homomorphism attack.
-    This is also vulnerable to the \emph{existential forgery} attack: an attacker can produce valid signed messages of the form \( (s^e \text{ mod } N, s) \) after choosing \( s \) first.
+    This is also vulnerable to the \emph{existential forgery} attack, in which an attacker produces valid signed messages of the form \( (s^e \text{ mod } N, s) \) after choosing \( s \) first.
     Hopefully, such messages are not meaningful.
 
     To solve these problems, we could use a better signature scheme.

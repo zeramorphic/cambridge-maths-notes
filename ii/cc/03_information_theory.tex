@@ -69,7 +69,7 @@ The weak law of large numbers states that if \( X_1, X_2, \dots \) is a sequence
     \[ \prob{(X_1, \dots, X_n) \in A_n} = \prob{\sum_{i=1}^n \ell_i \leq n \qty(\expect{\ell_1} + \varepsilon)} = \prob{\abs{\frac{1}{n} \sum_{i=1}^n \ell_i - \expect{\ell_i}} < \varepsilon} \to 1 \]
     Now, \( c \) is decipherable so \( c^\star \) is injective.
     Hence, \( \abs{A_n} \leq 2^{n\qty(\expect{\ell_1} + \varepsilon)} \).
-    Making \( A_n \) larger if necessary, we can assume \( \abs{A_n} = \floor{2^{n\qty(\expect{\ell_1} + \varepsilon)}} \).
+    Making \( A_n \) larger if necessary, we can assume \( \abs{A_n} = \floor*{2^{n\qty(\expect{\ell_1} + \varepsilon)}} \).
     Taking logarithms, \( \frac{\log \abs{A_n}}{n} \to \expect{\ell_1} + \varepsilon \).
     So \( X_1, X_2, \dots \) is reliably encodable at rate \( r = \expect{\ell_1} + \varepsilon \) for all \( \varepsilon > 0 \).
     Hence the information rate is at most \( \expect{\ell_1} \).
@@ -178,13 +178,13 @@ We will now compute the capacity of the binary symmetric channel with error prob
 \begin{proof}
     Let \( \delta \) be such that \( 2p < \delta < \frac{1}{2} \).
     We claim that we can reliably transmit at rate \( R = 1 - H(\delta) > 0 \).
-    Let \( C_n \) be a code of length \( n \), and suppose it has minimum distance \( \floor{n\delta} \) of maximal size.
+    Let \( C_n \) be a code of length \( n \), and suppose it has minimum distance \( \floor*{n\delta} \) of maximal size.
     Then, by the GSV bound,
-    \[ \abs{C_n} = A(n, \floor{n\delta}) \geq 2^{-n(1-H(\delta))} = 2^{nR} \]
-    Replacing \( C_n \) with a subcode if necessary, we can assume \( \abs{C_n} = \floor{2^{nR}} \), with minimum distance at least \( \floor{n\delta} \).
+    \[ \abs{C_n} = A(n, \floor*{n\delta}) \geq 2^{-n(1-H(\delta))} = 2^{nR} \]
+    Replacing \( C_n \) with a subcode if necessary, we can assume \( \abs{C_n} = \floor*{2^{nR}} \), with minimum distance at least \( \floor*{n\delta} \).
     Using minimum distance decoding,
     \begin{align*}
-        \hat e(C_n) &\leq \prob{\text{in \( n \) uses, the channel makes at least } \floor*{\frac{\floor{n\delta}-1}{2}} \text{ errors}} \\
+        \hat e(C_n) &\leq \prob{\text{in \( n \) uses, the channel makes at least } \floor*{\frac{\floor*{n\delta}-1}{2}} \text{ errors}} \\
         &\leq \prob{\text{in \( n \) uses, the channel makes at least } \floor*{\frac{n\delta - 1}{2}} \text{ errors}}
     \end{align*}
     Let \( \varepsilon > 0 \) be such that \( p + \varepsilon < \frac{\delta}{2} \).
@@ -224,8 +224,10 @@ We will now compute the capacity of the binary symmetric channel with error prob
         H(X \mid Y) &= -\sum_{y \in \mathcal B} \sum_{x \in \mathcal A} \prob{X = x \mid Y = y} \prob{Y = y} \log \qty(\prob{X = x \mid Y = y}) \\
         &= -\sum_{y \in \mathcal B} \sum_{x \in \mathcal A} \prob{X = x \mid Y = y} \prob{Y = y} \log \qty(\frac{\prob{X = x, Y = y}}{\prob{Y = y}}) \\
         &= -\sum_{y \in \mathcal B} \sum_{x \in \mathcal A} \prob{X = x, Y = y} \qty(\log \prob{X = x, Y = y} - \log \prob{Y = y}) \\
-        &= -\sum_{y \in \mathcal B} \sum_{x \in \mathcal A} \prob{X = x, Y = y} \log \prob{X = x, Y = y} + \sum_{y \in \mathcal B} \sum_{x \in \mathcal A} \prob{X = x, Y = y} \log \prob{Y = y} \\
-        &= -\sum_{y \in \mathcal B} \sum_{x \in \mathcal A} \prob{X = x, Y = y} \log \prob{X = x, Y = y} + \sum_{y \in \mathcal B} \prob{Y = y} \log \prob{Y = y} \\
+        &= -\sum_{y \in \mathcal B} \sum_{x \in \mathcal A} \prob{X = x, Y = y} \log \prob{X = x, Y = y} \\
+        &+ \sum_{y \in \mathcal B} \sum_{x \in \mathcal A} \prob{X = x, Y = y} \log \prob{Y = y} \\
+        &= -\sum_{y \in \mathcal B} \sum_{x \in \mathcal A} \prob{X = x, Y = y} \log \prob{X = x, Y = y} \\
+        &+ \sum_{y \in \mathcal B} \prob{Y = y} \log \prob{Y = y} \\
         &= H(X,Y) - H(Y)
     \end{align*}
 \end{proof}
@@ -355,7 +357,7 @@ We now prove part of Shannon's second coding theorem, that the operational capac
 \begin{proof}
     Let \( C \) be the information capacity.
     Suppose reliable transmission is possible at a rate \( R > C \).
-    Then, there is a sequence of codes \( (C_n)_{n \geq 1} \) where \( C_n \) has length \( n \) and size \( \floor{2^{nR}} \), such that \( \lim_{n \to \infty} \rho(C_n) = R \) and \( \lim_{n \to \infty} \hat e(C_n) = 0 \).
+    Then, there is a sequence of codes \( (C_n)_{n \geq 1} \) where \( C_n \) has length \( n \) and size \( \floor*{2^{nR}} \), such that \( \lim_{n \to \infty} \rho(C_n) = R \) and \( \lim_{n \to \infty} \hat e(C_n) = 0 \).
 
     Recall that \( \hat e(C_n) = \max_{c \in C_n} \prob{\text{error} \mid c \text{ sent}} \).
     Define the \emph{average error rate} \( e(C) \) by \( e(C) = \frac{1}{\abs{C_n}} \sum_{c \in C} \prob{\text{error} \mid c \text{ sent}} \).
@@ -365,7 +367,7 @@ We now prove part of Shannon's second coding theorem, that the operational capac
     Consider an input random variable \( X \) distributed uniformly over \( C_n \).
     Let \( Y \) be the output given by \( X \) and the channel matrix.
     Then \( e(C_n) = \prob{X \neq Y} = p \).
-    Hence, \( H(X) = \log \abs{C_n} = \log \floor{2^{nR}} \geq nR - 1 \) for sufficiently large \( n \).
+    Hence, \( H(X) = \log \abs{C_n} = \log \floor*{2^{nR}} \geq nR - 1 \) for sufficiently large \( n \).
     Also, by Fano's inequality, \( H(X \mid Y) \leq H(p) + p \log(\abs{C_n} - 1) \leq 1 + pnR \).
 
     Recall that \( I(X;Y) = H(X) - H(X \mid Y) \).
@@ -378,7 +380,7 @@ We now prove part of Shannon's second coding theorem, that the operational capac
 To complete the proof of Shannon's second coding theorem for the binary symmetric channel with error probability \( p \), we prove that the operational capacity is at least \( 1 - H(p) \).
 \begin{proposition}
     Consider a binary symmetric channel with error probability \( p \), and let \( R < 1 - H(p) \).
-    Then there exists a sequence of codes \( (C_n)_{n \geq 1} \) with \( C_n \) of length \( n \) and size \( \floor{2^{nR}} \) such that \( \lim_{n \to \infty} \rho(C_n) = R \) and \( \lim_{n \to \infty} e(C_n) = 0 \).
+    Then there exists a sequence of codes \( (C_n)_{n \geq 1} \) with \( C_n \) of length \( n \) and size \( \floor*{2^{nR}} \) such that \( \lim_{n \to \infty} \rho(C_n) = R \) and \( \lim_{n \to \infty} e(C_n) = 0 \).
 \end{proposition}
 \begin{remark}
     This proposition deals with the average error rate, instead of the error rate \( \hat e \).
@@ -388,14 +390,14 @@ To complete the proof of Shannon's second coding theorem for the binary symmetri
     Without loss of generality let \( p < \frac{1}{2} \).
     Let \( \varepsilon > 0 \) such that \( p + \varepsilon < \frac{1}{2} \) and \( R < 1 - H(p + \varepsilon) \).
     We use minimum distance decoding, and in the case of a tie, we make an arbitrary choice.
-    Let \( m = \floor{2^{nR}} \), and let \( C = \qty{c_1, \dots, c_m} \) be a code chosen uniformly at random from \( \mathcal C = \qty{[n,m]\text{-codes}} \), a set of size \( \binom{2^n}{m} \).
+    Let \( m = \floor*{2^{nR}} \), and let \( C = \qty{c_1, \dots, c_m} \) be a code chosen uniformly at random from \( \mathcal C = \qty{[n,m]\text{-codes}} \), a set of size \( \binom{2^n}{m} \).
 
     Choose \( 1 \leq i \leq m \) uniformly at random, and send \( c_i \) through the channel, and obtain an output \( Y \).
     Then, \( \prob{Y \text{ not decoded as } c_i} \) is the average value of \( e(C) \) for \( C \) ranging over \( \mathcal C \), giving \( \frac{1}{\abs{\mathcal C}} \sum_{C \in \mathcal C} e(C) \).
     We can choose a code \( C_n \in \mathcal C \) such that \( e(C_n) \leq \frac{1}{\abs{\mathcal C}}\sum_{C \in \mathcal C} e(C) \).
     So it suffices to show \( \prob{Y \text{ not decoded as } c_i} \to 0 \).
 
-    Let \( r = \floor{n(p + \varepsilon)} \).
+    Let \( r = \floor*{n(p + \varepsilon)} \).
     Then if \( B(Y,r) \cap C = \qty{c_i} \), \( Y \) is correctly decoded as \( c_i \).
     Therefore,
     \[ \prob{Y \text{ not decoded as } c_i} \leq \prob{c_i \not\in B(Y,r)} + \prob{B(Y,r) \cap C \supsetneq \qty{c_i}} \]
@@ -422,13 +424,13 @@ To complete the proof of Shannon's second coding theorem for the binary symmetri
 \end{proposition}
 \begin{proof}
     Let \( R' \) be such that \( R < R' < 1 - H(p) \).
-    Then, apply the previous result to \( R' \) to construct a sequence of codes \( (C_n')_{n \geq 1} \) of length \( n \) and size \( \floor{2^{nR'}} \), where \( e(C_n') \to 0 \).
+    Then, apply the previous result to \( R' \) to construct a sequence of codes \( (C_n')_{n \geq 1} \) of length \( n \) and size \( \floor*{2^{nR'}} \), where \( e(C_n') \to 0 \).
     Order the codewords of \( C_n' \) by the probability of error given that the codeword was sent, and delete the worst half.
     This gives a code \( C_n \) with \( \hat e(C_n) \leq 2 e(C_n') \).
     Hence \( \hat e(C_n) \to 0 \) as \( n \to \infty \).
-    Since \( C_n \) has length \( n \), and size \( \frac{1}{2} \floor{2^{nR'}} = \floor{2^{nR' - 1}} \).
+    Since \( C_n \) has length \( n \), and size \( \frac{1}{2} \floor*{2^{nR'}} = \floor*{2^{nR' - 1}} \).
     But \( 2^{nR' - 1} = 2^{n(R' - \frac{1}{n})} \geq 2^{nR} \) for sufficiently large \( n \).
-    So we can replace \( C_n' \) with a code of smaller size \( \floor{2^{nR}} \) and still have \( \hat e(C_n) \to 0 \) and \( \rho(C_n) \to R \) as \( n \to \infty \).
+    So we can replace \( C_n' \) with a code of smaller size \( \floor*{2^{nR}} \) and still have \( \hat e(C_n) \to 0 \) and \( \rho(C_n) \to R \) as \( n \to \infty \).
 \end{proof}
 Therefore, a binary symmetric channel with error probability \( p \) has operational capacity \( 1 - H(p) \), as we can transmit reliably at any rate \( R < 1 - H(p) \), and the capacity is at most \( 1 - H(p) \).
 The result shows that codes with certain properties exist, but does not give a way to construct them.
