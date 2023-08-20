@@ -151,7 +151,7 @@ The class of recursive functions is defined inductively.
 We call \( \pi_{k,i} \) the \emph{projection} functions, \( c_{k,\varepsilon} \) the \emph{constant} functions, and \( s \) the \emph{successor} function.
 
 Let \( f \colon \mathbb W^m \rightharpoonup \mathbb W \) and \( g_1, \dots, g_m \colon \mathbb W^k \rightharpoonup \mathbb W \).
-Then the \emph{composition} is \( h(\vb w) = f(g_1(\vb w), \dots, g_m(\vb w)) \).
+Then their \emph{composition} is the function \( h(\vb w) = f(g_1(\vb w), \dots, g_m(\vb w)) \).
 
 Let \( f \colon \mathbb W^k \rightharpoonup \mathbb W \) and \( g \colon \mathbb W^{k+2} \rightharpoonup \mathbb W \).
 Then the partial function \( h \colon \mathbb W^{k+1} \rightharpoonup \mathbb W \) defined by \( h(\vb w, \varepsilon) = f(\vb w) \) and \( h(\vb w, s(v)) = g(\vb w, v, h(\vb w, v)) \) is a function defined by \emph{recursion}.
@@ -316,7 +316,9 @@ When we encode a mathematical object \( o \) as a word \( \Sigma'^\star \), we w
 	is computable.
 \end{lemma}
 \begin{proof}
-	Define by recursion \( h(\code(M), \code(\vb w), \varepsilon) = \code(q_0)\code(\vb w) \) and \( h(\code(M), \code(\vb w), s(v)) = \code(C') \) where \( C' \) is the result of transforming \( h(\code(M), \code(\vb w), v) \) by the machine \( M \).
+	Define by recursion
+	\[ h(\code(M), \code(\vb w), \varepsilon) = \code(q_0)\code(\vb w);\quad h(\code(M), \code(\vb w), s(v)) = \code(C') \]
+	where \( C' \) is the result of transforming \( h(\code(M), \code(\vb w), v) \) by the machine \( M \).
 \end{proof}
 \begin{corollary}
 	The \emph{truncated computation} function \( t_{M,k} \) defined by
@@ -350,7 +352,9 @@ When we encode a mathematical object \( o \) as a word \( \Sigma'^\star \), we w
 	A register machine \( U \) that computes \( g \) is called a \emph{universal register machine}.
 	\( U \) has a finite amount of used registers and states, but can mimic the behaviour of any register machine using an arbitrarily large amount of registers and states.
 
-	This allows us to streamline notation; for a word \( v \in \mathbb W \), we can write \( f_{v,k}(\vb w) = f_{U,2}(v,\code(\vb w)) = f_{M,k}(\vb w) \) if \( \code(M) = v \).
+	This allows us to streamline notation; for a word \( v \in \mathbb W \), we can write
+	\[ f_{v,k}(\vb w) = f_{U,2}(v,\code(\vb w)) = f_{M,k}(\vb w) \]
+	if \( \code(M) = v \).
 	Similarly, we can write \( W_v = \dom f_{v,1} \), so \( \qty{W_v \mid v \in \mathbb W} \) is the set of computably enumerable sets.
 \end{remark}
 \begin{theorem}[\( s \)--\( m \)--\( n \) theorem; parameter theorem]
@@ -371,7 +375,9 @@ This process is called \emph{currying}, after Haskell Curry.
 	Hence the function \( h(v) = \code(M \circ M_v) \) is total and computable.
 
 	We must show that \( f_{h(v),k}(\vb w) = g(\vb w, v) \).
-	Indeed, \( f_{h(v),k}(\vb w) = f_{\code(M \circ M_v), k}(\vb w) = f_{M \circ M_v, k}(\vb w) = g_v(\vb w) = g(\vb w, v) \) as required.
+	Indeed,
+	\[ f_{h(v),k}(\vb w) = f_{\code(M \circ M_v), k}(\vb w) = f_{M \circ M_v, k}(\vb w) = g_v(\vb w) = g(\vb w, v) \]
+	as required.
 \end{proof}
 
 \subsection{The halting problem}
@@ -443,11 +449,19 @@ Consider the sets
 	Let \( f \colon \mathbb W^2 \rightharpoonup \mathbb W \) be a partial computable function in two variables.
 	Then \( X = \qty{w \mid \exists v,\, f(w, v) \downarrow} \) is computably enumerable.
 	Note that \( f(w, v) \downarrow \) is not a computable predicate.
-	Let \( M \) be a register machine such that \( f = f_{M,2} \), and let \( Z = \qty{(w, v_0, v_1) \mid t_{M,2}(w,v_0,v_1) = a} \).
+	Let \( M \) be a register machine such that \( f = f_{M,2} \), and let
+	\[ Z = \qty{(w, v_0, v_1) \mid t_{M,2}(w,v_0,v_1) = a} \]
 	Clearly \( Z \) is computable.
-	Define \( Y = \qty{(w, u) \mid (w, u_{(0)}, u_{(1)}) \in Z} \); this is also computable.
+	Define
+	\[ Y = \qty{(w, u) \mid (w, u_{(0)}, u_{(1)}) \in Z} \]
+	This is also computable.
 	Now,
-	\[ \exists v,\, f(w,v) \downarrow \iff \exists v_0,\, \exists v_1,\, (w,v_0,v_1) \in Z \iff \exists u,\, (w,u_{(0)},u_{(1)}) \in Z \iff (w,u) \in Y \iff w \in p(Y) \]
+	\begin{align*}
+		\exists v,\, f(w,v) \downarrow &\iff \exists v_0,\, \exists v_1,\, (w,v_0,v_1) \in Z \\
+		&\iff \exists u,\, (w,u_{(0)},u_{(1)}) \in Z \\
+		&\iff (w,u) \in Y \\
+		&\iff w \in p(Y)
+	\end{align*}
 	So \( X \) is \( \Sigma_1 \) as required.
 \end{example}
 \begin{remark}

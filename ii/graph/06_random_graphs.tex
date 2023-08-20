@@ -70,6 +70,7 @@ We have shown that \( Z(n,t) \leq 2n^{2 - \frac 1t} \), but we have found no low
 	\end{align*}
 	for a constant \( c \).
 	Now, let \( Y \) be the random variable counting the number of independent sets of \( s = \frac{n}{2k} \) vertices (up to rounding).
+
 	\begin{align*}
 		\prob{Y \geq 1} &\leq \expect{Y} \\
 		&= \binom n s (1-p)^{\binom s 2} \\
@@ -141,7 +142,8 @@ We can also show that \( \prob{X \geq 1} \to 1 \), but this does not follow imme
 	\[ (\expect{X})^2 = \sum_{K \in \qty{0, \dots, n}^{(3)}} \sum_{L \in \qty{0, \dots, n}^{(3)}} \prob{K \text{ is a triangle in } G} \prob{L \text{ is a triangle in } G} \]
 	When computing \( \expect{X^2} - (\expect{X})^2 \), the only terms that do not cancel are those terms which share edges.
 	\begin{align*}
-		\expect{X^2} - (\expect{X})^2 &\leq \sum_{K \in \qty{0, \dots, n}^{(3)}} \sum_{L \text{ that shares a single edge with } K} \prob{K, L \text{ are triangles in } G} + \sum_{K \in \qty{0, \dots, n}^{(3)}} \prob{K \text{ is a triangle in } G} \\
+		\expect{X^2} - (\expect{X})^2 &\leq \sum_{K \in \qty{0, \dots, n}^{(3)}} \sum_{L \text{ that shares a single edge with } K} \prob{K, L \text{ are triangles in } G} \\
+		&+ \sum_{K \in \qty{0, \dots, n}^{(3)}} \prob{K \text{ is a triangle in } G} \\
 		&\leq \sum_{K \in \qty{0, \dots, n}^{(3)}} \sum_{L \text{ that shares a single edge with } K} \prob{K, L \text{ are triangles in } G} + \expect{X} \\
 		&\leq \underbrace{n^4 p^5}_{\mathclap{four vertices, five edges}} + \expect{X}
 	\end{align*}
@@ -221,6 +223,7 @@ Throughout this section, we will use the inequality \( 1 - x \leq e^{-x} \).
 	We now want to show that \( \lim_{n \to \infty} \prob{G \text{ connected}} \) converges to one.
 	If \( G \) is not connected, we can find \( A \subset V(G) \) where \( 1 \leq \abs{A} \leq \frac{n}{2} \), and there are no edges between \( A \) and \( V(G) \setminus A \).
 	Consider
+
 	\begin{align*}
 		\prob{G \text{ not connected}} &= \prob{\exists A \subset V(G),\, 0 < \abs{A} \leq \frac{n}{2}, e(A, V(G) \setminus A) = 0} \\
 		&= \prob{\bigcup_{A \subset V(G), 0 < \abs{A} \leq \frac{n}{2}} \qty{e(A, V(G) \setminus A) = 0}} \\
@@ -237,4 +240,5 @@ Throughout this section, we will use the inequality \( 1 - x \leq e^{-x} \).
 		&\leq \sum_{k=1}^{\frac{\varepsilon n}{4}} \qty(n^{-\qty(1+\frac{3\varepsilon}{4})})^k + \sum_{k=\frac{\varepsilon n}{4}} 2^n e^{-(1 + \varepsilon) \frac{\log n}{n} k(n-k)} \\
 		&\leq \sum_{k=1}^{\frac{\varepsilon n}{4}} \qty(n^{-\qty(1+\frac{3\varepsilon}{4})})^k + \sum_{k=\frac{\varepsilon n}{4}} \underbrace{2^n e^{-(1 + \varepsilon) \frac{\log n}{n} \frac{\varepsilon n}{4} \frac{n}{2}}}_{\to 0}
 	\end{align*}
+	as required.
 \end{proof}

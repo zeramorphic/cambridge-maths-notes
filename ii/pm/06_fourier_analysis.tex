@@ -58,7 +58,13 @@ If \( \mu \) has a density \( f \) with respect to the Lebesgue measure, \( \hat
 \end{definition}
 \begin{remark}
 	If \( 1 \leq p < \infty \), by Jensen's inequality,
-	\[ \int_{\mathbb R^d} \qty( \int_{\mathbb R^d} \abs{f(x-y)} \dd{\nu(y)} )^p \dd{x} \leq \int_{\mathbb R^d} \int_{\mathbb R^d} \abs{f(x-y)}^p \dd{\nu(y)} \dd{x} = \int_{\mathbb R^d} \int_{\mathbb R^d} \abs{f(x-y)}^p \dd{x} \dd{\nu(y)} = \int_{\mathbb R^d} \int_{\mathbb R^d} \abs{f(x)} \dd{\nu(y)} \dd{x} = \int_{\mathbb R^d} \abs{f(x)} \dd{x} = \norm{f}_p^p \]
+	\begin{align*}
+		\int_{\mathbb R^d} \qty( \int_{\mathbb R^d} \abs{f(x-y)} \dd{\nu(y)} )^p \dd{x} &\leq \int_{\mathbb R^d} \int_{\mathbb R^d} \abs{f(x-y)}^p \dd{\nu(y)} \dd{x} \\
+		&= \int_{\mathbb R^d} \int_{\mathbb R^d} \abs{f(x-y)}^p \dd{x} \dd{\nu(y)} \\
+		&= \int_{\mathbb R^d} \int_{\mathbb R^d} \abs{f(x)} \dd{\nu(y)} \dd{x} \\
+		&= \int_{\mathbb R^d} \abs{f(x)} \dd{x} \\
+		&= \norm{f}_p^p
+	\end{align*}
 	So \( f \in L^p(\mathbb R^d) \), we have \( (y \mapsto f(x-y)) \in L^p(\nu) \) almost everywhere, and again by Jensen's inequality,
 	\[ \norm{f \ast \nu}_p^p = \int_{\mathbb R^d} \abs{ \int_{\mathbb R^d} f(x-y)\dd{\nu(y)} }^p \dd{x} \leq \int_{\mathbb R^d} \qty( \int_{\mathbb R^d} \abs{f(x-y)} \dd{\nu(y)} )^p \dd{x} \leq \norm{f}_p^p \]
 	Hence \( f \mapsto f \ast \nu \) is a contraction on \( L^p(\mathbb R^d) \).
@@ -149,7 +155,8 @@ Note that \( \widehat{f \ast g_t}(u) = \hat f(u) e^{-\frac{\norm{u}^2 t}{2}} \),
 	So
 	\[ \norm{f \ast g_t - f}_p \leq \norm{f \ast g_t - h \ast g_t}_p + \norm{h \ast g_t + h}_p + \norm{h - f}_p < \frac{\varepsilon}{2} + \norm{h \ast g_t - h}_p \]
 	so it suffices to prove the result for \( f = h \in C_c(\mathbb R^d) \).
-	We define a new map \( e(y) = \int_{\mathbb R^d} \abs{h(x-y) - h(x)}^p \dd{x} \).
+	We define a new map
+	\[ e(y) = \int_{\mathbb R^d} \abs{h(x-y) - h(x)}^p \dd{x} \]
 	Since \( h \) is bounded on its bounded support, the dominated convergence theorem implies that \( e \) is continuous at \( y = 0 \).
 	Note that \( e(y) \leq 2^{p+1} \norm{h}_p^p \).
 	Hence, by Jensen's inequality,
@@ -261,7 +268,8 @@ Note that \( \widehat{f \ast g_t}(u) = \hat f(u) e^{-\frac{\norm{u}^2 t}{2}} \),
 	Then,
 	\begin{align*}
 		\abs{\mu_{X_n}(g) - \mu_X(g)} &= \abs{\expect{g(X_n)} - \expect{g(X)}} \\
-		&\leq \expect{\abs{g(X_n) - g(X_n + \sqrt t Z)}} + \expect{\abs{g(X) - g(X + \sqrt t Z)}} + \abs{\expect{g(X_n + \sqrt t Z) - g(X + \sqrt t Z)}} \\
+		&\leq \expect{\abs{g(X_n) - g(X_n + \sqrt t Z)}} + \expect{\abs{g(X) - g(X + \sqrt t Z)}} \\
+		&+ \abs{\expect{g(X_n + \sqrt t Z) - g(X + \sqrt t Z)}} \\
 		&\leq 2\norm{g}_{\mathrm{Lip}}\sqrt t \expect{\abs{Z}} + \abs{\expect{g(X_n + \sqrt t Z) - g(X + \sqrt t Z)}} \\
 		&\leq \frac{2\varepsilon}{3} + \abs{\expect{g(X_n + \sqrt t Z) - g(X + \sqrt t Z)}}
 	\end{align*}
