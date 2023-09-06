@@ -48,10 +48,10 @@ func build(compileBook bool, singleThreaded bool, hideProofs bool, noColourBoxes
 	var wg sync.WaitGroup
 
 	size := int64(len(Files))
-	errorChan := make(chan string, size)
 	if compileBook {
-		size++
+		size = int64(len(FilesWithBook))
 	}
+	errorChan := make(chan string, size)
 	bar := progressbar.Default(size)
 
 	var fs []TexFile
