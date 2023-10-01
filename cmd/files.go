@@ -35,18 +35,24 @@ var Files []TexFile = []TexFile{
 	{FilePath: "ii/lst", Name: "Logic and Set Theory"},
 	{FilePath: "ii/alggeom", Name: "Algebraic Geometry"},
 	{FilePath: "ii/nf", Name: "Number Fields"},
+	{FilePath: "iii/commalg", Name: "Commutative Algebra"},
+	{FilePath: "iii/alggeom", Name: "Algebraic Geometry"},
+	{FilePath: "iii/mtncl", Name: "Model Theory and Non-Classical Logic"},
+	{FilePath: "iii/cat", Name: "Category Theory"},
 }
 
 var BookFiles []TexFile = []TexFile{
 	{FilePath: "ia/book", Name: "IA Book"},
 	{FilePath: "ib/book", Name: "IB Book"},
 	{FilePath: "ii/book", Name: "II Book"},
+	{FilePath: "iii/book", Name: "III Book"},
 	{FilePath: "ia/vol1", Name: "Volume 1"},
 	{FilePath: "ia/vol2", Name: "Volume 2"},
 	{FilePath: "ib/vol3", Name: "Volume 3"},
 	{FilePath: "ib/vol4", Name: "Volume 4"},
 	{FilePath: "ii/vol5", Name: "Volume 5"},
 	{FilePath: "ii/vol6", Name: "Volume 6"},
+	{FilePath: "iii/vol7", Name: "Volume 7"},
 }
 
 var FilesWithBook []TexFile
