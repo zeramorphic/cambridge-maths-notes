@@ -204,7 +204,7 @@ jobs:
           args: -shell-escape -xelatex -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
           root_file: ii/lst/main.tex
 
-      - name: Compile Algebraic Geometry
+      - name: Compile Algebraic Geometry (Part II)
         uses: xu-cheng/latex-action@v2
         with:
           args: -shell-escape -xelatex -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
@@ -215,6 +215,30 @@ jobs:
         with:
           args: -shell-escape -xelatex -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
           root_file: ii/nf/main.tex
+
+      - name: Compile Commutative Algebra
+        uses: xu-cheng/latex-action@v2
+        with:
+          args: -shell-escape -xelatex -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
+          root_file: iii/commalg/main.tex
+
+      - name: Compile Algebraic Geometry (Part III)
+        uses: xu-cheng/latex-action@v2
+        with:
+          args: -shell-escape -xelatex -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
+          root_file: iii/alggeom/main.tex
+
+      - name: Compile Model Theory and Non-Classical Logic
+        uses: xu-cheng/latex-action@v2
+        with:
+          args: -shell-escape -xelatex -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
+          root_file: iii/mtncl/main.tex
+
+      - name: Compile Category Theory
+        uses: xu-cheng/latex-action@v2
+        with:
+          args: -shell-escape -xelatex -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
+          root_file: iii/cat/main.tex
 
       - name: Compile IA book
         uses: xu-cheng/latex-action@v2
@@ -233,6 +257,12 @@ jobs:
         with:
           args: -shell-escape -xelatex -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
           root_file: ii/book/main.tex
+
+      - name: Compile III book
+        uses: xu-cheng/latex-action@v2
+        with:
+          args: -shell-escape -xelatex -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
+          root_file: iii/book/main.tex
 
       - name: Convert Numbers and Sets to HTML
         run: ./pdf2htmlEX.AppImage ia/ns/build/main.pdf ia_ns.html --data-dir pdf2htmlEX --zoom 3
@@ -315,11 +345,23 @@ jobs:
       - name: Convert Logic and Set Theory to HTML
         run: ./pdf2htmlEX.AppImage ii/lst/build/main.pdf ii_lst.html --data-dir pdf2htmlEX --zoom 3
 
-      - name: Convert Algebraic Geometry to HTML
+      - name: Convert Algebraic Geometry (Part II) to HTML
         run: ./pdf2htmlEX.AppImage ii/alggeom/build/main.pdf ii_alggeom.html --data-dir pdf2htmlEX --zoom 3
 
       - name: Convert Number Fields to HTML
         run: ./pdf2htmlEX.AppImage ii/nf/build/main.pdf ii_nf.html --data-dir pdf2htmlEX --zoom 3
+
+      - name: Convert Commutative Algebra to HTML
+        run: ./pdf2htmlEX.AppImage iii/commalg/build/main.pdf iii_commalg.html --data-dir pdf2htmlEX --zoom 3
+
+      - name: Convert Algebraic Geometry (Part III) to HTML
+        run: ./pdf2htmlEX.AppImage iii/alggeom/build/main.pdf iii_alggeom.html --data-dir pdf2htmlEX --zoom 3
+
+      - name: Convert Model Theory and Non-Classical Logic to HTML
+        run: ./pdf2htmlEX.AppImage iii/mtncl/build/main.pdf iii_mtncl.html --data-dir pdf2htmlEX --zoom 3
+
+      - name: Convert Category Theory to HTML
+        run: ./pdf2htmlEX.AppImage iii/cat/build/main.pdf iii_cat.html --data-dir pdf2htmlEX --zoom 3
 
       - name: Convert IA book to HTML
         run: ./pdf2htmlEX.AppImage ia/book/build/main.pdf ia_book.html --data-dir pdf2htmlEX --zoom 3
@@ -329,6 +371,9 @@ jobs:
 
       - name: Convert II book to HTML
         run: ./pdf2htmlEX.AppImage ii/book/build/main.pdf ii_book.html --data-dir pdf2htmlEX --zoom 3
+
+      - name: Convert III book to HTML
+        run: ./pdf2htmlEX.AppImage iii/book/build/main.pdf iii_book.html --data-dir pdf2htmlEX --zoom 3
 
       #- name: Optimise PDFs
       #  run: go run . optimise
