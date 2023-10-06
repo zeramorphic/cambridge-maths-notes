@@ -1,2 +1,74 @@
-\subsection{Introduction}
-Introduction.
+\subsection{Course description}
+The course consists of four parts.
+\begin{enumerate}
+    \item The theory of sheaves on topological spaces.
+    \item The definitions of schemes and morphisms between them.
+    \item Properties of schemes, such as the algebraic geometry analogues of compactness and other similar properties.
+    \item Rapid introduction to the cohomology of sheaves.
+\end{enumerate}
+
+\subsection{Motivation from moduli theory}
+In moduli theory, we study families of varieties instead of one at a time.
+In the extreme, we study all varieties of a given `type' simultaneously.
+For now, let
+\[ \mathbb P^n = \mathbb P^n_{\mathbb C} = \faktor{\mathbb C^{n+1} \setminus \qty{\vb 0}}{\sim} \]
+where \( \vb x \sim \lambda \vb x \) for nonzero \( \lambda, \vb x \).
+A variety is the vanishing locus \( \mathbb V(S) \) of a set \( S \) of homogeneous polynomials in \( n + 1 \) variables.
+These are subsets of \( \mathbb P^n \).
+We present some examples of moduli.
+\begin{example}
+    The set of all lines in \( \mathbb P^2 \).
+    A line in \( \mathbb P^2 \) is given by
+    \[ \qty{aX_0 + bX_1 + cX_2 = 0} \]
+    where not all of \( a, b, c \) are zero.
+    The set of all lines in \( \mathbb P^2 \) are given by triples \( (a, b, c) \).
+    Note that \( (\lambda a, \lambda b, \lambda c) \) gives the same line as \( (a, b, c) \), so really lines in \( \mathbb P^2 \) correspond exactly to points in \( \mathbb P^2 \).
+    We call the set of all lines in \( \mathbb P^2 \) the dual space \( \mathbb P^2_{\text{dual}} \).
+    This property is known as projective duality.
+
+    The same logic applies to the set of degree \( d \) hypersurfaces in \( \mathbb P^n \); this space corresponds directly to
+    \[ \mathbb P^{\binom{n+d}{d} - 1} \]
+\end{example}
+There is an unfortunate consequence of this method of study.
+Some polynomials are of the form \( f = f_1^2 f_2 \) for some non-constant \( f_1 \), but then \( \mathbb V(f) = \mathbb V(f_1 f_2) \).
+For example, \( (X_0 + X_1 + X_2)^2 \subseteq \mathbb P^2 \) is a line not a conic.
+In particular, the limit of a sequence of conics may not be a conic.
+The solution is to take the set
+\[ U_d \subseteq \mathbb P^{\binom{n+d}{d} - 1} \]
+in which \( [f] \in U_d \) has no repeated factors.
+But then, \( U_d \) is `not compact', as some points have been removed.
+
+We will now describe the impact of scheme theory on this situation.
+Fix some \( \mathbb P^n \), and we will produce a `space'
+\[ \operatorname{Var}(\mathbb P^n) \subsetneq \operatorname{Hilb}(\mathbb P^n) \]
+The set \( \operatorname{Var}(\mathbb P^n) \) bijects onto the set of varieties of \( \mathbb P^n \).
+The set \( \operatorname{Hilb}(\mathbb P^n) \) bijects onto the set of subschemes of \( \mathbb P^n \), and is compact in the Euclidean topology.
+In particular, limits of varieties need not be varieties, but limits of schemes are always schemes.
+One consequence is that in scheme theory,
+\[ \mathbb V(X_0 + X_1 + X_2),\quad \mathbb V((X_0 + X_1 + X_2)^2) \]
+are not isomorphic as schemes in \( \mathbb P^2 \).
+
+\subsection{Motivation from the Weil conjectures}
+Fix some homogeneous polynomial \( f \in \mathbb Z[X_0, \dots, X_{n+1}] \).
+First, consider
+\[ X = \mathbb V(f) \subseteq \mathbb P^{n+1}_{\mathbb C} \]
+and assume that \( X \) is smooth.
+As \( X \) is a compact topological space, we can find its Betti numbers \( b_0(X), \dots, b_{2n}(X) \), where
+\[ b_i(X) = \operatorname{rank} H_i(X; \mathbb Z) \]
+In particular, we can find its Euler characteristic.
+\[ \chi(X) = \sum (-1)^i b_i(X) \]
+Second, fix a prime \( p \) and let \( N_m \) be the number of solutions of \( f \) over \( \mathbb F_{p^m} \).
+Define the Weil zeta function
+\[ \zeta(X;t) = \exp(\sum_m \frac{N_m}{m} \cdot t^m) \]
+One of the Weil conjectures states the following.
+\begin{theorem}[Grothendieck]
+    \begin{enumerate}
+        \item \( \zeta(X; t) \) is a rational function in \( t \), so
+        \[ \zeta(X; t) = \frac{P_X(t)}{Q_X(t)} \]
+        \item Further, \( \zeta(X; t) \) can be written as a ratio of the form
+        \[ \frac{P_0(t) P_2(t) \dots P_{2n}(t)}{P_1(t) P_3(t) \dots P_{2n-1}(t)} \]
+        where
+        \[ \deg P_i(t) = b_i(X) \]
+    \end{enumerate}
+\end{theorem}
+The proof relies fundamentally on scheme theory: we need a space \( \mathcal X \) that interpolates between the algebraic closure \( \overline{\mathbb F_p} \) and \( \mathbb C \).

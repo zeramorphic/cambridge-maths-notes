@@ -1,0 +1,61 @@
+\subsection{Categories}
+\begin{definition}
+    A \emph{category} \( \mathcal C \) consists of
+    \begin{enumerate}
+        \item a collection of \emph{objects} \( \ob \mathcal C \), denoted \( A, B, C, \dots \);
+        \item a collection of \emph{morphisms} \( \mor \mathcal C \), denoted \( f, g, h, \dots \);
+        \item two operations \( \dom, \cod : \mor \mathcal C \to \ob \mathcal C \), and we write \( f : A \to B \) or \( A \xrightarrow f B \) to state that \( f \) is a morphism with domain \( A \) and codomain \( B \);
+        \item an operation \( A \mapsto 1_A : A \to A \);
+        \item a \emph{composition} operation \( (f, g) \mapsto fg : \dom g \to \cod f \), defined exactly when \( \cod g = \dom f \); satisfying
+        \item \( f 1_A = f \) and \( 1_A g = g \) whenever the composites are defined; and
+        \item \( (fg)h = f(gh) \) whenever the composites are defined.
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    \begin{enumerate}
+        \item The collections of objects and morphisms may be sets or classes in some set theory, but our definitions are built to be interpretable in any system supporting first-order logic.
+        If \( \ob \mathcal C \) and \( \mor \mathcal C \) are sets, we call \( \mathcal C \) a \emph{small} category; otherwise we call it \emph{large}.
+        \item We could formulate a definition of category with no mention of objects, since objects biject with the identity morphisms.
+        We will not take this approach here.
+        \item Note that we choose \( fg \) to mean `first \( g \) and then \( f \)'; this choice is a convention and the other one may be adopted.
+    \end{enumerate} 
+\end{remark}
+\begin{example}
+    \begin{enumerate}
+        \item \( \mathbf{Set} \) is the category where the objects are all of the sets, and the morphisms are all of the functions between them, each of which is suitably tagged with an appropriate codomain.
+        This must be done because set-theoretic functions do not `remember' their codomain: \( f(x) = x \) as a function \( f : \mathbb R \to \mathbb R \) or \( \mathbb R \to \mathbb C \) are equal sets.
+        \item \( \mathbf{Gp} \) is the category where the objects are all of the groups, and the morphisms are all of the group homomorphisms.
+        \item \( \mathbf{Rng} \) is the category where the objects are all of the rings, and the morphisms are all of the ring homomorphisms.
+        \item For a field \( k \), \( \mathbf{Vect}_k \) is the category where the objects are all of the \( k \)-vector spaces, and the morphisms are all of the \( k \)-linear maps.
+        \item \( \mathbf{Top} \) is the category where the objects are all of the topological spaces, and the morphisms are all of the continuous functions.
+        \item \( \mathbf{Met} \) is the category where the objects are all of the metric spaces, and the morphisms are all of the nonexpansive mappings, i.e.\ functions that do not increase the distance between points.
+        One could choose a different convention, for example by letting morphisms be arbitrary continuous functions.
+        \item \( \mathbf{Mfd} \) is the category where the objects are all of the smooth manifolds, and the morphisms are \( C^\infty \) maps.
+        \item \( \mathbf{TopGp} \) is the category where the objects are all of the topological groups, and the morphisms are the continuous homomorphisms.
+        \item \( \mathbf{Htpy} \) is the category where the objects are all of the topological spaces, and the morphisms are equivalence classes of continuous functions under homotopy.
+        \item More generally, if \( \simeq \) is an equivalence relation on the morphisms of \( \mathcal C \) such that \( f \simeq g \) implies \( \dom f = \dom g \) and \( \cod f = \cod g \), and the relation is stable under composition so \( f \simeq g \) implies \( fh \simeq gh \) and \( kf = kg \), we call \( \simeq \) a \emph{congruence}.
+        In this case, we can form the \emph{quotient category} \( \faktor{\mathcal C}{\simeq} \), which has the same objects as \( \mathcal C \), but its objects are equivalence classes of morphisms in \( \mathcal C \) under \( \simeq \).
+        \item \( \mathbf{Rel} \) is the category where the objects are all of the sets, and the morphisms \( A \to B \) are the relations \( R \subseteq A \times B \), where composition is given by
+        \[ S \circ R = \qty{(a, c) \mid \exists b \in B, (a, b) \in R \wedge (b, c) \in S} \]
+        Note that if \( R \) and \( S \) happen to be functions, \( \circ \) is the standard composition operator.
+        Therefore, \( \mathbf{Set} \) is a subcategory of \( \mathbf{Rel} \).
+        \item \( \mathbf{Part} \) is the category where the objects are all of the sets, and the morphisms \( A \to B \) are the partial functions \( A \rightharpoonup B \).
+        This is a subcategory of \( \mathbf{Rel} \), and \( \mathbf{Set} \) is a subcategory of \( \mathbf{Part} \).
+        \item Given a category \( \mathcal C \), we can construct its \emph{opposite category} \( \mathcal C^\cop \), where the objects and morphisms are the same as in \( \mathcal C \), but \( \dom \) and \( \cod \) are swapped.
+        We also reverse composition in the opposite category.
+        This gives a duality principle: whenever a statement about categories is proven, a dual statement follows from applying the statement to an opposite category.
+        \item A small category with one object \( \star \) is a \emph{monoid}, a group without inverses.
+        In particular, every group can be seen as a small category on a single object in which every morphism is an isomorphism, i.e.\ invertible.
+        \item A \emph{groupoid} is a category in which every morphism is an isomorphism.
+        For example, we can construct the \emph{fundamental groupoid} of a topological space \( X \).
+        Here, the objects correspond to points \( x \) in \( X \), and represent \( \pi_1(X, x) \).
+        Morphisms \( x \to y \) are homotopy classes of paths starting at \( x \) and ending at \( y \).
+        Composition is path concatenation.
+        \item A category with at most one morphism between any pair of objects is a \emph{preorder}.
+        The existence of a morphism \( A \to B \) corresponds to stating \( A \preceq B \) in the preorder.
+        In particular, a partially ordered set (poset) is a small preorder in which the only isomorphisms are identity morphisms.
+        \item For a field \( k \), \( \mathbf{Mat}_k \) is the category where the objects are the natural numbers, and the morphisms \( n \to p \) are the \( p \times n \) matrices over \( k \).
+        Composition is multiplication of matrices.
+        The identity morphisms are the identity matrices.
+    \end{enumerate}
+\end{example}
