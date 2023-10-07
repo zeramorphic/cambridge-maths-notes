@@ -216,3 +216,31 @@ Note that \( \rho(r) = \rho(r) \cdot 1_A = r \cdot 1_A \), so we can write \( r 
     That is, \( \varphi(r \cdot 1_A) = r \cdot 1_B \).
 \end{definition}
 An \( R \)-algebra \( A \) is finitely generated if and only if there is some \( n \geq 0 \) and a surjective algebra homomorphism \( R[T_1, \dots, T_n] \to A \).
+\begin{theorem}[Hilbert's basis theorem]
+    Every finitely generated algebra \( A \) over a Noetherian ring \( R \) is Noetherian.
+\end{theorem}
+For example, the polynomial algebra over a field is Noetherian.
+\begin{proof}
+    It suffices to prove this for a polynomial ring, as every finitely generated algebra is a quotient of a polynomial ring.
+    It further suffices to prove this for a univariate polynomial ring \( A = R[T] \) by induction.
+    Let \( \mathfrak a \) be an ideal of \( R[T] \); we need to show that \( \mathfrak a \) is finitely generated.
+    For each \( i \geq 0 \), define
+    \[ \mathfrak a(i) = \qty{c_0 \mid c_0 T^i + \dots + c_i T^0 \in \mathfrak a} \]
+    Thus \( \mathfrak a(i) \) is the set of leading coefficients of polynomials of degree \( i \) that lie in \( \mathfrak a \).
+    Each \( \mathfrak a(i) \) is an ideal in \( R \), and \( \mathfrak a(i) \subseteq \mathfrak a(i+1) \) by multiplying by \( T \).
+    As \( R \) is Noetherian, each \( \mathfrak a(i) \) is a finitely generated ideal, and this ascending chain stabilises at \( \mathfrak a(m) \), say.
+    Let
+    \[ \mathfrak a(i) = (b_{i,1}, \dots, b_{i,n_i}) \]
+    We can choose \( f_{i,j} \) of degree \( i \) with leading coefficient \( b_{i,j} \).
+    Define the ideal
+    \[ \mathfrak b = (f_{i,j})_{i \leq m, j \leq n_i} \]
+    Note that \( \mathfrak b \) is finitely generated.
+    Defining \( \mathfrak b(i) \) in the same way as \( \mathfrak a(i) \), we have
+    \[ \forall i,\, \mathfrak a(i) = \mathfrak b(i) \]
+    By construction, \( \mathfrak b \subseteq \mathfrak a \); we claim that the reverse inclusion holds, then the proof will be complete.
+    Suppose that \( \mathfrak a \nsubseteq \mathfrak b \), and take \( f \in \mathfrak a \setminus \mathfrak b \) of minimal degree \( i \).
+    As \( \mathfrak a(i) = \mathfrak b(i) \), there is a polynomial \( g \) in \( \mathfrak b \) of degree \( i \) that has the same leading coefficient.
+    Then \( f - g \) has degree less than \( i \), and lies in \( \mathfrak a \).
+    But then by minimality, \( f - g \in \mathfrak b \), giving \( f \in \mathfrak b \).
+\end{proof}
+Therefore, if \( S \subseteq \faktor{R[T_1, \dots, T_n]}{I} \) where \( R \) is Noetherian, then \( (S) = (S_0) \) where \( S_0 \subseteq S \) is finite.
