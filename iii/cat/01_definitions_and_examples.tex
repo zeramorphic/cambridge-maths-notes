@@ -59,3 +59,87 @@
         The identity morphisms are the identity matrices.
     \end{enumerate}
 \end{example}
+
+\subsection{Functors}
+\begin{definition}
+    Let \( \mathcal C, \mathcal D \) be categories.
+    A \emph{functor} \( F : \mathcal C \to \mathcal D \) consists of a map \( \ob \mathcal C \xrightarrow F \ob \mathcal D \) and a map \( \mor \mathcal C \xrightarrow F \mathcal D \), such that
+    \begin{enumerate}
+        \item \( F(\dom f) = \dom Ff \);
+        \item \( F(\cod f) = \cod Ff \);
+        \item \( F(1_A) = 1_{F A} \); and
+        \item \( F(fg) = (Ff)(Fg) \) whenever \( fg \) is defined.
+    \end{enumerate}
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item The \emph{forgetful functors} \( \mathbf{Grp} \to \mathbf{Set}, \mathbf{Rng} \to \mathbf{Set}, \mathbf{Top} \to \mathbf{Set} \) and so on forget that the objects are structures and forget the conditions on morphisms.
+        Similarly, there are forgetful functors \( \mathbf{Rng} \to \mathbf{AbGp}, \mathbf{Met} \to \mathbf{Top}, \mathbf{TopGp} \to \mathbf{Top}, \mathbf{TopGp} \to \mathbf{Grp} \).
+        \item Any mapping \( f : A \to UG \) from a set \( A \) to the underlying set of a group \( G \) extends uniquely to a homomorphism \( FA \to G \), where \( FA \) is the free group on the set \( A \).
+        This can be made into a functor \( F : \mathbf{Set} \to \mathbf{Grp} \): given \( f : A \to B \), the homomorphism \( Ff \) is the unique homomorphism extending \( A \xrightarrow f B \to FB \).
+        Given \( g : B \to C \), then \( F(gf) \) and \( (Fg)(Ff) \) both extend the same mapping \( A \to FC \), so by the uniqueness property they are equal.
+        \item The power-set construction \( P : \mathbf{Set} \to \mathbf{Set} \) is a functor.
+        \( PA \) is the set of all subsets of \( A \), and given \( f : A \to B \), \( Pf \) is the map sending \( S \) to the image of \( S \) under \( f \).
+        \item There is another power-set functor \( P^\star : \mathbf{Set}^\cop \to \mathbf{Set} \) (or \( \mathbf{Set} \to \mathbf{Set}^\cop \)).
+        This has the same object map, but given \( f : A \to B \), \( P^\star f \) maps \( S \subseteq B \) to its inverse image under \( f \).
+        A functor like this that reverses the direction of arrows is sometimes called \emph{contravariant}; functors which do not are called \emph{covariant}.
+        \item The construction of dual spaces in linear algebra gives rise to a functor \( (-)^\star : \mathbf{Vect}_k^\cop \to \mathbf{Vect}_k \).
+        \( V^\star \) is the space of linear maps \( V \to k \), and a linear map \( f : V \to W \) gives rise to \( f^\star : W^\star \to V^\star \) given by composition.
+        \item \( \mathbf{Cat} \) is the category where the objects are the small categories and the morphisms are functors.
+        This is well-defined as functors have identities and compositions.
+        \item The assignment \( \mathcal C \to \mathcal C^\cop \) defines a (covariant) functor \( \mathbf{Cat} \to \mathbf{Cat} \).
+        \item A functor between monoids is a monoid homomorphism.
+        \item A functor between groups is a group homomorphism.
+        \item A functor between posets is an order-preserving map.
+        \item If \( G \) is a group, a functor \( F : G \to \mathbf{Set} \) defines a set \( A = F \star \), together with a collection of endomorphisms of \( A \) denoted \( a \mapsto g \cdot a \) for each \( g \in G \).
+        This collection of endomorphisms is compatible with the identity and composition, so is precisely the definition of a group action or permutation representation of \( G \).
+        \item If \( G \) is a group, a functor \( F : G \to \mathbf{Vect}_k \) is a \( k \)-linear representation of \( G \).
+        \item The fundamental group of a topological space defines a functor \( \pi_1 : \mathbf{Top}_\star \to \mathbf{Grp} \), where \( \mathbf{Top}_\star \) is the category of pointed topological spaces.
+    \end{enumerate}
+\end{example}
+
+\subsection{Natural transformations}
+\begin{definition}
+    Let \( \mathcal C, \mathcal D \) be categories, and \( F, G : \mathcal C \rightrightarrows \mathcal D \) be functors.
+    A \emph{natural transformation} \( \alpha : F \to G \) is a mapping \( \ob \mathcal C \to \mor \mathcal D \) denoted \( A \mapsto \alpha_A \), such that
+    \begin{enumerate}
+        \item \( \alpha_A : FA \to GA \) for all \( A \); and
+        \item for any morphism \( f : A \to B \) in \( \mathcal C \), the square
+        \[\begin{tikzcd}
+            FA & FB \\
+            GA & GB
+            \arrow["Ff", from=1-1, to=1-2]
+            \arrow["{\alpha_B}", from=1-2, to=2-2]
+            \arrow["{\alpha_A}"', from=1-1, to=2-1]
+            \arrow["Gf"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        commutes.
+        Such squares are called \emph{naturality} squares.
+    \end{enumerate}
+\end{definition}
+If we have a natural transformation \( \beta : G \to H \), we can define \( \beta \alpha \) by \( (\beta \alpha)_A = \beta_A \alpha_A \).
+We therefore have a category \( [\mathcal C, \mathcal D] \) whose objects are the functors \( \mathcal C \to \mathcal D \) and whose morphisms are the natural transformations between them.
+\begin{example}
+    \begin{enumerate}
+        \item Given a vector space \( V \), we have a linear map \( \alpha_V : V \to V^{\star\star} \) sending \( v \in V \) to the map \( f \mapsto f(v) \).
+        This is a natural transformation \( \alpha : 1_{\mathbf{Vect}_k} \to (-)^{\star\star} \).
+        The fact that the naturality squares commute can be easily checked.
+        \item There is an inclusion from any set \( A \) to its free group \( FA \).
+        The map sending a set \( A \) to the inclusion \( A \to FA \) is a natural transformation \( 1_{\mathbf{Set}} \to UF \).
+        Naturality is built into the definition of \( F \) on morphisms.
+        \item There is a mapping \( \alpha_A : A \to PA \) by mapping \( a \in A \) to \( \qty{a} \in PA \).
+        This is a natural transformation \( 1_{\mathbf{Set}} \to P \), since \( Pf\qty{a} = \qty{fa} \).
+        \item Let \( f, g : P \rightrightarrows Q \) be order-preserving maps between posets.
+        A natural transformation \( f \to g \) exists if and only if \( fx \leq gx \) pointwise for all \( x \in P \).
+        The naturality condition is trivial as every commutative square in a poset commutes.
+        \item Let \( u, v : G \rightrightarrows H \) be group homomorphisms.
+        A natural transformation \( \alpha : u \to v \) is an element \( h \in H \) such that \( h u(g) = v(g) h \) for all \( g \), or equivalently, \( v(g) = h u(g) h^{-1} \).
+        Thus a natural transformation exhibits a conjugacy between two homomorphisms.
+        In particular, the natural transformations \( u \to u \) are the elements of the centraliser of \( u(G) \).
+        \item Let \( A, B \) be permutation representations of \( G \).
+        A natural transformation \( f : A \to B \) is a mapping of the underlying sets \( A \to B \) satisfying \( g \cdot f(a) = f(g \cdot a) \) for all \( a \in A \) and \( g \in G \).
+        This is the definition of a \( G \)-equivariant map.
+        \item For any (nice) pointed topological space \( X \) with base point \( x \), the \emph{Hurewicz homomorphism} is a map \( h_{n, x} : \pi_n(X, x) \to H_n(X) \).
+        This is a natural transformation \( \pi_n \to H_n U \) where \( U \) is the forgetful functor \( \mathbf{Top}_\star \to \mathbf{Top} \).
+    \end{enumerate}
+\end{example}
