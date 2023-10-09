@@ -18,7 +18,7 @@
         \item We could formulate a definition of category with no mention of objects, since objects biject with the identity morphisms.
         We will not take this approach here.
         \item Note that we choose \( fg \) to mean `first \( g \) and then \( f \)'; this choice is a convention and the other one may be adopted.
-    \end{enumerate} 
+    \end{enumerate}
 \end{remark}
 \begin{example}
     \begin{enumerate}
@@ -123,21 +123,85 @@ We therefore have a category \( [\mathcal C, \mathcal D] \) whose objects are th
     \begin{enumerate}
         \item Given a vector space \( V \), we have a linear map \( \alpha_V : V \to V^{\star\star} \) sending \( v \in V \) to the map \( f \mapsto f(v) \).
         This is a natural transformation \( \alpha : 1_{\mathbf{Vect}_k} \to (-)^{\star\star} \).
-        The fact that the naturality squares commute can be easily checked.
+        The naturality squares are of the form
+        % The fact that the naturality squares commute can be easily checked.
+        \[\begin{tikzcd}
+            V & W \\
+            {V^{\star\star}} & {W^{\star\star}}
+            \arrow["f", from=1-1, to=1-2]
+            \arrow["{\alpha_W}", from=1-2, to=2-2]
+            \arrow["{\alpha_V}"', from=1-1, to=2-1]
+            \arrow["{f^{\star\star}}"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        where
+        \[ \alpha_V(v) = f \mapsto f(v);\quad f^{\star\star}(g)(h) = g (f^\star h) = g (h \circ f) \]
+        We show the naturality square commutes.
+        \begin{align*}
+            ((g \mapsto h \mapsto g(h \circ f)) \circ \alpha_V)(v) &= (g \mapsto h \mapsto g(h \circ f))(\alpha_V v) \\
+            &= (g \mapsto h \mapsto g(h \circ f))(k \mapsto k v) \\
+            &= h \mapsto (k \mapsto k v)(h \circ f) \\
+            &= h \mapsto (h \circ f) v \\
+            &= h \mapsto (h (fv)) \\
+            &= \alpha_W (fv) \\
+            &= (\alpha_W \circ f) v
+        \end{align*}
         \item There is an inclusion from any set \( A \) to its free group \( FA \).
         The map sending a set \( A \) to the inclusion \( A \to FA \) is a natural transformation \( 1_{\mathbf{Set}} \to UF \).
         Naturality is built into the definition of \( F \) on morphisms.
+        \[\begin{tikzcd}
+            A & B \\
+            UFA & UFB
+            \arrow["f", from=1-1, to=1-2]
+            \arrow["{\alpha_B}", from=1-2, to=2-2]
+            \arrow["{\alpha_A}"', from=1-1, to=2-1]
+            \arrow["{UF(f)}"', from=2-1, to=2-2]
+        \end{tikzcd}\]
         \item There is a mapping \( \alpha_A : A \to PA \) by mapping \( a \in A \) to \( \qty{a} \in PA \).
         This is a natural transformation \( 1_{\mathbf{Set}} \to P \), since \( Pf\qty{a} = \qty{fa} \).
+        \[\begin{tikzcd}
+            A & B \\
+            PA & PB
+            \arrow["f", from=1-1, to=1-2]
+            \arrow["{\alpha_B}", from=1-2, to=2-2]
+            \arrow["{\alpha_A}"', from=1-1, to=2-1]
+            \arrow["Pf"', from=2-1, to=2-2]
+        \end{tikzcd}\]
         \item Let \( f, g : P \rightrightarrows Q \) be order-preserving maps between posets.
-        A natural transformation \( f \to g \) exists if and only if \( fx \leq gx \) pointwise for all \( x \in P \).
-        The naturality condition is trivial as every commutative square in a poset commutes.
+        Then for \( x \leq y \) in \( P \), the naturality square is
+        \[\begin{tikzcd}
+            fx & fy \\
+            gx & gy
+            \arrow["{\alpha_x}"', from=1-1, to=2-1]
+            \arrow[from=2-1, to=2-2]
+            \arrow["{\alpha_y}", from=1-2, to=2-2]
+            \arrow[from=1-1, to=1-2]
+        \end{tikzcd}\]
+        In particular, the existence of \( \alpha_x \) proves that \( fx \leq gx \).
+        Thus a natural transformation \( f \to g \) exists if and only if \( fx \leq gx \) pointwise for all \( x \in P \).
+        Note that every commutative square in a poset commutes.
         \item Let \( u, v : G \rightrightarrows H \) be group homomorphisms.
-        A natural transformation \( \alpha : u \to v \) is an element \( h \in H \) such that \( h u(g) = v(g) h \) for all \( g \), or equivalently, \( v(g) = h u(g) h^{-1} \).
+        For \( g \in G \), the naturality square is
+        \[\begin{tikzcd}
+            \star & \star \\
+            \star & \star
+            \arrow["ug", from=1-1, to=1-2]
+            \arrow["{\alpha_\star}", from=1-2, to=2-2]
+            \arrow["{\alpha_\star}"', from=1-1, to=2-1]
+            \arrow["vg"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        A natural transformation \( \alpha : u \to v \) is an element \( \alpha_\star = h \in H \) such that \( h u(g) = v(g) h \) for all \( g \), or equivalently, \( v(g) = h u(g) h^{-1} \).
         Thus a natural transformation exhibits a conjugacy between two homomorphisms.
         In particular, the natural transformations \( u \to u \) are the elements of the centraliser of \( u(G) \).
-        \item Let \( A, B \) be permutation representations of \( G \).
-        A natural transformation \( f : A \to B \) is a mapping of the underlying sets \( A \to B \) satisfying \( g \cdot f(a) = f(g \cdot a) \) for all \( a \in A \) and \( g \in G \).
+        \item Let \( A, B \) be permutation representations of \( G \), that is, functors \( G \to \mathbf{Set} \).
+        \[\begin{tikzcd}
+            A\star & A\star \\
+            B\star & B\star
+            \arrow["Ag", from=1-1, to=1-2]
+            \arrow["f", from=1-2, to=2-2]
+            \arrow["f"', from=1-1, to=2-1]
+            \arrow["Bg"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        A natural transformation \( f : A \to B \) is a mapping of the underlying sets \( A\star \to B\star \) satisfying \( g \cdot f(a) = f(g \cdot a) \) for all \( a \in A \) and \( g \in G \).
         This is the definition of a \( G \)-equivariant map.
         \item For any (nice) pointed topological space \( X \) with base point \( x \), the \emph{Hurewicz homomorphism} is a map \( h_{n, x} : \pi_n(X, x) \to H_n(X) \).
         This is a natural transformation \( \pi_n \to H_n U \) where \( U \) is the forgetful functor \( \mathbf{Top}_\star \to \mathbf{Top} \).
