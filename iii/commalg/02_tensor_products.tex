@@ -21,7 +21,7 @@ This is a module that abstracts the notion of bilinearity between two modules.
     We will show later that this is isomorphic to \( \mathbb R^{n+\ell} \).
 \end{example}
 
-\subsection{Definitions}
+\subsection{Definition and universal property}
 \begin{definition}
     A map of \( R \)-modules \( f : M \times N \to L \) is \emph{\( R \)-bilinear} if for each \( m_0 \in M \) and \( n_0 \in N \), the maps \( n \mapsto f(m_0, n) \) and \( m \mapsto f(m, n_0) \) are \( R \)-linear (or equivalently, a homomorphism of \( R \)-modules).
 \end{definition}
@@ -90,4 +90,126 @@ The universal property given above characterises the tensor product up to isomor
     Similarly, \( \id = \varphi \circ \psi \).
     Hence, \( \varphi \) is an isomorphism \( M \otimes N \to T \) with \( \varphi \circ i_{M \otimes N} = j \).
     Uniqueness of \( \varphi \) is guaranteed by the universal property: it is the only solution to \( \varphi \circ i_{M \otimes N} = j \).
+\end{proof}
+In particular, we have
+\[ \operatorname{Bilin}_R(M \times N, L) \similarrightarrow \Hom(M \otimes_R N, L) \]
+given by the universal property, and the inverse is given by \( h \mapsto h \circ i_{M \otimes N} \).
+
+\subsection{Zero tensors}
+\begin{proposition}
+    Let \( M, N \) be \( R \)-modules.
+    Then
+    \[ \sum m_i \otimes n_i = 0 \]
+    if and only if for every \( R \)-module \( L \) and every \( R \)-bilinear map \( f : M \times N \to L \), we have
+    \[ \sum f(m_i, n_i) = 0 \]
+\end{proposition}
+To show an element of \( M \otimes N \) is nonzero, it suffices to find a single \( R \)-module \( L \) and bilinear map \( M \times N \to L \) with mapping the required sum to a nonzero value.
+\begin{proof}
+    Assume \( \sum m_i \otimes n_i = 0 \).
+    \( f \) factors through the map \( i_{M \otimes N} \), giving
+    \[\begin{tikzcd}
+        {M \times N} & {M \otimes N} \\
+        & L
+        \arrow["{i_{M \otimes N}}", from=1-1, to=1-2]
+        \arrow["h", from=1-2, to=2-2]
+        \arrow["f"', from=1-1, to=2-2]
+    \end{tikzcd}\]
+    So
+    \[ \sum f(m_i, n_i) = \sum h(i_{M \otimes N}(m, n)) = h\qty(\sum i_{M \otimes N} (m, n)) = h(0) = 0 \]
+    In the other direction, suppose \( \sum m_i \otimes n_i \neq 0 \).
+    Then, \( \sum i_{M \otimes N}(m_i, n_i) \neq 0 \), as required.
+\end{proof}
+\begin{example}
+    Let \( k \) be a field, and consider \( k^m \otimes k^\ell \).
+    Let \( k^m \) have basis \( \qty{e_1, \dots, e_m} \) and \( k^\ell \) have basis \( f_1, \dots, f_\ell \).
+    Then
+    \[ k^m \otimes k^\ell = \vecspan_k \qty{v \otimes w \mid v \in k^m, w \in k^\ell} = \vecspan_k \qty{e_i \otimes f_j} \]
+    This is in fact a basis.
+    Suppose \( \sum_{i,j} \alpha_{i,j} e_i \otimes f_j = 0 \).
+    For each \( a \leq m, b \leq \ell \), define \( T_{a,b} : k^m \times k^\ell \to k \) by
+    \[ T_{a,b}\qty((v_i)_{i=1}^k, (w_j)_{j=1}^\ell) = v_a w_b \]
+    By the above proposition,
+    \[ 0 = \sum_{i,j} \alpha_{i,j} T_{a,b}(e_i, f_j) = \alpha_{a,b} \]
+    So \( k^m \otimes k^\ell \simeq k^{m\ell} \).
+    Note that this construction only relied on the existence of a free basis, not on \( k \) being a field.
+\end{example}
+\begin{example}
+    Consider \( \mathbb R^2 \otimes_{\mathbb R} \mathbb R^2 \).
+    There are infinitely many pure tensors, but there is a basis consisting of the four pure vectors
+    \[ e_1 \otimes f_1;\quad e_1 \otimes f_2;\quad e_2 \otimes f_1;\quad e_2 \otimes f_2 \]
+    A pure tensor in \( \mathbb R^2 \otimes_{\mathbb R} \mathbb R^2 \) is of the form
+    \[ (\alpha e_1 + \beta e_2) \otimes (\gamma f_1 + \delta f_2) \]
+    which expands to
+    \[ (\alpha\gamma)(e_1 \otimes f_1) + (\alpha\delta)(e_1 \otimes f_2) + (\beta\gamma)(e_2 \otimes f_1) + (\beta\delta)(e_2 \otimes f_2) \]
+    Note that there is a linear dependence relation between the coefficients \( \alpha\gamma, \alpha\delta, \beta\gamma, \beta\delta \), so in some sense `most' tensors are not pure.
+    For example,
+    \[ 1(e_1 \otimes f_1) + 2(e_1 \otimes f_2) + 3(e_2 \otimes f_1) + 4(e_2 \otimes f_2) \]
+    is not pure.
+\end{example}
+\begin{example}
+    Consider \( \mathbb Z \otimes_{\mathbb Z} \faktor{\mathbb Z}{2\mathbb Z} \).
+    In this module,
+    \[ 2 \otimes (1 + 2\mathbb Z) = 1 \otimes (2 + 2\mathbb Z) = 1 \otimes 0 = 0 \]
+    Note that \( \mathbb Z \) has a \( \mathbb Z \)-submodule \( 2\mathbb Z \).
+    In \( 2\mathbb Z \otimes_{\mathbb Z} \faktor{\mathbb Z}{2\mathbb Z} \), the element also denoted with \( 2 \otimes (1 + 2\mathbb Z) \) is nonzero.
+    For example, we can define a bilinear map to \( \faktor{\mathbb Z}{2\mathbb Z} \) given by
+    \[ b(2n, x + 2\mathbb Z) = n x + 2\mathbb Z \]
+    Then \( b(2, 1 + 2\mathbb Z) = 1 \neq 0 \).
+    So it is not the case that tensor products of submodules are submodules of tensor products.
+
+    However, if \( M' \subseteq M \) and \( N' \subseteq N \) and \( \sum m_i \otimes n_i = 0 \) in \( M' \otimes N' \), then \( \sum m_i \otimes n_i = 0 \) in \( M \otimes N \).
+\end{example}
+\begin{proposition}
+    If \( \sum m_i \otimes n_i = 0 \) in \( M \otimes_R N \), then there are finitely generated \( R \)-submodules \( M' \subseteq M \) and \( N' \subseteq N \) such that the expression \( \sum m_i \otimes n_i \) also evaluates to zero in \( M' \otimes_R N' \).
+\end{proposition}
+This is the last proof that will use the direct construction of the tensor product instead of the universal property directly.
+\begin{proof}
+    We know that \( \sum m_i \otimes n_i = 0 \) in \( M \otimes_R N = \faktor{R^{\oplus(M \times N)}}{K} \), so in particular \( \sum e_{(m_i, n_i)} \in K \), where \( e_x \) maps \( x \in M \times N \) to its basis element in \( R^{\oplus(M \times N)} \).
+    So this is a finite sum of \( \alpha_i k_i \) with \( \alpha_i \in R, k_i \in K \), and so we can take the \( m_1', \dots, m_a' \) that appear on the left-hand sides of the \( k_i \) as the generators for \( M' \), and similarly for \( N' \).
+\end{proof}
+\begin{corollary}
+    Let \( A, B \) be torsion-free abelian groups.
+    Then \( A \otimes_{\mathbb Z} B \) is torsion-free.
+\end{corollary}
+\begin{proof}
+    Suppose \( n \qty(\sum a_i \otimes b_i) = 0 \) with \( n \geq 1 \).
+    By the previous proposition, there are finitely generated subgroups \( A' \leq A \) and \( B' \leq B \) such that \( n \qty(\sum a_i \otimes b_i) = 0 \) in \( A' \otimes_{\mathbb Z} B' \).
+    But as \( A' \) and \( B' \) are finitely generated abelian groups, the structure theorem shows that \( A' = \mathbb Z^m \) and \( B' = \mathbb Z^\ell \), showing that \( A' \otimes_{\mathbb Z} B' \simeq \mathbb Z^{m\ell} \) is torsion-free.
+    Thus \( \sum a_i \otimes b_i = 0 \) in \( A' \otimes_{\mathbb Z} B' \), so also \( \sum a_i \otimes b_i = 0 \) in \( A \otimes_{\mathbb Z} B \).
+\end{proof}
+\begin{example}
+    \[ \mathbb C^2 \otimes_{\mathbb C} \mathbb C^3 \simeq \mathbb C^6 \simeq \mathbb R^{12} \]
+    However,
+    \[ \mathbb C^2 \otimes_{\mathbb R} \mathbb C^3 \simeq \mathbb R^4 \otimes_{\mathbb R} \mathbb R^6 \simeq \mathbb R^{24} \]
+    This is to be expected: tensoring over a larger ring introduces more relations, so the amount of distinguishable elements should shrink.
+\end{example}
+
+\subsection{Monoidal structure}
+\begin{proposition}[commutativity]
+    There is an isomorphism \( M \otimes N \simeq N \otimes N \) mapping a pure tensor \( m \otimes n \) to \( n \otimes m \).
+\end{proposition}
+\begin{proposition}[associativity]
+    There is an isomorphism \( (M \otimes N) \otimes P \simeq M \otimes (N \otimes P) \) mapping \( (m \otimes n) \otimes p \) to \( m \otimes (n \otimes p) \).
+\end{proposition}
+% to solve, define tensor product of three modules
+\begin{proposition}[identity]
+    There is an isomorphism \( R \otimes M \simeq M \) mapping \( r \otimes m \) to \( rm \).
+\end{proposition}
+\begin{proposition}[distributivity]
+    There is an isomorphism \( \qty(\bigoplus_i M_i) \otimes P \simeq \bigoplus_i (M_i \otimes P) \) mapping % TODO
+\end{proposition}
+\begin{example}
+    \[ R^m \otimes_R R^\ell = \qty(\bigoplus_{i=1}^m R) \otimes_R \qty(\bigoplus_{j=1}^\ell R) \simeq \bigoplus_{i=1}^m \bigoplus_{j=1}^\ell (R \otimes R) \simeq \bigoplus_{i=1}^m \bigoplus_{j=1}^\ell R \simeq R^{m\ell} \]
+\end{example}
+
+\subsection{Tensor products of maps}
+\begin{proposition}
+    Let \( f : M \to M' \) and \( g : N \to N' \) be \( R \)-module homomorphisms.
+    There is a unique \( R \)-module homomorphism \( f \otimes g : M \otimes N \to M' \otimes N' \) such that
+    \[ (f \otimes g)(m \otimes n) = f(m) \otimes g(n) \]
+\end{proposition}
+\begin{proof}
+    We apply the universal property to the map \( T : M \times N \to M \otimes N' \) given by
+    \[ T(m, n) = f(m) \otimes g(n) \]
+    which can be checked to be \( R \)-bilinear.
 \end{proof}
