@@ -19,6 +19,7 @@ We will allow for the empty set to be an \( \mathcal L \)-structure.
 \end{definition}
 \begin{definition}
     If \( \mathcal M \subseteq \mathcal N \) and the inclusion map is an \( \mathcal L \)-homomorphism, we say that \( \mathcal M \) is a \emph{substructure} of \( \mathcal N \), and that \( \mathcal N \) is an \emph{extension} of \( \mathcal M \).
+    We will typically use the notation \( \mathcal M \subseteq \mathcal N \) to indicate that \( \mathcal M \) is a substructure of \( \mathcal N \) when both are \( \mathcal L \)-structures, not just that it is a subset.
 \end{definition}
 \begin{example}
     \begin{enumerate}
@@ -176,3 +177,84 @@ It turns out that if theory on a countable language is categorical for some unco
     It now remains to show that the substructure \( \mathcal M \) of \( \mathcal N \) is elementary.
     This follows from induction over the number of quantifiers in formulae, noting that the truth values of quantifier-free formulae are always preserved under any extension.
 \end{proof}
+
+\subsection{Universal theories and the method of diagrams}
+\begin{definition}
+    A formula \( \varphi \) is \emph{universal} if it is of the form \( \forall \vb x.\, \psi(\vb x, \vb y) \) where \( \psi \) is quantifier-free.
+    A theory is \emph{universal} if all its axioms are universal sentences.
+\end{definition}
+\begin{definition}
+    Let \( \mathcal N \) be an \( \mathcal L \)-structure.
+    We define the \emph{diagram} of \( \mathcal N \) to be the set
+    \[ \operatorname{Diag} \mathcal N = \qty{\varphi(n_1, \dots n_k) \mid \varphi \text{ is a quantifier-free } \mathcal L_{\mathcal N} \text{ formula}, \mathcal N \vDash \varphi(n_1, \dots, n_k)} \]
+    The \emph{elementary diagram} of \( \mathcal N \) is
+    \[ \operatorname{Diag}_{\text{el}} \mathcal N = \qty{\varphi(n_1, \dots n_k) \mid \varphi \text{ is an } \mathcal L_{\mathcal N} \text{ formula}, \mathcal N \vDash \varphi(n_1, \dots, n_k)} \]
+\end{definition}
+The diagram of a group is a slight generalisation of its multiplication table.
+Note that a model of a diagram is the same as an extension, and a model of an elementary diagram is the same as an elementary extension.
+\begin{lemma}
+    Let \( \mathcal T \) be a consistent theory, and let \( \mathcal T_\forall \) for the theory of universal sentences proven by \( \mathcal T \).
+    If \( \mathcal N \) is a model of \( \mathcal T_\forall \), then \( \mathcal T \cup \operatorname{Diag} {\mathcal N} \) is consistent.
+\end{lemma}
+\begin{proof}
+    Suppose \( \mathcal T \cup \operatorname{Diag} {\mathcal N} \) is inconsistent.
+    As \( \mathcal T \) is consistent, by compactness there must be a finite number of sentences in the diagram \( \operatorname{Diag} {\mathcal N} \) that are inconsistent with \( \mathcal T \).
+    Taking the conjunction, we can reduce to the case where there is a single sentence \( \varphi(\vb n) \) that is inconsistent with \( \mathcal T \).
+    Then as \( \mathcal T \cup \qty{\varphi(\vb n)} \) is inconsistent, \( \mathcal T \vdash \neg\varphi(\vb n) \).
+    Since \( \mathcal T \) has nothing to say about the new constants \( \vb n \), we must in fact have \( \mathcal T \vdash \forall \vb x.\, \neg \varphi(\vb x) \).
+    This is a universal consequence of \( \mathcal T \), so by assumption \( \mathcal N \) models it, giving a contradiction.
+\end{proof}
+\begin{corollary}[Tarski, \L{}o\'s]
+    An \( \mathcal L \)-theory \( \mathcal T \) has a universal axiomatisation if and only if it is preserved under substructures.
+    That is, if \( \mathcal M \subseteq \mathcal N \) are substructures and \( \mathcal M \vDash \mathcal T \) then \( \mathcal N \vDash \mathcal T \). 
+    Dually, a theory has an existential axiomatisation if and only if it is preserved under extensions.
+\end{corollary}
+\begin{proof}
+    One direction is clear.
+    Suppose \( \mathcal T \) is preserved under taking substructures.
+    If \( \mathcal N \vDash \mathcal T \), then \( \mathcal N \vDash \mathcal T_\forall \); we show that the converse also holds.
+    By the previous proposition, \( \mathcal T \cup \operatorname{Diag} \mathcal N \) is consistent.
+    Let \( \mathcal N^\star \) be a model of this theory.
+    So \( \mathcal N^\star \) is an extension of \( \mathcal N \), and also models \( \mathcal T \).
+    But as \( \mathcal T \) is preserved under substructures, \( \mathcal N \) must model \( \mathcal T \).
+\end{proof}
+We can show much more with the same method.
+\begin{theorem}[elementary amalgamation theorem]
+    Let \( \mathcal M, \mathcal N \) be \( \mathcal L \)-structures, and \( \vb m \in \mathcal M, \vb n \in \mathcal N \) be tuples of the same size such that \( (\mathcal M, \vb m) \equiv (\mathcal N, \vb n) \).
+    Then there is an elementary extension \( \mathcal K \) of \( M \) and an elementary embedding \( g : \mathcal N \hookrightarrow \mathcal K \) mapping each \( n_i \) to \( m_i \).
+\end{theorem}
+\begin{proof}
+    Replacing \( \mathcal N \) with an isomorphic copy if required, we can assume \( \vb m = \vb n \).
+    We show that the theory
+    \[ \mathcal T = \operatorname{Diag}_{\text{el}} \mathcal M \cup \operatorname{Diag}_{\text{el}} \mathcal N \]
+    is consistent, using compactness.
+    Suppose that \( \Phi \) is a finite subset of sentences in \( \mathcal T \), which of course includes only finitely many sentences in \( \operatorname{Diag}_{\text{el}} \mathcal N \).
+    Let the conjunction of those sentences be written as \( \varphi(\vb m, \vb k) \), where \( \varphi(\vb x, \vb y) \) is an \( \mathcal L_{\mathcal N} \)-formula, and \( \vb k \) are pairwise distinct elements of \( \mathcal N \setminus \vb m \).
+    If \( \Phi \) is inconsistent, then \( \operatorname{Diag}_{\text{el}} \mathcal M \vdash \neg \varphi(\vb m, \vb k) \).
+    Since the elements of \( \vb k \) are distinct and not in \( \mathcal M \), we in fact have \( \operatorname{Diag}_{\text{el}} \mathcal M \vdash \forall \vb y.\, \neg \varphi(\vb m, \vb y) \).
+    % TODO: why not in \mathcal M? why not just not in \vb m?
+    In particular, \( (\mathcal M, \vb m) \vDash \forall y.\, \neg \varphi(\vb m, \vb y) \).
+    By hypothesis, \( (\mathcal N, \vb n) \vDash \forall y.\, \neg \varphi(\vb m, \vb y) \).
+    This is a contradiction, as \( \varphi(\vb m, \vb k) \in \operatorname{Diag}_{\text{el}} \mathcal N \).
+    Hence \( \mathcal T \) is consistent.
+    Take \( \mathcal K \) to be the \( \mathcal L \)-reduct of a model of \( \mathcal T \).
+\end{proof}
+We can also use this technique to constrain the size of a model.
+\begin{theorem}[L\"owenheim--Skolem theorem]
+    Let \( \mathcal M \) be an infinite \( \mathcal L \)-structure.
+    Let \( \kappa \geq \abs{\mathcal L} \) be an infinite cardinal.
+    Then,
+    \begin{enumerate}
+        \item if \( \kappa < \abs{\mathcal M} \), there is an elementary substructure of \( \mathcal M \) of size \( \kappa \);
+        \item if \( \kappa > \abs{\mathcal M} \), there is an elementary extension of \( \mathcal M \) of size \( \kappa \).
+    \end{enumerate}
+\end{theorem}
+We postpone the proof of part (i).
+\begin{proof}
+    Expand the language \( \mathcal L \) by adding constant symbols for each \( m \in \mathcal M \) and \( c \in \kappa \).
+    Let
+    \[ \mathcal T = \operatorname{Diag}_{\text{el}} \mathcal M \cup \bigcup_{c \neq c' \in \kappa} \qty{\neg(c = c')} \]
+    \( \mathcal T \) has a model by compactness, and this model must be an elementary extension of \( \mathcal M \) with size at least \( \kappa \).
+    We then apply the downward L\"owenheim--Skolem theorem if necessary to obtain a model of size exactly \( \kappa \).
+\end{proof}
+For example, if \( \mathcal L \) is countable, every infinite \( \mathcal L \)-structure has a countable elementary substructure.

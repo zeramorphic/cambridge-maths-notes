@@ -207,3 +207,114 @@ We therefore have a category \( [\mathcal C, \mathcal D] \) whose objects are th
         This is a natural transformation \( \pi_n \to H_n U \) where \( U \) is the forgetful functor \( \mathbf{Top}_\star \to \mathbf{Top} \).
     \end{enumerate}
 \end{example}
+
+\subsection{Equivalence of categories}
+There is a notion of isomorphism of categories, namely, isomorphism in the category \( \mathbf{Cat} \).
+For example, \( \mathbf{Rel} \cong \mathbf{Rel}^\cop \) via the functor
+\[ A \mapsto A;\quad R \mapsto R^\circ = \qty{(b, a) \mid (a, b) \in R} \]
+However, there is a weaker notion that is often more useful in practice, called equivalence.
+To define this, we need a notion of `natural isomorphism'.
+There are two obvious definitions, which we show are equivalent.
+\begin{lemma}
+    Let \( \alpha : F \to G \) be a natural transformation between functors \( \mathcal C \rightrightarrows \mathcal D \).
+    Then \( \alpha \) is an isomorphism in the functor category \( [\mathcal C, \mathcal D] \) if and only if each component \( \alpha_A \) is an isomorphism in \( \mathcal D \).
+\end{lemma}
+\begin{proof}
+    The forward direction is clear as composition in \( [\mathcal C, \mathcal D] \) is pointwise; if \( \beta \) is an inverse for \( \alpha \), then \( \beta_A \) is an inverse for \( \alpha_A \).
+    Suppose \( \beta_A \) is an inverse for \( \alpha_A \) for each \( A \).
+    We show the \( \beta \) collectively form a natural transformation by verifying the naturality squares.
+    Given \( f : A \to B \) in \( \mathcal C \), consider
+    \[\begin{tikzcd}
+        FA & FB \\
+        GA & GB
+        \arrow["Ff", from=1-1, to=1-2]
+        \arrow["{\alpha_A}", shift left=2, from=1-1, to=2-1]
+        \arrow["Gf"', from=2-1, to=2-2]
+        \arrow["{\alpha_B}"', shift right=2, from=1-2, to=2-2]
+        \arrow["{\beta_B}"', shift right=2, from=2-2, to=1-2]
+        \arrow["{\beta_A}", shift left=2, from=2-1, to=1-1]
+    \end{tikzcd}\]
+    Then
+    \[ (Ff)\beta_A = \beta_B \alpha_B (Ff) \beta_A = \beta_B(Gf) \alpha_A \beta_A = \beta_B (Gf) \]
+    using naturality of \( \alpha \).
+    Thus \( \beta \) is natural, and an inverse for \( \alpha \).
+\end{proof}
+\begin{definition}
+    Let \( \mathcal C, \mathcal D \) be categories.
+    An \emph{equivalence} between \( \mathcal C \) and \( \mathcal D \) is a pair of functors
+    \[ F : \mathcal C \to \mathcal D;\quad G : \mathcal D \to \mathcal C \]
+    and a pair of natural isomorphisms
+    \[ \alpha : 1_{\mathcal C} \to GF;\quad \beta : FG \to 1_{\mathcal D} \]
+    If \( \mathcal C \) and \( \mathcal D \) are equivalent, we write \( \mathcal C \simeq \mathcal D \).
+\end{definition}
+The reason the natural isomorphisms point in opposite directions will be clarified later.
+A property \( P \) of categories that is called \emph{categorical} if whenever \( \mathcal C \) satisfies \( P \) and \( \mathcal C \simeq \mathcal D \), then \( \mathcal D \) satisfies \( P \).
+For example, the properties of being a preorder or being a groupoid are categorical.
+Being a partial order or being a group are not categorical.
+Generally, properties that rely on equality of objects, not isomorphism, will not be categorical.
+\begin{example}
+    \begin{enumerate}
+        \item Let \( \mathbf{Set}_\star \) be the category of pointed sets and functions preserving the base point.
+        Then \( \mathbf{Set}_\star \simeq \mathbf{Part} \) by
+        \[ F : \mathbf{Set}_\star \to \mathbf{Part};\quad F(A, a) = A \setminus \qty{a};\quad F((A, a) \xrightarrow f (B, b))(x) = f(x) \]
+        and
+        \[ G : \mathbf{Part} \to \mathbf{Set}_\star;\quad G(A) = A \cup \qty{A};\quad G(A \xrightarrow f B \text{ partial})(x) = \begin{cases}
+            f(x) & \text{if } f \text{ is defined at } x \\
+            V & \text{otherwise}
+        \end{cases} \]
+        Note that \( FG = 1_{\mathbf{Part}} \), but \( GF \) is not equal to \( 1_{\mathbf{Set}_\star} \).
+        It is not possible for these two categories to be isomorphic, because there is an isomorphism class of \( \mathbf{Part} \) that has only one member, namely \( \qty{\varnothing} \), but this cannot occur in \( \mathbf{Set}_\star \).
+        \item Let \( \mathbf{fdVect}_k \) be the category of finite-dimensional vector spaces over \( k \).
+        This category is equivalent to its opposite category \( \mathbf{fdVect}_k^\cop \) via the dual space functors in both directions.
+        The natural isomorphisms \( \alpha \) and \( \beta \) are both as in the double dual example given above.
+        \item We show \( \mathbf{fdVect}_k \simeq \mathbf{Mat}_k \).
+        Define
+        \[ F : \mathbf{Mat}_k \to \mathbf{fdVect}_k;\quad F(n) = k^n \]
+        and sending a matrix \( A \) to the linear map it represents in the standard basis.
+        For each finite-dimensional vector space \( V \), choose a particular basis.
+        Define
+        \[ G : \mathbf{fdVect}_k \to \mathbf{Mat}_k;\quad G(V) = \dim V \]
+        and let \( G(\theta) \) be the matrix representing \( \theta \) with respect to the particular bases chosen above.
+        Then \( GF = 1_{\mathbf{Mat}_k} \), as long as we chose the bases above in such a way that the \( k^n \) have the standard basis.
+        Further, \( FG \) is naturally isomorphic to \( 1_{\mathbf{fdVect}_k} \), since the chosen bases define isomorphisms \( k^{\dim V} \to V \), which are natural in \( V \).
+    \end{enumerate}
+\end{example}
+In line with the idea that we do not want to consider equality of objects but only equality of morphisms, we make the following definitions.
+\begin{definition}
+    Let \( F : \mathcal C \to \mathcal D \) be a functor.
+    We say that \( F \) is
+    \begin{enumerate}
+        \item \emph{faithful}, if for each \( f, g \in \mor \mathcal C \) with equal domain and codomain, \( Ff = Fg \) implies \( f = g \);
+        \item \emph{full}, if for each \( FA \xrightarrow g FB \), there exists a morphism \( A \xrightarrow f B \) such that \( Ff = g \);
+        \item \emph{essentially surjective}, if every \( B \in \ob \mathcal D \) is isomorphic to some \( FA \) for \( A \in \ob \mathcal C \).
+    \end{enumerate}
+\end{definition}
+Note that if \( F \) is full and faithful, it is \emph{essentially injective}: if \( FA \xrightarrow g FB \) is an isomorphism, the unique \( A \xrightarrow f B \) with \( Ff = g \) is an isomorphism, because its inverse is the unique \( B \to A \) mapped to \( g^{-1} \).
+\begin{lemma}
+    Let \( F : \mathcal C \to \mathcal D \) be a functor.
+    Then \( F \) is part of an equivalence \( \mathcal C \simeq \mathcal D \) if and only if \( F \) is full, faithful, and essentially surjective.
+\end{lemma}
+\begin{proof}
+    Suppose \( G, \alpha, \beta \) make \( F \) into an equivalence.
+    The existence of \( \beta \) ensures that \( B \simeq FGB \) for any \( B \in \ob \mathcal D \), giving essential surjectivity.
+    For faithfulness, for any \( A \xrightarrow f B \) in \( \mathcal C \), we have \( f = \alpha_B^{-1} (GFf) \alpha_A \), allowing us to reproduce \( f \) from its domain, codomain, and image under \( F \).
+    For fullness, consider \( FA \xrightarrow g FB \), and define \( f = \alpha_B^{-1} (Gg) \alpha_A : A \to B \).
+    Then, \( GFf = Gg \).
+    As \( G \) is faithful by symmetry, \( Ff = g \).
+
+    For the converse, for each object \( B \in \mathcal D \), we choose an isomorphism \( \beta_B : FGB \to B \), thus defining the action of \( G \) on objects.
+    Then we define \( G \) on morphisms by letting \( G(B \xrightarrow g C) \) be the unique \( GB \to GC \) whose image under \( F \) is
+    \[ FGB \xrightarrow{\beta_B} B \xrightarrow g C \xrightarrow{\beta_C^{-1}} FGC \]
+    This is functorial: given \( h : C \to D \), we can form \( G(hg) \) and \( (Gh)(Gg) \) which have the same image under \( F \), so must be equal.
+    By construction, \( \beta \) is a natural isomorphism \( FG \to 1_{\mathcal D} \).
+    It suffices to construct the natural isomorphism \( \alpha : 1_{\mathcal C} \to GF \).
+    Its component at \( A \), is the unique isomorphism whose image under \( F \) is
+    \[ FA \xrightarrow{\beta_{FA}} FGFA \]
+    The naturality squares for \( \alpha \) are mapped by \( F \) to naturality squares for \( \beta^{-1} \), so they commute.
+\end{proof}
+We call a subcategory full if its inclusion functor is full.
+\begin{definition}
+    A category of \emph{skeletal} if every isomorphism class has a single member.
+    A \emph{skeleton} of \( \mathcal C \) is a full subcategory \( \mathcal C' \) containing exactly one object for each isomorphism class.
+\end{definition}
+Note that an equivalence of skeletal categories is bijective on objects, and hence is an isomorphism of categories.
