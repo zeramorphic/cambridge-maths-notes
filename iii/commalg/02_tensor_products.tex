@@ -427,3 +427,119 @@ These operations, together with coherence conditions, make the category of \( R 
     \[ T(m, n) = f(m) \otimes g(n) \]
     which can be checked to be \( R \)-bilinear.
 \end{proof}
+\begin{example}
+    We can show
+    \[ (f \otimes g) \circ (h \otimes i) = (f \circ h) \otimes (g \circ i) \]
+    For example, if \( T : k^a \to k^b \) and \( S : k^c \to k^d \),
+    \[ T \otimes S : k^a \otimes_k k^c \to k^b \otimes_k k^d \]
+    is given by
+    \[ (T \otimes S)(e_i \otimes e_j) = (T e_i) \otimes (S e_j) = \sum_{\ell, t} [T]_{\ell i} [S]_{t j} (f_\ell \otimes f_t) \]
+    where \( [T] \) denotes \( T \) in the standard basis.
+    Ordering the basis elements of \( k^a \otimes k^c \) as
+    \[ e_1 \otimes e_1, \dots, e_1 \otimes e_c, e_2, \otimes e_1, \dots, e_a \otimes e_c \]
+    and similarly for \( k^b \otimes k^d \),
+    \[ [T \otimes S] = \begin{pmatrix}
+        [T]_{11} \cdot [S] & \cdots & [T]_{1a} \cdot [S] \\
+        \vdots & \ddots & \vdots \\
+        [T]_{b1} \cdot [S] & \cdots & [T]_{ba} \cdot [S]
+    \end{pmatrix} \]
+    This is known as the \emph{Kronecker product} of matrices.
+\end{example}
+\begin{proposition}
+    Let \( f : M \to M', g : N \to N' \) be \( R \)-module homomorphisms.
+    Then,
+    \begin{enumerate}
+        \item if \( f, g \) are isomorphisms, then so is \( f \otimes g \);
+        \item if \( f, g \) are surjective, then so is \( f \otimes g \).
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \emph{Part (i).}
+    \( f^{-1} \otimes g^{-1} \) is a two-sided inverse for \( f \otimes g \), as
+    \[ (f^{-1} \otimes g^{-1}) \circ (f \otimes g) = (f^{-1} \circ f) \otimes (g^{-1} \otimes g) = \id \]
+    and similarly for the other side.
+
+    \emph{Part (ii).}
+    The image of \( f \otimes g \) contains all pure tensors of \( M' \otimes N' \), so it must be surjective.
+\end{proof}
+The analogous result for injectivity does not hold in the general case.
+Consider \( f : \mathbb Z \to \mathbb Z \) given by multiplication by \( p \), and \( g : \faktor{\mathbb Z}{p\mathbb Z} \to \faktor{\mathbb Z}{p\mathbb Z} \) given by the identity.
+Here,
+\[ (f \otimes g)(a \otimes b) = (pa) \otimes b = a \otimes (pb) = a \otimes 0 = 0 \]
+So \( f \otimes g \) is the zero map, but \( \mathbb Z \otimes \faktor{\mathbb Z}{p\mathbb Z} \simeq \faktor{\mathbb Z}{p\mathbb Z} \) is not the zero ring.
+
+\subsection{Tensor products of algebras}
+Let \( B, C \) be \( R \)-algebras.
+The usual tensor product of modules \( B \otimes_R C \) can be made into a ring and then an \( R \)-algebra.
+This allows us to define the tensor product of algebras in a natural way.
+We want the ring structure to satisfy
+\[ (b \otimes c)(b' \otimes c') = (bb') \otimes (cc') \]
+This extends to a well-defined map on all of \( B \otimes C \).
+Indeed, for a fixed \( (b, c) \in B \times C \), there is an \( R \)-bilinear map \( B \times C \to B \otimes C \) given by
+\[ (b', c') \mapsto (bb') \otimes (cc') \]
+so we can use the universal property to extend this to a map \( B \otimes C \to B \otimes C \) that acts on pure tensors in the obvious way.
+% TODO: why done here? check linearity in b and c?
+One can show that the ring axioms are satisfied.
+To define the \( R \)-algebra structure, we define the ring homomorphism \( R \to B \otimes C \) by
+\[ r \mapsto (r \cdot 1_B) \otimes 1_C = 1_B \otimes (r \cdot 1_C) \]
+\begin{example}
+    There is an isomorphism of \( R \)-algebras
+    \[ \varphi : R[X_1, \dots, X_n] \otimes_R R[T_1, \dots, T_r] \similarrightarrow R[X_1, \dots, X_n, T_1, \dots, T_r] \]
+    An \( R \)-basis for the left-hand side as an \( R \)-module is given by elements of the form \( a \otimes b \) where \( a \) and \( b \) are monomials.
+    The right hand side has a basis of elements of the form \( ab \), where \( a \in R[X_1, \dots, X_n] \) and \( b \in R[T_1, \dots, T_r] \) are monomials as above.
+    Mapping \( \varphi(a \otimes b) = ab \), we obtain an \( R \)-module isomorphism.
+    To check this is an \( R \)-algebra isomorphism, we verify multiplication and its action on scalars.
+    \[ \varphi(r \otimes 1) = r \cdot 1;\quad \varphi(1 \otimes 1) \]
+    and for monomials \( p_i, q_i, h_i, g_i \),
+    \begin{align*}
+        \varphi\qty(\qty(\sum_i p_i \otimes q_i)\qty(\sum_j h_j \otimes g_j)) &= \sum_{i,j} (p_i h_j) (q_i g_j) \\
+        &= \sum_{i,j} (p_i q_i)(h_j g_j) \\
+        &= \sum_{i,j} \varphi(p_i \otimes q_i) \varphi(h_j \otimes g_j) \\
+        &= \qty(\sum_i \varphi(p_i \otimes q_i))\qty(\sum_j \varphi(h_j g_j)) \\
+        &= \varphi\qty(\sum_i p_i \otimes q_i) \varphi\qty(\sum_j h_j \otimes g_j)
+    \end{align*}
+    More generally,
+    \[ \faktor{R[X_1, \dots, X_n]}{I} \otimes \faktor{R[T_1, \dots, T_r]}{J} \simeq \faktor{R[X_1, \dots, X_n] \otimes R[T_1, \dots, T_r]}{L} \simeq \faktor{R[X_1, \dots, X_n, T_1, \dots, T_r]}{I^e + J^e} \]
+    where \( L \) is constructed as above when quotients were discussed, and \( I^e \) is the extension of \( I \) in the larger ring \( R[X_1, \dots, X_n, T_1, \dots, T_r] \).
+    For example,
+    \[ \faktor{\mathbb C[X, Y, Z]}{(f, g)} \otimes_{\mathbb C} \faktor{\mathbb C[W, U]}{(h)} \simeq \faktor{\mathbb C[X, Y, Z, W, U]}{(f, g, h)} \]
+\end{example}
+\begin{proposition}[universal property of tensor product of algebras]
+    Let \( A, B \) be \( R \)-algebras.
+    For every algebra \( C \) and \( R \)-algebra homomorphisms \( f_1 : A \to C \) and \( f_2 : B \to C \), there is a unique \( R \)-algebra homomorphism \( h : A \otimes_R B \to C \) such that the following diagram commutes:
+    \[\begin{tikzcd}
+        A && B \\
+        & {A \otimes B} \\
+        & C
+        \arrow["{i_A}", from=1-1, to=2-2]
+        \arrow["{i_B}"', from=1-3, to=2-2]
+        \arrow["{f_1}"', curve={height=12pt}, from=1-1, to=3-2]
+        \arrow["{f_2}", curve={height=-12pt}, from=1-3, to=3-2]
+        \arrow["h", dashed, from=2-2, to=3-2]
+    \end{tikzcd}\]
+    where \( i_A(a) = a \otimes 1 \) and \( i_B(b) = 1 \otimes b \).
+    Furthermore, this characterises the triple \( (A \otimes_R B, i_A, i_B) \) uniquely up to unique isomorphism.
+\end{proposition}
+\begin{proof}
+    \( A \otimes_R B \) is generated as an \( R \)-algebra by \( \qty{a \otimes 1 \mid a \in A} \cup \qty{1 \otimes b \mid b \in B} \).
+    This implies the uniqueness of \( h \).
+    For existence, we can define an \( R \)-bilinear map \( A \times B \to C \) by \( (a, b) \mapsto f_1(a) f_2(b) \), then apply the universal property of the tensor product of modules.
+    This produces an \( R \)-linear map \( h : A \otimes B \to C \).
+    It remains to show that this is a homomorphism of algebras.
+    % the computation above with sums and \varphi is a special case of the following computation
+\end{proof}
+\begin{example}
+    \[\begin{tikzcd}
+        {R[X_1, \dots, X_n]} && {R[T_1, \dots, T_r]} \\
+        & {R[X_1, \dots, X_n, T_1, \dots, T_r]} \\
+        & C
+        \arrow[from=1-1, to=2-2]
+        \arrow[from=1-3, to=2-2]
+        \arrow[from=2-2, to=3-2]
+        \arrow["{f_1}"', curve={height=12pt}, from=1-1, to=3-2]
+        \arrow["{f_2}", curve={height=-12pt}, from=1-3, to=3-2]
+    \end{tikzcd}\]
+    An algebra homomorphism from a polynomial ring is defined uniquely by giving its action on its variables, thus
+    \[ R[X_1, \dots, X_n] \otimes R[T_1, \dots, T_r] \simeq R[X_1, \dots, X_n, T_1, \dots, T_r] \]
+    as was shown above.
+\end{example}
