@@ -1,0 +1,119 @@
+\subsection{???}
+\begin{definition}
+    A category \( \mathcal C \) is called \emph{locally small} if the collection of morphisms \( A \to B \) are parametrised by a set.
+    In this case, we write \( \mathcal C(A, B) \) for the set of such morphisms.
+\end{definition}
+Given an object \( A \) of a locally small category, we can define a functor
+\[ \mathcal C(A, -) : \mathcal C \to \mathbf{Set} \]
+given by
+\[ B \mapsto \mathcal C(A, B);\quad (B \xrightarrow f C) \mapsto ((A \xrightarrow g B) \mapsto f g) \]
+This is functorial by associativity of function composition.
+We can also define
+\[ \mathcal C(-, A) : \mathcal C^\cop \to \mathbf{Set} \]
+by
+\[ B \mapsto \mathcal C(B, A);\quad (B \xrightarrow f C) \mapsto ((B \xrightarrow g A) \mapsto g f) \]
+\begin{lemma}[Yoneda lemma]
+    Let \( \mathcal C \) be a locally small category.
+    Let \( A \in \ob \mathcal C \), and let \( F : \mathcal C \to \mathbf{Set} \) be a functor.
+    Then,
+    \begin{enumerate}
+        \item there is a bijection
+        \[ \qty{\text{natural transformations } \mathcal C(A, -) \to F} \leftrightarrow \qty{\text{elements of } F A} \]
+        \item and further, this bijection is natural in both \( A \) and \( F \).
+    \end{enumerate}
+\end{lemma}
+This shows that we can consider a natural transformation \( \mathcal C(A, -) \to F \) as a way to evaluate morphisms at a point \( x \in F A \).
+% Example: consider the category on A, B, C with morphisms A -> A, A -> B, A -> C
+\begin{example}
+    Consider the category \( \mathcal C \) of the form
+    \[\begin{tikzcd}
+        & A \\
+        B && C
+        \arrow["f"', from=1-2, to=2-1]
+        \arrow["g", from=1-2, to=2-3]
+    \end{tikzcd}\]
+    and the functor \( F : \mathcal C \to \mathbf{Set} \) given by
+    \[ F(A) = \qty{1, 2}; \quad F(B) = \qty{3};\quad F(C) = \qty{4, 5, 6} \]
+    and
+    \[ F(f)(1) = F(f)(2) = 3;\quad F(g)(1) = 4;\quad F(g)(2) = 5 \]
+    A natural transformation \( \alpha : \mathcal C(A, -) \to F \) is given by its components
+    \[ \alpha_A : \qty{1_A} \to \qty{1, 2};\quad \alpha_B : \qty{f} \to \qty{3};\quad \alpha_C : \qty{g} \to \qty{4, 5, 6} \]
+    subject to the naturality square
+    \[\begin{tikzcd}
+        {\qty{1_A}} & {\qty{g}} \\
+        {\qty{1, 2}} & {\qty{4, 5, 6}}
+        \arrow["{\mathcal C(A, g)}", from=1-1, to=1-2]
+        \arrow["{\alpha_C}", from=1-2, to=2-2]
+        \arrow["{\alpha_A}"', from=1-1, to=2-1]
+        \arrow["Fg"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    which enforces that
+    \[ (Fg)(\alpha_A) = \alpha_C(g) \]
+    This means that such a natural transformation \( \alpha \) is defined uniquely by a choice of \( (Fg)(\alpha_A) \); that is, a choice of an element of \( FA \).
+\end{example}
+% Example: represent a group as a set with its composition operation
+\begin{example}
+    Let \( G \) be a group in the set-theoretic sense.
+    Let us represent \( G \) as the category \( \mathcal C \); that is, let
+    \[ \ob \mathcal C = \qty{\star};\quad \mor \mathcal C = G \]
+    Consider the functor \( F : \mathcal C \to \mathbf{Set} \) given by
+    \[ F(\star) = G;\quad F(g)(h) = gh \]
+    If \( \alpha : \mathcal C(\star, -) \to F \) is a natural transformation, for each \( g \in G \), \( \alpha_\star(g) \) is a map \( G \to G \).
+    The naturality condition ensures that \( \alpha \) respects the group structure.
+    Applying the Yoneda lemma, we find that every map \( G \to G \) that respects the group structure in this way is just the action of multiplication by some element of the group.
+\end{example}
+We prove part (i) now, and postpone (ii) until some corollaries have been established.
+\begin{proof}
+    We want to show that a natural transformation \( \alpha : \mathcal C(A, -) \to F \) is a way to evaluate morphisms at a point \( x \in F A \).
+    To find a sensible value for \( x \), we evaluate the identity morphism \( 1_A : A \to A \).
+    \[ \Phi : (\mathcal C(A, -) \to F) \to F A;\quad \Phi(\alpha) = \alpha_A(1_A) \in F A \]
+    Now, given a point \( x \in F A \), we want to create a natural transformation that evaluates functions \( A \to B \) and yields a point in \( F B \).
+    We define
+    \[ \Psi : F A \to (\mathcal C(A, -) \to F);\quad \Psi(x)_B(A \xrightarrow f B) = (F f)x \]
+    % This is natural as \( F \) is a functor:
+    For \( h : B \to C \), the naturality square is as follows.
+    \[\begin{tikzcd}
+        {\mathcal C(A, B)} & {\mathcal C(A, C)} \\
+        FB & FC
+        \arrow["{\mathcal C(A, h)}", from=1-1, to=1-2]
+        \arrow["{\Psi(x)_C}", from=1-2, to=2-2]
+        \arrow["{\Psi(x)_B}"', from=1-1, to=2-1]
+        \arrow["Fh"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    Here, \( \mathcal C(A, h) \) denotes the operation \( g \mapsto hg \).
+    For \( f : A \to B \),
+    \[ \Psi(x)_C(\mathcal C(A, h)(f)) = \Psi(x)_C (hf) = (F (hf))x \]
+    and
+    \[ (Fh)(\Psi(x)_B(f)) = (Fh)((Ff)x) = (F (hf))x \]
+    as required.
+    Hence the `evaluate at \( x \)' map \( \Psi(x) \) is a natural transformation.
+    We show that these two constructions are inverses.
+    \[ \Phi \Psi(x) = \Psi(x)_A (1_A) = (F 1_A) x = 1_{F A} x = x \]
+    Let \( \alpha : \mathcal C(A, -) \to F \) be a natural transformation, let \( B \in \ob \mathcal C \), and let \( f : A \to B \).
+    Then \( \alpha_B(f) \) and \( (\Psi \Phi(\alpha))_B (f) \) are elements of \( F B \); we show they coincide.
+    \[ (\Psi \Phi(\alpha))_B (f) = (F f) (\Phi(\alpha)) = (F f) (\alpha_A (1_A)) \]
+    Naturality of \( \alpha \) shows that the following diagram commutes.
+    \[\begin{tikzcd}
+        {\mathcal C(A, A)} & {\mathcal C(A, B)} \\
+        FA & FB
+        \arrow["{\mathcal C(A, f)}", from=1-1, to=1-2]
+        \arrow["{\alpha_B}", from=1-2, to=2-2]
+        \arrow["{\alpha_A}"', from=1-1, to=2-1]
+        \arrow["Ff"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    Thus,
+    \[ (\Psi \Phi(\alpha))_B (f) = \alpha_B (f 1_A) = \alpha_B (f) \]
+    Hence, \( \Phi \) and \( \Psi \) are inverse bijections.
+\end{proof}
+\begin{corollary}
+    For any locally small category \( \mathcal C \), the map
+    \[ A \mapsto \mathcal C(A, -) \]
+    is a full and faithful functor
+    \[ Y : \mathcal C^\cop \to [\mathcal C, \mathbf{Set}] \]
+    This is called the \emph{Yoneda embedding}.
+\end{corollary}
+\begin{proof}
+    Let \( F = \mathcal C(B, -) \) in the Yoneda lemma.
+    Then there is a bijection
+    \[ \mathcal C(B, A) \leftrightarrow \qty{\text{natural transformations } \mathcal C(A, -) \to \mathcal C(B, -)} \]
+\end{proof}

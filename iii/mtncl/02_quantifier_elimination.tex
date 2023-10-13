@@ -1,0 +1,104 @@
+\subsection{Skolem functions}
+\begin{definition}
+    Let \( \mathcal T \) be an \( \mathcal L \)-theory, and let \( \varphi(\vb x, y) \) be an \( \mathcal L \)-formula where \( \vb x \) is nonempty.
+    A \emph{Skolem function} for \( \varphi \) is an \( \mathcal L \)-term \( t \) such that
+    \[ \mathcal T \vdash \forall \vb x.\, (\exists y.\, \varphi(\vb x, y) \Rightarrow \varphi(\vb x, t(\vb x))) \]
+    A \emph{skolemisation} of an \( \mathcal L \)-theory \( \mathcal T \) is a language \( \mathcal L^+ \supseteq \mathcal L \) and an \( \mathcal L^+ \)-theory \( \mathcal T^+ \supseteq \mathcal T \) such that
+    \begin{enumerate}
+        \item every \( \mathcal L \)-structure that models \( \mathcal T \) can be expanded to an \( \mathcal L^+ \)-structure that models \( \mathcal T^+ \);
+        \item \( \mathcal T^+ \) has Skolem functions for any \( \mathcal L^+ \)-formula \( \varphi(\vb x, y) \) where \( \vb x \) is nonempty.
+    \end{enumerate}
+    A theory is called a \emph{Skolem theory} if it is a skolemisation of itself.
+\end{definition}
+By `expanded', we mean that \( \mathcal T \) is given interpretations to the elements of \( \mathcal L^+ \setminus \mathcal L \), but no new objects are added.
+\begin{proposition}
+    Let \( \mathcal T \) be an \( \mathcal L \)-theory, and let \( \mathcal F \) be a collection of \( \mathcal L \)-formulae including all atomic formulae and closed under Boolean operations.
+    Suppose that for every formula \( \psi(\vb x, y) \in F \), there exists \( \varphi(\vb x) \in F \) with
+    \[ T \vdash \forall \vb x.\, (\exists y,\. \psi(\vb x, y) \Leftrightarrow \varphi(\vb x)) \]
+    Then, every \( \mathcal L \)-formula is equivalent to one in \( F \) with the same free variables modulo \( \mathcal T \) (that is, \( \mathcal T \) proves they are equivalent).
+\end{proposition}
+This is proven on the first example sheet.
+% TODO: just do the proof here
+\begin{proposition}
+    Let \( \mathcal T \) be a Skolem theory.
+    Then,
+    \begin{enumerate}
+        \item every \( \mathcal L \)-formula \( \varphi(\vb x) \) where \( \vb x \) is nonempty is equivalent modulo \( \mathcal T \) to some quantifier-free \( \varphi^\star(\vb x) \);
+        \item if \( \mathcal N \vDash \mathcal T \) and \( X \subseteq \mathcal N \), then either \( \langle X \rangle_{\mathcal N} = \varnothing \) or \( \langle X \rangle_{\mathcal N} \preceq \mathcal N \).
+    \end{enumerate}
+\end{proposition}
+\begin{remark}
+    When \( \mathcal N \) is a model of a Skolem theory, \( \langle X \rangle_{\mathcal N} \) is sometimes called the \emph{Skolem hull} of \( X \).
+\end{remark}
+\begin{proof}
+    \emph{Part (i).}
+    Clearly, \( \varphi(\vb x, t(\vb x)) \Rightarrow \exists y.\, \varphi(\vb x, y) \) in any model.
+    So having Skolem functions mean that
+    \[ T \vdash \forall \vb x.\, (\exists y.\, \varphi(\vb x, y) \Leftrightarrow \varphi(\vb x, t(\vb x))) \]
+    completing the proof by the previous proposition.
+
+    \emph{Part (ii).}
+    We proceed by the Tarski--Vaught test.
+    Let \( \mathcal M = \langle X \rangle_{\mathcal N}, \vb m \in \mathcal M \), and let \( \varphi(\vb x, y) \) be such that
+    \[ \mathcal N \vDash \exists y.\, \varphi(\vb m, y) \]
+    Then as \( \mathcal N \) has Skolem functions, there exists an \( \mathcal L \)-term \( t \) such that
+    \[ \mathcal N \vDash \varphi(\vb m, t(\vb m)) \]
+    But \( \mathcal M \) is closed under the interpretation of function symbols as it is a substructure, so \( t(\vb m) \in \mathcal M \).
+    Thus
+    \[ \mathcal M \vDash \exists y.\, \varphi(\vb m, y) \]
+    as required.
+\end{proof}
+
+\subsection{Skolemisation theorem}
+\begin{theorem}
+    Every first-order language \( \mathcal L \) can be expanded to some \( \mathcal L^+ \supseteq \mathcal L \) that includes an \( \mathcal L^+ \)-theory \( \Sigma \) such that
+    \begin{enumerate}
+        \item \( \Sigma \) is a Skolem \( \mathcal L^+ \)-theory;
+        \item any \( \mathcal L \)-structure can be expanded to an \( \mathcal L^+ \)-structure that models \( \Sigma \); and
+        \item \( \abs{\mathcal L^+} = \abs{\mathcal L} \).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    We will design \( \mathcal L^+ \) to include Skolem functions for each suitable formula.
+    If \( \chi(\vb x, y) \) is an \( \mathcal L \)-formula with \( \vb x \) nonempty, we add a function symbol \( F_\chi \) of arity \( \abs{\vb x} \).
+    Performing this for all \( \mathcal L \)-formulae of this form, we obtain a language \( \mathcal L' \supseteq \mathcal L \).
+    Next, define \( \Sigma(\mathcal L) \) to be the set of \( \mathcal L \)-sentences that enforce the correct behaviour of the \( F_\chi \):
+    \[ \forall \vb x.\, (\exists y.\, \chi(\vb x, y) \Rightarrow \chi(\vb x, F_\chi(\vb x))) \]
+    Note that \( \Sigma(\mathcal L) \) is an \( \mathcal L' \)-theory, not an \( \mathcal L \)-theory; there may be existentials in \( \mathcal L' \) without explicit witnesses.
+    We can overcome this issue by iterating this construction \( \omega \) times and taking the union.
+    Formally, we recursively define
+    \[ \mathcal L_0 = \mathcal L;\quad \mathcal L_{n+1} = \mathcal L_n';\quad \Sigma_0 = \varnothing; \quad \Sigma_{n+1} = \Sigma_n \cup \Sigma(\mathcal L_n) \]
+    Then we can set
+    \[ \mathcal L^+ = \bigcup_{n < \omega} \mathcal L_n;\quad \Sigma = \bigcup_{n < \omega} \Sigma_n \]
+    First, note that \( \Sigma \) is a Skolem theory.
+    This is because each \( \mathcal L^+ \)-formula is in \( \mathcal L_n \) for some \( n < \omega \), so \( \Sigma_{n+1} \subseteq \Sigma \) asserts that it has a Skolem function.
+    It is also clear to see that \( \abs{\mathcal L^+} = \abs{\mathcal L} \) using basic cardinal arithmetic.
+
+    To prove property (ii), it suffices to show that each \( \mathcal L \)-theory can be expanded into an \( \mathcal L' \)-theory that models \( \Sigma(\mathcal L) \); we can then proceed by induction.
+    Note that this argument will use the axiom of choice.
+    Let \( \mathcal M \) be an \( \mathcal L \)-structure.
+    We can assume \( \mathcal M \neq \varnothing \); if \( \mathcal M = \varnothing \) then all sentences in \( \Sigma \) would be vacuously true and there would be nothing to prove.
+    We now expand \( \mathcal M \) into an \( \mathcal L' \)-structure \( \mathcal M \) in the following way.
+    Consider \( \chi(\vb x, y) \) where \( \vb x \) is nonempty and \( \vb m \in \mathcal M \).
+    If
+    \[ \mathcal M \vDash \exists b.\, \chi(\vb m, b) \]
+    then we can choose such a \( b \) and interpret \( F_\chi(\vb m) \) as this value.
+    If
+    \[ \mathcal M \nvDash \exists b.\, \chi(\vb m, b) \]
+    then we interpret \( F_\chi(\vb m) \) as an arbitrary model element, say, \( \vb m_0 \).
+    By construction, \( \mathcal M' \) models \( \Sigma(\mathcal L) \).
+\end{proof}
+\begin{corollary}
+    Any \( \mathcal L \)-theory \( \mathcal T \) admits a skolemisation \( \mathcal T^+ \) in a language \( \mathcal L^+ \) of the same size as \( \mathcal L \).
+\end{corollary}
+\begin{proof}
+    Take \( \mathcal T^+ = \mathcal T \cup \Sigma \).
+    Any model of \( \mathcal T^+ \) models \( \Sigma \), so \( \mathcal T^+ \) has Skolem functions.
+    Moreover, any \( \mathcal L \)-structure that models \( \mathcal T \) can be extended to one that models \( \Sigma \), which will therefore model \( \mathcal T^+ \).
+\end{proof}
+\begin{corollary}[downward L\"owenheim--Skolem theorem]
+    Let \( \mathcal M \) be an \( \mathcal L \)-structure, and let \( X \subseteq \mathcal M \).
+    Let \( \kappa \) be a cardinal such that
+    \[ \abs{\mathcal L} + \abs{X} \leq \kappa \leq \abs{\mathcal M} \]
+    Then \( \mathcal M \) has an elementary substructure of size \( \kappa \) that contains \( X \).
+\end{corollary}

@@ -200,7 +200,7 @@ This topology is called the \emph{Zariski topology} on \( A \).
     In general, points are not closed.
 \end{example}
 
-\subsection{Functions on open sets}
+\subsection{Distinguished opens and localisations}
 \begin{definition}
     Let \( f \in A \).
     Define the \emph{distinguished open} corresponding to \( f \) to be
@@ -227,8 +227,6 @@ This topology is called the \emph{Zariski topology} on \( A \).
     So
     \[ U = \bigcup_{f \in J} U_f \]
 \end{proof}
-
-\subsection{Localisations}
 \begin{definition}
     Let \( f \in A \).
     The \emph{localisation} of \( A \) at \( f \) is
@@ -236,5 +234,51 @@ This topology is called the \emph{Zariski topology} on \( A \).
 \end{definition}
 Informally, we adjoin \( \frac{1}{f} \) to \( A \).
 \begin{lemma}
-    The distinguished open \( U_f \subseteq \Spec A \) is naturally homeomorphic to \( \Spec A_f \).
+    The distinguished open \( U_f \subseteq \Spec A \) is naturally homeomorphic to \( \Spec A_f \) via the ring homomorphism \( j : A \to A_f \).
 \end{lemma}
+\begin{proof}
+    We will exhibit a bijection between the prime ideals in \( A_f \) and the prime ideals in \( A \) that do not contain \( f \), producing a homeomorphism as required.
+    Given \( \mathfrak q \subseteq A_f \) prime, its contraction \( j^{-1}(\mathfrak q) \) is a prime ideal in \( A \).
+
+    Now suppose \( \mathfrak p \subseteq A \) is a prime ideal, and let \( \mathfrak p_f = j(\mathfrak p) \cdot A_f \).
+    We show that \( j(\mathfrak p) \cdot A_f \) is a prime ideal if and only if \( f \notin \mathfrak p \), giving the result.
+    If \( f \in \mathfrak p \), then the unit \( f \) lies in \( \mathfrak p_f \).
+    Thus \( \mathfrak p_f = (1) \), so is not prime.
+    If \( f \notin \mathfrak p \), observe that
+    \[ \faktor{A_f}{\mathfrak p_f} \cong \qty(\faktor{A}{\mathfrak p})_{\overline f};\quad \overline f = f + \mathfrak p \]
+    But then,
+    \[ \qty(\faktor{A}{\mathfrak p})_{\overline f} \subseteq FF\qty(\faktor{A}{\mathfrak p}) \]
+    Since \( \mathfrak p \) is prime, \( \faktor{A}{\mathfrak p} \) is an integral domain, so its fraction field is well-defined.
+    So \( \mathfrak p_f \) is a prime ideal.
+    One can then check that our two constructions are inverse to each other, providing a bijection between prime ideals as required.
+\end{proof}
+\begin{remark}
+    \begin{enumerate}
+        \item \( U_f \cap U_g = U_{fg} \).
+        Indeed, if \( \mathfrak p \in U_{fg} \), then \( fg \notin \mathfrak p \), so clearly neither \( f \) nor \( g \) can lie in \( \mathfrak p \); conversely, if \( \mathfrak p \in U_f \cap U_g \), then \( f \notin \mathfrak p \) and \( g \notin \mathfrak p \), so by primality, \( fg \notin \mathfrak p \).
+        \item The distinguished opens \( U_f \) do not uniquely define an element \( f \in A \).
+        For instance, one can easily show that \( U_{f^n} = U_f \) for all \( n \geq 1 \), using the properties of prime ideals.
+        \item In line with (ii), the localisations \( A_f \) and \( A_{f^n} \) are homeomorphic in a natural way.
+        If
+        \[ A_f = \faktor{A[x]}{(xf - 1)};\quad A_{f^n} = \faktor{A[y]}{(yf^n - 1)} \]
+        then consider the inverse \( A \)-algebra homomorphisms given by
+        \[ x \mapsto f^{n-1} y;\quad y \mapsto x^n \]
+        Informally, we map \( \frac{1}{f} \) to \( f^{n-1} \frac{1}{f^n} \), and \( \frac{1}{f^n} \) to \( \qty(\frac{1}{f})^n \).
+        \item The containment \( U_f \subseteq U_g \) holds if and only if \( f^n \) is a multiple of \( g \) for some \( n \geq 1 \).
+        First, if \( f^n \) is a multiple of \( g \), then the claim holds by (i).
+        Now suppose \( U_f \subseteq U_g \), so \( \mathbb V(f) \supseteq \mathbb V(g) \).
+        Hence, all prime ideals that contain \( g \) also contain \( f \).
+        But since
+        \[ \sqrt{I} = \bigcap_{\mathfrak p \text{ prime} \supseteq I} \]
+        we must have
+        \[ \sqrt{(f)} \supseteq \sqrt{(g)} \]
+        giving the result.
+    \end{enumerate}
+\end{remark}
+\begin{remark}
+    For a fixed ring \( A \), we have made an assignment
+    \[ \qty{\text{distinguished opens in } \Spec A} \to \mathbf{Rng} \]
+    given by \( U_f \mapsto A_f \), where \( \mathbf{Rng} \) denotes the class of rings.
+    This association is functorial: if \( U_{f_1} \subseteq U_{f_2} \), there is a natural map \( A_{f_2} \to A_{f_1} \), which should be viewed as the restriction map from functions defined on \( U_{f_2} \) to those defined on \( f_1 \).
+    This produces a \emph{sheaf}; we now explore these in more generality.
+\end{remark}
