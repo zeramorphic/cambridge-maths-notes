@@ -102,3 +102,64 @@ This is proven on the first example sheet.
     \[ \abs{\mathcal L} + \abs{X} \leq \kappa \leq \abs{\mathcal M} \]
     Then \( \mathcal M \) has an elementary substructure of size \( \kappa \) that contains \( X \).
 \end{corollary}
+\begin{proof}
+    Let \( X \subseteq Y \subseteq \mathcal M \) and \( \abs{Y} = \kappa \).
+    Let \( \mathcal M' \) be an expansion of \( \mathcal M \) to a Skolem theory, and consider the Skolem hull \( \langle Y \rangle_{\mathcal M'} \).
+    \( \langle Y \rangle_{\mathcal M'} \) must be an elementary substructure of \( \mathcal M' \) as \( Y \neq \varnothing \).
+    Let \( \mathcal N \) be the \( \mathcal L \)-reduct of \( \langle Y \rangle_{\mathcal M'} \).
+    Then \( \mathcal N \) is an elementary substructure of \( \mathcal N \), and \( X \subseteq \mathcal N \).
+    It remains to check \( \abs{\mathcal N} = \kappa \).
+    \[ \abs{\mathcal N} \leq \abs{Y} + \abs{\mathcal L^+} = \kappa + \abs{\mathcal L} = \kappa = \abs{Y} \leq \abs{\mathcal N} \]
+    So \( \abs{\mathcal N} = \kappa \).
+\end{proof}
+
+\subsection{Elimination sets}
+\begin{definition}
+    Let \( \mathcal T \) be an \( \mathcal L \)-theory.
+    A set \( F \) of \( \mathcal L \)-formulae is an \emph{elimination set} for \( \mathcal T \) if, for every \( \mathcal L \)-formula \( \varphi \), there is a Boolean combination \( \varphi^\star \) of formulae in \( F \) such that
+    \[ \mathcal T \vdash \varphi \Leftrightarrow \varphi^\star \]
+    A theory \( \mathcal T \) has \emph{quantifier-elimination} if the family of quantifier-free formulae forms an elimination set for \( \mathcal T \).
+\end{definition}
+Note that a theory having quantifier-elimination depends on its underlying language.
+Every Skolem theory has quantifier-elimination.
+\begin{example}
+    \begin{enumerate}
+        \item Let \( p \in \mathbb C[x] \) be the polynomial \( x^3 - 31x^2 + 6 \) over \( \mathbb C \).
+        The sentence \( \exists x.\, p(x) = 0 \) contains a quantifier.
+        But as \( \mathbb C \) is algebraically closed, it is equivalent to the quantifier-free sentence \( 1 \neq 0 \vee (-31) \neq 0 \).
+        \item A real-valued matrix is invertible if there exists a two-sided inverse.
+        This has a quantifier, but there is a quantifier-free sentence equivalent to it, namely, `its determinant is nonzero'.
+    \end{enumerate}
+\end{example}
+\begin{remark}
+    \begin{enumerate}
+        \item We can check if two models of \( \mathcal T \) are elementarily equivalent by considering just those formulae in an elimination set.
+        \item In particular, to check if a theory is complete, it suffices to check that all sentences in an elimination set are either deducible from the theory or inconsistent with it.
+        \item Suppose \( \mathcal L \) is a recursive language, and the map \( \varphi \mapsto \varphi^\star \) is computable.
+        Then an algorithm to decide whether \( \mathcal T \) proves any sentence can be produced from one that operates only on the elimination set.
+        \item The elementary embeddings \( \mathcal M \hookrightarrow \mathcal N \) are precisely those embeddings that preserve \( \varphi \) and \( \neg \varphi \) for all \( \varphi \) in \( F \).
+        So a theory with quantifier-elimination is model-complete. % why? check. also check why we need \neg \varphi
+        \item The definable sets of a model are precisely the Boolean combinations of sets definable with only formulae in an elimination set.
+    \end{enumerate}
+\end{remark}
+In the next result, we use the notation \( \neg F \) for the set of negations of formulae in \( F \).
+\begin{proposition}[syntactic quantifier-elimination]
+    Let \( \mathcal T \) be an \( \mathcal L \)-theory, and let \( F \) be a family of \( \mathcal L \)-formulae including all atomic formulae.
+    Suppose that, for every \( \mathcal L \)-formula of the form
+    \[ \theta(\vb x) = \exists y.\, \bigwedge_{i < n} \varphi_i(\vb x, y);\quad \varphi_i \in F \cup \neg F \]
+    there exists a Boolean combination \( \theta^\star(\vb x) \) of formulae in \( F \) such that
+    \[ \mathcal T \vdash \forall \vb x.\, (\theta(\vb x) \Leftrightarrow \theta^\star(\vb x)) \]
+    Then \( F \) is an elimination set for \( \mathcal T \).
+\end{proposition}
+The proof is similar to a previous proposition.
+\begin{example}
+    Consider the theory \( \mathcal T_\infty \) of infinite sets in the language with empty signature.
+    The only atomic formulae are equalities, and the only terms in the language are variables.
+    Using the above proposition, it suffices to eliminate the existential quantifier in formulae \( \varphi(x_0, \dots, x_{n-1}) \) of the form
+    \[ \exists y.\, \qty(\bigwedge_{i \in I} y = x_i) \wedge \qty(\bigwedge_{i \in J} y \neq x_i) \wedge \qty(\bigwedge_{i, j \in K} x_i = x_j) \wedge \qty(\bigwedge_{i, j \in L} x_i \neq x_j) \]
+    where \( I, J, K, L \subseteq \qty{0, \dots, n-1} \).
+    Without loss of generality we can assume \( I \) is empty, as we can easily remove the quantifier in this situation.
+    We may also push the quantifier inside the first conjunct.
+    \[ \qty(\exists y.\, \bigwedge_{i \in J} y \neq x_i) \wedge \psi(x_0, \dots, x_{n-1});\quad \psi(x_0, \dots, x_{n-1}) = \qty(\bigwedge_{i, j \in K} x_i = x_j) \wedge \qty(\bigwedge_{i, j \in L} x_i \neq x_j) \]
+    But the theory of infinite sets proves \( \exists y.\, \bigwedge_{i \in J} y \neq x_i \), so we can conclude that \( \varphi \) and \( \psi \) are equivalent modulo \( \mathcal T \).
+\end{example}

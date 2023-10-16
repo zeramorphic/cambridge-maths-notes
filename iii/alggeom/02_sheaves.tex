@@ -31,9 +31,94 @@ One can also define presheaves of rings, sets, or other objects by simply replac
     commutes.
 \end{definition}
 \begin{remark}
-    A presheaf on a topological space \( X \) is just a functor \( \operatorname{Open} X \to \mathbf{AbGp} \), where \( \mathbf{AbGp} \) is the category of abelian groups.
-    A morphism of presheaves is just a natural transformation between two functors.
+    A presheaf on a topological space \( X \) is just a functor \( (\operatorname{Open} X)^\cop \to \mathbf{AbGp} \), where \( \mathbf{AbGp} \) is the category of abelian groups, and \( \operatorname{Open} X \) is the category where the objects are the open sets in \( X \), and there is a morphism \( U \to V \) if and only if \( U \subseteq V \).
+    A morphism of presheaves is just a natural transformation between two such functors.
+    Replacing \( \mathbf{AbGp} \) with an arbitrary category \( \mathcal C \), we can define presheaves on \( X \) of objects in \( \mathcal C \).
 \end{remark}
 \begin{definition}
     A morphism \( \varphi : \mathcal F \to \mathcal G \) of presheaves is \emph{injective} (respectively \emph{surjective}) if \( \varphi(U) : \mathcal F(U) \to \mathcal G(U) \) is injective (respectively surjective) for all open sets \( U \) of \( X \).
 \end{definition}
+
+\subsection{Sheaves}
+\begin{definition}
+    A \emph{sheaf} on \( X \) is a presheaf \( \mathcal F \) on \( X \) such that
+    \begin{enumerate}
+        \item if \( U \subseteq X \) is open and \( \qty{U_i} \) is an open cover of \( U \), then for \( s \in \mathcal F(U) \), if \( \res_{U_i}^U s = 0 \) for all \( i \), then \( s = 0 \); and
+        \item if \( U, \qty{U_i} \) are as in (i), given \( s_i \in \mathcal F(U_i) \) such that \( \res^{U_i}_{U_i \cap U_j} s_i = \res^{U_j}_{U_i \cap U_j} s_j \) for all \( i, j \), then there exists \( s \in \mathcal F(U) \) such that \( \res^U_{U_i} s = s_i \). 
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    These two axioms imply that \( \mathcal F(\varnothing) = 0 \).
+\end{remark}
+A morphism of sheaves is a morphism of the underlying presheaves.
+\begin{example}
+    \begin{enumerate}
+        \item Let \( X \) be a topological space.
+        Then the presheaf \( \mathcal F \) given by
+        \[ \mathcal F(U) = \qty{f : U \to \mathbb R \mid f \text{ continuous}} \]
+        is a sheaf.
+        \item Let \( X = \mathbb C \) with the usual Euclidean topology, and let
+        \[ \mathcal F(U) = \qty{f : U \to \mathbb C \mid f \text{ bounded and holomorphic}} \]
+        Then \( \mathcal F \) is not a sheaf, because the functions \( \id_U \) on bounded open sets \( U \) do not glue together to a bounded holomorphic function on all of \( \mathbb C \).
+        This is a failure of locality in our definition of \( \mathcal F \); whether \( f \) is bounded is a global condition.
+        \item Let \( G \) be a group and set \( \mathcal F(U) = G \), giving the constant presheaf.
+        This is not in general a sheaf.
+        For example, if \( U_1, U_2 \) are disjoint, then \( \mathcal F(U_1 \cup U_2) \simeq G \times G \).
+        Instead, we can give \( G \) the discrete topology, and define
+        \[ \mathcal F(U) = \qty{f : U \to G \mid f \text{ continuous}} = \qty{f : U \to G \mid f \text{ locally constant}} \]
+        This is now a sheaf, called the constant sheaf.
+        \item Let \( V \) be an irreducible variety over \( k \).
+        Let
+        \[ \mathcal O_V(U) = \qty{f \in k(V) \mid \forall p \in U,\, f \text{ regular at } p} \]
+        where a function \( f \) is regular at \( p \) precisely if it can be represented as a quotient \( \frac{g}{h} \) in a neighbourhood of \( p \) on which \( h \) is nonzero.
+        This is called the \emph{structure sheaf} of \( V \); it is a sheaf since regularity is a local condition. 
+    \end{enumerate}
+\end{example}
+
+\subsection{Stalks}
+\begin{definition}
+    Let \( \mathcal F \) be a presheaf.
+    A \emph{section} of \( \mathcal F \) over \( U \) is an element \( s \in \mathcal F(U) \).
+\end{definition}
+\begin{definition}
+    Let \( p \in X \), and \( \mathcal F \) a presheaf on \( X \).
+    Then the \emph{stalk} of \( \mathcal F \) at \( p \) is
+    \[ \mathcal F_p = \faktor{\qty{(U, s) \mid s \in \mathcal F(U), p \in U}}{\sim} \]
+    where
+    \[ (U, s) \sim (V, s') \iff \exists W \subseteq U \cap V \text{ open with } p \in W \text{ such that } \res^U_W s = \res^V_W s' \]
+    Elements of \( \mathcal F_p \) are called \emph{germs}.
+\end{definition}
+\begin{example}
+    Let \( \mathbb A^1 \) be the affine line, and let \( \mathcal O_{\mathbb A^1} \) be the sheaf of regular functions.
+    Its stalk at 0 is
+    \[ \mathcal O_{\mathbb A^1, 0} = \qty{\frac{f(t)}{g(t)} \midd g(0) \neq 0} = k[t]_{(t)} \]
+\end{example}
+\begin{proposition}
+    Let \( f : \mathcal F \to \mathcal G \) be a morphism of sheaves on \( X \).
+    Suppose that for all \( p \in X \), the induced map \( f_p : \mathcal F_p \to \mathcal G_p \) given by
+    \[ f_p((U, s)) = (U, \mathcal f_U(s)) \]
+    is an isomorphism.
+    Then \( f \) is an isomorphism.
+\end{proposition}
+\begin{proof}
+    We will show that \( f_U : \mathcal \mathcal F(U) \to \mathcal G(U) \) are isomorphisms for each \( U \), then define \( f^{-1} \) by \( (f^{-1})_U = (f_U)^{-1} \).
+
+    To show \( f_U \) is injective, consider \( s \in \mathcal F(U) \) with \( f_U(s) = 0 \).
+    Since \( f_p \) is injective, \( (U, s) = 0 \) in \( \mathcal F_p \) for every point \( p \in U \).
+    Thus for each \( p \in U \), there exists an open neighbourhood \( U_p \subseteq U \) such that \( \res^U_{U_p} s = 0 \).
+    The sets \( \qty{U_p \mid p \in U} \) cover \( U \), so as \( \mathcal F \) is a sheaf, \( s = 0 \).
+
+    To show \( f_U \) is surjective, let \( t \in \mathcal G(U) \).
+    For each \( p \in U \), there is an element \( (U_p, s_p) \in \mathcal F_p \) such that \( f_p((U_p, s_p)) = (U, t) \in \mathcal G_p \).
+    By shrinking \( U_p \) if necessary, we can assume \( f_{U_p}(s_p) = \res^U_{U_p} t \).
+    For points \( p, p' \in U \),
+    \[ f_{U_p \cap U_{p'}} \qty(\res^{U_p}_{U_p \cap U_{p'}} s - \res^{U_{p'}}_{U_p \cap U_{p'}} s') = \res^U_{U_p \cap U_{p'}} t - \res^U_{U_p \cap U_{p'}} t = 0 \]
+    Thus
+    \[ \res^{U_p}_{U_p \cap U_{p'}} s - \res^{U_{p'}}_{U_p \cap U_{p'}} s' = 0 \]
+    by injectivity of \( f_{U_p \cap U_{p'}} \).
+    So there exists a section \( s \) of \( \mathcal F \) over \( U \) such that \( \res^U_{U_p} s = s_p \).
+    We now show \( f_U(s) = t \).
+    Consider
+    \[ \res^U_{U_p} f_U(s) = f_{U_p}\qty(\res^U_{U_p} s) = f_{U_p}(s_p) = \res^U_{U_p} t \]
+    Thus \( f_U(s) = t \).
+\end{proof}
