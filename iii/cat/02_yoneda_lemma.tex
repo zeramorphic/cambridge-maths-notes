@@ -121,31 +121,7 @@ We prove part (i) now, and postpone (ii) until some corollaries have been establ
 \end{proof}
 This says that any locally small category \( \mathcal C \) is equivalent to a full subcategory of a functor category \( [\mathcal C^\cop, \mathbf{Set}] \).
 The category \( [\mathcal C^\cop, \mathbf{Set}] \) is sometimes called the category of \emph{presheaves} on \( \mathcal C \), so any category embeds into its category of presheaves.
-\begin{definition}
-    Let \( \mathcal C \) be a locally small category.
-    A functor \( F : \mathcal C \to \mathbf{Set} \) is called \emph{representable} if it is isomorphic to \( \mathcal C(A, -) \) for some \( A \).
-    A \emph{representation} of \( F \) is a pair \( (A, x) \) where \( A \in \ob \mathcal C \), and \( x \in FA \) is such that
-    \[ \Psi(x) : \mathcal C(A, -) \to F \]
-    is a natural isomorphism.
-    In this case, we say that \( x \) is a \emph{universal element} of \( F \).
-\end{definition}
-\begin{corollary}
-    Suppose \( (A, x) \) and \( (B, y) \) are representations of \( F : \mathcal C \to \mathbf{Set} \).
-    Then there is a unique isomorphism \( f : A \to B \) such that \( Ff(x) = y \).
-\end{corollary}
-\begin{proof}
-    The Yoneda lemma shows that the elements of \( F A \) correspond to natural transformations \( \mathcal C(A, -) \to F \), and similarly for the elements of \( F B \).
-    Thus, \( Ff(x) = y \) equivalently says that
-    \[\begin{tikzcd}
-        {\mathcal C(B, -)} && {\mathcal C(A, -)} \\
-        & F
-        \arrow["{\mathcal C(f, -)}", from=1-1, to=1-3]
-        \arrow["{\Psi(x)}", from=1-3, to=2-2]
-        \arrow["{\Psi(y)}"', from=1-1, to=2-2]
-    \end{tikzcd}\]
-    commutes.
-    But \( \Psi(x) \) and \( \Psi(y) \) are isomorphisms, so this holds if and only if \( f \) is the unique isomorphism sent by the Yoneda embedding to \( \Psi(x)^{-1} \Psi(y) \).
-\end{proof}
+
 We now explain and prove part (ii) of the Yoneda lemma.
 Suppose that \( \mathcal C \) were small, so \( [\mathcal C, \mathbf{Set}] \) were locally small.
 Then we have two functors
@@ -173,7 +149,32 @@ The naturality condition is that \( \Phi \) and \( \Psi \) are natural transform
     as required.
 \end{proof}
 
-\subsection{Examples of representable functors}
+\subsection{Representable functors}
+\begin{definition}
+    Let \( \mathcal C \) be a locally small category.
+    A functor \( F : \mathcal C \to \mathbf{Set} \) is called \emph{representable} if it is isomorphic to \( \mathcal C(A, -) \) for some \( A \).
+    A \emph{representation} of \( F \) is a pair \( (A, x) \) where \( A \in \ob \mathcal C \), and \( x \in FA \) is such that
+    \[ \Psi(x) : \mathcal C(A, -) \to F \]
+    is a natural isomorphism.
+    In this case, we say that \( x \) is a \emph{universal element} of \( F \).
+\end{definition}
+\begin{corollary}
+    Suppose \( (A, x) \) and \( (B, y) \) are representations of \( F : \mathcal C \to \mathbf{Set} \).
+    Then there is a unique isomorphism \( f : A \to B \) such that \( Ff(x) = y \).
+\end{corollary}
+\begin{proof}
+    The Yoneda lemma shows that the elements of \( F A \) correspond to natural transformations \( \mathcal C(A, -) \to F \), and similarly for the elements of \( F B \).
+    Thus, \( Ff(x) = y \) equivalently says that
+    \[\begin{tikzcd}
+        {\mathcal C(B, -)} && {\mathcal C(A, -)} \\
+        & F
+        \arrow["{\mathcal C(f, -)}", from=1-1, to=1-3]
+        \arrow["{\Psi(x)}", from=1-3, to=2-2]
+        \arrow["{\Psi(y)}"', from=1-1, to=2-2]
+    \end{tikzcd}\]
+    commutes.
+    But \( \Psi(x) \) and \( \Psi(y) \) are isomorphisms, so this holds if and only if \( f \) is the unique isomorphism sent by the Yoneda embedding to \( \Psi(x)^{-1} \Psi(y) \).
+\end{proof}
 \begin{enumerate}
     \item Consider the forgetful functor \( \mathbf{Gp} \to \mathbf{Set} \).
     This is representable by the free group on one generator, \( \mathbb Z \).
@@ -230,7 +231,20 @@ In \( \mathbf{Top} \), not all injections or surjections are regular monomorphis
     We say that
     \begin{enumerate}
         \item \( \mathcal G \) is a \emph{separating family} for \( \mathcal C \) if the functors \( \mathcal C(G, -) \) for \( G \in \mathcal G \) are collectively faithful; that is, if \( f, g : A \rightrightarrows B \), the equations \( fh = gh \) for all \( h : G \to A \) with \( G \in \mathcal G \) imply \( f = g \).
-        \item \( \mathcal G \) is a \emph{detecting family} for \( \mathcal C \) if the functors \( \mathcal C(G, -) \) for \( G \in \mathcal G \) collectively \emph{reflect isomorphisms}; that is, if \( f : A \to B \) such that every \( h : G \to B \) with \( G \in \mathcal G \) factors uniquely through \( A \), then \( f \) is an isomorphism.
+        \[\begin{tikzcd}
+            G & A & B
+            \arrow["h", from=1-1, to=1-2]
+            \arrow["f", shift left=2, from=1-2, to=1-3]
+            \arrow["g"', shift right=2, from=1-2, to=1-3]
+        \end{tikzcd}\]
+        \item \( \mathcal G \) is a \emph{detecting family} for \( \mathcal C \) if the functors \( \mathcal C(G, -) \) for \( G \in \mathcal G \) collectively \emph{reflect isomorphisms}; that is, if \( f : A \to B \) is such that every \( h : G \to B \) with \( G \in \mathcal G \) factors uniquely through \( A \), then \( f \) is an isomorphism.
+        \[\begin{tikzcd}
+            G & A \\
+            & B
+            \arrow["g", dashed, from=1-1, to=1-2]
+            \arrow["f", from=1-2, to=2-2]
+            \arrow["h"', from=1-1, to=2-2]
+        \end{tikzcd}\]
     \end{enumerate}
     If \( \mathcal G = \qty{G} \), we call \( G \) a \emph{separator} or \emph{detector} respectively.
 \end{definition}
@@ -238,24 +252,50 @@ Separating and detecting families are both sometimes called \emph{generating fam
 \begin{lemma}
     \begin{enumerate}
         \item If \( \mathcal C \) has equalisers, then any detecting family is separating.
-        \item If \( \mathcal C \) is balanced, then any separating family is detecting. 
+        \item If \( \mathcal C \) is balanced, then any separating family is detecting.
     \end{enumerate}
 \end{lemma}
 \begin{proof}
     \emph{Part (i).}
     Suppose \( \mathcal G \) is detecting, and \( f, g : A \rightrightarrows B \) such that every morphism \( h : G \to A \) with \( G \in \mathcal G \) has \( fh = gh \).
-    Then every such \( h : G \to A \) with \( G \in \mathcal G \) factors uniquely through the equaliser of \( f \) and \( g \), so this equaliser must be an isomorphism as \( \mathcal G \) is detecting.
-    Hence \( f = g \).
+    Then every such \( h : G \to A \) with \( G \in \mathcal G \) factors uniquely through the equaliser of \( f \) and \( g \).
+    \[\begin{tikzcd}
+        G \\
+        E & A & B
+        \arrow["h", from=1-1, to=2-2]
+        \arrow["f", shift left=2, from=2-2, to=2-3]
+        \arrow["g"', shift right=2, from=2-2, to=2-3]
+        \arrow["e"', from=2-1, to=2-2]
+        \arrow[dashed, from=1-1, to=2-1]
+    \end{tikzcd}\]
+    Thus this equaliser \( e \) must be an isomorphism as \( \mathcal G \) is detecting.
+    Since \( ef = eg \), we must have \( f = g \), as required.
 
     \emph{Part (ii).}
     Suppose \( \mathcal G \) is separating, and \( f : A \to B \) is such that every \( h : G \to B \) with \( G \in \mathcal G \) factors uniquely through \( f \).
     As \( \mathcal C \) is balanced, it suffices to show that \( f \) is both monic and epic.
 
-    If \( fg = fh \) for some \( g, h : C \rightrightarrows A \), then any \( h : G \to C \) with \( G \in \mathcal G \) satisfies \( gk = hk \), since both are factorisations of \( fgk = fhk \) through \( f \).
+    If \( fg = fh \) for some \( g, h : C \rightrightarrows A \), then any \( k : G \to C \) with \( G \in \mathcal G \) satisfies \( gk = hk \), since both are factorisations of \( fgk = fhk \) through \( f \).
+    \[\begin{tikzcd}
+        G & C & A & B
+        \arrow["g", shift left=2, from=1-2, to=1-3]
+        \arrow["h"', shift right=2, from=1-2, to=1-3]
+        \arrow["k", from=1-1, to=1-2]
+        \arrow["f", from=1-3, to=1-4]
+    \end{tikzcd}\]
     Since \( \mathcal G \) is separating, \( g = h \).
     As this is true for all pairs \( g, h \), we must have that \( f \) is monic.
-    
+
     Similarly, if \( \ell, m : B \rightrightarrows D \) satisfy \( \ell f = mf \), then any \( n : G \to B \) with \( G \in \mathcal G \) satisfies \( \ell n = m n \), since it factors through \( f \).
+    \[\begin{tikzcd}
+        & G \\
+        A & B & D
+        \arrow["\ell", shift left=2, from=2-2, to=2-3]
+        \arrow["m"', shift right=2, from=2-2, to=2-3]
+        \arrow["f", from=2-1, to=2-2]
+        \arrow["n", from=1-2, to=2-2]
+        \arrow[dashed, from=1-2, to=2-1]
+    \end{tikzcd}\]
     So \( \ell = m \), giving that \( f \) is epic.
 \end{proof}
 \begin{example}
