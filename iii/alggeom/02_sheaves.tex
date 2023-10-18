@@ -122,3 +122,139 @@ A morphism of sheaves is a morphism of the underlying presheaves.
     \[ \res^U_{U_p} f_U(s) = f_{U_p}\qty(\res^U_{U_p} s) = f_{U_p}(s_p) = \res^U_{U_p} t \]
     Thus \( f_U(s) = t \).
 \end{proof}
+\begin{remark}
+    \begin{enumerate}
+        \item Consider the map \( \mathcal F(U) \to \prod_{p \in U} \mathcal F_p \) given by \( s \mapsto ((U, s))_{p \in U} \).
+        This is injective by the first sheaf axiom.
+        \item Given two morphisms of sheaves \( \varphi, \psi : \mathcal F \rightrightarrows \mathcal G \) with \( \varphi_p = \psi_p \) for all \( p \in X \), we have \( \varphi = \psi \).
+    \end{enumerate}
+    % proofs as exercises.
+\end{remark}
+
+\subsection{Sheafification}
+\begin{definition}
+    Let \( \mathcal F \) be a presheaf on \( X \).
+    Then a morphism \( \mathrm{sh} : \mathcal F \to \mathcal F^{\mathrm{sh}} \) to a sheaf \( \mathcal F^{\mathrm{sh}} \) is a \emph{sheafification} if for any map \( \varphi : \mathcal F \to \mathcal G \) where \( \mathcal G \) is a sheaf, \( \varphi \) factors uniquely through \( \mathrm{sh} \).
+    \[\begin{tikzcd}
+        {\mathcal F} & {\mathcal F^{\mathrm{sh}}} \\
+        & {\mathcal G}
+        \arrow["{\mathrm{sh}}", from=1-1, to=1-2]
+        \arrow[dashed, from=1-2, to=2-2]
+        \arrow["\varphi"', from=1-1, to=2-2]
+    \end{tikzcd}\]
+\end{definition}
+\begin{remark}
+    \begin{enumerate}
+        \item As this is a definition by a universal property, \( \mathcal F^{\mathrm{sh}} \) along with the map \( \mathrm{sh} : \mathcal F \to \mathcal F^{\mathrm{sh}} \) are unique up to unique isomorphism if they exist.
+        \item A morphism of presheaves \( \mathcal F \to \mathcal G \) induces a morphism of sheaves \( \mathcal F^{\mathrm{sh}} \to \mathcal G^{\mathrm{sh}} \).
+        \[\begin{tikzcd}
+            {\mathcal F} & {\mathcal F^{\mathrm{sh}}} \\
+            & {\mathcal G} & {\mathcal G^{\mathrm{sh}}}
+            \arrow["{\mathrm{sh}}", from=1-1, to=1-2]
+            \arrow[dashed, from=1-2, to=2-2]
+            \arrow["\varphi"', from=1-1, to=2-2]
+            \arrow["{\mathrm{sh}}"', from=2-2, to=2-3]
+        \end{tikzcd}\]
+    \end{enumerate}
+\end{remark}
+\begin{proposition}
+    Every presheaf admits a sheafification.
+\end{proposition}
+\begin{proof}
+    Let \( \mathcal F \) be a presheaf on \( X \).
+    % Define \( \mathcal F^{\mathrm{sh}}(U) \) to be the set of functions
+    % \[ f : U \to \coprod_{p \in U} \mathcal F_p \]
+    % such that blah
+
+    \[ \mathcal F^{\mathrm{sh}}(U) = \qty{f : U \to \coprod_{p \in U} \mathcal F_p \midd f(p) \in \mathcal F_p,\, \forall p \in U,\, \exists V_p \subseteq U,\, p \in V_p,\, s \in \mathcal F(V_p) \text{ such that } \forall q \in V_p,\, (V_p, s) = f(q) \in \mathcal F_q} \]
+    % locally, this function looks like some element of the original presheaf
+    One can check that this is a sheaf, and that it satisfies the required universal property.
+    % exercise.
+\end{proof}
+\begin{corollary}
+    The stalks of \( \mathcal F \) and \( \mathcal F^{\mathrm{sh}} \) coincide.
+\end{corollary}
+% TODO prove this
+% exercise: find a nonzero presheaf F with F^sh = 0. (ES1 Q10)
+
+\subsection{Kernels and cokernels}
+Let \( \varphi : \mathcal F \to \mathcal G \) be a morphism of presheaves.
+Then we can define presheaves \( \ker \varphi, \coker \varphi, \Im \varphi \) by
+\begin{align*}
+    (\ker \varphi)(U) &= \ker \varphi_U \\
+    (\coker \varphi)(U) &= \coker \varphi_U \\
+    (\Im \varphi)(U) &= \Im \varphi_U
+\end{align*}
+One can check that these are indeed presheaves.
+\begin{proposition}
+    The presheaf kernel for a morphism of sheaves is a sheaf.
+\end{proposition}
+% exercise
+However, the presheaf cokernel of a morphism of sheaves is not in general a sheaf.
+\begin{example}
+    Consider \( X = \mathbb C \) with the Euclidean topology, and let \( \mathcal O_X \) be the sheaf of holomorphic functions on \( X \) under addition.
+    Let \( \mathcal O_X^\star \) be the sheaf of nowhere vanishing holomorphic functions under multiplication.
+    We have a morphism of sheaves
+    \[ \exp : \mathcal O_X \to \mathcal O_X^\star \]
+    given by
+    \[ f \in \mathcal O_X(U) \mapsto \exp(f) \in \mathcal O_X^\star \]
+    The kernel of \( \exp \) is \( 2\pi i \mathbb Z \), where \( \mathbb Z \) is the constant sheaf.
+    The cokernel is not a sheaf.
+    To show this, consider the cover
+    \[ U_1 = \mathbb C \setminus [0, \infty);\quad U_2 = \mathbb C \setminus (-\infty, 0] \]
+    and take \( U = U_1 \cup U_2 = \mathbb C \setminus \qty{0} \).
+    Let \( f(z) = z \), so \( f \in \mathcal O_X^\star(U) \), but \( f \) is not in the image of \( exp : \mathcal O_X(U) \to \mathcal O_X^\star(U) \) as there is no single-valued logarithm on \( \mathbb C \setminus \qty{0} \).
+    Hence \( f \) defines a nonzero section of \( (\coker \exp)(U) \).
+    However, restricting to \( U_i \), a single-valued branch of logarithm is defined, so \( f \) is in the image of \( exp : \mathcal O_X(U_i) \to \mathcal O_X^\star(U_i) \).
+    Thus \( \res_{U_i}^U f = 1 \), but \( f \neq 1 \), violating the first sheaf axiom.
+\end{example}
+Similarly, the image presheaf may not be a sheaf.
+\begin{definition}
+    Let \( \varphi : \mathcal F \to \mathcal G \) be a morphism of sheaves.
+    We define the \emph{sheaf cokernel} and the \emph{sheaf image} of \( \varphi \) to be the sheafifications of the presheaf cokernel and presheaf image respectively.
+\end{definition}
+\begin{remark}
+    It turns out that the sequence
+    \[\begin{tikzcd}
+        0 & {2\pi i \mathbb Z} & {\mathcal O_X} & {\mathcal O_X^\star} & 1
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow["\exp", from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5]
+    \end{tikzcd}\]
+    is an exact sequence of sheaves.
+    In particular,
+    \[ \ker \exp = 2\pi i \mathbb Z;\quad \coker \exp = 1 \]
+\end{remark}
+\begin{remark}
+    \( \ker \varphi, \coker \varphi \) satisfy the category-theoretic definitions of kernels and cokernels.
+    For kernels, the universal property to be satisfied is
+    % https://q.uiver.app/#q=WzAsNCxbMSwxLCJcXG1hdGhjYWwgRiJdLFsyLDEsIlxcbWF0aGNhbCBHIl0sWzAsMSwiXFxrZXIgXFx2YXJwaGkiXSxbMSwwLCJcXG1hdGhjYWwgTCJdLFswLDEsIlxcdmFycGhpIl0sWzIsMF0sWzMsMCwiXFxwc2kiXSxbMywxLCIwIl0sWzMsMiwiXFxleGlzdHMhIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzIsMSwiMCIsMix7ImN1cnZlIjoyfV1d
+    \[\begin{tikzcd}
+        & {\mathcal L} \\
+        {\ker \varphi} & {\mathcal F} & {\mathcal G}
+        \arrow["\varphi", from=2-2, to=2-3]
+        \arrow[from=2-1, to=2-2]
+        \arrow["\psi", from=1-2, to=2-2]
+        \arrow["0", from=1-2, to=2-3]
+        \arrow["{\exists!}"', dashed, from=1-2, to=2-1]
+        \arrow["0"', curve={height=12pt}, from=2-1, to=2-3]
+    \end{tikzcd}\]
+    For cokernels, we reverse the arrows.
+    % https://q.uiver.app/#q=WzAsNCxbMSwxLCJcXG1hdGhjYWwgRiJdLFsyLDEsIlxcbWF0aGNhbCBHIl0sWzAsMSwiXFxjb2tlciBcXHZhcnBoaSJdLFsxLDAsIlxcbWF0aGNhbCBMIl0sWzEsMCwiXFx2YXJwaGkiLDJdLFswLDJdLFswLDMsIlxccHNpIiwyXSxbMSwzLCIwIiwyXSxbMiwzLCJcXGV4aXN0cyEiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMSwyLCIwIiwwLHsiY3VydmUiOi0yfV1d
+    \[\begin{tikzcd}
+        & {\mathcal L} \\
+        {\coker \varphi} & {\mathcal F} & {\mathcal G}
+        \arrow["\varphi"', from=2-3, to=2-2]
+        \arrow[from=2-2, to=2-1]
+        \arrow["\psi"', from=2-2, to=1-2]
+        \arrow["0"', from=2-3, to=1-2]
+        \arrow["{\exists!}", dashed, from=2-1, to=1-2]
+        \arrow["0", curve={height=-12pt}, from=2-3, to=2-1]
+    \end{tikzcd}\]
+    % coker is exercise.
+\end{remark}
+\begin{definition}
+    We say that \( \mathcal F \) is a \emph{subsheaf} of \( \mathcal G \), written \( \mathcal F \subseteq \mathcal G \), if there are inclusions \( \mathcal F(U) \subseteq \mathcal G(U) \) compatible with the restriction maps.
+\end{definition}
+Kernels are examples of subsheaves.

@@ -163,3 +163,114 @@ The proof is similar to a previous proposition.
     \[ \qty(\exists y.\, \bigwedge_{i \in J} y \neq x_i) \wedge \psi(x_0, \dots, x_{n-1});\quad \psi(x_0, \dots, x_{n-1}) = \qty(\bigwedge_{i, j \in K} x_i = x_j) \wedge \qty(\bigwedge_{i, j \in L} x_i \neq x_j) \]
     But the theory of infinite sets proves \( \exists y.\, \bigwedge_{i \in J} y \neq x_i \), so we can conclude that \( \varphi \) and \( \psi \) are equivalent modulo \( \mathcal T \).
 \end{example}
+
+\subsection{???}
+\begin{definition}
+    Let \( \mathcal M \) and \( \mathcal N \) be \( \mathcal L \)-structures.
+    We write \( \mathcal M \Rightarrow_1 \mathcal N \) if every existential sentence modelled by \( \mathcal M \) is also modelled by \( \mathcal N \).
+\end{definition}
+\begin{theorem}[existential amalgamation]
+    Let \( \mathcal M \) and \( \mathcal N \) be \( \mathcal L \)-structures, with \( S \subseteq \mathcal M \).
+    Suppose there is a homomorphism \( f : \langle S \rangle_{\mathcal M} \to \mathcal N \) such that \( (\mathcal N, f(S)) \Rightarrow_1 (\mathcal M, S) \).
+    Then there is an elementary extension \( \mathcal K \) of \( \mathcal N \) and an embedding \( g : \mathcal M \hookrightarrow \mathcal K \) making the following diagram commute.
+\[\begin{tikzcd}
+	& {\mathcal K} \\
+	{\mathcal M} && {\mathcal N} \\
+	& {\langle S \rangle_{\mathcal M}}
+	\arrow[hook, from=3-2, to=2-1]
+	\arrow["\preceq", hook, from=2-1, to=1-2]
+	\arrow["f"', from=3-2, to=2-3]
+	\arrow["g"', hook, from=2-3, to=1-2]
+\end{tikzcd}\]
+\end{theorem}
+% The proof is as in elementary amalgamation theorem. Exercise.
+We can make the following more general definition.
+\begin{definition}
+    A class \( \mathbb K \) of \( \mathcal L \)-structures has the \emph{amalgamation property} if, given a diagram of elements of \( \mathbb K \)
+    % https://q.uiver.app/#q=WzAsMyxbMSwxLCJcXG1hdGhjYWwgQyJdLFswLDAsIlxcbWF0aGNhbCBCIl0sWzIsMCwiXFxtYXRoY2FsIEEiXSxbMCwxLCIiLDAseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6InRvcCJ9fX1dLFswLDIsIiIsMix7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Imhvb2siLCJzaWRlIjoidG9wIn19fV1d
+    \[\begin{tikzcd}
+        {\mathcal B} && {\mathcal A} \\
+        & {\mathcal C}
+        \arrow[hook, from=2-2, to=1-1]
+        \arrow[hook, from=2-2, to=1-3]
+    \end{tikzcd}\]
+    there is a structure \( \mathcal D \) in \( \mathbb K \) and embeddings making the following diagram commute.
+    % https://q.uiver.app/#q=WzAsNCxbMSwyLCJcXG1hdGhjYWwgQyJdLFswLDEsIlxcbWF0aGNhbCBCIl0sWzIsMSwiXFxtYXRoY2FsIEEiXSxbMSwwLCJcXG1hdGhjYWwgRCJdLFswLDEsIiIsMCx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Imhvb2siLCJzaWRlIjoidG9wIn19fV0sWzAsMiwiIiwyLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoiaG9vayIsInNpZGUiOiJ0b3AifX19XSxbMiwzLCIiLDIseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6InRvcCJ9fX1dLFsxLDMsIiIsMCx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Imhvb2siLCJzaWRlIjoidG9wIn19fV1d
+    \[\begin{tikzcd}
+        & {\mathcal D} \\
+        {\mathcal B} && {\mathcal A} \\
+        & {\mathcal C}
+        \arrow[hook, from=3-2, to=2-1]
+        \arrow[hook, from=3-2, to=2-3]
+        \arrow[hook, from=2-3, to=1-2]
+        \arrow[hook, from=2-1, to=1-2]
+    \end{tikzcd}\]
+\end{definition}
+\begin{definition}
+    Let \( \mathbb K \) be a class of \( \mathcal L \)-structures and \( \mathcal M \in \mathbb K \).
+    We say that \( \mathcal M \) is \emph{existentially closed in \( \mathbb K \)} if, for every existential formula \( \psi(\vb x) \) and tuple \( \vb m \in \mathcal M \), the existence of an extension \( \mathcal M \subseteq \mathcal N \in \mathbb K \) with \( \mathcal N \vDash \psi(\vb m) \) forces \( \mathcal M \vDash \psi(\vb m) \).
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item Every field that is existentially closed in the class of fields is algebraically closed.
+        Let \( A \) be an existentially closed field, and view a nontrivial polynomial \( f(\vb y) \) over \( A \) as a statement \( p(\vb a, y) \) where \( p(\vb x, y) \) is a term in the language of rings, and \( \vb a \) is a tuple.
+        For instance, \( y^2 + 2y - 3 \) can be seen as \( p(1, 2, 3, y) \), where \( p(x_0, x_1, x_2, y) = x_0 y^2 + x_1 y + (-x_2) \).
+        We can replace \( f \) with an irreducible factor and consider the quotient ring \( \faktor{A[y]}{(f)} \), which is an extension of \( A \) over which \( f \) has a root.
+        \[ \faktor{A[y]}{(f)} \vDash \exists y.\, p(\vb a, y) = 0 \]
+        Since \( f \) is irreducible, this is an extension of fields.
+        Thus, as \( A \) is existentially closed,
+        \[ A \vDash \exists y.\, p(\vb a, y) = 0 \]
+        so \( f \) has a root in \( A \).
+        The converse is true, and is one way that Hilbert's Nullstellensatz can be stated.
+        \item The existentially closed linear orders are precisely the dense linear orders without endpoints.
+        \item The existentially closed ordered fields are precisely the \emph{real closed fields}, which are the ordered fields elementarily equivalent to the real numbers.
+        Equivalently, all nonnegative elements are squares, and all odd-degree elements have a root.
+    \end{enumerate}
+\end{example}
+\begin{theorem}
+    Let \( \mathbb K \) be a class of \( \mathcal L \)-structures that is closed under isomorphism.
+    Suppose that the class of all of the substructures of the structures in \( \mathbb K \) has the amalgamation property.
+    Then, every existential \( \mathcal L \)-formula \( \varphi(\vb x) \) is equivalent to a quantifier-free \( \mathcal L \)-formula in all existentially closed structures in \( \mathbb K \).
+    In particular, if \( \mathcal T \) is a theory axiomatising existentially closed structures in \( \mathbb K \), then \( \mathcal T \) has quantifier elimination.
+\end{theorem}
+\begin{proof}
+    Let \( \varphi(\vb x) \) be an existential formula.
+    We will call a pair \( (\mathcal M, \vb m) \) a \emph{witnessing pair} if \( \mathcal M \) is existentially closed in \( \mathbb K \) and \( \mathcal M \vDash \varphi(\vb m) \).
+    For each such pair, let
+    \[ \theta_{(\mathcal M, \vb m)} = \bigwedge \qty{\psi \text{ a literal} \mid \mathcal M \vDash \psi(\vb m)} \]
+    where the \emph{literals} are the atomic formulae and their negations.
+    Let
+    \[ \chi(\vb x) = \bigvee \theta_{(M, \vb m)}(\vb x) \]
+    Note that the \( \theta \) and \( \chi \) are not first-order formulae.
+    It suffices to show that if \( \mathcal N \) is existentially closed in \( \mathbb K \) then
+    \[ \mathcal N \vDash \varphi(\vb n) \iff \mathcal N \vDash \chi(\vb n) \]
+    If \( \vb n \in \mathcal N \) is such that \( \mathcal N \vDash \varphi(\vb n) \), then \( (\mathcal N, \vb n) \) is a witnessing pair, and thus \( \mathcal N \vDash \chi(\vb n) \) by construction.
+    For the converse, if \( \mathcal N \vDash \chi(\vb n) \), there is a witnessing pair \( (\mathcal M, \vb m) \) such that \( \mathcal N \vDash \theta_{(\mathcal M, \vb m)}(\vb n) \).
+    Hence, for each literal \( \psi(\vb x) \),
+    \[ (\mathcal M \vDash \psi(\vb m)) \implies (\mathcal N \vDash \psi(\vb n)) \]
+    There is thus an embedding \( e : \langle \vb m \rangle_{\mathcal M} \hookrightarrow \mathcal N \) mapping \( \vb m \) to \( \vb n \).
+    Applying the amalgamation property, we obtain
+    % https://q.uiver.app/#q=WzAsNSxbMSwzLCJcXGxhbmdsZSBcXHZiIG0gXFxyYW5nbGVfe1xcbWF0aGNhbCBNfSJdLFswLDIsIlxcbWF0aGNhbCBNIl0sWzIsMiwiXFxtYXRoY2FsIE4iXSxbMSwxLCJcXG1hdGhjYWwgQyJdLFsxLDAsIlxcbWF0aGNhbCBEIl0sWzAsMSwiIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoiaG9vayIsInNpZGUiOiJ0b3AifX19XSxbMiwzLCIiLDIseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6InRvcCJ9fX1dLFsxLDMsIiIsMCx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Imhvb2siLCJzaWRlIjoidG9wIn19fV0sWzAsMiwiZSIsMix7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Imhvb2siLCJzaWRlIjoidG9wIn19fV0sWzMsNCwiIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoiaG9vayIsInNpZGUiOiJ0b3AifX19XSxbMiw0LCJoIiwyLHsiY3VydmUiOjIsInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFsxLDQsImciLDAseyJjdXJ2ZSI6LTIsInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dXQ==
+\[\begin{tikzcd}
+	& {\mathcal D} \\
+	& {\mathcal C} \\
+	{\mathcal M} && {\mathcal N} \\
+	& {\langle \vb m \rangle_{\mathcal M}}
+	\arrow[hook, from=4-2, to=3-1]
+	\arrow[hook, from=3-3, to=2-2]
+	\arrow[hook, from=3-1, to=2-2]
+	\arrow["e"', hook, from=4-2, to=3-3]
+	\arrow[hook, from=2-2, to=1-2]
+	\arrow["h"', curve={height=12pt}, dashed, from=3-3, to=1-2]
+	\arrow["g", curve={height=-12pt}, dashed, from=3-1, to=1-2]
+\end{tikzcd}\]
+    where \( \mathcal D \in \mathbb K \), and both \( \mathcal M, \mathcal N \) embed into \( \mathcal C \) and therefore into \( \mathcal D \).
+    Note that \( g(\vb m) = h(\vb n) \).
+    Replacing \( \mathcal D \) with an isomorphic copy if required, we may assume that \( h \) is an inclusion, so \( g(\vb m) = \vb n \).
+    We know that \( (\mathcal M, \vb m) \) is a witnessing pair, so \( \mathcal M \vDash \varphi(\vb m) \).
+    Then \( \mathcal D \vDash \varphi(g(\vb m)) \) as existential formulae are preserved under taking extensions.
+    Since \( \mathcal N \) is existentially closed in \( \mathbb K \), \( \mathcal D \in \mathbb K \), and \( \mathcal N \subseteq \mathcal D \), we conclude that \( \mathcal N \vDash \varphi(g(\vb m)) \) so \( \mathcal N \vDash \varphi(\vb n) \) as required.
+    % then use compactness twice to reduce to first order formula
+
+    In particular, if \( \mathcal T \) is a theory axiomatising existentially closed structures in \( \mathbb K \), then \( \mathcal T \) has quantifier elimination by applying the completeness theorem and then using the syntactic criterion for quantifier elimination proven previously.
+\end{proof}

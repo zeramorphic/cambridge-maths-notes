@@ -305,5 +305,61 @@ Separating and detecting families are both sometimes called \emph{generating fam
         \item In \( \mathbf{Rng} \), the forgetful functor is represented by \( \mathbb Z[x] \), so similarly \( \mathbb Z[x] \) is a separator and a detector.
         \item If \( \mathcal C \) is small, the set \( \qty{\mathcal C(A, -) \mid A \in \ob \mathcal C} \) is a separating and detecting set for \( [\mathcal C, \mathbf{Set}] \) by the Yoneda lemma.
         \item In \( \mathbf{Top} \), the one-point space \( 1 \) is a separator, but \( \mathbf{Top} \) has no detecting set.
+        If \( \kappa \) is an infinite cardinal, let \( X_\kappa \) be a discrete space of cardinality \( \kappa \), and let \( Y_\kappa \) be the same set with the co-\( < \kappa \) topology:
+        \[ U \text{ open} \iff U = \varnothing \text{ or } \abs{Y_\kappa \setminus U} < \kappa \]
+        The identity \( X_\kappa \to Y_\kappa \) is continuous but not a homeomorphism.
+        Given any set \( \mathcal G \) of spaces, if \( \kappa \) is larger than \( \abs{G} \) for all \( G \in \mathcal G \), then \( \mathcal G \) cannot detect the fact that the map \( X_\kappa \to Y_\kappa \) is not a homeomorphism.
+        \item Let \( \mathcal C \) be the category whose objects are the (von Neumann) ordinals, and in addition to the identity morphisms, there are precisely two morphisms \( f, g : \alpha \rightrightarrows \beta \) when \( \alpha < \beta \).
+        We define composition in such a way that \( ff = fg = gf = gg = f \).
+        Now, \( 0 \) is a detector for \( \mathcal C \): it detects that \( f, g : 0 \rightrightarrows \alpha \) are not isomorphisms, as neither factors through the other, and it detects that \( f, g : \alpha \rightrightarrows \beta \) are not isomorphisms for \( 0 < \alpha < \beta \) since the morphism \( g : 0 \to \beta \) does not factor through either of them.
+        There is no separating set for \( \mathcal C \): for any set of ordinals \( \mathcal G \), if \( \alpha > \gamma \) for all \( \gamma \in \mathcal G \), \( \mathcal G \) cannot separate \( f, g : \alpha \rightrightarrows \alpha + 1 \).
+        \item \( \mathbf{Gp} \) has no \emph{coseparating} or \emph{codetecting} set of objects.
+        Given any set \( \mathcal G \) of groups, let \( H \) be a simple group with cardinality greater than that of each element of \( \mathcal G \).
+        Then the only homomorphisms from \( H \) to elements of \( \mathcal G \) are trivial.
+        In particular, \( \mathcal G \) cannot detect that the map \( H \to 1 \) is not an isomorphism.
     \end{enumerate}
 \end{example}
+
+\subsection{Projectivity}
+The functors \( \mathcal C(A, -) : \mathcal C \to \mathbf{Set} \) preserve monomorphisms.
+They do not, in general, preserve epimorphisms.
+\begin{definition}
+    We say that an object \( P \) of a locally small category \( \mathcal C \) is \emph{projective} if \( \mathcal C(P, -) \) preserves epimorphisms.
+    In more elementary terms, given a diagram
+    % https://q.uiver.app/#q=WzAsMyxbMSwwLCJQIl0sWzEsMSwiUiJdLFswLDEsIlEiXSxbMCwxLCJmIl0sWzIsMSwiZyIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6ImVwaSJ9fX1dXQ==
+\[\begin{tikzcd}
+	& P \\
+	Q & R
+	\arrow["f", from=1-2, to=2-2]
+	\arrow["g"', two heads, from=2-1, to=2-2]
+\end{tikzcd}\]
+    there exists \( h : P \to Q \) such that \( gh = f \).
+    % https://q.uiver.app/#q=WzAsMyxbMSwwLCJQIl0sWzEsMSwiUiJdLFswLDEsIlEiXSxbMCwxLCJmIl0sWzIsMSwiZyIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6ImVwaSJ9fX1dLFswLDIsImgiLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+\[\begin{tikzcd}
+	& P \\
+	Q & R
+	\arrow["f", from=1-2, to=2-2]
+	\arrow["g"', two heads, from=2-1, to=2-2]
+	\arrow["h"', dashed, from=1-2, to=2-1]
+\end{tikzcd}\]
+    If this holds for all \( g \) in some class \( \mathcal E \) of epimorphisms, we say that \( P \) is \( \mathcal E \)-projective.
+    The dual notion is called \emph{injectivity}.
+\end{definition}
+We will consider the class of pointwise epimorphisms in \( [\mathcal C, \mathbf{Set}] \); that is, those natural transformations \( \alpha \) whose components \( \alpha_A \) are surjective.
+\begin{corollary}
+    Objects of the form \( \mathcal C(A, -) \) are pointwise projective in \( [\mathcal C, \mathbf{Set}] \).
+\end{corollary}
+\begin{proof}
+    If \( P = \mathcal C(A, -) \), an \( f \) in the above diagram corresponds to some \( \Phi(f) \in RA \) by the Yoneda lemma.
+    But \( g_A \) is surjective, so there exists \( \Phi(h) \in QA \) mapping to \( \Phi(f) \).
+\end{proof}
+\begin{proposition}
+    If \( \mathcal C \) is small, then \( [\mathcal C, \mathbf{Set}] \) has \emph{enough pointwise projectives}; that is, for any object \( F \) there exists a pointwise epimorphism \( P \to F \) with \( P \) pointwise projective.
+\end{proposition}
+\begin{proof}
+    Let \( P = \coprod_{(A, x)} \mathcal C(A, -) \) where the disjoint union is taken over all pairs \( (A, x) \) with \( A \in \ob \mathcal C \) and \( x \in FA \).
+    % any coproduct of projectives is projective
+    Then \( P \) is pointwise projective, since the \( \mathcal C(A, -) \) are.
+    There is a natural transformation \( \alpha : P \to F \) where the \( (A, x) \)-indexed term is \( \Psi(x) : \mathcal C(A, -) \to F \).
+    This is pointwise epic, since any \( x \in FA \) is in the image of \( \Psi(x) \). 
+\end{proof}
