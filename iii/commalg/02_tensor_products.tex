@@ -819,7 +819,7 @@ This shows that \( T_M \) is a \emph{right exact} functor.
     We show this is well-defined.
     If \( g(x) = g(y) \), then \( g(x - y) = 0 \), so \( x - y = f(a) \) for some \( a \in A \).
     But then \( \varphi(f(a)) = 0 \), so \( \varphi(x) = \varphi(y) \).
-    As \( \varphi \) and \( g \) are ring homomorphisms, so is \( \psi \).
+    As \( \varphi \) and \( g \) are \( R \)-linear, so is \( \psi \).
     Hence \( g^\star(\psi) = \varphi \) as required.
 \end{proof}
 \begin{lemma}
@@ -871,3 +871,264 @@ This shows that \( T_M \) is a \emph{right exact} functor.
 \end{proof}
 By the universal property of the tensor product,
 \[ \Hom_R(M \otimes_R N, L) \simeq \operatorname{Bilin}_R(M \times N, L) \simeq \Hom_R(N, \Hom_R(M, L)) \]
+mapping \( \varphi \mapsto n \mapsto m \mapsto \varphi(m \otimes n) \) and \( \varphi \mapsto m \otimes n \mapsto \varphi(m)(n) \).
+This bijection is \emph{natural}, in the sense that many commutative diagrams involving them will commute.
+\begin{proposition}
+    Let \( M \) be an \( R \)-module.
+    Then the functor \( T_M = M \otimes_R (-) \) is right exact.
+\end{proposition}
+\begin{proof}
+    Consider an exact sequence of \( R \)-modules
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiQiJdLFsyLDAsIkMiXSxbMywwLCIwIl0sWzAsMSwiZiJdLFsxLDIsImciXSxbMiwzXV0=
+\[\begin{tikzcd}
+	A & B & C & 0
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["g", from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+\end{tikzcd}\]
+    We must show that
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJNIFxcb3RpbWVzX1IgQSJdLFsxLDAsIk0gXFxvdGltZXNfUiBCIl0sWzIsMCwiTSBcXG90aW1lc19SIEMiXSxbMywwLCIwIl0sWzAsMSwiXFxpZF9NIFxcb3RpbWVzIGYiXSxbMSwyLCJcXGlkX00gXFxvdGltZXMgZyJdLFsyLDNdXQ==
+\[\begin{tikzcd}
+	{M \otimes_R A} & {M \otimes_R B} & {M \otimes_R C} & 0
+	\arrow["{\id_M \otimes f}", from=1-1, to=1-2]
+	\arrow["{\id_M \otimes g}", from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+\end{tikzcd}\]
+    is exact.
+    Let \( P \) be an \( R \)-module, and consider apply the functor \( \Hom(-, P) \) to this sequence.
+    As this is left exact, the resulting sequence will be exact.
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCIwIl0sWzEsMCwiXFxIb21fUihDLCBQKSJdLFsyLDAsIlxcSG9tX1IoQiwgUCkiXSxbMywwLCJcXEhvbV9SKEEsIFApIl0sWzAsMV0sWzEsMiwiZ15cXHN0YXIiXSxbMiwzLCJmXlxcc3RhciJdXQ==
+\[\begin{tikzcd}
+	0 & {\Hom_R(C, P)} & {\Hom_R(B, P)} & {\Hom_R(A, P)}
+	\arrow[from=1-1, to=1-2]
+	\arrow["{g^\star}", from=1-2, to=1-3]
+	\arrow["{f^\star}", from=1-3, to=1-4]
+\end{tikzcd}\]
+    Then, apply the functor \( \Hom(M, -) \), which is also left exact.
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCIwIl0sWzEsMCwiXFxIb21fUihNLCBcXEhvbV9SKEMsIFApKSJdLFsyLDAsIlxcSG9tX1IoTSwgXFxIb21fUihCLCBQKSkiXSxbMywwLCJcXEhvbV9SKE0sIFxcSG9tX1IoQSwgUCkpIl0sWzAsMV0sWzEsMiwiKGdeXFxzdGFyKV9cXHN0YXIiXSxbMiwzLCIoZl5cXHN0YXIpX1xcc3RhciJdXQ==
+\[\begin{tikzcd}
+	0 & {\Hom_R(M, \Hom_R(C, P))} & {\Hom_R(M, \Hom_R(B, P))} & {\Hom_R(M, \Hom_R(A, P))}
+	\arrow[from=1-1, to=1-2]
+	\arrow["{(g^\star)_\star}", from=1-2, to=1-3]
+	\arrow["{(f^\star)_\star}", from=1-3, to=1-4]
+\end{tikzcd}\]
+    We thus obtain
+    % https://q.uiver.app/#q=WzAsOCxbMCwxLCIwIl0sWzEsMSwiXFxIb21fUihNIFxcb3RpbWVzX1IgQywgUCkiXSxbMiwxLCJcXEhvbV9SKE0gXFxvdGltZXNfUiBCLCBQKSJdLFszLDEsIlxcSG9tX1IoTSBcXG90aW1lc19SIEEsIFApIl0sWzAsMCwiMCJdLFsxLDAsIlxcSG9tX1IoTSwgXFxIb21fUihDLCBQKSkiXSxbMiwwLCJcXEhvbV9SKE0sIFxcSG9tX1IoQiwgUCkpIl0sWzMsMCwiXFxIb21fUihNLCBcXEhvbV9SKEEsIFApKSJdLFswLDFdLFsxLDJdLFsyLDNdLFs0LDVdLFs1LDZdLFs2LDddLFs3LDMsIlxcc2ltZXEiXSxbNiwyLCJcXHNpbWVxIl0sWzUsMSwiXFxzaW1lcSJdLFs0LDAsIlxcc2ltZXEiXV0=
+\[\begin{tikzcd}
+	0 & {\Hom_R(M, \Hom_R(C, P))} & {\Hom_R(M, \Hom_R(B, P))} & {\Hom_R(M, \Hom_R(A, P))} \\
+	0 & {\Hom_R(M \otimes_R C, P)} & {\Hom_R(M \otimes_R B, P)} & {\Hom_R(M \otimes_R A, P)}
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow["\simeq", from=1-4, to=2-4]
+	\arrow["\simeq", from=1-3, to=2-3]
+	\arrow["\simeq", from=1-2, to=2-2]
+	\arrow["\simeq", from=1-1, to=2-1]
+\end{tikzcd}\]
+    As this diagram commutes, the bottom sequence is exact.
+    Since this holds for all \( P \), by the previous lemma, we can cancel \( P \) to give exact sequences
+\[\begin{tikzcd}
+	0 & {M \otimes_R C} & {M \otimes_R B}
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-1, to=1-2]
+\end{tikzcd}
+\quad\quad
+\begin{tikzcd}
+	{M \otimes_R C} & {M \otimes_R B} & {M \otimes_R A}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+\end{tikzcd}\]
+    which combine into the longer sequence as required.
+\end{proof}
+\begin{remark}
+    It is not the case that if
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzEsMCwiQiJdLFsyLDAsIkMiXSxbMCwxXSxbMSwyXV0=
+\[\begin{tikzcd}
+	A & B & C
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+\end{tikzcd}\]
+    is exact, then
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJNIFxcb3RpbWVzX1IgQSJdLFsxLDAsIk0gXFxvdGltZXNfUiBCIl0sWzIsMCwiTSBcXG90aW1lc19SIEMiXSxbMCwxXSxbMSwyXV0=
+\[\begin{tikzcd}
+	{M \otimes_R A} & {M \otimes_R B} & {M \otimes_R C}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+\end{tikzcd}\]
+    is also exact; the fact that the sequence has a zero on the right is important.
+    Consider the exact sequence
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCIwIl0sWzEsMCwiXFxtYXRoYmIgWiJdLFsyLDAsIlxcbWF0aGJiIFoiXSxbMCwxXSxbMSwyLCJcXHRpbWVzIDIiXV0=
+\[\begin{tikzcd}
+	0 & {\mathbb Z} & {\mathbb Z}
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\times 2}", from=1-2, to=1-3]
+\end{tikzcd}\]
+    and tensor with \( \faktor{\mathbb Z}{2\mathbb Z} \).
+    We would then obtain
+    % https://q.uiver.app/#q=WzAsNixbMCwwLCIwIl0sWzEsMCwiXFxmYWt0b3J7XFxtYXRoYmIgWn17MlxcbWF0aGJiIFp9IFxcb3RpbWVzIFxcbWF0aGJiIFoiXSxbMiwwLCJcXGZha3RvcntcXG1hdGhiYiBafXsyXFxtYXRoYmIgWn0gXFxvdGltZXMgXFxtYXRoYmIgWiJdLFswLDEsIjAiXSxbMSwxLCJcXGZha3RvcntcXG1hdGhiYiBafXsyXFxtYXRoYmIgWn0iXSxbMiwxLCJcXGZha3RvcntcXG1hdGhiYiBafXsyXFxtYXRoYmIgWn0iXSxbMCwxXSxbMSwyXSxbMCwzLCJcXHNpbWVxIl0sWzEsNCwiXFxzaW1lcSJdLFsyLDUsIlxcc2ltZXEiXSxbMyw0XSxbNCw1XV0=
+\[\begin{tikzcd}
+	0 & {\faktor{\mathbb Z}{2\mathbb Z} \otimes \mathbb Z} & {\faktor{\mathbb Z}{2\mathbb Z} \otimes \mathbb Z} \\
+	0 & {\faktor{\mathbb Z}{2\mathbb Z}} & {\faktor{\mathbb Z}{2\mathbb Z}}
+	\arrow[from=1-1, to=1-2]
+	\arrow["\times 2", from=1-2, to=1-3]
+	\arrow["\simeq", from=1-1, to=2-1]
+	\arrow["\simeq", from=1-2, to=2-2]
+	\arrow["\simeq", from=1-3, to=2-3]
+	\arrow[from=2-1, to=2-2]
+	\arrow["\times 2", from=2-2, to=2-3]
+\end{tikzcd}\]
+    but this sequence is not exact.
+\end{remark}
+
+\subsection{Flat modules}
+\begin{definition}
+    An \( R \)-module \( M \) is \emph{flat} if whenever \( f : N \to N' \) is \( R \)-linear and injective, the map
+    \[ \id_M \otimes f : M \otimes_R N \to M \otimes_R N' \]
+    is injective.
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item \( \faktor{\mathbb Z}{2\mathbb Z} \) is not a flat \( \mathbb Z \)-module.
+        \item Free modules are flat.
+        Suppose \( f : N \to N' \) is an injective \( R \)-linear map.
+        Then
+        % https://q.uiver.app/#q=WzAsNCxbMCwwLCJSXntcXG9wbHVzIEl9IFxcb3RpbWVzX1IgTiJdLFsxLDAsIlJee1xcb3BsdXMgSX0gXFxvdGltZXNfUiBOJyJdLFsxLDEsIihOJylee1xcb3BsdXMgSX0iXSxbMCwxLCJOXntcXG9wbHVzIEl9Il0sWzAsMSwiXFxpZF97Ul57XFxvcGx1cyBJfX0gXFxvdGltZXMgZiJdLFsxLDIsIlxcc2ltZXEiXSxbMCwzLCJcXHNpbWVxIiwyXSxbMywyLCJnIiwyXV0=
+\[\begin{tikzcd}
+	{R^{\oplus I} \otimes_R N} & {R^{\oplus I} \otimes_R N'} \\
+	{N^{\oplus I}} & {(N')^{\oplus I}}
+	\arrow["{\id_{R^{\oplus I}} \otimes f}", from=1-1, to=1-2]
+	\arrow["\simeq", from=1-2, to=2-2]
+	\arrow["\simeq"', from=1-1, to=2-1]
+	\arrow["g"', from=2-1, to=2-2]
+\end{tikzcd}\]
+        commutes, where
+        \[ g((n_i)_{i \in I}) = (f(n_i))_{i \in I} \]
+        But \( g \) is injective, so \( \id_{R^{\oplus I}} \otimes f \) must also be injective.
+        \item The base ring matters. One can see that \( \faktor{\mathbb Z}{2\mathbb Z} \) is not a flat \( \mathbb Z \)-module but it is a flat \( \faktor{\mathbb Z}{2\mathbb Z} \)-module as it is a free \( \faktor{\mathbb Z}{2\mathbb Z} \)-module.
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    An \( R \)-module \( M \) is \emph{torsion-free} if \( rm \neq 0 \) whenever \( r \) is not a zero divisor in \( R \) and \( m \neq 0 \).
+\end{definition}
+\begin{proposition}
+    Flat modules are torsion-free.
+\end{proposition}
+\begin{proof}
+    Suppose \( M \) is not torsion-free.
+    Then there is \( r_0 \in R \) not a zero divisor and \( m_0 \neq 0 \), such that \( r_0 m_0 = 0 \).
+    Consider the \( R \)-linear map \( f : R \to R \) given by multiplication by \( r_0 \).
+    Its kernel is zero, as \( r_0 \) is not a zero divisor.
+    So \( f \) is injective.
+    The following diagram commutes.
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJNIFxcb3RpbWVzX1IgUiJdLFsxLDAsIk0gXFxvdGltZXNfUiBSIl0sWzEsMSwiTSJdLFswLDEsIk0iXSxbMCwxLCJcXGlkX00gXFxvdGltZXMgZiJdLFsxLDIsIlxcc2ltZXEiXSxbMCwzLCJcXHNpbWVxIiwyXSxbMywyLCJtIFxcbWFwc3RvIHJfMCBtIiwyXV0=
+\[\begin{tikzcd}
+	{M \otimes_R R} & {M \otimes_R R} \\
+	M & M
+	\arrow["{\id_M \otimes f}", from=1-1, to=1-2]
+	\arrow["\simeq", from=1-2, to=2-2]
+	\arrow["\simeq"', from=1-1, to=2-1]
+	\arrow["{m \mapsto r_0 m}"', from=2-1, to=2-2]
+\end{tikzcd}\]
+    If \( M \) were flat, \( \id_M \otimes f \) would be injective, but then the map \( m \mapsto r_0 m \) would also be injective, which is a contradiction.
+\end{proof}
+% note: all integral domains are nonzero. we want the definition to really be: the zero ideal is prime.
+\begin{example}
+    Let \( R \) be an integral domain, and let \( I \) be a nonzero ideal of \( R \).
+    Then \( \faktor{R}{I} \) is not flat.
+    Indeed, if \( I = R \) then \( \faktor{R}{I} = 0 \) is not flat.
+    Instead, suppose \( I \subsetneq R \), and let \( 0 \neq x \in I \).
+    Tensoring with \( \faktor{R}{I} \), the map \( \faktor{R}{I} \to \faktor{R}{I} \) given by multiplication by \( x \) is the zero map, but \( \faktor{R}{I} \) is not the zero module, so \( \faktor{R}{I} \) is not torsion-free.
+\end{example}
+\begin{proposition}
+    Let \( M \) be an \( R \)-module.
+    Then the following are equivalent.
+    \begin{enumerate}
+        \item \( T_M \) preserves exactness of all exact sequences;
+        \item \( T_M \) preserves exactness of short exact sequences;
+        \item \( M \) is flat;
+        \item if \( f : N \to N' \) is \( R \)-linear and injective, and \( N, N' \) are finitely generated \( R \)-modules, then \( \id_M \otimes f \) is injective.
+    \end{enumerate}
+\end{proposition}
+Note that a map \( f : M \to N \) is injective exactly when the sequence
+% https://q.uiver.app/#q=WzAsNCxbMCwwLCJNIFxcb3RpbWVzX1IgUiJdLFsxLDAsIk0gXFxvdGltZXNfUiBSIl0sWzEsMSwiTSJdLFswLDEsIk0iXSxbMCwxLCJcXGlkX00gXFxvdGltZXMgZiJdLFsxLDIsIlxcc2ltZXEiXSxbMCwzLCJcXHNpbWVxIiwyXSxbMywyLCJtIFxcbWFwc3RvIHJfMCBtIiwyXV0=
+\[\begin{tikzcd}
+	{M \otimes_R R} & {M \otimes_R R} \\
+	M & M
+	\arrow["{\id_M \otimes f}", from=1-1, to=1-2]
+	\arrow["\simeq", from=1-2, to=2-2]
+	\arrow["\simeq"', from=1-1, to=2-1]
+	\arrow["{m \mapsto r_0 m}"', from=2-1, to=2-2]
+\end{tikzcd}\]
+is exact, so all of these conditions relate exact sequences.
+\begin{proof}
+    Note that (i) implies (ii) which implies (iii) which implies (iv).
+
+    \emph{(ii) implies (i).}
+    Suppose the sequence
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzEsMCwiQiJdLFsyLDAsIkMiXSxbMCwxLCJmIl0sWzEsMiwiZyJdXQ==
+\[\begin{tikzcd}
+	A & B & C
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["g", from=1-2, to=1-3]
+\end{tikzcd}\]
+    is exact.
+    Then certainly
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiXFxmYWt0b3J7QX17XFxrZXIgZn0iXSxbMiwwLCJCIl0sWzMsMCwiXFxJbSBnIl0sWzQsMCwiMCJdLFswLDFdLFsxLDIsIlxcb3ZlcmxpbmUgZiJdLFsyLDMsImciXSxbMyw0XV0=
+\[\begin{tikzcd}
+	0 & {\faktor{A}{\ker f}} & B & {\Im g} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\overline f}", from=1-2, to=1-3]
+	\arrow["g", from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    is exact.
+    As the exactness of short exact sequences is preserved under \( T_M \) by hypothesis,
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiTSBcXG90aW1lc19SIFxcZmFrdG9ye0F9e1xca2VyIGZ9Il0sWzIsMCwiTSBcXG90aW1lc19SIEIiXSxbMywwLCJNIFxcb3RpbWVzX1IgXFxJbSBnIl0sWzQsMCwiMCJdLFswLDFdLFsxLDIsIlxcaWRfTSBcXG90aW1lcyBcXG92ZXJsaW5lIGYiXSxbMiwzLCJcXGlkX00gXFxvdGltZXMgZyJdLFszLDRdXQ==
+\[\begin{tikzcd}
+	0 & {M \otimes_R \faktor{A}{\ker f}} & {M \otimes_R B} & {M \otimes_R \Im g} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\id_M \otimes \overline f}", from=1-2, to=1-3]
+	\arrow["{\id_M \otimes g}", from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    is also exact.
+    Then
+    \[ \ker (\id_M \otimes g) = \Im (\id_M \otimes \overline f) = \Im (\id_M \otimes f) \]
+    Thus
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJNIFxcb3RpbWVzX1IgQSJdLFsxLDAsIk0gXFxvdGltZXNfUiBCIl0sWzIsMCwiTSBcXG90aW1lc19SIEMiXSxbMCwxLCJcXGlkX00gXFxvdGltZXMgZiJdLFsxLDIsIlxcaWRfTSBcXG90aW1lcyBnIl1d
+\[\begin{tikzcd}
+	{M \otimes_R A} & {M \otimes_R B} & {M \otimes_R C}
+	\arrow["{\id_M \otimes f}", from=1-1, to=1-2]
+	\arrow["{\id_M \otimes g}", from=1-2, to=1-3]
+\end{tikzcd}\]
+    is exact.
+
+    \emph{(iii) implies (ii).}
+    \( T_M \) is right exact.
+    % write in more detail. need to use flatness to do the LHS of the sequence.
+
+    \emph{(iv) implies (iii).}
+    % todo: use prop above about being zero in finitely generated submodules
+\end{proof}
+\begin{proposition}
+    Let \( f : R \to S \) be a ring homomorphism, and let \( M \) be a flat \( R \)-module.
+    Then \( S \otimes_R M \) is a flat \( S \)-module.
+\end{proposition}
+\begin{proof}
+    Let \( g : N \to N' \) be an \( S \)-linear injective map.
+    Then
+\[\begin{tikzcd}
+	{(S \otimes_R M) \otimes_S N} & {(S \otimes_R M) \otimes_S N'} \\
+	{M \otimes_R N} & {M \otimes_R N'}
+	\arrow["{\id_M \otimes g}"', from=2-1, to=2-2]
+	\arrow["\simeq"', from=1-1, to=2-1]
+	\arrow["\simeq", from=1-2, to=2-2]
+	\arrow["{\id_{S \otimes_R M} \otimes g}", from=1-1, to=1-2]
+\end{tikzcd}\]
+    commutes.
+    The map \( \id_M \otimes g \) is injective as \( M \) is flat, so the map \( \id_{S \otimes_R M} \otimes g \) is also injective.
+    Thus \( S \otimes_R M \) is a flat \( S \)-module.
+\end{proof}
