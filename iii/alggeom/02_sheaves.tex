@@ -310,3 +310,47 @@ Similarly, the image presheaf may not be a sheaf.
     We say that \( \mathcal F \) is a \emph{subsheaf} of \( \mathcal G \), written \( \mathcal F \subseteq \mathcal G \), if there are inclusions \( \mathcal F(U) \subseteq \mathcal G(U) \) compatible with the restriction maps.
 \end{definition}
 Kernels are examples of subsheaves.
+
+\subsection{Moving between spaces}
+Let \( f : X \to Y \) be a continuous map of topological spaces, and let \( \mathcal F \) and \( \mathcal G \) be sheaves on \( X \) and \( Y \) respectively.
+\begin{definition}
+    The presheaf \emph{pushforward} or \emph{direct image} \( f_\star \mathcal F \) is the presheaf on \( Y \) given by
+    \[ f_\star\mathcal F(U) = \mathcal F(f^{-1}(U)) \]
+\end{definition}
+\begin{proposition}
+    The presheaf pushforward of a sheaf is a sheaf.
+\end{proposition}
+\begin{proof}
+    % Trivial exercise
+\end{proof}
+\begin{definition}
+    The \emph{inverse image presheaf} \( (f^{-1} \mathcal G)^{\mathrm{pre}} \) is the presheaf on \( X \) given by
+    \[ (f^{-1}\mathcal G)^{\mathrm{pre}}(V) = \faktor{\qty{(s_U, U) \mid f(V) \subseteq U, s_U \in \mathcal G(U)}}{\sim} \]
+    where \( \sim \) identifies pairs that agree on a smaller open set containing \( f(V) \).
+    The \emph{inverse image sheaf} is \( f^{-1} \mathcal G = ((f^{-1} \mathcal G)^{\mathrm{pre}})^{\mathrm{sh}} \).
+\end{definition}
+% the ~ stuff are all examples of colimits
+\begin{example}
+    The inverse image presheaf need not be a sheaf, even when \( f \) is an open map.
+    Let \( Y \) be a topological space, and let \( X = Y \sqcup Y \).
+    Take \( \mathcal G = \underline{\mathbb Z} \) the constant sheaf, and \( \mathcal F = (f^{-1} \mathcal G)^{\mathrm{pre}} \).
+    Let \( U \subseteq Y \) be open, and let \( V = f^{-1}(U) \).
+    Then \( \mathcal F(V) = \mathcal G(U) = \mathbb Z \), assuming \( U \) is connected.
+    But \( V = U \sqcup U \), so \( \mathcal F^{\mathrm{sh}}(V) = \mathcal G(U) \times \mathcal G(U) = \mathbb Z^2 \).
+\end{example}
+\begin{example}
+    Let \( \mathcal F \) be a sheaf on \( X \), and let \( \pi \) be the map from \( X \) to a point.
+    Then \( f_\star \mathcal F \) is a sheaf on a point, which is just an abelian group, specifically \( \mathcal F(\pi^{-1}(\qty{\bullet})) = \mathcal F(X) \).
+\end{example}
+We will use the notation
+\[ \mathcal F(X) = \Gamma(X, \mathcal F) = H^0(X, \mathcal F) \]
+where \( \Gamma \) is called the \emph{global sections}, and \( H_0 \) is called the \emph{0th cohomology} with coefficients in \( \mathcal F \).
+
+For \( p \in X \), \( i : \qty{p} \to X \).
+Let \( \mathcal G \) be a sheaf on \( p \), which is an abelian group \( A \).
+Consider the sheaf \( i_\star \mathcal G \) on \( X \), defined by
+\[ (i_\star \mathcal G)(U) = \begin{cases}
+    0 & \text{if } p \notin U \\
+    A & \text{if } p \in U
+\end{cases} \]
+This is called the \emph{skyscraper} at \( p \) with value \( A \).

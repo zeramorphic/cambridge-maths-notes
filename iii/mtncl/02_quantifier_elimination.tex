@@ -118,10 +118,10 @@ This is proven on the first example sheet.
     Let \( \mathcal T \) be an \( \mathcal L \)-theory.
     A set \( F \) of \( \mathcal L \)-formulae is an \emph{elimination set} for \( \mathcal T \) if, for every \( \mathcal L \)-formula \( \varphi \), there is a Boolean combination \( \varphi^\star \) of formulae in \( F \) such that
     \[ \mathcal T \vdash \varphi \Leftrightarrow \varphi^\star \]
-    A theory \( \mathcal T \) has \emph{quantifier-elimination} if the family of quantifier-free formulae forms an elimination set for \( \mathcal T \).
+    A theory \( \mathcal T \) has \emph{quantifier elimination} if the family of quantifier-free formulae forms an elimination set for \( \mathcal T \).
 \end{definition}
-Note that a theory having quantifier-elimination depends on its underlying language.
-Every Skolem theory has quantifier-elimination.
+Note that a theory having quantifier elimination depends on its underlying language.
+Every Skolem theory has quantifier elimination.
 \begin{example}
     \begin{enumerate}
         \item Let \( p \in \mathbb C[x] \) be the polynomial \( x^3 - 31x^2 + 6 \) over \( \mathbb C \).
@@ -138,12 +138,12 @@ Every Skolem theory has quantifier-elimination.
         \item Suppose \( \mathcal L \) is a recursive language, and the map \( \varphi \mapsto \varphi^\star \) is computable.
         Then an algorithm to decide whether \( \mathcal T \) proves any sentence can be produced from one that operates only on the elimination set.
         \item The elementary embeddings \( \mathcal M \hookrightarrow \mathcal N \) are precisely those embeddings that preserve \( \varphi \) and \( \neg \varphi \) for all \( \varphi \) in \( F \).
-        So a theory with quantifier-elimination is model-complete. % why? check. also check why we need \neg \varphi
+        So a theory with quantifier elimination is model-complete. % why? check. also check why we need \neg \varphi
         \item The definable sets of a model are precisely the Boolean combinations of sets definable with only formulae in an elimination set.
     \end{enumerate}
 \end{remark}
 In the next result, we use the notation \( \neg F \) for the set of negations of formulae in \( F \).
-\begin{proposition}[syntactic quantifier-elimination]
+\begin{proposition}[syntactic quantifier elimination]
     Let \( \mathcal T \) be an \( \mathcal L \)-theory, and let \( F \) be a family of \( \mathcal L \)-formulae including all atomic formulae.
     Suppose that, for every \( \mathcal L \)-formula of the form
     \[ \theta(\vb x) = \exists y.\, \bigwedge_{i < n} \varphi_i(\vb x, y);\quad \varphi_i \in F \cup \neg F \]
@@ -273,4 +273,87 @@ We can make the following more general definition.
     % then use compactness twice to reduce to first order formula
 
     In particular, if \( \mathcal T \) is a theory axiomatising existentially closed structures in \( \mathbb K \), then \( \mathcal T \) has quantifier elimination by applying the completeness theorem and then using the syntactic criterion for quantifier elimination proven previously.
+\end{proof}
+\begin{example}
+    We show that the theory \( \mathsf{ACF} \) of algebraically closed fields has quantifier elimination.
+    First, recall that \( \mathsf{ACF} \) axiomatises the existentially closed fields, so it suffices to check that the class of substructures of fields has the amalgamation property.
+    Note that a substructure of a field must satisfy all universal sentences in the theory of fields, so the substructures of fields are precisely the integral domains.
+    General field theory shows that the class of fields has the amalgamation property; we can then prove that the class of integral domains has the amalgamation property by passing to fraction fields.
+\end{example}
+\begin{example}
+    The theory \( \mathsf{DLO} \) of dense linear orders without endpoints has quantifier elimination.
+    % The theory of linear orders has a universal axiomatisation, so the 
+    % TODO: watch lecture recording to fill in blank: time is 11:15
+\end{example}
+
+\subsection{Inductive classes}
+\begin{definition}
+    A class \( \mathbb K \) of \( \mathcal L \)-structures is \emph{inductive} if it is closed under isomorphisms and under unions of chains of embeddings.
+\end{definition}
+\begin{theorem}
+    Let \( \mathcal M \) be a structure in an inductive class \( \mathbb K \).
+    Then \( \mathcal M \subseteq \mathcal N \) for some \( \mathcal N \) existentially closed in \( \mathbb K \).
+\end{theorem}
+This is analogous to the theorem that every field has an algebraic closure, and is proven in a similar way.
+\begin{proof}
+    We show that \( \mathcal M \) can be extended to some structure \( \mathcal M^\star \in \mathbb K \) with the property that for all \( \vb m \in \mathcal M \) and \( \varphi(\vb x) \) an existential \( \mathcal L \)-formula, if \( \varphi(\vb m) \) holds in some extension of \( \mathcal M^\star \) in \( \mathbb K \), then \( \varphi(\vb m) \) holds in \( \mathcal M^\star \).
+
+    We now show that this suffices to complete the proof.
+    Indeed, we then recursively define a chain of \( \mathbb K \)-structures by setting \( \mathcal M^{(0)} = \mathcal M \) and \( \mathcal M^{(i+1)} = (\mathcal M^{(i)})^\star \), then taking their union to form \( \mathcal N \).
+    Then \( \mathcal N \) lies in \( \mathbb K \) as \( \mathbb K \) is inductive, and moreover it extends \( \mathcal M \).
+    
+    This \( \mathcal N \) is existentially closed in \( \mathbb K \).
+    Suppose \( \varphi(\vb x) \) is an existential formula, \( \vb n \in \mathcal N \), and \( \mathcal D \) is a structure in \( \mathbb K \) such that \( \mathcal D \vDash \varphi(\vb n) \).
+    As \( \vb n \in \bigcup_{i < \omega} \mathcal M^{(i)} \) and the \( \mathcal M^{(i)} \) form a chain, there must be \( k < \omega \) such that \( \vb n \in \mathcal M^{(k)} \).
+    Then \( (\mathcal M^{(k)})^\star = \mathcal M^{(k+1)} \vDash \varphi(\vb n) \), so in particular, \( \mathcal N \vDash \varphi(\vb n) \).
+
+    We now construct \( \mathcal M^\star \).
+    Using the axiom of choice, create an ordinal-indexed list of pairs \( (\varphi_\beta, \vb m_\beta)_\beta \) where \( \varphi \) is an existential formula and \( \vb m \in \mathcal M \), and \( \beta \) ranges over all ordinals less than some ordinal \( \delta \).
+    We then construct a chain of \( \mathbb K \)-structures by transfinite induction.
+    Let \( \mathcal M_0 = \mathcal M \).
+    At each successor stage, let \( \mathcal M_{\beta + 1} \) be a \( \mathbb K \)-structure \( \mathcal D \) that extends \( \mathcal M_\beta \) and models \( \varphi_\beta(\vb m_\beta) \), if this exists.
+    If such a model does not exist, define \( \mathcal M_{\beta + 1} = \mathcal M_\beta \).
+    At each limit stage, let \( \mathcal M_\lambda = \bigcup_{\beta < \lambda} \mathcal M_\beta \).
+    Finally, set \( \mathcal M^\star = \mathcal M_\delta \).
+
+    If \( \varphi(\vb x) \) is existential, \( \vb m \in \mathcal M \), and \( \mathcal D \) is some \( \mathbb K \)-structure that extends \( \mathcal M^\star \) and models \( \varphi(\vb m) \), then \( (\varphi, \vb m) = (\varphi_\beta, \vb m_\beta) \) for some \( \beta < \delta \).
+    Then \( \mathcal M_\beta \subseteq \mathcal M^\star \subseteq \mathcal D \), so \( \mathcal M_{\beta + 1} \) models \( \varphi_\beta(\vb m_\beta) = \varphi(\vb m) \) by definition.
+    But as \( \varphi \) is existential and \( \mathcal M^\star \) extends \( \mathcal M_\beta \), we must also have that \( \mathcal M^\star \) models \( \varphi(\vb m) \), as required.
+\end{proof}
+
+\subsection{Interaction with other properties}
+\begin{theorem}
+    Let \( \mathcal T \) be an \( \mathcal L \)-theory.
+    Then the following are equivalent.
+    \begin{enumerate}
+        \item The theory \( \mathcal T \) is model-complete.
+        \item Every model of \( \mathcal T \) is an existentially closed model of \( \mathcal T \).
+        \item Given an embedding \( e : \mathcal A \hookrightarrow \mathcal B \) between models of \( \mathcal T \), there is an elementary extension \( \mathcal D \) of \( \mathcal A \) and an embedding \( g : \mathcal B \hookrightarrow D \) such that \( g \circ e = \id_{\mathcal A} \).
+        \item If an \( \mathcal L \)-formula \( \varphi(\vb x, \vb y) \) is a conjunction of literals, then \( \exists \vb y.\, \varphi(\vb x, \vb y) \) is equivalent to some universal \( \mathcal L \)-formula \( \psi(\vb x) \) modulo \( \mathcal T \).
+        \item Every \( \mathcal L \)-formula is equivalent to some universal \( \mathcal L \)-formula modulo \( \mathcal T \). 
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    %ES1 Q11
+\end{proof}
+Let \( \mathcal M, \mathcal N \) be \( \mathcal L \)-structures.
+If \( \mathcal M, \mathcal N \) satisfy the same quantifier-free sentences, we write \( \mathcal M \equiv_0 \mathcal N \).
+\begin{theorem}
+    Let \( \mathcal T \) be an \( \mathcal L \)-theory.
+    Then the following are equivalent.
+    \begin{enumerate}
+        \item \( \mathcal T \) has quantifier elimination.
+        \item If \( \mathcal A, \mathcal B \vDash \mathcal T \) and \( \vb a \in \mathcal A, \vb b \in \mathcal B \) are tuples of the same length, then \( (\mathcal A, \vb a) \equiv_0 (\mathcal B, \vb b) \) implies \( (\mathcal A, \vb a) \Rightarrow_1 (\mathcal B, \vb b) \).
+        \item Whenever \( \mathcal A, \mathcal B \vDash \mathcal T \), \( S \subseteq \mathcal A \) and \( e : \langle S \rangle_{\mathcal A} \hookrightarrow \mathcal B \), then there is an elementary extension \( \mathcal D \) of \( \mathcal B \) and an embedding \( f : \mathcal A \hookrightarrow \mathcal D \) extending \( e \).
+        \item \( \mathcal T \) is model-complete and \( \mathcal T_\forall \) has the amalgamation property.
+        \item For every quantifier-free \( \mathcal L \)-formula \( \varphi(\vb x, y) \), the formula \( \exists y.\, \varphi(\vb x, y) \) is \( \mathcal T \)-equivalent to a quantifier-free formula \( \psi(\vb x) \).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    (i) implies (ii) is clear.
+    
+    \emph{(ii) implies (iii).}
+    It suffices to show that \( (\mathcal A, \vb a) \Rightarrow_1 (\mathcal B, e(\vb a)) \) by the existential amalgamation theorem.
+    Since a sentence in \( \mathcal L_S \) is finite, it can only mention finitely many of the new constants in \( S \), so it is enough to check that \( (\mathcal A, \vb a) \Rightarrow_1 (\mathcal B, e(\vb a)) \) for all tuples \( \vb a \) obtainable from \( S \).
+    Now, if \( \vb a \) is such a tuple and \( e : \langle S \rangle_{\mathcal A} \hookrightarrow \mathcal B \) is an embedding, then \( (\mathcal A, \vb a) \equiv_0 (\mathcal B, e(\vb a)) \), giving the required result by (ii).
 \end{proof}

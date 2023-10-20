@@ -28,5 +28,135 @@ are naturally isomorphic functors \( \mathcal C^\cop \times \mathcal D \to \math
         Applying this bijection is sometimes called \emph{currying} or \emph{\( \lambda \)-conversion}.
         We say that a category \( \mathcal C \) with binary products is \emph{cartesian closed} if \( (-) \times A : \mathcal C \to \mathcal C \) has a right adjoint, written \( [A, -] \) or \( (-)^A \), for each \( A \).
         For example, \( \mathbf{Cat} \) is cartesian closed, where \( \mathcal D^{\mathcal C} = [\mathcal C, \mathcal D] \) is the functor category that this notation already refers to.
+        \item An equivalence \( F : \mathcal C \to \mathcal D \), \( G : \mathcal D \to \mathcal C \) forms adjunctions both ways: \( F \dashv G, G \dashv F \).
+        \item Let \( \mathbf{Idem} \) be the category of pairs \( (A, e) \) where \( A \) is a set and \( e \) is an idempotent endomorphism \( A \to A \).
+        The morphisms in \( \mathbf{Idem} \) are the maps of sets which commute with the idempotents.
+        We have a functor \( F : \mathbf{Set} \to \mathbf{Idem} \) sending \( A \) to \( (A, 1_A) \).
+        Consider \( G : \mathbf{Idem} \to \mathbf{Set} \) sending \( (A, e) \) to the set of fixed points of \( e \).
+        Then \( F \dashv G \) since any morphism \( FA \to (B, e) \) takes values in \( G(B, e) \).
+        But also \( G \dashv F \), since a morphism \( (A, e) \to FB \) is entirely determined by its action on the fixed points in \( A \) under \( e \), because \( f(a) = f(ea) \).
+        This is not an equivalence of categories, because \( G \) is not faithful.
+        So not all pairs of functors that are adjoint in both directions form an equivalence.
+        \item Let \( \mathcal C \) be a category.
+        There is a unique functor \( G : \mathcal C \to \mathbf 1 \), where \( \mathbf 1 \) is the discrete category on a single object.
+        A left adjoint for \( G \), if it exists, sends the object in \( \mathbf 1 \) to an \emph{initial object} \( I \) of \( \mathcal C \), which is an object with a unique morphism to every object in \( \mathcal C \).
+        Dually, a right adjoint sends the object in \( \mathbf 1 \) to a \emph{terminal object} \( T \), which is an object with a unique morphism from every object in \( \mathcal C \).
+        In \( \mathbf{Set} \), the empty set is initial, and any singleton is terminal.
+        In \( \mathbf{Gp} \), the trivial group is initial and terminal.
+        \item Let \( f : A \to B \) be a function of sets, and let \( A' \subseteq A, B' \subseteq B \).
+        Then \( Pf(A') \subseteq B' \) if and only if \( A' \subseteq P^\star f(B') \).
+        Thus \( Pf \dashv P^\star f \) as functors between \( PA \) and \( PB \) as posets.
+        \item Let \( A, B \) be sets with a relation \( R \subseteq A \times B \).
+        We define mappings \( (-)^r : PA \to PB \) by
+        \[ S^r = \qty{b \in B \mid \forall a \in S,\, (a, b) \in R} \]
+        and \( (-)^\ell : PB \to PA \) by
+        \[ T^\ell = \qty{a \in A \mid \forall b \in T,\, (a, b) \in R} \]
+        These are contravariant functors, and
+        \[ S \subseteq T^\ell \iff S \times T \subseteq R \iff T \subseteq S^r \]
+        We say that \( (-)^\ell \) and \( (-)^r \) are \emph{adjoint on the right}.
+        This pair is called a \emph{Galois connection}.
+        \item The contravariant power-set functor \( P^\star \) is self-adjoint on the right, since functions \( A \to P^\star B \) and \( B \to P^\star A \) naturally correspond bijectively to subsets of \( A \times B \).
+        \item The dual vector space functor \( (-)^{\star\star} : \mathbf{Vect}_k \to \mathbf{Vect}_k \) is self-adjoint on the right, as linear maps \( V \to W^\star \) and linear maps \( W \to V^\star \) both naturally correspond to bilinear forms on \( V \times W \).
     \end{enumerate}
 \end{example}
+
+\subsection{???}
+\begin{theorem}
+    Let \( G : \mathcal D \to \mathcal C \) be a functor and \( A \in \ob \mathcal C \).
+    Write \( (A \downarrow G) \) for the category whose objects are pairs \( (B, f) \) where \( B \in \ob \mathcal D \) and \( f : A \to GB \) in \( \mathcal C \), and whose morphisms \( (B, f) \to (B', f') \) are morphisms \( g : B \to B' \) which commute with \( f, f' \):
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzEsMCwiR0IiXSxbMSwxLCJHQiciXSxbMCwxLCJmIl0sWzEsMiwiR2ciXSxbMCwyLCJmJyIsMl1d
+\[\begin{tikzcd}
+	A & GB \\
+	& {GB'}
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["Gg", from=1-2, to=2-2]
+	\arrow["{f'}"', from=1-1, to=2-2]
+\end{tikzcd}\]
+    Then specifying a left adjoint for \( G \) is equivalent to specifying an initial object of \( (A \downarrow G) \) for each \( A \).
+\end{theorem}
+The category \( (A \downarrow G) \) is sometimes called a \emph{comma category}.
+\begin{proof}
+    Suppose \( F \dashv G \).
+    Then let \( \eta_A : A \to GFA \) correspond to the identity \( 1_{FA} \) under the adjunction.
+    We show that \( (FA, \eta_A) \) is initial in \( (A \downarrow G) \).
+    Indeed, given \( f : A \to GB \), then
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzEsMCwiR0ZBIl0sWzEsMSwiR0IiXSxbMCwxLCJcXGV0YV9BIl0sWzEsMiwiR2ciXSxbMCwyLCJmIiwyXV0=
+\[\begin{tikzcd}
+	A & GFA \\
+	& GB
+	\arrow["{\eta_A}", from=1-1, to=1-2]
+	\arrow["Gg", from=1-2, to=2-2]
+	\arrow["f"', from=1-1, to=2-2]
+\end{tikzcd}\]
+    commutes if and only if \( g \) is the morphism corresponding to \( f \) under the adjunction.
+    In particular, for any \( f \), there is a unique such \( g \).
+
+    Conversely, suppose \( (FA, \eta_A) \) is initial in \( (A \downarrow G) \) for each \( A \).
+    Then we define the action of \( F \) on objects by mapping \( A \) to \( FA \).
+    We make \( F \) into a functor by mapping \( f : A \to A' \) to the unique morphism that makes the following square commute.
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiR0ZBIl0sWzEsMSwiR0ZBJyJdLFswLDEsIkEnIl0sWzAsMSwiXFxldGFfQSJdLFsxLDIsIkdGZiJdLFswLDMsImYiLDJdLFszLDIsIlxcZXRhX3tBJ30iLDJdXQ==
+\[\begin{tikzcd}
+	A & GFA \\
+	{A'} & {GFA'}
+	\arrow["{\eta_A}", from=1-1, to=1-2]
+	\arrow["GFf", from=1-2, to=2-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["{\eta_{A'}}"', from=2-1, to=2-2]
+\end{tikzcd}\]
+    Functoriality of \( F \) follows from the uniqueness of \( Ff \).
+    The bijection between morphisms \( f : A \to GB \) and \( g : FA \to B \) sends \( f \) to the unique \( g \) giving \( (Gg)\eta_A = f \).
+    Naturality of the bijection in \( A \) was built in to the definition of \( F \) as a functor, and naturality in \( B \) is easy.
+\end{proof}
+\begin{corollary}
+    Let \( F, F' : \mathcal C \to \mathcal D \) be left adjoints to \( G : \mathcal D \to \mathcal C \).
+    Then \( F \simeq F' \) in \( [\mathcal C, \mathcal D] \).
+\end{corollary}
+\begin{proof}
+    \( (FA, \eta_A) \) and \( (F'A, \eta'_A) \) are both initial objects in \( (A \downarrow G) \), and so there is a unique isomorphism \( \alpha_A : (FA, \eta_A) \to (F'A, \eta'_A) \) in this category.
+    The map \( A \mapsto \alpha_A \) is natural, because given \( f : A \to A' \), \( \alpha_{A'}(Ff) \) and \( (F'f) \alpha_A \) are both morphisms \( (FA, \eta_A) \rightrightarrows (F'A', \eta'_{A'} f) \) from an initial object in \( (A \downarrow G) \), so must be equal.
+\end{proof}
+\begin{lemma}
+    Suppose
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXG1hdGhjYWwgQyJdLFsxLDAsIlxcbWF0aGNhbCBEIl0sWzIsMCwiXFxtYXRoY2FsIEUiXSxbMCwxLCJGIiwwLHsib2Zmc2V0IjotMn1dLFsxLDIsIkgiLDAseyJvZmZzZXQiOi0yfV0sWzIsMSwiSyIsMCx7Im9mZnNldCI6LTJ9XSxbMSwwLCJHIiwwLHsib2Zmc2V0IjotMn1dXQ==
+\[\begin{tikzcd}
+	{\mathcal C} & {\mathcal D} & {\mathcal E}
+	\arrow["F", shift left=2, from=1-1, to=1-2]
+	\arrow["H", shift left=2, from=1-2, to=1-3]
+	\arrow["K", shift left=2, from=1-3, to=1-2]
+	\arrow["G", shift left=2, from=1-2, to=1-1]
+\end{tikzcd}\]
+    where \( F \dashv G \) and \( H \dashv K \).
+    Then \( HF \dashv GK \).
+\end{lemma}
+\begin{proof}
+    We have bijections between morphisms \( HFA \to C \), morphisms \( FA \to KC \), and morphisms \( A \to GKC \), which are natural in \( A \) and \( C \), so their composite is also natural.
+\end{proof}
+\begin{corollary}
+    Suppose the square of functors
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhjYWwgQyJdLFsxLDAsIlxcbWF0aGNhbCBEIl0sWzEsMSwiXFxtYXRoY2FsIEYiXSxbMCwxLCJcXG1hdGhjYWwgRSJdLFswLDEsIkYiXSxbMSwyLCJIIl0sWzAsMywiRyIsMl0sWzMsMiwiSyIsMl1d
+\[\begin{tikzcd}
+	{\mathcal C} & {\mathcal D} \\
+	{\mathcal E} & {\mathcal F}
+	\arrow["F", from=1-1, to=1-2]
+	\arrow["H", from=1-2, to=2-2]
+	\arrow["G"', from=1-1, to=2-1]
+	\arrow["K"', from=2-1, to=2-2]
+\end{tikzcd}\]
+    commutes, and all of the functors \( F, G, H, K \) have left adjoints \( F', G', H', K' \).
+    Then the square of left adjoints
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhjYWwgQyJdLFsxLDAsIlxcbWF0aGNhbCBEIl0sWzEsMSwiXFxtYXRoY2FsIEYiXSxbMCwxLCJcXG1hdGhjYWwgRSJdLFsxLDAsIkYnIiwyXSxbMiwxLCJIJyIsMl0sWzMsMCwiRyciXSxbMiwzLCJLJyJdXQ==
+\[\begin{tikzcd}
+	{\mathcal C} & {\mathcal D} \\
+	{\mathcal E} & {\mathcal F}
+	\arrow["{F'}"', from=1-2, to=1-1]
+	\arrow["{H'}"', from=2-2, to=1-2]
+	\arrow["{G'}", from=2-1, to=1-1]
+	\arrow["{K'}", from=2-2, to=2-1]
+\end{tikzcd}\]
+    commutes up to natural isomorphism.
+\end{corollary}
+This result holds for any shape of diagram, not just a square.
+The hypothesis can be weakened to only require that the first diagram commutes up to natural isomorphism.
+\begin{proof}
+    The two composites \( F'H' \) and \( G'K' \) are left adjoints to \( HF = KG \), so must be naturally isomorphic.
+\end{proof}
