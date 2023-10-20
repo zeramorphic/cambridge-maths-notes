@@ -56,15 +56,14 @@ are naturally isomorphic functors \( \mathcal C^\cop \times \mathcal D \to \math
         We say that \( (-)^\ell \) and \( (-)^r \) are \emph{adjoint on the right}.
         This pair is called a \emph{Galois connection}.
         \item The contravariant power-set functor \( P^\star \) is self-adjoint on the right, since functions \( A \to P^\star B \) and \( B \to P^\star A \) naturally correspond bijectively to subsets of \( A \times B \).
-        \item The dual vector space functor \( (-)^{\star\star} : \mathbf{Vect}_k \to \mathbf{Vect}_k \) is self-adjoint on the right, as linear maps \( V \to W^\star \) and linear maps \( W \to V^\star \) both naturally correspond to bilinear forms on \( V \times W \).
+        \item The dual vector space functor \( (-)^\star : \mathbf{Vect}_k \to \mathbf{Vect}_k \) is self-adjoint on the right, as linear maps \( V \to W^\star \) and linear maps \( W \to V^\star \) both naturally correspond to bilinear forms on \( V \times W \).
     \end{enumerate}
 \end{example}
 
-\subsection{???}
-\begin{theorem}
+\subsection{Comma categories}
+\begin{definition}
     Let \( G : \mathcal D \to \mathcal C \) be a functor and \( A \in \ob \mathcal C \).
-    Write \( (A \downarrow G) \) for the category whose objects are pairs \( (B, f) \) where \( B \in \ob \mathcal D \) and \( f : A \to GB \) in \( \mathcal C \), and whose morphisms \( (B, f) \to (B', f') \) are morphisms \( g : B \to B' \) which commute with \( f, f' \):
-    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzEsMCwiR0IiXSxbMSwxLCJHQiciXSxbMCwxLCJmIl0sWzEsMiwiR2ciXSxbMCwyLCJmJyIsMl1d
+    Then, the \emph{comma category} \( (A \downarrow G) \) is the category whose objects are pairs \( (B, f) \) where \( B \in \ob \mathcal D \) and \( f : A \to GB \) in \( \mathcal C \), and whose morphisms \( (B, f) \to (B', f') \) are morphisms \( g : B \to B' \) which commute with \( f, f' \):
 \[\begin{tikzcd}
 	A & GB \\
 	& {GB'}
@@ -72,10 +71,20 @@ are naturally isomorphic functors \( \mathcal C^\cop \times \mathcal D \to \math
 	\arrow["Gg", from=1-2, to=2-2]
 	\arrow["{f'}"', from=1-1, to=2-2]
 \end{tikzcd}\]
-    Then specifying a left adjoint for \( G \) is equivalent to specifying an initial object of \( (A \downarrow G) \) for each \( A \).
+\end{definition}
+\begin{theorem}
+    Let \( G : \mathcal D \to \mathcal C \) be a functor and \( A \in \ob \mathcal C \).
+    Then specifying a left adjoint for \( G \) is equivalent to specifying an initial object of the comma categories \( (A \downarrow G) \) for each \( A \).
 \end{theorem}
-The category \( (A \downarrow G) \) is sometimes called a \emph{comma category}.
 \begin{proof}
+    First, note that an object \( (B, f) \) is initial in \( (A \downarrow G) \) if and only if for every \( (B', f') \), there is a unique morphism \( g : B \to B' \) such that the following triangle commutes.
+    \[\begin{tikzcd}
+        A & GB \\
+        & {GB'}
+        \arrow["f", from=1-1, to=1-2]
+        \arrow["Gg", from=1-2, to=2-2]
+        \arrow["{f'}"', from=1-1, to=2-2]
+    \end{tikzcd}\]
     Suppose \( F \dashv G \).
     Then let \( \eta_A : A \to GFA \) correspond to the identity \( 1_{FA} \) under the adjunction.
     We show that \( (FA, \eta_A) \) is initial in \( (A \downarrow G) \).
@@ -93,7 +102,7 @@ The category \( (A \downarrow G) \) is sometimes called a \emph{comma category}.
 
     Conversely, suppose \( (FA, \eta_A) \) is initial in \( (A \downarrow G) \) for each \( A \).
     Then we define the action of \( F \) on objects by mapping \( A \) to \( FA \).
-    We make \( F \) into a functor by mapping \( f : A \to A' \) to the unique morphism that makes the following square commute.
+    We make \( F \) into a functor by mapping \( f : A \to A' \) to the unique morphism that makes the following square commute; this exists as \( (FA, \eta_A) \) is initial.
     % https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiR0ZBIl0sWzEsMSwiR0ZBJyJdLFswLDEsIkEnIl0sWzAsMSwiXFxldGFfQSJdLFsxLDIsIkdGZiJdLFswLDMsImYiLDJdLFszLDIsIlxcZXRhX3tBJ30iLDJdXQ==
 \[\begin{tikzcd}
 	A & GFA \\
@@ -129,7 +138,9 @@ The category \( (A \downarrow G) \) is sometimes called a \emph{comma category}.
     Then \( HF \dashv GK \).
 \end{lemma}
 \begin{proof}
-    We have bijections between morphisms \( HFA \to C \), morphisms \( FA \to KC \), and morphisms \( A \to GKC \), which are natural in \( A \) and \( C \), so their composite is also natural.
+    We have bijections
+    \[ \mathcal E(HFA, C) \leftrightarrow \mathcal D(FA, KC) \leftrightarrow \mathcal C(A, GKC) \]
+    which are natural in \( A \) and \( C \), so their composite is also natural.
 \end{proof}
 \begin{corollary}
     Suppose the square of functors

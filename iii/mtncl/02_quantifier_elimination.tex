@@ -14,11 +14,18 @@ By `expanded', we mean that \( \mathcal T \) is given interpretations to the ele
 \begin{proposition}
     Let \( \mathcal T \) be an \( \mathcal L \)-theory, and let \( \mathcal F \) be a collection of \( \mathcal L \)-formulae including all atomic formulae and closed under Boolean operations.
     Suppose that for every formula \( \psi(\vb x, y) \in \mathcal F \), there exists \( \varphi(\vb x) \in \mathcal F \) with
-    \[ T \vdash \forall \vb x.\, (\exists y,\. \psi(\vb x, y) \Leftrightarrow \varphi(\vb x)) \]
+    \[ \mathcal T \vdash \forall \vb x.\, (\exists y.\, \psi(\vb x, y) \Leftrightarrow \varphi(\vb x)) \]
     Then, every \( \mathcal L \)-formula is equivalent to one in \( \mathcal F \) with the same free variables modulo \( \mathcal T \) (that is, \( \mathcal T \) proves they are equivalent).
 \end{proposition}
-This is proven on the first example sheet.
-% TODO: just do the proof here
+\begin{proof}
+    We proceed by induction on the length of formulae.
+    The case of existential formulae is the only nontrivial inductive step.
+    Consider the formula \( \exists y,\, \psi(\vb x, y) \).
+    By the inductive hypothesis, \( \psi(\vb x, y) \) is \( \mathcal T \)-equivalent to \( \psi'(\vb x, y) \in \mathcal F \).
+    Then, there is some \( \varphi(\vb x) \in \mathcal F \) such that
+    \[ \mathcal T \vdash \forall \vb x.\, (\exists y.\, \psi'(\vb x, y) \Leftrightarrow \varphi(\vb x)) \]
+    Thus the formula \( \exists y,\, \psi(\vb x, y) \) in question is \( \mathcal T \)-equivalent to \( \varphi(\vb x) \in \mathcal F \).
+\end{proof}
 \begin{proposition}
     Let \( \mathcal T \) be a Skolem theory.
     Then,
@@ -33,8 +40,8 @@ This is proven on the first example sheet.
 \begin{proof}
     \emph{Part (i).}
     Clearly, \( \varphi(\vb x, t(\vb x)) \Rightarrow \exists y.\, \varphi(\vb x, y) \) in any model.
-    So having Skolem functions mean that
-    \[ T \vdash \forall \vb x.\, (\exists y.\, \varphi(\vb x, y) \Leftrightarrow \varphi(\vb x, t(\vb x))) \]
+    So having Skolem functions means that
+    \[ \mathcal T \vdash \forall \vb x.\, (\exists y.\, \varphi(\vb x, y) \Leftrightarrow \varphi(\vb x, t(\vb x))) \]
     completing the proof by the previous proposition.
 
     \emph{Part (ii).}
@@ -134,7 +141,7 @@ Every Skolem theory has quantifier elimination.
 \begin{remark}
     \begin{enumerate}
         \item We can check if two models of \( \mathcal T \) are elementarily equivalent by considering just those formulae in an elimination set.
-        \item In particular, to check if a theory is complete, it suffices to check that all sentences in an elimination set are either deducible from the theory or inconsistent with it.
+        In particular, to check if a theory is complete, it suffices to check that all sentences in an elimination set are either deducible from the theory or inconsistent with it.
         \item Suppose \( \mathcal L \) is a recursive language, and the map \( \varphi \mapsto \varphi^\star \) is computable.
         Then an algorithm to decide whether \( \mathcal T \) proves any sentence can be produced from one that operates only on the elimination set.
         \item The elementary embeddings \( \mathcal M \hookrightarrow \mathcal N \) are precisely those embeddings that preserve \( \varphi \) and \( \neg \varphi \) for all \( \varphi \) in \( F \).
@@ -164,7 +171,7 @@ The proof is similar to a previous proposition.
     But the theory of infinite sets proves \( \exists y.\, \bigwedge_{i \in J} y \neq x_i \), so we can conclude that \( \varphi \) and \( \psi \) are equivalent modulo \( \mathcal T \).
 \end{example}
 
-\subsection{???}
+\subsection{Amalgamation}
 \begin{definition}
     Let \( \mathcal M \) and \( \mathcal N \) be \( \mathcal L \)-structures.
     We write \( \mathcal M \Rightarrow_1 \mathcal N \) if every existential sentence modelled by \( \mathcal M \) is also modelled by \( \mathcal N \).
@@ -183,7 +190,25 @@ The proof is similar to a previous proposition.
 	\arrow["g"', hook, from=2-3, to=1-2]
 \end{tikzcd}\]
 \end{theorem}
-% The proof is as in elementary amalgamation theorem. Exercise.
+\begin{proof}
+    Let \( \mathcal M, \mathcal N \) be disjoint without loss of generality.
+    Consider the \( \mathcal L_{\mathcal M \sqcup \mathcal N} \)-theory
+    \[ \mathcal T = \operatorname{Diag}_{\text{el}} \mathcal M \cup \operatorname{Diag} \mathcal N \cup \bigcup_{s \in S} \qty{s = f(s)} \]
+    We show this is consistent by compactness; then, a model \( \mathcal K \) will be an elementary extension of \( \mathcal M \), and \( \mathcal N \) embeds into it in such a way that makes the above diagram commute due to the sentences \( s = f(s) \).
+    If \( \mathcal T \) is inconsistent, there is a finite set of formulae in \( \operatorname{Diag} \mathcal N \) that are inconsistent with
+    \[ \mathcal T' = \operatorname{Diag}_{\text{el}} \mathcal M \cup \bigcup_{s \in S} \qty{s = f(s)} \]
+    Taking the conjunction, we can suppose it is a single formula \( \varphi(\vb n) \), where \( \vb n \in \mathcal N \) is a tuple of pairwise distinct elements.
+    \[ \mathcal T' \vdash \neg\varphi(\vb n) \]
+    Then, using the sentences \( s = f(s) \) and the fact that \( \langle S \rangle_{\mathcal M} \) is generated by \( S \), the formula \( \varphi(\vb n) \) is equivalent modulo \( \mathcal T' \) to some quantifier-free formula \( \psi(\vb s, \vb n') \) where \( \vb s \in S \) and \( \vb n' \in \mathcal N \setminus \Im f \).
+    \[ \mathcal T' \vdash \neg\psi(\vb s, \vb n') \]
+    Now, note that \( \mathcal T' \) has nothing to say about \( \vb n' \), so in fact
+    \[ \mathcal T' \vdash \forall \vb x.\, \neg\psi(\vb s, \vb x) \]
+    As \( (\mathcal N, f(S)) \Rightarrow_1 (\mathcal M, S) \), we can convert the universal quantifier above into the negation of an existential quantifier to conclude
+    \[ \mathcal N \vdash \neg\exists \vb x.\, \psi(\vb s, \vb x) \]
+    so
+    \[ \mathcal N \vdash \neg\exists \vb x.\, \psi(\vb s, \vb x) \]
+    But \( \varphi(\vb n) \) is in the diagram of \( \mathcal N \), so \( \mathcal N \vdash \exists \vb x.\, \psi(\vb s, \vb x) \), giving a contradiction.
+\end{proof}
 We can make the following more general definition.
 \begin{definition}
     A class \( \mathbb K \) of \( \mathcal L \)-structures has the \emph{amalgamation property} if, given a diagram of elements of \( \mathbb K \)
@@ -210,6 +235,8 @@ We can make the following more general definition.
     Let \( \mathbb K \) be a class of \( \mathcal L \)-structures and \( \mathcal M \in \mathbb K \).
     We say that \( \mathcal M \) is \emph{existentially closed in \( \mathbb K \)} if, for every existential formula \( \psi(\vb x) \) and tuple \( \vb m \in \mathcal M \), the existence of an extension \( \mathcal M \subseteq \mathcal N \in \mathbb K \) with \( \mathcal N \vDash \psi(\vb m) \) forces \( \mathcal M \vDash \psi(\vb m) \).
 \end{definition}
+Note that being existentially closed in \( \mathbb K \) depends on the choice of \( \mathbb K \).
+For example, an existentially closed ordered field need not be an existentially closed field.
 \begin{example}
     \begin{enumerate}
         \item Every field that is existentially closed in the class of fields is algebraically closed.
@@ -240,7 +267,7 @@ We can make the following more general definition.
     \[ \theta_{(\mathcal M, \vb m)} = \bigwedge \qty{\psi \text{ a literal} \mid \mathcal M \vDash \psi(\vb m)} \]
     where the \emph{literals} are the atomic formulae and their negations.
     Let
-    \[ \chi(\vb x) = \bigvee \theta_{(M, \vb m)}(\vb x) \]
+    \[ \chi(\vb x) = \bigvee_{(\mathcal M, \vb m)} \theta_{(\mathcal M, \vb m)}(\vb x) \]
     Note that the \( \theta \) and \( \chi \) are not first-order formulae.
     It suffices to show that if \( \mathcal N \) is existentially closed in \( \mathbb K \) then
     \[ \mathcal N \vDash \varphi(\vb n) \iff \mathcal N \vDash \chi(\vb n) \]
@@ -282,8 +309,7 @@ We can make the following more general definition.
 \end{example}
 \begin{example}
     The theory \( \mathsf{DLO} \) of dense linear orders without endpoints has quantifier elimination.
-    % The theory of linear orders has a universal axiomatisation, so the 
-    % TODO: watch lecture recording to fill in blank: time is 11:15
+    The class of substructures of dense linear orders has the amalgamation property: indeed, any two linear orders embed into a poset, which can be extended into a linear order by Zorn's lemma, and is thus a substructure of some dense linear order.
 \end{example}
 
 \subsection{Inductive classes}
@@ -301,7 +327,7 @@ This is analogous to the theorem that every field has an algebraic closure, and 
     We now show that this suffices to complete the proof.
     Indeed, we then recursively define a chain of \( \mathbb K \)-structures by setting \( \mathcal M^{(0)} = \mathcal M \) and \( \mathcal M^{(i+1)} = (\mathcal M^{(i)})^\star \), then taking their union to form \( \mathcal N \).
     Then \( \mathcal N \) lies in \( \mathbb K \) as \( \mathbb K \) is inductive, and moreover it extends \( \mathcal M \).
-    
+
     This \( \mathcal N \) is existentially closed in \( \mathbb K \).
     Suppose \( \varphi(\vb x) \) is an existential formula, \( \vb n \in \mathcal N \), and \( \mathcal D \) is a structure in \( \mathbb K \) such that \( \mathcal D \vDash \varphi(\vb n) \).
     As \( \vb n \in \bigcup_{i < \omega} \mathcal M^{(i)} \) and the \( \mathcal M^{(i)} \) form a chain, there must be \( k < \omega \) such that \( \vb n \in \mathcal M^{(k)} \).
@@ -330,7 +356,7 @@ This is analogous to the theorem that every field has an algebraic closure, and 
         \item Every model of \( \mathcal T \) is an existentially closed model of \( \mathcal T \).
         \item Given an embedding \( e : \mathcal A \hookrightarrow \mathcal B \) between models of \( \mathcal T \), there is an elementary extension \( \mathcal D \) of \( \mathcal A \) and an embedding \( g : \mathcal B \hookrightarrow D \) such that \( g \circ e = \id_{\mathcal A} \).
         \item If an \( \mathcal L \)-formula \( \varphi(\vb x, \vb y) \) is a conjunction of literals, then \( \exists \vb y.\, \varphi(\vb x, \vb y) \) is equivalent to some universal \( \mathcal L \)-formula \( \psi(\vb x) \) modulo \( \mathcal T \).
-        \item Every \( \mathcal L \)-formula is equivalent to some universal \( \mathcal L \)-formula modulo \( \mathcal T \). 
+        \item Every \( \mathcal L \)-formula is equivalent to some universal \( \mathcal L \)-formula modulo \( \mathcal T \).
     \end{enumerate}
 \end{theorem}
 \begin{proof}
@@ -351,7 +377,7 @@ If \( \mathcal M, \mathcal N \) satisfy the same quantifier-free sentences, we w
 \end{theorem}
 \begin{proof}
     (i) implies (ii) is clear.
-    
+
     \emph{(ii) implies (iii).}
     It suffices to show that \( (\mathcal A, \vb a) \Rightarrow_1 (\mathcal B, e(\vb a)) \) by the existential amalgamation theorem.
     Since a sentence in \( \mathcal L_S \) is finite, it can only mention finitely many of the new constants in \( S \), so it is enough to check that \( (\mathcal A, \vb a) \Rightarrow_1 (\mathcal B, e(\vb a)) \) for all tuples \( \vb a \) obtainable from \( S \).
