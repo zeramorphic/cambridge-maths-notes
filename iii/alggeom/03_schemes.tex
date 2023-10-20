@@ -1,0 +1,47 @@
+We will now use the notation \( \eval{f}_U \) for \( \res^V_U f \).
+% Idea: Spec A has a sheaf O_{Spec A} such that value at U_f is A_f; globalise this to get the notion of a scheme.
+
+\subsection{Localisation}
+\begin{definition}
+    Let \( A \) be a ring and \( S \subseteq A \) be a multiplicatively closed set.
+    The \emph{localisation} of \( A \) at \( S \) is
+    \[ S^{-1}A = \faktor{\qty{(a, s) \mid a \in A, s \in S}}{\sim} \]
+    where
+    \[ (a, s) \sim (a', s') \iff \exists s'' \in S,\, s''(as' - a's) = 0 \in A \]
+\end{definition}
+Examples of multiplicatively closed sets include the set of powers of a fixed element, or the complement of a prime ideal.
+The pair \( (a, s) \) represents \( \frac{a}{s} \).
+The extra \( s'' \) term represents a unit in this new ring, which may be needed in rings that are not integral domains.
+\begin{remark}
+    The natural map \( A \to S^{-1} A \) need not be injective, for example, if \( S \) contains a zero divisor.
+\end{remark}
+We aim to define a sheaf \( \mathcal O_{\Spec A} \) on the topological space \( \Spec A \), such that the stalk at a prime \( \mathfrak p \) is \( (A \setminus \mathfrak p)^{-1} A \), and if \( U_f \) is a distinguished open, then \( \mathcal O_{\Spec A}(U_f) = A_f \).
+
+\subsection{Sheaves on a base}
+\begin{definition}
+    Let \( X \) be a topological space and \( \mathcal B \) be a basis for the topology.
+    A \emph{sheaf on the base \( \mathcal B \)} consists of assignments \( B_i \mapsto F(B_i) \) of abelian groups, with restriction maps \( \res_{B_j}^{B_i} : F(B_i) \to F(B_j) \) whenever \( B_j \subseteq B_i \) such that,
+    \begin{enumerate}
+        \item \( \res^{B_i}_{B_i} = \id_{B_i} \);
+        \item \( \res^{B_j}_{B_k} \circ \res^{B_i}_{B_j} = \res^{B_i}_{B_k} \)
+    \end{enumerate}
+    with the additional axioms that
+    \begin{enumerate}
+        \item if \( B = \bigcup B_i \) with \( B, B_i \in \mathcal B \) and \( f, g \in F(B) \) such that \( \eval{f}_{B_i} = \eval{g}_{B_i} \) for all \( i \), then \( f = g \);
+        \item if \( B = \bigcup B_i \) as above, with \( f_i \in F(B_i) \) such that for all \( i, j \) and \( B' \subseteq B_i \cap B_j \) with \( B' \in \mathcal B \), \( \eval{f_i}_{B'} = \eval{f_j}_{B'} \), then there exists \( f \in F(B) \) with \( \eval{f}_{B_i} = f_i \).
+    \end{enumerate}
+\end{definition}
+This is very similar to the definition of a sheaf, but only specified on the basis.
+\begin{proposition}
+    Let \( F \) be a sheaf on a base \( \mathcal B \) of \( X \).
+    This determines a sheaf \( \mathcal F \) on \( X \) such that \( \mathcal F(B) = F(B) \) for all \( B \in \mathcal B \), agreeing with restriction maps.
+    Moreover, \( \mathcal F \) is unique up to unique isomorphism.
+\end{proposition}
+\begin{proof}
+    We first define the stalks using \( F \):
+    \[ \mathcal F_p = \faktor{\qty{(s_B, B) \mid p \in B \in \mathcal B, s_B \in F(B)}}{\sim} \]
+    We then use a sheafification idea to define \( \mathcal F(U) \).
+    The elements are the dependent functions \( f \in \prod_{p \in U} \mathcal F_p \) such that for each \( p \in U \), there exists a basic open set \( B \) containing \( p \) and a section \( s \in F(B) \) such that \( s_q = f_q \) in \( \mathcal F_q \) for all \( q \in B \).
+    This is then clearly a sheaf.
+    The natural maps \( F(B) \to \mathcal F(B) \) are isomorphisms by the sheaf axioms.
+\end{proof}
