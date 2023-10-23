@@ -15,7 +15,7 @@ The extra \( s'' \) term represents a unit in this new ring, which may be needed
 \begin{remark}
     The natural map \( A \to S^{-1} A \) need not be injective, for example, if \( S \) contains a zero divisor.
 \end{remark}
-We aim to define a sheaf \( \mathcal O_{\Spec A} \) on the topological space \( \Spec A \), such that the stalk at a prime \( \mathfrak p \) is \( (A \setminus \mathfrak p)^{-1} A \), and if \( U_f \) is a distinguished open, then \( \mathcal O_{\Spec A}(U_f) = A_f \).
+% We aim to define a sheaf \( \mathcal O_{\Spec A} \) on the topological space \( \Spec A \), such that the stalk at a prime \( \mathfrak p \) is \( (A \setminus \mathfrak p)^{-1} A \), and if \( U_f \) is a distinguished open, then \( \mathcal O_{\Spec A}(U_f) = A_f \).
 
 \subsection{Sheaves on a base}
 \begin{definition}
@@ -45,3 +45,75 @@ This is very similar to the definition of a sheaf, but only specified on the bas
     This is then clearly a sheaf.
     The natural maps \( F(B) \to \mathcal F(B) \) are isomorphisms by the sheaf axioms.
 \end{proof}
+
+\subsection{The structure sheaf}
+Recall that the distinguished opens \( U_f, U_g \) coincide if and only if \( f, g \) are powers of some \( h \in A \).
+Also, if \( U_f = U_g \) then \( A_f \cong A_g \).
+Therefore, the assignment \( U_f \mapsto A_f \) is well-defined.
+\begin{proposition}
+    The assignment \( U_f \mapsto A_f \) defines a sheaf of rings on the base \( \qty{U_f} \) of the topological space \( \Spec A \).
+\end{proposition}
+\begin{remark}
+    If \( \qty{U_{f_i}}_{i \in I} \) covers \( \Spec A \), there exists a finite subcover.
+    Indeed, since the \( U_{f_i} \) cover \( \Spec A \), there is no prime ideal \( \mathfrak p \subseteq A \) containing all \( (f_i)_{i \in I} \).
+    Equivalently, \( \sum_{i \in I} (f_i) = (1) \).
+    In particular, \( 1 = \sum_{i \in J} a_i f_i \) for \( J \subseteq I \) finite.
+    So \( \sum_{i \in J} (f_i) = (1) \), and thus \( \qty{U_{f_i}}_{i \in J} \) covers \( \Spec A \).
+    We say that \( \Spec A \) is \emph{quasi-compact}; traditionally the word `compact' is reserved for Hausdorff spaces in the context of algebraic geometry.
+\end{remark}
+\begin{proof}
+    We will check the axioms for the basic open set \( B = \Spec A \); the general case follows by applying this result to a localisation.
+    Suppose \( \Spec A = \bigcup_{i = 1}^n U_{f_i} \); this union is finite by the previous remark.
+    Let \( s \in A \) be such that \( \eval{s}_{U_i} = 0 \) for all \( i \).
+    By the definition of localisation, as the set \( \qty{U_{f_i}} \) is finite there exists \( m \) such that \( f_i^m s = 0 \) for all \( i \).
+    But note that \( (1) = (f_i^m)_{i = 1}^n \) for any \( m > 0 \) because the \( \qty{U_{f_i}}_{i=1}^n \) cover \( \Spec A \).
+    Thus \( \qty{U_{f_i^m}}_{i=1}^n \) cover \( \Spec A \).
+    \[ 1 = \sum r_i f_i^m \implies s = \sum r_i f_i^m s = 0 \]
+    Now suppose \( \Spec A = \bigcup_{i \in I} U_{f_i} \), and \( s_i \in A_{f_i} \) are elements that agree in \( A_{f_i f_j} \).
+    We need to build an element in \( A \) with these restrictions.
+
+    First, suppose \( I \) is finite.
+    On \( U_{f_i} \), we have chosen \( \frac{a_i}{f_i^{\ell_i}} \in A_{f_i} \); we write \( g_i = f_i^{\ell_i} \), noting that \( U_{f_i} = U_{g_i} \).
+    On the overlaps, by hypothesis we have
+    \[ (g_i g_j)^{m_{ij}} (a_i g_j - a_j g_i) = 0 \]
+    Rewriting this using the fact that \( U_f = U_{f^k} \) for all \( k > 0 \), and assuming \( m = m_{ij} \) by taking the largest, we obtain
+    \[ b_i = a_i g_i^m;\quad h_i = g_i^{m+1} \]
+    so on each \( U_{h_i} \) we have chosen an element \( \frac{b_i}{h_i} \).
+    Now, as the \( U_{h_i} = U_{f_i} \) cover \( \Spec A \), we have \( 1 = \sum r_i h_i \) for some \( r_i \in A \).
+    We can thus construct \( r = \sum r_i b_i \) with the \( r_i \) as above.
+    This construction then has the correct restrictions to \( \frac{b_i}{h_i} \) in \( U_{h_i} \).
+
+    When \( I \) is infinite, choose \( (f_i)_{i=1}^n \) such that the \( U_{f_i} \) for \( i \in \qty{1, \dots, n} \) form a cover, and use the finite case to build \( r \in A \).
+    This has the correct restrictions to the \( U_{f_i} \) for \( i \in \qty{1, \dots, n} \).
+    Given \( (f_1, \dots, f_n, f_\alpha) = A \), the same construction gives a new \( r' \in A \), but then by the first sheaf axiom, \( r = r' \).
+\end{proof}
+\begin{definition}
+    The \emph{structure sheaf} on \( \Spec A \) is the sheaf \( \mathcal O_{\Spec A} \) associated to the sheaf on the base of distinguished opens mapping \( U_f \) to \( A_f \).
+\end{definition}
+\begin{remark}
+    The stalk \( \mathcal O_{\Spec A, \mathfrak p} \) is equal to \( A_{\mathfrak p} \).
+\end{remark}
+
+\subsection{Definitions and examples}
+\begin{definition}
+    A \emph{ringed space} \( (X, \mathcal O_X) \) is a topological space \( X \) with a sheaf of rings \( \mathcal O_X \).
+    An isomorphism of ringed spaces \( (X, \mathcal O_X) \to (Y, \mathcal O_Y) \) is a homeomorphism \( \pi : X \to Y \) and an isomorphism \( \mathcal O_Y \to \pi_\star \mathcal O_X \) of sheaves on \( Y \).
+\end{definition}
+Note that for \( U \subseteq X \) open, \( U \) is naturally a ringed space with \( \mathcal O_U(V) = \mathcal O_X(V) \).
+\begin{definition}
+    An \emph{affine scheme} is a ringed space \( (X, \mathcal O_X) \) that is isomorphic to \( (\Spec A, \mathcal O_{\Spec A}) \).
+\end{definition}
+\begin{definition}
+    A \emph{scheme} is a ringed space \( (X, \mathcal O_X) \) where every point \( p \in X \) has a neighbourhood \( U_p \) such that the ringed space \( (U_p, \mathcal O_{U_p}) \) is isomorphic to some affine scheme.
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item The spectrum \( \Spec A \) of each ring \( A \) is a scheme.
+        \item Let \( X \) be a scheme and \( U \subseteq X \) an open set.
+        Take \( \mathcal O_U = \eval{\mathcal O_X}_U \) to be the structure sheaf of \( U \).
+        Thus \( U \) is a scheme: as the \( U_f \) form a basis, there is always a sufficiently small neighbourhood inside \( U \) isomorphic to an affine scheme.
+        \item Let \( X = \Spec \mathbb C[x, y] \) and \( U = \qty{(x, y)}^c \).
+        Then the scheme \( U \) is not an affine scheme.
+        % exercise: why?
+    \end{enumerate}
+\end{example}

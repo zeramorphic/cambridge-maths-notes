@@ -171,3 +171,169 @@ The hypothesis can be weakened to only require that the first diagram commutes u
 \begin{proof}
     The two composites \( F'H' \) and \( G'K' \) are left adjoints to \( HF = KG \), so must be naturally isomorphic.
 \end{proof}
+
+\subsection{Units and counits}
+Given an adjunction \( F \dashv G \), the proof of the previous theorem demonstrated a naturality square between the morphisms \( \eta_A : A \to GFA \) corresponding to \( 1_{FA} \) under the adjunction.
+We call \( \eta : 1_{\mathcal C} \to GF \) the \emph{unit} of the adjunction.
+Dually, the map \( \epsilon : FG \to 1_{\mathcal D} \) is called the \emph{counit} of the adjunction; each \( \epsilon_B : FGB \to B \) corresponds to \( 1_{GB} \).
+\begin{theorem}
+    Let \( F : \mathcal C \to \mathcal D \), \( G : \mathcal D \to \mathcal C \).
+    Specifying an adjunction \( F \dashv G \) is equivalent to specifying natural transformations \( \eta : 1_{\mathcal C} \to GF \), \( \epsilon : FG \to 1_{\mathcal D} \), satisfying the \emph{triangular identities}
+    % https://q.uiver.app/#q=WzAsNixbMCwwLCJGIl0sWzEsMCwiRkdGIl0sWzEsMSwiRiJdLFszLDAsIkciXSxbNCwwLCJHRkciXSxbNCwxLCJHIl0sWzAsMSwiRlxcZXRhIl0sWzEsMiwiXFxlcHNpbG9uX0YiXSxbMCwyLCIxX0YiLDJdLFszLDQsIlxcZXRhX0ciXSxbNCw1LCJHXFxlcHNpbG9uIl0sWzMsNSwiMV9HIiwyXV0=
+\[\begin{tikzcd}
+	F & FGF && G & GFG \\
+	& F &&& G
+	\arrow["F\eta", from=1-1, to=1-2]
+	\arrow["{\epsilon_F}", from=1-2, to=2-2]
+	\arrow["{1_F}"', from=1-1, to=2-2]
+	\arrow["{\eta_G}", from=1-4, to=1-5]
+	\arrow["G\epsilon", from=1-5, to=2-5]
+	\arrow["{1_G}"', from=1-4, to=2-5]
+\end{tikzcd}\]
+\end{theorem}
+\begin{proof}
+    Suppose we have an adjunction \( F \dashv G \).
+    We have seen how to define \( \eta \) and \( \epsilon \); it thus suffices to check the triangular identities.
+    Since they are dual to each other, it suffices to check the first.
+    The morphism \( \epsilon_{FA} \) corresponds under the adjunction to \( 1_{GFA} \), so by naturality, the composite \( \epsilon_{FA} (F\eta_A) \) corresponds to \( 1_{GFA} \eta_A = \eta_A \).
+    But \( 1_{FA} \) corresponds to \( \eta_A \), giving the commutative triangle \( \epsilon_{FA} (F\eta_A) = 1_{FA} \).
+
+    Conversely, suppose \( \eta \) and \( \epsilon \) are natural transformations satisfying the triangular identities.
+    We map \( f : A \to GB \) to the composite \( \Phi(f) \) given by
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJGQSJdLFsxLDAsIkZHQiJdLFsyLDAsIkIiXSxbMCwxLCJGZiJdLFsxLDIsIlxcZXBzaWxvbl9CIl1d
+\[\begin{tikzcd}
+	FA & FGB & B
+	\arrow["Ff", from=1-1, to=1-2]
+	\arrow["{\epsilon_B}", from=1-2, to=1-3]
+\end{tikzcd}\]
+    and \( g : FA \to B \) to the composite \( \Psi(g) \) given by
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzEsMCwiR0ZBIl0sWzIsMCwiR0IiXSxbMCwxLCJcXGV0YV9BIl0sWzEsMiwiR2ciXV0=
+    \[\begin{tikzcd}
+        A & GFA & GB
+        \arrow["{\eta_A}", from=1-1, to=1-2]
+        \arrow["Gg", from=1-2, to=1-3]
+    \end{tikzcd}\]
+    These assignments are natural in \( A \) and \( B \) as \( \eta \) and \( \epsilon \) are natural transformations.
+    Thus it suffices to show \( \Psi \Phi \) and \( \Phi \Psi \) are the relevant identity maps; again they are dual so it suffices to show \( \Psi \Phi(f) = f \).
+    \( \Psi \Phi(f) \) is the composite% https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiR0ZBIl0sWzIsMCwiR0ZHQiJdLFszLDAsIkdCIl0sWzAsMSwiXFxldGFfQSJdLFsxLDIsIkdGZiJdLFsyLDMsIkdcXGVwc2lsb25fQiJdXQ==
+    \[\begin{tikzcd}
+        A & GFA & GFGB & GB
+        \arrow["{\eta_A}", from=1-1, to=1-2]
+        \arrow["GFf", from=1-2, to=1-3]
+        \arrow["{G\epsilon_B}", from=1-3, to=1-4]
+    \end{tikzcd}\]
+    which by naturality of \( \eta \) is equal to
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiR0IiXSxbMiwwLCJHRkdCIl0sWzMsMCwiR0IiXSxbMCwxLCJmIl0sWzEsMiwiXFxldGFfe0dCfSJdLFsyLDMsIkdcXGVwc2lsb25fQiJdXQ==
+\[\begin{tikzcd}
+	A & GB & GFGB & GB
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["{\eta_{GB}}", from=1-2, to=1-3]
+	\arrow["{G\epsilon_B}", from=1-3, to=1-4]
+\end{tikzcd}\]
+    which is equal to \( f \) by the triangular identity.
+\end{proof}
+Recall that an equivalence of categories consisted of isomorphisms \( \alpha : 1_{\mathcal C} \to GF \) and \( \beta : FG \to 1_{\mathcal D} \).
+These isomorphisms may not satisfy the triangular identities, but we can always choose \( \alpha \) and \( \beta \) in such a way that these identities hold.
+\begin{proposition}
+    Let \( (F, G, \alpha, \beta) \) be an equivalence of categories.
+    Then there exist natural isomorphisms \( \alpha' : 1_{\mathcal C} \to GF \) and \( \beta' : FG \to 1_{\mathcal D} \) which satisfy the triangular identities.
+    In particular, \( F \dashv G \dashv F \).
+\end{proposition}
+\begin{proof}
+    We will set \( \alpha' = \alpha \), and construct \( \beta' \) to be the composite
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJGRyJdLFsxLDAsIkZHRkciXSxbMiwwLCJGRyJdLFszLDAsIjFfe1xcbWF0aGNhbCBEfSJdLFswLDEsIihGR1xcYmV0YSleey0xfSJdLFsxLDIsIihGXFxhbHBoYV9HKV57LTF9Il0sWzIsMywiXFxiZXRhIl1d
+\[\begin{tikzcd}
+	FG & FGFG & FG & {1_{\mathcal D}}
+	\arrow["{(FG\beta)^{-1}}", from=1-1, to=1-2]
+	\arrow["{(F\alpha_G)^{-1}}", from=1-2, to=1-3]
+	\arrow["\beta", from=1-3, to=1-4]
+\end{tikzcd}\]
+    Note that \( FG\beta = \beta_{FG} \), since
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJGR0ZHQiJdLFsxLDAsIkZHIl0sWzEsMSwiMV97XFxtYXRoY2FsIER9Il0sWzAsMSwiRkciXSxbMCwxLCJGR1xcYmV0YSJdLFsxLDIsIlxcYmV0YSJdLFswLDMsIlxcYmV0YV97Rkd9IiwyXSxbMywyLCJcXGJldGEiLDJdXQ==
+\[\begin{tikzcd}
+	FGFGB & FG \\
+	FG & {1_{\mathcal D}}
+	\arrow["FG\beta", from=1-1, to=1-2]
+	\arrow["\beta", from=1-2, to=2-2]
+	\arrow["{\beta_{FG}}"', from=1-1, to=2-1]
+	\arrow["\beta"', from=2-1, to=2-2]
+\end{tikzcd}\]
+    commutes by naturality of \( \beta \).
+    Note also that \( \beta \) is monic.
+    Dually, note that \( GF\alpha = \alpha_{GF} \).
+    For the triangular identities, consider the diagrams
+\[\begin{tikzcd}
+	F & FGF & FGFGF \\
+	& F & FGF \\
+	&& F
+	\arrow["{F\alpha}", from=1-1, to=1-2]
+	\arrow["{(\beta_{FGF})^{-1}}", from=1-2, to=1-3]
+	\arrow["{(F\alpha_{GF})^{-1} = (FGF \alpha)^{-1}}", from=1-3, to=2-3]
+	\arrow["{\beta_F}", from=2-3, to=3-3]
+	\arrow["{(F\alpha)^{-1}}", from=1-2, to=2-2]
+	\arrow["{\beta_F}"{description}, from=2-2, to=2-3]
+	\arrow["{1_F}"', from=1-1, to=2-2]
+	\arrow["{1_F}"', from=2-2, to=3-3]
+\end{tikzcd}\]
+    and
+\[\begin{tikzcd}
+	G & GFG & GFGFG \\
+	& G & GFG \\
+	&& G
+	\arrow["{(GFG\beta)^{-1}}", from=1-2, to=1-3]
+	\arrow["{(GF\alpha_G)^{-1} = (\alpha_{GFG})^{-1}}", from=1-3, to=2-3]
+	\arrow["G\beta", from=2-3, to=3-3]
+	\arrow["{\alpha_G^{-1}}", from=1-2, to=2-2]
+	\arrow["{(G\beta)^{-1}}"{description}, from=2-2, to=2-3]
+	\arrow["{1_G}"', from=1-1, to=2-2]
+	\arrow["{1_G}"', from=2-2, to=3-3]
+	\arrow["{\alpha_G}", from=1-1, to=1-2]
+\end{tikzcd}\]
+    where the squares commute by naturality of \( \beta \) and \( \alpha \) respectively.
+    Thus \( \alpha', \beta' \) are the unit and counit of an adjunction \( F \dashv G \) as required.
+    Similarly, \( (\beta')^{-1}, (\alpha')^{-1} \) are the unit and counit of an adjunction \( G \dashv F \).
+\end{proof}
+\begin{lemma}
+    Let \( F \dashv G \) be an adjunction with counit \( \epsilon : FG \to 1_{\mathcal D} \).
+    Then
+    \begin{enumerate}
+        \item \( \epsilon \) is pointwise epimorphic if and only if \( G \) is faithful;
+        \item \( \epsilon \) is a (pointwise) isomorphism if and only if \( G \) is full and faithful.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \emph{Part (i).}
+    Given \( g : B \to B' \) in \( \mathcal D \), the composite \( g \epsilon_B \) corresponds under the adjunction to \( Gg : GB \to GB' \).
+    Thus for morphisms \( g \) with specified domain and codomain, the map \( g \mapsto g \epsilon_B \) is injective if and only if the action of \( G \) is injective.
+    This is true for all \( B \) and \( B' \) if and only if \( \epsilon \) is pointwise epimorphic, if and only if \( G \) is faithful.
+
+    \emph{Part (ii).}
+    Similarly, \( G \) is full and faithful if and only if the map \( g \mapsto g \epsilon_B \) is a bijection on morphisms with specified domain and codomain.
+    This clearly holds if \( \epsilon_B \) is an isomorphism for all \( B \).
+    Conversely, if the condition holds, there is a unique map \( g : B \to FGB \) such that \( \epsilon_B g = 1_B \).
+    Then \( \epsilon_B g \epsilon_B = \epsilon_B \), so \( g \epsilon_B \) and \( 1_{FGB} \) have the same composite with \( \epsilon_B \), so they are equal.
+\end{proof}
+
+\subsection{Reflections}
+\begin{definition}
+    An adjunction \( F \dashv G \) is called a \emph{reflection} if the counit is an isomorphism.
+    Dually, it is called a \emph{coreflection} if the unit is an isomorphism.
+    A full subcategory is called \emph{reflective} if the inclusion functor has a left adjoint; in this case the adjunction is a reflection.
+\end{definition}
+\begin{remark}
+    If \( F \dashv G \) is a reflection, then \( G : \mathcal D \to \mathcal C \) induces an equivalence of categories between \( \mathcal D \) and the full subcategory of \( \mathcal C \) on the objects in the image of \( G \).
+    This subcategory is reflective.
+\end{remark}
+If \( \mathcal D \subseteq \mathcal C \) is a reflective subcategory, there is intuitively a best possible way to get \emph{into} \( \mathcal D \) from some object in \( \mathcal C \).
+The left adjoint sends an object in \( \mathcal C \) to its `best approximation' in \( \mathcal D \).
+If \( \mathcal D \) is coreflective, there is a best possible way to get \emph{out of} \( \mathcal D \) to some object in \( \mathcal C \).
+\begin{example}
+    \begin{enumerate}
+        \item \( \mathbf{AbGp} \) is reflective in \( \mathbf{Gp} \); the left adjoint to the inclusion map sends a group \( G \) to its abelianisation \( G^{\mathrm{ab}} = \faktor{G}{H} \), the quotient of \( G \) by its commutator subgroup \( H = \qty{aba^{-1}b^{-1} \mid a, b \in G} \trianglelefteq G \).
+        Note that any homomorphism \( G \to A \) where \( A \) is abelian factors uniquely through the quotient map \( G \to G^{\mathrm{ab}} \), giving the adjunction as required.
+        \item Recall that an abelian group is called \emph{torsion} if all of its elements have finite order, and \emph{torsion-free} if all of its nonzero elements have infinite order.
+        For an abelian group \( A \), its set of torsion elements forms a subgroup \( A_t \), which is a torsion group.
+        Any homomorphism from a torsion group to \( A \) must factor through \( A_t \).
+        Thus \( A_t \) is the coreflection of \( A \) in the category of torsion abelian groups, and \( \faktor{A}{A_t} \) is the reflection of \( A \) in the category of torsion-free abelian groups.
+    \end{enumerate}
+\end{example}
