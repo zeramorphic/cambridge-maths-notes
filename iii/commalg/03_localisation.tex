@@ -26,4 +26,114 @@
     \[ \frac{m_1}{s_1} + \frac{m_2}{s_2} = \frac{m_1 s_2 + m_2 s_1}{s_1 s_2};\quad r \cdot \frac{m}{s} = \frac{rm}{s} \]
     We can make \( S^{-1} R \) into a ring by defining
     \[ \frac{r_1}{s_1} \cdot \frac{r_2}{s_2} = \frac{r_1 r_2}{s_1 s_2} \]
+    Then \( S^{-1}M \) is an \( S^{-1}R \)-module by
+    \[ \frac{r}{s} \cdot \frac{m}{t} = \frac{r m}{s t} \]
+    We have the localisation map \( R \to S^{-1}R \) given by \( r \mapsto \frac{r}{1} \), which is a ring homomorphism.
+    We also have the localisation map \( M \to S^{-1}M \) given by \( m \mapsto \frac{m}{1} \), which is a homomorphism of \( R \)-modules.
 \end{definition}
+We must show that \( \sim \) is an equivalence relation.
+The only nontrivial thing to prove is transitivity.
+Let
+\[ u(s_2 m_1 - s_1 m_2) = 0 = v(s_3 m_2 - s_2 m_3);\quad u, v \in S \]
+Then
+\[ 0 = uv(s_2 s_3 m_1 - s_1 s_3 m_2) + uv(s_1 s_3 m_2 - s_1 s_2 m_3) = uvs_2(s_3 m_1 - s_1 m_3);\quad uvs_2 \in S \]
+as required.
+All other operations mentioned are well-defined; the proofs are not enlightening so are omitted.
+
+\subsection{Universal property}
+\begin{proposition}
+    Let \( U \subseteq R \), and let \( S \subseteq R \) be its multiplicative closure.
+    Let \( f : R \to B \) be a ring homomorphism such that \( f(u) \) is a unit for all \( u \in U \).
+    Then there is a unique ring homomorphism \( h : S^{-1}R \to B \) such that the following diagram commutes.
+    \[\begin{tikzcd}
+        R & {S^{-1}R} \\
+        & B
+        \arrow["{\iota_{S^{-1}R}}", from=1-1, to=1-2]
+        \arrow["h", dashed, from=1-2, to=2-2]
+        \arrow["f"', from=1-1, to=2-2]
+    \end{tikzcd}\]
+    where \( \iota_{S^{-1}R}(r) = \frac{r}{1} \), so in particular, \( f(r) = h\qty(\frac{r}{1}) \).
+\end{proposition}
+Thus
+\[ \Hom_{\text{Ring}}(S^{-1}R, B) \cong \qty{\varphi \in \Hom_{\text{Ring}}(R, B) \mid \varphi(U) \subseteq B^\times} \]
+mapping
+\[ f \mapsto \qty(r \mapsto \frac{r}{1});\quad \qty(\frac{r}{s} \mapsto \frac{\varphi(r)}{\varphi(s)}) \mapsfrom \varphi \]
+\begin{proof}
+    Let \( f : R \to B \) be a ring homomorphism such that \( f(u) \) is a unit for all \( u \in U \).
+    Then \( f(s) \) is a unit for all \( s \in S \).
+    We want to construct a ring homomorphism \( h : S^{-1}R \to B \) such that \( f(r) = h\qty(\frac{r}{1}) \) for all \( r \in R \).
+    Such an \( h \) must satisfy the following condition.
+    \[ 1 = h(1) = h\qty(\frac{1}{s} \cdot \frac{s}{1}) = h\qty(\frac{1}{s}) f(s) \]
+    Thus \( h\qty(\frac{1}{s}) = f(s)^{-1} \).
+    Hence, we must have
+    \[ h\qty(\frac{r}{s}) = h\qty(\frac{1}{s}) h\qty(\frac{r}{1}) = f(s)^{-1} f(r) \]
+    It thus suffices to show that this \( h \) is well-defined; it is then a ring homomorphism satisfying the correct property.
+    If \( \frac{r_1}{s_1} = \frac{r_2}{s_2} \), then there is \( t \in S \) such that \( t s_2 r_1 = t s_1 r_2 \).
+    Applying \( f \),
+    \[ f(t) f(s_2) f(r_1) = f(t) f(s_1) f(r_2) \]
+    As \( f(t), f(s_1), f(s_2) \) are invertible,
+    \[ \frac{f(r_1)}{f(s_1)} = \frac{f(r_2)}{f(s_2)} \]
+    so \( h \) is well-defined.
+\end{proof}
+\begin{proposition}
+    Suppose \( (A, j) \) has the same universal property of \( (S^{-1}R, \iota_{S^{-1}R}) \) where \( \iota_{S^{-1}R}(r) = \frac{r}{1} \), then there is a unique ring isomorphism \( S^{-1}R \to A \) mapping \( \frac{r}{s} \) to \( j(s)^{-1} j(r) \).
+\end{proposition}
+\begin{remark}
+    \begin{enumerate}
+        \item Let \( \frac{r}{s} \in S^{-1}R \).
+        Then \( \frac{r}{s} = \frac{0}{1} \) if and only if there exists \( u \in S \) such that \( ur = 0 \).
+        \item In particular, \( S^{-1}R = 0 \) when \( \frac{1}{1} = \frac{0}{1} \), which occurs precisely when \( 0 \in S \).
+        \item \( \ker \iota_{S^{-1}R} = \qty{r \in R \mid \exists u \in S,\, ur = 0} \).
+        \item \( \iota_{S^{-1}R} \) is injective if and only if \( S \) contains no zero divisors.
+        \item \( \iota_{S^{-1}R} \) is always an epimorphism, but usually not surjective.
+        For example, the map \( \iota : \mathbb Z \hookrightarrow \mathbb Q \) is epic.
+        Indeed, for \( f, g : \mathbb Q \to A \) are such that \( f \circ \iota = g \circ \iota \), then
+        \[ f\qty(\frac{p}{q}) = \frac{f(\iota(p))}{f(\iota(q))} = \frac{g(\iota(p))}{g(\iota(q))} = g\qty(\frac{p}{q}) \]
+    \end{enumerate}
+\end{remark}
+\begin{example}
+    \begin{enumerate}
+        \item Let \( f \in R \) and define \( S = \qty{f^n \mid n \geq 0} \).
+        Define \( R_f = S^{-1}R \).
+        Taking for instance \( R = \mathbb Z \) and \( f = 2 \),
+        \[ R_f = \qty{\frac{a}{2^n} \midd a \in \mathbb Z,\, n \geq 0} = \mathbb Z\qty[\frac{1}{2}] \]
+        producing the ring of dyadic rational numbers.
+        Since we write \( \faktor{\mathbb Z}{n\mathbb Z} \) for the finite quotient ring and \( \mathbb Z_2 \) for the 2-adic integers, we must use the notation \( \mathbb Z\qty[\frac{1}{2}] \) for this particular construction instead.
+        Thus \( R_f \) is the zero ring if and only if \( f \) is nilpotent.
+        \item Let \( \mathfrak p \in \Spec R \), where \( \Spec R \) is the set of prime ideals in \( R \).
+        Then \( S = R \setminus \mathfrak p \) is a multiplicative set.
+        Consider \( (R \setminus \mathfrak p)^{-1} R = R_{\mathfrak p} \).
+        For example,
+        \[ \mathbb Z_{(3)} = \qty{\frac{a}{b} \mid a, b \in \mathbb Z,\, 3 \nmid b} \]
+    \end{enumerate}
+\end{example}
+
+\subsection{???}
+\begin{proposition}
+    Let \( M \) be an \( R \)-module and \( S \subseteq R \) be a multiplicative set.
+    Then there is an isomorphism of \( S^{-1}R \)-modules
+    \[ S^{-1}R \otimes_R M \to S^{-1}M \]
+    given by \( \frac{r}{s} \otimes m \mapsto \frac{rm}{s} \).
+\end{proposition}
+Thus the localisation of any module can be reduced to a tensor product with the localisation of a ring.
+\begin{proof}
+    Define the map \( S^{-1}R \times M \to S^{-1}M \) mapping \( \qty(\frac{r}{s}, m) \mapsto \frac{rm}{s} \); this is bilinear and thus gives rise to an \( R \)-linear map \( \varphi : S^{-1}R \otimes M \to S^{-1}M \) with the desired action on pure tensors.
+    One can check that this is in fact \( S^{-1} R \)-linear.
+    Clearly \( \varphi \) is surjective by \( \frac{1}{s} \otimes m \mapsto \frac{m}{s} \).
+    For injectivity, we first show that every tensor
+    \[ \sum_i \frac{r_i}{s_i} \otimes m_i \in S^{-1}R \otimes_R M \]
+    is pure.
+    We define
+    \[ s = \prod_i s_i;\quad t_j = \prod_{j \neq i} s_j \]
+    hence
+    \[ \sum_i \frac{r_i}{s_i} \otimes m_i = \sum_i \frac{1}{s_i} \otimes r_i m_i = \sum_i \frac{t_i}{s} \otimes r_i m_i = \sum_i \frac{1}{s} \otimes t_i r_i m_i = \frac{1}{s} \otimes \sum_i t_i r_i m_i \]
+    as required.
+    Now, it suffices to prove injectivity on pure tensors.
+    If \( \varphi\qty(\frac{1}{s} \otimes m) = \frac{0}{1} \), then there exists \( u \in S \) such that
+    \[ u(1m - 0s) = 0 \implies um = 0 \]
+    Thus
+    \[ \frac{1}{s} \otimes m = \frac{u}{us} \otimes m = \frac{1}{us} \otimes um = \frac{1}{us} \otimes 0 = 0 \]
+    as required.
+\end{proof}
+The map \( S^{-1}R \otimes (-) \) acts on modules and on morphisms.
+The map \( S^{-1}(-) \) acts on modules.
