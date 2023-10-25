@@ -106,14 +106,85 @@ Note that for \( U \subseteq X \) open, \( U \) is naturally a ringed space with
 \begin{definition}
     A \emph{scheme} is a ringed space \( (X, \mathcal O_X) \) where every point \( p \in X \) has a neighbourhood \( U_p \) such that the ringed space \( (U_p, \mathcal O_{U_p}) \) is isomorphic to some affine scheme.
 \end{definition}
+% \item Let \( X = \Spec \mathbb C[x, y] \) and \( U = \qty{(x, y)}^c \).
+% Then the scheme \( U \) is not an affine scheme.
+% % exercise: why?
+\begin{proposition}
+    Let \( X \) be a scheme, \( U \subseteq X \) an open set, and \( i : U \hookrightarrow X \) be the inclusion map.
+    Then, the ringed space \( (U, \mathcal O_U) \) is a scheme, where
+    \[ \mathcal O_U = \eval{\mathcal O_X}_U = i^{-1} \mathcal O_X \]
+\end{proposition}
+For example, take \( X = \Spec A \) and \( U = U_f \) for some \( f \in A \).
+Then \( (U, \mathcal O_U) \cong (\Spec A_f, \mathcal O_{\Spec A_f}) \).
+\begin{proof}
+    Let \( p \in U \subseteq X \).
+    Since \( X \) is a scheme, we can find \( \qty(V_p, \eval{O_X}_{V_p}) \) inside \( X \) with \( p \in V_p \), such that \( V_p \) is isomorphic to an affine scheme.
+    Then take \( V_p \cap U \subseteq U \) with structure sheaf given by the inclusion map.
+    Note that \( V_p \cap U \) may not be affine, but \( V_p \cong \Spec B \), and the distinguished opens in \( \Spec B \) form a basis.
+    This reduces the problem to the example of a distinguished open set above.
+\end{proof}
+\begin{definition}
+    \emph{Affine space} of dimension \( n \) over \( k \) is defined to be
+    \[ \mathbb A_k^n = \Spec k[x_1, \dots, x_n] \]
+\end{definition}
 \begin{example}
-    \begin{enumerate}
-        \item The spectrum \( \Spec A \) of each ring \( A \) is a scheme.
-        \item Let \( X \) be a scheme and \( U \subseteq X \) an open set.
-        Take \( \mathcal O_U = \eval{\mathcal O_X}_U \) to be the structure sheaf of \( U \).
-        Thus \( U \) is a scheme: as the \( U_f \) form a basis, there is always a sufficiently small neighbourhood inside \( U \) isomorphic to an affine scheme.
-        \item Let \( X = \Spec \mathbb C[x, y] \) and \( U = \qty{(x, y)}^c \).
-        Then the scheme \( U \) is not an affine scheme.
-        % exercise: why?
-    \end{enumerate}
+    Let
+    \[ U = \mathbb A_k^{n^2} \setminus \qty{\det (x_{ij}) = 0} \]
+    which is the open set representing \( GL_n(k) \).
+    We will show that the multiplication map \( U \times U \to U \) is a morphism of schemes.
+\end{example}
+\begin{example}
+    Let \( U = \mathbb A_k^2 \setminus (x, y) \).
+    This is a scheme representing a plane without an origin.
+    We claim that \( U \) is not an affine scheme.
+    Suppose that \( U \) were affine; we aim to calculate \( \mathcal O_U(U) \).
+    Write
+    \[ U_x = \mathbb V(x)^c \subseteq \mathbb A_k^2;\quad U_y = \mathbb V(y)^c \subseteq \mathbb A_k^2 \]
+    These two open sets cover \( U \), and
+    \[ U_x \cap U_y = U_{xy} = \mathbb A_k^2 \setminus \mathbb V(xy) \]
+    Then,
+    \[ \mathcal O_U(U_x) = k[x,x^{-1},y];\quad \mathcal O_U(U_y) = k[x,y,y^{-1}];\quad \mathcal O_U(U_x \cap U_y) = k[x,x^{-1},y,y^{-1}] \]
+    The restriction maps \( \mathcal O_U(U_x) \to \mathcal O_U(U_{xy}) \) and \( \mathcal O_U(U_y) \to \mathcal O_U(U_{xy}) \) are the obvious ones.
+    By the sheaf axioms,
+    \[ \mathcal O_U(U) = k[x,x^{-1},y] \cap k[x,y,y^{-1}] \subseteq k[x,x^{-1},y,y^{-1}] \]
+    Thus, \( \mathcal O_U(U) = k[x,y] \).
+    This is a contradiction: one way to see this is that there exists a maximal ideal \( (x, y) \) in the ring of global sections in \( (U, \mathcal O_U) \) with empty vanishing locus.
+\end{example}
+
+\subsection{Gluing sheaves}
+% TODO: move?
+Let \( X \) be a topological space with a cover \( \qty{U_\alpha} \).
+Let \( \qty{\mathcal F_\alpha} \) be sheaves on \( \qty{U_\alpha} \), with isomorphisms
+\[ \varphi_{\alpha\beta} : \eval{\mathcal F_\alpha}_{U_\alpha \cap U_\beta} \to \eval{\mathcal F_\beta}_{U_\alpha \cap U_\beta} \]
+such that
+\[ \varphi_{\alpha\alpha} = \id;\quad \varphi_{\alpha\beta} = \varphi_{\beta\alpha}^{-1};\quad \varphi_{\beta\gamma} \circ \varphi_{\alpha\beta} = \varphi_{\alpha\gamma} \]
+The last equation is called the \emph{cocycle condition}.
+This combination of conditions resembles the definition of an equivalence relation, with reflexivity, symmetry, and transitivity.
+
+We will construct a sheaf \( \mathcal F \) on \( X \).
+Given \( V \subseteq X \) open, we define
+\[ \mathcal F(V) = \qty{(s_\alpha) \in \prod_\alpha \mathcal F_\alpha(U_\alpha \cap V) \midd \varphi_{\alpha\beta}\qty(\eval{s_\alpha}_{V \cap U_\alpha \cap U_\beta}) = \eval{s_\beta}_{V \cap U_\alpha \cap U_\beta}} \]
+\( \mathcal F \) is a presheaf.
+Indeed, given \( (s_\alpha) \in \mathcal F(V) \) and \( W \subseteq V \) open, we take
+\[ \eval{(s_\alpha)}_W = \qty(\res_{W \cap U_\alpha}^{V \cap U_\alpha}(s_\alpha))_\alpha \]
+This lies in \( \mathcal F(W) \) by the sheaf axioms.
+One check easily check that this is a sheaf.
+\begin{proposition}
+    \( \eval{\mathcal F}_{U_\gamma} \) and \( \mathcal F_\gamma \) are canonically isomorphic as sheaves on \( U_\gamma \).
+\end{proposition}
+\begin{proof}
+    First, we construct a map \( \mathcal F_\gamma \to \eval{\mathcal F}_{U_\gamma} \).
+    Let \( V \subseteq U_\gamma \) and \( s \in \mathcal F_\gamma(V) \).
+    Define its image in \( \eval{\mathcal F}_{U_\gamma} \) to be
+    \[ \varphi_{\gamma\alpha}\qty(\eval{s}_{V \cap U_\alpha})_\alpha \]
+    We must check that this tuple lies in \( \eval{\mathcal F}_{U_\gamma}(V) = \mathcal F(V) \).
+    \[ \varphi_{\alpha\beta} \circ \varphi_{\gamma\alpha}\qty(\eval{s}_{V \cap U_\alpha \cap U_\beta}) = \varphi_{\gamma\beta}\qty(\eval{s}_{V \cap U_\alpha \cap U_\beta}) \]
+\end{proof}
+
+\subsection{???}
+\begin{example}
+    Let \( (X, \mathcal O_X) \) and \( (Y, \mathcal O_Y) \) be schemes with open sets \( U \subseteq X, V \subseteq Y \), and let \( \varphi : (U, \mathcal \eval{O_X}_U) \to (V, \mathcal \eval{O_Y}_V) \) be an isomorphism.
+    The topological spaces \( X, Y \) can be glued on \( U, V \) using \( \varphi \).
+    We can similarly glue the relevant sheaves together, thus gluing \( X \) and \( Y \) together as schemes.
+    Note that in this case, there is no cocycle condition.
 \end{example}

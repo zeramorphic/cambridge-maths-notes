@@ -473,3 +473,63 @@ If \( \mathcal M, \mathcal N \) satisfy the same quantifier-free sentences, we w
     \end{enumerate}
     Then \( \mathcal T \) has quantifier elimination.
 \end{corollary}
+\begin{proof}
+    We show that condition (ii) of the theorem above holds.
+    Let \( \mathcal A, \mathcal B \) be models of \( \mathcal T \), and \( \vb a \in \mathcal A, \vb b \in \mathcal B \) be such that \( (\mathcal A, \vb a) \equiv_0 (\mathcal B, \vb b) \).
+    It suffices to show that \( (\mathcal A, \vb a) \Rightarrow_1 (\mathcal B, \vb b) \).
+    Let \( \varphi(\vb x, y) \) be quantifier-free, and such that \( \mathcal A \vDash \exists \vb y.\, \varphi(\vb a, \vb y) \).
+    Let \( \vb c = (c_0, \dots, c_{k-1}) \in \mathcal A \) be such a witness, so \( \mathcal A \vDash \varphi(\vb a, \vb c) \).
+
+    We claim that there is an elementary extension \( \mathcal B_0 \) of \( \mathcal B \) and an element \( d_0 \in \mathcal B_0 \) such that \( (\mathcal A, \vb a, c_0) \equiv_0 (\mathcal B_0, \vb b, d_0) \).
+    If we can do this, we can iterate the process to obtain a chain of elementary extensions
+    \[ \mathcal B \preceq \mathcal B_0 \preceq \mathcal B_1 \preceq \dots \preceq \mathcal B_{k-1} \]
+    and elements \( d_i \in \mathcal B_i \) such that \( (\mathcal A, \vb a, \vb c) \equiv_0 (\mathcal B, \vb b, \vb d) \).
+    Then \( \mathcal B_{k-1} \vDash \varphi(\vb b, \vb d) \) as \( \varphi \) is quantifier-free, so \( \mathcal B_{k-1} \vDash \exists y.\, \varphi(\vb b, \vb y) \), giving \( \mathcal B \vDash \exists y.\, \varphi(\vb b, \vb y) \) as \( \mathcal B_{k-1} \equiv \mathcal B \) as required.
+
+    To find \( \mathcal B_0 \) and \( d_0 \), we use the hypotheses and the compactness theorem.
+    As \( (\mathcal A, \vb a) \equiv_0 (\mathcal B, \vb b) \), there is an isomorphism \( \langle \vb a \rangle_{\mathcal A} \to \langle \vb b \rangle_{\mathcal B} \).
+    Take \( \mathcal C = \langle \vb a \rangle_{\mathcal A} \subseteq \mathcal A \).
+    By hypothesis (ii), there is an initial intermediate model \( \mathcal C \subseteq \mathcal A' \subseteq \mathcal A \) with \( \mathcal A' \vDash \mathcal T \), and there is an embedding \( \mathcal A' \hookrightarrow \mathcal B \) fixing \( \mathcal C \).
+    Without loss of generality, let us assume that this embedding is an inclusion.
+    Write
+    \[ \Psi = \qty{\psi(\vb x, y) \mid \mathcal A \vDash \psi(\vb a, c_0),\, \psi \text{ quantifier-free}} \]
+    As \( \vb a \in \mathcal A' \), we have that \( \mathcal A' \vDash \exists y.\, \psi(\vb a, y) \) for all \( \psi \in \Psi \) by hypothesis (a).
+    Now, \( \mathcal A' \subseteq \mathcal B \), and existential formulae are preserved under extension, so \( \mathcal B \vDash \exists y.\, \psi(\vb b, y) \) for all \( \psi \in \Psi \).
+    We conclude that every finite subset of \( \Psi \) is satisfied by some element of \( \mathcal B \), as finite conjunctions of quantifier-free formulae are also quantifier-free.
+    Thus, by compactness, there is an elementary extension \( \mathcal B \preceq \mathcal B_0 \) and \( d_0 \in \mathcal B_0 \) satisfying the formulae in \( \Psi \).
+    In particular, \( (\mathcal A, \vb a, c_0) \equiv_0 (\mathcal B_0, \vb b, d_0) \).
+\end{proof}
+\begin{example}
+    The theory \( \mathsf{RCF} \) of \emph{real closed fields} is the theory of ordered fields for which every nonnegative element is a square, and that all odd polynomials have a root.
+    Equivalently, it is the theory of ordered fields elementarily equivalent to \( \mathbb R \).
+    We show that this theory, with signature \( (+, \times, 0, 1, <) \), has quantifier elimination.
+    We will assume that every ordered field has a \emph{real closure}, and that a real closed field satisfies the intermediate value theorem for polynomials.
+
+    We show that hypothesis (i) of the corollary above holds.
+    Suppose we have an embedding \( \mathcal A \subseteq \mathcal B \) of real closed fields, \( \vb a \in A \), and a quantifier-free formula \( \varphi(\vb x, y) \) such that \( \mathcal B \vDash \exists y.\, \varphi(\vb a, y) \).
+    By considering the disjunctive normal form, we may assume that \( \varphi \) is a disjunction of a conjunction of literals.
+    Moreover, the formulae \( y \neq z \) and \( y \nless z \) can be written in terms of \( = \) and \( < \).
+    Thus, we may assume that \( \varphi(\vb a, y) \) is of the form
+    \[ \qty(\bigwedge_{i < r} p_i(y) = 0) \vee \qty(\bigwedge_{j < s} 0 < q_j(y)) \]
+    where \( p_i, q_j \) are polynomials with coefficients in \( \mathcal A \).
+    If \( \varphi \) contains a nontrivial equation \( p_i(y) = 0 \), then if a witness exists in \( \mathcal B \), it must be algebraic over \( \mathcal A \).
+    One can show algebraically that this witness must lie in \( \mathcal A \).
+    Therefore, let us suppose \( r = 0 \).
+
+    There are only finitely many points \( c_0, \dots, c_{n-1} \in \mathcal A \) that are roots for the \( q_j(y) \).
+    Since the real closed fields satisfy the intermediate value theorem for polynomials, the \( q_j(y) \) can only change sign at the \( c_i \).
+    Note that
+    \[ \mathcal A \vDash \forall x y.\, x < y \Rightarrow \exists z.\, (x < z \wedge z < y) \]
+    Since the \( c_i \) lie in \( \mathcal A \), there is an element of \( \mathcal A \) between any pair of distinct \( c_i \).
+    Suppose \( b \) witnesses \( \exists y.\, \varphi(\vb a, y) \) in \( \mathcal B \).
+    If there is a smallest interval \( (c_i, c_j) \) containing \( \mathcal B \), we can pick \( a \in \mathcal A \) also inside this interval, giving \( \mathcal A \vDash \varphi(\vb a, a) \) as required.
+    The other cases are similar.
+
+    We now show hypothesis (ii).
+    Suppose \( \mathcal C \subseteq \mathcal A \) where \( \mathcal A \) is a real closed field.
+    Then \( \mathcal C \) is an ordered integral domain.
+    The field of fractions of \( \mathcal C \) can be made an ordered field in a canonical way, by saying \( \frac{a}{b} > 0 \) if \( ab > 0 \).
+    The embedding \( \mathcal C \) into \( \mathcal A \) is an injective homomorphism of ordered rings, into an ordered field.
+    By the universal property of the fraction field, there is a unique homomorphism of ordered fields from \( FF(\mathcal C) \) to \( \mathcal A \) that extends the inclusion of \( \mathcal C \) into \( \mathcal A \).
+    Let \( \mathcal A' \) be the real closure of \( FF(\mathcal C) \).
+\end{example}

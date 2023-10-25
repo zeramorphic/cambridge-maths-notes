@@ -1,0 +1,158 @@
+\subsection{Cones over diagrams}
+To formally define limits and colimits, we first need to define more precisely what is meant by a diagram in a category.
+\begin{definition}
+    Let \( J \) be a category, which will almost always be small, and often finite.
+    A \emph{diagram} of shape \( J \) in a category \( \mathcal C \) is a functor \( D : J \to \mathcal C \).
+\end{definition}
+We call the objects \( D(j) \) the \emph{vertices} of the diagram, and the morphisms \( D(\alpha) \) the \emph{edges} of the diagram.
+\begin{example}
+    Let \( J \) be the finite category
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGJ1bGxldCJdLFsxLDAsIlxcYnVsbGV0Il0sWzEsMSwiXFxidWxsZXQiXSxbMCwxLCJcXGJ1bGxldCJdLFswLDFdLFsxLDJdLFswLDJdLFswLDNdLFszLDJdXQ==
+\[\begin{tikzcd}
+	\bullet & \bullet \\
+	\bullet & \bullet
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-1, to=2-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+    A diagram of shape \( J \) in \( \mathcal C \) is exactly a commutative square in \( \mathcal C \).
+    The diagonal arrow is required to make \( J \) into a category.
+\end{example}
+\begin{example}
+    Let \( J \) be the finite category
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGJ1bGxldCJdLFsxLDAsIlxcYnVsbGV0Il0sWzEsMSwiXFxidWxsZXQiXSxbMCwxLCJcXGJ1bGxldCJdLFswLDFdLFsxLDJdLFswLDNdLFszLDJdLFswLDIsIiIsMSx7Im9mZnNldCI6LTJ9XSxbMCwyLCIiLDEseyJvZmZzZXQiOjJ9XV0=
+\[\begin{tikzcd}
+	\bullet & \bullet \\
+	\bullet & \bullet
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=2-1, to=2-2]
+	\arrow[shift left=1, from=1-1, to=2-2]
+	\arrow[shift right=1, from=1-1, to=2-2]
+\end{tikzcd}\]
+    Then a diagram of shape \( J \) in \( \mathcal C \) is a square of objects in \( \mathcal C \) whose morphisms may or may not commute. 
+\end{example}
+\begin{definition}
+    Let \( D \) be a diagram of shape \( J \) in \( \mathcal C \).
+    A \emph{cone over \( D \)} consists of an object \( C \in \ob \mathcal C \) called the \emph{apex} of the cone, together with morphisms \( \lambda_j : A \to D(j) \) called the \emph{legs} of the cone, such that all triangles of the following form commute.
+    % https://q.uiver.app/#q=WzAsMyxbMSwwLCJBIl0sWzAsMSwiRChqKSJdLFsyLDEsIkQoaicpIl0sWzAsMSwiXFxsYW1iZGFfaiIsMl0sWzEsMiwiRChcXGFscGhhKSIsMl0sWzAsMiwiXFxsYW1iZGFfe2onfSJdXQ==
+\[\begin{tikzcd}
+	& A \\
+	{D(j)} && {D(j')}
+	\arrow["{\lambda_j}"', from=1-2, to=2-1]
+	\arrow["{D(\alpha)}"', from=2-1, to=2-3]
+	\arrow["{\lambda_{j'}}", from=1-2, to=2-3]
+\end{tikzcd}\]
+\end{definition}
+We can define the notion of a morphism between cones.
+\begin{definition}
+    Let \( (A, \lambda_j), (B, \mu_j) \) be cones over a diagram \( D \) of shape \( J \) in \( \mathcal C \).
+    Then a \emph{morphism of cones} is a morphism \( f : A \to B \) such that all triangles of the following form commute.
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzIsMCwiQiJdLFsxLDEsIkQoaikiXSxbMCwxLCJmIl0sWzEsMiwiXFxtdV9qIl0sWzAsMiwiXFxsYW1iZGFfaiIsMl1d
+\[\begin{tikzcd}
+	A && B \\
+	& {D(j)}
+	\arrow["f", from=1-1, to=1-3]
+	\arrow["{\mu_j}", from=1-3, to=2-2]
+	\arrow["{\lambda_j}"', from=1-1, to=2-2]
+\end{tikzcd}\]
+\end{definition}
+This makes the class of cones over a diagram \( D \) into a category, which will be denoted \( \operatorname{Cone}(D) \).
+\begin{remark}
+    A cone over a diagram \( D \) with apex \( A \) is the same as a natural transformation from the constant diagram \( \Delta A \) to \( D \), as we can expand the commutative triangles into the following form.
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiQSJdLFsxLDEsIkQoaicpIl0sWzAsMSwiRChqKSJdLFswLDEsIjFfQSJdLFsxLDIsIlxcbGFtYmRhX3tqJ30iXSxbMCwzLCJcXGxhbWJkYV9qIiwyXSxbMywyLCJEKFxcYWxwaGEpIiwyXV0=
+\[\begin{tikzcd}
+	A & A \\
+	{D(j)} & {D(j')}
+	\arrow["{1_A}", from=1-1, to=1-2]
+	\arrow["{\lambda_{j'}}", from=1-2, to=2-2]
+	\arrow["{\lambda_j}"', from=1-1, to=2-1]
+	\arrow["{D(\alpha)}"', from=2-1, to=2-2]
+\end{tikzcd}\]
+    Note that \( \Delta \) is a functor \( \mathcal C \to [J, \mathcal C] \), and thus \( \operatorname{Cone}(D) \) is exactly the comma category \( (\Delta \downarrow D) \). 
+\end{remark}
+
+\subsection{Limits}
+\begin{definition}
+    A \emph{limit} for a diagram \( D \) of shape \( J \) in \( \mathcal C \) is a terminal object in the category of cones over \( D \).
+    Dually, a \emph{colimit} for \( D \) is an initial object in the category of cones under \( D \).
+\end{definition}
+A cone under a diagram is often called a \emph{cocone}.
+\begin{remark}
+    Using the fact that \( \operatorname{Cone}(D) = (\Delta \downarrow D) \) where \( \Delta : \mathcal C \to [J, \mathcal C] \), the category \( \mathcal C \) has limits for all diagrams of shape \( J \) if and only if \( \Delta \) has a right adjoint.
+\end{remark}
+\begin{example}
+    \begin{enumerate}
+        \item If \( J \) is the empty category, there is a unique diagram \( D \) of shape \( J \) in any category \( \mathcal C \).
+        Thus, a cone over this diagram is just an object in \( \mathcal C \), and morphisms of cones are just morphisms in \( \mathcal C \).
+        In particular, \( \operatorname{Cone}(D) \cong \mathcal C \), so a limit for \( D \) is a terminal object in \( \mathcal C \).
+        Dually, a colimit of the empty diagram is an initial object.
+        \item Let \( J \) be the discrete category with two objects.
+        A diagram of shape \( J \) in \( \mathcal C \) is thus a pair of objects.
+        A cone over this diagram is a \emph{span}.
+        \[\begin{tikzcd}
+            & C \\
+            A && B
+            \arrow[from=1-2, to=2-1]
+            \arrow[from=1-2, to=2-3]
+        \end{tikzcd}\]
+        A limit cone is precisely a categorical product \( A \times B \).
+        \[\begin{tikzcd}
+            & {A \times B} \\
+            A && B
+            \arrow["{\pi_1}"', from=1-2, to=2-1]
+            \arrow["{\pi_2}", from=1-2, to=2-3]
+        \end{tikzcd}\]
+        Similarly, the colimit for a pair of objects is a categorical coproduct \( A + B \).
+        \item If \( J \) is any discrete category, a diagram of shape \( J \) is a family of objects \( A_j \) in \( \mathcal C \) indexed by the objects of \( J \).
+        Limits and colimits over this diagram are products and coproducts of the \( A_j \).
+        \item If \( J \) is the category \( \bullet \rightrightarrows \bullet \), a diagram of shape \( J \) is a parallel pair of morphisms \( f, g : A \rightrightarrows B \).
+        A cone over such a parallel pair is
+        % https://q.uiver.app/#q=WzAsMyxbMSwwLCJDIl0sWzAsMSwiQSJdLFsyLDEsIkIiXSxbMCwxLCJoIiwyXSxbMCwyLCJrIl0sWzEsMiwiZiIsMCx7Im9mZnNldCI6LTJ9XSxbMSwyLCJnIiwyLHsib2Zmc2V0IjoyfV1d
+\[\begin{tikzcd}
+	& C \\
+	A && B
+	\arrow["h"', from=1-2, to=2-1]
+	\arrow["k", from=1-2, to=2-3]
+	\arrow["f", from=2-1, to=2-3]
+	\arrow["g"', shift right=2, from=2-1, to=2-3]
+\end{tikzcd}\]
+        satisfying \( fh = k = gh \).
+        Equivalently, it is a morphism \( h : C \to A \) satisfying \( fh = gh \).
+        Thus, a limit is an equaliser, and dually, a colimit is a coequaliser.
+        \item Let \( J \) be the category
+        % https://q.uiver.app/#q=WzAsMyxbMSwwLCJcXGJ1bGxldCJdLFsxLDEsIlxcYnVsbGV0Il0sWzAsMSwiXFxidWxsZXQiXSxbMCwxXSxbMiwxXV0=
+\[\begin{tikzcd}
+	& \bullet \\
+	\bullet & \bullet
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+        A diagram of shape \( J \) is thus a cospan in \( \mathcal C \).
+        % https://q.uiver.app/#q=WzAsMyxbMSwwLCJBIl0sWzEsMSwiQyJdLFswLDEsIkIiXSxbMCwxLCJmIl0sWzIsMSwiZyIsMl1d
+\[\begin{tikzcd}
+	& A \\
+	B & C
+	\arrow["f", from=1-2, to=2-2]
+	\arrow["g"', from=2-1, to=2-2]
+\end{tikzcd}\]
+        A cone over this diagram is
+        % https://q.uiver.app/#q=WzAsNCxbMSwwLCJBIl0sWzEsMSwiQyJdLFswLDEsIkIiXSxbMCwwLCJEIl0sWzAsMSwiZiJdLFsyLDEsImciLDJdLFszLDAsImgiXSxbMywxLCJcXGVsbCIsMl0sWzMsMiwiayIsMl1d
+\[\begin{tikzcd}
+	D & A \\
+	B & C
+	\arrow["f", from=1-2, to=2-2]
+	\arrow["g"', from=2-1, to=2-2]
+	\arrow["h", from=1-1, to=1-2]
+	\arrow["\ell"', from=1-1, to=2-2]
+	\arrow["k"', from=1-1, to=2-1]
+\end{tikzcd}\]
+        where \( \ell = fh = gk \) is redundant.
+        Thus a cone is a span that completes the commutative square.
+        A limit for the cospan is the universal way to complete this commutative square, which is called a \emph{pullback} of \( f \) and \( g \).
+        Dually, colimits of spans are called \emph{pushouts}.
+    \end{enumerate}
+\end{example}
