@@ -55,7 +55,7 @@ All other operations mentioned are well-defined; the proofs are not enlightening
     where \( \iota_{S^{-1}R}(r) = \frac{r}{1} \), so in particular, \( f(r) = h\qty(\frac{r}{1}) \).
 \end{proposition}
 Thus
-\[ \Hom_{\text{Ring}}(S^{-1}R, B) \cong \qty{\varphi \in \Hom_{\text{Ring}}(R, B) \mid \varphi(U) \subseteq B^\times} \]
+\[ \Hom_{\text{Ring}}(S^{-1}R, B) \simeq \qty{\varphi \in \Hom_{\text{Ring}}(R, B) \mid \varphi(U) \subseteq B^\times} \]
 mapping
 \[ f \mapsto \qty(r \mapsto \frac{r}{1});\quad \qty(\frac{r}{s} \mapsto \frac{\varphi(r)}{\varphi(s)}) \mapsfrom \varphi \]
 \begin{proof}
@@ -108,7 +108,7 @@ mapping
     \end{enumerate}
 \end{example}
 
-\subsection{???}
+\subsection{Functoriality}
 \begin{proposition}
     Let \( M \) be an \( R \)-module and \( S \subseteq R \) be a multiplicative set.
     Then there is an isomorphism of \( S^{-1}R \)-modules
@@ -136,4 +136,188 @@ Thus the localisation of any module can be reduced to a tensor product with the 
     as required.
 \end{proof}
 The map \( S^{-1}R \otimes (-) \) acts on modules and on morphisms.
-The map \( S^{-1}(-) \) acts on modules.
+The map \( S^{-1}(-) \) acts on modules, and can be extended to act on morphisms in the following way.
+If \( f : N \to N' \) is \( R \)-linear, we produce the commutative diagram
+% https://q.uiver.app/#q=WzAsNCxbMCwwLCJTXnstMX1SIFxcb3RpbWVzX1IgTiJdLFsxLDAsIlNeey0xfVIgXFxvdGltZXNfUiBOJyJdLFsxLDEsIlNeey0xfU4nIl0sWzAsMSwiU157LTF9TiJdLFswLDEsIlxcaWRfe1Neey0xfSBSfSBcXG90aW1lcyBmIl0sWzEsMiwiXFxzaW0iXSxbMCwzLCJcXHNpbSIsMl0sWzMsMiwiU157LTF9KGYpIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV1d
+\[\begin{tikzcd}
+	{S^{-1}R \otimes_R N} & {S^{-1}R \otimes_R N'} \\
+	{S^{-1}N} & {S^{-1}N'}
+	\arrow["{\id_{S^{-1} R} \otimes f}", from=1-1, to=1-2]
+	\arrow["\sim", from=1-2, to=2-2]
+	\arrow["\sim"', from=1-1, to=2-1]
+	\arrow["{S^{-1}(f)}"', dashed, from=2-1, to=2-2]
+\end{tikzcd}\]
+with action
+% https://q.uiver.app/#q=WzAsNCxbMCwxLCJcXGZyYWN7bn17c30iXSxbMCwwLCJcXGZyYWN7MX17c30gXFxvdGltZXMgbiJdLFsxLDAsIlxcZnJhY3sxfXtzfSBcXG90aW1lcyBmKG4pIl0sWzEsMSwiXFxmcmFje2Yobil9e3N9Il0sWzAsMSwiIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibWFwcyB0byJ9fX1dLFsxLDIsIiIsMCx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1hcHMgdG8ifX19XSxbMiwzLCIiLDAseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJtYXBzIHRvIn19fV0sWzAsMywiIiwyLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibWFwcyB0byJ9LCJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+\[\begin{tikzcd}
+	{\frac{1}{s} \otimes n} & {\frac{1}{s} \otimes f(n)} \\
+	{\frac{n}{s}} & {\frac{f(n)}{s}}
+	\arrow[maps to, from=2-1, to=1-1]
+	\arrow[maps to, from=1-1, to=1-2]
+	\arrow[maps to, from=1-2, to=2-2]
+	\arrow[dashed, maps to, from=2-1, to=2-2]
+\end{tikzcd}\]
+Then the functor \( S^{-1}R \otimes_R (-) \) is naturally isomorphic to the functor \( S^{-1}(-) \).
+\begin{remark}
+    If \( A \) is an \( R \)-algebra, then we have an \( S^{-1}R \)-linear isomorphism \( S^{-1}R \otimes_R A \similarrightarrow S^{-1}A \); this is also an isomorphism of \( S^{-1}R \)-algebras.
+\end{remark}
+\begin{lemma}
+    Let \( M \) be an \( S^{-1}R \)-module.
+    Treating \( M \) as an \( R \)-module, we can define \( S^{-1}M \).
+    Then,
+    \[ S^{-1}M \simeq M \]
+    as \( S^{-1}R \)-modules, mapping \( \frac{m}{s} \mapsto \frac{1}{s} m \).
+\end{lemma}
+Equivalently, \( M \simeq S^{-1}R \otimes_R M \) as \( S^{-1}R \)-modules, mapping \( m \mapsto \frac{1}{1} \otimes m \).
+\begin{proof}
+    The localisation map \( M \to S^{-1}M \) maps \( m \mapsto \frac{m}{1} \).
+    This is \( S^{-1}R \)-linear, and surjective as \( \frac{1}{s} \cdot m \mapsto \frac{m}{s} \).
+    To show injectivity, note that \( \frac{m}{1} = \frac{0}{1} \) implies there exists \( u \in S \) with \( um = 0 \).
+    Multiplying by \( \frac{1}{u} \) as \( M \) is an \( S^{-1}R \)-module we obtain \( m = 0 \) as required.
+\end{proof}
+
+\subsection{Universal property}
+Recall that if \( U \) has multiplicative closure \( S \),
+\[ \Hom_{\text{Ring}}(S^{-1}R, B) \simeq \qty{\varphi \in \Hom_{\text{Ring}}(R, B) \mid \varphi(U) \subseteq B^\times} \]
+If \( M \) is a fixed \( R \)-module and \( L \) is an \( S^{-1}R \)-module, we have
+\[ \Hom_R(M, L) \simeq \Hom_{S^{-1}R}(S^{-1}M, L) \]
+\begin{proposition}
+    Let \( M \) be an \( R \)-module and \( L \) be an \( S^{-1}R \)-module.
+    Let \( f : M \to L \) be \( R \)-linear.
+    Then there exists a unique \( S^{-1}R \)-linear map \( h : S^{-1}M \to L \) such that \( f = h \circ i_{S^{-1}M} \).
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJNIl0sWzEsMCwiU157LTF9TSJdLFsxLDEsIkwiXSxbMCwxLCJpX3tTXnstMX1NfSJdLFsxLDIsImgiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMCwyLCJmIiwyXV0=
+\[\begin{tikzcd}
+	M & {S^{-1}M} \\
+	& L
+	\arrow["{i_{S^{-1}M}}", from=1-1, to=1-2]
+	\arrow["h", dashed, from=1-2, to=2-2]
+	\arrow["f"', from=1-1, to=2-2]
+\end{tikzcd}\]
+\end{proposition}
+As usual with universal properties, this characterises \( S^{-1}M \) uniquely up to unique isomorphism.
+\begin{proof}
+    We use the natural isomorphism between \( S^{-1}(-) \) and \( S^{-1}R \otimes_R (-) \).
+    After applying this, we have a map
+    \[ \iota : M \to S^{-1}R \otimes_R M;\quad m \mapsto \frac{1}{1} \otimes m \]
+    Let \( f : M \to L \) be \( R \)-linear, and define
+    \[ h = \id_{S^{-1}R} \otimes f : S^{-1}R \otimes_R M \to S^{-1}R \otimes_R L \]
+    Note that \( S^{-1}R \otimes_R L \simeq L \), so we can consider \( h \) as mapping to \( L \), with action
+    \[ h\qty(\frac{r}{s} \otimes m) = \frac{r}{s}f(m) \]
+    Uniqueness of \( h \) follows from the fact that \( \qty{1 \otimes m}_{m \in M} \) generate \( S^{-1}R \otimes_R M \) as an \( S^{-1}R \)-module.
+\end{proof}
+
+\subsection{Exactness}
+\begin{proposition}
+    The functor \( S^{-1}(-) \) is exact.
+    More explicitly, if
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzEsMCwiQiJdLFsyLDAsIkMiXSxbMCwxLCJmIl0sWzEsMiwiZyJdXQ==
+\[\begin{tikzcd}
+	A & B & C
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["g", from=1-2, to=1-3]
+\end{tikzcd}\]
+    is an exact sequence of \( R \)-modules, then
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJTXnstMX1BIl0sWzEsMCwiU157LTF9QiJdLFsyLDAsIlNeey0xfUMiXSxbMCwxLCJTXnstMX1mIl0sWzEsMiwiU157LTF9ZyJdXQ==
+\[\begin{tikzcd}
+	{S^{-1}A} & {S^{-1}B} & {S^{-1}C}
+	\arrow["{S^{-1}f}", from=1-1, to=1-2]
+	\arrow["{S^{-1}g}", from=1-2, to=1-3]
+\end{tikzcd}\]
+    is an exact sequence of \( S^{-1}R \)-modules.
+\end{proposition}
+\begin{proof}
+    First,
+    \[ (S^{-1}g) \circ (S^{-1}f) = S^{-1}(g \circ f) = S^{-1}0 = 0 \]
+    so \( \Im S^{-1}f \subseteq \ker S^{-1}g \).
+    Now suppose \( \frac{b}{s} \in \ker S^{-1}g \), so \( \frac{g(b)}{s} = \frac{0}{1} \).
+    Hence there exists \( u \in S \) such that \( ug(b) = 0 \).
+    As \( g \) is \( R \)-linear and \( u \in R \), we have \( g(ub) = 0 \).
+    By exactness, \( ub \in \ker g = \Im f \).
+    Thus there exists \( a \in A \) such that \( f(a) = ub \).
+    Hence,
+    \[ \frac{b}{s} = \frac{ub}{us} = \frac{f(a)}{us} = S^{-1}f\qty(\frac{a}{us}) \]
+\end{proof}
+In particular, \( S^{-1}R \) is a flat \( R \)-module, so for example \( \mathbb Q \) is a flat \( \mathbb Z \)-module.
+\begin{remark}
+    Suppose \( N \subseteq M \) are \( R \)-modules, and \( \iota : N \to M \) is the inclusion map.
+    Then applying the localisation, the map \( S^{-1}\iota : S^{-1}N \to S^{-1}M \) given by \( \frac{n}{s} \mapsto \frac{n}{s} \) is still injective.
+    Note that the similar result for tensor products fails.
+\end{remark}
+\begin{proposition}
+    Let \( M \) be an \( R \)-module and \( N, P \) be submodules of \( M \).
+    Then,
+    \begin{enumerate}
+        \item \( S^{-1}(N + P) = S^{-1}N + S^{-1}P \);
+        \item \( S^{-1}(N \cap P) = S^{-1}N \cap S^{-1}P \);
+        \item \( \faktor{S^{-1}M}{S^{-1}N} \similarrightarrow S^{-1}\qty(\faktor{M}{N}) \) given by \( \frac{m}{s} + S^{-1}N \mapsto \frac{m + N}{s} \).
+    \end{enumerate}
+\end{proposition}
+Parts (i) and (ii) rely on a slight abuse of notation, thinking of \( S^{-1}N \) as a submodule of \( S^{-1}M \).
+Due to the above remark, this should not cause confusion.
+\begin{proof}
+    \emph{Part (i).}
+    Note that
+    \[ \frac{n+p}{s} = \frac{n}{s} + \frac{p}{s} \in S^{-1}N + S^{-1}P \]
+    and
+    \[ \frac{n}{s_1} + \frac{p}{s_2} = \frac{s_2 n + s_1 p}{s_1 s_2} \in S^{-1}(N + P) \]
+    
+    \emph{Part (ii).}
+    The forward inclusion is clear.
+    Conversely, suppose \( x \in S^{-1}N \cap S^{-1}P \), so \( x = \frac{n}{s_1} = \frac{p}{s_2} \).
+    Hence, there exists \( u \in S \) such that \( u s_2 n = u s_1 p = w \).
+    Note \( u s_2 n \in N \) and \( u s_1 p \in P \), so \( w \in N \cap P \).
+    Now,
+    \[ x = \frac{n}{s_1} = \frac{us_2 n}{u s_1 s_2} = \frac{w}{u s_1 s_2} \in S^{-1}(N \cap P) \]
+    
+    \emph{Part (iii).}
+    Consider the short exact sequence
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiTiJdLFsyLDAsIk0iXSxbMywwLCJcXGZha3RvcntNfXtOfSJdLFs0LDAsIjAiXSxbMCwxXSxbMSwyLCJcXGlvdGEiXSxbMiwzLCJcXHBpIl0sWzMsNF1d
+\[\begin{tikzcd}
+	0 & N & M & {\faktor{M}{N}} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow["\iota", from=1-2, to=1-3]
+	\arrow["\pi", from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    Applying the exact functor \( S^{-1}(-) \), we obtain the short exact sequence
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiU157LTF9TiJdLFsyLDAsIlNeey0xfU0iXSxbMywwLCJTXnstMX1cXHF0eShcXGZha3RvcntNfXtOfSkiXSxbNCwwLCIwIl0sWzAsMV0sWzEsMiwiU157LTF9XFxpb3RhIl0sWzIsMywiU157LTF9XFxwaSJdLFszLDRdXQ==
+\[\begin{tikzcd}
+	0 & {S^{-1}N} & {S^{-1}M} & {S^{-1}\qty(\faktor{M}{N})} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow["{S^{-1}\iota}", from=1-2, to=1-3]
+	\arrow["{S^{-1}\pi}", from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    Thus
+    \[ (S^{-1}\iota)(S^{-1}N) = S^{-1}N \subseteq S^{-1}M \]
+    and
+    \[ (S^{-1}\pi)\qty(\frac{m}{s}) = \frac{m+N}{s} \]
+    giving the isomorphism as required.
+\end{proof}
+\begin{proposition}
+    Let \( M, N \) be \( R \)-modules.
+    Then
+    \[ S^{-1}M \otimes_{S^{-1}R} S^{-1}N \similarrightarrow S^{-1}(M \otimes_R N) \]
+\end{proposition}
+\begin{proof}
+    We have already proven that
+    \[ (S^{-1}R \otimes_R M) \otimes_{S^{-1}R} (S^{-1}R \otimes_R N) \simeq S^{-1}R \otimes_R (M \otimes_R N) \]
+    giving the result as required.
+\end{proof}
+\begin{example}
+    Let \( \mathfrak p \) be a prime ideal in \( R \).
+    Then by setting \( S = R \setminus \mathfrak p \),
+    \[ M_{\mathfrak p} \otimes_{R_{\mathfrak p}} N_{\mathfrak p} \simeq (M \otimes_R N)_{\mathfrak p} \]
+\end{example}
+
+\subsection{Extension and contraction of ideals}
+If \( f : A \to B \) is a ring homomorphism and \( \mathfrak b \) is an ideal in \( B \), the preimage \( f^{-1}(\mathfrak b) = \mathfrak b^c \) is an ideal in \( A \), called its \emph{contraction}.
+If \( \mathfrak a \) is an ideal in \( A \), we can generate an ideal \( (f(\mathfrak a)) = \mathfrak a^e \) in \( B \), called its \emph{extension}.
+We show on the first example sheet that for any ring homomorphism \( f : A \to B \), there is a bijection
+\[ \qty{\text{contracted ideals of } A} \leftrightarrow \qty{\text{extended ideals of } B} \]
+noting that the contracted ideals are those ideals with \( \mathfrak a = \mathfrak a^{ec} \), and the extended ideals are those ideals with \( \mathfrak b = \mathfrak b^{ce} \), where the bijection maps \( \mathfrak a \mapsto \mathfrak a^e \) and \( \mathfrak b^c \mapsfrom \mathfrak b \).
+
+We now study the special case where \( f : R \to S^{-1}R \) is the localisation map of a ring, given by \( r \mapsto \frac{r}{1} \).
+In this case, the extension of an ideal is written \( S^{-1}\mathfrak a = \mathfrak a^e \).
+We claim that
+\[ \mathfrak a^e = \qty{\frac{a}{s} \midd a \in \mathfrak a, s \in S} \]
