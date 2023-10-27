@@ -531,5 +531,34 @@ If \( \mathcal M, \mathcal N \) satisfy the same quantifier-free sentences, we w
     The field of fractions of \( \mathcal C \) can be made an ordered field in a canonical way, by saying \( \frac{a}{b} > 0 \) if \( ab > 0 \).
     The embedding \( \mathcal C \) into \( \mathcal A \) is an injective homomorphism of ordered rings, into an ordered field.
     By the universal property of the fraction field, there is a unique homomorphism of ordered fields from \( FF(\mathcal C) \) to \( \mathcal A \) that extends the inclusion of \( \mathcal C \) into \( \mathcal A \).
-    Let \( \mathcal A' \) be the real closure of \( FF(\mathcal C) \).
+    Let \( \mathcal A' \) be the real closure of \( FF(\mathcal C) \), so that \( \mathcal C \subseteq FF(\mathcal C) \subseteq \mathcal A' \subseteq \mathcal A \).
+    If \( \mathcal B \vDash \mathsf{RCF} \) and \( \mathcal C \subseteq B \), then by the same argument we have a unique ordered ring homomorphism \( FF(\mathcal C) \to \mathcal B \) extending the embedding \( \mathcal C \subseteq \mathcal B \).
+    Thus \( \mathcal A' \subseteq \mathcal B \) as well, and this embedding fixes \( \mathcal C \).
 \end{example}
+\begin{corollary}[Hilbert's Nullstellensatz]
+    Let \( k \) be an algebraically closed field, and \( I \) be a proper ideal of \( k[x_1, \dots, x_n] \).
+    Then there exists \( \vb a \in k^n \) such that \( f(\vb a) = 0 \) for all \( I \in f \).
+\end{corollary}
+\begin{proof}
+    By Zorn's lemma, every proper ideal can be extended to a maximal ideal, so without loss of generality we may assume that \( I \) is a maximal ideal.
+    Let \( L \) be the residue field \( \faktor{k[x_1, \dots, x_n]}{I} \), and let \( \overline L \) be its algebraic closure.
+    By Hilbert's basis theorem, there exists a finite set of generators \( f_1, \dots, f_r \) for \( I \).
+    Note that \( \vb 0 \) is a witness to
+    \[ \overline L \vDash \exists \vb x.\, \qty(f_1(\vb x) = 0 \wedge \dots \wedge f_r(\vb x) = 0) \]
+    We have embeddings \( k \subseteq L \subseteq \overline L \), where both \( k \) and \( \overline L \) are algebraically closed fields.
+    The theory of algebraically closed fields has quantifier elimination, so is model-complete.
+    Thus the embedding \( k \subseteq \overline L \) is elementary, so
+    \[ k \vDash \exists \vb x.\, \qty(f_1(\vb x) = 0 \wedge \dots \wedge f_r(\vb x) = 0) \]
+    We can then take \( \vb a \) to be a witness to this existential.
+\end{proof}
+\begin{corollary}[Chevalley's theorem]
+    Let \( k \) be an algebraically closed field.
+    Then the image of a constructible set in \( k^n \) under a polynomial map is constructible.
+\end{corollary}
+\begin{proof}
+    The quantifier-free-definable subsets of \( k^n \) are precisely the finite Boolean combinations of the Zariski closed subsets of \( k^n \), which are by definition the constructible sets.
+    As \( \mathsf{ACF} \) has quantifier elimination, these are exactly the definable subsets using arbitrary formulae.
+    Now, if \( X \subseteq k^n \) is constructible and \( p : k^n \to k^m \) is a polynomial map, then
+    \[ p(X) = \qty{y \in k^m \mid \exists x.\, p(x) = y} \]
+    This is definable in the same language, so is a constructible set.
+\end{proof}

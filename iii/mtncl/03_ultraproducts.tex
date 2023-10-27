@@ -1,0 +1,65 @@
+\subsection{Products}
+We will use the symbol \( \lambda \) to define functions without giving them explicit names.
+The syntax \( \lambda x.\, y \) represents the function \( f \) such that \( f(x) = y \).
+
+Let \( \qty{\mathcal M_i}_{i \in I} \) be a set of \( \mathcal L \)-structures.
+The \emph{product} \( \prod_{i \in I} \mathcal M_i \) of this family is the \( \mathcal L \)-structure with carrier set
+\[ \prod_{i \in I} \mathcal M_i = \qty{\alpha : I \to \bigcup M_i \midd \alpha(i) \in \mathcal M_i} \]
+such that
+\begin{itemize}
+    \item an \( n \)-ary function symbol \( f \) is interpreted as
+    \[ f^{\prod_I \mathcal M_i} : \qty(\prod_I \mathcal M_i)^n \to \prod_I \mathcal M_i \]
+    given by
+    \[ (\alpha_1, \dots, \alpha_n) \mapsto \lambda i.\, f^{\mathcal M_i}(\alpha_1(i), \dots, \alpha_n(i)) \]
+    \item an \( n \)-ary relation symbol \( R \) is interpreted as the subset
+    \[ R^{\prod_I \mathcal M_i} \subseteq \qty(\prod_I \mathcal M_i)^n \]
+    given by
+    \[ R^{\prod_I \mathcal M_i} = \qty{(\alpha_1, \dots, \alpha_n) \in \qty(\prod_I \mathcal M_i)^n \midd \forall i \in I.\, (\alpha_1(i), \dots, \alpha_n(i)) \in R^{\mathcal M_i}} \]
+\end{itemize}
+The relation symbols in this kind of product are not particularly useful.
+We want to construct a different kind of product in such a way that \( \varphi \) holds in the product if the set of \( \mathcal M_i \) that model \( \varphi \) is `large'.
+
+\subsection{Lattices}
+\begin{definition}
+    A \emph{lattice} is a set \( L \) equipped with binary operations \( \wedge \) and \( \vee \) that are associative and commutative, and satisfy the \emph{absorption laws}
+    \[ a \vee (a \wedge b) = a;\quad a \wedge (a \vee b) = a \]
+    A lattice is called
+    \begin{itemize}
+        \item \emph{distributive}, if \( a \wedge (b \vee c) = (a \wedge b) \vee (a \wedge c) \);
+        \item \emph{bounded}, if there are elements \( \bot \) and \( \top \) such that \( a \vee \bot = a \) and \( a \wedge \top = a \);
+        \item \emph{complemented}, if it is bounded and for each \( a \in L \) there exists \( a^\star \in L \) called its \emph{complement} such that \( a \wedge a^\star = \bot \) and \( a \vee a^\star = \top \);
+        \item a \emph{Boolean algebra}, if it is distributive, bounded, and complemented.
+    \end{itemize}
+\end{definition}
+\begin{remark}
+    \begin{enumerate}
+        \item Distributive lattices model the fragment of a deduction system with only the conjunction and disjunction operators.
+        Boolean algebras model classical propositional logic.
+        \item Every lattice has an ordering, defined by \( a \leq b \) when \( a \wedge b = a \).
+        This ordering models the provability relation between propositions.
+    \end{enumerate}
+\end{remark}
+\begin{example}
+    \begin{enumerate}
+        \item Let \( I \) be a set.
+        The power set \( \mathcal P(I) \) can be made into a Boolean algebra by taking \( \wedge = \cap \) and \( \vee = \cup \).
+        \item More generally, let \( X \) be a topological space.
+        The set of closed and open sets of \( X \) form a Boolean algebra; they can also be thought of as the propositions in classical logic.
+        In fact, all Boolean algebras are of this form.
+        This result is known as Stone's representation theorem.
+        \item For any \( \mathcal L \)-structure \( \mathcal M \) and subset \( B \subseteq \mathcal M \), the set \( \qty{\varphi(\mathcal M) \mid \varphi(\vb x) \in \mathcal L_B} \) of definable subsets with parameters in \( B \) is a Boolean algebra.
+    \end{enumerate}
+\end{example}
+
+\subsection{Filters}
+\begin{definition}
+    Let \( X \) be a lattice.
+    A \emph{filter} \( \mathcal F \) on \( X \) is a subset of \( X \) such that
+    \begin{enumerate}
+        \item \( \mathcal F \neq \varnothing \);
+        \item \( \mathcal F \) is \emph{upward closed}: if \( f \leq x \) and \( f \in \mathcal F \) then \( x \in \mathcal F \);
+        \item \( \mathcal F \) is \emph{downward directed}: if \( x, y \in \mathcal F \), then \( x \wedge y \in \mathcal F \).
+    \end{enumerate}
+\end{definition}
+For property (ii), we might also say that \( \mathcal F \) is a \emph{terminal segment} of \( X \).
+% large things get "stuck in the filter"; filters measure largeness

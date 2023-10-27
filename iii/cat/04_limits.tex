@@ -154,5 +154,100 @@ A cone under a diagram is often called a \emph{cocone}.
         Thus a cone is a span that completes the commutative square.
         A limit for the cospan is the universal way to complete this commutative square, which is called a \emph{pullback} of \( f \) and \( g \).
         Dually, colimits of spans are called \emph{pushouts}.
+
+        If any category \( \mathcal C \) has binary products and equalisers, we can construct all pullbacks.
+        First, we construct the product \( A \times B \), then we form the equaliser of \( f \pi_1, g \pi_2 : A \times B \rightrightarrows C \).
+        This yields the pullback.
+        \item Let \( M \) be the two-element monoid \( \qty{1, e} \) with \( e^2 = e \).
+        A diagram of shape \( M \) in a category \( \mathcal C \) is an object of \( \mathcal C \) equipped with an idempotent endomorphism.
+        A cone over this diagram is a morphism \( f : B \to A \) such that \( ef = f \).
+        A limit (respectively colimit) is the monic (respectively epic) part of a splitting of \( e \).
+        This is because the pair \( (e, 1_A) \) has an equaliser if and only if \( e \) splits.
+        % Note that the functor \( F : \mathbf{Set} \to [M, \mathbf{Set}] \) is the constant map \( \Delta \), which explains why the left and right adjoints coincide. % what is 3.2(e)?
+        \item Let \( \mathbb N \) be the poset category of the natural numbers.
+        A diagram of shape \( \mathbb N \) is a \emph{direct sequence} of objects, which consists of objects \( A_0, A_1, \dots \) and morphisms \( f_i : A_i \to A_{i+1} \).
+        A colimit for this diagram is a \emph{direct limit}, which consists of an object \( A_\infty \) and morphisms \( g_i : A_i \to A_\infty \) which are compatible with the \( f_i \).
+        Dually, an \emph{inverse sequence} is a diagram of shape \( \mathbb N^\cop \), and a limit for this diagram is called an \emph{inverse limit}.
+        For example, an infinite-dimensional CW-complex \( X \) is the direct limit of its \( n \)-dimensional skeletons in \( \mathbf{Top} \).
+        The ring of \( p \)-adic integers is the limit of the inverse sequence defined by \( A_n = \faktor{\mathbb Z}{p^n\mathbb Z} \) in \( \mathbf{Rng} \).
+    \end{enumerate}
+\end{example}
+\begin{lemma}
+    Let \( \mathcal C \) be a category.
+    \begin{enumerate}
+        \item If \( \mathcal C \) has equalisers and all small products, then \( \mathcal C \) has all small limits.
+        \item If \( \mathcal C \) has equalisers and all finite products, then \( \mathcal C \) has all finite limits.
+        \item If \( \mathcal C \) has pullbacks and a terminal object, then \( \mathcal C \) has all finite limits.
+    \end{enumerate}
+\end{lemma}
+Note that the empty product is implicitly included in (i) and (ii).
+A terminal object is a product over no factors.
+\begin{proof}
+    \emph{Parts (i) and (ii).}
+    We prove (i) and (ii) in the same way.
+    Let \( D : J \to \mathcal C \) be a diagram.
+    We form the products
+    \[ P = \prod_{j \in \ob J} D(j);\quad Q = \prod_{\alpha \in \mor J} D(\cod \alpha) \]
+    These are small or finite as required.
+    We have morphisms \( f, g : P \rightrightarrows Q \) defined by
+    \[ \pi_\alpha f = \pi_{\cod \alpha};\quad \pi_\alpha g = D(\alpha) \pi_{\dom \alpha} \]
+    Let \( e : E \to P \) be an equaliser for \( f \) and \( g \), and define \( \lambda_j = \pi_j e : E \to D(j) \).
+    These morphisms form a cone, since if \( \alpha : j \to j' \), we have
+    \[ D(\alpha) \lambda_j = D(\alpha) \pi_j e = \pi_\alpha g e = \pi_\alpha f e = \pi_{j'} e = \lambda_{j'} \]
+    Given any cone \( (A, (\mu_j)_{j \in \ob J}) \) over \( D \), we have a unique \( \mu : A \to P \) with \( \pi_j \mu = \mu_j \) for all \( j \).
+    Then,
+    \[ \pi_\alpha f \mu = \mu_{\cod \alpha} = D(\alpha) \mu_{\dom \alpha} = \pi_\alpha g \mu \]
+    for all \( \alpha \), so \( \mu \) factors uniquely through \( e \).
+    
+    \emph{Part (iii).}
+    We show that the hypotheses of (iii) imply those of (ii).
+    If \( 1 \) is the terminal object, we form the pullback of the span
+    % https://q.uiver.app/#q=WzAsMyxbMSwwLCJBIl0sWzEsMSwiMSJdLFswLDEsIkIiXSxbMCwxXSxbMiwxXV0=
+\[\begin{tikzcd}
+	& A \\
+	B & 1
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+    This has the universal property of the product \( A \times B \), so \( \mathcal C \) has binary products and hence all finite products by induction.
+    To construct the equaliser of \( f, g : A \rightrightarrows B \), we consider the pullback of
+    % https://q.uiver.app/#q=WzAsMyxbMSwwLCJBIl0sWzEsMSwiQSBcXHRpbWVzIEIiXSxbMCwxLCJBIl0sWzAsMSwiKDFfQSwgZikiXSxbMiwxLCIoMV9BLCBnKSIsMl1d
+\[\begin{tikzcd}
+	& A \\
+	A & {A \times B}
+	\arrow["{(1_A, f)}", from=1-2, to=2-2]
+	\arrow["{(1_A, g)}"', from=2-1, to=2-2]
+\end{tikzcd}\]
+    Any cone over this diagram has its two legs \( C \rightrightarrows A \) equal, so a pullback is an equaliser for \( f, g \).
+\end{proof}
+\begin{definition}
+    A category is called \emph{complete} if it has all small limits, and \emph{cocomplete} if it has all small colimits.
+\end{definition}
+\begin{example}
+    The categories \( \mathbf{Set}, \mathbf{Gp}, \mathbf{Top} \) are complete and cocomplete.
+\end{example}
+
+\subsection{Preservation and creation}
+\begin{definition}
+    Let \( G : \mathcal D \to \mathcal C \) be a functor.
+    We say that \( G \)
+    \begin{enumerate}
+        \item \emph{preserves} limits of shape \( J \) if whenever \( D : J \to \mathcal D \) is a diagram with limit cone \( (L, (\lambda_j)_{j \in \ob J}) \), the cone \( (GL, (G\lambda_j)_{j \in \ob J}) \) is a limit for \( GD \);
+        \item \emph{reflects} limits of shape \( J \) if whenever \( D : J \to \mathcal D \) is a diagram and \( (L, (\lambda_j)_{j \in \ob J}) \) is a cone such that \( (GL, (G\lambda_j)_{j \in \ob J}) \) is a limit for \( GD \), then \( (L, (\lambda_j)_{j \in \ob J}) \) is a limit for \( D \);
+        \item \emph{creates} limits of shape \( J \) if whenever \( D : J \to \mathcal D \) is a diagram with limit cone \( (M, (\mu_j)_{j \in \ob J}) \) for \( GD \) in \( \mathcal C \), there exists a cone \( (L, (\lambda_j)_{j \in \ob J}) \) over \( D \) such that \( (GL, (G\lambda_j)_{j \in \ob J}) \cong (M, (\mu_j)_{j \in \ob J}) \) in \( \operatorname{Cone}(GD) \), and any such cone is a limit for \( D \).
+    \end{enumerate}
+\end{definition}
+We typically assume in (i) that \( \mathcal D \) has all limits of shape \( J \), and we assume in (ii) and (iii) that \( \mathcal C \) has all limits of shape \( J \).
+With these assumptions, \( G \) creates limits of shape \( J \) if and only if \( G \) preserves and reflects limits, and \( \mathcal D \) has all limits of shape \( J \).
+\begin{corollary}
+    In any of the statements of the previous lemma, we can replace both instances of `\( \mathcal C \) has' by either `\( \mathcal D \) has and \( G : \mathcal D \to \mathcal C \) preserves' or `\( \mathcal C \) has and \( G : \mathcal D \to \mathcal C \) creates'.
+\end{corollary}
+\begin{example}
+    \begin{enumerate}
+        \item The forgetful functor \( U : \mathbf{Gp} \to \mathbf{Set} \) creates all small limits.
+        It does not preserve colimits, as in particular it does not preserve coproducts.
+        \item The forgetful functor \( U : \mathbf{Top} \to \mathbf{Set} \) preserves all small limits and colimits, but does not reflect them, as we can retopologise the apex of a limit cone.
+        \item The inclusion \( \mathbf{AbGp} \to \mathbf{Gp} \) reflects coproducts, but does not preserve them.
+        A free product of two groups \( G, H \) is always nonabelian, except for the case where either \( G \) or \( H \) is the trivial group, but the coproduct of the trivial group with \( H \) is isomorphic to \( H \) in both categories.
     \end{enumerate}
 \end{example}

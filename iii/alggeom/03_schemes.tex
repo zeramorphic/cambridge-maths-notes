@@ -149,10 +149,15 @@ Then \( (U, \mathcal O_U) \cong (\Spec A_f, \mathcal O_{\Spec A_f}) \).
     \[ \mathcal O_U(U) = k[x,x^{-1},y] \cap k[x,y,y^{-1}] \subseteq k[x,x^{-1},y,y^{-1}] \]
     Thus, \( \mathcal O_U(U) = k[x,y] \).
     This is a contradiction: one way to see this is that there exists a maximal ideal \( (x, y) \) in the ring of global sections in \( (U, \mathcal O_U) \) with empty vanishing locus.
+
+    In general, if \( X \) is a scheme, \( f \in \Gamma(X, \mathcal O_X) = \mathcal O_X(X) \), and \( p \in X \), then there is a well-defined stalk \( \mathcal O_{X,p} \) at \( p \), which is of the form \( A_{\mathfrak p} \) up to isomorphism, where \( \mathfrak p \) is a prime ideal.
+    To say this, we are using an isomorphism of an open set \( V_p \) containing \( p \) to \( \Spec A \).
+    In particular, \( A_{\mathfrak p} \) has a unique maximal ideal, namely \( \mathfrak p A_{\mathfrak p} \).
+    We say that \( f \) vanishes at \( p \) if its image in \( \faktor{A_{\mathfrak p}}{\mathfrak p A_{\mathfrak p}} \), or equivalently, \( f \in \mathfrak p A_{\mathfrak p} \).
+    As a consequence, the vanishing locus \( \mathbb V(f) \subseteq X \) is well-defined.
 \end{example}
 
 \subsection{Gluing sheaves}
-% TODO: move?
 Let \( X \) be a topological space with a cover \( \qty{U_\alpha} \).
 Let \( \qty{\mathcal F_\alpha} \) be sheaves on \( \qty{U_\alpha} \), with isomorphisms
 \[ \varphi_{\alpha\beta} : \eval{\mathcal F_\alpha}_{U_\alpha \cap U_\beta} \to \eval{\mathcal F_\beta}_{U_\alpha \cap U_\beta} \]
@@ -181,10 +186,78 @@ One check easily check that this is a sheaf.
     \[ \varphi_{\alpha\beta} \circ \varphi_{\gamma\alpha}\qty(\eval{s}_{V \cap U_\alpha \cap U_\beta}) = \varphi_{\gamma\beta}\qty(\eval{s}_{V \cap U_\alpha \cap U_\beta}) \]
 \end{proof}
 
-\subsection{???}
-\begin{example}
-    Let \( (X, \mathcal O_X) \) and \( (Y, \mathcal O_Y) \) be schemes with open sets \( U \subseteq X, V \subseteq Y \), and let \( \varphi : (U, \mathcal \eval{O_X}_U) \to (V, \mathcal \eval{O_Y}_V) \) be an isomorphism.
-    The topological spaces \( X, Y \) can be glued on \( U, V \) using \( \varphi \).
-    We can similarly glue the relevant sheaves together, thus gluing \( X \) and \( Y \) together as schemes.
-    Note that in this case, there is no cocycle condition.
+\subsection{Gluing schemes}
+Let \( (X, \mathcal O_X) \) and \( (Y, \mathcal O_Y) \) be schemes with open sets \( U \subseteq X, V \subseteq Y \), and let \( \varphi : (U, \eval{\mathcal O_X}_U) \to (V, \eval{\mathcal O_Y}_V) \) be an isomorphism.
+The topological spaces \( X, Y \) can be glued on \( U, V \) using \( \varphi \).
+
+First, take \( S = \faktor{X \sqcup Y}{U \sim V} \).
+By definition of the quotient topology, the images of \( X \) and \( Y \) in \( S \) form an open cover, and their intersection is the image of \( U \), or equivalently, the image of \( V \).
+Now, we can glue the structure sheaves on these open sets as described in the previous subsection.
+Note that in this case, there is no cocycle condition.
+\begin{example}[the bug-eyed line; the line with doubled origin]
+    Let \( k \) be a field.
+    Let \( X = \Spec k[t] \) and \( Y = \Spec k[u] \).
+    Let
+    \[ U = \Spec k[t, t^{-1}] = \Spec k[t]_t = U_t \subseteq X;\quad V = \Spec k[u, u^{-1}] = \Spec k[u]_u = U_u \subseteq Y \]
+    We define the isomorphism \( \varphi : U \to V \) given by \( t \mapsfrom u \).
+    Technically, we define an isomorphism of rings \( k[u, u^{-1}] \to k[t, t^{-1}] \) by \( u \mapsto t \) and then apply \( \Spec \).
+    At the level of topological spaces, \( X = \mathbb A^1_k \) and \( Y = \mathbb A^1_k \), so \( U = \mathbb A^1_k \setminus \qty{(t)} \) and \( V = \mathbb A^1_k \setminus \qty{(u)} \).
+    Gluing along this isomorphism, we obtain a scheme \( S \) which is a copy of \( \mathbb A^1_k \) but with two origins.
+    Note that the generic points in \( X \) and \( Y \) lie in \( U \) and \( V \) respectively, and thus are glued into a single generic point in \( S \).
+
+    Consider the open sets in \( S \).
+    Open sets entirely contained within \( X \) and \( Y \) yield open sets in \( S \).
+    We also have open sets of the form \( W = S \setminus \qty{\mathfrak p_1, \dots, \mathfrak p_r} \) where \( \mathfrak p_i \) is contained in \( U \) or \( V \).
+    One example is \( W = S \); we can calculate \( \mathcal O_S(S) \) using the sheaf axioms, and one can show that it is isomorphic to \( k[t] \).
+    We can conclude that \( S \) is not an affine scheme, because there is a maximal ideal in \( k[t] \) where the vanishing locus is precisely two points.
 \end{example}
+\begin{example}[the projective line]
+    Let \( X = \Spec k[t] \) and \( Y = \Spec k[s] \), and define \( U = \Spec k[t,t^{-1}], V = \Spec k[s,s^{-1}] \) as above.
+    We glue these schemes using the isomorphism \( s \mapsto t^{-1} \), giving the projective line \( \mathbb P^1_k \).
+\end{example}
+\begin{proposition}
+    \( \mathcal O_{\mathbb P^1_k}(\mathbb P^1_k) = k \).
+\end{proposition}
+% this does not require that k is algebraically closed
+\begin{proof}[Proof sketch]
+    We use the same idea as in the previous example.
+    The only elements of \( k[t, t^{-1}] \) that are both polynomials in \( t \) and \( t^{-1} \) are the constants.
+    % important exercise.
+\end{proof}
+In particular, \( \mathbb P^1_k \) is not an affine scheme.
+\begin{example}
+    We can similarly build a scheme \( S \) which is a copy of \( \mathbb A^2_k \) with a doubled origin.
+    This has the interesting property that there exist affine open subschemes \( U_1, U_2 \subseteq S \) such that \( U_1 \cap U_2 \) is not affine; we can take \( U_1 \) and \( U_2 \) to be \( S \) but with one of the origins deleted.
+    Note that \( \mathbb A^1_k \) without the origin is affine.
+\end{example}
+
+Let \( \qty{X_i}_{i \in I} \) be schemes, \( X_{ij} \subseteq X_i \) be open subschemes, and \( f_{ij} : X_{ij} \to X_{ji} \) be isomorphisms such that
+\[ f_{ii} = \id_{X_i};\quad f_{ij} = f_{ji}^{-1};\quad f_{ik} = f_{jk} \circ f_{ij} \]
+where the last equality holds whenever it is defined.
+Then there is a unique scheme \( X \) with an open cover by the \( X_i \), glued along these isomorphisms.
+This is an elaboration of the above construction, which is discussed on the first example sheet.
+
+Let \( A \) be a ring, and let \( X_i = \Spec A\qty[\frac{x_0}{x_i}, \dots, \frac{x_n}{x_i}] \).
+Let \( X_{ij} = \mathbb V\qty(\frac{x_j}{x_i})^c \subseteq X_i \).
+We define the isomorphisms \( X_{ij} \to X_{ji} \) by \( \frac{x_k}{x_i} \mapsto \frac{x_k}{x_j} \qty(\frac{x_i}{x_j})^{-1} \).
+The resulting glued scheme is called \emph{projective \( n \)-space}, denoted \( \mathbb P^n_A \).
+% exercise: \mathcal O_{\mathbb P^n_A}(\mathbb P^n_A) = A.
+
+\subsection{The Proj construction}
+% Idea:
+% Spec : Rings -> Schemes; Proj : GradedRings -> Schemes
+\begin{definition}
+    A \emph{\( \mathbb Z \)-grading} on a ring \( A \) is a decomposition
+    \[ A = \bigoplus_{i \in \mathbb Z} A_i \]
+    as abelian groups, such that \( A_i A_j \subseteq A_{i+j} \).
+\end{definition}
+\begin{example}
+    Let \( A = k[x_0, \dots, x_n] \), and let \( A_d \) be the set of degree \( d \) homogeneous polynomials, together with the zero polynomial.
+\end{example}
+\begin{example}
+    Let \( I \subseteq k[x_0, \dots, x_n] \) be a homogeneous ideal; that is, an ideal generated by homogeneous elements of possibly different degrees.
+    Then, for \( A = k[x_0, \dots, x_n] \), the ring \( \faktor{A}{I} \) is also naturally graded.
+    % how?
+\end{example}
+Note that by definition, \( A_0 \) is a subring of \( A \).
+We will always assume that the degree 1 elements of a graded ring generate \( A \) as an algebra over \( A_0 \).
