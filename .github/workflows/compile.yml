@@ -216,6 +216,12 @@ jobs:
           args: -shell-escape -xelatex -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
           root_file: ii/nf/main.tex
 
+      - name: Compile Category Theory
+        uses: xu-cheng/latex-action@v2
+        with:
+          args: -shell-escape -xelatex -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
+          root_file: iii/cat/main.tex
+
       - name: Compile Commutative Algebra
         uses: xu-cheng/latex-action@v2
         with:
@@ -233,12 +239,6 @@ jobs:
         with:
           args: -shell-escape -xelatex -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
           root_file: iii/mtncl/main.tex
-
-      - name: Compile Category Theory
-        uses: xu-cheng/latex-action@v2
-        with:
-          args: -shell-escape -xelatex -file-line-error -halt-on-error -interaction=nonstopmode -cd -output-directory=build
-          root_file: iii/cat/main.tex
 
       - name: Compile IA book
         uses: xu-cheng/latex-action@v2
@@ -351,6 +351,9 @@ jobs:
       - name: Convert Number Fields to HTML
         run: ./pdf2htmlEX.AppImage ii/nf/build/main.pdf ii_nf.html --data-dir pdf2htmlEX --zoom 3
 
+      - name: Convert Category Theory to HTML
+        run: ./pdf2htmlEX.AppImage iii/cat/build/main.pdf iii_cat.html --data-dir pdf2htmlEX --zoom 3
+
       - name: Convert Commutative Algebra to HTML
         run: ./pdf2htmlEX.AppImage iii/commalg/build/main.pdf iii_commalg.html --data-dir pdf2htmlEX --zoom 3
 
@@ -359,9 +362,6 @@ jobs:
 
       - name: Convert Model Theory and Non-Classical Logic to HTML
         run: ./pdf2htmlEX.AppImage iii/mtncl/build/main.pdf iii_mtncl.html --data-dir pdf2htmlEX --zoom 3
-
-      - name: Convert Category Theory to HTML
-        run: ./pdf2htmlEX.AppImage iii/cat/build/main.pdf iii_cat.html --data-dir pdf2htmlEX --zoom 3
 
       - name: Convert IA book to HTML
         run: ./pdf2htmlEX.AppImage ia/book/build/main.pdf ia_book.html --data-dir pdf2htmlEX --zoom 3
