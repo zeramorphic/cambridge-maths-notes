@@ -33,7 +33,7 @@ We call the objects \( D(j) \) the \emph{vertices} of the diagram, and the morph
 	\arrow[shift left=1, from=1-1, to=2-2]
 	\arrow[shift right=1, from=1-1, to=2-2]
 \end{tikzcd}\]
-    Then a diagram of shape \( J \) in \( \mathcal C \) is a square of objects in \( \mathcal C \) whose morphisms may or may not commute. 
+    Then a diagram of shape \( J \) in \( \mathcal C \) is a square of objects in \( \mathcal C \) whose morphisms may or may not commute.
 \end{example}
 \begin{definition}
     Let \( D \) be a diagram of shape \( J \) in \( \mathcal C \).
@@ -72,7 +72,7 @@ This makes the class of cones over a diagram \( D \) into a category, which will
 	\arrow["{\lambda_j}"', from=1-1, to=2-1]
 	\arrow["{D(\alpha)}"', from=2-1, to=2-2]
 \end{tikzcd}\]
-    Note that \( \Delta \) is a functor \( \mathcal C \to [J, \mathcal C] \), and thus \( \operatorname{Cone}(D) \) is exactly the comma category \( (\Delta \downarrow D) \). 
+    Note that \( \Delta \) is a functor \( \mathcal C \to [J, \mathcal C] \), and thus \( \operatorname{Cone}(D) \) is exactly the comma category \( (\Delta \downarrow D) \).
 \end{remark}
 
 \subsection{Limits}
@@ -185,20 +185,50 @@ A terminal object is a product over no factors.
 \begin{proof}
     \emph{Parts (i) and (ii).}
     We prove (i) and (ii) in the same way.
+    We will first construct the product \( P \) of the \( D(j) \) for each \( j \in \ob J \).
+    Then, we will use an equaliser to construct the subobject \( E \) of \( P \) that simultaneously satisfies all of the equations required for \( E \) to be the apex of a cone.
+    The fact that we have used an equaliser will show that this is a limit cone.
+
     Let \( D : J \to \mathcal C \) be a diagram.
     We form the products
     \[ P = \prod_{j \in \ob J} D(j);\quad Q = \prod_{\alpha \in \mor J} D(\cod \alpha) \]
     These are small or finite as required.
-    We have morphisms \( f, g : P \rightrightarrows Q \) defined by
-    \[ \pi_\alpha f = \pi_{\cod \alpha};\quad \pi_\alpha g = D(\alpha) \pi_{\dom \alpha} \]
+    Using the universal property of the product on \( Q \), we have morphisms \( f, g : P \rightrightarrows Q \) defined by
+    \[ \pi_\alpha f = \pi_{\cod \alpha} : P \to D(\cod \alpha);\quad \pi_\alpha g = D(\alpha) \pi_{\dom \alpha} : P \to D(\cod \alpha) \]
+    For \( \alpha : j \to j' \) in \( D \), these morphisms are represented by
+    % https://q.uiver.app/#q=WzAsNyxbNCwwLCJQIl0sWzQsMiwiRChqKSJdLFs2LDIsIkQoaicpIl0sWzYsMCwiUSJdLFswLDAsIlAiXSxbMiwwLCJRIl0sWzIsMiwiRChqJykiXSxbMCwxLCJcXHBpX2oiLDJdLFsxLDIsIkQoXFxhbHBoYSkiLDJdLFszLDIsIlxccGlfXFxhbHBoYSJdLFswLDMsImciLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbNCw1LCJmIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzUsNiwiXFxwaV9cXGFscGhhIl0sWzQsNiwiXFxwaV97aid9IiwyXV0=
+\[\begin{tikzcd}
+	P && Q && P && Q \\
+	\\
+	&& {D(j')} && {D(j)} && {D(j')}
+	\arrow["{\pi_j}"', from=1-5, to=3-5]
+	\arrow["{D(\alpha)}"', from=3-5, to=3-7]
+	\arrow["{\pi_\alpha}", from=1-7, to=3-7]
+	\arrow["g", dashed, from=1-5, to=1-7]
+	\arrow["f", dashed, from=1-1, to=1-3]
+	\arrow["{\pi_\alpha}", from=1-3, to=3-3]
+	\arrow["{\pi_{j'}}"', from=1-1, to=3-3]
+\end{tikzcd}\]
     Let \( e : E \to P \) be an equaliser for \( f \) and \( g \), and define \( \lambda_j = \pi_j e : E \to D(j) \).
-    These morphisms form a cone, since if \( \alpha : j \to j' \), we have
-    \[ D(\alpha) \lambda_j = D(\alpha) \pi_j e = \pi_\alpha g e = \pi_\alpha f e = \pi_{j'} e = \lambda_{j'} \]
+    Then for each \( \alpha : j \to j' \), the following diagram commutes.
+    % https://q.uiver.app/#q=WzAsNCxbMSwxLCJQIl0sWzAsMiwiRChqKSJdLFsyLDIsIkQoaicpIl0sWzEsMCwiRSJdLFswLDEsIlxccGlfaiIsMl0sWzEsMiwiRChcXGFscGhhKSIsMl0sWzAsMiwiXFxwaV97aid9Il0sWzMsMCwiZSJdLFszLDIsIlxcbGFtYmRhX3tqJ30iLDAseyJvZmZzZXQiOjEsImN1cnZlIjotMn1dLFszLDEsIlxcbGFtYmRhX2oiLDIseyJjdXJ2ZSI6Mn1dXQ==
+\[\begin{tikzcd}
+	& E \\
+	& P \\
+	{D(j)} && {D(j')}
+	\arrow["{\pi_j}"', from=2-2, to=3-1]
+	\arrow["{D(\alpha)}"', from=3-1, to=3-3]
+	\arrow["{\pi_{j'}}", from=2-2, to=3-3]
+	\arrow["e", from=1-2, to=2-2]
+	\arrow["{\lambda_{j'}}", shift right, curve={height=-12pt}, from=1-2, to=3-3]
+	\arrow["{\lambda_j}"', curve={height=12pt}, from=1-2, to=3-1]
+\end{tikzcd}\]
+    Therefore, these morphisms form a cone.
     Given any cone \( (A, (\mu_j)_{j \in \ob J}) \) over \( D \), we have a unique \( \mu : A \to P \) with \( \pi_j \mu = \mu_j \) for all \( j \).
     Then,
     \[ \pi_\alpha f \mu = \mu_{\cod \alpha} = D(\alpha) \mu_{\dom \alpha} = \pi_\alpha g \mu \]
     for all \( \alpha \), so \( \mu \) factors uniquely through \( e \).
-    
+
     \emph{Part (iii).}
     We show that the hypotheses of (iii) imply those of (ii).
     If \( 1 \) is the terminal object, we form the pullback of the span
