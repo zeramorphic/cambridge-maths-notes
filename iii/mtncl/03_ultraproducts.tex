@@ -63,3 +63,90 @@ We want to construct a different kind of product in such a way that \( \varphi \
 \end{definition}
 For property (ii), we might also say that \( \mathcal F \) is a \emph{terminal segment} of \( X \).
 % large things get "stuck in the filter"; filters measure largeness
+\begin{example}
+    \begin{enumerate}
+        \item Given an element \( j \in I \), the family \( \mathcal F_j \) of all subsets of \( I \) containing \( j \) is a filter on \( \mathcal P(I) \).
+        A filter of this form is called \emph{principal}.
+        A filter that is not principal is called \emph{free}.
+        \item The family of all cofinite subsets of \( I \) forms a filter on \( \mathcal P(I) \), called the \emph{Fr\'echet filter}.
+        One can show that any free maximal filter must contain the Fr\'echet filter.
+        % why?
+        \item The family of measurable subsets of \( [0,1] \) with Lebesgue measure \( 1 \) is a filter.
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    A filter \( \mathcal F \) on a lattice \( L \) is \emph{proper} if it is not equal to \( L \).
+    A maximal proper filter is called an \emph{ultrafilter}.
+\end{definition}
+The ultrafilters on \( \mathcal P(I) \) are precisely those filters \( \mathcal F \) where for each \( U \subseteq I \), either \( U \in \mathcal F \) or \( I \setminus U \in \mathcal F \).
+\begin{proposition}[the ultrafilter principle]
+    Given a set \( I \), every proper filter on \( \mathcal P(I) \) can be extended to an ultrafilter.
+\end{proposition}
+The ultrafilter principle is a choice principle that is strictly weaker than the axiom of choice.
+\begin{proof}
+    Apply Zorn's lemma.
+    % TODO: flesh out?
+\end{proof}
+
+\subsection{\L{}o\'s' theorem}
+For \( \bm \alpha \in \prod_{i \in I} \mathcal M_i \) and \( \varphi(\vb x) \) an \( \mathcal L \)-formula, we write
+\[ [\varphi(\bm \alpha)] = \qty{i \in I \mid \mathcal M_i \vDash \varphi(\bm \alpha(i))} \]
+Let \( I \) be a set and \( \mathcal F \) be a filter on \( \mathcal P(I) \).
+Let \( \qty{\mathcal M_i}_{i \in I} \) be a family of \( \mathcal L \)-structures.
+The carrier set for the reduced product \( \faktor{\prod \mathcal M_i}{\mathcal F} \) is the quotient of the cartesian product \( \prod_{i \in I} \mathcal M_i \) by the equivalence relation defined by \( \alpha \sim \beta \) if and only if \( [\alpha = \beta] \in \mathcal F \).
+We write \( \langle \alpha \rangle \) for the equivalence class of \( \alpha \) in the reduced product.
+If \( \mathcal F \) is an ultrafilter, we call the reduced product an \emph{ultraproduct}.
+If all of the factors \( \mathcal M_i \) are equal, the ultraproduct is called an \emph{ultrapower}.
+
+We turn the reduced product into an \( \mathcal L \)-structure as follows.
+\[ f^{\faktor{\prod \mathcal M_i}{\mathcal F}}(\langle \alpha_1 \rangle, \dots, \langle \alpha_n \rangle) = \langle \lambda i.\, f^{\mathcal M_i}(\alpha_1(i), \dots, \alpha_n(i)) \rangle \]
+\[ (\langle \alpha_1 \rangle, \dots, \langle \alpha_n \rangle) \in R^{\faktor{\prod \mathcal M_i}{\mathcal F}} \iff [R(\alpha_1, \dots, \alpha_n)] \in \mathcal F \]
+Note that if \( \mathcal F = \mathcal F_j \) is a principal filter, then \( \faktor{\prod \mathcal M_i}{\mathcal F} \cong \mathcal M_j \).
+
+\begin{theorem}
+    Let \( \qty{\mathcal M_i}_{i \in I} \) be a set of \( \mathcal L \)-structures, and \( \mathcal U \) be an ultrafilter on \( \mathcal P(I) \).
+    Then for all \( (\langle \alpha_1 \rangle, \dots, \langle \alpha_n \rangle) \in \qty(\faktor{\prod \mathcal M_i}{\mathcal U})^n \) and \( \mathcal L \)-formulae \( \varphi(x_1, \dots, x_n) \),
+    \[ \faktor{\prod \mathcal M_i}{\mathcal U} \vDash \varphi(\langle \alpha_1 \rangle, \dots, \langle \alpha_n \rangle) \iff [\varphi(\alpha_1, \dots, \alpha_n)] \in \mathcal U \]
+\end{theorem}
+In particular, if each \( \mathcal M_i \) is a model for some theory \( \mathcal T \), then so is the ultraproduct.
+\begin{proof}
+    We prove the result by induction on the length of \( \varphi \).
+    The result holds for atomic formulae by the definition of the interpretations of function and relation symbols.
+    Since all first-order formulae are equivalent to one composed of atomic formulae under negations, conjunctions, and existential quantification, it suffices to check these cases.
+
+    If the theorem holds for \( \psi \), and \( \varphi = \neg \psi \), we can negate both sides of the induction hypothesis to show that
+    \[ \faktor{\prod \mathcal M_i}{\mathcal U} \vDash \neg\psi \iff [\psi] \notin \mathcal U \]
+    As \( \mathcal U \) is an ultrafilter, the right hand side holds if and only if the complement of \( [\psi] \) lies in \( \mathcal U \).
+    But this complement is precisely \( [\neg\psi] \), as required.
+
+    If the theorem holds for \( \psi_1, \psi_2 \), then
+    \[ \faktor{\prod \mathcal M_i}{\mathcal U} \vDash \psi_i \iff [\psi_i] \in \mathcal U \]
+    \begin{align*}
+        \faktor{\prod \mathcal M_i}{\mathcal U} \vDash \psi_1 \wedge \psi_2 &\iff [\psi_1] \in \mathcal U \text{ and } [\psi_2] \in \mathcal U \\
+        &\iff [\psi_1 \wedge \psi_2] \in \mathcal U
+    \end{align*}
+    Indeed, if \( [\psi_1 \wedge \psi_2] \in \mathcal U \), then both \( [\psi_1] \) and \( [\psi_2] \) are in \( \mathcal U \), since \( [\psi_1 \wedge \psi_2] \subseteq [\psi_1], [\psi_2] \).
+    Conversely, if \( [\psi_1], [\psi_2] \in \mathcal U \), then \( [\psi_1] \cap [\psi_2] \subseteq [\psi_1 \wedge \psi_2] \) as they are equal, but \( [\psi_1] \cap [\psi_2] \in \mathcal U \), so \( [\psi_1 \wedge \psi_2] \in \mathcal U \).
+
+    For the case of existential quantification, we will use the axiom of choice.
+    Let \( x \) be free in \( \psi \).
+    We have
+    \[ \faktor{\prod \mathcal M_i}{\mathcal U} \vDash \exists x.\, \psi(x) \iff \exists \langle \alpha \rangle.\, \faktor{\prod \mathcal M_i}{\mathcal U} \vDash \psi(\langle \alpha \rangle) \]
+    By the inductive hypothesis, the right hand side holds if and only if \( [\psi(\alpha)] \in \mathcal U \).
+    Suppose that
+    \[ \faktor{\prod \mathcal M_i}{\mathcal U} \vDash \psi(\langle \alpha \rangle) \]
+    Then \( [\psi(\alpha)] \subseteq [\exists x.\, \psi(x)] \in \mathcal U \), as \( \mathcal U \) is a filter.
+    
+    Conversely, suppose \( [\exists x.\, \psi(x)] \in \mathcal U \).
+    Using the axiom of choice, we can choose a witness \( \alpha(i) \) to \( \mathcal M_i \vDash \exists x.\, \psi(x) \) for each \( i \in [\exists x.\, \psi(x)] \).
+    For each \( i \notin [\exists x.\, \psi(x)] \), we choose an arbitrary element of \( \mathcal M_i \).
+    Hence,
+    \[ \faktor{\prod \mathcal M_i}{\mathcal U} \vDash \psi(\langle \alpha \rangle) \]
+\end{proof}
+\begin{remark}
+    \begin{enumerate}
+        \item Since \( \mathcal U \) is an ultrafilter, the complement of \( [\exists x.\, \psi(x)] \) is not in \( \mathcal U \).
+        Thus, the set of indices \( I \) for which \( \alpha(i) \) was chosen arbitrarily does not lie in the ultrafilter, so this choice does not change the equivalence class of \( \alpha \).
+        \item The use of the axiom of choice in the above theorem is essential.
+    \end{enumerate}
+\end{remark}
