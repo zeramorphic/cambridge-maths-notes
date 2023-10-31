@@ -420,3 +420,152 @@ It is not true in general that the extensions of prime ideals are prime.
     This in turn corresponds to a prime ideal \( \mathfrak p \in \Spec R \) that contains \( I \) and avoids \( x \).
     Hence \( x \notin \bigcap_{I \subseteq \mathfrak p \in \Spec R} \mathfrak p \).
 \end{proof}
+
+\subsection{Local properties}
+\begin{definition}
+    A ring \( R \) is \emph{local} if it has exactly one maximal ideal.
+\end{definition}
+We write \( \mSpec R \) for the set of maximal ideals of \( R \).
+\begin{example}
+    Let \( \mathfrak p \in \Spec R \).
+    Then there is a bijection between the prime ideals of \( R \) contained within \( \mathfrak p \) to \( \Spec R_{\mathfrak p} \), mapping \( \mathfrak n \mapsto \mathfrak n R_{\mathfrak p} \) and \( \mathfrak q^c \mapsfrom \mathfrak q \).
+    Hence, all prime ideals of \( R_{\mathfrak p} \) are contained in \( \mathfrak p^e = \mathfrak p R_{\mathfrak p} \).
+    Thus \( (R_{\mathfrak p}, \mathfrak p R_{\mathfrak p}) \) is a local ring.
+\end{example}
+\begin{example}
+    Recall that
+    \[ \mathbb Z_{(2)} = \qty{\frac{a}{b} \midd a, b \in \mathbb Z,\, 2 \nmid b} \]
+    This ring is local, and the unique maximal ideal is
+    \[ (2) \mathbb Z_{(2)} = \qty{\frac{2a}{b} \midd a, b \in \mathbb Z,\, 2 \nmid b} \]
+\end{example}
+\begin{proposition}
+    Let \( M \) be an \( R \)-module.
+    The following are equivalent.
+    \begin{enumerate}
+        \item \( M \) is the zero module;
+        \item \( M_{\mathfrak p} \) is the zero module for all prime ideals \( \mathfrak p \in \Spec R \);
+        \item \( M_{\mathfrak m} \) is the zero module for all maximal ideals \( \mathfrak m \in \mSpec R \).
+    \end{enumerate}
+\end{proposition}
+Informally, for modules, being zero is a local property.
+\begin{proof}
+    First, note that (i) implies (ii) and (ii) implies (iii).
+    We show that (iii) implies (i).
+    Suppose that \( M \) is not the zero module, so let \( m \in M \) be a nonzero element.
+    Consider \( \operatorname{Ann}_R(m) = \qty{r \in R \mid rm = 0} \).
+    This is an ideal of \( R \), but is a proper ideal because \( 1 \notin \operatorname{Ann}_R(m) \).
+    Let \( \mathfrak m \) be a maximal ideal of \( R \) containing \( \operatorname{Ann}_R(m) \).
+    Now, \( \frac{m}{1} \in M_{\mathfrak m} = 0 \).
+    Thus, \( \frac{m}{1} = \frac{0}{1} \), so \( um = 0 \) for some \( u \in R \setminus \mathfrak m \).
+    But then \( u \notin \operatorname{Ann}_R(m) \), giving a contradiction.
+\end{proof}
+\begin{proposition}
+    Let \( f : M \to N \) be an \( R \)-linear map.
+    The following are equivalent.
+    \begin{enumerate}
+        \item \( f \) is injective;
+        \item \( f_{\mathfrak p} : M_{\mathfrak p} \to N_{\mathfrak p} \) is injective for every prime ideal \( \mathfrak p \in \Spec R \);
+        \item \( f_{\mathfrak m} : M_{\mathfrak m} \to N_{\mathfrak m} \) is injective for every maximal ideal \( \mathfrak m \in \mSpec R \).
+    \end{enumerate}
+\end{proposition}
+The same result holds for surjectivity.
+\begin{proof}
+    The fact that (i) implies (ii) follows directly from the fact that localisation at \( \mathfrak p \) is an exact functor.
+    Clearly (ii) implies (iii).
+    Suppose that \( f_{\mathfrak m} \) is injective for each \( \mathfrak m \in \mSpec R \).
+    We have the following exact sequence.
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCIwIl0sWzEsMCwiXFxrZXIgZiJdLFsyLDAsIk0iXSxbMywwLCJOIl0sWzAsMV0sWzEsMl0sWzIsMywiZiJdXQ==
+\[\begin{tikzcd}
+	0 & {\ker f} & M & N
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow["f", from=1-3, to=1-4]
+\end{tikzcd}\]
+    As \( (-)_{\mathfrak p} \) is exact, the sequence
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCIwIl0sWzEsMCwiKFxca2VyIGYpX3tcXG1hdGhmcmFrIG19Il0sWzIsMCwiTV97XFxtYXRoZnJhayBtfSJdLFszLDAsIk5fe1xcbWF0aGZyYWsgbX0iXSxbMCwxXSxbMSwyXSxbMiwzLCJmX3tcXG1hdGhmcmFrIG19Il1d
+\[\begin{tikzcd}
+	0 & {(\ker f)_{\mathfrak m}} & {M_{\mathfrak m}} & {N_{\mathfrak m}}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow["{f_{\mathfrak m}}", from=1-3, to=1-4]
+\end{tikzcd}\]
+    is exact.
+    But by assumption, \( (\ker f)_{\mathfrak m} = \ker (f_{\mathfrak m}) = 0 \).
+    So \( (\ker f)_{\mathfrak m} = 0 \) for all maximal ideals \( \mathfrak m \in \mSpec R \), so \( \ker f = 0 \).
+\end{proof}
+\begin{proposition}
+    Let \( M \) be an \( R \)-module.
+    The following are equivalent.
+    \begin{enumerate}
+        \item \( M \) is a flat \( R \)-module;
+        \item \( M_{\mathfrak p} \) is a flat \( R_{\mathfrak p} \)-module for every prime ideal \( \mathfrak p \in \Spec R \);
+        \item \( M_{\mathfrak m} \) is a flat \( R_{\mathfrak m} \)-module for every maximal ideal \( \mathfrak m \in \mSpec R \).
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \emph{(i) implies (ii).}
+    Note that \( M_{\mathfrak p} \simeq R_{\mathfrak p} \otimes_R M \) as \( R_{\mathfrak p} \)-modules, by extension of scalars.
+    Since extension of scalars preserves flatness, \( M_{\mathfrak p} \) is flat.
+
+    Clearly (ii) implies (iii).
+
+    \emph{(iii) implies (i).}
+    Let \( f : N \to P \) be an \( R \)-linear injective map.
+    Let \( \mathfrak m \in \mSpec R \).
+    Then \( f_{\mathfrak m} : N_{\mathfrak m} \to P_{\mathfrak m} \) is injective by the previous proposition.
+    Note that the following diagram commutes.
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJOX3tcXG1hdGhmcmFrIG19IFxcb3RpbWVzX3tSX3tcXG1hdGhmcmFrIG19fSBNX3tcXG1hdGhmcmFrIG19Il0sWzEsMCwiUF97XFxtYXRoZnJhayBtfSBcXG90aW1lc197Ul97XFxtYXRoZnJhayBtfX0gTV97XFxtYXRoZnJhayBtfSJdLFsxLDEsIihQIFxcb3RpbWVzX1IgTSlfe1xcbWF0aGZyYWsgbX0iXSxbMCwxLCIoTiBcXG90aW1lc19SIE0pX3tcXG1hdGhmcmFrIG19Il0sWzAsMSwiZl97XFxtYXRoZnJhayBtfSBcXG90aW1lcyBcXGlkX3tNX3tcXG1hdGhmcmFrIG19fSJdLFsxLDIsIlxcc2ltIl0sWzAsMywiXFxzaW0iLDJdLFszLDIsIihmIFxcb3RpbWVzIFxcaWRfTSlfe1xcbWF0aGZyYWsgbX0iLDJdXQ==
+\[\begin{tikzcd}[column sep=huge]
+	{N_{\mathfrak m} \otimes_{R_{\mathfrak m}} M_{\mathfrak m}} & {P_{\mathfrak m} \otimes_{R_{\mathfrak m}} M_{\mathfrak m}} \\
+	{(N \otimes_R M)_{\mathfrak m}} & {(P \otimes_R M)_{\mathfrak m}}
+	\arrow["{f_{\mathfrak m} \otimes \id_{M_{\mathfrak m}}}", from=1-1, to=1-2]
+	\arrow["\sim", from=1-2, to=2-2]
+	\arrow["\sim"', from=1-1, to=2-1]
+	\arrow["{(f \otimes \id_M)_{\mathfrak m}}"', from=2-1, to=2-2]
+\end{tikzcd}\]
+    Hence \( (f \otimes \id_M)_{\mathfrak m} \) is injective.
+    Since this holds for each \( \mathfrak m \in \mSpec R \), the map \( f \otimes \id_M \) must be injective, as required.
+\end{proof}
+\begin{example}
+    An \( R \)-module \( M \) is \emph{locally free} if \( M_{\mathfrak p} \) is a free \( R_{\mathfrak p} \)-module for every prime ideal \( \mathfrak p \in \Spec R \).
+    Consider \( R = \mathbb C \otimes \mathbb C \).
+    Then
+    \[ \Spec R = \qty{\mathfrak p \times \mathbb C \mid \mathfrak p \in \Spec \mathbb C} \cup \qty{\mathbb C \times \mathfrak p \mid \mathfrak p \in \Spec \mathbb C} = \qty{\mathbb C \times (0), (0) \times \mathbb C} \]
+    The map \( \mathbb C \times \mathbb C \to \mathbb C \) given by \( (a, b) \mapsto b \) sends \( (\mathbb C \times \mathbb C) \setminus \mathbb C \times (0) \) to units.
+    Thus, by the universal property of the localisation, we have a map
+    \[ (\mathbb C \times \mathbb C)_{\mathbb C \times (0)} \to \mathbb C;\quad \frac{(a, b)}{(c, d)} \mapsto \frac{b}{d} \]
+    This is clearly surjective, and one can check that this is also injective.
+    Thus \( (\mathbb C \times \mathbb C)_{\mathbb C \times (0)} \simeq \mathbb C \) is a field.
+    Similarly, \( (\mathbb C \times \mathbb C)_{(0) \times \mathbb C} \) is a field.
+    So for every \( \mathbb C \times \mathbb C \)-module \( M \) and prime ideal \( \mathfrak p \in \Spec (\mathbb C \times \mathbb C) \), the module \( M_{\mathfrak p} \) is a \( \mathbb C \)-vector space, so is free.
+    Thus every module over \( \mathbb C \times \mathbb C \) is locally free, but not every module over \( \mathbb C \times \mathbb C \) is free.
+    For example, take \( M = \mathbb C \times \qty{0} \) as a \( \mathbb C \times \mathbb C \)-module.
+    One can show that \( M \) is not the zero module, and not free of rank at least 1, so cannot be free.
+\end{example}
+
+\subsection{Localisations as quotients}
+Let \( U \subseteq R \), and let \( S \subseteq R \) be its multiplicative closure.
+We can define
+\[ R_U = \faktor{R[\qty{T_u}_{u \in U}]}{I_U};\quad I_U = \qty(\qty{u T_u - 1}_{u \in U}) \]
+We claim that \( R_U = S^{-1}R \) as rings, and also as \( R \)-algebras.
+Writing \( \overline u \) and \( \overline T_u \) to be the images of these elements in \( R_U \), the isomorphism maps
+\[ \overline T_u \mapsto \frac{1}{u};\quad r T_{u_1} \dots T_{u_\ell} + I_U \mapsfrom \frac{r}{u_1 \dots u_\ell} \]
+This is because \( R_U \) has the universal property of \( S^{-1}R \).
+Indeed, for any \( f : R \to A \) mapping \( U \) to units, there is a unique \( h \) making the following diagram commute.
+% https://q.uiver.app/#q=WzAsMyxbMCwwLCJSIl0sWzEsMCwiUl9VIl0sWzEsMSwiQSJdLFswLDFdLFswLDIsImYiLDJdLFsxLDIsImgiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+\[\begin{tikzcd}
+	R & {R_U} \\
+	& A
+	\arrow[from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-2]
+	\arrow["h", dashed, from=1-2, to=2-2]
+\end{tikzcd}\]
+Note that \( A \) is an \( R \)-algebra via \( f \), so the diagram commutes if and only if \( h \) is an \( R \)-algebra homomorphism.
+We have
+\[ \Hom_{R\text{-algebra}}(R_U, A) \simeq \qty{\varphi : U \to A \mid f(u) \varphi(u) = 1} \]
+But the the right hand side is a singleton.
+\begin{example}
+    Let \( x \in R \), and consider \( R_x = R_{\qty{1, x, x^2, \dots}} \).
+    Here,
+    \[ R_x \simeq \faktor{R[T]}{(xT - 1)} \]
+\end{example}
