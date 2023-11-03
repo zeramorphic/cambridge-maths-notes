@@ -1,0 +1,77 @@
+\subsection{???}
+Suppose \( F \dashv G \) is an adjunction with \( F : \mathcal C \to \mathcal D \) and \( G : \mathcal D \to \mathcal C \), where \( \mathcal C \) is a well-understood category, but \( \mathcal D \) is not.
+We can study \( \mathcal D \) indirectly inside the context of \( \mathcal C \) by using the adjunction.
+We have the composite \( T = GF : \mathcal C \to \mathcal C \), and we have the unit \( \eta : 1_{\mathcal C} \to T \).
+The counit is not directly accessible from \( \mathcal C \), but we have \( \mu = G\epsilon_F : T^2 \to T \).
+The triangular identities give rise to identities linking \( \eta \) and \( \mu \).
+\[\begin{tikzcd}
+	T & {T^2} \\
+	& T
+	\arrow["T\eta", from=1-1, to=1-2]
+	\arrow["\mu", from=1-2, to=2-2]
+	\arrow["{1_T}"', from=1-1, to=2-2]
+\end{tikzcd}\quad\quad\begin{tikzcd}
+	T & {T^2} \\
+	& T
+	\arrow["{\eta_T}", from=1-1, to=1-2]
+	\arrow["\mu", from=1-2, to=2-2]
+	\arrow["{1_T}"', from=1-1, to=2-2]
+\end{tikzcd}\]
+In addition, naturality of \( \epsilon \) gives
+\[\begin{tikzcd}
+	{T^3} & {T^2} \\
+	{T^2} & T
+	\arrow["T\mu", from=1-1, to=1-2]
+	\arrow["\mu", from=1-2, to=2-2]
+	\arrow["{\mu_T}"', from=1-1, to=2-1]
+	\arrow["\mu"', from=2-1, to=2-2]
+\end{tikzcd}\]
+\begin{definition}
+    A \emph{monad} on a category \( \mathcal C \) is a triple \( \mathbb T = (T, \eta, \mu) \) where \( T \) is a functor \( \mathbb C \to \mathbb C \), and \( \eta : 1_{\mathcal C} \to T \) and \( \mu : T^2 \to T \) are natural transformations satisfying the following commutative diagrams.
+    \[\begin{tikzcd}
+        T & {T^2} \\
+        & T
+        \arrow["T\eta", from=1-1, to=1-2]
+        \arrow["\mu", from=1-2, to=2-2]
+        \arrow["{1_T}"', from=1-1, to=2-2]
+    \end{tikzcd}\quad\quad\begin{tikzcd}
+        T & {T^2} \\
+        & T
+        \arrow["{\eta_T}", from=1-1, to=1-2]
+        \arrow["\mu", from=1-2, to=2-2]
+        \arrow["{1_T}"', from=1-1, to=2-2]
+    \end{tikzcd}\quad\quad\begin{tikzcd}
+        {T^3} & {T^2} \\
+        {T^2} & T
+        \arrow["T\mu", from=1-1, to=1-2]
+        \arrow["\mu", from=1-2, to=2-2]
+        \arrow["{\mu_T}"', from=1-1, to=2-1]
+        \arrow["\mu"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    \( \eta \) is the \emph{unit} of the monad, and \( \mu \) is the \emph{multiplication} of the monad.
+\end{definition}
+The dual notion is called a \emph{comonad}.
+\begin{example}
+    \begin{enumerate}
+        \item Let \( M \) be a monoid.
+        The functor \( M \times (-) : \mathbf{Set} \to \mathbf{Set} \) has a monad structure.
+        The unit \( \eta_A : A \to M \times A \) maps each \( a \) to \( (1, a) \), and the multiplication \( \mu_A : M \times M \times A \to M \times A \) maps \( (m, m', a) \) to \( (mm', a) \).
+        These maps are natural.
+        The required commutative diagrams encode precisely the left and right unit laws and the associativity law of a monoid.
+        In fact, monoids correspond precisely to monads on \( \mathbf{Set} \) whose underlying functors have right adjoints.
+        \item Let \( P : \mathbf{Set} \to \mathbf{Set} \) be the covariant power-set functor.
+        This can be given a monad structure.
+        The unit \( \eta_A : A \to PA \) maps \( a \) to its singleton \( \qty{a} \), and the multiplication \( \mu_A : PPA \to PA \) is the union operation mapping \( S \) to \( \bigcup S \).
+        One can check that the required laws are satisfied.
+    \end{enumerate}
+\end{example}
+These examples both arise as a result of adjunctions.
+Example (a) arises from the free \( M \)-set functor \( F : \mathbf{Set} \to [M, \mathbf{Set}] \) and the forgetful functor \( U : [M, \mathbf{Set}] \to \mathbf{Set} \), where \( F \dashv U \).
+For example (b), there is a forgetful functor \( U : \mathbf{CSLat} \to \mathbf{Set} \) from the category of complete (join-)semilattices.
+This has a left adjoint \( P : \mathbf{Set} \to \mathbf{CSLat} \), which is the free complete semilattice on \( A \).
+Indeed, given any \( f : A \to UB \), there is a unique extension of \( f \) to a join-preserving map \( \overline f : PA \to B \) given by
+\[ \overline f(A') = \bigvee \qty{f(a') \mid a' \in A'} \]
+Note that an \( M \)-set is a set \( A \) equipped with a map \( \alpha : M \times A \to A \), and a complete semilattice is a set \( A \) equipped with a map \( \bigvee : PA \to A \).
+So the elements of the other category can be defined in terms of the monad.
+
+This holds in general: every monad arises from an adjunction.

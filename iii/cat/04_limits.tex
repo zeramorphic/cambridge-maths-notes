@@ -488,7 +488,7 @@ Informally, monomorphisms are stable under pullback.
 
 \subsection{Special adjoint functor theorem}
 \begin{theorem}
-    Let \( \mathcal C, \mathcal D \) be locally small, and \( \mathcal D \) is complete, well-powered, and has a coseparating set.
+    Let \( \mathcal C, \mathcal D \) be locally small, and suppose that \( \mathcal D \) is complete, well-powered, and has a coseparating set.
     Then a functor \( G : \mathcal D \to \mathcal C \) preserves all small limits if and only if it has a left adjoint.
 \end{theorem}
 \begin{proof}
@@ -498,4 +498,73 @@ Informally, monomorphisms are stable under pullback.
     Thus, one can show that \( (A \downarrow G) \) is well-powered, because the subobjects of a given object \( (B, f) \) are the monomorphisms \( m : B' \to B \) for which \( f \) factors through \( Gm \).
     If \( \qty{S_i}_{i \in I} \) is a coseparating set for \( \mathcal D \), we have a coseparating set for \( (A \downarrow G) \) by taking the set of all \( f : A \to GS_i \) with \( i \in I \); this is a set by local smallness.
     This is coseparating, because given \( h, k : (B, g) \rightrightarrows (B', g') \) with \( h \neq k \), there is a morphism \( \ell : B' \to S_i \) with \( \ell h \neq \ell k \), and \( \ell \) is a morphism \( (B', g') \to (S_i, (G\ell)g') \) in \( (A \downarrow G) \).
+
+    It remains to show that there is an initial object in a category \( \mathcal A \) if it is complete, locally small, well-powered, and has a coseparating set \( \qty{S_i}_{i \in I} \).
+    First, we form the product
+    \[ P = \prod_{i \in I} S_i \]
+    and consider the diagram
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGJ1bGxldCJdLFsxLDEsIlAiXSxbMSwwLCJcXGNkb3RzIl0sWzIsMCwiXFxidWxsZXQiXSxbMCwxXSxbMywxXV0=
+\[\begin{tikzcd}
+	\bullet & \cdots & \bullet \\
+	& P
+	\arrow[from=1-1, to=2-2]
+	\arrow[from=1-3, to=2-2]
+\end{tikzcd}\]
+    whose edges are representative monomorphisms for each isomorphism class of subobjects of \( P \).
+    Let \( I \) be the apex of a limit cone for this `wide pullback'.
+    The legs of the cone are monomorphisms, using the same argument as was described for pullbacks.
+    In particular, the composite maps \( I \to P \) are monomorphisms, so \( I \) is a subobject of \( P \).
+    But by construction, it factors through every subobject of \( P \), so is a minimal subobject of \( P \).
+
+    It remains to show that \( I \) is initial.
+    Note that if \( f, g : I \rightrightarrows A \) were different monomorphisms, their equaliser \( e : E \to I \) would yield a subobject of \( P \) contained in \( I \to P \), so it would be an isomorphism, giving \( f = g \).
+    For an arbitrary object \( A \in \ob \mathcal A \), form the product
+    \[ Q = \prod_{(i,f)} S_i;\quad f : A \to S_i \]
+    and define \( g : A \to Q \) by
+    \[ \pi_{(i,f)} g = f \]
+    As the \( S_i \) form a coseparating family, \( g \) is a monomorphism.
+    Thus \( A \) is a subobject of \( Q \) by \( g \).
+    There is a map \( h : P \to Q \) defined by
+    \[ \pi_{(i,f)} h = \pi_i \]
+    Thus we can form the pullback
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJCIl0sWzEsMCwiQSJdLFsxLDEsIlEiXSxbMCwxLCJQIl0sWzAsMV0sWzEsMiwiZyIsMCx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1vbm8ifX19XSxbMCwzLCJrIiwyLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibW9ubyJ9fX1dLFszLDIsImgiLDIseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJtb25vIn19fV1d
+\[\begin{tikzcd}
+	B & A \\
+	P & Q
+	\arrow[from=1-1, to=1-2]
+	\arrow["g", tail, from=1-2, to=2-2]
+	\arrow["k"', tail, from=1-1, to=2-1]
+	\arrow["h"', tail, from=2-1, to=2-2]
+\end{tikzcd}\]
+    where \( k \) is a monomorphism as it is the pullback of a monomorphism.
+    Hence \( B \) is a subobject of \( P \), and thus factors through \( I \).
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJJIl0sWzEsMCwiQiJdLFsxLDEsIlAiXSxbMCwxLCIiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMSwyLCJrIl0sWzAsMl1d
+\[\begin{tikzcd}
+	I & B \\
+	& P
+	\arrow[dashed, from=1-1, to=1-2]
+	\arrow["k", from=1-2, to=2-2]
+	\arrow[from=1-1, to=2-2]
+\end{tikzcd}\]
+    Hence, we have a morphism \( I \to A \) by composition.
 \end{proof}
+\begin{example}
+    Let \( I : \mathbf{KHaus} \to \mathbf{Top} \) be the inclusion functor.
+    \( \mathbf{KHaus} \) is closed under small products in \( \mathbf{Top} \) by Tychonoff's theorem, and is closed under equalisers since the equaliser of \( f, g : X \rightrightarrows Y \) is a closed subspace of \( X \), and thus is compact and Hausdorff.
+    Hence \( \mathbf{KHaus} \) is complete, and the inclusion preserves small limits.
+    It is clearly locally small and well-powered, since the subobjects of \( X \) are isomorphic to closed subspaces.
+    It has a single coseparator, namely \( [0,1] \), by Urysohn's lemma.
+    Hence, by the special adjoint functor theorem, \( I \) has a left adjoint \( \beta \), which is the Stone--\v{C}ech compactification functor.
+\end{example}
+\begin{remark}
+    \v{C}ech's construction of \( \beta \) is almost identical to the construction of left adjoints given above.
+    Given a space \( X \), one can form
+    \[ P = \prod_{f : X \to [0,1]} [0,1];\quad g : X \to P;\quad \pi_f g = f \]
+    which is the product of the members of coseparating set for \( (X \downarrow I) \).
+    Then, \( \beta X \) can be defined to be the closure of the image of \( g \), that is, the smallest subobject of \( (P, g) \) in \( (X \downarrow I) \).
+
+    The general adjoint functor theorem can also be used to construct \( \beta \).
+    To obtain a solution-set at a space \( X \), observe that any morphism from \( X \) to a compact Hausdorff space \( IY \) factors as \( X \to IY' \to IY \) where \( Y' \) is the closure of \( X' = \qty{f(x) \mid x \in X} \).
+    One can show that if \( Y' \) is Hausdorff and \( X' \) is dense in \( Y' \), then \( \abs{Y'} \leq 2^{2^{\abs{X'}}} \).
+\end{remark}
+% TODO: Let's change our notation for monomorphism to >-> not hookrightarrow. Looks way more symmetric and nicer under diagram manipulations.

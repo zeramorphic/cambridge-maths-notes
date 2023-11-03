@@ -71,7 +71,7 @@ Note that all schemes are locally ringed spaces.
 	\arrow[from=1-1, to=2-1]
 	\arrow[from=2-1, to=2-2]
 \end{tikzcd}\]
-    Since the moprhism is local, \( (f^\sharp)^{-1}(\mathfrak p B_{\mathfrak p}) = f(\mathfrak p) A_{f(\mathfrak p)} \).
+    Since the morphism is local, \( (f^\sharp)^{-1}(\mathfrak p B_{\mathfrak p}) = f(\mathfrak p) A_{f(\mathfrak p)} \).
     As the above diagram commutes, \( g^{-1} = f \) as maps of topological spaces, and the maps of structure sheaves agree at the level of stalks by construction so they must agree everywhere.
 \end{proof}
 
@@ -79,9 +79,138 @@ Note that all schemes are locally ringed spaces.
 \begin{definition}
     Let \( X, Y \) be schemes.
     A morphism of schemes \( f : X \to Y \) is an \emph{open immersion} if \( f \) induces an isomorphism of \( X \) onto an open subscheme \( \qty(U, \eval{\mathcal O_Y}_U) \) of \( Y \).
-    A moprhism \( f : X \to Y \) is a \emph{closed immersion} if \( f \) is a homeomorphism onto a closed subset of \( Y \), and \( g^\sharp : \mathcal O_Y \to g_\star \mathcal O_X \) is surjective.
+    A morphism \( f : X \to Y \) is a \emph{closed immersion} if \( f \) is a homeomorphism onto a closed subset of \( Y \), and \( g^\sharp : \mathcal O_Y \to g_\star \mathcal O_X \) is surjective.
 \end{definition}
 \begin{example}
     Let \( k[t] \to \faktor{k[t]}{(t^2)} \).
     The induced map \( \Spec \faktor{k[t]}{(t^2)} \to \Spec k[t] \) is a closed immersion.
+    More generally, let \( A \) be a ring and \( I \) be an ideal in \( A \).
+    Then the induced map \( \Spec \faktor{A}{I} \to \Spec A \) is a closed immersion.
+\end{example}
+\begin{definition}
+    Let \( Y \) be a scheme.
+    A \emph{closed subscheme} of \( Y \) is an equivalence class of closed immersions \( X \to Y \), where we say \( f : X \to Y \) and \( f' : X' \to Y \) are equivalent if there is a commutative triangle
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJYIl0sWzIsMCwiWCciXSxbMSwxLCJZIl0sWzAsMSwiXFxzaW0iLDAseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJhcnJvd2hlYWQifX19XSxbMSwyLCJmJyJdLFswLDIsImYiLDJdXQ==
+\[\begin{tikzcd}
+	X && {X'} \\
+	& Y
+	\arrow["\sim", tail reversed, from=1-1, to=1-3]
+	\arrow["{f'}", from=1-3, to=2-2]
+	\arrow["f"', from=1-1, to=2-2]
+\end{tikzcd}\]
+\end{definition}
+
+\subsection{Fibre products}
+The notion of fibre product will simultaneously generalise the notions of product, intersections of closed subschemes, and inverse images of subschemes (such as points) along morphisms.
+\begin{definition}
+    Consider a diagram
+    % https://q.uiver.app/#q=WzAsMyxbMSwwLCJYIl0sWzEsMSwiUyJdLFswLDEsIlkiXSxbMCwxXSxbMiwxXV0=
+\[\begin{tikzcd}
+	& X \\
+	Y & S
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+    The \emph{fibre product} is a scheme \( X \times_S Y \) making the following diagram commute:
+    % https://q.uiver.app/#q=WzAsNCxbMSwwLCJYIl0sWzEsMSwiUyJdLFswLDEsIlkiXSxbMCwwLCJYIFxcdGltZXNfUyBZIl0sWzAsMV0sWzIsMV0sWzMsMiwicF9ZIiwyXSxbMywwLCJwX1giXV0=
+\[\begin{tikzcd}
+	{X \times_S Y} & X \\
+	Y & S
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+	\arrow["{p_Y}"', from=1-1, to=2-1]
+	\arrow["{p_X}", from=1-1, to=1-2]
+\end{tikzcd}\]
+    such that for any other scheme \( Z \) together with morphisms \( q_X, q_Y \) completing the square, there is a unique factorisation through \( X \times_S Y \), making the following diagram commute.
+    % https://q.uiver.app/#q=WzAsNSxbMiwxLCJYIl0sWzIsMiwiUyJdLFsxLDIsIlkiXSxbMSwxLCJYIFxcdGltZXNfUyBZIl0sWzAsMCwiWiJdLFswLDFdLFsyLDFdLFszLDIsInBfWSJdLFszLDAsInBfWCIsMl0sWzQsMCwicV9YIiwwLHsiY3VydmUiOi0yfV0sWzQsMiwicV9ZIiwyLHsiY3VydmUiOjJ9XSxbNCwzLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+\[\begin{tikzcd}
+	Z \\
+	& {X \times_S Y} & X \\
+	& Y & S
+	\arrow[from=2-3, to=3-3]
+	\arrow[from=3-2, to=3-3]
+	\arrow["{p_Y}", from=2-2, to=3-2]
+	\arrow["{p_X}"', from=2-2, to=2-3]
+	\arrow["{q_X}", curve={height=-12pt}, from=1-1, to=2-3]
+	\arrow["{q_Y}"', curve={height=12pt}, from=1-1, to=3-2]
+	\arrow[dashed, from=1-1, to=2-2]
+\end{tikzcd}\]
+\end{definition}
+Note that as this is a definition by universal property, if \( X \times_S Y \) exists, it is unique up to unique isomorphism.
+The fibre product is schemes is the category-theoretic \emph{pullback}.
+\begin{example}
+    \begin{enumerate}
+        \item In the category of sets, the fibre product of the diagram
+        % https://q.uiver.app/#q=WzAsMyxbMSwwLCJYIl0sWzEsMSwiUyJdLFswLDEsIlkiXSxbMCwxLCJyX1giXSxbMiwxLCJyX1kiLDJdXQ==
+    \[\begin{tikzcd}
+        & X \\
+        Y & S
+        \arrow["{r_X}", from=1-2, to=2-2]
+        \arrow["{r_Y}"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+        is the set
+        \[ X \times_S Y = \qty{(x, y) \in X \times Y \mid r_X(x) = r_Y(y)} \]
+        \item In the category of topological spaces, the fibre product is defined to be the same set, assigning \( X \times_S Y \) the subspace topology as a subset of \( X \times Y \).
+        \item Let \( r_X : X \to S \) be a map of sets, and let \( Y = \qty{\star} \) with \( r_Y(\star) = s \in S \).
+        Then
+        \[ X \times_S Y = r_X^{-1}(s) \]
+        \item Let \( r_X : X \to S \) and \( r_Y : Y \to S \) be inclusions of subsets.
+        Then
+        \[ X \times_S Y = X \cap Y \]
+    \end{enumerate}
+\end{example}
+\begin{theorem}
+    Fibre products of schemes exist.
+\end{theorem}
+\begin{proof}[Proof sketch]
+    \emph{Step 1.}
+    Let \( X, Y, S \) be affine schemes, with associated rings \( A, B, R \).
+    Then the fibre product \( X \times_S Y \) exists, and is isomorphic to \( \Spec (A \otimes_R B) \).
+    Note that the tensor product is the category-theoretic pushout in the category of rings.
+    We must now check that the universal property of the fibre product is satisfied.
+    Consider the commutative square
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJaIl0sWzEsMCwiWCJdLFsxLDEsIlMiXSxbMCwxLCJZIl0sWzAsMV0sWzEsMl0sWzAsM10sWzMsMl1d
+\[\begin{tikzcd}
+	Z & X \\
+	Y & S
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+    If \( Z \) is an affine scheme, the result holds.
+    It is a general fact that a map of schemes \( Z \to \Spec (A \otimes_R B) \) is the same data as a map \( A \otimes_R B \to \Gamma(Z, \mathcal O_Z) \).
+
+    \emph{Step 2.}
+    Let \( X, Y, S \) be arbitrary schemes.
+    If \( X \times_S Y \) exists and \( U \subseteq X \) is an open subscheme, then \( U \times_S Y \) also exists, by taking the inverse image of \( U \) under the projection \( X \times_S Y \to X \) endowed with the structure of an open subscheme.
+
+    \emph{Step 3.}
+    If \( X \) is covered by open subschemes \( \qty{X_i} \), then if \( X_i \times_S Y \) exists for all \( i \), then \( X \times_S Y \) exists, by gluing each of the \( X_i \times_S Y \) together.
+    Note that the ability to glue these schemes together relies on Step 2, and the fact that there is no cocycle condition.
+
+    \emph{Step 4.}
+    If \( Y \) and \( S \) are affine, then \( X \times_S Y \) exists by Step 3, by covering \( X \) by affine subschemes.
+    As \( X \) and \( Y \) are interchangeable, \( X \times_S Y \) exists for any \( X \) and \( Y \) as long as \( S \) is affine.
+
+    \emph{Step 5.}
+    Now, cover \( S \) by affine subschemes \( \qty{S_i} \).
+    Let \( X_i, Y_i \) be the preimages of of \( S_i \) in \( X \) and \( Y \) respectively.
+    Now, \( X_i \times_{S_i} Y_i \) exists.
+    Observe by the universal property that \( X_i \times_{S_i} Y_i = X_i \times S Y_i \).
+    Finally, gluing gives \( X \times_S Y \) as required. 
+\end{proof}
+\begin{example}
+    \begin{enumerate}
+        \item We have
+        \[ \mathbb P^n_{\mathbb C} = \mathbb P^n_{\mathbb Z} \times_{\Spec \mathbb Z} \Spec \mathbb C \]
+        where the map \( \Spec \mathbb C \to \Spec \mathbb Z \) is induced by the ring homomorphism \( \mathbb Z \to \mathbb C \), and the map \( \mathbb P^n_{\mathbb Z} \to \Spec \mathbb Z \) is induced locally by the inclusion \( \mathbb Z \to \mathbb Z\qty[\frac{x_0}{x_i}, \dots, \frac{x_n}{x_i}] \).
+        Note also that
+        \[ \mathbb Z[\vb x] \otimes_{\mathbb Z} \mathbb C = \mathbb C[\vb x] \]
+        \item Let \( C = \Spec \faktor{\mathbb C[x, y]}{(y - x^2)} \) and \( L = \Spec \faktor{\mathbb C[x, y]}{(y)} \).
+        We have natural closed immersions \( C \to \mathbb A^2_{\mathbb C} \) and \( L \to \mathbb A^2_{\mathbb C} \).
+        One can show that
+        \[ C \times_{\mathbb A^2_{\mathbb C}} L = \Spec \faktor{\mathbb C[x]}{(x^2)} \]
+        representing the intersection.
+    \end{enumerate}
 \end{example}

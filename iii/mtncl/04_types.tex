@@ -1,4 +1,4 @@
-\subsection{Definable sets}
+\subsection{Definitions}
 \begin{definition}
     Let \( X \subseteq \mathcal M^n \) be a subset of an \( \mathcal L \)-structure \( \mathcal M \), and let \( P \subseteq \mathcal M \).
     We say that \( X \) is \emph{definable} in \( \mathcal L \) with \emph{parameters} in \( P \) if there is a tuple \( \vb p \in P \) and an \( \mathcal L_P \)-formula \( \varphi(\vb x, \vb y) \) such that
@@ -20,5 +20,80 @@
 \begin{definition}
     Let \( \mathcal M \) be an \( \mathcal L \)-structure and \( A \subseteq \mathcal M \).
     Let \( \mathcal T \) be the \( \mathcal L_A \)-theory of sentences with parameters in \( A \) that hold in \( \mathcal M \), denoted \( \operatorname{Th}_A(\mathcal M) \).
-    The filters on the Boolean algebra \( \mathcal B_n(\mathcal T) \) are called the \emph{\( n \)-types} of \( \mathcal M \) over \( A \).
+    The proper filters on the Boolean algebra \( \mathcal B_n(\mathcal T) \) are called the \emph{\( n \)-types} of \( \mathcal M \) over \( A \).
 \end{definition}
+\begin{remark}
+    If \( \mathcal F \) is a proper filter on \( \mathcal B_n(\mathcal T) \), it cannot include the bottom element \( [\bot] \).
+    This motivates the following more convenient definition of an \( n \)-type.
+\end{remark}
+\begin{definition}
+    Let \( \mathcal M \) be an \( \mathcal L \)-structure and \( A \subseteq \mathcal M \).
+    A set \( p \) of \( \mathcal L_A \)-formulae with \( n \) free variables \( \vb x \) is an \emph{\( n \)-type} of \( \mathcal M \) over \( A \) if \( p \cup \operatorname{Th}_A(\mathcal M) \) is satisfiable.
+    More generally, if \( \mathcal T \) is a theory, we say that a set \( p \) of \( \mathcal L \)-formulae with \( n \) free variables \( \vb x \) is an \emph{\( n \)-type} of \( \mathcal T \) if
+    \[ \mathcal T \cup \qty{\exists \vb x.\, \bigwedge \Psi} \]
+    is consistent for all finite subsets \( \Psi \) of \( p \).
+    An \( n \)-type \( p \) is called \emph{complete} if it is maximal among the collection of \( n \)-types, in the sense that for any \( \mathcal L \)-formula \( \varphi(\vb x) \), either \( \varphi \in p \) or \( \varphi \notin p \).
+    We denote the set of complete \( n \)-types by \( S_n(\mathcal T) \), or \( S_n^{\mathcal M}(A) \) if \( T = \operatorname{Th}_A(\mathcal M) \).
+    An element \( \vb m \in \mathcal M^n \) \emph{realises} an \( n \)-type \( p \) in \( \mathcal M \) if \( \mathcal M \vDash \varphi(\vb m) \) holds for all \( \varphi \) in \( p \).
+    If no element realises a type, we say that the type is \emph{omitted} in \( \mathcal M \).
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item Let \( \mathcal M = (\mathbb Q, <) \), and consider the formulae \( n < x \) for each natural number \( n \).
+        This collection of formulae is a 1-type, as any finite subset is consistent with \( \operatorname{Th}_{\mathbb N}(\mathbb Q) \).
+        This type is omitted in \( \mathbb Q \) as no rational number \( x \) satisfies all of the formulae \( n < x \) for \( n \in \mathbb N \).
+        However, this type is realised in an elementary extension of \( \mathbb Q \).
+        The realisers can be thought of as imaginary, infinitely large rationals.
+        \item Consider \( \mathbb R \) as a structure for the theory of ordered fields.
+        The set of formulae \( \qty{0 < x < \frac{1}{n} \mid 0 < n \in \mathbb N} \) form a 1-type of infinitesimal real numbers.
+        This type is omitted in \( \mathbb R \), but there is an elementary extension realising this type, such as the ultrapower with respect to a free ultrafilter.
+        \item For any \( \mathcal L \)-structure \( \mathcal M \), subset \( A \subseteq \mathcal M \), and tuple \( \vb m \in \mathcal M \), we can form the \( n \)-type of all of the \( \mathcal L_A \)-formulae that hold in \( \mathcal M \) of \( \vb m \).
+        \[ \operatorname{tp}^{\mathcal M}(\vb m/A) = \qty{\varphi(\vb x) \in \mathcal L_A \mid \mathcal M \vDash \varphi(\vb m)} \]
+        This is a complete \( n \)-type, called \emph{the type of \( \vb m \)} over \( A \).
+        This is a type corresponding to the principal filter on an equivalence class corresponding to an equality formula.
+    \end{enumerate}
+\end{example}
+\begin{proposition}
+    Let \( \mathcal M \) be an \( \mathcal L \)-structure with \( A \subseteq \mathcal M \) and let \( p \) be an \( n \)-type of \( \mathcal M \) over \( A \).
+    Then there is an elementary extension \( \mathcal N \) of \( \mathcal M \) that realises \( p \).
+\end{proposition}
+\begin{proof}
+    We use the method of diagrams, and show that
+    \[ \Gamma = p \cup \operatorname{Diag}_{\text{el}}(\mathcal M) \]
+    is satisfiable by compactness.
+    Let \( \Delta \) be a finite subset of \( \Gamma \), and let
+    \[ \varphi = \bigwedge_{\varphi' \in \Delta \cap p} \varphi';\quad \psi = \bigwedge_{\psi' \in \Delta \cap \operatorname{Diag}_{\text{el}}(\mathcal M)} \psi' \]
+    Note that \( \Delta \) is satisfiable if and only if
+    \[ \varphi(\vb x, \vb a) \wedge \psi(\vb a', \vb b) \]
+    is satisfiable, where \( \vb a, \vb a' \in A \) and \( \vb b \in \mathcal M \setminus \mathcal A \), and
+    \[ \varphi \in p;\quad \mathcal M \vDash \psi(\vb a', \vb b) \]
+    As \( p \) is an \( n \)-type, there is an \( \mathcal L_A \)-structure \( \mathcal N_0 \) that satisfies \( p \cup \operatorname{Th}_A(\mathcal M) \).
+    As \( \mathcal M \vDash \psi(\vb a', \vb b) \), we have \( \mathcal M \vDash \exists \vb y.\, \psi(\vb a', \vb y) \).
+    Note that this is an \( \mathcal L_A \)-formula, so
+    \[ (\exists \vb y.\, \psi(\vb a', \vb y)) \in \operatorname{Th}_A(\mathcal M) \]
+    Hence,
+    \[ \mathcal N_0 \vDash \varphi(\vb c, \vb a) \exists y.\, \psi(\vb a', \vb y) \]
+    for some \( \vb c \in \mathcal N_0 \).
+    Note that \( \mathcal N_0 \) is an \( \mathcal L_A \)-structure, not an \( \mathcal L_{\mathcal M} \)-structure.
+    However, by interpreting \( \vb b \) in \( \mathcal N_0 \) as the witness \( \vb y \) to \( \exists \vb y.\, \psi(\vb a', \vb y) \), we make \( \mathcal N_0 \) into an \( \mathcal L_{\mathcal M} \)-structure; elements of \( \mathbb M \) not in \( A \) or \( \vb b \) are interpreted arbitrarily.
+    In this \( \mathcal L_{\mathcal M} \)-structure, \( \Delta \) is satisfiable.
+    Thus \( \Gamma \) is satisfiable by compactness.
+
+    Now, let \( \mathcal N \) be an \( \mathcal L_{\mathcal M} \)-structure satisfying \( \Gamma \), so \( \mathcal N \) is an elementary extension of \( \mathcal M \).
+    As \( \mathcal N \) satisfies \( p \), there must be a tuple \( \vb n \in \mathcal N \) with \( \mathcal N \vDash \varphi(\vb n) \) for each \( \varphi \in p \).
+    In other words, \( \vb n \) realises \( p \) in \( \mathcal N \).
+\end{proof}
+\begin{corollary}
+    An \( n \)-type \( p \) of \( \mathcal M \) over \( A \subseteq \mathcal M \) is complete if and only if there is an elementary extension \( \mathcal N \) of \( \mathcal M \) and some \( \vb a \in \mathcal N \) such that \( p = \operatorname{tp}^{\mathcal N}(\vb a/A) \).
+\end{corollary}
+\begin{proof}
+    If \( \mathcal N \) is an elementary extension of \( \mathcal M \) and \( \vb a \in \mathcal N \), then
+    \[ \operatorname{tp}^{\mathcal N}(\vb a/A) \in S_n^{\mathcal N}(A) = S_n^{\mathcal M}(A) \]
+    as the extension is elementary.
+
+    Conversely, if \( p \) is a complete \( n \)-type, then by the previous result, there is an elementary extension \( \mathcal N \) of \( \mathcal M \) with a tuple \( \vb a \) realising the type.
+    As \( p \) is complete, every \( \mathcal L_A \)-formula \( \varphi \), either \( \varphi \in p \) or \( \varphi \notin p \), but not both.
+    If \( \varphi \in \operatorname{tp}^{\mathcal N}(\vb a/A) \), then \( \mathcal N \vDash \varphi(\vb a) \), so we cannot have \( \varphi \notin p \), thus \( \varphi \in p \).
+    Conversely, if \( \varphi \in p \), then \( \mathcal N \vDash \varphi(\vb a) \) as \( \vb a \) realises \( p \), so \( \varphi \in \operatorname{tp}^{\mathcal N}(\vb a/A) \).
+    Thus \( p = \operatorname{tp}^{\mathcal N}(\vb a/A) \) as required.
+\end{proof}
