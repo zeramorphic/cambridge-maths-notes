@@ -75,3 +75,231 @@ Note that an \( M \)-set is a set \( A \) equipped with a map \( \alpha : M \tim
 So the elements of the other category can be defined in terms of the monad.
 
 This holds in general: every monad arises from an adjunction.
+We present two constructions.
+
+\subsection{Eilenberg--Moore algebras}
+\begin{definition}
+    Let \( \mathbb T = (T, \eta, \mu) \) be a monad on \( \mathcal C \).
+    An \emph{Eilenberg--Moore algebra} or \emph{\( \mathbb T \)-algebra} is a pair \( (A, \alpha) \) where \( A \) is an object in \( \mathcal C \), and \( \alpha : TA \to A \) is a morphism satisfying
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzEsMCwiVEEiXSxbMSwxLCJBIl0sWzAsMSwiXFxldGFfQSJdLFsxLDIsIlxcYWxwaGEiXSxbMCwyLCIxX0EiLDJdXQ==
+\[\begin{tikzcd}
+	A & TA \\
+	& A
+	\arrow["{\eta_A}", from=1-1, to=1-2]
+	\arrow["\alpha", from=1-2, to=2-2]
+	\arrow["{1_A}"', from=1-1, to=2-2]
+\end{tikzcd}\quad\quad\begin{tikzcd}
+	T^2A & TA \\
+	TA & A
+	\arrow["T\alpha", from=1-1, to=1-2]
+	\arrow["\alpha", from=1-2, to=2-2]
+	\arrow["\mu"', from=1-1, to=2-1]
+	\arrow["\alpha"', from=2-1, to=2-2]
+\end{tikzcd}\]
+    A homomorphism of algebras \( f : (A, \alpha) \to (B, \beta) \) is a morphism \( f : A \to B \) such that the following diagram commutes.
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJUQSJdLFsxLDAsIlRCIl0sWzEsMSwiQiJdLFswLDEsIkEiXSxbMCwxLCJUZiJdLFsxLDIsIlxcYmV0YSJdLFswLDMsIlxcYWxwaGEiLDJdLFszLDIsImYiLDJdXQ==
+\[\begin{tikzcd}
+	TA & TB \\
+	A & B
+	\arrow["Tf", from=1-1, to=1-2]
+	\arrow["\beta", from=1-2, to=2-2]
+	\arrow["\alpha"', from=1-1, to=2-1]
+	\arrow["f"', from=2-1, to=2-2]
+\end{tikzcd}\]
+    This forms a category of \( \mathbb T \)-algebras, denoted \( \mathcal C^{\mathbb T} \).
+\end{definition}
+\begin{proposition}
+    The forgetful functor \( G^{\mathbb T} : \mathcal C^{\mathbb T} \to \mathcal C \) has a left adjoint \( F^{\mathbb T} \), and the adjunction \( F^{\mathbb T} \dashv G^{\mathbb T} \) induced the monad \( \mathbb T \) on \( \mathcal C \).
+\end{proposition}
+\begin{proof}
+    We define the \emph{free algebra} of an object \( A \) to be \( F^{\mathbb T}A = (TA, \mu_A) \).
+    This defines an algebra structure on \( TA \) for every \( A \) by the monad laws.
+    For \( f : A \to B \), we define \( F^{\mathbb T}f = Tf \); this is a homomorphism by naturality of \( \mu \).
+    This is functorial as \( T \) is functorial.
+
+    We have \( G^{\mathbb T} F^{\mathbb T} = T \).
+    For the unit of the adjunction, we use the unit of the monad \( \eta \).
+    For the counit, we define
+    \[ \eta_{(A,\alpha)} = \alpha : F^{\mathbb T} A \to (A, \alpha) \]
+    This is a homomorphism by the definition of an algebra, and it is a natural transformation by the definition of homomorphisms of algebras.
+    It suffices to verify the triangular identities, which follows from the remaining unused diagrams.
+    One can check that the multiplication induced by this monad is equal to that of \( \mathbb T \).
+\end{proof}
+
+\subsection{Kleisli categories}
+If \( F \dashv G \) with \( F : \mathcal C \to \mathcal D \) and \( G : \mathcal D \to \mathcal C \) is an adjunction inducing \( \mathbb T \), then \( F' \dashv G' \) with \( F' : \mathcal C \to \mathcal D' \) and \( G' : \mathcal D' \to \mathcal C \), where \( \mathcal D' \) is the full subcategory of \( \mathcal D \) on objects in the image of \( F \).
+Thus, when finding a construction for \( \mathcal D \), we can assume that \( F \) is surjective (or, indeed, bijective) on objects.
+Then, the morphisms \( FA \to FB \) must correspond to morphisms \( A \to GFB \) under the adjunction, but \( GF = T \).
+\begin{definition}
+    Let \( \mathbb T = (T, \mu, \eta) \) be a monad on \( \mathcal C \).
+    The \emph{Kleisli category} \( \mathcal C_{\mathbb T} \) is the category where the objects are precisely the objects of \( \mathcal C \), and the morphisms from \( A \) to \( B \) in \( \mathcal C_{\mathbb T} \) are the morphisms \( A \to TB \) in \( \mathcal C \).
+    To avoid confusion, we will denote morphisms from \( A \) to \( B \) in this category by \( A \rightdotarrow B \).
+    The identity \( A \rightdotarrow A \) is \( \eta_A : A \to TA \).
+    The composite of
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzEsMCwiQiJdLFsyLDAsIkMiXSxbMCwxLCJmIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZG90dGVkIn19fV0sWzEsMiwiZyIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRvdHRlZCJ9fX1dXQ==
+\[\begin{tikzcd}
+	A & B & C
+	\arrow["f", dotted, from=1-1, to=1-2]
+	\arrow["g", dotted, from=1-2, to=1-3]
+\end{tikzcd}\]
+    is
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiVEIiXSxbMiwwLCJUVEMiXSxbMywwLCJUQyJdLFswLDEsImYiXSxbMSwyLCJUZyJdLFsyLDMsIlxcbXVfQyJdXQ==
+\[\begin{tikzcd}
+	A & TB & T^2C & TC
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["Tg", from=1-2, to=1-3]
+	\arrow["{\mu_C}", from=1-3, to=1-4]
+\end{tikzcd}\]
+    These satisfy the unit and associativity laws.
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiVEIiXSxbMiwwLCJUVEIiXSxbMiwxLCJUQiJdLFswLDEsImYiXSxbMSwyLCJUXFxldGFfQiJdLFsyLDMsIlxcbXVfQiJdLFsxLDMsIjFfe1RCfSJdXQ==
+\[\begin{tikzcd}
+	A & TB & T^2B \\
+	&& TB
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["{T\eta_B}", from=1-2, to=1-3]
+	\arrow["{\mu_B}", from=1-3, to=2-3]
+	\arrow["{1_{TB}}", from=1-2, to=2-3]
+\end{tikzcd}\quad\quad\begin{tikzcd}
+	A & TA \\
+	TB & T^2B \\
+	& TB
+	\arrow["{\eta_A}", from=1-1, to=1-2]
+	\arrow["Tf", from=1-2, to=2-2]
+	\arrow["{\mu_B}", from=2-2, to=3-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["{\eta_{TB}}", from=2-1, to=2-2]
+	\arrow["{1_{TB}}"', from=2-1, to=3-2]
+\end{tikzcd}\]
+\[\begin{tikzcd}
+	A & TB & {T^2C} & {T^3D} & {T^2D} \\
+	&& TC & {T^2D} & TD
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["Tg", from=1-2, to=1-3]
+	\arrow["{T^2h}", from=1-3, to=1-4]
+	\arrow["{T\mu_D}", from=1-4, to=1-5]
+	\arrow["{\mu_D}", from=1-5, to=2-5]
+	\arrow["{\mu_{TD}}", from=1-4, to=2-4]
+	\arrow["{\mu_D}"', from=2-4, to=2-5]
+	\arrow["{\mu_C}", from=1-3, to=2-3]
+	\arrow["Th"', from=2-3, to=2-4]
+\end{tikzcd}\]
+where in the last diagram, the upper composite is \( (hg)f \) and the lower composite is \( h(gf) \) in \( \mathcal C_{\mathbb T} \).
+\end{definition}
+\begin{proposition}
+    There is an adjunction \( F_{\mathbb T} \dashv G_{\mathbb T} \) where \( F_{\mathbb T} : \mathcal C \to \mathcal C_{\mathbb T} \) and \( G_{\mathbb T} : \mathcal C_{\mathbb T} \to \mathcal C \) that induces the monad \( \mathbb T \).
+\end{proposition}
+\begin{proof}
+    We define \( F_{\mathbb T} A = A \), and for \( f : A \to B \), define \( F_{\mathbb T} f = \eta_B f \).
+    This preserves identities as \( 1_{F_{\mathbb T} A} = \eta_A \), and preserves composites since% https://q.uiver.app/#q=WzAsNyxbMCwwLCJBIl0sWzEsMCwiQiJdLFsyLDAsIlRCIl0sWzIsMSwiVEMiXSxbMywwLCJUXjJDIl0sWzMsMSwiVEMiXSxbMSwxLCJDIl0sWzAsMSwiZiJdLFsxLDIsIlxcZXRhX0IiXSxbMiwzLCJUZyIsMl0sWzMsNCwiVFxcZXRhX0MiLDFdLFs0LDUsIlxcbXVfQyJdLFszLDUsIjFfe1RDfSIsMl0sWzEsNiwiZyJdLFs2LDMsIlxcZXRhX0MiXV0=
+    \[\begin{tikzcd}
+        A & B & TB & {T^2C} \\
+        & C & TC & TC
+        \arrow["f", from=1-1, to=1-2]
+        \arrow["{\eta_B}", from=1-2, to=1-3]
+        \arrow["Tg"', from=1-3, to=2-3]
+        \arrow["{T\eta_C}"{description}, from=2-3, to=1-4]
+        \arrow["{\mu_C}", from=1-4, to=2-4]
+        \arrow["{1_{TC}}"', from=2-3, to=2-4]
+        \arrow["g", from=1-2, to=2-2]
+        \arrow["{\eta_C}", from=2-2, to=2-3]
+    \end{tikzcd}\]
+    commutes.
+    For \( G_{\mathbb T} \), we define \( \mathbb G_{\mathbb T} A = TA \), and for \( f : A \rightdotarrow B \), we define \( G_{\mathbb T} f \) to be the composite
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJUQSJdLFsxLDAsIlRUQiJdLFsyLDAsIlRCIl0sWzAsMSwiVGYiXSxbMSwyLCJcXG11X0IiXV0=
+\[\begin{tikzcd}
+	TA & T^2B & TB
+	\arrow["Tf", from=1-1, to=1-2]
+	\arrow["{\mu_B}", from=1-2, to=1-3]
+\end{tikzcd}\]
+    Note that \( G_{\mathbb T} \) preserves identities by the unit law and preserves composites as
+    % https://q.uiver.app/#q=WzAsNyxbMCwwLCJUQSJdLFsxLDAsIlReMkIiXSxbMiwwLCJUXjNDIl0sWzMsMCwiVF4yQyJdLFszLDEsIlRDIl0sWzIsMSwiVF4yQyJdLFsxLDEsIlRCIl0sWzAsMSwiVGYiXSxbMSwyLCJUXjJnIl0sWzIsMywiVFxcbXVfQyJdLFszLDQsIlxcbXVfQyJdLFsyLDUsIlxcbXVfe1RDfSJdLFs1LDQsIlxcbXVfQyIsMl0sWzEsNiwiXFxtdV9CIl0sWzYsNSwiVGciLDJdXQ==
+\[\begin{tikzcd}
+	TA & {T^2B} & {T^3C} & {T^2C} \\
+	& TB & {T^2C} & TC
+	\arrow["Tf", from=1-1, to=1-2]
+	\arrow["{T^2g}", from=1-2, to=1-3]
+	\arrow["{T\mu_C}", from=1-3, to=1-4]
+	\arrow["{\mu_C}", from=1-4, to=2-4]
+	\arrow["{\mu_{TC}}", from=1-3, to=2-3]
+	\arrow["{\mu_C}"', from=2-3, to=2-4]
+	\arrow["{\mu_B}", from=1-2, to=2-2]
+	\arrow["Tg"', from=2-2, to=2-3]
+\end{tikzcd}\]
+    commutes.
+    Then \( G_{\mathbb T} \) is a functor, and \( G_{\mathbb T} F_{\mathbb T} = T \).
+    The unit of the adjunction is the unit of the monad \( \eta \).
+    For the counit \( \epsilon_A : TA = F_{\mathbb T} G_{\mathbb T} A \rightdotarrow A \), we use the identity \( 1_{TA} \).
+    This is natural, as given \( f : A \rightdotarrow B \), the diagram
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJUQSJdLFsxLDAsIlRCIl0sWzEsMSwiQiJdLFswLDEsIkEiXSxbMCwxLCJGX3tcXG1hdGhiYiBUfSBHX3tcXG1hdGhiYiBUfWYiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkb3R0ZWQifX19XSxbMSwyLCJcXGVwc2lsb25fQiIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRvdHRlZCJ9fX1dLFswLDMsIlxcZXBzaWxvbl9BIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZG90dGVkIn19fV0sWzMsMiwiZiIsMix7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRvdHRlZCJ9fX1dXQ==
+\[\begin{tikzcd}
+	TA & TB \\
+	A & B
+	\arrow["{F_{\mathbb T} G_{\mathbb T}f}", dotted, from=1-1, to=1-2]
+	\arrow["{\epsilon_B}", dotted, from=1-2, to=2-2]
+	\arrow["{\epsilon_A}"', dotted, from=1-1, to=2-1]
+	\arrow["f"', dotted, from=2-1, to=2-2]
+\end{tikzcd}\]
+    commutes, as the paths are% https://q.uiver.app/#q=WzAsNSxbMCwwLCJUQSJdLFsxLDAsIlReMkIiXSxbMiwwLCJUQiJdLFszLDAsIlReMkIiXSxbNCwwLCJUQiJdLFswLDEsIlRmIl0sWzEsMiwiXFxtdV9CIl0sWzIsMywiXFxldGFfe1RCfSJdLFszLDQsIlxcbXVfQiJdXQ==
+    \[\begin{tikzcd}
+        TA & {T^2B} & TB & {T^2B} & TB
+        \arrow["Tf", from=1-1, to=1-2]
+        \arrow["{\mu_B}", from=1-2, to=1-3]
+        \arrow["{\eta_{TB}}", from=1-3, to=1-4]
+        \arrow["{\mu_B}", from=1-4, to=1-5]
+    \end{tikzcd}\]
+    and
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJUQSJdLFsxLDAsIlReMkIiXSxbMiwwLCJUQiJdLFswLDEsIlRmIl0sWzEsMiwiXFxtdV9CIl1d
+\[\begin{tikzcd}
+	TA & {T^2B} & TB
+	\arrow["Tf", from=1-1, to=1-2]
+	\arrow["{\mu_B}", from=1-2, to=1-3]
+\end{tikzcd}\]
+    which coincide.
+    One can show that both triangular identities reduce to a unit law.
+    It suffices to verify that the multiplication of the induced monad is correct.
+    The multiplication law is \( G_{\mathbb T} \epsilon_{F_{\mathbb T} A} \), which is
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJUXjJBIl0sWzEsMCwiVF4yQSJdLFsyLDAsIlRBIl0sWzAsMSwiVDFfe1RBfSJdLFsxLDIsIlxcbXVfQSJdXQ==
+\[\begin{tikzcd}
+	{T^2A} & {T^2A} & TA
+	\arrow["{T1_{TA}}", from=1-1, to=1-2]
+	\arrow["{\mu_A}", from=1-2, to=1-3]
+\end{tikzcd}\]
+    which is equal to \( \mu_A \), as required.
+\end{proof}
+
+\subsection{???}
+\begin{definition}
+    Let \( \mathbb T = (T, \eta, \mu) \) be a monad on \( \mathcal C \).
+    Then \( \operatorname{Adj}(\mathbb T) \) is the category of adjunctions \( F \dashv G \) which induce \( \mathbb T \), where the morphisms \( F \dashv G \) to \( F' \dashv G' \) are the functors \( K : \mathcal D \to \mathcal D' \) satisfying \( KF = F \) and \( G' K = G \).
+\end{definition}
+\begin{theorem}
+    The Kleisli adjunction \( F_{\mathbb T} \dashv G_{\mathbb T} \) is initial in \( \operatorname{Adj}(\mathbb T) \), and the Eilenberg--Moore adjunction \( F^{\mathbb T} \dashv G^{\mathbb T} \) is terminal in \( \operatorname{Adj}(\mathbb T) \).
+\end{theorem}
+\begin{proof}
+    We will first do the case of the Eilenberg--Moore adjunction.
+    Let \( F \dashv G \) be an adjunction inducing \( \mathbb T \).
+    We define \( K : \mathcal D \to \mathcal C^{\mathbb T} \) by \( KB = (GB, G\epsilon_B) \).
+    This is an algebra by the triangular identities and naturality of \( \epsilon \).
+    On morphisms \( f : B \to C \) in \( \mathcal D \), we define \( Kg = Gg \), which is a homomorphism as \( \epsilon \) is a natural transformation.
+    Clearly \( G^{\mathbb T}K = G \), and \( KFA = (GFA, G\epsilon_{FA}) = F^{\mathbb T}A \), and for \( f : A \to A' \), \( KFf = GFf = Tf = F^{\mathbb T} f \).
+    So \( K \) is a morphism of \( \operatorname{Adj}(\mathbb T) \).
+
+    For uniqueness, suppose \( K' \) were another such morphism.
+    Then \( K'B = (GB, \beta_B) \), and \( K'g = Gg \) for \( g : B \to C \).
+    Note that \( \beta \) must be a natural transformation \( GFG \to G \).
+    Also, \( \beta_{FA} = G\epsilon_{FA} \) for all \( A \), as \( K'F = F^{\mathbb T} \).
+    But we have naturality squares
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJHRkdGR0IiXSxbMCwxLCJHRkdCIl0sWzEsMCwiR0ZHQiJdLFsxLDEsIkdCIl0sWzAsMSwiXFxiZXRhX3tGR0J9IiwyLHsib2Zmc2V0IjoyfV0sWzAsMiwiR0ZHXFxlcHNpbG9uX0IiXSxbMSwzLCJHXFxlcHNpbG9uX0IiLDJdLFswLDEsIkdcXGVwc2lsb25fe0ZHQn0iLDAseyJvZmZzZXQiOi0yfV0sWzIsMywiXFxiZXRhX0IiLDIseyJvZmZzZXQiOjJ9XSxbMiwzLCJHXFxlcHNpbG9uX0IiLDAseyJvZmZzZXQiOi0yfV1d
+\[\begin{tikzcd}[column sep=huge]
+	GFGFGB & GFGB \\
+	GFGB & GB
+	\arrow["{\beta_{FGB}}"', shift right=2, from=1-1, to=2-1]
+	\arrow["{GFG\epsilon_B}", from=1-1, to=1-2]
+	\arrow["{G\epsilon_B}"', from=2-1, to=2-2]
+	\arrow["{G\epsilon_{FGB}}", shift left=2, from=1-1, to=2-1]
+	\arrow["{\beta_B}"', shift right=2, from=1-2, to=2-2]
+	\arrow["{G\epsilon_B}", shift left=2, from=1-2, to=2-2]
+\end{tikzcd}\]
+    where the left edges are equal and the top edge is a split epimorphism, so the right edges are equal.
+    Thus \( K \) is unique.
+\end{proof}

@@ -214,3 +214,129 @@ The fibre product is schemes is the category-theoretic \emph{pullback}.
         representing the intersection.
     \end{enumerate}
 \end{example}
+
+\subsection{Schemes over a base}
+In scheme theory, we often fix a scheme \( S \) called the \emph{base scheme}, and consider other schemes with a fixed map to \( S \).
+These form a category of schemes \emph{over \( S \)}, where the morphisms are the morphisms of schemes \( f : X \to Y \) such that the following diagram commutes.
+% https://q.uiver.app/#q=WzAsMyxbMCwwLCJYIl0sWzEsMSwiUyJdLFsyLDAsIlkiXSxbMCwxXSxbMCwyLCJmIl0sWzIsMV1d
+\[\begin{tikzcd}
+	X && Y \\
+	& S
+	\arrow[from=1-1, to=2-2]
+	\arrow["f", from=1-1, to=1-3]
+	\arrow[from=1-3, to=2-2]
+\end{tikzcd}\]
+This is known as Grothendieck's \emph{relative point of view}.
+Typically, \( S \) is the spectrum of a field or a ring.
+Note that every scheme has a unique morphism to \( \Spec \mathbb Z \), so the category of schemes is isomorphic to the category of schemes over \( \Spec \mathbb Z \).
+The product of \( X \) and \( Y \) in the category of schemes over \( S \) is the fibre product \( X \times_S Y \).
+Analogously, in commutative algebra, we often consider algebras of a fixed ring, and the category of rings is isomorphic to the category of \( \mathbb Z \)-algebras.
+
+% TODO: Define reduced, integral, irreducible, noetherian... from ES2/Hartshorne
+
+\subsection{Separatedness}
+Recall that a topological space \( X \) is Hausdorff if and only if the diagonal \( \Delta_X \subseteq X \times X \) is closed.
+\begin{definition}
+    Let \( X \to S \) be a morphism of schemes.
+    Then the \emph{diagonal} is the morphism \( \Delta_{X/S} : X \to X \times_S X \) induced using the universal property by the following diagram.
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCJYIl0sWzEsMSwiWCBcXHRpbWVzX1MgWCJdLFsyLDEsIlgiXSxbMiwyLCJTIl0sWzEsMiwiWCJdLFswLDEsIiIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFsxLDJdLFsyLDNdLFsxLDRdLFs0LDNdLFswLDIsIlxcaWRfWCIsMCx7ImN1cnZlIjotMn1dLFswLDQsIlxcaWRfWCIsMix7ImN1cnZlIjoyfV1d
+\[\begin{tikzcd}
+	X \\
+	& {X \times_S X} & X \\
+	& X & S
+	\arrow[dashed, from=1-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=3-3]
+	\arrow[from=2-2, to=3-2]
+	\arrow[from=3-2, to=3-3]
+	\arrow["{\id_X}", curve={height=-12pt}, from=1-1, to=2-3]
+	\arrow["{\id_X}"', curve={height=12pt}, from=1-1, to=3-2]
+\end{tikzcd}\]
+\end{definition}
+We write \( \Delta \) for \( \Delta_{X/S} \) if \( X \) and \( S \) are clear from context.
+\begin{remark}
+    If \( U, V \) are open subschemes of \( X \) and \( S = \Spec k \) for a field \( k \), then
+    \[ \Delta^{-1}(U \times_S V) = U \cap V \]
+\end{remark}
+\begin{definition}
+    A morphism \( X \to S \) is \emph{separated} if \( \Delta_{X/S} : X \to X \times_S X \) is a closed immersion.
+\end{definition}
+\begin{example}
+    Let \( X = \Spec \mathbb C[t] \), let \( S = \Spec \mathbb C \), and induce the map \( X \to S \) by the \( \mathbb C \)-algebra homomorphism \( \mathbb C \to \mathbb C[t] \).
+    Then
+    \[ X \times_S X = \Spec(\mathbb C[t] \otimes_{\mathbb C} \mathbb C[t]) \]
+    and the diagonal map \( \Delta \) is induced by the multiplication map
+    \[ \mathbb C[t] \otimes_{\mathbb C} \mathbb C[t] \to \mathbb C[t] \]
+    Note that \( \Delta \) is closed, as the map \( \mathbb C[t] \otimes_{\mathbb C} \mathbb C[t] \to \mathbb C[t] \) is surjective.
+\end{example}
+\begin{proposition}
+    Let \( g : X \to S \) be a morphism of schemes.
+    Then there is a factorisation of \( \Delta_{X/S} \) as follows.
+    % https://q.uiver.app/#q=WzAsMyxbMCwxLCJYIl0sWzEsMCwiVSJdLFsyLDEsIlggXFx0aW1lc19TIFgiXSxbMCwxLCJcXHRleHR7Y2xvc2VkIGltbWVyc2lvbn0iXSxbMSwyLCJcXHRleHR7b3BlbiBpbW1lcnNpb259Il0sWzAsMiwiXFxEZWx0YV97WC9TfSIsMl1d
+\[\begin{tikzcd}
+	& U \\
+	X && {X \times_S X}
+	\arrow["{\text{closed immersion}}", from=2-1, to=1-2]
+	\arrow["{\text{open immersion}}", from=1-2, to=2-3]
+	\arrow["{\Delta_{X/S}}"', from=2-1, to=2-3]
+\end{tikzcd}\]
+    We say that \( g : X \to S \) is a \emph{locally closed immersion}.
+\end{proposition}
+\begin{proof}
+    Let \( S \) be covered by open affine subschemes \( \qty{V_i} \), and suppose \( X \) is covered by open affine subschemes \( \qty{U_{ij}} \), where for some fixed \( i \), the \( U_{ij} \) cover \( g^{-1}(V_i) \).
+    We have morphisms \( U_{ij} \to V_i \) induced by
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCJVX3tpan0iXSxbMSwwLCJnXnstMX0oVl9pKSJdLFsyLDAsIlZfaSJdLFsyLDEsIlMiXSxbMSwxLCJYIl0sWzAsMV0sWzEsMl0sWzIsM10sWzEsNF0sWzQsM11d
+\[\begin{tikzcd}
+	{U_{ij}} & {g^{-1}(V_i)} & {V_i} \\
+	& X & S
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=2-3]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-2, to=2-3]
+\end{tikzcd}\]
+    where the commutative square is a fibre product.
+    Observe that \( U_{ij} \times_{V_i} U_{ij} \) is affine and open in \( X \times_S X \), and their union contains the image of the diagonal \( \Delta_{X/S} \).
+    Also,
+    \[ \Delta^{-1}(U_{ij} \times_{V_i} U_{ij}) = U_{ij} \subseteq X \]
+    Let \( U \) be the union of the \( U_{ij} \times_{V_i} U_{ij} \) over all \( i, j \).
+    Then the second map in the statement is clearly an open immersion.
+    Observe that to check if \( f : T \to T' \) is a closed immersion, it suffices to check locally on the codomain.
+    For each \( U_{ij} \), the diagonal is a map \( U_{ij} \to U_{ij} \times_{V_i} U_{ij} \), which one can show is a closed immersion.
+\end{proof}
+\begin{proposition}
+    If \( X \to S \) is a morphism of affine schemes, then \( \Delta_{X/S} \) is a closed immersion.
+\end{proposition}
+\begin{proof}
+    Let \( X = \Spec A, S = \Spec B \), and let the map \( X \to S \) be given by a map \( B \to A \).
+    Then the map \( A \otimes_B A \to A \) is surjective as required.
+\end{proof}
+Thus every morphism of affine schemes is separated.
+\begin{example}
+    \begin{enumerate}
+        \item Recall the bug-eyed line
+        \[ \faktor{\mathbb A^1_k \sqcup \mathbb A^1_k} {\sim} \]
+        where if \( U = \mathbb A^1_k \setminus \qty{0} \subseteq \mathbb A^1_k \) and \( V \) is defined similarly, we define the isomorphism \( V \to U \) by the map \( u \mapsto t : k[u,u^{-1}] \to k[t,t^{-1}] \).
+        We claim that the bug-eyed line is not separated over \( \Spec k \).
+        We can compute \( X \times_S X \) by the gluing construction of the fibre product.
+        This is a plane with doubled axes and four origins.
+        The diagonal only contains two of the four origins, and this is not a closed subset.
+        \item Open and closed immersions are are always separated.
+    \end{enumerate}
+\end{example}
+\begin{corollary}
+    Let \( X \to S \) be a morphism of schemes.
+    If the image of \( \Delta_{X/S} \) is closed as a topological subspace, then \( X \to S \) is separated.
+\end{corollary}
+\begin{proof}
+    A locally closed immersion onto a closed subset is a closed immersion.
+\end{proof}
+\begin{proposition}
+    Let \( A \) be a ring.
+    The morphism \( \mathbb P^n_A \to \Spec A \) is separated.
+\end{proposition}
+\begin{proposition}
+    Let \( k \) be a field, and let \( X \to \Spec k \) be a morphism of schemes.
+    Let \( U, V \subseteq X \) be affine open subschemes.
+    If \( X \to \Spec k \) is separated, then \( U \cap V \) is also affine.
+\end{proposition}

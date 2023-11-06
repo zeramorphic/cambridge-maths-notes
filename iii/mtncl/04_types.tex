@@ -75,7 +75,7 @@
     \[ \mathcal N_0 \vDash \varphi(\vb c, \vb a) \exists y.\, \psi(\vb a', \vb y) \]
     for some \( \vb c \in \mathcal N_0 \).
     Note that \( \mathcal N_0 \) is an \( \mathcal L_A \)-structure, not an \( \mathcal L_{\mathcal M} \)-structure.
-    However, by interpreting \( \vb b \) in \( \mathcal N_0 \) as the witness \( \vb y \) to \( \exists \vb y.\, \psi(\vb a', \vb y) \), we make \( \mathcal N_0 \) into an \( \mathcal L_{\mathcal M} \)-structure; elements of \( \mathbb M \) not in \( A \) or \( \vb b \) are interpreted arbitrarily.
+    However, by interpreting \( \vb b \) in \( \mathcal N_0 \) as the witness \( \vb y \) to \( \exists \vb y.\, \psi(\vb a', \vb y) \), we make \( \mathcal N_0 \) into an \( \mathcal L_{\mathcal M} \)-structure; elements of \( \mathcal M \) not in \( A \) or \( \vb b \) are interpreted arbitrarily.
     In this \( \mathcal L_{\mathcal M} \)-structure, \( \Delta \) is satisfiable.
     Thus \( \Gamma \) is satisfiable by compactness.
 
@@ -96,4 +96,90 @@
     If \( \varphi \in \operatorname{tp}^{\mathcal N}(\vb a/A) \), then \( \mathcal N \vDash \varphi(\vb a) \), so we cannot have \( \varphi \notin p \), thus \( \varphi \in p \).
     Conversely, if \( \varphi \in p \), then \( \mathcal N \vDash \varphi(\vb a) \) as \( \vb a \) realises \( p \), so \( \varphi \in \operatorname{tp}^{\mathcal N}(\vb a/A) \).
     Thus \( p = \operatorname{tp}^{\mathcal N}(\vb a/A) \) as required.
+\end{proof}
+
+\subsection{Stone spaces}
+Let \( \mathcal M \) be an \( \mathcal L \)-structure and let \( A \subseteq \mathcal M \).
+For each formula \( \varphi \) on \( n \) variables, we consider the set of all complete types that include this formula, denoted
+\[ [\![\varphi]\!] = \qty{p \in S_n^{\mathcal M}(A) \mid \varphi \in p} \]
+Note that
+\[ [\![\varphi \vee \psi]\!] = [\![\varphi]\!] \cup [\![\psi]\!];\quad [\![\varphi \wedge \psi]\!] = [\![\varphi]\!] \cap [\![\psi]\!] \]
+These serve as the basic open sets for a topology on \( S_n^{\mathcal m}(A) \), so an open set is an arbitrary union of open sets of this form.
+Moreover, each of these basic open sets \( [\![\varphi]\!] \) is the complement of another basic open set \( [\![\neg\varphi]\!] \), so these open sets are also closed.
+The \( S_n^{\mathcal M}(A) \) are called \emph{Stone spaces}, which are compact and totally disconnected topological spaces.
+\begin{example}
+    Let \( F \) be an algebraically closed field, and let \( k \) be a subfield of \( F \).
+    The complete \( n \)-types \( p \in S_n^F(k) \) are determined by the prime ideals of \( k[x_1, \dots, x_n] \).
+    For such a type \( p \), we can define a prime ideal by
+    \[ I_p = \qty{f \in k[x_1, \dots, x_n] \mid (f(x_1, \dots, x_n) = 0) \in p} \]
+    These ideals are prime, and all prime ideals arise in this way.
+    The map \( p \mapsto I_p \) is a continuous bijection from the type space \( S_n^F(k) \) to the prime spectrum \( \Spec k[x_1, \dots, x_n] \) with the Zariski topology.
+    Also, note that \( \abs{S_n^F(k)} \leq \abs{k} + \aleph_0 \) by Hilbert's basis theorem.
+\end{example}
+
+\subsection{Isolated points}
+Recall that a point \( p \) in a topological space is \emph{isolated} if \( \qty{p} \) is an open set.
+If \( p \) is isolated in \( S_n^{\mathcal M}(A) \), then
+\[ \qty{p} = \bigcup_I [\![\varphi_i]\!] \]
+so as \( \qty{p} \) is a singleton, there must be a single formula \( \varphi = \varphi_i \) such that \( \qty{p} = [\![\varphi]\!] \); we say that \( \varphi \) \emph{isolates} the type.
+\begin{definition}
+    Let \( \mathcal T \) be an \( \mathcal L \)-theory.
+    We say that a formula \( \varphi(x_1, \dots, x_n) \) \emph{isolates} the \( n \)-type \( p \) of \( \mathcal T \) if \( \mathcal T \cup \qty{\varphi} \) is satisfiable, and
+    \[ \mathcal T \vDash \forall \vb x.\, (\varphi(\vb x) \Rightarrow \psi(\vb x)) \]
+    for all \( \psi \in p \).
+\end{definition}
+\begin{proposition}
+    If \( \varphi \) isolates \( p \), then \( p \) is realised in any model of \( \mathcal T \cup \qty{\exists \vb x.\, \varphi(\vb x)} \).
+    In particular, if \( \mathcal T \) is a complete theory, then all isolated types are realised.
+\end{proposition}
+\begin{proof}
+    If \( \mathcal M \) is a model of \( \mathcal T \) and there exists \( \vb a \) such that \( \mathcal M \vDash \varphi(\vb a) \), then clearly \( \vb a \) realises \( p \) in \( \mathcal M \).
+    If \( \mathcal T \) is complete, then either
+    \[ \mathcal T \vDash \exists \vb x.\, \varphi(\vb x) \]
+    or
+    \[ \mathcal T \vDash \forall \vb x.\, \neg \varphi(\vb x) \]
+    If \( \varphi \) isolates \( \mathcal T \), then \( \mathcal T \cup \qty{\varphi} \) is satisfiable by definition, so the latter case is impossible.
+\end{proof}
+
+\subsection{Omitting types}
+\begin{theorem}[omitting types theorem]
+    Let \( \mathcal L \) be a countable language and let \( \mathcal T \) be an \( \mathcal L \)-theory.
+    Let \( p \) be a non-isolated \( n \)-type of \( \mathcal T \).
+    Then there is a countable model \( \mathcal M \vDash \mathcal T \) that omits \( p \).
+\end{theorem}
+\begin{proof}
+    Let \( C = \qty{c_0, c_1, \dots} \) be a countable set of new constants.
+    We expand \( \mathcal T \) to a consistent \( \mathcal L_C \)-theory \( \mathcal T^\star \) by adding recursively defined sentences \( \theta_0, \theta_1, \dots \).
+    We will do this in such a way that \( \theta_t \Rightarrow \theta_s \) for all \( s < t \).
+    To build the \( \theta \), we first enumerate the \( n \)-tuples \( C^n = \qty{\vb d_0, \vb d_1, \dots} \), and enumerate the \( \mathcal L_C \)-sentences \( \varphi_0, \varphi_1, \dots \).
+
+    Start with \( \theta_0 = \forall x.\, x = x \), which is trivially true.
+    Suppose we have already constructed \( \theta_s \) in such a way that \( \mathcal T \cup \qty{\theta_s} \) is consistent.
+
+    First, suppose \( s = 2i \).
+    These sentences will be designed to turn \( C \) into the domain of an elementary substructure of some model of \( \mathcal T^\star \).
+    Suppose that \( \varphi_i = \exists x.\, \psi(x) \) is existential, with parameters in \( C \) as \( \varphi \) is an \( \mathcal L_C \)-formula.
+    Suppose \( \mathcal T \vDash \theta_s \Rightarrow \varphi_i \).
+    As only finitely many constants from \( C \) have been used so far, we can find some unused \( c \in C \).
+    Let
+    \[ \theta_{s + 1} = \theta_s \wedge \psi(c) \]
+    If \( \mathcal N \) models \( \mathcal T \cup \qty{\theta_s} \), then there is a witness to \( \psi \) in \( \mathcal N \), so we can interpret \( c \) as this witness.
+    Thus, \( \mathcal N \) models \( \mathcal T \cup \qty{\theta_{s+1}} \), so this theory is consistent.
+    If \( \varphi_i \) is not existential, or \( \mathcal T \nvDash \theta_s \Rightarrow \varphi_i \), then define \( \theta_{s + 1} = \theta_s \).
+
+    Now, suppose \( s = 2i + 1 \).
+    These sentences will be designed to ensure that \( C \) omits \( p \).
+    Let \( \overline d_i = (e_1, \dots, e_n) \).
+    Remove every occurrence of the \( e_j \) from \( \theta_s \) by replacing it with the variable \( x_j \), and replace every occurrence of other constants in \( C \) with a fresh variable \( x_c \), together with a quantifier \( \exists x_c \) in front of the formula.
+    This yields an \( \mathcal L \)-formula \( \psi(x_1, \dots, x_n) \).
+    For example, if
+    \[ \theta_s = \forall x.\, \exists y.\, (rx + e_1 e_2 = y^2 + t e_2);\quad r \neq t \in C \]
+    then
+    \[ \psi(x_1, x_2) = \exists x_r.\, \exists x_t.\, \forall x.\, \exists y.\, (x_r x + x_1 x_2 = y^2 + x_t x_2) \]
+    As \( p \) is not isolated, there is no \( \mathcal L \)-formula that isolates it, so there must be some \( \varphi(\vb x) \in p \) that is not implied by \( \psi(\vb x) \); otherwise \( \psi \) would isolate the type \( p \).
+    We define \( \theta_{s+1} \) in such a way that \( \vb d_i \) cannot realise \( p \).
+    \[ \theta_{s + 1} = \theta_s \wedge \neg \varphi(\vb d_i) \]
+    This is consistent, because there must be some \( \vb n \in \mathcal N \vDash \mathcal T \) such that
+    \[ \mathcal N \vDash \psi(\vb n) \wedge \neg \psi(\vb n) \]
+    and we can turn \( \mathcal N \) into an \( \mathcal L_C \)-structure that models \( \theta_{s+1} \) by interpreting \( \vb d_i \) as \( \vb n \), and interpreting the constants in \( C \) but not in \( \vb d \) as the respective witnesses to the existential statements \( \exists x_c \) within \( \psi \).
 \end{proof}
