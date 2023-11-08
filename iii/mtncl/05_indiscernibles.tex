@@ -1,0 +1,58 @@
+\subsection{???}
+Given a linear order \( \eta \), we will write \( [\eta]^k \) for the set of ordered \( k \)-tuples in \( \eta \):
+\[ [\eta]^k = \qty{\vb a \in \eta^k \mid a_0 <^\eta a_1 <^\eta \dots <^\eta a_{k-1} \]
+\begin{definition}
+	Let \( \mathcal M \) be an \( \mathcal L \)-structure, let \( \Phi \) be a set of \( \mathcal L \)-formulae, and let \( \eta \) be a strict chain of elements of \( \mathcal M \).
+	We say that \( \eta \) is \emph{\( \Phi \)-indiscernible} in \( \mathcal M \) if
+	\[ \mathcal M \vDash \phi(\vb a) \Leftrightarrow \phi(\vb b) \]
+	for all \( \vb a, \vb b \in [\eta]^k \) of the correct length and \( \varphi \in \Phi \).
+	We simply say that \( \eta \) is a sequence of indiscernibles if the above holds where \( \Phi \) is the set of every \( \mathcal L \)-formula.
+\end{definition}
+\begin{example}
+	\begin{enumerate}
+		\item Any linearly ordered basis \( \mathcal B \) for a vector space provides a sequence of indiscernibles.
+			Indeed, given \( \vb a, \vb b \in [\mathcal B]^k \), there is an automorphism of the vector space that maps \( \vb a \) to \( \vb b \).
+		\item Any chain of algebraically independent elements in a field \( k \vDash \mathsf{ACF}_0 \) is a sequence of indiscernibles.
+		\item If \( R \) is a ring, then the variables \( X_1, \dots, X_n \) form a set of indiscernibles of \( R[X_1, \dots, X_n] \).
+	\end{enumerate}
+\end{example}
+\begin{definition}
+	An \emph{Ehrenfeucht--Mostowski functor} is a mapping \( F \) that takes each linear order \( \eta \) to an \( \mathcal L \)-structure \( F(\eta) \), and each order embedding \( g : \eta \rightarrowtail \varepsilon \) to an embedding of \( \mathcal L \)-structures \( F(g) : F(\eta) \rightarrowtail F(\varepsilon) \), in such a way that
+	\begin{enumerate}
+		\item each \( \eta \) generates \( F(\eta) \), that is, \( \eta \subseteq F(\eta) \) as sets, and every element of \( F(\eta) \) is of the form \( t^{F(\eta)}(\vb a) \) where \( t(\vb x) \) is an \( \mathcal L \)-term and \( \vb a \in [\eta]^k \);
+		\item for each order embedding \( g : \eta \rightarrowtail \varepsilon \), the embedding of \( \mathcal L \)-structures \( F(g) \) extends \( g \);
+		\item for every linear order \( \eta \), we have \( F(1_\eta) = 1_{F(\eta)} \);
+		\item for each composable pair of embeddings \( f, g \), we have \( F(g\circ f) = F(g)F(f) \).
+	\end{enumerate}
+\end{definition}
+In particular, every automorphism of a linear order \( \eta \) induces an automorphism of \( F(\eta) \).
+\begin{proposition}[sliding property]
+	Let \( F \) be an Ehrenfeucht--Mostowski functor, let \( \eta, \varepsilon \) be linear orders, and let \( \vb a \in [\eta]^k, \vb b \in [\varepsilon]^k \).
+	Then for every quantifier-free formula \( \varphi(x_1, \dots, x_k) \), we have
+	\[ F(\eta) \vDash \varphi(\vb a) \iff F(\varepsilon) \vDash \varphi(\vb b) \]
+\end{proposition}
+\begin{proof}
+	Embed \( \eta \) and \( \varepsilon \) into some linear order \( \rho \) in which \( \vb a \) and \( \vb b \) are identified.
+	Let \( f : \eta \to \rho \) and \( g : \varepsilon \to \rho \) be the embeddings.
+	Suppose that \( F(\eta) \vDash \varphi(\vb a) \).
+	As embeddings preserve quantifier-free formulae and the map \( F(f) : F(\eta) \rightarrowtail F(\rho) \) extends \( f \), we must have that \( F(\rho) \vDash \varphi(f(\vb a)) \).
+	As \( f(\vb a) = g(\vb b) \), we must have \( F(\rho) \vDash \varphi(g(\vb b)) \), and so for the same reason, \( F(\varepsilon) \vDash \varphi(\vb b) \).
+\end{proof}
+We see that the chain \( \eta \subseteq F(\eta) \) is indiscernible by quantifier-free formulas.
+\begin{definition}
+	Let \( \mathcal M \) be an \( \mathcal L \)-structure containing a linear order \( \eta \subseteq \mathcal M \) as sets.
+	Then, we define the theory of \( \eta \) in \( \mathcal M \), denoted \( \operatorname{Th}(\mathcal M, \eta) \), to be the set of all \( \mathcal L \)-formulae \( \varphi(\vb x) \) that are satisfiable in \( \mathcal M \) by every ordered tuple \( \vb a = a_0 < \dots < a_{k-1} \) in \( \eta \).
+	The theory \( \operatorname{Th}(F) \) of an Ehrenfeucht--Mostowski functor \( F \) is the set of all \( \mathcal L \)-formulae \( \varphi(\vb x) \) such that \( F(\eta) \vDash \varphi(\vb a) \) for every linear order \( \eta \) and ordered tuple \( \vb a \) in \( \eta \).
+\end{definition}
+\begin{lemma}
+	Let \( \eta \) be an infinite linear order, let \( F \) be an Ehrenfeucht--Mostowski functor, and let \( \varphi \) be a universal sentence that is true in \( F(\eta) \).
+	Then \( \varphi \in \operatorname{Th}(F) \).
+\end{lemma}
+\begin{proof}
+	Let \( \varphi = \forall \vb x.\, \psi(\vb x) \) where \( \psi \) is quantifier-free.
+	Let \( \varepsilon \) be a linear order, and let \( \vb a \in F(\varepsilon) \); we need to show \( F(\varepsilon) \vDash \psi(\vb a) \).
+	As \( \varepsilon \) generates \( F(\varepsilon) \), there is a finite suborder \( \varepsilon_0 \) such that \( \vb a \in F(\varepsilon_0) \).
+	But \( \eta \) is infinite, so there is an embedding \( f : \varepsilon_0 \rightarrowtail \eta \).
+	By assumption, \( F(f)(\vb a) \) satisfies \( \psi \) in \( F(\eta) \), so \( F(\varepsilon_0) \vDash \psi(\vb a) \), as \( \psi \) is quantifier-free so is preserved under substructures.
+	Similarly, \( F(\varepsilon) \vdash \psi(\vb a) \), as required.
+\end{proof}

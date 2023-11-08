@@ -267,7 +267,7 @@ where in the last diagram, the upper composite is \( (hg)f \) and the lower comp
     which is equal to \( \mu_A \), as required.
 \end{proof}
 
-\subsection{Universal properties}
+\subsection{Comparison functors}
 \begin{definition}
     Let \( \mathbb T = (T, \eta, \mu) \) be a monad on \( \mathcal C \).
     Then \( \operatorname{Adj}(\mathbb T) \) is the category of adjunctions \( F \dashv G \) which induce \( \mathbb T \), where the morphisms \( F \dashv G \) to \( F' \dashv G' \) are the functors \( K : \mathcal D \to \mathcal D' \) satisfying \( KF = F \) and \( G' K = G \).
@@ -275,6 +275,7 @@ where in the last diagram, the upper composite is \( (hg)f \) and the lower comp
 \begin{theorem}
     The Kleisli adjunction \( F_{\mathbb T} \dashv G_{\mathbb T} \) is initial in \( \operatorname{Adj}(\mathbb T) \), and the Eilenberg--Moore adjunction \( F^{\mathbb T} \dashv G^{\mathbb T} \) is terminal in \( \operatorname{Adj}(\mathbb T) \).
 \end{theorem}
+% TODO: Define the comparison functors
 \begin{proof}
     We will first do the case of the Eilenberg--Moore adjunction.
     Let \( F \dashv G \) be an adjunction inducing \( \mathbb T \).
@@ -302,4 +303,111 @@ where in the last diagram, the upper composite is \( (hg)f \) and the lower comp
 \end{tikzcd}\]
     where the left edges are equal and the top edge is a split epimorphism, so the right edges are equal.
     Thus \( K \) is unique.
+
+    Given an adjunction \( F \dashv G \) inducing \( \mathbb T \), we define \( H : \mathcal C_{\mathbb T} \to \mathcal D \) by \( HA = FA \), and for \( f : A \rightdotarrow B \), define \( Hf \) to be the composite
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJGQSJdLFsxLDAsIkZHRkIiXSxbMiwwLCJGQiJdLFswLDEsIkZmIl0sWzEsMiwiXFxlcHNpbG9uX3tGQn0iXV0=
+\[\begin{tikzcd}
+	FA & FGFB & FB
+	\arrow["Ff", from=1-1, to=1-2]
+	\arrow["{\epsilon_{FB}}", from=1-2, to=1-3]
+\end{tikzcd}\]
+This is functorial.
+Indeed, for \( f : A \rightdotarrow B \) and \( g : B \rightdotarrow C \), \( H(gf) \) is the upper composite and \( (Hg)(Hf) \) is the lower composite in the following diagram.
+    % https://q.uiver.app/#q=WzAsNyxbMCwwLCJGQSJdLFsxLDAsIkZHRkIiXSxbMiwwLCJGR0ZHRkMiXSxbMywwLCJGR0ZDIl0sWzMsMSwiRkMiXSxbMiwxLCJGR0ZDIl0sWzEsMSwiRkIiXSxbMCwxLCJGZiJdLFsxLDIsIkZHRmciXSxbMiwzLCJGR1xcZXBzaWxvbl97RkN9Il0sWzMsNCwiXFxlcHNpbG9uX3tGQ30iXSxbMiw1LCJcXGVwc2lsb25fe0ZHRkN9Il0sWzUsNCwiXFxlcHNpbG9uX3tGQ30iLDJdLFsxLDYsIlxcZXBzaWxvbl97RkJ9Il0sWzYsNSwiRmciLDJdXQ==
+\[\begin{tikzcd}
+	FA & FGFB & FGFGFC & FGFC \\
+	& FB & FGFC & FC
+	\arrow["Ff", from=1-1, to=1-2]
+	\arrow["FGFg", from=1-2, to=1-3]
+	\arrow["{FG\epsilon_{FC}}", from=1-3, to=1-4]
+	\arrow["{\epsilon_{FC}}", from=1-4, to=2-4]
+	\arrow["{\epsilon_{FGFC}}", from=1-3, to=2-3]
+	\arrow["{\epsilon_{FC}}"', from=2-3, to=2-4]
+	\arrow["{\epsilon_{FB}}", from=1-2, to=2-2]
+	\arrow["Fg"', from=2-2, to=2-3]
+\end{tikzcd}\]
+    Then \( HF_{\mathbb T}(f) = \epsilon_{FB} (F\eta_B) (Ff) = Ff \).
+    Moreover, \( GHA = GFA = TA = G_{\mathbb T} A \), and for \( f : A \rightdotarrow B \), \( GFf \) is the composite
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJHRkEiXSxbMSwwLCJHRkdGQiJdLFsyLDAsIkdGQiJdLFswLDEsIkdGZiJdLFsxLDIsIlxcbXVfQiJdXQ==
+\[\begin{tikzcd}
+	GFA & GFGFB & GFB
+	\arrow["GFf", from=1-1, to=1-2]
+	\arrow["{\mu_B}", from=1-2, to=1-3]
+\end{tikzcd}\]
+    which is the definition of \( G_{\mathbb T}(f) \).
+    Thus \( H \) is a morphism of \( \operatorname{Adj}(\mathbb T) \).
+    If \( H' : \mathcal C_{\mathbb T} \to \mathcal D \) were another such morphism, then since \( H' F_{\mathbb T} = F \), we must have \( H' A = FA \) for all \( A \).
+    Note that for \( f : A \rightdotarrow B \), \( Hf \) is the transpose of \( f : A \to GFB \) across \( F \dashv G \).
+    Since \( H' \) commutes with \( G \) and \( G_{\mathbb T} \), and \( F \dashv G \) and \( F_{\mathbb T} \dashv G_{\mathbb T} \) have the same unit \( \eta \), \( H' \) must send the transpose \( f : A \rightdotarrow B \) of \( f : A \to GFB \) to its transpose across \( F \dashv G \), which is precisely the action of \( H \) on morphisms.
+    Hence \( H' = H \).
+\end{proof}
+\begin{remark}
+    Note that \( \mathcal C_{\mathbb T} \) has coproducts if \( \mathcal C \) does, since \( F_{\mathbb T} \) preserves them and is bijective on objects.
+    However, it has few other limits or colimits in general.
+    In contrast, \( \mathcal C^{\mathbb T} \) inherits many limits and colimits from \( \mathcal C \).
+\end{remark}
+\begin{proposition}
+    \begin{enumerate}
+        \item The forgetful functor \( G = G^{\mathbb T} : \mathcal C^{\mathbb T} \to \mathcal C \) creates any limits which exist in \( \mathcal C \).
+        \item If \( \mathcal C \) has colimits of shape \( J \), then \( G = G^{\mathbb T} \) creates colimits of shape \( J \) if and only if \( T \) preserves them.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \emph{Part (i).}
+    Let \( D : J \to \mathcal C^{\mathbb T} \) be a diagram of shape \( J \).
+    Write \( D(j) = (GD(j), \delta_j) \) for \( j \in \ob J \).
+    Let \( (L, (\lambda_j : L \to GD(j))_{j \in \ob J}) \) be a limit for \( GD \) in \( \mathcal C \).
+    Then \( (TL, (T\lambda_j)_{j \in \ob J}) \) is a cone over \( TGD \), so \( (TL, (\delta(T\lambda_j))_{j \in \ob J}) \) is a cone over \( TGD \), and induces a unique \( \theta : TL \to L \) making squares of the form
+    % TODO: is it really TGD above?
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJUTCJdLFsxLDAsIlRHRChqKSJdLFsxLDEsIkdEKGopIl0sWzAsMSwiTCJdLFswLDEsIlRcXGxhbWJkYV9qIl0sWzEsMiwiXFxkZWx0YV9qIl0sWzAsMywiXFx0aGV0YSIsMl0sWzMsMiwiXFxsYW1iZGFfaiIsMl1d
+\[\begin{tikzcd}
+	TL & {TGD(j)} \\
+	L & {GD(j)}
+	\arrow["{T\lambda_j}", from=1-1, to=1-2]
+	\arrow["{\delta_j}", from=1-2, to=2-2]
+	\arrow["\theta"', from=1-1, to=2-1]
+	\arrow["{\lambda_j}"', from=2-1, to=2-2]
+\end{tikzcd}\]
+    commute for each \( j \).
+    Note that \( \theta \) is an algebra structure on \( L \), since the required diagrams commute by uniqueness of factorisation through limits.
+    It is the unique algebra structure on \( L \) which make the \( \lambda_j \) into a cone in \( \mathcal C^{\mathbb T} \), and one can easily show it is a limit cone.
+
+    \emph{Part (ii).}
+    In the forward direction, if \( G \) creates colimits of shape \( J \), then it certainly preserves them, as they exist in both categories.
+    But \( F \) preserves all colimits, so \( T = GF \) preserves them.
+    Given \( D : J \to \mathcal C^{\mathbb T} \) and a colimit cone \( \lambda_j : GD(j) \to L \) under \( GD \), we know that \( T\lambda_j : TGD(j) \to TL \) is a colimit cone, so there is a unique \( \theta : TL \to L \) satisfying \( \theta(T\lambda_j) = \lambda_j \delta_j \) for all \( j \), and \( \theta \) is an algebra structure since \( TTL \) is also a colimit.
+    Hence \( (L, \theta) \) is a colimit for \( D \) in \( \mathcal C^{\mathbb T} \).
+\end{proof}
+\begin{remark}
+    One can show that \( \mathcal C^{\mathbb T} \) has colimits of any shape which exist in \( \mathcal C \), provided that it has \emph{reflexive coequalisers}.
+\end{remark}
+
+\subsection{Monadic adjunctions}
+It can be useful to know, for an arbitrary adjunction, if when the Eilenberg--Moore comparison functor \( K : \mathcal D \to \mathcal C^{\mathbb T} \) is part of an equivalence of categories.
+Note that the Kleisli comparison functor \( H \) is always full and faithful, so is part of an equivalence if and only if it is essentially surjective, and since its action on objects is \( F \), this holds if and only if \( F \) is essentially surjective.
+\begin{definition}
+    An adjunction \( F \dashv G \) is \emph{monadic}, or the right adjoint \( G \) is \emph{monadic}, if \( K \) is part of an equivalence.
+\end{definition}
+\begin{lemma}
+    Let \( F \dashv G \) be an adjunction inducing the monad \( \mathbb T \), and suppose that for every \( \mathbb T \)-algebra \( (A, \alpha) \), the pair
+    % https://q.uiver.app/#q=WzAsMixbMCwwLCJGR0ZBIl0sWzEsMCwiRkEiXSxbMCwxLCJGXFxhbHBoYSIsMCx7Im9mZnNldCI6LTJ9XSxbMCwxLCJcXGVwc2lsb25fe0ZBfSIsMix7Im9mZnNldCI6Mn1dXQ==
+\[\begin{tikzcd}
+	FGFA & FA
+	\arrow["F\alpha", shift left=2, from=1-1, to=1-2]
+	\arrow["{\epsilon_{FA}}"', shift right=2, from=1-1, to=1-2]
+\end{tikzcd}\]
+    has a coequaliser in \( \mathcal D \).
+    Then the comparison functor \( K : \mathcal D \to \mathcal C^{\mathbb T} \) has a left adjoint \( L \).
+\end{lemma}
+\begin{proof}
+    Let \( \lambda_{(A, \alpha)} : FA \to L(A, \alpha) \) be a coequaliser for \( F\alpha, \epsilon_{FA} \).
+    We can make \( L \) into a functor \( \mathcal C^{\mathbb T} \to \mathcal D \).
+    Given \( f : (A, \alpha) \to (B, \beta) \), the composite \( \lambda_{(B, \beta)} (Ff) \) coequalises \( F\alpha \) and \( \epsilon_{FA} \), so it induces a unique map \( Lf : LA \to LB \).
+    This makes \( L \) into a functor by uniqueness.
+
+    For any object \( B \) of \( \mathcal D \), morphisms \( L(A, \alpha) \to B \) correspond to morphisms \( f : FA \to B \) satisfying \( f(F\alpha) = f \epsilon_{FA} \).
+    If \( \vb f : A \to GB \) is the transpose of \( f \) across \( F \dashv G \), then by naturality, the transpose of \( f(F\alpha) \) is \( \overline f \alpha \), and the transpose of \( f \epsilon_{FA} \) is \( Gf \) since \( \epsilon_{FA} \) transposes to \( 1_{GFA} \).
+    But we have \( f = \epsilon_B (F\overline f) \), so \( GF = (G \epsilon_B)(GF \overline f) = (G\epsilon_B)(T\overline f) \).
+    Thus \( f(F\alpha) = f(\epsilon_{FA}) \) if and only if \( \overline f \alpha = (G\epsilon_B)(T \overline f) \), which is to say that \( \overline f \) is an algebra homomorphism \( (A, \alpha) \to (GB, G\epsilon_B) = KB \).
+    Naturality of this bijection follows from the fact that the map \( f \mapsto \overline f \) is natural, so \( L \dashv K \) as required.
 \end{proof}
