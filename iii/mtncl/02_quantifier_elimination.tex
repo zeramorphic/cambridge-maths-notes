@@ -355,36 +355,43 @@ This is analogous to the theorem that every field has an algebraic closure, and 
         \item The theory \( \mathcal T \) is model-complete.
         \item Every model of \( \mathcal T \) is an existentially closed model of \( \mathcal T \).
         \item Given an embedding \( e : \mathcal A \rightarrowtail \mathcal B \) between models of \( \mathcal T \), there is an elementary extension \( \mathcal D \) of \( \mathcal A \) and an embedding \( g : \mathcal B \rightarrowtail D \) such that \( g \circ e = \id_{\mathcal A} \).
-        \item If an \( \mathcal L \)-formula \( \varphi(\vb x, \vb y) \) is a conjunction of literals, then \( \exists \vb y.\, \varphi(\vb x, \vb y) \) is equivalent to some universal \( \mathcal L \)-formula \( \psi(\vb x) \) modulo \( \mathcal T \).
+        \item For any quantifier-free \( \mathcal L \)-formula \( \varphi(\vb x, \vb y) \), the formula \( \exists \vb y.\, \varphi(\vb x, \vb y) \) is equivalent to some universal \( \mathcal L \)-formula \( \psi(\vb x) \) modulo \( \mathcal T \).
         \item Every \( \mathcal L \)-formula is equivalent to some universal \( \mathcal L \)-formula modulo \( \mathcal T \).
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-    \iffalse
     \emph{(i) implies (ii).}
-    Let \( \mathcal M \subseteq \mathcal N \) be models of \( \mathcal T \), and let \( \psi(\vb x) \) be an existential formula with \( \vb m \in \mathcal M \) such that \( \mathcal N \vDash \psi(\vb m) \).
-    Then by model-completeness, \( \mathcal M \vDash \psi(\vb m) \).
+    As all embeddings between models are elementary, if a superstructure has a witness to an existential, so does the substructure.
 
-    \emph{(i) implies (iii).}
-    If \( e : \mathcal A \rightarrowtail \mathcal B \) is an embedding of models of \( \mathcal T \), the embedding is elementary by model-completeness.
-    Thus we can set \( \mathcal D = \mathcal B \) and \( g = \id \), after making \( \mathcal A \subseteq \mathcal B \) so \( e = \id \) without loss of generality.
-
-    % \emph{(ii) implies (iv).}
-    % If \( \varphi(\vb x, \vb y) \) is a conjunction of literals, then \( \exists \vb y.\, \varphi(\vb x, \vb y) \) is an existential formula.
+    \emph{(ii) implies (iii).}
+    We use the existential amalgamation theorem.
+    Take \( S \) to be the set of all elements of \( \mathcal A \), then by (ii), \( (\mathcal B, e(S)) \Rightarrow_1 (\mathcal A, S) \).
+    We obtain
+    % https://q.uiver.app/#q=WzAsNCxbMSwyLCJcXG1hdGhjYWwgQSJdLFswLDEsIlxcbWF0aGNhbCBBIl0sWzEsMCwiXFxtYXRoY2FsIEQiXSxbMiwxLCJcXG1hdGhjYWwgQiJdLFswLDEsIjFfQSJdLFsxLDIsIlxccHJlY2VxIl0sWzAsMywiZSIsMix7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1vbm8ifX19XSxbMywyLCJnIiwyLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibW9ubyJ9fX1dXQ==
+\[\begin{tikzcd}
+	& {\mathcal D} \\
+	{\mathcal A} && {\mathcal B} \\
+	& {\mathcal A}
+	\arrow["{1_A}", from=3-2, to=2-1]
+	\arrow["\preceq", from=2-1, to=1-2]
+	\arrow["e"', tail, from=3-2, to=2-3]
+	\arrow["g"', tail, from=2-3, to=1-2]
+\end{tikzcd}\]
+    as required.
 
     \emph{(iii) implies (iv).}
+    It suffices to show that any universal formula \( \varphi(\vb x) \) is preserved under embeddings.
+    If so, then \( \varphi(\vb x) \) is equivalent to an existential \( \mathcal L \)-formula, so in particular, any existential formula is equivalent to a universal formula.
+    Let \( e : \mathcal A \rightarrowtail \mathcal B \) be an embedding.
+    Then by (iii) we have an elementary extension \( \mathcal A \preceq \mathcal D \), so if \( \mathcal A \vDash \varphi(\vb a) \), then \( \mathcal D \vDash \varphi(\vb a) \), and as \( \mathcal B \) is a substructure of \( \mathcal D \), we have \( \mathcal B \vDash \varphi(e(\vb a)) \).
+    The reverse implication follows from the fact that \( \varphi \) is universal.
 
-    \emph{(iv) and (v) are equivalent.}
-    Clearly (v) implies (iv).
-    The reverse direction follows from a simple induction on formulae, noting that every quantifier-free formula can be put into disjunctive normal form, and that a disjunction of existentials is the same as an existential containing a disjunction.
-
+    \emph{(iv) implies (v).}
+    We proceed by induction on the structure of \( \mathcal L \)-formulae.
+    We can iteratively convert existential quantifiers to universal quantifiers, noting that (iv) allows us to convert a sequence of existentials to a sequence of universals simultaneously.
+    
     \emph{(v) implies (i).}
-    We use the Tarski--Vaught test.
-    Let \( \mathcal M \subseteq \mathcal N \) be models of \( \mathcal T \).
-    Let \( \varphi(\vb x, y) \) be an \( \mathcal L \)-formula and \( \vb m \in \mathcal M \), and suppose \( n \in \mathcal N \) witnesses the truth of \( \mathcal N \vDash \exists y.\, \varphi(\vb m, y) \).
-    Then as \( \exists y.\, \varphi(\vb x, y) \) is equivalent to a universal \( \mathcal L \)-formula with the same free variables modulo \( \mathcal T \), it is preserved under substructures, so \( \mathcal M \vDash \exists y.\, \varphi(\vb m, y) \).
-    Thus there is a witness \( m' \in \mathcal M \) for \( \exists y.\, \varphi(\vb m, y) \), as required.
-    \fi
+    We use induction on the structure of \( \mathcal L \)-formulae, noting that universal formulae are preserved under extensions, and that every formula and its negation can be represented as a universal formula.
 \end{proof}
 Let \( \mathcal M, \mathcal N \) be \( \mathcal L \)-structures.
 If \( \mathcal M, \mathcal N \) satisfy the same quantifier-free sentences, we write \( \mathcal M \equiv_0 \mathcal N \).
