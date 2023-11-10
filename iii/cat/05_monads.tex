@@ -411,3 +411,182 @@ Note that the Kleisli comparison functor \( H \) is always full and faithful, so
     Thus \( f(F\alpha) = f(\epsilon_{FA}) \) if and only if \( \overline f \alpha = (G\epsilon_B)(T \overline f) \), which is to say that \( \overline f \) is an algebra homomorphism \( (A, \alpha) \to (GB, G\epsilon_B) = KB \).
     Naturality of this bijection follows from the fact that the map \( f \mapsto \overline f \) is natural, so \( L \dashv K \) as required.
 \end{proof}
+\begin{definition}
+    A parallel pair \( f, g : A \rightrightarrows B \) is \emph{reflexive} if there exists \( r : B \to A \) such that \( fr = gr = 1_B \).
+\end{definition}
+Note that the parallel pair 
+\[\begin{tikzcd}
+	FGFA & FA
+	\arrow["F\alpha", shift left=2, from=1-1, to=1-2]
+	\arrow["{\epsilon_{FA}}"', shift right=2, from=1-1, to=1-2]
+\end{tikzcd}\]
+is a reflexive pair, and the common right inverse is \( r = F \eta_A \).
+\begin{definition}
+    A \emph{split coequaliser diagram} is a diagram
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzEsMCwiQiJdLFsyLDAsIkMiXSxbMCwxLCJmIiwwLHsib2Zmc2V0IjotNH1dLFsxLDIsImgiLDAseyJvZmZzZXQiOi0yfV0sWzAsMSwiZyIsMV0sWzEsMCwidCIsMCx7Im9mZnNldCI6LTR9XSxbMiwxLCJzIiwwLHsib2Zmc2V0IjotMn1dXQ==
+\[\begin{tikzcd}
+	A & B & C
+	\arrow["f", shift left=4, from=1-1, to=1-2]
+	\arrow["h", shift left=2, from=1-2, to=1-3]
+	\arrow["g"{description}, from=1-1, to=1-2]
+	\arrow["t", shift left=4, from=1-2, to=1-1]
+	\arrow["s", shift left=2, from=1-3, to=1-2]
+\end{tikzcd}\]
+    such that \( hf = hg, hs = 1_C, gt = 1_B, ft = sh \).
+\end{definition}
+Note that this implies that \( h \) is a coequaliser of \( f \) and \( g \).
+Indeed, if \( k : B \to D \) satisfies \( kf = kg \), then \( k = kgt = kft = ksh \), so \( k \) factors through \( h \).
+Moreover, this factorisation is unique as \( h \) is split epic.
+Any functor preserves split coequaliser diagrams.
+\begin{definition}
+    Given a functor \( G : \mathcal D \to \mathcal C \), we say that a parallel pair \( f, g : A \rightrightarrows B \) in \( \mathcal D \) is \emph{\( G \)-split} if there is a split coequaliser diagram
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJHQSJdLFsxLDAsIkdCIl0sWzIsMCwiQyJdLFswLDEsIkdmIiwwLHsib2Zmc2V0IjotNH1dLFsxLDIsImgiLDAseyJvZmZzZXQiOi0yfV0sWzAsMSwiR2ciLDFdLFsxLDAsInQiLDAseyJvZmZzZXQiOi00fV0sWzIsMSwicyIsMCx7Im9mZnNldCI6LTJ9XV0=
+\[\begin{tikzcd}[column sep=large]
+	GA & GB & C
+	\arrow["Gf", shift left=4, from=1-1, to=1-2]
+	\arrow["h", shift left=2, from=1-2, to=1-3]
+	\arrow["Gg"{description}, from=1-1, to=1-2]
+	\arrow["t", shift left=4, from=1-2, to=1-1]
+	\arrow["s", shift left=2, from=1-3, to=1-2]
+\end{tikzcd}\]
+    in \( \mathcal C \).
+\end{definition}
+Note that the pair
+\[\begin{tikzcd}
+	FGFA & FA
+	\arrow["F\alpha", shift left=2, from=1-1, to=1-2]
+	\arrow["{\epsilon_{FA}}"', shift right=2, from=1-1, to=1-2]
+\end{tikzcd}\]
+is \( G \)-split, as
+% https://q.uiver.app/#q=WzAsMyxbMCwwLCJHRkdGQSJdLFsxLDAsIkdGQSJdLFsyLDAsIkMiXSxbMCwxLCJHRlxcYWxwaGEiLDAseyJvZmZzZXQiOi00fV0sWzEsMiwiXFxhbHBoYSIsMCx7Im9mZnNldCI6LTJ9XSxbMCwxLCJHXFxlcHNpbG9uX3tGQX09XFxtdV9BIiwxXSxbMSwwLCJcXGV0YV97R0ZBfSIsMCx7Im9mZnNldCI6LTR9XSxbMiwxLCJcXGV0YV9BIiwwLHsib2Zmc2V0IjotMn1dXQ==
+\[\begin{tikzcd}[column sep=huge]
+	GFGFA & GFA & C
+	\arrow["GF\alpha", shift left=4, from=1-1, to=1-2]
+	\arrow["\alpha", shift left=2, from=1-2, to=1-3]
+	\arrow["{G\epsilon_{FA}=\mu_A}"{description}, from=1-1, to=1-2]
+	\arrow["{\eta_{GFA}}", shift left=4, from=1-2, to=1-1]
+	\arrow["{\eta_A}", shift left=2, from=1-3, to=1-2]
+\end{tikzcd}\]
+is a split coequaliser diagram.
+\begin{theorem}[Beck's precise monadicity theorem]
+    A functor \( G : \mathcal D \to \mathcal C \) is monadic if and only if \( G \) has a left adjoint and creates coequalisers of \( G \)-split pairs.
+\end{theorem}
+\begin{theorem}[Beck's crude monadicity theorem]
+    Suppose \( G : \mathcal D \to \mathcal C \) has a left adjoint, and \( G \) reflects isomorphisms.
+    Suppose further that \( \mathcal D \) has and \( G \) preserves reflexive coequalisers.
+    Then \( G \) is monadic.
+\end{theorem}
+We prove both theorems together.
+\begin{proof}
+    First, suppose \( G : \mathcal D \to \mathcal C \) is monadic.
+    Then \( G \) has a left adjoint by definition.
+    It suffices to show that \( G^{\mathbb T} : \mathcal C^{\mathbb T} \to \mathcal C \) creates coequalisers of \( G^{\mathbb T} \)-split pairs.
+    This follows from the argument of a previous lemma: if \( f, g : (A, \alpha) \rightrightarrows (B, \beta) \) are algebra homomorphisms, and
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzEsMCwiQiJdLFsyLDAsIkMiXSxbMCwxLCJmIiwwLHsib2Zmc2V0IjotNH1dLFsxLDIsImgiLDAseyJvZmZzZXQiOi0yfV0sWzAsMSwiZyIsMV0sWzEsMCwidCIsMCx7Im9mZnNldCI6LTR9XSxbMiwxLCJzIiwwLHsib2Zmc2V0IjotMn1dXQ==
+\[\begin{tikzcd}
+	A & B & C
+	\arrow["f", shift left=4, from=1-1, to=1-2]
+	\arrow["h", shift left=2, from=1-2, to=1-3]
+	\arrow["g"{description}, from=1-1, to=1-2]
+	\arrow["t", shift left=4, from=1-2, to=1-1]
+	\arrow["s", shift left=2, from=1-3, to=1-2]
+\end{tikzcd}\]
+    is a split coequaliser, then since the coequaliser is preserved by \( T \) and \( T^2 \), \( C \) acquires a unique algebra structure \( \gamma : TC \to C \) such that \( h \) is a coequaliser in \( \mathcal C^{\mathbb T} \).
+    % ^ = lemma 5.8(ii)
+
+    For the converse, either set of assumptions ensures that \( \mathcal D \) has coequalisers of parallel pairs of the form
+    \[\begin{tikzcd}
+        FGFA & FA
+        \arrow["F\alpha", shift left=2, from=1-1, to=1-2]
+        \arrow["{\epsilon_{FA}}"', shift right=2, from=1-1, to=1-2]
+    \end{tikzcd}\]
+    so the comparison functor \( K : \mathcal D \to \mathcal C^{\mathbb T} \) has a left adjoint \( L \).
+    We must now show that the unit and counit of \( L \dashv K \) are isomorphisms.
+    The unit \( (A, \alpha) \to KL(A, \alpha) \) is the unique factorisation of \( G\lambda_{(A, \alpha)} : GFA \to GL(A, \alpha) \) through the (\( G^{\mathbb T} \)-split) coequaliser \( \alpha : GFA \to A \) of \( GF\alpha, G\epsilon_{FA} : GFGFA \rightrightarrows GFA \) in \( \mathcal C^{\mathbb T} \).
+    But either set of hypotheses implies that \( G \) preserves the coequaliser of \( F\alpha, \epsilon_{FA} \), so the factorisation is an isomorphism.
+    The counit \( LKB \to B \) is the unique factorisation of \( \epsilon_B : FGB \to B \) through \( \lambda_{KB} : FGB \to LKB \).
+    The hypothesis in the precise theorem implies directly that \( \epsilon_B \) is a coequaliser of \( FG\epsilon_B, \epsilon_{GFB} \), because the pair is \( G \)-split.
+    From the hypotheses of the crude theorem, we can see that both \( \epsilon_B \) and \( \lambda_{KB} \) map to coequalisers in \( \mathcal C \), so the counit maps to an isomorphism in \( \mathcal C \), so it is an isomorphism as \( G \) reflects isomorphisms.
+\end{proof}
+\begin{remark}
+    \begin{enumerate}
+        \item Let \( J \) be the finite category
+        % https://q.uiver.app/#q=WzAsMixbMCwwLCJBIl0sWzEsMCwiQiJdLFswLDEsImYiLDAseyJvZmZzZXQiOi00fV0sWzAsMSwiZyIsMix7Im9mZnNldCI6NH1dLFsxLDAsInIiLDFdXQ==
+\[\begin{tikzcd}
+	A & B
+	\arrow["f", shift left=4, from=1-1, to=1-2]
+	\arrow["g"', shift right=4, from=1-1, to=1-2]
+	\arrow["r"{description}, from=1-2, to=1-1]
+\end{tikzcd}\]
+        % TODO: Loops s, t on A
+        with \( rf = rg = 1_B, fr = s, gr = t \), then a diagram \( D \) of this shape is a reflexive pair.
+        A cone under it is determined by \( h : DB \to L \), which must satisfy \( h(Df) = h(Dg) \).
+        A colimit for this diagram is a coequaliser for \( f, g \).
+        \item All small (respectively finite) colimits can be constructed from small (respectively finite) coproducts and reflexive coequalisers.
+        The pair \( f, g : P \rightrightarrows Q \) in the proof form a coreflexive pair, with common left inverse \( r : Q \to P \) given by \( \pi_j r = \pi_{1_j} \) for all \( j \).
+        \item Given a reflexive pair \( f, g : A \rightrightarrows B \), a morphism \( h : B \to C \) is a coequaliser for it if and only if the diagram
+        % https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiQiJdLFsxLDEsIkMiXSxbMCwxLCJCIl0sWzAsMSwiZiJdLFsxLDIsImgiXSxbMCwzLCJnIiwyXSxbMywyLCJoIiwyXV0=
+        \[\begin{tikzcd}
+            A & B \\
+            B & C
+            \arrow["f", from=1-1, to=1-2]
+            \arrow["h", from=1-2, to=2-2]
+            \arrow["g"', from=1-1, to=2-1]
+            \arrow["h"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        is a pushout, since any cone under the span given by \( f \) and \( g \) has its two legs equal.
+        The dual of this statement has already been proven.
+        \item In any cartesian closed category, reflexive coequalisers commute with finite products: if the following are reflexive coequaliser diagrams,
+        % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBXzEiXSxbMSwwLCJCXzEiXSxbMiwwLCJDXzEiXSxbMCwxLCJmXzEiLDAseyJvZmZzZXQiOi0yfV0sWzEsMiwiaF8xIl0sWzAsMSwiZ18xIiwyLHsib2Zmc2V0IjoyfV1d
+\[\begin{tikzcd}
+	{A_1} & {B_1} & {C_1}
+	\arrow["{f_1}", shift left=2, from=1-1, to=1-2]
+	\arrow["{h_1}", from=1-2, to=1-3]
+	\arrow["{g_1}"', shift right=2, from=1-1, to=1-2]
+\end{tikzcd}\quad\quad\begin{tikzcd}
+	{A_2} & {B_2} & {C_2}
+	\arrow["{f_2}", shift left=2, from=1-1, to=1-2]
+	\arrow["{h_2}", from=1-2, to=1-3]
+	\arrow["{g_2}"', shift right=2, from=1-1, to=1-2]
+\end{tikzcd}\]
+        then the following diagram is also a coequaliser.
+        % https://q.uiver.app/#q=WzAsMyxbMSwwLCJCXzEgXFx0aW1lcyBCXzIiXSxbMiwwLCJDXzEgXFx0aW1lcyBDXzIiXSxbMCwwLCJBXzEgXFx0aW1lcyBBXzIiXSxbMCwxLCJoXzEgXFx0aW1lcyBoXzIiXSxbMiwwLCJmXzEgXFx0aW1lcyBmXzIiLDAseyJvZmZzZXQiOi0yfV0sWzIsMCwiZ18xIFxcdGltZXMgZ18yIiwyLHsib2Zmc2V0IjoyfV1d
+\[\begin{tikzcd}[column sep=large]
+	{A_1 \times A_2} & {B_1 \times B_2} & {C_1 \times C_2}
+	\arrow["{h_1 \times h_2}", from=1-2, to=1-3]
+	\arrow["{f_1 \times f_2}", shift left=2, from=1-1, to=1-2]
+	\arrow["{g_1 \times g_2}"', shift right=2, from=1-1, to=1-2]
+\end{tikzcd}\]
+        Indeed, consider the diagram
+        % https://q.uiver.app/#q=WzAsOSxbMSwwLCJCXzEgXFx0aW1lcyBBXzIiXSxbMiwwLCJDXzEgXFx0aW1lcyBBXzIiXSxbMCwwLCJBXzEgXFx0aW1lcyBBXzIiXSxbMCwxLCJBXzEgXFx0aW1lcyBCXzIiXSxbMSwxLCJCXzEgXFx0aW1lcyBCXzIiXSxbMiwxLCJDXzEgXFx0aW1lcyBCXzIiXSxbMCwyLCJBXzEgXFx0aW1lcyBDXzIiXSxbMSwyLCJCXzEgXFx0aW1lcyBDXzIiXSxbMiwyLCJDXzEgXFx0aW1lcyBDXzIiXSxbMCwxXSxbMiwwLCIiLDAseyJvZmZzZXQiOi0yfV0sWzIsMCwiIiwyLHsib2Zmc2V0IjoyfV0sWzIsMywiIiwwLHsib2Zmc2V0IjotMn1dLFsyLDMsIiIsMCx7Im9mZnNldCI6Mn1dLFszLDQsIiIsMCx7Im9mZnNldCI6LTJ9XSxbMyw0LCIiLDAseyJvZmZzZXQiOjJ9XSxbNCw1XSxbMyw2XSxbNiw3LCIiLDAseyJvZmZzZXQiOi0yfV0sWzcsOF0sWzUsOF0sWzEsNSwiIiwwLHsib2Zmc2V0IjotMn1dLFswLDQsIiIsMCx7Im9mZnNldCI6LTJ9XSxbNCw3XSxbMCw0LCIiLDAseyJvZmZzZXQiOjJ9XSxbMSw1LCIiLDAseyJvZmZzZXQiOjJ9XSxbNiw3LCIiLDAseyJvZmZzZXQiOjJ9XV0=
+\[\begin{tikzcd}
+	{A_1 \times A_2} & {B_1 \times A_2} & {C_1 \times A_2} \\
+	{A_1 \times B_2} & {B_1 \times B_2} & {C_1 \times B_2} \\
+	{A_1 \times C_2} & {B_1 \times C_2} & {C_1 \times C_2}
+	\arrow[from=1-2, to=1-3]
+	\arrow[shift left=2, from=1-1, to=1-2]
+	\arrow[shift right=2, from=1-1, to=1-2]
+	\arrow[shift left=2, from=1-1, to=2-1]
+	\arrow[shift right=2, from=1-1, to=2-1]
+	\arrow[shift left=2, from=2-1, to=2-2]
+	\arrow[shift right=2, from=2-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-1, to=3-1]
+	\arrow[shift left=2, from=3-1, to=3-2]
+	\arrow[from=3-2, to=3-3]
+	\arrow[from=2-3, to=3-3]
+	\arrow[shift left=2, from=1-3, to=2-3]
+	\arrow[shift left=2, from=1-2, to=2-2]
+	\arrow[from=2-2, to=3-2]
+	\arrow[shift right=2, from=1-2, to=2-2]
+	\arrow[shift right=2, from=1-3, to=2-3]
+	\arrow[shift right=2, from=3-1, to=3-2]
+\end{tikzcd}\]
+        All rows and columns are coequalisers, since functors of the form \( (-) \times D \) preserve coequalisers.
+        It then follows that the lower right square is a pushout.
+        By reflexivity, if \( k : B_1 \times B_2 \to D \) coequalises
+        \[ f_1 \times f_2, g_1 \times g_2 : A_1 \times A_2 \rightrightarrows B_1 \times B_2 \]
+        then it also coequalises \( B_1 \times A_2 \rightrightarrows B_1 \times B_2 \) and \( A_1 \times B_2 \rightrightarrows B_1 \times B_2 \), as they both factor through the diagonal pair.
+        Therefore, it factors through the top and left edges of the lower right square, and hence through its diagonal.
+    \end{enumerate}
+\end{remark}

@@ -411,8 +411,65 @@ Thus every morphism of affine schemes is separated.
 \end{tikzcd}\]
         Consider \( Z \subseteq \mathbb A^2_k = \Spec k[x,y] \) given by the vanishing locus of \( xy - 1 \).
         Then the projection of \( Z \) onto each axis is not Zariski closed.
+        \item The bug-eyed line is neither separated nor universally closed.
     \end{enumerate}
 \end{example}
 \begin{remark}
-	If \( X \to S \) is proper, then any base extension \( X \times_S S' \to S' \) is also proper.
+	If \( X \to S \) is universally closed, then any base extension \( X \times_S S' \to S' \) is also universally closed.
+    Similarly, separatedness, properness and being of finite type are stable under base extension.
+\end{remark}
+\begin{proposition}
+    Let \( R \) be a commutative ring.
+    Then the morphism \( \mathbb P^n_R \to \Spec R \) is proper.
+\end{proposition}
+\begin{proof}
+    We have already shown that \( \mathbb P^n_R \to \Spec R \) is separated.
+    It is of finite type by construction.
+    It suffices to prove that the morphism is universally closed for \( R = \mathbb Z \), because \( \mathbb P^n_R = \mathbb P^n_{\mathbb Z} \times_{\Spec \mathbb Z} \Spec R \).
+    We must show that for any \( Y \to \Spec \mathbb Z \), the base extension \( \mathbb P^n_{\mathbb Z} \times_{\Spec \mathbb Z} Y \to Y \) is closed.
+    But \( Y \) is covered by affine schemes of the form \( \Spec R \), and closedness is local on the codomain, it suffices to show that \( \mathbb P^n_R \to \Spec R \) is closed.
+
+    Let \( Z \subseteq \mathbb P^n_R \) be Zariski closed, so \( Z \) is the vanishing locus of homogeneous polynomials \( \qty{g_1, g_2, \dots} \).
+    We want to show that if \( \pi \) is the map \( \mathbb P^n_R \to \Spec R \), then \( \pi(Z) \) is closed.
+    We need to find equations for \( \pi(Z) \), or equivalently, we need to characterise the prime ideals \( \mathfrak p \) of \( R \) such that \( \pi^{-1}(\mathfrak p) \cap Z \) is nonempty.
+    Let \( k(\mathfrak p) = FF\qty(\faktor{R}{\mathfrak p}) \).
+    We have a morphism \( \Spec k(\mathfrak p) \to \Spec R \).
+    Let \( Z_{\mathfrak p} = Z \times_{\Spec R} \Spec k(\mathfrak p) \); we want to know for which \( \mathfrak p \) this scheme is nonempty.
+    If we take the equations \( g_1, g_2, \dots \) and reduce modulo \( \mathfrak p \), we obtain equations \( \overline g_1, \overline g_2, \dots \) which are homogeneous polynomials in \( k(\mathfrak p) \).
+    Thus \( Z_{\mathfrak p} \) is nonempty if and only if \( \overline g_1, \overline g_2, \dots \) cut out more than the origin in \( \mathbb A^{n+1}_{k(\mathfrak p)} \).
+    In particular, \( Z_{\mathfrak p} \) is nonempty if and only if
+    \[ \sqrt{(\overline g_1, \overline g_2, \dots)} \nsupseteq (x_0, \dots, x_n);\quad \mathbb P^n_R = \Proj R[x_0, \dots, x_n] \]
+    Equivalently, for all positive integers \( d \),
+    \[ (x_0, \dots, x_n)^d \nsubseteq (\overline g_1, \overline g_2, \dots) \]
+    Write \( A = R[\vb x] \) with the usual grading.
+    The non-containment condition above holds if and only if the map
+    \[ \bigoplus_i A_{d - \deg g_i} \to A_d \]
+    given by \( f_i \mapsto f_i g_i \) in the \( i \)th factor is not surjective modulo \( \mathfrak p \), or equivalently in \( k(\mathfrak p) \), for all degrees \( d \).
+    This condition is given by the maximal minors of the matrix associated to \( \bigoplus_i A_{d - \deg g_i} \to A_d \), which is a set of infinitely many polynomials, each in the coefficients of the \( g_i \).
+\end{proof}
+
+\subsection{Valuative criteria}
+From here, we will assume that all schemes are Noetherian; that is, it has a finite cover by spectra of Noetherian rings.
+\begin{definition}
+    A \emph{discrete valuation ring} is a local principal ideal domain.
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item \( \mathbb C[\![t]\!] \) is a discrete valuation ring.
+        \item \( \mathcal O_{\mathbb A^1, 0} = \qty{\frac{f(t)}{g(t)} \midd g(0) \neq 0} \) is a discrete valuation ring.
+        \item Similarly, \( \mathbb Z_{(p)}, \mathbb Z_p \) are discrete valuation rings, where \( \mathbb Z_{(p)} \) denotes the localisation of \( \mathbb Z \) at the prime ideal \( (p) \), and \( \mathbb Z_p \) denotes the \( p \)-adic integers.
+    \end{enumerate}
+\end{example}
+We will often drop the word `discrete'.
+\begin{remark}
+    Let \( A \) be a valuation ring.
+    In discrete valuation rings, every nonzero prime ideal is maximal, so \( \Spec A \) consists of two points, \( (0) \) and the unique maximal ideal \( \mathfrak m \).
+    The topology on \( \Spec A = \qty{(0), \mathfrak m} \) has the property that \( (0) \) is dense and \( \mathfrak m \) is closed.
+    This is called the \emph{Sierpi\'nski topology}.
+
+    Any generator \( \pi \) for \( \mathfrak m \) is called a \emph{uniformiser} or a \emph{uniformising parameter}.
+    For example, in \( \mathbb C[\![t]\!] \), every power series with nonzero constant term is a unit, and \( t \) is a uniformiser.
+
+    Given a uniformiser, any nonzero element \( a \in A \) can be written as \( u \pi^k \) where \( u \) is a unit and \( k \) is a unique natural number called the \emph{valuation} of \( a \).
+    This gives a map \( A \setminus \qty{0} \to \mathbb N \) mapping a value \( a \) to its valuation; this is independent of the choice of uniformiser.
 \end{remark}

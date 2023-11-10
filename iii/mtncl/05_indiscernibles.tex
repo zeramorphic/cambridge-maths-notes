@@ -56,3 +56,61 @@ We see that the chain \( \eta \subseteq F(\eta) \) is indiscernible by quantifie
 	By assumption, \( F(f)(\vb a) \) satisfies \( \psi \) in \( F(\eta) \), so \( F(\varepsilon_0) \vDash \psi(\vb a) \), as \( \psi \) is quantifier-free so is preserved under substructures.
 	Similarly, \( F(\varepsilon) \vdash \psi(\vb a) \), as required.
 \end{proof}
+\begin{lemma}[stretching property]
+	Let \( \mathcal M \) be an \( \mathcal L \)-structure that contains the linear order \( \omega \) as a generating set.
+	Suppose that \( \omega \) is indiscernible by quantifier-free formulae.
+	Then there is an Ehrenfeucht--Mostowski functor \( F \) such that \( \mathcal M = F(\omega) \).
+	Moreover, if \( G \) is another such functor, then there is an isomorphism \( \alpha : F(\eta) \to G(\eta) \) for each linear order \( \eta \), and \( \eval{\alpha}_\eta = 1_\eta \).
+\end{lemma}
+\( F \) is unique up to natural isomorphism.
+% TODO: Proof on ES3.
+\begin{definition}
+	Let \( F \) be an Ehrenfeucht--Mostowski functor, and let \( \mathcal T \) be a theory.
+	The models of \( \mathcal T \) that are of the form \( F(\eta) \) are called \emph{Ehrenfeucht--Mostowski models} of \( \mathcal T \).
+\end{definition}
+\begin{theorem}[Ramsey]
+	Let \( X \) be a countable linear order, and let \( k, n \) be positive integers.
+	Then for every function \( f : [X]^k \to n \), there is an infinite subset \( Y \subseteq X \) such that \( f \) is constant on \( [Y]^k \).
+\end{theorem}
+We will use Ramsey's theorem to show that Ehrenfeucht--Mostowski models for Skolem theories with infinite models always exist.
+\begin{lemma}
+	Let \( F \) be an Ehrenfeucht--Mostowski functor such that \( \operatorname{Th}(F(\omega)) \) is Skolem.
+	Then \( \operatorname{Th}(F) \) includes either \( \varphi(\vb x) \) or \( \neg\varphi(\vb x) \) for every \( \mathcal L \)-formula \( \varphi(\vb x) \).
+	In particular, all of the \( F(\eta) \) are elementarily equivalent, and each linear order \( \eta \) is indiscernible in \( F(\omega) \).
+\end{lemma}
+\begin{proof}
+	Since \( \operatorname{Th}(F(\omega)) \) is Skolem, it admits a universal axiomatisation.
+	Moreover, every formula is equivalent to a quantifier-free formula modulo \( \operatorname{Th}(F(\omega)) \).
+	The result then follows from the sliding property and the lemma on universal sentences.
+\end{proof}
+\begin{theorem}[Ehrenfeucht--Mostowski theorem]
+	Let \( \mathcal M \) be an \( \mathcal L \)-structure, and suppose that \( \operatorname{Th}(\mathcal M) \) is Skolem.
+	If \( \eta \) is infinite linear order that is contained as a set in \( \mathcal M \), then there is an Ehrenfeucht--Mostowski functor \( F \) in \( \mathcal L \) whose theory expands \( \operatorname{Th}(\mathcal M,\eta) \).
+\end{theorem}
+\begin{proof}
+	We want to build a theory extending \( \operatorname{Th}(\mathcal M, \eta) \), whose models include an indiscernible copy of \( \omega \).
+	First, expand \( \mathcal L \) to add \( \omega \)-many constants \( C = \qty{c_i \mid i \in \omega} \), and we build an \( \mathcal L_C \)-theory \( \mathcal T \) with the following axioms:
+	\begin{enumerate}
+		\item \( \varphi(\vb a) \Leftrightarrow \varphi(\vb b) \), for each \( \mathcal L \)-formula \( \varphi(\vb x) \) and ordered tuples \( \vb a, \vb b \in [C]^{\abs{\vb x}} \);
+		\item \( \varphi(c_0, \dots, c_{k-1}) \), for each formula \( \varphi(x_0, \dots, x_{k-1}) \) in \( \operatorname{Th}(\mathcal M, \eta) \). 
+	\end{enumerate}
+	We will show that this theory has a model by compactness.
+	Let \( \mathcal U \) be a finite subset of \( \mathcal T \), and list the formulae in \( \mathcal U \) as \( \varphi_0, \dots, \varphi_{m-1} \).
+	Note that there is some finite \( k \) such that the new constants that show up in the formulae in \( \mathcal U \) are among \( c_0, \dots, c_{k-1} \).
+	By adding redundant variables, we may assume that each of these formulae all have free variables \( c_0, \dots, c_{k-1} \) for simplicity.
+
+	Define an equivalence relation \( \sim \) on \( [\eta]^k \) by declaring that \( \vb a \sim \vb b \) if \( \mathcal M \vDash \varphi_j(\vb a) \) if and only if \( \mathcal M \vDash \varphi_j(\vb b) \) for each \( j < m \).
+	This equivalence relation partitions \( [\eta]^k \) into finitely many equivalence classes.
+	Hence, by Ramsey's theorem, there is an infinite sequence \( \vb e = e_0 < e_1 < \dots < e_{2k-1} \) in \( \eta \) such that any two ordered \( k \)-tuples extracted from \( \vb e \) are in the same equivalence class.
+	We can interpret each \( c_j \) in \( \mathcal M \) as \( e_j \) for each \( j < k \), making \( \mathcal M \) into an \( \mathcal L_{\vb c} \)-structure that models \( \mathcal U \).
+	
+	Let \( \mathcal N \) be a model of \( \mathcal T \).
+	The new constants \( c_i \) must be interpreted as different elements of \( \mathcal N \), as \( \operatorname{Th}(\mathcal M, \eta) \) includes the sentence \( x_0 \neq x_1 \).
+	Hence \( \mathcal N \) contains a copy of \( \omega \), by seeing \( c_i \) in \( \mathcal N \) as \( i \).
+	Consider \( \mathcal N^\star \), which is the \( \mathcal L \)-reduct of \( \mathcal N \), and let \( \mathcal S = \langle \omega \rangle_{\mathcal N^\star} \).
+	Note that \( \operatorname{Th}(\mathcal M, \eta) \) is contained in \( \operatorname{Th}(\mathcal N^\star, \omega) \).
+	This in particular implies that \( \operatorname{Th}_{\mathcal L}(\mathcal N^\star) \) is Skolem, as \( \operatorname{Th}(\mathcal M) \) is Skolem and \( \operatorname{Th}(\mathcal M) \subseteq \operatorname{Th}(\mathcal M, \eta) \).
+	It then follows that \( \mathcal S \) is an elementary substructure of \( \mathcal N^\star \), and is generated by \( \omega \).
+	Then, \( \operatorname{Th}(\mathcal M, \eta) \subseteq \operatorname{Th}(\mathcal S, \omega) \).
+	Finally, sentences in \( \mathcal T \) ensure that \( \omega \) is indiscernible in \( S \) by construction, so the stretching lemma gives an Ehrenfeucht--Mostowski functor \( F \) with \( S = F(\omega) \), which completes the proof by the previous lemma.
+\end{proof}
