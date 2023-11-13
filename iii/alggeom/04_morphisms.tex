@@ -455,7 +455,7 @@ From here, we will assume that all schemes are Noetherian; that is, it has a fin
 \end{definition}
 \begin{example}
     \begin{enumerate}
-        \item \( \mathbb C[\![t]\!] \) is a discrete valuation ring.
+        \item \( \mathbb C\Brackets{t} \) is a discrete valuation ring.
         \item \( \mathcal O_{\mathbb A^1, 0} = \qty{\frac{f(t)}{g(t)} \midd g(0) \neq 0} \) is a discrete valuation ring.
         \item Similarly, \( \mathbb Z_{(p)}, \mathbb Z_p \) are discrete valuation rings, where \( \mathbb Z_{(p)} \) denotes the localisation of \( \mathbb Z \) at the prime ideal \( (p) \), and \( \mathbb Z_p \) denotes the \( p \)-adic integers.
     \end{enumerate}
@@ -468,8 +468,69 @@ We will often drop the word `discrete'.
     This is called the \emph{Sierpi\'nski topology}.
 
     Any generator \( \pi \) for \( \mathfrak m \) is called a \emph{uniformiser} or a \emph{uniformising parameter}.
-    For example, in \( \mathbb C[\![t]\!] \), every power series with nonzero constant term is a unit, and \( t \) is a uniformiser.
+    For example, in \( \mathbb C\Brackets{t} \), every power series with nonzero constant term is a unit, and \( t \) is a uniformiser.
 
     Given a uniformiser, any nonzero element \( a \in A \) can be written as \( u \pi^k \) where \( u \) is a unit and \( k \) is a unique natural number called the \emph{valuation} of \( a \).
     This gives a map \( A \setminus \qty{0} \to \mathbb N \) mapping a value \( a \) to its valuation; this is independent of the choice of uniformiser.
+
+    The field of fractions of \( A \) is a \emph{valued field} \( K = FF(A) \); the valuation extends to a multiplicative function \( K \setminus \qty{0} \to \mathbb Z \) given by the difference of valuations of the numerator and denominator.
 \end{remark}
+\begin{example}
+    Let \( A = k\Brackets{t} \), then \( K = k\lParen t\rParen \) is the field of Laurent series in one variable in \( k \).
+    The valuation is the order of vanishing at zero.
+\end{example}
+One can consider the open immersion \( \Spec K \to \Spec A \) as the inclusion from a disc with a punctured origin to a disc.
+\begin{theorem}
+    Let \( f : X \to Y \) be a morphism of schemes.
+    Then \( f \) is separated if and only if for any (discrete) valuation ring \( A \) with function field \( K \) and diagram
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXFNwZWMgSyJdLFsxLDAsIlgiXSxbMSwxLCJZIl0sWzAsMSwiXFxTcGVjIEEiXSxbMCwxXSxbMSwyXSxbMCwzXSxbMywyXV0=
+\[\begin{tikzcd}
+	{\Spec K} & X \\
+	{\Spec A} & Y
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+    then there exists at most one lift \( \Spec A \to X \) that makes the following diagram commute.
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXFNwZWMgSyJdLFsxLDAsIlgiXSxbMSwxLCJZIl0sWzAsMSwiXFxTcGVjIEEiXSxbMCwxXSxbMSwyXSxbMCwzXSxbMywyXSxbMywxLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+\[\begin{tikzcd}
+	{\Spec K} & X \\
+	{\Spec A} & Y
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=2-1, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+\end{tikzcd}\]
+    Similarly, \( f \) is universally closed if and only if there exists at least one lift \( \Spec A \to X \) that makes the diagram commute.
+\end{theorem}
+In particular, a morphism is proper if and only if there is a unique lift, and the morphism is of finite type.
+The proof is omitted.
+\begin{remark}
+    \begin{enumerate}
+        \item The map \( \mathbb P^n_R \to \Spec R \) is proper.
+        \item The map \( \mathbb A^n_R \to \Spec R \) is not proper, but is separated.
+        \item Closed immersions are proper.
+        In particular, if \( Z \to \mathbb P^n_R \) is closed, then \( Z \to \Spec R \) is proper.
+        \item Compositions of proper (respectively separated) morphisms are proper (separated).
+        \item If \( f : X \to Y \) is proper, then for any \( Y' \to Y \), the base extension \( X \times_Y Y' \to Y' \) is also proper.
+    \end{enumerate}
+\end{remark}
+\begin{example}
+    We show that \( \mathbb A^1_k \to \Spec k \) is not proper by showing it is not universally closed.
+    Write \( \mathbb A^1_k = \Spec k[x] \), and consider \( A = k\Brackets{t} \) and \( K = k\lParen t\rParen \).
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXFNwZWMga1xcbFBhcmVuIHRcXHJQYXJlbiJdLFsxLDAsIlxcbWF0aGJiIEFeMV9rIl0sWzEsMSwiXFxTcGVjIGsiXSxbMCwxLCJcXFNwZWMga1xcQnJhY2tldHN7dH0iXSxbMCwxLCJcXHZhcnBoaSJdLFsxLDJdLFswLDNdLFszLDJdXQ==
+\[\begin{tikzcd}
+	{\Spec k\lParen t\rParen} & {\mathbb A^1_k} \\
+	{\Spec k\Brackets{t}} & {\Spec k}
+	\arrow["\varphi", from=1-1, to=1-2]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+    The map \( \Spec k\Brackets{t} \to \Spec k \) is the obvious morphism.
+    Let \( \varphi \) be induced by the map on rings \( k[x] \to k\lParen t \rParen \) given by \( x \mapsto \frac{1}{t} \).
+    Then the map does not factor through \( \Spec k\Brackets{t} \to \Spec k\lParen t \rParen \), as required.
+    However, if we replace \( \mathbb A^1_k \) with \( \mathbb P^1_k \), there is always an affine chart in \( \mathbb P^1 \) such that \( \varphi \) is of the form \( x \mapsto t \).
+\end{example}

@@ -1,0 +1,59 @@
+\subsection{The Brouwer--Heyting--Kolmogorov interpretation}
+We will construct a system of logic in which every proof contains evidence of its truth.
+Our system will have the following properties, known as the Brouwer--Heyting--Kolmogorov interpretation.
+\begin{enumerate}
+    \item \( \bot \) has no proof.
+    \item To prove \( \varphi \wedge \psi \), one must provide a proof of \( \varphi \) together with a proof of \( \psi \).
+    \item To prove \( \varphi \Rightarrow \psi \), one must provide a mechanism for translating a proof of \( \varphi \) into a proof of \( \psi \).
+    In particular, to prove \( \neg\varphi \), we must provide a way to turn a proof of \( \varphi \) into a contradiction.
+    \item To prove \( \varphi \vee \psi \), we must specify either \( \varphi \) or \( \psi \), and then provide a proof for it.
+    Note that in a classical setting, a proof of \( \varphi \vee \psi \) need not specify which of the two disjuncts is true.
+    \item The law of the excluded middle \( \mathsf{LEM} \), which states \( \varphi \vee \neg \varphi \), is not valid.
+    If this held for some proposition, we could decide whether the proposition was true or its negation is true, because any proof of \( \varphi \vee \neg \varphi \) contains this information.
+    \item To prove \( \exists x.\, \varphi(x) \), one must provide a term \( t \) together with a proof of \( \varphi(t) \).
+    \item To prove \( \forall x.\, \varphi(x) \), one must provide a mechanism that converts any term \( t \) into a proof of \( \varphi(t) \).
+\end{enumerate}
+This will be called \emph{intuitionistic logic}.
+\begin{theorem}[Diaconescu]
+    In intuitionistic \( \mathsf{ZF} \) set theory, the law of the excluded middle \( \mathsf{LEM} \) can be deduced from the axiom of choice \( \mathsf{AC} \).
+\end{theorem}
+\begin{proof}
+    Let \( \varphi \) be a proposition; we want a proof of \( \varphi \vee \neg \varphi \).
+    Using the axiom of separation, we have proofs that the following sets exist.
+    \[ A = \qty{x \in \qty{0, 1} \mid \varphi \vee (x = 0)};\quad B = \qty{x \in \qty{0, 1} \mid \varphi \vee (x = 1)} \]
+    These sets are \emph{inhabited}: there exists an element in each of them; in particular, \( 0 \in A \) and \( 1 \in A \) are intuitionistically valid.
+    Note that being inhabited is strictly stronger than being nonempty in intuitionistic logic.
+    This is because any proof that a set is inhabited contains information about an element in the set.
+    The set \( \qty{A, B} \) is a family of inhabited sets, so by the axiom of choice, we have a choice function \( f : \qty{A, B} \to A \cup B \), and we have a proof that \( f(A) \in A \) and \( f(B) \in B \).
+    Thus, we have a proof of
+    \[ (\varphi \vee (f(A) = 0)) \wedge (\varphi \vee (f(B) = 1)) \]
+    We also have a proof that \( f(A), f(B) \in \qty{0,1} \).
+    In particular, we either have a proof that \( f(A) = 0 \) or we have a proof that \( f(A) = 1 \), and the same holds for \( B \).
+    We have the following cases.
+    \begin{enumerate}
+        \item Suppose we have a proof that \( f(A) = 1 \).
+        Then we have a proof of \( \varphi \vee (1 = 0) \), so we must have a proof of \( \varphi \).
+        \item Suppose we have a proof that \( f(B) = 0 \).
+        Then similarly we have a proof of \( \varphi \vee (0 = 1) \), so we must have a proof of \( \varphi \).
+        \item Suppose we have proofs that \( f(A) = 0 \) and \( f(B) = 1 \).
+        We will prove \( \neg \varphi \).
+        Suppose that we have a proof of \( \varphi \).
+        Then from a proof of \( \varphi \vee (x = 0) \) or \( \varphi \vee (x = 1) \) we can derive a proof of the other, so by the axiom of extensionality, \( A = B \).
+        Then \( 0 = f(A) = f(B) = 1 \) as \( f \) is a function, giving a contradiction.
+        Thus, we have constructed a proof of \( \neg\varphi \).
+    \end{enumerate}
+    We can always specify a proof of \( \varphi \) or a proof of \( \neg \varphi \), so we have \( \varphi \vee \neg \varphi \).
+\end{proof}
+\begin{remark}
+    \begin{enumerate}
+        \item Intuitionistic mathematics is more general than classical mathematics, because it operates on fewer assumptions.
+        \item Notions that are classically conflated may be different in intuitionistic logic.
+        For example, there is no classical distinction between inhabited and nonempty sets, but they are not the same in intuitionistic logic.
+        Other examples include finiteness, or disequality and apartness.
+        \item Intuitionistic proofs have computational content attached to them, but classical proofs may not.
+        \item Intuitionistic logic is the internal logic of an arbitrary topos.
+        % look at the Zariski topos
+    \end{enumerate}
+\end{remark}
+
+\subsection{Natural deduction}
