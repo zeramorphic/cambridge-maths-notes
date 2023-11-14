@@ -105,3 +105,112 @@ We will write \( B_{\mathfrak p} \) for \( (A \setminus \mathfrak p)^{-1} B \), 
     Recall that the contraction of a maximal ideal is maximal in such an extension.
     Now, \( \mathfrak q B_{\mathfrak p} \subseteq \mathfrak q' B_{\mathfrak p} \) are maximal ideals of \( B_{\mathfrak p} \), so they must coincide.
 \end{proof}
+\begin{proposition}[lying over]
+    Let \( A \subseteq B \) be an integral exxtension of rings, and let \( \mathfrak p \in \Spec A \).
+    Then there is a prime ideal \( \mathfrak q \in \Spec B \) such that \( \mathfrak q \cap A = \mathfrak p \).
+    In other words, \( \iota^\star : \Spec B \to \Spec A \) is surjective.
+\end{proposition}
+\begin{proof}
+    We have a commutative diagram
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiQiJdLFsxLDEsIkJfe1xcbWF0aGZyYWsgcH0gPSAoQSBcXHNldG1pbnVzIFxcbWF0aGZyYWsgcCleey0xfUIiXSxbMCwxLCJBX3tcXG1hdGhmcmFrIHB9Il0sWzAsMV0sWzEsMl0sWzAsM10sWzMsMl1d
+\[\begin{tikzcd}
+	A & B \\
+	{A_{\mathfrak p}} & {B_{\mathfrak p} = (A \setminus \mathfrak p)^{-1}B}
+	\arrow[from=1-1, to=1-2]
+	\arrow["\beta", from=1-2, to=2-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+    Let \( \mathfrak m \) be a maximal ideal of \( B_{\mathfrak p} \).
+    Then \( A_{\mathfrak p} \subseteq B_{\mathfrak p} \) is an integral extension, so \( \mathfrak m \) contracts to a maximal ideal \( \mathfrak m \cap A_{\mathfrak p} \) of \( A_{\mathfrak p} \).
+    But there is exactly one maximal ideal in \( A_{\mathfrak p} \), namely \( \mathfrak p A_{\mathfrak p} \).
+    Note that \( \mathfrak p A_{\mathfrak p} \) contracts to \( \mathfrak p \) under the map \( A \to A_{\mathfrak p} \).
+    
+    We have that \( \mathfrak m \) contracts to \( \mathfrak p \) under the map \( A \to A_{\mathfrak p} \to B_{\mathfrak p} \), but this is the same as the map \( A \to B \to B_{\mathfrak p} \), so \( \beta^{-1} (\mathfrak m) \cap A = \mathfrak p \).
+    Note that \( \beta^{-1}(\mathfrak m) \) is a prime ideal, as required.
+\end{proof}
+\begin{theorem}[going up]
+    Let \( A \subseteq B \) be an integral extension of rings.
+    Let \( \mathfrak p_1 \subseteq \mathfrak p_2 \) be prime ideals in \( A \), and let \( \mathfrak q_1 \in \Spec B \) be a prime ideal such that \( \mathfrak q_1 \cap A = \mathfrak p_1 \).
+    Then there is a prime ideal \( \mathfrak q_2 \in \Spec B \) such that \( \mathfrak q_1 \subseteq \mathfrak q_2 \), and \( \mathfrak q_2 \cap A = \mathfrak p_2 \).
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhmcmFrIHFfMSJdLFsxLDAsIlxcbWF0aGZyYWsgcV8yIl0sWzEsMSwiXFxtYXRoZnJhayBwXzIiXSxbMCwxLCJcXG1hdGhmcmFrIHBfMSJdLFswLDEsIlxcc3Vic2V0ZXEiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMSwyLCJcXGNhcCBBIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzAsMywiXFxjYXAgQSIsMl0sWzMsMiwiXFxzdWJzZXRlcSIsMl1d
+\[\begin{tikzcd}
+	{\mathfrak q_1} & {\mathfrak q_2} \\
+	{\mathfrak p_1} & {\mathfrak p_2}
+	\arrow["\subseteq", dashed, from=1-1, to=1-2]
+	\arrow["{\cap A}", dashed, from=1-2, to=2-2]
+	\arrow["{\cap A}"', from=1-1, to=2-1]
+	\arrow["\subseteq"', from=2-1, to=2-2]
+\end{tikzcd}\]
+\end{theorem}
+\begin{proof}
+    We have an injection \( \faktor{A}{\mathfrak p_1} \to \faktor{B}{\mathfrak q_1} \) given by \( a + \mathfrak p_1 \mapsto q + \mathfrak q_1 \).
+    This is an integral extension, so by lying over, there is a prime ideal \( \faktor{\mathfrak q_2}{\mathfrak q_1} \) of \( \faktor{B}{\mathfrak q_1} \) that contracts to \( \faktor{\mathfrak p_2}{\mathfrak p_1} \) in \( \faktor{A}{\mathfrak p_1} \).
+    We claim that \( \mathfrak q_2 \cap A = \mathfrak p_2 \).
+    In the diagram
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiQiJdLFsxLDEsIlxcZmFrdG9ye0J9e1xcbWF0aGZyYWsgcV8xfSJdLFswLDEsIlxcZmFrdG9ye0F9e1xcbWF0aGZyYWsgcF8xfSJdLFswLDFdLFsxLDJdLFswLDNdLFszLDJdXQ==
+\[\begin{tikzcd}
+	A & B \\
+	{\faktor{A}{\mathfrak p_1}} & {\faktor{B}{\mathfrak q_1}}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+    we obtain contractions of prime ideals
+    % https://q.uiver.app/#q=WzAsNCxbMSwxLCJcXGZha3RvcntcXG1hdGhmcmFrIHFfMn17XFxtYXRoZnJhayBxXzF9Il0sWzEsMCwiXFxtYXRoZnJhayBxXzIiXSxbMCwwLCJcXG1hdGhmcmFrIHBfMiJdLFswLDEsIlxcZmFrdG9ye1xcbWF0aGZyYWsgcF8yfXtcXG1hdGhmcmFrIHBfMX0iXSxbMCwxLCIiLDAseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJtYXBzIHRvIn19fV0sWzAsMywiIiwyLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibWFwcyB0byJ9fX1dLFszLDIsIiIsMix7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1hcHMgdG8ifX19XV0=
+\[\begin{tikzcd}
+	{\mathfrak p_2} & {\mathfrak q_2} \\
+	{\faktor{\mathfrak p_2}{\mathfrak p_1}} & {\faktor{\mathfrak q_2}{\mathfrak q_1}}
+	\arrow[maps to, from=2-2, to=1-2]
+	\arrow[maps to, from=2-2, to=2-1]
+	\arrow[maps to, from=2-1, to=1-1]
+\end{tikzcd}\]
+    hence \( \mathfrak q_2 \) contracts to \( \mathfrak p_2 \), as required.
+\end{proof}
+\begin{theorem}[going down]
+    Let \( A \subseteq B \) be an integral extension of integral domains, and suppose that \( A \) is integrally closed (in its field of fractions).
+    Let \( \mathfrak p_1 \supseteq \mathfrak p_2 \) be prime ideals in \( A \), and let \( \mathfrak q_1 \in \Spec B \) be a prime ideal such that \( \mathfrak q_1 \cap A = \mathfrak p_1 \).
+    Then there is a prime ideal \( \mathfrak q_2 \in \Spec B \) such that \( \mathfrak q_1 \supseteq \mathfrak q_2 \), and \( \mathfrak q_2 \cap A = \mathfrak p_2 \).
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhmcmFrIHFfMSJdLFsxLDAsIlxcbWF0aGZyYWsgcV8yIl0sWzEsMSwiXFxtYXRoZnJhayBwXzIiXSxbMCwxLCJcXG1hdGhmcmFrIHBfMSJdLFsxLDAsIlxcc3Vwc2V0ZXEiLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMSwyLCJcXGNhcCBBIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzAsMywiXFxjYXAgQSIsMl0sWzIsMywiXFxzdXBzZXRlcSJdXQ==
+\[\begin{tikzcd}
+	{\mathfrak q_1} & {\mathfrak q_2} \\
+	{\mathfrak p_1} & {\mathfrak p_2}
+	\arrow["\supseteq"', dashed, from=1-2, to=1-1]
+	\arrow["{\cap A}", dashed, from=1-2, to=2-2]
+	\arrow["{\cap A}"', from=1-1, to=2-1]
+	\arrow["\supseteq", from=2-2, to=2-1]
+\end{tikzcd}\]
+\end{theorem}
+\begin{proof}
+    Consider the map \( A \to B \to B_{\mathfrak q_1} \).
+    These maps are injective as \( B \) is an integral domain, so we can think of these as inclusions of rings.
+    We want to prove that there is a prime ideal \( \mathfrak n \in \Spec B_{\mathfrak q_1} \) such that \( \mathfrak n \cap A = \mathfrak p_2 \).
+    This suffices, as \( (\mathfrak n \cap B) \cap A = \mathfrak p_2 \) is a contraction of a prime ideal \( \mathfrak q_2 = \mathfrak n \cap B \) of \( B \) contained in \( \mathfrak q_1 \) to \( \mathfrak p_2 \in \Spec A \).
+    In other words, we want to show that \( \mathfrak p_2 \) is a contracted ideal under the map \( A \to B_{\mathfrak q_1} \).
+    As contracted ideals are contracted from their own extension, it suffices to show that \( (\mathfrak p_2 B_{\mathfrak q_1}) \cap A \subseteq \mathfrak p_2 \), noting that the converse inclusion always holds.
+    
+    Note that \( \mathfrak p_2 B_{\mathfrak q_1} = (\mathfrak p_2 B) B_{\mathfrak q_1} \).
+    Let \( \frac{y}{s} \in (\mathfrak p_2 B) B_{\mathfrak q_1} \cap A \), where \( y \in \mathfrak p_2 B \) and \( s \in B \setminus \mathfrak q_1 \).
+    As \( A \subseteq B \) is an integral extension, the integral closure of \( \mathfrak p_2 \) in \( B \) is \( \sqrt{\mathfrak p_2 B} \).
+    In particular, \( y \) is integral over \( \mathfrak p_2 \).
+    Since \( A \) is integrally closed and \( y \) is integral over \( \mathfrak p_2 \), the minimal polynomial of \( y \in FF(B) \) over \( FF(A) \) has the form
+    \[ y^r + u_1 y^{r-1} + \dots + u_r y^0 = 0;\quad u_i \in \sqrt{\mathfrak p_2} = \mathfrak p_2 \]
+    We can write \( y = \faktor{y}{s} \cdot s \), where \( y, s \in FF(B) \) and \( \frac{y}{s} \in FF(A) \).
+    Hence,
+    \[ \qty(\frac{y}{s} \cdot s)^r + u_1 \qty(\frac{y}{s} \cdot s)^{r-1} + \dots + u_r \qty(\frac{y}{s} \cdot s)^0 = 0 \]
+    Multiplying by \( \qty(\frac{s}{y})^r \),
+    \[ s^r + \qty(\frac{s}{y})^1 u_1 s^{r-1} + \dots + \qty(\frac{s}{y})^r u_r s^0 = 0;\quad u_i \in \sqrt{\mathfrak p_2} = \mathfrak p_2 \]
+    This must be the same minimal polynomial of \( s \) as an element of \( FF(B) \) over \( FF(A) \).
+    As \( s \in B \), \( s \) is integral over \( A \), so the coefficients in this polynomial must lie in \( A \).
+    \[ \qty(\frac{s}{y})^1 u_1, \dots, \qty(\frac{s}{y})^r u_r \in A \]
+    Suppose \( \frac{y}{s} \notin \mathfrak p_2 \).
+    Then
+    \[ u_i = \qty(\frac{y}{s})^i \cdot \qty(\frac{s}{y})^i u_i \]
+    But
+    \[ u_1 \in \mathfrak p_2;\quad \qty(\frac{y}{s})^i \in A \setminus \mathfrak p_2;\quad \qty(\frac{s}{y})^i u_i \in A \]
+    By primality, \( \qty(\frac{s}{y})^i u_i \in \mathfrak p_2 \).
+    As this holds for all \( i \), the coefficients in the equation for \( s \) lie in \( \mathfrak p_2 \), so
+    \[ s^r \in \mathfrak p_2 B \subseteq \mathfrak p_1 B = (\mathfrak q_1 \cap A) B \subseteq \mathfrak q_1 \]
+    Hence \( s \in \mathfrak q_1 \) by primality, giving a contradiction.
+\end{proof}
