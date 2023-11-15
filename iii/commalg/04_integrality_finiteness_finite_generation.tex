@@ -1,0 +1,721 @@
+\subsection{Nakayama's lemma}
+\begin{proposition}[Cayley--Hamilton theorem]
+    Let \( M \) be a finitely generated \( R \)-module, and let \( f : M \to M \) be an \( R \)-linear endomorphism.
+    Let \( \mathfrak a \) be an ideal in \( R \) such that \( f(M) \subseteq \mathfrak a M \).
+    Then, we have an equality in \( \End_R M \)
+    \[ f^n + a_1 f^{n-1} + \dots + a_n f^0 = 0;\quad f^r = \underbrace{f \circ \dots \circ f}_{r \text{ times}} \]
+    where \( a_i \in \mathfrak a \).
+\end{proposition}
+\begin{proof}
+    Let \( M = \vecspan_R\qty{m_1, \dots, m_n} \), so \( \mathfrak a M = \vecspan_{\mathfrak a} \qty{m_1, \dots, m_n} \).
+    Then
+    \[ \begin{pmatrix}
+        f(m_1) \\
+        \vdots \\
+        f(m_n)
+    \end{pmatrix} = P \begin{pmatrix}
+        m_1 \\
+        \vdots \\
+        m_n
+    \end{pmatrix};\quad P \in M_{n \times n}(\mathfrak a) \]
+    Let \( \rho : R \to \End M \) be the structure ring homomorphism of \( M \) as an \( R \)-module.
+    Then we can define \( R[T] \to \End M \) by \( T \mapsto f \), making \( M \) into an \( R[T] \)-module.
+    Hence,
+    \[ T \begin{pmatrix}
+        m_1 \\
+        \vdots \\
+        m_n
+    \end{pmatrix} = P \begin{pmatrix}
+        m_1 \\
+        \vdots \\
+        m_n
+    \end{pmatrix} \]
+    Thus
+    \[ Q \begin{pmatrix}
+        m_1 \\
+        \vdots \\
+        m_n
+    \end{pmatrix} = 0;\quad Q = T I_n - P \]
+    Multiplying by the adjugate matrix \( \adj Q \) on the left on both sides,
+    \[ (\det Q) \begin{pmatrix}
+        m_1 \\
+        \vdots \\
+        m_n
+    \end{pmatrix} = 0 \]
+    In particular, \( (\det Q) m = 0 \) for all \( m \in M \), as the \( m_i \) generate \( M \).
+    Hence, \( m \mapsto (\det Q) m = \eval{(\det Q)}_{T = f} \) is \( 0 \) in \( \End_R M \).
+    Finally, note that \( \det Q \) is a monic polynomial, and all other coefficients lie in \( \mathfrak a \).
+\end{proof}
+\begin{corollary}
+    Let \( M \) be a finitely generated \( R \)-module, and let \( \mathfrak a \) be an ideal in \( R \).
+    If \( \mathfrak a M = M \), then there exists \( a \in \mathfrak a \) such that \( am = m \) for all \( m \in M \).
+\end{corollary}
+\begin{proof}
+    Apply the Cayley--Hamilton theorem with \( f = \id_M \).
+    We obtain a polynomial
+    \[ (1 + a_1 + \dots + a_n) \id_M = 0 \]
+    Take \( a = -(a_1 + \dots + a_n) \).
+\end{proof}
+\begin{definition}
+    The \emph{Jacobson radical} of a ring \( R \), denoted \( J(R) \), is the intersection of all maximal ideals of \( R \).
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item If \( (R, \mathfrak m) \) is a local ring, then \( J(R) = \mathfrak m \).
+        \item \( J(\mathbb Z) = \qty{0} \).
+    \end{enumerate}
+\end{example}
+\begin{proposition}
+    Let \( x \in R \).
+    Then \( x \in J(R) \) if and only if \( 1 - xy \) is a unit for every \( y \in R \).
+\end{proposition}
+\begin{proof}
+    First, let \( x \in J(R) \), and suppose \( y \in R \) is such that \( 1 - xy \) is not a unit.
+    Then \( (1 - xy) \) is a proper ideal, so it is contained in a maximal ideal \( \mathfrak m \).
+    But as \( x \in J(R) \), we must have \( x \in \mathfrak m \), giving \( 1 = 1 - xy + xy \in \mathfrak m \), contradicting that \( \mathfrak m \) is a maximal ideal.
+
+    Now suppose \( x \notin J(R) \), so there is a maximal ideal \( \mathfrak m \) such that \( x \notin \mathfrak m \).
+    Then \( \mathfrak m + (x) = R \) as \( \mathfrak m \) is maximal.
+    In particular, there exists \( t \in \mathfrak m \) and \( y \in R \) such that \( t + xy = 1 \), or equivalently, \( 1 - xy = t \in \mathfrak m \).
+    Note that \( t \) cannot be a unit, because it is contained in a proper ideal.
+\end{proof}
+\begin{proposition}[Nakayama's lemma]
+    Let \( M \) be a finitely generated \( R \)-module, and let \( \mathfrak a \subseteq J(R) \) be an ideal of \( R \) such that \( \mathfrak a M = M \).
+    Then \( M = 0 \).
+\end{proposition}
+This lemma is more useful when \( J(R) \) is large, so is particularly useful when applied to local rings.
+\begin{proof}
+    By the above corollary, there exists \( a \in \mathfrak a \) such that \( am = m \) for all \( m \in M \), or equivalently, \( (1 - a)m = 0 \).
+    By assumption, \( a \in J(R) \), so \( 1 - a \) is a unit in \( R \).
+    Hence \( m = 0 \).
+\end{proof}
+\begin{corollary}
+    Let \( M \) be a finitely generated \( R \)-module, and let \( N \subseteq M \) be a submodule.
+    Let \( \mathfrak a \subseteq J(R) \) be an ideal in \( R \) such that \( N + \mathfrak a M = M \).
+    Then \( N = M \).
+\end{corollary}
+This can be applied to find generating sets for \( M \).
+\begin{proof}
+    Note that
+    \[ \mathfrak a \qty(\faktor{M}{N}) = \faktor{\mathfrak a M + N}{N} = \faktor{M}{N} \]
+    so \( \faktor{M}{N} = 0 \) by Nakayama's lemma.
+\end{proof}
+
+\subsection{Integral and finite extensions}
+\begin{definition}
+    Let \( A \) be an \( R \)-algebra, and let \( x \in A \).
+    Then \( x \) is \emph{integral} over \( R \) if there exists a monic polynomial \( f \in R[T] \) such that \( f(x) = 0 \).
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item If \( R = k \) is a field, then \( x \) is integral over \( k \) if and only if \( x \) is algebraic over \( k \).
+        \item We will prove later that
+        \begin{enumerate}
+            \item the \( \mathbb Z \)-integral elements of \( \mathbb Q \) are \( \mathbb Z \);
+            \item the \( \mathbb Z \)-integral elements of \( \mathbb Q\qty[\sqrt{2}] \) are \( \mathbb Z\qty[\sqrt{2}] \);
+            \item the \( \mathbb Z \)-integral elements of \( \mathbb Q\qty[\sqrt{5}] \) are \( \mathbb Z\qty[\frac{1+\sqrt{5}}{2}] \supsetneq \mathbb Z\qty[\sqrt{5}] \).
+        \end{enumerate}
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    Let \( M \) be an \( R \)-module.
+    We say that \( M \) is \emph{faithful} if the structure homomorphism \( \rho : R \to \End M \) is injective.
+    Equivalently, for every nonzero ring element \( r \), there exists \( m \in M \) such that \( rm \neq 0 \).
+\end{definition}
+\begin{example}
+    Let \( R \subseteq A \) be rings, and let \( A \) be an \( R \)-module in the natural way.
+    Then \( A \) is a faithful \( R \)-module, as if \( r \neq 0 \), then \( r 1_A = r \neq 0 \).
+\end{example}
+\begin{proposition}
+    Let \( R \subseteq A \) be rings and \( x \in A \), and consider \( A \) as an \( R[x] \)-module.
+    Then \( x \) is integral over \( R \) if and only if there exists \( M \subseteq A \) such that
+    \begin{enumerate}
+        \item \( M \) is a faithful \( R[x] \)-module; and
+        \item \( M \) is finitely generated as an \( R \)-module.
+    \end{enumerate}
+\end{proposition}
+Condition (i) is that \( M \) is an \( R \)-submodule of \( A \), \( xM \subseteq M \), and \( M \) is faithful over \( R[x] \).
+\begin{proof}
+    First, assume conditions (i) and (ii) hold.
+    We have an \( R \)-linear map \( f : M \to M \) given by multiplication by \( x \), as \( xM \subseteq M \).
+    As \( M \) is a finitely generated \( R \)-module, we can apply the Cayley--Hamilton theorem to find
+    \[ f^n + r_1 f^{n-1} + \dots + r_n f^0 =  0;\quad r_i \in R \]
+    in \( \End_R M \).
+    Then, evaluating at \( m \in M \),
+    \[ (x^n + r_1 x^{n-1} + \dots + r_n x^0) m = 0 \]
+    As this holds for all \( m \), and \( M \) is a faithful \( R[x] \)-module, we must have
+    \[ x^n + r_1 x^{n-1} + \dots + r_n x^0 = 0 \]
+    Thus \( x \) is integral over \( R \).
+
+    Now suppose \( x \) is integral over \( R \).
+    Then
+    \[ x^n + r_1 x^{n-1} + \dots + r_n x^0 = 0 \]
+    for some \( r_1, \dots, r_n \in R \).
+    We define
+    \[ M = \vecspan_R \qty{x_0, \dots, x^{n-1}} \]
+    This is finitely generated, and satisfies \( xM \subseteq M \).
+    \( M \) is faithful over \( R[x] \) as it contains \( x^0 = 1 \).
+\end{proof}
+\begin{definition}
+    Let \( A \) be an \( R \)-algebra.
+    Then \( A \) is
+    \begin{enumerate}
+        \item \emph{integral} over \( R \), if all of its elements are integral over \( R \);
+        \item \emph{finite} over \( R \), if \( A \) is finitely generated as an \( R \)-module.
+    \end{enumerate}
+\end{definition}
+\begin{proposition}
+    Let \( A \) be an \( R \)-algebra.
+    Then the following are equivalent.
+    \begin{enumerate}
+        \item \( A \) is a finitely generated \( R \)-algebra and is integral over \( R \);
+        \item \( A \) is generated as an \( R \)-algebra by a finite set of integral elements;
+        \item \( A \) is finite over \( R \).
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \emph{(i) implies (ii).}
+    The generators for \( A \) are integral.
+
+    \emph{(ii) implies (iii).}
+    Suppose \( A \) is generated by \( \alpha_1, \dots, \alpha_m \) as an \( R \)-algebra, and the \( \alpha_i \) are integral over \( R \).
+    As \( \alpha_i \) is integral,
+    \[ \alpha_i^{n_i} + r_{i,1} \alpha_i^{n_i - 1} + \dots + r_{i,n_i} \alpha_i^0 = 0 \]
+    Hence \( \alpha_i^{n_i} \) lies in the \( R \)-linear span of \( \qty{\alpha_i^0, \dots, \alpha_i^{n_i - 1}} \).
+    Thus, every element is an \( R \)-linear combination of products of the form \( \alpha_1^{e_1} \dots \alpha_n^{e_n} \), which in turn lies in the \( R \)-linear span of products of the same form where all \( e_i \) are less than the corresponding \( n_i \).
+    This is a finite set, so \( A \) is finitely generated as an \( R \)-module.
+
+    \emph{(iii) implies (i).}
+    As \( A \) is finitely generated as an \( R \)-module, it must be finitely generated as an \( R \)-algebra.
+    Let \( \alpha \in A \); we show \( \alpha \) is integral over \( R \).
+    Let \( \rho : R \to A \) be the structure homomorphism of \( A \) as an \( R \)-algebra.
+    Then \( \rho(R) \subseteq A \), and consider \( (\rho(R))[\alpha] \subseteq A \).
+    Now, \( A \) is a \( (\rho(R))[\alpha] \)-module, and is faithful because \( 1_A \in A \).
+    As \( A \) is a finitely generated \( \rho(R) \)-module, the previous proposition shows that \( \alpha \) is \( \rho(R) \)-integral.
+    Equivalently, \( \alpha \) is \( R \)-integral.
+\end{proof}
+\begin{proposition}
+    Let \( A \) be an \( R \)-algebra and let \( \mathcal O \) be the set of elements of \( A \) that are integral over \( R \).
+    Then \( \mathcal O \) is an \( R \)-subalgebra of \( A \).
+\end{proposition}
+\begin{proof}
+    Let \( x, y \in \mathcal O \).
+    Then \( \qty{x, y} \) is a finite set of \( R \)-integral elements, so the set generates an integral \( R \)-subalgebra of \( A \).
+    Hence \( x + y, xy \) lie in this subalgebra, and so they are integral.
+\end{proof}
+\begin{proposition}
+    Let \( A \subseteq B \subseteq C \) be rings.
+    Then,
+    \begin{enumerate}
+        \item if \( C \) is finite over \( B \) and \( B \) is finite over \( A \), then \( C \) is finite over \( A \);
+        \item if \( C \) is integral over \( B \) and \( B \) is integral over \( A \), then \( C \) is integral over \( A \).
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \emph{Part (i).}
+    Suppose that
+    \[ C = \vecspan_B\qty{\gamma_1, \dots, \gamma_n};\quad B = \vecspan_A\qty{\beta_1, \dots, \beta_\ell} \]
+    Then
+    \[ C = \vecspan_A\qty{\gamma_i \beta_j \mid i \leq n, j \leq \ell} \]
+
+    \emph{Part (ii).}
+    Let \( c \in C \), so \( f(c) = 0 \) for
+    \[ f(T) = T^n + b_1 T^{n-1} + \dots + b_n T^0 \in B[T] \]
+    Then \( f \in A'[T] \), where \( A' = A[b_1, \dots, b_n] \).
+    The inclusion \( A \subseteq A' \) is generated as an \( A \)-algebra by finitely many integral elements.
+    Similarly, \( A' \subseteq A'[c] \) is generated as an \( A \)-algebra by \( c \), which is integral over \( A' \) as \( f \in A'[T] \).
+    By the previous result, both extensions are finite.
+    Then, by part (i), \( A \subseteq A'[c] \) is finite, so \( c \) is integral over \( A \).
+\end{proof}
+\begin{definition}
+    Let \( A \subseteq B \) be rings.
+    The \emph{integral closure} of \( A \) in \( B \) is the set \( \overline A \) of elements of \( B \) that are integral over \( A \), which is an \( A \)-algebra.
+    We say that \( A \) is \emph{integrally closed} in \( B \) if \( \overline A = A \).
+\end{definition}
+\begin{definition}
+    Let \( A \) be an integral domain.
+    In this case, the \emph{integral closure} of \( A \) is the integral closure of \( A \) in its field of fractions \( FF(A) \).
+    We say that \( A \) is integrally closed if it is integrally closed in its field of fractions.
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item \( \mathbb Z\qty[\sqrt{5}] \) is not integrally closed, because \( \alpha = \frac{1 + \sqrt{5}}{2} \in FF\qty(\mathbb Z\qty[\sqrt{5}]) = \mathbb Q\qty[\sqrt{5}] \), and \( \alpha^2 - \alpha - 1 = 0 \) so it is \( \mathbb Z\qty[\sqrt{5}] \)-integral.
+        \item \( \mathbb Z \) is integrally closed.
+        \item If \( k \) is a field, \( k[T_1, \dots, T_n] \) are integrally closed.
+    \end{enumerate}
+\end{example}
+Examples (ii) and (iii) are special cases of the following result.
+\begin{proposition}
+    Let \( A \) be a unique factorisation domain.
+    Then \( A \) is integrally closed.
+\end{proposition}
+\begin{proof}
+    Let \( x \in FF(A) \setminus A \), and write \( x = \frac{a}{b} \) with \( a \in A, b \in A \setminus \qty{0} \).
+    As \( A \) is a unique factorisation domain, we can assume there is a prime \( p \) such that \( p \mid b \) and \( p \nmid a \).
+    If \( x \) is integral over \( A \), then
+    \[ \qty(\frac{a}{b})^n + a_1 \qty(\frac{a}{b})^{n-1} + \dots + a_n \qty(\frac{a}{b})^0 = 0 \]
+    Multiplying by \( b^n \),
+    \[ a^n = - b \qty(a_1 b_0 a^{n-1} + \dots + a_n b^{n-1} a^0) \]
+    But as \( p \mid b \), we must have \( p \mid a^n \), so \( p \mid a \), which is a contradiction.
+\end{proof}
+\begin{lemma}
+    Let \( A \subseteq B \) be rings, and let \( \overline A \) be the integral closure of \( A \) in \( B \).
+    Then \( \overline A \) is integrally closed in \( B \).
+\end{lemma}
+Taking the integral closure is an idempotent operation.
+\begin{proof}
+    Let \( x \in B \) be integral over \( \overline A \).
+    Then, we have
+    \[ A \subseteq \overline A \subseteq \overline A[x] \]
+    The first extension is integral by definition, and the second is integral by the above proposition, as \( x \) is integral over \( \overline A \).
+    By transitivity of integrality, \( \overline A[x] \) is integral over \( A \), so in particular, \( x \) is integral over \( A \).
+    Thus \( x \in \overline A \).
+\end{proof}
+\begin{proposition}
+    Let \( A \subseteq B \) be rings.
+    \begin{enumerate}
+        \item if \( B \) is integral over \( A \) and \( \mathfrak b \) is an ideal in \( B \), then \( \faktor{B}{\mathfrak b} \) is integral over \( \faktor{A}{\mathfrak b^c} \);
+        \item if \( B \) is integral over \( A \) and \( S \subseteq A \) is a multiplicative set, then \( S^{-1}B \) is integral over \( S^{-1}A \);
+        \item if \( \overline A \) is the integral closure of \( A \) in \( B \) and \( S \subseteq A \) is a multiplicative set, then \( S^{-1} \overline A \) is the integral closure of \( S^{-1} A \) in \( S^{-1} B \), so \( \overline{S^{-1}A} = S^{-1}\overline A \).
+    \end{enumerate}
+\end{proposition}
+The proofs follow directly from the definitions.
+\begin{lemma}
+    Let \( A \subseteq B \) be an integral extension of rings.
+    Then
+    \begin{enumerate}
+        \item \( A \cap B^\times = A^\times \);
+        \item if \( A, B \) are integral domains, then \( A \) is a field if and only if \( B \) is a field.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \emph{Part (i).}
+    One inclusion is clear: \( A^\times \subseteq A \cap B^\times \).
+    Suppose \( a \in A \) and \( a \) is a unit in \( B \) with inverse \( b \in B \); we show that \( b \in A \).
+    As \( b \) is integral over \( A \),
+    \[ b^n + a_1 b^{n-1} + \dots + a_n b^0 = 0;\quad a_i \in A \]
+    Multiplying by \( a^{n-1} \),
+    \[ b + \underbrace{a_1 + a_2 a^1 + \dots + a_n a^{n-1}}_{\in A} = 0 \]
+    Hence \( b \) must lie in \( A \).
+
+    \emph{Part (ii).}
+    Suppose \( B \) is a field.
+    Then
+    \[ A^\times = A \cap (B \setminus \qty{0}) = A \setminus \qty{0} \]
+    Hence \( A \) is a field.
+    Conversely, suppose \( A \) is a field.
+    Let \( b \in B \) be a nonzero element; we want to show that \( b \) is a unit in \( B \).
+    As \( b \) is integral over \( A \),
+    \[ b^n + a_1 b^{n-1} + \dots + a_n b^0 = 0;\quad a_i \in A \]
+    Let \( n \) be minimal with this property.
+    Then
+    \[ b\underbrace{\qty(b^{n-1} + a_1 b^{n-2} + \dots + a_{n-1} b^0)}_{\Delta} = -a_n \]
+    Note that \( b \neq 0 \) by assumption, and \( \Delta \neq 0 \) by minimality.
+    As \( B \) is an integral domain, \( a_n \neq 0 \).
+    Because \( A \) is a field, \( a_n \) is invertible.
+    Thus
+    \[ b(-a_n^{-1} \Delta) = 1 \implies b \in B^\times \]
+\end{proof}
+\begin{corollary}
+    Let \( A \subseteq B \) be an integral extension of rings, and let \( \mathfrak q \) be a prime ideal in \( B \).
+    Then \( \mathfrak q \) is a maximal ideal of \( B \) if and only if it \( \mathfrak q^c = \mathfrak q \cap A \) is a maximal ideal in \( A \).
+\end{corollary}
+\begin{proof}
+    We have an embedding of rings
+    \[ \faktor{A}{\mathfrak q \cap A} \rightarrowtail \faktor{B}{\mathfrak q} \]
+    which is an integral extension of integral domains.
+    By the previous result, one is a field if and only if the other is, so \( \mathfrak q \cap A \) is maximal in \( A \) if and only if \( \mathfrak q \) is maximal in \( B \).
+\end{proof}
+
+\subsection{Noether normalisation}
+\begin{definition}
+    Let \( A \) be a \( k \)-algebra, and let \( x_1, \dots, x_n \in A \).
+    We say that \( x_1, \dots, x_n \) are \emph{\( k \)-algebraically independent} if for every nonzero polynomial \( p \in k[T_1, \dots, T_n] \), we have \( p(x_1, \dots, x_n) \neq 0 \).
+    Equivalently, the \( k \)-algebra homomorphism \( k[T_1, \dots, T_n] \to A \) given by \( T_i \mapsto x_i \) is injective.
+\end{definition}
+\begin{theorem}[Noether's normalisation theorem]
+    Let \( k \) be a field, and let \( A \neq 0 \) be a finitely generated \( k \)-algebra.
+    Then there exist \( x_1, \dots, x_n \in A \) which are \( k \)-algebraically independent and \( A \) is finite over \( A' = k[x_1, \dots, x_n] \).
+\end{theorem}
+We first present an example of the method used in the proof.
+\begin{example}
+    Let \( A = k[T, T^{-1}] \simeq \faktor{k[X,Y]}{(XY - 1)} \).
+    We claim that \( k[T] \subseteq k[T, T^{-1}] \) is not a finite extension.
+    Indeed, suppose it were finite.
+    Then \( T^{-1} \) would be integral over \( k[T] \), so
+    \[ (T^{-1})^n \in \vecspan_{k[T]}\qty{(T^{-1})^0, \dots, (T^{-1})^{n-1}} \]
+    Multiplying by \( T^n \), we have
+    \[ 1 \in \vecspan_{k[T]}(T^n, \dots, T) \]
+    which is false.
+    However, if \( c \in k \) is a scalar which we will choose later,
+    \[ A = k[T, T^{-1}] = k[T, T^{-1} - cT] \]
+    We claim that \( k[T^{-1} - cT] \subseteq A \) is a finite extension for most values of \( c \), and in particular, for at least one.
+    First, note \( T^{-1} T - 1 = 0 \), and then change variables to
+    \[ ((T^{-1} - cT) + cT) T - 1 = 0 \implies \underbrace{c}_{\in k} T^2 + \underbrace{(T^{-1} - cT)}_{\in k[T^{-1} - ct]} T - \underbrace{1}_{\in k[T^{-1} - cT]} = 0 \]
+    Hence if \( c \neq 0 \), \( T \) is integral over \( k[T^{-1} - cT] \).
+\end{example}
+\begin{proof}
+    In this proof, we will assume \( k \) is infinite, although the theorem is true even if \( k \) if finite.
+    We will proceed by induction on the minimal number of generators of \( A \) as a \( k \)-algebra, which we will denote \( m \).
+    For the case \( m = 0 \), we have \( A = k \), so we can take \( A' = k \).
+
+    Suppose that \( A \) is generated as a \( k \)-algebra by \( x_1, \dots, x_m \in A \).
+    If \( x_1, \dots, x_m \) are algebraically independent, then we can take \( A' = A \).
+    Otherwise, we claim that there are \( c_1, \dots, c_{m-1} \in k \) such that \( x_m \) is integral over
+    \[ B = k[x_1 - c_1 x_m, \dots, x_{m-1} - c_{m-1} x_m] \]
+    Assuming that this holds, we have \( A = B[x_m] \), so \( B \subseteq A \) is a finite extension.
+    But \( B \) is generated by \( m - 1 \) elements, so by induction \( B \) contains \( z_1, \dots, z_n \in B \) which are \( k \)-algebraically independent, and \( B \) is finite over \( A' = k[z_1, \dots, z_n] \).
+    Then \( A \) is finite over \( A' \) by transitivity of finiteness.
+
+    We now prove the claim.
+    As \( x_1, \dots, x_m \) are not algebraically independent over \( k \), there is a nonzero polynomial \( f \in k[T_1, \dots, T_m] \) such that \( f(x_1, \dots, x_m) = 0 \).
+    We want to show that \( x_m \) is integral over \( B \).
+    Write \( f \) as the sum of its homogeneous parts, and let \( F \) be the part of highest degree \( \deg f = r \).
+    For scalars \( c_1, \dots, c_{m-1} \in k \) which will be chosen later, we define
+    \begin{align*}
+        g(T_1, \dots, T_m) &= f(T_1 + c_1 T_m, \dots, T_{m-1} + c_{m-1} T_m, T_m) \\
+        &= \underbrace{F(c_1, \dots, c_m, 1)}_{\in k} T_m^r + \text{terms of lower degree in \( T_m \) with coefficients in \( k[T_1, \dots, T_{m-1}] \)}
+    \end{align*}
+    Note that
+    \[ g(x_1 - c_1 x_m, \dots, x_{m-1} - c_{m-1} x_m, x_m) = f(x_1, \dots, x_m) = 0 \]
+    but as a polynomial in \( T_m \) over \( k[T_1, \dots, T_{m-1}] \), it has degree at most \( r \), and the coefficient of \( T_m^r \) is \( F(c_1, \dots, c_m, 1) \).
+    As \( F(T_1, \dots, T_m) \) is a nonzero homogeneous polynomial, \( F(T_1, \dots, T_{m-1}, 1) \) is not the zero polynomial.
+    Thus there are \( c_1, \dots, c_{m-1} \) such that \( F(c_1, \dots, c_{m-1}, 1) \neq 0 \) as \( k \) is an infinite field.
+\end{proof}
+
+\subsection{Hilbert's Nullstellensatz}
+\begin{proposition}[Zariski's lemma]
+    Let \( k \subseteq L \) be fields where \( L \) is finitely generated as a \( k \)-algebra.
+    Then \( \dim_k L \) is finite.
+\end{proposition}
+\begin{proof}
+    By Noether normalisation, we have
+    \[ k \subseteq k[x_1, \dots, x_n] \subseteq L \]
+    where \( x_1, \dots, x_n \) are algebraically independent over \( k \), and \( L \) is finite over \( k[x_1, \dots, x_n] \).
+    As this is an integral extension of integral domains and \( L \) is a field, \( k[x_1, \dots, x_n] \) must be a field.
+    But as \( k[x_1, \dots, x_n] \) is a polynomial algebra over \( k \), the \( x_i \) cannot be invertible.
+    Hence \( n = 0 \), so \( k \subseteq L \) is finite as required.
+\end{proof}
+\begin{definition}
+    Let \( k \subseteq \Omega \) be an extension of fields, where \( \Omega \) is algebraically closed.
+    \begin{enumerate}
+        \item Let \( S \subseteq k[T_1, \dots, T_n] \).
+        We define
+        \[ \mathbb V(S) = \qty{\vb x \in \Omega^n \mid \forall f \in S,\, f(\vb x) = 0} \]
+        Sets of this form are called \emph{\( k \)-algebraic} subsets of \( \Omega^n \).
+        \item Let \( X \subseteq \Omega^n \).
+        We define
+        \[ I(X) = \qty{f \in k[T_1, \dots, T_n] \mid \forall \vb x \in X,\, f(\vb x) = 0} \]
+    \end{enumerate}
+\end{definition}
+Note that \( \mathbb V(S) = \mathbb V(I) \), where \( I \) is the ideal generated by \( S \).
+Recall that for every finite field extension \( k \subseteq L \), there is a \( k \)-algebra embedding \( L \to \Omega \), because \( \Omega \) is algebraically closed.
+\begin{theorem}
+    Let \( \mathfrak a \subseteq k[T_1, \dots, T_n] \) be an ideal.
+    Then
+    \begin{enumerate}
+        \item (weak Nullstellensatz) \( \mathbb V(\mathfrak a) = \varnothing \) if and only if \( 1 \in \mathfrak a \);
+        \item (strong Nullstellensatz) \( I(\mathbb V(\mathfrak a)) = \sqrt{\mathfrak a} \).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \emph{Weak Nullstellensatz.}
+    Clearly if \( 1 \in \mathfrak a \) then \( \mathbb V(\mathfrak a) = \varnothing \), as \( 1 \neq 0 \).
+    Now suppose \( 1 \notin \mathfrak a \).
+    There is a maximal ideal \( \mathfrak m \in \mSpec k[T_1, \dots, T_n] \) such that \( \mathfrak a \subseteq \mathfrak m \).
+    Then \( L = \faktor{k[T_1, \dots, T_n]}{\mathfrak m} \) is a field, which is finitely generated over \( k \) as an algebra.
+    By Zariski's lemma, this extension is finitely generated as a module.
+    Hence, there is an injective \( k \)-algebra homomorphism \( L \to \Omega \).
+    Composing with the quotient map, we obtain a \( k \)-algebra homomorphism \( \varphi : k[T_1, \dots, T_n] \to \Omega \) with kernel \( \mathfrak m \).
+    Now, let
+    \[ \vb x = (\varphi(T_1), \dots, \varphi(T_n)) \in \Omega^n \]
+    We claim that this is a common solution to all polynomials in \( \mathfrak a \).
+    Note that for \( f \in k[T_1, \dots, T_n] \), we have \( \varphi(f) = f(\vb x) \).
+    Therefore, for all \( f \in \mathfrak a \), we have \( f \in \ker \varphi \) so \( f(\vb x) = \varphi(f) = 0 \).
+
+    \emph{Strong Nullstellensatz.}
+    Let \( f \in \sqrt{\mathfrak a} \).
+    Then \( f^\ell \in \mathfrak a \) for some \( \ell \geq 1 \), and therefore, \( f^\ell(\vb x) = 0 \) for all \( \vb x \in \mathbb V(\mathfrak a) \).
+    As \( \Omega \) is an integral domain, \( f(\vb x) = 0 \) for all \( \vb x \in \mathbb V(\mathfrak a) \).
+    Hence \( f \in I(\mathbb V(\mathfrak a)) \).
+
+    Conversely, suppose \( f \in I(\mathbb V(\mathfrak a)) \), so for all \( \vb x \in \mathbb V(\mathfrak a) \), we have \( f(\vb x) = 0 \).
+    We want to show that \( f \in \sqrt{\mathfrak a} \).
+    To do this, we show that \( \overline f \) is nilpotent in \( \faktor{k[T_1, \dots, T_n]}{\mathfrak a} \).
+    It suffices to show that
+    \[ \qty(\faktor{k[T_1, \dots, T_n]}{\mathfrak a})_{\overline f} = 0 \]
+    Note that
+    \[ \qty(\faktor{k[T_1, \dots, T_n]}{\mathfrak a})_{\overline f} \simeq \faktor{k[T_1, \dots, T_n, T_{n+1}]}{\mathfrak b};\quad \mathfrak b = \mathfrak a^e + (T_{n+1} f - 1) \]
+    We will show that \( 1 \in \mathfrak b \), or equivalently by the weak Nullstellensatz, \( \mathbb V(\mathfrak b) = \varnothing \).
+
+    Suppose \( \vb x = (x_1, \dots, x_{n+1}) \in \mathbb V(\mathfrak b) \subseteq \Omega^{n+1} \).
+    Define \( \vb x_0 = (x_1, \dots, x_n) \), so \( \vb x_0 \in \mathbb V(\mathfrak a) \).
+    In particular, \( f(\vb x_0) = 0 \), as \( f \in I(\mathbb V(\mathfrak a)) \).
+    Thus \( f(\vb x) = 0 \).
+    Now, \( (T_{n+1} f - 1)(\vb x) = -1 \neq 0 \), but \( (T_{n+1} f - 1) \in \mathfrak b \), so \( \vb x \) is not a common solution to all polynomials in \( \mathfrak b \), which is a contradiction.
+\end{proof}
+One can easily derive the weak Nullstellensatz from the strong Nullstellensatz.
+
+Note that
+\begin{enumerate}
+    \item \( \sqrt{\sqrt{\mathfrak a}} = \sqrt{\mathfrak a} \).
+    \item If \( X \subseteq Y \subseteq \Omega^n \), then \( I(X) \supseteq I(Y) \).
+    \item If \( S \subseteq T \subseteq k[T_1, \dots, T_n] \), then \( \mathbb V(S) \supseteq \mathbb V(T) \).
+    \item If \( S \subseteq k[T_1, \dots, T_n] \), then \( S \subseteq I(\mathbb V(S)) \).
+    \item If \( X \subseteq \Omega^n \), then \( X \subseteq \mathbb V(I(X)) \).
+    \item If \( X \subseteq \Omega^n \) is an algebraic set, then \( X = \mathbb V(I(X)) \), as \( X = \mathbb V(\mathfrak a) \) gives
+    \[ \mathbb V(\mathfrak a) \subseteq \mathbb V(I(\mathbb V(\mathfrak a))) \subseteq \mathbb V(\mathfrak a) \]
+    \item If \( X \subseteq \Omega^n \), then \( I(X) \) is a radical ideal.
+\end{enumerate}
+\begin{proposition}
+    Let \( k = \Omega \) be an algebraically closed field, and let \( n \geq 0 \).
+    Then we have an inclusion-reversing bijection
+    \[ \qty{\text{\( k \)-algebraic subsets of } \Omega^n} \leftrightarrow \qty{\text{radical ideals of } k[T_1, \dots, T_n]} \]
+    given by \( X \mapsto I(X) \) and \( \mathbb V(\mathfrak a) \mapsfrom \mathfrak a \).
+\end{proposition}
+\begin{proof}
+    We have already shown that \( I(X) \) is radical, and \( X = \mathbb V(I(X)) \) if \( X \) is an algebraic set.
+    For the converse, let \( \mathfrak a \subseteq k[T_1, \dots, T_n] \) be a radical ideal.
+    Then \( I(\mathbb V(\mathfrak a)) = \sqrt{\mathfrak a} = \mathfrak a \) by the strong Nullstellensatz.
+\end{proof}
+\begin{remark}
+    Every prime ideal \( \mathfrak p \) is radical, as \( x^n \in \mathfrak p \) implies \( x \in \mathfrak p \).
+    In particular, every maximal ideal is radical.
+\end{remark}
+\begin{corollary}
+    Let \( k = \Omega \) be an algebraically closed field.
+    Then we have a bijection
+    \[ \Omega^n \leftrightarrow \mSpec k[T_1, \dots, T_n] \]
+    given by \( \vb x = (x_1, \dots, x_n) \mapsto (T_1 - x_1, \dots, T_n - x_n) = \mathfrak m_{\vb x} \).
+\end{corollary}
+\begin{proof}
+    First, note that \( \mathfrak m_{\vb x} \) is a maximal ideal for every \( \vb x \), since it is the kernel of the map \( k[T_1, \dots, T_n] \twoheadrightarrow \Omega \) given by \( T_i \to x_i \).
+    Also, \( \mathfrak m_{\vb x} = I(\qty{\vb x}) \).
+    Indeed, the inclusion \( \mathfrak m_{\vb x} \subseteq I(\qty{\vb x}) \) is clear, and \( I(\qty{\vb x}) \) is a proper ideal of \( k[T_1, \dots, T_n] \), so they must be equal by maximality.
+    Note that \( \mathbb V(\mathfrak m_{\vb x}) = \qty{\vb x} \).
+    Hence the claim follows from the inclusion-reversing bijection, as maximal ideals correspond to minimal nonempty \( k \)algebraic sets.
+\end{proof}
+\begin{definition}
+    We say that \( X \subseteq \Omega^n \) is \emph{irreducible} if \( X \) cannot be expressed as the union of two strictly smaller algebraic subsets.
+\end{definition}
+\begin{proposition}
+    \( X \subseteq \Omega^n \) is irreducible if and only if \( I(X) \) is prime.
+\end{proposition}
+% TODO: Fill in!
+
+\subsection{Integrality over ideals}
+\begin{definition}
+    Let \( A \subseteq B \) be an extension of rings, and let \( \mathfrak a \subseteq A \) be an ideal.
+    We say that \( x \in B \) is integral over \( \mathfrak a \) if
+    \[ x^n + a_1 x^{n-1} + \dots + a_n x^0 = 0 \]
+    for some \( a_1, \dots, a_n \in \mathfrak a \).
+    The \emph{integral closure} of \( \mathfrak a \) in \( B \) is the set of elements of \( B \) that are integral over \( \mathfrak a \).
+\end{definition}
+\begin{proposition}
+    Let \( A \subseteq B \) be an extension of rings, and let \( \overline A \) be the integral closure of \( A \) in \( B \).
+    Let \( \mathfrak a \) be an ideal of \( A \).
+    Then the integral closure of \( \mathfrak a \) in \( B \) is \( \sqrt{\mathfrak a \overline A} \), the radical in \( \overline A \) of the extension of \( \mathfrak a \) to \( \overline A \).
+\end{proposition}
+\begin{proof}
+    If \( b \in B \) is integral over \( \mathfrak a \), then
+    \[ b^n + a_1 b^{n-1} + \dots + a_n b^0 = 0;\quad a_i \in \mathfrak a \]
+    In particular, \( \mathfrak b \) lies in \( \overline A \), and so all of its powers lie in \( \overline A \) as \( \overline A \) is a ring.
+    Using the integrality equation for \( b \), we observe that \( b^n \in \mathfrak a \overline A \), hence \( b \in \sqrt{\mathfrak a \overline A} \).
+
+    Now, suppose \( b \in \sqrt{\mathfrak a \overline A} \).
+    Then \( b^n \in \mathfrak a \overline A \) for some \( n \), so
+    \[ b^n = \sum_{i=1}^m a_i x_i;\quad a_i \in \mathfrak a, x_i \in \overline A \]
+    Define \( M = A[x_1, \dots, x_m] \).
+    The generators lie in \( \overline A \), so \( M \) is an \( A \)-algebra generated by finitely many integral elements over \( A \).
+    Hence \( M \) is a finite \( A \)-algebra.
+    Note that \( b^n M \subseteq \mathfrak a M \) by the equation for \( b^n \), thought of as an extension of \( A \)-modules.
+
+    Now define \( f : M \to M \) by multiplication by \( b^n \).
+    This satisfies \( f(M) \subseteq \mathfrak a M \), and \( f \) is \( A \)-linear.
+    Thus by the Cayley--Hamilton theorem,
+    \[ f^\ell + \alpha_1 f^{\ell - 1} + \dots + \alpha_\ell f^0 = 0 \in \End_R M;\quad \alpha_i \in \mathfrak a \]
+    Evaluating this at \( 1_A \in M \),
+    \[ b^{m\ell} + \alpha_1 b^{m(\ell - 1)} + \dots + \alpha_\ell b^0 = 0 \in B \]
+    This is an integrality relation for \( b \) is \( \mathfrak a \)-integral.
+\end{proof}
+Hence, the integral closure of an ideal is closed under sums and products.
+\begin{corollary}
+    Let \( A \subseteq B \) be an extension of rings, and let \( \mathfrak a \) be an ideal of \( A \).
+    Then \( b \in B \) is \( \mathfrak a \)-integral if and only if \( b \) is \( \sqrt{\mathfrak a} \)-integral.
+\end{corollary}
+\begin{proof}
+    By the previous proposition, it suffices to show that
+    \[ \sqrt{\mathfrak a \overline A} = \sqrt{\sqrt{\mathfrak a}\, \overline A} \]
+    The forwards inclusion is clear.
+    For the other direction, it is a general fact that \( \sqrt{I}^e \subseteq \sqrt{I^e} \), so
+    \[ \sqrt{\mathfrak a} \overline A \subseteq \sqrt{\mathfrak a \overline A} \]
+    Taking radicals on both sides,
+    \[ \sqrt{\sqrt{\mathfrak a}\, \overline A} \subseteq \sqrt{\sqrt{\mathfrak a \overline A}} = \sqrt{\mathfrak a \overline A} \]
+\end{proof}
+\begin{proposition}
+    Let \( A \) be an integrally closed integral domain (in its field of fractions).
+    Let \( A \subseteq B \) be an extension of rings, let \( \mathfrak a \) be an ideal in \( A \), and let \( a \in B \).
+    The following are equivalent:
+    \begin{enumerate}
+        \item \( b \) is integral over \( \mathfrak a \);
+        \item \( b \) is algebraic over \( FF(A) \) with minimal polynomial over \( FF(A) \) of the form
+        \[ T^n + a_1 T^{n-1} + \dots + a_n T^0 = 0;\quad a_i \in \sqrt{\mathfrak a} \]
+    \end{enumerate}
+\end{proposition}
+Note that there is an embedding \( FF(A) \subseteq FF(B) \).
+\begin{proof}
+    Suppose (ii) holds.
+    Then \( b \) is integral over \( \sqrt{\mathfrak a} \) by definition.
+    Thus, by the above corollary, \( b \) is integral over \( \mathfrak a \).
+
+    Now suppose (i) holds.
+    We have an integrality equation
+    \[ b^n + a_1 b^{n-1} + \dots + a_n b^0 = 0;\quad a_i \in \mathfrak a \]
+    Define
+    \[ h = T^n + a_1 T^{n-1} + \dots + a_n T^0 \in (FF(A))[T] \]
+    so \( h(b) = 0 \), so certainly \( b \) is algebraic over \( FF(A) \).
+    Let \( f \in (FF(A))[T] \) be the minimal polynomial of \( b \) over \( FF(A) \).
+    Let \( FF(A) \subseteq \Omega \) where \( \Omega \) is an algebraically closed field, so
+    \[ f = \prod_{i=1}^\ell (T - \alpha_i);\quad \alpha_1 = b, \alpha_i \in \Omega \]
+    We want to show that the coefficients of \( f \) are in \( \sqrt{\mathfrak a} \).
+    By the previous proposition, together with the fact that \( A \) is integrally closed, the integral closure of \( \mathfrak a \) in \( FF(A) \) is \( \sqrt{\mathfrak a} \subseteq A \).
+    So it suffices to show that the coefficients of \( f \) lie in \( FF(A) \) and are integrally closed in \( A \).
+    As \( f \) is the minimal polynomial over \( FF(A) \), the first part holds by definition.
+
+    Expanding brackets in the equation for \( f \), the coefficients of \( f \) are sums of products of the \( \alpha_i \).
+    The proposition above implies that the integral closure of \( \mathfrak a \) in \( \Omega \) is closed under sums and products, so it suffices to show that the \( \alpha_i \) are all integral over \( \mathfrak a \).
+    As the \( \alpha_i \) and \( b \) have the same minimal polynomial \( f \) over \( FF(A) \), there is an isomorphism of \( FF(A) \)-algebras \( \varphi_i : FF(A)[b] \to FF(A)[\alpha_i] \) that maps \( b \) to \( \alpha_i \).
+    Then as \( h(b) = 0 \) and \( h \in (FF(A))[T] \), we must have \( h(\alpha_i) = h(\varphi_i(b)) = \varphi_i(h(b)) = \varphi_i(0) = 0 \).
+\end{proof}
+
+\subsection{Cohen--Seidenberg theorems}
+If \( A \subseteq B \) is an extension of rings, the inclusion \( \iota : A \to B \) gives rise to \( \iota^\star : \Spec B \to \Spec A \) given by \( \iota(\mathfrak q) = \mathfrak q \cap A \).
+We will study the fibres of this induced map on spectra.
+\begin{proposition}[incomparability]
+    Let \( A \subseteq B \) be an integral extension, and let \( \mathfrak q, \mathfrak q' \) be prime ideals of \( B \).
+    Suppose that \( \mathfrak q \) and \( \mathfrak q' \) contract to the same prime ideal \( \mathfrak p = \mathfrak q \cap A = \mathfrak q' \cap A \) of \( A \), and that \( \mathfrak q \subseteq \mathfrak q' \).
+    Then \( \mathfrak q = \mathfrak q' \).
+\end{proposition}
+We will write \( B_{\mathfrak p} \) for \( (A \setminus \mathfrak p)^{-1} B \), but this is not in general a ring.
+\begin{proof}
+    Define \( S = A \setminus \mathfrak p \).
+    Then \( \mathfrak q \) and \( \mathfrak q' \) are prime ideals of \( B \) not intersecting \( S \).
+    Hence \( \mathfrak q = (S^{-1} \mathfrak q)^c \), where \( S^{-1} \mathfrak q = \mathfrak q B_{\mathfrak p} \) is the extension of \( \mathfrak q \) to \( S^{-1} B \), due to the bijection
+    \[ \qty{\mathfrak p \in \Spec R \mid \mathfrak p \cap S = \varnothing} \leftrightarrow \Spec S^{-1}R \]
+    It suffices to show that \( \mathfrak q B_{\mathfrak p} = \mathfrak q' B_{\mathfrak p} \), as then they are the contractions of the same ideal.
+    Note that
+    \[ \mathfrak q B_{\mathfrak p} \cap A_{\mathfrak p} = S^{-1} \mathfrak q \cap S^{-1} A = S^{-1} (\mathfrak q \cap A) = S^{-1} \mathfrak p = \mathfrak p A_{\mathfrak p} \]
+    Similarly, \( \mathfrak q' B_{\mathfrak p} \cap A_{\mathfrak p} = \mathfrak p A_{\mathfrak p} \), which is a maximal ideal of \( A_{\mathfrak p} \).
+    As \( A \subseteq B \) is an integral extension, \( A_{\mathfrak p} \subseteq B_{\mathfrak p} \) is also an integral extension.
+    Recall that the contraction of a maximal ideal is maximal in such an extension.
+    Now, \( \mathfrak q B_{\mathfrak p} \subseteq \mathfrak q' B_{\mathfrak p} \) are maximal ideals of \( B_{\mathfrak p} \), so they must coincide.
+\end{proof}
+\begin{proposition}[lying over]
+    Let \( A \subseteq B \) be an integral exxtension of rings, and let \( \mathfrak p \in \Spec A \).
+    Then there is a prime ideal \( \mathfrak q \in \Spec B \) such that \( \mathfrak q \cap A = \mathfrak p \).
+    In other words, \( \iota^\star : \Spec B \to \Spec A \) is surjective.
+\end{proposition}
+\begin{proof}
+    We have a commutative diagram
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiQiJdLFsxLDEsIkJfe1xcbWF0aGZyYWsgcH0gPSAoQSBcXHNldG1pbnVzIFxcbWF0aGZyYWsgcCleey0xfUIiXSxbMCwxLCJBX3tcXG1hdGhmcmFrIHB9Il0sWzAsMV0sWzEsMl0sWzAsM10sWzMsMl1d
+\[\begin{tikzcd}
+	A & B \\
+	{A_{\mathfrak p}} & {B_{\mathfrak p} = (A \setminus \mathfrak p)^{-1}B}
+	\arrow[from=1-1, to=1-2]
+	\arrow["\beta", from=1-2, to=2-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+    Let \( \mathfrak m \) be a maximal ideal of \( B_{\mathfrak p} \).
+    Then \( A_{\mathfrak p} \subseteq B_{\mathfrak p} \) is an integral extension, so \( \mathfrak m \) contracts to a maximal ideal \( \mathfrak m \cap A_{\mathfrak p} \) of \( A_{\mathfrak p} \).
+    But there is exactly one maximal ideal in \( A_{\mathfrak p} \), namely \( \mathfrak p A_{\mathfrak p} \).
+    Note that \( \mathfrak p A_{\mathfrak p} \) contracts to \( \mathfrak p \) under the map \( A \to A_{\mathfrak p} \).
+
+    We have that \( \mathfrak m \) contracts to \( \mathfrak p \) under the map \( A \to A_{\mathfrak p} \to B_{\mathfrak p} \), but this is the same as the map \( A \to B \to B_{\mathfrak p} \), so \( \beta^{-1} (\mathfrak m) \cap A = \mathfrak p \).
+    Note that \( \beta^{-1}(\mathfrak m) \) is a prime ideal, as required.
+\end{proof}
+\begin{theorem}[going up]
+    Let \( A \subseteq B \) be an integral extension of rings.
+    Let \( \mathfrak p_1 \subseteq \mathfrak p_2 \) be prime ideals in \( A \), and let \( \mathfrak q_1 \in \Spec B \) be a prime ideal such that \( \mathfrak q_1 \cap A = \mathfrak p_1 \).
+    Then there is a prime ideal \( \mathfrak q_2 \in \Spec B \) such that \( \mathfrak q_1 \subseteq \mathfrak q_2 \), and \( \mathfrak q_2 \cap A = \mathfrak p_2 \).
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhmcmFrIHFfMSJdLFsxLDAsIlxcbWF0aGZyYWsgcV8yIl0sWzEsMSwiXFxtYXRoZnJhayBwXzIiXSxbMCwxLCJcXG1hdGhmcmFrIHBfMSJdLFswLDEsIlxcc3Vic2V0ZXEiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMSwyLCJcXGNhcCBBIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzAsMywiXFxjYXAgQSIsMl0sWzMsMiwiXFxzdWJzZXRlcSIsMl1d
+\[\begin{tikzcd}
+	{\mathfrak q_1} & {\mathfrak q_2} \\
+	{\mathfrak p_1} & {\mathfrak p_2}
+	\arrow["\subseteq", dashed, from=1-1, to=1-2]
+	\arrow["{\cap A}", dashed, from=1-2, to=2-2]
+	\arrow["{\cap A}"', from=1-1, to=2-1]
+	\arrow["\subseteq"', from=2-1, to=2-2]
+\end{tikzcd}\]
+\end{theorem}
+\begin{proof}
+    We have an injection \( \faktor{A}{\mathfrak p_1} \to \faktor{B}{\mathfrak q_1} \) given by \( a + \mathfrak p_1 \mapsto q + \mathfrak q_1 \).
+    This is an integral extension, so by lying over, there is a prime ideal \( \faktor{\mathfrak q_2}{\mathfrak q_1} \) of \( \faktor{B}{\mathfrak q_1} \) that contracts to \( \faktor{\mathfrak p_2}{\mathfrak p_1} \) in \( \faktor{A}{\mathfrak p_1} \).
+    We claim that \( \mathfrak q_2 \cap A = \mathfrak p_2 \).
+    In the diagram
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiQiJdLFsxLDEsIlxcZmFrdG9ye0J9e1xcbWF0aGZyYWsgcV8xfSJdLFswLDEsIlxcZmFrdG9ye0F9e1xcbWF0aGZyYWsgcF8xfSJdLFswLDFdLFsxLDJdLFswLDNdLFszLDJdXQ==
+\[\begin{tikzcd}
+	A & B \\
+	{\faktor{A}{\mathfrak p_1}} & {\faktor{B}{\mathfrak q_1}}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+    we obtain contractions of prime ideals
+    % https://q.uiver.app/#q=WzAsNCxbMSwxLCJcXGZha3RvcntcXG1hdGhmcmFrIHFfMn17XFxtYXRoZnJhayBxXzF9Il0sWzEsMCwiXFxtYXRoZnJhayBxXzIiXSxbMCwwLCJcXG1hdGhmcmFrIHBfMiJdLFswLDEsIlxcZmFrdG9ye1xcbWF0aGZyYWsgcF8yfXtcXG1hdGhmcmFrIHBfMX0iXSxbMCwxLCIiLDAseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJtYXBzIHRvIn19fV0sWzAsMywiIiwyLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibWFwcyB0byJ9fX1dLFszLDIsIiIsMix7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1hcHMgdG8ifX19XV0=
+\[\begin{tikzcd}
+	{\mathfrak p_2} & {\mathfrak q_2} \\
+	{\faktor{\mathfrak p_2}{\mathfrak p_1}} & {\faktor{\mathfrak q_2}{\mathfrak q_1}}
+	\arrow[maps to, from=2-2, to=1-2]
+	\arrow[maps to, from=2-2, to=2-1]
+	\arrow[maps to, from=2-1, to=1-1]
+\end{tikzcd}\]
+    hence \( \mathfrak q_2 \) contracts to \( \mathfrak p_2 \), as required.
+\end{proof}
+\begin{theorem}[going down]
+    Let \( A \subseteq B \) be an integral extension of integral domains, and suppose that \( A \) is integrally closed (in its field of fractions).
+    Let \( \mathfrak p_1 \supseteq \mathfrak p_2 \) be prime ideals in \( A \), and let \( \mathfrak q_1 \in \Spec B \) be a prime ideal such that \( \mathfrak q_1 \cap A = \mathfrak p_1 \).
+    Then there is a prime ideal \( \mathfrak q_2 \in \Spec B \) such that \( \mathfrak q_1 \supseteq \mathfrak q_2 \), and \( \mathfrak q_2 \cap A = \mathfrak p_2 \).
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhmcmFrIHFfMSJdLFsxLDAsIlxcbWF0aGZyYWsgcV8yIl0sWzEsMSwiXFxtYXRoZnJhayBwXzIiXSxbMCwxLCJcXG1hdGhmcmFrIHBfMSJdLFsxLDAsIlxcc3Vwc2V0ZXEiLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMSwyLCJcXGNhcCBBIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzAsMywiXFxjYXAgQSIsMl0sWzIsMywiXFxzdXBzZXRlcSJdXQ==
+\[\begin{tikzcd}
+	{\mathfrak q_1} & {\mathfrak q_2} \\
+	{\mathfrak p_1} & {\mathfrak p_2}
+	\arrow["\supseteq"', dashed, from=1-2, to=1-1]
+	\arrow["{\cap A}", dashed, from=1-2, to=2-2]
+	\arrow["{\cap A}"', from=1-1, to=2-1]
+	\arrow["\supseteq", from=2-2, to=2-1]
+\end{tikzcd}\]
+\end{theorem}
+\begin{proof}
+    Consider the map \( A \to B \to B_{\mathfrak q_1} \).
+    These maps are injective as \( B \) is an integral domain, so we can think of these as inclusions of rings.
+    We want to prove that there is a prime ideal \( \mathfrak n \in \Spec B_{\mathfrak q_1} \) such that \( \mathfrak n \cap A = \mathfrak p_2 \).
+    This suffices, as \( (\mathfrak n \cap B) \cap A = \mathfrak p_2 \) is a contraction of a prime ideal \( \mathfrak q_2 = \mathfrak n \cap B \) of \( B \) contained in \( \mathfrak q_1 \) to \( \mathfrak p_2 \in \Spec A \).
+    In other words, we want to show that \( \mathfrak p_2 \) is a contracted ideal under the map \( A \to B_{\mathfrak q_1} \).
+    As contracted ideals are contracted from their own extension, it suffices to show that \( (\mathfrak p_2 B_{\mathfrak q_1}) \cap A \subseteq \mathfrak p_2 \), noting that the converse inclusion always holds.
+
+    Note that \( \mathfrak p_2 B_{\mathfrak q_1} = (\mathfrak p_2 B) B_{\mathfrak q_1} \).
+    Let \( \frac{y}{s} \in (\mathfrak p_2 B) B_{\mathfrak q_1} \cap A \), where \( y \in \mathfrak p_2 B \) and \( s \in B \setminus \mathfrak q_1 \).
+    As \( A \subseteq B \) is an integral extension, the integral closure of \( \mathfrak p_2 \) in \( B \) is \( \sqrt{\mathfrak p_2 B} \).
+    In particular, \( y \) is integral over \( \mathfrak p_2 \).
+    Since \( A \) is integrally closed and \( y \) is integral over \( \mathfrak p_2 \), the minimal polynomial of \( y \in FF(B) \) over \( FF(A) \) has the form
+    \[ y^r + u_1 y^{r-1} + \dots + u_r y^0 = 0;\quad u_i \in \sqrt{\mathfrak p_2} = \mathfrak p_2 \]
+    We can write \( y = \faktor{y}{s} \cdot s \), where \( y, s \in FF(B) \) and \( \frac{y}{s} \in FF(A) \).
+    Hence,
+    \[ \qty(\frac{y}{s} \cdot s)^r + u_1 \qty(\frac{y}{s} \cdot s)^{r-1} + \dots + u_r \qty(\frac{y}{s} \cdot s)^0 = 0 \]
+    Multiplying by \( \qty(\frac{s}{y})^r \),
+    \[ s^r + \qty(\frac{s}{y})^1 u_1 s^{r-1} + \dots + \qty(\frac{s}{y})^r u_r s^0 = 0;\quad u_i \in \sqrt{\mathfrak p_2} = \mathfrak p_2 \]
+    This must be the same minimal polynomial of \( s \) as an element of \( FF(B) \) over \( FF(A) \).
+    As \( s \in B \), \( s \) is integral over \( A \), so the coefficients in this polynomial must lie in \( A \).
+    \[ \qty(\frac{s}{y})^1 u_1, \dots, \qty(\frac{s}{y})^r u_r \in A \]
+    Suppose \( \frac{y}{s} \notin \mathfrak p_2 \).
+    Then
+    \[ u_i = \qty(\frac{y}{s})^i \cdot \qty(\frac{s}{y})^i u_i \]
+    But
+    \[ u_1 \in \mathfrak p_2;\quad \qty(\frac{y}{s})^i \in A \setminus \mathfrak p_2;\quad \qty(\frac{s}{y})^i u_i \in A \]
+    By primality, \( \qty(\frac{s}{y})^i u_i \in \mathfrak p_2 \).
+    As this holds for all \( i \), the coefficients in the equation for \( s \) lie in \( \mathfrak p_2 \), so
+    \[ s^r \in \mathfrak p_2 B \subseteq \mathfrak p_1 B = (\mathfrak q_1 \cap A) B \subseteq \mathfrak q_1 \]
+    Hence \( s \in \mathfrak q_1 \) by primality, giving a contradiction.
+\end{proof}
