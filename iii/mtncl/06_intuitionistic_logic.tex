@@ -60,15 +60,15 @@ This will be called \emph{intuitionistic (propositional) logic} \( \mathsf{IPC} 
 We will use the notation \( \Gamma \vdash \varphi \), or \( \Gamma \vdash_{\mathsf{IPC}} \varphi \), to denote that the set of \emph{open assumptions} \( \Gamma \) let us conclude \( \varphi \).
 \( \Gamma \) is also called the \emph{context}.
 We will inductively define this provability relation.
-Some rules let us construct proofs, called \emph{introduction rules}.
+Some rules, called \emph{introduction rules}, let us construct proofs.
 \begin{mathpar}
     \inferrule[\( \wedge \)-I]{\Gamma \vdash A \and \Gamma \vdash B}{\Gamma \vdash A \wedge B}
     \and
     \inferrule[\( \vee \)-I]{\Gamma \vdash A}{\Gamma \vdash A \vee B}
     \and
-    \inferrule{\Gamma \vdash B}{\Gamma \vdash A \vee B}
+    \inferrule[\( \vee \)-I]{\Gamma \vdash B}{\Gamma \vdash A \vee B}
 \end{mathpar}
-Dually, some rules let us extract information from proofs, called \emph{elimination rules}.
+Dually, some rules, called \emph{elimination rules}, let us extract information from proofs.
 \begin{mathpar}
     \inferrule[\( \wedge \)-E]{\Gamma \vdash A \wedge B}{\Gamma \vdash A}
     \and
@@ -100,8 +100,7 @@ We will additionally use the informal notation
 \[ \inferrule*[right={\( (A, B) \)}]{{\begin{matrix} [A]\\\vdots\\X \end{matrix}} \and {\begin{matrix} [B]\\\vdots\\Y \end{matrix}}}{C} \]
 to mean that if we can prove \( X \) assuming \( A \) and we can prove \( Y \) assuming \( B \), then we can infer \( C \) by discharging the open assumptions \( A \) and \( B \).
 For example, we can write an instance of \( \Rightarrow \)-I as
-% TODO: why won't this compile?
-% \[ \inferrule*[right={\( (A) \)}]{{\begin{matrix} \Gamma, [A]\\\vdots\\B \end{matrix}}}{\Gamma \vdash A \Rightarrow B} \]
+\[ \inferrule*[right={\( (A) \)}]{\ {\begin{matrix} \Gamma, [A]\\\vdots\\B \end{matrix}}\ }{\Gamma \vdash A \Rightarrow B} \]
 To extend this to intuitionistic predicate logic \( \mathsf{IQC} \), we need to add rules for quantifiers.
 \begin{mathpar}
     \inferrule[\( \exists \)-I]{\Gamma \vdash \varphi[x := t]}{\Gamma \vdash \exists x.\, \varphi(x)}
