@@ -13,7 +13,7 @@ Our system will have the following properties, known as the Brouwer--Heyting--Ko
     \item To prove \( \exists x.\, \varphi(x) \), one must provide a term \( t \) together with a proof of \( \varphi(t) \).
     \item To prove \( \forall x.\, \varphi(x) \), one must provide a mechanism that converts any term \( t \) into a proof of \( \varphi(t) \).
 \end{enumerate}
-This will be called \emph{intuitionistic logic}.
+This will be called \emph{intuitionistic (propositional) logic} \( \mathsf{IPC} \).
 \begin{theorem}[Diaconescu]
     In intuitionistic \( \mathsf{ZF} \) set theory, the law of the excluded middle \( \mathsf{LEM} \) can be deduced from the axiom of choice \( \mathsf{AC} \).
 \end{theorem}
@@ -57,3 +57,106 @@ This will be called \emph{intuitionistic logic}.
 \end{remark}
 
 \subsection{Natural deduction}
+We will use the notation \( \Gamma \vdash \varphi \), or \( \Gamma \vdash_{\mathsf{IPC}} \varphi \), to denote that the set of \emph{open assumptions} \( \Gamma \) let us conclude \( \varphi \).
+\( \Gamma \) is also called the \emph{context}.
+We will inductively define this provability relation.
+Some rules let us construct proofs, called \emph{introduction rules}.
+\begin{mathpar}
+    \inferrule[\( \wedge \)-I]{\Gamma \vdash A \and \Gamma \vdash B}{\Gamma \vdash A \wedge B}
+    \and
+    \inferrule[\( \vee \)-I]{\Gamma \vdash A}{\Gamma \vdash A \vee B}
+    \and
+    \inferrule{\Gamma \vdash B}{\Gamma \vdash A \vee B}
+\end{mathpar}
+Dually, some rules let us extract information from proofs, called \emph{elimination rules}.
+\begin{mathpar}
+    \inferrule[\( \wedge \)-E]{\Gamma \vdash A \wedge B}{\Gamma \vdash A}
+    \and
+    \inferrule[\( \wedge \)-E]{\Gamma \vdash A \wedge B}{\Gamma \vdash B}
+    \and
+    \inferrule[\( \vee \)-E]{\Gamma, A \vdash C \and \Gamma, B \vdash C \and \Gamma \vdash A \vee B}{\Gamma \vdash C}
+\end{mathpar}
+We now define the principle of explosion, which is an elimination rule for \( \bot \).
+We do not construct an introduction rule for \( \bot \).
+\[ \inferrule[\( \bot \)-E]{\Gamma \vdash \bot}{\Gamma \vdash A} \]
+We now define the introduction and elimination rules for implication.
+The elimination rule is known as \emph{modus ponens}.
+\begin{mathpar}
+    \inferrule[\( \Rightarrow \)-I]{\Gamma, A \vdash B}{\Gamma \vdash A \Rightarrow B}
+    \and
+    \inferrule[\( \Rightarrow \)-E]{\Gamma \vdash A \Rightarrow B \and \Gamma \vdash A}{\Gamma \vdash B}
+\end{mathpar}
+We finally define a rule called the \emph{axiom schema}, that allows us to prove our assumptions.
+\[ \inferrule[Ax]{\ }{\Gamma, A \vdash A} \]
+If an inference rule moves an assumption out of the context, we say that the assumption is \emph{discharged} or \emph{closed}.
+We are allowed to drop assumptions that we do not use; this is called the \emph{weakening} rule.
+We obtain classical propositional logic \( \mathsf{CPC} \) by additionally adding one of the following two rules.
+\begin{mathpar}
+    \inferrule[\( \mathsf{LEM} \)]{\ }{\Gamma \vdash A \vee \neg A}
+    \and
+    \inferrule[\( \neg\neg \)-E]{\Gamma, \neg A \vdash \bot}{\Gamma \vdash A}
+\end{mathpar}
+We will additionally use the informal notation
+\[ \inferrule*[right={\( (A, B) \)}]{{\begin{matrix} [A]\\\vdots\\X \end{matrix}} \and {\begin{matrix} [B]\\\vdots\\Y \end{matrix}}}{C} \]
+to mean that if we can prove \( X \) assuming \( A \) and we can prove \( Y \) assuming \( B \), then we can infer \( C \) by discharging the open assumptions \( A \) and \( B \).
+For example, we can write an instance of \( \Rightarrow \)-I as
+% TODO: why won't this compile?
+% \[ \inferrule*[right={\( (A) \)}]{{\begin{matrix} \Gamma, [A]\\\vdots\\B \end{matrix}}}{\Gamma \vdash A \Rightarrow B} \]
+To extend this to intuitionistic predicate logic \( \mathsf{IQC} \), we need to add rules for quantifiers.
+\begin{mathpar}
+    \inferrule[\( \exists \)-I]{\Gamma \vdash \varphi[x := t]}{\Gamma \vdash \exists x.\, \varphi(x)}
+    \and
+    \inferrule[\( \forall \)-I]{\Gamma \vdash \varphi \and x \text{ not free in } \Gamma}{\Gamma \vdash \forall x.\, \varphi}
+    \\\\
+    \inferrule[\( \exists \)-E]{\Gamma \vdash \exists x.\, \varphi \and \Gamma, \varphi \vdash \psi \and x \text{ not free in } \Gamma}{\Gamma \vdash \psi}
+    \and
+    \inferrule[\( \forall \)-E]{\Gamma \vdash \forall x.\, \varphi}{\Gamma \vdash \varphi[x := t]}
+\end{mathpar}
+\begin{example}
+    We will show that \( \vdash_{\mathsf{IPC}} A \wedge B \Rightarrow B \wedge A \).
+    \[ \inferrule*[right=\( \Rightarrow \)-I]{\inferrule*[right=\( \wedge \)-I]{
+        \inferrule*[right=\( \wedge \)-E]{[A \wedge B]}{B}
+        \and
+        \inferrule*[right=\( \wedge \)-E]{[A \wedge B]}{A}
+    }{B \wedge A}}{A \wedge B \Rightarrow B \wedge A} \]
+\end{example}
+\begin{example}
+    We will show that the logical axioms
+    \[ \varphi \Rightarrow (\psi \Rightarrow \varphi);\quad (\varphi \Rightarrow (\psi \Rightarrow \chi)) \Rightarrow ((\varphi \Rightarrow \psi) \Rightarrow (\varphi \Rightarrow \chi)) \]
+    are intuitionistically valid.
+    \[ \inferrule*[right={(\( \Rightarrow \)-I, \( \varphi \))}]{
+        \inferrule*[right={(\( \Rightarrow \)-I, \( \psi \))}]{
+            \inferrule*[right=Ax]{[\varphi]}{\varphi} \and [\psi]
+        }{\psi \Rightarrow \varphi}
+    }{\varphi \Rightarrow (\psi \Rightarrow \varphi)} \]
+    For the second axiom,
+    \[ \inferrule*[right=\( (\varphi \Rightarrow (\psi \Rightarrow \chi)) \)]{
+        \inferrule*[right=\( (\varphi \Rightarrow \psi) \)]{
+            \inferrule*[right=\( (\varphi) \)]{
+                \inferrule*[right=\( \Rightarrow \)-E]{
+                    \inferrule*[right=\( \Rightarrow \)-E]{[\varphi \Rightarrow (\psi \Rightarrow \chi)] \and [\varphi]}{\psi \Rightarrow \chi}
+                    \and
+                    \inferrule*[right=\( \Rightarrow \)-E]{[\varphi \Rightarrow \psi] \and [\varphi]}{\psi}
+                }{\chi}
+            }{\varphi \Rightarrow \chi}
+        }{(\varphi \Rightarrow \psi) \Rightarrow (\varphi \Rightarrow \chi)}
+    }{(\varphi \Rightarrow (\psi \Rightarrow \chi)) \Rightarrow ((\varphi \Rightarrow \psi) \Rightarrow (\varphi \Rightarrow \chi))} \]
+\end{example}
+\begin{lemma}
+    If \( \Gamma \vdash_{\mathsf{IPC}} \varphi \), then \( \Gamma, \psi \vdash_{\mathsf{IPC}} \varphi \).
+    Moreover, if \( p \) is a primitive proposition and \( \psi \) is any proposition, then
+    \[ \Gamma[p := \psi] \vdash_{\mathsf{IPC}} \varphi[p := \psi] \]
+\end{lemma}
+\begin{proof}
+    This follows easily by induction over the length of the proof.
+\end{proof}
+
+\subsection{The simply typed lambda calculus}
+For now, we will assume we are given a set \( \Pi \) of \emph{simple types}, generated by the grammar
+\[ \Pi ::= \mathcal U \mid \Pi \to \Pi \]
+where \( \mathcal U \) is a countable set of \emph{primitive types} or \emph{type variables}.
+\begin{definition}
+    Let \( V \) be an infinite set of variables.
+    The set \( \Lambda_\Pi \) of \emph{simply typed \( \lambda \)-terms} is defined by the grammar
+    \[ \Lambda_\Pi ::= V \mid \underbrace{\lambda V : \Pi .\, \Lambda_\Pi}_{\text{\( \lambda \)-abstraction}} \mid \underbrace{\Lambda_\Pi \, \Lambda_\Pi}_{\text{\( \lambda \)-application}} \]
+\end{definition}
