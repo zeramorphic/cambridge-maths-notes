@@ -1,4 +1,3 @@
-\subsection{???}
 \begin{definition}
     Let \( I \) be an ideal of \( R \).
     \( I \) is
@@ -8,12 +7,101 @@
         \item \emph{primary} if \( \faktor{R}{I} \neq 0 \) and every zero divisor in \( \faktor{R}{I} \) is nilpotent.
     \end{enumerate}
 \end{definition}
-Prime ideals are radical and primary.
+The prime ideals precisely those ideals that are both radical and primary.
 \( R \) is radical but not prime or primary.
 \begin{example}
     \begin{enumerate}
         \item Let \( R = \mathbb Z \).
         The ideal \( (6) \) is radical but not primary, as \( \faktor{R}{(6)} \) contains zero divisors \( 2, 3 \) which are not nilpotent.
         The ideal \( (9) \) is primary but not radical.
+        \item More generally, let \( R = \mathbb Z \) and \( x \neq 0 \).
+        Then \( (x) \) is prime if and only if \( x = 0 \) or \( \abs{x} \) is prime, and \( (x) \) is radical if and only if \( x \) is squarefree.
+        \( (x) \) is primary if and only if \( x = p^n \) for some prime \( p \) and \( n \geq 1 \).
     \end{enumerate}
 \end{example}
+\begin{proposition}
+    Let \( I \) be a proper ideal in \( R \).
+    Then
+    \begin{enumerate}
+        \item If \( I \) is primary, then \( \mathfrak p = \sqrt{I} \) is prime.
+        We say \( I \) is \emph{\( \mathfrak p \)-primary}.
+        \item If \( \sqrt{I} \) is maximal, then \( I \) is primary.
+        \item If \( \mathfrak q_1, \dots, \mathfrak q_n \) are \( \mathfrak p \)-primary, then \( \bigcap_{i=1}^n \mathfrak q_i \) is also \( \mathfrak p \)-primary.
+        \item If \( I \) has a \emph{primary decomposition} \( I = \bigcap_{i=1}^n \mathfrak q_i \) where the \( \mathfrak q_i \) are primary, then \( I \) has a minimal primary decomposition \( \bigcap_{j=1}^m \mathfrak r_j \) where the \( \sqrt{\mathfrak r_j} \) are distinct and no \( \mathfrak r_j \) can be dropped.
+        \item If \( R \) is Noetherian, then every proper ideal has a primary decomposition.
+    \end{enumerate}
+\end{proposition}
+% 3 follows from 2
+% ES3
+In \( \mathbb Z \),
+\[ (90) = (2) \cap (3^2) \cap (5) \]
+Primary decomposition therefore generalises prime factorisation.
+Note that for a prime ideal \( \mathfrak p \), if \( \mathfrak p^n \) is primary, then \( \mathfrak p^n \) is \( \mathfrak p \)-primary, because \( \sqrt{\mathfrak p^n} = \mathfrak p \).
+\begin{example}
+    \begin{enumerate}
+        \item Not every primary ideal is a power of a prime ideal.
+        For instance, consider \( R = k[X, Y] \) and \( \mathfrak q = (X, Y^2) \).
+        We claim that this is primary.
+        For instance, \( \sqrt{\mathfrak q} = (X, Y) \) is maximal, so \( \mathfrak q \) is \( (X, Y) \)-primary.
+        % TODO: Add proof of this radical from notes
+        Alternatively,
+        \[ \faktor{k[X, Y]}{(X, Y^2)} \simeq \faktor{k[Y]}{(Y^2)} \]
+        If \( f \in k[Y] \) satisfies \( f \in (Y^2) \) so it is a zero divisor, then \( Y \mid f \), so \( f + (Y^2) \) is nilpotent.
+        Now, if \( \mathfrak q = \mathfrak p^n \), then
+        \[ (X, Y) = \sqrt{\mathfrak q} = \sqrt{\mathfrak p^n} = \mathfrak p \]
+        But
+        \[ (X, Y) \supsetneq (X, Y^2) \supsetneq (X, Y)^2 \]
+        So \( \mathfrak q \) is not a power of \( \mathfrak p = (X, Y) \).
+        \item If \( \mathfrak p \) is prime, \( \mathfrak p^n \) need not be primary.
+        Let
+        \[ R = \faktor{k[X, Y, Z]}{(XY - Z^2)} = k[\overline X, \overline Y, \overline Z];\quad \mathfrak p = (\overline X, \overline Z) \]
+        where \( \overline X, \overline Y, \overline Z \) are the images of \( X, Y, Z \) under the quotient map.
+        We claim that \( \mathfrak p \) is prime, but \( \mathfrak p^2 \) is not primary.
+        Indeed,
+        \[ \faktor{R}{\mathfrak p} \simeq \faktor{k[X, Y, Z]}{(X, Z, XY - Z^2)} \simeq \faktor{k[X, Y, Z]}{(X, Z)} \simeq k[Y] \]
+        which is an integral domain, so \( \mathfrak p \) is prime.
+        For the second part,
+        \[ \mathfrak p^2 = (\overline X^2, \overline X \cdot \overline Z, \overline Z^2) \]
+        Then \( \overline X \cdot \overline Y = \overline Z^2 \in \mathfrak p^2 \), that is,
+        \[ (\overline X + \mathfrak p^2)(\overline Y + \mathfrak p^2) = 0 + \mathfrak p^2 \]
+        But \( \overline X + \mathfrak p^2 \neq 0 \) and \( \overline Y + \mathfrak p^2 \neq 0 \).
+        Hence \( \overline Y + \mathfrak p^2 \) is a zero divisor in \( \faktor{R}{\mathfrak p^2} \).
+        Note that
+        \[ \faktor{R}{\mathfrak p^2} \simeq \faktor{k[X, Y, Z]}{(XY - Z^2, X^2, XZ, Z^2)} \simeq \faktor{k[X, Y, Z]}{(XY, X^2, Z^2)} \]
+        so \( Y + \mathfrak p^2 \) is not nilpotent.
+        % TODO: fill in from notes
+    \end{enumerate}
+\end{example}
+\begin{theorem}
+    Let \( \bigcap_{i=1}^n \mathfrak q_i \) be a minimal primary decomposition for an ideal \( I \) of \( R \), and let \( \mathfrak p_i = \sqrt{\mathfrak q_i} \) for each \( i \).
+    Then
+    \begin{enumerate}
+        \item (\emph{associated} prime ideals of \( I \)) The prime ideals \( \mathfrak p_1, \dots, \mathfrak p_n \) are determined only by \( I \), even though there may not be a unique minimal primary decomposition.
+        \item (\emph{isolated} prime ideals of \( I \)) The minimal elements of \( \qty{\mathfrak p_1, \dots, \mathfrak p_n} \), ordered by inclusion, are exactly the minimal prime ideals of \( R \) that contain \( I \).
+        An associated prime ideal that is not isolated is called \emph{embedded}.
+        \item (isolated primary components of \( I \)) If \( \mathfrak p_1, \dots, \mathfrak p_t \) are the isolated prime ideals of \( I \) for \( t \leq n \), then \( \mathfrak q_1, \dots, \mathfrak q_t \) are determined only by \( I \).
+    \end{enumerate}
+\end{theorem}
+% 1, 2 in ES3, 3 in atiyah-macdonald
+\begin{example}
+    Let \( R = k[X, Y] \) and \( I = (X^2, XY) \).
+    We have primary decompositions
+    \[ I = (X) \cap (X, Y)^2 = (X) \cap (X^2, Y) \]
+    Note that
+    \[ \sqrt{(X)} = (X);\quad \sqrt{(X, Y)^2} = (X, Y);\quad \sqrt{(X^2, Y)} = (X, Y) \]
+    The associated primes of \( I \) are \( (X) \) and \( (X, Y) \).
+    The isolated prime is \( (X) \) and the embedded prime is \( (X, Y) \).
+\end{example}
+\begin{remark}
+    Let \( I = \bigcap_{i=1}^n \mathfrak q_i \) be a minimal primary decomposition with \( \sqrt{q_i} = \mathfrak p_i \).
+    Suppose \( \mathfrak p_1, \dots, \mathfrak p_t \) are the isolated primes.
+    Then
+    \[ \sqrt{I} = \sqrt{\bigcap_{i=1}^n \mathfrak q_i} = \bigcap_{i=1}^n \sqrt{\mathfrak q_i} = \bigcap_{i=1}^n \mathfrak p_i = \bigcap_{i=1}^t \mathfrak p_i \]
+    This is a primary decomposition of \( \sqrt{I} \), and one can check that this is minimal.
+    All associated primes in this decomposition are isolated.
+    Going from \( I \) to \( \sqrt{I} \), we only `remember' the isolated primes.
+
+    Analogously, let \( R = k[T_1, \dots, T_n] \), where \( k \subseteq \mathbb C \).
+    Then \( \mathbb V(I) = \mathbb V\qty(\sqrt{I}) \) and \( I(\mathbb V(I)) = \sqrt{I} \).
+    Hence, taking the algebraic set of \( I \) `remembers' the radical of \( I \) and nothing else.
+\end{remark}
