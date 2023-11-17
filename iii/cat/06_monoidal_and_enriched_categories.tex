@@ -1,4 +1,4 @@
-\subsection{???}
+\subsection{Monoidal categories}
 There are many examples of categories \( \mathcal C \) equipped with a functor \( \otimes : \mathcal C \times \mathcal C \to \mathcal C \) and an object \( I \in \ob \mathcal C \) that turn \( \mathcal C \) into a monoid up to isomorphism.
 Such a structure on a category is called a \emph{monoidal structure}, which will be defined precisely at the end of this subsection.
 \begin{example}
@@ -17,3 +17,182 @@ Such a structure on a category is called a \emph{monoidal structure}, which will
         This is a monoidal structure, where the unit is the one-element poset.
     \end{enumerate}
 \end{example}
+\begin{definition}
+    A \emph{monoidal category} is a category \( \mathcal C \) equipped with a functor \( \otimes : \mathcal C \times \mathcal C \to \mathcal C \) and a distinguished object \( I \), together with three natural isomorphisms
+    \[ \alpha_{A, B, C} : (A \otimes B) \otimes C \to A \otimes (B \otimes C);\quad \lambda_A : I \otimes A \to A;\quad \rho_A : A \otimes I \to A \]
+    such that the diagrams
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIoKEEgXFxvdGltZXMgQikgXFxvdGltZXMgQykgXFxvdGltZXMgRCJdLFswLDEsIihBIFxcb3RpbWVzIEIpIFxcb3RpbWVzIChDIFxcb3RpbWVzIEQpIl0sWzEsMiwiQSBcXG90aW1lcyAoQiBcXG90aW1lcyAoQyBcXG90aW1lcyBEKSkiXSxbMiwwLCIoQSBcXG90aW1lcyAoQiBcXG90aW1lcyBDKSkgXFxvdGltZXMgRCJdLFsyLDEsIkEgXFxvdGltZXMgKChCIFxcb3RpbWVzIEMpIFxcb3RpbWVzIEQpIl0sWzAsMSwiXFxhbHBoYV97QSBcXG90aW1lcyBCLCBDLCBEfSIsMl0sWzEsMiwiXFxhbHBoYV97QSxCLEMgXFxvdGltZXMgRH0iLDJdLFswLDMsIlxcYWxwaGFfe0FCQ30gXFxvdGltZXMgMV9EIl0sWzMsNCwiXFxhbHBoYV97QSxCIFxcb3RpbWVzIEMsRH0iXSxbNCwyLCIxX0EgXFxvdGltZXMgXFxhbHBoYV97QkNEfSJdXQ==
+\[\begin{tikzcd}
+	{((A \otimes B) \otimes C) \otimes D} && {(A \otimes (B \otimes C)) \otimes D} \\
+	{(A \otimes B) \otimes (C \otimes D)} && {A \otimes ((B \otimes C) \otimes D)} \\
+	& {A \otimes (B \otimes (C \otimes D))}
+	\arrow["{\alpha_{A \otimes B, C, D}}"', from=1-1, to=2-1]
+	\arrow["{\alpha_{A,B,C \otimes D}}"', from=2-1, to=3-2]
+	\arrow["{\alpha_{ABC} \otimes 1_D}", from=1-1, to=1-3]
+	\arrow["{\alpha_{A,B \otimes C,D}}", from=1-3, to=2-3]
+	\arrow["{1_A \otimes \alpha_{BCD}}", from=2-3, to=3-2]
+\end{tikzcd}\]
+% https://q.uiver.app/#q=WzAsMyxbMCwwLCIoQSBcXG90aW1lcyBJKSBcXG90aW1lcyBCIl0sWzIsMCwiQSBcXG90aW1lcyAoSSBcXG90aW1lcyBCKSJdLFsxLDEsIkEgXFxvdGltZXMgQiJdLFswLDEsIlxcYWxwaGFfe0EsIEksIEJ9Il0sWzEsMiwiMV9BIFxcb3RpbWVzIFxcbGFtYmRhX0IiXSxbMCwyLCJcXHJob19BIFxcb3RpbWVzIDFfQiIsMl1d
+\[\begin{tikzcd}
+	{(A \otimes I) \otimes B} && {A \otimes (I \otimes B)} \\
+	& {A \otimes B}
+	\arrow["{\alpha_{A, I, B}}", from=1-1, to=1-3]
+	\arrow["{1_A \otimes \lambda_B}", from=1-3, to=2-2]
+	\arrow["{\rho_A \otimes 1_B}"', from=1-1, to=2-2]
+\end{tikzcd}\]
+    commute, and \( \lambda_I = \rho_I : I \otimes I \to I \).
+\end{definition}
+\( \alpha \) is called the \emph{associator}, and \( \lambda \) and \( \rho \) are the \emph{left} and \emph{right unitors}.
+
+These diagrams suffice to prove the commutativity of the following two diagrams.
+% https://q.uiver.app/#q=WzAsMyxbMCwwLCIoSSBcXG90aW1lcyBBKSBcXG90aW1lcyBCIl0sWzEsMCwiSSBcXG90aW1lcyAoQSBcXG90aW1lcyBCKSJdLFswLDEsIkEgXFxvdGltZXMgQiJdLFswLDEsIlxcYWxwaGFfe0ksQSxCfSJdLFswLDIsIlxcbGFtYmRhX0EgXFxvdGltZXMgMV9CIiwyXSxbMSwyLCJcXGxhbWJkYV97QSBcXG90aW1lcyBCfSJdXQ==
+\[\begin{tikzcd}
+	{(I \otimes A) \otimes B} & {I \otimes (A \otimes B)} \\
+	{A \otimes B}
+	\arrow["{\alpha_{I,A,B}}", from=1-1, to=1-2]
+	\arrow["{\lambda_A \otimes 1_B}"', from=1-1, to=2-1]
+	\arrow["{\lambda_{A \otimes B}}", from=1-2, to=2-1]
+\end{tikzcd}\quad\quad\begin{tikzcd}
+	{(A \otimes B) \otimes I} & {A \otimes (B \otimes I)} \\
+	& {A \otimes B}
+	\arrow["{\alpha_{A,B,I}}", from=1-1, to=1-2]
+	\arrow["{1_A \otimes \rho_B}", from=1-2, to=2-2]
+	\arrow["{\rho_{A \otimes B}}"', from=1-1, to=2-2]
+\end{tikzcd}\]
+Note that in the category of abelian groups with the usual tensor product, the obvious choice for \( \alpha \) is the map sending \( (a \otimes b) \otimes c \) to \( a \otimes (b \otimes c) \).
+However, there is also a natural isomorphism sending \( (a \otimes b) \otimes c \) to \( -a \otimes (b \otimes c) \).
+But this choice does not satisfy the pentagon equation, as a pentagon has an odd number of sides.
+
+\subsection{The coherence theorem}
+Given a monoidal category \( (\mathcal C, \otimes, I) \), we define a \emph{word} recursively.
+\begin{enumerate}
+    \item We have a stack of \emph{variables} \( A, B, C, \dots \), which are all words.
+    \item The unit \( I \) is a word.
+    \item If \( u, v \) are words, then \( u \otimes v \) is a word.
+\end{enumerate}
+A word with \( n \) variables defines a functor \( \mathcal C^n \to \mathcal C \).
+\begin{theorem}[Mac Lane's coherence theorem]
+    For any two words \( w, w' \) with the same sequence of variables in the same order, there is a unique natural isomorphism \( w \to w' \) obtained by composing instances of \( \alpha, \lambda, \rho \) and their inverses.
+\end{theorem}
+\begin{proof}
+    We define the \emph{height} of a word \( w \) to be \( a(w) + i(w) \), where
+    \begin{enumerate}
+        \item \( a(w) \) is the \emph{associator height}, which is the number of closing parentheses occurring immediately before \( \otimes \) in \( w \);
+        \item \( i(w) \) is the number of occurrences of \( I \) in \( w \).
+    \end{enumerate}
+    Applying any instance of \( \alpha, \lambda, \rho \) to a word reduces its height.
+    For example, \( \alpha \dots : w \to w' \), then \( a(w') < a(w) \) and \( i(w') = i(w) \), and correspondingly if \( \lambda\dots w \to w' \), then \( i(w') = i(w) - 1 \) and \( a(w') \leq a(w) \).
+    In particular, any string of instances of \( \alpha, \lambda, \rho \) starting from \( w \) has length at most \( a(w) + i(w) \).
+
+    We say that a word \( w \) is \emph{reduced} if either \( a(w) = i(w) = 0 \) or \( w = I \).
+    If \( a(w) > 0 \), then \( w \) is the domain of an instance of \( \alpha \), and if \( i(w) > 0 \) and \( w \neq I \), then \( w \) is the domain of an instance of either \( \lambda \) or \( \rho \).
+    Thus, for any word \( w \), there is a string \( w \to \dots \to w_0 \) where \( w_0 \) is the unique reduced word containing the same variables of \( w \) in the same order.
+    We must show that any two such strings have the same composite
+    Given
+    % https://q.uiver.app/#q=WzAsMyxbMSwwLCJ3Il0sWzAsMSwidyciXSxbMiwxLCJ3JyciXSxbMCwxLCJcXHZhcnBoaSIsMl0sWzAsMiwiXFxwc2kiXV0=
+\[\begin{tikzcd}
+	& w \\
+	{w'} && {w''}
+	\arrow["\varphi"', from=1-2, to=2-1]
+	\arrow["\psi", from=1-2, to=2-3]
+\end{tikzcd}\]
+    where \( \varphi, \psi \) are instances of \( \alpha, \lambda \), or \( \rho \), we need to find a word \( w''' \) completing the commutative square
+    % https://q.uiver.app/#q=WzAsNCxbMSwwLCJ3Il0sWzAsMSwidyciXSxbMiwxLCJ3JyciXSxbMSwyLCJ3JycnIl0sWzAsMSwiXFx2YXJwaGkiLDJdLFswLDIsIlxccHNpIl0sWzEsMywiXFx0aGV0YSIsMl0sWzIsMywiXFxjaGkiXV0=
+\[\begin{tikzcd}
+	& w \\
+	{w'} && {w''} \\
+	& {w'''}
+	\arrow["\varphi"', from=1-2, to=2-1]
+	\arrow["\psi", from=1-2, to=2-3]
+	\arrow["\theta"', from=2-1, to=3-2]
+	\arrow["\chi", from=2-3, to=3-2]
+\end{tikzcd}\]
+    where \( \theta, \chi \) are composites of instances of \( \alpha, \lambda \), and \( \rho \).
+
+    If \( \varphi, \psi \) act on disjoint subwords of \( w \), so \( w = u \otimes v \) where \( \varphi = \varphi' \otimes 1_v \) and \( \psi = 1_u \otimes \psi' \), then we can fill in the square as follows.
+    % https://q.uiver.app/#q=WzAsNCxbMSwwLCJ1IFxcb3RpbWVzIHYiXSxbMCwxLCJ1JyBcXG90aW1lcyB2Il0sWzIsMSwidSBcXG90aW1lcyB2JyJdLFsxLDIsInUnIFxcb3RpbWVzIHYnIl0sWzAsMSwiXFx2YXJwaGknIFxcb3RpbWVzIDFfdiIsMl0sWzAsMiwiMV91IFxcb3RpbWVzIFxccHNpJyJdLFsxLDMsIjFfe3UnfSBcXG90aW1lcyBcXHBzaSciLDJdLFsyLDMsIlxcdmFycGhpJyBcXG90aW1lcyAxX3t2J30iXV0=
+\[\begin{tikzcd}
+	& {u \otimes v} \\
+	{u' \otimes v} && {u \otimes v'} \\
+	& {u' \otimes v'}
+	\arrow["{\varphi' \otimes 1_v}"', from=1-2, to=2-1]
+	\arrow["{1_u \otimes \psi'}", from=1-2, to=2-3]
+	\arrow["{1_{u'} \otimes \psi'}"', from=2-1, to=3-2]
+	\arrow["{\varphi' \otimes 1_{v'}}", from=2-3, to=3-2]
+\end{tikzcd}\]
+    Now suppose one acts within the argument of the other, for example, if \( \varphi \) is \( \alpha_{t, u, v} \) and \( \psi = (1_t \otimes \psi') \otimes 1_v \).
+    Then by naturality of \( \alpha \), we can complete the diagram with \( 1_t \otimes (\psi' \otimes 1_v) \) and \( \alpha_{t, u', v} \).
+
+    Now suppose that \( \varphi \) and \( \psi \) interfere.
+    If \( \varphi \) and \( \psi \) are both instances of \( \alpha \), then the pentagon equation completes the commutative square.
+
+    Suppose one is an instance of \( \alpha \) and the other is an instance of \( \lambda \) or \( \rho \).
+    Then \( I \) must occur as one of the three arguments to \( \alpha \).
+    If it is the middle argument, the two diagrams in the definition of a monoidal category complete the square.
+    If if is the left or right argument, the other two diagrams defined immediately after will complete the square.
+
+    Finally, if one is an instance of \( \lambda \) and the other is an instance of \( \rho \), then they must be \( \lambda_I \) and \( \rho_I \), and so must agree.
+    This completes the proof that there is a unique natural isomorphism to a reduced word.
+
+    Now suppose we have a string
+    % https://q.uiver.app/#q=WzAsNixbMCwwLCJ3XzEiXSxbMSwwLCJ3XzIiXSxbMiwwLCJ3XzMiXSxbMywwLCJ3XzQiXSxbNSwwLCJ3X24iXSxbNCwwLCJcXGNkb3RzIl0sWzAsMV0sWzIsM10sWzIsMV1d
+\[\begin{tikzcd}
+	{w_1} & {w_2} & {w_3} & {w_4} & \cdots & {w_n}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-3, to=1-2]
+\end{tikzcd}\]
+    Then there are unique `forwards' morphisms
+    % https://q.uiver.app/#q=WzAsNyxbMCwwLCJ3XzEiXSxbMSwwLCJ3XzIiXSxbMiwwLCJ3XzMiXSxbMywwLCJ3XzQiXSxbNSwwLCJ3X24iXSxbNCwwLCJcXGNkb3RzIl0sWzIsMiwid18wIl0sWzAsMV0sWzIsM10sWzAsNl0sWzEsNl0sWzIsNl0sWzMsNl0sWzQsNl0sWzIsMV1d
+\[\begin{tikzcd}
+	{w_1} & {w_2} & {w_3} & {w_4} & \cdots & {w_n} \\
+	\\
+	&& {w_0}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-1, to=3-3]
+	\arrow[from=1-2, to=3-3]
+	\arrow[from=1-3, to=3-3]
+	\arrow[from=1-4, to=3-3]
+	\arrow[from=1-6, to=3-3]
+	\arrow[from=1-3, to=1-2]
+\end{tikzcd}\]
+    to \( w_0 \), which is the reduced word with the same sequence of variables.
+    Each of the triangles must commute by the uniqueness result proven above.
+    Hence the composite of the arrows along the top edge is equal to the composite \( w_1 \rightarrow w_0 \leftarrow w_n \).
+\end{proof}
+
+\begin{definition}
+    A \emph{symmetry} on a monoidal category \( (\mathcal C, \otimes, I) \) is a natural isomorphism \( \gamma_{A, B} : A \otimes B \to B \otimes A \) such that the following diagrams commute.
+    % https://q.uiver.app/#q=WzAsNixbMCwwLCIoQSBcXG90aW1lcyBCKSBcXG90aW1lcyBDIl0sWzEsMCwiQSBcXG90aW1lcyAoQiBcXG90aW1lcyBDKSJdLFsyLDAsIkEgXFxvdGltZXMgKEMgXFxvdGltZXMgQikiXSxbMiwxLCIoQSBcXG90aW1lcyBDKSBcXG90aW1lcyBCIl0sWzEsMSwiKEMgXFxvdGltZXMgQSkgXFxvdGltZXMgQiJdLFswLDEsIkMgXFxvdGltZXMgKEEgXFxvdGltZXMgQikiXSxbMCwxLCJcXGFscGhhX3tBLEIsQ30iXSxbMSwyLCIxX0EgXFxvdGltZXMgXFxnYW1tYV97QixDfSJdLFsyLDMsIlxcYWxwaGFfe0EsQyxCfV57LTF9Il0sWzMsNCwiXFxnYW1tYV97QSxDfSBcXG90aW1lcyAxX0IiXSxbMCw1LCJcXGdhbW1hX3tBIFxcb3RpbWVzIEIsIEN9IiwyXSxbNCw1LCJcXGFscGhhX3tDLEEsQn0iXV0=
+\[\begin{tikzcd}
+	{(A \otimes B) \otimes C} & {A \otimes (B \otimes C)} & {A \otimes (C \otimes B)} \\
+	{C \otimes (A \otimes B)} & {(C \otimes A) \otimes B} & {(A \otimes C) \otimes B}
+	\arrow["{\alpha_{A,B,C}}", from=1-1, to=1-2]
+	\arrow["{1_A \otimes \gamma_{B,C}}", from=1-2, to=1-3]
+	\arrow["{\alpha_{A,C,B}^{-1}}", from=1-3, to=2-3]
+	\arrow["{\gamma_{A,C} \otimes 1_B}", from=2-3, to=2-2]
+	\arrow["{\gamma_{A \otimes B, C}}"', from=1-1, to=2-1]
+	\arrow["{\alpha_{C,A,B}}", from=2-2, to=2-1]
+\end{tikzcd}\]
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIFxcb3RpbWVzIEkiXSxbMiwwLCJJIFxcb3RpbWVzIEEiXSxbMSwxLCJBIl0sWzAsMSwiXFxnYW1tYV97QSxJfSJdLFsxLDIsIlxcbGFtYmRhX0EiXSxbMCwyLCJcXHJob19BIiwyXV0=
+\[\begin{tikzcd}
+	{A \otimes I} && {I \otimes A} \\
+	& A
+	\arrow["{\gamma_{A,I}}", from=1-1, to=1-3]
+	\arrow["{\lambda_A}", from=1-3, to=2-2]
+	\arrow["{\rho_A}"', from=1-1, to=2-2]
+\end{tikzcd}\quad\quad\begin{tikzcd}
+	{A \otimes B} & {B \otimes A} \\
+	& {A \otimes B}
+	\arrow["{\gamma_{A,B}}", from=1-1, to=1-2]
+	\arrow["{\gamma_{B,A}}", from=1-2, to=2-2]
+	\arrow["{1_{A \otimes B}}"', from=1-1, to=2-2]
+\end{tikzcd}\]
+\end{definition}
+For the weaker notion of a \emph{braiding}, we can omit the last of the three diagrams, but add an additional hexagonal equation, since it can no longer be derived from the first.
+
+There is a coherence theorem for symmetric monoidal categories, which is also due to Mac Lane.
+The theorem shows that for any two words \( w, w' \) involving the same set of variables without repetition, there is a unique natural isomorphism between \( w \) and \( w' \) obtained from compositions of instances of \( \alpha, \lambda, \gamma \) and their inverses.
+Note that \( \rho \) is not necessary, as it can be produced from instances of \( \lambda \) and \( \gamma \).
+The examples of monoidal categories above are all symmetric, except for (iv) and (v).

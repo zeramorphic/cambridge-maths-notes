@@ -160,54 +160,6 @@ A morphism of sheaves is a morphism of the underlying presheaves.
 \begin{proposition}
     Every presheaf admits a sheafification.
 \end{proposition}
-\begin{proof}
-    Let \( \mathcal F \) be a presheaf on \( X \).
-    Define \( \mathcal F^{\mathrm{sh}}(U) \) to be the set of dependent functions
-    \[ f : \prod_{p \in U} \mathcal F_p \]
-    such that each \( p \in U \) has a section \( s \in \mathcal F(V_p) \) over some neighbourhood \( V_p \subseteq U \), such that for each \( q \in V_p \), we have \( (V_p, s) = f(q) \) in \( \mathcal F_q \).
-    This condition makes \( f \) look locally like some element of the original presheaf.
-
-    The action of the restriction map \( \res^V_U \) on \( f : \prod_{p \in V} \mathcal F_p \) yields \( g : \prod_{p \in U} \mathcal F_p \) given by \( g(p) = f(p) \).
-    This is clearly functorial, so \( \mathcal F^{\mathrm{sh}} \) is a presheaf.
-    We define \( \mathrm{sh} : \mathcal F \to \mathcal F^{\mathrm{sh}} \) by
-    \[ \mathrm{sh}_U(s)(p) = (U, s) \]
-    This is a morphism of presheaves as the naturality square
-    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhjYWwgRihWKSJdLFsxLDAsIlxcbWF0aGNhbCBGKFUpIl0sWzEsMSwiXFxtYXRoY2FsIEZee1xcbWF0aHJte3NofX0oVSkiXSxbMCwxLCJcXG1hdGhjYWwgRl57XFxtYXRocm17c2h9fShWKSJdLFswLDEsIlxccmVzXlZfVSJdLFsxLDIsIlxcbWF0aHJte3NofV9VIl0sWzAsMywiXFxtYXRocm17c2h9X1YiLDJdLFszLDIsIlxccmVzX1VeViIsMl1d
-\[\begin{tikzcd}
-	{\mathcal F(V)} & {\mathcal F(U)} \\
-	{\mathcal F^{\mathrm{sh}}(V)} & {\mathcal F^{\mathrm{sh}}(U)}
-	\arrow["{\res^V_U}", from=1-1, to=1-2]
-	\arrow["{\mathrm{sh}_U}", from=1-2, to=2-2]
-	\arrow["{\mathrm{sh}_V}"', from=1-1, to=2-1]
-	\arrow["{\res_U^V}"', from=2-1, to=2-2]
-\end{tikzcd}\]
-    commutes:
-    \[ \mathrm{sh}_U(\res^V_U(s))(p) = (U, \res^V_U(s)) \underset{\text{in } \mathcal F_p}{=} (V, s) = (\mathrm{sh}_V(s))(p) = (\res^V_U(\mathrm{sh}_V(s)))(p) \]
-
-    Suppose \( U \subseteq X \) is open, \( \qty{U_i}_{i \in I} \) is an open cover of \( U \), and \( f : \prod_{p \in U} \mathcal F_p \) is such that \( \res^U_{U_i} f = 0 \) for each \( i \in I \).
-    Then for \( p \in U_i \), \( f(p) = f_i(p) = 0 \), so \( f = 0 \) as required.
-
-    Now suppose \( U, \qty{U_i} \) are as above, and \( f_i : \prod_{p \in U_i} \mathcal F_p \) are in \( \mathcal F^{\mathrm{sh}}(U_i) \), and \( f_i, f_j \) agree on \( U_i \cap U_j \).
-    Define \( f(p) = f_i(p) \) for any \( U_i \) containing \( p \); this is well-defined as \( f_i(p) = f_j(p) \) for \( p \in U_i \cap U_j \).
-    For each \( p \in U \), we can choose a section \( s \in \mathcal F(V_p) \) with \( p \in V_p \subseteq U_i \), such that for each \( q \in V_p \) we have \( (V_p, s) = f(q) \) in \( \mathcal F_q \), so \( f \in \mathcal F^{\mathrm{sh}}(U) \).
-    Thus \( \mathcal F^{\mathrm{sh}} \) is a sheaf.
-
-    We show \( \mathcal F^{\mathrm{sh}} \) satisfies the required universal property.
-    Let \( \varphi : \mathcal F \to \mathcal G \) be a morphism of presheaves, where \( \mathcal G \) is a sheaf.
-    We now define the action of the map \( \psi : \mathcal F^{\mathrm{sh}} \to \mathcal G \) on \( f \in \mathcal F^{\mathrm{sh}}(U) \).
-    For each point \( p \in U \), let \( s_p \in \mathcal F(V_p) \) be a section over some neighbourhood \( V_p \subseteq U \) such that for all \( q \in V_p \), we have \( (V_p, s_p) = f(q) \) in \( \mathcal F_q \).
-    Then consider the collection \( \varphi(s_p) \in \mathcal G(V_p) \).
-    As the \( s_p \) are locally compatible, the \( \varphi(s_p) \) can be glued together to form \( \psi(f) \in \mathcal G(U) \).
-
-    If \( U \subseteq V \) and \( f \in \mathcal F^{\mathrm{sh}}(V) \), \( \res_U^V \psi(f) \) coincides locally with \( \psi(\res_U^V f) \) by construction, so they agree by the first sheaf axiom.
-    Thus \( \psi : \mathcal F^{\mathrm{sh}} \to \mathcal G \) is a morphism of (pre)sheaves.
-
-    We now show \( \psi \circ \mathrm{sh} = \varphi \).
-    Let \( U \subseteq X \) be open, and consider \( s \in \mathcal F(U) \).
-    Then \( \psi_U(\mathrm{sh}_U(s)) = \psi_U((U, s)_{p \in U}) \).
-    Gluing together the equal germs \( (U, \varphi_U(s)) \) gives \( \psi_U((U, s)_{p \in U}) = \varphi_U(s) \), as required.
-    For uniqueness, note that \( \mathrm{sh} : \mathcal F \to \mathcal F^{\mathrm{sh}} \) is injective.
-\end{proof}
 \begin{corollary}
     The stalks of \( \mathcal F \) and \( \mathcal F^{\mathrm{sh}} \) coincide.
 \end{corollary}
