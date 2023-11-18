@@ -1,1 +1,98 @@
 \subsection{???}
+\begin{definition}
+    Let \( \mathcal C \) be a category.
+    \begin{enumerate}
+        \item A \emph{directed set} \( (I, \leq) \) is a partially ordered set such that for all \( a, b \in I \), there exists \( c \in I \) such that \( a, b \leq c \).
+        \item A \emph{direct system} on a directed set \( (I, \leq) \) is a pair \( ((X_i)_{i \in I}, (f_{ij})_{i \leq j}) \) where \( X_i \in \ob \mathcal C \) and \( f_{ij} : X_i \to X_j \), such that \( f_{ii} = 1_{X_i} \) and \( f_{ik} = f_{jk} \circ f_{ij} \).
+        \item An \emph{inverse system} on \( (I, \leq) \) is a pair \( ((Y_i)_{i \in I}, (h_{ij})_{i \leq j}) \) where \( Y_i \in \ob \mathcal C \) and \( h_{ij} : Y_j \to Y_i \), such that \( h_{ii} = 1_{X_i} \) and \( h_{ik} = h_{ij} \circ h_{jk} \).
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    An inverse system in \( \mathcal C \) is the same as a direct system in \( \mathcal C^\cop \).
+\end{remark}
+\begin{example}
+    Let \( I = (\mathbb N, \leq) \).
+    \begin{enumerate}
+        \item Let \( p \) be a prime, and let \( X_i = \mathbb F_{p^{i!}} \).
+        Recall that if \( a \mid b \), then there is an embedding \( \varphi : \mathbb F_{p^a} \to \mathbb F_{p^b} \).
+        The collection of embeddings \( \mathbb F_{p^a} \to \mathbb F_{p^b} \) is then given by \( x \mapsto (\varphi(x))^{p^c} \) where \( 0 \leq c < a - 1 \).
+        The map \( f_{i(i+1)} : \mathbb F_{p^{i!}} \to \mathbb F_{p^{(i+1)!}} \) is defined to be one such embedding.
+        A general embedding \( f_{ij} \) is given by the composite \( f_{(j-1)j} \circ \dots \circ f_{i(i+1)} \).
+        This creates a direct system on \( I \).
+        \item Let \( Y_i = \faktor{\mathbb Z}{p^i \mathbb Z} \), and let \( h_{ij} : \faktor{\mathbb Z}{p^j \mathbb Z} \to \faktor{\mathbb Z}{p^i \mathbb Z} \) be the natural projection.
+        This is an inverse system on \( I \).
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    Let \( (I, \leq) \) be a directed set.
+    \begin{enumerate}
+        \item Let \( D = ((X_i)_{i \in I}, (f_{ij})_{i \leq j}) \) be a direct system on \( I \).
+        Then the \emph{direct limit} of \( D \) is
+        \[ \varinjlim X_i = \faktor{\qty(\coprod_{i \in I} X_i)}{\sim} \]
+        where for \( x_i \in X_i \) and \( x_j \in X_j \),
+        \[ x_i \sim x_j \iff \exists k \geq i, j,\, f_{ik} (x_i) = f_{jk} (x_j) \]
+        Equivalently, one can define \( \sim \) to be the smallest equivalence relation containing \( x_i \sim f_{ij}(x_i) \).
+        \item Let \( E = ((Y_i)_{i \in I}, (h_{ij})_{i \leq j}) \) be an inverse system on \( I \).
+        Then the \emph{inverse limit} of \( E \) is
+        \[ \varprojlim Y_i = \qty{\vb y \in \prod_{X_i} \midd \forall i \leq j,\, y_i = h_{ij}(y_j)} \]
+    \end{enumerate}
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item \( \mathbb F_p^{\mathrm{alg}} = \varinjlim \mathbb F_{p^{i!}} \) is an algebraic closure of \( \mathbb F_p \).
+        First, \( \mathbb F_p^{\mathrm{alg}} \) is algebraic over \( \mathbb F_p \).
+        Indeed, for \( [x] \in \mathbb F_p^{\mathrm{alg}} \), we have \( x \in \mathbb F_p^{i!} \) for some \( i \geq 1 \).
+        Then \( x^{p^{i!}} - x = 0 \).
+        Hence
+        \[ [x]^{p^{i!}} - [x] = [x^{p^{i!}} - x] = [0] \]
+        Further, \( \mathbb F_p^{\mathrm{alg}} \) is algebraically closed.
+        Any polynomial \( h \in \mathbb F_p^{\mathrm{alg}}[T] \) has coefficients in \( \mathbb F_p^{\mathrm{alg}} \), so in particular \( h \) arises from an element of \( \mathbb F_{p^{i!}}[T] \) for some \( i \).
+        This element splits under some \( \mathbb F_{p^{i!}} \to \mathbb F_{p^\ell} \), so it splits under some \( \mathbb F_{p^{i!}} \to \mathbb F_{p^{\ell!}} \).
+        Hence it splits under \( h_{ij} : \mathbb F_{p^{i!}} \to \mathbb F_{p^{j!}} \), so \( h \) splits in the direct limit \( \mathbb F_p^{\mathrm{alg}} \).
+        \item Define \( \mathbb Z_p = \varprojlim \faktor{\mathbb Z}{p^i \mathbb Z} \).
+        This is the ring of \emph{\( p \)-adic integers}.
+        For example, writing numbers in base \( p = 5 \),
+        \begin{align*}
+            1 &= (1 + 5^1 \mathbb Z, 1 + 5^2 \mathbb Z, 1 + 5^3 \mathbb Z, \dots) \\
+            -1 &= (4 + 5^1 \mathbb Z, 44 + 5^2 \mathbb Z, 444 + 5^3 \mathbb Z, \dots) \\
+        \end{align*}
+        In every position in such an expansion, we `expose' another digit of the \( p \)-adic integer to the left.
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    Let \( R \) be a ring, and let \( \mathfrak a \) be an ideal of \( R \).
+    Then the \emph{\( \mathfrak a \)-adic completion} of \( R \) is
+    \[ \hat R = \varprojlim \faktor{R}{\mathfrak a^i} \]
+    where the inverse limit is taken over the directed system \( (\mathbb N, \leq) \) with morphisms given by the natural projections.
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item If \( R = \mathbb Z \) and \( \mathfrak a = (p) \), then \( \hat R = \mathbb Z_p \).
+        \item If \( R = k[T] \) and \( \mathfrak a = (T) \), then
+        \[ \hat R = \varprojlim \faktor{k[T]}{(T^i)} = k\Brackets{t} \]
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    Let \( M \) be an \( R \)-module, and let \( \mathfrak a \) be an ideal of \( R \).
+    Then the \emph{\( \mathfrak a \)-adic completion} of \( M \) is
+    \[ \hat M = \varprojlim \faktor{M}{\mathfrak a^i M} \]
+    which is naturally an \( \hat R \)-module.
+\end{definition}
+We can make the following more general definition.
+\begin{definition}
+    Let \( M \) be an \( R \)-module.
+    \begin{enumerate}
+        \item A \emph{filtration} of \( M \) is a sequence \( (M_n)_{n \geq 1} \) of submodules of \( M \) such that \( M_n \supseteq M_{n+1} \) for each \( n \).
+        \item The \emph{completion} of \( M \) with respect to a filtration \( (M_n)_{n \geq 1} \) is \( \varprojlim \faktor{M}{M_n} \).
+    \end{enumerate}
+\end{definition}
+\begin{theorem}
+    Let \( R \) be a Noetherian ring, and let \( \mathfrak a \) be an ideal of \( R \).
+    Then,
+    \begin{enumerate}
+        \item the \( \mathfrak a \)-adic completion \( \hat R \) is Noetherian;
+        \item the functor \( \hat R \otimes_R (-) \) is exact;
+        \item if \( M \) is a finitely generated \( R \)-module, then the natural map \( \hat R \otimes_R M \to \hat M \) is an \( \hat R \)-linear isomorphism. 
+    \end{enumerate}
+\end{theorem}
+Thus \( \mathfrak a \)-adic completion is an exact functor from the category of finitely generated \( R \)-modules if \( R \) is Noetherian.
