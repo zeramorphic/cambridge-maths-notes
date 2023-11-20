@@ -164,7 +164,7 @@ We write \( \mathcal C \) for the set of all contexts.
 Given a context \( \Gamma \in \mathcal C \), we also write \( \Gamma, x : \tau \) for the context \( \Gamma \cup \qty{x : \tau} \).
 The \emph{domain} of \( \Gamma \) is the set \( \dom \Gamma \) of variables that appear in \( \Gamma \); similarly, the \emph{range} of \( \Gamma \) is the set \( \abs{\Gamma} \) of types that appear in \( \Gamma \).
 
-The \emph{typability relation} \( (- \Vdash - : -) \) is a relation on \( C \times \Lambda_\Pi \times \Pi \), defined recursively using the following rules.
+The \emph{typability relation} \( (-) \Vdash (-) : (-) \) is a relation on \( C \times \Lambda_\Pi \times \Pi \), defined recursively using the following rules.
 \begin{enumerate}
     \item For every context \( \Gamma \), variable \( x \notin \dom \Gamma \), and type \( \tau \), we have \( \Gamma, x : \tau \Vdash x : \tau \).
     \item Let \( \Gamma \) be a context, \( x \notin \dom \Gamma \), let \( \sigma, \tau \) be types, and let \( M \) be a \( \lambda \)-term.
@@ -211,6 +211,7 @@ By convention, we will write
     \item \( M\, \lambda x:\sigma.\, N \) for \( M\, (\lambda x:\sigma.\, N) \).
 \end{enumerate}
 
+\subsection{Basic properties}
 The following technical lemmas can be proven by induction.
 \begin{lemma}[free variables lemma]
     Suppose that \( \Gamma \Vdash M : \sigma \).
@@ -231,3 +232,115 @@ The following technical lemmas can be proven by induction.
 \begin{lemma}[substitution lemma]
     The typability relation respects substitution.
 \end{lemma}
+\begin{lemma}[subject reduction]
+    If \( \Gamma \Vdash M : \sigma \) and \( M \to_\beta N \), then \( \Gamma \Vdash N : \sigma \).
+\end{lemma}
+The following theorem establishes the \emph{confluence} property of \( \lambda \)-terms.
+\begin{theorem}[Church--Rosser theorem for \( \lambda(\to) \)]
+    Suppose that \( \Gamma \Vdash M : \sigma \).
+    If \( M \twoheadrightarrow_\beta N_1 \) and \( M \twoheadrightarrow_\beta N_2 \), then there exists \( P \) such that \( N_1 \twoheadrightarrow_\beta L \) and \( N_2 \twoheadrightarrow_\beta L \), and \( \Gamma \Vdash L : \sigma \).
+    % https://q.uiver.app/#q=WzAsNCxbMSwwLCJNIl0sWzAsMSwiTl8xIl0sWzEsMiwiTCJdLFsyLDEsIk5fMiJdLFswLDEsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6ImVwaSJ9fX1dLFsxLDIsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6ImVwaSJ9fX1dLFswLDMsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6ImVwaSJ9fX1dLFszLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6ImVwaSJ9fX1dXQ==
+\[\begin{tikzcd}
+	& M \\
+	{N_1} && {N_2} \\
+	& L
+	\arrow[two heads, from=1-2, to=2-1]
+	\arrow[two heads, from=2-1, to=3-2]
+	\arrow[two heads, from=1-2, to=2-3]
+	\arrow[two heads, from=2-3, to=3-2]
+\end{tikzcd}\]
+\end{theorem}
+% TODO: Fill in from guided ES4 question
+\begin{corollary}
+    If a simply typed \( \lambda \)-term admits a \( \beta \)-normal form, then this \( \beta \)-normal form is unique.
+\end{corollary}
+\begin{proposition}[uniqueness of types]
+    \begin{enumerate}
+        \item Suppose \( \Gamma \Vdash M : \sigma \) and \( \Gamma \Vdash M : \tau \).
+        Then \( \sigma = \tau \).
+        \item Suppose \( \Gamma \Vdash M : \sigma \) and \( \Gamma \Vdash N : \tau \), and that \( M \equiv_\beta N \).
+        Then \( \sigma = \tau \).
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    The first part is by induction on \( M \).
+    For the second part, by the Church--Rosser theorem there is a term \( L \) to which \( M \) and \( N \) both eventually reduce, so the result holds by subject reduction.
+\end{proof}
+\begin{example}
+    There is no way to assign a type to the expression \( \lambda x.\, x\, x \).
+    Indeed, if \( x \) has type \( \tau \), then it must also have type \( \tau \to \sigma \) for some \( \sigma \), but this contradicts uniqueness of types.
+\end{example}
+
+\subsection{\texorpdfstring{\( \beta \)}{β}-normal form}
+We will measure the complexity of a type by looking at it as a binary tree.
+For example, for
+\[ \rho = \mu \to [((\varphi \to \psi) \to \chi) \to ((\varphi \to \chi) \to (\varphi \to \psi))] \]
+the corresponding binary tree is
+% https://q.uiver.app/#q=WzAsMTUsWzIsNCwiXFxidWxsZXQiXSxbMSwzLCJcXG11Il0sWzMsMywiXFxidWxsZXQiXSxbMiwyLCJcXGJ1bGxldCJdLFsxLDEsIlxcYnVsbGV0Il0sWzMsMSwiXFxjaGkiXSxbMCwwLCJcXHZhcnBoaSJdLFsyLDAsIlxccHNpIl0sWzUsMiwiXFxidWxsZXQiXSxbNCwxLCJcXGJ1bGxldCJdLFszLDAsIlxcdmFycGhpIl0sWzUsMCwiXFxjaGkiXSxbNywxLCJcXGJ1bGxldCJdLFs2LDAsIlxcdmFycGhpIl0sWzgsMCwiXFxwc2kiXSxbMCwxXSxbMCwyXSxbMiwzXSxbMyw0XSxbMyw1XSxbNCw2XSxbNCw3XSxbMiw4XSxbOCw5XSxbOSwxMF0sWzksMTFdLFs4LDEyXSxbMTIsMTNdLFsxMiwxNF1d
+\[\begin{tikzcd}
+	\varphi && \psi & \varphi && \chi & \varphi && \psi \\
+	& \bullet && \chi & \bullet &&& \bullet \\
+	&& \bullet &&& \bullet \\
+	& \mu && \bullet \\
+	&& \bullet
+	\arrow[from=5-3, to=4-2]
+	\arrow[from=5-3, to=4-4]
+	\arrow[from=4-4, to=3-3]
+	\arrow[from=3-3, to=2-2]
+	\arrow[from=3-3, to=2-4]
+	\arrow[from=2-2, to=1-1]
+	\arrow[from=2-2, to=1-3]
+	\arrow[from=4-4, to=3-6]
+	\arrow[from=3-6, to=2-5]
+	\arrow[from=2-5, to=1-4]
+	\arrow[from=2-5, to=1-6]
+	\arrow[from=3-6, to=2-8]
+	\arrow[from=2-8, to=1-7]
+	\arrow[from=2-8, to=1-9]
+\end{tikzcd}\]
+The height of this tree is the complexity of the type, which in this case is 4.
+For convenience, we will annotate types of terms with superscripts.
+\begin{definition}
+    The \emph{height} function is the map \( h : \Pi \to \mathbb N \) that maps a type variable to 0, and maps a function type \( \sigma \to \tau \) to \( 1 + \max(h(\sigma), h(\tau)) \).
+    We extend the height function to \( \beta \)-redexes: if \( (\lambda x:\sigma.\, P^\tau)^{\sigma \to \tau} R^\sigma \) is a redex, its height is \( h(\sigma \to \tau) \).
+\end{definition}
+\begin{theorem}[weak normalisation theorem]
+    Suppose \( \Gamma \Vdash M : \sigma \).
+    Then there is a finite reduction path
+    \[ M = M_0 \to_\beta M_1 \to_\beta \dots \to_\beta M_n \]
+    where \( M_n \) is in \( \beta \)-normal form.
+\end{theorem}
+\begin{proof}[Proof (taming the hydra)]
+    First, we define the function \( m : \Lambda_\Pi \to \mathbb N \times \mathbb N \) by \( m(M) = (0, 0) \) if \( M \) is in \( \beta \)-normal form, and otherwise, \( m(M) \) is the pair \( (h(M), \operatorname{redex}(M)) \) where \( h(M) \) is the maximal height of redexes in \( M \) and \( \operatorname{redex}(M) \) is the number of redexes in \( M \).
+    We will use induction on the well-founded relation given by the lexicographic order on \( \mathbb N \times \mathbb N \) to show that if \( M \) is typeable, it can be reduced to \( \beta \)-normal form.
+
+    If \( \Gamma \Vdash M : \sigma \) and \( M \) is in \( \beta \)-normal form, then the claim is trivial.
+    Otherwise, let \( \Delta \) be the rightmost redex of maximal height \( h = h(M) \).
+    By reducing \( \Delta \), we may introduce copies of existing redexes, or create new redexes.
+    Creation of new redexes can occur in one of the following ways.
+    \begin{enumerate}
+        \item Suppose \( \Delta \) is of the form
+        \[ (\lambda x:(\rho \to \mu).\, \dots x\, P^\rho \dots)(\lambda y:\rho.\, Q^\mu)^{\rho \to \mu} \]
+        Then it reduces to
+        \[ \dots (\lambda y:\rho.\, Q^\mu)^{\rho \to \mu} P^\rho \dots \]
+        which is a new redex of height \( h(\rho \to \mu) < h \).
+        \item Suppose \( \Delta \) is of the form
+        \[ (\lambda x:\tau.\, \lambda y:\rho.\, R^\mu)P^\tau \]
+        occurring in the position \( \Delta^{\rho \to \tau}\, Q^\rho \).
+        Suppose that \( \Delta \) reduces to \( \lambda y:\rho.\, R^\mu_1 \).
+        Then we have created a new redex \( (\lambda y:\rho.\, R^\mu_1) Q^\rho \) of height \( h(\rho \to \mu) < h(\tau \to \rho \to \mu) < h \).
+        \item Suppose \( \Delta \) is of the form
+        \[ (\lambda x:(\rho \to \mu).\, x)(\lambda y:\rho.\, P^\mu) \]
+        occurring in the position \( \Delta^{\rho \to \mu} Q^\rho \).
+        Then this reduces to \( (\lambda y:\rho.\, P^\mu) Q^\rho \) of height \( h(\rho \to \mu) < h \).
+    \end{enumerate}
+    There is still the possibility that reduction of \( \Delta \) introduces copies of existing redexes.
+    Suppose \( \Delta \) is of the form
+    \[ (\lambda x: \rho.\, P^\rho) Q^\tau \]
+    and \( P \) has more than one free occurrence of \( x \).
+    Then the reduction of \( \Delta \) will copy all redexes in \( Q \).
+    But as \( \Delta \) was chosen to be rightmost with maximal height, the height of all redexes in \( Q \) have height less than \( h \).
+
+    So if \( M \to_\beta M' \) by reducing \( \Delta \), it is always the case that \( m(M') < m(M) \) in the lexicographic order.
+    By the inductive hypothesis, \( M' \) can be reduced to \( \beta \)-normal form, so the result also holds for \( M \).
+\end{proof}
