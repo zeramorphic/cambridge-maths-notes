@@ -41,6 +41,7 @@ Such a structure on a category is called a \emph{monoidal structure}, which will
 	\arrow["{\rho_A \otimes 1_B}"', from=1-1, to=2-2]
 \end{tikzcd}\]
     commute, and \( \lambda_I = \rho_I : I \otimes I \to I \).
+    A monoidal category is \emph{strict} if \( \alpha, \lambda, \rho \) are identities.
 \end{definition}
 \( \alpha \) is called the \emph{associator}, and \( \lambda \) and \( \rho \) are the \emph{left} and \emph{right unitors}.
 
@@ -196,3 +197,100 @@ There is a coherence theorem for symmetric monoidal categories, which is also du
 The theorem shows that for any two words \( w, w' \) involving the same set of variables without repetition, there is a unique natural isomorphism between \( w \) and \( w' \) obtained from compositions of instances of \( \alpha, \lambda, \gamma \) and their inverses.
 Note that \( \rho \) is not necessary, as it can be produced from instances of \( \lambda \) and \( \gamma \).
 The examples of monoidal categories above are all symmetric, except for (iv) and (v).
+
+\subsection{Monoidal functors}
+\begin{definition}
+    Let \( (\mathcal C, \otimes, I), (\mathcal D, \oplus, J) \) be monoidal categories.
+    A \emph{(lax) monoidal functor} \( F : (\mathcal C, \otimes, I) \to (\mathcal D, \oplus, J) \) is a functor \( F: \mathcal C \to \mathcal D \) equipped with a natural transformation \( \varphi_{A, B} : FA \oplus FB \to F(A \otimes B) \) and a morphism \( \iota : J \to FI \), such that the following diagrams commute.
+    % https://q.uiver.app/#q=WzAsNixbMCwwLCIoRkEgXFxvcGx1cyBGQikgXFxvcGx1cyBGQyJdLFswLDEsIkZBIFxcb3BsdXMgKEZCIFxcb3BsdXMgRkMpIl0sWzEsMCwiRihBIFxcb3RpbWVzIEIpIFxcb3BsdXMgRkMiXSxbMiwwLCJGKChBIFxcb3RpbWVzIEIpIFxcb3RpbWVzIEMpIl0sWzIsMSwiRihBIFxcb3RpbWVzIChCIFxcb3RpbWVzIEMpKSJdLFsxLDEsIkZBIFxcb3BsdXMgRihCIFxcb3RpbWVzIEMpIl0sWzAsMSwiXFxhbHBoYV97RkEsRkIsIEZDfSIsMl0sWzAsMiwiXFx2YXJwaGlfe0EsQn0gXFxvcGx1cyAxX3tGQ30iXSxbMiwzLCJcXHZhcnBoaV97QSBcXG90aW1lcyBCLCBDfSJdLFszLDQsIkZcXGFscGhhX3tBLEIsQ30iXSxbMSw1LCIxX3tGQX0gXFxvcGx1cyBcXHZhcnBoaV97QixDfSIsMl0sWzUsNCwiXFx2YXJwaGlfe0EsQiBcXG90aW1lcyBDfSIsMl1d
+\[\begin{tikzcd}
+	{(FA \oplus FB) \oplus FC} & {F(A \otimes B) \oplus FC} & {F((A \otimes B) \otimes C)} \\
+	{FA \oplus (FB \oplus FC)} & {FA \oplus F(B \otimes C)} & {F(A \otimes (B \otimes C))}
+	\arrow["{\alpha_{FA,FB, FC}}"', from=1-1, to=2-1]
+	\arrow["{\varphi_{A,B} \oplus 1_{FC}}", from=1-1, to=1-2]
+	\arrow["{\varphi_{A \otimes B, C}}", from=1-2, to=1-3]
+	\arrow["{F\alpha_{A,B,C}}", from=1-3, to=2-3]
+	\arrow["{1_{FA} \oplus \varphi_{B,C}}"', from=2-1, to=2-2]
+	\arrow["{\varphi_{A,B \otimes C}}"', from=2-2, to=2-3]
+\end{tikzcd}\]
+% https://q.uiver.app/#q=WzAsNCxbMCwwLCJKIFxcb3BsdXMgRkEiXSxbMSwwLCJGSSBcXG9wbHVzIEZBIl0sWzEsMSwiRihJIFxcb3RpbWVzIEEpIl0sWzAsMSwiRkEiXSxbMCwxLCJcXGlvdGEgXFxvcGx1cyAxX3tGQX0iXSxbMSwyLCJcXHZhcnBoaV97SSxBfSJdLFswLDMsIlxcbGFtYmRhX3tGQX0iLDJdLFsyLDMsIkZcXGxhbWJkYV9BIl1d
+\[\begin{tikzcd}
+	{J \oplus FA} & {FI \oplus FA} \\
+	FA & {F(I \otimes A)}
+	\arrow["{\iota \oplus 1_{FA}}", from=1-1, to=1-2]
+	\arrow["{\varphi_{I,A}}", from=1-2, to=2-2]
+	\arrow["{\lambda_{FA}}"', from=1-1, to=2-1]
+	\arrow["{F\lambda_A}", from=2-2, to=2-1]
+\end{tikzcd}\quad\quad\begin{tikzcd}
+	{FA \oplus J} & {FA \oplus FI} \\
+	FA & {F(A \otimes I)}
+	\arrow["{1_{FA} \oplus \iota}", from=1-1, to=1-2]
+	\arrow["{\varphi_{A, I}}", from=1-2, to=2-2]
+	\arrow["{\rho_{FA}}"', from=1-1, to=2-1]
+	\arrow["{F\rho_A}", from=2-2, to=2-1]
+\end{tikzcd}\]
+    We say \( F \) is \emph{strong monoidal} (respectively \emph{strict monoidal}) if \( \varphi \) and \( \iota \) are isomorphisms (respectively identities).
+    An \emph{oplax} monoidal functor is the same definition, but where the directions of the maps \( \varphi \) and \( \iota \) are reversed.
+\end{definition}
+Note that the same letters are used for the associators and unitors in both monoidal categories.
+\begin{example}
+    \begin{enumerate}
+        \item The forgetful functor \( U : (\mathbf{AbGp}, \otimes, \mathbb Z) \to (\mathbf{Set}, \times, 1) \) is lax monoidal.
+        We define \( \iota : 1 \to \mathbb Z \) to map the element of \( 1 \) to the generator \( 1 \in \mathbb Z \), and define \( \varphi : UA \times UB \to U(A \otimes B) \) by \( (a, b) \mapsto a \otimes b \).
+        One can easily verify that the required diagrams commute.
+        \item The free functor \( F : (\mathbf{Set}, \times, 1) \to (\mathbf{AbGp}, \otimes, \mathbb Z) \) is strong monoidal, because \( F1 \cong \mathbb Z \) and \( F(A \times B) \cong FA \otimes FB \).
+        \item Let \( R \) be a commutative ring.
+        Then the forgetful functor \( \mathbf{Mod}_R \to \mathbf{AbGp} \) is lax monoidal, where \( \iota : \mathbb Z \to R \) is the natural map, and \( \varphi : A \otimes_{\mathbb Z} B \to A \otimes_R B \) is the quotient map.
+        Its left adjoint, the free functor \( \mathbf{AbGp} \to \mathbf{Mod}_R \), is strong monoidal.
+        \item If \( \mathcal C \) and \( \mathcal D \) have the cartesian monoidal structure, then any functor \( F : \mathcal C \to \mathcal D \) is oplax monoidal.
+        \( \iota : F1 \to 1 \) is the unique morphism to the terminal object of \( \mathcal D \), and \( \varphi_{A,B} : F(A \times B) \to FA \times FB \) is given by \( (F\pi_1, F\pi_2) \).
+        \( F \) is strong monoidal if and only if it preserves finite products.
+        \item If \( X \) and \( Y \) are metric spaces, then \( 1_{X \times Y} \) is non-expansive as a map \( (X \times Y, d_1) \to (X \times Y, d_\infty) \), making the identity functor \( 1_{\mathbf{Met}} \) into a monoidal functor \( (\mathbf{Met}, \times_\infty, 1) \to (\mathbf{Met}, \times_1, 1) \).
+        Note that the \( d_\infty \) metric on \( X \times Y \) defines the categorical product.
+    \end{enumerate}
+\end{example}
+\begin{lemma}
+    Let \( \mathcal C \) and \( \mathcal D \) be monoidal categories.
+    Let \( F \dashv G \), where \( F : \mathcal C \to \mathcal D \) and \( G : \mathcal D \to \mathcal C \).
+    Then there is a bijection between lax monoidal structures on \( G \) and oplax monoidal structures on \( F \).
+\end{lemma}
+\begin{proof}[Proof sketch]
+    Suppose we have \( (\varphi, \iota) \) on \( G \).
+    Then the transpose of \( \iota : J \to GI \) is a morphism \( FJ \to I \), and we have a natural transformation
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJGKEEgXFxvdGltZXMgQikiXSxbMSwwLCJGKEdGQSBcXG90aW1lcyBHRkIpIl0sWzIsMCwiRkcoRkEgXFxvcGx1cyBGQikiXSxbMywwLCJGQSBcXG9wbHVzIEZCIl0sWzAsMSwiRihcXGV0YV9BIFxcdGltZXMgXFxldGFfQikiXSxbMSwyLCJGIFxcdmFycGhpX3tGQSwgRkJ9Il0sWzIsMywiXFxlcHNpbG9uX3tGQSBcXG9wbHVzIEZCfSJdXQ==
+\[\begin{tikzcd}[column sep=large]
+	{F(A \otimes B)} & {F(GFA \otimes GFB)} & {FG(FA \oplus FB)} & {FA \oplus FB}
+	\arrow["{F(\eta_A \times \eta_B)}", from=1-1, to=1-2]
+	\arrow["{F \varphi_{FA, FB}}", from=1-2, to=1-3]
+	\arrow["{\epsilon_{FA \oplus FB}}", from=1-3, to=1-4]
+\end{tikzcd}\]
+    One can check that each of the required diagrams commute, defining an oplax monoidal structure on \( F \).
+    By duality, an oplax monoidal structure on \( F \) yields a lax monoidal structure on \( G \), and it can be shown that these constructions are inverse to each other.
+\end{proof}
+
+\subsection{Closed monoidal categories}
+\begin{definition}
+    We say that a monoidal category \( (\mathcal C, \otimes, I) \) is (\emph{left/right/bi})-\emph{closed} if \( A \otimes(-), (-) \otimes A \), or both have right adjoints for all \( A \).
+    If \( \otimes \) is symmetric, we say in any of these cases that \( \mathcal C \) is \emph{closed}.
+\end{definition}
+Right adjoints for \( (-) \otimes A \) are denoted \( [A, -] \) if they exist.
+\begin{example}
+    \begin{enumerate}
+        \item A cartesian closed category is a monoidal category with \( \otimes = \times \), that is closed as a monoidal category.
+        In particular, \( \mathbf{Set} \) and \( \mathbf{Cat} \) are cartesian closed.
+        \item The metric \( d_1 \) on the set \( [X, Y] \) of non-expansive maps \( X \to Y \) yields a closed structure on \( (\mathbf{Met}, \times_1, 1) \).
+        \item \( \mathbf{AbGp} \) and \( \mathbf{Mod}_R \) for any commutative ring \( R \) are monoidal closed, where \( [A, B] \) is the set of homomorphisms \( A \to B \), turned into an abelian group or \( R \)-module by pointwise addition and scalar multiplication.
+        The homomorphisms \( C \to [A,B] \) correspond under \( \lambda \)-conversion to bilinear maps \( C \times A \to B \), and thus to homomorphisms \( C \otimes_R A \to B \).
+        \item The cartesian monoidal structure on the category of pointed sets \( \mathbf{Set}_\star \) is not closed, but the monoidal structure given by the \emph{smash product} \( (-) \wedge (-) \) is closed, where
+        \[ (A, a_0) \wedge (B, b_0) = \faktor{A \times B}{\sim} \]
+        and \( \sim \) identifies all elements where either coordinate is the basepoint.
+        Basepoint-preserving maps \( A \wedge B \to C \) correspond to basepoint-preserving maps from \( A \) to the set \( [B,C] \) of basepoint-preserving maps \( B \to C \).
+        \item Consider the set \( \operatorname{Rel}(A \times A) = P(A \times A) \) of relations on \( A \).
+        This is a poset under inclusion, and is a monoid under relational composition.
+        Composition is order-preserving in each variable, making \( \operatorname{Rel}(A \times A) \) into a strict monoidal category.
+        It is not symmetric, but biclosed.
+        For the right adjoint to \( (-) \circ R \), we define \( R \Rightarrow T \) to be
+        \[ (R \Rightarrow T) = \qty{(b, c) \in A \times A \mid \forall a \in A,\, (a, b) \in R \Rightarrow (a, c) \in T} \]
+        Then \( S \subseteq (R \Rightarrow T) \) if and only if \( S \circ R \subseteq T \).
+    \end{enumerate}
+\end{example}
