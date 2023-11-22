@@ -294,3 +294,104 @@ Right adjoints for \( (-) \otimes A \) are denoted \( [A, -] \) if they exist.
         Then \( S \subseteq (R \Rightarrow T) \) if and only if \( S \circ R \subseteq T \).
     \end{enumerate}
 \end{example}
+
+\subsection{Enriched categories}
+\begin{definition}
+    Let \( (\mathcal E, \otimes, I) \) be a monoidal category.
+    An \emph{\( \mathcal E \)-enriched category} is
+    \begin{enumerate}
+        \item a collection \( \ob \mathcal C \) of objects;
+        \item an object \( \mathcal C(A, B) \) of \( \mathcal E \) for each pair of objects \( A, B \in \ob \mathcal C \);
+        \item morphisms \( \iota_A : I \to \mathcal C(A, A) \) for each \( A \);
+        \item morphisms \( \kappa_{A,B,C} : \mathcal C(B, C) \otimes \mathcal C(A, B) \to \mathcal C(A, C) \) for objects \( A, B, C \),
+    \end{enumerate}
+    such that the following diagrams commute.
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJJIFxcb3RpbWVzIFxcbWF0aGNhbCBDKEEsIEIpIl0sWzEsMCwiXFxtYXRoY2FsIEMoQiwgQikgXFxvdGltZXMgXFxtYXRoY2FsIEMoQSwgQikiXSxbMSwxLCJcXG1hdGhjYWwgQyhBLCBCKSJdLFswLDEsIlxcaW90YV9CIFxcb3RpbWVzIDFfe1xcbWF0aGNhbCBDKEEsIEIpfSJdLFsxLDIsIlxca2FwcGFfe0EsQixCfSJdLFswLDIsIlxcbGFtYmRhX3tcXG1hdGhjYWwgQyhBLCBCKX0iLDJdXQ==
+\[\begin{tikzcd}
+	{I \otimes \mathcal C(A, B)} & {\mathcal C(B, B) \otimes \mathcal C(A, B)} \\
+	& {\mathcal C(A, B)}
+	\arrow["{\iota_B \otimes 1_{\mathcal C(A, B)}}", from=1-1, to=1-2]
+	\arrow["{\kappa_{A,B,B}}", from=1-2, to=2-2]
+	\arrow["{\lambda_{\mathcal C(A, B)}}"', from=1-1, to=2-2]
+\end{tikzcd}\]
+% https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXG1hdGhjYWwgQyhBLCBCKSBcXG90aW1lcyBJIl0sWzEsMCwiXFxtYXRoY2FsIEMoQSwgQikgXFxvdGltZXMgXFxtYXRoY2FsIEMoQSwgQSkiXSxbMSwxLCJcXG1hdGhjYWwgQyhBLCBCKSJdLFswLDEsIlxcaW90YV9CIFxcb3RpbWVzIDFfe1xcbWF0aGNhbCBDKEEsIEIpfSJdLFsxLDIsIlxca2FwcGFfe0EsQSxCfSJdLFswLDIsIlxccmhvX3tcXG1hdGhjYWwgQyhBLCBCKX0iLDJdXQ==
+\[\begin{tikzcd}
+	{\mathcal C(A, B) \otimes I} & {\mathcal C(A, B) \otimes \mathcal C(A, A)} \\
+	& {\mathcal C(A, B)}
+	\arrow["{\iota_B \otimes 1_{\mathcal C(A, B)}}", from=1-1, to=1-2]
+	\arrow["{\kappa_{A,A,B}}", from=1-2, to=2-2]
+	\arrow["{\rho_{\mathcal C(A, B)}}"', from=1-1, to=2-2]
+\end{tikzcd}\]
+% https://q.uiver.app/#q=WzAsNSxbMCwwLCIoXFxtYXRoY2FsIEMoQywgRCkgXFxvdGltZXMgXFxtYXRoY2FsIEMoQiwgQykpIFxcb3RpbWVzIFxcbWF0aGNhbCBDKEEsIEIpIl0sWzEsMCwiXFxtYXRoY2FsIEMoQiwgRCkgXFxvdGltZXMgXFxtYXRoY2FsIEMoQSwgQikiXSxbMiwxLCJcXG1hdGhjYWwgQyhBLCBEKSJdLFswLDIsIlxcbWF0aGNhbCBDKEMsIEQpIFxcb3RpbWVzIChcXG1hdGhjYWwgQyhCLCBDKSBcXG90aW1lcyBcXG1hdGhjYWwgQyhBLCBCKSkiXSxbMSwyLCJcXG1hdGhjYWwgQyhDLCBEKSBcXG90aW1lcyBcXG1hdGhjYWwgQyhBLCBDKSJdLFswLDEsIlxca2FwcGEgXFxvdGltZXMgMSJdLFsxLDIsIlxca2FwcGEiXSxbMCwzLCJcXGFscGhhIiwyXSxbMyw0LCIxIFxcb3RpbWVzIFxca2FwcGEiLDJdLFs0LDIsIlxca2FwcGEiLDJdXQ==
+\[\begin{tikzcd}
+	{(\mathcal C(C, D) \otimes \mathcal C(B, C)) \otimes \mathcal C(A, B)} & {\mathcal C(B, D) \otimes \mathcal C(A, B)} \\
+	&& {\mathcal C(A, D)} \\
+	{\mathcal C(C, D) \otimes (\mathcal C(B, C) \otimes \mathcal C(A, B))} & {\mathcal C(C, D) \otimes \mathcal C(A, C)}
+	\arrow["{\kappa \otimes 1}", from=1-1, to=1-2]
+	\arrow["\kappa", from=1-2, to=2-3]
+	\arrow["\alpha"', from=1-1, to=3-1]
+	\arrow["{1 \otimes \kappa}"', from=3-1, to=3-2]
+	\arrow["\kappa"', from=3-2, to=2-3]
+\end{tikzcd}\]
+\end{definition}
+\begin{definition}
+    Let \( \mathcal C, \mathcal D \) be \( \mathcal E \)-enriched categories.
+    An \emph{\( \mathcal E \)-enriched functor} \( \mathcal C \to \mathcal D \) consists of a map of objects \( F : \ob \mathcal C \to \ob \mathcal D \) together with morphisms \( F_{A,B} : \mathcal C(A, B) \to \mathcal D(FA, FB) \) for each pair of objects \( A, B \in \ob \mathcal C \), in such a way that is compatible with identities and composition.
+\end{definition}
+\begin{definition}
+    Let \( F, G : \mathcal C \rightrightarrows \mathcal D \) be \( \mathcal E \)-enriched functors between \( \mathcal E \)-enriched categories.
+    An \emph{\( \mathcal E \)-enriched natural transformation} \( F \to G \) assigns a morphism \( \theta_A : I \to \mathcal D(FA, GA) \) to each \( A \in \ob \mathcal C \), satisfying the naturality condition
+    % https://q.uiver.app/#q=WzAsOCxbMCwwLCJcXG1hdGhjYWwgQyhBLCBCKSJdLFsxLDAsIlxcbWF0aGNhbCBEKEZBLCBGQikiXSxbMiwwLCJJIFxcb3RpbWVzIEQoRkEsIEZCKSJdLFsyLDEsIlxcbWF0aGNhbCBEKEZCLCBHQikgXFxvdGltZXMgXFxtYXRoY2FsIEQoRkEsIEZCKSJdLFsyLDIsIlxcbWF0aGNhbCBEKEZBLCBHQikiXSxbMCwxLCJcXG1hdGhjYWwgRChHQSwgR0IpIl0sWzAsMiwiXFxtYXRoY2FsIEQoR0EsIEdCKSBcXG90aW1lcyBJIl0sWzEsMiwiXFxtYXRoY2FsIEQoR0EsIEdCKSBcXG90aW1lcyBcXG1hdGhjYWwgRChGQSwgR0EpIl0sWzAsMSwiRl97QSxCfSJdLFsxLDIsIlxcbGFtYmRhXnstMX0iXSxbMiwzLCJcXHRoZXRhX0IgXFxvdGltZXMgMSJdLFszLDQsIlxca2FwcGEiXSxbMCw1LCJHX3tBLEJ9IiwyXSxbNSw2LCJcXHJob157LTF9IiwyXSxbNiw3LCIxIFxcb3RpbWVzIFxcdGhldGFfQSIsMl0sWzcsNCwiXFxrYXBwYSIsMl1d
+\[\begin{tikzcd}
+	{\mathcal C(A, B)} & {\mathcal D(FA, FB)} & {I \otimes D(FA, FB)} \\
+	{\mathcal D(GA, GB)} && {\mathcal D(FB, GB) \otimes \mathcal D(FA, FB)} \\
+	{\mathcal D(GA, GB) \otimes I} & {\mathcal D(GA, GB) \otimes \mathcal D(FA, GA)} & {\mathcal D(FA, GB)}
+	\arrow["{F_{A,B}}", from=1-1, to=1-2]
+	\arrow["{\lambda^{-1}}", from=1-2, to=1-3]
+	\arrow["{\theta_B \otimes 1}", from=1-3, to=2-3]
+	\arrow["\kappa", from=2-3, to=3-3]
+	\arrow["{G_{A,B}}"', from=1-1, to=2-1]
+	\arrow["{\rho^{-1}}"', from=2-1, to=3-1]
+	\arrow["{1 \otimes \theta_A}"', from=3-1, to=3-2]
+	\arrow["\kappa"', from=3-2, to=3-3]
+\end{tikzcd}\]
+\end{definition}
+If \( \mathcal C \) is an \( \mathcal E \)-enriched category, its \emph{underlying ordinary category} \( \abs{\mathcal C} \) is the category where the objects are those of \( \mathcal C \), the morphisms \( A \to B \) are the morphisms \( I \to \mathcal C(A, B) \) in \( \mathcal E \), where the identity morphisms are given by \( \iota_A \), and the composition of \( g : C \to B \) and \( f : A \to B \) given by
+\[\begin{tikzcd}
+	I & {I \otimes I} & {\mathcal C(B, C) \otimes \mathcal C(A, B)} & {\mathcal C(A, C)}
+	\arrow["{\lambda_I^{-1}}", from=1-1, to=1-2]
+	\arrow["{g \otimes f}", from=1-2, to=1-3]
+	\arrow["\kappa", from=1-3, to=1-4]
+\end{tikzcd}\]
+One can check that this indeed forms a category.
+An \emph{\( \mathcal E \)-enrichment} of an ordinary category \( \mathcal C_0 \) is an \( \mathcal E \)-enriched category \( \mathcal C \) such that \( \abs{\mathcal C} \cong \mathcal C_0 \).
+\begin{example}
+    \begin{enumerate}
+        \item A category enriched over \( (\mathbf{Set}, \times, 1) \) is a locally small category.
+        \item A category enriched over the poset \( 2 = \qty{0,1} \) with \( 0 < 1 \) is a preorder.
+        \item A category enriched over \( (\mathbf{Cat}, \times, \mathbf{1}) \) is a \emph{2-category}.
+        Its morphisms or \emph{1-arrows} \( A \to B \) are the objects of a category \( \mathcal C(A, B) \).
+        It has \emph{2-arrows} between parallel pairs \( f, g : A \rightrightarrows B \), which are the morphisms \( f \to g \) in the category \( \mathcal C(A, B) \).
+        \( \mathbf{Cat} \) is a 2-category, by taking the 2-arrows to be the natural transformations.
+        The category of small \( \mathcal E \)-enriched categories with \( \mathcal E \)-enriched functors is a 2-category.
+        \item A category enriched over \( (\mathbf{AbGp}, \otimes, \mathbb Z) \) is an \emph{additive category}.
+        \item If \( \mathcal E \) is a right closed monoidal category, it has a canonical enrichment structure over itself.
+        Take \( \mathcal E(A, B) \) to be \( [A, B] \), where \( [A, -] \) is the right adjoint of \( (-) \otimes A \).
+        The identity \( I \to [A, A] \) is the transpose \( \lambda_A : I \otimes A \to A \), and the composition \( \kappa \) is the transpose of
+        % https://q.uiver.app/#q=WzAsNCxbMCwwLCIoW0IsIENdIFxcb3RpbWVzIFtBLCBCXSkgXFxvdGltZXMgQSJdLFsxLDAsIltCLENdIFxcb3RpbWVzIChbQSxCXSBcXG90aW1lcyBBKSJdLFsyLDAsIltCLENdIFxcb3RpbWVzIEIiXSxbMywwLCJDIl0sWzAsMSwiXFxhbHBoYSJdLFsxLDIsIjEgXFxvdGltZXMgXFxtYXRocm17ZXZ9Il0sWzIsMywiXFxtYXRocm17ZXZ9Il1d
+\[\begin{tikzcd}
+	{([B, C] \otimes [A, B]) \otimes A} & {[B,C] \otimes ([A,B] \otimes A)} & {[B,C] \otimes B} & C
+	\arrow["\alpha", from=1-1, to=1-2]
+	\arrow["{1 \otimes \mathrm{ev}}", from=1-2, to=1-3]
+	\arrow["{\mathrm{ev}}", from=1-3, to=1-4]
+\end{tikzcd}\]
+        where \( \mathrm{ev} \) is the evaluation map, which is precisely the counit of the adjunction.
+        \item A one-object \( \mathcal E \)-enriched category is an \emph{(internal) monoid} in \( \mathcal E \); it consists of an object \( M \) of \( \mathcal E \), equipped with morphisms \( e : I \to M \) and \( m : M \otimes M \to M \) satisfying the left and right unit laws and the associativity law.
+        \begin{enumerate}
+            \item An internal monoid in \( \mathbf{Set} \) is a monoid.
+            \item An internal monoid in \( \mathbf{AbGp} \) is a ring.
+            \item An internal monoid in \( \mathbf{Cat} \) is a strict monoidal category.
+            \item An internal monoid in \( [\mathcal C, \mathcal C] \) is a monad on \( \mathcal C \).
+        \end{enumerate}
+    \end{enumerate}
+\end{example}

@@ -2,7 +2,7 @@
 \begin{definition}
     Let \( \mathcal T \) be an \( \mathcal L \)-theory, and let \( \varphi(\vb x, y) \) be an \( \mathcal L \)-formula where \( \vb x \) is nonempty.
     A \emph{Skolem function} for \( \varphi \) is an \( \mathcal L \)-term \( t \) such that
-    \[ \mathcal T \vdash \forall \vb x.\, (\exists y.\, \varphi(\vb x, y) \Rightarrow \varphi(\vb x, t(\vb x))) \]
+    \[ \mathcal T \vdash \forall \vb x.\, (\exists y.\, \varphi(\vb x, y) \to \varphi(\vb x, t(\vb x))) \]
     A \emph{skolemisation} of an \( \mathcal L \)-theory \( \mathcal T \) is a language \( \mathcal L^+ \supseteq \mathcal L \) and an \( \mathcal L^+ \)-theory \( \mathcal T^+ \supseteq \mathcal T \) such that
     \begin{enumerate}
         \item every \( \mathcal L \)-structure that models \( \mathcal T \) can be expanded to an \( \mathcal L^+ \)-structure that models \( \mathcal T^+ \);
@@ -39,7 +39,7 @@ By `expanded', we mean that \( \mathcal T \) is given interpretations to the ele
 \end{remark}
 \begin{proof}
     \emph{Part (i).}
-    Clearly, \( \varphi(\vb x, t(\vb x)) \Rightarrow \exists y.\, \varphi(\vb x, y) \) in any model.
+    Clearly, \( \varphi(\vb x, t(\vb x)) \to \exists y.\, \varphi(\vb x, y) \) in any model.
     So having Skolem functions means that
     \[ \mathcal T \vdash \forall \vb x.\, (\exists y.\, \varphi(\vb x, y) \Leftrightarrow \varphi(\vb x, t(\vb x))) \]
     completing the proof by the previous proposition.
@@ -70,7 +70,7 @@ By `expanded', we mean that \( \mathcal T \) is given interpretations to the ele
     If \( \chi(\vb x, y) \) is an \( \mathcal L \)-formula with \( \vb x \) nonempty, we add a function symbol \( F_\chi \) of arity \( \abs{\vb x} \).
     Performing this for all \( \mathcal L \)-formulae of this form, we obtain a language \( \mathcal L' \supseteq \mathcal L \).
     Next, define \( \Sigma(\mathcal L) \) to be the set of \( \mathcal L \)-sentences that enforce the correct behaviour of the \( F_\chi \):
-    \[ \forall \vb x.\, (\exists y.\, \chi(\vb x, y) \Rightarrow \chi(\vb x, F_\chi(\vb x))) \]
+    \[ \forall \vb x.\, (\exists y.\, \chi(\vb x, y) \to \chi(\vb x, F_\chi(\vb x))) \]
     Note that \( \Sigma(\mathcal L) \) is an \( \mathcal L' \)-theory, not an \( \mathcal L \)-theory; there may be existentials in \( \mathcal L' \) without explicit witnesses.
     We can overcome this issue by iterating this construction \( \omega \) times and taking the union.
     Formally, we recursively define
@@ -174,11 +174,11 @@ The proof is similar to a previous proposition.
 \subsection{Amalgamation}
 \begin{definition}
     Let \( \mathcal M \) and \( \mathcal N \) be \( \mathcal L \)-structures.
-    We write \( \mathcal M \Rightarrow_1 \mathcal N \) if every existential sentence modelled by \( \mathcal M \) is also modelled by \( \mathcal N \).
+    We write \( \mathcal M \to_1 \mathcal N \) if every existential sentence modelled by \( \mathcal M \) is also modelled by \( \mathcal N \).
 \end{definition}
 \begin{theorem}[existential amalgamation]
     Let \( \mathcal M \) and \( \mathcal N \) be \( \mathcal L \)-structures, with \( S \subseteq \mathcal M \).
-    Suppose there is a homomorphism \( f : \langle S \rangle_{\mathcal M} \to \mathcal N \) such that \( (\mathcal N, f(S)) \Rightarrow_1 (\mathcal M, S) \).
+    Suppose there is a homomorphism \( f : \langle S \rangle_{\mathcal M} \to \mathcal N \) such that \( (\mathcal N, f(S)) \to_1 (\mathcal M, S) \).
     Then there is an elementary extension \( \mathcal K \) of \( \mathcal N \) and an embedding \( g : \mathcal M \rightarrowtail \mathcal K \) making the following diagram commute.
 \[\begin{tikzcd}
 	& {\mathcal K} \\
@@ -203,7 +203,7 @@ The proof is similar to a previous proposition.
     \[ \mathcal T' \vdash \neg\psi(\vb s, \vb n') \]
     Now, note that \( \mathcal T' \) has nothing to say about \( \vb n' \), so in fact
     \[ \mathcal T' \vdash \forall \vb x.\, \neg\psi(\vb s, \vb x) \]
-    As \( (\mathcal N, f(S)) \Rightarrow_1 (\mathcal M, S) \), we can convert the universal quantifier above into the negation of an existential quantifier to conclude
+    As \( (\mathcal N, f(S)) \to_1 (\mathcal M, S) \), we can convert the universal quantifier above into the negation of an existential quantifier to conclude
     \[ \mathcal N \vdash \neg\exists \vb x.\, \psi(\vb s, \vb x) \]
     so
     \[ \mathcal N \vdash \neg\exists \vb x.\, \psi(\vb s, \vb x) \]
@@ -365,7 +365,7 @@ This is analogous to the theorem that every field has an algebraic closure, and 
 
     \emph{(ii) implies (iii).}
     We use the existential amalgamation theorem.
-    Take \( S \) to be the set of all elements of \( \mathcal A \), then by (ii), \( (\mathcal B, e(S)) \Rightarrow_1 (\mathcal A, S) \).
+    Take \( S \) to be the set of all elements of \( \mathcal A \), then by (ii), \( (\mathcal B, e(S)) \to_1 (\mathcal A, S) \).
     We obtain
     % https://q.uiver.app/#q=WzAsNCxbMSwyLCJcXG1hdGhjYWwgQSJdLFswLDEsIlxcbWF0aGNhbCBBIl0sWzEsMCwiXFxtYXRoY2FsIEQiXSxbMiwxLCJcXG1hdGhjYWwgQiJdLFswLDEsIjFfQSJdLFsxLDIsIlxccHJlY2VxIl0sWzAsMywiZSIsMix7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1vbm8ifX19XSxbMywyLCJnIiwyLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibW9ubyJ9fX1dXQ==
 \[\begin{tikzcd}
@@ -400,7 +400,7 @@ If \( \mathcal M, \mathcal N \) satisfy the same quantifier-free sentences, we w
     Then the following are equivalent.
     \begin{enumerate}
         \item \( \mathcal T \) has quantifier elimination.
-        \item If \( \mathcal A, \mathcal B \vDash \mathcal T \) and \( \vb a \in \mathcal A, \vb b \in \mathcal B \) are tuples of the same length, then \( (\mathcal A, \vb a) \equiv_0 (\mathcal B, \vb b) \) implies \( (\mathcal A, \vb a) \Rightarrow_1 (\mathcal B, \vb b) \).
+        \item If \( \mathcal A, \mathcal B \vDash \mathcal T \) and \( \vb a \in \mathcal A, \vb b \in \mathcal B \) are tuples of the same length, then \( (\mathcal A, \vb a) \equiv_0 (\mathcal B, \vb b) \) implies \( (\mathcal A, \vb a) \to_1 (\mathcal B, \vb b) \).
         \item Whenever \( \mathcal A, \mathcal B \vDash \mathcal T \), \( S \subseteq \mathcal A \) and \( e : \langle S \rangle_{\mathcal A} \rightarrowtail \mathcal B \), then there is an elementary extension \( \mathcal D \) of \( \mathcal B \) and an embedding \( f : \mathcal A \rightarrowtail \mathcal D \) extending \( e \).
         \item \( \mathcal T \) is model-complete and \( \mathcal T_\forall \) has the amalgamation property.
         \item For every quantifier-free \( \mathcal L \)-formula \( \varphi(\vb x, y) \), the formula \( \exists y.\, \varphi(\vb x, y) \) is \( \mathcal T \)-equivalent to a quantifier-free formula \( \psi(\vb x) \).
@@ -410,8 +410,8 @@ If \( \mathcal M, \mathcal N \) satisfy the same quantifier-free sentences, we w
     (i) implies (ii) is clear.
 
     \emph{(ii) implies (iii).}
-    It suffices to show that \( (\mathcal A, \vb a) \Rightarrow_1 (\mathcal B, e(\vb a)) \) by the existential amalgamation theorem.
-    Since a sentence in \( \mathcal L_S \) is finite, it can only mention finitely many of the new constants in \( S \), so it is enough to check that \( (\mathcal A, \vb a) \Rightarrow_1 (\mathcal B, e(\vb a)) \) for all tuples \( \vb a \) obtainable from \( S \).
+    It suffices to show that \( (\mathcal A, \vb a) \to_1 (\mathcal B, e(\vb a)) \) by the existential amalgamation theorem.
+    Since a sentence in \( \mathcal L_S \) is finite, it can only mention finitely many of the new constants in \( S \), so it is enough to check that \( (\mathcal A, \vb a) \to_1 (\mathcal B, e(\vb a)) \) for all tuples \( \vb a \) obtainable from \( S \).
     Now, if \( \vb a \) is such a tuple and \( e : \langle S \rangle_{\mathcal A} \rightarrowtail \mathcal B \) is an embedding, then \( (\mathcal A, \vb a) \equiv_0 (\mathcal B, e(\vb a)) \), giving the required result by (ii).
 
     \emph{(iii) implies (iv).}
@@ -489,7 +489,7 @@ If \( \mathcal M, \mathcal N \) satisfy the same quantifier-free sentences, we w
     \[ (\mathcal A, \vb b) \vDash \exists \vb y.\, \varphi(\vb b, \vb y) \]
     then \( f(\vb m) \) must witness the truth of
     \[ (\mathcal A, \vb c) \vDash \exists \vb y.\, \varphi(\vb c, \vb y) \]
-    Thus, \( (\mathcal A, \vb b) \Rightarrow_1 (\mathcal A, \vb c) \) as required.
+    Thus, \( (\mathcal A, \vb b) \to_1 (\mathcal A, \vb c) \) as required.
 \end{proof}
 \begin{example}
     Let \( V \) be a finite vector space.
@@ -507,7 +507,7 @@ If \( \mathcal M, \mathcal N \) satisfy the same quantifier-free sentences, we w
 \begin{proof}
     We show that condition (ii) of the theorem above holds.
     Let \( \mathcal A, \mathcal B \) be models of \( \mathcal T \), and \( \vb a \in \mathcal A, \vb b \in \mathcal B \) be such that \( (\mathcal A, \vb a) \equiv_0 (\mathcal B, \vb b) \).
-    It suffices to show that \( (\mathcal A, \vb a) \Rightarrow_1 (\mathcal B, \vb b) \).
+    It suffices to show that \( (\mathcal A, \vb a) \to_1 (\mathcal B, \vb b) \).
     Let \( \varphi(\vb x, y) \) be quantifier-free, and such that \( \mathcal A \vDash \exists \vb y.\, \varphi(\vb a, \vb y) \).
     Let \( \vb c = (c_0, \dots, c_{k-1}) \in \mathcal A \) be such a witness, so \( \mathcal A \vDash \varphi(\vb a, \vb c) \).
 
@@ -552,7 +552,7 @@ If \( \mathcal M, \mathcal N \) satisfy the same quantifier-free sentences, we w
     There are only finitely many points \( c_0, \dots, c_{n-1} \in \mathcal A \) that are roots for the \( q_j(y) \).
     Since the real closed fields satisfy the intermediate value theorem for polynomials, the \( q_j(y) \) can only change sign at the \( c_i \).
     Note that
-    \[ \mathcal A \vDash \forall x y.\, x < y \Rightarrow \exists z.\, (x < z \wedge z < y) \]
+    \[ \mathcal A \vDash \forall x y.\, x < y \to \exists z.\, (x < z \wedge z < y) \]
     Since the \( c_i \) lie in \( \mathcal A \), there is an element of \( \mathcal A \) between any pair of distinct \( c_i \).
     Suppose \( b \) witnesses \( \exists y.\, \varphi(\vb a, y) \) in \( \mathcal B \).
     If there is a smallest interval \( (c_i, c_j) \) containing \( \mathcal B \), we can pick \( a \in \mathcal A \) also inside this interval, giving \( \mathcal A \vDash \varphi(\vb a, a) \) as required.

@@ -4,7 +4,7 @@ Our system will have the following properties, known as the Brouwer--Heyting--Ko
 \begin{enumerate}
     \item \( \bot \) has no proof.
     \item To prove \( \varphi \wedge \psi \), one must provide a proof of \( \varphi \) together with a proof of \( \psi \).
-    \item To prove \( \varphi \Rightarrow \psi \), one must provide a mechanism for translating a proof of \( \varphi \) into a proof of \( \psi \).
+    \item To prove \( \varphi \to \psi \), one must provide a mechanism for translating a proof of \( \varphi \) into a proof of \( \psi \).
     In particular, to prove \( \neg\varphi \), we must provide a way to turn a proof of \( \varphi \) into a contradiction.
     \item To prove \( \varphi \vee \psi \), we must specify either \( \varphi \) or \( \psi \), and then provide a proof for it.
     Note that in a classical setting, a proof of \( \varphi \vee \psi \) need not specify which of the two disjuncts is true.
@@ -82,9 +82,9 @@ We do not construct an introduction rule for \( \bot \).
 We now define the introduction and elimination rules for implication.
 The elimination rule is known as \emph{modus ponens}.
 \begin{mathpar}
-    \inferrule[\( \Rightarrow \)-I]{\Gamma, A \vdash B}{\Gamma \vdash A \Rightarrow B}
+    \inferrule[\( \to \)-I]{\Gamma, A \vdash B}{\Gamma \vdash A \to B}
     \and
-    \inferrule[\( \Rightarrow \)-E]{\Gamma \vdash A \Rightarrow B \and \Gamma \vdash A}{\Gamma \vdash B}
+    \inferrule[\( \to \)-E]{\Gamma \vdash A \to B \and \Gamma \vdash A}{\Gamma \vdash B}
 \end{mathpar}
 We finally define a rule called the \emph{axiom schema}, that allows us to prove our assumptions.
 \[ \inferrule[Ax]{\ }{\Gamma, A \vdash A} \]
@@ -99,8 +99,8 @@ We obtain classical propositional logic \( \mathsf{CPC} \) by additionally addin
 We will additionally use the informal notation
 \[ \inferrule*[right={\( (A, B) \)}]{{\begin{matrix} [A]\\\vdots\\X \end{matrix}} \and {\begin{matrix} [B]\\\vdots\\Y \end{matrix}}}{C} \]
 to mean that if we can prove \( X \) assuming \( A \) and we can prove \( Y \) assuming \( B \), then we can infer \( C \) by discharging the open assumptions \( A \) and \( B \).
-For example, we can write an instance of \( \Rightarrow \)-I as
-\[ \inferrule*[right={\( (A) \)}]{\ {\begin{matrix} \Gamma, [A]\\\vdots\\B \end{matrix}}\ }{\Gamma \vdash A \Rightarrow B} \]
+For example, we can write an instance of \( \to \)-I as
+\[ \inferrule*[right={\( (A) \)}]{\ {\begin{matrix} \Gamma, [A]\\\vdots\\B \end{matrix}}\ }{\Gamma \vdash A \to B} \]
 To extend this to intuitionistic predicate logic \( \mathsf{IQC} \), we need to add rules for quantifiers.
 \begin{mathpar}
     \inferrule[\( \exists \)-I]{\Gamma \vdash \varphi[x \coloneq t]}{\Gamma \vdash \exists x.\, \varphi(x)}
@@ -112,34 +112,34 @@ To extend this to intuitionistic predicate logic \( \mathsf{IQC} \), we need to 
     \inferrule[\( \forall \)-E]{\Gamma \vdash \forall x.\, \varphi}{\Gamma \vdash \varphi[x \coloneq t]}
 \end{mathpar}
 \begin{example}
-    We will show that \( \vdash_{\mathsf{IPC}} A \wedge B \Rightarrow B \wedge A \).
-    \[ \inferrule*[right=\( \Rightarrow \)-I]{\inferrule*[right=\( \wedge \)-I]{
+    We will show that \( \vdash_{\mathsf{IPC}} A \wedge B \to B \wedge A \).
+    \[ \inferrule*[right=\( \to \)-I]{\inferrule*[right=\( \wedge \)-I]{
         \inferrule*[right=\( \wedge \)-E]{[A \wedge B]}{B}
         \and
         \inferrule*[right=\( \wedge \)-E]{[A \wedge B]}{A}
-    }{B \wedge A}}{A \wedge B \Rightarrow B \wedge A} \]
+    }{B \wedge A}}{A \wedge B \to B \wedge A} \]
 \end{example}
 \begin{example}
     We will show that the logical axioms
-    \[ \varphi \Rightarrow (\psi \Rightarrow \varphi);\quad (\varphi \Rightarrow (\psi \Rightarrow \chi)) \Rightarrow ((\varphi \Rightarrow \psi) \Rightarrow (\varphi \Rightarrow \chi)) \]
+    \[ \varphi \to (\psi \to \varphi);\quad (\varphi \to (\psi \to \chi)) \to ((\varphi \to \psi) \to (\varphi \to \chi)) \]
     are intuitionistically valid.
-    \[ \inferrule*[right={(\( \Rightarrow \)-I, \( \varphi \))}]{
-        \inferrule*[right={(\( \Rightarrow \)-I, \( \psi \))}]{
+    \[ \inferrule*[right={(\( \to \)-I, \( \varphi \))}]{
+        \inferrule*[right={(\( \to \)-I, \( \psi \))}]{
             \inferrule*[right=Ax]{[\varphi]}{\varphi} \and [\psi]
-        }{\psi \Rightarrow \varphi}
-    }{\varphi \Rightarrow (\psi \Rightarrow \varphi)} \]
+        }{\psi \to \varphi}
+    }{\varphi \to (\psi \to \varphi)} \]
     For the second axiom,
-    \[ \inferrule*[right=\( (\varphi \Rightarrow (\psi \Rightarrow \chi)) \)]{
-        \inferrule*[right=\( (\varphi \Rightarrow \psi) \)]{
+    \[ \inferrule*[right=\( (\varphi \to (\psi \to \chi)) \)]{
+        \inferrule*[right=\( (\varphi \to \psi) \)]{
             \inferrule*[right=\( (\varphi) \)]{
-                \inferrule*[right=\( \Rightarrow \)-E]{
-                    \inferrule*[right=\( \Rightarrow \)-E]{[\varphi \Rightarrow (\psi \Rightarrow \chi)] \and [\varphi]}{\psi \Rightarrow \chi}
+                \inferrule*[right=\( \to \)-E]{
+                    \inferrule*[right=\( \to \)-E]{[\varphi \to (\psi \to \chi)] \and [\varphi]}{\psi \to \chi}
                     \and
-                    \inferrule*[right=\( \Rightarrow \)-E]{[\varphi \Rightarrow \psi] \and [\varphi]}{\psi}
+                    \inferrule*[right=\( \to \)-E]{[\varphi \to \psi] \and [\varphi]}{\psi}
                 }{\chi}
-            }{\varphi \Rightarrow \chi}
-        }{(\varphi \Rightarrow \psi) \Rightarrow (\varphi \Rightarrow \chi)}
-    }{(\varphi \Rightarrow (\psi \Rightarrow \chi)) \Rightarrow ((\varphi \Rightarrow \psi) \Rightarrow (\varphi \Rightarrow \chi))} \]
+            }{\varphi \to \chi}
+        }{(\varphi \to \psi) \to (\varphi \to \chi)}
+    }{(\varphi \to (\psi \to \chi)) \to ((\varphi \to \psi) \to (\varphi \to \chi))} \]
 \end{example}
 \begin{lemma}
     If \( \Gamma \vdash_{\mathsf{IPC}} \varphi \), then \( \Gamma, \psi \vdash_{\mathsf{IPC}} \varphi \).
@@ -164,7 +164,7 @@ We write \( \mathcal C \) for the set of all contexts.
 Given a context \( \Gamma \in \mathcal C \), we also write \( \Gamma, x : \tau \) for the context \( \Gamma \cup \qty{x : \tau} \).
 The \emph{domain} of \( \Gamma \) is the set \( \dom \Gamma \) of variables that appear in \( \Gamma \); similarly, the \emph{range} of \( \Gamma \) is the set \( \abs{\Gamma} \) of types that appear in \( \Gamma \).
 
-The \emph{typability relation} \( (-) \Vdash (-) : (-) \) is a relation on \( C \times \Lambda_\Pi \times \Pi \), defined recursively using the following rules.
+The \emph{typability relation} \( (-) \Vdash (-) : (-) \) is a relation on \( \mathcal C \times \Lambda_\Pi \times \Pi \), defined recursively using the following rules.
 \begin{enumerate}
     \item For every context \( \Gamma \), variable \( x \notin \dom \Gamma \), and type \( \tau \), we have \( \Gamma, x : \tau \Vdash x : \tau \).
     \item Let \( \Gamma \) be a context, \( x \notin \dom \Gamma \), let \( \sigma, \tau \) be types, and let \( M \) be a \( \lambda \)-term.
@@ -344,3 +344,90 @@ For convenience, we will annotate types of terms with superscripts.
     So if \( M \to_\beta M' \) by reducing \( \Delta \), it is always the case that \( m(M') < m(M) \) in the lexicographic order.
     By the inductive hypothesis, \( M' \) can be reduced to \( \beta \)-normal form, so the result also holds for \( M \).
 \end{proof}
+\begin{theorem}[strong normalisation theorem]
+    Let \( \Gamma \Vdash M : \sigma \).
+    Then there is no infinite sequence
+    \[ M \to_\beta M_1 \to_\beta M_2 \to_\beta \cdots \]
+\end{theorem}
+The proof is omitted.
+
+\subsection{Propositions as types}
+We will work with the fragment of \( \mathsf{IPC} \), denoted \( \mathsf{IPC}(\to) \), where the only connective is \( \to \), and the deduction rules are \( \to \)-I, \( \to \)-E, \textsc{Ax}.
+
+If \( \mathcal L \) is a propositional language for \( \mathsf{IPC}(\to) \) and \( P \) is its set of primitive propositions, we can generate a simply typed \( \lambda \)-calculus \( \lambda(\to) \) by taking the set of primitive types \( \mathcal U \) to be \( P \).
+Then the types \( \Pi \) and the propositions \( \mathcal L \) are generated by the same grammar
+\[ \mathcal U \mid \Pi \to \Pi \]
+A proposition is thus the type of its proofs, and a context is a set of hypotheses.
+\begin{proposition}[Curry--Howard correspondence for \( \mathsf{IPC}(\to) \)]
+    Let \( \Gamma \) be a context for \( \lambda(\to) \), and let \( \varphi \) be a proposition.
+    Then
+    \begin{enumerate}
+        \item If \( \Gamma \Vdash M : \varphi \), then
+        \[ \abs{\Gamma} = \qty{\tau \in \Pi \mid \exists x.\, (x : \tau) \in \Gamma} \vdash_{\mathsf{IPC}(\to)} \varphi \]
+        \item If \( \Gamma \vdash_{\mathsf{IPC}(\to)} \varphi \), then there is a simply typed \( \lambda \)-term \( M \) such that
+        \[ \qty{(x_\tau : \tau) \mid \tau \in \Gamma} \Vdash M : \varphi \]
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \emph{Part (i).}
+    We use induction over the derivation of \( \Gamma \Vdash M : \varphi \).
+    If \( x \) is a variable not occurring in \( \Gamma' \), and the derivation is of the form \( \Gamma', x : \varphi \Vdash x : \varphi \), then we must prove that \( \abs{\Gamma', x : \varphi} \vdash \varphi \), and this holds as \( \varphi \vdash \varphi \).
+    
+    If the derivation has \( M \) of the form \( \lambda x:\sigma.\, N \) and \( \varphi = \sigma \to \tau \), then we must have that \( \Gamma, x: \sigma \Vdash N : \tau \).
+    By the inductive hypothesis, we have \( \abs{\Gamma, x : \sigma} \vdash \tau \), so \( \abs{\Gamma}, \sigma \vdash \tau \).
+    Thus we obtain a proof of \( \sigma \to \tau \) from \( \abs{\Gamma} \) by \( \to \)-I.
+
+    If the derivation is of the form \( \Gamma \Vdash (P\, Q) : \varphi \), then we must have \( \Gamma \Vdash P : \sigma \to \varphi \) and \( \Gamma \Vdash Q : \sigma \) for some \( \sigma \).
+    By the inductive hypothesis, \( \abs{\Gamma} \vdash \sigma \to \varphi \) and \( \abs{\Gamma} \vdash \sigma \).
+    Then the result holds by \( \to \)-E.
+
+    \emph{Part (ii).}
+    We use induction over the proof tree of \( \Gamma \vdash_{\mathsf{IPC}(\to)} \varphi \).
+    We write
+    \[ \Delta = \qty{(x_\tau : \tau) \mid \tau \in \Gamma} \]
+    Suppose that we are at a stage of the proof that uses \textsc{Ax}, so \( \Gamma, \varphi \vdash \varphi \).
+    If \( \varphi \in \Gamma \), then clearly \( \Delta \Vdash x_\varphi : \varphi \).
+    Otherwise, \( \Delta, x_\varphi : \varphi \Vdash x_\varphi : \varphi \) as required.
+
+    Suppose that we are at a stage of the proof that uses \( \to \)-E, so
+    \[ \inferrule{\Gamma \vdash \varphi \to \psi \and \Gamma \vdash \varphi}{\Gamma \vdash \psi} \]
+    By the inductive hypothesis, there are \( \lambda \)-terms \( M, N \) such that \( \Delta \Vdash M : \varphi \to \psi \) and \( \Delta \Vdash N : \varphi \).
+    Then \( \Delta \Vdash (M\, N) : \psi \) as required.
+
+    Finally, suppose we are at a stage of the proof that uses \( \to \)-I, so
+    \[ \inferrule{\Gamma, \varphi \vdash \psi}{\Gamma \vdash \varphi \to \psi} \]
+    If \( \varphi \in \Gamma \), then by the inductive hypothesis, there is a \( \lambda \)-term \( M \) such that \( \Delta \Vdash M : \psi \).
+    By the weakening rule, \( \Delta, x : \varphi \Vdash M : \psi \) where \( x \) is a variable that does not occur in \( \Delta \).
+    Then \( \Delta \Vdash (\lambda x:\varphi.\, M) : \varphi \to \psi \) as required.
+    Now suppose \( \varphi \notin \Gamma \).
+    By the inductive hypothesis we obtain a \( \lambda \)-term \( M \) such that \( \Delta, x_\varphi : \varphi \Vdash M : \psi \).
+    Then similarly \( \Delta \Vdash (\lambda x_\varphi:\varphi.\, M) : \varphi \to \psi \).
+\end{proof}
+This justifies the Brouwer--Heyting--Kolmogorov interpretation of intuitionistic logic.
+\begin{example}
+    Let \( \varphi, \psi \) be primitive propositions, and consider the \( \lambda \)-term
+    \[ \lambda f:(\varphi \to \psi) \to \varphi.\,\lambda g: \varphi \to \psi.\, g(fg) \]
+    This term has type
+    \[ ((\varphi \to \psi) \to \varphi) \to ((\varphi \to \psi) \to \psi) \]
+    The term encodes a proof of this proposition in \( \vdash_{\mathsf{IPC}(\to)} \).
+    The corresponding proof tree is
+    \[ \inferrule*[right=\( \to \)-I]
+        {\inferrule*[right=\( \to \)-I]{\inferrule*[right=\( \to \)-E]{
+            \inferrule*[right=\( \to \)-E]{g : [\varphi \to \psi] \and f : [(\varphi \to \psi) \to \varphi]}{fg : \varphi}
+        \and g : [\varphi \to \psi]}{g(fg) : \psi}}
+        {\lambda g: \varphi \to \psi.\, g(fg) : (\varphi \to \psi) \to \psi}}
+        {\lambda f:(\varphi \to \psi) \to \varphi.\,\lambda g: \varphi \to \psi.\, g(fg) : ((\varphi \to \psi) \to \varphi) \to ((\varphi \to \psi) \to \psi)} \]
+\end{example}
+
+\subsection{Full simply typed lambda calculus}
+The types of the full simply typed \( \lambda \)-calculus \( \mathsf{ST}\lambda\mathsf{C} \) are generated by the following grammar.
+\[ \Pi \Coloneq \mathcal U \mid \Pi \to \Pi \mid \Pi \times \Pi \mid \Pi + \Pi | {1} | {0} \]
+where \( \mathcal U \) is a set of primitive types or type variables.
+The terms are of the form
+\begin{align*}
+    \Lambda_\Pi \Coloneq\, & V \mid (\lambda x : \Pi.\, \Lambda_\Pi) \mid \Lambda_\Pi \, \Lambda_\Pi \mid \\
+    &\langle \Lambda_\Pi, \Lambda_\Pi \rangle \mid \pi_1(\Lambda_\Pi) \mid \pi_2(\Lambda_\Pi) \mid \\
+    &\iota_1(\Lambda_\Pi) \mid \iota_2(\Lambda_\Pi) \mid \mathsf{case}(\Lambda_\Pi;V.\Lambda_\Pi;V.\Lambda_\Pi) \mid \\
+    &\star \mid {!_\Pi \Lambda_\Pi}
+\end{align*}
+where \( V \) is an infinite set of variables, and \( \star \) is a constant.

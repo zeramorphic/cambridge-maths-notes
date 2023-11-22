@@ -14,7 +14,8 @@ We will globalise the notion of height 1 prime ideals, giving \emph{Weil divisor
 In the case of Weil divisors, we will assume that the ambient scheme \( X \) is Noetherian, integral, separated, and \emph{regular in codimension 1}.
 
 If \( X \) is integral and \( U = \Spec A \) is an open affine, then the ideal \( (0) \subseteq A \) is called the \emph{generic point} of \( X \).
-The generic points given by each \( U \) coincide in \( X \).
+Each open affine is dense as they are irreducible, so they have a nontrivial intersection, including their generic points.
+The generic points given by each \( U \) therefore coincide in \( X \).
 This point is often denoted by \( \eta \) or \( \eta_X \).
 \begin{definition}
     Let \( X \) be a scheme.
@@ -43,8 +44,78 @@ We will write \( D \in \operatorname{Div}(X) \) as \( \sum_i n_{Y_i} [Y_i] \) wh
 If \( X \) is integral, for \( \Spec A = U \subseteq X \), the local ring \( \mathcal O_{X, \eta} \) is a field, as it is in particular the fraction field of \( A \).
 Indeed, because \( \eta \) is contained in every open affine, \( \mathcal O_{X, \eta} \) permits arbitrary denominators.
 
-Let \( f \in \mathcal O_{X, \eta_X} = k(X) \).
+Let \( f \in \mathcal O_{X, \eta_X} = k(X) \) be nonzero.
 Since for every prime divisor \( Y \subseteq X \), the ring \( \mathcal O_{X, \eta_Y} \) is a discrete valuation ring, we can calculate the valuation \( \nu_Y(f) \) of \( f \) in this ring.
 We thus define the divisor
 \[ \operatorname{div}(f) = \sum_{Y \subseteq X \text{ prime}} \nu_Y(f) [Y] \]
 We claim that this is a Weil divisor; that is, the sum is finite.
+\begin{proposition}
+    The sum
+    \[ \sum_{Y \subseteq X \text{ prime}} \nu_Y(f) [Y] \]
+    is finite.
+\end{proposition}
+\begin{proof}
+    Let \( f \in k(X)^\times \), and choose \( A \) such that \( U = \Spec A \) is an affine open, so \( FF(A) = k(X) \). 
+    We can also require that \( f \in A \) by localising at the denominator, so \( f \) is \emph{regular} on \( U \).
+    Then \( X \setminus U \) is closed and of codimension at least 1, so only finitely many prime Weil divisors \( Y \) of \( X \) are contained in \( X \setminus U \).
+    On \( U \), as \( f \) is regular, \( \nu_Y(f) \geq 0 \) for all \( Y \).
+    But \( \nu_Y(f) > 0 \) if and only if \( Y \) is contained in \( \mathbb V(f) \subseteq U \), and by the same argument, there are only finitely many such \( Y \).
+\end{proof}
+\begin{definition}
+    A Weil divisor of the form \( \operatorname{div}(f) \) is called \emph{principal}.
+\end{definition}
+In \( \operatorname{Div}(X) \), the set of principal divisors form a subgroup \( \operatorname{Prin}(X) \), and we define the \emph{Weil divisor class group} of \( X \) to be
+\[ \operatorname{Cl}(X) = \faktor{\operatorname{Div}(X)}{\operatorname{Prin}(X)} \]
+\begin{remark}
+    \begin{enumerate}
+        \item Let \( A \) be a Noetherian domain.
+        Then \( A \) is a unique factorisation domain if and only if \( A \) is integrally closed and \( \operatorname{Cl}(\Spec A) \) is trivial.
+        This is related to the fact that in unique factorisation domains, all primes of height 1 are principal.
+        In particular, there exist rings with nontrivial class groups of their spectra.
+        \item \( \operatorname{Cl}(\mathbb A^n_k) = 0 \).
+        \item \( \operatorname{Cl}(\mathbb P^n_k) \cong \mathbb Z \); we will prove this shortly.
+        % TODO: break here, organise into props/proofs
+        \item Let \( Z \subseteq X \) is closed, and let \( U = X \setminus Z \).
+        Then there is a surjective map \( \operatorname{Cl}(X) \twoheadrightarrow \operatorname{Cl}(U) \), defined by \( [Y] \mapsto [Y \cap U] \), but instead mapping \( [Y] \) to zero if \( Y \cap U = \varnothing \).
+        This is well-defined, as \( k(X) \) and \( k(U) \) are naturally isomorphic, so principal divisors are mapped to principal divisors.
+        For surjectivity, note that given a prime Weil divisor \( D \subseteq U \), its closure \( \overline D \) in \( X \) is a prime Weil divisor that restricts to \( D \) under the map.
+        \item If \( Z \) has codimension at least 2, then \( \operatorname{Cl}(X) \twoheadrightarrow \operatorname{Cl}(U) \) is an isomorphism.
+        This is because \( Z \) does not enter the definition of \( \operatorname{Cl}(X) \).
+        \item If \( Z \subseteq X \) is integral, closed, and of codimension 1, there is an exact sequence
+        % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhiYiBaIl0sWzEsMCwiXFxvcGVyYXRvcm5hbWV7Q2x9KFgpIl0sWzIsMCwiXFxvcGVyYXRvcm5hbWV7Q2x9KFUpIl0sWzMsMCwiMCJdLFswLDEsIjEgXFxtYXBzdG8gW1pdIl0sWzEsMl0sWzIsM11d
+        \[\begin{tikzcd}
+            {\mathbb Z} & {\operatorname{Cl}(X)} & {\operatorname{Cl}(U)} & 0
+            \arrow["{1 \mapsto [Z]}", from=1-1, to=1-2]
+            \arrow[from=1-2, to=1-3]
+            \arrow[from=1-3, to=1-4]
+        \end{tikzcd}\]
+        called the \emph{excision} exact sequence.
+        Indeed, the kernel of \( \operatorname{Cl}(X) \to \operatorname{Cl}(U) \) are exactly the divisors in \( X \) contained in \( Z \).
+    \end{enumerate}
+\end{remark}
+\begin{proposition}
+    Let \( k \) be a field.
+    Then, \( \operatorname{Cl}(\mathbb P^n_k) \cong \mathbb Z \).
+\end{proposition}
+\begin{proof}
+    Let \( D \subseteq \mathbb P^n \) be integral, closed, and of codimension 1.
+    Then \( D = \mathbb V(f) \) where \( f \) is homogeneous of some degree \( d \); we will define \( \deg(D) = d \).
+    We extend linearly to obtain a homomorphism \( \deg : \operatorname{Div}(\mathbb P^n_k) \to \mathbb Z \).
+    We claim that this gives an isomorphism \( \operatorname{Cl}(\mathbb P^n_k) \to \mathbb Z \).
+    First, this is well defined on classes, since if \( f = \frac{g}{h} \) is a rational function, then \( g \) and \( h \) are homogeneous polynomials of the same degree, so \( \deg(\operatorname{div}(f)) = 0 \).
+    This is surjective, by taking \( H = \mathbb V(x_0) \) for \( x_0 \) homogeneous linear.
+    For injectivity, suppose \( D = \sum n_{Y_i} [Y_i] \) with \( \sum n_{Y_i} \deg(Y_i) = 0 \).
+    Write \( Y_i = \mathbb V(g_i) \), and let \( f = \prod g_i^{n_{Y_i}} \).
+    Now \( f \) is a homogeneous rational function of degree zero.
+\end{proof}
+
+\subsection{Cartier divisors}
+Let \( X \) be a scheme.
+Consider the presheaf on \( X \) given by mapping \( U = \Spec A \) to \( S^{-1}A \) where \( S \) is the set of all elements that are not zero divisors.
+Sheafification yields the sheaf of rings \( \mathcal K_X \).
+Define \( \mathcal K_X^\star \subseteq \mathcal K_X \) to be the subsheaf of invertible elements; this is a sheaf of abelian groups under multiplication.
+Similarly, let \( \mathcal O_X^\star \subseteq \mathcal O_X \) be the subsheaf of invertible elements.
+Thus, every section of \( \faktor{\mathcal K_X^\star}{\mathcal O_X^\star} \) can be prescribed by \( \qty{(U_i, f_i)} \) where \( U_i \) is a cover of \( X \), \( f_i \) is a section of \( \mathcal K_X^\star(U_i) \), and that on \( U_i \cap U_j \), the ratio \( \faktor{f_i}{f_j} \) lies in \( \mathcal O_X^\star(U_i \cap U_j) \).
+\begin{definition}
+    A \emph{Cartier divisor} is a section of the sheaf \( \faktor{\mathcal K_X^\star}{\mathcal O_X^\star} \).
+\end{definition}
