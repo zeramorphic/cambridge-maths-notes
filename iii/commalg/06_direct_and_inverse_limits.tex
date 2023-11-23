@@ -92,7 +92,7 @@ We can make the following more general definition.
     \begin{enumerate}
         \item the \( \mathfrak a \)-adic completion \( \hat R \) is Noetherian;
         \item the functor \( \hat R \otimes_R (-) \) is exact;
-        \item if \( M \) is a finitely generated \( R \)-module, then the natural map \( \hat R \otimes_R M \to \hat M \) is an \( \hat R \)-linear isomorphism. 
+        \item if \( M \) is a finitely generated \( R \)-module, then the natural map \( \hat R \otimes_R M \to \hat M \) is an \( \hat R \)-linear isomorphism.
     \end{enumerate}
 \end{theorem}
 Thus \( \mathfrak a \)-adic completion is an exact functor from the category of finitely generated \( R \)-modules if \( R \) is Noetherian.
@@ -204,3 +204,77 @@ This is an ideal of \( A \), and \( \faktor{A}{A_+} \simeq A_0 \).
     Let \( M \) be an \( R \)-module.
     We say that filtrations \( (M_n), (M_n') \) of \( M \) are \emph{equivalent} if there exists \( n_0 \) such that for all \( n \geq 0 \), we have \( M_{n + n_0} \subseteq M_n' \) and \( M'_{n + n_0} \subseteq M_n \).
 \end{definition}
+\begin{lemma}
+    Let \( \mathfrak a \) be an ideal of \( R \).
+    Let \( M \) be an \( R \)-module, and let \( (M_n)_{n \geq 0} \) be a stable \( \mathfrak a \)-filtration of \( M \).
+    Then \( (M_n)_{n \geq 0} \) is equivalent to \( (\mathfrak a^n M)_{n \geq 0} \).
+\end{lemma}
+\begin{proof}
+    As \( (M_n)_{n \geq 0} \) is an \( \mathfrak a \)-filtration, for all \( n \geq 0 \), we have
+    \[ M_n \supseteq \mathfrak a M_{n-1} \supseteq \mathfrak a^2 M_{n-2} \supseteq \dots \supseteq \mathfrak a^n M \supseteq \mathfrak a^{n + n_0} M \]
+    For the other direction, as the filtration is stable, there exists \( n_0 \) such that for each \( n \geq n_0 \), we have \( \mathfrak a M_n = M_{n+1} \).
+    Then \( M_{m + n_0} = \mathfrak a^n M_{n_0} \subseteq \mathfrak a^n M \) as required.
+\end{proof}
+
+\subsection{Artin--Rees lemma}
+\begin{definition}
+    Let \( \mathfrak a \) be an ideal of \( R \).
+    Let \( M \) be an \( R \)-module, and let \( (M_n)_{n \geq 0} \) be an \( \mathfrak a \)-filtration of \( M \).
+    Then we define
+    \[ R^\star = \bigoplus_{n \geq 0} \mathfrak a^n;\quad M^\star = \bigoplus_{n \geq 0} M_n \]
+\end{definition}
+Note that \( R^\star \) is a graded ring, as for \( x \in \mathfrak a^n, y \in \mathfrak a^\ell \), we have \( xy \in \mathfrak a^{n + \ell} \).
+As \( (M_n)_{n \geq 0} \) is an \( \mathfrak a \)-filtration, \( M^\star \) is a graded \( R^\star \)-module.
+Indeed, for \( x \in \mathfrak a^n \) and \( m \in M_\ell \), we have \( xm \in M_{n + \ell} \) as required.
+
+If \( R \) is Noetherian, the ideal \( \mathfrak a \) is finitely generated, say by \( x_1, \dots, x_r \).
+Then \( R^\star \) is generated as an \( R \)-algebra by \( x_1, \dots, x_r \) by taking sums and products.
+By Hilbert's basis theorem, \( R^\star \) is a Noetherian ring.
+\begin{lemma}
+    Let \( R \) be a Noetherian ring, and let \( \mathfrak a \) be an ideal of \( R \).
+    Let \( M \) be a finitely generated \( R \)-module, and let \( (M_n)_{n \geq 0} \) be an \( \mathfrak a \)-filtration of \( M \).
+    Then, the following are equivalent:
+    \begin{enumerate}
+        \item \( M^\star \) is finitely generated as an \( R^\star \)-module;
+        \item the \( \mathfrak a \)-filtration \( (M_n)_{n \geq 0} \) is stable.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    First, note that each \( M_n \) is a finitely generated \( R \)-module.
+    Indeed, \( R \) is a Noetherian ring and \( M \) is finitely generated, so \( M \) is a Noetherian module, or equivalently, every submodule is finitely generated.
+    Now, consider
+    \[ M^\star_n = M_0 \oplus \dots \oplus M_n \oplus \mathfrak a M_n \oplus \mathfrak a^2 M_n \oplus \cdots \]
+    This is an \( R^\star \)-submodule of \( M^\star \).
+    Note that \( (M^\star_n)_{n \geq 0} \) is an ascending chain of \( R^\star \)-submodules of \( M^\star \), and this chain stabilises if and only if the \( \mathfrak a \)-filtration \( (M_n)_{n \geq 0} \) is stable.
+
+    \emph{(i) implies (ii).}
+    As \( R \) is Noetherian, so is \( R^\star \) by the discussion above.
+    By assumption, \( M^\star \) is finitely generated as a module over a Noetherian ring, so it is Noetherian.
+    Hence the ascending chain \( (M^\star_n)_{n \geq 0} \) stabilises, giving the result.
+
+    \emph{(ii) implies (i).}
+    Suppose \( (M_n)_{n \geq 0} \) is stable.
+    Then \( (M^\star_n)_{n \geq 0} \) stabilises at some \( n_0 \geq 0 \), so
+    \[ M^\star = \bigcup_{n \geq 0} M_n^\star = M_{n_0}^\star \]
+    Now, note that \( M_0 \oplus \dots \oplus M_{n_0} \)
+    generatees \( M^\star_{n_0} \) as an \( R^\star \)-module.
+    Each \( M_n \) is a finitely generated \( R \)-module, so \( M_0 \oplus \dots \oplus M_{n_0} \) is also finitely generated as an \( R \)-module.
+    So these generators span \( M^\star_{n_0} = M^\star \) as an \( R^\star \)-module, as required.
+\end{proof}
+\begin{proposition}[Artin--Rees]
+    Let \( R \) be a Noetherian ring, and let \( \mathfrak a \) be an ideal of \( R \).
+    Let \( M \) be a finitely generated \( R \)-module, and let \( (M_n)_{n \geq 0} \) be a stable \( \mathfrak a \)-filtration of \( M \).
+    Then for any submodule \( N \leq M \), \( (N \cap M_n)_{n \geq 0} \) is a stable \( \mathfrak a \)-filtration of \( N \).
+\end{proposition}
+Thus, stable filtrations pass to submodules.
+\begin{proof}
+    First, we show that \( (N \cap M_n)_{n \geq 0} \) is indeed an \( \mathfrak a \)-filtration.
+    \[ \mathfrak a(N \cap M_n) \subseteq N \cap \mathfrak a M_n \subseteq N \cap M_{n + 1} \]
+    Now, define
+    \[ M^\star = \bigoplus_{n \geq 0} M_n;\quad N^\star = \bigoplus_{n \geq 0} (N \cap M_n) \]
+    Note that \( M^\star \) is an \( R^\star \)-submodule of \( N^\star \).
+    As \( R \) is Noetherian, so is \( R^\star \).
+    Then as \( (M_n)_{n \geq 0} \) is stable, \( M^\star \) is a finitely generated \( R^\star \)-module by the previous lemma.
+    Thus \( M^\star \) is a Noetherian \( R^\star \)-module.
+    Its submodule \( N^\star \) is then finitely generated, so \( (N \cap M_n)_{n \geq 0} \) is stable.
+\end{proof}
