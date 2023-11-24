@@ -55,7 +55,7 @@ We claim that this is a Weil divisor; that is, the sum is finite.
     is finite.
 \end{proposition}
 \begin{proof}
-    Let \( f \in k(X)^\times \), and choose \( A \) such that \( U = \Spec A \) is an affine open, so \( FF(A) = k(X) \). 
+    Let \( f \in k(X)^\times \), and choose \( A \) such that \( U = \Spec A \) is an affine open, so \( FF(A) = k(X) \).
     We can also require that \( f \in A \) by localising at the denominator, so \( f \) is \emph{regular} on \( U \).
     Then \( X \setminus U \) is closed and of codimension at least 1, so only finitely many prime Weil divisors \( Y \) of \( X \) are contained in \( X \setminus U \).
     On \( U \), as \( f \) is regular, \( \nu_Y(f) \geq 0 \) for all \( Y \).
@@ -63,9 +63,9 @@ We claim that this is a Weil divisor; that is, the sum is finite.
 \end{proof}
 \begin{definition}
     A Weil divisor of the form \( \operatorname{div}(f) \) is called \emph{principal}.
+    In \( \operatorname{Div}(X) \), the set of principal divisors form a subgroup \( \operatorname{Prin}(X) \), and we define the \emph{Weil divisor class group} of \( X \) to be
+    \[ \operatorname{Cl}(X) = \faktor{\operatorname{Div}(X)}{\operatorname{Prin}(X)} \]
 \end{definition}
-In \( \operatorname{Div}(X) \), the set of principal divisors form a subgroup \( \operatorname{Prin}(X) \), and we define the \emph{Weil divisor class group} of \( X \) to be
-\[ \operatorname{Cl}(X) = \faktor{\operatorname{Div}(X)}{\operatorname{Prin}(X)} \]
 \begin{remark}
     \begin{enumerate}
         \item Let \( A \) be a Noetherian domain.
@@ -114,8 +114,57 @@ Let \( X \) be a scheme.
 Consider the presheaf on \( X \) given by mapping \( U = \Spec A \) to \( S^{-1}A \) where \( S \) is the set of all elements that are not zero divisors.
 Sheafification yields the sheaf of rings \( \mathcal K_X \).
 Define \( \mathcal K_X^\star \subseteq \mathcal K_X \) to be the subsheaf of invertible elements; this is a sheaf of abelian groups under multiplication.
+If \( X \) is integral, then \( \mathcal K_X \) is the constant sheaf, where the constant field is \( \mathcal O_{X,\eta_X} = FF(A) \) for any affine open \( \Spec A \).
+
 Similarly, let \( \mathcal O_X^\star \subseteq \mathcal O_X \) be the subsheaf of invertible elements.
 Thus, every section of \( \faktor{\mathcal K_X^\star}{\mathcal O_X^\star} \) can be prescribed by \( \qty{(U_i, f_i)} \) where \( U_i \) is a cover of \( X \), \( f_i \) is a section of \( \mathcal K_X^\star(U_i) \), and that on \( U_i \cap U_j \), the ratio \( \faktor{f_i}{f_j} \) lies in \( \mathcal O_X^\star(U_i \cap U_j) \).
 \begin{definition}
-    A \emph{Cartier divisor} is a section of the sheaf \( \faktor{\mathcal K_X^\star}{\mathcal O_X^\star} \).
+    A \emph{Cartier divisor} is a global section of the sheaf \( \faktor{\mathcal K_X^\star}{\mathcal O_X^\star} \).
 \end{definition}
+We have a surjective sheaf homomorphism \( \mathcal K_X^\star \to \faktor{\mathcal K^X_\star}{\mathcal O_X^\star} \), but a global section of \( \faktor{\mathcal K^X_\star}{\mathcal O_X^\star} \) is not necessarily the image of a global section of \( \mathcal K_X^\star \).
+\begin{definition}
+    The image of \( \Gamma(X, \mathcal K_X^\star) \) in \( \Gamma\qty(X, \faktor{\mathcal K_X^\star}{\mathcal O_X^\star}) \) is the set of \emph{principal} Cartier divisors.
+    The \emph{Cartier class group} is the quotient
+    \[ \faktor{\Gamma\qty(X, \faktor{\mathcal K_X^\star}{\mathcal O_X^\star})}{\Im \Gamma(X, \mathcal K_X^\star)} \]
+\end{definition}
+A section \( \mathcal D \in \Gamma\qty(X, \faktor{\mathcal K_X^\star}{\mathcal O_X^\star}) \) can be specified by \( \qty{(U_i, f_i)} \) where the \( \qty{U_i} \) form an open cover and \( f_i \in \mathcal K_X^\star(U_i) \), such that on \( U_i \cap U_j \), the quotient \( \frac{f_i}{f_j} \) lies in \( \mathcal O_X^\star(U_i \cap U_j) \).
+
+Let \( X \) be Noetherian, integral, separated, and regular in codimension 1.
+Given a Cartier divisor \( \mathcal D \in \Gamma\qty(X, \faktor{\mathcal K_X^\star}{\mathcal O_X^\star}) \), we obtain a Weil divisor as follows.
+If \( Y \subseteq X \) is a prime Weil divisor and its generic point is \( \eta_Y \), we represent \( \mathcal D \) by \( \qty{(U_i, f_i)} \) and set \( n_Y \) to be \( \nu_Y(f_i) \) for some \( U_i \) containing \( \eta_Y \).
+Then we obtain the Weil divisor
+\[ \sum_{Y \subseteq X} n_Y [Y] \]
+This is well-defined: if \( \eta_Y \) is contained in both \( U_i \) and \( U_j \), the valuations of \( f_i \) and \( f_j \) differ by \( \nu_Y\qty(\frac{f_i}{f_j}) \), but \( \frac{f_i}{f_j} \) is a unit, so has valuation zero.
+Similarly, one can show that this is independent of the choice of representative of \( \mathcal D \).
+\begin{proposition}
+    Let \( X \) be Noetherian, integral, separated, and regular in codimension 1.
+    Suppose that all local rings \( \mathcal O_{X,x} \) are unique factorisation domains.
+    Then the association of a Weil divisor to each Cartier divisor is a bijection, and furthermore, is a bijection of principal divisors.
+\end{proposition}
+\begin{proof}[Proof sketch]
+    If \( R \) is a unique factorisation domain, then all height 1 prime ideals are principal.
+    If \( x \in X \), then \( \mathcal O_{X, x} \) is a unique factorisation domain by hypothesis, so given a Weil divisor \( D \), we can restrict it to \( \Spec \mathcal O_{X, x} \to X \).
+    But on \( \Spec \mathcal O_{X, x} \), \( D \) is given by \( \mathbb V(f_x) \) as \( \mathcal O_{X, x} \) is a unique factorisation domain.
+    \( f_x \) extends to some neighbourhood \( U_x \) containing \( x \), then the \( f_x \) can be glued to form a Cartier divisor.
+    This can be checked to be bijective.
+\end{proof}
+Given a Cartier divisor \( D \) on \( X \) with representative \( \qty{(U_i, f_i)} \), we can define \( L(\mathcal D) \subseteq \mathcal K_X \) to be the sub-\( \mathcal O_X \)-module generated on \( U_i \) by \( f_i^{-1} \).
+Note that if \( X = \Spec A \) where \( A \) is integral, and \( \mathcal D = \qty{(X, f)} \) where \( f \in A \), then \( A_f \subseteq FF(A) \) is an \( A \)-module.
+\begin{proposition}
+    The sheaf \( L(\mathcal D) \) is a line bundle.
+\end{proposition}
+\begin{proposition}
+    On \( U_i \), we have an isomorphism \( \mathcal O_{U_i} \to \eval{L(\mathcal D)}_{U_i} \) given by \( 1 \mapsto f_i^{-1} \).
+\end{proposition}
+Consider \( X = \mathbb P^n_k \), and let \( D \) be the Weil divisor \( \mathbb V(x_0) \).
+Let \( \mathcal D \) be the corresponding Cartier divisor.
+One can show that \( \mathcal O_{\mathbb P^n_k}(1) \cong L(\mathcal D) \).
+\begin{remark}
+    A line bundle \( L \) on \( X \) has an `inverse' under the tensor product; that is, defining \( L^{-1} = \Hom_{\mathcal O_X}(L, \mathcal O_X) \), we obtain \( L \otimes_{\mathcal O_X} L^{-1} = \mathcal O_X \).
+    Tensor products of line bundles are also line bundles.
+    If all Weil divisors are Cartier, then \( L(\mathcal D + \mathcal E) = L(\mathcal D) \otimes L(\mathcal E) \).
+\end{remark}
+\begin{definition}
+    The \emph{Picard group} of \( X \) is the set of line bundles on \( X \) up to isomorphism, which forms an abelian group under the tensor product.
+\end{definition}
+Under mild assumptions, for example assuming that \( X \) is integral, the map \( \mathcal D \mapsto L(\mathcal D) \) is surjective, and the kernel is exactly the set of principal Cartier divisors.
