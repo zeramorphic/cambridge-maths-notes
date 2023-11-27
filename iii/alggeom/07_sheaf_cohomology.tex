@@ -1,7 +1,8 @@
-\subsection{???}
+\subsection{Introduction and properties}
 We have previously seen that if \( X = \mathbb A^2 \setminus \qty{(0, 0)} \), then \( \mathcal O_X(X) \cong \mathcal O_{\mathbb A^2}(\mathbb A^2) \cong k[x, y] \).
-Given a topological space \( X \) and a sheaf \( \mathcal F \) of abelian groups, we will build a series of groups \( H^i(X, \mathcal F) \) for \( i \in \mathbb N \).
-This will have the following features.
+Given a topological space \( X \) and a sheaf \( \mathcal F \) of abelian groups, there is a series of \emph{cohomology} groups \( H^i(X, \mathcal F) \) for \( i \in \mathbb N \).
+The definition will be omitted.
+These groups have the following features.
 \begin{enumerate}
     \item The group \( H^0(X, \mathcal F) \) is precisely \( \Gamma(X, \mathcal F) \).
     \item If \( f : Y \to X \) is continuous, there is an induced map \( f^\star : H^i(X, \mathcal F) \to H^i(Y, f^{-1} \mathcal F) \).
@@ -29,4 +30,69 @@ This will have the following features.
 	\arrow[from=2-4, to=3-2]
 	\arrow[from=3-2, to=3-3]
 \end{tikzcd}\]
+	\item If \( X \) is an affine scheme and \( \mathcal F \) is a quasi-coherent sheaf, then \( H^i(X, \mathcal F) = 0 \) for all \( i > 0 \).
+	\item If \( X \) is a Noetherian separated scheme, then \( H^i(X, \mathcal F) \) can be computed from the sections of \( \mathcal F \) on an open affine cover \( \qty{U_i} \) and from the data of the restrictions to \( \mathcal F(U_i \cap U_j), \mathcal F(U_i \cap U_j \cap U_k) \) and so on.
+	This is a property of \emph{\v{C}ech cohomology}.
 \end{enumerate}
+
+\subsection{\v{C}ech cohomology}
+Let \( X \) be a topological space, and let \( \mathcal F \) be a sheaf on \( X \).
+Let \( \mathcal U = \qty{U_i}_{i \in I} \) be a fixed open cover of \( X \), indexed by a well-ordered set \( I \).
+In this course, we will take \( I = \qty{1, \dots, N} \), and write \( U_{i_0 \dots i_p} = U_{i_0} \cap \dots \cap U_{i_p} \).
+\v{C}ech cohomology attaches data to the triple \( (X, \mathcal F, \mathcal U) \).
+The group of \emph{\v{C}ech \( p \)-cochains} is
+\[ C^p(\mathcal U, \mathcal F) = \prod_{i_0 < \dots < i_p} \mathcal F(U_{i_0 \dots i_p}) \]
+There is a \emph{differential}
+\[ d : C^p(\mathcal U, \mathcal F) \to C^{p+1}(\mathcal U, \mathcal F) \]
+where the \( i_0, \dots, i_{p+1} \) component of \( d\alpha \) is given by
+\[ (d\alpha)_{i_0 \dots i_{p+1}} = \sum_{k=0}^{p+1} (-1)^k \eval{\alpha_{i_0\dots \hat i_k \dots i_{p+1}}}_{U_{i_0 \dots i_{p+1}}} \]
+where \( \hat i_k \) denotes that the element \( i_k \) of the sequence is omitted.
+One can easily show that \( d^2 : C^p \to C^{p+2} \) is the zero map.
+Thus, \( \qty{C^p(\mathcal U, \mathcal F)}_p \) has the structure of a \emph{cochain complex}.
+\begin{definition}
+	The \emph{\( i \)th \v{C}ech cohomology} of \( (X, \mathcal F, \mathcal U) \) is the \( i \)th cohomology group of the cochain complex:
+	\[ \check{H}^i(X, \mathcal F) = \frac{\ker(C^i(\mathcal U, \mathcal F) \xrightarrow d C^{i+1}(\mathcal U, \mathcal F))}{\Im(C^{i-1}(\mathcal U, \mathcal F) \xrightarrow d C^i(\mathcal U, \mathcal F))} \]
+\end{definition}
+\begin{example}
+	Let \( X = S^1 \) be the usual circle.
+	Let \( \mathcal F \) be the constant sheaf \( \underline{\mathbb Z} \); on any connected open set this sheaf has value \( \mathbb Z \), and for a general open set with \( n \) connected components, this sheaf has value \( \mathbb Z^n \).
+	Let \( \mathcal U = \qty{U, V} \) where \( U, V \) are obtained by deleting disjoint closed intervals from the circle, giving an open cover with \( U, V \cong \mathbb R \).
+	We have
+	\[ C^0(\mathcal U, \underline{\mathbb Z}) = \mathbb Z^2 \]
+	as there is one copy of \( \mathbb Z \) for \( U \) and one for \( V \).
+	Also,
+	\[ C^1(\mathcal U, \underline{\mathbb Z}) = \mathbb Z^2 \]
+	given by \( \underline{\mathbb Z}(U \cap V) \).
+	The differential is \( (a, b) \mapsto (b-a, b-a) \), so
+	\[ \check{H}^0(\mathcal U, \underline{\mathbb Z}) \cong \mathbb Z = \ker d \]
+	and
+	\[ \check{H}^1(\mathcal U, \underline{\mathbb Z}) \cong \mathbb Z = \coker d \]
+\end{example}
+\begin{remark}
+	\begin{enumerate}
+		\item These \v{C}ech cohomology groups are equal to the corresponding singular cohomology groups of \( S^1 \).
+		\item Note that \( \check{H} \) is typically only well-behaved when \( \mathcal U \) is also well-behaved.
+		That is, \( \check{H}^i(\mathcal U, \mathcal F) \) depends on \( \mathcal U \) and not just \( X \).
+		In the example above, we could have chosen \( \mathcal U = \qty{S^1} \), and in this case, \( \check{H}^1(\mathcal U, \underline{\mathbb Z}) = 0 \).
+		Also note that \( \underline{\mathbb Z} \) is not a quasi-coherent sheaf.
+		\item Let \( X = \mathbb P^1_k, U = X \setminus \qty{0}, V = X \setminus \qty{\infty}, \mathcal U = \qty{U, V} \).
+		Then
+		\[ \check{H}^0(\mathcal U, \mathcal O_X) = k;\quad \check{H}^1(\mathcal U, \mathcal O_X) = 0 \]
+		\item Let \( X \) be Noetherian and separated, and let \( \qty{U_i}_{i \in I} \) be an affine cover of \( X \), so all \( U_{i_0 \dots i_p} \) are affine.
+		Let \( \mathcal F \) be a quasi-coherent sheaf on \( X \).
+		Then
+		\[ \check{H}^p(\mathcal U, \mathcal F) \cong H^p(X, \mathcal F) \]
+		and the isomorphism is natural.
+		Thus, in this particular case, the cohomology is easy to calculate by going via \v{C}ech cohomology.
+	\end{enumerate}
+\end{remark}
+\begin{theorem}
+	Let \( X = \mathbb P^n_k \) and \( \mathcal F = \bigoplus_{d \in \mathbb Z} \mathcal O_{\mathbb P^n}(d) \).
+	Then there are isomorphisms of graded \( k \)-vector spaces
+	\begin{enumerate}
+		\item \( H^0(X, \mathcal F) \cong k[x_0, \dots, x_n] \);
+		\item \( H^n(X, \mathcal F) \cong \frac{1}{x_0 \dots x_n} k[x_0^{-1}, \dots, x_n^{-1}] \);
+		\item \( H^p(X, \mathcal F) = 0 \) for \( p \neq 0, n \).
+	\end{enumerate}
+	In particular, \( H^0(\mathbb P^n_k, \mathcal O(d)) \) has dimension \( \binom{n+d}{d} \), and \( H^n(\mathbb P^n_k, \mathcal O(d)) \) has dimension \( \binom{-d-1}{n} \).
+\end{theorem}

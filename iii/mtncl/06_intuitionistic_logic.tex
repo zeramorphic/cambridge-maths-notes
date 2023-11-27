@@ -528,3 +528,88 @@ In particular, if \( f \) is a morphism of Heyting algebras and \( a \leq b \), 
     We say that a proposition \( A \) is \emph{\( H \)-valid} if \( v(A) = \top \) for all valuations \( v \).
     \( A \) is an \emph{\( H \)-consequence} of a finite set of propositions \( \Gamma \) if \( v\qty(\bigwedge \Gamma) \leq v(A) \), and write \( \Gamma \vDash_H A \).
 \end{definition}
+\begin{lemma}[soundness]
+    Let \( H \) be a Heyting algebra and let \( v : \mathcal L \to H \) be an \( H \)-valuation.
+    If \( \Gamma \vdash_{\mathsf{IPC}} A \), then \( \Gamma \vDash_H A \).
+\end{lemma}
+\begin{proof}
+    We proceed by induction over the derivation of \( \Gamma \vdash_{\mathsf{IPC}} A \).
+    \begin{enumerate}
+        \item (\textsc{Ax}) \( v\qty((\bigwedge \Gamma) \wedge A) = v\qty(\bigwedge \Gamma) \wedge v(A) \leq v(A) \).
+        \item (\( \wedge \)-I) In this case, \( A = B \wedge C \) and we have derivations \( \Gamma_1 \vdash B, \Gamma_2 \vdash C \) with \( \Gamma_1, \Gamma_2 \subseteq \Gamma \).
+        By the inductive hypothesis, \( v(\Gamma_1) \leq v(B) \) and \( v(\Gamma_2) \leq v(C) \), hence
+        \[ v\qty(\bigwedge \Gamma) \leq v(\Gamma_1) \wedge v(\Gamma_2) \leq v(B) \wedge v(C) = v(B \wedge C) = v(A) \]
+        \item (\( \to \)-I) In this case, \( A = B \to C \) and we have \( \Gamma \cup \qty{B} \vdash C \).
+        By the inductive hypothesis, \( v\qty(\bigwedge\Gamma) \wedge v(B) \leq v(C) \).
+        But then \( v\qty(\bigwedge\Gamma) \leq v(B) \Rightarrow v(C) \) by definition, so \( v\qty(\bigwedge\Gamma) \leq v(B \to C) \) as required.
+        \item (\( \vee \)-I) In this case, \( A = B \vee C \), and without loss of generality, we have \( \Gamma \vdash B \).
+        By the inductive hypothesis, \( v\qty(\bigwedge \Gamma) \leq v(B) \), but \( v(B) \leq v(B) \vee v(C) = v(B \vee C) \) as required.
+        \item (\( \wedge \)-E) By the inductive hypothesis, we have \( v\qty(\bigwedge \Gamma) \leq v(A \wedge B) = v(A) \wedge v(B) \leq v(A), v(B) \) as required.
+        \item (\( \to \)-E) We know that \( v(A \to B) = (v(A) \Rightarrow v(B)) \).
+        From the inequality \( v(A \to B) \leq (v(A) \Rightarrow v(B)) \), we deduce \( v(A \to B) \wedge v(A) \leq v(B) \).
+        Thus, if \( v\qty(\bigwedge \Gamma) \leq v(A \to B) \) and \( v\qty(\bigwedge \Gamma) \leq v(A) \), we have \( v\qty(\bigwedge \Gamma) \leq v(B) \) as required.
+        \item (\( \vee \)-E) By the inductive hypothesis,
+        \[ v\qty(A \wedge \bigwedge \Gamma) \leq v(C);\quad v\qty(B \wedge \bigwedge \Gamma) \leq v(C);\quad v\qty(\bigwedge \Gamma) \leq v(A \vee B) = v(A) \vee v(B) \]
+        Hence,
+        \[ v\qty(\bigwedge \Gamma) = v\qty(\bigwedge \Gamma) \wedge (v(A) \vee v(B)) = \qty(v\qty(\bigwedge \Gamma) \wedge v(A)) \vee \qty(v\qty(\bigwedge \Gamma) \wedge v(B)) \leq v(C) \vee v(C) = v(C) \]
+        as every Heyting algebra is a distributive lattice.
+        \item (\( \bot \)-E) If \( v\qty(\bigwedge\Gamma) \leq v(\bot) = \bot \), then \( v\qty(\bigwedge \Gamma) = \bot \).
+        Hence, \( v\qty(\bigwedge \Gamma) \leq v(A) \) for any \( A \).
+    \end{enumerate}
+\end{proof}
+\begin{example}
+    The law of the excluded middle \( \mathsf{LEM} \) is not provable in \( \mathsf{IPC} \).
+    Let \( p \) be a primitive proposition, and consider the Heyting algebra given by the Sierpin\'nski topology \( \qty{\varnothing, \qty{1}, \qty{1, 2}} \) on \( X = \qty{1,2} \).
+    We define the valuation given by \( v(p) = \qty{1} \).
+    Then
+    \[ v(\neg p) = \qty{1} \Rightarrow \varnothing = (\qty{1, 2} \setminus \qty{1})^\circ = \qty{2}^\circ = \varnothing \]
+    Hence,
+    \[ v(p \vee \neg p) = \qty{1} \cup \varnothing = \qty{1} \neq \qty{1, 2} = \top \]
+    Thus, by soundness, \( p \vee \neg p \) is not provable (from the empty context, which has valuation \( \top = \qty{1, 2} \)) in \( \mathsf{IPC} \).
+\end{example}
+\begin{example}
+    Peirce's law \( ((p \to q) \to p) \to p \) is not intuitionistically valid.
+    Let \( H \) be the Heyting algebra given by the usual topology on the plane \( \mathbb R^2 \), and let
+    \[ v(p) = \mathbb R^2 \setminus \qty{(0, 0)};\quad v(q) = \varnothing \]
+    % TODO: complete
+\end{example}
+Classical completeness can be phrased as
+\[ \Gamma \vdash_{\mathsf{CPC}} A \iff \Gamma \vDash_2 A \]
+where \( 2 \) is the Boolean algebra \( \qty{0, 1} \).
+For intuitionistic logic, we cannot replace \( 2 \) with a single finite Heyting algebra, so we will instead quantify over all Heyting algebras.
+\begin{theorem}[completeness]
+    A proposition is provable in \( \mathsf{IPC} \) if and only if it is \( H \)-valid for every Heyting algebra \( H \).
+\end{theorem}
+\begin{proof}
+    For the forward direction, if \( \vdash_{\mathsf{IPC}} A \), then \( \top \leq v(A) \) for every Heyting algebra \( H \) and valuation \( v \), by soundness.
+    Then \( \top = v(A) \), so \( A \) is \( H \)-valid.
+
+    For the backward direction, suppose \( A \) is \( H \)-valid for every Heyting algebra \( H \).
+    Note that the Lindenbaum--Tarski algebra \( \faktor{\mathcal L}{\sim} \) for the empty theory, with respect to \( \mathsf{IPC} \), is a Heyting algebra.
+    Consider the valuation given by mapping each primitive proposition to its equivalence class in \( \faktor{\mathcal L}{\sim} \).
+    Then, one can easily show by induction that \( v : \mathcal L \to \faktor{\mathcal L}{\sim} \) is the quotient map by considering the construction of the Lindenbaum--Tarski algebra.
+    Now, \( A \) is valid in every Heyting algebra and with respect to every valuation, so in particular, \( v(A) = \top \) in \( \faktor{\mathcal L}{\sim} \).
+    But then \( v(A) \in [\top] \), so \( \vdash_{\mathsf{IPC}} A \leftrightarrow \top \), so \( \vdash_{\mathsf{IPC}} A \) as required.
+\end{proof}
+
+\subsection{Kripke semantics}
+\begin{definition}
+    Let \( S \) be a poset.
+    For each \( a \in S \), we define its \emph{principal up-set} to be
+    \[ a \uparrow = \qty{s \in S \mid a \leq s} \]
+\end{definition}
+Note that \( U \subseteq S \) is a terminal segment if and only if it contains \( a \uparrow \) for each \( a \in U \).
+\begin{proposition}
+    Let \( S \) be a poset.
+    Then the set \( T(S) \) of terminal segments of \( S \) has the structure of a Heyting algebra.
+\end{proposition}
+\begin{proof}
+    The order is given by inclusion: \( U \leq V \) if and only if \( U \subseteq V \).
+    We define
+    \begin{align*}
+        U \wedge V &= U \cap V \\
+        U \vee V &= U \cup V \\
+        U \Rightarrow V &= \qty{s \mid s \uparrow \cap U \subseteq V}
+    \end{align*}
+    One can check that this forms a Heyting algebra as required.
+\end{proof}

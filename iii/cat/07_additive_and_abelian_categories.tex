@@ -186,3 +186,382 @@ We say that a morphism \( f : A \to B \) is a \emph{pseudomonomorphism} if its k
     An \emph{abelian category} is an additive category with all finite limits and colimits.
     Equivalently, an abelian category is a category with a zero object, finite biproducts, kernels, and cokernels, such that all monomorphisms and epimorphisms are normal.
 \end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item The category \( \mathbf{AbGp} \) is abelian; more generally, for any ring \( R \), the category \( \mathbf{Mod}_R \) is abelian.
+        \item If \( \mathcal A \) is abelian and \( \mathcal C \) is small, then \( [\mathcal C, \mathcal A] \) is abelian, with all structures defined pointwise.
+        \item If \( \mathcal A \) is abelian and \( \mathcal C \) is small and additive, then the category of additive functors \( \mathcal C \to \mathcal A \), denoted \( \operatorname{Add}(\mathcal C, \mathcal A) \), is also abelian, as it is closed under all of the structures on \( [\mathcal C, \mathcal A] \).
+        Note that this covers the case of \( R \)-modules, as an additive category with a single object is a ring, and the category of modules over such a ring is isomorphic to the category of additive functors from this category to \( \mathbf{AbGp} \)
+    \end{enumerate}
+\end{example}
+\begin{remark}
+    If \( f : A \to B \) in an abelian category, then \( \ker \coker f \) is the smallest subobject \( I \rightarrowtail B \) through which \( f \) factors.
+    This is called the \emph{image} of \( f \), denoted \( \Im f = \ker \coker f \).
+    The other part of the factorisation \( A \to I \) is epic, as it cannot factor through the equaliser of any nonequal parallel pair \( I \rightrightarrows C \).
+    Thus, it is also the smallest quotient of \( A \) through which \( f \) factors, so it is the \emph{coimage} of \( f \), given by \( \coker \ker f \).
+    The composition \( A \twoheadrightarrow I \rightarrowtail B \) is the unique epi--mono factorisation of \( f \).
+\end{remark}
+To show that this factorisation is stable under pullback, it suffices to show that the pullback of an epimorphism in an abelian category is epic, as the corresponding statement for monomorphisms has already been shown.
+\begin{lemma}[flattening lemma]
+    Consider a square
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiQiJdLFsxLDEsIkQiXSxbMCwxLCJDIl0sWzAsMSwiZiJdLFsxLDIsImgiXSxbMCwzLCJnIiwyXSxbMywyLCJrIiwyXV0=
+\[\begin{tikzcd}
+	A & B \\
+	C & D
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["h", from=1-2, to=2-2]
+	\arrow["g"', from=1-1, to=2-1]
+	\arrow["k"', from=2-1, to=2-2]
+\end{tikzcd}\]
+    in an abelian category \( \mathcal A \).
+    Its \emph{flattening} is the sequence
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzEsMCwiQiBcXG9wbHVzIEMiXSxbMiwwLCJEIl0sWzAsMSwiXFxiZWdpbntwbWF0cml4fWZcXFxcZ1xcZW5ke3BtYXRyaXh9Il0sWzEsMiwiXFxiZWdpbntwbWF0cml4fWgmLWtcXGVuZHtwbWF0cml4fSJdXQ==
+\[\begin{tikzcd}[ampersand replacement=\&]
+	A \& {B \oplus C} \& D
+	\arrow["{\begin{pmatrix}f\\g\end{pmatrix}}", from=1-1, to=1-2]
+	\arrow["{\begin{pmatrix}h&-k\end{pmatrix}}", from=1-2, to=1-3]
+\end{tikzcd}\]
+    Then
+    \begin{enumerate}
+        \item the square commutes if and only if the composite of the flattening \( \begin{pmatrix}
+            h & -k
+        \end{pmatrix} \begin{pmatrix}
+            f \\ g
+        \end{pmatrix} \) is the zero morphism;
+        \item the square is a pullback if and only if \( \begin{pmatrix}
+            f \\ g
+        \end{pmatrix} = \ker \begin{pmatrix}
+            h & -k
+        \end{pmatrix} \);
+        \item the square is a pushout if and only if \( \begin{pmatrix}
+            h & -k
+        \end{pmatrix} = \coker \begin{pmatrix}
+            f \\ g
+        \end{pmatrix} \).
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \emph{Part (i).}
+    The composite \( \begin{pmatrix}
+        h & -k
+    \end{pmatrix} \begin{pmatrix}
+        f \\ g
+    \end{pmatrix} \) is \( hf - kg \), so it vanishes if and only if the square commutes.
+
+    \emph{Part (ii).}
+    \( \begin{pmatrix}
+        f \\ g
+    \end{pmatrix} \) is the kernel of \( \begin{pmatrix}
+        h \\ -k
+    \end{pmatrix} \) if and only if
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzEsMCwiQiJdLFswLDEsIkMiXSxbMCwxLCJmIl0sWzAsMiwiZyIsMl1d
+\[\begin{tikzcd}
+	A & B \\
+	C
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["g"', from=1-1, to=2-1]
+\end{tikzcd}\]
+    is universal among spans completing the cospan
+    % https://q.uiver.app/#q=WzAsMyxbMSwwLCJCIl0sWzEsMSwiRCJdLFswLDEsIkMiXSxbMCwxLCJoIl0sWzIsMSwiayIsMl1d
+\[\begin{tikzcd}
+	& B \\
+	C & D
+	\arrow["h", from=1-2, to=2-2]
+	\arrow["k"', from=2-1, to=2-2]
+\end{tikzcd}\]
+    into a commutative square.
+
+    \emph{Part (iii).} Follows by duality, taking care of the asymmetric negation.
+\end{proof}
+\begin{corollary}
+    In an abelian category \( \mathcal A \), epimorphisms are stable under pullback.
+\end{corollary}
+\begin{proof}
+    Suppose we have a pullback square
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzEsMCwiQiJdLFsxLDEsIkQiXSxbMCwxLCJDIl0sWzAsMSwiZiJdLFsxLDIsImgiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJlcGkifX19XSxbMCwzLCJnIiwyXSxbMywyLCJrIiwyXV0=
+\[\begin{tikzcd}
+	A & B \\
+	C & D
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["h", two heads, from=1-2, to=2-2]
+	\arrow["g"', from=1-1, to=2-1]
+	\arrow["k"', from=2-1, to=2-2]
+\end{tikzcd}\]
+    By part (ii) of the above result, \( \begin{pmatrix}
+        f \\ g
+    \end{pmatrix} = \ker \begin{pmatrix}
+        h & -k
+    \end{pmatrix} \).
+    But \( h \) is an epimorphism, so \( \begin{pmatrix}
+        h & -k
+    \end{pmatrix} \) is also an epimorphism.
+    Thus \( \begin{pmatrix}
+        h & -k
+    \end{pmatrix} = \coker \begin{pmatrix}
+        f \\ g
+    \end{pmatrix} \), so the square is also a pushout.
+    We show that \( g \) is a pseudoepimorphism; this suffices as \( \mathcal A \) is additive.
+    Suppose we have \( \ell : C \to E \) with \( \ell g = 0 \).
+    Then \( \begin{pmatrix}
+        \ell & (B \xrightarrow 0 E)
+    \end{pmatrix} \) factors uniquely through the pushout.
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCJBIl0sWzEsMCwiQiJdLFsxLDEsIkQiXSxbMCwxLCJDIl0sWzIsMiwiRSJdLFswLDEsImYiXSxbMSwyLCJoIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoiZXBpIn19fV0sWzAsMywiZyIsMl0sWzMsMiwiayIsMl0sWzEsNCwiMCIsMCx7ImN1cnZlIjotMn1dLFszLDQsIlxcZWxsIiwyLHsiY3VydmUiOjJ9XSxbMiw0LCJtIl1d
+\[\begin{tikzcd}
+	A & B \\
+	C & D \\
+	&& E
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["h", two heads, from=1-2, to=2-2]
+	\arrow["g"', from=1-1, to=2-1]
+	\arrow["k"', from=2-1, to=2-2]
+	\arrow["0", curve={height=-12pt}, from=1-2, to=3-3]
+	\arrow["\ell"', curve={height=12pt}, from=2-1, to=3-3]
+	\arrow["m", from=2-2, to=3-3]
+\end{tikzcd}\]
+    But then \( mh = 0 \) and \( h \) is epic, so \( m = 0 \), giving \( \ell = mk = 0 \).
+\end{proof}
+Thus image factorisations are stable under pullback, and dually, under pushout.
+
+\subsection{Exact sequences}
+\begin{definition}
+    A sequence% https://q.uiver.app/#q=WzAsNSxbMCwwLCJcXGNkb3RzIl0sWzEsMCwiQV97bisxfSJdLFsyLDAsIkFfbiJdLFszLDAsIkFfe24tMX0iXSxbNCwwLCJcXGNkb3RzIl0sWzAsMV0sWzEsMiwiZl97bisxfSJdLFsyLDMsImZfbiJdLFszLDRdXQ==
+    \[\begin{tikzcd}
+        \cdots & {A_{n+1}} & {A_n} & {A_{n-1}} & \cdots
+        \arrow[from=1-1, to=1-2]
+        \arrow["{f_{n+1}}", from=1-2, to=1-3]
+        \arrow["{f_n}", from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5]
+    \end{tikzcd}\]
+    in an abelian category \( \mathcal A \) is \emph{exact} at \( A_n \) if \( \ker f_n = \operatorname{im} f_{n+1} \).
+    The entire sequence is said to be \emph{exact} if it is exact at every vertex.
+\end{definition}
+By duality, the sequence is exact at \( A_n \) if and only if \( \coker f_{n+1} = \operatorname{coim} f_n \).
+\begin{example}
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCIwIl0sWzEsMCwiQSJdLFsyLDAsIkIiXSxbMywwLCJDIl0sWzAsMV0sWzEsMiwiZiJdLFsyLDMsImciXV0=
+\[\begin{tikzcd}
+	0 & A & B & C
+	\arrow[from=1-1, to=1-2]
+	\arrow["f", from=1-2, to=1-3]
+	\arrow["g", from=1-3, to=1-4]
+\end{tikzcd}\]
+    is exact at \( A \) if and only if \( f \) is monic, and is exact at \( A \) and \( B \) if and only if \( f = \ker g \).
+\end{example}
+\begin{definition}
+    A functor between abelian categories \( F : \mathcal A \to \mathcal B \) is \emph{exact} if it preserves arbitrary exact sequences.
+\end{definition}
+This implies that \( F \) preserves kernels and cokernels, and the converse is true as images are defined in terms of kernels and cokernels.
+\begin{definition}
+    \( F \) is \emph{left exact} if it preserves exact sequences of the form
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCIwIl0sWzEsMCwiQSJdLFsyLDAsIkIiXSxbMywwLCJDIl0sWzAsMV0sWzEsMiwiZiJdLFsyLDMsImciXV0=
+\[\begin{tikzcd}
+	0 & A & B & C
+	\arrow[from=1-1, to=1-2]
+	\arrow["f", from=1-2, to=1-3]
+	\arrow["g", from=1-3, to=1-4]
+\end{tikzcd}\]
+\end{definition}
+\begin{proposition}
+    Let \( F : \mathcal A \to \mathcal B \) be a functor between abelian categories.
+    Then
+    \begin{enumerate}
+        \item \( F \) is left exact if and only if it preserves all finite limits (and hence is additive);
+        \item \( F \) is exact if and only if it is left exact and preserves epimorphisms.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \emph{Part (i).}
+    One direction is trivial as kernels are finite limits.
+    Conversely, note that for any \( A, B \), the sequence
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiQSJdLFsyLDAsIkEgXFxvcGx1cyBCIl0sWzMsMCwiQiJdLFs0LDAsIjAiXSxbMCwxXSxbMSwyLCJcXGJlZ2lue3BtYXRyaXh9MVxcXFwwXFxlbmR7cG1hdHJpeH0iXSxbMiwzLCJcXGJlZ2lue3BtYXRyaXh9MCYxXFxlbmR7cG1hdHJpeH0iXSxbMyw0XV0=
+\[\begin{tikzcd}[ampersand replacement=\&]
+	0 \& A \& {A \oplus B} \& B \& 0
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\begin{pmatrix}1\\0\end{pmatrix}}", from=1-2, to=1-3]
+	\arrow["{\begin{pmatrix}0&1\end{pmatrix}}", from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    is exact, and conversely, if we have an exact sequence
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiQSJdLFsyLDAsIkMiXSxbMywwLCJCIl0sWzQsMCwiMCJdLFswLDFdLFsxLDIsImYiXSxbMiwzLCJnIl0sWzMsNF1d
+\[\begin{tikzcd}
+	0 & A & C & B & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow["f", from=1-2, to=1-3]
+	\arrow["g", from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    and either \( f \) is a split monomorphism or \( g \) is a split epimorphism, then \( C \cong A \oplus B \).
+    Indeed, suppose that \( f \) is split, so \( rf = 1_A \).
+    Then \( g = \coker f = \coker fr \) is the equaliser of \( (1_C-fr, 1_C) \), so it is the epic part of a splitting of the idempotent \( 1_C - fr \).
+    If \( s : B \to C \) is the monic part of this splitting, then the four morphisms \( (r, g, f, s) \) satisfy the equations of a biproduct.
+    So \( F \) maps
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiQSJdLFsyLDAsIkEgXFxvcGx1cyBCIl0sWzMsMCwiQiJdLFs0LDAsIjAiXSxbMCwxXSxbMSwyLCJcXGJlZ2lue3BtYXRyaXh9MVxcXFwwXFxlbmR7cG1hdHJpeH0iXSxbMiwzLCJcXGJlZ2lue3BtYXRyaXh9MCYxXFxlbmR7cG1hdHJpeH0iXSxbMyw0XV0=
+\[\begin{tikzcd}[ampersand replacement=\&]
+	0 \& A \& {A \oplus B} \& B \& 0
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\begin{pmatrix}1\\0\end{pmatrix}}", from=1-2, to=1-3]
+	\arrow["{\begin{pmatrix}0&1\end{pmatrix}}", from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    to a sequence identifying \( F(A \oplus B) \) as \( FA \oplus FB \), and thus preserves biproducts.
+    Hence \( F \) preserves all finite limits.
+
+    \emph{Part (ii).}
+    If \( F \) is left exact and preserves epimorphisms, then it preserves the exactness of sequences of the form
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiQSJdLFsyLDAsIkMiXSxbMywwLCJCIl0sWzQsMCwiMCJdLFswLDFdLFsxLDIsImYiXSxbMiwzLCJnIl0sWzMsNF1d
+\[\begin{tikzcd}
+	0 & A & C & B & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow["f", from=1-2, to=1-3]
+	\arrow["g", from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    Thus it preserves kernels and cokernels.
+\end{proof}
+
+\subsection{The five lemma}
+\begin{lemma}
+    Suppose we have a commutative diagram in an abelian category
+    % https://q.uiver.app/#q=WzAsMTAsWzAsMCwiQV8xIl0sWzEsMCwiQV8yIl0sWzIsMCwiQV8zIl0sWzMsMCwiQV80Il0sWzQsMCwiQV81Il0sWzQsMSwiQl81Il0sWzAsMSwiQl8xIl0sWzEsMSwiQl8yIl0sWzIsMSwiQl8zIl0sWzMsMSwiQl80Il0sWzAsMSwiZl8xIl0sWzEsMiwiZl8yIl0sWzIsMywiZl8zIl0sWzMsNCwiZl80Il0sWzQsNSwidV81Il0sWzAsNiwidV8xIl0sWzYsNywiZ18xIiwyXSxbNyw4LCJnXzIiLDJdLFs4LDksImdfMyIsMl0sWzksNSwiZ180IiwyXSxbMSw3LCJ1XzIiXSxbMiw4LCJ1XzMiXSxbMyw5LCJ1XzQiXV0=
+\[\begin{tikzcd}
+	{A_1} & {A_2} & {A_3} & {A_4} & {A_5} \\
+	{B_1} & {B_2} & {B_3} & {B_4} & {B_5}
+	\arrow["{f_1}", from=1-1, to=1-2]
+	\arrow["{f_2}", from=1-2, to=1-3]
+	\arrow["{f_3}", from=1-3, to=1-4]
+	\arrow["{f_4}", from=1-4, to=1-5]
+	\arrow["{u_5}", from=1-5, to=2-5]
+	\arrow["{u_1}", from=1-1, to=2-1]
+	\arrow["{g_1}"', from=2-1, to=2-2]
+	\arrow["{g_2}"', from=2-2, to=2-3]
+	\arrow["{g_3}"', from=2-3, to=2-4]
+	\arrow["{g_4}"', from=2-4, to=2-5]
+	\arrow["{u_2}", from=1-2, to=2-2]
+	\arrow["{u_3}", from=1-3, to=2-3]
+	\arrow["{u_4}", from=1-4, to=2-4]
+\end{tikzcd}\]
+    where the rows are exact sequences.
+    Then,
+    \begin{enumerate}
+        \item if \( u_1 \) is epic and \( u_2, u_4 \) are monic, then \( u_3 \) is monic;
+        \item if \( u_5 \) is monic and \( u_2, u_4 \) are spic, then \( u_3 \) is epic.
+    \end{enumerate}
+    Thus if \( u_1, u_2, u_4, u_5 \) are isomorphisms, \( u_3 \) is an isomorphism.
+\end{lemma}
+\begin{proof}
+    By duality it suffices to show (i).
+    We show \( u_3 \) is a pseudomonomorphism.
+    Suppose we have \( x : C \to A_3 \) with \( u_3 x = 0 \).
+    Then \( u_4 f_3 x = g_4 u_3 x = 0 \), so as \( u_4 \) is a monomorphism, \( f_3 x = 0 \).
+    Hence \( x \) factors through the kernel of \( f_3 \), which is the image of \( f_2 \).
+    Form the pullback of \( f_2 \) and \( x \) to obtain
+    % https://q.uiver.app/#q=WzAsMTIsWzAsMSwiQV8xIl0sWzEsMSwiQV8yIl0sWzIsMSwiQV8zIl0sWzMsMSwiQV80Il0sWzAsMiwiQl8xIl0sWzEsMiwiQl8yIl0sWzIsMiwiQl8zIl0sWzMsMiwiQl80Il0sWzIsMCwiQyJdLFsxLDAsIkQiXSxbNCwyLCJCXzUiXSxbNCwxLCJBXzUiXSxbMCwxLCJmXzEiXSxbMSwyLCJmXzIiXSxbMiwzLCJmXzMiXSxbMCw0LCJ1XzEiXSxbNCw1LCJnXzEiLDJdLFs1LDYsImdfMiIsMl0sWzYsNywiZ18zIiwyXSxbMSw1LCJ1XzIiXSxbMiw2LCJ1XzMiXSxbMyw3LCJ1XzQiXSxbOCwyLCJ4Il0sWzksOCwieSJdLFs5LDEsInoiXSxbNywxMCwiZ180IiwyXSxbMywxMSwiZl80Il0sWzExLDEwLCJ1XzUiXV0=
+\[\begin{tikzcd}
+	& D & C \\
+	{A_1} & {A_2} & {A_3} & {A_4} & {A_5} \\
+	{B_1} & {B_2} & {B_3} & {B_4} & {B_5}
+	\arrow["{f_1}", from=2-1, to=2-2]
+	\arrow["{f_2}", from=2-2, to=2-3]
+	\arrow["{f_3}", from=2-3, to=2-4]
+	\arrow["{u_1}", from=2-1, to=3-1]
+	\arrow["{g_1}"', from=3-1, to=3-2]
+	\arrow["{g_2}"', from=3-2, to=3-3]
+	\arrow["{g_3}"', from=3-3, to=3-4]
+	\arrow["{u_2}", from=2-2, to=3-2]
+	\arrow["{u_3}", from=2-3, to=3-3]
+	\arrow["{u_4}", from=2-4, to=3-4]
+	\arrow["x", from=1-3, to=2-3]
+	\arrow["y", from=1-2, to=1-3]
+	\arrow["z", from=1-2, to=2-2]
+	\arrow["{g_4}"', from=3-4, to=3-5]
+	\arrow["{f_4}", from=2-4, to=2-5]
+	\arrow["{u_5}", from=2-5, to=3-5]
+\end{tikzcd}\]
+    Then \( y \) is also the pullback of this factorisation of \( x \) along \( \operatorname{coim} f_2 \), so \( y \) is an epimorphism as epimorphisms are stable under pullback.
+    Then \( g_2 u_2 z = u_3 f_2 z = u_3 x y = 0 \).
+    Thus \( u_2 z \) factors through \( \ker g_2 = \operatorname{im} g_1 \).
+    Consider the pullback square
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJFIl0sWzEsMCwiRCJdLFsxLDEsIkJfMiJdLFswLDEsIkFfMSJdLFswLDEsInYiXSxbMSwyLCJ1XzIgeiJdLFswLDMsInUiLDJdLFszLDIsImdfMSB1XzEiLDJdXQ==
+\[\begin{tikzcd}
+	E & D \\
+	{A_1} & {B_2}
+	\arrow["v", from=1-1, to=1-2]
+	\arrow["{u_2 z}", from=1-2, to=2-2]
+	\arrow["w"', from=1-1, to=2-1]
+	\arrow["{g_1 u_1}"', from=2-1, to=2-2]
+\end{tikzcd}\]
+    So \( v \) is epic, as it is the pullback of \( \operatorname{coim}(g_1 u_1) \).
+    % https://q.uiver.app/#q=WzAsMTMsWzAsMSwiQV8xIl0sWzEsMSwiQV8yIl0sWzIsMSwiQV8zIl0sWzMsMSwiQV80Il0sWzAsMiwiQl8xIl0sWzEsMiwiQl8yIl0sWzIsMiwiQl8zIl0sWzMsMiwiQl80Il0sWzIsMCwiQyJdLFsxLDAsIkQiXSxbNCwyLCJCXzUiXSxbNCwxLCJBXzUiXSxbMCwwLCJFIl0sWzAsMSwiZl8xIl0sWzEsMiwiZl8yIl0sWzIsMywiZl8zIl0sWzAsNCwidV8xIl0sWzQsNSwiZ18xIiwyXSxbNSw2LCJnXzIiLDJdLFs2LDcsImdfMyIsMl0sWzEsNSwidV8yIl0sWzIsNiwidV8zIl0sWzMsNywidV80Il0sWzgsMiwieCJdLFs5LDgsInkiXSxbOSwxLCJ6Il0sWzcsMTAsImdfNCIsMl0sWzMsMTEsImZfNCJdLFsxMSwxMCwidV81Il0sWzEyLDksInYiXSxbMTIsMCwidyJdXQ==
+\[\begin{tikzcd}
+	E & D & C \\
+	{A_1} & {A_2} & {A_3} & {A_4} & {A_5} \\
+	{B_1} & {B_2} & {B_3} & {B_4} & {B_5}
+	\arrow["{f_1}", from=2-1, to=2-2]
+	\arrow["{f_2}", from=2-2, to=2-3]
+	\arrow["{f_3}", from=2-3, to=2-4]
+	\arrow["{u_1}", from=2-1, to=3-1]
+	\arrow["{g_1}"', from=3-1, to=3-2]
+	\arrow["{g_2}"', from=3-2, to=3-3]
+	\arrow["{g_3}"', from=3-3, to=3-4]
+	\arrow["{u_2}", from=2-2, to=3-2]
+	\arrow["{u_3}", from=2-3, to=3-3]
+	\arrow["{u_4}", from=2-4, to=3-4]
+	\arrow["x", from=1-3, to=2-3]
+	\arrow["y", from=1-2, to=1-3]
+	\arrow["z", from=1-2, to=2-2]
+	\arrow["{g_4}"', from=3-4, to=3-5]
+	\arrow["{f_4}", from=2-4, to=2-5]
+	\arrow["{u_5}", from=2-5, to=3-5]
+	\arrow["v", from=1-1, to=1-2]
+	\arrow["w", from=1-1, to=2-1]
+\end{tikzcd}\]
+    Thus \( u_2 z v = g_1 u_1 w \), and \( u_2 \) is monic, so \( zv = f_1 w \).
+    Then \( xyv = f_2 zv = f_2 f_1 w = 0 \), and \( yv \) is epic, hence \( x = 0 \).
+\end{proof}
+
+\subsection{The snake lemma}
+\begin{lemma}
+    Consider a diagram in an abelian category
+    % https://q.uiver.app/#q=WzAsOCxbMSwwLCJCXzEiXSxbMiwwLCJCXzIiXSxbMywwLCJCXzMiXSxbNCwwLCIwIl0sWzAsMSwiMCJdLFsxLDEsIkNfMSJdLFsyLDEsIkNfMiJdLFszLDEsIkNfMyJdLFswLDFdLFsxLDJdLFsyLDNdLFs0LDVdLFs1LDZdLFs2LDddLFswLDUsInZfMSJdLFsxLDYsInZfMiJdLFsyLDcsInZfMyJdXQ==
+\[\begin{tikzcd}
+	& {B_1} & {B_2} & {B_3} & 0 \\
+	0 & {C_1} & {C_2} & {C_3}
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow["{v_1}", from=1-2, to=2-2]
+	\arrow["{v_2}", from=1-3, to=2-3]
+	\arrow["{v_3}", from=1-4, to=2-4]
+\end{tikzcd}\]
+    where the rows are exact and the squares commute.
+    Then we obtain an exact sequence
+    % https://q.uiver.app/#q=WzAsMTQsWzEsMSwiQl8xIl0sWzIsMSwiQl8yIl0sWzMsMSwiQl8zIl0sWzQsMSwiMCJdLFswLDIsIjAiXSxbMSwyLCJDXzEiXSxbMiwyLCJDXzIiXSxbMywyLCJDXzMiXSxbMSwwLCJcXG9wZXJhdG9ybmFtZXtLZXJ9IHZfMSJdLFsyLDAsIlxcb3BlcmF0b3JuYW1le0tlcn12XzIiXSxbMywwLCJcXG9wZXJhdG9ybmFtZXtLZXJ9dl8zIl0sWzEsMywiXFxvcGVyYXRvcm5hbWV7Q29rZXJ9dl8xIl0sWzIsMywiXFxvcGVyYXRvcm5hbWV7Q29rZXJ9dl8yIl0sWzMsMywiXFxvcGVyYXRvcm5hbWV7Q29rZXJ9IHZfMyJdLFswLDFdLFsxLDJdLFsyLDNdLFs0LDVdLFs1LDZdLFs2LDddLFswLDUsInZfMSJdLFsxLDYsInZfMiJdLFsyLDcsInZfMyJdLFs4LDldLFs5LDEwXSxbMTAsMTEsInMiXSxbMTEsMTJdLFsxMiwxM10sWzgsMF0sWzksMV0sWzEwLDJdLFs1LDExXSxbNiwxMl0sWzcsMTNdXQ==
+\[\begin{tikzcd}
+	& {\operatorname{Ker} v_1} & {\operatorname{Ker}v_2} & {\operatorname{Ker}v_3} \\
+	& {B_1} & {B_2} & {B_3} & 0 \\
+	0 & {C_1} & {C_2} & {C_3} \\
+	& {\operatorname{Coker}v_1} & {\operatorname{Coker}v_2} & {\operatorname{Coker} v_3}
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=2-4, to=2-5]
+	\arrow[from=3-1, to=3-2]
+	\arrow[from=3-2, to=3-3]
+	\arrow[from=3-3, to=3-4]
+	\arrow["{v_1}", from=2-2, to=3-2]
+	\arrow["{v_2}", from=2-3, to=3-3]
+	\arrow["{v_3}", from=2-4, to=3-4]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow["s", from=1-4, to=4-2]
+	\arrow[from=4-2, to=4-3]
+	\arrow[from=4-3, to=4-4]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-3, to=2-3]
+	\arrow[from=1-4, to=2-4]
+	\arrow[from=3-2, to=4-2]
+	\arrow[from=3-3, to=4-3]
+	\arrow[from=3-4, to=4-4]
+\end{tikzcd}\]
+\end{lemma}
