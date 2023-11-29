@@ -31,8 +31,9 @@ These groups have the following features.
 	\arrow[from=3-2, to=3-3]
 \end{tikzcd}\]
 	\item If \( X \) is an affine scheme and \( \mathcal F \) is a quasi-coherent sheaf, then \( H^i(X, \mathcal F) = 0 \) for all \( i > 0 \).
+	\item Cohomology commutes with taking direct sums of sheaves.
 	\item If \( X \) is a Noetherian separated scheme, then \( H^i(X, \mathcal F) \) can be computed from the sections of \( \mathcal F \) on an open affine cover \( \qty{U_i} \) and from the data of the restrictions to \( \mathcal F(U_i \cap U_j), \mathcal F(U_i \cap U_j \cap U_k) \) and so on.
-	This is a property of \emph{\v{C}ech cohomology}.
+	This can be done by considering \emph{\v{C}ech cohomology}.
 \end{enumerate}
 
 \subsection{\v{C}ech cohomology}
@@ -87,7 +88,7 @@ Thus, \( \qty{C^p(\mathcal U, \mathcal F)}_p \) has the structure of a \emph{coc
 	\end{enumerate}
 \end{remark}
 \begin{theorem}
-	Let \( X = \mathbb P^n_k \) and \( \mathcal F = \bigoplus_{d \in \mathbb Z} \mathcal O_{\mathbb P^n}(d) \).
+	Let \( X = \mathbb P^n_k \) and \( \mathcal F = \bigoplus_{d \in \mathbb Z} \mathcal O_{\mathbb P^n_k}(d) \).
 	Then there are isomorphisms of graded \( k \)-vector spaces
 	\begin{enumerate}
 		\item \( H^0(X, \mathcal F) \cong k[x_0, \dots, x_n] \);
@@ -96,3 +97,132 @@ Thus, \( \qty{C^p(\mathcal U, \mathcal F)}_p \) has the structure of a \emph{coc
 	\end{enumerate}
 	In particular, \( H^0(\mathbb P^n_k, \mathcal O(d)) \) has dimension \( \binom{n+d}{d} \), and \( H^n(\mathbb P^n_k, \mathcal O(d)) \) has dimension \( \binom{-d-1}{n} \).
 \end{theorem}
+\begin{proof}
+	We prove this result using \v{C}ech cohomology.
+	Part (i) follows from earlier discussions, as \( H^0(X, \mathcal F) = \bigoplus_{d \in \mathbb Z} \Gamma(\mathbb P^n_k, \mathcal O(d)) \).
+
+	\emph{Part (ii).}
+	Consider the standard cover \( \mathcal U \) of \( \mathbb P^n_k \) by affines \( U_i = \mathbb V(x_i)^c \).
+	Observe that
+	\[ \mathcal F(U_{i_0 \dots i_p}) = k[x_0, \dots, x_n]_{x_{i_0} \dots x_{i_p}} \]
+	This \( k \)-module is spanned by monomials \( x_0^{k_0} \dots x_n^{k_n} \) where \( k_{i_0}, \dots, k_{i_p} \in \mathbb Z \) and the other coefficients are nonnegative.
+	In the associated \v{C}ech complex, we have
+	\[ \check{C}^{n-1} = \bigoplus_{i=0}^n k[x_0, \dots, x_n]_{x_0 \dots \hat x_i \dots x_n};\quad \check{C}^n = k[x_0, \dots, x_n]_{x_0 \dots x_n} \]
+	Since \( \mathcal U \) contains only \( n + 1 \) elements, \( \check{C}^{n+1} \) vanishes.
+	Thus,
+	\begin{align*}
+		H^n(\mathbb P^n_k, \mathcal F) &= \check{H}^n(\mathcal U, \mathcal F) \\
+		&= \frac{\check{C}^n}{\Im (\check{C}^{n-1} \to \check{C}^n)} \\
+		&= \frac{\vecspan_k \qty{x_0^{k_0} \dots x_n^{k_n} \mid k_i \in \mathbb Z}}{\vecspan_k \qty{x_0^{k_0} \dots x_n^{k_n} \mid \text{at least one } k_i \geq 0}}
+	\end{align*}
+	as required.
+
+	\emph{Part (iii).}
+	We will use the long exact sequence associated to a short exact sequence of sheaves and use induction on the dimension \( n \).
+	First, observe that \( \mathbb P^{n-1}_k \) is isomorphic to the closed subscheme \( \mathbb V(x_0) \subseteq \mathbb P^n_k \).
+	Let \( i : \mathbb P^{n-1}_k \to \mathbb P^n_k \) be the inclusion.
+	Recall that \( \mathcal O_{\mathbb P^n_k}(-1) = L(-H) \) where \( H = \mathbb V(x_0) \).
+	By a result on the example sheets, we obtain the \emph{ideal sheaf sequence}
+	% https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiXFxtYXRoY2FsIE9fe1xcbWF0aGJiIFBebl9rfSgtMSkiXSxbMiwwLCJcXG1hdGhjYWwgT197XFxtYXRoYmIgUF5uX2t9Il0sWzMsMCwiaV9cXHN0YXIgXFxtYXRoY2FsIE9fe1xcbWF0aGJiIFBee24tMX1fa30iXSxbNCwwLCIwIl0sWzAsMV0sWzEsMl0sWzIsM10sWzMsNF1d
+\[\begin{tikzcd}
+	0 & {\mathcal O_{\mathbb P^n_k}(-1)} & {\mathcal O_{\mathbb P^n_k}} & {i_\star \mathcal O_{\mathbb P^{n-1}_k}} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+	where the map \( \mathcal O_{\mathbb P^n_k}(-1) \to \mathcal O_{\mathbb P^n_k} \) is given by multiplication by \( x_0 \).
+	This is analogous to the fact that for an ideal \( I \) of a ring \( A \), we have a short exact sequence
+	% https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiSSJdLFsyLDAsIkEiXSxbMywwLCJcXGZha3RvcntBfXtJfSJdLFs0LDAsIjAiXSxbMCwxXSxbMSwyXSxbMiwzXSxbMyw0XV0=
+\[\begin{tikzcd}
+	0 & I & A & {\faktor{A}{I}} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+	We obtain an associated long exact sequence for the homology.
+	Assuming the result for dimension up to \( n - 1 \), we can break this into three smaller exact sequences.
+	% https://q.uiver.app/#q=WzAsNyxbMCwwLCIwIl0sWzEsMCwiSF4wKFxcbWF0aGJiIFBebl9rLCBcXG1hdGhjYWwgRikiXSxbMiwwLCJIXjAoXFxtYXRoYmIgUF5uX2ssIFxcbWF0aGNhbCBGKSJdLFszLDAsIkheMChcXG1hdGhiYiBQXntuLTF9X2ssIFxcbWF0aGNhbCBGX3tcXG1hdGhiYiBQXntuLTF9X2t9KSJdLFs0LDAsIkheMShcXG1hdGhiYiBQXm5faywgXFxtYXRoY2FsIEYpIl0sWzUsMCwiSF4xKFxcbWF0aGJiIFBebl9rLCBcXG1hdGhjYWwgRikiXSxbNiwwLCIwIl0sWzAsMV0sWzEsMiwiXFxjZG90XFwsIHhfMCJdLFsyLDNdLFszLDRdLFs0LDUsIlxcY2RvdFxcLHhfMCJdLFs1LDZdXQ==
+	\begin{equation}
+		\begin{tikzcd}[column sep=small]
+	0 & {H^0(\mathbb P^n_k, \mathcal F)} & {H^0(\mathbb P^n_k, \mathcal F)} & {H^0(\mathbb P^{n-1}_k, \mathcal F_{\mathbb P^{n-1}_k})} & {H^1(\mathbb P^n_k, \mathcal F)} & {H^1(\mathbb P^n_k, \mathcal F)} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\cdot\, x_0}", from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+	\arrow["{\cdot\,x_0}", from=1-5, to=1-6]
+	\arrow[from=1-6, to=1-7]
+\end{tikzcd}
+\tag{a}
+\end{equation}
+	where \( \mathcal F_{\mathbb P^{n-1}_k} = \bigoplus_{d \in \mathbb Z} \mathcal O_{\mathbb P^{n-1}_k}(d) \);
+	% https://q.uiver.app/#q=WzAsNCxbMCwwLCIwIl0sWzEsMCwiSF5wKFxcbWF0aGJiIFBebl9rLCBcXG1hdGhjYWwgRikiXSxbMiwwLCJIXnAoXFxtYXRoYmIgUF5uX2ssIFxcbWF0aGNhbCBGKSJdLFszLDAsIjAiXSxbMCwxXSxbMSwyLCJcXGNkb3RcXCwgeF8wIl0sWzIsM11d
+\begin{equation}\begin{tikzcd}
+	0 & {H^p(\mathbb P^n_k, \mathcal F)} & {H^p(\mathbb P^n_k, \mathcal F)} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\cdot\, x_0}", from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+\end{tikzcd}\tag{b}\end{equation}
+	for \( 1 < p < n - 1 \); and
+	% https://q.uiver.app/#q=WzAsNyxbMCwwLCIwIl0sWzEsMCwiSF57bi0xfShcXG1hdGhiYiBQXm5faywgXFxtYXRoY2FsIEYpIl0sWzIsMCwiSF57bi0xfShcXG1hdGhiYiBQXm5faywgXFxtYXRoY2FsIEYpIl0sWzMsMCwiSF57bi0xfShcXG1hdGhiYiBQXntuLTF9X2ssIFxcbWF0aGNhbCBGX3tcXG1hdGhiYiBQXntuLTF9X2t9KSJdLFs0LDAsIkhebihcXG1hdGhiYiBQXm5faywgXFxtYXRoY2FsIEYpIl0sWzUsMCwiSF5uKFxcbWF0aGJiIFBebl9rLCBcXG1hdGhjYWwgRikiXSxbNiwwLCIwIl0sWzAsMV0sWzEsMiwiXFxjZG90XFwsIHhfMCJdLFsyLDNdLFszLDRdLFs0LDUsIlxcY2RvdFxcLHhfMCJdLFs1LDZdXQ==
+\begin{equation}\begin{tikzcd}[column sep=small]
+	0 & {H^{n-1}(\mathbb P^n_k, \mathcal F)} & {H^{n-1}(\mathbb P^n_k, \mathcal F)} & {H^{n-1}(\mathbb P^{n-1}_k, \mathcal F_{\mathbb P^{n-1}_k})} & {H^n(\mathbb P^n_k, \mathcal F)} & {H^n(\mathbb P^n_k, \mathcal F)} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\cdot\, x_0}", from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+	\arrow["{\cdot\,x_0}", from=1-5, to=1-6]
+	\arrow[from=1-6, to=1-7]
+\end{tikzcd}\tag{c}\end{equation}
+	By using (a) and (c), we observe that (b) is also exact for \( p = 1 \) and \( p = n - 1 \) by explicit computation in the \v{C}ech complex.
+	Now, multiplication by \( x_0 \) makes \( H^p(\mathbb P^n_k, \mathcal F) \) into a \( k[x_0] \)-module.
+	We will calculate the localisation \( H^p(\mathbb P^n_k, \mathcal F)_{x_0} \).
+	As localisation is exact, \( H^p(\mathbb P^n_k, \mathcal F)_{x_0} = H^p\qty(U_0, \eval{\mathcal F}_{U_0}) \).
+	But the right-hand side vanishes for \( p > 0 \) as \( U_0 \) is affine.
+	Hence, for any \( \alpha \in H^p(\mathbb P^n_k, \mathcal F) \), there exists \( k \) such that \( x_0^k \alpha = 0 \).
+	But multiplication by \( x_0 \) is an isomorphism on cohomology by (b), so in fact \( H^p(\mathbb P^n_k, \mathcal F) = 0 \) for all \( 1 \leq p \leq n - 1 \).
+\end{proof}
+Given the exact sequence
+\[\begin{tikzcd}
+	0 & {\mathcal O_{\mathbb P^n_k}(-1)} & {\mathcal O_{\mathbb P^n_k}} & {i_\star \mathcal O_{\mathbb P^{n-1}_k}} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+taking the tensor product with \( \mathcal O_{\mathbb P^n_k}(d) \), one can show that we obtain an exact sequence
+\[\begin{tikzcd}
+	0 & {\mathcal O_{\mathbb P^n_k}(d-1)} & {\mathcal O_{\mathbb P^n_k}(d)} & {i_\star \mathcal O_{\mathbb P^{n-1}_k}(d)} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+Note that \( \mathcal O_{\mathbb P^n_k}(d) \) is locally free.
+
+Let \( X \) be proper over \( \Spec k \) and let \( \mathcal F \) be a coherent sheaf on \( X \).
+\begin{remark}
+	\begin{enumerate}
+		\item We have observed that \( H^0(X, \mathcal F) \) is a finite-dimensional \( k \)-vector space.
+		The same holds for all \( H^p(X, \mathcal F) \).
+		\item If \( X \) has dimension \( n \), then \( H^p(X, \mathcal F) \) vanishes for \( p > n \).
+		Thus, given \( (X, \mathcal F) \), there are finitely many numbers \( h^p(X, \mathcal F) = \dim_k H^p(X, \mathcal F) \).
+	\end{enumerate}
+\end{remark}
+\begin{definition}
+	The \emph{Euler characteristic} of \( \mathcal F \) is
+	\[ \chi(\mathcal F) = \sum_{p = 0}^\infty (-1)^p h^p(X, \mathcal F) \]
+\end{definition}
+Suppose that
+% https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiXFxtYXRoY2FsIEYiXSxbMiwwLCJcXG1hdGhjYWwgRiciXSxbMywwLCJcXG1hdGhjYWwgRicnIl0sWzQsMCwiMCJdLFswLDFdLFsxLDJdLFsyLDNdLFszLDRdXQ==
+\[\begin{tikzcd}
+	0 & {\mathcal F} & {\mathcal F'} & {\mathcal F''} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+is an exact sequence of such sheaves.
+Then the associated long exact sequence gives
+\[ \chi(F') = \chi(F) + \chi(F'') \]

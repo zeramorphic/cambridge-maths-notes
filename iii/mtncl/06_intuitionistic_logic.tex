@@ -613,3 +613,110 @@ Note that \( U \subseteq S \) is a terminal segment if and only if it contains \
     \end{align*}
     One can check that this forms a Heyting algebra as required.
 \end{proof}
+\begin{definition}
+    Let \( P \) be a set of primitive propositions.
+    A \emph{Kripke model} is a triple \( (S, \leq, \Vdash) \) where \( S \) is a poset and \( (\Vdash) \subseteq S \times P \) is a relation satisfying the \emph{persistence property}: if \( p \in P \) is such that \( s \Vdash p \) and \( s \leq s' \), then \( S' \Vdash p \).
+\end{definition}
+\( S \) is a set of possible \emph{worlds}, or states of knowledge, ordered by how knowledgeable they are.
+We can interpret \( \Vdash \) as a \emph{forcing} relation.
+
+Every valuation \( v \) on \( T(S) \) induces a Kripke model by setting \( s \Vdash p \iff s \in v(p) \).
+The persistence property corresponds to the fact that \( T(S) \) contains only terminal segments.
+\begin{definition}
+    Let \( (S, \leq, \Vdash) \) be a Kripke model.
+    We can extend the forcing relation to a relation \( (\Vdash) \subseteq S \times \mathcal L \) recursively as follows.
+    \begin{enumerate}
+        \item \( s \nVdash \bot \);
+        \item \( s \Vdash \varphi \wedge \psi \) if and only if \( s \Vdash \varphi \) and \( s \Vdash \psi \);
+        \item \( s \Vdash \varphi \vee \psi \) if and only if \( s \Vdash \varphi \) or \( s \Vdash \psi \);
+        \item \( s \Vdash \varphi \to \psi \) if and only if for all \( s' \geq s \), \( s' \Vdash \varphi \) implies \( s' \Vdash \psi \).
+    \end{enumerate}
+\end{definition}
+One can check by induction that persistence holds for arbitrary propositions.
+\begin{remark}
+    \( s \Vdash \neg\varphi \) if and only if no more knowledgable world than \( s \) forces \( \varphi \).
+    \( s \Vdash \neg\neg\varphi \) is the statement that \( \varphi \) is consistent with every extension of \( s \) but need not hold in \( s \) itself; that is, for each \( s' \geq s \), there exists \( s'' \geq s' \) with \( s \Vdash \varphi \).
+\end{remark}
+We say that \( S \Vdash \varphi \) if every world \( s \) forces \( \varphi \).
+If \( S \) has a bottom element \( s \), then \( S \Vdash \varphi \) if and only if \( s \Vdash \varphi \) by persistence.
+\begin{example}
+    Consider the Kripke models
+    \begin{enumerate}
+        \item % https://q.uiver.app/#q=WzAsMixbMCwxLCJzIl0sWzAsMCwicyciXSxbMCwxLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+        \[\begin{tikzcd}
+            {s'} \\
+            s
+            \arrow[no head, from=2-1, to=1-1]
+        \end{tikzcd}\]
+            where \( s' \Vdash p \);
+        \item % https://q.uiver.app/#q=WzAsMyxbMSwxLCJzIl0sWzAsMCwicyciXSxbMiwwLCJzJyciXSxbMCwxLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzAsMiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+        \[\begin{tikzcd}
+            {s'} && {s''} \\
+            & s
+            \arrow[no head, from=2-2, to=1-1]
+            \arrow[no head, from=2-2, to=1-3]
+        \end{tikzcd}\]
+        where \( s'' \Vdash p \);
+        \item % https://q.uiver.app/#q=WzAsMixbMCwxLCJzIl0sWzAsMCwicyciXSxbMCwxLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+        \[\begin{tikzcd}
+            {s'} \\
+            s
+            \arrow[no head, from=2-1, to=1-1]
+        \end{tikzcd}\]
+            where \( s' \Vdash p \) and \( s' \Vdash q \).
+    \end{enumerate}
+    Note that in (i), we have \( s \nVdash \neg p \), since \( s' \geq s \) and \( s' \Vdash p \).
+    But also \( s \nVdash p \) by assumption, thus \( s \nVdash p \vee \neg p \).
+    Note that \( s \Vdash \neg\neg p \), but \( s \nVdash p \), so we also have \( s \nVdash \neg\neg p \to p \).
+
+    In (ii), \( s \nVdash \neg\neg p \), since \( s' \geq s \) cannot access a world that forces \( p \).
+    We also have \( s \nVdash \neg p \), since \( s'' \geq s' \) and \( s'' \vDash p \).
+    Thus \( s \nVdash \neg\neg p \vee \neg p \).
+
+    In (iii), \( s \nVdash (p \to q) \to (\neg p \vee q) \).
+    Indeed, all worlds force \( p \to q \), and we have \( s \nVdash q \), so it suffices to check that \( s \nVdash \neg p \), but this holds as \( s' \geq s \) and \( s' \vDash p \).
+\end{example}
+A filter \( \mathcal F \) is called \emph{prime} if whenever \( x \vee y \in \mathcal F \), either \( x \in \mathcal F \) or \( y \in \mathcal F \).
+\begin{lemma}
+    Let \( H \) be a Heyting algebra and let \( v \) be an \( H \)-valuation.
+    Then there is a Kripke model \( (S, \leq, \Vdash) \) such that for each proposition \( \varphi \), we have \( v \vDash_H \varphi \) if and only if \( S \Vdash \varphi \).
+\end{lemma}
+Thus we can convert between Kripke models and valuations on Heyting algebras.
+This will allow us to prove the completeness theorem for Kripke semantics.
+\begin{proof}
+    Let \( S \) be the set of prime filters on \( H \) ordered by inclusion.
+    We say that \( \mathcal F \Vdash p \) if and only if \( v(p) \in \mathcal F \), and prove by induction that this extends to arbitrary propositions.
+    Here, we will prove the case of implications; the other connectives are easy, and primality of the filter is required for the case of disjunction.
+    Let \( \mathcal F \Vdash (\psi \to \psi') \) and suppose \( v(\psi \to \psi') = v(\psi) \Rightarrow v(\psi') \notin \mathcal F \).
+    Let \( \mathcal G' \) be the smallest filter containing \( \mathcal F \) and \( v(\psi) \).
+    Then
+    \[ \mathcal G' = \qty{b \mid \exists f \in \mathcal F.\, f \wedge v(\psi) \leq b} \]
+    Note that \( v(\psi') \notin \mathcal G' \), otherwise \( f \wedge v(\psi) \leq v(\psi') \) for some \( f \in \mathcal F \), and then \( f \leq v(\psi) \Rightarrow v(\psi') \in \mathcal F \), giving a contradiction.
+    In particular, \( \mathcal G' \) is a proper filter, so by Zorn's lemma there is a prime filter \( \mathcal G \) containing \( \mathcal G' \) that does not contain \( v(\psi') \).
+
+    By the inductive hypothesis, \( \mathcal G \Vdash \psi \), and since \( \mathcal F \Vdash (\psi \to \psi') \) and \( \mathcal G' \) contains \( \mathcal G \) which contains \( \mathcal F \), we must have \( \mathcal G \Vdash \psi' \).
+    Then \( v(\psi') \in \mathcal G \), which is a contradiction.
+    Thus \( \mathcal F \Vdash \psi \to \psi' \) implies that \( v(\psi \to \psi') \in \mathcal F \).
+
+    Conversely, suppose
+    \[ v(\psi \to \psi') \in \mathcal F \subseteq \mathcal G \Vdash \psi \]
+    By the inductive hypothesis, \( v(\psi) \in \mathcal G \), and so \( v(\psi) \Rightarrow v(\psi') \in \mathcal G \) as \( \mathcal F \subseteq \mathcal G \).
+    Then \( v(\psi') \geq v(\psi) \wedge (v(\psi) \Rightarrow v(\psi')) \in \mathcal G \), so again by the inductive hypothesis, \( G \Vdash \psi' \) as required.
+
+    It thus suffices to show that \( v \vDash_H \varphi \) if and only if \( S \Vdash \varphi \).
+    If \( v \vDash_H \varphi \), then \( v(\varphi) = \top \), so \( v(\varphi) \) is contained in every filter of \( H \).
+    So \( \mathcal F \Vdash \varphi \) for every prime filter \( \mathcal F \).
+    Conversely, suppose \( S \Vdash \varphi \) but \( v \nvDash_H \varphi \).
+    Then since \( v(\varphi) \neq \top \), there must be a proper filter \( \mathcal F \) that does not contain \( v(\varphi) \).
+    We extend this as above to a prime filter \( \mathcal G \) that does not contain \( v(\varphi) \).
+    Then \( \mathcal G \nVdash \varphi \), contradicting the assumption that \( S \Vdash \varphi \).
+\end{proof}
+\begin{theorem}[completeness]
+    For every proposition \( \varphi \), we have \( \Gamma \vdash_{\mathsf{IPC}} \varphi \) if and only if for all Kripke models \( (S, \leq, \Vdash) \), if \( S \Vdash \Gamma \) then \( S \Vdash \varphi \).
+\end{theorem}
+\begin{proof}
+    Soundness holds by induction.
+    For adequacy, suppose \( \Gamma \nvdash_{\mathsf{IPC}} \varphi \).
+    Then by completeness of Heyting semantics, there is a Heyting algebra \( H \) and \( H \)-valuation \( v \) such that \( v \vDash_H \Gamma \) but \( v \nvDash_H \varphi \).
+    By the previous lemma, there is a Kripke model \( (S, \leq, \Vdash) \) such that \( S \Vdash \Gamma \) but \( S \nVdash \varphi \), contradicting the hypothesis.
+\end{proof}
