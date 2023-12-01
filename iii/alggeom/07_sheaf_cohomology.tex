@@ -226,3 +226,92 @@ Suppose that
 is an exact sequence of such sheaves.
 Then the associated long exact sequence gives
 \[ \chi(F') = \chi(F) + \chi(F'') \]
+
+\subsection{Choice of cover}
+Given a Noetherian separated scheme \( X \), a quasi-coherent sheaf \( \mathcal F \) on \( X \), and an open affine cover \( \mathcal U \) which we typically take to be finite, we can construct the \v{C}ech cohomology \( \check{H}^i(\mathcal U, \mathcal F) \).
+In this subsection, we show that the \v{C}ech cohomology is independent of the choice of cover in this case.
+\begin{theorem}
+	Let \( X \) be affine and let \( \mathcal F \) be quasi-coherent.
+	For any finite cover \( \mathcal U \) of \( X \) by affine opens, the groups \( \check{H}^i(\mathcal U, \mathcal F) \) vanish for \( i > 0 \).
+\end{theorem}
+\begin{proof}
+	Define the `sheafified' \v{C}ech complex as follows.
+	\[ \mathcal C^p(\mathcal F) = \prod_{i_0 < \dots < i_p} i_\star \eval{\mathcal F}_{U_{i_0 \dots i_p}} \]
+	where \( i : U_{i_0 \dots i_p} \to X \) is the inclusion.
+	Then the \( \mathcal C^p(\mathcal F) \) are quasi-coherent sheaves.
+	By taking global sections,
+	\[ \Gamma(X, \mathcal C^p(\mathcal F)) = C^p(\mathcal F) \]
+	where \( C^p(\mathcal F) \) is the usual group of \v{C}ech \( p \)-cochains.
+	The same formula used to build the \v{C}ech complex gives differentials
+	\[ \mathcal C^p(\mathcal F) \to \mathcal C^{p+1}(\mathcal F) \]
+	as a morphism of sheaves.
+	We intend to show that the usual \v{C}ech complex
+	% https://q.uiver.app/#q=WzAsNCxbMCwwLCJDXjAoXFxtYXRoY2FsIEYpIl0sWzEsMCwiQ14xKFxcbWF0aGNhbCBGKSJdLFsyLDAsIkNeMihcXG1hdGhjYWwgRikiXSxbMywwLCJcXGNkb3RzIl0sWzAsMV0sWzEsMl0sWzIsM11d
+\[\begin{tikzcd}
+	{C^0(\mathcal F)} & {C^1(\mathcal F)} & {C^2(\mathcal F)} & \cdots
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+\end{tikzcd}\]
+	is exact.
+	By a result on the example sheet, on affines, taking local sections preserves exactness.
+	Thus, it suffices to prove that
+	% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhjYWwgQ14wKFxcbWF0aGNhbCBGKSJdLFsxLDAsIlxcbWF0aGNhbCBDXjEoXFxtYXRoY2FsIEYpIl0sWzIsMCwiXFxtYXRoY2FsIENeMihcXG1hdGhjYWwgRikiXSxbMywwLCJcXGNkb3RzIl0sWzAsMV0sWzEsMl0sWzIsM11d
+\[\begin{tikzcd}
+	{\mathcal C^0(\mathcal F)} & {\mathcal C^1(\mathcal F)} & {\mathcal C^2(\mathcal F)} & \cdots
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+\end{tikzcd}\]
+	is an exact sequence of sheaves.
+	However, the exactness of this sequence can be checked locally on stalks.
+	Let \( q \in X \), and suppose \( q \in U_j \).
+	Now define the map on stalks \( \kappa : \mathcal C^p_q(\mathcal F) \to \mathcal C^{p-1}_q(\mathcal F) \), where for a cochain \( \alpha \), the \( (i_0 \dots i_{p-1}) \)-component of \( \kappa(\alpha) \) is equal to the \( (ji_0 \dots i_{p-1}) \)-component of \( \alpha \), where by convention if \( j i_0 \dots i_{p-1} \) is not in increasing order, but \( \sigma \in S_{p+1} \) brings it into increasing order and \( \sigma \) has sign \( -1 \), we instead take the negation of the component.
+	By direct calculation, one can show that \( d \kappa + \kappa d = \id \) on \( C^p \) for all \( p \).
+
+	We can now verify exactness at each stalk.
+	We know that \( \im (\mathcal C^{p-1} \to \mathcal C^p) \subseteq \ker (\mathcal C^p \to \mathcal C^{p+1}) \).
+	Conversely, if \( \alpha \in \ker (\mathcal C^p \to \mathcal C^{p+1}) \), then
+	\[ \alpha = (\kappa d + d \kappa)(\alpha) = d(\kappa \alpha) \in \im (\mathcal C^{p-1} \to \mathcal C^p) \]
+\end{proof}
+\begin{lemma}
+	Let \( X \) be a scheme and let \( \mathcal F \) be a quasi-coherent sheaf on \( X \).
+	Let \( \mathcal U = \qty{U_1, \dots, U_k} \) and \( \widetilde{\mathcal U} = \qty{U_0, \dots, U_k} \).
+	That \( \check H^i(\mathcal U, \mathcal F) \) and \( \check H^i(\widetilde{\mathcal U}, \mathcal F) \) are naturally isomorphic.
+\end{lemma}
+\begin{proof}[Proof sketch]
+	Let \( C^p(\mathcal F) \) and \( \widetilde C^p(\mathcal F) \) be the cochain groups for \( \mathcal U, \widetilde{\mathcal U} \) respectively.
+	There are maps \( \widetilde C^p(\mathcal F) \to C^p(\mathcal F) \) given by dropping the \( U_0 \) data.
+	To make this precise, observe that \( \widetilde \alpha \in \widetilde C^p(\mathcal F) \) can be viewed as a pair \( (\alpha, \alpha_0) \) where \( \alpha \in C^p(\mathcal F) \) and \( \alpha_0 \) in \( C^{p-1} \) for the sheaf \( \eval{\mathcal F}_{U_0} \) with open cover \( \eval{\mathcal U}_{U_0} \).
+	These maps commute with the differentials, so we have an induced map \( \check{H}^i(\widetilde{\mathcal U}, \mathcal F) \to \check{H}^i(\mathcal U, \mathcal F) \).
+	By reducing to a calculation on the affine \( U_0 \), we can deduce using the previous result that this induced map is surjective and injective.
+\end{proof}
+\begin{corollary}
+	\( \check{H}^i(\mathcal U, \mathcal F) \) is independent of the choice of \( \mathcal U \).
+\end{corollary}
+\begin{proof}
+	If \( \mathcal U, \widetilde{\mathcal U} \) are two finite open covers by affines, we can interpolate between them by using \( \mathcal U \cup \widetilde{\mathcal U} \) and use the previous result.
+\end{proof}
+
+\subsection{Further topics in cohomology}
+\begin{enumerate}
+	\item Let \( X_d \subseteq \mathbb P^3_k \) be the vanishing locus of a homogeneous polynomial \( f_d \) of degree \( d \neq 2 \).
+	Then \( X_d \) is not isomorphic to a product over \( \Spec k \) of schemes of dimension 1.
+	Conversely, \( X_2 \) can be isomorphic to \( \mathbb P^1_k \times_{\Spec k} \mathbb P^1_k \), using the Segre embedding.
+	This is a consequence of the sheaf K\"unneth formula, and in particular, the fact that \( h^1(X_d, \mathcal O_{X_d}) = 0 \).
+	\item The different \( X_d \) are non-isomorphic as schemes.
+	This follows from calculating \( \chi(X_d) \).
+	\item One next direction in cohomology is \emph{duality theory}.
+	Given a closed immersion \( i : Z \subseteq X \), the \emph{ideal sheaf} \( I_Z \) is the kernel of the map \( i^\star : \mathcal O_X \to \mathcal O_Z \), which is a coherent sheaf on \( X \).
+	The \emph{conormal sheaf} to the closed immersion \( i \), denoted \( N^\vee_{\faktor{Z}{X}} \), is given by \( i^\star \qty(\faktor{I_Z}{I_Z^2}) \), where \( I_Z^2 \) is the sheafification of the presheaf \( U \mapsto I_Z(U)^2 \).
+	If \( X \to S \) is separated, then the \emph{cotangent sheaf} is
+	\[ \Omega_{\faktor{X}{S}} = N^\vee_{\Delta_{\faktor{X}{S}}} \]
+	A scheme \( X \) over \( \Spec k \) is called \emph{nonsingular} if \( \Omega_X \) is locally free.
+	The \emph{dualising sheaf} \( \omega_X \) is the sheafification of \( U \mapsto \bigwedge^{\dim X} \Omega_X(U) \).
+	\begin{theorem}[Serre duality]
+		If \( X \) is as above and has dimension \( n \), then if \( \mathcal F \) is a locally free \( \mathcal O_X \)-module, there is an isomorphism of cohomology groups
+		\[ H^i(\mathcal X, \mathcal F) \to H^{n-1}(\mathcal C, \mathcal F^\vee \otimes \omega_X)^\vee \]
+		where
+		\[ \mathcal F^\vee = \Hom_{\mathcal O_X}(\mathcal F, \mathcal O_X) \]
+	\end{theorem}
+\end{enumerate}
