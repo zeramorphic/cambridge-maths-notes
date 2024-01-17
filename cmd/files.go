@@ -39,6 +39,9 @@ var Files []TexFile = []TexFile{
 	{FilePath: "iii/alggeom", Name: "Algebraic Geometry"},
 	{FilePath: "iii/mtncl", Name: "Model Theory and Non-Classical Logic"},
 	{FilePath: "iii/cat", Name: "Category Theory"},
+	{FilePath: "iii/gc", Name: "Group Cohomology"},
+	{FilePath: "iii/lc", Name: "Large Cardinals"},
+	{FilePath: "iii/forcing", Name: "Forcing and the Continuum Hypothesis"},
 }
 
 var BookFiles []TexFile = []TexFile{
@@ -53,6 +56,7 @@ var BookFiles []TexFile = []TexFile{
 	{FilePath: "ii/vol5", Name: "Volume 5"},
 	{FilePath: "ii/vol6", Name: "Volume 6"},
 	{FilePath: "iii/vol7", Name: "Volume 7"},
+	{FilePath: "iii/vol8", Name: "Volume 8"},
 }
 
 var FilesWithBook []TexFile
