@@ -1,0 +1,90 @@
+Modern set theory largely concerns itself with the consequences of the incompleteness phenomenon.
+Given any `reasonable' set theory \( T \), then G\"odel's first incompleteness theorem shows that there is \( \varphi \) such that \( T \nvdash \varphi \) and \( T \nvdash \neg\varphi \).
+To be `reasonable', the set of axioms must be computably enumerable, among other similar restrictions.
+In particular, G\"odel's second incompleteness theorem shows that \( T \nvdash \Con(T) \), where \( \Con(T) \) is the statement that \( T \) is consistent.
+Hence,
+\[ \qty{\psi \mid T \vdash \psi} \subsetneq \qty{\psi \mid T + \varphi \vdash \psi} \]
+We might say
+\[ T <_{\text{consequence}} T + \varphi \]
+so \( T \) has strictly fewer consequences than \( T + \varphi \).
+Modern set theory is about understanding the relation \( \leq_{\text{consequence}} \) and other similar relations.
+It turns out that large cardinal axioms are the most natural hierarchy that we can use to measure the strength of set theories.
+
+In this course we will not provide a definition for the notion of `large cardinal', but we will provide an informal description.
+A \emph{large cardinal property} is a formula \( \Phi \) such that \( \Phi(\kappa) \) implies that \( \kappa \) is a very large cardinal, so large that its existence cannot be proven in \( \mathsf{ZFC} \).
+A \emph{large cardinal axiom} is an axiom of the form \( \exists \kappa.\, \Phi(\kappa) \), which we will abbreviate \( \Phi \mathrm{C} \).
+We begin with some non-examples.
+
+\begin{enumerate}
+    \item \( \kappa \) is called an \emph{\( \aleph \) fixed point} if \( \kappa = \aleph_\kappa \).
+    Note that, for example, \( \omega \), \( \omega_1 \), and \( \aleph_\omega \) are not \( \aleph \) fixed points.
+    However, we have the following result.
+    We say that \( F : \mathrm{Ord} \to \mathrm{Ord} \) is \emph{normal} if \( \alpha \leq \beta \) implies \( F(\alpha) \leq F(\beta) \), and if \( \lambda \) is a limit, \( F(\lambda) = \bigcup_{\alpha < \lambda} F(\alpha) \).
+    One can show that every normal ordinal operation has arbitrarily large fixed points, and in particular that these fixed points may be enumerated by the ordinals.
+    In particular, since the operation \( \alpha \mapsto \aleph_\alpha \) is normal, it admits fixed points.
+    \item Let \( \Phi(\kappa) \) be the property
+    \[ \kappa = \aleph_\kappa \wedge \Con(\mathsf{ZFC}) \]
+    Clearly \( \Phi \mathrm{C} \) implies \( \Con(\mathsf{ZFC}) \), so \( \mathsf{ZFC} \nvdash \Phi \mathrm{C} \).
+    We would like our large cardinal axioms to be unprovable by \( \mathsf{ZFC} \) because of their size, not because of any other arbitrary reasons that we may attach to these axioms.
+\end{enumerate}
+
+One source of large cardinal axioms is as follows.
+Consider the ordinal \( \omega \); it is much larger than any ordinal smaller than it.
+We can consider properties that encapsulate the notion that \( \omega \) is much larger than any smaller ordinal, and use these as large cardinal properties.
+
+\begin{enumerate}
+    \item If \( n < \omega \), then \( n^+ < \omega \), where \( n^+ \) is the cardinal successor of \( n \).
+    We define
+    \[ \Lambda(\kappa) \iff \forall \alpha (\alpha < \kappa \to \alpha^+ < \kappa) \]
+    where \( \alpha^+ \) is the least cardinal strictly larger than \( \alpha \).
+    Then, \( \Lambda(\kappa) \) holds precisely when \( \kappa \) is a limit cardinal.
+    These need not be very large, for example, \( \aleph_\omega \) is a limit cardinal, and the existence of this cardinal is proven by \( \mathsf{ZFC} \).
+    \item If \( n < \omega \), then \( 2^n < \omega \), where \( 2^n \) is the size of the power set of \( n \).
+    \[ \Sigma(\kappa) \iff \forall \alpha (\alpha < \kappa \to 2^\alpha < \kappa) \]
+    where \( 2^\alpha \) is the cardinality of \( \mathcal P(\alpha) \).
+    Such cardinals are called \emph{strong limit cardinals}.
+    We will show that these exist in all models of \( \mathsf{ZFC} \).
+    Similarly to the aleph hierarchy, we can define the \emph{beth} hierarchy, denoted \( \beth_\alpha \).
+    This is given by
+    \[ \beth_0 = \aleph_0;\quad \beth_{\alpha + 1} = 2^{\beth_\alpha};\quad \beth_{\lambda} = \bigcup_{\alpha < \lambda} \beth_\alpha \]
+    Cantor's theorem shows that \( \aleph_\alpha \leq \beth_\alpha \), and the continuum hypothesis is the assertion that \( \aleph_1 = \beth_1 \).
+    Note that \( \kappa \) is a strong limit cardinal if and only if \( \kappa = \beth_\lambda \) for some limit ordinal \( \lambda \).
+    In particular, \( \mathsf{ZFC} \vdash \Sigma \mathrm{C} \).
+    \item If \( s : n \to \omega \) for \( n < \omega \), then \( \sup(s) = \bigcup \operatorname{ran}(s) < \omega \).
+    This gives rise to the following definition.
+    \begin{definition}
+        Let \( \lambda \) be a limit ordinal.
+        We say that \( C \subseteq \lambda \) is \emph{cofinal} or \emph{unbounded} if \( \bigcup C = \lambda \).
+        We define the \emph{cofinality} of \( \lambda \), denoted \( \cf(\lambda) \), to be the cardinality of the smallest cofinal subset.
+        If \( \lambda \) is a cardinal, then \( \cf(\lambda) \leq \lambda \).
+        If this inequality is strict, the cardinal is called \emph{singular}; if this is an equality, it is called \emph{regular}.
+    \end{definition}
+    Then \( \omega \) is a regular cardinal.
+    Note that \( \aleph_1 \) is also regular, since countable unions of countable sets are countable.
+    This argument generalises to all succcessor cardinals, so all successor cardinals \( \aleph_{\alpha + 1} \) are regular.
+    The cardinal \( \aleph_\omega \) is not regular, as it is the union of \( \qty{\aleph_n \mid n \in \mathbb N} \), which is a subset of \( \aleph_\omega \) of cardinality \( \aleph_0 \), giving \( \cf(\aleph_\omega) = \aleph_0 \).
+    Note also that the cofinality of \( \aleph_{\aleph_\omega} \) is also \( \aleph_0 \).
+    Limit cardinals are often singular.
+\end{enumerate}
+
+Motivated by these examples of properties of \( \omega \), we make the following definition.
+
+\begin{definition}
+    A cardinal \( \kappa \) is called \emph{weakly inacessible} if it is an uncountable regular limit, and \emph{(strongly) inaccessible} if it is an uncountable regular strong limit.
+    We write \( \operatorname{WI}(\kappa) \) to denote that \( \kappa \) is weakly inaccessible, and \( \operatorname{I}(\kappa) \) if \( \kappa \) is inaccessible.
+\end{definition}
+
+To argue that these are large cardinal properties, we will show that they are very large, and that the existence of such cardinals cannot be proven in \( \mathsf{ZFC} \).
+Note that we cannot actually prove this statement; if \( \mathsf{ZFC} \) were inconsistent, it would prove every statement.
+Whenever we write statements such as \( \mathsf{ZFC} \nvdash \mathrm{WIC} \), it should be interpreted to mean `if \( \mathsf{ZFC} \) is consistent, it does not prove \( \mathrm{IC} \)'.
+
+\begin{proposition}
+    Weakly inaccessible cardinals are aleph fixed points.
+\end{proposition}
+\begin{proof}
+    Suppose \( \kappa \) is weakly inacessible but \( \kappa < \aleph_\kappa \).
+    Fix \( \alpha \) such that \( \kappa = \aleph_\alpha \), then \( \alpha < \kappa \).
+    As \( \kappa \) is a limit cardinal, \( \alpha \) must be a limit ordinal.
+    But then \( \aleph_\alpha = \bigcup_{\beta < \alpha} \aleph_\beta \), so in particular, the set \( \qty{\aleph_\beta \mid \beta < \alpha} \) is cofinal in \( \kappa \), but this set is of size \( \abs{\alpha} < \kappa \).
+    Hence \( \kappa \) is singular, contradicting regularity.
+\end{proof}

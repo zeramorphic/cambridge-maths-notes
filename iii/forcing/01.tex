@@ -1,0 +1,98 @@
+\subsection{???}
+Independence results are found across mathematical disciplines.
+\begin{enumerate}
+    \item The \emph{parallel postulate} is independent from the other four postulates of Euclidean geometry.
+    It states that for any given point not on a line, there is a unique line passing through that point that does not intersect the given line.
+    In the 19th century, it was shown that the other four postulates are satisfied by hyperbolic geometry, but this postulate is not satisfied.
+    This shows that the other four axioms are insufficient to prove the parallel postulate.
+    \item Let \( \varphi \) be the statement in the language of fields describing the existence of a square root of 2.
+    We know that \( \mathbb Q \) is a field satisfying \( \neg\varphi \), and \( \mathbb Q[\sqrt{2}] \) satisfies \( \varphi \).
+    The fields \( \mathbb Q \) and \( \mathbb Q[\sqrt{2}] \) are models of the theory of fields, one of which satisfies \( \varphi \), and one of which satisfies \( \neg\varphi \).
+    This shows that the theory of fields does not prove \( \varphi \) or \( \neg\varphi \).
+    A similar result holds for the statement \( \varphi \) that says that there are no roots of \( x^4 = -1 \).
+    \item G\"odel's incompleteness theorem implies that there must always be an independence result in a sufficiently powerful consistent set theory.
+\end{enumerate}
+We will show that there are other independence results in set theory that are not self-referential like the G\"odel incompleteness theorems.
+\begin{theorem}[Cantor]
+    \( \abs{\mathbb N} < \abs{\mathcal P(\mathbb N)} \).
+\end{theorem}
+The continuum hypothesis is that there are no sets of cardinality strictly between \( \abs{\mathbb N} \) and \( \abs{\mathcal P(N)} = \abs{\mathbb R} \).
+\begin{definition}
+    The \emph{continuum hypothesis} \( \mathsf{CH} \) states that if \( X \subseteq \mathbb P(\mathbb N) \) is infinite, then either \( \abs{X} = \abs{\mathbb N} \) or \( \abs{X} = \abs{\mathcal P(\mathbb N)} \), or equivalently,
+    \[ 2^{\aleph_0} = \aleph_1 \]
+\end{definition}
+Progress was made on the continuum hypothesis in the 19th and 20th centuries.
+\begin{enumerate}
+    \item In 1883, Cantor showed that any closed subset of \( \mathbb R \) satisfies \( \mathsf{CH} \).
+    \item In 1916, Alexandrov and Hausdorff showed that any Borel set of \( \mathbb R \) satisfies \( \mathsf{CH} \).
+    \item In 1930, Suslin strengthened this result to analytic subsets of \( \mathbb R \).
+    \item In 1938, G\"odel showed that if \( \mathsf{ZF} \) is consistent, then so is \( \mathsf{ZFC} + \mathsf{CH} \).
+    \item However, in 1963, Cohen showed that if \( \mathsf{ZF} \) is consistent, then so is \( \mathsf{ZFC} + \neg\mathsf{CH} \).
+\end{enumerate}
+In this course, we will prove results (iv) and (v), thus establishing the independence of the continuum hypothesis from \( \mathsf{ZFC} \).
+
+\subsection{Systems of set theory}
+The language of set theory \( \mathcal L = \mathcal L_\in \) is a first-order predicate logic with equality and membership as primitive relations.
+We assume the existence of infinitely many variables \( v_1, v_2, \dots \) denoting sets.
+We will only use the logical connectives \( \vee \) and \( \neg \) as well as the existential quantifier \( \exists \).
+Conjunction, implication, and universal quantification can be defined in terms of disjunction, negation, and existential quantification.
+
+We say that an occurrence of a variable \( x \) is \emph{bound} in a formula \( \varphi \) if is in a quantifier \( \exists x \) or lies in the scope of such a quantifier.
+An occurrence is called \emph{free} if it is not bound.
+We write \( FV(\varphi) \) for the set of free variables of \( \varphi \).
+We will write \( \varphi(u_1, \dots, u_n) \) to emphasise the dependence of \( \varphi \) on its free variables \( u_1, \dots, u_n \).
+By doing so, we will allow ourselves to freely change the names of the free variables, and assume that substituted variables are free.
+The syntax \( \varphi(u_0, \dots, u_n) \) does not imply that \( u_i \) occurs freely, or even at all.
+
+The axioms of set theory are as follows.
+% TODO: Add them!
+
+Some common set theories are as follows.
+\begin{itemize}
+    \item \emph{Zermelo set theory} \( \mathsf{Z} \) consists of axioms (i) to (viii).
+    Axioms (ix) and (ix') are equivalent relative to \( \mathsf{Z} \).
+    \item \emph{Zermelo--Fraenkel set theory} \( \mathsf{ZF} \) consists of axioms (i) to (ix).
+    Axioms (x) and (x') are equivalent relative to \( \mathsf{ZF} \).
+    \item \emph{Zermelo--Fraenkel set theory with choice} \( \mathsf{ZFC} \) consists of axioms (i) to (x).
+    \item \emph{Zermelo--Fraenkel set theory without power set} \( \mathsf{ZF}^- \) consists of axioms (i) to (vii), with the axiom of collection (ix') instead of replacement (ix); it has been shown that (ix) is weaker than (ix') in the presence of axioms (i) to (vii).
+    \item \emph{Zermelo--Fraenkel set theory with choice and without power set} \( \mathsf{ZFC}^- \) consists of axioms (i) to (vii), with the axiom of collection (ix') and the well-ordering principle (x').
+\end{itemize}
+In this course, our main metatheory will be \( \mathsf{ZF} \), and we will be explicit about the use of choice.
+
+We say that a class \( X \) is \emph{definable} over \( M \) if there exists a formula \( \varphi \) and sets \( a_1, \dots, a_n \in M \) such that for all \( z \in M \), we have \( z \in X \) if and only if \( \varphi(z, a_1, \dots, a_n) \).
+A class is \emph{proper} over \( M \) if it is not a set in \( M \).
+In this course, we will assume that all mentioned classes are definable.
+For example, the universe class \( V = \qty{x \mid x = x} \), the Russell class \( R = \qty{x \mid x \notin x} \), and the class of ordinals are all definable.
+Any set is a definable class.
+Classes are heavily dependent on the underlying model: if \( M = 2 \) then \( \mathrm{Ord} = 2 = M \), and if \( M = 3 \cup \qty{1} \) then \( \mathrm{Ord} = 3 \neq M \).
+
+\subsection{Adding defined functions}
+Often in set theory, we use symbols such as \( 0, 1, \subseteq, \cap, \wedge, \forall \); they do not exist in our language.
+\begin{definition}
+    Suppose that \( \mathcal L \subseteq \mathcal L' \) and \( T \) is a set of sentences in \( \mathcal L \).
+    We say that \( P \) is a \emph{defined \( n \)-ary predicate} symbol over \( T \) if there is a formula \( \varphi \) in \( \mathcal L \) such that
+    \[ T \vdash \forall x_1, \dots, x_n.\, (P(x_1, \dots, x_n) \iff \varphi(x_1, \dots, x_n)) \]
+    Similarly, we say that \( f \) is a \emph{defined \( n \)-ary function} symbol over \( T \) if there is a formula \( \varphi \) in \( \mathcal L \) such that
+    \[ f(x_1, \dots, x_n) = y \text{ if and only if } T \vdash \varphi(x_1, \dots, x_n, y) \]
+    and
+    \[ T \vdash \forall x_1, \dots, x_n.\, \exists! y.\, \varphi(x_1, \dots, x_n, y) \]
+    We say that a set of sentences \( T' \) of \( \mathcal L' \) is an \emph{extension by definitions} of \( T \) over \( \mathcal L \) when \( T' = T \cup S \) and \( S = \qty{\varphi_s \mid s \in \mathcal L' \setminus \mathcal L'} \) and each \( \varphi_s \) is a definition of \( s \) in the language \( \mathcal L \) over \( T \).
+\end{definition}
+The following, among other things, are defined over \( \mathsf{ZF} \).
+\[ 0 \quad 1 \quad \subseteq \quad \cap \quad \mathcal P \quad \bigcup \]
+\begin{theorem}
+    Suppose that \( \mathcal L \subseteq \mathcal L' \), and that \( T \) is a set of \( \mathcal L \)-sentences and \( T' \) is an extension by definitions of \( T \) to \( \mathcal L' \).
+    Then
+    \begin{enumerate}
+        \item (conservativity) If \( \varphi \) is a sentence of \( \mathcal L \), then \( T \vdash \varphi \iff T' \vdash \varphi \).
+        \item (abbreviations) If \( \varphi \) is a formula of \( \mathcal L' \), then there exists a formula \( \hat\varphi \) of \( \mathcal L \) whose free variables are exactly those of \( \varphi \), such that \( T' \vdash \forall x.\, (\varphi \iff \hat\varphi) \).
+    \end{enumerate}
+\end{theorem}
+\begin{example}
+    The intersection \( a \cap b \) can be defined as the unique set \( c \) such that
+    \[ \forall x\. (x \in c \iff x \in a \wedge x \in b) \]
+    This definition makes sense only if there is a unique \( c \) satisfying this formula \( \varphi(c) \).
+    If
+    \[ M = \qty{a, c, d, \qty{a}, \qty{a, b}, \qty{a, b, c}, \qty{a, b, d}} \]
+    then it is easy to check that both \( \qty{a} \) and \( \qty{a, d} \) satisfy \( \varphi \), so intersection cannot be defined.
+\end{example}
