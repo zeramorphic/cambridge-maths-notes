@@ -44,18 +44,42 @@ We will write \( \varphi(u_1, \dots, u_n) \) to emphasise the dependence of \( \
 By doing so, we will allow ourselves to freely change the names of the free variables, and assume that substituted variables are free.
 The syntax \( \varphi(u_0, \dots, u_n) \) does not imply that \( u_i \) occurs freely, or even at all.
 
-The axioms of set theory are as follows.
-% TODO: Add them!
-
+Some of the most common axioms of set theory are as follows.
+\begin{enumerate}
+    \item \emph{Axiom of extensionality.}
+    \[ \forall x.\, \forall y.\, (\forall z.\, (z \in x \leftrightarrow x \in y) \to x = y) \]
+    \item \emph{Axiom of empty set.}
+    \[ \exists x.\, \forall y \in x.\, y \neq y \]
+    \item \emph{Axiom of pairing.}
+    \[ \forall x.\, \forall y.\, \exists z.\, (x \in z \wedge y \in z) \]
+    \item \emph{Axiom of union.}
+    \[ \forall a.\, \exists x.\, \forall y.\, (y \in x \leftrightarrow \exists z \in a.\, y \in z) \]
+    \item \emph{Axiom of foundation.}
+    \[ \forall x.\, (\exists y.\, y \in x \to \exists y \in x.\, \neg\exists z \in x.\, z \in y) \]
+    \item \emph{Axiom scheme of separation.} For any formula \( \varphi \),
+    \[ \forall a.\, \exists x.\, \forall y.\, (y \in x \leftrightarrow (y \in a \wedge \varphi(y))) \]
+    \item \emph{Axiom of infinity.}
+    \[ \exists a.\, (\exists x.\, (x \in a) \wedge \forall x \in a.\, \exists y \in a.\, x \in y) \]
+    \item \emph{Axiom of power set.}
+    \[ \forall a.\, \exists x.\, \forall y.\, (y \in x \leftrightarrow \forall z.\, (z \in y \to z \in a)) \]
+    \item \emph{Axiom scheme of replacement.} For any formula \( \varphi \),
+    \[ \forall a.\, (\forall x \in a.\, \exists! y.\, \varphi(x, y) \to \exists b.\, \forall x \in a.\, \exists y \in b.\, \varphi(x, y)) \]
+    \item[(ix\('\))] \emph{Axiom scheme of collection.} For any formula \( \varphi \),
+    \[ \forall a.\, (\forall x \in a.\, \exists y.\, \varphi(x, y) \to \exists b.\, \forall x \in a.\, \exists y \in b.\, \varphi(x, y)) \]
+    \item \emph{Axiom of choice.}
+    \[ \forall X.\, \qty(\varnothing \notin X \to \exists f : \qty(X \to \bigcup X).\, \forall a \in X.\, f(a) \in a) \]
+    \item[(x\('\))] \emph{Well-ordering principle.}
+    \[ \forall a.\, \exists R.\, R \text{ is a well-ordering of } a \]
+\end{enumerate}
 Some common set theories are as follows.
 \begin{itemize}
     \item \emph{Zermelo set theory} \( \mathsf{Z} \) consists of axioms (i) to (viii).
-    Axioms (ix) and (ix') are equivalent relative to \( \mathsf{Z} \).
+    Axioms (ix) and (ix\('\)) are equivalent relative to \( \mathsf{Z} \).
     \item \emph{Zermelo--Fraenkel set theory} \( \mathsf{ZF} \) consists of axioms (i) to (ix).
-    Axioms (x) and (x') are equivalent relative to \( \mathsf{ZF} \).
+    Axioms (x) and (x\('\)) are equivalent relative to \( \mathsf{ZF} \).
     \item \emph{Zermelo--Fraenkel set theory with choice} \( \mathsf{ZFC} \) consists of axioms (i) to (x).
-    \item \emph{Zermelo--Fraenkel set theory without power set} \( \mathsf{ZF}^- \) consists of axioms (i) to (vii), with the axiom of collection (ix') instead of replacement (ix); it has been shown that (ix) is weaker than (ix') in the presence of axioms (i) to (vii).
-    \item \emph{Zermelo--Fraenkel set theory with choice and without power set} \( \mathsf{ZFC}^- \) consists of axioms (i) to (vii), with the axiom of collection (ix') and the well-ordering principle (x').
+    \item \emph{Zermelo--Fraenkel set theory without power set} \( \mathsf{ZF}^- \) consists of axioms (i) to (vii), with the axiom of collection (ix\('\)) instead of replacement (ix); it has been shown that (ix) is weaker than (ix\('\)) in the presence of axioms (i) to (vii).
+    \item \emph{Zermelo--Fraenkel set theory with choice and without power set} \( \mathsf{ZFC}^- \) consists of axioms (i) to (vii), with the axiom of collection (ix\('\)) and the well-ordering principle (x\('\)).
 \end{itemize}
 In this course, our main metatheory will be \( \mathsf{ZF} \), and we will be explicit about the use of choice.
 
@@ -71,26 +95,25 @@ Often in set theory, we use symbols such as \( 0, 1, \subseteq, \cap, \wedge, \f
 \begin{definition}
     Suppose that \( \mathcal L \subseteq \mathcal L' \) and \( T \) is a set of sentences in \( \mathcal L \).
     We say that \( P \) is a \emph{defined \( n \)-ary predicate} symbol over \( T \) if there is a formula \( \varphi \) in \( \mathcal L \) such that
-    \[ T \vdash \forall x_1, \dots, x_n.\, (P(x_1, \dots, x_n) \iff \varphi(x_1, \dots, x_n)) \]
+    \[ T \vdash \forall x_1, \dots, x_n.\, (P(x_1, \dots, x_n) \leftrightarrow \varphi(x_1, \dots, x_n)) \]
     Similarly, we say that \( f \) is a \emph{defined \( n \)-ary function} symbol over \( T \) if there is a formula \( \varphi \) in \( \mathcal L \) such that
     \[ f(x_1, \dots, x_n) = y \text{ if and only if } T \vdash \varphi(x_1, \dots, x_n, y) \]
     and
     \[ T \vdash \forall x_1, \dots, x_n.\, \exists! y.\, \varphi(x_1, \dots, x_n, y) \]
     We say that a set of sentences \( T' \) of \( \mathcal L' \) is an \emph{extension by definitions} of \( T \) over \( \mathcal L \) when \( T' = T \cup S \) and \( S = \qty{\varphi_s \mid s \in \mathcal L' \setminus \mathcal L'} \) and each \( \varphi_s \) is a definition of \( s \) in the language \( \mathcal L \) over \( T \).
 \end{definition}
-The following, among other things, are defined over \( \mathsf{ZF} \).
-\[ 0 \quad 1 \quad \subseteq \quad \cap \quad \mathcal P \quad \bigcup \]
+Commonly used symbols such as \( 0, 1, \subseteq, \cap, \mathcal P, \bigcup \) are defined over \( \mathsf{ZF} \).
 \begin{theorem}
     Suppose that \( \mathcal L \subseteq \mathcal L' \), and that \( T \) is a set of \( \mathcal L \)-sentences and \( T' \) is an extension by definitions of \( T \) to \( \mathcal L' \).
     Then
     \begin{enumerate}
-        \item (conservativity) If \( \varphi \) is a sentence of \( \mathcal L \), then \( T \vdash \varphi \iff T' \vdash \varphi \).
-        \item (abbreviations) If \( \varphi \) is a formula of \( \mathcal L' \), then there exists a formula \( \hat\varphi \) of \( \mathcal L \) whose free variables are exactly those of \( \varphi \), such that \( T' \vdash \forall x.\, (\varphi \iff \hat\varphi) \).
+        \item (conservativity) If \( \varphi \) is a sentence of \( \mathcal L \), then \( T \vdash \varphi \leftrightarrow T' \vdash \varphi \).
+        \item (abbreviations) If \( \varphi \) is a formula of \( \mathcal L' \), then there exists a formula \( \hat\varphi \) of \( \mathcal L \) whose free variables are exactly those of \( \varphi \), such that \( T' \vdash \forall x.\, (\varphi \leftrightarrow \hat\varphi) \).
     \end{enumerate}
 \end{theorem}
 \begin{example}
     The intersection \( a \cap b \) can be defined as the unique set \( c \) such that
-    \[ \forall x\. (x \in c \iff x \in a \wedge x \in b) \]
+    \[ \forall x.\, (x \in c \iff x \in a \wedge x \in b) \]
     This definition makes sense only if there is a unique \( c \) satisfying this formula \( \varphi(c) \).
     If
     \[ M = \qty{a, c, d, \qty{a}, \qty{a, b}, \qty{a, b, c}, \qty{a, b, d}} \]
