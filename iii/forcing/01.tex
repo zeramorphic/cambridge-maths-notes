@@ -85,10 +85,24 @@ In this course, our main metatheory will be \( \mathsf{ZF} \), and we will be ex
 
 We say that a class \( X \) is \emph{definable} over \( M \) if there exists a formula \( \varphi \) and sets \( a_1, \dots, a_n \in M \) such that for all \( z \in M \), we have \( z \in X \) if and only if \( \varphi(z, a_1, \dots, a_n) \).
 A class is \emph{proper} over \( M \) if it is not a set in \( M \).
+
+Under suitable hypotheses, there is a countable transitive model \( M \) of \( \mathsf{ZFC} \).
+In this case, \( \abs{\mathbb R \cap M} \) is countable, so there exists a real \( v \) that is not in \( M \).
+Hence, \( v \) is a proper class over \( M \).
+However, it is not definable, and we cannot `talk about it' in the language of set theory.
+The only proper classes that affect our theory are the definable ones.
+
 In this course, we will assume that all mentioned classes are definable.
+We can then use formulas of the form
+\[ \exists C.\, (C \text{ is a class} \wedge \forall x \in C.\, \varphi) \]
+by defining it to mean that there is a formula \( \theta \) giving a class \( C \) satisfying \( \forall x \in C.\, \varphi \).
 For example, the universe class \( V = \qty{x \mid x = x} \), the Russell class \( R = \qty{x \mid x \notin x} \), and the class of ordinals are all definable.
 Any set is a definable class.
 Classes are heavily dependent on the underlying model: if \( M = 2 \) then \( \mathrm{Ord} = 2 = M \), and if \( M = 3 \cup \qty{1} \) then \( \mathrm{Ord} = 3 \neq M \).
+
+Suppose that \( M \) is a set model of \( \mathsf{ZF} \); that is, \( M \) is a set.
+Let \( \mathcal D \) be the collection of definable classes over \( M \).
+Then one can show that \( \mathcal D \) is a set in our metatheoretic universe \( V \), and \( (M, \mathcal D) \) is a model of a second-order version of \( \mathsf{ZF} \), known as \emph{G\"odel--Bernays set theory}.
 
 \subsection{Adding defined functions}
 Often in set theory, we use symbols such as \( 0, 1, \subseteq, \cap, \wedge, \forall \); they do not exist in our language.
@@ -119,3 +133,113 @@ Commonly used symbols such as \( 0, 1, \subseteq, \cap, \mathcal P, \bigcup \) a
     \[ M = \qty{a, c, d, \qty{a}, \qty{a, b}, \qty{a, b, c}, \qty{a, b, d}} \]
     then it is easy to check that both \( \qty{a} \) and \( \qty{a, d} \) satisfy \( \varphi \), so intersection cannot be defined.
 \end{example}
+
+\subsection{Absoluteness}
+It is often the case that definitions appear to give the same set regardless of which model we are working inside.
+For example, \( \qty{x \mid x \neq x} \) is the empty set in any model, and \( \qty{x \mid x = a \vee x = b} \) gives a pair set.
+Other definitions need not, for example \( \mathcal P(\mathbb N) \), which need not be the true power set in a given transitive model.
+To quantify this behaviour, we need to define what it means for \( \varphi \) to hold in an arbitrary structure; this concept is called \emph{relativisation}.
+\begin{definition}
+    The quantifier \( \forall x \in a.\, \varphi \) is an abbreviation of \( \forall x.\, x \in a \Rightarrow \varphi \).
+    We use the analogous abbreviation for the existential quantifier.
+    Let \( W \) be a class; we define by recursion the \emph{relativisation} \( \varphi^W \) of \( \varphi \) as follows.
+    \begin{align*}
+        (x \in y)^W &\equiv x \in y \\
+        (x = y)^W &\equiv x = y \\
+        (\varphi \vee \psi)^W &\equiv \varphi^W \vee \psi^W \\
+        (\neg \varphi)^W &\equiv \neg \varphi^W \\
+        (\exists x.\, \varphi)^W &\equiv \exists x \in W.\, \varphi^W
+    \end{align*}
+\end{definition}
+One can easily show that
+\begin{align*}
+    (\varphi \wedge \psi)^W &\equiv \varphi^W \wedge \psi^W \\
+    (\varphi \to \psi)^W &\equiv \varphi^W \to \psi^W \\
+    (\forall x.\, \varphi)^W &\equiv \forall x \in W.\, \varphi^W
+\end{align*}
+\begin{proposition}
+    Suppose that \( M \subseteq N \) and \( M \) is a definable class over \( N \).
+    Then the relation \( M \vDash \varphi \) is first-order expressible in \( N \).
+\end{proposition}
+\begin{proof}
+    Suppose \( M \) is defined by \( \theta \), so
+    \[ \forall z \in N.\, \theta(z) \leftrightarrow z \in M \]
+    We claim that \( (N, \in) \vDash \varphi^M \) if and only if \( (M, \in) \vDash \varphi \).
+    We proceed by induction on the length of formulae.
+    For example,
+    \[ N \vDash (x \in y)^M \text{ iff } N \vDash x \in y \text{ and } x, y \in M \text{ iff } \theta(x), \theta(y), M \vDash x \in y \]
+    The cases for equality is similar, and disjunction and negation are simple.
+    Finally,
+    \[ N \vDash (\exists x.\, \varphi(x))^M \text{ iff } N \vDash \exists x.\, x \in M \wedge \varphi^M(x) \]
+    which holds precisely when there is some \( x \in N \) such that \( N \vDash x \in M \) and \( N \vDash \varphi^M(x) \), but \( N \vDash x \in M \) if and only if \( \theta(x) \), giving the result as required.
+\end{proof}
+Thus, relativisation is a way to express truth in definable classes.
+\begin{definition}
+    Suppose that \( M \subseteq N \) are classes and \( \varphi(u_1, \dots, u_n) \) is a formula.
+    Then \( \varphi \) is called
+    \begin{enumerate}
+        \item \emph{upwards absolute} for \( M, N \) if
+        \[ \forall x_1, \dots, x_n \in M.\, (\varphi^M(x_1, \dots, x_n) \to \varphi^N(x_1, \dots, x_n)) \]
+        \item \emph{downwards absolute} for \( M, N \) if
+        \[ \forall x_1, \dots, x_n \in M.\, (\varphi^N(x_1, \dots, x_n) \to \varphi^M(x_1, \dots, x_n)) \]
+        \item \emph{absolute} for \( M, N \) if it is both upwards and downwards absolute, or equivalently,
+        \[ \forall x_1, \dots, x_n \in M.\, (\varphi^M(x_1, \dots, x_n) \leftrightarrow \varphi^N(x_1, \dots, x_n)) \]
+    \end{enumerate}
+\end{definition}
+If \( N = V \), we simply say that \( \varphi \) is (upwards or downwards) absolute for \( M \).
+If \( \Gamma \) is a set of formulas, we say that \( \Gamma \) is (upwards or downwards) absolute for \( M, N \) if and only if \( \varphi \) is (upwards or downwards) absolute for \( M, N \) for each \( \varphi \in \Gamma \).
+Suppose \( T \) is a set of sentences and \( f \) is a defined function by \( \varphi \).
+Then for \( M \subseteq N \) models of \( T \), we say that \( f \) is absolute for \( M, N \) precisely when \( \varphi \) is absolute for \( M, N \).
+\begin{example}
+    If \( M \subseteq N \) both satisfy extensionality, then the empty set is absolute for \( M, N \) by the formula \( \forall x \in a.\, (x \neq x) \).
+    The power set of \( 2 \) is not absolute between \( 4 \) and \( V \), because in \( 4 \), it has only two elements.
+\end{example}
+\begin{example}
+    \( \varphi \leftrightarrow \psi \) does not imply \( \varphi^M \leftrightarrow \psi^M \).
+    Let \( \varphi(v) \) be the statement \( \forall x.\, (x \notin v) \); in \( \mathsf{ZF} \) this defines \( \varnothing \).
+    Now, the following are two ways to express \( 0 \in z \).
+    \[ \psi(z) \equiv \exists y.\, (\varphi(y) \wedge y \in z);\quad \theta(z) \equiv \forall y.\, (\varphi(y) \Rightarrow y \in z) \]
+    Note that if there exists a unique \( y \) such that \( \varphi(y) \), then these are equivalent.
+    However, this is often not the case, for example if
+    \[ a = 0;\quad b = \qty{0};\quad c = \qty{\qty{\qty{0}}};\quad M = \qty{a, b, c} \]
+    then \( \varphi^M(a) \) holds, so \( \psi^M(b) \), but \( \varphi^M(c) \) also holds, so \( \theta^M(b) \) fails.
+\end{example}
+The main obstacle to absoluteness for basic statements turns out to be transitivity of the model.
+\begin{definition}
+    Given classes \( M \subseteq N \), we say that \( M \) is \emph{transitive} in \( N \) if
+    \[ \forall x, y \in N.\, (x \in M \wedge y \in x \Rightarrow y \in M) \]
+\end{definition}
+
+\subsection{The L\'evy hierarchy}
+\begin{definition}
+    The class of formulas \( \Delta_0 \) is the smallest class \( \Gamma \) closed under the following conditions.
+    \begin{enumerate}
+        \item if \( \varphi \) is atomic, \( \varphi \in \Gamma \) (that is, \( (v_i \in v_j) \in \Gamma \) and \( (v_i = v_j) \in \Gamma \));
+        \item if \( \varphi, \psi \in \Gamma \), then \( \varphi \vee \psi \in \Gamma \) and \( \neg\varphi \in \Gamma \); and
+        \item if \( \varphi \in \Gamma \), then \( (\forall v_i \in v_j.\, \varphi) \in \Gamma \) and \( (\exists v_i \in v_j.\, \varphi) \in \Gamma \).
+    \end{enumerate}
+\end{definition}
+That is, \( \Delta_0 \) is the class of formulas generated from atomic formulas by Boolean operations and bounded quantification.
+\begin{definition}
+    We proceed by induction to define \( \Sigma_n \) and \( \Pi_n \) as follows.
+    \begin{enumerate}
+        \item \( \Sigma_0 = \Pi_0 = \Delta_0 \);
+        \item if \( \varphi \) is \( \Pi_{n-1} \) then \( \exists v_i.\, \varphi \) is \( \Sigma_n \);
+        \item if \( \varphi \) is \( \Sigma_{n-1} \) then \( \forall v_i.\, \varphi \) is \( \Pi_n \).
+    \end{enumerate}
+\end{definition}
+\begin{example}
+    The formula \( \forall v_1.\, \exists v_2.\, \forall v_3.\, (v_4 = v_3) \) is \( \Pi_3 \).
+    But \( \forall v_1.\, (v_1 = v_2) \wedge v_3 = v_4 \) is not \( \Pi_n \) or \( \Sigma_n \) for any \( n \).
+\end{example}
+\begin{definition}
+    Given an \( \mathcal L_\in \)-theory \( T \), let \( \Sigma_n^T \) be the class of formulas \( \Gamma \) such that for any \( \varphi \in \Gamma \), there exists \( \psi \in \Sigma_n \) such that \( T \vdash \varphi \leftrightarrow \psi \).
+    We define \( \Pi_n^T \) analogously.
+    A formula is in \( \Delta_n^T \) if there exists \( \psi \in \Sigma_n \) and \( \theta \in \Pi_n \) such that \( T \vdash \varphi \leftrightarrow \psi \) and \( T \vdash \varphi \leftrightarrow \theta \).
+\end{definition}
+\begin{lemma}
+    If \( \varphi \) and \( \psi \) are in \( \Sigma_n^{\mathsf{ZF}} \), then so are
+    \[ \exists v.\, \varphi;\quad \varphi \vee \psi;\quad \varphi \wedge \psi;\quad \exists v_i \in v_j.\, \varphi;\quad \forall v_i \in v_j.\, \varphi \]
+    If \( \varphi \) is in \( \Sigma_n^{\mathsf{ZF}} \), then \( \neg\varphi \) is in \( \Pi_n^{\mathsf{ZF}} \).
+    Further, for every \( \varphi \), there exists \( n \) such that \( \varphi \) is in \( \Sigma_n^{\mathsf{ZF}} \), and if \( \varphi \) is in \( \Sigma_n^{\mathsf{ZF}} \), then \( \varphi \) is in \( \Sigma_m^{\mathsf{ZF}} \) for all \( m \geq n \).
+\end{lemma}
