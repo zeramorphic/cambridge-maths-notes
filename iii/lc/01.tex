@@ -59,6 +59,9 @@ We can consider properties that encapsulate the notion that \( \omega \) is much
         If \( \lambda \) is a cardinal, then \( \cf(\lambda) \leq \lambda \).
         If this inequality is strict, the cardinal is called \emph{singular}; if this is an equality, it is called \emph{regular}.
     \end{definition}
+    Note that if \( \kappa \) is regular, then if \( \lambda < \kappa \), and for each \( \alpha < \lambda \) we have a set \( X_\alpha \subseteq \kappa \) of size \( \abs{X_\alpha} < \kappa \), then \( \bigcup X_\alpha \neq \kappa \).
+    It is easy to show that this property is equivalent to regularity.
+
     Then \( \omega \) is a regular cardinal.
     Note that \( \aleph_1 \) is also regular, since countable unions of countable sets are countable.
     This argument generalises to all succcessor cardinals, so all successor cardinals \( \aleph_{\alpha + 1} \) are regular.
@@ -78,13 +81,92 @@ To argue that these are large cardinal properties, we will show that they are ve
 Note that we cannot actually prove this statement; if \( \mathsf{ZFC} \) were inconsistent, it would prove every statement.
 Whenever we write statements such as \( \mathsf{ZFC} \nvdash \mathsf{IC} \), it should be interpreted to mean `if \( \mathsf{ZFC} \) is consistent, it does not prove \( \mathsf{IC} \)'.
 
+Many things in the relationship of \( \mathsf{WI} \) and \( \mathsf{I} \) are unclear: \( 2^{\aleph_0} \) is clearly not inaccessible as it is not a strong limit, but it is not clear that this is not a limit.
+The \emph{generalised continuum hypothesis} \( \mathsf{GCH} \) is that for all cardinals \( \alpha \), we have \( 2^{\aleph_\alpha} = \aleph_{\alpha + 1} \), and so \( \aleph_\alpha = \beth_\alpha \).
+Thus, the notions of limit and strong limit coincide, and so the notions of inaccessible cardinals and weakly inaccessible cardinals coincide.
+
 \begin{proposition}
     Weakly inaccessible cardinals are aleph fixed points.
 \end{proposition}
 \begin{proof}
-    Suppose \( \kappa \) is weakly inacessible but \( \kappa < \aleph_\kappa \).
+    Suppose \( \kappa \) is weakly inaccessible but \( \kappa < \aleph_\kappa \).
     Fix \( \alpha \) such that \( \kappa = \aleph_\alpha \), then \( \alpha < \kappa \).
     As \( \kappa \) is a limit cardinal, \( \alpha \) must be a limit ordinal.
     But then \( \aleph_\alpha = \bigcup_{\beta < \alpha} \aleph_\beta \), so in particular, the set \( \qty{\aleph_\beta \mid \beta < \alpha} \) is cofinal in \( \kappa \), but this set is of size \( \abs{\alpha} < \kappa \).
     Hence \( \kappa \) is singular, contradicting regularity.
+\end{proof}
+
+We will now show that \( \mathsf{ZFC} \) does not prove \( \mathsf{IC} \), and we omit the result for weakly inaccessible cardinals.
+We could do this via model-theoretic means: we assume \( M \vDash \mathsf{ZFC} \), and construct a model \( N \vDash \mathsf{ZFC} + \neg \mathsf{IC} \).
+However, there is another approach we will take here.
+By G\"odel's second incompleteness theorem, under the assumption that \( \mathsf{ZFC} \) is consistent, we have \( \mathsf{ZFC} \nvdash \Con(\mathsf{ZFC}) \), so it suffices to show \( \mathsf{IC} \to \Con(\mathsf{ZFC}) \).
+G\"odel's completeness theorem states that \( \Con(T) \) holds if and only if there exists a model \( M \) with \( M \vDash T \).
+Thus, it suffices to show that under the assumption that there is an inaccessible cardinal, we can construct a model of \( \mathsf{ZFC} \).
+Note that the metatheory in which the completeness is proven actually matters; both theories and models are actually sets in the outer theory.
+
+Recall that the \emph{cumulative hierarchy} inside a model of set theory is given by
+\[ V_0 = \varnothing;\quad V_{\alpha + 1} = \mathcal P(V_\alpha);\quad V_\lambda = \bigcup_{\alpha < \lambda} V_\alpha \]
+\begin{enumerate}
+    \item The axiom of foundation is equivalent to the statement that every set is an element of \( V_\alpha \) for some \( \alpha \).
+    \item \( (V_\omega, \in) \) is a model of all of the axioms of set theory except for the axiom of infinity.
+    This collection of axioms is called finite set theory \( \mathsf{FST} \).
+    \item \( (V_{\omega + \omega}, \in) \) is a model of all of the axioms of set theory except for the axiom of replacement.
+    This theory is called Zermelo set theory with choice \( \mathsf{ZC} \).
+    In fact, for any limit ordinal \( \lambda > \omega \), \( \mathsf{ZFC} \) proves that \( (V_\lambda, \in) \vDash \mathsf{ZC} \).
+    That is, \( \mathsf{ZFC} \) proves the existence of a model of \( \mathsf{ZC} \), or equivalently, \( \mathsf{ZFC} \vdash \Con(\mathsf{ZC}) \).
+    Hence, \( \mathsf{ZC} \) cannot prove replacement, since G\"odel's second incompleteness theorem applies to \( \mathsf{ZC} \).
+    In this way, replacement behaves like a large cardinal axiom for \( \mathsf{ZC} \).
+    The same holds for infinity and \( \mathsf{FST} \).
+\end{enumerate}
+We briefly discuss why replacement fails in \( V_{\omega + \omega} \).
+Consider the set of ordinals \( \omega + n \) for \( n < \omega \); this set does not belong to \( V_{\omega + \omega} \) as its rank is \( \omega + \omega \).
+However, the class function \( F \) given by \( n \mapsto \omega + n \) is definable by a simple formula, and applying this to the set \( \omega \in V_{\omega + \omega} \) gives a counterexample to replacement.
+Our counterexample is thus a cofinal subset of \( V_{\omega + \omega} \) whose union does not lie in \( V_{\omega + \omega} \).
+In some sense, the fact that \( \omega + \omega \) is singular is the reason why \( V_{\omega + \omega} \) does not satisfy replacement.
+
+Now, consider \( \alpha = \aleph_1 \), which is regular.
+Consider \( \mathcal P(\omega) \in V_{\omega + 2} \subseteq V_{\omega_1} \).
+There is a definable surjection from \( \mathcal P(\omega) \) to \( \omega_1 \), motivated by the proof of Hartogs' lemma.
+Indeed, subsets of \( \omega \) can encode well-orders, and every countable well-order is encoded by a subset of \( \omega \), so the map
+\[ g : A \mapsto \begin{cases}
+    \alpha & \text{if } A \text{ codes a well-order of order type } \alpha \\
+    0 & \text{otherwise}
+\end{cases} \]
+is a surjection \( \mathcal P(\omega) \to \omega_1 \).
+This class function has cofinal range in \( \omega_1 \), and so \( V_{\omega_1} \) does not satisfy replacement.
+
+We will prove that \( \mathsf{I}(\kappa) \) implies that \( V_\kappa \) models replacement.
+A set \( M \) is said to satisfy \emph{second-order replacement} \( \mathsf{SOR} \) if for every \( F : M \to M \) and every \( x \in M \), the set \( \qty{F(y) \mid y \in x} \) is in \( M \).
+Any model of \( V_\alpha \) that satisfies second-order replacement is a model of \( \mathsf{ZFC} \), as the counterexamples to replacement are special cases of violations of second-order replacement.
+
+\begin{theorem}[Zermelo]
+    If \( \kappa \) is inaccessible, then \( V_\kappa \) satisfies second-order replacement.
+\end{theorem}
+We first prove the following lemmas.
+\begin{lemma}
+    If \( \kappa \) is inaccessible and \( \lambda < \kappa \), then \( \abs{V_\kappa} < \kappa \).
+\end{lemma}
+\begin{proof}
+    This follows by induction.
+    Note \( \abs{V_0} = 0 < \kappa \).
+    If \( \abs{V_\alpha} < \kappa \), then as \( \kappa \) is a strong limit, \( \abs{V_{\alpha + 1}} = \abs{\mathcal P(V_\alpha)} = 2^{\abs{V_\alpha}} < \kappa \).
+    If \( \lambda \) is a limit and \( \abs{V_\alpha} < \kappa \) for all \( \alpha < \lambda \), then if \( \abs{V_\lambda} = \kappa \), we have written \( \kappa \) as a union of less than \( \kappa \) sets of size less than \( \kappa \), contradicting regularity.
+\end{proof}
+\begin{lemma}
+    If \( \kappa \) is inaccessible and \( x \in V_\kappa \), then \( \abs{x} < \kappa \).
+\end{lemma}
+\begin{proof}
+    Suppose \( x \in V_\kappa = \bigcup_{\alpha < \kappa} V_\alpha \).
+    Then there exists \( \alpha < \kappa \) such that \( x \in V_\alpha \).
+    Then \( x \subseteq V_\alpha \) as the \( V_\alpha \) are transitive, but then \( \abs{x} \leq \abs{V_\alpha} < \kappa \).
+\end{proof}
+We can now prove Zermelo's theorem.
+\begin{proof}
+    Let \( F : V_\kappa \to V_\kappa \), and \( x \in V_\kappa \); we must show that \( R = \qty{F(y) \mid y \in x} \in V_\kappa \).
+    By the second lemma above, \( \abs{x} < \kappa \), hence \( \abs{R} < \kappa \).
+    For each \( y \in x \), define \( \alpha_y \) to be the rank of \( F(y) \).
+    This is an ordinal less than \( \kappa \).
+    Consider \( A = \qty{\alpha_y \mid y \in x} \); its cardinality is bounded by that of \( x \), so \( \abs{A} < \kappa \).
+    But as \( \kappa \) is regular, \( \abs{A} \) is not cofinal, so there is \( \gamma < \kappa \) such that \( A \subseteq V_\gamma \).
+    By definition, \( R \subseteq V_\gamma \), so \( R \in V_{\gamma + 1} \subseteq V_\kappa \), as required.
 \end{proof}
