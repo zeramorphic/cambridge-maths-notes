@@ -146,3 +146,175 @@ we can consider
 \end{tikzcd}\]
 We could have defined projectivity by saying that this new sequence is exact.
 Note that this sequence is always a chain complex regardless if \( P \) is projective, and we always have exactness except possibly at \( \Hom_G(P, M_2) \).
+\begin{lemma}
+    Free modules are projective.
+\end{lemma}
+\begin{proof}
+    Let \( \alpha : M_1 \to M_2 \) be a surjective \( \mathbb Z G \)-map, and let \( \beta : \mathbb Z G\qty{X} \to M_2 \).
+    Then for each generator \( x \in X \), there exists some \( m_x \in M_1 \) such that \( \alpha(m_x) = \beta(x) \).
+    We then define \( \overline\beta : \mathbb Z G\qty{X} \to M_1 \) by mapping
+    \[ \sum r_x x \mapsto \sum r_x m_x \]
+    which satisfies the required equation \( \alpha \overline\beta = \beta \).
+\end{proof}
+\begin{definition}
+    A \emph{projective (free) resolution} of the trivial module \( \mathbb Z \) is an exact sequence
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCJcXGNkb3RzIl0sWzEsMCwiUF8xIl0sWzIsMCwiUF8wIl0sWzMsMCwiXFxtYXRoYmIgWiJdLFs0LDAsIjAiXSxbMCwxLCJkXzIiXSxbMSwyLCJkXzEiXSxbMiwzLCJkXzAiXSxbMyw0XV0=
+\[\begin{tikzcd}
+	\cdots & {P_1} & {P_0} & {\mathbb Z} & 0
+	\arrow["{d_2}", from=1-1, to=1-2]
+	\arrow["{d_1}", from=1-2, to=1-3]
+	\arrow["{d_0}", from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    where the \( P_i \) are projective (respectively free).
+    This is a chain complex.
+\end{definition}
+\begin{example}
+    Let \( G = \langle t \rangle \) be an infinite cyclic group.
+    Then we have a finite free resolution of \( \mathbb Z \) given by the exact sequence
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiXFxtYXRoYmIgWiBHIl0sWzIsMCwiXFxtYXRoYmIgWiBHIl0sWzMsMCwiXFxtYXRoYmIgWiJdLFs0LDAsIjAiXSxbMCwxXSxbMSwyLCJcXGNkb3QgXFwsKHQgLSAxKSJdLFsyLDMsIlxcdmFyZXBzaWxvbiJdLFszLDRdXQ==
+\[\begin{tikzcd}
+	0 & {\mathbb Z G} & {\mathbb Z G} & {\mathbb Z} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\cdot \,(t - 1)}", from=1-2, to=1-3]
+	\arrow["\varepsilon", from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    where \( \varepsilon \) is the augmentation map.
+\end{example}
+\begin{example}
+    Let \( G = \langle t \rangle \) be a cyclic group of order \( n \).
+    Then we have a resolution
+    % https://q.uiver.app/#q=WzAsOCxbMywwLCJcXG1hdGhiYiBaIEciXSxbNCwwLCJcXG1hdGhiYiBaIEciXSxbNSwwLCJcXG1hdGhiYiBaIEciXSxbNiwwLCJcXG1hdGhiYiBaIl0sWzcsMCwiMCJdLFsyLDAsIlxcbWF0aGJiIFogRyJdLFsxLDAsIlxcbWF0aGJiIFogRyJdLFswLDAsIlxcY2RvdHMiXSxbMCwxLCJcXGJldGEiXSxbMSwyLCJcXGFscGhhIl0sWzIsMywiXFx2YXJlcHNpbG9uIl0sWzMsNF0sWzUsMCwiXFxhbHBoYSJdLFs2LDUsIlxcYmV0YSJdLFs3LDZdXQ==
+\[\begin{tikzcd}
+	\cdots & {\mathbb Z G} & {\mathbb Z G} & {\mathbb Z G} & {\mathbb Z G} & {\mathbb Z G} & {\mathbb Z} & 0
+	\arrow["\beta", from=1-4, to=1-5]
+	\arrow["\alpha", from=1-5, to=1-6]
+	\arrow["\varepsilon", from=1-6, to=1-7]
+	\arrow[from=1-7, to=1-8]
+	\arrow["\alpha", from=1-3, to=1-4]
+	\arrow["\beta", from=1-2, to=1-3]
+	\arrow[from=1-1, to=1-2]
+\end{tikzcd}\]
+    where
+    \[ \alpha(x) = x(t-1);\quad \beta(x) = x(1 + t + \dots + t^{n-1}) \]
+\end{example}
+From algebraic topology, if we have a connected simplicial complex \( X \) with fundamental group \( \pi_1(X) = G \), such that the universal cover \( \widetilde X \) is contractible, we obtain a free resolution of \( \mathbb Z \) given by the universal cover.
+In this way, the simplicial complex \( X \) contains a lot of information about its fundamental group; this is what we aim to replicate algebraically.
+
+For calculation purposes, we are interested in `small' resolutions, for instance where the free modules have small rank.
+However, for theory development, we often want general constructions, and resolutions given by generic theory tend to be large.
+\begin{definition}
+    \( G \) is of \emph{type \( FP_n \)} if \( \mathbb Z \) has a projective resolution
+    \[\begin{tikzcd}
+        \cdots & {P_1} & {P_0} & {\mathbb Z} & 0
+        \arrow["{d_2}", from=1-1, to=1-2]
+        \arrow["{d_1}", from=1-2, to=1-3]
+        \arrow["{d_0}", from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5]
+    \end{tikzcd}\]
+    which may be infinite, but where \( P_n, P_{n-1}, \dots, P_0 \) are finitely generated as \( \mathbb Z G \)-modules.
+
+    We say \( G \) is of \emph{type \( FP_\infty \)} if \( \mathbb Z \) has a projective resolution where all of the \( P_i \) are finitely generated as \( \mathbb Z G \)-modules.
+    Finally, \( G \) is of \emph{type \( FP \)} if \( \mathbb Z \) has a projective resolution where all of the \( P_i \) are finitely generated as \( \mathbb Z G \)-modules, and the resolution is of finite length, so \( P_s = 0 \) for sufficiently large \( s \).
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item Let \( G = \langle t \rangle \) be the infinite cyclic group.
+        Then \( G \) is of type \( FP \).
+        \item Let \( G = \langle t \rangle \) be a finite cyclic group.
+        Then \( G \) is of type \( FP_\infty \); we will show later that it is not of type \( FP \).
+    \end{enumerate}
+\end{example}
+These can be regarded as finiteness conditions on the group \( G \).
+The topological version of \( FP_n \) would be that a simplicial complex \( X \) with fundamental group \( G \) has a finite \( n \)-skeleton.
+
+\subsection{???}
+Consider a partial projective resolution
+% https://q.uiver.app/#q=WzAsNyxbMCwwLCJQX3MiXSxbMSwwLCJQX3tzLTF9Il0sWzIsMCwiXFxjZG90cyJdLFszLDAsIlBfMSJdLFs0LDAsIlBfMCJdLFs1LDAsIlxcbWF0aGJiIFoiXSxbNiwwLCIwIl0sWzAsMV0sWzEsMl0sWzIsM10sWzMsNF0sWzQsNV0sWzUsNl1d
+\[\begin{tikzcd}
+	{P_s} & {P_{s-1}} & \cdots & {P_1} & {P_0} & {\mathbb Z} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+	\arrow[from=1-5, to=1-6]
+	\arrow[from=1-6, to=1-7]
+\end{tikzcd}\]
+Then we can set \( P_{s+1} \) to be the free module \( \mathbb Z G\qty{X_{s+1}} \) where \( X_{s+1} \) is the kernel of \( d_s \).
+We can then set \( d_{s+1} \) to be
+\[ \underbrace{\sum r_x x}_{\in P_{s+1}} \mapsto \underbrace{\sum r_x x}_{\in P_s} \]
+where the left-hand side is a formal sum, and the right-hand sum takes place in \( P_s \).
+We thus obtain a longer partial projective resolution
+% https://q.uiver.app/#q=WzAsOCxbMSwwLCJQX3MiXSxbMiwwLCJQX3tzLTF9Il0sWzMsMCwiXFxjZG90cyJdLFs0LDAsIlBfMSJdLFs1LDAsIlBfMCJdLFs2LDAsIlxcbWF0aGJiIFoiXSxbNywwLCIwIl0sWzAsMCwiUF97cysxfSJdLFswLDFdLFsxLDJdLFsyLDNdLFszLDRdLFs0LDVdLFs1LDZdLFs3LDAsImRfe3MrMX0iXV0=
+\[\begin{tikzcd}
+	{P_{s+1}} & {P_s} & {P_{s-1}} & \cdots & {P_1} & {P_0} & {\mathbb Z} & 0
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+	\arrow[from=1-5, to=1-6]
+	\arrow[from=1-6, to=1-7]
+	\arrow[from=1-7, to=1-8]
+	\arrow["{d_{s+1}}", from=1-1, to=1-2]
+\end{tikzcd}\]
+since exactness holds at \( P_s \) by construction.
+We could alternatively take \( X_{s+1} \) to be a \( \mathbb Z G \)-generating set of \( \ker d_s \); this would have the effect of reducing the size of \( P_{s+1} \), which is most useful in direct calculation if \( \ker d_s \) is finitely generated.
+Continuing in this way, we obtain a resolution of \( \mathbb Z \).
+\begin{definition}
+    The \emph{standard} or \emph{bar} resolution of \( \mathbb Z \) is constructed as follows.
+    Let \( G^{(n)} \) be the set of formal symbols
+    \[ G^{(n)} = \qty{[g_1 | \dots | g_n] \mid g_1, \dots, g_n \in G} \]
+    where \( G^{(0)} \) is the set containing only the empty symbol \( [] \).
+    Let \( F_n = \mathbb Z G \qty{G^{(n)}} \) be the corresponding free modules.
+    We define the boundary maps \( d_n : F_n \to F_{n-1} \) by
+    \begin{align*}
+        d_n([g_1 | \dots | g_n]) &= g_1[g_2 | \dots | g_n] \\
+        &- [g_1 g_2 | g_3 | \dots | g_n] \\
+        &+ [g_1 | g_2 g_3 | \dots | g_n] - \dots \\
+        &+ (-1)^{n-1} [g_1 | \dots | g_{n-1} g_n] \\
+        &+ (-1)^n [g_1 | \dots | g_{n-1}]
+    \end{align*}
+    One can verify explicitly that there are chain maps as required, giving a free resolution
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGNkb3RzIl0sWzEsMCwiRl8xIl0sWzIsMCwiRl8wIl0sWzMsMCwiXFxtYXRoYmIgWiJdLFswLDFdLFsxLDJdLFsyLDNdXQ==
+\[\begin{tikzcd}
+	\cdots & {F_1} & {F_0} & {\mathbb Z}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+\end{tikzcd}\]
+\end{definition}
+\begin{remark}
+    The bar resolution corresponds to the standard resolution in algebraic topology.
+    Consider the free abelian group \( \mathbb Z G^{n+1} \) generated by the \( (n + 1) \)-tuples with elements in \( G \).
+    Then \( G \) acts on \( G^{n+1} \) diagonally:
+    \[ g(g_0, \dots, g_n) = (gg_0, \dots, gg_n) \]
+    Thus \( \mathbb Z G^{n+1} \) is a free \( \mathbb Z G \)-module on the basis of \( (n + 1) \)-tuples with first element \( 1 \).
+    The symbol \( [g_1 | \dots | g_n] \) corresponds to the \( (n + 1) \)-tuple
+    \[ (1, g_1, g_1 g_2, \dots, g_1 \dots g_n) \]
+    Removing the first entry gives
+    \[ g_1 (1, g_2, g_2 g_3, \dots, g_2 \dots g_n) \]
+    and removing the second entry gives
+    \[ (1, g_1 g_2, \dots, g_1 \dots g_n) \]
+\end{remark}
+\begin{lemma}
+    The bar resolution is exact.
+\end{lemma}
+\begin{proof}
+    We will just consider the \( d_n \) as maps of abelian groups.
+    \( F_n \) has basis \( G \times G^{(n)} \) as a free abelian group.
+    \[ G \times G^{(n)} = \qty{g_0 [g_1 | \dots | g_n] \mid g_0, \dots, g_n \in G} \]
+    We define \( \mathbb Z \)-maps \( s_n : F_n \to F_{n+1} \) such that
+    \[ \id_{F_n} = d_{n+1} s_n + s_{n-1} d_n \]
+    by
+    \[ s_n(g_0[g_1 | \dots | g_n]) = [g_0 | g_1 | \dots | g_n] \]
+    This is not a \( \mathbb Z G \)-map.
+    One can check that the required equation holds.
+    If \( x \in \ker d_n \), then
+    \[ x = \id x = d_{n+1} s_n(x) + s_{n-1} d_n(x) = d_{n+1} s_n(x) \in \im d_{n+1} \]
+\end{proof}
+\begin{corollary}
+    Any finite group is of type \( FP_\infty \).
+\end{corollary}
+\begin{proof}
+    The bar resolution gives a suitable resolution.
+\end{proof}
