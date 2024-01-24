@@ -237,9 +237,145 @@ That is, \( \Delta_0 \) is the class of formulas generated from atomic formulas 
     We define \( \Pi_n^T \) analogously.
     A formula is in \( \Delta_n^T \) if there exists \( \psi \in \Sigma_n \) and \( \theta \in \Pi_n \) such that \( T \vdash \varphi \leftrightarrow \psi \) and \( T \vdash \varphi \leftrightarrow \theta \).
 \end{definition}
+Note that \( \Delta_n \) only makes much sense with respect to some theory \( T \) for \( n > 0 \).
 \begin{lemma}
     If \( \varphi \) and \( \psi \) are in \( \Sigma_n^{\mathsf{ZF}} \), then so are
     \[ \exists v.\, \varphi;\quad \varphi \vee \psi;\quad \varphi \wedge \psi;\quad \exists v_i \in v_j.\, \varphi;\quad \forall v_i \in v_j.\, \varphi \]
     If \( \varphi \) is in \( \Sigma_n^{\mathsf{ZF}} \), then \( \neg\varphi \) is in \( \Pi_n^{\mathsf{ZF}} \).
     Further, for every \( \varphi \), there exists \( n \) such that \( \varphi \) is in \( \Sigma_n^{\mathsf{ZF}} \), and if \( \varphi \) is in \( \Sigma_n^{\mathsf{ZF}} \), then \( \varphi \) is in \( \Sigma_m^{\mathsf{ZF}} \) for all \( m \geq n \).
 \end{lemma}
+\begin{remark}
+    \( \exists x_1.\, \forall x_2.\, \exists x_3.\, \forall y.\, (y \in v \to v \neq v) \) is \( \Sigma_4 \), but is logically equivalent to the statement \( \forall y \in v.\, v \neq v \), which is \( \Sigma_0 \).
+    The fact that \( \Sigma_n^{\mathsf{ZF}} \) is closed under bounded quantification depends on the axiom of collection.
+    In particular, in Zermelo set theory, there is a \( \Sigma_1^{\mathsf{Z}} \) formula \( \varphi \) such that \( \forall x \in a.\, \varphi \) is not \( \Sigma_1^{\mathsf{Z}} \).
+    In intuitionistic logic, these classes are very badly behaved; for instance, we could have a \( \Sigma_1^T \) formula \( \varphi \) such that \( \neg\varphi \) is not \( \Pi_1^T \).
+    % TODO: Isn't this the other way round?
+\end{remark}
+We can now show absoluteness for \( \Delta_0 \) formulas between transitive models.
+\begin{theorem}
+    Let \( M \) be transitive in \( N \) and \( M \subseteq N \), and let \( \varphi(\vb u) \) be a \( \Delta_0 \)-formula.
+    Then, for any \( \vb a \in M \),
+    \[ M \vDash \varphi(\vb a) \text{ if and only if } N \vDash \varphi(\vb a) \]
+\end{theorem}
+\begin{proof}
+    We prove this by induction on the class \( \Delta_0 \).
+    The cases of atomic formulas and propositional connectives are immediate, so it suffices to show the result for \( \exists x \in a.\, \varphi \) where \( \varphi \) is absolute between \( M \) and \( N \).
+    Suppose \( M \vDash \exists x \in a.\, \varphi(x) \), so there exists \( b \in M \) such that \( M \vDash b \in a \wedge \varphi(b) \).
+    Then we also have \( N \vDash b \in a \wedge \varphi(b) \) by absoluteness of \( \varphi \), as required.
+    Conversely, suppose \( N \vDash \exists x \in a.\, \varphi(x) \), so there exists \( b \in N \) such that \( N \vDash b \in a \wedge \varphi(b) \).
+    Since \( M \) is transitive in \( N \), we obtain \( b \in M \), so \( M \vDash b \in a \wedge \varphi(b) \) by absoluteness of \( \varphi \).
+    % TODO: remark on dropping parameters
+\end{proof}
+\begin{proposition}
+    The following are \( \Delta_0^{\mathsf{ZF}} \), and therefore absolute between transitive models.
+    \begin{enumerate}
+        \item \( x \subseteq y \);
+        \item \( a = \qty{x, y} \) (the unordered pair);
+        \item \( a = \langle x, y \rangle \) (the ordered pair);
+        \item \( a = x \times y \);
+        \item \( a = \bigcup b \);
+        \item \( a \) is a transitive set;
+        \item \( x = \varnothing \);
+        \item \( r \) is a relation;
+        \item \( r \) is a function;
+        \item \( r \) is a relation with domain \( a \) and range \( b \);
+        \item \( x \) is the pointwise image of \( r \) on \( a \), denoted \( r '' a = \qty{y \mid \exists x \in a.\, \langle x, y \rangle \in r} \);
+        \item \( \eval{r}_a \).
+    \end{enumerate}
+\end{proposition}
+\begin{remark}
+    The following are not absolute between transitive models, and thus not \( \Delta_0^{\mathsf{ZF}} \).
+    \begin{enumerate}
+        \item the cofinality function \( \alpha \mapsto \cf(\alpha) \);
+        \item being a cardinal;
+        \item \( \omega_1 \);
+        \item \( y = \mathcal P(x) \).
+    \end{enumerate}
+\end{remark}
+\begin{lemma}
+    The statement that a given set \( a \) is finite is \( \Delta_1^{\mathsf{ZF}} \).
+\end{lemma}
+\begin{proposition}
+    Let \( M \) be transitive in \( N \) and \( M \subseteq N \).
+    Then \( \Sigma_1 \) formulas are upwards absolute between \( M \) and \( N \), and \( \Pi_1 \) formulas are downwards absolute between \( M \) and \( N \).
+\end{proposition}
+\begin{corollary}
+    \( \Delta_1^{\mathsf{ZF}} \) formulas are absolute between transitive models.
+\end{corollary}
+\begin{lemma}
+    (\( \mathsf{ZF} \))
+    The statement that \( \alpha \) is an ordinal is absolute.
+\end{lemma}
+\begin{proof}
+    First, note that \( \alpha \) is an ordinal in \( \mathsf{ZF} \) if and only if it is a transitive set of transitive sets.
+    This can be written as
+    \[ (\forall \beta \in \alpha.\, \forall \gamma \in \beta.\, \gamma \in \alpha) \wedge (\forall \beta \in \alpha.\, \forall \gamma \in \beta.\, \forall \delta \in \gamma.\, \delta \in \beta) \]
+    which is \( \Delta_0 \), as required.
+\end{proof}
+We can give a slightly better rephrasing of this lemma.
+\begin{lemma}
+    The statement that \( r \) is a strict total ordering of \( a \) is \( \Delta_0 \).
+\end{lemma}
+\begin{proof}
+    The statement that \( r \) is a transitive relation on \( a \) is that
+    \[ \forall x y z \in a.\, (\langle x, y \rangle \in r \wedge \langle y, z \rangle \in r \to \langle x, z \rangle \in r) \]
+    Trichotomy is
+    \[ \forall x y \in a.\, (\langle x, y \rangle \in r \vee \langle y, x \rangle \in r \vee x = y) \]
+    Irreflexivity is
+    \[ \forall x \in a.\, \langle x, x \rangle \notin r \]
+\end{proof}
+\begin{corollary}
+    The statement that \( x \) is a transitive set totally ordered by \( \in \) is \( \Delta_0 \), and thus ordinals are in fact \( \Delta_0 \).
+\end{corollary}
+\begin{lemma}
+    (\( \mathsf{ZF} \))
+    The statement that \( r \) is well-founded on \( a \) is \( \Delta_1^{\mathsf{ZF}} \).
+\end{lemma}
+\begin{proof}
+    The \( \Pi_1 \) formula is
+    \[ r \text{ is a relation on } a \wedge \qty[\forall X.\,(\exists x \in X.\, (z = z) \wedge X \subseteq a) \to \exists x \in X.\, \forall y \in X.\, \langle y, z \rangle \notin r] \]
+    For the \( \Sigma_1 \) formula, we first show that a relation is well-founded on \( a \) if and only if there exists a function \( a \to \mathrm{Ord} \) such that \( \langle y, x \rangle \in r \) implies \( f(y) \in f(x) \).
+    Suppose \( r \) is well-founded; we then define \( f : a \to \mathrm{Ord} \) by \( f(x) = \sup\qty{f(y) + 1 \mid \langle y, x \rangle \in r} \), and one can show that this satisfies the required property.
+    For the other direction, let \( X \subseteq a \) be a nonempty subset, and consider the pointwise image \( f''X \).
+    This has a minimal element \( \alpha \), then for any \( z \in X \), if \( f(z) = \alpha \) then for all \( y \in X \), we have \( f(y) \geq \alpha \), so \( \langle y, z \rangle \notin r \).
+    We then define well-foundedness with a \( \Sigma_1 \) formula as follows.
+    \[ \exists f.\, \qty(f \text{ is a function} \wedge \forall u \in \operatorname{ran} f.\, (u \in \mathrm{Ord}) \wedge \forall x y \in a.\, (\langle y, x \rangle \in r \to f(y) \in f(x))) \]
+\end{proof}
+\begin{proposition}
+    The following are \( \Delta_0^{\mathsf{ZF}} \).
+    \begin{enumerate}
+        \item \( x \) is a limit ordinal;
+        \item \( x \) is a successor ordinal;
+        \item \( x \) is a finite ordinal;
+        \item \( x = \omega \);
+        \item \( x = n \) for any finite ordinal \( n \).
+    \end{enumerate}
+\end{proposition}
+\begin{proposition}
+    The following are \( \Pi_1^{\mathsf{ZF}} \) and hence downwards absolute between transitive models.
+    \begin{enumerate}
+        \item \( \kappa \) is a cardinal;
+        \item \( \kappa \) is regular;
+        \item \( \kappa \) is a limit cardinal;
+        \item \( \kappa \) is a strong limit cardinal.
+    \end{enumerate}
+\end{proposition}
+\begin{lemma}
+    (\( \mathsf{ZF} \))
+    % TODO: comment on what this annotation means
+    Let \( W \) be a nonempty transitive class.
+    Then the axioms of extensionality, empty set, and foundation all hold in \( W \).
+\end{lemma}
+\begin{proof}
+    For extensionality, the relativisation of
+    \[ \forall x.\, \forall y.\, (\forall z.\, (z \in x \leftrightarrow x \in y) \to x = y) \]
+    to \( W \) is
+    \[ \forall x \in W.\, \forall y \in W.\, (\forall z \in W.\, (z \in x \leftrightarrow x \in y) \to x = y) \]
+    Suppose \( x \in W, y \in W \), but \( x \neq y \).
+    Then by extensionality in the metatheory, without loss of generality we can fix \( z \in x \) with \( z \notin y \).
+    But since \( W \) is transitive, we must have \( z \in W \), contradicting \( x = y \), as required.
+
+    As \( W \) is nonempty, we can use foundation to fix \( x \in W \) such that \( x \cap W = \varnothing \).
+    Since \( W \) is transitive, \( x \subseteq W \), and therefore \( x = \varnothing \in W \).
+    Moreover, the statement that \( x = \varnothing \) is \( \Delta_0 \) and therefore absolute.
+\end{proof}
