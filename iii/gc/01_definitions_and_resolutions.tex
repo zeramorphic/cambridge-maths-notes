@@ -318,3 +318,149 @@ Continuing in this way, we obtain a resolution of \( \mathbb Z \).
 \begin{proof}
     The bar resolution gives a suitable resolution.
 \end{proof}
+
+\subsection{Cohomology}
+\begin{definition}
+    Consider a projective resolution
+    % https://q.uiver.app/#q=WzAsOCxbMCwwLCJcXGNkb3RzIl0sWzEsMCwiUF97bisxfSJdLFsyLDAsIlBfbiJdLFszLDAsIlxcY2RvdHMiXSxbNCwwLCJQXzEiXSxbNSwwLCJQXzAiXSxbNiwwLCJcXG1hdGhiYiBaIl0sWzcsMCwiMCJdLFswLDFdLFsxLDJdLFsyLDNdLFszLDRdLFs0LDVdLFs1LDZdLFs2LDddXQ==
+\[\begin{tikzcd}
+	\cdots & {P_{n+1}} & {P_n} & \cdots & {P_1} & {P_0} & {\mathbb Z} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+	\arrow[from=1-5, to=1-6]
+	\arrow[from=1-6, to=1-7]
+	\arrow[from=1-7, to=1-8]
+\end{tikzcd}\]
+    of \( \mathbb Z \) by \( \mathbb Z G \)-modules.
+    Let \( M \) be a (left) \( \mathbb Z G \)-module.
+    Applying \( \Hom_G(-,M) \), we obtain a sequence
+    % https://q.uiver.app/#q=WzAsNixbMCwwLCJcXGNkb3RzIl0sWzEsMCwiXFxIb21fRyhQX3tuKzF9LE0pIl0sWzIsMCwiXFxIb21fRyhQX24sTSkiXSxbMywwLCJcXGNkb3RzIl0sWzQsMCwiXFxIb21fRyhQXzEsTSkiXSxbNSwwLCJcXEhvbV9HKFBfMCxNKSJdLFsxLDBdLFsyLDFdLFszLDJdLFs0LDNdLFs1LDQsImReMSIsMl1d
+\[\begin{tikzcd}
+	\cdots & {\Hom_G(P_{n+1},M)} & {\Hom_G(P_n,M)} & \cdots & {\Hom_G(P_1,M)} & {\Hom_G(P_0,M)}
+	\arrow[from=1-2, to=1-1]
+	\arrow[from=1-3, to=1-2]
+	\arrow[from=1-4, to=1-3]
+	\arrow[from=1-5, to=1-4]
+	\arrow["{d^1}"', from=1-6, to=1-5]
+\end{tikzcd}\]
+    where \( d^n = d_n^\star \).
+    Then the \emph{\( n \)th cohomology group} \( H^n(G, M) \) with coefficients in \( M \) is
+    \[ H^n(G, M) = {\ker d^{n+1}}{\im d^n};\quad H^0(G, M) = \ker d^1 \]
+\end{definition}
+\begin{remark}
+    We have removed the \( \mathbb Z \) term in the \( \Hom_G(-, M) \) sequence.
+    These cohomology groups are the homology groups of a chain complex \( C_n = \Hom_G(P_{-n}, M) \) for \( n \leq 0 \).
+    We will show that these cohomology groups are independent of the choice of projective resolution.
+\end{remark}
+\begin{example}
+    Let \( G = \langle t \rangle \) be an infinite cyclic group.
+    We have a projective resolution
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiXFxtYXRoYmIgWiBHIl0sWzIsMCwiXFxtYXRoYmIgWiBHIl0sWzMsMCwiXFxtYXRoYmIgWiJdLFs0LDAsIjAiXSxbMCwxXSxbMSwyLCJcXGNkb3RcXCwodC0xKSJdLFsyLDNdLFszLDRdXQ==
+\[\begin{tikzcd}
+	0 & {\mathbb Z G} & {\mathbb Z G} & {\mathbb Z} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\cdot\,(t-1)}", from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    For \( \varphi \in \Hom_G(\mathbb Z G, M) \) and \( x \in \mathbb Z G \),
+    \[ d^1(\varphi)(x) = \varphi(d_1(x)) = \varphi(x(t-1)) \]
+    Recall that we have an isomorphism \( i : \Hom_G(\mathbb Z G, M) \cong M \) by \( \theta \mapsto \theta(1) \).
+    In particular,
+    \[ d^1(\varphi) \mapsto d^1(\varphi)(1) = \varphi(t-1) = (t - 1)\varphi(1) = (t - 1) i(\varphi) \]
+    We thus obtain
+    % https://q.uiver.app/#q=WzAsMyxbMiwwLCJNIl0sWzEsMCwiTSJdLFswLDAsIjAiXSxbMCwxLCJcXGFscGhhIiwyXSxbMSwyXV0=
+\[\begin{tikzcd}
+	0 & M & M
+	\arrow["\alpha"', from=1-3, to=1-2]
+	\arrow[from=1-2, to=1-1]
+\end{tikzcd}\]
+    where \( \alpha \) is multiplication on the left by \( t - 1 \).
+    Therefore, the cohomology groups are
+    \[ H^0(G, M) = \qty{m \in M \mid tm = m} = M^G;\quad H^1(G, M) = \faktor{M}{(t-1)M} = M_G;\quad H^n(G, M) = 0 \text{ for } n \neq 0, 1 \]
+    Note that the group of invariants \( M^G \) is the largest submodule with trivial \( G \)-action, and the group of coinvariants \( M_G \) is the largest quotient module with trivial \( G \)-action.
+\end{example}
+\begin{remark}
+    It is generally true that \( H^0(G, M) = M^G \), but in general \( H^1(G, M) = M_G \) does not hold.
+    In general, \( M_G \) is the \( 0 \)th homology group, which will be discussed later.
+    Note that for any group of type \( FP \), the cohomology groups vanish for all but finitely many indices \( n \).
+\end{remark}
+\begin{definition}
+    \( G \) is of \emph{cohomological dimension \( m \)} over \( \mathbb Z \) if there exists some \( \mathbb Z G \)-module \( M \) with \( H^m(G, M) \neq 0 \) but \( H^n(G, M_1) = 0 \) for all \( n > m \) and all \( \mathbb Z G \)-modules \( M_1 \).
+\end{definition}
+\begin{remark}
+    For all \( G \), we have \( H^0(G, \mathbb Z) = \mathbb Z \neq 0 \) so all groups have dimension at least zero.
+\end{remark}
+\begin{example}
+    Infinite cyclic groups have cohomological dimension 1 over \( \mathbb Z \).
+    One can show that if \( G \) is a free group of finite rank, then it is also of cohomological dimension 1 over \( \mathbb Z \).
+    Stallings showed in 1968 that the converse is true: a finitely generated group of cohomological dimension 1 is free.
+    Swan strengthened this in 1969 by removing the assumption of finite generation.
+\end{example}
+We now consider the bar resolution in our definition of cohomology.
+Note that
+\[ \Hom_G(\mathbb Z G \qty{G^{(n)}}, M) \cong C^n(G, M) \]
+where \( C^n(G, M) \) is the set of functions \( G^{(n)} \to M \), since a \( \mathbb Z G \)-map is determined by its action on a basis.
+Moreover, \( C^n(G, M) \) corresponds to the set of functions \( G^n \to M \).
+For \( n = 0 \), note that \( C^0(G, M) \) is the set of functions \( G^0 \to M \) which bijects with \( M \).
+\begin{definition}
+    The abelian group of \emph{\( n \)-cochains} of \( G \) with coefficients in \( M \) is \( C^n(G, M) \).
+    The \emph{\( n \)th coboundary map} \( d^n : C^{n-1}(G, M) \to C^n(G, M) \) is dual to the \( d_n \) from the bar resolution:
+    \begin{align*}
+        d^n(\varphi)(g_1, \dots, g_n) &= g_1 \varphi(g_2, \dots, g_n) \\
+        &- \varphi(g_1 g_2, g_3, \dots, g_n) \\
+        &+ \varphi(g_1, g_2 g_3, \dots, g_n) - \cdots \\
+        &+ (-1)^{n-1} \varphi(g_1, g_2, \dots, g_{n-1} g_n) \\
+        &+ (-1)^n \varphi(g_1, g_2, \dots, g_{n-1})
+    \end{align*}
+    The group of \emph{\( n \)-cocycles} is \( Z^n(G, M) = \ker d^{n+1} \leq C^n(G, M) \).
+    The group of \emph{\( n \)-coboundaries} is \( B^n(G, M) = \im d^n \leq C^n(G, M) \).
+    Thus the \( n \)th cohomology group is
+    \[ H^n(G, M) = \faktor{Z^n(G, M)}{B^n(G, M)} \]
+\end{definition}
+\begin{corollary}
+    \( H^0(G, M) = M^G \) for all \( G \).
+\end{corollary}
+\begin{definition}
+    A \emph{derivation} of \( G \) with coefficients in \( M \) is a function \( \varphi : G \to M \) such that \( \varphi(gh) = g \varphi(h) + \varphi(g) \).
+\end{definition}
+Note that \( Z^1(G, M) \) is exactly the set of derivations of \( G \) with coefficients in \( M \), so a derivation is precisely a 1-cocycle.
+\begin{definition}
+    An \emph{inner derivation} of \( G \) with coefficients in \( M \) is a function \( \varphi : G \to M \) of the form \( \varphi(g) = gm - m \) for a fixed \( m \in M \).
+\end{definition}
+Such maps are derivations.
+\begin{corollary}
+    \( H^1(G, M) \) is the group of derivations modulo the inner derivations.
+    In particular, if \( M \) is a trivial \( \mathbb Z G \)-module, then
+    \[ H^1(G, M) = \qty{\text{group homomorphisms } G \to M} \]
+    treating \( M \) as an abelian group under addition.
+\end{corollary}
+
+\subsection{Independence of cohomology groups}
+We now prove that cohomology groups are independent of the choice of resolution.
+\begin{definition}
+    Let \( (A_n, \alpha_n), (B_n, \beta_n) \) be chain complexes of \( \mathbb Z G \)-modules.
+    A \emph{chain map} \( (f_n) \) is a sequence of \( \mathbb Z G \)-maps \( f_n : A_n \to B_n \) such that the following diagram commutes.
+    % https://q.uiver.app/#q=WzAsMTAsWzAsMCwiXFxjZG90cyJdLFsxLDAsIkFfbiJdLFsyLDAsIkFfe24tMX0iXSxbMCwxLCJcXGNkb3RzIl0sWzEsMSwiQl9uIl0sWzIsMSwiQl97bi0xfSJdLFszLDEsIkJfe24tMn0iXSxbNCwxLCJcXGNkb3RzIl0sWzMsMCwiQV97bi0yfSJdLFs0LDAsIlxcY2RvdHMiXSxbMCwxXSxbMSwyLCJcXGFscGhhX24iXSxbMyw0XSxbNCw1LCJcXGJldGFfbiIsMl0sWzEsNCwiZl9uIl0sWzIsNSwiZl97bi0xfSJdLFs1LDYsIlxcYmV0YV97bi0xfSIsMl0sWzYsN10sWzIsOCwiXFxhbHBoYV97bi0xfSJdLFs4LDldLFs4LDYsImZfe24tMn0iXV0=
+\[\begin{tikzcd}
+	\cdots & {A_n} & {A_{n-1}} & {A_{n-2}} & \cdots \\
+	\cdots & {B_n} & {B_{n-1}} & {B_{n-2}} & \cdots
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\alpha_n}", from=1-2, to=1-3]
+	\arrow[from=2-1, to=2-2]
+	\arrow["{\beta_n}"', from=2-2, to=2-3]
+	\arrow["{f_n}", from=1-2, to=2-2]
+	\arrow["{f_{n-1}}", from=1-3, to=2-3]
+	\arrow["{\beta_{n-1}}"', from=2-3, to=2-4]
+	\arrow[from=2-4, to=2-5]
+	\arrow["{\alpha_{n-1}}", from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+	\arrow["{f_{n-2}}", from=1-4, to=2-4]
+\end{tikzcd}\]
+\end{definition}
+\begin{lemma}
+    A chain map \( (f_n) \) as above induces a map on homology groups
+    \[ f_\star : H_n(A_\bullet) \to H_n(B_\bullet) \]
+\end{lemma}
