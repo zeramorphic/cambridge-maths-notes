@@ -170,3 +170,81 @@ We can now prove Zermelo's theorem.
     But as \( \kappa \) is regular, \( \abs{A} \) is not cofinal, so there is \( \gamma < \kappa \) such that \( A \subseteq V_\gamma \).
     By definition, \( R \subseteq V_\gamma \), so \( R \in V_{\gamma + 1} \subseteq V_\kappa \), as required.
 \end{proof}
+The definition of inacessibility is precisely what is needed for this proof to work.
+The following converse holds.
+\begin{theorem}[Shepherdson]
+    If \( V_\kappa \) satisfies second-order replacement, then \( \kappa \) is inaccessible.
+\end{theorem}
+\begin{proof}
+    Suppose \( \kappa \) is not inaccessible, so either \( \kappa \) is singular or there is \( \lambda < \kappa \) such that \( 2^\lambda \geq \kappa \).
+    If \( \kappa \) is singular, then \( \kappa = \bigcup_{\alpha < \lambda} \kappa_\alpha \) for \( \lambda < \kappa \) and \( \kappa_\alpha < \kappa \).
+    Consider \( C = \qty{\kappa_\alpha \mid \alpha < \lambda} \); this set is cofinal in \( \kappa \), but the cardinality of \( C \) is \( \lambda \).
+    Therefore, \( C \notin V_\kappa \).
+    We simply take the function \( F : \alpha \mapsto \kappa_\alpha \), then the image of \( \lambda \) under \( F \) is \( C \notin V_\kappa \), so \( F \) witnesses that \( V_\kappa \) violates second-order replacement.
+
+    Suppose there is \( \lambda < \kappa \) such that \( 2^\lambda \geq \kappa \).
+    Let \( F : \mathcal P(\lambda) \to \kappa \) be a surjection.
+    Since \( \lambda < \kappa \), we must have \( \mathcal P(\lambda) \in V_{\lambda + 2} \subseteq V_\kappa \).
+    Then the image of \( \mathcal P(\lambda) \) under \( F \) is \( \kappa \notin V_\kappa \) as required.
+\end{proof}
+However, it is not generally the case that if \( V_\kappa \vDash \mathsf{ZFC} \) then \( \kappa \) is inaccessible.
+Moreover, the existence of an inaccessible cardinal is strictly stronger than the consistency of \( \mathsf{ZFC} \).
+We will show this second statement first.
+
+Suppose \( \kappa \) is inaccessible, so \( V_\kappa \vDash \mathsf{ZFC} \).
+A standard model-theoretic argument shows there is a countable elementary substructure \( (N, \in) \preceq (V_\kappa, \in) \).
+In particular, \( (N, \in) \vDash \mathsf{ZFC} \).
+The proof of the downwards L\"owenheim--Skolem theorem is a Skolem hull construction, given by
+\[ N_0 = \varnothing;\quad N_{k+1} = N_k \cup W(N_k);\quad N = \bigcup_{k \in \mathbb N} N_k \]
+where \( W(N_k) \) is a set of witnesses for all formulas of the form \( \exists x.\, \varphi \) with parameters in \( N_k \).
+The fact that this is an elementary substructure follows from the Tarski--Vaught test.
+We will now explore this model in more detail.
+
+If \( n \in \omega \), there is a formula \( \varphi_n \) such that \( V_\kappa \vDash \varphi_n(x) \) if and only if \( x = n \).
+Clearly, the formula \( \exists x.\, \varphi_n(x) \) has precisely one witness, so \( \omega \subseteq N_1 \).
+Similarly, there are formulas \( \varphi_\omega, \varphi_{\omega + \omega}, \varphi_{\omega \cdot 3} \) and so on.
+There is also a formula \( \varphi_{\omega_1} \) such that \( x = \omega_1 \) if and only if \( V_\kappa \vDash \varphi_{\omega_1}(x) \).
+As before, because there is a unique witness to this formula in \( V_\kappa \), we must have \( \omega_1 \in N_1 \).
+But since the model \( N \) is countable, there must be a gap in the ordinals at some point below \( \omega_1 \).
+By the same argument, the model contains \( \omega_2, \omega_3 \) and so on.
+Therefore, \( N \) is a nontransitive model.
+
+As \( (N, \in) \) is well-founded and extensional, by Mostowski's collapsing theorem there is a unique transitive \( M \) such that \( (M, \in) \cong (N, \in) \).
+This fills all of the gaps in our model.
+As this is an isomorphism, we obtain \( (M, \in) \preceq (N, \in) \preceq (V_\kappa, \in) \), so \( (M, \in) \) is a countable transitive model of \( \mathsf{ZFC} \).
+In particular, its height \( \alpha = \mathrm{Ord} \cap M \) is a countable ordinal.
+There is an elementary embedding of \( M \) into \( V_\kappa \) given by the inverse of the Mostowski collapse.
+In particular, some \( \beta < \alpha \) has the property that \( M \vDash \varphi_{\omega_1}(\beta) \).
+
+Therefore, the property `\( x \) is a cardinal' cannot be an \emph{absolute} property between \( M \) and \( V_\kappa \); the property holds in \( M \) precisely if it holds in \( V_\kappa \), where parameters are allowed to take values in the smaller structure \( M \).
+If the truth of the property in the smaller structure implies the truth in the larger structure, we say the property is \emph{upwards absolute}; conversely, if truth in the larger structure implies truth in the smaller one, we say the property is \emph{downwards absolute}.
+The theory of absoluteness concerns the following classes of formulas, among others.
+\begin{enumerate}
+    \item \( \Delta_0 \) formulas, in which only bounded quantifiers are permitted, for example in \( \mathsf{ZFC} \), `\( x \) is an ordinal', `\( f \) is a function', `\( x \) is a subset of \( y \)', `\( x \) is \( \omega \)'.
+    \item \( \Sigma_1 \) formulas, which are \( \Delta_0 \) formulas surrounded by a single existential quantifier.
+    \item \( \Pi_1 \) formulas, which are \( \Delta_0 \) formulas surrounded by a single universal quantifier, for example `\( x \) is a cardinal' or `\( x \) is the power set of \( y \)'.
+\end{enumerate}
+One can show that \( \Delta_0 \) formulas are absolute between transitive models.
+Further, \( \Sigma_1 \) formulas are upwards absolute and \( \Pi_1 \) formulas are downwards absolute.
+The example above shows that `\( x \) is a cardinal' cannot be \( \Delta_0 \) as it is not upwards absolute.
+Similarly, `\( x \) is the power set of \( y \)' cannot be \( \Delta_0 \), because the object \( p \) that \( M \) believes is the power set of \( \omega \) must be countable, and so cannot be the real power set in \( V_\kappa \).
+As being a subset is absolute, this object \( p \) must consist of subsets of \( \omega \), but must only contain very few of them.
+
+As being \( \omega \) is \( \Delta_0 \), in fact all arithmetical statements (and therefore, by encoding, all syntactic statements) are \( \Delta_0 \).
+\begin{theorem}
+    \( \mathsf{IC} \to \Con(\mathsf{ZFC}) \) but \( \Con(\mathsf{ZFC}) \nrightarrow \mathsf{IC} \).
+\end{theorem}
+\begin{proof}
+    The forward direction has already been proven.
+    Since \( \mathsf{IC} \) proves the consistency of \( \mathsf{ZFC} \), there is a countable transitive model \( M \subseteq V_\kappa \subseteq V \) of \( \mathsf{ZFC} \).
+    By absoluteness, \( M \vDash \Con(\mathsf{ZFC}) \), so \( M \vDash \mathsf{ZFC}^\star \) where we define \( \mathsf{ZFC}^\star = \mathsf{ZFC} + \Con(\mathsf{ZFC}) \).
+    We have thus proven that \( \mathsf{IC} \) implies the consistency of \( \mathsf{ZFC}^\star \).
+    So, by the second incompleteness theorem, \( \mathsf{ZFC}^\star \nvdash \mathsf{IC} \).
+\end{proof}
+
+We now show that if \( V_\kappa \vDash \mathsf{ZFC} \), it is not necessarily the case that \( \kappa \) is inaccessible.
+
+Observe that \( M \neq V_\alpha \) for any \( \alpha \).
+Clearly \( M \neq V_\omega \).
+But \( \abs{V_{\omega + 1}} = \abs{\mathcal P(\omega)} = 2^{\aleph_0} \), and \( \abs{V_\alpha} > 2^{\aleph_0} \) for all \( \alpha \geq \omega + 1 \).
+But \( M \) is countable, so it cannot be any of these.

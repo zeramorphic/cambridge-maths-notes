@@ -378,4 +378,123 @@ We can give a slightly better rephrasing of this lemma.
     As \( W \) is nonempty, we can use foundation to fix \( x \in W \) such that \( x \cap W = \varnothing \).
     Since \( W \) is transitive, \( x \subseteq W \), and therefore \( x = \varnothing \in W \).
     Moreover, the statement that \( x = \varnothing \) is \( \Delta_0 \) and therefore absolute.
+
+    % TODO: are we done yet?
+\end{proof}
+\begin{lemma}
+    (\( \mathsf{ZF} \))
+    Let \( W \) be a transitive class.
+    Then
+    \begin{enumerate}
+        \item if for any pair \( x, y \in W \), the real pair set \( \qty{x, y} \) lies in \( W \), then the axiom of pairing holds in \( W \);
+        \item if for any set \( x \in W \), the union \( \bigcup x \) lies in \( W \), then the axiom of union holds in \( W \);
+        \item if \( \omega \in W \), then the axiom of infinity holds in \( W \);
+        \item if, for every formula \( \varphi \) with free variables in \( \qty{x, a, v_1, \dots, v_n} \), we have
+        \[ \forall a, v_1, \dots, v_n \in W.\, \qty{x \in a \mid \varphi^W(x, a, v_1, \dots, v_n)} \in W \]
+        then the axiom of separation holds in \( W \);
+        \item if, for every formula \( \varphi \) with free variables in \( \qty{x, y, a, v_1, \dots, v_n} \), for all \( a, v_1, \dots, v_n \in W \), if
+        \[ \forall x \in a.\, \exists! y \in W.\, \varphi^W(x, y, a, v_1, \dots, v_n) \]
+        then
+        \[ \exists b \in W.\, \qty{y \mid \exists x \in a.\, \varphi^W(x, y, a, v_1, \dots, v_n)} \subseteq b \]
+        then the axiom of replacement holds in \( W \);
+        \item if, for every \( a \in W \), there exists \( b \in W \) such that \( \mathcal P(a) \cap W = b \), then the axiom of power set holds in \( W \).
+    \end{enumerate}
+\end{lemma}
+\begin{corollary}
+    (\( \mathsf{ZF} \))
+    If \( W \) is a nonempty transitive class satisfying the conditions of the previous lemma, it is a model of \( \mathsf{ZF} \).
+\end{corollary}
+
+\subsection{Transfinite recursion}
+\begin{definition}
+    A relation \( R \) is \emph{set-like} on a class \( A \) if for all \( x \in A \), the collection of \( R \)-predecessors of \( x \) is a set.
+\end{definition}
+\begin{example}
+    \( \in \) is set-like on \( V \), but \( \ni \) is not set-like on \( V \).
+\end{example}
+Let \( A \) be a class, and let \( \varphi \) be such that \( A = \qty{x \mid \varphi(x)} \).
+Then \( A^W = \qty{x \mid \varphi^W(x)} \).
+We say that \( A \) is absolute for \( W \) if \( A^W = A \cap W \).
+Viewing a class relation \( R \subseteq V \times V \) as a collection of ordered pairs \( \qty{\langle x, y \rangle \mid \psi(x, y)} \), we have \( R^W = \qty{\langle x, y \rangle \mid \psi^W(x, y)} \), and say that \( R \) is absolute for \( W \) if \( R^W = R \cap W^2 \).
+Observe that if \( R \) is a class function, we can only refer to the \emph{function} \( R^W \) if we first check that \( (\forall x.\, \exists! y.\, \varphi(x, y))^W \).
+In this case, we have \( R^W : W \to W \), and we say that \( R \) is an absolute function for \( W \) iff \( R^W = \eval{R}_W \).
+
+We briefly recall the transfinite recursion theorem.
+\begin{theorem}
+    Let \( R \) be a relation which is well-founded and set-like on a class \( A \).
+    Let \( F : A \times V \to V \) be a class function.
+    Given \( x \in A \), let \( \operatorname{pred}(A, x, R) = \qty{y \in A \mid y\mathrel{R}x} \) be the set of \( R \)-predecessors of \( x \) in \( A \).
+    Then there is a unique function \( G : A \to V \) such that for all \( x \in A \),
+    \[ G(x) = F\qty(x, \eval{G}_{\operatorname{pred}(A, x, R)}) \]
+\end{theorem}
+We now prove the absoluteness of transfinite recursion.
+\begin{theorem}
+    Let \( R \) be a relation which is well-founded and set-like on a class \( A \).
+    Let \( F : A \times V \to V \) be a class function, and let \( G : A \to V \) be the unique function given by applying transfinite recursion to \( F \).
+    Suppose that \( W \) is a transitive model of \( \mathsf{ZF} \), and suppose that the following hold.
+    \begin{enumerate}
+        \item \( A \) and \( F \) are absolute for \( W \);
+        \item \( R \) is absolute for \( W \) and \( (\text{\( R \) is set-like on \( A \)})^W \);
+        \item for all \( x \in W \), then \( \operatorname{pred}(A, x, R) \subseteq W \).
+    \end{enumerate}
+    Then \( G \) is absolute for \( W \).
+\end{theorem}
+\begin{proof}
+    By absoluteness, \( A^W = A \cap W \) and \( R^W = R \cap W^2 \).
+    Hence, every nonempty subset of \( A^W \) has an \( R^W \)-minimal element.
+    In particular, \( (\text{\( R \) is well-founded on \( A \)})^W \).
+    We can then apply transfinite recursion in \( W \) to define a unique function \( G^W : A^W \to W \) such that for all \( x \in A^W \),
+    \[ G^W(x) = F^W\qty(x, \eval{G^W}_{\operatorname{pred}^W(A^W, x, R^W)}) \]
+    To prove absoluteness for \( G \), it suffices to show that \( G^W = \eval{G}_{A^W} \).
+    We show this by transfinite induction in \( W \).
+    Suppose that for all \( y \mathrel{R} x \), we have \( G^W(y) = G(y) \).
+    By absoluteness, (iii), and the inductive hypothesis, we obtain
+    \[ G^W(x) = F^W\qty(x, \eval{G^W}_{\operatorname{pred}^W(A^W, x, R^W)}) = F\qty(x, \eval{G}_{\operatorname{pred}(A, x, R)}) = G(x) \]
+\end{proof}
+\begin{corollary}
+    The following are absolute for transitive models of \( \mathsf{ZFC} \):
+    \begin{enumerate}
+        \item the rank function;
+        \item the transitive closure of a set;
+        \item the addition and multiplication operations of ordinal arithmetic.
+    \end{enumerate}
+\end{corollary}
+
+\subsection{The reflection theorem}
+In this subsection, we will not use choice.
+
+Recall the Tarski--Vaught test: if \( \mathcal M \) is a substructure of \( \mathcal N \) with universes \( M \) and \( N \) respectively, then the following two statements are equivalent.
+\begin{enumerate}
+    \item \( \mathcal M \) is an elementary substructure of \( \mathcal N \);
+    \item for any formula \( \varphi(v, \vb w) \) and \( \vb a \in M \), if there exists \( b \in N \) such that \( \mathcal N \vDash \varphi(b, \vb a) \), then there exists \( c \in M \) such that \( \mathcal M \vDash \varphi(c, \vb a) \).
+\end{enumerate}
+\begin{definition}
+    A finite list of formulas \( \bm\varphi = \varphi_1, \dots, \varphi_n \) is said to be \emph{subformula closed} if every subformula of the \( \varphi_i \) is contained on the list.
+\end{definition}
+We can now state a version of the Tarski--Vaught test for classes.
+\begin{lemma}
+    Let \( \bm\varphi \) be a subformula closed list of formulas, and suppose \( W \subseteq Z \) are nonempty classes.
+    Then the following two statements are equivalent.
+    \begin{enumerate}
+        \item each formula in \( \bm\varphi \) is absolute for \( W \) and \( Z \);
+        \item whenever \( \varphi_i \) is of the form \( \exists x.\, \varphi_j(x, \vb y) \) where the free variables of \( \varphi_j \) are equal to \( x \) or contained in \( \vb y \), then
+        \[ \forall \vb y \in W.\, \qty(\exists x \in Z.\, \varphi_j^Z(x, \vb y) \to \exists x \in W.\, \varphi_j^Z(x, \vb y)) \]
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \emph{(i) implies (ii).}
+    Suppose that each formula in \( \bm\varphi \) is absolute.
+    Let \( \varphi_i \) be of the form \( \exists x.\, \varphi_j(x, \vb y) \), and fix \( \vb y \in W \).
+    Then \( \varphi_i^Z(\vb y) \) is \( \exists x \in Z.\, \varphi_j^Z(x, \vb y) \).
+    If this holds, by absoluteness \( \varphi_i^W(\vb y) \) holds, so there is \( x \in W \) such that \( \varphi_j^W(x, \vb y) \).
+    Finally, \( W \subseteq Z \) and absoluteness of \( \varphi_j \) gives \( \exists x \in W.\, \varphi_j^Z(x, \vb y) \).
+
+    \emph{(ii) implies (i).}
+    We show this by induction on the length of \( \varphi_i \).
+    The result if \( \varphi_i \) is atomic or of the form \( \varphi_j \vee \varphi_k \) or \( \neg\varphi_j \) is immediate.
+    Suppose \( \varphi_i \) is of the form \( \exists x.\, \varphi_j(x, \vb y) \), and fix \( \vb y \in W \).
+    Then \( \varphi_i^Z(\vb y) \) is equivalent to the statement \( \exists x \in Z.\, \varphi_j^Z(x, \vb y) \).
+    By (ii), this gives \( \exists x \in W.\, \varphi_j^Z(x, \vb y) \).
+    Since \( W \subseteq Z \), the reverse implication is trivial.
+    But \( \exists x \in W.\, \varphi_j^Z(x, \vb y) \) is equivalent to the statement that \( \varphi_i^W(\vb y) \) holds, as required.
 \end{proof}
