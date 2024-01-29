@@ -498,3 +498,95 @@ We can now state a version of the Tarski--Vaught test for classes.
     Since \( W \subseteq Z \), the reverse implication is trivial.
     But \( \exists x \in W.\, \varphi_j^Z(x, \vb y) \) is equivalent to the statement that \( \varphi_i^W(\vb y) \) holds, as required.
 \end{proof}
+\begin{theorem}[reflection theorem]
+    Let \( W \) be a nonempty class, and suppose that there is a class function \( F_W \) such that for any ordinal \( \alpha \), \( F_W(\alpha) = W_\alpha \in \mathrm{V} \).
+    Suppose that
+    \begin{enumerate}
+        \item if \( \alpha < \beta \), then \( W_\alpha \subseteq W_\beta \);
+        \item if \( \lambda \) is a limit ordinal, then \( W_\lambda = \bigcup_{\alpha < \lambda} W_\alpha \);
+        \item \( W = \bigcup_{\alpha \in \mathrm{Ord}} W_\alpha \).
+    \end{enumerate}
+    Then for any finite list of formulas \( \bm\varphi = \varphi_1, \dots, \varphi_n \), \( \mathsf{ZF} \) proves that for every \( \alpha \) there is a limit ordinal \( \beta > \alpha \) such that the \( \varphi_i \) are absolute between \( W_\beta \) and \( W \).
+\end{theorem}
+One example of such a class function is \( W_\alpha = \mathrm{V}_\alpha \).
+\begin{corollary}[Montague--L\'evy reflection]
+    For any finite list of formulas \( \bm\varphi = \varphi_1, \dots, \varphi_n \), \( \mathsf{ZF} \) proves that for every \( \alpha \) there is a limit ordinal \( \beta > \alpha \) such that the \( \varphi_i \) are absolute for \( \mathrm{V}_\beta \).
+\end{corollary}
+We now prove the reflection theorem.
+\begin{proof}
+    Let \( \bm\varphi = \varphi_1, \dots, \varphi_n \) be a finite list of formulas.
+    By extending the list and taking logical equivalences if necessary, we will assume that this list is subformula-closed and that there are no universal quantifiers.
+    For \( i \leq n \), we will define a function \( G_i : \mathrm{Ord} \to \mathrm{Ord} \) as follows.
+    If \( \varphi_i \) is of the form \( \exists x.\, \varphi_j(x, \vb y) \) where \( \vb y \) is a tuple of length \( k_i \), we will define a function \( F_i : W^{k_i} \to \mathrm{Ord} \) by setting
+    \[ F_i(\vb y) = \begin{cases}
+        0 & \text{if } \neg\exists x \in W.\, \varphi_j^W(x, \vb y) \\
+        \eta & \text{where } \eta \text{ is the least ordinal such that } \exists x \in W_\eta.\, \varphi_j^W(x, \vb y)
+    \end{cases} \]
+    We set
+    \[ G_i(\delta) = \sup{F_i(\vb y) \mid y \in W_\delta^{k_i}} \]
+    If \( \varphi_i \) is not of this form, we set \( G_i(\delta) = 0 \) for all \( \delta \).
+    Finally, we let
+    \[ K(\delta) = \max\qty{\delta + 1, G_1(\delta), \dots, G_n(\delta)} \]
+    Note that the \( F_i \) work in an analogous way to Skolem functions, but does not require choice.
+    The \( F_i \) are well-defined, and, using replacement in \( \mathrm{V} \), since \( W_\delta \) is a set, \( F_i '' W_\delta^{k_i} \) is also a set in \( \mathrm{V} \), so \( G_i \) and \( K \) are both defined and take values in \( \mathrm{Ord} \).
+    Also, \( G_i \) is monotone: if \( \delta \leq \delta' \) then \( G_i(\delta) \leq G(\delta') \).
+
+    We claim that for every \( \alpha \) there is a limit ordinal \( \beta > \alpha \) such that for all \( \delta < \beta \) and \( i \leq n \), we have \( G_i(\delta) < \beta \); that is, \( \beta \) is closed under this process of finding witnesses.
+    Set \( \lambda_0 = \alpha \) and let \( \lambda_{t+1} = K(\lambda_t) \).
+    Then we set \( \beta = \sup_{t \in \omega} \lambda_t \), which is a limit ordinal as it is the supremum of a strictly increasing sequence of ordinals.
+    If \( \delta < \beta \), then \( \delta < \lambda_t \) for some \( t \), so \( G_i(\delta) \leq G_i(\lambda_t) \) by monotonicity, but \( G_i(\lambda_t) \leq K(\lambda_t) = \lambda_{t+1} < \beta \) as required.
+
+    To complete the theorem, it suffices to consider \( \varphi_i \) of the form \( \exists x.\, \varphi_j(x, \vb y) \) by the Tarski--Vaught test for classes above.
+    Fix \( \vb y \in W_\beta \), and suppose there exists \( x \in W \) such that \( \varphi_j^W(x, \vb y) \).
+    Since \( \beta \) is a limit ordinal and \( \vb y \) is a finite sequence in \( W_\beta \), we must have \( \vb y \in W_\gamma \) for some \( \gamma < \beta \).
+    Thus
+    \[ 0 < F_i(\vb y) \leq G_i(\gamma) < \beta \]
+    so by construction, there exists a witness \( x \in W_\beta \) such that \( \varphi_j^W(x, \vb y) \).
+    Hence \( \bm\varphi \) is absolute between \( W_\beta \) and \( W \) as required.
+\end{proof}
+\begin{remark}
+    This is a theorem scheme; for every choice of formulas \( \bm\varphi \), it is a theorem of \( \mathsf{ZF} \) that \( \bm\varphi \) are absolute for some \( \mathrm{V}_\beta \).
+    We cannot prove that for every collection of formulas \( \bm\varphi \), for all ordinals \( \alpha \) there exists \( \beta > \alpha \) such that \( \bm\varphi \) is absolute for \( W_\beta, W \).
+    Note that even if \( \bm\varphi \) is absolute for \( W_\beta \) and \( W \), we need not have \( (\bm\varphi)^{W_\beta} \).
+
+    If \( \bm\varphi \) is any finite list of axioms of \( \mathsf{ZF} \), then there are arbitrarily large \( \beta \) such that \( \bm\varphi \) holds in \( \mathrm{V}_\beta \).
+    If \( \beta \) is a limit ordinal, \( \mathrm{V}_\beta \vDash \mathsf{Z}(\mathsf{C}) \), so we may restrict our attention to instances of replacement.
+\end{remark}
+\begin{corollary}
+    Let \( T \) be an extension of \( \mathsf{ZF} \) in \( \mathcal L_\in \), and let \( \varphi_1, \dots, \varphi_n \) be a finite list of axioms from \( T \).
+    Then \( T \) proves that for every \( \alpha \) there exists \( \beta > \alpha \) such that \( \qty(\bigwedge_{i=1}^n \varphi_i)^{\mathrm{V}_\beta} \).
+\end{corollary}
+\begin{corollary}
+    % TODO: do we really need metatheoretic ZFC?
+    (\( \mathsf{ZFC} \))
+    Let \( W \) be a class and let \( \varphi_1, \dots, \varphi_n \) be a finite list of formulas in \( \mathcal L_\in \).
+    Then \( \mathsf{ZFC} \) proves that for every transitive \( x \subseteq W \), there exists some transitive \( y \supseteq x \) such that the \( \varphi_i \) are absolute between \( y \) and \( W \), and \( \abs{y} \leq \max\qty{w, \abs{x}} \).
+\end{corollary}
+Taking \( x = \omega \) and \( W = \mathrm{V} \) gives the following result.
+\begin{corollary}
+    Let \( T \) be any set of sentences in \( \mathcal L_\in \) such that \( T \vdash \mathsf{ZFC} \).
+    Let \( \varphi_i, \dots, \varphi_n \in T \).
+    Then \( T \) proves that there is a transitive set \( y \) of cardinality \( \aleph_0 \) such that \( \qty(\bigwedge_{i=1}^n \varphi_i)^y \).
+\end{corollary}
+\begin{corollary}
+    Let \( T \) be any consistent set of sentences in \( \mathcal L_\in \) such that \( T \vdash \mathsf{ZF} \).
+    Then \( T \) is not finitely axiomatisable.
+    That is, for any finite set of sentences \( \Gamma \) in \( \mathcal L_\in \) such that \( T \vdash \Gamma \), there exists a sentence \( \varphi \) such that \( T \vdash \varphi \) but \( \Gamma \nvdash \varphi \).
+\end{corollary}
+This only holds for first-order theories; for example, G\"odel--Bernays set theory is finitely axiomatisable.
+\begin{proof}
+    Let \( \varphi_1, \dots, \varphi_n \) be a set of sentences such that \( T \vdash \bigwedge_{i=1}^n \varphi_i \).
+    Suppose that \( \bigwedge_{i=1}^n \varphi_i \) proves every axiom of \( T \).
+    By reflection, \( T \) proves that for every \( \alpha \) there is \( \beta > \alpha \) such that the \( \varphi_i \) hold in \( \mathrm{V}_\beta \) if and only if they hold in \( \mathrm{V} \).
+    Since they hold in \( \mathrm{V} \), they must hold in some \( \mathrm{V}_\beta \).
+    Fix \( \beta_0 \) to be the least ordinal such that \( \bigwedge_{i=1}^n \varphi_i^_{\mathrm{V}_{\beta_0}} \).
+    Then all of the axioms of \( T \) hold in \( \mathrm{V}_{\beta_0} \), so \( \mathrm{V}_{\beta_0} \vDash T \).
+    Since \( T \) extends \( \mathsf{ZF} \), our basic absoluteness results hold, so in particular, if \( \alpha \in \mathrm{V}_{\beta_0} \) then
+    \[ \mathrm{V}_\alpha^{\mathrm{V}_{\beta_0}} = \mathrm{V}_\alpha \cap \mathrm{V}_{\beta_0} = \mathrm{V}_\alpha \]
+    So \( \mathrm{V}_\alpha \) is absolute for \( \mathrm{V}_{\beta_0} \).
+    Note that \( T \) proves that there exists \( \alpha \) such that \( \bigwedge_{i=1}^n \varphi_i^{\mathrm{V}_\alpha} \), but as \( \mathrm{V}_{\beta_0} \) satisfies every axiom of \( T \), this must be true in \( \mathrm{V}_{\beta_0} \).
+    That is, there must be \( \alpha < \beta_0 \) such that \( \bigwedge_{i=1}^n \varphi_i^{\mathrm{V}_\alpha} \).
+    This contradicts minimality of \( \beta_0 \).
+\end{proof}
+
+\subsection{Cardinal arithmetic}
