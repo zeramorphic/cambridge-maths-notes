@@ -1,3 +1,4 @@
+\subsection{Non-examples}
 Modern set theory largely concerns itself with the consequences of the incompleteness phenomenon.
 Given any `reasonable' set theory \( T \), then G\"odel's first incompleteness theorem shows that there is \( \varphi \) such that \( T \nvdash \varphi \) and \( T \nvdash \neg\varphi \).
 To be `reasonable', the set of axioms must be computably enumerable, among other similar restrictions.
@@ -242,9 +243,89 @@ As being \( \omega \) is \( \Delta_0 \), in fact all arithmetical statements (an
     So, by the second incompleteness theorem, \( \mathsf{ZFC}^\star \nvdash \mathsf{IC} \).
 \end{proof}
 
+\subsection{Worldly cardinals}
 We now show that if \( V_\kappa \vDash \mathsf{ZFC} \), it is not necessarily the case that \( \kappa \) is inaccessible.
 
 Observe that \( M \neq V_\alpha \) for any \( \alpha \).
 Clearly \( M \neq V_\omega \).
 But \( \abs{V_{\omega + 1}} = \abs{\mathcal P(\omega)} = 2^{\aleph_0} \), and \( \abs{V_\alpha} > 2^{\aleph_0} \) for all \( \alpha \geq \omega + 1 \).
 But \( M \) is countable, so it cannot be any of these.
+
+Recall the definition of \( N \) by
+\[ N_0 = \varnothing;\quad N_{k+1} = W(N_k);\quad N = \bigcup_{k \in \mathbb N} N_k \]
+We wish to create a similar structure that is of the form \( V_\alpha \) for some \( \alpha \).
+We define
+\[ \alpha_0 = 0;\quad \alpha_{k+1} = \sup{\rank(x) \mid x \in W(V_{\alpha_k})};\quad \alpha = \sup{\alpha_n \mid n \in \mathbb N} \]
+Note that \( N \subseteq V_{\alpha_1} \).
+\begin{theorem}
+    \( V_\alpha \preceq V_\kappa \) and \( \alpha < \kappa \).
+\end{theorem}
+\begin{proof}
+    The first statement follows from the Tarski--Vaught test.
+    To show \( \alpha < \kappa \), we first show by induction that \( \alpha_k < \kappa \).
+    This is clearly true for \( k = 0 \).
+    Now, if \( \alpha_k < \kappa \), we have \( \abs{V_{\alpha_k}} < \kappa \) by a previous lemma.
+    Thus,
+    \[ \abs{W(V_{\alpha_k})} \leq \aleph_0 \cdot \abs{V_{\alpha_k}^{<\omega}} = \abs{V_{\alpha_k}} < \kappa \]
+    where \( X^{<\omega} \) is the set of finite sequences of elements of \( X \).
+    Hence \( \qty{\rank(x) \mid x \in W(V_{\alpha_k})} \) is a set of less than \( \kappa \) ordinals less than \( \kappa \), so it must be bounded by regularity.
+    Finally, as \( \alpha \) is a countable union of the \( \alpha_k \), regularity again shows \( \alpha < \kappa \).
+\end{proof}
+\begin{remark}
+    The ordinal \( \alpha \) produced in this way has countable cofinality, so cannot be inaccessible.
+    In particular, \( V_\alpha \vDash \mathsf{ZFC} \) but \( \alpha \) is not inaccessible.
+\end{remark}
+\begin{definition}
+    We call an ordinal \( \alpha \) \emph{worldly} if \( V_\alpha \vDash \mathsf{ZFC} \), and write \( \mathsf{Wor}(\alpha) \).
+\end{definition}
+We have shown \( \mathsf{I}(\kappa) \to \mathsf{Wor}(\kappa) \), but not the other way round given that a wordly cardinal exists.
+In particular,
+\[ \mathsf{IC} \to \mathsf{WorC} \to \Con{\mathsf{ZFC}} \]
+\begin{theorem}
+    If \( \kappa \) is a wordly ordinal, \( \kappa \) is a cardinal.
+\end{theorem}
+\begin{proof}
+    First, observe that \( \kappa \) is a limit ordinal; otherwise, its predecessor would be the largest ordinal in the model, but \( \mathsf{ZFC} \) proves that there is no largest ordinal.
+    Suppose \( \kappa \) is not a cardinal, so there is \( \lambda < \kappa \) such that there is a bijection \( \lambda \to \kappa \).
+    In particular, \( \lambda < \kappa < \lambda^+ \).
+    By the proof of Hartogs' lemma, there is a relation \( R \subseteq \lambda \times \lambda \) such that \( (\lambda, R) \cong (\kappa, \in) \).
+    Assuming Kuratowski's definition of ordered pairs, an element of \( \lambda \times \lambda \) is an element of \( V_{\lambda} \), so \( \lambda \times \lambda \in V_{\lambda + 1} \) and \( R \in V_{\lambda + 1} \).
+    The pair \( (\lambda, R) \) is an element of \( V_{\lambda + 3} \subseteq V_{\kappa} \).
+    Thus \( V_\kappa \) contains a well-order \( (\lambda, R) \) of order type \( \kappa \).
+    But \( \mathsf{ZFC} \) proves that every well-ordering is isomorphic to a unique ordinal, so we must have \( \kappa \in V_\kappa \), which is a contradiction.
+\end{proof}
+
+\subsection{The consistency strength hierarchy}
+Let \( B \) be a base theory; we will often use \( \mathsf{ZFC} \).
+If \( T, S \) are extensions of \( B \), we say that \( T \) has lower \emph{consistency strength} than \( S \), written \( T \leq_{\mathrm{Cons}} S \), if \( B \vdash \Con(S) \to \Con(T) \).
+We say that \( T \) and \( S \) is \emph{equiconsistent}, written \( T \equiv_{\mathrm{Cons}} S \), if \( T \leq_{\mathrm{Cons}} S \) and \( S \leq_{\mathrm{Cons}} T \), and write \( T <_{\mathrm{Cons}} S \) if \( T \leq_{\mathrm{Cons}} S \) but \( S \nleq_{\mathrm{Cons}} T \).
+\begin{remark}
+    \begin{enumerate}
+        \item If \( I \) is inconsistent, then \( T \leq_{\mathrm{Cons}} I \) for all \( T \).
+        All inconsistent theories are equiconsistent.
+        In particular, \( T \) is consistent if and only if \( T <_{\mathrm{Cons}} I \).
+        We typically write \( \bot \) for an inconsistent theory.
+        \item \( <_{\mathrm{Cons}} \) is more than just `proving more theorems'.
+        If \( \varphi \) is such that \( \mathsf{ZFC} \nvdash \varphi \) and \( \mathsf{ZFC} \nvdash \neg\varphi \), it is not necessarily the case that \( \mathsf{ZFC} <_{\mathrm{Cons}} \mathsf{ZFC} + \varphi \) or \( \mathsf{ZFC} <_{\mathrm{Cons}} \mathsf{ZFC} + \neg\varphi \).
+        For example, \( \mathsf{ZFC} + \mathsf{CH} \), \( \mathsf{ZFC} + \neg\mathsf{CH} \), and \( \mathsf{ZFC} \) are all equiconsistent.
+        \item The second incompleteness theorem shows, for suitably nice theories \( T \), that if \( T \neq \bot \) then \( T <_{\mathrm{Cons}} T + \Con(T) \).
+        Note that it is possible that \( T \) is consistent but \( T + \Con(T) \) is inconsistent, so the incompleteness theorem does not necessarily give an infinite chain of strict consistency strength inequalities.
+        For example, consider
+        \[ \mathsf{ZFC}^\dagger = \mathsf{ZFC} + \neg\Con(\mathsf{ZFC}) \]
+        Since \( \mathsf{ZFC}^\dagger \supseteq \mathsf{ZFC} \), we must have \( \Con(\mathsf{ZFC}^\dagger) \to \Con(\mathsf{ZFC}) \), but \( \mathsf{ZFC}^\dagger \to \neg\Con(\mathsf{ZFC}) \), so \( \mathsf{ZFC}^\dagger + \Con(\mathsf{ZFC}^\dagger) \) is inconsistent.
+    \end{enumerate}
+\end{remark}
+In conclusion,
+\[ \mathsf{ZFC} <_{\mathrm{Cons}} \mathsf{ZFC} + \Con(\mathsf{ZFC}) <_{\mathrm{Cons}} \mathsf{ZFC} + \mathsf{WorC} <_{\mathrm{Cons}} \mathsf{ZFC} + \mathsf{IC} \]
+where the second inequality uses the same argument as \( \mathsf{IC} \to \Con(\mathsf{IC} + \Con(\mathsf{IC})) \).
+
+We will see that \( \mathsf{ZFC} \equiv_{\mathrm{Cons}} \mathsf{ZFC} + \neg\mathsf{IC} \).
+Many large cardinal axioms have this property that their negations are weak.
+
+If \( \kappa \) is the least inaccessible cardinal, then \( V_\kappa \) is a model of \( \mathsf{ZFC} \), but we can show that it cannot satisfy \( \mathsf{IC} \).
+Note that the statement `\( \lambda \) is inaccessible' is a \( \Pi_1 \) statement, so is downwards absolute.
+Given a model with two inaccessible cardinals \( \kappa_0 < \kappa_1 \), we have \( V_{\kappa_1} \vDash \mathsf{ZFC} + \mathsf{I}(\kappa_0) \) so in particular, \( V_{\kappa_1} \vDash \mathsf{ZFC} + \mathsf{IC} \).
+\begin{lemma}
+    The formula `\( \lambda \) is inaccessible' is absolute for \( V_\kappa \) and \( V \).
+\end{lemma}
+In particular, \( V_\kappa \) above does not satisfy \( \mathsf{IC} \).
