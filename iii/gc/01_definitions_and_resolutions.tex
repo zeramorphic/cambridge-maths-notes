@@ -464,3 +464,108 @@ We now prove that cohomology groups are independent of the choice of resolution.
     A chain map \( (f_n) \) as above induces a map on homology groups
     \[ f_\star : H_n(A_\bullet) \to H_n(B_\bullet) \]
 \end{lemma}
+\begin{proof}
+    Let \( x \in \ker \alpha_n \), and define \( f_\star([x]) = [f_n(x)] \), where square brackets denote the quotient maps to the relevant homology classes.
+    Observe that \( f_n(x) \in \ker \beta_n \), since \( \beta_n f_n(x) = f_{n-1} \alpha_n(x) = 0 \).
+    Further, if \( x' = x + \alpha_{n+1}(y) \) for some \( y \), we obtain
+    \[ f_n(x') = f_n(x) + f_n \alpha_{n+1}(y) = f_n(x) + \beta_{n+1} f_{n+1}(y) \in f_n(x) + \im b_{n+1} \]
+    Therefore, this map is well-defined.
+    One can check that this is a map of abelian groups, as required.
+\end{proof}
+\begin{theorem}
+    The definition of \( H^n(G, M) \) does not depend on the choice of resolution.
+\end{theorem}
+\begin{proof}
+    Take projective resolutions \( (P_n, d_n) \) and \( (P_n', d_n') \) of \( \mathbb Z \) by projective \( \mathbb Z G \)-modules.
+    We will produce \( \mathbb Z G \)-maps \( f_n : P_n \to P_n' \) and \( g_n : P_n' \to P_n \) satisfying
+    \[ f_{n-1} d_n = d_n' f_n;\quad g_{n-1} d_n' = d_n g_n \]
+    as well as maps \( s_n : P_n \to P_{n+1} \) and \( s_n' : P_n' \to P_{n+1}' \) satisfying
+    \[ d_{n+1} s_n + s_{n-1} d_n = g_n f_n - \id;\quad d_{n+1}' s_n' + s_{n-1}' d_n' = f_n g_n - \id \]
+    Thus, the \( f_n \) and \( g_n \) form chain maps, and the \( s_n \) and \( s_n' \) form \emph{chain homotopies}.
+    The chain maps \( (f_n), (g_n) \) give rise to chain maps
+    \[ \Hom_G(P_\bullet', M) \to \Hom_G(P_\bullet, M);\quad \Hom_G(P_\bullet, M) \to \Hom_G(P_\bullet', M) \]
+    giving maps between the respective homology groups by the previous lemma.
+    We now observe that if \( \varphi \in \ker d^{n+1} \in \Hom(P, M) \), we have
+    \begin{align*}
+        f_n^\star g_n^\star (\varphi)(x) &= \varphi(g_n f_n(x)) \\
+        &= \varphi(x) + \varphi(d_{n+1} s_n(x)) + \varphi(s_{n-1} d_n(x)) \\
+        &= \varphi(x) + s_n^\star d^{n+1} \varphi(x) + d^n s_{n-1}^\star (\varphi)(x) \\
+        &= \varphi(x) + 0 + d^n s_{n-1}^\star (\varphi)(x)
+    \end{align*}
+    Thus \( f_n^\star g_n^\star(\varphi) = \varphi + d^n s_{n-1}^\star(\varphi) \), and so \( f_n^\star g_n^\star \) induces the identity map on \( \faktor{\ker d^{n+1}}{\im d^n} \).
+    The same holds for \( g_n^\star f_n^\star \), and so \( f_n^\star, g_n^\star \) define isomorphisms of homology groups as desired.
+
+    It remains to construct the maps \( f_n, g_n, s_n, s_n' \).
+    At the end of the resolutions, we set \( f_{-1} : \mathbb Z \to \mathbb Z \) and \( f_{-2} : 0 \to 0 \) to be the identity maps.
+    Suppose that we have already defined \( f_{n-1} \) and \( f_n \); we will define \( f_{n+1} \).
+    We have \( f_n d_{n+1} : P_{n+1} \to P_n' \) and \( d_n' \circ (f_n d_{n+1}) = f_{n-1} d_n d_{n+1} = 0 \).
+    Hence, the map \( f_n d_{n+1} \) has image inside \( \ker d_n' \).
+    We then define \( f_{n+1} \) to complete the following diagram, which exists by projectivity.
+    % https://q.uiver.app/#q=WzAsNyxbMSwwLCJQX3tuKzF9Il0sWzIsMCwiUF9uIl0sWzMsMCwiUF97bi0xfSJdLFsyLDEsIlBfbiciXSxbMywxLCJQX3tuLTF9JyJdLFsxLDEsIlxca2VyIGRfbiciXSxbMCwxLCJQX3tuKzF9JyJdLFswLDEsImRfe24rMX0iXSxbMSwyLCJkX24iXSxbMyw0LCJkX24nIiwyXSxbMSwzLCJmX24iXSxbMiw0LCJmX3tuLTF9Il0sWzUsMywiIiwyLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibW9ubyJ9fX1dLFs2LDUsImRfe24rMX0nIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoiZXBpIn19fV0sWzAsNSwiZl9uIGRfe24rMX0iXSxbMCw2LCJmX3tuKzF9IiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV1d
+\[\begin{tikzcd}
+	& {P_{n+1}} & {P_n} & {P_{n-1}} \\
+	{P_{n+1}'} & {\ker d_n'} & {P_n'} & {P_{n-1}'}
+	\arrow["{d_{n+1}}", from=1-2, to=1-3]
+	\arrow["{d_n}", from=1-3, to=1-4]
+	\arrow["{d_n'}"', from=2-3, to=2-4]
+	\arrow["{f_n}", from=1-3, to=2-3]
+	\arrow["{f_{n-1}}", from=1-4, to=2-4]
+	\arrow[tail, from=2-2, to=2-3]
+	\arrow["{d_{n+1}'}"', two heads, from=2-1, to=2-2]
+	\arrow["{f_n d_{n+1}}", from=1-2, to=2-2]
+	\arrow["{f_{n+1}}"', dashed, from=1-2, to=2-1]
+\end{tikzcd}\]
+    We can define \( g_{n+1} \) in the same way.
+    Now set \( h_n = g_n f_n - \id : P_n \to P_n \); this gives a chain map \( P_\bullet \to P_\bullet \).
+    Set \( s_{-1} : \mathbb Z \to P_0 \) to be the zero map.
+    Note that \( d_0 h_0 = h_{-1} d_0 = 0 \), and so \( \im h_0 \subseteq \ker d_0 \).
+    We now use projectivity to define
+    % https://q.uiver.app/#q=WzAsNixbMSwwLCJQXzAiXSxbMiwwLCJcXG1hdGhiYiBaIl0sWzMsMSwiXFxtYXRoYmIgWiJdLFsyLDEsIlBfMCJdLFsxLDEsIlxca2VyIGRfMCJdLFswLDEsIlBfMSJdLFswLDFdLFsxLDIsIjAiXSxbMCwzLCJoXzAiXSxbMywyLCJkXzAiLDJdLFs0LDMsIiIsMix7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1vbm8ifX19XSxbMCw0LCJoXzAiLDJdLFswLDUsInNfMCIsMix7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFs1LDQsImRfMSIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6ImVwaSJ9fX1dXQ==
+\[\begin{tikzcd}
+	& {P_0} & {\mathbb Z} \\
+	{P_1} & {\ker d_0} & {P_0} & {\mathbb Z}
+	\arrow[from=1-2, to=1-3]
+	\arrow["0", from=1-3, to=2-4]
+	\arrow["{h_0}", from=1-2, to=2-3]
+	\arrow["{d_0}"', from=2-3, to=2-4]
+	\arrow[tail, from=2-2, to=2-3]
+	\arrow["{h_0}"', from=1-2, to=2-2]
+	\arrow["{s_0}"', dashed, from=1-2, to=2-1]
+	\arrow["{d_1}"', two heads, from=2-1, to=2-2]
+\end{tikzcd}\]
+    Suppose that \( s_{n-1} \) and \( s_{n-2} \) are already defined.
+    Consider \( t_n = h_n - s_{n-1} d_n : P_n \to P_n \).
+    We have
+    \[ d_n t_n = d_n h_n - d_n s_{n-1} d_n = h_{n-1} d_n - (h_{n-1} - s_{n-2} d_{n-1}) d_n = s_{n-2} d_{n-1} d_n = 0 \]
+    Thus \( \im t_n \subseteq \ker d_n \).
+    % https://q.uiver.app/#q=WzAsNixbMSwwLCJQX24iXSxbMiwwLCJQX3tuLTF9Il0sWzMsMSwiUF97bi0xfSJdLFsyLDEsIlBfbiJdLFsxLDEsIlxca2VyIGRfbiJdLFswLDEsIlBfe24rMX0iXSxbMCwxLCJkX24iXSxbMSwyLCJoX3tuLTF9Il0sWzAsMywiaF9uIiwxXSxbMywyLCJkX24iLDJdLFsxLDMsInNfe24tMX0iLDFdLFs0LDMsIiIsMix7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1vbm8ifX19XSxbMCw0LCJ0X24iLDJdLFs1LDQsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6ImVwaSJ9fX1dLFswLDUsInNfbiIsMix7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dXQ==
+\[\begin{tikzcd}
+	& {P_n} & {P_{n-1}} \\
+	{P_{n+1}} & {\ker d_n} & {P_n} & {P_{n-1}}
+	\arrow["{d_n}", from=1-2, to=1-3]
+	\arrow["{h_{n-1}}", from=1-3, to=2-4]
+	\arrow["{h_n}"{description}, from=1-2, to=2-3]
+	\arrow["{d_n}"', from=2-3, to=2-4]
+	\arrow["{s_{n-1}}"{description}, from=1-3, to=2-3]
+	\arrow[tail, from=2-2, to=2-3]
+	\arrow["{t_n}"', from=1-2, to=2-2]
+	\arrow[two heads, from=2-1, to=2-2]
+	\arrow["{s_n}"', dashed, from=1-2, to=2-1]
+\end{tikzcd}\]
+    We define the \( s_n' \) similarly.
+\end{proof}
+\begin{remark}
+    For any left \( \mathbb Z G \)-module \( N \), we can take a resolution of \( N \) by projective or free \( \mathbb Z G \)-modules.
+    % https://q.uiver.app/#q=WzAsNixbMCwwLCJcXGNkb3RzIl0sWzEsMCwiUF8yIl0sWzIsMCwiUF8xIl0sWzMsMCwiUF8wIl0sWzQsMCwiTiJdLFs1LDAsIjAiXSxbMSwyXSxbMiwzXSxbMyw0XSxbNCw1XSxbMCwxXV0=
+\[\begin{tikzcd}
+	\cdots & {P_2} & {P_1} & {P_0} & N & 0
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+	\arrow[from=1-5, to=1-6]
+	\arrow[from=1-1, to=1-2]
+\end{tikzcd}\]
+    Repeating the constructions outlined in this section, applying \( \Hom_G(-, M) \) gives homology groups called \( \operatorname{Ext}^n_{\mathbb Z G}(N, M) \).
+    Thus
+    \[ H^n(G, M) = \operatorname{Ext}^n_{\mathbb Z G}(\mathbb Z, M) \]
+\end{remark}
