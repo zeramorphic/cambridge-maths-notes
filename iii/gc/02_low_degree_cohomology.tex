@@ -1,4 +1,4 @@
-\subsection{???}
+\subsection{Degree 1}
 Recall that \( H^0(G, M) \), the group \( M^G \) of invariants of \( M \) under \( G \).
 A derivation is a 1-cocycle, or equivalently a map \( \varphi : G \to M \) such that \( \varphi(g_1 g_2) = g_1 \varphi(g_2) + \varphi(g_1) \), and an inner derivation is a map of the form \( \varphi(g) = gm - m \).
 We present two interpretations of (inner) derivations.
@@ -18,3 +18,145 @@ In particular, if \( M \) is a free \( \mathbb Z \)-module of finite rank, then 
 where \( \theta_1(g) \) is a matrix corresponding to the action of \( g \) on \( M \).
 This is a group homomorphism only if \( \varphi \) is a derivation.
 One can check that \( \varphi \) is an inner derivation if \( (-m, 1) \) generates a \( \mathbb Z G \)-submodule of \( M \) which is the trivial module.
+
+\emph{Second interpretation.}
+We first make the following definition.
+\begin{definition}
+    Let \( G \) be a group and \( M \) be a left \( \mathbb Z G \)-module.
+    We construct the \emph{semidirect product} \( M \rtimes G \) by defining a group operation on the set \( M \times G \) as follows.
+    \[ (m_1, g_1) \ast (m_2, g_2) = (m_1 + g_1 m_2, g_1 g_2) \]
+\end{definition}
+Then \( M \cong \qty{(m, 1) \mid m \in M} \) is a normal subgroup of \( M \rtimes G \).
+Also, \( G \cong \qty{(0, g) \mid g \in G} \), and conjugation by \( \qty{(0, g) \mid g \in G} \) corresponds to the \( G \)-action on the module \( M \).
+Further,
+\[ \faktor{M \rtimes G}{\qty{(0, g) \mid g \in G}} \cong G \]
+There is a group homomorphism \( s : G \to M \rtimes G \) given by \( g \mapsto (0, g) \), such that \( \pi_2 \circ s = \id \) where \( \pi_2 \) is the second projection.
+Such a map \( s \) is called a \emph{splitting}.
+Given another splitting \( s_1 : G \to M \rtimes G \) such that \( \pi_2 \circ s_1 = \id \), we define \( \psi_{s_1} : G \to M \) by
+\[ s_1(g) = (\psi_{s_1}(g), g) \in M \rtimes G \]
+Then \( \psi_{s_1} \) is a 1-cocycle.
+Given two splittings \( s_1, s_2 \), the difference \( \psi_{s_1} - \psi_{s_2} \) is a coboundary precisely when there exists \( m \) such that \( (m, 1)s_1(g)(m,1)^{-1} = s_2(g) \).
+Conversely, a 1-cocycle \( \varphi \in Z^1(G, M) \), there is a splitting \( s_1 : G \to M \rtimes G \) such that \( \varphi = \psi_{s_1} \).
+\begin{theorem}
+    \( H^1(G, M) \) bijects with the \( M \)-conjugacy classes of splittings.
+\end{theorem}
+
+\subsection{Degree 2}
+\begin{definition}
+    Let \( G \) be a group and \( M \) be a \( \mathbb Z G \)-module.
+    An \emph{extension} of \( G \) by \( M \) is a group \( E \) with a sequence of group homomorphisms
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiTSJdLFsyLDAsIkUiXSxbMywwLCJHIl0sWzQsMCwiMSJdLFswLDFdLFsxLDJdLFsyLDNdLFszLDRdXQ==
+\[\begin{tikzcd}
+	0 & M & E & G & 1
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    where the maps are group homomorphisms.
+    \( M \) embeds into \( E \), so its image (also called \( M \)) is an abelian normal subgroup of \( E \).
+    This is acted on by conjugation by \( E \), and so we obtain an induced action of \( \faktor{E}{M} \cong G \), which must match the given \( G \)-action on \( M \).
+\end{definition}
+\begin{example}
+    The semidirect product \( M \rtimes G \) is an extension of \( G \) by \( M \).
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiTSJdLFsyLDAsIk0gXFxydGltZXMgRyJdLFszLDAsIkciXSxbNCwwLCIxIl0sWzAsMV0sWzEsMl0sWzIsM10sWzMsNF1d
+\[\begin{tikzcd}
+	0 & M & {M \rtimes G} & G & 1
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    In this case, the extension is called a \emph{split extension}, since there is a splitting.
+\end{example}
+\begin{definition}
+    Two extensions are \emph{equivalent} if there is a commutative diagram of homomorphisms
+% https://q.uiver.app/#q=WzAsNixbMCwxLCIwIl0sWzEsMSwiTSJdLFsyLDAsIkUiXSxbMywxLCJHIl0sWzQsMSwiMSJdLFsyLDIsIkUnIl0sWzAsMV0sWzEsMl0sWzIsM10sWzMsNF0sWzIsNSwiIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzUsM10sWzEsNV1d
+\[\begin{tikzcd}
+	&& E \\
+	0 & M && G & 1 \\
+	&& {E'}
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-2, to=1-3]
+	\arrow[from=1-3, to=2-4]
+	\arrow[from=2-4, to=2-5]
+	\arrow[dashed, from=1-3, to=3-3]
+	\arrow[from=3-3, to=2-4]
+	\arrow[from=2-2, to=3-3]
+\end{tikzcd}\]
+\end{definition}
+If \( E, E' \) are equivalent extensions, then \( E \) and \( E' \) are isomorphic as groups.
+The converse is false.
+\begin{definition}
+    A \emph{central} extension is an extension where the given \( \mathbb Z G \)-module is a trivial module (that is, it has trivial \( G \)-action).
+\end{definition}
+\begin{proposition}
+    Let \( E \) be an extension of \( G \) by \( M \).
+    If there is a splitting homomorphism \( s_1 : G \to E \), then the extension is equivalent to
+    \[\begin{tikzcd}
+        0 & M & {M \rtimes G} & G & 1
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-3, to=1-4]
+        \arrow[from=1-4, to=1-5]
+    \end{tikzcd}\]
+    and thus \( E \cong M \rtimes G \).
+\end{proposition}
+\begin{theorem}
+    Let \( G \) be a group and let \( M \) be a \( \mathbb Z G \)-module.
+    Then there is a bijection from \( H^2(G, M) \) to the set of equivalence classes of extensions of \( G \) by \( M \).
+\end{theorem}
+\begin{proof}
+    Given an extension
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiTSJdLFsyLDAsIkUiXSxbMywwLCJHIl0sWzQsMCwiMSJdLFswLDFdLFsxLDJdLFsyLDNdLFszLDRdXQ==
+\[\begin{tikzcd}
+	0 & M & E & G & 1
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    there is a set-theoretic section \( s : G \to E \) such that
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJHIl0sWzEsMCwiRSJdLFsxLDEsIkciXSxbMCwxLCJzIl0sWzEsMiwiXFxwaSJdLFswLDIsIlxcaWQiLDJdXQ==
+\[\begin{tikzcd}
+	G & E \\
+	& G
+	\arrow["s", from=1-1, to=1-2]
+	\arrow["\pi", from=1-2, to=2-2]
+	\arrow["\id"', from=1-1, to=2-2]
+\end{tikzcd}\]
+    commutes.
+    Note that \( s \) need not be a group homomorphism.
+    Without loss of generality, we can suppose \( s(1) = 1 \).
+    We define a map
+    \[ \varphi(g_1, g_2) = s(g_1)s(g_2)s(g_1 g_2)^{-1} \]
+    which measures the failure of \( s \) to be a group homomorphism.
+    Then \( \pi(\varphi(g_1, g_2)) = 1 \), and so \( \vaprhi(g_1, g_2) \in M \).
+    Thus \( \varphi : G^2 \to M \) is a 2-cochain, and we can show it is a 2-cocycle.
+    We have
+    \begin{align*}
+        s(g_1) s(g_2) s(g_3) &= \varphi(g_1, g_2) s(g_1 g_2) s(g_3) \\
+        &= \varphi(g_1, g_2) \varphi(g_1 g_2, g_3) s(g_1 g_2 g_3)
+    \end{align*}
+    and similarly,
+    \begin{align*}
+        s(g_1) s(g_2) s(g_3) &= s(g_1) \varphi(g_2, g_3) s(g_2 g_3) \\
+        &= s(g_1) \varphi(g_2, g_3) s(g_1)^{-1} s(g_1) s(g_2 g_3) \\
+        &= s(g_1) \varphi(g_2, g_3) s(g_1)^{-1} \varphi(g_1, g_2 g_3) s(g_1 g_2 g_3)
+    \end{align*}
+    We therefore obtain
+    \begin{align*}
+        \varphi(g_1, g_2) \varphi(g_1 g_2, g_3) s(g_1 g_2 g_3) &= s(g_1) \varphi(g_2, g_3) s(g_1)^{-1} \varphi(g_1, g_2 g_3) s(g_1 g_2 g_3) \\
+        \varphi(g_1, g_2) \varphi(g_1 g_2, g_3) &= s(g_1) \varphi(g_2, g_3) s(g_1)^{-1} \varphi(g_1, g_2 g_3)
+    \end{align*}
+    Converting into additive notation,
+    \[ \varphi(g_1, g_2) + \varphi(g_1 g_2, g_3) = g_1 \varphi(g_2, g_3) + \varphi(g_1, g_2 g_3) \]
+    and so
+    \[ (d^3 \varphi)(g_1, g_2, g_3) = 0 \]
+    Hence \( \varphi \) is a 2-cocycle as claimed.
+    Note that \( \varphi \) is a \emph{normalised} cocycle: it satisfies \( \varphi(1, g) = \varphi(g, 1) = 0 \).
+    We have therefore proven that an extension of \( G \) by \( M \), with a choice of set-theoretic section \( s : G \to E \), yields a normalised 2-cocycle \( \varphi \in Z^2(G, M) \).
+
+    Now take another choice of section \( s' \) with \( s'(1) = 1 \).
+    We show that the normalised cocycles \( \varphi, \varphi' \) differ by a coboundary, and so we have a map defined from equivalence classes of extensions to \( H^2(G, M) \).
+\end{proof}
