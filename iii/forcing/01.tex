@@ -523,7 +523,7 @@ We now prove the reflection theorem.
         \eta & \text{where } \eta \text{ is the least ordinal such that } \exists x \in W_\eta.\, \varphi_j^W(x, \vb y)
     \end{cases} \]
     We set
-    \[ G_i(\delta) = \sup{F_i(\vb y) \mid y \in W_\delta^{k_i}} \]
+    \[ G_i(\delta) = \sup\qty{F_i(\vb y) \mid y \in W_\delta^{k_i}} \]
     If \( \varphi_i \) is not of this form, we set \( G_i(\delta) = 0 \) for all \( \delta \).
     Finally, we let
     \[ K(\delta) = \max\qty{\delta + 1, G_1(\delta), \dots, G_n(\delta)} \]
@@ -590,3 +590,166 @@ This only holds for first-order theories; for example, G\"odel--Bernays set theo
 \end{proof}
 
 \subsection{Cardinal arithmetic}
+In this subsection, we will use the axiom of choice.
+We recall the following basic definitions and results.
+\begin{definition}
+    The \emph{cardinality} of a set \( x \), written \( \abs{x} \) is the least ordinal \( \alpha \) such that there is a bijection \( x \to \alpha \).
+\end{definition}
+This definition only makes sense given the well-ordering principle.
+\begin{definition}
+    The cardinal arithmetic operations are defined as follows.
+    Let \( \kappa, \lambda \) be cardinals.
+    \begin{enumerate}
+        \item \( \kappa + \lambda = \abs{0 \times \kappa \cup 1 \times \lambda} \);
+        \item \( \kappa \cdot \lambda = \abs{\kappa \times \lambda} \);
+        \item \( \kappa^\lambda = \abs{\kappa^\lambda} \), the cardinality of the set of functions \( \lambda \to \kappa \);
+        \item \( \kappa^{<\lambda} = \sup\qty{\kappa^\alpha \mid \alpha < \lambda, \alpha \text{ a cardinal}} \).
+    \end{enumerate}
+\end{definition}
+\begin{theorem}[Hessenberg]
+    If \( \kappa, \lambda \) are infinite cardinals, then
+    \[ \kappa + \lambda = \kappa \cdot \lambda = \max\qty{\kappa, \lambda} \]
+\end{theorem}
+\begin{lemma}
+    If \( \kappa, \lambda, \mu \) are cardinals, then
+    \[ \kappa^{\lambda + \mu} = \kappa^\lambda \cdot \kappa^\mu;\quad (\kappa^\lambda)^\mu = \kappa^{\lambda \cdot \mu} \]
+\end{lemma}
+\begin{definition}
+    A map between ordinals \( \alpha \to \beta \) is \emph{cofinal} if \( \sup \operatorname{ran} f = \beta \).
+    The \emph{cofinality} of an ordinal \( \gamma \), written \( \cf(\gamma) \), is the least ordinal that admits a cofinal map to \( \gamma \).
+    A limit ordinal \( \gamma \) is \emph{singular} if \( \cf(\gamma) < \gamma \), and \emph{regular} if \( \cf(\gamma) = \gamma \).
+\end{definition}
+\begin{remark}
+    \begin{enumerate}
+        \item Since the identity map is always cofinal, we have \( \cf(\gamma) \leq \gamma \).
+        \item \( \omega = \cf(\omega) = \cf(\omega + \omega) = \cf(\aleph_\omega) \).
+        \item \( \cf(\gamma) \leq \abs{\gamma} \).
+    \end{enumerate}
+\end{remark}
+\begin{theorem}
+    Let \( \gamma \) be a limit ordinal.
+    Then
+    \begin{enumerate}
+        \item if \( \gamma \) is regular, \( \gamma \) is a cardinal;
+        \item the cardinal successor \( \gamma^+ \) is a regular cardinal;
+        \item \( \cf(\cf(\gamma)) = \cf(\gamma) \), so \( \cf(\gamma) \) is regular;
+        \item \( \aleph_\alpha \) is regular whenever \( \alpha = 0 \) or a successor;
+        \item if \( \lambda \) is a limit ordinal, \( \cf(\aleph_\lambda) = \cf(\lambda) \).
+    \end{enumerate}
+\end{theorem}
+\begin{theorem}
+    Let \( \kappa \) be a regular cardinal.
+    If \( \mathcal F \) is a family of sets with \( \abs{\mathcal F} < \kappa \) and each \( \abs{X} < \kappa \) for \( X \in \mathcal F \), then \( \abs{\bigcup \mathcal F} < \kappa \).
+\end{theorem}
+\begin{proof}
+    We show this by induction on \( \abs{\mathcal F} = \gamma < \kappa \).
+    Suppose the claim holds for \( \gamma \), and consider \( \mathcal F = \qty{X_\alpha \mid \alpha < \gamma + 1} \).
+    Then, assuming the sets involved are infinite,
+    \[ \abs{\bigcup \mathcal F} = \abs{\bigcup_{\alpha < \gamma} X_\alpha \cup X_\gamma} = \abs{\bigcup_{\alpha < \gamma} X_\alpha} + \abs{X_\gamma} = \max\qty{\abs{\bigcup_{\alpha < \gamma} X_\alpha}, \abs{X_\gamma}} < \kappa \]
+    Now suppose \( \gamma \) is a limit, and suppose the claim holds for all \( \beta < \gamma \).
+    Let \( \mathcal F = \qty{X_\alpha \mid \alpha < \gamma} \), and define \( g : \gamma \to \kappa \) by
+    \[ g(\beta) = \abs{\bigcup_{\alpha < \beta} X_\beta} \]
+    But \( \kappa \) is regular and \( \gamma < \kappa \), so this map is not cofinal.
+    Hence \( g '' \gamma = \abs{\bigcup \mathcal F} < \kappa \).
+\end{proof}
+We can generalise the notions of cardinal sum and product as follows.
+\begin{definition}
+    Let \( (\kappa_i)_{i \in I} \) be an indexed sequence of cardinals, and let \( (X_i)_{i \in I} \) be a sequence of pairwise disjoint sets with \( \abs{X_i} = \kappa_i \) for all \( i \in I \).
+    Then the \emph{cardinal sum} of \( (\kappa_i) \) is
+    \[ \sum_{i \in I} \kappa_i = \abs{\bigcup_{i \in I} X_i} \]
+    The \emph{cardinal product} is
+    \[ \prod_{i \in I} \kappa_i = \abs{\prod_{i \in I} X_i} \]
+    where \( \prod_{i \in I} X_i \) denotes the set of functions \( f : I \to \bigcup_{i \in I} X_i \) such that \( f(i) \in X_i \) for each \( i \).
+\end{definition}
+The following theorem generalises Cantor's diagonal argument.
+\begin{theorem}[K\"onig's theorem]
+    Let \( I \) be an indexing set, and suppose that \( \kappa_i < \lambda_i \) for all \( i \in I \).
+    Then
+    \[ \sum_{i \in I} \kappa_i < \prod_{i \in I} \lambda_i \]
+\end{theorem}
+\begin{proof}
+    Let \( (B_i)_{i \in I} \) be a sequence of disjoint sets with \( \abs{B_i} = \lambda_i \), and let \( B = \prod_{i \in I} B_i \).
+    It suffices to show that for any sequence \( (A_i)_{i \in I} \) of subsets of \( B \) such that for all \( i \in I \), \( \abs{A_i} = \kappa_i \), then
+    \[ \bigcup_{i \in I} A_i \neq B \]
+    Given such a sequence, we let \( S_i \) be the projection of \( A_i \) onto its \( i \)th coordinate.
+    \[ S_i = \qty{f(i) \mid f \in A_i} \]
+    Then by definition, \( S_i \subseteq B_i \), and
+    \[ \abs{S_i} \leq \abs{A_i} = \kappa_i < \lambda_i = \abs{B_i} \]
+    Fix \( t_i \in B_i \setminus S_i \).
+    Finally, we define \( g \in B \) by \( g(i) = t_i \); by construction, we have \( g \notin A_i \) for all \( i \), so \( g \in B \) but \( g \notin \bigcup_{i \in I} A_i \).
+\end{proof}
+\begin{corollary}
+    If \( \kappa \geq 2 \) and \( \lambda \) is infinite, then
+    \[ \kappa^\lambda > \lambda \]
+\end{corollary}
+\begin{proof}
+    \[ \lambda = \sum_{\alpha < \lambda} 1 < \prod_{\alpha < \lambda} 2 = 2^\lambda \leq \kappa^\lambda \]
+\end{proof}
+\begin{corollary}
+    \( \cf(2^\lambda) > \lambda \).
+\end{corollary}
+\begin{proof}
+    Let \( f : \lambda \to 2^\lambda \), we show that \( \abs{\bigcup f '' \lambda} < 2^\lambda \).
+    Since for all \( i \in I \), we have \( f(i) < 2^\lambda \), we deduce
+    \[ \abs{\bigcup f '' \lambda} = \sum_{i < \lambda} f(i) < \prod_{i < \lambda} 2^\lambda = (2^\lambda)^\lambda = 2^{\lambda \cdot \lambda} = 2^\lambda \]
+\end{proof}
+\begin{corollary}
+    \( 2^{\aleph_0} \neq \kappa \) for any \( \kappa \) of cofinality \( \aleph_0 \).
+    In particular, \( 2^{\aleph_0} \neq \aleph_\omega \).
+\end{corollary}
+\begin{corollary}
+    \( \kappa^{\cf(\kappa)} > \kappa \) for every infinite cardinal \( \kappa \).
+\end{corollary}
+We can prove very little in general about cardinal exponentiation given \( \mathsf{ZFC} \).
+\begin{definition}
+    The \emph{generalised continuum hypothesis} is the statement that \( 2^\kappa = \kappa^+ \) for every infinite cardinal \( \kappa \).
+    Equivalently, \( 2^{\aleph_\alpha} = \aleph_{\alpha + 1} \).
+\end{definition}
+Under this assumption, we can show the following.
+\begin{theorem}
+    (\( \mathsf{ZFC} + \mathsf{GCH} \))
+    Let \( \kappa, \lambda \) be infinite cardinals.
+    \begin{enumerate}
+        \item if \( \kappa < \lambda \), then \( \kappa^\lambda = \lambda^+ \);
+        \item if \( \cf(\kappa) \leq \lambda < \kappa \), then \( \kappa^\lambda = \kappa^+ \);
+        \item if \( \lambda < \cf(\kappa) \), then \( \kappa^\lambda = \kappa \).
+    \end{enumerate}
+\end{theorem}
+When we construct models with certain properties of cardinal arithmetic, we will often want to start with a model satisfying \( \mathsf{GCH} \) so that we have full control over cardinal exponentiation.
+Without this assumption, we know much less.
+The following theorems are essentially the only restrictions that we have on regular cardinals that are provable in \( \mathsf{ZFC} \).
+\begin{theorem}
+    Let \( \kappa, \lambda \) be cardinals.
+    Then
+    \begin{enumerate}
+        \item if \( \kappa < \lambda \), then \( 2^\kappa \leq 2^\lambda \);
+        \item \( \cf(2^\kappa) > \kappa \);
+        \item if \( \kappa \) is a limit cardinal, then \( 2^\kappa = (2^{<\kappa})^{\cf(\kappa)} \).
+    \end{enumerate}
+\end{theorem}
+\begin{theorem}
+    Let \( \kappa, \lambda \) be infinite cardinals.
+    Then
+    \begin{enumerate}
+        \item if \( \kappa \leq \lambda \), then \( \kappa^\lambda = 2^\lambda \);
+        \item if \( \mu < \kappa \) is such that \( \mu^\lambda \geq \kappa \), then \( \kappa^\lambda = \mu^\lambda \);
+        \item if \( \kappa < \lambda \) and \( \mu^\lambda < \kappa \) for all \( \mu < \kappa \), then
+        \begin{enumerate}
+            \item if \( \cf(\kappa) > \lambda \), then \( \kappa^\lambda = \kappa \);
+            \item if \( \cf(\kappa) \leq \lambda \), then \( \kappa^\lambda = \kappa^{\cf(\kappa)} \).
+        \end{enumerate}
+    \end{enumerate}
+\end{theorem}
+\begin{theorem}[Silver]
+    Suppose that \( \kappa \) is a singular cardinal such that \( \cf(\kappa) > \aleph_0 \) and \( 2^\alpha = \alpha^+ \) for all \( \alpha < \kappa \).
+    Then \( 2^\kappa = \kappa^+ \).
+\end{theorem}
+This theorem therefore states that the generalised continuum hypothesis cannot first break at a singular cardinal with cofinality larger than \( \aleph_0 \).
+\begin{remark}
+    It is consistent (relative to large cardinals, such as a measurable cardinal) to have \( 2^{\aleph_n} = \aleph_{n + 1} \) for all \( n \in \omega \), but \( 2^{\aleph_\omega} = \aleph_{\omega + 2} \).
+\end{remark}
+\begin{theorem}[Shelah]
+    Suppose that \( 2^{\aleph_n} < \aleph_\omega \) for all \( n \in \omega \), so \( \aleph_\omega \) is a strong limit cardinal.
+    Then \( 2^{\aleph_\omega} < \aleph_{\omega_4} \).
+\end{theorem}
+It is not known if this bound can be improved, but it is conjectured that \( 2^{\aleph_\omega} < \aleph_{\omega_1} \).
