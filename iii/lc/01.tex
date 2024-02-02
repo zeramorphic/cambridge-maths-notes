@@ -326,6 +326,56 @@ If \( \kappa \) is the least inaccessible cardinal, then \( \mathrm{V}_\kappa \)
 Note that the statement `\( \lambda \) is inaccessible' is a \( \Pi_1 \) statement, so is downwards absolute.
 Given a model with two inaccessible cardinals \( \kappa_0 < \kappa_1 \), we have \( \mathrm{V}_{\kappa_1} \vDash \mathsf{ZFC} + \mathsf{I}(\kappa_0) \) so in particular, \( \mathrm{V}_{\kappa_1} \vDash \mathsf{ZFC} + \mathsf{IC} \).
 \begin{lemma}
-    The formula `\( \lambda \) is inaccessible' is absolute for \( \mathrm{V}_\kappa \) and \( \mathrm{V} \).
+    If \( \alpha \) is a limit ordinal, then the formula `\( \lambda \) is inaccessible' is absolute for \( \mathrm{V}_\alpha \) and \( \mathrm{V} \).
 \end{lemma}
 In particular, \( \mathrm{V}_\kappa \) above does not satisfy \( \mathsf{IC} \).
+\begin{proof}
+    By downwards absoluteness, it suffices to show that if \( \mathrm{V}_\alpha \vDash \mathsf{I}(\lambda) \) then \( \mathsf{I}(\lambda) \).
+    Suppose not, so \( \lambda \) is singular or not a strong limit.
+
+    Let \( \lambda \) be singular, so there is a cofinal set \( C \subseteq \lambda \) with \( \abs{C} = \gamma < \lambda \), so there is a bijection \( f : \gamma \to C \).
+    Note that being singular is \( \Sigma_1 \), witnessed by \( C, \gamma, f \).
+    We have \( C \in \mathrm{V}_{\lambda + 1} \), \( \gamma \in \mathrm{V}_\lambda \), and \( f \in \mathrm{V}_{\lambda + 2} \).
+    All of these are subsets of \( \mathrm{V}_\alpha \), so these witnesses exist in \( \mathrm{V}_\alpha \).
+    Hence \( \mathrm{V}_\alpha \) believes that \( C \) is a cofinal set of cardinality less than \( \lambda \), so it believes \( \lambda \) is singular, contradicting inaccessibility.
+
+    Now let \( \lambda \) not be a strong limit.
+    Let \( \gamma < \lambda \), and let \( f : \mathcal P(\gamma) \to \lambda \) be a surjection.
+    Then \( \mathcal P(\gamma) \in \mathrm{V}_{\gamma + 2} \subseteq \mathrm{V}_\lambda \subseteq \mathrm{V}_\alpha \), and so this function is an element of \( \mathrm{V}_{\lambda + 2} \subseteq V_\alpha \).
+    The statement that it is a surjection is absolute, so \( \mathrm{V}_\alpha \) believes \( f \) is a surjection from \( \mathcal P(\gamma) \) to \( \lambda \), contradicting its belief that \( \lambda \) is a strong limit.
+\end{proof}
+Therefore, we have the following.
+\begin{theorem}
+    Suppose \( \mathsf{ZFC} + \mathsf{IC} \), and let \( \kappa \) be the least inaccessible.
+    Then \( \mathrm{V}_\kappa \vDash \mathsf{ZFC} + \neg\mathsf{IC} \).
+\end{theorem}
+\begin{proof}
+    Suppose \( \mathrm{V}_\kappa \vDash \mathsf{ZFC} + \mathsf{IC} \).
+    Then there is \( \lambda < \kappa \) such that \( \mathrm{V}_\kappa \vDash \mathsf{I}(\lambda) \), but by the previous lemma this contradicts minimality of \( \kappa \).
+\end{proof}
+Therefore, we have the following.
+\[ \mathsf{ZFC} + \mathsf{IC} \vdash \text{there is a transitive model of } \mathsf{ZFC} + \neg\mathsf{IC} \]
+For any theory \( T \), we write
+\[ T^\star = T + \Con(T) \]
+We make the following remarks.
+\begin{enumerate}
+    \item Observe that if \( S \) proves that there is a transitive model of \( T \), then \( S \vdash \Con(T^\star) \) because consistency statements are downwards absolute between transitive models.
+    % Does T need to be computably enumerable?
+    \item Note also that if \( S \) proves every axiom of \( T \), then \( \Con(S) \to \Con(T) \).
+    \item If \( T \) is not equiconsistent with \( \bot \), then \( \Con(T) \nrightarrow \Cons(T^\star) \).
+\end{enumerate}
+We can therefore show
+\[ \Con(\mathsf{ZFC} + \neg\mathsf{IC}) \nrightarrow \Con(\mathsf{ZFC} + \mathsf{IC}) \]
+assuming that \( \mathsf{ZFC} + \neg\mathsf{IC} \) is consistent.
+We have that \( \mathsf{ZFC} + \mathsf{IC} \) yields a transitive model of \( \mathsf{ZFC} + \neg\mathsf{IC} \).
+Thus, by (i), \( \mathsf{ZFC} + \mathsf{IC} \) implies \( \Con((\mathsf{ZFC} + \neg\mathsf{IC})^\star) \).
+% Why not just Con(Con(that thing))?
+Hence \( \Con(\mathsf{ZFC} + \neg\mathsf{IC}) \to \Con((\mathsf{ZFC} + \neg\mathsf{IC})^\star) \), so if the given implication were to hold, it would contradict G\"odel's second incompleteness theorem.
+Thus, if \( \mathsf{ZFC} + \neg\mathsf{IC} \) is consistent,
+\[ \mathsf{ZFC} + \neg\mathsf{IC} <_{\mathrm{Cons}} \mathsf{ZFC} + \mathsf{IC} \]
+Observe that none of the proofs given in this section work for weakly inaccessible cardinals, so it is not clear that weakly inaccessible cardinals qualify as large cardinals.
+However, that under the generalised continuum hypothesis, we have \( \aleph_\alpha = \beth_\alpha \) and so the notions of weakly inaccessible cardinal and inaccessible cardinal coincide.
+In Part III Forcing and the Continuum Hypothesis, we see that if \( M \vDash \mathsf{ZFC} \), there is \( L \subseteq M \) such that \( L \) is transitive in \( M \), \( L \) contains all the ordinals of \( M \), and \( L \vDash \mathsf{ZFC} + \mathsf{GCH} \).
+Thus, given a model \( M \vDash \mathsf{ZFC} + \mathsf{WIC} \), we obtain \( L \vDash \mathsf{ZFC} + \mathsf{IC} \), and thus the two axioms \( \mathsf{WIC} \) and \( \mathsf{IC} \) are equiconsistent.
+
+Note that \( 2^{\aleph_0} \) is not a strong limit, but it is consistent that \( 2^{\aleph_0} \) is weakly inaccessible (under suitable assumptions), so the notions of weakly inaccessible cardinals and inaccessible cardinals do not coincide.

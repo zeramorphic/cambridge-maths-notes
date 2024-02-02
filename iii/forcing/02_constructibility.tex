@@ -1,0 +1,159 @@
+In this section, we will prove
+\[ \Con(\mathsf{ZF}) \to \Con(\mathsf{ZFC} + \mathsf{GCH}) \]
+
+\subsection{Definable sets}
+Recall that the \( \mathrm{V}_\alpha \) hierarchy has the property that \( \mathrm{V}_{\alpha + 1} = \mathcal P(\mathrm{V}_\alpha) \).
+We will construct a universe \( \mathrm{L} \) in which we restrict to the `nice' subsets.
+\begin{definition}
+    A set \( x \) is said to be \emph{definable} over \( (M, \in) \) if there exist \( a_1, \dots, a_n \in M \) and a formula \( \varphi \) such that
+    \[ x = \qty{z \in M \mid (M, \in) \vDash \varphi(z, a_1, \dots, a_n)} \]
+    We write
+    \[ \operatorname{Def}(M) = \qty{x \subseteq M \mid x \text{ is definable over } M} \]
+\end{definition}
+\begin{remark}
+    \begin{enumerate}
+        \item \( M \in \operatorname{Def}(M) \).
+        \item \( M \subseteq \operatorname{Def}(M) \subseteq \mathcal \mathcal P(M) \).
+    \end{enumerate}
+\end{remark}
+This definition involves a quantification over infinitely many formulas, so is not yet fully formalised.
+One method to do this is to code formulas as elements of \( \mathrm{V}_\omega \), called \emph{G\"odel codes}.
+We can then use Tarski's satisfaction relation to define a formula \( \mathsf{Sat} \), and can then prove
+\[ \mathsf{Sat}(M, E, \ulcorner \varphi \urcorner, x_1, \dots, x_n) \leftrightarrow (M, \in) \vDash \varphi(x_1, \dots, x_n) \]
+where \( \ulcorner \varphi \urcorner \in V_\omega \) is the G\"odel code for \( \varphi \).
+We will later use a different method to formalise it, but for now we will assume that this is well-defined.
+
+\subsection{???}
+We define the \( \mathrm{L}_\alpha \) hierarchy by transfinite recursion as follows.
+\[ \mathrm{L}_0 = \varnothing;\quad \mathrm{L}_{\alpha + 1} = \operatorname{Def}(\mathrm{L}_\alpha);\quad \mathrm{L}_\lambda = \bigcup_{\alpha < \lambda} \mathrm{L}_\alpha;\quad \mathrm{L} = \bigcup_{\alpha \in \mathrm{Ord}} \mathrm{L}_\alpha \]
+\begin{lemma}
+    For any ordinals \( \alpha, \beta \),
+    \begin{enumerate}
+        \item if \( \beta \leq \alpha \) then \( \mathrm{L}_\beta \subseteq \mathrm{L}_\alpha \);
+        \item if \( \beta < \alpha \) then \( \mathrm{L}_\beta \in \mathrm{L}_\alpha \);
+        \item \( \mathrm{L}_\alpha \) is transitive;
+        \item the ordinals of \( \mathrm{L}_\alpha \) are precisely \( \alpha \);
+        \item \( \mathrm{L} \) is transitive and \( \mathrm{Ord} \subseteq L \).
+    \end{enumerate}
+\end{lemma}
+\begin{definition}
+    Let \( T \) be a set of axioms in \( \mathcal L_\in \), and let \( W \) be a class.
+    Then \( W \) is called an \emph{inner model} of \( T \) if
+    \begin{enumerate}
+        \item \( W \) is a transitive class;
+        \item \( \mathrm{Ord} \subseteq W \);
+        \item \( T^W \) is true; that is, for every formula \( \varphi \) in \( T \), we have \( \varphi^W \).
+    \end{enumerate}
+\end{definition}
+\begin{theorem}
+    \( \mathrm{L} \) is an inner model of \( \mathsf{ZF} \).
+\end{theorem}
+This is a theorem scheme; for every axiom of \( \mathsf{ZF} \), we can prove its relativisation to \( \mathrm{L} \).
+\begin{proof}
+    By the previous lemma, it suffices to check that \( \mathsf{ZF}^{\mathrm{L}} \) holds.
+    \begin{itemize}
+        \item Since \( \mathrm{L} \) is transitive, \( \mathrm{L} \) satisfies extensionality and foundation.
+        \item For the axiom of empty set, we use the fact that \( \varnothing^{\mathrm{L}} = \varnothing = \mathrm{L}_0 = \mathrm{L} \).
+        \item For pairing, given \( a, b \in \mathrm{L} \), we must show \( \qty{a, b} \in \mathrm{L} \).
+        Fix \( \alpha \) such that \( a, b \in \mathrm{L}_\alpha \).
+        Then
+        \[ \qty{a, b} = \qty{x \in \mathrm{L}_\alpha \mid (\mathrm{L}_\alpha, \in) \vDash x = a \vee x = b} \in \operatorname{Def}(\mathrm{L}_\alpha) \]
+        \item For union, let \( a \in \mathrm{L}_\alpha \).
+        By transitivity, \( \bigcup a \subseteq \mathrm{L}_\alpha \).
+        Then
+        \[ \bigcup a = \qty{x \in \mathrm{L}_\alpha \mid (\mathrm{L}_\alpha, \in) \vDash \exists z.\, (z \in a \wedge x \in z)} \in \operatorname{Def}(\mathrm{L}_\alpha) \]
+        \item For infinity, note that
+        \[ \omega = \qty{n \in \mathrm{L}_\omega \mid (\mathrm{L}_\omega, \in) \vDash n \in \mathrm{Ord}} \in \operatorname{Def}(\mathrm{L}_\alpha) \]
+        \item Consider separation.
+        Let \( \varphi \) be a formula, and let \( a, \vb u \in \mathrm{L}_\alpha \).
+        We claim that
+        \[ b = \qty{x \in a \mid \varphi^{\mathrm{L}}(x, \vb u)} \in \mathrm{L} \]
+        This implicitly uses the fact that \( \mathrm{L} \) is definable.
+        Using the reflection theorem, there is \( \beta > \alpha \) such that
+        \[ \mathsf{ZF} \vdash \forall x \in \mathrm{L}_\beta.\, (\varphi^{\mathrm{L}}(x, \vb u) \leftrightarrow \varphi^{\mathrm{L}_\beta}(x, \vb u)) \]
+        Moreover, \( \varphi^{\mathrm{L}_\beta}(x, \vb u) \) holds if and only if \( (\mathrm{L}_\beta, \in) \vDash \varphi(x, \vb u) \).
+        We thus obtain
+        \[ \qty{x \in a \mid \varphi^{\mathrm{L}}(x, \vb u)} = \qty{x \in a \mid \varphi^{\mathrm{L}_\beta}(x, \vb u)} = \qty{x \in \mathrm{L}_\beta \mid (\mathrm{L}_\beta, \in) \vDash \varphi(x, \vb u) \wedge x \in a} \in \operatorname{Def}(\mathrm{L}_\beta) \]
+        \item We now consider replacement.
+        It suffices to show that if \( a \in \mathrm{L} \) and \( f : a \to \mathrm{L} \) is a definable function, then there exists \( \gamma \in \mathrm{Ord} \) such that \( f '' a \subseteq \mathrm{L}_\gamma \), since then we can use separation.
+        First, observe that for every \( x \in a \), there exists \( \beta \in \mathrm{Ord} \) such that \( f(x) \in \mathrm{L}_\beta \).
+        Using replacement in \( \mathrm{V} \), there exists an ordinal \( \gamma \) such that for all \( x \in a \), there exists \( \beta < \gamma \) such that \( f(x) \in \mathrm{L}_\beta \).
+        As \( \mathrm{L}_\beta \subseteq \mathrm{L}_\gamma \), we thus obtain for all \( x \in a \) that \( f(x) \in \mathrm{L}_\gamma \).
+        \item Finally, consider the axiom of power set.
+        It suffices to prove that if \( x \in \mathrm{L} \) then \( \mathcal P(x) \cap \mathrm{L} \in \mathrm{L} \).
+        Take \( x \in \mathrm{L} \).
+        Using replacement in \( \mathrm{V} \), we can fix an ordinal \( \gamma \) such that \( \mathcal P(x) \cap \mathrm{L} \subseteq \mathrm{L}_\gamma \).
+        Then
+        \[ \mathcal P(x) \cap \mathrm{L} = \qty{z \in \mathrm{L}_\gamma \mid (\mathrm{L}, \in) \vDash z \subseteq x} \in \operatorname{Def}(\mathrm{L}_\gamma) \]
+    \end{itemize}
+\end{proof}
+
+\subsection{G\"odel functions}
+We will now formally define \( \mathrm{L} \).
+For clarity, we will define the ordered triple \( \langle a, b, c \rangle \) to be \( \langle a, \langle b, c \rangle \rangle \).
+\begin{definition}
+    The \emph{G\"odel functions} are the following collection of functions on two variables.
+    \begin{enumerate}
+        \item \( \mathcal F_1(x, y) = \qty{x, y} \);
+        \item \( \mathcal F_2(x, y) = \bigcup x \);
+        \item \( \mathcal F_3(x, y) = x \setminus y \);
+        \item \( \mathcal F_4(x, y) = x \times y \);
+        \item \( \mathcal F_5(x, y) = \dom x = \qty{\pi_1(z) \mid z \in x \wedge z \text{ is an ordered pair}} \);
+        \item \( \mathcal F_6(x, y) = \operatorname{ran} x \qty{\pi_2(z) \mid z \in x \wedge z \text{ is an ordered pair}} \);
+        \item \( \mathcal F_7(x, y) = \qty{\langle u, v, w \rangle \mid \langle u, v \rangle \in x, w \in y} \);
+        \item \( \mathcal F_8(x, y) = \qty{\langle u, w, v \rangle \mid \langle u, v \rangle \in x, w \in y} \);
+        \item \( \mathcal F_9(x, y) = \qty{\langle v, u \rangle \in y \in x \mid u = v} \);
+        \item \( \mathcal F_{10}(x, y) = \qty{\langle v, u \rangle \in y \times x \mid u \in v} \).
+    \end{enumerate}
+\end{definition}
+\begin{proposition}
+    The following can all be written as a finite combination of G\"odel functions (i)--(vii).
+    \[ \qty{x};\quad x \cup y;\quad x \cap y;\quad \langle x, y \rangle;\quad \langle x, y, z \rangle \]
+\end{proposition}
+\begin{proposition}
+    For every \( i \in \qty{1, \dots, 10} \), the statement \( z = \mathcal F_i(x, y) \) can be written using a \( \Delta_0 \) formula.
+    Hence, these formulas are absolute.
+\end{proposition}
+\begin{lemma}[G\"odel normal form]
+    For every \( \Delta_0 \) formula \( \varphi(x_1, \dots, x_n) \) with free variables contained in \( x_1, \dots, x_n \), there is a term \( \mathcal F_\varphi \) built from the symbols \( \mathcal F_1, \dots, \mathcal F_{10} \) such that
+    \[ \mathsf{ZF} \vdash \forall a_1, \dots, a_n.\, \mathcal F_\varphi(a_1, \dots, a_n) = \qty{\langle x_n, \dots, x_1 \rangle \mid a_n \times \dots \times a_1 \mid \vaprhi(x_1, \dots, x_n)} \]
+\end{lemma}
+\begin{remark}
+    \begin{enumerate}
+        \item The reversed order of the free variables is done purely for technical reasons.
+        \item \( \mathcal F_2 \) will correspond to disjunction for \( \Delta_0 \) formulas, intersection will correspond to intersection, \( \mathcal F_3 \) will give negation, and \( \mathcal F_9 \) and \( \mathcal F_{10} \) will give atomic formulas.
+        \item \( \mathcal F_7 \) and \( \mathcal F_8 \) will deal with ordered \( n \)-tuples.
+        The triple \( \langle x_1, x_2, x_3 \rangle \), this is formed using \( x_1 \) and \( \langle x_2, x_3 \rangle \).
+        However, it cannot be formed using \( \langle x_1, x_2 \rangle \) and \( x_3 \).
+    \end{enumerate}
+\end{remark}
+% Proof goes here
+\begin{definition}
+    A class \( C \) is \emph{closed under G\"odel functions} if whenever \( x, y \in C \), we have \( \mathcal F_i(x, y) \in C \) for \( i \in \qty{1, \dots, 10} \).
+    Given a set \( b \), we let \( \mathrm{cl}(b) \) be the smallest set \( C \) that is closed under G\"odel functions such that \( b \cup \qty{b} \subseteq C \).
+\end{definition}
+\begin{definition}
+    Let \( b \) be a set.
+    Define \( \mathcal D^n(b) \) inductively by
+    \[ \mathcal D^0(b) = b\cup\qty{b};\quad \mathcal D^{n+1}(b) = \qty{\mathcal F_i(x, y) \mid x, y \in \mathcal D^n(b), i \in \qty{1, \dots, 10}} \]
+\end{definition}
+One can observe that \( \mathrm{cl}(b) = \bigcup_{n \in \omega} \mathcal D^n(b) \).
+\begin{lemma}
+    If \( M \) is a transitive class that is closed under G\"odel functions, then \( M \) satisfies \( \Delta_0 \)-separation.
+\end{lemma}
+\begin{proof}
+    Let \( \varphi(x_1, \dots, x_n) \) be a \( \Delta_0 \)-formula, and let \( a, b_1, \dots, b_{i-1}, b_{i+1}, \dots, b_n \in M \).
+    Let
+    \[ Y = \qty{x_i \in a \mid \varphi(b_1, \dots, b_{i-1}, x_i, b_{i+1}, \dots, b_n)} \]
+    We must show \( Y \in M \).
+    Let \( \mathcal F_\varphi \) be the formula built from G\"odel's normal form theorem.
+    Then for any \( c_1, \dots, c_n \in M \), we have
+    \[ \mathcal F_\varphi(c_1, \dots, c_n) = \qty{\langle x_n, \dots, x_1 \rangle \in c_n \times \dots \times c_1 \mid \varphi(x_1, \dots, x_n)} \in M \]
+    Hence, as \( \qty{b_j} = \mathcal F_1(b_j, b_j) \in M \), we obtain
+    \[ \mathcal F_\varphi(\qty{b_1}, \dots, \qty{b_{i-1}}, a, \qty{b_{i+1}}, \dots, \qty{b_n}) \in M \]
+    Then, we can show that \( Y \in M \) by taking the range \( \mathcal F_6 \) a total of \( n - i \) times and then taking the domain \( \mathcal F_5 \).
+\end{proof}
+\begin{theorem}
+    For every transitive set \( M \), the collection of definable subsets is
+    \[ \operatorname{Def}(M) = \mathrm{cl}(M \cup \qty{M}) \cap \mathcal P(M) \]
+\end{theorem}
