@@ -6,8 +6,132 @@ A function \( \mu : \mathcal P(\mathbb I) \to \mathbb I \) is called a \emph{mea
     \item (translation invariance) if \( X \subseteq \mathbb I \), \( r \in \mathbb R \), and \( X + r = \qty{x + r \mid x \in X} \subseteq \mathbb I \), then \( \mu(X) = \mu(X + r) \); and
     \item (countable additivity) if \( (A_n)_{n \in \mathbb N} \) is a family of pairwise disjoint subsets of \( \mathbb I \), then \( \mu\qty(\bigcup_{n \in \mathbb N} A_n) = \sum_{n \in \mathbb N}\mu(A_n) \).
 \end{enumerate}
-The \emph{measure problem} was the question as to whether such a measure function exists.
+The \emph{Lebesgue measure problem} was the question of whether such a measure function exists.
 Vitali proved that a measure cannot be defined on all of \( \mathcal P(\mathbb I) \).
 This proof requires the axiom of choice nontrivially.
 In 1970, Solovay proved that if \( \mathsf{ZFC} + \mathsf{IC} \) is consistent, then, there is a model of \( \mathsf{ZF} \) in which all sets are Lebesgue measurable.
 In 1984, Shelah showed that the inaccessible cardinal was necessary to construct this model.
+
+Now, replace translation invariance with the requirement that for all \( x \in \mathbb I \), we have \( \mu(\qty{x}) = 0 \), and call such measures \emph{Banach measures}.
+\emph{Banach's measure problem} was the question of whether a Banach measure exists.
+Note that this property is true for any Lebesgue measure.
+If \( \mu(\qty{x}) > 0 \) for some \( x \), then by translation invariance, every singleton has the same measure \( \mu(\qty{x}) > 0 \).
+There is some natural number \( n \) such that \( n \mu(\qty{x}) > 1 \), but this contradicts countable additivity using a set of \( n \) reals.
+Observe that for any \( \varepsilon > 0 \), there can be only finitely many pairwise disjoint sets with measure at least \( \varepsilon \).
+
+Banach and Kuratowski proved in 1929 that the continuum hypothesis implies that there are no Banach measures on \( \mathbb I \).
+We can define Banach measures on any set \( S \) by also replacing property (i) with the requirement that \( \mu(S) = 1 \) and \( \mu(\varnothing) = 0 \).
+Note that if \( \abs{S} = \abs{S'} \), then there is a Banach measure on \( S \) if and only if there is one on \( S' \).
+Thus, having a Banach measure is a property of cardinals.
+
+For larger cardinals, it may not be natural to just consider countable additivity.
+\begin{definition}
+    A Banach measure \( \mu \) is called \emph{\( \lambda \)-additive} if for all \( \gamma < \lambda \) and pairwise disjoint families \( \qty{A_\alpha \mid \alpha < \gamma} \), then
+    \[ \mu\qty(\bigcup A_\alpha) = \sup\qty{\sum_{\alpha \in F} \mu(A_\alpha) \mid F \subseteq \gamma \text{ finite}} \]
+\end{definition}
+\begin{theorem}
+    If \( \kappa \) is the smallest cardinal that has a Banach measure, then that measure is \( \kappa \)-additive.
+\end{theorem}
+
+\subsection{Real-valued measurable cardinals}
+\begin{definition}
+    A cardinal \( \kappa \) is \emph{real-valued measurable}, written \( \mathsf{RVM}(\kappa) \), if there is a \( \kappa \)-additive Banach measure on \( \kappa \).
+\end{definition}
+\begin{proposition}
+    Every real-valued measurable cardinal is regular.
+\end{proposition}
+\begin{proof}
+    Suppose that \( \kappa \) is a real-valued measurable cardinal, and that \( C \subseteq \kappa \) is cofinal with \( \abs{C} = \lambda < \kappa \).
+    We can write
+    \[ C = \qty{\gamma_\alpha \mid \alpha < \gamma} \]
+    where \( \gamma_\alpha \) is increasing in \( \alpha \).
+    Consider
+    \[ C_\alpha = \qty{\xi \mid \gamma_\alpha \leq \xi < \gamma_{\alpha + 1}} \]
+    Then \( \bigcup_{\alpha < \gamma} C_\alpha = \kappa \) as \( C \) is cofinal, and the \( C_\alpha \) are disjoint.
+    Note that \( \abs{C_\alpha} \leq \abs{\gamma_{\alpha + 1}} < \kappa \).
+    Writing \( C_\alpha = \bigcup_{x \in C_\alpha} \qty{x} \), we observe by \( \kappa \)-additivity that \( \mu(C_\alpha) = 0 \).
+    But again by \( \kappa \)-additivity, \( \mu(\kappa) = 0 \), contradicting property (i).
+\end{proof}
+\begin{proposition}[the pigeonhole principle]
+    Let \( \kappa \) be regular, \( \lambda < \kappa \), and \( f : \kappa \to \lambda \).
+    Then there is some \( \alpha \in \lambda \) such that \( \abs{f^{-1}(\alpha)} = \kappa \).
+\end{proposition}
+\begin{proof}
+    We have
+    \[ \kappa = \bigcup_{\alpha \in \lambda} f^{-1}(\alpha) \]
+    giving the result immediately by regularity of \( \kappa \).
+\end{proof}
+\begin{proposition}
+    All successor cardinals are regular.
+\end{proposition}
+\begin{proposition}
+    If \( \mu \) is a Banach measure on \( S \), and \( C \) is a family of pairwise disjoint sets of positive \( \mu \)-measure, then \( C \) is countable.
+\end{proposition}
+\begin{proof}
+    Consider the collection
+    \[ C_n = \qty{A \in C \mid \mu(A) > \frac{1}{n}} \]
+    Observe that each \( C_n \) is finite, so \( C = \bigcup_{n \in \mathbb N} C_n \) must be countable.
+\end{proof}
+\begin{lemma}[Ulam]
+    For any cardinal \( \lambda \), there is an \emph{Ulam matrix} \( A_\alpha^\xi \) indexed by \( \alpha < \lambda^+ \) and \( \xi < \lambda \) such that
+    \begin{enumerate}
+        \item for a given \( \xi \), the set \( \qty{A_\alpha^\xi \mid \alpha < \lambda^+} \) is a pairwise disjoint family; and
+        \item for a given \( \alpha \), then
+        \[ \abs{\lambda^+ \setminus \bigcup_{\xi < \lambda} A_\alpha^\xi} \leq \lambda \]
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    For each \( \gamma < \lambda^+ \), fix a surjection \( f_\gamma : \lambda \to \gamma + 1 \).
+    Define
+    \[ A_\alpha^\xi = \qty{\gamma \mid f_\gamma(\xi) = \alpha} \]
+    It is clear that property (i) holds.
+    For property (ii), suppose
+    \[ \gamma \in \lambda^+ \setminus \bigcup_{\xi < \lambda} A_\alpha^\xi \]
+    Then \( \gamma < \lambda^+ \) and for all \( \xi \), we have \( f_\gamma(\xi) \neq \alpha \).
+    Hence
+    \[ \lambda^+ \setminus \bigcup_{\xi < \lambda} A_\alpha^\xi \subseteq \alpha \]
+    so the size of this set is at most \( \lambda \)
+\end{proof}
+\begin{theorem}
+    If \( \kappa \) is real-valued measurable, then \( \kappa \) is weakly inaccessible.
+\end{theorem}
+\begin{remark}
+    If there is a Banach measure on \( [0,1] \), then in particular \( 2^{\aleph_0} \) is weakly inaccessible.
+\end{remark}
+\begin{proof}
+    We have already shown regularity.
+    Suppose \( \kappa \) is not a limit cardinal, so \( \kappa = \lambda^+ \).
+    Let \( (A_\alpha^\xi)_{\alpha < \lambda^+; \xi < \lambda} \) be an Ulam matrix for \( \lambda \).
+    By (ii),
+    \[ \abs{Z_\alpha} \leq \lambda;\quad Z_\alpha = \lambda^+ \setminus \bigcup_{\xi < \lambda} A_\alpha^\xi \]
+    so by \( \kappa \)-additivity, \( \mu(Z) = 0 \).
+    Hence
+    \[ \mu\qty(\bigcup_{\xi < \lambda} A_\alpha^\xi) = 1 \]
+    This is a small union of sets of measure 1, so again by \( \kappa \)-additivity there is some \( \xi_\alpha \) such that \( \mu(A_\alpha^{\xi_\alpha}) > 0 \).
+    Let \( f : \lambda^+ \to \lambda \) be the map \( \alpha \mapsto \xi_\alpha \).
+    By the pigeonhole principle, there is some \( \xi \) and a set \( A \subseteq \lambda^+ \) with \( \abs{A} = \lambda^+ \) such that for all \( \alpha \in A \), we have \( \xi_\alpha = \xi \).
+    By property (i), the collection \( \qty{A_\alpha^\xi \mid \alpha \in A} \) is a collection of uncountable size \( \lambda^+ \) of pairwise disjoint sets, all of which have positive measure, but we have already shown that such a collection must be countable.
+\end{proof}
+
+\subsection{Measurable cardinals}
+\begin{definition}
+    A Banach measure \( \mu \) is called \emph{two-valued} if \( \mu \) takes values in \( \qty{0,1} \).
+\end{definition}
+This removes any mention of the real numbers from the definition of a Banach measure.
+\begin{remark}
+    Two-valued measures correspond directly to ultrafilters.
+    Recall that \( F \) is a \emph{filter} on \( S \) if
+    \begin{enumerate}
+        \item \( \varnothing \notin F, S \in F \);
+        \item if \( A \subseteq B \) then \( A \in F \to B \in F \);
+        \item if \( A, B \in F \) then \( A \cap B \in F \).
+    \end{enumerate}
+    We say that \( F \) is an \emph{ultrafilter} if \( A \in F \) or \( S \setminus A \in F \) for all \( A \subseteq S \).
+    \( F \) is \emph{nonprincipal} if for all \( x \in S \), the singleton \( \qty{x} \) is not in \( F \).
+    An ultrafilter is \( \lambda \)-complete if for all \( \gamma < \lambda \) and all families \( \qty{A_\alpha \mid \alpha < \gamma} \subseteq F \), we have \( \bigcap_{\alpha < \gamma} A_\alpha \in F \).
+    In this way, the collection of sets of a two-valued Banach measure \( \mu \) that are assigned measure \( 1 \) form a nonprincipal ultrafilter.
+    This filter is \( \lambda \)-complete if and only if \( \mu \) is \( \lambda \)-additive.
+\end{remark}
+\begin{definition}
+    A cardinal \( \kappa \) is \emph{measurable} if there is a \( \kappa \)-complete nonprincipal ultrafilter on \( \kappa \).
+\end{definition}

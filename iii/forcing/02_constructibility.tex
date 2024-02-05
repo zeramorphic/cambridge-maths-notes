@@ -115,8 +115,8 @@ For clarity, we will define the ordered triple \( \langle a, b, c \rangle \) to 
     Hence, these formulas are absolute.
 \end{proposition}
 \begin{lemma}[G\"odel normal form]
-    For every \( \Delta_0 \) formula \( \varphi(x_1, \dots, x_n) \) with free variables contained in \( x_1, \dots, x_n \), there is a term \( \mathcal F_\varphi \) built from the symbols \( \mathcal F_1, \dots, \mathcal F_{10} \) such that
-    \[ \mathsf{ZF} \vdash \forall a_1, \dots, a_n.\, \mathcal F_\varphi(a_1, \dots, a_n) = \qty{\langle x_n, \dots, x_1 \rangle \mid a_n \times \dots \times a_1 \mid \varphi(x_1, \dots, x_n)} \]
+    For every \( \Delta_0 \) formula \( \varphi(x_1, \dots, x_n) \) with free variables contained in \( \qty{x_1, \dots, x_n} \), there is a term \( \mathcal F_\varphi \) built from the symbols \( \mathcal F_1, \dots, \mathcal F_{10} \) such that
+    \[ \mathsf{ZF} \vdash \forall a_1, \dots, a_n.\, \mathcal F_\varphi(a_1, \dots, a_n) = \qty{\langle x_n, \dots, x_1 \rangle \in a_n \times \dots \times a_1 \mid \varphi(x_1, \dots, x_n)} \]
 \end{lemma}
 \begin{remark}
     \begin{enumerate}
@@ -127,17 +127,97 @@ For clarity, we will define the ordered triple \( \langle a, b, c \rangle \) to 
         However, it cannot be formed using \( \langle x_1, x_2 \rangle \) and \( x_3 \).
     \end{enumerate}
 \end{remark}
-% Proof goes here
+\begin{proof}
+    We show this by induction on the class \( \Delta_0 \).
+    We call a formula \( \varphi \) a \emph{termed formula} if the conclusion of the lemma holds for \( \varphi \); we aim to show that every \( \Delta_0 \)-formula is a termed tormula.
+    We will only use the logical symbols \( \wedge, \vee, \neg, \exists \), and the only occurrence of existential quantification will be in formulas of the form
+    \[ \varphi(x_1, \dots, x_n) \equiv \exists x_{n+1} \in x_j.\, \psi(x_1, \dots, x_{n+1}) \]
+    where \( j \leq m \leq n \).
+    For example, we allow \( \exists x_3 \in x_1.\, (x_1 \in x_2 \wedge x_3 = x_1) \), but we disallow \( \exists x_1 \in x_2.\, \psi \) and \( \exists x_3 \in x_1.\, (x_3 \in x_2 \wedge \exists x_4 \in x_1.\, \psi) \).
+    Every \( \Delta_0 \)-formula is equivalent to one of this form.
+    We allow for dummy variables, so \( \varphi(x_1, x_2) \equiv x_1 \in x_2 \) and \( \varphi(x_1, x_2, x_3) \equiv x_1 \in x_2 \) are distinct.
+    This proof will take place in four parts: first some logical points, then we consider propositional formulas, then atomic formulas, and finally bounded existentials.
+
+    \emph{Part (i): logical points.}
+    We make the following remarks.
+    \begin{itemize}
+        \item If \( \mathsf{ZF} \vdash \varphi(\vb x) \leftrightarrow \psi(\vb x) \) and \( \varphi(\vb x) \) is a termed formula, then \( \psi \) is also a termed formula.
+        This is immediate from the definition, since we can let \( \mathcal F_\psi = \mathcal F_\varphi \).
+        \item For all \( m, n \), if \( \varphi(x_1, \dots, x_n) \equiv \psi(x_1, \dots, x_m) \) and \( \psi \) is a termed formula, then so is \( \varphi \).
+        If \( n \geq m \), we can show this by induction on \( n \).
+        The base case \( n = m \) is trivial.
+        For the inductive step, suppose
+        \[ \varphi(x_1, \dots, x_{n+1}) \equiv \psi(x_1, \dots, x_m) \]
+        Then, we can write
+        \[ \varphi(x_1, \dots, x_{n+1}) \equiv \theta(x_1, \dots, x_n) \]
+        where \( \theta \) is a termed formula.
+        Then
+        \[ \mathcal F_\varphi(a_1, \dots, a_n, a_{n+1}) = a_{n+1} \times \mathcal F_\theta(a_1, \dots, a_n) = \mathcal F_4(a_{n+1}, \mathcal F_\theta(a_1, \dots, a_n)) \]
+        giving the result by the inductive hypothesis.
+        This is the reason for reversing the order: because the ordered triple \( \langle x, y, z \rangle \) is \( \langle x, \langle y, z \rangle \rangle \), the map
+        \[ \qty{\langle x_1, x_2 \rangle \in a_1 \times a_2 \mid \theta(x_1, x_2)} \mapsto \qty{\langle x_1, x_2, x_3 \rangle \in a_1 \times a_2 \times a_3 \mid \theta(x_1, x_2)} \]
+        is much more complicated to implement in G\"odel functions.
+        We prove the case \( n \leq m \) by induction; if
+        \[ \varphi(x_1, \dots, x_{n-1}) \equiv \psi(x_1, \dots, x_m) \]
+        then
+        \[ \varphi(x_1, \dots, x_{n-1}) \equiv \theta(x_1, \dots, x_n) \]
+        and
+        \[ \qty{0} = \qty{\mathcal F_3(a_1, a_1)} = \mathcal F_1(\mathcal F_3(a_1, a_1), \mathcal F_3(a_1, a_1)) \]
+        Then
+        \begin{align*}
+            \mathcal F_\varphi(a_1, \dots, a_{n-1}) &= \qty{\langle x_{n-1}, \dots, x_1 \rangle \in a_{n-1} \times \dots \times a_1 \mid \varphi(x_1, \dots, x_{n-1})} \\
+            &= \operatorname{ran}(\qty{\langle 0, x_{n-1}, \dots, x_1 \rangle \in \qty{0} \times a_{n-1} \times \dots \times a_1 \mid \theta(x_1, \dots, x_{n-1}, 0)}) \\
+            &= \mathcal F_6(\mathcal F_\theta(a_1, \dots, a_{n-1}), \mathcal F_1(\mathcal F_3(a_1, a_1), \mathcal F_3(a_1, a_1)), a_1)
+        \end{align*}
+        \item If \( \psi(x_1, \dots, x_n) \) is a termed formula and
+        \[ \varphi(x_1, \dots, x_{n+1}) = \psi(x_1, \dots, x_{n-1}, x_{n+1}/x_n) \]
+        then \( \varphi \) is a termed formula.
+        First, if \( n = 1 \), we have a termed formula \( \psi(x_1) \) and consider \( \psi(x_2/x_1) \).
+        Then
+        \begin{align*}
+            \mathcal F_\varphi(a_1, a_2) &= \qty{\langle x_2, x_1 \rangle \in a_2 \times a_1 \mid \psi(x_2)} \\
+            &= \qty{\langle x_2, x_1 \rangle \mid x_1 \in a_1 \wedge x_2 \in \mathcal F_\psi(a_2)} \\
+            &= \mathcal F_\psi(a_2) \times a_1 \\
+            &= \mathcal F_4(\mathcal F_\psi(a_2), a_1)
+        \end{align*}
+        If \( n > 1 \), we have
+        \begin{align*}
+            \mathcal F_\varphi(a_1, \dots, a_{n+1}) &= \qty{\langle x_{n+1}, \dots, x_1 \rangle \mid x_n \in a_n \wedge \langle x_{n+1}, x_{n-1}, \dots, x_1 \rangle \in \mathcal F_\psi(a_1, \dots, a_{n-1}, a_{n+1})} \\
+            &= \mathcal F_8(\mathcal F_\psi(a_1, \dots, a_{n-1}, a_{n+1}), a_n)
+        \end{align*}
+        \item If \( \psi(x_1, x_2) \) is a termed formula, and
+        \[ \varphi(x_1, \dots, x_n) \equiv \psi(x_{n-1}/x_1, x_n/x_2) \]
+        then \( \varphi \) is a termed formula.
+        This is trivial if \( n = 2 \), so we assume \( n > 2 \).
+        Then
+        \begin{align*}
+            \mathcal F_\varphi(a_1, \dots, a_n) &= \qty{\langle x_n, \dots, x_1 \rangle \in a_n \times \dots \times a_1 \mid \langle x_n, x_{n-1} \rangle \in \mathcal F_\psi(a_{n-1}, a_n)} \\
+            &= \mathcal F_7(\mathcal F_\psi(a_{n-1}, a_n), a_{n-2} \times \dots \times a_1)
+        \end{align*}
+    \end{itemize}
+
+    \emph{Part (ii): propositional connectives}
+    \begin{itemize}
+        \item If \( \varphi \) is a termed formula, then so is \( \neg\varphi \).
+        \[ \mathcal F_{\neg\varphi}(a_1, \dots, a_n) &= (a_n \times \dots \times a_1) \setminus \mathcal F_\varphi(a_1, \dots, a_n) \]
+        \item If \( \varphi, \psi \) are termed formulas, then so is \( \varphi \vee \psi \).
+        \[ \mathcal F_{\varphi \vee \psi}(a_1, \dots, a_n) = \mathcal F_\varphi(a_1, \dots, a_n) \cup \mathcal F_\psi(a_1, \dots, a_n) \]
+        It is easy to see that unions can be formed using G\"odel functions.
+        \item Conjunctions are similar to disjunctions.
+        \[ \mathcal F_{\varphi \wedge \psi}(a_1, \dots, a_n) = \mathcal F_\varphi(a_1, \dots, a_n) \cap \mathcal F_\psi(a_1, \dots, a_n) \]
+    \end{itemize}
+\end{proof}
 \begin{definition}
     A class \( C \) is \emph{closed under G\"odel functions} if whenever \( x, y \in C \), we have \( \mathcal F_i(x, y) \in C \) for \( i \in \qty{1, \dots, 10} \).
-    Given a set \( b \), we let \( \mathrm{cl}(b) \) be the smallest set \( C \) that is closed under G\"odel functions such that \( b \cup \qty{b} \subseteq C \).
+    Given a set \( b \), we let \( \mathrm{cl}(b) \) be the smallest set \( C \) containing \( b \) as a subset that is closed under G\"odel functions.
 \end{definition}
+For example, \( \mathrm{cl}(\varnothing) = \varnothing \), \( \qty{a, b} \in \mathrm{cl}(\qty{a, b}) \), and \( \mathrm{cl}(b) = \mathrm{cl}(\mathrm{cl}(b)) \).
 \begin{definition}
     Let \( b \) be a set.
     Define \( \mathcal D^n(b) \) inductively by
-    \[ \mathcal D^0(b) = b\cup\qty{b};\quad \mathcal D^{n+1}(b) = \qty{\mathcal F_i(x, y) \mid x, y \in \mathcal D^n(b), i \in \qty{1, \dots, 10}} \]
+    \[ \mathcal D^0(b) = b;\quad \mathcal D^{n+1}(b) = \qty{\mathcal F_i(x, y) \mid x, y \in \mathcal D^n(b), i \in \qty{1, \dots, 10}} \]
 \end{definition}
-One can observe that \( \mathrm{cl}(b) = \bigcup_{n \in \omega} \mathcal D^n(b) \).
+One can easily check that \( \mathrm{cl}(b) = \bigcup_{n \in \omega} \mathcal D^n(b) \).
 \begin{lemma}
     If \( M \) is a transitive class that is closed under G\"odel functions, then \( M \) satisfies \( \Delta_0 \)-separation.
 \end{lemma}
@@ -157,3 +237,33 @@ One can observe that \( \mathrm{cl}(b) = \bigcup_{n \in \omega} \mathcal D^n(b) 
     For every transitive set \( M \), the collection of definable subsets is
     \[ \operatorname{Def}(M) = \mathrm{cl}(M \cup \qty{M}) \cap \mathcal P(M) \]
 \end{theorem}
+\begin{proof}
+    We first prove the forward direction.
+    Let \( \varphi \) be a formula.
+    Then \( \varphi^M \) is \( \Delta_0 \), so there is a term \( \mathcal G \) built from the G\"odel functions \( \mathcal F_1, \dots, \mathcal F_{10} \) such that for \( a_1, \dots, a_n \in M \), we have
+    \[ \qty{x \in M \mid (M, \in) \vDash \varphi(x, a_1, \dots, a_n)} = \qty{x \in M \mid \varphi^M(x, a_1, \dots, a_n)} = \mathcal G(M, a_1, \dots, a_n) \in \mathrm{cl}(M \cup \qty{M}) \]
+    We now show the converse.
+    We first claim that if \( \mathcal G \) is built from the G\"odel functions, then for any \( x, a_1, \dots, a_n \), the formulas
+    \[ x = \mathcal G(a_1, \dots, a_n);\quad x \in \mathcal G(a_1, \dots, a_n) \]
+    are \( \Delta_0 \).
+    This can be proven inductively using the iterative construction of \( \mathrm{cl}(M \cup \qty{M}) \).
+    For example, if \( X, Y \in \mathcal D^k(a_1, \dots, a_n) \), then \( x = \mathcal F_1(X, Y) \) is equivalent to the statement
+    \[ (\forall z \in x.\, z = X \vee z = Y) \wedge (\exists w \in x.\, w = X) \wedge (\exists w \in x.\, w = Y) \]
+    so the result holds for \( \mathcal F_1 \); very similar proofs show the result for both equality and membership for all other G\"odel functions.
+
+    Let \( Z \in \mathrm{cl}(M \cup \qty{M}) \cap \mathcal P(M) \).
+    Since \( Z \in \mathrm{cl}(M \cup \qty{M}) \), we can fix a term \( \mathcal G \) built from the \( \mathcal F_1, \dots, \mathcal F_{10} \) such that \( Z = \mathcal G(M, a_1, \dots, a_n) \).
+    Let \( \varphi \) be a \( \Delta_0 \) formula such that \( x \in \mathcal G(M, a_1, \dots, a_n) \) if and only if \( \varphi(x, M, a_1, \dots, a_n) \).
+    Then \( \mathcal G(M, a_1, \dots, a_n) = \qty{x \in M \mid \varphi(x, M, a_1, \dots, a_n)} \) as \( Z \subseteq M \).
+    It therefore remains to prove that there is a formula \( \psi \) such that
+    \[ \psi^M(x, a_1, \dots, a_n) \leftrightarrow \varphi(x, M, a_1, \dots, a_n) \]
+    For example, we can define \( \psi \) from \( \varphi \) by the following replacements.
+    \begin{enumerate}
+        \item \( \exists v_i \in M \mapsto \exists v_i \);
+        \item \( v_i \in M \mapsto v_i = v_i \);
+        \item \( M = M \mapsto v_0 = v_0 \);
+        \item \( M \in M, M \in v_i, M = v_i \mapsto v_0 \neq v_0 \).
+    \end{enumerate}
+    Finally, we obtain
+    \[ Z = \mathcal G(M, a_1, \dots, a_n) = \qty{x \in M \mid \psi^M(x, a_1, \dots, a_n)} \in \operatorname{Def}(M) \]
+\end{proof}
