@@ -1,6 +1,6 @@
 \subsection{Large cardinal properties}
 Modern set theory largely concerns itself with the consequences of the incompleteness phenomenon.
-Given any `reasonable' set theory \( T \), then G\"odel's first incompleteness theorem shows that there is \( \varphi \) such that \( T \nvdash \varphi \) and \( T \nvdash \neg\varphi \).
+Given any `reasonable' set theory \( T \), G\"odel's first incompleteness theorem shows that there is a sentence \( \varphi \) such that \( T \nvdash \varphi \) and \( T \nvdash \neg\varphi \).
 To be `reasonable', the set of axioms must be computably enumerable, among other similar restrictions.
 In particular, G\"odel's second incompleteness theorem shows that \( T \nvdash \Con(T) \), where \( \Con(T) \) is the statement that \( T \) is consistent.
 Hence,
@@ -20,13 +20,13 @@ We begin with some non-examples.
     \item \( \kappa \) is called an \emph{\( \aleph \) fixed point} if \( \kappa = \aleph_\kappa \).
     Note that, for example, \( \omega \), \( \omega_1 \), and \( \aleph_\omega \) are not \( \aleph \) fixed points.
     However, we have the following result.
-    We say that \( F : \mathrm{Ord} \to \mathrm{Ord} \) is \emph{normal} if \( \alpha \leq \beta \) implies \( F(\alpha) \leq F(\beta) \), and if \( \lambda \) is a limit, \( F(\lambda) = \bigcup_{\alpha < \lambda} F(\alpha) \).
+    We say that \( F : \mathrm{Ord} \to \mathrm{Ord} \) is \emph{normal} if \( \alpha < \beta \) implies \( F(\alpha) < F(\beta) \), and if \( \lambda \) is a limit, \( F(\lambda) = \bigcup_{\alpha < \lambda} F(\alpha) \).
     One can show that every normal ordinal operation has arbitrarily large fixed points, and in particular that these fixed points may be enumerated by the ordinals.
     In particular, since the operation \( \alpha \mapsto \aleph_\alpha \) is normal, it admits fixed points.
     \item Let \( \Phi(\kappa) \) be the property
     \[ \kappa = \aleph_\kappa \wedge \Con(\mathsf{ZFC}) \]
     Clearly \( \Phi \mathsf{C} \) implies \( \Con(\mathsf{ZFC}) \), so \( \mathsf{ZFC} \nvdash \Phi \mathsf{C} \).
-    We would like our large cardinal axioms to be unprovable by \( \mathsf{ZFC} \) because of their size, not because of any other arbitrary reasons that we may attach to these axioms.
+    We would like our large cardinal axioms to be unprovable by \( \mathsf{ZFC} \) because of the size of the cardinal in question, not because of any other arbitrary reasons that we may attach to these axioms.
 \end{enumerate}
 
 One source of large cardinal axioms is as follows.
@@ -36,12 +36,12 @@ We can consider properties that encapsulate the notion that \( \omega \) is much
 \begin{enumerate}
     \item If \( n < \omega \), then \( n^+ < \omega \), where \( n^+ \) is the cardinal successor of \( n \).
     We define
-    \[ \Lambda(\kappa) \iff \forall \alpha (\alpha < \kappa \to \alpha^+ < \kappa) \]
+    \[ \Lambda(\kappa) \iff \forall \alpha.\, (\alpha < \kappa \to \alpha^+ < \kappa) \]
     where \( \alpha^+ \) is the least cardinal strictly larger than \( \alpha \).
     Then, \( \Lambda(\kappa) \) holds precisely when \( \kappa \) is a limit cardinal.
     These need not be very large, for example, \( \aleph_\omega \) is a limit cardinal, and the existence of this cardinal is proven by \( \mathsf{ZFC} \).
     \item If \( n < \omega \), then \( 2^n < \omega \), where \( 2^n \) is the size of the power set of \( n \).
-    \[ \Sigma(\kappa) \iff \forall \alpha (\alpha < \kappa \to 2^\alpha < \kappa) \]
+    \[ \Sigma(\kappa) \iff \forall \alpha.\, (\alpha < \kappa \to 2^\alpha < \kappa) \]
     where \( 2^\alpha \) is the cardinality of \( \mathcal P(\alpha) \).
     Such cardinals are called \emph{strong limit cardinals}.
     We will show that these exist in all models of \( \mathsf{ZFC} \).
@@ -67,7 +67,7 @@ We can consider properties that encapsulate the notion that \( \omega \) is much
     Note that \( \aleph_1 \) is also regular, since countable unions of countable sets are countable.
     This argument generalises to all succcessor cardinals, so all successor cardinals \( \aleph_{\alpha + 1} \) are regular.
     The cardinal \( \aleph_\omega \) is not regular, as it is the union of \( \qty{\aleph_n \mid n \in \mathbb N} \), which is a subset of \( \aleph_\omega \) of cardinality \( \aleph_0 \), giving \( \cf(\aleph_\omega) = \aleph_0 \).
-    Note also that the cofinality of \( \aleph_{\aleph_\omega} \) is also \( \aleph_0 \).
+    The cofinality of \( \aleph_{\aleph_\omega} \) is also \( \aleph_0 \).
     Limit cardinals are often singular.
 \end{enumerate}
 
@@ -105,16 +105,16 @@ However, there is another approach we will take here.
 By G\"odel's second incompleteness theorem, under the assumption that \( \mathsf{ZFC} \) is consistent, we have \( \mathsf{ZFC} \nvdash \Con(\mathsf{ZFC}) \), so it suffices to show \( \mathsf{IC} \to \Con(\mathsf{ZFC}) \).
 G\"odel's completeness theorem states that \( \Con(T) \) holds if and only if there exists a model \( M \) with \( M \vDash T \).
 Thus, it suffices to show that under the assumption that there is an inaccessible cardinal, we can construct a model of \( \mathsf{ZFC} \).
-Note that the metatheory in which the completeness is proven actually matters; both theories and models are actually sets in the outer theory.
+Note that the metatheory in which the completeness theorem is proven actually matters; both theories and models are actually sets in the outer theory.
 
 Recall that the \emph{cumulative hierarchy} inside a model of set theory is given by
 \[ \mathrm{V}_0 = \varnothing;\quad \mathrm{V}_{\alpha + 1} = \mathcal P(\mathrm{V}_\alpha);\quad \mathrm{V}_\lambda = \bigcup_{\alpha < \lambda} \mathrm{V}_\alpha \]
 \begin{enumerate}
     \item The axiom of foundation is equivalent to the statement that every set is an element of \( \mathrm{V}_\alpha \) for some \( \alpha \).
     \item \( (\mathrm{V}_\omega, \in) \) is a model of all of the axioms of set theory except for the axiom of infinity.
-    This collection of axioms is called finite set theory \( \mathsf{FST} \).
+    This collection of axioms is called \emph{finite set theory} \( \mathsf{FST} \).
     \item \( (\mathrm{V}_{\omega + \omega}, \in) \) is a model of all of the axioms of set theory except for the axiom of replacement.
-    This theory is called Zermelo set theory with choice \( \mathsf{ZC} \).
+    This theory is called \emph{Zermelo set theory with choice} \( \mathsf{ZC} \).
     In fact, for any limit ordinal \( \lambda > \omega \), \( \mathsf{ZFC} \) proves that \( (\mathrm{V}_\lambda, \in) \vDash \mathsf{ZC} \).
     That is, \( \mathsf{ZFC} \) proves the existence of a model of \( \mathsf{ZC} \), or equivalently, \( \mathsf{ZFC} \vdash \Con(\mathsf{ZC}) \).
     Hence, \( \mathsf{ZC} \) cannot prove replacement, since G\"odel's second incompleteness theorem applies to \( \mathsf{ZC} \).
@@ -222,7 +222,7 @@ There is an elementary embedding of \( M \) into \( \mathrm{V}_\kappa \) given b
 In particular, some \( \beta < \alpha \) has the property that \( M \vDash \varphi_{\omega_1}(\beta) \).
 
 Therefore, the property `\( x \) is a cardinal' cannot be an \emph{absolute} property between \( M \) and \( \mathrm{V}_\kappa \).
-A property is said to be absolute between \( M \) and some larger structure \( N \) if it holds in \( M \) precisely if it holds in \( \mathrm{V}_\kappa \), where parameters are allowed to take values in the smaller structure \( M \).
+A property is said to be absolute between \( M \) and some larger structure \( N \) if it holds in \( M \) precisely if it holds in \( N \), where parameters are allowed to take values in the smaller structure \( M \).
 If the truth of the property in the smaller structure implies the truth in the larger structure, we say the property is \emph{upwards absolute}; conversely, if truth in the larger structure implies truth in the smaller one, we say the property is \emph{downwards absolute}.
 The theory of absoluteness concerns the following classes of formulas, among others.
 \begin{enumerate}
@@ -285,7 +285,7 @@ Note that \( N \subseteq \mathrm{V}_{\alpha_1} \).
 \end{definition}
 We have shown \( \mathsf{I}(\kappa) \to \mathsf{Wor}(\kappa) \), but not the other way round given that a wordly cardinal exists.
 In particular,
-\[ \mathsf{IC} \to \mathsf{WorC} \to \Con{\mathsf{ZFC}} \]
+\[ \mathsf{IC} \to \mathsf{WorC} \to \Con(\mathsf{ZFC}) \]
 \begin{theorem}
     If \( \kappa \) is a wordly ordinal, \( \kappa \) is a cardinal.
 \end{theorem}
@@ -322,7 +322,7 @@ We say that \( T \) and \( S \) is \emph{equiconsistent}, written \( T \equiv_{\
 \end{remark}
 In conclusion,
 \[ \mathsf{ZFC} <_{\Con} \mathsf{ZFC} + \Con(\mathsf{ZFC}) <_{\Con} \mathsf{ZFC} + \mathsf{WorC} <_{\Con} \mathsf{ZFC} + \mathsf{IC} \]
-where the second inequality uses the same argument as \( \mathsf{IC} \to \Con(\mathsf{IC} + \Con(\mathsf{IC})) \).
+where the second inequality uses the same argument as \( \mathsf{IC} \to \Con(\mathsf{ZFC} + \Con(\mathsf{ZFC})) \).
 
 We will see that \( \mathsf{ZFC} \equiv_{\Con} \mathsf{ZFC} + \neg\mathsf{IC} \).
 Many large cardinal axioms have this property that their negations are weak.
