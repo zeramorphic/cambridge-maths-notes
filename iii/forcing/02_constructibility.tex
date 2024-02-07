@@ -129,7 +129,7 @@ For clarity, we will define the ordered triple \( \langle a, b, c \rangle \) to 
 \end{remark}
 \begin{proof}
     We show this by induction on the class \( \Delta_0 \).
-    We call a formula \( \varphi \) a \emph{termed formula} if the conclusion of the lemma holds for \( \varphi \); we aim to show that every \( \Delta_0 \)-formula is a termed tormula.
+    We call a formula \( \varphi \) a \emph{termed formula} if the conclusion of the lemma holds for \( \varphi \); we aim to show that every \( \Delta_0 \)-formula is a termed formula.
     We will only use the logical symbols \( \wedge, \vee, \neg, \exists \), and the only occurrence of existential quantification will be in formulas of the form
     \[ \varphi(x_1, \dots, x_n) \equiv \exists x_{n+1} \in x_j.\, \psi(x_1, \dots, x_{n+1}) \]
     where \( j \leq m \leq n \).
@@ -206,6 +206,64 @@ For clarity, we will define the ordered triple \( \langle a, b, c \rangle \) to 
         \item Conjunctions are similar to disjunctions.
         \[ \mathcal F_{\varphi \wedge \psi}(a_1, \dots, a_n) = \mathcal F_\varphi(a_1, \dots, a_n) \cap \mathcal F_\psi(a_1, \dots, a_n) \]
     \end{itemize}
+
+    \emph{Part (iii): atomic formulas.}
+    \begin{itemize}
+        \item Consider \( \varphi(x_1, \dots, x_n) \equiv x_i = x_j \).
+        We show that this is a termed formula for all \( i, j \leq n \).
+        Suppose \( i = 1 \) and \( j = 2 \).
+        In this case,
+        \[ \mathcal F_9(a_1, a_2) = \qty{\langle x_2, x_1 \rangle \in a_2 \times a_1 \mid x_1 = x_2} \]
+        so \( \mathcal F_\varphi \) is formed using \( \mathcal F_9 \) and the discussion on dummy variables.
+        Now suppose \( j \geq i \).
+        We prove this by induction.
+        First, if \( i = j \), then
+        \[ \mathcal F_\varphi = \qty{\langle x_n, \dots, x_1 \rangle \in a_n \times \dots \times a_1 \mid x_i = x_i} = a_n \times \dots \times a_1 \]
+        Now, if \( j = i + 1 \), we let
+        \[ \theta(x_1, \dots, x_{i+1}) = (x_1 = x_2)[x_i/x_1, x_{i+1}/x_2] \]
+        This is a termed formula by the result on substitutions.
+        We thus obtain \( \mathcal F_\varphi \) by adding the required dummy variables.
+        Now suppose we have \( \varphi(x_1, \dots, x_n) \equiv x_i = x_{j+1} \).
+        Then we can write
+        \[ \varphi(x_1, \dots, x_{j+1}) = (x_i, x_j)[x_{j+1}, x_j] \]
+        which is a termed formula by substitution.
+        This concludes the case \( i \leq j \) by induction.
+        Finally, suppose \( i > j \).
+        As \( x_i = x_j \) is logically equivalent to \( x_j = x_i \), which is a termed formula, \( \varphi \) is also a termed formula.
+        \item Now consider \( \varphi(x_1, \dots, x_n) \equiv x_i \in x_j \).
+        As with equality, we first consider the case \( i = 1, j = 2 \).
+        In this case, we can form \( \mathcal F_{10} \) with dummy variables.
+        If \( i = j \), the formula is always false, so we have
+        \[ \mathcal F_\varphi(a_1, \dots, a_n) = \varnothing = a_1 \setminus a_1 = \mathcal F_3(a_1, a_1) \]
+        Now, let
+        \[ \psi(x_1, \dots, x_{n+2}) \equiv (x_i = x_{n+1}) \wedge (x_j = x_{n+2}) \wedge (x_{n+1} \in x_{n+2}) \]
+        We note that \( x_{n+1} \in x_{n+2} \) is a termed formula as it is given by the substitution \( (x_1 \in x_2)[x_{n+1}/x_1, x_{n+2}/x_2] \).
+        The equalities are termed formulas as above, so \( \psi \) is a termed formula.
+        Then
+        \begin{align*}
+            \mathcal F_\varphi(a_1, \dots, a_n) &= \operatorname{ran}\operatorname{ran}\{\langle x_{n+2}, \dots, x_1\rangle \times a_j \times a_i \times a_n \times \dots \times a_1 \\&\quad\quad\quad\mid x_i = x_{n+1} \wedge x_j = x_{n+2} \wedge x_{n+1} \in x_{n+2}\} \\
+            &= \mathcal F_6(\mathcal F_6(\mathcal F_\psi(a_1, \dots, a_n), a_1), a_1)
+        \end{align*}
+    \end{itemize}
+
+    \emph{Part (iv): bounded quantifiers.}
+    We required that the only occurrence of \( \exists \) was in the form
+    \[ \varphi(x_1, \dots, x_n) \equiv \exists x_{m+1} \in x_j.\, \psi(x_1, \dots, x_{m+1}) \]
+    where \( j \leq m \leq n \).
+    Due to this restriction, it suffices to show that if \( \psi(x_1, \dots, x_{n+1}) \) is a termed formula, then so is the formula
+    \[ \varphi(x_1, \dots, x_n) \equiv \exists x_{n+1} \in x_j.\, \psi(x_1, \dots, x_{n+1}) \]
+    Let \( \theta(x_1, \dots, x_{n+1}) \equiv x_{n+1} \in x_j \).
+    Then \( \theta \wedge \psi \) is a termed formula.
+    Now
+    \begin{align*}
+        \mathcal F_{\theta \wedge \psi}(a_1, \dots, a_n, \mathcal F_2(a_j, a_j)) &= \mathcal F_{\theta \wedge \psi}\qty(a_1, \dots, a_n, \bigcup a_j) \\
+        &= \qty{\langle x_{n+1}, \dots, x_1 \rangle \in \qty(\bigcup a_j) \times a_n \times \dots \times a_1 \mid x_{n+1} \in x_j \wedge \forall k \leq n.\, x_k \in a_k \wedge \psi(x_1, \dots, x_{n+1})}
+    \end{align*}
+    So
+    \begin{align*}
+        \operatorname{ran}(\mathcal F_{\theta \wedge \psi}\qty(a_1, \dots, a_n, \bigcup a_j)) &= \qty{\langle x_n, \dots, x_1 \rangle \in a_n \times \dots \times a_1 \mid \exists u.\, \langle u, x_n, \dots, x_1 \rangle \in \mathcal F_{\theta \wedge \psi}\qty(a_1, \dots, a_n, \bigcup a_j)} \\
+        &= \qty{\langle x_n, \dots, x_1 \rangle \in a_n \times \dots \times a_1 \mid \exists x_{n+1} \in x_j.\, \psi(x_1, \dots, x_{n+1})}
+    \end{align*}
 \end{proof}
 \begin{definition}
     A class \( C \) is \emph{closed under G\"odel functions} if whenever \( x, y \in C \), we have \( \mathcal F_i(x, y) \in C \) for \( i \in \qty{1, \dots, 10} \).
@@ -266,4 +324,95 @@ One can easily check that \( \mathrm{cl}(b) = \bigcup_{n \in \omega} \mathcal D^
     \end{enumerate}
     Finally, we obtain
     \[ Z = \mathcal G(M, a_1, \dots, a_n) = \qty{x \in M \mid \psi^M(x, a_1, \dots, a_n)} \in \operatorname{Def}(M) \]
+\end{proof}
+
+\subsection{The axiom of constructibility}
+\begin{definition}
+    The \emph{axiom of constructibility} is the statement \( \mathrm{V} = \mathrm{L} \).
+    Equivalently, \( \forall x.\, \exists \alpha \in \mathrm{Ord}.\, (x \in \mathrm{L}_\alpha) \).
+\end{definition}
+We will show that if \( \mathsf{ZF} \) is consistent, then so is \( \mathsf{ZF} + (\mathrm{V} = \mathrm{L}) \), because \( \mathrm{L} \) is a model of \( \mathsf{ZF} + (\mathrm{V} + \mathrm{L}) \).
+To do this, we will show that being constructible is absolute.
+\begin{lemma}
+    \( Z = \mathrm{cl}(M) \) is \( \Delta_1^{\mathsf{ZF}} \).
+\end{lemma}
+\begin{proof}
+    The \( \Pi_1 \) definition is simply being the smallest set closed under G\"odel functions.
+    More explicitly,
+    \[ \forall W.\, \qty(M \cup \qty{M} \subseteq W \wedge \forall x, y \in W.\, \bigwedge_{i \leq 10} \mathcal F_i(x, y) \in W) \to Z \subseteq W \]
+    The \( \Sigma_1 \) definition will use the inductive definition of the closure.
+    \[ \exists W.\, W \text{ is a function} \wedge \dom W = \omega \wedge Z = \bigcup \operatorname{ran} W \wedge W(0) = M \wedge W(n) \subseteq W(n+1) \wedge \qty(\forall x, y \in W(n).\, \bigwedge_{i \leq 10} \mathcal F_i(x, y) \in W(n+1)) \wedge \qty(\forall z \in W(n+1).\, \exists x, y \in W(n).\, \bigvee_{i \leq 10} z = \mathcal F_i(x, y)) \]
+\end{proof}
+\begin{lemma}
+    The function mapping \( \alpha \mapsto \mathrm{L}_\alpha \) is absolute between transitive models of \( \mathsf{ZF} \).
+\end{lemma}
+\begin{proof}
+    Define \( G : \mathrm{Ord} \times \mathrm{V} \to \mathrm{V} \) by
+    \[ G(\alpha, x) = \begin{cases}
+        \mathrm{cl}(x(\beta) \cup \qty{x(\beta)}) & \text{if } \alpha = \beta + 1 \text{ and } x \text{ is a function with domain } \beta \\
+        \bigcup_{\beta < \alpha} x(\beta) & \text{if } \alpha \text{ is a limit} \\
+        \varnothing & \text{otherwise}
+    \end{cases} \]
+    All of these conditions and constructions are absolute, so \( G \) is an absolute function.
+    Therefore, by transfinite recursion, there exists \( F : \mathrm{Ord} \to \mathrm{V} \) where \( F : \alpha \mapsto G\qty(x, \eval{F}_\alpha) \).
+    By absoluteness of transfinite recursion, \( F \) is absolute.
+    Finally, \( F(\alpha) = \mathrm{L}_\alpha \) for all ordinal \( \alpha \).
+\end{proof}
+\begin{theorem}
+    \begin{enumerate}
+        \item \( \mathrm{L} \) satisfies the axiom of constructibility.
+        \item \( \mathrm{L} \) is the smallest inner model of \( \mathsf{ZF} \).
+        That is, if \( M \) is an inner model of \( \mathsf{ZF} \), then \( \mathrm{L} \subseteq M \).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \emph{Part (i).}
+    We must show
+    \[ (\forall x.\, \exists \alpha \in \mathrm{Ord}.\, x \in \mathrm{L}_\alpha)^{\mathrm{L}} \]
+    which is
+    \[ \forall x \in \mathrm{L}.\, \exists \alpha \in \mathrm{Ord}.\, x \in (\mathrm{L}_\alpha)^{\mathrm{L}} \]
+    Since the \( \mathrm{L}_\alpha \) hierarchy is absolute, \( x \in (\mathrm{L}_\alpha)^{\mathrm{L}} \) if and only if \( x \in \mathrm{L}_\alpha \).
+    As \( \mathrm{L} \) contains every ordinal, if \( x \in \mathrm{L} \) then \( x \in \mathrm{L}_\alpha \) for some \( \alpha \), and thus \( x \in (\mathrm{L}_\alpha)^{\mathrm{L}} \).
+    Hence \( \mathrm{L} \vDash \alpha \in \mathrm{L} \wedge x \in \mathrm{L}_\alpha \).
+
+    \emph{Part (ii).}
+    Let \( M \) be an arbitrary inner model of \( \mathsf{ZF} \).
+    We construct \( \mathrm{L} \) inside \( M \) to give \( \mathrm{L}^M \).
+    By absoluteness, for every \( \alpha \in M \cap \mathrm{Ord} \), we have \( \mathrm{L}_\alpha = (\mathrm{L}_\alpha)^M \).
+    Thus \( \mathrm{L}_\alpha \subseteq M \) for every \( \alpha \in M \cap \mathrm{Ord} = \mathrm{Ord} \).
+    Hence \( \mathrm{L} \subseteq M \) as required.
+\end{proof}
+
+\subsection{Well-ordering the universe}
+We will show that \( \mathrm{L} \) satisfies a strong version of the axiom of choice, namely that there is a definable global well-order.
+We will define well-orderings \( <_\alpha \) on \( \mathrm{L}_\alpha \) such that \( <_{\alpha + 1} \) \emph{end-extends} \( <_\alpha \): if \( y \in \mathrm{L}_\alpha \) and \( x \in \mathrm{L}_{\alpha + 1} \setminus \mathrm{L}_\alpha \), then \( y <_{\alpha + 1} x \).
+Then we set \( <_{\mathrm{L}} = \bigcup_\alpha <_\alpha \).
+\begin{theorem}
+    There is a well-ordering of \( \mathrm{L} \).
+\end{theorem}
+\begin{proof}
+    For each ordinal \( \alpha \), we will construct a well-order \( <_\alpha \) on \( \mathrm{L}_\alpha \) such that if \( \alpha < \beta \), the following hold:
+    \begin{enumerate}
+        \item if \( x <_\alpha y \) then \( x <_\beta y \); and
+        \item if \( x \in \mathrm{L}_\alpha \) and \( y \in \mathrm{L}_\beta \setminus \mathrm{L}_\alpha \), then \( x <_\beta y \).
+    \end{enumerate}
+    For limit cases, we take unions:
+    \[ <_\gamma = \bigcup_{\alpha < \gamma} <_\gamma \]
+    We now describe the construction of \( <_{\alpha + 1} \).
+    To do this, we consider the ordering on \( \mathrm{L}_\alpha \), and append the singleton \( \qty{\mathrm{L}_\alpha} \).
+    We then follow that by the elements of \( \mathcal D(\mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha}) \setminus (\mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha}) \).
+    We then add \( \mathcal D^2(\mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha}) \setminus \mathcal D(\mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha}) \), and so forth.
+    In order to do this, we define \( <_{\alpha + 1}^n \) for \( n \in \omega \) as follows.
+    \begin{enumerate}
+        \item \( <_{\alpha + 1}^0 \) is the well-ordering of \( \mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha} \) given by making \( \qty{\mathrm{L}_\alpha} \) the maximal element.
+        \item Suppose that \( <_{\alpha + 1}^n \) is defined.
+        We end-extend \( <_{\alpha + 1}^n \) to form \( <_{\alpha + 1}^{n + 1} \) as follows.
+        Suppose \( x, y \notin \mathcal D^n(\mathrm{L}_\alpha) \).
+        We say \( x <_{\alpha + 1}^{n+1} \) if either
+        \begin{enumerate}
+            \item the least \( i \leq 10 \) such that \( \exists u, v \in \mathcal D^n(\mathrm{L}_\alpha) \) with \( x = \mathcal F_i(u, v) \) is less than the least \( i \leq 10 \) such that \( \exists u, v \in \mathcal D^n(\mathrm{L}_\alpha) \) with \( \mathcal y = \mathcal F_i(u, v) \); or
+            \item these indices \( i \) are equal, and the \( <_{\alpha + 1}^n \)-least \( u \in \mathcal D^n(\mathrm{L}_\alpha) \) such that there exists \( v \in \mathcal D^n(\mathrm{L}_\alpha) \) with \( x = \mathcal F_i(u, v) \) is less than the \( <_{\alpha + 1}^n \)-least \( u \in \mathcal D^n(\mathrm{L}_\alpha) \) such that there exists \( v \in \mathcal D^n(\mathrm{L}_\alpha) \) with \( y = \mathcal F_i(u, v) \); or
+            \item both of these coincide, and \( <_{\alpha + 1}^n \)-least \( v \in \mathcal D^n(\mathrm{L}_\alpha) \) with \( x = \mathcal F_i(u, v) \) is less than the least \( v \in \mathcal D^n(\mathrm{L}_\alpha) \) with \( y = \mathcal F_i(u, v) \).
+        \end{enumerate}
+    \end{enumerate}
 \end{proof}
