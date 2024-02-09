@@ -341,7 +341,12 @@ To do this, we will show that being constructible is absolute.
     More explicitly,
     \[ \forall W.\, \qty(M \cup \qty{M} \subseteq W \wedge \forall x, y \in W.\, \bigwedge_{i \leq 10} \mathcal F_i(x, y) \in W) \to Z \subseteq W \]
     The \( \Sigma_1 \) definition will use the inductive definition of the closure.
-    \[ \exists W.\, W \text{ is a function} \wedge \dom W = \omega \wedge Z = \bigcup \operatorname{ran} W \wedge W(0) = M \wedge W(n) \subseteq W(n+1) \wedge \qty(\forall x, y \in W(n).\, \bigwedge_{i \leq 10} \mathcal F_i(x, y) \in W(n+1)) \wedge \qty(\forall z \in W(n+1).\, \exists x, y \in W(n).\, \bigvee_{i \leq 10} z = \mathcal F_i(x, y)) \]
+    \begin{align*}
+        \exists W.\, W \text{ is a function} &\wedge \dom W = \omega \wedge Z = \bigcup \operatorname{ran} W \\
+        &\wedge W(0) = M \wedge W(n) \subseteq W(n+1) \\
+        &\wedge \qty(\forall x, y \in W(n).\, \bigwedge_{i \leq 10} \mathcal F_i(x, y) \in W(n+1)) \\
+        &\wedge \qty(\forall z \in W(n+1).\, \exists x, y \in W(n).\, \bigvee_{i \leq 10} z = \mathcal F_i(x, y))
+    \end{align*}
 \end{proof}
 \begin{lemma}
     The function mapping \( \alpha \mapsto \mathrm{L}_\alpha \) is absolute between transitive models of \( \mathsf{ZF} \).
@@ -416,3 +421,158 @@ Then we set \( <_{\mathrm{L}} = \bigcup_\alpha <_\alpha \).
         \end{enumerate}
     \end{enumerate}
 \end{proof}
+The restriction of \( <_{\mathrm{L}} \) to any set \( x \in \mathrm{L} \) is a well-ordering of \( x \).
+Since every set can be well-ordered, the axiom of choice holds.
+\begin{lemma}
+    The relation \( <_{\mathrm{L}} \) is \( \Sigma_1 \)-definable.
+    Moreover, for every limit ordinal \( \delta \) and \( y \in \mathrm{L}_\delta \), we have \( x <_{\mathrm{L}} y \) if and only if \( x \in \mathrm{L}_\delta \) and \( (\mathrm{L}_\delta, \in) \vDash x <_{\mathrm{L}} y \).
+\end{lemma}
+
+\subsection{The generalised continuum hypothesis in \texorpdfstring{\( \mathrm{L} \)}{L}}
+\begin{lemma}
+    (\( \mathsf{ZFC} \))
+    \begin{enumerate}
+        \item For all \( n \in \omega \), we have \( \mathrm{L}_n = \mathrm{V}_n \).
+        \item If \( M \) is infinite, then \( \abs{M} = \abs{\operatorname{Def}(M)} \).
+        \item If \( \alpha \) is an ordinal, then \( \abs{\mathrm{L}_\alpha} = \abs{\alpha} \).
+    \end{enumerate}
+\end{lemma}
+\begin{lemma}[G\"odel's condensation lemma]
+    For every limit ordinal \( \delta \), if \( (M, \in) \prec (L_\delta, \in) \), then there exists some \( \beta \leq \delta \) such that \( (M, \in) \cong (L,\beta, \in) \).
+\end{lemma}
+\begin{proof}
+    Let \( \pi : (M, \in) \to (N, \in) \) be the Mostowski collapse, and set \( \beta = N \cap \mathrm{Ord} \).
+    Since \( N \) is transitive, \( \beta \in \mathrm{Ord} \).
+    We will prove that \( \beta \leq \delta \) and \( N = \mathrm{L}_\beta \).
+
+    First, suppose \( \delta < \beta \).
+    Then \( \delta \in N \), so \( \pi^{-1}(\delta) \in M \).
+    Since being an ordinal is absolute between transitive models, \( N \vDash \delta \in \mathrm{Ord} \), so \( M \vDash \pi^{-1}(\delta) \in \mathrm{Ord} \).
+    Note that this does not immediately imply that \( \pi^{-1}(\delta) \) is an ordinal in \( \mathrm{V} \) since \( M \) is not necessarily transitive.
+    But as \( M \prec \mathrm{L}_\delta \), we obtain \( \mathrm{L}_\delta \vDash \pi^{-1}(\delta) \in \mathrm{Ord} \), and since \( \mathrm{L}_\delta \) is transitive, \( \pi^{-1}(\delta) \) is an ordinal in \( \mathrm{V} \).
+
+    Also, \( M \vDash x \in \pi^{-1}(\delta) \) if and only if \( N \vDash \pi(x) \in \delta \).
+    Hence,
+    \[ \pi : (\pi^{-1}(\delta) \cap M) \to \delta \]
+    is an isomorphism.
+    Therefore, the order type of \( \pi^{-1}(\delta) \cap M \) is \( \delta \).
+    Let \( f : \delta \to \pi^{-1}(\delta) \cap M \) be a strictly increasing enumeration.
+    Then, for any \( \alpha \in \delta \), we must have \( \alpha \leq f(\alpha) < \pi^{-1}(\delta) \).
+    Hence \( \delta \leq \pi^{-1}(\delta) \).
+    On the other hand, \( \pi^{-1}(\delta) \in M \prec \mathrm{L}_\delta \), so \( \pi^{-1}(\delta) < \delta \).
+    This gives a contradiction.
+
+    We now show \( \beta > 0 \).
+    Since
+    \[ \mathrm{L}_\delta \vDash \exists x.\, \forall y \in x.\, (y \neq y) \]
+    the elementary substructure \( M \) must also believe this statement, and so \( N \) does.
+    In particular, since \( N \) believes in the existence of an empty set, we must have \( \varnothing \in N \cap \mathrm{Ord} = \beta \) as required.
+
+    We show \( \beta \) is a limit.
+    We know that
+    \[ \mathrm{L}_\delta \vDash \forall \alpha \in \mathrm{Ord}.\, \exists x.\, x = \alpha + 1 \]
+    So \( M \) and hence \( N \) believe this statement.
+    Let \( \alpha \in \beta = N \cap \mathrm{Ord} \), then by absoluteness, \( \alpha + 1 \in N \).
+
+    Now we show \( \mathrm{L}_\beta \subseteq N \).
+    \[ \mathrm{L}_\delta \vDash \forall \alpha \in \mathrm{Ord}.\, \exists y.\, y = \mathrm{L}_\alpha \]
+    So \( N \) satisfies this sentence.
+    Since the \( \mathrm{L}_\alpha \) hierarchy is absolute, for all \( \alpha \in N \cap \mathrm{Ord} = \beta \), we have \( \mathrm{L}_\alpha \in N \).
+
+    Finally, we show \( N \subseteq \mathrm{L}_\beta \).
+    \[ \mathrm{L}_\delta \vDash \forall x.\, \exists y.\, \exists z.\, y \in \mathrm{Ord} \wedge z = \mathrm{L}_y \wedge x \in z \]
+    As \( N \) satisfies this sentence, for a fixed \( a \in N \) there are \( \gamma \in N \) and \( z \in N \) such that
+    \[ N \vDash \gamma \in \mathrm{Ord} \wedge z = \mathrm{L}_\gamma \wedge a \in z \]
+    By absoluteness, \( a \in \mathrm{L}_\gamma \subseteq \mathrm{L}_\beta \) as required.
+\end{proof}
+\begin{theorem}
+    If \( \mathrm{V} = \mathrm{L} \), then \( 2^{\aleph_\alpha} = \aleph_{\alpha + 1} \) for every ordinal \( \alpha \).
+    In particular, \( \mathsf{GCH} \) holds.
+\end{theorem}
+\begin{proof}
+    We will show that \( \mathcal P(\omega_\alpha) \subseteq \mathrm{L}_{\omega_{\alpha + 1}} \).
+    Then, as \( \abs{\mathrm{L}_{\omega_{\alpha + 1}}} = \aleph_{\alpha + 1} \), the proof follows.
+    To do this, it suffices to show that if \( X \subseteq \omega_\alpha \), then there exists some \( \gamma < \omega_{\alpha + 1} \) such that \( X \in \mathrm{L}_\gamma \).
+
+    Let \( X \subseteq \omega_\alpha \) and let \( \delta > \omega_\alpha \) be a limit ordinal such that \( X \in \mathrm{L}_\delta \).
+    Let \( M \) be an elementary submodel of \( \mathrm{L}_\delta \) such that \( \omega_\alpha \subseteq M \), \( X \in M \), and \( \abs{M} = \aleph_\alpha \).
+    This exists by the downward L\"owenheim--Skolem theorem.
+    By G\"odel's condensation lemma, if \( N \) is the Mostowski collapse of \( M \), then there is a limit ordinal \( \gamma \leq \delta \) such that \( N = \mathrm{L}_\gamma \).
+    As \( \abs{N} = \abs{M} = \aleph_\alpha \), we have \( \abs{\mathrm{L}_\gamma} = \aleph_\alpha \), so \( \gamma < \omega_{\alpha + 1} \).
+    Finally, as \( \omega_\alpha \subseteq M \), the collapsing map is the identity on \( \omega_\alpha \).
+    Thus, the map fixes \( X \), and so \( X \in \mathrm{L}_\gamma \).
+\end{proof}
+This gives the following theorem.
+\begin{theorem}
+    \( \Con(\mathsf{ZF}) \) implies \( \Con(\mathsf{ZFC} + \mathrm{V} = \mathrm{L} + \mathsf{GCH}) \).
+\end{theorem}
+\begin{proof}
+    We have shown that there is a definable class \( \mathrm{L} \) such that \( \mathsf{ZF} \) proves
+    \[ (\mathsf{ZFC} + \mathrm{V} = \mathrm{L} + \mathsf{GCH})^{\mathrm{L}} \]
+    Suppose that \( \mathsf{ZFC} + \mathrm{V} = \mathrm{L} + \mathsf{GCH} \) were inconsistent.
+    Then fix \( \varphi \) such that
+    \[ \mathsf{ZFC} + \mathrm{V} = \mathrm{L} + \mathsf{GCH} \vdash \varphi \wedge \neg\varphi \]
+    Then
+    \[ \mathsf{ZF} \vDash (\varphi \wedge \neg\varphi)^L \]
+    By relativisation, \( \varphi^L \wedge \neg(\varphi^L) \).
+    Hence \( \mathsf{ZF} \) is inconsistent.
+\end{proof}
+\begin{lemma}[Shepherdson]
+    There is no class \( W \) such that
+    \[ \mathsf{ZFC} \vdash W \text{ is an inner model} \wedge (\neg\mathsf{CH})^W \]
+\end{lemma}
+Therefore, the technique of inner models does not let us prove the independence of \( \mathsf{CH} \) from \( \mathsf{ZFC} \).
+In order to do this, we will introduce the notion of \emph{forcing}.
+
+\subsection{Combinatorial properties}
+\begin{definition}
+    Let \( \Omega \) be either a regular cardinal or the class of all ordinals.
+    A subclass \( C \subseteq \Omega \) is said to be a \emph{club} or \emph{closed and unbounded} if it is
+    \begin{enumerate}
+        \item \emph{closed}: for all \( \gamma \in \Omega \), we have \( \sup(C \cap \gamma) \in C \);
+        \item \emph{unbounded}: for all \( \alpha \in \Omega \) there exists \( \beta \in C \) with \( \beta > \alpha \).
+    \end{enumerate}
+    A class \( S \subseteq \Omega \) is \emph{stationary} if it intersects every club.
+\end{definition}
+Note that being a stationary class for \( \mathrm{Ord} \) is not first-order definable.
+
+The property \( \diamondsuit \) states that there is a single sequence of length \( \omega_1 \) which can approximate any subset of \( \omega_1 \) in a suitable sense.
+\begin{definition}
+    We say that the \emph{diamond principle} \( \diamondsuit \) holds if there is a sequence \( (A_\alpha)_{\alpha < \omega_1} \) such that
+    \begin{enumerate}
+        \item for each \( \alpha < \omega_1 \), we have \( A_\alpha \subseteq \alpha \); and
+        \item for all \( X \subseteq \omega_1 \), the set \( \qty{\alpha \mid X \cap \alpha = A_\alpha} \) is stationary.
+    \end{enumerate}
+\end{definition}
+\begin{lemma}
+    \( \mathsf{ZF} \vdash \diamondsuit \to \mathsf{CH} \).
+\end{lemma}
+\begin{proof}
+    If \( (A_\alpha)_{\alpha < \omega_1} \) is a \( \diamondsuit \)-sequence, then for all \( X \subseteq \omega \), there is \( \alpha > \omega \) such that \( X = A_\alpha \).
+    Thus \( \qty{A_\alpha \mid \alpha \in \omega_1 \mid A_\alpha \subseteq \omega} = \mathcal P(\omega) \).
+\end{proof}
+\begin{theorem}
+    If \( \mathrm{V} = \mathrm{L} \), then \( \diamondsuit \) holds.
+\end{theorem}
+\begin{remark}
+    \( \diamondsuit \) is used in many inductive constructions in \( \mathrm{L} \) to build combinatorial objects such as Suslin trees.
+\end{remark}
+\begin{definition}
+    Let \( \kappa \) be an uncountable cardinal.
+    Then the \emph{square principle} \( \square_\kappa \) is the assertion that there exists a sequence \( (C_\alpha) \) indexed by the limit ordinals \( \alpha \) in \( \kappa^+ \), such that
+    \begin{enumerate}
+        \item \( C_\alpha \) is a club subset of \( \alpha \);
+        \item if \( \beta \) is a limit ordinal of \( C_\alpha \) then \( C_\beta = C_\alpha \cap \beta \); then
+        \item if \( \cf(\alpha) < \kappa \) then \( \abs{C_\alpha} < \kappa \).
+    \end{enumerate}
+\end{definition}
+\begin{theorem}[Jensen]
+    If \( \mathrm{V} = \mathrm{L} \), then \( \square_\kappa \) holds for every uncountable cardinal \( \kappa \).
+\end{theorem}
+\begin{lemma}
+    If \( \square_{\omega_1} \), then there exists a stationary set \( S \subseteq \qty{\beta \in \omega_2 \mid \cf(\beta) = \omega} \) such that for all \( \alpha \in \omega_2 \) with \( \cf(\alpha) = \omega_1 \), \( S \cap \alpha \) is not stationary in \( \alpha \).
+\end{lemma}
+\begin{remark}
+    If \( \kappa \) is a weakly compact cardinal, then every stationary subset of \( \kappa \) \emph{reflects}: there is \( \alpha \in \kappa \) such that \( S \cap \alpha \) is stationary in \( \alpha \).
+    In fact, the claim that every stationary subset of \( \qty{\beta \in \omega_2 \mid \cf(\beta) = \omega} \) reflects at a point of cofinality \( \omega_1 \) is equiconsistent with \( \mathsf{ZFC} \) together with the assertion that there is a Mahlo cardinal.
+\end{remark}

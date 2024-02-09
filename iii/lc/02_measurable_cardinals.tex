@@ -93,7 +93,7 @@ For larger cardinals, it may not be natural to just consider countable additivit
     so the size of this set is at most \( \lambda \).
 \end{proof}
 \begin{theorem}
-    If \( \kappa \) is real-valued measurable, then \( \kappa \) is weakly inaccessible.
+    Every real-valued measurable cardinal is weakly inaccessible.
 \end{theorem}
 \begin{remark}
     If there is a Banach measure on \( [0,1] \), then in particular \( 2^{\aleph_0} \) is weakly inaccessible.
@@ -133,5 +133,95 @@ This removes any mention of the real numbers from the definition of a Banach mea
     This filter is \( \lambda \)-complete if and only if \( \mu \) is \( \lambda \)-additive.
 \end{remark}
 \begin{definition}
-    A cardinal \( \kappa \) is \emph{measurable} if there is a \( \kappa \)-complete nonprincipal ultrafilter on \( \kappa \).
+    An uncountable cardinal \( \kappa \) is \emph{measurable}, written \( \mathsf{M}(\kappa) \), if there is a \( \kappa \)-complete nonprincipal ultrafilter on \( \kappa \).
 \end{definition}
+\begin{remark}
+    \begin{enumerate}
+        \item \( \mathsf{ZFC} \) proves that there is an \( \aleph_0 \)-complete nonprincipal ultrafilter on \( \aleph_0 \), because \( \aleph_0 \)-completeness is equivalent to closure under finite intersections, which is trivial.
+        \item A cardinal \( \kappa \) is called \emph{Ulam measurable} if there is an \( \aleph_1 \)-complete nonprincipal ultrafilter on \( \kappa \).
+        With this definition, the least Ulam measurable cardinal is measurable.
+        So the existence of an Ulam measurable cardinal is equivalent to the existence of a measurable cardinal.
+    \end{enumerate}
+\end{remark}
+\begin{theorem}
+    Every measurable cardinal is inaccessible.
+\end{theorem}
+\begin{proof}
+    We have already shown regularity in the real-valued measurable cardinal case.
+    Let \( \kappa \) be measurable with ultrafilter \( \mathcal U \).
+    Suppose it is not a strong limit, so there is \( \lambda < \kappa \) such that \( 2^\lambda \geq \kappa \).
+    Then there is an injection \( f : \kappa \to B_\lambda \), where \( B_\lambda \) is the set of functions \( \lambda \to 2 \).
+    Fix some \( \alpha < \lambda \), then for each \( \gamma < \kappa \), either
+    \[ f(\gamma)(\alpha) = 0 \text{ or } f(\gamma)(\alpha) = 1 \]
+    Let
+    \[ A_0^\alpha = \qty{\gamma \mid f(\gamma)(\alpha) = 0};\quad A_1^\alpha = \qty{\gamma \mid f(\gamma)(\alpha) = 1} \]
+    These two sets are disjoint and have union \( \kappa \).
+    So there is exactly one number \( b \in \qty{0,1} \) such that \( A^\alpha_b \in \mathcal U \).
+    Define \( c \in B_\lambda \) by \( c(\alpha) = b \).
+    Then
+    \[ X_\alpha = A^\alpha_{c(\alpha)} \in \mathcal U \]
+    This is a collection of \( \lambda \)-many sets that are all in \( \mathcal U \), so by \( \kappa \)-completeness, their intersection \( \bigcap_{\alpha < \lambda} X_\alpha \) also lies in \( \mathcal U \).
+    Suppose \( \gamma \in \bigcap_{\alpha < \lambda} X_\alpha \), so for all \( \alpha < \lambda \), we have \( \gamma \in A^\alpha_{c(\alpha)} \).
+    Equivalently, for all \( \alpha < \lambda \), we have \( f(\gamma)(\alpha) = c(\alpha) \).
+    So \( \gamma \) lies in this intersection if and only if \( f(\gamma) \) is precisely the function \( c \).
+    Hence
+    \[ \bigcap_{\alpha < \lambda} X_\alpha \subseteq \qty{f^{-1}(c)} \]
+    So this intersection has either zero or one element, and in particular, it is not in the ultrafilter, giving a contradiction.
+\end{proof}
+Nonprincipal ultrafilters on \( \kappa \) are not \( \kappa^+ \)-complete, because \( \kappa \) itself is a union of \( \kappa \)-many singletons.
+Principal ultrafilters are complete for any cardinal.
+However, we can emulate completeness for nonprincipal ultrafilters at larger cardinals using the following method.
+If \( (A_\alpha)_{\alpha \leq \kappa} \) is a sequence of subsets of \( \kappa \), its \emph{diagonal intersection} is
+\[ \operatorname*{\scalerel*{\mupDelta}{\textstyle\sum}}_{\alpha \leq \kappa} A_\alpha = \qty{\xi \in \kappa \midd \xi \in \bigcap_{\alpha < \xi} A_\alpha} \]
+A filter on \( \kappa \) is called \emph{normal} if it is closed under diagonal intersections.
+\begin{theorem}
+    If \( \kappa \) is measurable, then there is a \( \kappa \)-complete normal nonprincipal ultrafilter on \( \kappa \).
+\end{theorem}
+The proof will be given later, and is also on an example sheet.
+
+\subsection{Weakly compact cardinals}
+Let \( [X]^n \) be the set of \( n \)-element subsets of \( X \).
+A \emph{2-colouring} of \( \mathbb N \) is a map \( c : [\mathbb N]^2 \to \qty{\text{red}, \text{blue}} \).
+Ramsey's theorem states that for each 2-colouring \( c \), there is an infinite subset \( X \subseteq \mathbb N \) such that \( \eval{c}_{[X]^2} \) is \emph{monochromatic} (or \emph{homogeneous}): each 2-element subset is given the same colour under \( c \).
+
+This property is invariant under bijection, so this is really a property of the cardinal \( \aleph_0 \).
+In \emph{Erd\H{o}s' arrow notation}, we write
+\[ \kappa \to (\lambda)_m^n \]
+if for every colouring \( c : [\kappa]^n \to m \), there is a monochromatic subset \( X \subseteq \kappa \) of size \( \lambda \):
+\[ \abs{c[[X]^n]} = 1 \]
+In this notation, Ramsey's theorem becomes the statement
+\[ \aleph_0 \to (\aleph_0)_2^2 \]
+We can now make the following definition.
+\begin{definition}
+    An uncountable cardinal \( \kappa \) is called \emph{weakly compact}, written \( \mathsf{W}(\kappa) \), if \( \kappa \to (\kappa)_2^2 \).
+\end{definition}
+The name will be explained later.
+\begin{theorem}[Erd\H{o}s]
+    Every weakly compact cardinal is inaccessible.
+\end{theorem}
+\begin{proof}
+    Suppose \( \kappa \) is weakly compact but not regular.
+    Then \( \kappa = \bigcup_{\alpha < \lambda} X_\alpha \) for \( \alpha < \kappa \) and disjoint sets \( X_\alpha \) with \( \abs{X_\alpha} < \kappa \).
+    We define a colouring \( c \) as follows.
+    A pair \( \qty{\gamma,\delta} \) is red if \( \gamma, \delta \) lie in the same \( X_\alpha \), and blue if they are in different \( X_\alpha \).
+    Let \( H \subseteq \kappa \) be a monochromatic subset of size \( \kappa \) for \( c \).
+    If \( H \) is red, then one of the \( X_\alpha \) is large, which is a contradiction.
+    But if \( H \) is blue, then \( \lambda \) must be large, which also gives a contradiction.
+
+    Suppose that \( \kappa \) is not a strong limit, so \( 2^\lambda \geq \kappa \) for \( \lambda < \kappa \).
+    Let \( B_\lambda \) be the set of functions \( \lambda \to 2 \), and give it the \emph{lexicographic order}: we say that \( f < g \) if \( f(\alpha) < g(\alpha) \) at the first position \( \alpha \) at which \( f \) and \( g \) disagree.
+    For this proof, we will use the combinatorial fact that this ordered structure \( (B_\lambda, \leq_{\mathrm{lex}}) \) is a totally ordered set with no increasing or decreasing chains of length \( \kappa > \lambda \).
+    The proof is on an example sheet.
+
+    If \( 2^\lambda \geq \kappa \), there is a family of pairwise distinct elements \( (f_\alpha)_{\alpha < \kappa} \) of \( B_\lambda \) of length \( \kappa \).
+    Define a colouring \( c \) of \( \kappa \) as follows.
+    A pair \( \alpha, \beta \) is red if the truth value of \( \alpha < \beta \) is the same as the truth value of \( f_\alpha \leq_{\mathrm{lex}} f_\beta \).
+    A pair is blue otherwise.
+    Let \( H \) be a monochromatic set for \( c \).
+    If \( H \) is red, then \( f_\alpha \) forms a \( \leq_{\mathrm{lex}} \)-increasing sequence of length \( \kappa \).
+    If \( H \) is blue, then \( f_\alpha \) forms a \( \leq_{\mathrm{lex}} \)-decreasing sequence of length \( \kappa \).
+    Both results contradict the combinatorial result above.
+\end{proof}
+\begin{theorem}
+    Every measurable cardinal is weakly compact.
+\end{theorem}
