@@ -1,0 +1,91 @@
+\subsection{Introduction}
+The idea behind forcing is to widen a given model of \( \mathsf{ZFC} \) to `add lots of reals'.
+But if we work over \( \mathrm{V} \), we already have added all of the sets, so there is nothing left to add.
+Instead, we will work over countable transitive set models of \( \mathsf{ZFC} \).
+However, this means that we will not immediately get \( \Con(\mathsf{ZF}) \to \Con(\mathsf{ZFC} + \neg\mathsf{CH}) \).
+We will then use the reflection theorem to obtain this result.
+
+If \( M \) is such a countable transitive model, we want to add \( \omega_2^M \)-many reals to \( M \).
+We will try to do this a `minimal way'; for example, we do not want to add any ordinals.
+This gives us much more control over the model that we build.
+
+Recall the argument that the sentence \( \varphi(x) \equiv \exists x.\, x^2 = 2 \) is independent of the axioms of fields: we began with a field in which the sentence failed, namely \( \mathbb Q \), and then extended it in a minimal way to \( \mathbb Q\qty[\sqrt{2}] \).
+The model \( \mathbb Q\qty[\sqrt{2}] \) does not just contain \( \mathbb Q \cup \qty{\sqrt{2}} \), it also contains everything that can be built from \( \mathbb Q \) and \( \sqrt{2} \) using the axioms of fields.
+The field \( \mathbb Q\qty[\sqrt{2}] \) is the minimal field extension of \( \mathbb Q \) satisfying \( \varphi \).
+
+We may encounter some difficulties when adding arbitrary reals to our model.
+Suppose that \( M \) is of the form \( \mathrm{L}_\gamma \), where \( \gamma \) is a countable ordinal.
+Then \( \gamma \) can be coded as a subset \( c \) of \( \omega \), which can be viewed as a real.
+If we added \( c \) to \( M \), we could decode it to form \( \gamma = \mathrm{Ord} \cap M \).
+This would violate the principle of not adding any new ordinals.
+
+Suppose we enumerate all formulas as \( \qty{\varphi_n \mid n \in \omega} \).
+Let \( r = \qty{n \mid M \vDash \varphi_n} \).
+If we added \( r \) to \( M \), we could then build a truth predicate for \( M \).
+This would cause problems due to Tarski.
+
+The main issues we must overcome are the following.
+\begin{enumerate}
+    \item We need a method to choose the \( \omega_2^M \)-many subsets of \( M \) to be added.
+    \item Given these, we need to ensure that the extension satisfies \( \mathsf{ZFC} \).
+    \item We must ensure that \( \omega_1^M \) and \( \omega_2^M \) are still cardinals in the extension.
+\end{enumerate}
+We will build these reals from within \( M \) itself.
+Note that if \( r \) is a real, then each of its finite decimal approximations is already in \( M \).
+The issue is that from within \( M \), we do not know what the real we want to add is.
+So we may not know from within \( M \) which reals we will add.
+Instead, we will add a \emph{generic} real.
+To be generic, we will not specify any particular digits, but its decimal expansion will contain every finite sequence.
+We will call a specification \emph{dense} if any finite approximation can be extended to one satisfying the specification.
+For example, `beginning with a \( 7 \)' is not dense, but `containing the subsequence \( 746 \)' is dense.
+It turns out that a real is generic precisely when it meets every dense specification.
+
+The axiom of choice is not needed in the basic machinery of forcing, so we will work primarily over \( \mathsf{ZF} \) and state explicitly where choice is used.
+
+\subsection{Forcing posets}
+\begin{definition}
+    A \emph{preorder} is a pair \( (\mathbb P, \leq) \) such that
+    \begin{itemize}
+        \item \( \mathbb P \) is nonempty;
+        \item \( \leq \) is a binary relation on \( \mathbb P \);
+        \item \( \leq \) is transitive, so \( p \leq q \) and \( q \leq r \) implies \( p \leq r \);
+        \item \( \leq \) is reflexive, so \( p \leq p \).
+    \end{itemize}
+    A preorder is called a \emph{partial order} if \( \leq \) is antisymmetric, so \( p \leq q \) and \( q \leq p \) implies \( p = q \).
+\end{definition}
+\begin{definition}
+    A \emph{forcing poset} is a triple \( (\mathbb P, \leq_{\mathbb P}, \Bbbone_{\mathbb P}) \), where \( (\mathbb P, \leq_{\mathbb P}) \) is a preorder and \( \Bbbone_{\mathbb P} \) is a maximal element.
+    Elements of \( \mathbb P \) are called \emph{conditions}, and we say \( q \) is \emph{stronger} than \( p \) or an \emph{extension} of \( p \) if \( q \leq p \).
+    We say that \( p, q \) are \emph{compatible}, written \( p \|_{\mathbb P} q \), if there exists \( r \) such that \( r \leq_{\mathbb P} p, q \).
+    Otherwise, we say they are \emph{incompatible}, written \( p \perp q \).
+\end{definition}
+\begin{remark}
+    In some texts, the partial order is reversed.
+    This is called \emph{Jerusalem notation}.
+\end{remark}
+The notation \( \mathbb P \in M \) abbreviates \( (\mathbb P, \leq_{\mathbb P}, \Bbbone_{\mathbb P}) \in M \).
+Note that by transitivity if \( \mathbb P \) is an element of \( M \), then \( \Bbbone_{\mathbb P} \in M \), but we do not necessarily have \( \leq_{\mathbb P} \in M \).
+\begin{definition}
+    A preorder is \emph{separative} if whenever \( q \nleq p \), there is \( r \leq q \) such that \( r \perp p \).
+\end{definition}
+\begin{proposition}
+    If \( (\mathbb P, \leq) \) is a separative preorder, it is a partial order.
+\end{proposition}
+\begin{proposition}
+    Suppose that \( (\mathbb P, \leq) \) is a preorder.
+    Define \( p \sim q \) by
+    \[ p \sim q \leftrightarrow \forall r \in P.\, (r \| p \leftrightarrow r \| q) \]
+    Then there is a separative preorder on \( \faktor{\mathbb P}{\sim} \) such that
+    \[ [p] \perp [q] \leftrightarrow p \perp q \]
+    and if \( \mathbb P \) has a maximal element, so does \( \faktor{\mathbb P}{\sim} \).
+\end{proposition}
+\begin{example}
+    For sets \( I, J \), we let \( F_n(I, J) \) denote the set of all finite partial functions from \( I \) to \( J \).
+    \[ F_n(I, J) = \qty{p \mid \abs{p} < \omega \wedge p \text{ is a function} \wedge \dom p \subseteq I \wedge \operatorname{ran} p \subseteq J} \]
+    We let \( \leq \) be the reverse inclusion on \( F_n(I, J) \), so \( q \leq p \) if and only if \( q \supseteq p \).
+    The maximal element \( \Bbbone \) is the empty set.
+    Then \( (F_n(I, J), \leq, \varnothing) \) is a forcing poset, and moreover, the preorder is separative.
+\end{example}
+\begin{remark}
+    When \( \alpha \) is an ordinal, the forcing poset \( F_n(\alpha \times \omega, 2) \) is often written \( \operatorname{Add}(\omega, \alpha) \), denoting the idea that we are adding \( \alpha \)-many subsets of \( \omega \).
+\end{remark}
