@@ -226,6 +226,7 @@ The converse is false.
     These constructions are inverses.
 \end{proof}
 
+\subsection{Central extensions}
 \begin{example}
     Consider central extensions of \( \mathbb Z^2 \) by \( \mathbb Z \).
     We already know of two such extensions.
@@ -342,4 +343,155 @@ The converse is false.
     as required.
     So we may define
     \[ f_1([a^r b^s]) = (S(a, r) b^s, S(b, s)) \]
+    To define \( f_2 \), we need to give images of the symbols \( [a^r b^s | a^t b^u] \).
+    For each such symbol, we find \( z_{r,s,t,u} \in \mathbb Z T \) such that
+    \[ f_1 d_2([a^r b^s | a^t b^u]) = \beta(z_{r,s,t,u}) \]
+    We can explicitly calculate
+    \begin{align*}
+        f_1 d_2([a^r b^s | a^t b^u]) &= f_1(a^r b^s [a^t b^u] - [a^{r+t} b^{s+u}] - [a^r b^s]) \\
+        &= (a^r b^s S(a,t) b^u - S(a,r + t)b^{s+u} + S(a,r)b^s, a^r b^s S(b,u) - S(b, s+u) + S(b,s))
+    \end{align*}
+    So defining
+    \[ z_{r,s,t,u} = S(a,r) b^s S(b,u) \]
+    gives the required equation.
+    \[ f_2([a^r b^s | a^t b^u]) = S(a,r) b^s S(b,u) \]
+    Now we find a cochain \( \varphi : T^2 \to \mathbb Z \) representing the cohomology class \( p \in \mathbb Z = \Hom_T(\mathbb Z T, \mathbb Z) = H^2(T, \mathbb Z) \).
+    Such a cochain is given by the composition
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJUXjIiXSxbMSwwLCJcXG1hdGhiYiBaVCJdLFsyLDAsIlxcbWF0aGJiIFoiXSxbMCwxLCJmXzIiXSxbMSwyLCJwXFx2YXJlcHNpbG9uIl1d
+\[\begin{tikzcd}
+	{T^2} & {\mathbb ZT} & {\mathbb Z}
+	\arrow["{f_2}", from=1-1, to=1-2]
+	\arrow["p\varepsilon", from=1-2, to=1-3]
+\end{tikzcd}\]
+    Since \( \varepsilon(S(a, r)) = r \), we find
+    \[ \varphi(a^r b^s, a^t b^u) = p\varepsilon(z_{r,s,t,u}) = pru \]
+    The group structure on \( \mathbb Z \times T \) corresponding to this is
+    \[ (m, a^r b^s) \ast (n, a^t b^u) = (m + n + pru, a^{r+t} b^{s+u}) \]
+    This corresponds to the group of matrices
+    \[ \qty{\begin{pmatrix}
+        1 & pr & m \\
+        0 & 1 & s \\
+        0 & 0 & 1
+    \end{pmatrix} \midd r, s, m \in \mathbb Z} \]
 \end{example}
+
+\subsection{Generators and relations}
+Another approach to considering extensions, and in particular central extensions, is the use of partial resolutions arising from generators and relations.
+Given a group \( G \), for any generating set \( X \) there is a canonical map \( F \to G \) where \( F \) is the free group on \( X \).
+Let \( R \) be the kernel of this map, and so we have a short exact sequence
+% https://q.uiver.app/#q=WzAsNSxbMCwwLCIxIl0sWzEsMCwiUiJdLFsyLDAsIkYiXSxbMywwLCJHIl0sWzQsMCwiMSJdLFswLDFdLFsxLDJdLFsyLDNdLFszLDRdXQ==
+\[\begin{tikzcd}
+	1 & R & F & G & 1
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+This is a presentation for \( G \), where the subgroup \( R \) can be thought of as the set of relations.
+Since it is a normal subgroup, \( F \) acts on it by conjugation.
+Often we take a set of generators of \( R \) as a normal subgroup of \( F \).
+
+Let \( R_{\mathrm{ab}} = \faktor{R}{R'} \) be the largest abelian quotient of \( R \).
+We say that \( R' \) is the \emph{derived subgroup} of \( R \), and is given by the commutator subgroup \( [R,R] \) of \( F \).
+It inherits an action of \( F \), but \( R \) acts trivially, so we have an induced action by \( G = \faktor{F}{R} \).
+Clearly \( R_{\mathrm{ab}} \) is a \( \mathbb Z \)-module, and it is a \( \mathbb Z G \)-module.
+This is called the \emph{relation module}.
+We have an extension
+% https://q.uiver.app/#q=WzAsNSxbMCwwLCIxIl0sWzEsMCwiUl97XFxtYXRocm17YWJ9fSJdLFsyLDAsIlxcZmFrdG9ye0Z9e1InfSJdLFszLDAsIkciXSxbNCwwLCIxIl0sWzAsMV0sWzEsMl0sWzIsM10sWzMsNF1d
+\[\begin{tikzcd}
+	1 & {R_{\mathrm{ab}}} & {\faktor{F}{R'}} & G & 1
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+To get a central extension, we instead consider
+% https://q.uiver.app/#q=WzAsNSxbMCwwLCIxIl0sWzEsMCwiXFxmYWt0b3J7Un17W1IsRl19Il0sWzIsMCwiXFxmYWt0b3J7Rn17W1IsRl19Il0sWzMsMCwiRyJdLFs0LDAsIjEiXSxbMCwxXSxbMSwyXSxbMiwzXSxbMyw0XV0=
+\[\begin{tikzcd}
+	1 & {\faktor{R}{[R,F]}} & {\faktor{F}{[R,F]}} & G & 1
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+where \( [R,F] \) is the commutator subgroup.
+There is not a largest or universal central extension, since we can always form the direct product with an abelian group, but this particular central extension above does have some good properties that we will now explore.
+\begin{theorem}
+    Let
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIxIl0sWzEsMCwiUiJdLFsyLDAsIkYiXSxbMywwLCJHIl0sWzQsMCwiMSJdLFswLDFdLFsxLDJdLFsyLDNdLFszLDRdXQ==
+\[\begin{tikzcd}
+	1 & R & F & G & 1
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    be a presentation of \( G \).
+    Let \( M \) be a left \( \mathbb Z G \)-module.
+    Then there is an exact sequence
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJIXjEoRixNKSJdLFsxLDAsIlxcSG9tX0coUl97XFxtYXRocm17YWJ9fSxNKSJdLFsyLDAsIkheMihHLE0pIl0sWzMsMCwiMCJdLFswLDFdLFsxLDJdLFsyLDNdXQ==
+\[\begin{tikzcd}
+	{H^1(F,M)} & {\Hom_G(R_{\mathrm{ab}},M)} & {H^2(G,M)} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+\end{tikzcd}\]
+    Thus, any equivalence class of extensions of \( G \) by \( M \) corresponding to a cohomology class in \( H^2(G,M) \) arises from a \( \mathbb Z G \)-map \( R_{\mathrm{ab}} \to M \).
+\end{theorem}
+Note that \( M \) is a \( \mathbb Z F \)-module via the map \( F \to G \).
+\begin{corollary}
+    In the above situation, if \( M \) is a trivial \( \mathbb Z G \)-module, then we have an exact sequence
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXEhvbShGLE0pIl0sWzEsMCwiXFxIb21fRyhcXGZha3RvcntSfXtbUixGXX0sTSkiXSxbMiwwLCJIXjIoRyxNKSJdLFszLDAsIjAiXSxbMCwxXSxbMSwyXSxbMiwzXV0=
+\[\begin{tikzcd}
+	{\Hom(F,M)} & {\Hom_G(\faktor{R}{[R,F]},M)} & {H^2(G,M)} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+\end{tikzcd}\]
+\end{corollary}
+\begin{proof}
+    \( M \) is a trivial \( \mathbb Z F \)-module, so \( H^1(F, M) = \Hom(F, M) \), which is a set of group homomorphisms to an abelian group, and any such morphism factors uniquely through the abelianisation so this is equal to \( \Hom(F_{\mathrm{ab}}, M) \).
+    Similarly, \( \Hom_G(R_{\mathrm{ab}}, M) = \Hom_G\qty(\faktor{R}{[R,F]}, M) \).
+\end{proof}
+
+\subsection{Homology groups}
+There is also a connection with homology groups.
+Given a projective resolution of the trivial \( \mathbb Z G \)-module \( \mathbb Z \), we can apply the map \( \mathbb Z \otimes_{\mathbb Z G} - \) and obtain homology groups.
+The homology groups do not depend on the choice of resolution, and are written \( H_n(G, \mathbb Z) \).
+\begin{definition}
+    The \emph{Schur multiplier} \( M(G) \) of a group \( G \) is the second homology group \( H_2(G, \mathbb Z) \).
+\end{definition}
+\begin{theorem}[universal coefficients theorem]
+    Let \( G \) be a group and \( M \) be a trivial \( \mathbb Z G \)-module.
+    Then there is a short exact sequence
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIwIl0sWzEsMCwiXFxvcGVyYXRvcm5hbWV7RXh0fV4xKEdfe1xcbWF0aHJte2FifX0sTSkiXSxbMiwwLCJIXjIoRyxNKSJdLFszLDAsIlxcSG9tKE0oRyksTSkiXSxbNCwwLCIwIl0sWzAsMV0sWzEsMl0sWzIsM10sWzMsNF1d
+\[\begin{tikzcd}
+	0 & {\operatorname{Ext}^1(G_{\mathrm{ab}},M)} & {H^2(G,M)} & {\Hom(M(G),M)} & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    where \( \operatorname{Ext}^1(G_{\mathrm{ab}}, M) \) arises from applying \( \Hom_{\mathbb Z}(-, M) \) to a projective resolution of the abelian group \( G_{\mathrm{ab}} \).
+\end{theorem}
+\begin{corollary}
+    Suppose that \( G = G' \), and so \( G_{\mathrm{ab}} = 1 \).
+    Then \( H^2(G, M) \cong \Hom(M(G), M) \).
+\end{corollary}
+In some texts, the Schur multiplier is defined to be \( H^2(G, \mathbb C^\times) \), where \( \mathbb C^\times \) is the a trivial module written multiplicatively.
+This approach can be useful when considering projective representations \( G \to PGL(\mathbb C) \).
+Such a map lifts to give a linear representation of central extension of \( G \).
+\begin{theorem}[Hopf's formula]
+    Given a presentation
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCIxIl0sWzEsMCwiUiJdLFsyLDAsIkYiXSxbMywwLCJHIl0sWzQsMCwiMSJdLFswLDFdLFsxLDJdLFsyLDNdLFszLDRdXQ==
+\[\begin{tikzcd}
+	1 & R & F & G & 1
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    we have
+    \[ M(G) \cong \faktor{F' \cap R}{[R,F]} \]
+\end{theorem}
+Note that this is not necessarily all of \( \faktor{F}{[R,F]} \), and this shows that \( \faktor{F' \cap R}{[R,F]} \) is independent of the choice of presentation.
