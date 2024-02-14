@@ -40,6 +40,11 @@ We will call a specification \emph{dense} if any finite approximation can be ext
 For example, `beginning with a \( 7 \)' is not dense, but `containing the subsequence \( 746 \)' is dense.
 It turns out that a real is generic precisely when it meets every dense specification.
 
+Note that there are explicit, absolute bijections \( f : \mathcal P(\omega) \to \omega^\omega \), \( g : \omega^\omega \to 2^\omega \), \( h : 2^\omega \to \mathbb R \) and so on.
+So if \( M \vDash \mathsf{ZFC} \), knowledge of \( \mathcal P^M(\omega) \) gives us \( (\omega^\omega)^M, (2^\omega)^M, \mathbb R^M \).
+Because of this, by a `real' we mean either an element of \( \mathbb R \), a function \( \omega \to \omega \), a function \( \omega \to 2 \), or a subset of \( \omega \).
+In formal arguments, reals will normally be either subsets of \( \omega \) or functions \( \omega \to 2 \).
+
 The axiom of choice is not needed in the basic machinery of forcing, so we will work primarily over \( \mathsf{ZF} \) and state explicitly where choice is used.
 
 \subsection{Forcing posets}
@@ -80,12 +85,141 @@ Note that by transitivity if \( \mathbb P \) is an element of \( M \), then \( \
     and if \( \mathbb P \) has a maximal element, so does \( \faktor{\mathbb P}{\sim} \).
 \end{proposition}
 \begin{example}
-    For sets \( I, J \), we let \( F_n(I, J) \) denote the set of all finite partial functions from \( I \) to \( J \).
-    \[ F_n(I, J) = \qty{p \mid \abs{p} < \omega \wedge p \text{ is a function} \wedge \dom p \subseteq I \wedge \operatorname{ran} p \subseteq J} \]
-    We let \( \leq \) be the reverse inclusion on \( F_n(I, J) \), so \( q \leq p \) if and only if \( q \supseteq p \).
+    For sets \( I, J \), we let \( \operatorname{Fn}(I, J) \) denote the set of all finite partial functions from \( I \) to \( J \).
+    \[ \operatorname{Fn}(I, J) = \qty{p \mid \abs{p} < \omega \wedge p \text{ is a function} \wedge \dom p \subseteq I \wedge \operatorname{ran} p \subseteq J} \]
+    We let \( \leq \) be the reverse inclusion on \( \operatorname{Fn}(I, J) \), so \( q \leq p \) if and only if \( q \supseteq p \).
     The maximal element \( \Bbbone \) is the empty set.
-    Then \( (F_n(I, J), \leq, \varnothing) \) is a forcing poset, and moreover, the preorder is separative.
+    Then \( (\operatorname{Fn}(I, J), \leq, \varnothing) \) is a forcing poset, and moreover, the preorder is separative.
 \end{example}
 \begin{remark}
-    When \( \alpha \) is an ordinal, the forcing poset \( F_n(\alpha \times \omega, 2) \) is often written \( \operatorname{Add}(\omega, \alpha) \), denoting the idea that we are adding \( \alpha \)-many subsets of \( \omega \).
+    When \( \alpha \) is an ordinal, the forcing poset \( \operatorname{Fn}(\alpha \times \omega, 2) \) is often written \( \operatorname{Add}(\omega, \alpha) \), denoting the idea that we are adding \( \alpha \)-many subsets of \( \omega \).
 \end{remark}
+
+\subsection{Chains and \texorpdfstring{\( \Delta \)}{Δ}-systems}
+\begin{definition}
+    Let \( \mathbb P \) be a forcing poset.
+    \begin{enumerate}
+        \item A \emph{chain} is a subset \( C \subseteq \mathbb P \) such that for every \( p, q \in C \), either \( p \leq q \) or \( q \leq p \).
+        \item An \emph{antichain} is a subset \( A \subseteq \mathbb P \) such that for every \( p, q \in A \), either \( p = q \) or \( p \perp q \).
+        An antichain is \emph{maximal} if it is not strictly contained in any other antichain.
+        \item We say that \( \mathbb P \) has the \emph{countable chain condition} if every antichain is countable.
+    \end{enumerate}
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item Consider the tree \( \operatorname{Fn}(\omega, 2) \).
+        A chain is a branch through the tree, and an antichain is a collection of points on different branches.
+        \item The set of functions \( \qty{\qty{\langle 0, 0 \rangle, \langle 1, n \rangle} \mid n \in \omega} \) forms an antichain of length \( \omega \) in \( \operatorname{Fn}(I, \omega) \) if \( \qty{0,1} \subseteq I \).
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    A family of sets \( \mathcal A \) forms a \emph{\( \Delta \)-system with root \( R \)} when \( X \cap Y = R \) for all \( X \neq Y \) in \( \mathcal A \).
+\end{definition}
+\begin{example}
+    If \( R = \varnothing \), then \( \mathcal A \) is a family of pairwise disjoint sets.
+\end{example}
+\begin{definition}
+    Let \( A \) be a set and \( \theta \) a cardinal.
+    Then we write \( [A]^\theta \) for the set of subsets of \( A \) of size \( \theta \).
+    \[ [A]^\theta = \qty{x \subseteq A \mid \abs{x} = \theta} \]
+    We write \( [A]^{<\theta} \) for the set of subsets of \( A \) of size strictly less than \( \theta \).
+    \[ [A]^{<\theta} = \qty{x \subseteq A \mid \abs{x} < \theta} \]
+    Similarly, \( [A]^{\leq\theta} = [A]^\theta \cup [A]^{<\theta} \).
+\end{definition}
+Recall that for regular cardinals \( \kappa \), if \( \mathcal F \) is a family of sets of size less than \( \kappa \) and each element of \( \mathcal F \) has size less than \( \kappa \), then \( \bigcup \mathcal F \) has size less than \( \kappa \).
+\begin{lemma}[\( \Delta \)-system lemma]
+    (\( \mathsf{ZFC} \))
+    Let \( \kappa \) be an uncountable regular cardinal, and let \( \mathcal A \) be a family of finite sets with \( \abs{\mathcal A} = \kappa \).
+    Then there exists \( \mathcal B \in [\mathcal A]^\kappa \) that forms a \( \Delta \)-system.
+\end{lemma}
+\begin{proof}
+    To begin, we construct \( \mathcal C \in [\mathcal A]^\kappa \) such that all elements of \( \mathcal C \) have the same cardinality.
+    By assumption, each element of \( \mathcal A \) is finite, and so we can define \( Y_n = \qty{X \in \mathcal A \mid \abs{X} = n} \), and suppose each of the \( Y_n \) had size less than \( \kappa \).
+    Then \( \abs{\mathcal A} = \abs{\bigcup Y_n} < \kappa \), giving a contradiction.
+
+    Fix \( n \in \omega \) such that \( \mathcal C = Y_n \) has size \( \kappa \).
+    We show by induction on \( n \) that if \( \mathcal C = \qty{X \in \mathcal A \mid \abs{X} = n} \), then there is \( \mathcal B \subseteq \mathcal C \) of size \( \kappa \) that forms a \( \Delta \)-system.
+    If \( n = 1 \), we have a collection of pairwise disjoint singletons, so \( \mathcal C \) is already a \( \Delta \)-system with root \( \varnothing \) as required.
+    Now suppose \( n > 1 \) and the claim holds for \( n - 1 \).
+    For each \( p \in \bigcup \mathcal C \), let \( C_p = \qty{X \in \mathcal C \mid p \in X} \).
+    There are two cases to consider.
+
+    Suppose \( \abs{C_p} = \kappa \) for some \( p \in \bigcup \mathcal C \).
+    Then for such a \( p \), we set \( \mathcal D = \qty{X \setminus \qty{p} \mid X \in C_p} \).
+    This set has size \( \kappa \), and each element of \( \mathcal D \) has size \( n - 1 \).
+    By the inductive hypothesis, we can find some \( \mathcal E \in [\mathcal D]^\kappa \) such that \( \mathcal E \) forms a \( \Delta \)-system with root \( R \).
+    Then \( \qty{Y \cup \qty{b} \mid Y \in \mathcal E} \) is a \( \Delta \)-system with root \( R \cup \qty{p} \).
+
+    Now suppose all of the \( C_p \) have size less than \( \kappa \).
+    Then as \( \kappa \) is regular, for any set \( S \) of size less than \( \kappa \),
+    \[ \qty{X \in \mathcal C \mid X \cap S \neq \varnothing} = \bigcup_{p \in S} C_p \]
+    has size less than \( \kappa \).
+    Therefore, there exists some \( X \in \mathcal C \) such that \( X \cap S = \varnothing \).
+    We recursively choose \( X_\alpha \in \mathcal C \) for each \( \alpha < \kappa \) such that \( X_\alpha \cap \bigcup_{\beta < \alpha} X_\beta = \varnothing \).
+    Then \( {X_\alpha \mid \alpha < \kappa} \in [\mathcal C]^\kappa \) is a \( \Delta \)-system with empty root.
+\end{proof}
+We can show that assumptions in the above lemma were required.
+\begin{proposition}
+    Suppose \( \kappa \) is \( \omega \) or singular.
+    Then there exists a family \( \mathcal A \) of finite sets with \( \abs{\mathcal A} = \kappa \) but no \( \mathcal B \in [\mathcal A]^\kappa \) forms a \( \Delta \)-system.
+\end{proposition}
+\begin{lemma}
+    (\( \mathsf{ZFC} \))
+    \( \operatorname{Fn}(I, J) \) has the countable chain condition if and only if \( I \) is empty or \( J \) is countable.
+\end{lemma}
+\begin{proof}
+    First, we observe that if \( I \) or \( J \) are empty, then \( \operatorname{Fn}(I, J) \) is empty and so trivially has the countable chain condition.
+    Now let us assume that both \( I \) and \( J \) are nonempty.
+
+    Suppose that \( J \) is uncountable.
+    Then for any \( i \in I \), the set
+    \[ \qty{\qty{\langle i, j \rangle} \mid j \in J} \]
+    is an uncountable antichain.
+
+    Now suppose \( J \) is countable, and let \( \qty{p_\alpha \mid \alpha \in \omega_1} \) be a collection of distinct elements of \( \operatorname{Fn}(I, J) \).
+    Let \( \mathcal A = \qty{\dom p_\alpha \mid \alpha \in \omega_1} \), which is a collection of \( \omega_1 \)-many finite sets.
+    By the \( \Delta \)-system lemma, we can find an uncountable subset \( \mathcal B \subseteq \mathcal A \) with a root \( R \subseteq I \).
+    By definition, \( R \subseteq \dom(p_\alpha) \) for all \( \dom p_\alpha \in \mathcal B \), the root \( R \) must be finite.
+    Since \( J \) is countable, there are only countably many functions \( R \to J \).
+    Therefore, as \( \mathcal B \) is uncountable, there are \( \alpha \neq \beta \) such that \( \dom p_\alpha \) and \( \dom p_\beta \) are both in \( \mathcal B \) and \( \eval{p_\alpha}_R = \eval{p_\beta}_R \).
+    But then since \( R \) is a root, \( \dom p_\alpha \cap \dom p_\beta = R \), so \( p_\alpha \mathrel\| p_\beta \), witnessed by their union \( p_\alpha \cup p_\beta \).
+    So the \( \qty{p_\alpha \mid \alpha \in \omega_1} \) cannot form an antichain.
+\end{proof}
+
+\subsection{Dense sets and genericity}
+\begin{definition}
+    Let \( \mathbb P \) be a forcing poset.
+    \begin{enumerate}
+        \item \( D \subseteq \mathbb P \) is \emph{dense} if for all \( p \in \mathbb P \) there exists \( q \in D \) such that \( q \leq p \).
+        \item \( D \subseteq \mathbb P \) is \emph{open} if for all \( p \in D \) and \( q \in \mathbb P \), if \( q \leq p \) then \( q \in D \).
+    \end{enumerate}
+\end{definition}
+A set of conditions is dense if every condition can be extended to one in that set, and a set is open if it is closed under strengthening conditions.
+\begin{example}
+    Let \( I \) be infinite and \( J \) nonempty.
+    Then for all \( i \in I \) and \( j \in J \), the following are dense.
+    \begin{enumerate}
+        \item \( D_i = \qty{q \in \operatorname{Fn}(I, J) \mid i \in \dom q} \);
+        \item \( R_j = \qty{q \in \operatorname{Fn}(I, J) \mid j \in \operatorname{ran} q} \).
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    A subset \( G \) of a forcing poset \( \mathbb P \) is a \emph{filter} if
+    \begin{enumerate}
+        \item \( \mathbb 1 \in G \);
+        \item for all \( p, q \in G \) there is \( r \in G \) such that \( r \leq p \) and \( r \leq q \);
+        \item for all \( p, q \in G \), if \( q \leq p \) and \( q \in G \) then \( p \in G \).
+    \end{enumerate}
+    A filter \( G \) is \emph{\( \mathbb P \)-generic over \( M \)} if \( G \cap D \) is nonempty for every \( \mathbb P \)-dense subset \( D \in M \).
+\end{definition}
+\begin{lemma}[generic filter existence lemma]
+    Let \( M \) be an arbitrary countable set, and let \( \mathbb P \in M \) be a forcing poset.
+    Then for any condition \( p \in \mathbb P \), there is a filter \( G \subseteq \mathbb P \) containing \( p \) which is \( \mathbb P \)-generic over \( M \).
+\end{lemma}
+\begin{proof}
+    Let \( (D_n)_{n \in \omega} \) enumerate all dense subsets of \( \mathbb P \) which lie in \( M \).
+    We inductively define \( X \subseteq \mathbb P \) by \( X = \qty{q_n \mid n \in \omega} \) as follows.
+    Let \( q_0 = p \), and given \( q_n \), we choose \( q_{n+1} \in D_n \) such that \( q_{n+1} \leq q_n \).
+    Finally, let \( G = \qty{r \in \mathbb P \mid \exists n.\, q_n \leq r} \).
+    Then \( G \) is a filter as the \( q_n \) form a chain, and it is clearly generic.
+\end{proof}
