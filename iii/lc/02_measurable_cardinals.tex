@@ -336,3 +336,90 @@ Note that if \( \kappa = \omega \), we recover the standard notion of a first-or
     This is a \( \kappa \)-complete filter on \( \kappa \).
     If \( U \) extends \( F \) then \( U \) must be nonprincipal, so by the Keisler--Tarski theorem, \( F \) can be extended to a \( \kappa \)-complete nonprincipal ultrafilter on \( \kappa \) as required.
 \end{proof}
+
+\subsection{Reflection}
+\begin{definition}
+    A cardinal \( \kappa \) has the \emph{Keisler extension property}, written \( \mathsf{KEP}(\kappa) \), if there is \( \kappa \in X \supsetneq \mathrm{V}_\kappa \) transitive such that \( \mathrm{V}_\kappa \preceq X \).
+\end{definition}
+\begin{proposition}
+    If \( \kappa \) is inaccessible and satisfies the Keisler extension property, there is an inaccessible cardinal \( \lambda < \kappa \).
+\end{proposition}
+\begin{proof}
+    Fix \( X \) as in the Keisler extension property.
+    As \( \kappa \) is inaccessible, \( X \vDash \mathsf{I}(\kappa) \) because \( \kappa \in X \) and inaccessibility is downwards absolute for transitive models.
+    Also, \( \mathrm{V}_\kappa \vDash \mathsf{ZFC} \), so \( X \vDash \mathsf{ZFC} \) as it is an elementary superstructure.
+    Therefore, \( X \vDash \mathsf{ZFC} + \mathsf{IC} \), so \( \mathrm{V}_\kappa \vDash \mathsf{ZFC} + \mathsf{IC} \).
+    So as inaccessibility is absolute between \( \mathrm{V}_\kappa \) and \( \mathrm{V} \), there is an inaccessible \( \lambda < \kappa \).
+\end{proof}
+The phenomenon that properties of \( X \) occur below \( \kappa \) is called \emph{reflection}.
+This argument can be improved in the following sense.
+For a given \( \alpha < \kappa \),
+\[ X \vDash \exists \lambda > \alpha.\, \mathsf{I}(\lambda) \]
+But as \( \alpha \in \mathrm{V}_\kappa \), elementarity gives
+\[ \mathrm{V}_\kappa \vDash \exists \lambda > \alpha.\, \mathsf{I}(\lambda) \]
+So the set
+\[ \qty{\lambda < \kappa \mid \mathsf{I}(\lambda)} \]
+is not only nonempty, but cofinal in \( \kappa \).
+\begin{corollary}
+    Let \( \mathsf{A} \) be the axiom
+    \[ \exists \kappa.\, \mathsf{I}(\kappa) \wedge \mathsf{KEP}(\kappa) \]
+    Then
+    \[ \mathsf{ZFC} + \mathsf{IC} <_{\Con} \mathsf{ZFC} + \mathsf{A} \]
+\end{corollary}
+\begin{proof}
+    It suffices to show that \( \mathsf{ZFC} + \mathsf{A} \vDash \Con(\mathsf{ZFC} + \mathsf{IC}) \).
+    We have seen that \( \mathsf{ZFC} + \mathsf{A} \) proves the existence of (at least) two inaccesible cardinals below \( \kappa \), and in particular the larger of the two is a model of \( \mathsf{ZFC} + \mathsf{IC} \).
+\end{proof}
+\begin{remark}
+    This is the main technique for proving strict inequalities of consistency strength.
+    Given two large cardinal properties \( \Phi, \Psi \) with the appropriate amount of absoluteness properties, we show that \( \mathsf{ZFC} + \Phi(\kappa) \) proves that the set
+    \[ \qty{\lambda < \kappa \mid \Psi(\lambda)} \]
+    is cofinal in \( \kappa \).
+    Then \( \mathsf{ZFC} + \Phi\mathsf{C} \vDash \Con(\mathsf{ZFC} + \Psi\mathsf{C}) \).
+\end{remark}
+\begin{example}
+    Consider the proof that every inaccessible cardinal has a worldly cardinal below it.
+    In the construction, we produce a sequence of ordinals \( (\alpha_i)_{i \in \omega} \), and the worldly cardinal is \( \sup \alpha_i \).
+    But we can set \( \alpha_0 = \lambda + 1 \) for a given worldly cardinal \( \lambda < \kappa \), so this gives a cofinal sequence of worldly cardinals below every given inaccessible.
+\end{example}
+\begin{theorem}
+    Every strongly compact cardinal has the Keisler extension property.
+\end{theorem}
+\begin{proof}
+    We want to use the method of (elementary) diagrams to produce a model with \( \mathrm{V}_\kappa \) as a substructure.
+    However, we have no way to control whether such a model is well-founded using standard first-order model-theoretic techniques.
+    To bypass this issue, we will use infinitary operators.
+
+    Let \( c_x \) be a constant symbol for each \( x \in \mathrm{V}_\kappa \), and let \( L \) be the language with \( \in \) and the \( c_x \).
+    Let
+    \[ \mathcal V = (\mathrm{V}_\kappa, \in, \qty{x \mid x \in \mathrm{V}_\kappa}) \]
+    In first-order logic, \( \mathrm{Th}(X) \) is the elementary diagram of \( \mathrm{V}_\kappa \), so if \( M \vDash \mathrm{Th}(X) \), then \( \mathrm{V}_\kappa \subseteq M \).
+    Let \( L_{\kappa} \) be the \( \mathcal L_{\kappa\kappa} \)-language with the same symbols.
+    Consider
+    \[ \psi \equiv \forall^\omega \vb v.\, \bigvee_{i \in \omega} v_{i+1} \notin v_i \]
+    This expresses well-foundedness (assuming \( \mathsf{AC} \)).
+    Writing \( \Phi = \mathrm{Th}_{L_\kappa}(\mathcal V) \) for the \( L_\kappa \)-theory of \( \mathcal V \), we must have \( \psi \in \Phi \) since \( \mathrm{V}_\kappa \) is well-founded.
+    Thus, if \( M \vDash \Phi \), then \( M \) is a well-founded model containing \( \mathrm{V}_\kappa \).
+    By taking the Mostowski collapse, we may also assume that any such \( M \) is transitive.
+
+    Extend \( L_\kappa \) to \( L_\kappa^+ \) with one extra constant \( c \), and let
+    \[ \Phi^+ = \Phi \cup \qty{c \text{ is an ordinal}} \cup \qty{c \neq c_x \mid x \in \mathrm{V}_\kappa} \]
+    Any model of \( \Phi^+ \) induces a transitive elementary superstructure of \( \mathrm{V}_\kappa \) that contains an ordinal at least \( \kappa \), so by transitivity, \( \kappa \) is in this model.
+
+    We show that \( \Phi^+ \) is satisfiable by showing that it is \( \kappa \)-satisfiable, using the fact that \( \kappa \) is strongly compact.
+    Let \( \Phi^0 \subseteq \Phi^+ \) be a subset of size less than \( \kappa \).
+    Then we can interpret \( c \) as some ordinal \( \alpha \) greater than all ordinals \( \beta \) occurring in the sentences \( c \neq c_\beta \) in \( \Phi^+ \).
+    Then \( \mathcal V \), together with this interpretation of \( c \), is a model of \( \Phi_0 \).
+\end{proof}
+\begin{corollary}
+    \[ \mathsf{ZFC} + \mathsf{IC} <_{\Con} \mathsf{ZFC} + \mathsf{SCC} \]
+\end{corollary}
+The proof above only used languages with at most \( \kappa \)-many symbols.
+Let \( \mathsf{WC}(\kappa) \) be the axiom that every \( \mathcal L_{\kappa\kappa} \)-language with at most \( \kappa \)-many symbols satisfies \( \kappa \)-compactness.
+Then we have shown that \( \mathsf{WC}(\kappa) \) implies the Keisler extension property.
+One can show that
+\[ \mathsf{W}(\kappa) \leftrightarrow \mathsf{WC}(\kappa) \]
+So the cardinals \( \kappa \) that satisfy \( \mathsf{WC}(\kappa) \) are precisely the weakly compact cardinals.
+In particular,
+\[ \mathsf{ZFC} + \mathsf{IC} <_{\Con} \mathsf{ZFC} + \mathsf{WCC} \]
+Note that in the proof that strongly compact cardinals are measurable, we used a language with \( 2^\kappa \)-many symbols.

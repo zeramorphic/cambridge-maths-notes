@@ -71,7 +71,11 @@ The axiom of choice is not needed in the basic machinery of forcing, so we will 
 The notation \( \mathbb P \in M \) abbreviates \( (\mathbb P, \leq_{\mathbb P}, \Bbbone_{\mathbb P}) \in M \).
 Note that by transitivity if \( \mathbb P \) is an element of \( M \), then \( \Bbbone_{\mathbb P} \in M \), but we do not necessarily have \( \leq_{\mathbb P} \in M \).
 \begin{definition}
-    A preorder is \emph{separative} if whenever \( q \nleq p \), there is \( r \leq q \) such that \( r \perp p \).
+    A preorder is \emph{separative} if whenever \( p \neq q \), exactly one of the following two cases holds:
+    \begin{enumerate}
+        \item \( q \leq p \) and \( p \nleq q \); or
+        \item there exists \( r \leq q \) such that \( r \perp p \).
+    \end{enumerate}
 \end{definition}
 \begin{proposition}
     If \( (\mathbb P, \leq) \) is a separative preorder, it is a partial order.
@@ -223,3 +227,164 @@ A set of conditions is dense if every condition can be extended to one in that s
     Finally, let \( G = \qty{r \in \mathbb P \mid \exists n.\, q_n \leq r} \).
     Then \( G \) is a filter as the \( q_n \) form a chain, and it is clearly generic.
 \end{proof}
+\begin{definition}
+    A condition \( p \in \mathbb P \) is \emph{minimal} if whenever \( q \leq p \), we have \( q = p \).
+\end{definition}
+\begin{lemma}
+    Let \( M \) be a countable transitive model of \( \mathsf{ZF} \), and let \( \mathbb P \in M \) be a separative partial order.
+    Then either \( \mathbb P \) has a minimal element, or for every filter \( G \) which is \( \mathbb P \)-generic over \( M \), we have \( G \notin M \).
+\end{lemma}
+\begin{proof}
+    Suppose \( \mathbb P \) has no minimal element.
+    Let \( G \) be a \( \mathbb P \)-generic filter over \( M \).
+    We show that if \( F \subseteq \mathbb P \) is a filter in \( M \), then the set \( D_F = \mathbb P \setminus F \in M \) is a dense set.
+    Then \( G \cap D_F \) is nonempty for all filters \( F \), so \( G \) cannot be equal to any filter \( F \in M \).
+
+    Fix \( p \in \mathbb P \).
+    If \( p \notin F \), then \( p \in D_F \) as required.
+    Otherwise, suppose \( p \in F \).
+    As \( p \) is not minimal, we can fix some \( q \in F \) with \( q < p \).
+    Then \( p \nleq q \), so by separativity, there is \( r \leq p \) such that \( r \perp q \).
+    But all conditions in \( F \) are compatible, so one of \( r \) and \( q \) is not in \( F \).
+\end{proof}
+\begin{proposition}
+    For sets \( I, J \) such that \( \abs{I} \geq \omega \) and \( \abs{J} \geq 2 \), the forcing poset \( \operatorname{Fn}(I, J) \) is a separative partial order without a minimal element.
+\end{proposition}
+\begin{proposition}
+    (\( \mathsf{ZFC} \))
+    Let \( \mathbb P \in M \) be a forcing poset, and let \( G \subseteq \mathbb P \).
+    Then the following are equivalent.
+    \begin{enumerate}
+        \item \( G \) is \( \mathbb P \)-generic over \( M \), that is, for all dense sets \( D \in M \), we have \( G \cap D \neq \varnothing \);
+        \item for all \( p \in G \) and \( D \in M \), if \( D \) is dense below \( p \) in \( \mathbb P \), then \( G \cap D \neq \varnothing \);
+        \item for all open dense sets \( D \in M \), we have \( G \cap D \neq \varnothing \);
+        \item for all \( D \in M \) that are maximal antichains in \( \mathbb P \), we have \( G \cap D \neq \varnothing \).
+    \end{enumerate}
+\end{proposition}
+
+\subsection{Names}
+\begin{definition}
+    Let \( \mathbb P \) be a forcing poset.
+    We define the class of \emph{\( \mathbb P \)-names} \( M^{\mathbb P} \) recursively as follows.
+    \begin{enumerate}
+        \item \( M_0^{\mathbb P} = \varnothing \);
+        \item \( M_{\alpha + 1}^{\mathbb P} = \mathcal P^M(\mathbb P \times M_\alpha^{\mathbb P}) \);
+        \item at limit stages \( \lambda \), \( M_\lambda^{\mathbb P} = \bigcup_{\alpha < \lambda} M_\alpha^{\mathbb P} \);
+        \item \( M^{\mathbb P} = \bigcup_{\alpha \in \mathrm{Ord}} \mathbb M_\alpha^{\mathbb P} \).
+    \end{enumerate}
+\end{definition}
+Being a \( \mathbb P \)-name is absolute for transitive models.
+\( \mathbb P \)-names are denoted with overdots, such as in \( \dot x \).
+\begin{definition}
+    The \emph{range} of a \( \mathbb P \)-name \( \dot x \) is
+    \[ \operatorname{ran}(\dot x) = \qty{\dot y \mid \exists p \in \mathbb P \mid \langle p, \dot y \rangle \in \dot x} \]
+\end{definition}
+\begin{remark}
+    Alternatively, by transfinite recursion on rank, we could define the class of \( \mathbb P \)-names over \( \mathrm{V} \) in the following way.
+    If \( \rank x = \alpha \), then \( x \) is a \( \mathbb P \)-name if and only if it is a relation such that for all \( \langle p, \dot y \rangle \in x \), we have \( p \in \mathbb P \) and \( \dot y \) is a \( \mathbb P \)-name in \( \mathrm{V}_\alpha \).
+    Finally, \( M^{\mathbb P} = \mathrm{V}^{\mathbb P} \cap M \).
+\end{remark}
+\begin{definition}
+    The \emph{\( \mathbb P \)-rank} of a name \( \dot x \), written \( \rank_{\mathbb P} \dot x \), is the least \( \alpha \) such that \( \dot x \subseteq \mathbb P \times M_\alpha^{\mathbb P} \).
+\end{definition}
+\begin{definition}
+    Let \( \dot x \) be a \( \mathbb P \)-name and \( G \) be an arbitrary subset of \( \mathbb P \).
+    We define the \emph{interpretation of \( \dot x \) by \( G \)} recursively by
+    \[ \dot x^G = \qty{\dot y^G \mid \exists p \in G.\, \langle p, \dot y \rangle \in \dot x} \]
+\end{definition}
+\begin{definition}
+    The \emph{forcing extension of \( M \) by \( G \)}, written \( M[G] \), is
+    \[ M[G] = \qty{\dot x^G \mid \dot x \in M^{\mathbb P}} \]
+\end{definition}
+\begin{example}
+    \begin{enumerate}
+        \item If \( \varnothing \in M \), then \( \varnothing^G = \varnothing \).
+        \item Let
+        \[ \dot x = \qty{\langle p, \varnothing \rangle, \langle r, \qty{\langle q, \varnothing \rangle} \rangle} \]
+        If \( p, q, r \in G \), then
+        \begin{align*}
+            \dot x^G &= \qty{(\langle p, \varnothing \rangle)^G, \qty(\langle r, \qty{\langle q, \varnothing \rangle} \rangle)^G} \\
+            &= \qty{\varnothing, \qty{(\langle q, \varnothing \rangle)^G}} \\
+            &= \qty{\varnothing, \qty{\varnothing}}
+        \end{align*}
+        If \( p, r \notin G \), then
+        \[ \dot x^G = \varnothing \]
+        If \( r \in G \) but \( p, q \notin G \), then
+        \[ \dot x^G = \qty{(\langle q, \varnothing \rangle)^G} = \qty{\varnothing} \]
+        Finally, if \( p \in G \) but \( r \notin G \), then
+        \[ \dot x^G = \qty{\varnothing} \]
+    \end{enumerate}
+\end{example}
+We aim to show the following major theorem.
+\begin{theorem}[generic model theorem]
+    Let \( M \) be a countable transitive model of \( \mathsf{ZF} \), let \( \mathbb P \) be a forcing poset, and let \( G \) be a \( \mathbb P \)-generic filter.
+    Then
+    \begin{enumerate}
+        \item \( M[G] \) is a transitive set;
+        \item \( \abs{M[G]} = \aleph_0 \);
+        \item \( M[G] \vDash \mathsf{ZF} \), and if \( M \vDash \mathsf{AC} \) then \( M[G] \vDash \mathsf{AC} \);
+        \item \( \mathrm{Ord}^M = \mathrm{Ord}^{M[G]} \);
+        \item \( M \subseteq M[G] \);
+        \item \( M[G] \) is the smallest countable transitive model of \( \mathsf{ZF} \) such that \( M \subseteq M[G] \) and \( G \) is a set in \( M[G] \).
+    \end{enumerate}
+\end{theorem}
+Countability is only needed to show the existence of a generic filter, so parts (i) and (ii)--(vi) of this theorem hold without this assumption.
+
+\subsection{Canonical names}
+We can prove some parts of the generic model theorem by introducing the notion of \emph{canonical names}.
+\begin{definition}
+    Given a forcing poset \( (\mathbb P, \leq, \Bbbone) \) and a set \( x \in M \), we define the \emph{canonical} name of \( x \) by
+    \[ \check x = \qty{\langle \Bbbone, \check y \rangle \mid y \in x} \]
+\end{definition}
+The symbol \( \check x \) is pronounced \emph{\( x \)-check}.
+\begin{lemma}
+    If \( M \) is a transitive model of \( \mathsf{ZF} \), \( \mathbb P \in M \), and \( 1 \in G \subseteq \mathbb P \), then
+    \begin{itemize}
+        \item for all \( x \in M \), \( \check x \in M^{\mathbb P} \) and \( \check x^G = x \);
+        \item \( M \subseteq M[G] \);
+        \item \( M[G] \) is transitive.
+    \end{itemize}
+\end{lemma}
+\begin{proof}
+    \emph{Part (i).}
+    We show \( \check x \in M^{\mathbb P} \) by induction, using the definition of \( \mathbb P \)-names by transfinite recursion.
+    Hence
+    \[ \check x^G = \qty{\check y^G \mid y \in x} = \qty{y \mid y \in x} = x \]
+    Part (ii) follows directly from part (i).
+
+    \emph{Part (iii).}
+    Suppose that \( x \in y \) and \( y \in M[G] \).
+    By definition, \( y = \dot y^G \) for some \( \mathbb P \)-name \( \dot y \).
+    By construction, any element of \( y \) is of the form \( \dot z^G \), so in particular, \( x = \dot x^G \) for some \( \mathbb P \)-name \( \dot x \in M^{\mathbb P} \).
+\end{proof}
+\begin{remark}
+    Even if \( G \notin M \), we can still define a name for \( G \) in \( M \).
+    From this, it follows that if \( G \notin M \), then \( M[G] \neq M \).
+\end{remark}
+\begin{proposition}
+    Let
+    \[ \dot G = \qty{\langle p, \check p \rangle \mid p \in \mathbb P} \]
+    Then \( \dot G^G = G \).
+\end{proposition}
+\begin{proof}
+    \[ \dot G^G = \qty{\check p^G \mid p \in G} = \qty{p \mid p \in G} = G \]
+\end{proof}
+
+\subsection{Pairing}
+We can define unordered and ordered pairs of names, with sensible interpretations.
+\begin{definition}
+    Given \( \mathbb P \)-names \( \dot x, \dot y \), let
+    \[ \operatorname{up}(\dot x, \dot y) = \qty{\langle \Bbbone, \dot x \rangle, \langle \Bbbone, \dot y \rangle} \]
+    and
+    \[ \operatorname{op}(\dot x, \dot y) = \operatorname{up}(\operatorname{up}(\dot x, \dot x), \operatorname{up}(\dot x, \dot y)) \]
+\end{definition}
+\begin{proposition}
+    For \( \dot x, \dot y \in M^{\mathbb P} \) and \( \Bbbone \in G \subseteq \mathbb P \),
+    \[ (\operatorname{up}(\dot x, \dot y))^G = \qty{\dot x^G, \dot y^G} \]
+    and
+    \[ (\operatorname{op}(\dot x, \dot y))^G = \langle \dot x^G, \dot y^G \rangle \]
+\end{proposition}
+\begin{lemma}
+    Suppose \( M \) is a transitive model of \( \mathsf{ZF} \) and \( \mathbb P \in M \) is a forcing poset.
+    If \( \Bbbone 1 \in G \subseteq \mathbb P \), then \( M[G] \) is a transitive model of extensionality, empty set, foundation, and pairing.
+\end{lemma}
