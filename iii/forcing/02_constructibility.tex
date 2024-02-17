@@ -13,7 +13,7 @@ We will construct a universe \( \mathrm{L} \) in which we restrict to the `nice'
 \begin{remark}
     \begin{enumerate}
         \item \( M \in \operatorname{Def}(M) \).
-        \item \( M \subseteq \operatorname{Def}(M) \subseteq \mathcal \mathcal P(M) \).
+        \item \( M \subseteq \operatorname{Def}(M) \subseteq \mathcal P(M) \).
     \end{enumerate}
 \end{remark}
 This definition involves a quantification over infinitely many formulas, so is not yet fully formalised.
@@ -53,7 +53,7 @@ This is a theorem scheme; for every axiom of \( \mathsf{ZF} \), we can prove its
     By the previous lemma, it suffices to check that \( \mathsf{ZF}^{\mathrm{L}} \) holds.
     \begin{itemize}
         \item Since \( \mathrm{L} \) is transitive, \( \mathrm{L} \) satisfies extensionality and foundation.
-        \item For the axiom of empty set, we use the fact that \( \varnothing^{\mathrm{L}} = \varnothing = \mathrm{L}_0 = \mathrm{L} \).
+        \item For the axiom of empty set, we use the fact that \( \varnothing^{\mathrm{L}} = \varnothing = \mathrm{L}_0 \in \mathrm{L} \).
         \item For pairing, given \( a, b \in \mathrm{L} \), we must show \( \qty{a, b} \in \mathrm{L} \).
         Fix \( \alpha \) such that \( a, b \in \mathrm{L}_\alpha \).
         Then
@@ -99,10 +99,10 @@ For clarity, we will define the ordered triple \( \langle a, b, c \rangle \) to 
         \item \( \mathcal F_3(x, y) = x \setminus y \);
         \item \( \mathcal F_4(x, y) = x \times y \);
         \item \( \mathcal F_5(x, y) = \dom x = \qty{\pi_1(z) \mid z \in x \wedge z \text{ is an ordered pair}} \);
-        \item \( \mathcal F_6(x, y) = \ran x \qty{\pi_2(z) \mid z \in x \wedge z \text{ is an ordered pair}} \);
+        \item \( \mathcal F_6(x, y) = \ran x = \qty{\pi_2(z) \mid z \in x \wedge z \text{ is an ordered pair}} \);
         \item \( \mathcal F_7(x, y) = \qty{\langle u, v, w \rangle \mid \langle u, v \rangle \in x, w \in y} \);
         \item \( \mathcal F_8(x, y) = \qty{\langle u, w, v \rangle \mid \langle u, v \rangle \in x, w \in y} \);
-        \item \( \mathcal F_9(x, y) = \qty{\langle v, u \rangle \in y \in x \mid u = v} \);
+        \item \( \mathcal F_9(x, y) = \qty{\langle v, u \rangle \in y \times x \mid u = v} \);
         \item \( \mathcal F_{10}(x, y) = \qty{\langle v, u \rangle \in y \times x \mid u \in v} \).
     \end{enumerate}
 \end{definition}
@@ -415,7 +415,7 @@ Then we set \( <_{\mathrm{L}} = \bigcup_\alpha <_\alpha \).
         Suppose \( x, y \notin \mathcal D^n(\mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha}) \).
         We say \( x <_{\alpha + 1}^{n+1} \) if either
         \begin{enumerate}
-            \item the least \( i \leq 10 \) such that \( \exists u, v \in \mathcal D^n(\mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha}) \) with \( x = \mathcal F_i(u, v) \) is less than the least \( i \leq 10 \) such that \( \exists u, v \in \mathcal D^n(\mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha}) \) with \( \mathcal y = \mathcal F_i(u, v) \); or
+            \item the least \( i \leq 10 \) such that \( \exists u, v \in \mathcal D^n(\mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha}) \) with \( x = \mathcal F_i(u, v) \) is less than the least \( i \leq 10 \) such that \( \exists u, v \in \mathcal D^n(\mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha}) \) with \( y = \mathcal F_i(u, v) \); or
             \item these indices \( i \) are equal, and the \( <_{\alpha + 1}^n \)-least \( u \in \mathcal D^n(\mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha}) \) such that there exists \( v \in \mathcal D^n(\mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha}) \) with \( x = \mathcal F_i(u, v) \) is less than the \( <_{\alpha + 1}^n \)-least \( u \in \mathcal D^n(\mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha}) \) such that there exists \( v \in \mathcal D^n(\mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha}) \) with \( y = \mathcal F_i(u, v) \); or
             \item both of these coincide, and \( <_{\alpha + 1}^n \)-least \( v \in \mathcal D^n(\mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha}) \) with \( x = \mathcal F_i(u, v) \) is less than the least \( v \in \mathcal D^n(\mathrm{L}_\alpha \cup \qty{\mathrm{L}_\alpha}) \) with \( y = \mathcal F_i(u, v) \).
         \end{enumerate}
@@ -527,7 +527,7 @@ In order to do this, we will introduce the notion of \emph{forcing}.
 \subsection{Combinatorial properties}
 \begin{definition}
     Let \( \Omega \) be either a regular cardinal or the class of all ordinals.
-    A subclass \( C \subseteq \Omega \) is said to be a \emph{club} or \emph{closed and unbounded} if it is
+    A subclass \( C \subseteq \Omega \) is said to be a \emph{club}, or \emph{closed and unbounded}, if it is
     \begin{enumerate}
         \item \emph{closed}: for all \( \gamma \in \Omega \), we have \( \sup(C \cap \gamma) \in C \);
         \item \emph{unbounded}: for all \( \alpha \in \Omega \) there exists \( \beta \in C \) with \( \beta > \alpha \).
@@ -562,7 +562,7 @@ The property \( \diamondsuit \) states that there is a single sequence of length
     Then the \emph{square principle} \( \mdwhtsquare_\kappa \) is the assertion that there exists a sequence \( (C_\alpha) \) indexed by the limit ordinals \( \alpha \) in \( \kappa^+ \), such that
     \begin{enumerate}
         \item \( C_\alpha \) is a club subset of \( \alpha \);
-        \item if \( \beta \) is a limit ordinal of \( C_\alpha \) then \( C_\beta = C_\alpha \cap \beta \); then
+        \item if \( \beta \) is a limit ordinal of \( C_\alpha \) then \( C_\beta = C_\alpha \cap \beta \); and
         \item if \( \cf(\alpha) < \kappa \) then \( \abs{C_\alpha} < \kappa \).
     \end{enumerate}
 \end{definition}
