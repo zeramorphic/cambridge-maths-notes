@@ -423,3 +423,113 @@ So the cardinals \( \kappa \) that satisfy \( \mathsf{WC}(\kappa) \) are precise
 In particular,
 \[ \mathsf{ZFC} + \mathsf{IC} <_{\Con} \mathsf{ZFC} + \mathsf{WCC} \]
 Note that in the proof that strongly compact cardinals are measurable, we used a language with \( 2^\kappa \)-many symbols.
+
+\subsection{Ultrapowers of the universe}
+In order to avoid proper classes, we will consider ultrapowers of particular set universes.
+Later, we will briefly explain how all of this could have been done in a proper class universe such as \( \mathrm{V} \).
+For convenience, we will assume that \( \kappa < \lambda \) where \( \kappa \) is measurable and \( \lambda \) is inaccessible, so \( \mathrm{V}_\lambda \vDash \mathsf{ZFC} + \mathsf{MC} \).
+We will take the ultrapower of \( \mathrm{V}_\lambda \).
+
+Let \( U \) be a \( \kappa \)-complete nonprincipal ultrafilter on \( \kappa \), and form the ultrapower of \( \mathrm{V}_\lambda \), consisting of equivalence classes of functions \( f : \kappa \to \mathrm{V}_\lambda \) where \( f \sim g \) when \( \qty{\alpha \mid f(\alpha) = g(\alpha)} \in U \).
+\[ \faktor{{\mathrm{V}_\lambda}^\kappa}{U} = \qty{[f] \mid f : \kappa \to \mathrm{V}_\lambda} \]
+The membership relation on the ultrapower is given by
+\[ [f] \mathrel{E} [g] \leftrightarrow \qty{\alpha \mid f(\alpha) \in g(\alpha)} \in U \]
+We have an embedding \( \ell \) from \( \mathrm{V}_\lambda \) into the ultrapower by mapping \( x \in \mathrm{V}_\lambda \) to the equivalence class of its constant function \( c_x : \kappa \to \mathrm{V}_\lambda \).
+This is an elementary embedding by \L{}o\'s' theorem.
+Hence
+\[ \qty(\mathrm{V}_\lambda, \in) \equiv \qty(\faktor{{\mathrm{V}_\lambda}^\kappa}{U}) \]
+so they both model \( \mathsf{ZFC} + \mathsf{MC} \), and in particular, \( [c_{\kappa}] \) is a measurable cardinal.
+\begin{remark}
+    \begin{enumerate}
+        \item Suppose \( \faktor{{\mathrm{V}_\lambda}^\kappa}{U} \vDash [f] \text{ is an ordinal} \).
+        By \L{}o\'s' theorem,
+        \[ X = \qty{\alpha \mid f(\alpha) \text{ is an ordinal}} \in U \]
+        We can define
+        \[ f'(\alpha) = \begin{cases}
+            f(\alpha) & \text{if } \alpha \in X \\
+            0 & \text{otherwise}
+        \end{cases} \]
+        Note that \( f \sim f' \), so \( [f] = [f'] \).
+        So without loss of generality, we can assume \( f \) is a function into \( \mathrm{Ord} \cap \lambda = \lambda \), so \( f : \kappa \to \lambda \).
+        Since \( \lambda \) is inaccessible, \( f \) cannot be cofinal, so there is \( \gamma < \lambda \) such that \( f : \kappa \to \gamma \).
+        Note also that, for example, we can define \( f + 1 \) by
+        \[ (f + 1)(\alpha) = f(\alpha) + 1 \]
+        so
+        \[ \qty{\alpha \mid (f+1)(\alpha) \text{ is the successor of } f(\alpha)} = \kappa \in U \]
+        hence by \L{}o\'s' theorem, \( [f + 1] \) is the successor of \( [f] \).
+        \item If \( f : \kappa \to \mathrm{V}_\lambda \) is arbitrary, the set
+        \[ \qty{\rank f(\alpha) \mid \alpha \in \kappa} \]
+        cannot be cofinal in \( \lambda \), so there is \( \gamma < \lambda \) such that \( f \in \mathrm{V}_\gamma \).
+        However, the equivalence class \( [f] \) is unbounded in \( \mathrm{V}_\lambda \).
+        \item Given \( f \), by (ii) we may assume \( f \in \mathrm{V}_\gamma \) for some \( \gamma < \lambda \).
+        If \( [g] \mathrel{E} [f] \), then
+        \[ X = \qty{\alpha \mid g(\alpha) \in f(\alpha)} \in U \]
+        Now we can define
+        \[ g'(\alpha) = \begin{cases}
+            g(\alpha) & \text{if } \alpha \in X \\
+            0 & \text{otherwise}
+        \end{cases} \]
+        Then \( g \sim g' \) so \( [g] = [g'] \), and \( g' \in \mathrm{V}_\gamma \).
+        Therefore,
+        \[ \abs{\qty{[g] \mid [g] \mathrel{E} [f]}} \leq \abs{\mathrm{V}_\gamma} < \lambda \]
+    \end{enumerate}
+\end{remark}
+\begin{lemma}
+    \( \faktor{{\mathrm{V}_\lambda}^\kappa}{U} \) is \( E \)-well-founded.
+\end{lemma}
+\begin{proof}
+    Suppose not, so let \( \qty{[f_n] \mid n \in \mathbb N} \) be a strictly decreasing sequence, so
+    \[ [f_{n+1}] \mathrel{E} [f_n] \]
+    By definition,
+    \[ X_n = \qty{\alpha \mid f_{n+1}(\alpha) \in f_n(\alpha)} \in U \]
+    But as \( U \) is \( \kappa \)-complete,
+    \[ \bigcap_{n \in \mathbb N} X_n \in U \]
+    In particular, there must be an element \( \alpha \in \bigcap_{n \in \mathbb N} X_n \).
+    Hence, \( f_n(\alpha) \) is an \( \in \)-decreasing sequence in \( \mathrm{V}_\lambda \), which is a contradiction.
+\end{proof}
+Note that we only used \( \aleph_1 \)-completeness of \( U \).
+
+We can take the Mostowski collapse to produce a transitive set \( M \) such that
+\[ \pi : \qty(\faktor{{\mathrm{V}_\lambda}^\kappa}{U}, E) \cong (M, \in) \]
+Combining \( \ell \) and \( \pi \), we obtain
+\[ j = \pi \circ \ell : (\mathrm{V}_\lambda, \in) \to (M, \in) \]
+given by
+\[ j(x) = \pi(\ell(x)) = \pi([c_x]) \]
+For convenience, will write \( (f) \) to abbreviate \( \pi([f]) \), so \( j(x) = (c_x) \).
+\begin{lemma}
+    \( M \subseteq \mathrm{V}_\lambda \).
+\end{lemma}
+\begin{proof}
+    Note that because \( \lambda \) is inaccessible, \( \mathrm{V}_\lambda = \mathrm{H}_\lambda \), where
+    \[ \mathrm{H}_\lambda = \qty{x \mid \abs{\operatorname{tcl}(x)} < \lambda} \]
+    Since \( M \) is transitive, if \( \abs{x} < \lambda \) for each \( x \in M \), then \( M \subseteq \mathrm{H}_\lambda \).
+    But remark (iii) above shows precisely what is required.
+\end{proof}
+\begin{lemma}
+    \( \mathrm{Ord} \cap M = \lambda \).
+\end{lemma}
+\begin{proof}
+    Under the elementary embedding \( j \), ordinals in \( \mathrm{V}_\lambda \) are mapped to ordinals in \( M \).
+    So \( j \) restricts to an order-preserving embedding from \( \lambda \) into a subset of \( \lambda \).
+    Thus this embedding is unbounded, and therefore by transitivity, \( \mathrm{Ord} \cap M = \lambda \).
+\end{proof}
+\begin{lemma}
+    \( \eval{j}_{\mathrm{V}_\kappa} = \id \), so in particular, \( \mathrm{V}_\kappa \subseteq M \).
+\end{lemma}
+\begin{proof}
+    We show this by \( \in \)-induction on \( \mathrm{V}_\kappa \).
+    Suppose that \( x \in \mathrm{V}_\kappa \) is such that for all \( y \in x \), \( j(y) = y \).
+    For any \( y \in x \), by elementarity, \( j(y) \in j(x) \), but \( j(y) = y \) so \( y \in j(x) \) as required.
+    For the converse, suppose \( y \in j(x) \).
+    Then define \( f \) such that \( y = (f) \), so \( (f) \in (c_x) \).
+    Hence
+    \[ X = \qty{\alpha \mid f(\alpha) \in c_x(\alpha)} = \qty{\alpha \mid f(\alpha) \in x} \in U \]
+    But
+    \[ \qty{\alpha \mid f(\alpha) \in x} = \bigcup_{z \in x} \qty{\alpha \mid f(\alpha) = z} \]
+    This is a union of \( \abs{x} \)-many sets.
+    By \( \kappa \)-completeness, there must be some \( z \in x \) such that
+    \[ \qty{\alpha \mid f(\alpha) = z} \in U \]
+    Hence \( f \sim c_z \).
+    Therefore, \( (f) = j(z) \), and by the inductive hypothesis, \( j(z) = z \).
+    Hence \( y \in x \).
+\end{proof}
