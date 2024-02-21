@@ -210,7 +210,7 @@ A set of conditions is dense if every condition can be extended to one in that s
 \begin{definition}
     A subset \( G \) of a forcing poset \( \mathbb P \) is a \emph{filter} if
     \begin{enumerate}
-        \item \( \mathbb 1 \in G \);
+        \item \( \Bbbone \in G \);
         \item for all \( p, q \in G \) there is \( r \in G \) such that \( r \leq p \) and \( r \leq q \);
         \item for all \( p, q \in G \), if \( q \leq p \) and \( q \in G \) then \( p \in G \).
     \end{enumerate}
@@ -338,7 +338,7 @@ We can prove some parts of the generic model theorem by introducing the notion o
 \end{definition}
 The symbol \( \check x \) is pronounced \emph{\( x \)-check}.
 \begin{lemma}
-    If \( M \) is a transitive model of \( \mathsf{ZF} \), \( \mathbb P \in M \), and \( 1 \in G \subseteq \mathbb P \), then
+    If \( M \) is a transitive model of \( \mathsf{ZF} \), \( \mathbb P \in M \), and \( \Bbbone \in G \subseteq \mathbb P \), then
     \begin{itemize}
         \item for all \( x \in M \), \( \check x \in M^{\mathbb P} \) and \( \check x^G = x \);
         \item \( M \subseteq M[G] \);
@@ -370,7 +370,7 @@ The symbol \( \check x \) is pronounced \emph{\( x \)-check}.
     \[ \dot G^G = \qty{\check p^G \mid p \in G} = \qty{p \mid p \in G} = G \]
 \end{proof}
 
-\subsection{Pairing}
+\subsection{???}
 We can define unordered and ordered pairs of names, with sensible interpretations.
 \begin{definition}
     Given \( \mathbb P \)-names \( \dot x, \dot y \), let
@@ -386,5 +386,159 @@ We can define unordered and ordered pairs of names, with sensible interpretation
 \end{proposition}
 \begin{lemma}
     Suppose \( M \) is a transitive model of \( \mathsf{ZF} \) and \( \mathbb P \in M \) is a forcing poset.
-    If \( \Bbbone 1 \in G \subseteq \mathbb P \), then \( M[G] \) is a transitive model of extensionality, empty set, foundation, and pairing.
+    If \( \Bbbone \in G \subseteq \mathbb P \), then \( M[G] \) is a transitive model of extensionality, empty set, foundation, and pairing.
 \end{lemma}
+\begin{lemma}
+    Suppose that \( M \) is a transitive model of \( \mathsf{ZF} \) and \( \mathbb P \in M \) is a forcing poset.
+    Let \( G \subseteq \mathbb P \) be such that \( \Bbbone \in G \).
+    Then
+    \begin{enumerate}
+        \item \( \rank (\dot x^G) \leq \rank \dot x \) for all \( \dot x \in M^{\mathbb P} \);
+        \item \( \mathrm{Ord}^M = \mathrm{Ord}^{M[G]} \);
+        \item \( \abs{M[G]} = \abs{M} \).
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \emph{Part (i).}
+    We show this result by induction on \( x \).
+    \( \varnothing^G = \varnothing \), and both have rank \( 0 \).
+    We have
+    \begin{align*}
+        \rank(\dot x^G) &= \sup\qty{\rank u + 1 \mid u \in \dot x^G} \\
+        &\leq \sup\qty{\rank(\dot y^G) + 1 \mid \dot y \in \ran \dot x} \\
+        &\leq \sup\qty{\rank \dot y + 1 \mid \dot y \in \ran \dot x} \\
+        &\leq \sup\qty{\rank u + 1 \mid u \in \dot x} \\
+        &\leq \rank \dot x
+    \end{align*}
+
+    \emph{Part (ii).}
+    Since \( M \subseteq M[G] \) and being an ordinal is absolute, \( \mathrm{Ord}^M \subseteq \mathrm{Ord}^{M[G]} \).
+    For the reverse inclusion, suppose \( \alpha \in M[G] \) is an ordinal, and fix a name \( \dot x \in M^{\mathbb P} \) such that \( \alpha = \dot x^G \).
+    Then \( \alpha \) is an ordinal in the universe, so
+    \[ \alpha = \rank \alpha \leq \rank \dot x \]
+    so since \( M \) is transitive, \( \alpha \in \mathrm{Ord}^M \).
+
+    \emph{Part (iii).}
+    Since any element of \( M[G] \) is of the form \( \dot x^G \) for some \( \dot x \in M^{\mathbb P} \subseteq M \subseteq M[G] \), we must have
+    \[ \abs{M[G]} \leq \abs{M^{\mathbb P}} \leq \abs{M} \leq \abs{M[G]} \]
+    so the inequalities must be equalities.
+\end{proof}
+\begin{corollary}
+    \( M[G] \) satisfies the axiom of infinity.
+\end{corollary}
+\begin{proof}
+    \( \omega \in \mathrm{Ord}^M \) so \( \omega \in \mathrm{Ord}^{M[G]} \subseteq M[G] \).
+\end{proof}
+\begin{lemma}
+    Suppose \( M \) is a transitive model of \( \mathsf{ZF} \), \( \mathbb P \in M \) is a forcing poset, and \( G \subseteq \mathbb P \) is such that \( \Bbbone \in G \).
+    Then if \( N \) is another transitive model of \( \mathsf{ZF} \) with \( M \subseteq N \) a definable class in \( N \) and \( G \in N \), then \( M[G] \subseteq N \).
+\end{lemma}
+\begin{proof}
+    We carry out the construction of \( M[G] \) in \( N \).
+    Namely, we will show that for all \( \mathbb P \)-names \( \dot x \), we have \( \dot x^G \in N \), from which it follows that \( M[G] \subseteq N \).
+    We proceed by induction on \( x \).
+    As the axiom of empty set holds in \( N \) and it is a transitive set, \( \varnothing^G = \varnothing \in N \).
+    Moreover, since
+    \[ M^{\mathbb P} = \mathrm{V}^{\mathbb P} \cap M \subseteq \mathrm{V}^{\mathbb P} \cap N = N^{\mathbb P} \]
+    if \( \dot x \) is a \( \mathbb P \)-name of \( M \), it must be a \( \mathbb P \)-name of \( M \).
+    In particular, \( x \in N \).
+    Now, suppose that for every \( \langle p, \dot y \rangle \in \dot x \), we have \( \dot y^G \in N \).
+    Then
+    \begin{align*}
+        (\dot x^G)^N &= \qty{\dot y^G \mid \exists p \in G.\, \langle p, \dot y \rangle \in \dot x}^N \\
+        &= \qty{(\dot y^G)^N \mid (\exists p \in G.\, \langle p, \dot y \rangle \in \dot x)^N} \\
+        &= \qty{\dot y^G \mid \exists p \in G.\, \langle p, \dot y \rangle \in \dot x} \\
+        &= \dot x^G
+    \end{align*}
+    Thus \( \dot x^G \in N \) as required.
+\end{proof}
+To prove the generic model theorem, it now suffices to prove the remaining axioms of \( \mathf{ZF} \), which are union, power set, replacement, and separation.
+We can prove the axiom of union now.
+\begin{lemma}
+    Suppose \( M \) is a transitive model of \( \mathsf{ZF} \), \( \mathbb P \in M \) is a forcing poset, and \( G \subseteq \mathbb P \) is such that \( \Bbbone \in G \).
+    Additionally, suppose that \( G \) is a filter.
+    Then \( M[G] \) satisfies the axiom of union.
+\end{lemma}
+\begin{proof}
+    It suffices to prove that for all \( a \in M[G] \), there is some \( b \in M[G] \) such that \( \bigcup a = b \).
+    Fix \( \dot a \in M^{\mathbb P} \) such that \( \dot a^G = a \), and let \( \dot b \) be the following name.
+    \[ \dot b = \qty{\langle p, \dot z \rangle \mid \exists \langle q, \dot y \rangle \in \dot a.\, \exists r \in \mathbb P.\, \langle r, \dot z \rangle \in \dot y \wedge p \leq r, q} \]
+    Observe that \( \dot b \) is a \( \mathbb P \)-name in \( M \): since \( \dot a \) is a \( \mathbb P \)-name, any \( \dot y \in \ran \dot a \) is a \( \mathbb P \)-name, so \( \dot b \) consists of pairs \( \langle p, \dot z \rangle \) where \( p \in \mathbb P \) and \( \dot z \in \ran \dot y \) for some \( \dot y \in \ran \dot a \).
+    Thus \( \dot z \) is a \( \mathbb P \)-name in \( \mathrm{V} \).
+    Moreover \( \dot b \in M \) since \( \dot b \in \mathbb P \times \operatorname{tcl}(\dot a) \).
+
+    We claim that \( \bigcup a \subseteq \dot b^G \).
+    Let \( w \in \bigcup a \), so \( w \in v \) for some \( v \in a \).
+    Since \( M[G] \) is transitive, we can fix names \( \dot y, \dot z \) and conditions \( q, r \in G \) such that
+    \[ \dot y^G = v;\quad \dot z^G = w;\quad \langle q, \dot y \rangle \in \dot a;\quad \langle r, \dot z \rangle \in \dot y \]
+    As \( G \) is a filter, by directedness there is a condition \( p \leq q, r \) in \( G \).
+    Then, by definition, \( \langle p, \dot z \rangle \in \dot b \), and \( w = \dot z^G \in \dot b^G \).
+
+    For the converse, we claim that \( \dot b^G \subseteq \bigcup a \).
+    Let \( \langle p, \dot z \rangle \in \dot b^G \), so \( p \in G \) and \( \dot z^G = c \).
+    By definition, we can fix \( \langle q, \dot y \rangle \in \dot a \) and \( r \in \mathbb P \) such that \( \langle r, \dot z \rangle \in \dot y \) and \( p \leq q, r \).
+    Using the fact that \( G \) is a filter, we must have \( q, r \in G \).
+    Hence \( \dot z^G \in \dot y^G \) and \( \dot y^G \in \dot a^G \), so \( c \in \dot y^G \) for some \( \dot y^G \in a \).
+\end{proof}
+\begin{example}[motivation for genericity]
+    Note that \( \mathbb P, G \in M[G] \).
+    If \( M[G] \) models any reasonable theory, we should have \( \mathbb P \setminus G \in M[G] \).
+    We will try to build a name for \( \mathbb P \setminus G \).
+    A natural name to consider is
+    \[ \dot c = \qty{\langle q, \dot p \rangle \mid p, q \in \mathbb P, p \perp q} \]
+    Then
+    \[ \dot c^G = \qty{p \mid \exists q \in G.\, p \perp q} \]
+    If \( G \) is a filter, its elements are pairwise compatible, so \( G \cap \dot c^G = \varnothing \).
+    But we still need to show that \( G \cup \dot c^G = \mathbb P \).
+    For each condition \( p \), set
+    \[ D_p = \qty{q \in \mathbb P \mid p \perp q \vee q \leq p} \]
+    It is easy to check that \( D_p \in M \) is dense.
+    Now, if \( G \) is \( \mathbb P \)-generic, we could fix some \( q \in G \cap D_p \) for any given \( p \).
+    Then if \( p \perp q \), by definition \( p \in \dot c^G \), and if \( q \leq p \), then \( p \in G \) by upwards closure.
+    From this, it follows that \( G \cup \dot c^G = \mathbb P \).
+\end{example}
+In fact, we have the following.
+\begin{proposition}
+    Let \( M \) be a countable transitive model of \( \mathsf{ZF} \).
+    Then there exists a forcing poset \( \mathbb P \in M \) and a (non-generic) filter \( G \subseteq \mathbb P \) such that \( \mathbb P \setminus G \notin M[G] \).
+\end{proposition}
+
+\subsection{The forcing relation}
+To show separation, we need to show that if \( \varphi(x, y) \) is a formula and \( \dot a, \dot b \) are \( \mathbb P \)-names, then
+\[ C = \qty{\dot z \in \dot a^G \mid (\varphi(\dot z^G, \dot b^G))^{M[G]}} \in M[G] \]
+This is unclear, even for simple formulas such as \( \varphi(x, y) \equiv x \notin y \).
+We will build a way to formally reason about \( M[G] \) from within \( M \), without having to rely on \( G \).
+To do this, we will define a relation \( p \Vdash \varphi \) between conditions \( p \in \mathbb P \) and names in \( \mathrm{V}^{\mathbb P} \).
+Its relativisation \( (p \Vdash \varphi)^M \) will provide a way to work in \( M \).
+Our aim is to define \( \Vdash \) such that \( p \Vdash \varphi(\dot u) \) if and only if for every generic subset \( G \subseteq \mathbb P \) with \( p \in G \), we have \( M[G] \vDash \varphi(\dot u^G) \).
+
+Naively, we might say that if \( \langle p, \dot x \rangle \in \dot y \) then \( p \Vdash \dot x \in \dot y \).
+The converse cannot be made to hold.
+Consider \( \dot x = \qty{\langle p, \varnothing \rangle} \) where \( p \neq \Bbbone \).
+Then \( p \Vdash \varnothing \in \dot x \).
+Suppose \( q \perp p \), then we have \( q \Vdash \dot x = \varnothing \).
+Therefore, we should have \( q \Vdash \dot x \in \check 1 \).
+If we enforce the converse above, we would have \( \langle q, \dot x \rangle \in \check 1 \), which is incorrect since \( \check 1 = \qty{\langle \Bbbone, \varnothing \rangle} \).
+Instead, note that generics meet all dense sets, so it suffices to consider dense sets.
+\begin{definition}
+    Let \( \mathbb P \) be a forcing poset.
+    The \emph{\( \mathbb P \)-forcing language} \( \mathcal{FL}_{\mathbb P} \) is the class of logical formulas formed using the binary relation \( \in \) and constant symbols from \( \mathrm{V}^{\mathbb P} \).
+\end{definition}
+\begin{definition}
+    Let \( \mathbb P \) be a forcing poset and let \( p \in \mathbb P \).
+    Let \( \dot x, \dot y, \dot u \) be \( \mathbb P \)-names in \( \mathrm{V} \).
+    We define the \emph{forcing relation} \( p \Vdash \varphi(\dot u) \) recursively as follows.
+    \begin{enumerate}
+        \item \( p \Vdash \varphi(\dot u) \wedge \psi(\dot u) \) if and only if \( p \Vdash \varphi(\dot u) \) and \( p \Vdash \psi(\dot u) \);
+        \item \( p \Vdash \neg\varphi(\dot u) \) if and only if there is no \( q \leq p \) such that \( q \Vdash \varphi(\dot u) \);
+        \item \( p \Vdash \exists x.\, \varphi(x, \dot u) \) if and only if the set
+        \[ \qty{q \leq p \mid \exists \dot x \in \mathrm{V}^{\mathbb P}.\, q \Vdash \varphi(\dot x, \dot u)} \]
+        is dense below \( p \);
+        \item \( p \Vdash \dot x \in \dot y \) if and only if the set
+        \[ \qty{q \leq p \mid \exists \langle r, \dot z \rangle \in \dot y.\, q \leq r \wedge (q \Vdash \dot x = \dot z)} \]
+        is dense below \( p \);
+        \item \( p \Vdash \dot x \subseteq \dot y \) if and only if for all \( \langle q_1, \dot z_1 \rangle \in \dot x \), the set
+        \[ \qty{r \leq p \mid r \leq q_1 \to \exists \langle q_2, \dot z_2 \rangle \in \dot y.\, r \leq q_2 \wedge (r \Vdash \dot z_1 = \dot z_2)} \]
+        is dense below \( p \).
+    \end{enumerate}
+\end{definition}
