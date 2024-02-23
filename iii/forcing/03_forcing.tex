@@ -543,3 +543,123 @@ Instead, we will define the forcing relation in terms of dense sets, leveraging 
         \item \( p \Vdash \dot x = \dot y \) if and only if \( p \Vdash \dot x \subseteq \dot y \) and \( p \Vdash \dot y \subseteq \dot x \).
     \end{enumerate}
 \end{definition}
+\begin{remark}
+    \begin{enumerate}
+        \item The definitions for \( \subseteq \) and \( = \) are defined recursively, and thus require transfinite recursion to define formally.
+        \item All of the clauses except for the existential use only absolute notions.
+        In particular, it does not depend on \( M \).
+        When relativising to a model, \( (p \Vdash \exists x.\, \varphi(x))^M \) precisely when the set
+        \[ \qty{q \leq p \mid \exists \dot x \in M^{\mathbb P}.\, q \Vdash \varphi(\dot x, \dot u)} \]
+        is dense below \( p \).
+    \end{enumerate}
+\end{remark}
+\begin{proposition}
+    Let \( p \) be a condition, \( \varphi \) be an \( \mathcal{FL}_{\mathbb P} \)-formula, and \( \dot x_1, \dots, \dot x_n \) be \( \mathbb P \)-names in \( \mathrm{V} \).
+    Then the following are equivalent.
+    \begin{enumerate}
+        \item \( p \Vdash \varphi(\dot x_1, \dots, \dot x_n) \);
+        \item for all \( q \leq p \), \( q \Vdash \varphi(\dot x_1, \dots, \dot x_n) \);
+        \item there is no \( q \leq p \) such that \( q \Vdash \neg\varphi(\dot x_1, \dots, \dot x_n) \);
+        \item the set \( \qty{r \mid r \Vdash \varphi(\dot x_1, \dots, \dot x_n)} \) is dense below \( p \).
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \emph{(ii) implies (iii).}
+    If (iii) did not hold, there would be some \( q \leq p \) such that \( q \Vdash \neg\varphi \).
+    Then there is no \( r \leq q \) such that \( r \Vdash \varphi \).
+    So in particular, \( q \nVdash \varphi \), contradicting (ii).
+
+    \emph{(iii) implies (iv).}
+    Suppose that there is no \( q \leq p \) such that \( q \Vdash \neg\varphi \).
+    Take \( q \leq p \).
+    Then by assumption, \( q \nVdash \neg\varphi \), so there is \( r \leq q \) such that \( r \Vdash \varphi \), so the set is dense as required.
+
+    \emph{(i) implies (ii).}
+    We show this by induction on formula complexity.
+    \begin{itemize}
+        \item For atomic formulas, let \( \box \) be either \( \in \) or \( \subseteq \).
+        Then \( p \Vdash \dot x \mathrel{\box} \dot y \) if and only if some set \( A \) is dense below \( p \).
+        Take \( q \leq p \), then \( A \) is dense below \( q \).
+        Then \( q \Vdash \dot x \mathrel{\box} \dot y \) as required.
+        \item If \( p \Vdash \neg\varphi \), then there is no \( r \leq p \) such that \( r \Vdash \varphi \).
+        Then there is no \( r \leq q \) such that \( r \Vdash \varphi \), so by definition, \( q \Vdash \neg\varphi \).
+        \item If \( p \Vdash \varphi \wedge \psi \) then \( p \Vdash \varphi \) and \( p \Vdash \psi \), so by the inductive hypothesis, \( q \Vdash \varphi \) and \( q \Vdash \psi \), giving \( q \Vdash \varphi \wedge \psi \).
+        \item If \( p \Vdash \exists x.\, \varphi(x) \), then \( A \) is dense below \( p \) for some set \( A \), but then \( A \) is dense below \( q \), so \( q \Vdash \exists x.\, \varphi(x) \).
+    \end{itemize}
+
+    \emph{(iv) implies (i).}
+    Again, we show this by induction.
+    \begin{itemize}
+        \item For atomic formulas, let \( \box \) is either \( \in \) or \( \subseteq \).
+        To prove that \( p \Vdash \dot x \mathrel{\box} \dot y \), we must show that some set \( A \) is dense below \( p \).
+        By assumption, the set \( \qty{r \mid r \Vdash \dot x \mathrel{\box} \dot y} \) is dense below \( p \).
+        Fix \( q \leq p \), then there is \( r \leq q \) such that \( r \Vdash \dot x \mathrel{\box} \dot y \).
+        Hence there is some \( s \leq r \leq q \leq p \) such that \( s \in A \).
+        Therefore \( p \Vdash \dot x \mathrel{\box} \dot y \) as required.
+        The proof for existentials is the same.
+        \item Suppose that \( \qty{r \mid r \Vdash \varphi \wedge \psi} \) is dense below \( p \).
+        So \( \qty{r \mid r \Vdash \varphi} \) and \( \qty{r \mid r \Vdash \psi} \) are also dense below \( p \).
+        By the inductive hypothesis, \( p \Vdash \varphi \) and \( p \Vdash \psi \).
+        Hence \( p \Vdash \varphi \wedge \psi \).
+        \item Suppose that \( \qty{r \mid r \Vdash \neg\varphi} \) is dense below \( p \).
+        To show \( p \Vdash \neg\varphi \), we fix \( q \leq p \) and suppose \( q \Vdash \varphi \).
+        By the fact that (i) implies (iii), there is no \( r \leq q \) such that \( r \Vdash \neg\varphi \), contradicting density of the set \( \qty{r \mid r \Vdash \neg\varphi} \).
+    \end{itemize}
+\end{proof}
+\begin{proposition}
+    Let \( \mathbb P \) be a forcing poset, let \( p, q \in \mathbb P \), and let \( \dot a, \dot b \in \mathrm{V}^{\mathbb P} \).
+    Then
+    \begin{enumerate}
+        \item \( p \Vdash \dot a = \dot a \);
+        \item if \( \langle q, \dot b \rangle \in \dot a \) and \( p \leq q \), then \( p \Vdash \dot b \in \dot a \);
+        \item if \( M \) is a transitive model of \( \mathsf{ZF} \) and \( \mathbb P \in M \), then for any \( \varphi, \psi \),
+        \[ \qty{\langle q, \dot x \rangle \mid \langle q, \dot x \rangle \in \dot a \wedge (q \Vdash \varphi(\dot x))^M} \in M \]
+        and
+        \[ \qty{q \in \mathbb P \mid q \Vdash (\psi(\dot a))^{\check M}} \in M \]
+        \item \( p \Vdash \varphi \vee \psi \) if and only if
+        \[ \qty{q \leq p \mid q \Vdash \varphi \text{ or } q \Vdash \psi} \]
+        is dense below \( p \);
+        \item \( p \Vdash \varphi \to \psi \) if and only if there is no \( q \leq p \) such that \( q \Vdash \varphi \) and \( q \Vdash \neg \psi \);
+        \item \( p \Vdash \forall x.\, \varphi(x) \) if and only if for all \( \dot x \in \mathrm{V}^{\mathbb P} \), \( p \Vdash \varphi(\dot x) \);
+        \item for any \( \varphi \), the set
+        \[ \qty{p \in \mathbb P \mid p \Vdash \varphi \text{ or } p \Vdash \neg\varphi} \]
+        is a dense open set;
+        \item there is no \( p \) and formula \( \varphi \) such that
+        \[ p \Vdash \varphi \wedge \neg\varphi \]
+    \end{enumerate}
+\end{proposition}
+We now aim to show the following theorem.
+\begin{theorem}[the forcing theorem]
+    Suppose \( M \) be a transitive model of \( \mathsf{ZF} \), \( \mathbb P \in M \) is a forcing poset, \( \varphi(u) \) is a formula, and \( G \) is \( \mathbb P \)-generic over \( M \).
+    Then for any \( \dot x \in M^{\mathbb P} \),
+    \begin{enumerate}
+        \item if \( p \in G \) and \( (p \Vdash \varphi(x))^M \), then \( M[G] \vDash \varphi(\dot x^G) \); and
+        \item if \( M[G] \vDash \varphi(\dot x^G) \), then there is a condition \( p \in G \) such that \( (p \Vdash \varphi(x))^M \).
+    \end{enumerate}
+\end{theorem}
+Once we have shown this theorem, we will have the following result.
+\begin{corollary}
+    Suppose that \( M \) is a countable transitive model of \( \mathsf{ZF} \), \( \mathbb P \in M \) is a forcing poset, and \( \varphi(u) \) is a formula.
+    Then for any name \( \dot x \in M^{\mathbb P} \),
+    \[ (p \Vdash \varphi(\dot x))^m \leftrightarrow \text{for any \( \mathbb P \)-generic filter \( G \) with \( p \in G \), } M[G] \Vdash \varphi(\dot x)^G \]
+\end{corollary}
+The only reason we need countability is so that every condition is contained in a generic filter.
+\begin{proof}
+    The forward direction is part (i) of the forcing theorem.
+    For the backward direction, suppose that \( (p \nVdash \varphi(\dot x))^M \).
+    Then, by definition, there is some \( q \leq p \) such that \( (q \Vdash \neg\varphi(\dot x))^M \).
+    Let \( G \) be a \( \mathbb P \)-generic filter over \( M \) such that \( q \in G \).
+    Then, since \( G \) is upwards closed, \( p \in G \).
+    Hence \( M[G] \vDash \varphi(\dot x^G) \) by assumption.
+    But as \( q \in G \), by the forcing theorem we obtain \( M[G] \vDash \neg\varphi(\dot x^G) \).
+    This contradicts part (viii) of the proposition above by the forcing theorem.
+\end{proof}
+\begin{definition}
+    Suppose \( M \) is a countable transitive model of \( \mathsf{ZF} \), \( \mathbb P \in M \) is a forcing poset, \( \dot x_1, \dots, \dot x_n \in M^{\mathbb P} \), \( p \in \mathbb P \), and \( \varphi(v_1, \dots, v_n) \) is a formula.
+    Then we can define a relation \( \Vdash^\star_{\mathbb P, M} \) by
+    \[ p \Vdash^\star_{\mathbb P, M} \varphi(\dot x_1, \dots, \dot x_n) \]
+    if and only if \( M[G] \vDash \varphi(\dot x_1^G, \dots, \dot x_n^G) \) for all \( G \subseteq \mathbb P \) such that \( p \in G \) and \( G \) is a \( \mathbb P \)-generic filter.
+\end{definition}
+\begin{corollary}
+    \( p \Vdash \varphi \leftrightarrow p \Vdash^\star_{\mathbb P, M} \varphi \).
+\end{corollary}

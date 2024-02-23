@@ -533,3 +533,111 @@ For convenience, will write \( (f) \) to abbreviate \( \pi([f]) \), so \( j(x) =
     Therefore, \( (f) = j(z) \), and by the inductive hypothesis, \( j(z) = z \).
     Hence \( y \in x \).
 \end{proof}
+\begin{lemma}
+    \( j \neq \id \), as \( j(\kappa) > \kappa \).
+\end{lemma}
+\begin{proof}
+    We know that \( j(\kappa) = (c_\kappa) \).
+    By the previous lemma, for each \( \alpha < \kappa \), \( j(\alpha) = (c_\alpha) = \alpha \).
+    Consider the identity map \( \id_\kappa : \kappa \to \kappa \).
+    We have
+    \begin{align*}
+        (c_\alpha) < (\id_\kappa) &\leftrightarrow \qty{\gamma \mid c_\alpha(\gamma) < \id_\kappa(\gamma)} \in U \\
+        &\leftrightarrow \qty{\gamma \mid \alpha < \gamma} \in U
+    \end{align*}
+    But by a size argument, \( \qty{\gamma \mid \gamma \leq \alpha} \notin U \) as \( U \) is nonprincipal, so we must have \( \alpha < (id) \).
+    Also,
+    \begin{align*}
+        (\id_\kappa) < (c_\kappa) &\leftrightarrow \qty{\gamma \mid \id_\kappa(\gamma) < c_\kappa(\gamma)} \in U \\
+        &\leftrightarrow \qty{\gamma \mid \gamma < \kappa} \in U
+    \end{align*}
+    This is certainly in \( U \).
+    So for all \( \alpha < \kappa \),
+    \[ \alpha < (\id_\kappa) < j(\kappa) \]
+    giving
+    \[ \kappa \leq (\id_\kappa) < j(\kappa) \]
+    as required
+\end{proof}
+\begin{remark}
+    \begin{enumerate}
+        \item This implies that \( \eval{j}_{\mathrm{V}_{\kappa + 1}} \neq \id \), so the identity result above cannot be strengthened.
+        \item This also shows that many of the elements of \( M \) arise from non-constant functions.
+        \item The set
+        \[ \qty{j(x) \mid x \in \mathrm{V}_\lambda} \]
+        is isomorphic to \( \mathrm{V}_\lambda \).
+        Therefore, there is a (non-transitive) copy of \( \mathrm{V}_\lambda \) that sits strictly inside \( M \).
+        \item Let \( f : \kappa \to \kappa \) be a function such that for all \( \gamma < \kappa \), \( \id_\kappa(\gamma) < f(\gamma) \).
+        Then \( (\id_\kappa) < (f) \).
+        For example, the functions \( f_2(\gamma) = \gamma \cdot 2 \) and \( f_3(\gamma) = \gamma \cdot 3 \) satisfy \( (\id_\kappa) < (f_2) < (f_3) \).
+        \item At the moment, we do not know whether \( (\id_\kappa) = \kappa \).
+        Consider
+        \[ f(\gamma) = \begin{cases}
+            \gamma - 1 & \text{if } \gamma \text{ is a successor} \\
+            \gamma & \text{if } \gamma \text{ is a limit}
+        \end{cases} \]
+        Then
+        \[ (f) < (\id_\kappa) \leftrightarrow \qty{\alpha \mid \alpha \text{ is a limit}} \notin U \]
+        We will discuss this in more detail later.
+    \end{enumerate}
+\end{remark}
+\begin{definition}
+    Let \( j : \mathrm{V}_\lambda \to M \) be an elementary embedding such that \( M \subseteq \mathrm{V}_\lambda \) is transitive.
+    An ordinal \( \mu \) is called the \emph{critical point} of \( j \), written \( \operatorname{crit}(j) \), if \( j \neq \id \) and \( \mu \) is the least ordinal \( \alpha \). such that \( j(\alpha) > \alpha \).
+\end{definition}
+Note that if \( j \neq \id \), it moves the rank of some set, so moves some ordinal.
+Therefore, if \( j \neq \id \), it has a critical point.
+
+In this terminology, the critical point of the embedding \( j \) above is \( \kappa \).
+\begin{remark}
+    \begin{enumerate}
+        \item \( M \) is closed under finite intersections: if \( A, B \in M \), then \( A \cap B \in M \).
+        \item \( \mathrm{V}_\kappa \in M \).
+        To show this, we claim that the set
+        \[ W = \qty{y \in M \mid M \vDash \rank y < \kappa} \]
+        is equal to \( \mathrm{V}_\kappa \).
+        Then, since \( M \) models \( \mathsf{ZFC} \), the set \( W \) is \( \mathrm{V}_\kappa^M \), so \( W \in M \).
+
+        If \( x \in \mathrm{V}_\kappa \), then \( \rank x = \alpha < \kappa \), so \( j(x) = x \).
+        By elementarity, \( \rank x = \rank j(x) = j(\alpha) = \alpha \) as required.
+        Conversely, suppose that \( M \vDash \rank y = \gamma \) for \( \gamma < \kappa \).
+        There is \( f \) such that \( y = (f) \), and without loss of generality we can take \( f : \kappa \to \mathrm{V}_{\gamma + 1} \).
+        But \( \abs{\mathrm{V}_{\gamma + 1}} < \kappa \), and so by the argument in the lemma proving \( \eval{j}_{\mathrm{V}_\kappa} = \id \), there is some \( x \in \mathrm{V}_{\gamma + 1} \) such that \( \qty{\alpha \mid f(\alpha) = x} \in U \).
+        Hence \( f \sim c_x \), and so \( y = j(x) = x \).
+    \end{enumerate}
+\end{remark}
+\begin{lemma}
+    \( \mathrm{V}_{\kappa + 1} \subseteq M \).
+\end{lemma}
+Note that \( \eval{j}_{\mathrm{V}_{\kappa + 1}} \neq \id \).
+\begin{proof}
+    Let \( A \in \mathrm{V}_{\kappa + 1} \), so \( A \subseteq \mathrm{V}_\kappa \).
+    We claim that \( A = j(A) \cap \mathrm{V}_\kappa \).
+    Then, by the two remarks above, this implies \( A \in M \).
+
+    Suppose \( x \in A \subseteq \mathrm{V}_\kappa \).
+    By elementarity, \( j(x) \in j(A) \), but \( x = j(x) \), so \( x \in j(A) \).
+    Conversely, suppose \( x \in j(A) \cap \mathrm{V}_\kappa \).
+    Then \( x = j(x) \), so \( j(x) \in j(A) \).
+    So by elementarity in the other direction, \( x \in A \).
+\end{proof}
+\begin{lemma}
+    \( \mathrm{V}_\lambda \vDash \abs{j(\kappa)} \leq 2^\kappa \).
+\end{lemma}
+\begin{proof}
+    Recall that if \( f \in \mathrm{V}_\gamma \) then \( \abs{(f)} \leq \abs{\mathrm{V}_\gamma} \).
+    So if \( (f) \in j(\kappa) = (c_\kappa) \), we can assume \( f : \kappa \to \kappa \), and there are only \( 2^\kappa \)-many such functions.
+\end{proof}
+In particular, \( \mathrm{V}_\lambda \) believes that \( j(\kappa) \) is not a strong limit cardinal.
+Hence,
+\begin{lemma}
+    \( M \neq \mathrm{V}_\lambda \).
+\end{lemma}
+\begin{proof}
+    \( M \) believes that \( j(\kappa) \) is measurable, so in particular it believes \( j(\kappa) \) is a strong limit.
+    Hence \( M \neq \mathrm{V}_\lambda \).
+\end{proof}
+There is a strengthening of this result which exhibits a witness to \( M \subsetneq \mathrm{V}_\lambda \), discussed on the example sheets.
+Namely, we can show that \( U \notin M \).
+In order to show this, we prove that for arbitrary transitive \( N \subseteq \mathrm{V}_\lambda \) with \( U \in N \), we have \( N \vDash \abs{j(\kappa)} \leq 2^\kappa \).
+In particular, \( \mathrm{V}_{\kappa + 2} \nsubseteq M \).
+% TODO: the drawing(s) from the lecture on 23rd of February
