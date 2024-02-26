@@ -641,3 +641,111 @@ Namely, we can show that \( U \notin M \).
 In order to show this, we prove that for arbitrary transitive \( N \subseteq \mathrm{V}_\lambda \) with \( U \in N \), we have \( N \vDash \abs{j(\kappa)} \leq 2^\kappa \).
 In particular, \( \mathrm{V}_{\kappa + 2} \nsubseteq M \).
 % TODO: the drawing(s) from the lecture on 23rd of February
+
+Note that \( M \) might still believe that \( \kappa \) is measurable, even though \( U \notin M \).
+There could be some other \( U' \in V_{\kappa + 2} \) which is \( \kappa \)-complete and nonprincipal.
+
+Recall that the Keisler extension property for a transitive model \( X \) is the statement that there is \( \kappa \in X \) such that \( \mathrm{V}_\kappa \preceq X \).
+Properties of \( X \) reflect down into \( \mathrm{V}_\kappa \): if \( \alpha \in \mathrm{Ord}^X \) and \( \Phi \) is a property such that \( X \vDash \Phi(\kappa) \), then
+\[ M \vDash \exists \mu.\, \alpha < \mu \wedge \Phi(\mu) \]
+so
+\[ \mathrm{V}_\kappa \vDash \exists \mu.\, \alpha < \mu \wedge \Phi(\mu) \]
+hence
+\[ C_\Phi = \qty{\gamma < \kappa \mid \Phi(\gamma)} \subseteq \kappa \]
+is cofinal in \( \kappa \).
+If \( \Phi \) is any property such that \( M \vDash \Phi(\kappa) \), then for any \( \alpha < \kappa \),
+\[ M \vDash \exists \mu.\, j(\alpha) < \mu < j(\kappa) \wedge \Phi(\mu) \]
+By elementarity,
+\[ \mathrm{V}_\lambda \vDash \exists \mu.\, \alpha < \mu < \kappa \wedge \Phi(\mu) \]
+Note that \( \alpha = j(\alpha) \).
+So
+\[ C_\Phi = \qty{\gamma < \kappa \mid \Phi(\gamma)} \]
+is cofinal in \( \kappa \).
+\begin{example}
+    \begin{enumerate}
+        \item Let \( \Phi(\kappa) = \mathsf{I}(\kappa) \) be the statement that \( \kappa \) is inaccessible.
+        By absoluteness, \( M \vDash \mathsf{I}(\kappa) \), so
+        \[ C_{\mathsf{I}} = \qty{\gamma < \kappa \mid \mathsf{I}(\gamma)} \]
+        is cofinal.
+        So if \( \kappa \) is measurable, it is the \( \kappa \)th inaccessible cardinal.
+        \item Let \( \Phi(\kappa) = \mathsf{W}(\kappa) \) be the statement that \( \kappa \) is weakly compact.
+        We show that \( M \vDash \mathsf{W}(\kappa) \).
+        Let \( c : [\kappa]^2 \to 2 \) be a colouring in \( M \); we find \( H \in [\kappa]^\kappa \) in \( M \) that is monochromatic for \( c \).
+        By the fact that \( \mathrm{V}_\lambda \vDash \mathsf{W}(\kappa) \), we obtain \( H \) as above in \( \mathrm{V}_\lambda \).
+        But this \( H \) is a subset of \( \kappa \), so is an element of \( \mathrm{V}_{\kappa + 1} \subseteq M \) as required.
+        By the reflection argument,
+        \[ C_{\mathsf{W}} = \qty{\gamma < \kappa \mid \mathsf{W}(\gamma)} \]
+        is cofinal in \( \kappa \).
+        So the least weakly compact cardinal is not measurable.
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    A property \( \Phi \) is called \emph{\( \beta \)-stable} if for all transitive models \( M \) and all \( \kappa \), if \( \Phi(\kappa) \) holds and \( \mathrm{V}_{\kappa + \beta} \subseteq M \) then \( M \vDash \Phi(\kappa) \).
+\end{definition}
+\begin{remark}
+    \begin{enumerate}
+        \item Weak compactness is 1-stable, and 1-stable properties of measurable cardinals reflect at a measurable cardinal.
+        \item Measurability is 2-stable, because the property \( \Xi \) of being a \( \kappa \)-complete nonprincipal ultrafilter is absolute, but the existence of the ultrafilter requires two power set operations:
+        \[ \mathsf{M}(\kappa) \leftrightarrow \exists U \in \mathrm{V}_{\kappa + 2}.\, \Xi(U) \]
+    \end{enumerate}
+\end{remark}
+\begin{example}
+    Suppose that \( M \vDash \mathsf{M}(\kappa) \).
+    Then by the same reflection argument, the set \( C_{\mathsf{M}} \) is cofinal in \( \kappa \), so \( \kappa \) is the \( \kappa \)th measurable cardinal, and so is not the least.
+\end{example}
+\begin{definition}
+    A cardinal \( \kappa \) is called \emph{surviving}, written \( \mathsf{Surv}(\kappa) \), if there is \( \lambda > \kappa \) inaccessible, a \( \kappa \)-complete nonprincipal ultrafilter on \( \kappa \), a transitive model \( M \) such that \( M \cong \faktor{{\mathrm{V}_\lambda}^\kappa}{U} \) and \( j \) is the elementary embedding derived from \( U \), where \( M \vDash \mathsf{M}(\kappa) \).
+\end{definition}
+By the example above, if \( \kappa \) is the first surviving cardinal, it is the \( \kappa \)th measurable.
+Under sufficient consistency assumptions, we have the following.
+\begin{corollary}
+    \( \mathsf{MC} <_{\Con} \mathsf{SurvC} \).
+\end{corollary}
+\begin{proof}
+    Let \( \kappa \) be a surviving cardinal.
+    By the previous results, we can find \( \lambda_0 < \lambda_1 < \kappa \) such that \( \lambda_0, \lambda_1 \) are both measurable.
+    Then \( \lambda_1 \) is inaccessible, so \( \mathrm{V}_{\lambda_1} \vDash \mathsf{ZFC} + \mathsf{M}(\lambda_0) \) by 2-stability of measurability and the fact that \( \mathrm{V}_{\lambda_0 + 2} \subseteq \mathrm{V}_{\lambda_1} \).
+\end{proof}
+
+\subsection{Fundamental theorem on measurable cardinals}
+\begin{theorem}
+    Suppose \( \lambda \) is inaccessible and \( \kappa < \lambda \).
+    Then the following are equivalent.
+    \begin{enumerate}
+        \item \( \kappa \) is measurable.
+        \item There is a transitive model \( M \) of \( \mathsf{ZFC} \) with \( \mathrm{V}_{\kappa + 1} \subseteq M \) and an elementary embedding \( j : \mathrm{V}_\lambda \to M \) such that \( j \neq \id \) and \( \kappa = \operatorname{crit}(j) \).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    We have already shown that (i) implies (ii).
+    For the converse, we define an ultrafilter \( U \) by
+    \[ U = \qty{A \subseteq \kappa \mid \kappa \in j(A)} \]
+    Note that if \( A \subseteq \kappa \), then \( j(A) \subseteq j(\kappa) \), so it could in fact be the case that \( \kappa \in j(A) \).
+    We show that \( U \) is a \( \kappa \)-complete nonprincipal ultrafilter.
+    \begin{itemize}
+        \item We have \( \kappa \in U \) precisely if \( \kappa \in j(\kappa) \), but this is true as \( \kappa \) is the critical point of \( j \).
+        \item \( \varnothing \in U \) precisely if \( \kappa \in j(\varnothing) \), but \( j(\varnothing) = \varnothing \) as \( j \) is an elementary embedding.
+        \item If \( A \in U \) and \( B \supseteq A \), then \( \kappa \in j(A) \), but \( j(B) \supseteq j(A) \) by elementarity, so \( \kappa \in j(B) \) giving \( B \in U \).
+        \item Suppose \( A \notin U \).
+        Then \( \kappa \notin j(A) \).
+        We want to show \( \kappa \setminus A \in U \), or equivalently, \( \kappa \in j(\kappa \setminus A) \).
+        By elementarity, \( j(\kappa \setminus A) = j(\kappa) \setminus j(A) \).
+        But \( \kappa \in j(\kappa) \setminus j(A) \) as required.
+        \item We show \( U \) is nonprincipal.
+        Let \( \alpha \in \kappa \).
+        Then \( \qty{\alpha} \in U \) precisely when \( \kappa \in j(\qty{\alpha}) = \qty{j(\alpha)} \).
+        But \( \alpha < \kappa \), so \( j(\alpha) = \alpha \neq \kappa \), hence \( U \) cannot be principal.
+        \item Finally, we show \( \kappa \)-completeness; this will also show the finite intersection property required for \( U \) to be a filter.
+        Let \( \gamma < \kappa \), and fix \( (A_\alpha)_{\alpha < \gamma} \) such that \( A_\alpha \in U \) for each \( \alpha < \gamma \).
+        Then \( \kappa \in j(A_\alpha) \) for all \( \alpha < \gamma \).
+        Then \( \bigcap_{\alpha < \gamma} A_\alpha \in U \) if and only if \( \kappa \in j\qty(\bigcap_{\alpha < \gamma} A_\alpha) \).
+        Note that being an element of \( \bigcap_{\alpha < \gamma} A_\gamma \) is a formula that says that \( \vb A \) is a sequence of objects \( A_\alpha \), the \( \alpha \)th element of this sequqence is \( A_\alpha \), and \( \beta \) is an element of each element of the sequence.
+        Therefore \( \beta \in j\qty(\bigcap_{\alpha < \gamma} A_\alpha) \) if and only if \( \beta \) is an element of all elements of the sequence \( j(\vb A) \).
+        Clearly, \( j(\vb A) \) is a sequence of subsets of \( j(\kappa) \) of length \( j(\gamma) = \gamma \).
+        Since \( A_\alpha \) is the \( \alpha \)th element of \( \vb A \), \( j(A_\alpha) \) is the \( j(\alpha) \)th element of \( j(\vb A) \), but \( j(\alpha) = \alpha \).
+        Hence \( j(\vb A) \) is the sequence \( (j(A_\alpha))_{\alpha < \gamma} \).
+        Then
+        \[ j\qty(\bigcap_{\alpha < \gamma} A_{\alpha}) = \bigcap_{\alpha < \gamma} j(A_\alpha) \]
+        giving \( \kappa \)-completeness as required.
+    \end{itemize}
+\end{proof}

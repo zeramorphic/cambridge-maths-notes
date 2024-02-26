@@ -628,7 +628,8 @@ Instead, we will define the forcing relation in terms of dense sets, leveraging 
         \[ p \Vdash \varphi \wedge \neg\varphi \]
     \end{enumerate}
 \end{proposition}
-We now aim to show the following theorem.
+
+\subsection{The forcing theorem}
 \begin{theorem}[the forcing theorem]
     Suppose \( M \) be a transitive model of \( \mathsf{ZF} \), \( \mathbb P \in M \) is a forcing poset, \( \varphi(u) \) is a formula, and \( G \) is \( \mathbb P \)-generic over \( M \).
     Then for any \( \dot x \in M^{\mathbb P} \),
@@ -663,3 +664,131 @@ The only reason we need countability is so that every condition is contained in 
 \begin{corollary}
     \( p \Vdash \varphi \leftrightarrow p \Vdash^\star_{\mathbb P, M} \varphi \).
 \end{corollary}
+We will now prove the forcing theorem.
+\begin{proof}
+    We show the result by induction on the complexity of formulas.
+    Note that we need to work with relativised formulas with parameters \( (p \Vdash \varphi(\vb v))^M \), but this only changes the existential case, so for all other cases we will suppress the relativisation and the parameters.
+    We write \( \Psi(\varphi) \) for the claim that for any name \( \dot x \in M^{\mathbb P} \), if \( p \in G \) and \( (p \Vdash \varphi(\dot x))^M \), then \( M[G] \vDash \varphi(\dot x^G) \), and if \( M[G] \vDash \varphi(\dot x)^G \), then there exists \( p \in G \) such that \( (p \Vdash \varphi(\dot x))^M \).
+
+    \emph{Part (i): negations.}
+    Suppose \( \Psi(\varphi) \) holds.
+    Let \( p \in G \) and \( p \Vdash \neg \varphi \).
+    Suppose for a contradiction that \( M[G] \vDash \varphi \), or equivalently, \( \varphi^{M[G]} \).
+    Then as \( \Psi(\varphi) \) holds, there is \( q \in G \) such that \( q \Vdash \varphi \).
+    As \( G \) is a filter, there is \( r \in G \) such that \( r \leq p, q \).
+    Then \( r \Vdash \varphi \), which contradicts the definition of \( p \Vdash \neg\varphi \).
+    Hence \( \neg(\varphi^{M[G]}) \), so by definition \( (\neg \varphi)^{M[G]} \), so \( M[G] \vDash \neg\varphi \).
+
+    For the converse, suppose \( M[G] \vDash \neg\varphi \).
+    Let
+    \[ D = \qty{p \in \mathbb P \mid p \Vdash \varphi \vee p \Vdash \neg\varphi} \]
+    Then \( D \) is dense, because if \( q \nVdash \varphi \), then there is \( p \leq q \) such that \( p \Vdash \neg\varphi \), and \( p \in D \).
+    So as \( G \) is generic, we can fix \( p \in G \cap D \).
+    If \( p \Vdash \varphi \), then by \( \Psi(\varphi) \) we must have \( M[G] \vDash \varphi \), but we assumed \( M[G] \vDash \neg\varphi \).
+    Hence \( p \Vdash \neg\varphi \).
+
+    \emph{Part (ii): conjunctions.}
+    Suppose \( \Psi(\varphi) \) and \( \Psi(\psi) \).
+    Suppose \( p \Vdash \varphi \wedge \psi \) for some \( p \in G \), so by definition, \( p \Vdash \varphi \) and \( p \Vdash \psi \).
+    By \( \Psi(\varphi) \) and \( \Psi(\psi) \), we have \( M[G] \vDash \varphi \) and \( M[G] \vDash \psi \).
+    So \( M[G] \vDash \varphi \wedge \psi \).
+
+    For the converse, suppose \( M[G] \vDash \varphi \wedge \psi \).
+    Then \( M[G] \vDash \varphi \) and \( M[G] \vDash \psi \), so there are \( p, q \in G \) such that \( p \Vdash \varphi \) and \( q \Vdash \psi \).
+    But \( G \) is a filter, so there is \( r \leq p, q \) such that \( r \Vdash \varphi \) and \( r \Vdash \psi \).
+    Hence \( r \Vdash \varphi \wedge \psi \), as required.
+
+    \emph{Part (iii): existential quantifiers.}
+    For this case, we will not suppress relativisation and parameters.
+    Suppose \( \Psi(\varphi(\dot x)) \); we show \( \Psi(\exists x.\, \varphi(x)) \).
+    To be more precise, for all names \( \dot x \in M^{\mathbb P} \), we assume the forcing theorem holds for \( \varphi(\dot x) \).
+    Suppose \( p \in G \) is such that \( (p \Vdash \exists x.\, \varphi(x))^M \).
+    Let
+    \[ D = \qty(\qty{q \leq p \mid \exists \dot x \in \mathrm{V}^{\mathbb P}.\, (q \Vdash \varphi(\dot x))})^M = \qty{q \leq p \mid \exists \dot x \in M^{\mathbb P}.\, (q \Vdash \varphi(\dot x))^M} \in M \]
+    By definition of forcing existentials, \( D \) is a dense set.
+    Since \( G \) is generic, there is some \( q \in G \cap D \).
+    Then we can fix some \( \mathbb P \)-name \( \dot x \) such that \( (q \Vdash \varphi(\dot x))^M \).
+    Since the forcing theorem holds for \( \varphi(\dot x) \), we have \( M[G] \vDash \varphi(\dot x^G) \).
+    Hence \( M[G] \vDash \exists x.\, \varphi(x) \).
+
+    Now suppose \( M[G] \vDash \exists x.\, \varphi(x) \).
+    We can fix \( \dot x \in M^{\mathbb P} \) such that \( M[G] \vDash \varphi(\dot x^G) \).
+    By the fact that \( \Psi(\varphi(\dot x)) \) holds, there is a condition \( p \) such that \( (p \Vdash \varphi(\dot x))^M \).
+    Then
+    \[ \qty{q \leq p \mid (q \Vdash \varphi(\dot x))^M} \]
+    is dense.
+    Hence, by definition, \( (p \vDash \exists x.\, \varphi(x))^M \).
+
+    \emph{Part (iv): equality.}
+
+    \emph{Part (v): membership.}
+    Suppose that \( p \Vdash \dot x \in \dot y \) for \( p \in G \).
+    Let
+    \[ D = \qty{q \leq p \mid \exists \langle r, \dot z \rangle \in \dot y.\, q \leq r \wedge (q \Vdash \dot x = \dot z)} \]
+    By definition, \( D \) is dense.
+    We can fix \( q \in G \cap D \).
+    Since \( q \in D \), we may also fix \( \langle r, \dot z \rangle \in \dot y \) such that \( q \leq r \) and \( q \Vdash \dot x = \dot z \).
+    As \( q \in G \), by the forcing theorem for equality, \( M[G] \vDash \dot x^G = \dot z^G \).
+    Since \( G \) is a filter and \( q \leq r \), then \( r \in G \) and so \( \dot z^G \in \dot y^G \).
+    Hence \( M[G] \vDash \dot x^G \in \dot y^G \).
+
+    Now suppose \( M[G] \vDash \dot x^G \in \dot y^G \).
+    Fix \( \langle r, \dot z \rangle \in \dot y \) such that \( r \in G \) and \( \dot z^G = \dot x^G \).
+    Now, by the forcing theorem for equality, there is \( q \in G \) such that \( q \Vdash \dot x = \dot z \).
+    Since \( G \) is a filter and \( q, r \in G \), we can fix \( p \in G \) such that \( p \leq q, r \).
+    Then \( p \Vdash \dot z \in \dot y \) and \( p \Vdash \dot x = \dot z \).
+    So for all \( s \leq p \), we have \( s \leq r \) and \( s \Vdash \dot x = \dot z \), so \( D \) is dense below \( p \).
+    Hence \( p \Vdash \dot x \in \dot y \), as required.
+\end{proof}
+
+\subsection{\texorpdfstring{\( \mathsf{ZF} \)}{ZF} in forcing extensions}
+\begin{lemma}
+    Suppose that \( M \) is a countable transitive model of \( \mathsf{ZF} \), \( \mathbb P \in M \) is a forcing poset, and \( G \subseteq \mathbb P \) is a generic filter.
+    Then \( M[G] \) models separation.
+\end{lemma}
+\begin{proof}
+    Let \( \varphi(x, v) \) be a formula with free variables \( x, v \).
+    It suffices to show that for any \( a, v \in M[G] \),
+    \[ b = \qty{x \in a \mid M[G] \vDash \varphi(x, v)} \in M[G] \]
+    Fix names \( \dot a, \dot v \) such that \( \dot a^G = a \) and \( \dot v^G = v \).
+    Any member of \( \dot a^G \) is of the form \( \dot x^G \) where \( \langle p, \dot x \rangle \in \dot a \) and \( p \in G \).
+    Then
+    \[ b = \qty{\dot x^G \mid \exists p \in G.\, \langle p, \dot x \rangle \in \dot a \wedge M[G] \vDash \varphi(\dot x^G, \dot v^G)} \]
+    We define
+    \[ \dot b = \qty{\langle p, \dot x \rangle \mid \langle p, \dot x \rangle \in \dot a \wedge (p \Vdash \varphi(\dot x, \dot v))^M} \in M^{\mathbb P} \]
+    Thus, \( \dot b^G \in M[G] \), so it suffices to show \( \dot b^G = b \).
+    We have \( x \in \dot b^G \) if and only if there is some \( \mathbb P \)-name \( \dot x \) in \( M \) and \( p \in G \) such that \( \dot x^G = x \), \( \langle p, \dot x \rangle \in \dot a \), and \( (p \Vdash \varphi(\dot x, \dot v))^M \).
+    By the forcing theorem, this is equivalent to the statement \( x \in \dot a^G \) and \( M[G] \vDash \varphi(x, v) \), which is precisely the statement \( x \in b \).
+\end{proof}
+The arguments for collection and power set will follow the same pattern.
+\begin{lemma}
+    Suppose that \( M \) is a countable transitive model of \( \mathsf{ZF} \), \( \mathbb P \in M \) is a forcing poset, and \( G \subseteq \mathbb P \) is a generic filter.
+    Then \( M[G] \) models collection.
+\end{lemma}
+\begin{proof}
+    Let \( \varphi(x, y, v) \) be a formula with free variables \( x, y, v \).
+    Fix \( a, v \in M[G] \) with names \( \dot a, \dot v \).
+    Suppose \( M[G] \vDash \forall x \in a.\, \exists y.\, \varphi(x, y, v) \).
+    We claim that there is \( b \in M[G] \) such that \( M[G] \vDash \forall x \in a.\, \exists y \in b.\, \varphi(x, y, v) \).
+    Let
+    \[ C = \qty{\langle p, \dot x \rangle \mid p \in \mathbb P \wedge x \in \ran a \wedge \exists \dot y \in M^{\mathbb P}.\, (p \Vdash \varphi(\dot x, \dot y, \dot v))^M} \]
+    Then for all \( \langle p, \dot x \rangle \in C \), there is \( \dot y \in M^{\mathbb P} \) such that \( (p \Vdash \varphi(\dot x, \dot y, \dot v))^M \).
+    Note that the collection of such \( \dot y \) might not form a set, for example with the formula \( \varphi(x, y) \equiv x \in y \).
+    However, using collection in \( M \), we may form a set \( B \in M \) such that \( B \subseteq M^{\mathbb P} \) and
+    \[ \forall \langle p, x \rangle \in C.\, \exists \dot y \in B.\, (p \Vdash \varphi(\dot x, \dot y, \dot v))^M \]
+    Finally, set
+    \[ \dot b = \qty{\langle \Bbbone, \dot y \rangle \mid \dot y \in B} \in M^{\mathbb P} \]
+    We show that \( b = \dot b^G \) satisfies the required property.
+    Fix some \( x \in a \), then by definition there is \( \langle q, \dot x \rangle \in \dot a \) such that \( q \in G \) and \( \dot x^G = x \).
+    By assumption, \( M[G] \vDash \exists y \in b.\, \varphi(x, y, v) \).
+    So fix \( \dot z^G \) such that \( M[G] \vDash \varphi(x, z, v) \).
+    By the forcing theorem, there is \( p \in G \) such that \( (p \Vdash \varphi(\dot x, \dot z, \dot v))^M \).
+    Hence \( \langle p, \dot x \rangle \in C \).
+    So we can fix \( \dot y \in B \) such that \( (p \Vdash \varphi(\dot x, \dot y, \dot v))^M \).
+    Therefore, \( \langle \Bbbone 1, \dot y \rangle \in \dot b \).
+    Since \( \Bbbone 1 \in G \), \( \dot y^G \in \dot b^G \).
+    By the forcing theorem again,
+    \[ M[G] \vDash \dot y^G \in \dot b^G \wedge \varphi(\dot x^G, \dot y^G, v) \]
+    Hence, collection holds.
+\end{proof}
+Note that since power set has not been used in any of the previous proofs, if \( M \vDash \mathsf{ZF}^- \), then \( M[G] \vDash \mathsf{ZF}^- \).
