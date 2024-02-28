@@ -720,6 +720,57 @@ We will now prove the forcing theorem.
     Hence, by definition, \( (p \vDash \exists x.\, \varphi(x))^M \).
 
     \emph{Part (iv): equality.}
+    Recall that \( p \Vdash \dot x = \dot y \) if and only if
+    \begin{enumerate}[(a)]
+        \item for all \( \langle q_1, \dot z_1 \rangle \in \dot x \), \( \qty{r \leq p \mid r \leq q_1 \to \exists \langle q_2, \dot z_2 \rangle \in \dot y.\, r \leq q_2 \wedge (r \Vdash \dot z_1 = \dot z_2)} \) is dense below \( p \); and
+        \item for all \( \langle q_2, \dot z_2 \rangle \in \dot y \), \( \qty{r \leq p \mid r \leq q_2 \to \exists \langle q_1, \dot z_1 \rangle \in \dot x.\, r \leq q_1 \wedge (r \Vdash \dot z_1 = \dot z_2)} \) is dense below \( p \).
+    \end{enumerate}
+    We show that for any \( \dot x, \dot y \), we have \( \Psi(\dot x = \dot y) \).
+    We will show this by transfinite induction on the pair \( \langle \dot x, \dot y \rangle \) ordered lexicographically.
+
+    Suppose that \( p \Vdash \dot x = \dot y \) and \( p \in G \).
+    We show \( M[G] \vDash \dot x^G \subseteq \dot y^G \); the converse holds by symmetry, and then we obtain \( M[G] \vDash \dot x^G = \dot y^G \) by extensionality.
+    Any element of \( \dot x^G \) is of the form \( \dot z_1^G \) where \( \langle q_1, \dot z_1 \rangle \in \dot x \) and \( q_1 \in G \).
+    Since \( G \) is a filter, we can fix \( s \in G \) such that \( s \leq p, q_1 \).
+    Then, as \( s \leq p \), we have \( s \Vdash \dot x = \dot y \), so the set in (a) above is dense below \( s \).
+    Hence there is \( r \in G \) such that \( r \leq s \leq q_1 \) and there exists \( \langle q_2, \dot z_2 \rangle \in \dot y \) such that \( r \leq q_2 \) and \( r \Vdash \dot z_1 = \dot z_2 \).
+    As \( G \) is a filter, \( q_2 \in G \), so \( \dot z_2^G \in \dot y^G \).
+    By using the inductive hypothesis on \( \langle \dot z_1, \dot z_2 \rangle \), as \( r \in G \) we have \( M[G] \vDash \dot z_1^G = \dot x_2^G \).
+    Hence \( \dot z_1^G \in \dot y^G \), so \( \dot x^G \subseteq \dot y^G \).
+
+    For the converse, \( M[G] \vDash \dot x^G = \dot y^G \).
+    Define \( D \) to be the set of \( r \in \mathbb P \) such that at least one of the following hold.
+    \begin{enumerate}
+        \item[(0)] \( r \Vdash \dot x = \dot y \);
+        \item[(a\( ' \))] there exists \( \langle q_1, \dot z_1 \rangle \in \dot x \) such that \( r \leq q_1 \) and for all \( \langle q_2, \dot z_2 \rangle \in \dot y \) and \( s \in \mathbb P \), if \( s \leq q_2 \) and \( s \Vdash \dot z_1 = \dot z_2 \) then \( s \perp r \);
+        \item[(b\( ' \))] there exists \( \langle q_2, \dot z_2 \rangle \in \dot y \) such that \( r \leq q_2 \) and for all \( \langle q_1, \dot z_1 \rangle \in \dot x \) and \( s \in \mathbb P \), if \( s \leq q_1 \) and \( s \Vdash \dot z_1 = \dot z_2 \) then \( s \perp r \).
+    \end{enumerate}
+    Note that by separation in \( M \) and absoluteness, \( D \) is a set in \( M \).
+    We claim that \( D \) is dense.
+    Fix \( p \in \mathbb P \), and suppose \( p \nVdash \dot x = \dot y \).
+    Then at least one of (a) and (b) above fails.
+    Suppose that the set in (a) fails; the result for (b) holds by symmetry.
+    Then there is \( \langle q_1, \dot z_1 \rangle \in \dot x \) such that
+    \[ \qty{r \leq p \mid r \leq q_1 \to \exists \langle q_2, \dot z_2 \rangle \in \dot y.\, r \leq q_2 \wedge (r \Vdash \dot z_1 = \dot z_2)} \]
+    is not dense below \( p \).
+    Then there is \( s \leq p \) such that for all \( r \leq s \), we have \( r \leq q_1 \), and for all \( \langle q_2, \dot z_2 \rangle \in \dot y \) such that \( \neg((r \Vdash \dot z_1 = \dot z_2) \wedge r \leq q_2) \).
+    In particular, this gives \( s \leq q_1 \).
+    Now, if \( \langle q_1, \dot z_2 \rangle \in \dot y \), \( r \leq q_2 \), and \( r \Vdash \dot z_1 = \dot z_2 \), then it must be the case that \( s \perp r \), as any common extension of \( s \) and \( r \) would contradict the fact that the set in (a) was not dense.
+    Thus \( s \leq p \) and \( s \) satisfies (a\( ' \)).
+    Hence \( D \) is dense.
+
+    \( D \) is dense below \( p \in G \) and \( G \) is \( \mathbb P \)-generic so we can fix \( r \in G \cap D \).
+    We will show that \( r \) satisfies (0), which finishes the proof.
+    Suppose not, so suppose \( r \) satisfies (a\( ' \)) without loss of generality.
+    Then we can fix \( \langle q_1, \dot z_1 \rangle \in \dot x \) such that \( r \leq q_1 \) and for all \( \langle q_2, \dot z_2 \rangle \in \dot y \) such that for all \( s \in \mathbb P \) with \( s \leq q_2 \) and \( s \Vdash \dot z_1 = \dot z_2 \), we have \( s \perp r \).
+    Since \( r \in G \) and \( r \leq q_1 \), we must have \( q_1 \in G \) by upwards closure.
+    Therefore, \( M[G] \vDash \dot z_1^G \in \dot x^G = \dot y^G \).
+    So we can fix \( \langle q_2, \dot z_2 \rangle \in \dot y \) such that \( q_2 \in G \) and \( M[G] \vDash \dot z_1^G = \dot z_2^G \).
+    By the inductive hypothesis, we can fix \( p' \in G \) such that \( p' \Vdash \dot z_1 = \dot z_2 \).
+    Since \( G \) is a filter and both \( p', q_2 \in G \), we obtain \( s \in G \) with \( s \leq p', q_2 \).
+    Hence \( s \Vdash \dot z_1 = \dot z_2 \).
+    Hence, by (a\( ' \)), we have \( s \perp r \).
+    But \( s, r \in G \), so \( s \mathrel\| r \), giving a contradiction.
 
     \emph{Part (v): membership.}
     Suppose that \( p \Vdash \dot x \in \dot y \) for \( p \in G \).
@@ -792,3 +843,58 @@ The arguments for collection and power set will follow the same pattern.
     Hence, collection holds.
 \end{proof}
 Note that since power set has not been used in any of the previous proofs, if \( M \vDash \mathsf{ZF}^- \), then \( M[G] \vDash \mathsf{ZF}^- \).
+\begin{lemma}
+    Suppose that \( M \) is a countable transitive model of \( \mathsf{ZF} \), \( \mathbb P \in M \) is a forcing poset, and \( G \subseteq \mathbb P \) is a generic filter.
+    Then \( M[G] \) models the axiom of power set.
+\end{lemma}
+\begin{proof}
+    By separation, it suffices to show that if \( a \in M[G] \), then
+    \[ \mathcal P(a) \cap M[G] = \qty{x \in M[G] \mid x \subseteq a} \subseteq b \]
+    for some set \( b \in M[G] \).
+    Fix \( a \in M[G] \) with name \( \dot x \in \M^{\mathbb P} \), and define
+    \[ S = \qty{\dot x \in M^{\mathbb P} \mid \ran \dot x \subseteq \ran \dot a} = \mathcal P(\mathbb P \times \ran \dot a)^M \]
+    and let
+    \[ \dot b = \qty{\langle \Bbbone, \dot x \rangle \mid x \in S} \in M^{\mathbb P} \]
+    Let \( c \in \mathcal P(a) \cap M[G] \); we must show that \( c \in \dot b^G \).
+    Let \( \dot c \in M^{\mathbb P} \) be a name for \( c \), and let
+    \[ \dot x = \qty{\langle p, \dot z \rangle \mid \dot z \in \ran \dot a \wedge (p \Vdash \dot z \in \dot c)^M} \in S \]
+    We claim \( \dot x^G = \dot c^G = c \).
+    First, we show \( \dot x^G \subseteq c \).
+    Fix \( \dot z^G \in \dot x^G \).
+    By definition, we can fix \( p \in G \) such that \( \langle p, \dot z \rangle \in \dot x \).
+    From this, it follows that \( \dot z \in \ran \dot a \) and \( p \Vdash \dot z \in \dot c \).
+    Since \( p \in G \), by the forcing theorem, \( M[G] \vDash \dot z^G \in \dot c^G \), as required.
+
+    Conversely, since \( M[G] \vDash c \subseteq \dot a^G \), so every element of \( c \) is of the form \( \dot z^G \) for \( \langle q, \dot z \rangle \in \dot a \) with \( q \in G \).
+    Also, if \( M[G] \vDash \dot z^G \in c \), then by the forcing theorem, there is \( p \) such that \( p \Vdash \dot z \in \dot c \).
+    Then \( \langle p, \dot z \rangle \in \dot x \), so \( \dot z^G \in \dot x^G \).
+\end{proof}
+\begin{lemma}
+    Suppose that \( M \) is a countable transitive model of \( \mathsf{ZFC}^- \), \( \mathbb P \in M \) is a forcing poset, and \( G \subseteq \mathbb P \) is a generic filter.
+    Then \( M[G] \) models the well-ordering principle, and hence models \( \mathsf{ZFC}^- \).
+\end{lemma}
+\begin{proof}
+    It suffices to show that any \( a \in M[G] \) can be well-ordered in \( M[G] \).
+    Fix a name \( \dot a \) for \( a \).
+    Using the well-ordering principle in \( M \), we can enumerate the elements of \( \ran \dot a \) as
+    \[ \qty{\dot x_\alpha \mid \alpha < \delta} \]
+    Let
+    \[ \dot f = \qty{\langle \Bbbone, \operatorname{op}(\check \alpha, \dot x_\alpha) \rangle \mid \alpha < \delta} \in M^{\mathbb P} \]
+    So in \( M[G] \),
+    \[ \dot f^G = \qty{\langle \alpha, \dot x_\alpha^G \rangle \mid \alpha < \delta} \]
+    Hence \( \dot f^G \) is a function with domain \( \delta \), and \( a \subseteq \ran \dot f^G \).
+    We can now define a well-order \( \triangleleft \) on \( a \) by defining that \( x \triangleleft y \) if and only if
+    \[ \min\qty{\alpha < \delta \mid \dot f^G(\alpha) = x} < \min\qty{\alpha < \delta \mid \dot f^G(\alpha) = y} \]
+\end{proof}
+\begin{remark}
+    \begin{enumerate}
+        \item \( \dot f^G \) may not be injective, since we could have \( \dot x_\alpha^G = \dot x_\beta^G \) for \( \alpha \neq \beta \).
+        \item \( \ran \dot f^G \) may not equal \( a \).
+        Elements of \( \dot a \) are conditions \( \langle p, \dot x_\alpha \rangle \), and if \( p \notin G \), we may not have \( \dot x_\alpha^G \in a \).
+        \item For power set, it sufficed to find a set of names which contained enough names to represent all possible subsets of \( a \).
+        However, there are a proper class of names for the empty set, so we could not produce a set of all such names.
+        \item The statement \( M[G] \vDash \varphi \) should be considered a ternary relation between \( M \), \( G \), and \( \varphi \).
+        It is possible that \( G \) and \( H \) are both generic, but \( M[G] \vDash \varphi \) and \( M[H] \vDash \neg\varphi \).
+        \item The relativisation \( (p \Vdash \varphi)^M \) will be dropped when clear in subsequent sections.
+    \end{enumerate}
+\end{remark}
