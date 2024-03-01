@@ -1,0 +1,97 @@
+\subsection{Independence of the constructible universe}
+In this subsection, we show \( \Con(\mathsf{ZFC} + \mathrm{V} \neq \mathrm{L}) \), and thus \( \mathrm{V} \neq \mathrm{L} \) is independent of the axioms of \( \mathsf{ZFC} \).
+\begin{theorem}
+    Let \( M \) be a countable transitive model of \( \mathsf{ZFC} \).
+    Then there is a countable transitive model \( N \supseteq M \) such that \( N \vDash \mathsf{ZFC} + \mathrm{V} \neq \mathrm{L} \).
+\end{theorem}
+\begin{proof}
+    Let \( M \) be a countable transitive model of \( \mathsf{ZFC} \), and let \( \mathbb P \in M \) be any atomless forcing poset (that is, it has no minimal elements), for example \( \operatorname{Fn}(\omega, 2) \).
+    Since \( M \) is countable, we can let \( G \) be a \( \mathbb P \)-generic filter over \( M \).
+    As \( \mathbb P \) is atomless, \( G \notin M \).
+    Hence \( M \subsetneq M[G] \vDash \mathsf{ZFC} \).
+
+    We show that \( M[G] \vDash \mathrm{V} \neq \mathrm{L} \).
+    Therefore,
+    \[ \mathrm{L}_{\Ord \cap M} = \mathrm{L}^M \subseteq M \subsetneq M[G] \]
+    By the generic model theorem, \( \mathrm{Ord} \cap M = \mathrm{Ord} \cap M[G] \), so \( M[G] \neq \mathrm{L}_{\Ord \cap M[G]} = \mathrm{L}^{M[G]} \).
+    In particular, we have \( (\mathrm{V} \neq \mathrm{L})^{M[G]} \).
+\end{proof}
+We will now discuss how to remove the assumption that we have a countable transitive model of \( \mathsf{ZFC} \).
+\begin{theorem}
+    If \( \Con(\mathsf{ZFC}) \), then \( \Con(\mathsf{ZFC} + \mathrm{V} \neq \mathrm{L}) \).
+    Hence, \( \mathsf{ZFC} \nvdash \mathrm{V} = \mathrm{L} \).
+\end{theorem}
+\begin{proof}
+    Suppose that \( \mathsf{ZFC} + \mathrm{V} \neq \mathrm{L} \) gives rise to a contradiction.
+    Then, from a finite set of axioms \( \Gamma \subseteq \mathsf{ZFC} + \mathrm{V} \neq \mathrm{L} \), we can find \( \psi \) such that \( \Gamma \vdash \psi \wedge \neg \psi \).
+    By following the previous proofs, there is a finite set of axioms \( \Lambda \subseteq \mathsf{ZFC} \) such that \( \mathsf{ZFC} \) proves that if there is a countable transitive model of \( \Lambda \), then there is a countable transitive model of \( \Gamma \).
+    This set \( \Lambda \) should be sufficient to do the following:
+    \begin{enumerate}
+        \item to prove basic properties of forcing and constructibility;
+        \item to prove the necessary facts about absoluteness, such as absoluteness of finiteness, partial orders and so on;
+        \item to prove facts about forcing, including the forcing theorem; and
+        \item if \( M \) is a countable transitive model of \( \Lambda \) with \( \mathbb P \in M \) and \( G \) is \( \mathbb P \)-generic over \( M \), then \( \Lambda \) proves that \( M[G] \vDash \Gamma \).
+    \end{enumerate}
+    As \( \Lambda \) is finite and a subset of the axioms of \( \mathsf{ZFC} \), then by the reflection theorem there is a countable transitive model of \( \Lambda \).
+    Hence, there is a countable transitive model \( N \) of \( \Gamma \).
+    But \( \Gamma \vdash \psi \wedge \neg\psi \), so \( N \vDash \psi \wedge \neg\psi \).
+    Hence \( (\psi \wedge \neg\psi)^N \), so in \( \mathsf{ZFC} \) we can prove \( \psi^N \wedge \neg\psi^N \), so \( \mathsf{ZFC} \) is inconsistent.
+\end{proof}
+\begin{remark}
+    Gunther, Pagano, S\'anchez Terraf, and Steinberg recently completed a formalisation of the countable transitive model approach to forcing in the interactive theorem prover Isabelle.
+    To obtain \( \Con(\mathsf{ZFC}) \to \Con(\mathsf{ZFC} + \neg\mathsf{CH}) \), they used \( \mathsf{ZC} \) together with 21 instances of replacement, which are explicitly enumerated in the paper.
+\end{remark}
+
+\subsection{Cohen forcing}
+Fix a countable transitive model \( M \) of \( \mathsf{ZFC} \).
+Recall that for \( I, J \in M \),
+\begin{enumerate}
+    \item \( \operatorname{Fn}(I, J) = \qty{p \mid p \text{ is a finite partial function } I \to J} \), together with \( \supseteq \) and \( \varnothing \), has the structure of a forcing poset.
+    \item \( \operatorname{Fn}(I, J) \) is always a set in \( M \).
+    \item \( \operatorname{Fn}(I, J) \) has the countable chain condition if and only if \( I \) is empty or \( J \) is countable.
+    \item The sets \( D_i = \qty{q \in \operatorname{Fn}(I, J) \mid i \in \dom q} \) and \( R_j = \qty{q \in \operatorname{Fn}(I, J) \mid i \in \ran q} \) are dense for all \( i \in I \) and \( j \in J \).
+\end{enumerate}
+Now, suppose that \( G \subseteq \operatorname{Fn}(I, J) \) is generic over \( M \).
+Since \( G \) is a filter, if \( p, q \in G \) then \( p \cap q \in G \).
+Hence, if \( p, q \in G \), then \( p, q \) agree on the intersection of their domains.
+Let \( f_G = \bigcup G \).
+Then \( f_G \) is a function domain contained in \( I \) and range contained in \( J \).
+Note that this function has name
+\[ \dot f = \qty{\langle p, \operatorname{op}(\check \imath, \check \jmath) \rangle \mid p \in \mathbb P, \langle i, j \rangle \in p} \]
+Since \( D_i, R_j \) are dense, we obtain \( G \cap D_i \neq \varnothing \), so we must have \( i \in \dom f_G \).
+Similarly, \( j \in \ran f_G \).
+We therefore obtain the following.
+\begin{proposition}
+    Let \( G \subseteq \operatorname{Fn}(I, J) \) be a generic filter over \( M \), and suppose \( I, J \) are nonempty.
+    Then \( M[G] \vDash f_G : I \to J \) is a surjection.
+\end{proposition}
+\begin{proposition}
+    Suppose that \( I, J \) are nonempty sets, at least one of which is infinite.
+    Then
+    \[ \abs{\operatorname{Fn}(I, J)} = \max(\abs{I}, \abs{J}) \]
+\end{proposition}
+In particular, \( \abs{\operatorname{Fn}(\omega, 2)} = \aleph_0 \).
+\begin{proof}
+    Each condition \( p \in \operatorname{Fn}(I, J) \) is a finite function, so from this it follows that
+    \[ \operatorname{Fn}(I, J) \subseteq (I \times J)^{<\omega} \]
+    Hence
+    \[ \operatorname{Fn}(I, J) \subseteq \abs{(I \times J)^{<\omega}} = \abs{I \times J} = \max(\abs{I}, \abs{J}) \]
+    For the reverse direction, if we fix \( i_0 \in I \) and \( j_0 \in J \), then
+    \[ \abs{\langle i_0, j \rangle \mid j \in J} \cup \qty{\langle i, j_0 \rangle \mid i \in I} \]
+    is a collection of \( \abs{I \cup J} \)-many distinct elements of \( \operatorname{Fn}(I, J) \).
+    Thus
+    \[ \max(\abs{I}, \abs{J}) = \abs{I \cup J} \leq \operatorname{Fn}(I, J) \]
+    as required.
+\end{proof}
+We aim to provide a model in which \( \mathsf{CH} \) fails.
+To do this, we will consider the forcing poset \( \operatorname{Fn}(\omega_2^M \times \omega, 2) \).
+We may consider \( f_G : \omega_2^M \times \omega \to 2 \), and let \( g_\alpha : \omega \to 2 \) be the function defined by \( g_\alpha(n) = f_G(\alpha, n) \).
+This provides \( \omega_2^M \)-many reals in \( M[G] \).
+To show that \( M[G] \vDash \mathsf{ZFC} + \neg\mathsf{CH} \), we must show that all of the \( g_\alpha \) are distinct, and that
+\[ \omega_1^{M[G]} = \omega_1^M;\quad \omega_2^{M[G]} = \omega_2^M \]
+It will turn out that the countable chain condition guarantees that all cardinals in \( M \) remain cardinals in \( M[G] \).
+\begin{example}
+    Let \( \kappa \) be an uncountable cardinal in \( M \), and consider \( \operatorname{Fn}(\omega, \kappa) \), which does not satisfy the countable chain condition.
+    Then in \( M[G] \), the function \( f_G : \omega \to \kappa \) is a surjection.
+    Hence, \( \kappa \) has been collapsed into a countable ordinal in \( M[G] \).
+\end{example}
