@@ -1,0 +1,81 @@
+\subsection{Embedding axioms}
+\begin{definition}
+    A large cardinal axiom \( \Phi\mathsf{C} \) is called an \emph{embedding axiom} if \( \Phi(\kappa) \) holds if and only if there is a transitive model \( M \) and elementary embedding \( j : \mathrm{V}_\lambda \to M \) with critical point \( \kappa \) with certain additional properties.
+\end{definition}
+\( \mathsf{M}(\kappa) \) is the simplest embedding axiom.
+The remaining large cardinal axioms in this course will take the form of embedding axioms.
+\begin{definition}
+    An embedding \( j : \mathrm{V}_\lambda \to M \) with critical point \( \kappa \) is called \emph{\( \beta \)-strong} if \( \mathrm{V}_{\kappa + \beta} \subseteq M \).
+    A cardinal \( \kappa \) is called \emph{\( \beta \)-strong} if there is a \( \beta \)-strong embedding with critical point \( \kappa \).
+\end{definition}
+\( \beta \)-stable properties are preserved by \( \beta \)-strong embeddings.
+In particular, by the reflection argument, if \( \Phi \) is \( \beta \)-stable and \( \kappa \) is \( \beta \)-strong with \( \Phi(\kappa) \), then \( \kappa \) is the \( \kappa \)th cardinal with property \( \Phi \).
+
+Note that \( \kappa \) is measurable if and only if \( \kappa \) is 1-strong, and if \( \kappa \) is 2-strong then \( \qty{\alpha < \kappa \mid \mathsf{M}(\alpha)} \) and \( \qty{\alpha < \kappa \mid \mathsf{Surv}(\alpha)} \) are of size \( \kappa \).
+If we write \( \beta\mathsf{-S}(\kappa) \) to denote that \( \kappa \) is \( \beta \)-strong, then
+\[ \mathsf{SurvC} <_{\Con} 2\mathsf{-S}(\kappa) \]
+This also gives an example of \( j_{U_j} \neq j \), as the ultrapower embedding of any ultrafilter is never 2-strong.
+\begin{definition}
+    A large cardinal property \( \Phi \) is said to have \emph{witness objects} of rank \( \beta \) if there is a formula \( \Psi \) that is downwards absolute for transitive models such that
+    \[ \Phi(\kappa) \leftrightarrow \forall x.\, \exists y \in \mathrm{V}_{\kappa + \beta}.\, \Psi(x, y, \kappa) \]
+\end{definition}
+Any large cardinal property with witness objects of rank \( \beta \) is \( \beta \)-stable.
+\begin{example}
+    \begin{enumerate}
+        \item Weakly compact cardinals have witness objects of rank 1: for all colourings, there exists a homogeneous set in \( \mathrm{V}_{\kappa + 1} \).
+        \item Measurable cardinals have witness objects of rank 2: there is a \( \kappa \)-complete nonprincipal ultrafilter on \( \kappa \).
+        The initial \( \forall x \) quantifier is not needed in this case.
+        \item Surviving cardinals also have witness objects of rank 2, namely, a pair of ultrafilters.
+    \end{enumerate}
+\end{example}
+In particular, inaccessibility is 0-stable, weak compactness is 1-stable, and measurability and survivability are 2-stable.
+
+Observe that if \( \beta \)-strong cardinals have witness objects, they cannot be of rank \( \beta \).
+
+\subsection{Removing the inaccessible}
+The ultrapower constructions used an inaccessible cardinal above a measurable cardinal, so that we could obtain a set-sized universe containing a measurable cardinal.
+When trying to do this with the real universe, we encounter several problems.
+\begin{enumerate}
+    \item The definition of ultrapowers requires a set model.
+    \item In the fundamental theorem of measurable cardinals, we have a quantification over \( j \) and \( M \).
+    If these are proper classes, this quantification cannot be expressed in the usual language of set theory.
+    \item Also, in the fundamental theorem of measurable cardinals, we use the notion of an elementary embedding, which is only definable for set models.
+\end{enumerate}
+To solve problem (i), we would like to construct \( \faktor{\mathrm{V}^\kappa}{\sim_U} \).
+Note that \( \mathrm{V}^\kappa \) is a well-defined class; it is the class of all functions with domain \( \kappa \).
+For such functions, it is easy to define the equivalence relation \( \sim_U \).
+However, the equivalence classes \( [f]_U = \qty{g \in \mathrm{V}^\kappa \mid f \sim_U g} \) are all proper classes.
+So \( \faktor{\mathrm{V}^\kappa}{\sim_U} \) is no longer a standard class; classes containing proper classes are typically not allowed.
+This can be resolved using \emph{Scott's trick}.
+If \( C \) is a nonempty class, then there is a minimal \( \alpha \) such that \( C \cap \mathrm{V}_\alpha \neq \varnothing \).
+This is a nonempty set.
+Define \( \operatorname{scott}(C) = C \cap \mathrm{V}_\alpha \) for this \( \alpha \).
+Hence, if \( [f]_U \neq [g]_U \), we have \( \operatorname{scott}([f]_U) \neq \operatorname{scott}([g]_U) \).
+We can therefore define
+\[ \faktor{\mathrm{V}^\kappa}{U} = \qty{\operatorname{scott}([f]_U) \mid \dom f = \kappa} \]
+To obtain our model \( M \), we took the Mostowski collapse of \( \faktor{{\mathrm{V}_\lambda}^\kappa}{U} \).
+Therefore, we need a class version of the Mostowski collapse.
+Recall that a relation \( E \subseteq C \times C \) is \emph{set-like} if for all \( x \in C \), the class \( \qty{y \in C \mid y \mathrel{E} x} \) is a set.
+\begin{theorem}
+    Let \( C \) be a class, and let \( E \subseteq C \times C \) be a binary relation on \( C \) that is well-founded, extensional, and set-like.
+    Then there is a unique transitive class \( T \) such that \( (T, \in) \cong (C, E) \).
+\end{theorem}
+This may be proven in an almost identical fashion to Mostowski's collapsing theorem for sets.
+
+For problems (ii) and (iii), recall that the fundamental theorem of measurable cardinals was that \( \mathsf{M}(\kappa) \) is equivalent to the statement that there is an elementary embedding \( j : \mathrm{V}_\lambda \to M \) with critical point \( \kappa \).
+Measurability is witnessed at \( \kappa + 2 \), but the elementary embedding is not witnessed anywhere below \( \lambda \), so we cannot extend this definition to the usual universe.
+We can solve this by extending our set theory to an appropriate class theory.
+Standard class theories include \emph{von Neumann--Bernays--G\"odel} or \( \mathsf{NBG} \), and \emph{Morse--Kelley} or \( \mathsf{MK} \).
+These theories have very different notions of class.
+\( \mathsf{NBG} \) set theory is based upon the idea that definable formulas give the classes.
+It is a `minimal class theory' where all classes are definable.
+\( \mathsf{MK} \) is based on the idea that \( \mathrm{Ord} \) behaves externally like in inaccessible cardinal.
+In this theory, there could be undefinable classes, and more classes than sets.
+
+This resolves problem (ii), as we are permitted to work in a language in which we may quantify over proper classes.
+However, this does not solve problem (iii).
+Elementarity cannot be expressed as a single formula, but becomes a schema.
+This causes additional problems as we need the existential over \( j \) and \( M \) to be part of each formula.
+This could be solved by extending the language to add symbols for \( j \) and \( M \).
+Another resolution is to observe that \( \Sigma_1 \)-elementarity suffices, as is explored in Kanamori's book \emph{The Higher Infinite} on page 45.
+This can be defined using a single formula, therefore solving problem (iii).

@@ -95,3 +95,139 @@ It will turn out that the countable chain condition guarantees that all cardinal
     Then in \( M[G] \), the function \( f_G : \omega \to \kappa \) is a surjection.
     Hence, \( \kappa \) has been collapsed into a countable ordinal in \( M[G] \).
 \end{example}
+
+\subsection{Preservation of cardinals}
+\begin{definition}
+    Let \( \mathbb P \in M \) be a forcing poset.
+    We say that \( \mathbb P \) \emph{preserves cardinals} if and only if for every generic filter \( G \subseteq \mathbb P \) over \( M \) and every \( \kappa \in \mathrm{Ord} \cap M \),
+    \[ (\kappa \text{ is a cardinal})^M \leftrightarrow (\kappa \text{ is a cardinal})^{M[G]} \]
+    Also, \( \mathbb P \) \emph{preserves cofinalities} if and only if for every generic filter \( G \subseteq \mathbb P \) over \( M \),
+    \[ \cf^M(\gamma) = \cf^{M[G]}(\gamma) \]
+    for all limit ordinals \( \gamma \).
+\end{definition}
+Recall that being a cardinal is \( \Pi_1 \)-definable so downwards absolute.
+In particular, cardinals of \( M[G] \) are automatically cardinals of \( M \).
+Also, note that finiteness and being \( \omega \) are absolute.
+\begin{lemma}
+    Let \( \mathbb P \in M \) be a forcing poset.
+    Then
+    \begin{enumerate}
+        \item \( \mathbb P \) preserves cofinalities if and only if for every generic filter \( G \), for all limit ordinals \( \beta \) with \( \omega < \beta < \mathrm{Ord} \cap M \),
+        \[ (\beta \text{ is regular})^M \to (\beta \text{ is regular})^{M[G]} \]
+        and
+        \item if \( \mathbb P \) preserves cofinalities, then \( \mathbb P \) preserves cardinals.
+    \end{enumerate}
+\end{lemma}
+The converse of (ii) is not true.
+Note that the definition of regularity did not require being a cardinal, but is a consequence.
+\begin{proof}
+    \emph{Part (i).}
+    Suppose \( \mathbb P \) preserves cofinalities and \( G \) is \( \mathbb P \)-generic.
+    Fix a limit ordinal \( \beta \) such that \( \omega < \beta < \mathrm{Ord} \cap M \).
+    Then if \( \beta \) is regular in \( M \), we have
+    \[ \beta = \cf^M(\beta) = \cf^{M[G]}(\beta) \]
+    Hence \( \beta \) is regular in \( M[G] \).
+    Conversely, suppose \( \gamma \) is a limit ordinal such that \( \omega < \gamma < \mathrm{Ord} \cap M \).
+    Let \( \beta = \cf^M(\gamma) \).
+    Then \( \beta \) is a regular cardinal in \( M \).
+    Let \( f \in M \) be a strictly increasing cofinal function \( \beta \to \gamma \).
+    If \( \beta \) is uncountable in \( M \), then \( \beta \) is regular in \( M[G] \) by assumption.
+    Otherwise, \( \beta = \omega \), and then \( \beta = \omega^{M[G]} \) by absoluteness, and so again \( \beta \) is regular in \( M[G] \).
+    As \( f \in M \), also \( f \in M[G] \), so there is a strictly increasing cofinal map \( \beta \to \gamma \) in \( M[G] \), so
+    \[ \cf^{M[G]}(\gamma) = \cf^{M[G]}(\beta) = \beta = \cf^M(\gamma) \]
+
+    \emph{Part (ii).}
+    Suppose that \( \mathbb P \) preserves cofinalities.
+    Let \( \kappa \) be a cardinal in \( M \).
+    One of three cases occur.
+    \begin{enumerate}[(a)]
+        \item If \( \kappa \leq \omega \), then \( (\kappa \leq \omega)^{M[G]} \), so \( \kappa \) is a cardinal in \( M[G] \);
+        \item If \( \kappa \) is regular in \( M \), then \( \kappa \) is regular in \( M[G] \) by (i), so it is a cardinal in \( M[G] \).
+        \item Suppose \( \kappa \) is singular in \( M \).
+        In this case, one can show that \( \kappa \) is the supremum of a set \( S \) of regular cardinals in \( M \).
+        One way to show this is that if \( \kappa \) is the supremum of a set \( T \) of cardinals, we can set \( S = \qty{\lambda^+ \mid \lambda \in T} \).
+        Since \( \mathbb P \) preserves regular cardinals, every element of \( S \) is regular in \( M[G] \), and in particular they are cardinals.
+        Hence \( \kappa \) is the supremum of a set of cardinals, and is therefore a cardinal.
+    \end{enumerate}
+\end{proof}
+\begin{lemma}[the approximation lemma]
+    Let \( A, B, \mathbb P \in M \), and suppose that \( (\mathbb P \text{ has the countable chain condition})^M \).
+    Let \( G \) be \( \mathbb P \)-generic over \( M \).
+    Then for any function \( f \in M[G] \) with \( f : A \to B \), there is a function \( F \in M \) with \( F : A \to \mathcal P^M(B) \) such that for all \( a \in A \), we have \( f(a) \in F(a) \) and \( \abs{F(a)} \leq \aleph_0 \).
+\end{lemma}
+This proof requires that \( M \) is countable.
+Note that the relativisation of the countable chain condition to \( M \) ensures that the hypothesis is non-vacuous, as any forcing poset in \( M \) is externally countable.
+\begin{proof}
+    Suppose that \( M[G] \vDash f : A \to B \).
+    Since \( A, B \in M \), we have canonical names \( \check A, \check B \in M^{\mathbb P} \).
+    Let \( \dot f \) be a name for \( f \).
+    By the forcing theorem, there is a condition \( p \in G \) such that
+    \[ p \Vdash \dot f : \check A \to \check B \text{ is a function} \]
+    Define \( F : A \to \mathcal P^M(B) \) by
+    \[ F(a) = \qty{b \in B \mid \exists q \leq p.\, q \Vdash \dot f(\check a) = \check b} \]
+    Note that \( F(a) \in M \) by the definability of the forcing relation, so as \( A \in M \), the set
+    \[ F = \qty{\langle a, F(a) \rangle \mid a \in A} \]
+    is a set in \( M \).
+    We now show that this definition has the desired properties.
+    Observe that as \( F \) is a function in \( M \), it is also a function in \( \mathrm{V} \).
+    We show that \( f(a) \in F(a) \).
+    Suppose that \( M[G] \vDash f(a) = b \) for \( b \in B \).
+    By the forcing theorem, there is \( q \in G \) such that \( q \Vdash \dot f(\check a) = \check b \).
+    As \( G \) is a filter, there is \( r \leq p, q \) with \( r \in G \) witnessing \( b \in F(a) \) as required.
+
+    We now show that \( \abs{F(a)} \leq \aleph_0 \).
+    Working in \( M \), and in particular using the axiom of choice in \( M \), for each \( b \in F(a) \) there is a condition \( q_b \leq p \) such that \( q_b \Vdash \dot f(\check a) = \check b \).
+    It suffices to show that \( q_b \perp q_c \) for \( b \neq c \), because then they form an antichain, so by the countable chain condition we may conclude \( \abs{F(a)} \leq \aleph_0 \).
+    Suppose not, so let \( r \leq q_b, q_c \).
+    Then
+    \[ r \Vdash \dot f : \check A \to \check B \text{ is a function} \wedge \dot f(\check a) = \check b \wedge \dot f(\check a) = \check c \wedge \check b \neq \check c \]
+    Let \( H \) be a generic filter with \( r \in H \); this exists by countability of \( M \).
+    Then \( r \leq p \) and
+    \[ M[G] \vDash f : A \to B \text{ is a function} \wedge f(a) = b \wedge f(a) = c \wedge b \neq c \]
+    But \( M[H] \vDash \mathsf{ZFC} \), giving a contradiction.
+\end{proof}
+\begin{theorem}
+    If \( \mathbb P \in M \) is a forcing poset and \( (\mathbb P \text{ has the countable chain condition})^M \), then \( \mathbb P \) preserves cofinalities and hence cardinals.
+\end{theorem}
+\begin{proof}
+    Using the previous lemma, it suffices to show that \( \mathbb P \) preserves regular cardinals.
+    That is, if \( \omega < \beta < \mathrm{Ord} \cap M \) and \( \beta \) is a limit, then if \( \beta \) is a regular cardinal in \( M \), then \( \beta \) is a regular cardinal in \( M[G] \).
+    Suppose this is not the case, so there is such a \( \beta \) that is a regular cardinal in \( M \) but singular in \( M[G] \).
+    In \( M[G] \), we can fix a cofinal map \( f : \alpha \to \beta \) for some ordinal \( \alpha < \beta \).
+    As \( \alpha, \beta \in M \), we can use the approximation lemma to find a function \( F : \alpha \to \mathcal P^M(\beta) \) in \( M \) such that for all \( \gamma \in \alpha \), we have \( f(\gamma) \in F(\gamma) \) and \( \abs{F(\gamma)} \leq \aleph_0 \).
+    Working in \( M \), let \( X = \bigcup_{\gamma < \alpha} F(\gamma) \).
+    This is a union of countable sets indexed by \( \alpha < \beta \).
+    So \( X \subseteq \beta \) and is a subset of less than \( \beta \)-many countable sets.
+    Hence \( X \neq \beta \) as \( \beta \) is a regular cardinal in \( M \).
+    But \( f \) was cofinal, so \( \beta = \bigcup_{\alpha < \gamma} f(\gamma) \subseteq X \), giving a contradiction.
+    % TODO: Why this last \subseteq?
+\end{proof}
+
+\subsection{The failure of the continuum hypothesis}
+\begin{theorem}
+    Let \( \alpha < \mathrm{Ord} \cap M \), and let \( \kappa = (\aleph_\alpha)^M \).
+    Let \( \mathbb P = \operatorname{Fn}(\kappa \times \omega, 2) \), and let \( G \) be \( \mathbb P \)-generic over \( M \).
+    Then \( M[G] \) contains a \( \kappa \)-length sequence of distinct elements of \( 2^\omega \).
+    Hence, \( M[G] \vDash \mathsf{ZFC} + (\aleph_\alpha = \kappa \leq 2^{\aleph_0}) \).
+\end{theorem}
+\begin{proof}
+    Let \( f = \bigcup G \in M[G] \).
+    Then \( f \) is a function \( \kappa \times \omega \to 2 \).
+    For \( \beta < \kappa \), let \( g_\beta : \omega \to 2 \) be the function given by \( g_\beta(n) = f(\beta, n) \).
+    We claim that for \( \alpha \neq \beta \), we have \( g_\alpha \neq g_\beta \).
+    Define a dense set \( E_{\alpha,\beta} \in M \) as follows.
+    \[ E_{\alpha,\beta} = \qty{q \in \mathbb P \mid \exists n.\, \langle \beta, n \rangle, \langle \alpha, n \rangle \in \dom q \wedge q(\langle \beta, n\rangle) \neq q(\langle \alpha, n \rangle)} \]
+    To show this is dense, fix \( p \in \mathbb P \).
+    Since \( p \) is finite, there is some \( m \) such that \( \langle \beta, m \rangle, \langle \alpha, m \rangle \notin \dom p \).
+    Define \( q \leq p \) with \( q : \dom p \cup \qty{\langle \beta, m \rangle, \langle \alpha, m \rangle} \to 2 \) by
+    \[ q(z) = \begin{cases}
+        p(z) & \text{if } z \in \dom p \\
+        1 & \text{if } z = \langle \beta, m \rangle \\
+        0 & \text{if } z = \langle \alpha, m \rangle
+    \end{cases} \]
+    Since \( G \) is \( \mathbb P \)-generic, we can fix \( q' \in G \cap E_{\alpha,\beta} \).
+    Then
+    \[ g_\beta(m) = f(\beta, m) = q(\langle \beta, m \rangle) \neq q(\langle \alpha, m \rangle) = f(\alpha, m) = g_\alpha(m) \]
+    Hence \( g_\alpha \neq g_\beta \).
+    Finally, since \( \mathbb P \) has the countable chain condition in \( M \), it preserves cardinals, so it preserves the \( \aleph \) hierarchy.
+\end{proof}
