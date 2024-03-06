@@ -231,3 +231,114 @@ Note that the relativisation of the countable chain condition to \( M \) ensures
     Hence \( g_\alpha \neq g_\beta \).
     Finally, since \( \mathbb P \) has the countable chain condition in \( M \), it preserves cardinals, so it preserves the \( \aleph \) hierarchy.
 \end{proof}
+In particular, if \( \alpha = 2 \), the model \( M[G] \) satisfies \( \neg\mathsf{CH} \).
+\begin{theorem}
+    If \( \mathsf{ZFC} \) is consistent, then so is \( \mathsf{ZFC} + \neg\mathsf{CH} \).
+\end{theorem}
+The proof proceeds in the same way as the independence of \( \mathrm{V} = \mathrm{L} \).
+\begin{definition}
+    The \( g_\beta \) defined above are called \emph{Cohen reals}.
+    More precisely, we say that \( c : \omega \to 2 \) is a Cohen real over \( M \) if there exists \( H \) which is \( \operatorname{Fn}(\omega, 2) \)-generic over \( M \) and \( c = \bigcup H \).
+\end{definition}
+
+\subsection{Possible sizes of the continuum}
+We have a way to add Cohen reals into a model \( M \), but in general this process will add many more reals.
+In this subsection, we determine the possible sizes that the continuum can be.
+Recall that by K\"onig's theorem, \( 2^{\aleph_0} \neq \kappa \) for any \( \kappa \) with cofinality \( \aleph_0 \).
+We will show that this is the only restriction on the possible sizes of the continuum.
+Note that under \( \mathsf{GCH} \), for any \( \kappa \), \( \cf(\kappa) \neq \omega \) if and only if \( \kappa^\omega = \kappa \).
+
+Recall that in our proof that the axiom of power set holds in \( M[G] \), given a name \( \dot a \in M^{\mathbb P} \), the set \( \mathcal P(\mathbb P \times \ran \dot a) \) is a name for its power set.
+We will show that there is a better name that gives a tighter bound on the sizes of power sets.
+\begin{theorem}
+    Let \( M \) be a transitive model of \( \mathsf{ZFC} \), and assume \( (\kappa = \aleph_\alpha \wedge \kappa^\omega = \kappa)^M \).
+    Let \( \mathbb P = \operatorname{Fn}(\kappa \times \omega, 2) \), and let \( G \) be \( \mathbb P \)-generic over \( M \).
+    Then \( M[G] \vDash 2^{\aleph_0} = \aleph_\alpha = \kappa \).
+\end{theorem}
+\begin{proof}
+    We have already shown that \( M[G] \vDash \mathsf{ZFC} \) and \( M[G] \vDash \kappa = \aleph_\alpha \leq 2^{\aleph_0} \); it therefore remains to show that \( 2^{\aleph_0} \leq \aleph_\alpha \).
+    Let \( \dot x \) be a name for a subset of \( \omega \).
+    For \( n \in \omega \), let
+    \[ E_{\dot x, n} = \qty{p \in \mathbb P \mid (p \Vdash \check n \in \dot x) \vee (p \Vdash \check n \notin \dot x)} \]
+    This is dense in \( \mathbb P \).
+    For each \( n \in \omega \), choose a maximal antichain \( A_{\dot x, n} \subseteq E_{\dot x, n} \).
+    This is shown to be possible on an example sheet using the axiom of choice.
+    Define
+    \[ \dot z_{\dot x} = \bigcup_{n \in \omega} \qty{\langle p, \check n \rangle \mid p \in A_{\dot x, n} \wedge p \Vdash \check n \in \dot x} \]
+    Such names are called \emph{nice}.
+    We will show that \( \dot z_{\dot x} \) and \( \dot x \) are both names for the same subset of \( \omega \), and since we can produce a bound on the amount of nice names, we can bound the size of \( 2^{\aleph_0} \).
+
+    We claim that \( \Bbbone \Vdash \dot x = \dot z_{\dot x} \).
+    To do this, it suffices to prove that for all \( n \in \omega \),
+    \[ D_{\dot x, n} = \qty{q \in E_{\dot x, n} \mid (q \Vdash \check n \in \dot x) \leftrightarrow (q \Vdash \check n \in \dot z_{\dot x})} \]
+    is dense.
+    Fix \( n \in \omega \) and \( p \in \mathbb P \).
+    Since \( E_{\dot x, n} \) is dense, we can fix \( p_0 \leq p \) such that \( p_0 \in E_{\dot x, n} \).
+    As \( A_{\dot x, n} \) is a maximal antichain, there is \( q_0 \in A_{\dot x, n} \) such that \( p_0 \mathrel\| q_0 \).
+    Fix \( r \leq p_0, q_0 \).
+    We will prove that \( r \in D_{\dot x, n} \).
+    If \( r \Vdash \check n \in \dot x \), then \( q_0 \Vdash \check n \in \dot x \) as \( q_0 \in E_{\dot x, n} \).
+    Hence, \( \langle q_0, \check n \rangle \in \dot z_{\dot x} \) by definition, so \( r \Vdash \check n \in \dot z_{\dot x} \).
+    For the converse, suppose \( r \Vdash \check n \in \dot z_{\dot x} \).
+    By definition,
+    \[ \qty{s \leq r \mid \exists \langle q_1, \check m \rangle \in \dot z_{\dot x}.\, s \leq q_1 \wedge (s \Vdash \check m = \check n)} \]
+    is dense below \( r \).
+    This can only happen if there is some \( q_1 \) with \( \langle q_1, \check n \rangle \in \dot z_{\dot x} \) such that \( r \mathrel\| q_1 \).
+    Therefore, by definition, \( q_1 \in A_{\dot x, n} \).
+    Since \( A_{\dot x, n} \) is an antichain containing \( q_0 \) and \( q_1 \) which are both compatible with \( r \), we must have \( q_0 = q_1 \).
+    Hence, \( \langle q_0, \check n \rangle \in \dot x_{\dot x} \).
+    Thus \( q_0 \Vdash \check n \in \dot x \) by definition, so since \( r \leq q_0 \), we have \( r \Vdash \check n \in \dot x \).
+    Therefore \( D_{\dot x, n} \) is dense as required.
+
+    The total number of subsets of \( \omega \) is therefore bounded by the number of nice names.
+    First, note that \( \abs{\mathbb P} = \kappa \).
+    Furthermore, since \( \mathbb P \) has the countable chain condition, each \( A_{\dot x, n} \) is countable.
+    Therefore, the amount of nice names is bounded by \( (\kappa^\omega \times \omega)^\omega = \kappa \).
+    As every subset of \( \omega \) has a nice name, \( M[G] \vDash 2^{\aleph_0} \leq \kappa \).
+\end{proof}
+\begin{corollary}
+    \( \Con(\mathsf{ZFC}) \) implies \( \Con(\mathsf{ZFC} + (2^{\aleph_0} = \aleph_2)) \), and (for example) \( \Con(\mathsf{ZFC} + (2^{\aleph_0} = \aleph_{\omega_1})) \).
+\end{corollary}
+\begin{corollary}
+    The following are equiconsistent.
+    \begin{enumerate}
+        \item \( \mathsf{ZFC} + \text{there exists a weakly inaccessible cardinal} \);
+        \item \( \mathsf{ZFC} + \mathsf{GCH} + \text{there exists a strongly inaccessible cardinal} \);
+        \item \( \mathsf{ZFC} + 2^{\aleph_0} \text{ is weakly inaccessible} \);
+        \item \( \mathsf{ZFC} + \text{there exists a cardinal that is weakly inaccessible but not strongly inaccessible} \).
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    To show (i) implies (ii) we move to \( \mathrm{L} \).
+    To show (iii) implies (iv), we note that \( 2^{\aleph_0} \) is not strongly inaccessible.
+    It is trivial that (iv) implies (i).
+    It therefore suffices to show that the continuum can be weakly inaccessible given (ii), which follows by considering the forcing \( \mathbb P = \operatorname{Fn}(\kappa \times \omega, 2) \).
+\end{proof}
+\begin{remark}
+    When building models of \( \mathsf{ZFC} + (2^{\aleph_0} = \kappa) \), we often assume \( \mathsf{GCH} \) for convenience.
+    This can normally be done without loss of generality because we are usually only concerned with consistency results.
+\end{remark}
+\begin{example}
+    Consider \( \mathbb P = \operatorname{Fn}(\aleph_\omega^M \times \omega, 2) \).
+    Let \( G \) be a \( \mathbb P \)-generic filter.
+    Then in \( M[G] \), we must have \( 2^{\aleph_0} \geq \aleph_\omega \).
+    By K\"onig's theorem, this inequality must be strict.
+    For convenience, assume \( \mathsf{GCH} \) holds.
+    Under this assumption, if \( \cf(\kappa) = \omega \), then \( \kappa^\omega = \kappa^+ \), so there must be at most \( \kappa^+ \)-many nice names.
+    Hence \( M[G] \vDash \aleph_\omega < 2^{\aleph_0} \leq \aleph_\omega^+ \) which gives \( M[G] \vDash 2^{\aleph_0} = \aleph_{\omega + 1} \).
+\end{example}
+\begin{remark}
+    \begin{enumerate}
+        \item Note that it is possible that \( 2^{\aleph_0} < \aleph_\omega \) but \( \aleph_\omega^{\aleph_0} = \aleph_{\omega + 1}^{\aleph_0} = \aleph_{\omega + 2} \) without \( \mathsf{GCH} \).
+        This can be proven using large cardinals.
+        \item If \( M \vdash 2^{\aleph_0} = \aleph_\alpha > \aleph_\beta \) and \( \mathbb P = \operatorname{Fn}(\aleph_\beta^M \times \omega, 2) \), then \( M[G] \vDash 2^{\aleph_0} = \aleph_\alpha \).
+        \item The following are equiconsistent.
+        \begin{enumerate}
+            \item \( \mathsf{ZFC} + \text{there exists a measurable cardinal} + \mathsf{CH} \);
+            \item \( \mathsf{ZFC} + \text{there exists a measurable cardinal} + \neg\mathsf{CH} \).
+        \end{enumerate}
+        The same holds for other large cardinal axioms such as huge cardinals and \( I0 \) to \( I3 \).
+        We may also replace \( \mathsf{CH} \) with \( \mathsf{GCH} \) and the same holds.
+        \item The \emph{proper forcing axiom}, which is a combinatorial axiom about forcing posets, implies that \( 2^{\aleph_0} = \aleph_2 \) under \( \mathsf{ZFC} \).
+    \end{enumerate}
+\end{remark}
