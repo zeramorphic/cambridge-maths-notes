@@ -1,4 +1,4 @@
-\subsection{Embedding axioms}
+\subsection{Strong cardinals}
 \begin{definition}
     A large cardinal axiom \( \Phi\mathsf{C} \) is called an \emph{embedding axiom} if \( \Phi(\kappa) \) holds if and only if there is a transitive model \( M \) and elementary embedding \( j : \mathrm{V}_\lambda \to M \) with critical point \( \kappa \) with certain additional properties.
 \end{definition}
@@ -29,8 +29,17 @@ Any large cardinal property with witness objects of rank \( \beta \) is \( \beta
     \end{enumerate}
 \end{example}
 In particular, inaccessibility is 0-stable, weak compactness is 1-stable, and measurability and survivability are 2-stable.
-
-Observe that if \( \beta \)-strong cardinals have witness objects, they cannot be of rank \( \beta \).
+\begin{remark}
+    If \( \beta \)-strong cardinals have witness objects, they cannot be of rank \( \beta \), because then they would reflect below.
+    Witness objects for strength exist and are called \emph{extenders}, and if \( \mu \) is the least \( \beth \) fixed point larger than \( \abs{\mathrm{V}_{\kappa + \beta}} \), then the witness object for \( \beta \)-strength has rank at most \( \mu \).
+\end{remark}
+\begin{definition}
+    A cardinal \( \kappa \) is called \emph{strong} if it is \( \beta \)-strong for all \( \beta < \lambda \).
+\end{definition}
+Importantly, the quantifiers are
+\[ \forall \beta.\, \exists j.\, \mathrm{V}_{\kappa + \beta} \subseteq M \]
+This does not say that there exists an embedding where all of the \( \mathrm{V}_{\kappa + \beta} \) are subsets of the same \( M \).
+This notion cannot have a single witness object of a fixed rank, since otherwise, strength would reflect strength.
 
 \subsection{Removing the inaccessible}
 The ultrapower constructions used an inaccessible cardinal above a measurable cardinal, so that we could obtain a set-sized universe containing a measurable cardinal.
@@ -79,3 +88,76 @@ This causes additional problems as we need the existential over \( j \) and \( M
 This could be solved by extending the language to add symbols for \( j \) and \( M \).
 Another resolution is to observe that \( \Sigma_1 \)-elementarity suffices, as is explored in Kanamori's book \emph{The Higher Infinite} on page 45.
 This can be defined using a single formula, therefore solving problem (iii).
+
+\subsection{Supercompact cardinals}
+\begin{definition}
+    \( M \) is \emph{closed under \( \mu \)-sequences} if \( M^\mu \subseteq M \).
+\end{definition}
+\begin{theorem}
+    If \( \kappa \) is measurable and \( j : \mathrm{V}_\lambda \to M \) is the ultrapower embedding, then \( M \) is closed under \( \kappa \)-sequences but not \( \kappa^+ \)-sequences.
+\end{theorem}
+\begin{proof}
+    Let \( S = \qty{(f_\alpha) \mid \alpha < \kappa} \in M^\kappa \).
+    We must show that \( S \in M \).
+    Find \( h \) such that \( (h) = \kappa \).
+    For \( \xi \in \kappa \), define \( g(\xi) \) to be a function with domain \( h(\xi) \) such that for all \( \alpha \in h(\xi) \),
+    \[ g(\xi)(\alpha) = f_\alpha(\xi) \]
+    Then
+    \[ \qty{\xi \mid \dom g(\xi) = h(\xi)} = \kappa \in U \]
+    By \L{}o\'s' theorem, \( \dom (g) = (h) = \kappa \).
+    Further,
+    \[ \qty{\xi \mid \forall \alpha \in \dom g(\xi).\, g(\xi)(\alpha) = f_\alpha(\xi)} = \kappa \in U \]
+    so again by \L{}o\'s' theorem, if \( \alpha \in \dom (g) = \kappa \), then \( (g)(\alpha) = (f_\alpha) \).
+    Hence \( (g) = S \).
+
+    Let
+    \[ T = \qty{j(\alpha) \mid \alpha < \kappa^+} \in M^{\kappa^+} \]
+    We claim that \( T \notin M \).
+    To prove this, we first show that \( T \) is unbounded in \( j(\kappa^+) \), which is equal to \( j(\kappa^)^+ \) by elementarity.
+    Indeed, consider an arbitrary \( (f) < j(\kappa^+) \).
+    Then \( j(\kappa^+) = (c_{\kappa^+}) \), so without loss of generality we can assume \( f : \kappa \to \kappa^+ \).
+    As \( \kappa^+ \) is regular, \( f \) is bounded by some \( \alpha < \kappa^+ \), so \( f : \kappa \to \alpha \).
+    Then \( (f) < (c_\alpha) = j(\alpha) \in T \).
+
+    Now, note that \( j(\kappa^+) = j(\kappa)^+ \) is a regular cardinal, so cannot have small unbounded subsets.
+    But \( \abs{T} = \kappa^+ < j(\kappa)^+ \), so \( T \notin M \).
+\end{proof}
+\begin{definition}
+    An embedding \( j \) is called \emph{\( \mu \)-supercompact} if \( M^\mu \subseteq M \).
+    A cardinal \( \kappa \) is called \emph{\( \mu \)-supercompact} if there is a \( \mu \)-supercompact embedding with critical point \( \kappa \).
+\end{definition}
+Therefore, the theorem above shows that if \( \kappa \) is measurable, then it is \( \kappa \)-supercompact, and the ultrapower embedding is not \( \kappa^+ \)-supercompact, although there could be other embeddings that are.
+\begin{definition}
+    A cardinal \( \kappa \) is called \emph{supercompact} if it is \( \kappa \)-supercompact for all \( \mu < \lambda \).
+\end{definition}
+As with strong cardinals, the quantifiers are in the order
+\[ \forall \mu.\, \exists j.\, M^\mu \subseteq M \]
+If \( \kappa \) is \( 2^\kappa \)-supercompact, then \( \kappa \) is \( 2 \)-strong.
+First note that \( \mathrm{V}_{\kappa + 2} = \mathcal P(\mathrm{V}_{\kappa + 1}) \) and \( \abs{\mathrm{V}_{\kappa + 1}} = \abs{\mathcal P(\mathrm{V}_\kappa)} = 2^\kappa \).
+Every \( A \in \mathrm{V}_{\kappa + 1} \) is a \( 2^\kappa \)-sequence of elements of \( M \), so if every \( 2^\kappa \)-length sequence lies in \( M \), then \( A \in M \) as required.
+In general, if \( \kappa \) is \( \abs{\mathrm{V}_{\kappa + \beta}} = \beth_{\kappa + \beta} \)-supercompact, then \( \kappa \) is \( (\beta + 1) \)-strong.
+In particular,
+\begin{corollary}
+    Every supercompact cardinal is strong.
+\end{corollary}
+
+\subsection{The upper limit}
+We now consider reversing the quantifier order in the definition of a strong cardinal.
+\begin{definition}
+    A cardinal \( \kappa \) is called \emph{Reinhardt} if there is an embedding \( j \) such that for all \( \beta \), we have \( \mathrm{V}_{\kappa + \beta} \subseteq M \), or equivalently, \( M = \mathrm{V}_\lambda \).
+    In other words, there is an elementary embedding \( j : \mathrm{V}_\lambda \to \mathrm{V}_\lambda \) with critical point \( \kappa \).
+\end{definition}
+\begin{theorem}[Kunen]
+    \( \mathsf{ZFC} \) proves that there are no Reinhardt cardinals.
+\end{theorem}
+It is an open problem whether \( \mathsf{ZF} \) without \( \mathsf{AC} \) proves there are no Reinhardt cardinals.
+\begin{proof}
+    Find the least \( j \)-fixed point above \( \kappa \), by defining
+    \[ \kappa_0 = \kappa;\quad \kappa_{i + 1} = j(\kappa);\quad \hat \kappa = \bigcup_{i \in \omega} \kappa_i \]
+    so \( j(\hat \kappa) = \hat \kappa \).
+    We will show that \( \mathrm{V}_{\hat\kappa + 1} \nsubseteq M \).
+
+    We need a combinatorial lemma due to Erd\H{o}s and Hajnal.
+    For a cardinal \( \delta \), we say that \( f : [\delta]^\omega \to \delta \) is \emph{\( \omega \)-J\'onsson} if for every \( X \subseteq \delta \) such that \( \abs{X} = \delta \), we have \( \qty{f(A) \mid A \in [X]^\omega} = \delta \).
+    The lemma states that every cardinal \( \delta \) has an \( \omega \)-J\'onsson function.
+\end{proof}
