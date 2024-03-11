@@ -152,12 +152,54 @@ We now consider reversing the quantifier order in the definition of a strong car
 \end{theorem}
 It is an open problem whether \( \mathsf{ZF} \) without \( \mathsf{AC} \) proves there are no Reinhardt cardinals.
 \begin{proof}
+    Suppose \( j : \mathrm{V}_\lambda \to M \) has critical point \( \kappa \).
     Find the least \( j \)-fixed point above \( \kappa \), by defining
     \[ \kappa_0 = \kappa;\quad \kappa_{i + 1} = j(\kappa);\quad \hat \kappa = \bigcup_{i \in \omega} \kappa_i \]
     so \( j(\hat \kappa) = \hat \kappa \).
-    We will show that \( \mathrm{V}_{\hat\kappa + 1} \nsubseteq M \).
+    We will show that \( \mathrm{V}_{\hat\kappa + 1} \nsubseteq M \), which is a result called \emph{Kunen's lemma}.
+    This contradicts the assumption that \( M = \mathrm{V}_\lambda \).
 
     We need a combinatorial lemma due to Erd\H{o}s and Hajnal.
     For a cardinal \( \delta \), we say that \( f : [\delta]^\omega \to \delta \) is \emph{\( \omega \)-J\'onsson} if for every \( X \subseteq \delta \) such that \( \abs{X} = \delta \), we have \( \qty{f(A) \mid A \in [X]^\omega} = \delta \).
     The lemma states that every cardinal \( \delta \) has an \( \omega \)-J\'onsson function.
+
+    Suppose that \( \mathrm{V}_{\hat\kappa + 1} \subseteq M \).
+    Let \( f : [\hat\kappa]^\omega \to \hat\kappa \) be an \( \omega \)-J\'onsson function for \( \hat\kappa \).
+    Then \( M \) believes that \( j(f) \) is an \( \omega \)-J\'onsson function for \( j(\hat\kappa) = \hat\kappa \).
+    Define
+    \[ X = \qty{j(\alpha) \mid \alpha \in \hat\kappa} \in \mathrm{V}_{\hat\kappa + 1} \]
+    We claim that \( X \notin M \), finishing the proof.
+    Suppose \( X \in M \).
+    Clearly \( \abs{X} = \hat\kappa \), so then \( M \vDash \abs{X} = \hat\kappa \).
+    We can apply the definition of an \( \omega \)-J\'onsson function in \( M \), which shows that
+    \[ M \vDash \qty{j(f)(A) \mid A \in [X]^\omega} = \hat\kappa \]
+    Any \( A \in [X]^\omega \) is of the form \( \qty{j(\alpha_i) \mid i \in \omega} \) for some \( a = \qty{\alpha_i \mid i \in \omega} \in [\hat\kappa]^\omega \).
+    Then \( j(a) = \qty{j(\alpha_i) \mid i \in \omega} = A \).
+
+    In general, if \( g(x) = y \), then \( g \) is a function, \( x \in \dom g \), and \( \langle x, y \rangle \in g \).
+    Applying \( j \), we have that \( j(g) \) is a function, \( j(x) \in \dom j(g) \), and \( \langle j(x), j(y) \rangle \in j(g) \).
+    So \( j(g)(j(x)) = j(y) = j(g(x)) \).
+    Therefore, we obtain \( j(f)(A) = j(f)(j(a)) = j(f(a)) \).
+    But \( f(a) \in \hat\kappa \), so \( j(f(a)) \in X \).
+    Therefore,
+    \[ M \vDash \hat\kappa = \qty{j(f)(A) \mid A \in [X]^\omega} \subseteq X \]
+    But this cannot be true, for example because \( \kappa \notin X \) but \( \kappa \in \hat\kappa \).
 \end{proof}
+\begin{remark}
+    \begin{enumerate}
+        \item The combinatorial lemma was proven using \( \mathsf{AC} \), and it is not known whether the proof works without it.
+        \item To prove Kunen's lemma, we did not need that \( \lambda \) is inaccessible.
+        More explicitly, if \( j : \mathrm{V}_\alpha \to M \) is an elementary embedding with critical point \( \kappa \) such that \( \hat\alpha + 2 \leq \alpha \) (to guarantee that \( f \in \mathrm{V}_\alpha \)), then \( \mathrm{V}_{\hat\kappa + 1} \nsubseteq M \).
+    \end{enumerate}
+\end{remark}
+\begin{corollary}
+    For any ordinal \( \delta \), there is no elementary embedding \( j : \mathrm{V}_{\delta + 2} \to \mathrm{V}_{\delta + 2} \) with critical point less than \( \delta + 2 \).
+\end{corollary}
+\begin{proof}
+    Observe that if \( \kappa < \delta + 2 \) is the critical point, we cannot have \( \kappa = \delta \) or \( \kappa = \delta + 1 \), because \( \delta \) and \( \delta + 1 \) are definable in \( \mathrm{V}_{\delta + 2} \).
+    Then \( j(\kappa) < \delta \), so by induction all of the iterated images of \( \kappa \) under \( j \) are less than \( \delta \), so \( \hat\kappa \leq \delta \).
+    Thus \( \hat\kappa + 2 \leq \delta + 2 \), so by remark (ii), \( \mathrm{V}_{\hat\kappa + 1} \nsubseteq \mathrm{V}_{\delta + 2} \), giving a contradiction.
+\end{proof}
+The axiom stating the existence of an analogous \( j : \mathrm{V}_{\delta + 1} \to \mathrm{V}_{\delta + 1} \) is called \( I1 \), and the existence of \( j : \mathrm{V}_\delta \to \mathrm{V}_\delta \) is called \( I3 \); there is an axiom \( I2 \) in between.
+Clearly, if \( j : \mathrm{V}_{\delta + 1} \to \mathrm{V}_{\delta + 1} \) is elementary, then so is \( \eval{j}_{\mathrm{V}_\delta} : \mathrm{V}_\delta \to \mathrm{V}_\delta \), so \( I1 \) implies \( I3 \).
+It has been hypothesised that \( I1 \) and \( I3 \) are inconsistent, but we do not yet have a proof.

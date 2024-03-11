@@ -343,7 +343,7 @@ We will show that there is a better name that gives a tighter bound on the sizes
     \end{enumerate}
 \end{remark}
 
-\subsection{Possible sizes of power sets}
+\subsection{Larger chain conditions}
 We now discuss generalised Cohen forcing.
 Suppose that we want a model of \( \mathsf{ZFC} + \mathsf{CH} + (2^{\aleph_1} = \aleph_3) \).
 Na\"ively, we might consider the forcing poset \( \Fn(\omega_3 \times \omega_1, 2) \), but we can show that \( \mathsf{CH} \) fails in this model.
@@ -451,4 +451,105 @@ We will show a different version of this theorem.
     \[ \abs{[A_\alpha]^{<\kappa}} \leq \kappa^{<\kappa} = 2^{<\kappa} = \kappa \]
     Hence \( \abs{W_{\alpha + 1}} \leq \kappa \) as required.
 \end{proof}
-Hence, if \( \mathbb P = \Fn_\kappa(\lambda \times \kappa, 2) \), then \( M[G] \vDash 2^\kappa = \lambda \) and all cardinals above \( \kappa^+ \) are preserved.
+Hence, if \( \mathbb P = \Fn_\kappa(\lambda \times \kappa, 2) \), then \( M[G] \vDash 2^\kappa = \lambda \) and all cardinals at least \( \kappa^+ \) are preserved.
+
+\subsection{Closure and distributivity}
+\begin{definition}
+    A poset \( \mathbb P \) is \emph{\( \kappa \)-closed} if for every \( \delta < \kappa \), every decreasing sequence of length \( \delta \) in \( \mathbb P \) has a lower bound.
+    \( \mathbb P \) is \emph{\( <\kappa \)-closed} if it is \( \lambda \)-closed for all cardinals \( \lambda < \kappa \).
+\end{definition}
+\begin{definition}
+    \( \mathbb P \) is \emph{\( \kappa \)-distributive} if the intersection of less than \( \kappa \)-many open dense sets is an open dense set.
+\end{definition}
+\begin{lemma}
+    If \( \mathbb P \) is \( \kappa \)-closed then \( \mathbb P \) is \( \kappa \)-distributive.
+\end{lemma}
+\begin{lemma}
+    If \( \kappa \) is regular in \( M \), then \( \Fn_\kappa(I, J)^M \) is \( \kappa \)-closed.
+\end{lemma}
+\begin{theorem}
+    Let \( A, B, \mathbb P \in M \), let \( \kappa \) be a cardinal in \( M \) with \( (\abs{A} < \kapppa)^M \), and suppose \( \mathbb P \) is \( \kappa \)-distributive in \( M \).
+    Let \( G \) be \( \mathbb P \)-generic.
+    Then if \( f \in M[G] \) with \( f : A \to B \), then \( f \in M \).
+\end{theorem}
+Informally, forcing over a distributive poset cannot add any new small functions.
+\begin{proof}
+    It suffices to prove the statement for \( A = \delta \) where \( \delta < \kappa \).
+    Suppose that \( M[G] \vDash f : \delta \to B \).
+    By the forcing theorem, there is \( p \in G \) such that \( p \Vdash \dot f : \check \delta \to \check B \).
+    For \( \alpha < \delta \), let
+    \[ D_\alpha = \qty{q \leq p \mid \exists x \in B .\, q \Vdash \dot f(\check \alpha) = \check x} \]
+    These sets are clearly open, and they are dense below \( p \) because \( p \) forces that \( \dot f \) is a function.
+    Since \( \mathbb P \) is \( \kappa \)-distributive, their intersection \( D = \bigcap_{\alpha < \delta} D_\alpha \) is also (open and) dense below \( p \).
+    Let \( q \in D \cap G \).
+    Now, in \( M \), for each \( \alpha < \delta \), we can choose \( x_\alpha \in B \) such that \( q \Vdash \dot f(\check \alpha) = \check x_\alpha \), so we may define \( g : \delta \to B \) by \( \alpha \mapsto x_\alpha \).
+    This \( g \) lies in \( M \).
+    But for any \( \alpha < \delta \), we have \( q \Vdash \dot f(\check \alpha) = \check x_\alpha = \check g(\check \alpha) \), so \( M[G] \vDash f = g \).
+\end{proof}
+\begin{theorem}
+    Let \( I, J, \kappa \in M \).
+    Suppose that \( \kappa \) is a regular cardinal in \( M \), and \( (2^{<\kappa} = \kappa \wedge \abs{J} \leq \kappa)^M \).
+    Then \( \Fn_\kappa(I, J)^M \) preserves cofinalities and hence cardinals.
+\end{theorem}
+\begin{proof}
+    Recall that it suffices to show that for every limit ordinal \( \beta \in \mathrm{Ord} \cap M \), if \( \beta \) is regular in \( M \) then \( \beta \) is regular in \( M[G] \).
+    Let \( \beta \) be regular in \( M \).
+
+    Suppose that \( \beta > \kappa \).
+    Since \( \abs{J} \leq \kappa = 2^{<\kappa} \) in \( M \), the forcing poset \( \Fn_\kappa(I, J)^M \) has the \( \kappa^+ \)-chain condition.
+    So it preserves all cofinalities and cardinals at least \( \kappa^+ \), so in particular, \( \beta \) is regular in \( M[G] \).
+
+    Now suppose that \( \beta \leq \kappa \).
+    Suppose that \( \beta \) is singular in \( M[G] \).
+    Fix \( \delta < \beta \) and a cofinal map \( f : \delta \to \beta \) in \( M[G] \).
+    Note that \( \delta \in M \).
+    Since \( \mathbb P \) is \( \kappa \)-closed, it is \( \kappa \)-distributive, so \( f \in M \), contradicting the assumption that \( \beta \) is regular in \( M \).
+\end{proof}
+\begin{theorem}
+    Let \( \kappa, \lambda \) be cardinals in \( M \) such that \( \aleph_0 \leq \kappa \leq \lambda \).
+    Suppose that \( \kappa \) is regular, \( 2^{<\kappa} = \kappa \), and \( \lambda^\kappa = \lambda \) in \( M \).
+    Let \( \mathbb P = \Fn_\kappa(\lambda \times \kappa, 2) \), and let \( G \) be \( \mathbb P \)-generic.
+    Then \( \mathbb P \) preserves cardinals, and \( M[G] \vDash 2^\kappa = \lambda \).
+\end{theorem}
+We can use this to fix multiple sizes of power sets at once.
+\begin{theorem}
+    Let \( M \) be a countable transitive model of \( \mathsf{ZFC} + \mathsf{GCH} \).
+    Then there is a countable transitive model of \( \mathsf{ZFC} \) satisfying any of the following statements.
+    \begin{enumerate}
+        \item \( \mathsf{CH} + 2^{\aleph_1} = \aleph_3 \);
+        \item \( 2^{\aleph_0} = 2^{\aleph_1} = \aleph_5 \) and \( 2^{\aleph_2} = \aleph_{\omega + 5} \);
+        \item for a fixed \( n \in \omega \), for all \( m \leq n \), \( 2^{\aleph_m} = \aleph_{2m + 3} \).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \emph{Part (i).}
+    Let \( \mathbb P = \Fn_{\aleph_1}(\omega_3 \times \omega_1, 2)^M \).
+    If \( G \) is \( \mathbb P \)-generic, then \( M[G] \vDash 2^{\aleph_1} = \aleph_3 \).
+    As \( \mathbb P \) is \( \omega_1 \)-closed, it does not add any new functions \( \omega \to 2 \), so \( \mathsf{CH} \) still holds in \( M[G] \).
+
+    \emph{Part (ii).}
+    Let \( \mathbb P_0 = \Fn_{\aleph_2}(\omega_{\omega + 5} \times \omega_2, 2)^M \).
+    Let \( G_0 \) be \( \mathbb P_0 \)-generic.
+    By closure, \( 2^{<\aleph_1} = \aleph_1 \) in \( M[G_0] \), and \( {\aleph_5}^{\aleph_1} = \aleph_5 \).
+    Then let \( \mathbb P_1 = \Fn_{\aleph_0}(\omega_5 \times \omega, 2)^{M[G_0]} \).
+    Let \( G_1 \) be \( \mathbb P_1 \)-generic.
+    Then \( M[G_1] \vDash 2^{\aleph_0} = 2^{\aleph_1} = \aleph_5 \), where the latter equality is due to the fact that if \( M \) is a model of \( \mathsf{ZFC} + \mathsf{GCH} \) and \( G \) is \( \Fn(\kappa \times \omega, 2) \)-generic, then for any cardinal \( \lambda \in M \) with \( \aleph_0 \leq \lambda < \kappa \), the value of \( 2^\lambda \) in \( M[G] \) is \( \kappa \) if \( \cf(\kappa) > \lambda \) and \( \kappa^+ \) if \( \cf(\kappa) \leq \lambda \).
+    Also, \( M[G_1] \vDash 2^{\aleph_2} = \aleph_{\omega + 5} \) by preservation of cardinals.
+
+    Part (iii) is similar; we first make \( 2^{\aleph_m} = \aleph_{2m+3} \), then make \( 2^{\aleph_{m-1}} = \aleph_{2(m-1)+3} \), and continue downwards.
+\end{proof}
+\begin{remark}
+    \begin{enumerate}
+        \item It is necessary to start at the largest cardinal and work downwards; this ensures that the cardinal arithmetic in our forcing models remains correct.
+        \item The iterative approach works for any finite number of cardinals.
+        We will see later how we can force \( 2^{\aleph_n} = \aleph_{2n + 3} \) for all \( n \in \omega \).
+    \end{enumerate}
+\end{remark}
+We give an example to show that the order described in (i) is necessary.
+\begin{proposition}
+    Let \( M \) be a countable transitive model of \( \mathsf{ZFC} \) with \( M \vDash 2^{\aleph_0} = \aleph_\alpha \).
+    Let \( \mathbb P = \Fn_{\aleph_1}(\kappa \times \aleph_1, 2) \) for some \( \kappa \geq 1 \).
+    Then if \( G \) is \( \mathbb P \)-generic, \( M[G] \vDash \mathsf{CH} \), and all cardinals \( \delta \) of \( M \) with \( \aleph_1 \leq \delta \leq \aleph_\alpha \) in \( M \) are no longer cardinals in \( M[G] \).
+    In particular, \( \aleph_\alpha^M \neq \aleph_\alpha^{M[G]} \).
+\end{proposition}
+This is on the example sheets.
