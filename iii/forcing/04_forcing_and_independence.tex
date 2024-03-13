@@ -455,17 +455,16 @@ Hence, if \( \mathbb P = \Fn_\kappa(\lambda \times \kappa, 2) \), then \( M[G] \
 
 \subsection{Closure and distributivity}
 \begin{definition}
-    A poset \( \mathbb P \) is \emph{\( \kappa \)-closed} if for every \( \delta < \kappa \), every decreasing sequence of length \( \delta \) in \( \mathbb P \) has a lower bound.
-    \( \mathbb P \) is \emph{\( <\kappa \)-closed} if it is \( \lambda \)-closed for all cardinals \( \lambda < \kappa \).
+    A poset \( \mathbb P \) is \emph{\( <\kappa \)-closed} if for every \( \delta < \kappa \), every decreasing sequence of length \( \delta \) in \( \mathbb P \) has a lower bound.
 \end{definition}
 \begin{definition}
-    \( \mathbb P \) is \emph{\( \kappa \)-distributive} if the intersection of less than \( \kappa \)-many open dense sets is an open dense set.
+    \( \mathbb P \) is \emph{\( <\kappa \)-distributive} if the intersection of less than \( \kappa \)-many open dense sets is an open dense set.
 \end{definition}
 \begin{lemma}
-    If \( \mathbb P \) is \( \kappa \)-closed then \( \mathbb P \) is \( \kappa \)-distributive.
+    If \( \mathbb P \) is \( <\kappa \)-closed then \( \mathbb P \) is \( <\kappa \)-distributive.
 \end{lemma}
 \begin{lemma}
-    If \( \kappa \) is regular in \( M \), then \( \Fn_\kappa(I, J)^M \) is \( \kappa \)-closed.
+    If \( \kappa \) is regular in \( M \), then \( \Fn_\kappa(I, J)^M \) is \( <\kappa \)-closed.
 \end{lemma}
 \begin{theorem}
     Let \( A, B, \mathbb P \in M \), let \( \kappa \) be a cardinal in \( M \) with \( (\abs{A} < \kappa)^M \), and suppose \( \mathbb P \) is \( \kappa \)-distributive in \( M \).
@@ -480,7 +479,7 @@ Informally, forcing over a distributive poset cannot add any new small functions
     For \( \alpha < \delta \), let
     \[ D_\alpha = \qty{q \leq p \mid \exists x \in B .\, q \Vdash \dot f(\check \alpha) = \check x} \]
     These sets are clearly open, and they are dense below \( p \) because \( p \) forces that \( \dot f \) is a function.
-    Since \( \mathbb P \) is \( \kappa \)-distributive, their intersection \( D = \bigcap_{\alpha < \delta} D_\alpha \) is also (open and) dense below \( p \).
+    Since \( \mathbb P \) is \( <\kappa \)-distributive, their intersection \( D = \bigcap_{\alpha < \delta} D_\alpha \) is also (open and) dense below \( p \).
     Let \( q \in D \cap G \).
     Now, in \( M \), for each \( \alpha < \delta \), we can choose \( x_\alpha \in B \) such that \( q \Vdash \dot f(\check \alpha) = \check x_\alpha \), so we may define \( g : \delta \to B \) by \( \alpha \mapsto x_\alpha \).
     This \( g \) lies in \( M \).
@@ -553,3 +552,121 @@ We give an example to show that the order described in (i) is necessary.
     In particular, \( \aleph_\alpha^M \neq \aleph_\alpha^{M[G]} \).
 \end{proposition}
 This is on the example sheets.
+
+\subsection{The mixing lemma}
+Recall that \( p \Vdash \exists x.\, \varphi(x) \) if and only if
+\[ \qty{q \leq p \mid \exists \dot x \in \mathrm{V}^{\mathbb P}.\, q \Vdash \varphi(\dot x)} \]
+is dense below \( p \).
+In most cases, the witness \( \dot x \) does not depend on \( G \).
+For example, in \( p \Vdash \exists x.\, (\dot a \in x \wedge \dot b \in x) \), we can find a name \( \dot x = \operatorname{op}(\dot a, \dot b) \) without needing to know \( G \).
+Informally, the mixing lemma says that this is always the case, as long as \( M \) has \( \mathsf{AC} \).
+\begin{theorem}[the mixing lemma]
+    (\mathsf{ZFC})
+    Suppose that \( (p \Vdash \exists x.\, \varphi(x))^M \).
+    Then there is a name \( \dot x \in M^{\mathbb P} \) such that \( (p \Vdash \varphi(\dot x))^M \).
+\end{theorem}
+\begin{proof}
+    Since
+    \[ \qty{q \leq p \mid \exists \dot x \in M^{\mathbb P}.\, q \Vdash \varphi(\dot x)} \]
+    is dense below \( p \), it contains a maximal antichain \( D \).
+    Now, for each \( q \in D \), choose some \( \dot x_q \) such that \( q \Vdash \varphi(\dot x_q) \).
+    Without loss of generality, we may assume that if \( \langle r, \dot y \rangle \in \dot x_q \), then \( r \leq q \).
+    This is because
+    \begin{enumerate}
+        \item if \( r \perp q \), then \( q \Vdash \dot x_q = (\dot x_q \setminus \langle r, \dot y \rangle) \); and
+        \item if \( r \mathrel\| q \), then define
+        \[ \dot x_q' = (\dot x_q \setminus \langle r, \dot y \rangle) \cup \qty{\langle s, \dot y \rangle \mid s \leq r, q} \]
+        so \( q \Vdash \dot x_q = \dot x_q' \).
+    \end{enumerate}
+    Now, if \( q, q' \in D \) are such that \( q \neq q' \), we must have \( q \perp q' \) as \( D \) is an antichain.
+    So \( q' \Vdash \dot x_q = \varnothing \).
+    We `mix' the \( \dot x_q \) together to form
+    \[ \dot x = \bigcup \qty{\dot x_q \mid q \in D} \]
+    Then if \( q \in D \), we have \( q \Vdash \dot x = \dot x_q \).
+    By the forcing theorem, \( q \Vdash \varphi(\dot x) \).
+
+    It remains to show that \( p \Vdash \varphi(\dot x) \).
+    Suppose otherwise, so there is \( r \leq p \) such that \( r \Vdash \neg\varphi(\dot x) \).
+    As \( D \) is a maximal antichain of conditions below \( p \), there is a condition \( q \in D \) such that \( q \mathrel\| r \).
+    Now if \( s \leq q, r \), we have \( s \Vdash \varphi(\dot x) \) and \( s \Vdash \neg\varphi(\dot x) \), giving a contradiction.
+\end{proof}
+
+\subsection{Forcing successor cardinals}
+We would now like to find generic filters that collapse \( \kappa < \lambda \) such that \( \kappa = \lambda^+ \).
+Observe that this can only happen if \( \lambda \) is regular in \( M \).
+This is because if \( f : \alpha \to \lambda \) is cofinal with \( \alpha < \lambda \) and \( f \in M \), then \( f \in M[G] \), so
+\[ \cf^{M[G]}(\lambda) \leq \cf^{M[G]}(\alpha) \leq \abs{\alpha}^{M[G]} < \lambda \]
+We will show that this is the only restriction.
+\begin{theorem}
+    Let \( \kappa \) be a regular cardinal in \( M \), and let \( \delta > \kappa \) be a cardinal in \( M \).
+    Let \( \lambda = \delta^+ \) in \( M \).
+    Let \( G \) be \( \Fn_\kappa(\kappa, \delta) \)-generic over \( M \).
+    Then in \( M[G] \),
+    \begin{enumerate}
+        \item \( \abs{\delta} = \kappa \);
+        \item every cardinal \( \alpha \leq \kappa \) in \( M \) remains a cardinal in \( M[G] \);
+        \item if \( \delta^{<\kappa} = \delta \) then every cardinal \( \alpha > \delta \) in \( M \) remains a cardinal in \( M[G] \).
+    \end{enumerate}
+    In particular, if \( \delta^{<\kappa} = \delta \), then \( M[G] \vDash \lambda = \kappa^+ \).
+\end{theorem}
+Observe that if \( \delta \) is a cardinal in \( M \) and \( \delta > \abs{\mathbb P} \) in \( M \), then \( \delta \) remains a cardinal in \( M[G] \).
+This is because \( \mathbb P \) has the \( \abs{\mathbb P}^+ \)-chain condition.
+\begin{proof}
+    \emph{Part (i).}
+    Note that \( \bigcup G : \kappa \to \delta \) is a surjection, so \( \abs{\delta} = \abs{\kappa} \) in \( M[G] \).
+    In particular, there are no cardinals between \( \delta \) and \( \lambda \).
+
+    \emph{Part (ii).}
+    Since \( \kappa \) is regular, \( \Fn_\kappa(\kappa,\delta) \) is \( <\kappa \)-closed, so every cardinal \( \alpha \leq \kappa \) is preserved.
+
+    \emph{Part (iii).}
+    Finally, if \( \delta^{<\kappa} = \delta \), then \( \abs{\Fn_\kappa(\kappa,\delta)} = \delta \), so \( \Fn_\kappa(\kappa,\delta) \) has the \( \delta^+ \)-chain condition, so every cardinal \( \alpha > \delta \) (in particular, \( \lambda \)) is preserved.
+\end{proof}
+Now suppose that \( \lambda \) is weakly inaccessible.
+In this case, we will use a forcing poset called the \emph{L\'evy collapse}.
+\begin{definition}
+    Let \( \lambda > \kappa \) be infinite ordinals.
+    Then \( \operatorname{Col}(\kappa,<\lambda) \) consists of all functions \( p \) such that
+    \begin{enumerate}
+        \item \( p \) is a partial function from \( \kappa \times \lambda \to \lambda \);
+        \item \( \abs{\dom p} < \kappa \);
+        \item \( p(\alpha, \beta) < \beta \) for each \( (\alpha, \beta) \in \dom p \).
+    \end{enumerate}
+    We make this into a forcing poset by writing \( q \leq p \) if and only if \( q \) extends \( p \) as a function.
+\end{definition}
+\begin{theorem}[L\'evy]
+    Let \( \kappa \) be a regular cardinal in \( M \), and suppose \( \lambda > \kappa \) is weakly inaccessible in \( M \).
+    Let \( G \) be \( \operatorname{Col}(\kappa, <\lambda) \)-generic over \( M \).
+    Then in \( M[G] \),
+    \begin{enumerate}
+        \item every ordinal \( \beta \) with \( \kappa \leq \beta < \lambda \) has cardinality \( \kappa \); and
+        \item every cardinal at most \( \kappa \) or at least \( \lambda \) remains a cardinal.
+    \end{enumerate}
+    In particular, \( M[G] \vDash \lambda = \kappa^+ \).
+\end{theorem}
+\begin{proof}
+    If \( \beta < \lambda \), we can define \( G_\beta : \kappa \to \beta \) by \( G_\beta(\alpha) = \qty(\bigcup G)(\alpha, \beta) \).
+    By density, this is a surjection, so if \( \kappa \leq \beta < \lambda \), we have \( M[G] \vDash \abs{\beta} = \abs{\kappa} \).
+
+    Note that \( \operatorname{Col}(\kappa, <\lambda) \) is \( <\kappa \)-closed, so preserves cardinals at most \( \kappa \).
+    In particular, \( \kappa \) remains a cardinal.
+
+    Finally, \( \abs{\operatorname{Col}(\kappa, <\lambda)} = \lambda \).
+    Therefore, \( \operatorname{Col}(\kappa, <\lambda) \) has the \( \lambda^+ \)-chain condition and therefore preserves cardinals at least \( \lambda^+ \).
+    % TODO: What about \lambda?
+\end{proof}
+\begin{remark}
+    \begin{enumerate}
+        \item The requirement that \( \kappa \) was regular allowed us to deduce \( \kappa \)-closure.
+        \item One can show that \( \lambda \) is weakly compact if and only if it is inaccessible and satisfies the \emph{tree property}.
+        We claim that if \( G \) is \( \operatorname{Col}(\aleph_0, <\lambda) \)-generic, then in \( M[G] \), \( \aleph_1 \) has the tree property.
+        In general, we can use forcing to add combinatorial properties from large cardinals to \( \aleph_1 \).
+        \item This shows that \( \lambda \) being a limit cardinal is not absolute between \( M \) and \( N \), even if \( \lambda \) being a cardinal is absolute for \( M, N \).
+    \end{enumerate}
+\end{remark}
+
+\subsection{???}
+In this subsection, we will show that is consistent that, for example, each \( n \in \omega \) satisfies \( 2^{\aleph_n} = \aleph_{2n + 3} \).
+We have already shown that for a fixed \( N \in \omega \), it is consistent that all \( n \in \omega \) have \( 2^{\aleph_n} = \aleph_{2n + 3} \).
+However, we cannot get this result using the iterated forcing process described in previous sections, and will instead use \emph{Easton forcing}.
+This technique will allow us to exactly determine the restrictions on the continuum function \( F : \mathrm{Card} \to \mathrm{Card} \) given by \( F(\aleph_\alpha) = 2^{\aleph_\alpha} \).
