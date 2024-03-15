@@ -634,8 +634,9 @@ In this case, we will use a forcing poset called the \emph{L\'evy collapse}.
     \end{enumerate}
     We make this into a forcing poset by writing \( q \leq p \) if and only if \( q \) extends \( p \) as a function.
 \end{definition}
+Informally, for each \( \beta < \lambda \), we add a surjection \( \kappa \to \beta \).
 \begin{theorem}[L\'evy]
-    Let \( \kappa \) be a regular cardinal in \( M \), and suppose \( \lambda > \kappa \) is weakly inaccessible in \( M \).
+    Let \( \kappa \) be a regular cardinal in \( M \), and suppose \( \lambda > \kappa \) is strongly inaccessible in \( M \).
     Let \( G \) be \( \operatorname{Col}(\kappa, <\lambda) \)-generic over \( M \).
     Then in \( M[G] \),
     \begin{enumerate}
@@ -651,22 +652,127 @@ In this case, we will use a forcing poset called the \emph{L\'evy collapse}.
     Note that \( \operatorname{Col}(\kappa, <\lambda) \) is \( <\kappa \)-closed, so preserves cardinals at most \( \kappa \).
     In particular, \( \kappa \) remains a cardinal.
 
-    Finally, \( \abs{\operatorname{Col}(\kappa, <\lambda)} = \lambda \).
+    Now, \( \abs{\operatorname{Col}(\kappa, <\lambda)} = \lambda \).
     Therefore, \( \operatorname{Col}(\kappa, <\lambda) \) has the \( \lambda^+ \)-chain condition and therefore preserves cardinals at least \( \lambda^+ \).
-    % TODO: What about \lambda?
+
+    % TODO: We can get rid of the previous paragraph because the lambda-cc is stronger
+    Finally, we show that \( \lambda \) is still a cardinal in \( M[G] \), which follows from the \( \lambda \)-chain condition.
+    Given \( p \in \operatorname{Col}(\kappa, <\lambda) \), define the \emph{support} of \( p \) to be
+    \[ \operatorname{sp}(p) = \qty{\beta \mid \exists\alpha.\, \langle \alpha, \beta \rangle \in \dom p} \]
+    As \( \abs{p} < \kappa \), we must have \( \abs{\operatorname{sp}(p)} < \kappa \).
+    Let \( W \) be an antichain.
+    We will construct chains \( (A_\alpha)_{\alpha < \kappa} \) and \( (W_\alpha)_{\alpha < \kappa} \) such that
+    \begin{enumerate}
+        \item for \( \alpha < \beta < \kappa \), \( A_\alpha \subseteq A_\beta \) and \( W_\alpha < W_\beta \);
+        \item if \( \gamma < \kappa \) is a limit, then \( A_\gamma = \bigcup_{\alpha < \gamma} A_\alpha \) and \( W_\gamma = \bigcup_{\alpha < \gamma} W_\alpha \);
+        \item \( W = \bigcup_{\alpha < \kappa} W_\alpha \);
+        \item for all \( \alpha < \kappa \), \( \abs{A_\alpha}, \abs{W_\alpha} < \lambda \).
+    \end{enumerate}
+    Assuming this can be done, since \( \lambda \) is regular, we have \( \abs{W} = \abs{\bigcup_{\alpha < \kappa} W_\alpha} < \lambda \).
+    To do this, first set \( A_0 = W_0 = \varnothing \).
+    To define successor cases, suppose \( A_\alpha, W_\alpha \) are defined.
+    Suppose that \( p \in \operatorname{Col}(\kappa, <\lambda) \) has \( \operatorname{sp}(p) \subseteq A_\alpha \).
+    Using the axiom of choice, choose \( q_p \in W \) such that \( p = \eval{q_p}_{\kappa \times \operatorname{sp}(p)} \) if this exists.
+    Define
+    \[ W_{\alpha + 1} = \qty{q_p \mid \operatorname{sp}(p) \subseteq A_\alpha};\quad A_{\alpha + 1} = \bigcup\qty{\operatorname{sp}(q) \mid q \in W_{\alpha + 1}} \]
+    One can show that \( W = \bigcup_{\alpha < \kappa} W_\alpha \) in the same way that we proved this for \( \Fn_\kappa(I, J) \).
+    We show by induction that for \( \alpha < \kappa \), \( \abs{A_\alpha}, \abs{W_\alpha} < \lambda \).
+    Limit cases follow by regularity.
+    If \( \abs{W_{\alpha + 1}} < \lambda \), then \( \abs{A_{\alpha + 1}} < \kappa \cdot \lambda = \lambda \).
+    Suppose \( \abs{A_{\alpha}} < \lambda \).
+    Then, since every \( q \) added in stage \( \alpha + 1 \) is chosen from some condition with support contained in \( A_\alpha \), we must have
+    \[ \abs{W_{\alpha + 1}} \leq \abs{A_\alpha}^{<\kappa} \]
+    Then as \( \lambda \) is a strong limit, \( \abs{A_\alpha}^{<\kappa} < \lambda \).
 \end{proof}
 \begin{remark}
     \begin{enumerate}
         \item The requirement that \( \kappa \) was regular allowed us to deduce \( \kappa \)-closure.
+        \item Suppose \( \lambda \) is weakly inaccessible and \( 2^{\aleph_0} > \lambda \).
+        Then \( \operatorname{Col}(\aleph_1, <\lambda) \) has an antichain of length \( 2^{\aleph_0} \), so will not satisfy the \( \lambda \)-chain condition.
+        Indeed, for \( A \subseteq \omega \), we define \( p_A : \qty{\omega} \times [\omega, \omega + \omega) \to 2 \) by
+        \[ p_A(\alpha, \omega + n) = \begin{cases}
+            0 & \text{if } n \in A \\
+            1 & \text{if } n \notin A
+        \end{cases} \]
+        Then if \( A \neq B \), the functions \( p_A, p_B \) are incompatible.
         \item One can show that \( \lambda \) is weakly compact if and only if it is inaccessible and satisfies the \emph{tree property}.
         We claim that if \( G \) is \( \operatorname{Col}(\aleph_0, <\lambda) \)-generic, then in \( M[G] \), \( \aleph_1 \) has the tree property.
         In general, we can use forcing to add combinatorial properties from large cardinals to \( \aleph_1 \).
         \item This shows that \( \lambda \) being a limit cardinal is not absolute between \( M \) and \( N \), even if \( \lambda \) being a cardinal is absolute for \( M, N \).
     \end{enumerate}
 \end{remark}
+\begin{corollary}
+    If \( \mathsf{ZFC} + \mathsf{IC} \) is consistent, then so is \( \mathsf{ZFC} + \text{\( \aleph_1^{\mathrm{V}} \) is inaccessible in \( L \)} \).
+\end{corollary}
+\begin{proof}
+    Start with a model of \( \mathrm{V} = \mathrm{L} \) and let \( G \) be \( \operatorname{Col}(\omega_1, <\lambda) \)-generic.
+    Then \( M[G] \vDash \lambda = \aleph_1 \), but also \( M[G] \vDash (\lambda \text{ is inaccessible})^L \).
+\end{proof}
+\begin{remark}
+    If \( \mathrm{V} \vDash \mathsf{ZFC} + \kappa \text{ is measurable} \), then for example, \( \aleph_1^{\mathrm{V}} \) is inaccessible in \( \mathrm{L} \).
+\end{remark}
 
-\subsection{???}
+\subsection{Product forcing}
 In this subsection, we will show that is consistent that, for example, each \( n \in \omega \) satisfies \( 2^{\aleph_n} = \aleph_{2n + 3} \).
 We have already shown that for a fixed \( N \in \omega \), it is consistent that all \( n \in \omega \) have \( 2^{\aleph_n} = \aleph_{2n + 3} \).
-However, we cannot get this result using the iterated forcing process described in previous sections, and will instead use \emph{Easton forcing}.
+However, we cannot get this result using the iterated forcing process described in previous sections, and will instead use \emph{product forcing}.
 This technique will allow us to exactly determine the restrictions on the continuum function \( F : \mathrm{Card} \to \mathrm{Card} \) given by \( F(\aleph_\alpha) = 2^{\aleph_\alpha} \).
+\begin{definition}
+    Suppose \( (\mathbb P, \leq_{\mathbb P}) \) and \( (\mathbb Q, \leq_{\mathbb Q}) \) are posets.
+    The \emph{product order} \( \leq \) on \( \mathbb P \times \mathbb Q \) is defined by
+    \[ \langle p_1, q_1 \rangle \leq \langle p_0, q_0 \rangle \leftrightarrow p_1 \leq_{\mathbb P} p_0 \wedge q_1 \leq_{\mathbb Q} q_0 \]
+\end{definition}
+Given a \( \mathbb P \times \mathbb Q \)-generic filter \( G \) over \( M \), we can produce the \emph{projections}
+\begin{align*}
+    G_0 &= \qty{p \in \mathbb P \mid \exists q \in \mathbb Q.\, \langle p, q \rangle \in G} \\
+    G_1 &= \qty{q \in \mathbb Q \mid \exists p \in \mathbb P.\, \langle p, q \rangle \in G}
+\end{align*}
+\begin{lemma}
+    Let \( M \) be a transitive model of \( \mathsf{ZFC} \) with \( \mathbb P, \mathbb Q \in M \).
+    Let \( G \subseteq \mathbb P \) and \( H \subseteq \mathbb Q \).
+    Then the following are equivalent.
+    \begin{enumerate}
+        \item \( G \times H \) is \( \mathbb P \times \mathbb Q \)-generic over \( M \);
+        \item \( G \) is \( \mathbb P \)-generic over \( M \) and \( H \) is \( \mathbb Q \)-generic over \( M[G] \);
+        \item \( H \) is \( \mathbb Q \)-generic over \( M \) and \( G \) is \( \mathbb P \)-generic over \( M[H] \).
+    \end{enumerate}
+    Moreover, when this is the case, \( M[G \times H] = M[G][H] = M[H][G] \).
+\end{lemma}
+\begin{proof}
+    The first part is left as an exercise.
+    For the last part, recall that the generic model theorem shows that if \( N \) is a transitive model of \( \mathsf{ZF} \) containing \( M \) as a definable class and containing \( G \) as a set, then \( M[G] \subseteq N \).
+    Since \( M \subseteq M[G][H] \), and \( G \times H \) is an element of \( M[G][H] \), we obtain \( M[G \times H] \subseteq M[G][H] \).
+    For the other direction, \( G \in M[G \times H] \) and \( M \subseteq M[G \times H] \) so \( M[G] \subseteq M[G \times H] \), but also \( H \in M[G \times H] \) so \( M[G][H] \subseteq M[G \times H] \).
+\end{proof}
+Recall that we started with a model of \( \mathsf{ZFC} + \mathsf{GCH} \) and forced with
+\[ G_0 \text{ is } \Fn(\omega_3 \times \omega, 2)^M \text{-generic};\quad G_1 \text{ is } \Fn_(\omega_5 \times \omega_1, 2)^{M[G_0]} \text{-generic} \]
+and found that \( M[G_0][G_1] \vDash \mathsf{CH} \).
+But if instead we used
+\[ G_0 \text{ is } \mathbb P_0 = \Fn(\omega_5 \times \omega_1, 2)^M \text{-generic};\quad G_1 \text{ is } \mathbb P_1 = \Fn_(\omega_3 \times \omega, 2)^{M[G_0]} \text{-generic} \]
+then we obtain \( M[G_0][G_1] \vDash 2^{\aleph_0} = \aleph_3 + 2^{\aleph_1} = \aleph_5 \).
+However, \( \mathbb P_0 \) is \( <\omega_1 \)-closed, so does not add new sequences of length \( \omega \).
+Thus \( \mathbb P_1 = \Fn(\omega_3 \times \omega, 2)^M \).
+We can therefore define the forcing poset \( \mathbb P_0 \times \mathbb P_1 \)-over \( M \), and \( G_0 \times G_1 \) is \( \mathbb P_0 \times \mathbb P_1 \)-generic over \( M \).
+To simultaneously force \( 2^{\aleph_n} = \aleph_{2n + 3} \), we use the poset
+\[ \mathbb P = \prod_{n \in \omega} \Fn_{\omega_n}(\omega_{2n + 3} \times \omega_n, 2) \]
+Easton's theorem shows that this works.
+\begin{theorem}[Easton's theorem for sets]
+    Let \( M \) be a countable transitive model of \( \mathsf{ZFC} + \mathsf{GCH} \).
+    Let \( S \) be a set of regular cardinals in \( M \), and let \( F : S \to \mathrm{Card}^M \) be a function in \( M \) such that for all \( \kappa \leq \lambda \) in \( S \),
+    \begin{enumerate}
+        \item \( F(\kappa) > \kappa \) (Cantor's theorem);
+        \item \( F(\kappa) \leq F(\lambda) \) (monotonicity);
+        \item \( \cf(F(\kappa)) > \kappa \) (K\"onig's theorem).
+    \end{enumerate}
+    Then there is a generic extension \( M[G] \) of \( M \) such that \( M, M[G] \) have the same cardinals, and for all \( \kappa \in S \), \( M[G] \vDash 2^\kappa = F(\kappa) \).
+\end{theorem}
+The proof is non-examinable.
+
+By essentially the same proof, this result can be generalised to proper classes of \( M \), and in particular \( S = \mathrm{Reg}^M \).
+This needs a notion of \emph{class forcing}, as \( \mathbb P \) is a proper class.
+The main obstacle with class forcing is that \( M[G] \) need not be a model of \( \mathsf{ZFC} \).
+For example, consider \( \operatorname{Fn}(\mathrm{Ord} \times \omega, 2) \), which makes \( 2^{\aleph_0} \) a proper class.
+Alternatively, consider \( \operatorname{Fn}(\omega, \mathrm{Ord}) \), which creates a surjection \( \bigcup G : \omega \to \mathrm{Ord} \).
+In fact, the forcing relation \( \Vdash \) may not even be definable.
+However, one can show that the particular forcing poset used in Easton's theorem also satisfies all of the required results for the proofs to work.
+In conclusion, we can say almost nothing about the values of the continuum function.
