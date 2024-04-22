@@ -14,7 +14,7 @@ By `expanded', we mean that \( \mathcal T \) is given interpretations to the ele
 \begin{proposition}
     Let \( \mathcal T \) be an \( \mathcal L \)-theory, and let \( \mathcal F \) be a collection of \( \mathcal L \)-formulae including all atomic formulae and closed under Boolean operations.
     Suppose that for every formula \( \psi(\vb x, y) \in \mathcal F \), there exists \( \varphi(\vb x) \in \mathcal F \) with
-    \[ \mathcal T \vdash \forall \vb x.\, (\exists y.\, \psi(\vb x, y) \Leftrightarrow \varphi(\vb x)) \]
+    \[ \mathcal T \vdash \forall \vb x.\, (\exists y.\, \psi(\vb x, y) \leftrightarrow \varphi(\vb x)) \]
     Then, every \( \mathcal L \)-formula is equivalent to one in \( \mathcal F \) with the same free variables modulo \( \mathcal T \) (that is, \( \mathcal T \) proves they are equivalent).
 \end{proposition}
 \begin{proof}
@@ -23,7 +23,7 @@ By `expanded', we mean that \( \mathcal T \) is given interpretations to the ele
     Consider the formula \( \exists y,\, \psi(\vb x, y) \).
     By the inductive hypothesis, \( \psi(\vb x, y) \) is \( \mathcal T \)-equivalent to \( \psi'(\vb x, y) \in \mathcal F \).
     Then, there is some \( \varphi(\vb x) \in \mathcal F \) such that
-    \[ \mathcal T \vdash \forall \vb x.\, (\exists y.\, \psi'(\vb x, y) \Leftrightarrow \varphi(\vb x)) \]
+    \[ \mathcal T \vdash \forall \vb x.\, (\exists y.\, \psi'(\vb x, y) \leftrightarrow \varphi(\vb x)) \]
     Thus the formula \( \exists y,\, \psi(\vb x, y) \) in question is \( \mathcal T \)-equivalent to \( \varphi(\vb x) \in \mathcal F \).
 \end{proof}
 \begin{proposition}
@@ -41,7 +41,7 @@ By `expanded', we mean that \( \mathcal T \) is given interpretations to the ele
     \emph{Part (i).}
     Clearly, \( \varphi(\vb x, t(\vb x)) \to \exists y.\, \varphi(\vb x, y) \) in any model.
     So having Skolem functions means that
-    \[ \mathcal T \vdash \forall \vb x.\, (\exists y.\, \varphi(\vb x, y) \Leftrightarrow \varphi(\vb x, t(\vb x))) \]
+    \[ \mathcal T \vdash \forall \vb x.\, (\exists y.\, \varphi(\vb x, y) \leftrightarrow \varphi(\vb x, t(\vb x))) \]
     completing the proof by the previous proposition.
 
     \emph{Part (ii).}
@@ -124,7 +124,7 @@ By `expanded', we mean that \( \mathcal T \) is given interpretations to the ele
 \begin{definition}
     Let \( \mathcal T \) be an \( \mathcal L \)-theory.
     A set \( F \) of \( \mathcal L \)-formulae is an \emph{elimination set} for \( \mathcal T \) if, for every \( \mathcal L \)-formula \( \varphi \), there is a Boolean combination \( \varphi^\star \) of formulae in \( F \) such that
-    \[ \mathcal T \vdash \varphi \Leftrightarrow \varphi^\star \]
+    \[ \mathcal T \vdash \varphi \leftrightarrow \varphi^\star \]
     A theory \( \mathcal T \) has \emph{quantifier elimination} if the family of quantifier-free formulae forms an elimination set for \( \mathcal T \).
 \end{definition}
 Note that a theory having quantifier elimination depends on its underlying language.
@@ -155,7 +155,7 @@ In the next result, we use the notation \( \neg F \) for the set of negations of
     Suppose that, for every \( \mathcal L \)-formula of the form
     \[ \theta(\vb x) = \exists y.\, \bigwedge_{i < n} \varphi_i(\vb x, y);\quad \varphi_i \in F \cup \neg F \]
     there exists a Boolean combination \( \theta^\star(\vb x) \) of formulae in \( F \) such that
-    \[ \mathcal T \vdash \forall \vb x.\, (\theta(\vb x) \Leftrightarrow \theta^\star(\vb x)) \]
+    \[ \mathcal T \vdash \forall \vb x.\, (\theta(\vb x) \leftrightarrow \theta^\star(\vb x)) \]
     Then \( F \) is an elimination set for \( \mathcal T \).
 \end{proposition}
 The proof is similar to a previous proposition.
@@ -264,13 +264,14 @@ For example, an existentially closed ordered field need not be an existentially 
     Let \( \varphi(\vb x) \) be an existential formula.
     We will call a pair \( (\mathcal M, \vb m) \) a \emph{witnessing pair} if \( \mathcal M \) is existentially closed in \( \mathbb K \) and \( \mathcal M \vDash \varphi(\vb m) \).
     For each such pair, let
-    \[ \theta_{(\mathcal M, \vb m)} = \bigwedge \qty{\psi \text{ a literal} \mid \mathcal M \vDash \psi(\vb m)} \]
+    \[ \theta_{(\mathcal M, \vb m)}(\vb x) = \bigwedge \qty{\psi(\vb x) \text{ a literal} \mid \mathcal M \vDash \psi(\vb m)} \]
     where the \emph{literals} are the atomic formulae and their negations.
     Let
     \[ \chi(\vb x) = \bigvee_{(\mathcal M, \vb m)} \theta_{(\mathcal M, \vb m)}(\vb x) \]
-    Note that the \( \theta \) and \( \chi \) are not first-order formulae, but any conjunction or disjunction over an infinite set is logically equivalent to a finite conjunction or disjunction over a finite subset; this can be seen by applying the compactness theorem.
+    % Note that the \( \theta \) and \( \chi \) are not first-order formulae, but any conjunction or disjunction over an infinite set is logically equivalent to a finite conjunction or disjunction over a finite subset; this can be seen by applying the compactness theorem.
     It suffices to show that if \( \mathcal N \) is existentially closed in \( \mathbb K \) then
     \[ (\mathcal N \vDash \varphi(\vb n)) \iff (\mathcal N \vDash \chi(\vb n)) \]
+    Then we can use the compactness theorem twice to reduce \( \chi \) to a first-order finitary formula as required.
     If \( \vb n \in \mathcal N \) is such that \( \mathcal N \vDash \varphi(\vb n) \), then \( (\mathcal N, \vb n) \) is a witnessing pair, and thus \( \mathcal N \vDash \chi(\vb n) \) by construction.
     For the converse, if \( \mathcal N \vDash \chi(\vb n) \), there is a witnessing pair \( (\mathcal M, \vb m) \) such that \( \mathcal N \vDash \theta_{(\mathcal M, \vb m)}(\vb n) \).
     Hence, for each literal \( \psi(\vb x) \),
@@ -391,7 +392,8 @@ This is analogous to the theorem that every field has an algebraic closure, and 
     We can iteratively convert existential quantifiers to universal quantifiers, noting that (iv) allows us to convert a sequence of existentials to a sequence of universals simultaneously.
 
     \emph{(v) implies (i).}
-    We use induction on the structure of \( \mathcal L \)-formulae, noting that universal formulae are preserved under extensions, and that every formula and its negation can be represented as a universal formula.
+    Note that universal formulae are preserved under extensions, and every formula and its negation can be represented as a universal formula.
+    This directly gives the result.
 \end{proof}
 Let \( \mathcal M, \mathcal N \) be \( \mathcal L \)-structures.
 If \( \mathcal M, \mathcal N \) satisfy the same quantifier-free sentences, we write \( \mathcal M \equiv_0 \mathcal N \).
@@ -410,7 +412,7 @@ If \( \mathcal M, \mathcal N \) satisfy the same quantifier-free sentences, we w
     (i) implies (ii) is clear.
 
     \emph{(ii) implies (iii).}
-    It suffices to show that \( (\mathcal A, \vb a) \to_1 (\mathcal B, e(\vb a)) \) by the existential amalgamation theorem.
+    It suffices to show that \( (\mathcal A, S) \to_1 (\mathcal B, e(S)) \) by the existential amalgamation theorem.
     Since a sentence in \( \mathcal L_S \) is finite, it can only mention finitely many of the new constants in \( S \), so it is enough to check that \( (\mathcal A, \vb a) \to_1 (\mathcal B, e(\vb a)) \) for all tuples \( \vb a \) obtainable from \( S \).
     Now, if \( \vb a \) is such a tuple and \( e : \langle S \rangle_{\mathcal A} \rightarrowtail \mathcal B \) is an embedding, then \( (\mathcal A, \vb a) \equiv_0 (\mathcal B, e(\vb a)) \), giving the required result by (ii).
 
