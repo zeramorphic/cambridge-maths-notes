@@ -56,7 +56,7 @@ This is a module that abstracts the notion of bilinearity between two modules.
     \[ h(m \otimes n) = f(m, n) \]
     Note that the elements \( \qty{m \otimes n} \) generate \( M \otimes N \) as an \( R \)-module, so there is at most one \( h \).
     We now show that the definition of \( h \) on the pure tensors \( m \otimes n \) extends to an \( R \)-linear map \( M \otimes N \to L \).
-    The map \( R^{\oplus(M \otimes N)} \to L \) given by \( (m, n) \mapsto f(m, n) \) exists by the universal property of the direct sum.
+    The map \( R^{\oplus(M \times N)} \to L \) given by \( (m, n) \mapsto f(m, n) \) exists by the universal property of the direct sum.
     However, this map vanishes on the generators of \( K \), so it factors through the quotient \( \faktor{\mathcal F}{K} \) as required.
 \end{proof}
 The universal property given above characterises the tensor product up to isomorphism.
@@ -185,6 +185,7 @@ This is the last proof that will use the direct construction of the tensor produ
 \end{example}
 
 \subsection{Monoidal structure}
+We will prove a number of elementary propositions in detail to show how tensor products are used in practice.
 \begin{proposition}[commutativity]
     There is an isomorphism \( M \otimes N \simeq N \otimes N \) mapping a pure tensor \( m \otimes n \) to \( n \otimes m \).
 \end{proposition}
@@ -579,7 +580,7 @@ so by the universal property this gives rise to a map \( h_s : M \otimes_R N \to
 \( h_s \) is \( R \)-linear by the universal property.
 Defining \( \varphi : S \to \End(M \otimes_R N) \) by \( \varphi(s) = h_s \), one can check that \( h_s \) is a well-defined endomorphism and that \( \varphi \) is a ring homomorphism.
 \begin{example}
-    \( S \otimes_R R \simeq R \) as \( R \)-modules, by \( s \otimes r \mapsto s \cdot f(r) \).
+    \( S \otimes_R R \simeq S \) as \( R \)-modules, by \( s \otimes r \mapsto s \cdot f(r) \).
     This is also \( S \)-linear, since
     \[ s'(s \otimes r) = (s's \otimes r) \mapsto s's \cdot f(r) = s'(s \cdot f(r)) \]
     For example, \( \mathbb C \otimes_{\mathbb R} \mathbb R \simeq \mathbb C \) as \( \mathbb C \)-modules.
@@ -675,7 +676,7 @@ We prove only the third result.
 \subsection{Extension of scalars on morphisms}
 Let \( f : N \to N' \) be an \( R \)-linear map, and \( M \) be an \( S \)-module.
 Then the map
-\[ \id_M \otimes f : M \otimes_R \to M \otimes_R N' \]
+\[ \id_M \otimes f : M \otimes_R N \to M \otimes_R N' \]
 is \( S \)-linear.
 Indeed,
 \[ (\id_M \otimes f)(s(m \otimes n)) = \id_M sm \otimes f(n) = s(m \otimes f(n)) = s((\id_M \otimes f)(m \otimes n)) \]
@@ -1060,14 +1061,11 @@ This bijection is \emph{natural}, in the sense that many commutative diagrams in
     \end{enumerate}
 \end{proposition}
 Note that a map \( f : M \to N \) is injective exactly when the sequence
-% https://q.uiver.app/#q=WzAsNCxbMCwwLCJNIFxcb3RpbWVzX1IgUiJdLFsxLDAsIk0gXFxvdGltZXNfUiBSIl0sWzEsMSwiTSJdLFswLDEsIk0iXSxbMCwxLCJcXGlkX00gXFxvdGltZXMgZiJdLFsxLDIsIlxcc2ltZXEiXSxbMCwzLCJcXHNpbWVxIiwyXSxbMywyLCJtIFxcbWFwc3RvIHJfMCBtIiwyXV0=
+% https://q.uiver.app/#q=WzAsMyxbMCwwLCIwIl0sWzEsMCwiTSJdLFsyLDAsIk4iXSxbMCwxXSxbMSwyLCJmIl1d
 \[\begin{tikzcd}
-	{M \otimes_R R} & {M \otimes_R R} \\
-	M & M
-	\arrow["{\id_M \otimes f}", from=1-1, to=1-2]
-	\arrow["\simeq", from=1-2, to=2-2]
-	\arrow["\simeq"', from=1-1, to=2-1]
-	\arrow["{m \mapsto r_0 m}"', from=2-1, to=2-2]
+	0 & M & N
+	\arrow[from=1-1, to=1-2]
+	\arrow["f", from=1-2, to=1-3]
 \end{tikzcd}\]
 is exact, so all of these conditions relate exact sequences.
 \begin{proof}
@@ -1115,11 +1113,37 @@ is exact, so all of these conditions relate exact sequences.
     \end{align*}
 
     \emph{(iii) implies (ii).}
-    \( T_M \) is right exact.
-    % write in more detail. need to use flatness to do the LHS of the sequence.
+    Suppose the sequence
+    % https://q.uiver.app/#q=WzAsNSxbMSwwLCJBIl0sWzIsMCwiQiJdLFszLDAsIkMiXSxbMCwwLCIwIl0sWzQsMCwiMCJdLFswLDEsImYiXSxbMSwyLCJnIl0sWzMsMF0sWzIsNF1d
+\[\begin{tikzcd}
+	0 & A & B & C & 0
+	\arrow[from=1-1, to=1-2]
+	\arrow["f", from=1-2, to=1-3]
+	\arrow["g", from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+    is exact.
+    As \( T_M \) is right exact, we obtain the exact sequence
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJNIFxcb3RpbWVzX1IgQSJdLFsxLDAsIk0gXFxvdGltZXNfUiBCIl0sWzIsMCwiTSBcXG90aW1lc19SIEMiXSxbMywwLCIwIl0sWzAsMSwiXFxpZF9NIFxcb3RpbWVzIGYiXSxbMSwyLCJcXGlkX00gXFxvdGltZXMgZyJdLFsyLDNdXQ==
+\[\begin{tikzcd}
+	{M \otimes_R A} & {M \otimes_R B} & {M \otimes_R C} & 0
+	\arrow["{\id_M \otimes f}", from=1-1, to=1-2]
+	\arrow["{\id_M \otimes g}", from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+\end{tikzcd}\]
+    It suffices to show that \( \id_M \otimes f \) is injective, but this is precisely the hypothesis of (iii).
 
     \emph{(iv) implies (iii).}
-    % todo: use prop above about being zero in finitely generated submodules
+    Let \( f : N \to N' \) be \( R \)-linear and injective.
+    Let \( \sum m_i \otimes n_i \in M \otimes_R N \) be such that
+    \[ 0 = (\id_M \otimes f)\qty(\sum m_i \otimes n_i) \in M \otimes N' \]
+    Then there are finitely generated submodules \( L, L' \) of \( N, N' \) such that the \( n_i \) are elements of \( L \) and
+    \[ 0 = (\id_M \otimes f)\qty(\sum m_i \otimes n_i) \in M \otimes L' \]
+    By (iv), we obtain
+    \[ 0 = \sum m_i \otimes n_i \in M \otimes L \]
+    But \( L \) is a submodule of \( N \), so
+    \[ 0 = \sum m_i \otimes n_i \in M \otimes N \]
+    Hence \( \id_M \otimes f : M \otimes_R N \to M \otimes_R N' \) is injective.
 \end{proof}
 \begin{proposition}
     Let \( f : R \to S \) be a ring homomorphism, and let \( M \) be a flat \( R \)-module.
@@ -1156,7 +1180,7 @@ We now explore some further examples of tensor products.
 \end{example}
 \begin{example}
     Let \( V \) be a vector space over \( \mathbb Q \).
-    Then \( \mathbb Q \otimes_{\mathbb Q} V \cong V \) as \( \mathbb Q \)-modules, given by the map \( x \otimes v \mapsto xv \).
+    Then \( \mathbb Q \otimes_{\mathbb Q} V \simeq V \) as \( \mathbb Q \)-modules, given by the map \( x \otimes v \mapsto xv \).
     However, \( \mathbb Q \otimes_{\mathbb Z} V \) is also isomorphic to \( V \), given by the same map.
     First, note that every tensor in \( \mathbb Q \otimes_{\mathbb Z} V \) is pure.
     \[ \sum \frac{a_i}{b_i} \otimes v_i = \sum \frac{1}{b_i} \otimes a_i v_i = \sum \frac{1}{b_i} \otimes b_i \frac{a_i}{b_i} v_i = \sum 1 \otimes \frac{a_i}{b_i} v_i = 1 \otimes \sum \frac{a_i}{b_i} v_i \]
