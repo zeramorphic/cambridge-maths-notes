@@ -1,0 +1,339 @@
+\subsection{The measure problem}
+Let \( \mathbb I \) denote the unit interval \( [0,1] \subseteq \mathbb R \).
+A function \( \mu : \mathcal P(\mathbb I) \to \mathbb I \) is called a \emph{measure} if
+\begin{enumerate}
+    \item \( \mu(\mathbb I) = 1 \) and \( \mu(\varnothing) = 0 \);
+    \item (translation invariance) if \( X \subseteq \mathbb I \), \( r \in \mathbb R \), and \( X + r = \qty{x + r \mid x \in X} \subseteq \mathbb I \), then \( \mu(X) = \mu(X + r) \); and
+    \item (countable additivity) if \( (A_n)_{n \in \mathbb N} \) is a family of pairwise disjoint subsets of \( \mathbb I \), then \( \mu\qty(\bigcup_{n \in \mathbb N} A_n) = \sum_{n \in \mathbb N}\mu(A_n) \).
+\end{enumerate}
+The \emph{Lebesgue measure problem} was the question of whether such a measure function exists.
+Vitali proved that a measure cannot be defined on all of \( \mathcal P(\mathbb I) \).
+This proof requires the axiom of choice nontrivially.
+In 1970, Solovay proved that if \( \mathsf{ZFC} + \mathsf{IC} \) is consistent, then, there is a model of \( \mathsf{ZF} \) in which all sets are Lebesgue measurable.
+In 1984, Shelah showed that the inaccessible cardinal was necessary to construct this model.
+
+Now, replace translation invariance with the requirement that for all \( x \in \mathbb I \), we have \( \mu(\qty{x}) = 0 \), and call such measures \emph{Banach measures}.
+\emph{Banach's measure problem} was the question of whether a Banach measure exists.
+Note that every Lebesgue measure is a Banach measure.
+If \( \mu(\qty{x}) > 0 \) for some \( x \), then by translation invariance, every singleton has the same measure \( \mu(\qty{x}) > 0 \).
+There is some natural number \( n \) such that \( n \mu(\qty{x}) > 1 \), but this contradicts countable additivity using a set of \( n \) reals.
+Observe that for any \( \varepsilon > 0 \), there can be only finitely many pairwise disjoint sets with measure at least \( \varepsilon \).
+
+Banach and Kuratowski proved in 1929 that the continuum hypothesis implies that there are no Banach measures on \( \mathbb I \).
+We can define Banach measures on any set \( S \) by also replacing property (i) with the requirement that \( \mu(S) = 1 \) and \( \mu(\varnothing) = 0 \).
+Note that if \( \abs{S} = \abs{S'} \), then there is a Banach measure on \( S \) if and only if there is one on \( S' \).
+Thus, having a Banach measure is a property of cardinals.
+
+For larger cardinals, it may not be natural to just consider countable additivity.
+\begin{definition}
+    A Banach measure \( \mu \) is called \emph{\( \lambda \)-additive} if for all \( \gamma < \lambda \) and pairwise disjoint families \( \qty{A_\alpha \mid \alpha < \gamma} \), then
+    \[ \mu\qty(\bigcup A_\alpha) = \sup\qty{\sum_{\alpha \in F} \mu(A_\alpha) \midd F \subseteq \gamma \text{ finite}} \]
+\end{definition}
+\begin{theorem}
+    If \( \kappa \) is the smallest cardinal that has a Banach measure, then that measure is \( \kappa \)-additive.
+\end{theorem}
+
+\subsection{Real-valued measurable cardinals}
+\begin{definition}
+    A cardinal \( \kappa \) is \emph{real-valued measurable}, written \( \mathsf{RVM}(\kappa) \), if there is a \( \kappa \)-additive Banach measure on \( \kappa \).
+\end{definition}
+\begin{proposition}
+    Every real-valued measurable cardinal is regular.
+\end{proposition}
+\begin{proof}
+    Suppose that \( \kappa \) is a real-valued measurable cardinal, and that \( C \subseteq \kappa \) is cofinal with \( \abs{C} = \lambda < \kappa \).
+    We can write
+    \[ C = \qty{\gamma_\alpha \mid \alpha < \gamma} \]
+    where \( \gamma_\alpha \) is increasing in \( \alpha \).
+    Consider
+    \[ C_\alpha = \qty{\xi \mid \gamma_\alpha \leq \xi < \gamma_{\alpha + 1}} \]
+    Then \( \bigcup_{\alpha < \gamma} C_\alpha = \kappa \) as \( C \) is cofinal, and the \( C_\alpha \) are disjoint.
+    Note that \( \abs{C_\alpha} \leq \abs{\gamma_{\alpha + 1}} < \kappa \).
+    Writing \( C_\alpha = \bigcup_{x \in C_\alpha} \qty{x} \), we observe by \( \kappa \)-additivity that \( \mu(C_\alpha) = 0 \).
+    But again by \( \kappa \)-additivity, \( \mu(\kappa) = 0 \), contradicting property (i).
+\end{proof}
+\begin{proposition}[the pigeonhole principle]
+    Let \( \kappa \) be regular, \( \lambda < \kappa \), and \( f : \kappa \to \lambda \).
+    Then there is some \( \alpha \in \lambda \) such that \( \abs{f^{-1}(\alpha)} = \kappa \).
+\end{proposition}
+\begin{proof}
+    We have
+    \[ \kappa = \bigcup_{\alpha \in \lambda} f^{-1}(\alpha) \]
+    giving the result immediately by regularity of \( \kappa \).
+\end{proof}
+\begin{proposition}
+    All successor cardinals are regular.
+\end{proposition}
+\begin{proposition}
+    If \( \mu \) is a Banach measure on \( S \), and \( C \) is a family of pairwise disjoint sets of positive \( \mu \)-measure, then \( C \) is countable.
+\end{proposition}
+\begin{proof}
+    Consider the collection
+    \[ C_n = \qty{A \in C \midd \mu(A) > \frac{1}{n}} \]
+    Observe that each \( C_n \) is finite, so \( C = \bigcup_{n \in \mathbb N} C_n \) must be countable.
+\end{proof}
+\begin{lemma}[Ulam]
+    For any cardinal \( \lambda \), there is an \emph{Ulam matrix} \( A_\alpha^\xi \) indexed by \( \alpha < \lambda^+ \) and \( \xi < \lambda \) such that
+    \begin{enumerate}
+        \item for a given \( \xi \), the set \( \qty{A_\alpha^\xi \midd \alpha < \lambda^+} \) is a pairwise disjoint family; and
+        \item for a given \( \alpha \), we have
+        \[ \abs{\lambda^+ \setminus \bigcup_{\xi < \lambda} A_\alpha^\xi} \leq \lambda \]
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    For each \( \gamma < \lambda^+ \), fix a surjection \( f_\gamma : \lambda \to \gamma + 1 \).
+    Define
+    \[ A_\alpha^\xi = \qty{\gamma \mid f_\gamma(\xi) = \alpha} \]
+    It is clear that property (i) holds.
+    For property (ii), suppose
+    \[ \gamma \in \lambda^+ \setminus \bigcup_{\xi < \lambda} A_\alpha^\xi \]
+    Then \( \gamma < \lambda^+ \) and for all \( \xi \), we have \( f_\gamma(\xi) \neq \alpha \).
+    Hence
+    \[ \lambda^+ \setminus \bigcup_{\xi < \lambda} A_\alpha^\xi \subseteq \alpha \]
+    so the size of this set is at most \( \lambda \).
+\end{proof}
+\begin{theorem}
+    Every real-valued measurable cardinal is weakly inaccessible.
+\end{theorem}
+\begin{remark}
+    If there is a Banach measure on \( [0,1] \), then in particular \( 2^{\aleph_0} \) is weakly inaccessible.
+\end{remark}
+\begin{proof}
+    We have already shown regularity.
+    Suppose \( \kappa \) is not a limit cardinal, so \( \kappa = \lambda^+ \).
+    Let \( (A_\alpha^\xi)_{\alpha < \lambda^+; \xi < \lambda} \) be an Ulam matrix for \( \lambda \).
+    By (ii),
+    \[ \abs{Z_\alpha} \leq \lambda;\quad Z_\alpha = \lambda^+ \setminus \bigcup_{\xi < \lambda} A_\alpha^\xi \]
+    so by \( \kappa \)-additivity, \( \mu(Z) = 0 \).
+    Hence
+    \[ \mu\qty(\bigcup_{\xi < \lambda} A_\alpha^\xi) = 1 \]
+    This is a small union of sets of measure 1, so again by \( \kappa \)-additivity there is some \( \xi_\alpha \) such that \( \mu(A_\alpha^{\xi_\alpha}) > 0 \).
+    Let \( f : \lambda^+ \to \lambda \) be the map \( \alpha \mapsto \xi_\alpha \).
+    By the pigeonhole principle, there is some \( \xi \) and a set \( A \subseteq \lambda^+ \) with \( \abs{A} = \lambda^+ \) such that for all \( \alpha \in A \), we have \( \xi_\alpha = \xi \).
+    By property (i), the collection \( \qty{A_\alpha^\xi \mid \alpha \in A} \) is a collection of uncountable size \( \lambda^+ \) of pairwise disjoint sets, all of which have positive measure, but we have already shown that such a collection must be countable.
+\end{proof}
+
+\subsection{Measurable cardinals}
+\begin{definition}
+    A Banach measure \( \mu \) is called \emph{two-valued} if \( \mu \) takes values in \( \qty{0,1} \).
+\end{definition}
+This removes any mention of the real numbers from the definition of a Banach measure.
+\begin{remark}
+    Two-valued measures correspond directly to ultrafilters.
+    Recall that \( F \) is a \emph{filter} on \( S \) if
+    \begin{enumerate}
+        \item \( \varnothing \notin F, S \in F \);
+        \item if \( A \subseteq B \) then \( A \in F \to B \in F \);
+        \item if \( A, B \in F \) then \( A \cap B \in F \).
+    \end{enumerate}
+    We say that \( F \) is an \emph{ultrafilter} if \( A \in F \) or \( S \setminus A \in F \) for all \( A \subseteq S \).
+    \( F \) is \emph{nonprincipal} if for all \( x \in S \), the singleton \( \qty{x} \) is not in \( F \).
+    An ultrafilter is \( \lambda \)-complete if for all \( \gamma < \lambda \) and all families \( \qty{A_\alpha \mid \alpha < \gamma} \subseteq F \), we have \( \bigcap_{\alpha < \gamma} A_\alpha \in F \).
+    In this way, the collection of sets of a two-valued Banach measure \( \mu \) that are assigned measure \( 1 \) form a nonprincipal ultrafilter.
+    This filter is \( \lambda \)-complete if and only if \( \mu \) is \( \lambda \)-additive.
+\end{remark}
+\begin{definition}
+    An uncountable cardinal \( \kappa \) is \emph{measurable}, written \( \mathsf{M}(\kappa) \), if there is a \( \kappa \)-complete nonprincipal ultrafilter on \( \kappa \).
+\end{definition}
+\begin{remark}
+    \begin{enumerate}
+        \item \( \mathsf{ZFC} \) proves that there is an \( \aleph_0 \)-complete nonprincipal ultrafilter on \( \aleph_0 \), because \( \aleph_0 \)-completeness is equivalent to closure under finite intersections, which is trivial.
+        \item A cardinal \( \kappa \) is called \emph{Ulam measurable} if there is an \( \aleph_1 \)-complete nonprincipal ultrafilter on \( \kappa \).
+        With this definition, the least Ulam measurable cardinal is measurable.
+        So the existence of an Ulam measurable cardinal is equivalent to the existence of a measurable cardinal.
+        \item The theories \( \mathsf{ZFC} + \mathsf{MC} \) and \( \mathsf{ZFC} + \mathsf{RVMC} \) are equiconsistent.
+        This can be shown analogously to inaccessible and weakly inaccessible cardinals, this time using a variant of G\"odel's constructible universe.
+    \end{enumerate}
+\end{remark}
+\begin{theorem}
+    Every measurable cardinal is inaccessible.
+\end{theorem}
+\begin{proof}
+    We have already shown regularity in the real-valued measurable cardinal case.
+    Let \( \kappa \) be measurable with ultrafilter \( U \).
+    Suppose it is not a strong limit, so there is \( \lambda < \kappa \) such that \( 2^\lambda \geq \kappa \).
+    Then there is an injection \( f : \kappa \to B_\lambda \), where \( B_\lambda \) is the set of functions \( \lambda \to 2 \).
+    Fix some \( \alpha < \lambda \), then for each \( \gamma < \kappa \), either
+    \[ f(\gamma)(\alpha) = 0 \text{ or } f(\gamma)(\alpha) = 1 \]
+    Let
+    \[ A_0^\alpha = \qty{\gamma \mid f(\gamma)(\alpha) = 0};\quad A_1^\alpha = \qty{\gamma \mid f(\gamma)(\alpha) = 1} \]
+    These two sets are disjoint and have union \( \kappa \).
+    So there is exactly one number \( b \in \qty{0,1} \) such that \( A^\alpha_b \in U \).
+    Define \( c \in B_\lambda \) by \( c(\alpha) = b \).
+    Then
+    \[ X_\alpha = A^\alpha_{c(\alpha)} \in U \]
+    This is a collection of \( \lambda \)-many sets that are all in \( U \), so by \( \kappa \)-completeness, their intersection \( \bigcap_{\alpha < \lambda} X_\alpha \) also lies in \( U \).
+    Suppose \( \gamma \in \bigcap_{\alpha < \lambda} X_\alpha \), so for all \( \alpha < \lambda \), we have \( \gamma \in A^\alpha_{c(\alpha)} \).
+    Equivalently, for all \( \alpha < \lambda \), we have \( f(\gamma)(\alpha) = c(\alpha) \).
+    So \( \gamma \) lies in this intersection if and only if \( f(\gamma) \) is precisely the function \( c \).
+    Hence
+    \[ \bigcap_{\alpha < \lambda} X_\alpha \subseteq \qty{f^{-1}(c)} \]
+    So this intersection has either zero or one element, and in particular, it is not in the ultrafilter, giving a contradiction.
+\end{proof}
+Nonprincipal ultrafilters on \( \kappa \) are not \( \kappa^+ \)-complete, because \( \kappa \) itself is a union of \( \kappa \)-many singletons.
+Principal ultrafilters are complete for any cardinal.
+However, we can emulate completeness for nonprincipal ultrafilters at the cardinal \( \kappa^+ \) using the following method.
+If \( (A_\alpha)_{\alpha \leq \kappa} \) is a sequence of subsets of \( \kappa \), its \emph{diagonal intersection} is
+\[ \operatorname*{\scalerel*{\mupDelta}{\textstyle\sum}}_{\alpha \leq \kappa} A_\alpha = \qty{\xi \in \kappa \midd \xi \in \bigcap_{\alpha < \xi} A_\alpha} \]
+A filter on \( \kappa \) is called \emph{normal} if it is closed under diagonal intersections.
+\begin{theorem}
+    If \( \kappa \) is measurable, then there is a \( \kappa \)-complete normal nonprincipal ultrafilter on \( \kappa \).
+\end{theorem}
+The proof will be given later, and is also on an example sheet.
+
+\subsection{Weakly compact cardinals}
+Let \( [X]^n \) be the set of \( n \)-element subsets of \( X \).
+A \emph{2-colouring} of \( \mathbb N \) is a map \( c : [\mathbb N]^2 \to \qty{\text{red}, \text{blue}} \).
+Ramsey's theorem states that for each 2-colouring \( c \), there is an infinite subset \( X \subseteq \mathbb N \) such that \( \eval{c}_{[X]^2} \) is \emph{monochromatic} (or \emph{homogeneous}): each 2-element subset is given the same colour under \( c \).
+
+This property is invariant under bijection, so this is really a property of the cardinal \( \aleph_0 \).
+In \emph{Erd\H{o}s' arrow notation}, we write
+\[ \kappa \to (\lambda)_m^n \]
+if for every colouring \( c : [\kappa]^n \to m \), there is a monochromatic subset \( X \subseteq \kappa \) of size \( \lambda \):
+\[ \abs{c[[X]^n]} = 1 \]
+In this notation, Ramsey's theorem becomes the statement
+\[ \aleph_0 \to (\aleph_0)_2^2 \]
+We can now make the following definition.
+\begin{definition}
+    An uncountable cardinal \( \kappa \) is called \emph{weakly compact}, written \( \mathsf{W}(\kappa) \), if \( \kappa \to (\kappa)_2^2 \).
+\end{definition}
+The name will be explained later.
+\begin{theorem}[Erd\H{o}s]
+    Every weakly compact cardinal is inaccessible.
+\end{theorem}
+\begin{proof}
+    Suppose \( \kappa \) is weakly compact but not regular.
+    Then \( \kappa = \bigcup_{\alpha < \lambda} X_\alpha \) for \( \alpha < \kappa \) and disjoint sets \( X_\alpha \) with \( \abs{X_\alpha} < \kappa \).
+    We define a colouring \( c \) as follows.
+    A pair \( \qty{\gamma,\delta} \) is red if \( \gamma, \delta \) lie in the same \( X_\alpha \), and blue if they are in different \( X_\alpha \).
+    Let \( H \subseteq \kappa \) be a monochromatic subset of size \( \kappa \) for \( c \).
+    If \( H \) is red, then one of the \( X_\alpha \) is large, which is a contradiction.
+    But if \( H \) is blue, then \( \lambda \) must be large, which also gives a contradiction.
+
+    Suppose that \( \kappa \) is not a strong limit, so \( 2^\lambda \geq \kappa \) for \( \lambda < \kappa \).
+    Let \( B_\lambda \) be the set of functions \( \lambda \to 2 \), and give it the \emph{lexicographic order}: we say that \( f < g \) if \( f(\alpha) < g(\alpha) \) at the first position \( \alpha \) at which \( f \) and \( g \) disagree.
+    For this proof, we will use the combinatorial fact that this ordered structure \( (B_\lambda, \leq_{\mathrm{lex}}) \) is a totally ordered set with no increasing or decreasing chains of length \( \kappa > \lambda \).
+    The proof is on an example sheet.
+
+    If \( 2^\lambda \geq \kappa \), there is a family of pairwise distinct elements \( (f_\alpha)_{\alpha < \kappa} \) of \( B_\lambda \) of length \( \kappa \).
+    Define a colouring \( c \) of \( \kappa \) as follows.
+    A pair \( \alpha, \beta \) is red if the truth value of \( \alpha < \beta \) is the same as the truth value of \( f_\alpha \leq_{\mathrm{lex}} f_\beta \).
+    A pair is blue otherwise.
+    Let \( H \) be a monochromatic set for \( c \).
+    If \( H \) is red, then \( f_\alpha \) forms a \( \leq_{\mathrm{lex}} \)-increasing sequence of length \( \kappa \).
+    If \( H \) is blue, then \( f_\alpha \) forms a \( \leq_{\mathrm{lex}} \)-decreasing sequence of length \( \kappa \).
+    Both results contradict the combinatorial result above.
+\end{proof}
+\begin{theorem}
+    Every measurable cardinal is weakly compact.
+\end{theorem}
+\begin{proof}
+    Let \( f : [\kappa]^2 \to 2 \) be a colouring of a measurable cardinal \( \kappa \).
+    Let
+    \[ X_0^\alpha = \qty{\beta \mid f(\qty{\alpha, \beta}) = 0};\quad X_1^\alpha = \qty{\beta \mid f(\qty{\alpha, \beta}) = 1} \]
+    For a given \( \alpha \), these are disjoint, and \( X_0^\alpha \cup X_1^\alpha = \kappa \setminus \qty{\alpha} \), so precisely one of them lies in the ultrafilter \( U \).
+    Define \( c : \kappa \to 2 \) be such that \( X_{c(\alpha)}^\alpha \in U \).
+    Now, let
+    \[ X_0 = \qty{\alpha \mid c(\alpha) = 0};\quad X_1 = \qty{\alpha \mid c(\alpha) = 1} \]
+    Precisely one of these two sets lies in \( U \).
+
+    We claim that if \( X_i \in U \), then there is a monochromatic set \( H \) for colour \( i \) with \( \abs{H} = \kappa \).
+    Without loss of generality, we may assume \( i = 0 \).
+    Define
+    \[ Z_\alpha = \begin{cases}
+        X^\alpha_0 & \text{if } c(\alpha) = 0 \\
+        \kappa & \text{if } c(\alpha) = 1
+    \end{cases} \]
+    Each of the \( Z_\alpha \) lie in the ultrafilter \( U \).
+    As we may assume \( U \) is normal, the diagonal intersection of the \( Z_\alpha \) also lies in \( U \).
+    So we can define
+    \[ H = X_0 \cap \operatorname*{\scalerel*{\mupDelta}{\textstyle\sum}}_{\alpha \leq \kappa} Z_\alpha \in U \]
+    and \( \abs{H} = \kappa \).
+    Let \( \gamma < \delta \) with \( \gamma, \delta \in H \).
+    Then \( \gamma, \delta \in X_0 \), so \( c(\gamma) = 0 = c(\delta) \).
+    Hence \( Z_\gamma = X^\gamma_0 \) and \( Z_\delta = X^\delta_0 \).
+    In particular,
+    \[ \delta \in \operatorname*{\scalerel*{\mupDelta}{\textstyle\sum}}_{\alpha \leq \kappa} Z_\alpha \subseteq \bigcap_{\xi < \delta} Z_\xi \subseteq Z_\gamma = X^\gamma_0 \]
+    Hence \( f(\qty{\gamma,\delta}) = 0 \).
+\end{proof}
+% TODO: Move this rk
+The large cardinal axioms discussed so far fall into a linear hierarchy of consistency strength.
+This is known as the \emph{linearity phenomenon}.
+
+\subsection{Strongly compact cardinals}
+The compactness theorem for first-order logic says that for any first-order language \( L_S \) and set of axioms \( \Phi \subseteq L_S \),
+\[ \Phi \text{ is satisfiable} \leftrightarrow \qty(\forall \Phi_0 \subseteq \Phi.\, \abs{\Phi_0} < \aleph_0 \to \Phi_0 \text{ is satisfiable}) \]
+This result cannot work for languages with infinitary conjunctions and disjunctions.
+Indeed, if we write
+\[ \varphi_F \equiv \bigvee_{i \in \mathbb N} \varphi_{=n};\quad \varphi_{=n} \equiv \text{there are precisely } n \text{ elements};\quad \varphi_{\geq n} \equiv \text{there are at least } n \text{ elements} \]
+then
+\[ \qty{\varphi_{\geq n} \mid n \in \mathbb N} \cup \qty{\varphi_F} \]
+is finitely satisfiable but not satisfiable.
+\begin{definition}
+    An \emph{\( \mathcal L_{\kappa\kappa} \)-language} is defined by
+    \begin{itemize}
+        \item a set of variables;
+        \item a set \( S \) of function, relation, and constant symbols of finite arity;
+        \item the logical symbols \( \wedge, \vee, \neg, \exists, \forall \); and
+        \item the infinitary logical symbols \( \bigwedge_{\alpha < \lambda}, \bigvee_{\alpha < \lambda}, \exists^\lambda, \forall^\lambda \) for \( \lambda < \kappa \).
+    \end{itemize}
+\end{definition}
+We define the new syntactic rules as follows.
+If \( \varphi_\alpha \) are \( L_S \)-formulas for \( \alpha < \lambda \), then so are \( \bigwedge_{\alpha < \lambda} \varphi_\alpha \) and \( \bigvee_{\alpha < \lambda} \varphi_\alpha \).
+If \( \vb v \) is a sequence of variables of length \( \lambda \) and \( \varphi \) is an \( L_S \)-formula, then \( \exists^\lambda \vb v.\, \varphi \) and \( \forall^\lambda \vb v.\, \varphi \) are \( L_S \)-formulas.
+
+We say that \( M \) is a model of \( \bigvee_{\alpha < \lambda} \varphi_\alpha \) if \( M \vDash \varphi_\alpha \) for all \( \alpha < \lambda \).
+Similarly, \( M \) models \( \exists^\lambda \vb v.\, \varphi \) if there is a function \( a : \lambda \to M \) such that
+\[ M \vDash \varphi\qty[\frac{a(0)a(1) \dots a(\xi)\dots}{v_0 v_1 \dots v_\xi \dots}] \]
+\begin{definition}
+    An \( \mathcal L_{\kappa\kappa} \)-language \( L_S \) \emph{satisfies compactness} if for all \( \Phi \subseteq L_S \),
+    \[ \Phi \text{ is satisfiable} \leftrightarrow \qty(\forall \Phi_0 \subseteq \Phi.\, \abs{\Phi_0} < \kappa \to \Phi_0 \text{ is satisfiable}) \]
+\end{definition}
+Note that if \( \kappa = \omega \), we recover the standard notion of a first-order language, so all \( \mathcal L_{\omega\omega} \)-languages satisfy compactness.
+\begin{definition}
+    An uncountable cardinal \( \kappa \) is called \emph{strongly compact}, denoted \( \mathsf{SC}(\kappa) \), if every \( \mathcal L_{\kappa\kappa} \)-language satisfies compactness.
+\end{definition}
+\begin{theorem}[Keisler--Tarski theorem]
+    Suppose \( \kappa \) is a strongly compact cardinal.
+    Then every \( \kappa \)-complete filter on \( \kappa \) can be extended to a \( \kappa \)-complete ultrafilter.
+\end{theorem}
+\begin{proof}
+    We define a language \( L \) extending the usual language of set theory by creating a constant symbol \( c_A \) for each \( A \subseteq \kappa \), giving \( 2^\kappa \)-many symbols.
+    Now let \( L^\star \) be \( L \) with an extra constant symbol \( c \).
+    Let
+    \[ M = (\mathcal P(\kappa), \in, \qty{A \mid A \subseteq \kappa}) \]
+    so \( c_A \) is interpreted by \( A \).
+    Let \( \Phi = \operatorname{Th}_L(M) \) be the \( L \)-theory of \( M \).
+    In particular,
+    \[ M \vDash \forall x.\, x \in c_A \to x \text{ is an ordinal} \]
+    and
+    \[ M \vDash \forall x.\, x \text{ is an ordinal} \to x \in c_A \vee x \in c_{\kappa \setminus A} \]
+    Now let
+    \[ \Phi^\star = \Phi \cup \qty{c \in c_A \mid A \in F} \]
+    This is a subset of \( L^\star \).
+    We show that \( \Phi^\star \) is \( \kappa \)-satisfiable.
+    If \( (A_\alpha)_{\alpha < \lambda} \) are subsets of \( \kappa \) such that \( c \in c_{A_\alpha} \) occurs in a \( \kappa \)-small subset of \( \Phi^\star \), then any element \( \eta \in \bigcap_{\alpha < \lambda} A_\alpha \) can be chosen as the interpretation of \( c \).
+    As \( F \) is \( \kappa \)-complete, this intersection lies in \( F \) and so is nonempty as required.
+
+    Hence, by strong compactness of \( \kappa \), the theory \( \Phi^\star \) is satisfiable.
+    Let \( M \) be a model of \( \Phi^\star \).
+    Define
+    \[ U = \qty{A \mid M \vDash c \in c_A} \]
+    We claim that this is a \( \kappa \)-complete ultrafilter extending \( F \).
+    The fact that \( U \) extends \( F \) holds by construction of \( \Phi^\star \).
+    It is an ultrafilter because \( M \) believes that \( c \in c_A \) or \( c \in c_{\kappa \setminus A} \).
+    It is \( \kappa \)-complete because if \( \qty{A_\alpha \mid \alpha < \lambda} \subseteq U \), let \( A = \bigcap_{\alpha < \lambda} A_\alpha \), then
+    \[ M \vDash \forall x.\, \qty(x \in c_A \leftrightarrow \bigwedge_{\alpha < \lambda} x \in c_{A_\alpha}) \]
+    As this holds in particular for \( c \), we obtain \( A \in U \).
+\end{proof}
+\begin{corollary}
+    Every strongly compact cardinal is measurable.
+\end{corollary}
+\begin{proof}
+    Let
+    \[ F = \qty{A \subseteq \kappa \mid \abs{\kappa\setminus A} < \kappa} \]
+    In the case \( \kappa = \omega \), this is known as the Fr\'echet filter.
+    This is a \( \kappa \)-complete filter on \( \kappa \).
+    If \( U \) extends \( F \) then \( U \) must be nonprincipal, so by the Keisler--Tarski theorem, \( F \) can be extended to a \( \kappa \)-complete nonprincipal ultrafilter on \( \kappa \) as required.
+\end{proof}
+
