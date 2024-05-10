@@ -18,7 +18,7 @@ We will show that there are other independence results in set theory that are no
 \end{theorem}
 The continuum hypothesis is that there are no sets of cardinality strictly between \( \abs{\mathbb N} \) and \( \abs{\mathcal P(N)} = \abs{\mathbb R} \).
 \begin{definition}
-    The \emph{continuum hypothesis} \( \mathsf{CH} \) states that if \( X \subseteq \mathbb P(\mathbb N) \) is infinite, then either \( \abs{X} = \abs{\mathbb N} \) or \( \abs{X} = \abs{\mathcal P(\mathbb N)} \), or equivalently,
+    The \emph{continuum hypothesis} \( \mathsf{CH} \) states that if \( X \subseteq \mathcal P(\mathbb N) \) is infinite, then either \( \abs{X} = \abs{\mathbb N} \) or \( \abs{X} = \abs{\mathcal P(\mathbb N)} \), or equivalently,
     \[ 2^{\aleph_0} = \aleph_1 \]
 \end{definition}
 Progress was made on the continuum hypothesis in the 19th and 20th centuries.
@@ -42,7 +42,7 @@ An occurrence is called \emph{free} if it is not bound.
 We write \( \mathrm{FV}(\varphi) \) for the set of free variables of \( \varphi \).
 We will write \( \varphi(u_1, \dots, u_n) \) to emphasise the dependence of \( \varphi \) on its free variables \( u_1, \dots, u_n \).
 By doing so, we will allow ourselves to freely change the names of the free variables, and assume that substituted variables are free.
-The syntax \( \varphi(u_0, \dots, u_n) \) does not imply that \( u_i \) occurs freely, or even at all.
+The syntax \( \varphi(u_1, \dots, u_n) \) does not imply that \( u_i \) occurs freely, or even at all.
 
 Some of the most common axioms of set theory are as follows.
 \begin{enumerate}
@@ -96,7 +96,7 @@ In this course, we will assume that all mentioned classes are definable.
 We can then use formulas of the form
 \[ \exists C.\, (C \text{ is a class} \wedge \forall x \in C.\, \varphi) \]
 by defining it to mean that there is a formula \( \theta \) giving a class \( C \) satisfying \( \forall x \in C.\, \varphi \).
-For example, the universe class \( \mathrm{V} = \qty{x \mid x = x} \), the Russell class \( R = \qty{x \mid x \notin x} \), and the class of ordinals are all definable.
+For example, the universe class \( \mathrm{V} = \qty{x \mid x = x} \), the Russell class \( R = \qty{x \mid x \notin x} \), and the class of ordinals \( \mathrm{Ord} \) are all definable.
 Any set is a definable class.
 Classes are heavily dependent on the underlying model: if \( M = 2 \) then \( \mathrm{Ord} = 2 = M \), and if \( M = 3 \cup \qty{1} \) then \( \mathrm{Ord} = 3 \neq M \).
 
@@ -128,10 +128,10 @@ Commonly used symbols such as \( 0, 1, \subseteq, \cap, \mathcal P, \bigcup \) a
 \begin{example}
     The intersection \( a \cap b \) can be defined as the unique set \( c \) such that
     \[ \forall x.\, (x \in c \iff x \in a \wedge x \in b) \]
-    This definition makes sense only if there is a unique \( c \) satisfying this formula \( \varphi(c) \).
+    This definition makes sense only if there is a unique \( c \) satisfying this formula \( \varphi(a, b, c) \).
     If
     \[ M = \qty{a, c, d, \qty{a}, \qty{a, b}, \qty{a, b, c}, \qty{a, b, d}} \]
-    then it is easy to check that both \( \qty{a} \) and \( \qty{a, d} \) satisfy \( \varphi \), so intersection cannot be defined.
+    then it is easy to check that both \( \qty{a} \) and \( \qty{a, b} \) satisfy \( \varphi(\{ a, b, c \}, \{ a, b, d \}, -) \), so intersection cannot be defined.
 \end{example}
 
 \subsection{Absoluteness}
@@ -140,8 +140,8 @@ For example, \( \qty{x \mid x \neq x} \) is the empty set in any model, and \( \
 Other definitions need not, for example \( \mathcal P(\mathbb N) \), which need not be the true power set in a given transitive model.
 To quantify this behaviour, we need to define what it means for \( \varphi \) to hold in an arbitrary structure; this concept is called \emph{relativisation}.
 \begin{definition}
-    The quantifier \( \forall x \in a.\, \varphi \) is an abbreviation of \( \forall x.\, x \in a \Rightarrow \varphi \).
-    We use the analogous abbreviation for the existential quantifier.
+    The quantifier \( \forall x \in a.\, \varphi \) is an abbreviation of \( \forall x.\, (x \in a) \to \varphi \).
+    Similarly, \( \exists x \in a.\, \varphi \) is an abbreviation of \( \exists x.\, (x \in a) \wedge \varphi \).
     Let \( W \) be a class; we define by recursion the \emph{relativisation} \( \varphi^W \) of \( \varphi \) as follows.
     \begin{align*}
         (x \in y)^W &\equiv x \in y \\
@@ -168,7 +168,7 @@ One can easily show that
     We proceed by induction on the length of formulae.
     For example,
     \[ N \vDash (x \in y)^M \text{ iff } N \vDash x \in y \text{ and } x, y \in M \text{ iff } \theta(x), \theta(y), M \vDash x \in y \]
-    The cases for equality is similar, and disjunction and negation are simple.
+    The case for equality is similar, and disjunction and negation are simple.
     Finally,
     \[ N \vDash (\exists x.\, \varphi(x))^M \text{ iff } N \vDash \exists x.\, x \in M \wedge \varphi^M(x) \]
     which holds precisely when there is some \( x \in N \) such that \( N \vDash x \in M \) and \( N \vDash \varphi^M(x) \), but \( N \vDash x \in M \) if and only if \( \theta(x) \), giving the result as required.
@@ -198,7 +198,7 @@ Then for \( M \subseteq N \) models of \( T \), we say that \( f \) is absolute 
     \( \varphi \leftrightarrow \psi \) does not imply \( \varphi^M \leftrightarrow \psi^M \).
     Let \( \varphi(v) \) be the statement \( \forall x.\, (x \notin v) \); in \( \mathsf{ZF} \) this defines \( \varnothing \).
     Now, the following are two ways to express \( 0 \in z \).
-    \[ \psi(z) \equiv \exists y.\, (\varphi(y) \wedge y \in z);\quad \theta(z) \equiv \forall y.\, (\varphi(y) \Rightarrow y \in z) \]
+    \[ \psi(z) \equiv \exists y.\, (\varphi(y) \wedge y \in z);\quad \theta(z) \equiv \forall y.\, (\varphi(y) \to y \in z) \]
     Note that if there exists a unique \( y \) such that \( \varphi(y) \), then these are equivalent.
     However, this is often not the case, for example if
     \[ a = 0;\quad b = \qty{0};\quad c = \qty{\qty{\qty{0}}};\quad M = \qty{a, b, c} \]
@@ -207,7 +207,7 @@ Then for \( M \subseteq N \) models of \( T \), we say that \( f \) is absolute 
 The main obstacle to absoluteness for basic statements turns out to be transitivity of the model.
 \begin{definition}
     Given classes \( M \subseteq N \), we say that \( M \) is \emph{transitive} in \( N \) if
-    \[ \forall x, y \in N.\, (x \in M \wedge y \in x \Rightarrow y \in M) \]
+    \[ \forall x, y \in N.\, (x \in M \wedge y \in x \to y \in M) \]
 \end{definition}
 
 \subsection{The L\'evy hierarchy}
@@ -324,7 +324,7 @@ We can give a slightly better rephrasing of this lemma.
     \[ \forall x \in a.\, \langle x, x \rangle \notin r \]
 \end{proof}
 \begin{corollary}
-    The statement that \( x \) is a transitive set totally ordered by \( \in \) is \( \Delta_0 \), and thus ordinals are in fact \( \Delta_0 \).
+    The statement that \( x \) is a transitive set totally ordered by \( \in \) is \( \Delta_0 \), and thus being an ordinal is \( \Delta_0 \).
 \end{corollary}
 \begin{lemma}
     (\( \mathsf{ZF} \))
@@ -522,7 +522,7 @@ We now prove the reflection theorem.
         \eta & \text{where } \eta \text{ is the least ordinal such that } \exists x \in W_\eta.\, \varphi_j^W(x, \vb y)
     \end{cases} \]
     We set
-    \[ G_i(\delta) = \sup\qty{F_i(\vb y) \mid y \in W_\delta^{k_i}} \]
+    \[ G_i(\delta) = \sup\qty{F_i(\vb y) \mid \vb y \in W_\delta^{k_i}} \]
     If \( \varphi_i \) is not of this form, we set \( G_i(\delta) = 0 \) for all \( \delta \).
     Finally, we let
     \[ K(\delta) = \max\qty{\delta + 1, G_1(\delta), \dots, G_n(\delta)} \]
@@ -572,7 +572,7 @@ Taking \( x = \omega \) and \( W = \mathrm{V} \) gives the following result.
     Then \( T \) is not finitely axiomatisable.
     That is, for any finite set of sentences \( \Gamma \) in \( \mathcal L_\in \) such that \( T \vdash \Gamma \), there exists a sentence \( \varphi \) such that \( T \vdash \varphi \) but \( \Gamma \nvdash \varphi \).
 \end{corollary}
-This only holds for first-order theories; for example, G\"odel--Bernays set theory is finitely axiomatisable.
+This only holds for first-order theories without classes; for example, G\"odel--Bernays set theory is finitely axiomatisable.
 \begin{proof}
     Let \( \varphi_1, \dots, \varphi_n \) be a set of sentences such that \( T \vdash \bigwedge_{i=1}^n \varphi_i \).
     Suppose that \( \bigwedge_{i=1}^n \varphi_i \) proves every axiom of \( T \).
@@ -599,7 +599,7 @@ This definition only makes sense given the well-ordering principle.
     The cardinal arithmetic operations are defined as follows.
     Let \( \kappa, \lambda \) be cardinals.
     \begin{enumerate}
-        \item \( \kappa + \lambda = \abs{0 \times \kappa \cup 1 \times \lambda} \);
+        \item \( \kappa + \lambda = \abs{\qty{0} \times \kappa \cup \qty{1} \times \lambda} \);
         \item \( \kappa \cdot \lambda = \abs{\kappa \times \lambda} \);
         \item \( \kappa^\lambda = \abs{\kappa^\lambda} \), the cardinality of the set of functions \( \lambda \to \kappa \);
         \item \( \kappa^{<\lambda} = \sup\qty{\kappa^\alpha \mid \alpha < \lambda, \alpha \text{ a cardinal}} \).

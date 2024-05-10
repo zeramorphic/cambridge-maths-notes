@@ -18,9 +18,9 @@ We will construct a universe \( \mathrm{L} \) in which we restrict to the `nice'
 \end{remark}
 This definition involves a quantification over infinitely many formulas, so is not yet fully formalised.
 One method to do this is to code formulas as elements of \( \mathrm{V}_\omega \), called \emph{G\"odel codes}.
-We can then use Tarski's satisfaction relation to define a formula \( \mathsf{Sat} \), and can then prove
+We can then use Tarski's \emph{satisfaction relation} to define a formula \( \mathsf{Sat} \), and can then prove
 \[ \mathsf{Sat}(M, E, \ulcorner \varphi \urcorner, x_1, \dots, x_n) \leftrightarrow (M, \in) \vDash \varphi(x_1, \dots, x_n) \]
-where \( \ulcorner \varphi \urcorner \in V_\omega \) is the G\"odel code for \( \varphi \).
+where \( \ulcorner \varphi \urcorner \in \mathrm{V}_\omega \) is the G\"odel code for \( \varphi \).
 We will later use a different method to formalise it, but for now we will assume that this is well-defined.
 
 \subsection{Defining the constructible universe}
@@ -63,7 +63,7 @@ This is a theorem scheme; for every axiom of \( \mathsf{ZF} \), we can prove its
         Then
         \[ \bigcup a = \qty{x \in \mathrm{L}_\alpha \mid (\mathrm{L}_\alpha, \in) \vDash \exists z.\, (z \in a \wedge x \in z)} \in \operatorname{Def}(\mathrm{L}_\alpha) \]
         \item For infinity, note that
-        \[ \omega = \qty{n \in \mathrm{L}_\omega \mid (\mathrm{L}_\omega, \in) \vDash n \in \mathrm{Ord}} \in \operatorname{Def}(\mathrm{L}_\alpha) \]
+        \[ \omega = \qty{n \in \mathrm{L}_\omega \mid (\mathrm{L}_\omega, \in) \vDash n \in \mathrm{Ord}} \in \operatorname{Def}(\mathrm{L}_\omega) \]
         \item Consider separation.
         Let \( \varphi \) be a formula, and let \( a, \vb u \in \mathrm{L}_\alpha \).
         We claim that
@@ -123,8 +123,7 @@ For clarity, we will define the ordered triple \( \langle a, b, c \rangle \) to 
         \item The reversed order of the free variables is done purely for technical reasons.
         \item \( \mathcal F_2 \) will correspond to disjunction for \( \Delta_0 \) formulas, intersection will correspond to intersection, \( \mathcal F_3 \) will give negation, and \( \mathcal F_9 \) and \( \mathcal F_{10} \) will give atomic formulas.
         \item \( \mathcal F_7 \) and \( \mathcal F_8 \) will deal with ordered \( n \)-tuples.
-        The triple \( \langle x_1, x_2, x_3 \rangle \), this is formed using \( x_1 \) and \( \langle x_2, x_3 \rangle \).
-        However, it cannot be formed using \( \langle x_1, x_2 \rangle \) and \( x_3 \).
+        For example, the triple \( \langle x_1, x_2, x_3 \rangle \) is formed using \( x_1 \) and \( \langle x_2, x_3 \rangle \), but it cannot be formed using \( \langle x_1, x_2 \rangle \) and \( x_3 \) without \( \mathcal F_7 \) or \( \mathcal F_8 \).
     \end{enumerate}
 \end{remark}
 \begin{proof}
@@ -241,7 +240,8 @@ For clarity, we will define the ordered triple \( \langle a, b, c \rangle \) to 
         The equalities are termed formulas as above, so \( \psi \) is a termed formula.
         Then
         \begin{align*}
-            \mathcal F_\varphi(a_1, \dots, a_n) &= \ran\ran\{\langle x_{n+2}, \dots, x_1\rangle \times a_j \times a_i \times a_n \times \dots \times a_1 \\&\quad\quad\quad\mid x_i = x_{n+1} \wedge x_j = x_{n+2} \wedge x_{n+1} \in x_{n+2}\} \\
+            \mathcal F_\varphi(a_1, \dots, a_n) &=
+            \ran\ran\{\langle x_{n+2}, \dots, x_1\rangle \times a_j \times a_i \times a_n \times \dots \times a_1 \mid \\&\quad\quad\quad x_i = x_{n+1} \wedge x_j = x_{n+2} \wedge x_{n+1} \in x_{n+2}\} \\
             &= \mathcal F_6(\mathcal F_6(\mathcal F_\psi(a_1, \dots, a_n), a_1), a_1)
         \end{align*}
     \end{itemize}
@@ -257,19 +257,23 @@ For clarity, we will define the ordered triple \( \langle a, b, c \rangle \) to 
     Now
     \begin{align*}
         \mathcal F_{\theta \wedge \psi}(a_1, \dots, a_n, \mathcal F_2(a_j, a_j)) &= \mathcal F_{\theta \wedge \psi}\qty(a_1, \dots, a_n, \bigcup a_j) \\
-        &= \qty{\langle x_{n+1}, \dots, x_1 \rangle \in \qty(\bigcup a_j) \times a_n \times \dots \times a_1 \mid x_{n+1} \in x_j \wedge \forall k \leq n.\, x_k \in a_k \wedge \psi(x_1, \dots, x_{n+1})}
+        &= \Big\{\langle x_{n+1}, \dots, x_1 \rangle \in \qty(\bigcup a_j) \times a_n \times \dots \times a_1 \mid \\
+        &\quad\quad\quad x_{n+1} \in x_j \wedge \forall k \leq n.\, x_k \in a_k \wedge \psi(x_1, \dots, x_{n+1})\Big\}
     \end{align*}
     So
     \begin{align*}
-        \ran(\mathcal F_{\theta \wedge \psi}\qty(a_1, \dots, a_n, \bigcup a_j)) &= \qty{\langle x_n, \dots, x_1 \rangle \in a_n \times \dots \times a_1 \mid \exists u.\, \langle u, x_n, \dots, x_1 \rangle \in \mathcal F_{\theta \wedge \psi}\qty(a_1, \dots, a_n, \bigcup a_j)} \\
-        &= \qty{\langle x_n, \dots, x_1 \rangle \in a_n \times \dots \times a_1 \mid \exists x_{n+1} \in x_j.\, \psi(x_1, \dots, x_{n+1})}
+        \ran(\mathcal F_{\theta \wedge \psi}\qty(a_1, \dots, a_n, \bigcup a_j))
+        &= \Big\{\langle x_n, \dots, x_1 \rangle \in a_n \times \dots \times a_1 \mid \\
+        &\quad\quad\quad \exists u.\, \langle u, x_n, \dots, x_1 \rangle \in \mathcal F_{\theta \wedge \psi}\qty(a_1, \dots, a_n, \bigcup a_j)\Big\} \\
+        &= \Big\{\langle x_n, \dots, x_1 \rangle \in a_n \times \dots \times a_1 \mid \\
+        &\quad\quad\quad \exists x_{n+1} \in x_j.\, \psi(x_1, \dots, x_{n+1})\Big\}
     \end{align*}
 \end{proof}
 \begin{definition}
     A class \( C \) is \emph{closed under G\"odel functions} if whenever \( x, y \in C \), we have \( \mathcal F_i(x, y) \in C \) for \( i \in \qty{1, \dots, 10} \).
     Given a set \( b \), we let \( \mathrm{cl}(b) \) be the smallest set \( C \) containing \( b \) as a subset that is closed under G\"odel functions.
 \end{definition}
-For example, \( \mathrm{cl}(\varnothing) = \varnothing \), \( \qty{a, b} \in \mathrm{cl}(\qty{a, b}) \), and \( \mathrm{cl}(b) = \mathrm{cl}(\mathrm{cl}(b)) \).
+For example, \( \mathrm{cl}(\varnothing) = \varnothing \), \( a, b \in \mathrm{cl}(\qty{a, b}) \), and \( \mathrm{cl}(b) = \mathrm{cl}(\mathrm{cl}(b)) \).
 \begin{definition}
     Let \( b \) be a set.
     Define \( \mathcal D^n(b) \) inductively by
@@ -331,7 +335,7 @@ One can easily check that \( \mathrm{cl}(b) = \bigcup_{n \in \omega} \mathcal D^
     The \emph{axiom of constructibility} is the statement \( \mathrm{V} = \mathrm{L} \).
     Equivalently, \( \forall x.\, \exists \alpha \in \mathrm{Ord}.\, (x \in \mathrm{L}_\alpha) \).
 \end{definition}
-We will show that if \( \mathsf{ZF} \) is consistent, then so is \( \mathsf{ZF} + (\mathrm{V} = \mathrm{L}) \), because \( \mathrm{L} \) is a model of \( \mathsf{ZF} + (\mathrm{V} = \mathrm{L}) \).
+We will show that if \( \mathsf{ZF} \) is consistent, then so is \( \mathsf{ZF} + (\mathrm{V} = \mathrm{L}) \), by demonstrating that \( \mathrm{L} \) is a model of \( \mathsf{ZF} + (\mathrm{V} = \mathrm{L}) \).
 To do this, we will show that being constructible is absolute.
 \begin{lemma}
     \( Z = \mathrm{cl}(M) \) is \( \Delta_1^{\mathsf{ZF}} \).
@@ -513,7 +517,7 @@ This gives the following theorem.
     Then fix \( \varphi \) such that
     \[ \mathsf{ZFC} + \mathrm{V} = \mathrm{L} + \mathsf{GCH} \vdash \varphi \wedge \neg\varphi \]
     Then
-    \[ \mathsf{ZF} \vDash (\varphi \wedge \neg\varphi)^L \]
+    \[ \mathsf{ZF} \vdash (\varphi \wedge \neg\varphi)^L \]
     By relativisation, \( \varphi^L \wedge \neg(\varphi^L) \).
     Hence \( \mathsf{ZF} \) is inconsistent.
 \end{proof}
@@ -549,7 +553,7 @@ The property \( \diamondsuit \) states that there is a single sequence of length
 \end{lemma}
 \begin{proof}
     If \( (A_\alpha)_{\alpha < \omega_1} \) is a \( \diamondsuit \)-sequence, then for all \( X \subseteq \omega \), there is \( \alpha > \omega \) such that \( X = A_\alpha \).
-    Thus \( \qty{A_\alpha \mid \alpha \in \omega_1 \mid A_\alpha \subseteq \omega} = \mathcal P(\omega) \).
+    Thus \( \qty{A_\alpha \mid \alpha \in \omega_1 \wedge A_\alpha \subseteq \omega} = \mathcal P(\omega) \).
 \end{proof}
 \begin{theorem}
     If \( \mathrm{V} = \mathrm{L} \), then \( \diamondsuit \) holds.

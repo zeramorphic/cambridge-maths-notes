@@ -6,7 +6,7 @@ However, this means that we will not immediately get \( \Con(\mathsf{ZF}) \to \C
 We will then use the reflection theorem to obtain this result.
 
 If \( M \) is such a countable transitive model, we want to add \( \omega_2^M \)-many reals to \( M \).
-We will try to do this a `minimal way'; for example, we do not want to add any ordinals.
+We will try to do this in a `minimal way'; for example, we do not want to add any ordinals.
 This gives us much more control over the model that we build.
 
 Recall the argument that the sentence \( \varphi(x) \equiv \exists x.\, x^2 = 2 \) is independent of the axioms of fields: we began with a field in which the sentence failed, namely \( \mathbb Q \), and then extended it in a minimal way to \( \mathbb Q\qty[\sqrt{2}] \).
@@ -22,7 +22,7 @@ This would violate the principle of not adding any new ordinals.
 Suppose we enumerate all formulas as \( \qty{\varphi_n \mid n \in \omega} \).
 Let \( r = \qty{n \mid M \vDash \varphi_n} \).
 If we added \( r \) to \( M \), we could then build a truth predicate for \( M \).
-This would cause problems due to Tarski.
+This would cause self-referential problems discussed by Tarski.
 
 The main issues we must overcome are the following.
 \begin{enumerate}
@@ -38,7 +38,7 @@ Instead, we will add a \emph{generic} real.
 To be generic, we will not specify any particular digits, but its decimal expansion will contain every finite sequence.
 We will call a specification \emph{dense} if any finite approximation can be extended to one satisfying the specification.
 For example, `beginning with a \( 7 \)' is not dense, but `containing the subsequence \( 746 \)' is dense.
-It turns out that a real is generic precisely when it meets every dense specification.
+We will define that a real is generic precisely when it meets every dense specification.
 
 Note that there are explicit, absolute bijections \( f : \mathcal P(\omega) \to \omega^\omega \), \( g : \omega^\omega \to 2^\omega \), \( h : 2^\omega \to \mathbb R \) and so on.
 So if \( M \vDash \mathsf{ZFC} \), knowledge of \( \mathcal P^M(\omega) \) gives us \( (\omega^\omega)^M, (2^\omega)^M, \mathbb R^M \).
@@ -163,7 +163,7 @@ Recall that for regular cardinals \( \kappa \), if \( \mathcal F \) is a family 
     has size less than \( \kappa \).
     Therefore, there exists some \( X \in \mathcal C \) such that \( X \cap S = \varnothing \).
     We recursively choose \( X_\alpha \in \mathcal C \) for each \( \alpha < \kappa \) such that \( X_\alpha \cap \bigcup_{\beta < \alpha} X_\beta = \varnothing \).
-    Then \( {X_\alpha \mid \alpha < \kappa} \in [\mathcal C]^\kappa \) is a \( \Delta \)-system with empty root.
+    Then \( \qty{X_\alpha \mid \alpha < \kappa} \in [\mathcal C]^\kappa \) is a \( \Delta \)-system with empty root.
 \end{proof}
 We can show that assumptions in the above lemma were required.
 \begin{proposition}
@@ -300,23 +300,21 @@ Being a \( \mathbb P \)-name is absolute for transitive models.
     \[ M[G] = \qty{\dot x^G \mid \dot x \in M^{\mathbb P}} \]
 \end{definition}
 \begin{example}
-    \begin{enumerate}
-        \item If \( \varnothing \in M \), then \( \varnothing^G = \varnothing \).
-        \item Let
-        \[ \dot x = \qty{\langle p, \varnothing \rangle, \langle r, \qty{\langle q, \varnothing \rangle} \rangle} \]
-        If \( p, q, r \in G \), then
-        \begin{align*}
-            \dot x^G &= \qty{(\langle p, \varnothing \rangle)^G, \qty(\langle r, \qty{\langle q, \varnothing \rangle} \rangle)^G} \\
-            &= \qty{\varnothing, \qty{(\langle q, \varnothing \rangle)^G}} \\
-            &= \qty{\varnothing, \qty{\varnothing}}
-        \end{align*}
-        If \( p, r \notin G \), then
-        \[ \dot x^G = \varnothing \]
-        If \( r \in G \) but \( p, q \notin G \), then
-        \[ \dot x^G = \qty{(\langle q, \varnothing \rangle)^G} = \qty{\varnothing} \]
-        Finally, if \( p \in G \) but \( r \notin G \), then
-        \[ \dot x^G = \qty{\varnothing} \]
-    \end{enumerate}
+    If \( \varnothing \in M \), then \( \varnothing^G = \varnothing \).
+    Let
+    \[ \dot x = \qty{\langle p, \varnothing \rangle, \langle r, \qty{\langle q, \varnothing \rangle} \rangle} \]
+    If \( p, q, r \in G \), then
+    \begin{align*}
+        \dot x^G &= \qty{(\langle p, \varnothing \rangle)^G, \qty(\langle r, \qty{\langle q, \varnothing \rangle} \rangle)^G} \\
+        &= \qty{\varnothing, \qty{(\langle q, \varnothing \rangle)^G}} \\
+        &= \qty{\varnothing, \qty{\varnothing}}
+    \end{align*}
+    If \( p, r \notin G \), then
+    \[ \dot x^G = \varnothing \]
+    If \( r \in G \) but \( p, q \notin G \), then
+    \[ \dot x^G = \qty{(\langle q, \varnothing \rangle)^G} = \qty{\varnothing} \]
+    Finally, if \( p \in G \) but \( r \notin G \), then
+    \[ \dot x^G = \qty{\varnothing} \]
 \end{example}
 We aim to show the following major theorem.
 \begin{theorem}[generic model theorem]
@@ -373,7 +371,7 @@ The symbol \( \check x \) is pronounced \emph{\( x \)-check}.
     \[ \dot G^G = \qty{\check p^G \mid p \in G} = \qty{p \mid p \in G} = G \]
 \end{proof}
 
-\subsection{???}
+\subsection{Verifying the axioms: part one}
 We can define unordered and ordered pairs of names, with sensible interpretations.
 \begin{definition}
     Given \( \mathbb P \)-names \( \dot x, \dot y \), let
@@ -488,7 +486,7 @@ We can prove the axiom of union now.
     If \( M[G] \) models any reasonable theory, we should have \( \mathbb P \setminus G \in M[G] \).
     We will try to build a name for \( \mathbb P \setminus G \).
     A natural name to consider is
-    \[ \dot c = \qty{\langle q, \dot p \rangle \mid p, q \in \mathbb P, p \perp q} \]
+    \[ \dot c = \qty{\langle q, \check p \rangle \mid p, q \in \mathbb P, p \perp q} \]
     Then
     \[ \dot c^G = \qty{p \mid \exists q \in G.\, p \perp q} \]
     If \( G \) is a filter, its elements are pairwise compatible, so \( G \cap \dot c^G = \varnothing \).
@@ -508,7 +506,7 @@ In fact, we have the following.
 
 \subsection{The forcing relation}
 To show separation, we need to show that if \( \varphi(x, y) \) is a formula and \( \dot a, \dot b \) are \( \mathbb P \)-names, then
-\[ C = \qty{\dot z \in \dot a^G \mid (\varphi(\dot z^G, \dot b^G))^{M[G]}} \in M[G] \]
+\[ C = \qty{\dot z^G \in \dot a^G \mid (\varphi(\dot z^G, \dot b^G))^{M[G]}} \in M[G] \]
 This is unclear, even for simple formulas such as \( \varphi(x, y) \equiv x \notin y \).
 We will build a way to formally reason about \( M[G] \) from within \( M \), without having to rely on \( G \).
 To do this, we will define a relation \( p \Vdash \varphi \) between conditions \( p \in \mathbb P \) and names in \( \mathrm{V}^{\mathbb P} \).
@@ -795,7 +793,7 @@ We will now prove the forcing theorem.
     Hence \( p \Vdash \dot x \in \dot y \), as required.
 \end{proof}
 
-\subsection{\texorpdfstring{\( \mathsf{ZF} \)}{ZF} in forcing extensions}
+\subsection{Verifying the axioms: part two}
 \begin{lemma}
     Suppose that \( M \) is a countable transitive model of \( \mathsf{ZF} \), \( \mathbb P \in M \) is a forcing poset, and \( G \subseteq \mathbb P \) is a generic filter.
     Then \( M[G] \) models separation.
