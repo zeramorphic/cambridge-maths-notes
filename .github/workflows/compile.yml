@@ -389,7 +389,7 @@ jobs:
 
       - name: Convert Forcing and the Continuum Hypothesis to HTML
         run: ./pdf2htmlEX.AppImage iii/forcing/build/main.pdf iii_forcing.html --data-dir pdf2htmlEX --zoom 3
-      
+
       - name: Convert IA book to HTML
         run: ./pdf2htmlEX.AppImage ia/book/build/main.pdf ia_book.html --data-dir pdf2htmlEX --zoom 3
 
@@ -414,3 +414,13 @@ jobs:
           remote_host: thirdsgames.co.uk
           remote_user: github
           remote_key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Upload PDFs to new server
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete --prune-empty-dirs --include="*/" --include="*.pdf" --include="*.html" --exclude="*"
+          path: "."
+          remote_path: ${{ secrets.DEPLOY_PATH }}
+          remote_host: zeramorphic.uk
+          remote_user: github
+          remote_key: ${{ secrets.ZERAMORPHIC_DEPLOY_KEY }}
