@@ -11,7 +11,7 @@ In this subsection, we show \( \Con(\mathsf{ZFC} + \mathrm{V} \neq \mathrm{L}) \
     Hence \( M \subsetneq M[G] \vDash \mathsf{ZFC} \).
 
     We show that \( M[G] \vDash \mathrm{V} \neq \mathrm{L} \).
-    Therefore,
+    We have
     \[ \mathrm{L}_{\mathrm{Ord} \cap M} = \mathrm{L}^M \subseteq M \subsetneq M[G] \]
     By the generic model theorem, \( \mathrm{Ord} \cap M = \mathrm{Ord} \cap M[G] \), so \( M[G] \neq \mathrm{L}_{\mathrm{Ord} \cap M[G]} = \mathrm{L}^{M[G]} \).
     In particular, we have \( (\mathrm{V} \neq \mathrm{L})^{M[G]} \).
@@ -77,7 +77,7 @@ In particular, \( \abs{\Fn(\omega, 2)} = \aleph_0 \).
     Hence
     \[ \Fn(I, J) \subseteq \abs{(I \times J)^{<\omega}} = \abs{I \times J} = \max(\abs{I}, \abs{J}) \]
     For the reverse direction, if we fix \( i_0 \in I \) and \( j_0 \in J \), then
-    \[ \abs{\langle i_0, j \rangle \mid j \in J} \cup \qty{\langle i, j_0 \rangle \mid i \in I} \]
+    \[ \qty{\langle i_0, j \rangle \mid j \in J} \cup \qty{\langle i, j_0 \rangle \mid i \in I} \]
     is a collection of \( \abs{I \cup J} \)-many distinct elements of \( \Fn(I, J) \).
     Thus
     \[ \max(\abs{I}, \abs{J}) = \abs{I \cup J} \leq \Fn(I, J) \]
@@ -292,7 +292,7 @@ We will show that there is a better name that gives a tighter bound on the sizes
     The total number of subsets of \( \omega \) is therefore bounded by the number of nice names.
     First, note that \( \abs{\mathbb P} = \kappa \).
     Furthermore, since \( \mathbb P \) has the countable chain condition, each \( A_{\dot x, n} \) is countable.
-    Therefore, the amount of nice names is bounded by \( (\kappa^\omega \times \omega)^\omega = \kappa \).
+    Therefore, the amount of nice names is bounded by \( (\kappa^\omega)^\omega \times (2^\omega)^\omega = \kappa \).
     As every subset of \( \omega \) has a nice name, \( M[G] \vDash 2^{\aleph_0} \leq \kappa \).
 \end{proof}
 \begin{corollary}
@@ -591,11 +591,12 @@ Informally, the mixing lemma says that this is always the case, as long as \( M 
 \end{proof}
 
 \subsection{Forcing successor cardinals}
-We would now like to find generic filters that collapse \( \kappa < \lambda \) such that \( \lambda = \kappa^+ \).
+We would now like to find forcing posets that collapse \( \kappa < \lambda \) such that \( \lambda = \kappa^+ \).
 Observe that this can only happen if \( \lambda \) is regular in \( M \).
 This is because if \( f : \alpha \to \lambda \) is cofinal with \( \alpha < \lambda \) and \( f \in M \), then \( f \in M[G] \), so
 \[ \cf^{M[G]}(\lambda) \leq \cf^{M[G]}(\alpha) \leq \abs{\alpha}^{M[G]} < \lambda \]
-We will show that this is the only restriction.
+Assuming \( \mathsf{GCH} \) in the ground model, this is the only restriction.
+We will prove this in the case where \( \lambda \) is a successor cardinal, and in the case where \( \lambda \) is strongly inaccessible; given \( \mathsf{GCH} \), these are the only options.
 \begin{theorem}
     Let \( \kappa \) be a regular cardinal in \( M \), and let \( \delta > \kappa \) be a cardinal in \( M \).
     Let \( \lambda = \delta^+ \) in \( M \).
@@ -701,11 +702,11 @@ Informally, for each \( \beta < \lambda \), we add a surjection \( \kappa \to \b
     \end{enumerate}
 \end{remark}
 \begin{corollary}
-    If \( \mathsf{ZFC} + \mathsf{IC} \) is consistent, then so is \( \mathsf{ZFC} + \text{\( \aleph_1^{\mathrm{V}} \) is inaccessible in \( L \)} \).
+    If \( \mathsf{ZFC} + \mathsf{IC} \) is consistent, then so is \( \mathsf{ZFC} + \text{(\( \aleph_1^{\mathrm{V}} \) is inaccessible in \( \mathrm{L} \))} \).
 \end{corollary}
 \begin{proof}
-    Start with a model of \( \mathrm{V} = \mathrm{L} \) and let \( G \) be \( \operatorname{Col}(\omega_1, <\lambda) \)-generic.
-    Then \( M[G] \vDash \lambda = \aleph_1 \), but also \( M[G] \vDash (\lambda \text{ is inaccessible})^L \).
+    Start with a model of \( \mathrm{V} = \mathrm{L} \) where \( \lambda \) is inaccessible, and let \( G \) be \( \operatorname{Col}(\omega_1, <\lambda) \)-generic.
+    Then \( M[G] \vDash \lambda = \aleph_1 \), but also \( M[G] \vDash (\lambda \text{ is inaccessible})^{\mathrm{L}} \).
 \end{proof}
 \begin{remark}
     If \( \mathrm{V} \vDash \mathsf{ZFC} + \kappa \text{ is measurable} \), then for example, \( \aleph_1^{\mathrm{V}} \) is inaccessible in \( \mathrm{L} \).
@@ -713,7 +714,7 @@ Informally, for each \( \beta < \lambda \), we add a surjection \( \kappa \to \b
 
 \subsection{Product forcing}
 In this subsection, we will show that is consistent that, for example, each \( n \in \omega \) satisfies \( 2^{\aleph_n} = \aleph_{2n + 3} \).
-We have already shown that for a fixed \( N \in \omega \), it is consistent that all \( n \in \omega \) have \( 2^{\aleph_n} = \aleph_{2n + 3} \).
+We have already shown that for a fixed \( N \in \omega \), it is consistent that all \( n < N \) have \( 2^{\aleph_n} = \aleph_{2n + 3} \).
 However, we cannot get this result using the iterated forcing process described in previous sections, and will instead use \emph{product forcing}.
 This technique will allow us to exactly determine the restrictions on the continuum function \( F : \mathrm{Card} \to \mathrm{Card} \) given by \( F(\aleph_\alpha) = 2^{\aleph_\alpha} \).
 \begin{definition}
