@@ -17,3 +17,8 @@ LaTeX sources for my notes on the maths courses at Cambridge. To view the compil
 To contribute to the project (such as making corrections or adding explanations), fork the repository and then submit a pull request. Any contributions must be made under the same license as the project itself.
 
 It is recommended to add the line `go run . fmt` to your `.git/hooks/pre-commit` so that your source code is formatted nicely before committing.
+
+## License
+
+These notes are made available under the [Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/).
+In short, you are free to share and adapt these notes, as long as you give appropriate credit, link to the license, and indicate if changes were made.
