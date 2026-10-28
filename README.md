@@ -1,6 +1,6 @@
 # Maths Notes
 
-LaTeX sources for my notes on the maths courses at Cambridge. To view the compiled PDFs, click [here](https://thirdsgames.co.uk/maths.html). Please note that these are _not_ exhaustive descriptions of the courses themselves - please watch all of the lectures! This is simply a way of collating much of the courses' information in one place.
+LaTeX sources for my notes on the maths courses at Cambridge. To view the compiled PDFs, click [here](https://zeramorphic.uk/maths.html). Please note that these are _not_ exhaustive descriptions of the courses themselves - please watch all of the lectures! This is simply a way of collating much of the courses' information in one place.
 
 ## Building
 

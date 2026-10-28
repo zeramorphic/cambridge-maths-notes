@@ -1,6 +1,6 @@
 package main
 
-import "github.com/thirdsgames/cambridge-maths-notes/cmd"
+import "github.com/zeramorphic/cambridge-maths-notes/cmd"
 
 func main() {
 	cmd.Execute()

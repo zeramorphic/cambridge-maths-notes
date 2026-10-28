@@ -1,4 +1,4 @@
-module github.com/thirdsgames/cambridge-maths-notes
+module github.com/zeramorphic/cambridge-maths-notes
 
 go 1.16
 
